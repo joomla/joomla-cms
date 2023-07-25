@@ -393,12 +393,20 @@ class CalendarField extends FormField
             throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
         }
 
-        if ((int) $value <= 0) {
+        if (!$value) {
             return '';
         }
 
         if ($this->filterFormat) {
-            $value = DateTime::createFromFormat($this->filterFormat, $value)->format('Y-m-d H:i:s');
+            // Create a DateTime object from given value, based on filterFormat
+            $dateTime = DateTime::createFromFormat($this->filterFormat, $value);
+
+            // When value is incorrectly formatted
+            if (!$dateTime) {
+                return '';
+            }
+
+            $value = $dateTime->format('Y-m-d H:i:s');
         }
 
         $app = Factory::getApplication();
