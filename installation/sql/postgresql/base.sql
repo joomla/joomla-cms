@@ -347,7 +347,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_system_accessibility', 'plugin', 'accessibility', 'system', 0, 0, 1, 0, 1, '', '{}', '', 1, 0),
 (0, 'plg_system_actionlogs', 'plugin', 'actionlogs', 'system', 0, 1, 1, 0, 1, '', '{}', '', 2, 0),
 (0, 'plg_system_cache', 'plugin', 'cache', 'system', 0, 0, 1, 0, 1, '', '{"browsercache":"0","cachetime":"15"}', '', 3, 0),
-(0, 'plg_system_compat', 'plugin', 'compat', 'system', 0, 0, 1, 0, 1, '', '{"classes_aliases":"1"}', '', 4, 0),
+(0, 'plg_system_compat', 'plugin', 'compat', 'system', 0, 0, 1, 0, 1, '', '{"classes_aliases":"1","es5_assets":"1"}', '', 4, 0),
 (0, 'plg_system_debug', 'plugin', 'debug', 'system', 0, 1, 1, 0, 1, '', '{"profile":"1","queries":"1","memory":"1","language_files":"1","language_strings":"1","strip-first":"1","strip-prefix":"","strip-suffix":""}', '', 5, 0),
 (0, 'plg_system_fields', 'plugin', 'fields', 'system', 0, 1, 1, 0, 1, '', '', '', 6, 0),
 (0, 'plg_system_highlight', 'plugin', 'highlight', 'system', 0, 1, 1, 0, 1, '', '', '', 7, 0),
@@ -584,6 +584,7 @@ CREATE TABLE IF NOT EXISTS "#__menu_types" (
   "title" varchar(48) NOT NULL,
   "description" varchar(255) DEFAULT '' NOT NULL,
   "client_id" int DEFAULT 0 NOT NULL,
+  "ordering" int NOT NULL DEFAULT 0,
   PRIMARY KEY ("id"),
   CONSTRAINT "#__menu_types_idx_menutype" UNIQUE ("menutype")
 );
@@ -592,8 +593,8 @@ CREATE TABLE IF NOT EXISTS "#__menu_types" (
 -- Dumping data for table `#__menu_types`
 --
 
-INSERT INTO "#__menu_types" ("id", "asset_id", "menutype", "title", "description", "client_id") VALUES
-(1, 0, 'mainmenu', 'Main Menu', 'The main menu for the site', 0);
+INSERT INTO "#__menu_types" ("id", "asset_id", "menutype", "title", "description", "client_id", "ordering") VALUES
+(1, 0, 'mainmenu', 'Main Menu', 'The main menu for the site', 0, 1);
 
 SELECT setval('#__menu_types_id_seq', 2, false);
 

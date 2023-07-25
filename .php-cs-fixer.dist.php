@@ -9,8 +9,8 @@
 /**
  * This is the configuration file for php-cs-fixer
  *
- * @see https://github.com/FriendsOfPHP/PHP-CS-Fixer
- * @see https://mlocati.github.io/php-cs-fixer-configurator/#version:3.0
+ * @link https://github.com/FriendsOfPHP/PHP-CS-Fixer
+ * @link https://mlocati.github.io/php-cs-fixer-configurator/#version:3.0
  *
  *
  * If you would like to run the automated clean up, then open a command line and type one of the commands below
