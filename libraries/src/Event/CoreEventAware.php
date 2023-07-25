@@ -103,12 +103,13 @@ trait CoreEventAware
         'onBeforeExtensionBoot' => BeforeExtensionBootEvent::class,
         'onAfterExtensionBoot'  => AfterExtensionBootEvent::class,
         // Content
-        'onContentPrepare'       => Content\ContentPrepareEvent::class,
-        'onContentAfterTitle'    => Content\ContentAfterTitleEvent::class,
-        'onContentBeforeDisplay' => Content\ContentBeforeDisplayEvent::class,
-        'onContentAfterDisplay'  => Content\ContentAfterDisplayEvent::class,
-        'onContentPrepareForm'   => Content\ContentPrepareFormEvent::class,
-        'onContentPrepareData'   => Content\ContentPrepareDataEvent::class,
+        'onContentPrepare'              => Content\ContentPrepareEvent::class,
+        'onContentAfterTitle'           => Content\ContentAfterTitleEvent::class,
+        'onContentBeforeDisplay'        => Content\ContentBeforeDisplayEvent::class,
+        'onContentAfterDisplay'         => Content\ContentAfterDisplayEvent::class,
+        'onContentPrepareForm'          => Content\ContentPrepareFormEvent::class,
+        'onContentPrepareData'          => Content\ContentPrepareDataEvent::class,
+        'onContentNormaliseRequestData' => Content\ContentNormaliseRequestDataEvent::class,
     ];
 
     /**
