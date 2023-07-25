@@ -2,12 +2,10 @@
 
 /**
  * @package     Joomla.Plugin
-  * @subpackage  Schemaorg.book
-  *
+ * @subpackage  Schemaorg.book
+ *
  * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
 namespace Joomla\Plugin\Schemaorg\Book\Extension;
@@ -23,7 +21,7 @@ use Joomla\Event\SubscriberInterface;
 /**
  * Schemaorg Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 final class Book extends CMSPlugin implements SubscriberInterface
 {
@@ -33,7 +31,7 @@ final class Book extends CMSPlugin implements SubscriberInterface
      * Load the language file on instantiation.
      *
      * @var    boolean
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $autoloadLanguage = true;
 
@@ -41,7 +39,7 @@ final class Book extends CMSPlugin implements SubscriberInterface
      * The name of the schema form
      *
      * @var   string
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     protected $pluginName = 'Book';
 

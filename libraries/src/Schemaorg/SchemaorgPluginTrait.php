@@ -18,7 +18,7 @@ use Joomla\Event\EventInterface;
 /**
  * Trait for component schemaorg plugins.
  *
- * @since __DEPLOY_VERSION__
+ * @since 5.0.0
  */
 trait SchemaorgPluginTrait
 {
@@ -43,7 +43,7 @@ trait SchemaorgPluginTrait
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -59,7 +59,7 @@ trait SchemaorgPluginTrait
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function addSchemaType(EventInterface $event)
     {
@@ -112,7 +112,7 @@ trait SchemaorgPluginTrait
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function cleanupSchema(array $data)
     {
@@ -323,7 +323,7 @@ trait SchemaorgPluginTrait
      *
      * @return boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function isSupported($context)
     {

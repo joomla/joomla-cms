@@ -35,7 +35,7 @@ use Joomla\Registry\Registry;
 /**
  * Schemaorg System Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 final class Schemaorg extends CMSPlugin implements SubscriberInterface
 {
@@ -46,7 +46,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      * Load the language file on instantiation.
      *
      * @var    boolean
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $autoloadLanguage = true;
 
@@ -55,7 +55,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -72,7 +72,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      *
      * @param   EventInterface  $event  The event
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      *
      */
     public function onContentPrepareData(EventInterface $event)
@@ -137,7 +137,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      *
      * @param   EventInterface  $event  The event
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function onContentPrepareForm(EventInterface $event)
     {
@@ -198,7 +198,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      *
      */
     public function onContentAfterSave(EventInterface $event)
@@ -291,7 +291,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
     /**
      * This event is triggered before the framework creates the Head section of the Document
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function onBeforeCompileHead()
     {

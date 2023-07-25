@@ -3,13 +3,11 @@
 	<name>plg_schemaorg_person</name>
 	<author>Joomla! Project</author>
 	<creationDate>2023-07</creationDate>
-
 	<copyright>(C) 2023 Open Source Matters, Inc.</copyright>
-
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>__DEPLOY_VERSION__</version>
+	<version>5.0.0</version>
 	<description>PLG_SCHEMAORG_PERSON_XML_DESCRIPTION</description>
  	<namespace path="src">Joomla\Plugin\Schemaorg\Person</namespace>
 	<files>

@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\Application;
 /**
  * Class for BeforeRender event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforeRenderEvent extends ApplicationEvent
 {
