@@ -102,6 +102,8 @@ trait CoreEventAware
         // Extensions
         'onBeforeExtensionBoot' => BeforeExtensionBootEvent::class,
         'onAfterExtensionBoot'  => AfterExtensionBootEvent::class,
+        // Content
+        'onContentPrepare' => Content\ContentPrepareEvent::class,
     ];
 
     /**

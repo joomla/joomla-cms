@@ -73,23 +73,23 @@ trait ReshapeArgumentsAware
         $mandatoryKeys = array_diff($argumentNames, array_keys($defaults));
         $currentKeys   = array_keys($arguments);
         $missingKeys   = array_diff($mandatoryKeys, $currentKeys);
-        $extraKeys     = array_diff($currentKeys, $argumentNames);
+        $extraKeys     = array_diff($argumentNames, $currentKeys);
 
         // Am I missing any mandatory arguments?
         if ($missingKeys) {
-            throw new \DomainException(sprintf('Missing arguments for ‘%s’ event: %s', $this->getName(), implode(', ', $missingKeys)));
+            throw new \DomainException(sprintf('Missing arguments for "%s" event: %s', $this->getName(), implode(', ', $missingKeys)));
         }
 
         // Do I have unknown arguments?
         if ($extraKeys) {
-            throw new \DomainException(sprintf('Unknown arguments for ‘%s’ event: %s', $this->getName(), implode(', ', $missingKeys)));
+            throw new \DomainException(sprintf('Unknown arguments for "%s" event: %s', $this->getName(), implode(', ', $extraKeys)));
         }
 
         // Reconstruct the arguments in the order specified in $argumentTypes
         $reconstructed = [];
 
         foreach ($argumentNames as $key) {
-            $reconstructed[$key] = $arguments[$key] ?? $defaults[$key];
+            $reconstructed[$key] = $arguments[$key] ?? $defaults[$key] ?? null;
         }
 
         // Return the reconstructed arguments array

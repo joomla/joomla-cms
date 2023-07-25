@@ -11,6 +11,7 @@
 namespace Joomla\Component\Content\Site\View\Article;
 
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
@@ -23,7 +24,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
-use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -223,8 +223,16 @@ class HtmlView extends BaseHtmlView
         }
 
         // Process the content plugins.
-        PluginHelper::importPlugin('content');
-        $this->dispatchEvent(new Event('onContentPrepare', ['com_content.article', &$item, &$item->params, $offset]));
+        PluginHelper::importPlugin('content', null, true, $this->getDispatcher());
+        $this->dispatchEvent(new ContentPrepareEvent(
+            'onContentPrepare',
+            [
+                'context' => 'com_content.article',
+                'subject' => $item,
+                'params'  => $item->params,
+                'page'    => $offset,
+            ]
+        ));
 
         $item->event                    = new \stdClass();
         $results                        = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_content.article', &$item, &$item->params, $offset]);
