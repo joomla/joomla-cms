@@ -286,7 +286,7 @@ trait SchemaorgPluginTrait
      *  @param   array $schema Schema form
      *  @param   array $dateKeys Keys with date fields
      *
-     *  @return  boolean
+     *  @return  array
      */
     protected function cleanupDate(array $schema, array $dateKeys)
     {
