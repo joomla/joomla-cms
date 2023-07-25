@@ -50,7 +50,6 @@ trait SchemaorgPluginTrait
     {
         return [
             'onSchemaPrepareForm' => 'onSchemaPrepareForm',
-            'onSchemaPrepareSave' => 'onSchemaPrepareSave',
         ];
     }
 
@@ -105,32 +104,6 @@ trait SchemaorgPluginTrait
         }
 
         return true;
-    }
-
-    /**
-     *  Add content to the object
-     *
-     *  @param   EventInterface  $event  The form to be altered.
-     *
-     *  @return  boolean
-     */
-    public function onSchemaPrepareSave(EventInterface $event)
-    {
-        $entry   = $event->getArgument('subject');
-        $context = $event->getArgument('context');
-        $schema  = $event->getArgument('schema');
-
-        if (!$this->isSupported($context) || empty($schema['schemaType']) || $schema['schemaType'] !== $this->pluginName) {
-            return true;
-        }
-
-        $mySchema = $schema[$this->pluginName];
-
-        $entry->schemaType = $this->pluginName;
-        $entry->schemaForm = (new Registry($mySchema))->toString();
-
-        $schema        = $this->cleanupSchema($mySchema);
-        $entry->schema = (new Registry($schema))->toString();
     }
 
     /**
@@ -325,7 +298,7 @@ trait SchemaorgPluginTrait
                 continue;
             }
 
-            $schema[$dateKey] = $date = Factory::getDate($date)->format('Y-m-d');
+            $schema[$dateKey] = Factory::getDate($date)->format('Y-m-d');
         }
 
         return $schema;

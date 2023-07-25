@@ -110,11 +110,10 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
             $schemaType                 = $results['schemaType'];
             $data->schema['schemaType'] = $schemaType;
-            $data->schema['schema']     = json_encode((new Registry($results['schema']))->toArray(), JSON_PRETTY_PRINT);
 
-            $schemaForm = new Registry($results['schemaForm']);
+            $schema = new Registry($results['schema']);
 
-            $data->schema[$schemaType] = $schemaForm->toArray();
+            $data->schema[$schemaType] = $schema->toArray();
         }
 
         $dispatcher = Factory::getApplication()->getDispatcher();
@@ -250,6 +249,14 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $entry->itemId     = (int) $table->getId();
         $entry->context    = $context;
 
+        if (isset($data['schema']['schemaType'])) {
+            $entry->schemaType = $data['schema']['schemaType'];
+
+            if (isset($data['schema'][$entry->schemaType])) {
+                $entry->schema = (new Registry($data['schema'][$entry->schemaType]))->toString();
+            }
+        }
+
         PluginHelper::importPlugin('schemaorg');
 
         $dispatcher = $app->getDispatcher();
@@ -267,12 +274,14 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         $eventResult = $dispatcher->dispatch('onSchemaPrepareSave', $event);
 
-        if (isset($entry->schemaType)) {
-            if (!empty($entry->id)) {
-                $db->updateObject('#__schemaorg', $entry, 'id');
-            } else {
-                $db->insertObject('#__schemaorg', $entry, 'id');
-            }
+        if (!isset($entry->schemaType)) {
+            return true;
+        }
+
+        if (!empty($entry->id)) {
+            $db->updateObject('#__schemaorg', $entry, 'id');
+        } else {
+            $db->insertObject('#__schemaorg', $entry, 'id');
         }
 
         return true;
@@ -300,7 +309,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         }
 
         $domain = Uri::root();
-        $url    = htmlspecialchars(Uri::getInstance()->toString());
 
         $isPerson = $baseType === 'person';
 
@@ -393,7 +401,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         $webPageSchema['@type']       = 'WebPage';
         $webPageSchema['@id']         = $webPageId;
-        $webPageSchema['url']         = $url;
+        $webPageSchema['url']         = htmlspecialchars(Uri::getInstance()->toString());
         $webPageSchema['name']        = $app->getDocument()->getTitle();
         $webPageSchema['description'] = $app->getDocument()->getDescription();
         $webPageSchema['isPartOf']    = ['@id' => $webSiteId];
@@ -425,10 +433,12 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             if ($result) {
                 $localSchema = new Registry($result->schema);
 
-                $localSchema->set('@id', $domain . '#/schema/' . ucfirst($result->schemaType) . '/' . (int) $result->itemId);
-                $localSchema->set('@isPartOf', ['@id' => $webPageId]);
+                $localSchema->set('@id', $domain . '#/schema/' . str_replace('.', '/', $context) . '/' . (int) $result->itemId);
+                $localSchema->set('isPartOf', ['@id' => $webPageId]);
 
-                $baseSchema['@graph'][] = $localSchema->toArray();
+                $itemSchema = $localSchema->toArray();
+
+                $baseSchema['@graph'][] = $itemSchema;
             }
         }
 
@@ -437,8 +447,8 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $event = AbstractEvent::create(
             'onSchemaBeforeCompileHead',
             [
-                'subject' => $this,
-                'schema'  => $schema,
+                'subject' => $schema,
+                'context' => $context . '.' . $itemId,
             ]
         );
 

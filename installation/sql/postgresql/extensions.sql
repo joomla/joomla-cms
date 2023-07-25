@@ -900,7 +900,6 @@ CREATE TABLE IF NOT EXISTS "#__schemaorg" (
   "itemId" bigint,
   "context" varchar(100),
   "schemaType" varchar(100),
-  "schemaForm" text,
   "schema" text,
   PRIMARY KEY ("id")
 );

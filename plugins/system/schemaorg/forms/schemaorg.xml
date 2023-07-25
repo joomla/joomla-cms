@@ -16,6 +16,7 @@
 				type="list"
 				label="PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_TYPE_LABEL"
 				default="None"
+				validate="options"
 				>
 				<option value="None">JNONE</option>
 			</field>

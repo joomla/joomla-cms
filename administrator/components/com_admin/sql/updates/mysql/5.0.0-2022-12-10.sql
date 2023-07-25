@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS `#__schemaorg` (
   `itemId` int unsigned,
   `context` varchar(100),
   `schemaType` varchar(100),
-  `schemaForm` text,
   `schema` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
