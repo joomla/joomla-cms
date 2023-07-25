@@ -392,7 +392,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     protected function text(string $key): string
     {
