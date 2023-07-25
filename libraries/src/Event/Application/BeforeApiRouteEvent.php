@@ -18,7 +18,7 @@ use Joomla\CMS\Router\ApiRouter;
 /**
  * Class for BeforeApiRoute event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforeApiRouteEvent extends ApplicationEvent
 {
@@ -30,7 +30,7 @@ class BeforeApiRouteEvent extends ApplicationEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -48,7 +48,7 @@ class BeforeApiRouteEvent extends ApplicationEvent
      *
      * @return  ApiRouter
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setRouter(ApiRouter $value): ApiRouter
     {
@@ -60,7 +60,7 @@ class BeforeApiRouteEvent extends ApplicationEvent
      *
      * @return  ApiRouter
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getRouter(): ApiRouter
     {

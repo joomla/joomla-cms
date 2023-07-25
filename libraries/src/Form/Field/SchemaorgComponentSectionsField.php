@@ -14,7 +14,7 @@ use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
 /**
  * Form Field class for the Joomla Framework.
  *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
  */
 class SchemaorgComponentSectionsField extends ComponentsField
 {
@@ -22,7 +22,7 @@ class SchemaorgComponentSectionsField extends ComponentsField
      * The form field type.
      *
      * @var   string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $type = 'SchemaorgComponentSections';
     /**
@@ -30,7 +30,7 @@ class SchemaorgComponentSectionsField extends ComponentsField
          *
          * @return  array  An array of JHtml options.
          *
-         * @since   __DEPLOY_VERSION__
+         * @since   5.0.0
          */
     protected function getOptions()
     {
