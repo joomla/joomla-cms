@@ -99,7 +99,7 @@ trait UserProfileFields
          * @var   Form  $form The form to be altered.
          * @var   mixed $data The associated data for the form.
          */
-        [$form, $data] = $event->getArguments();
+        [$form, $data] = array_values($event->getArguments());
 
         $name = $form->getName();
 

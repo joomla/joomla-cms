@@ -107,6 +107,7 @@ trait CoreEventAware
         'onContentAfterTitle'    => Content\ContentAfterTitleEvent::class,
         'onContentBeforeDisplay' => Content\ContentBeforeDisplayEvent::class,
         'onContentAfterDisplay'  => Content\ContentAfterDisplayEvent::class,
+        'onContentPrepareForm'   => Content\ContentPrepareFormEvent::class,
     ];
 
     /**

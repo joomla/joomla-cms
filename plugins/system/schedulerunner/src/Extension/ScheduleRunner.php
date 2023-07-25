@@ -11,8 +11,8 @@
 namespace Joomla\Plugin\System\ScheduleRunner\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Content\ContentPrepareFormEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
@@ -296,20 +296,19 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
     /**
      * Enhance the scheduler config form by dynamically populating or removing display fields.
      *
-     * @param   EventInterface  $event  The onContentPrepareForm event.
+     * @param   ContentPrepareFormEvent  $event  The onContentPrepareForm event.
      *
      * @return void
      *
      * @since 4.1.0
-     * @throws UnexpectedValueException|RuntimeException
+     * @throws \UnexpectedValueException|\RuntimeException
      *
      * @todo  Move to another plugin?
      */
-    public function enhanceSchedulerConfig(EventInterface $event): void
+    public function enhanceSchedulerConfig(ContentPrepareFormEvent $event): void
     {
-        /** @var Form $form */
-        $form = $event->getArgument('0');
-        $data = $event->getArgument('1');
+        $form = $event->getForm();
+        $data = $event->getData();
 
         if (
             $form->getName() !== 'com_config.component'
