@@ -471,7 +471,7 @@ final class Joomla extends CMSPlugin
     private function injectContactSchema(string $context, Registry $schema)
     {
         $app = $this->getApplication();
-        $db = $this->getDatabase();
+        $db  = $this->getDatabase();
 
         list($extension, $view, $id) = explode('.', $context);
 
@@ -521,7 +521,7 @@ final class Joomla extends CMSPlugin
 
             $mySchema['@graph'][] = $additionalSchema;
         } elseif ($view === 'featured') {
-            $additionalSchemas = $cache->get(function ($id) use ($component, $baseId) {
+            $additionalSchemas = $cache->get(function ($graph) use ($component, $baseId) {
                 $model = $component->createModel('Featured', 'Site');
 
                 $contacts = $model->getItems();
@@ -529,6 +529,16 @@ final class Joomla extends CMSPlugin
                 $allSchemas = [];
 
                 foreach ($contacts as $contact) {
+
+                    foreach ($graph as $entry) {
+                        $schemaId = $baseId . 'com_contact/contact/' . (int) $contact->id;
+
+                        // Someone added our context already, no need to add automated data
+                        if (isset($entry['@id']) && $entry['@id'] == $schemaId) {
+                            return;
+                        }
+                    }
+
                     $contactSchema = $this->createContactSchema($contact);
 
                     $contactSchema['isPartOf'] = ['@id' => $baseId . 'WebPage/base'];
@@ -537,7 +547,7 @@ final class Joomla extends CMSPlugin
                 }
 
                 return $allSchemas;
-            });
+            }, [$mySchema['@graph']]);
 
             foreach ($additionalSchemas as $additionalSchema) {
                 $mySchema['@graph'][] = $additionalSchema;
