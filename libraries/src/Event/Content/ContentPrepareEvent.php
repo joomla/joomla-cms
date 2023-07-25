@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Content Prepare event
+ * Class for Content event
  *
  * @since  __DEPLOY_VERSION__
  */

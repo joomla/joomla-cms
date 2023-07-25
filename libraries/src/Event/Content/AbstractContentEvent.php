@@ -18,7 +18,7 @@ use Joomla\CMS\Event\ReshapeArgumentsAware;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Content Prepare event
+ * Base class for Content events
  *
  * @since  __DEPLOY_VERSION__
  */

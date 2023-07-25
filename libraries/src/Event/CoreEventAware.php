@@ -103,7 +103,10 @@ trait CoreEventAware
         'onBeforeExtensionBoot' => BeforeExtensionBootEvent::class,
         'onAfterExtensionBoot'  => AfterExtensionBootEvent::class,
         // Content
-        'onContentPrepare' => Content\ContentPrepareEvent::class,
+        'onContentPrepare'       => Content\ContentPrepareEvent::class,
+        'onContentAfterTitle'    => Content\ContentAfterTitleEvent::class,
+        'onContentBeforeDisplay' => Content\ContentBeforeDisplayEvent::class,
+        'onContentAfterDisplay'  => Content\ContentAfterDisplayEvent::class,
     ];
 
     /**
