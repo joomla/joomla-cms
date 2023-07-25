@@ -38,7 +38,6 @@
 						label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_HEADLINE_LABEL"
 						filter="string"
 						size="30"
-
 					/>
 
 					<field
@@ -46,14 +45,12 @@
 						type="text"
 						label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_DESCRIPTION_LABEL"
 						filter="string"
-
 					/>
 
 					<field
 						name="author"
 						type="subform"
 						label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_AUTHOR_LABEL"
-
 						>
 						<form>
 							
@@ -72,7 +69,6 @@
 								type="text"
 								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_NAME_LABEL"
 								filter="string"
-
 							/>
 
 							<field
@@ -81,7 +77,6 @@
 								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_URL_LABEL"
 								filter="url"
 								validate="url"
-
 							/>
 
 							<field
@@ -112,7 +107,6 @@
 								type="email"
 								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_EMAIL_LABEL"
 								validate="email"
-
 							/>
 
 							<field
