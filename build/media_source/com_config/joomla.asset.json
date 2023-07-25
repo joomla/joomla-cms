@@ -6,19 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_config.config.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_config.config",
       "type": "script",
       "uri": "com_config/config-default.min.js",
@@ -27,19 +14,6 @@
       ],
       "attributes": {
         "type": "module"
-      }
-    },
-    {
-      "name": "com_config.modules.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
       }
     },
     {
@@ -54,19 +28,6 @@
       }
     },
     {
-      "name": "com_config.templates.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_config.templates",
       "type": "script",
       "uri": "com_config/templates-default.min.js",
@@ -75,19 +36,6 @@
       ],
       "attributes": {
         "type": "module"
-      }
-    },
-    {
-      "name": "com_config.filters.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
       }
     },
     {
