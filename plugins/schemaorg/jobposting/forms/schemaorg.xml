@@ -28,21 +28,21 @@
 					<field
 						name="title"
 						type="text"
-						filter="string"
 						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_TITLE_LABEL"
+						filter="string"
 					/>
 
 					<field
 						name="description"
 						type="text"
-						filter="string"
 						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_DESCRIPTION_LABEL"
+						filter="string"
 					/>
 
 					<field
 						name="identifier"
-						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_IDENTIFIER_LABEL"
 						type="subform"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_IDENTIFIER_LABEL"
 					>
 						<form>
 
@@ -55,15 +55,15 @@
 							<field
 								name="name"
 								type="text"
-								filter="string"
 								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_NAME_LABEL"
+								filter="string"
 							/>
 
 							<field
 								name="value"
 								type="text"
-								filter="string"
 								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_VALUE_LABEL"
+								filter="string"
 							/>
 						</form>
 					</field>
@@ -92,9 +92,9 @@
 					<field
 						name="jobLocationType"
 						type="list"
-						default="0"
 						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBLOCATIONTYPE_LABEL"
-					>
+						default="0"
+						>
 						<option value=""></option>
 						<option value="Telecommute">PLG_SCHEMAORG_JOBPOSTING_FIELD_TELECOMMUTE_LABEL</option>
 						<option value="Onsite">PLG_SCHEMAORG_JOBPOSTING_FIELD_ONSITE_LABEL</option>
@@ -103,9 +103,9 @@
 
 					<field
 						name="applicantLocationRequirements"
+						type="subform"
 						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_APPLICANT_LOCATION_REQUIREMENT_LABEL"
 						showon="jobLocationType:Telecommute"
-						type="subform"
 					>
 						<form>
 
@@ -118,8 +118,8 @@
 							<field
 								name="name"
 								type="text"
-								filter="string"
 								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_APPLICANT_LOCATION_REQUIREMENT_COUNTRY_LABEL"
+								filter="string"
 							/>
 
 						</form>
@@ -129,14 +129,14 @@
 					<field
 						name="employmentType"
 						type="text"
-						filter="string"
 						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_EMPLOYMENTTYPE_LABEL"
+						filter="string"
 					/>
 
 					<field
 						name="jobStartDate"
-						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBSTARTDATE_LABEL"
 						type="subform"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBSTARTDATE_LABEL"
 					>
 						<form>
 
@@ -145,7 +145,7 @@
 								type="list"
 								label="Type"
 								default="text"
-							>
+								>
 								<option value="text">PLG_SCHEMAORG_JOBPOSTING_FIELD_TEXT_LABEL</option>
 								<option value="Date">PLG_SCHEMAORG_JOBPOSTING_FIELD_DATE_LABEL</option>
 							</field>
@@ -165,8 +165,8 @@
 							<field
 								name="text"
 								type="text"
-								filter="string"
 								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBSTARTDATE_TEXT_LABEL"
+								filter="string"
 								hint="ASAP"
 								showon="@type:text"
 							/>
@@ -174,8 +174,8 @@
 					</field>
 					<field
 						name="hiringOrganization"
-						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_HIRINGORGANIZATION_LABEL"
 						type="subform"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_HIRINGORGANIZATION_LABEL"
 					>
 						<form>
 
@@ -184,7 +184,7 @@
 								type="list"
 								label="Type"
 								default="organization"
-							>
+								>
 								<option value="person">PLG_SCHEMAORG_JOBPOSTING_FIELD_PERSON_LABEL</option>
 								<option value="organization">PLG_SCHEMAORG_JOBPOSTING_FIELD_ORGANIZATION_LABEL</option>
 							</field>
@@ -192,22 +192,22 @@
 							<field
 								name="name"
 								type="text"
-								filter="string"
 								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_NAME_LABEL"
+								filter="string"
 							/>
 
 							<field
 								name="url"
 								type="url"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_URL_LABEL"
 								filter="url"
 								validate="url"
-								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_URL_LABEL"
 							/>
 
 							<field
 								name="logo"
 								type="subform"
-								label="logo"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_IMAGE_LABEL"
 								showon="@type:organization"
 							>
 								<form>
@@ -229,8 +229,8 @@
 							<field
 								name="email"
 								type="email"
-								validate="email"
 								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_EMAIL_LABEL"
+								validate="email"
 							/>
 
 							<field
@@ -271,8 +271,8 @@
 
 					<field
 						name="jobLocation"
-						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBLOCATION_LABEL"
 						type="subform"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBLOCATION_LABEL"
 					>
 						<form>
 
@@ -284,8 +284,8 @@
 
 							<field
 								name="address"
-								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESS_LABEL"
 								type="subform"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESS_LABEL"
 							>
 								<form>
 
@@ -298,22 +298,22 @@
 									<field
 										name="streetAddress"
 										type="text"
-										filter="string"
 										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_STREET_ADDRESS_LABEL"
+										filter="string"
 									/>
 
 									<field
 										name="addressLocality"
 										type="text"
-										filter="string"
 										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_LOCALITY_LABEL"
+										filter="string"
 									/>
 
 									<field
 										name="addressRegion"
 										type="text"
-										filter="string"
 										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESS_REGION_LABEL"
+										filter="string"
 									/>
 
 									<field

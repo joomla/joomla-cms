@@ -2,8 +2,10 @@
 <extension type="plugin" group="schemaorg" method="upgrade">
 	<name>plg_schemaorg_book</name>
 	<author>Joomla! Project</author>
-	<creationDate>June 2022</creationDate>
-	<copyright>(C) 2022 Open Source Matters, Inc.</copyright>
+	<creationDate>2023-07</creationDate>
+
+	<copyright>(C) 2023 Open Source Matters, Inc.</copyright>
+
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>

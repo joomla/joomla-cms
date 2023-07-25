@@ -30,6 +30,8 @@
 						type="text"
 						filter="string"
 						label="PLG_SCHEMAORG_ORGANIZATION_FIELD_NAME_LABEL"
+
+
 					/>
 
 					<field 
@@ -41,15 +43,17 @@
 					<field
 						name="url"
 						type="url"
+						label="PLG_SCHEMAORG_ORGANIZATION_FIELD_URL_LABEL"
 						filter="url"
 						validate="url"
-						label="PLG_SCHEMAORG_ORGANIZATION_FIELD_URL_LABEL"
+
 					/>
 					<field
 						name="email"
 						type="email"
-						validate="email"
 						label="PLG_SCHEMAORG_ORGANIZATION_FIELD_EMAIL_LABEL"
+						validate="email"
+
 					/>
 
 					<field
@@ -96,17 +100,19 @@
 							<field
 								name="genericTitle"
 								type="text"
+								label="PLG_SCHEMAORG_ORGANIZATION_FIELD_GENERIC_TITLE_LABEL"
 								filter="string"
 								size="30"
-								label="PLG_SCHEMAORG_ORGANIZATION_FIELD_GENERIC_TITLE_LABEL"
+
 							/>
 							<field
 								name="genericValue"
 								type="text"
+								label="PLG_SCHEMAORG_ORGANIZATION_FIELD_GENERIC_VALUE_LABEL"
 								filter="string"
 								size="30"
-								label="PLG_SCHEMAORG_ORGANIZATION_FIELD_GENERIC_VALUE_LABEL"
 							/>
+
 						</form>
 					
 					</field>

@@ -25,7 +25,7 @@
 						class="alert alert-info w-100"
 					/>
 
-					<field 
+					<field
 						name="image"
 						type="media"
 						label="PLG_SCHEMAORG_EVENT_FIELD_IMAGE_LABEL"
@@ -34,16 +34,18 @@
 					<field
 						name="name"
 						type="text"
+						label="PLG_SCHEMAORG_EVENT_FIELD_NAME_LABEL"
 						filter="string"
 						size="30"
-						label="PLG_SCHEMAORG_EVENT_FIELD_NAME_LABEL"
+
 					/>
 
 					<field
 						name="description"
 						type="text"
-						filter="string"
 						label="PLG_SCHEMAORG_EVENT_FIELD_DESCRIPTION_LABEL"
+						filter="string"
+
 					/>
 
 					<field
@@ -61,8 +63,9 @@
 							<field
 								name="ratingValue"
 								type="number"
-								max="5"
 								label="PLG_SCHEMAORG_EVENT_FIELD_RATING_VALUE_LABEL"
+								max="5"
+
 							/>
 							<field
 								name="reviewCount"
@@ -142,8 +145,9 @@
 
 					<field
 						name="organizer"
-						label="PLG_SCHEMAORG_EVENT_FIELD_ORGANIZER_LABEL"
 						type="subform"
+						label="PLG_SCHEMAORG_EVENT_FIELD_ORGANIZER_LABEL"
+
 						>
 						<form>
 							
@@ -160,16 +164,18 @@
 							<field
 								name="name"
 								type="text"
-								filter="string"
 								label="PLG_SCHEMAORG_EVENT_FIELD_NAME_LABEL"
+								filter="string"
+
 							/>
 
 							<field
 								name="url"
 								type="url"
+								label="PLG_SCHEMAORG_EVENT_FIELD_URL_LABEL"
 								filter="url"
 								validate="url"
-								label="PLG_SCHEMAORG_EVENT_FIELD_URL_LABEL"
+
 							/>
 
 							<field
@@ -198,8 +204,9 @@
 							<field
 								name="email"
 								type="email"
-								validate="email"
 								label="PLG_SCHEMAORG_EVENT_FIELD_EMAIL_LABEL"
+								validate="email"
+
 							/>
 
 							<field
@@ -249,16 +256,18 @@
 							<field
 								name="genericTitle"
 								type="text"
+								label="PLG_SCHEMAORG_EVENT_FIELD_GENERIC_TITLE_LABEL"
 								filter="string"
 								size="30"
-								label="PLG_SCHEMAORG_EVENT_FIELD_GENERIC_TITLE_LABEL"
+
 							/>
 							<field
 								name="genericValue"
 								type="text"
+								label="PLG_SCHEMAORG_EVENT_FIELD_GENERIC_VALUE_LABEL"
 								filter="string"
 								size="30"
-								label="PLG_SCHEMAORG_EVENT_FIELD_GENERIC_VALUE_LABEL"
+
 							/>
 						</form>
 					

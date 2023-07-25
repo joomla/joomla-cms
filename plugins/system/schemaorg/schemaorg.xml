@@ -30,7 +30,8 @@
 					description="PLG_SYSTEM_SCHEMAORG_BASETYPE_DESCRIPTION"
 					validate="options"
 					required="true"
-				>
+					>
+
 					<option value="organization">PLG_SYSTEM_SCHEMAORG_BASETYPE_OPTION_ORGANIZATION</option>
 					<option value="person">PLG_SYSTEM_SCHEMAORG_BASETYPE_OPTION_PERSON</option>
 				</field>
@@ -65,9 +66,10 @@
 						<field
 							name="url"
 							type="url"
-							required="true"
 							label="PLG_SYSTEM_SCHEMAORG_SOCIALMEDIA_URL_LABEL"
+							required="true"
 							hint="https://"
+
 							validate="url"
 						/>
 					</form>

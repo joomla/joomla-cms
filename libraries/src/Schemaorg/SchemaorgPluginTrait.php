@@ -3,7 +3,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -313,7 +313,7 @@ trait SchemaorgPluginTrait
      */
     protected function customCleanup(array $schema)
     {
-        //Write your code for extra filteration
+        // Write your code for extra filtering
         return $schema;
     }
 
@@ -345,7 +345,7 @@ trait SchemaorgPluginTrait
     }
 
     /**
-     * Check if the context is listed in the allowed of forbidden lists and return the result.
+     * Check if the context is listed in the allowed or forbidden lists and return the result.
      *
      * @param   string $context Context to check
      *

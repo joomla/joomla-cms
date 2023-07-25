@@ -27,17 +27,19 @@
 					<field
 						name="name"
 						type="text"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_NAME_LABEL"
 						filter="string"
 						size="30"
-						label="PLG_SCHEMAORG_RECIPE_FIELD_NAME_LABEL"
+
 					/>
 
 					<field
 						name="author"
 						type="text"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_AUTHOR_LABEL"
 						filter="string"
 						size="30"
-						label="PLG_SCHEMAORG_RECIPE_FIELD_AUTHOR_LABEL"
+
 					/>
 
 					<field

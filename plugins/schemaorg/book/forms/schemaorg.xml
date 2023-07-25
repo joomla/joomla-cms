@@ -28,17 +28,19 @@
 					<field
 						name="name"
 						type="text"
+						label="PLG_SCHEMAORG_BOOK_FIELD_NAME_LABEL"
 						filter="string"
 						size="30"
-						label="PLG_SCHEMAORG_BOOK_FIELD_NAME_LABEL"
+
 					/>
 
 					<field
 						name="author"
 						type="text"
+						label="PLG_SCHEMAORG_BOOK_FIELD_AUTHOR_LABEL"
 						filter="string"
 						size="30"
-						label="PLG_SCHEMAORG_BOOK_FIELD_AUTHOR_LABEL"
+
 					/>
 
 					<field
@@ -57,7 +59,8 @@
 						type="list"
 						label="PLG_SCHEMAORG_BOOK_FIELD_ABRIDGED_LABEL"
 						default="0"
-					>
+						>
+
 						<option>None</option>
 						<option name="true">True</option>
 						<option name="false">False</option>
@@ -66,19 +69,22 @@
 					<field
 						name="bookEdition"
 						type="text"
+						label="PLG_SCHEMAORG_BOOK_FIELD_BOOK_EDITION_LABEL"
 						filter="string"
 						size="30"
-						label="PLG_SCHEMAORG_BOOK_FIELD_BOOK_EDITION_LABEL"
+
 					/>
 
 					<field
 						name="bookFormat"
 						type="list"
-						default="0"
 						label="PLG_SCHEMAORG_BOOK_FIELD_BOOK_FORMAT_LABEL"
-					>
+						default="0"
+						>
+
 						<option>None</option>
-						<option name="AudiobookFormat">PLG_SCHEMAORG_BOOK_FIELD_AUDIOBOOK</option>
+						<option name="AudiobookFormat">PLG_SCHEMAORG_BOOK_FIELD_AUDIOBOOK_LABEL</option>
+
 						<option name="EBook">PLG_SCHEMAORG_BOOK_FIELD_E_BOOK_LABEL</option>
 						<option name="GraphicNovel">PLG_SCHEMAORG_BOOK_FIELD_GRAPHIC_NOVEL</option>
 						<option name="Hardcover">PLG_SCHEMAORG_BOOK_FIELD_HARDCOVER_LABEL</option>
@@ -102,23 +108,26 @@
 							<field
 								name="name"
 								type="text"
-								filter="string"
 								label="PLG_SCHEMAORG_BOOK_FIELD_NAME_LABEL"
+								filter="string"
+
 							/>
 
 							<field
 								name="url"
 								type="url"
+								label="PLG_SCHEMAORG_BOOK_FIELD_URL_LABEL"
 								filter="url"
 								validate="url"
-								label="PLG_SCHEMAORG_BOOK_FIELD_URL_LABEL"
+
 							/>
 
 							<field
 								name="email"
 								type="email"
-								validate="email"
 								label="PLG_SCHEMAORG_BOOK_FIELD_EMAIL_LABEL"
+								validate="email"
+
 							/>
 
 							<field
@@ -163,9 +172,10 @@
 					<field
 						name="isbn"
 						type="text"
+						label="PLG_SCHEMAORG_BOOK_FIELD_ISBN_LABEL"
 						filter="string"
 						size="30"
-						label="PLG_SCHEMAORG_BOOK_FIELD_ISBN_LABEL"
+
 					/>
 
 					<field
@@ -184,16 +194,18 @@
 							<field
 								name="genericTitle"
 								type="text"
+								label="PLG_SCHEMAORG_BOOK_FIELD_GENERIC_TITLE_LABEL"
 								filter="string"
 								size="30"
-								label="PLG_SCHEMAORG_BOOK_FIELD_GENERIC_TITLE_LABEL"
+
 							/>
 							<field
 								name="genericValue"
 								type="text"
+								label="PLG_SCHEMAORG_BOOK_FIELD_GENERIC_VALUE_LABEL"
 								filter="string"
 								size="30"
-								label="PLG_SCHEMAORG_BOOK_FIELD_GENERIC_VALUE_LABEL"
+
 							/>
 						</form>
 					
