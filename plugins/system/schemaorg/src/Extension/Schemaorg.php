@@ -469,7 +469,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      *
      * @return   boolean
      *
-     * @since   _DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function isSupported($context)
     {
