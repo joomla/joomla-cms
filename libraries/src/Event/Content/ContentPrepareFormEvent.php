@@ -69,20 +69,6 @@ class ContentPrepareFormEvent extends AbstractImmutableEvent
     }
 
     /**
-     * Setter for the data argument.
-     *
-     * @param   object|array  $value  The value to set
-     *
-     * @return  object|array
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    protected function setData(object|array $value): object|array
-    {
-        return $value;
-    }
-
-    /**
      * Getter for the form.
      *
      * @return  Form
@@ -101,7 +87,7 @@ class ContentPrepareFormEvent extends AbstractImmutableEvent
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getData(): object|array
+    public function getData()
     {
         return $this->arguments['data'];
     }
