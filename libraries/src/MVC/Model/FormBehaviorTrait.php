@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\Model;
 
+use Joomla\CMS\Event\Content\ContentPrepareFormEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
@@ -167,11 +168,16 @@ trait FormBehaviorTrait
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
+        $dispatcher = Factory::getApplication()->getDispatcher();
+
         // Import the appropriate plugin group.
-        PluginHelper::importPlugin($group);
+        PluginHelper::importPlugin($group, null, true, $dispatcher);
 
         // Trigger the form preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareForm', [$form, $data]);
+        $dispatcher->dispatch(
+            'onContentPrepareForm',
+            new ContentPrepareFormEvent('onContentPrepareForm', ['subject' => $form, 'data' => $data])
+        );
     }
 
     /**
