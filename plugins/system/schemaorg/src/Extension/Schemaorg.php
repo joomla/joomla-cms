@@ -454,7 +454,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         PluginHelper::importPlugin('schemaorg');
         $eventResult = $app->getDispatcher()->dispatch('onSchemaBeforeCompileHead', $event);
 
-        $schemaString = $schema->toString();
+        $schemaString = $schema->toString('JSON', ['bitmask' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE]);
 
         if ($schemaString !== '{}') {
             $wa = $this->getApplication()->getDocument()->getWebAssetManager();
