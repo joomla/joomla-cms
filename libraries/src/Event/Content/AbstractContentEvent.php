@@ -83,20 +83,6 @@ abstract class AbstractContentEvent extends AbstractImmutableEvent
     }
 
     /**
-     * Setter for the subject argument.
-     *
-     * @param   object  $value  The value to set
-     *
-     * @return  object
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    protected function setSubject(object $value): object
-    {
-        return $value;
-    }
-
-    /**
      * Getter for the context argument.
      *
      * @return  string

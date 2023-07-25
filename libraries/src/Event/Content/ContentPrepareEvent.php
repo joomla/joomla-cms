@@ -33,6 +33,20 @@ class ContentPrepareEvent extends AbstractContentEvent
     protected $legacyArgumentsOrder = ['context', 'subject', 'params', 'page'];
 
     /**
+     * Setter for the subject argument.
+     *
+     * @param   object  $value  The value to set
+     *
+     * @return  object
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function setSubject(object $value): object
+    {
+        return $value;
+    }
+
+    /**
      * Setter for the params argument.
      *
      * @param   Registry  $value  The value to set

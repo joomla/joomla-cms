@@ -160,7 +160,7 @@ trait UserProfileFields
          * @var   string|null        $context  The context for the data
          * @var   array|object|null  $data     An object or array containing the data for the form.
          */
-        [$context, $data] = $event->getArguments();
+        [$context, $data] = array_values($event->getArguments());
 
         if (!\in_array($context, ['com_users.profile', 'com_users.user'])) {
             return;

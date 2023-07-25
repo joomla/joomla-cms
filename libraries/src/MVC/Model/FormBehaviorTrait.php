@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\Model;
 
+use Joomla\CMS\Event\Content\ContentPrepareDataEvent;
 use Joomla\CMS\Event\Content\ContentPrepareFormEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -147,11 +148,20 @@ trait FormBehaviorTrait
      */
     protected function preprocessData($context, &$data, $group = 'content')
     {
+        if ($this instanceof DispatcherAwareInterface) {
+            $dispatcher = $this->getDispatcher();
+        } else {
+            $dispatcher = Factory::getApplication()->getDispatcher();
+        }
+
         // Get the dispatcher and load the users plugins.
-        PluginHelper::importPlugin($group);
+        PluginHelper::importPlugin($group, null, true, $dispatcher);
 
         // Trigger the data preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareData', [$context, &$data]);
+        $dispatcher->dispatch(
+            'onContentPrepareData',
+            new ContentPrepareDataEvent('onContentPrepareData', ['context' => $context, 'subject' => $data])
+        );
     }
 
     /**
