@@ -66,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'alpha3';
+    public const EXTRA_VERSION = 'alpha4-dev';
 
     /**
      * Development status.
@@ -74,7 +74,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const DEV_STATUS = 'Alpha';
+    public const DEV_STATUS = 'Development';
 
     /**
      * Code name.
@@ -98,7 +98,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTIME = '15:08';
+    public const RELTIME = '17:01';
 
     /**
      * Release timezone.
