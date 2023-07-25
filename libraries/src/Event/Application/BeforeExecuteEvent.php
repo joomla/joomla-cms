@@ -18,7 +18,7 @@ use Joomla\DI\Container;
 /**
  * Class for BeforeExecute event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforeExecuteEvent extends ApplicationEvent
 {
@@ -27,7 +27,7 @@ class BeforeExecuteEvent extends ApplicationEvent
      *
      * @return  ?Container
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getContainer(): ?Container
     {

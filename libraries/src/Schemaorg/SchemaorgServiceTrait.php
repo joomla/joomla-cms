@@ -20,7 +20,7 @@ trait SchemaorgServiceTrait
      *
      * @return  MVCFactoryInterface
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     abstract public function getMVCFactory(): MVCFactoryInterface;
 }

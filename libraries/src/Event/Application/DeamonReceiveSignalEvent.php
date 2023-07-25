@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\Application;
 /**
  * Class for ReceiveSignal event for DemonApplication
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class DeamonReceiveSignalEvent extends ApplicationEvent
 {
@@ -28,7 +28,7 @@ class DeamonReceiveSignalEvent extends ApplicationEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -46,7 +46,7 @@ class DeamonReceiveSignalEvent extends ApplicationEvent
      *
      * @return  integer
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSignal(int $value): int
     {
@@ -58,7 +58,7 @@ class DeamonReceiveSignalEvent extends ApplicationEvent
      *
      * @return  integer
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getSignal(): int
     {

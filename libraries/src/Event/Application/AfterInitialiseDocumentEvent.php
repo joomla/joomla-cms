@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\Application;
 /**
  * Event class for AfterInitialiseDocument event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterInitialiseDocumentEvent extends ApplicationDocumentEvent
 {
