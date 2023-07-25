@@ -503,7 +503,7 @@ final class Joomla extends CMSPlugin
         $cache = Factory::getContainer()->get(CacheControllerFactory::class)
             ->createCacheController('Callback', ['lifetime' => $app->get('cachetime'), 'caching' => $enableCache, 'defaultgroup' => 'schemaorg']);
 
-        // Add article data
+        // Add contact data
         if ($view == 'contact' && $id > 0) {
             $additionalSchema = $cache->get(function ($id) use ($component, $baseId) {
                 $model = $component->createModel('Contact', 'Site');
@@ -520,7 +520,33 @@ final class Joomla extends CMSPlugin
 
                 return $contactSchema;
             }, [$id]);
+
+            $mySchema['@graph'][] = $additionalSchema;
+        } elseif ($view === 'featured') {
+            $additionalSchemas = $cache->get(function ($id) use ($component, $baseId) {
+                $model = $component->createModel('Featured', 'Site');
+
+                $contacts = $model->getItems();
+
+                $allSchemas = [];
+
+                foreach ($contacts as $contact) {
+                    $contactSchema = $this->createContactSchema($contact);
+
+                    $contactSchema['isPartOf'] = ['@id' => $baseId . 'WebPage/base'];
+
+                    $allSchemas[] = $contactSchema;
+                }
+
+                return $allSchemas;
+            });
+
+            foreach ($additionalSchemas as $additionalSchema) {
+                $mySchema['@graph'][] = $additionalSchema;
+            }
         }
+
+        $schema->set('@graph', $mySchema['@graph']);
     }
 
     /**
