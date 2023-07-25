@@ -468,7 +468,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      *
      * @param   string  $context
      *
-     * @return boolean
+     * @return   boolean
      *
      * @since   _DEPLOY_VERSION__
      */

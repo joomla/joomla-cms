@@ -35,22 +35,25 @@
 					<field
 						name="headline"
 						type="text"
+						label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_HEADLINE_LABEL"
 						filter="string"
 						size="30"
-						label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_HEADLINE_LABEL"
+
 					/>
 
 					<field
 						name="description"
 						type="text"
-						filter="string"
 						label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_DESCRIPTION_LABEL"
+						filter="string"
+
 					/>
 
 					<field
 						name="author"
-						label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_AUTHOR_LABEL"
 						type="subform"
+						label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_AUTHOR_LABEL"
+
 						>
 						<form>
 							
@@ -67,16 +70,18 @@
 							<field
 								name="name"
 								type="text"
-								filter="string"
 								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_NAME_LABEL"
+								filter="string"
+
 							/>
 
 							<field
 								name="url"
 								type="url"
+								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_URL_LABEL"
 								filter="url"
 								validate="url"
-								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_URL_LABEL"
+
 							/>
 
 							<field
@@ -105,8 +110,9 @@
 							<field
 								name="email"
 								type="email"
-								validate="email"
 								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_EMAIL_LABEL"
+								validate="email"
+
 							/>
 
 							<field
@@ -178,9 +184,10 @@
 							<field
 								name="genericTitle"
 								type="text"
+								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_GENERIC_TITLE_LABEL"
 								filter="string"
 								size="30"
-								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_GENERIC_TITLE_LABEL"
+
 							/>
 							<field
 								name="genericValue"

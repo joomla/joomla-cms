@@ -21,7 +21,7 @@ class SchemaorgComponentSectionsField extends ComponentsField
     /**
      * The form field type.
      *
-     * @var     string
+     * @var   string
      * @since  __DEPLOY_VERSION__
      */
     protected $type = 'SchemaorgComponentSections';
