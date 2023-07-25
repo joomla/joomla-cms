@@ -258,7 +258,7 @@ final class Joomla extends CMSPlugin
 
         list($extension, $view, $id) = explode('.', $context);
 
-        // Check if there is alrady a schema for the item, then skip it
+        // Check if there is already a schema for the item, then skip it
         $mySchema = $schema->toArray();
 
         if (!isset($mySchema['@graph']) || !is_array($mySchema['@graph'])) {
@@ -475,7 +475,7 @@ final class Joomla extends CMSPlugin
 
         list($extension, $view, $id) = explode('.', $context);
 
-        // Check if there is alrady a schema for the item, then skip it
+        // Check if there is already a schema for the item, then skip it
         $mySchema = $schema->toArray();
 
         if (!isset($mySchema['@graph']) || !is_array($mySchema['@graph'])) {
