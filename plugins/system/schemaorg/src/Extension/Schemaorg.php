@@ -39,7 +39,6 @@ use Joomla\Registry\Registry;
  */
 final class Schemaorg extends CMSPlugin implements SubscriberInterface
 {
-    // use SchemaorgPluginTrait;
     use DatabaseAwareTrait;
 
     /**
