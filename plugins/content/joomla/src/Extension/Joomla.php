@@ -384,7 +384,7 @@ final class Joomla extends CMSPlugin
      */
     private function createArticleSchema(object $article)
     {
-        $baseId = Uri::root() . '#/schema/';
+        $baseId   = Uri::root() . '#/schema/';
         $schemaId = $baseId . 'com_content/article/' . (int) $article->id;
 
         $schema = [];
@@ -482,7 +482,7 @@ final class Joomla extends CMSPlugin
             return;
         }
 
-        $baseId = Uri::root() . '#/schema/';
+        $baseId   = Uri::root() . '#/schema/';
         $schemaId = $baseId . str_replace('.', '/', $context);
 
         foreach ($mySchema['@graph'] as $entry) {
@@ -529,7 +529,6 @@ final class Joomla extends CMSPlugin
                 $allSchemas = [];
 
                 foreach ($contacts as $contact) {
-
                     foreach ($graph as $entry) {
                         $schemaId = $baseId . 'com_contact/contact/' . (int) $contact->id;
 
@@ -568,7 +567,7 @@ final class Joomla extends CMSPlugin
      */
     private function createContactSchema(object $contact)
     {
-        $baseId = Uri::root() . '#/schema/';
+        $baseId   = Uri::root() . '#/schema/';
         $schemaId = $baseId . 'com_contact/contact/' . (int) $contact->id;
 
         $schema = [];
