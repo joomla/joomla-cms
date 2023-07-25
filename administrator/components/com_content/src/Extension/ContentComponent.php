@@ -189,7 +189,7 @@ class ContentComponent extends MVCComponent implements
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getSchemaorgContexts(): array
     {

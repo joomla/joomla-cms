@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\Application;
 /**
  * Class for Fork event for DemonApplication
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class DeamonForkEvent extends ApplicationEvent
 {

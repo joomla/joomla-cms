@@ -249,7 +249,7 @@ final class Joomla extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function injectContentSchema(string $context, Registry $schema)
     {
@@ -380,7 +380,7 @@ final class Joomla extends CMSPlugin
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function createArticleSchema(object $article)
     {
@@ -466,7 +466,7 @@ final class Joomla extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function injectContactSchema(string $context, Registry $schema)
     {
@@ -563,7 +563,7 @@ final class Joomla extends CMSPlugin
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function createContactSchema(object $contact)
     {

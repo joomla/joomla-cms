@@ -44,7 +44,7 @@ class JoomlaStorage extends NativeStorage
      * The domain to set in the session cookie
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     private $cookieDomain = '';
 
@@ -52,7 +52,7 @@ class JoomlaStorage extends NativeStorage
      * The path to set in the session cookie
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     private $cookiePath = '/';
 
