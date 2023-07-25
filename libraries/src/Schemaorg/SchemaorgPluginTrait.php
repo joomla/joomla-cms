@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Event\EventInterface;
-use Joomla\Registry\Registry;
 
 /**
  * Trait for component schemaorg plugins.

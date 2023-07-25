@@ -265,7 +265,7 @@ final class Joomla extends CMSPlugin
             return;
         }
 
-        $baseId = Uri::root() . '#/schema/';
+        $baseId   = Uri::root() . '#/schema/';
         $schemaId = $baseId . str_replace('.', '/', $context);
 
         foreach ($mySchema['@graph'] as $entry) {
@@ -313,7 +313,7 @@ final class Joomla extends CMSPlugin
                     '@id'      => $schemaId,
                     'isPartOf' => ['@id' => $baseId . 'WebPage/base'],
                     'name'     => htmlentities($menu->title),
-                    'blogPost' => []
+                    'blogPost' => [],
                 ];
 
                 if ($menu->getParams()->get('menu-meta_description')) {
