@@ -11,7 +11,7 @@
 				showon="schemaType:BlogPosting"
 			>
 				<form>
-					
+
 					<field
 						name="@type"
 						type="hidden"
@@ -25,8 +25,7 @@
 						class="alert alert-info w-100"
 					/>
 
-
-					<field 
+					<field
 						name="image"
 						type="media"
 						label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_IMAGE_LABEL"
@@ -53,7 +52,7 @@
 						label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_AUTHOR_LABEL"
 						>
 						<form>
-							
+
 							<field
 								name="@type"
 								type="list"
@@ -115,7 +114,7 @@
 								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_ADDRESS_LABEL"
 							>
 								<form>
-									
+
 									<field
 										name="@type"
 										type="hidden"
@@ -152,7 +151,7 @@
 						label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_DATE_PUBLISHED_LABEL"
 						class="input-small"
 						filter="user_utc"
-						showtime="false" 
+						showtime="false"
 						todaybutton="true"
 						format="%Y-%m-%d"
 					/>
@@ -163,7 +162,7 @@
 						label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_DATE_MODIFIED_LABEL"
 						class="input-small"
 						filter="user_utc"
-						showtime="false" 
+						showtime="false"
 						todaybutton="true"
 						format="%Y-%m-%d"
 					/>
@@ -181,7 +180,6 @@
 								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_GENERIC_TITLE_LABEL"
 								filter="string"
 								size="30"
-
 							/>
 							<field
 								name="genericValue"
@@ -191,7 +189,7 @@
 								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_GENERIC_VALUE_LABEL"
 							/>
 						</form>
-					
+
 					</field>
 
 				</form>

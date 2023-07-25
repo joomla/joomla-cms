@@ -11,7 +11,7 @@
 				showon="schemaType:Person"
 			>
 				<form>
-					
+
 					<field
 						name="@type"
 						type="hidden"
@@ -39,6 +39,7 @@
 						validate="url"
 						label="PLG_SCHEMAORG_PERSON_FIELD_URL_LABEL"
 					/>
+
 					<field
 						name="email"
 						type="email"
@@ -52,7 +53,7 @@
 						label="PLG_SCHEMAORG_PERSON_FIELD_ADDRESS_LABEL"
 					>
 						<form>
-							
+
 							<field
 								name="@type"
 								type="hidden"
@@ -102,7 +103,7 @@
 								label="PLG_SCHEMAORG_PERSON_FIELD_GENERIC_VALUE_LABEL"
 							/>
 						</form>
-					
+
 					</field>
 
 				</form>

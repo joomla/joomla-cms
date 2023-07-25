@@ -3,9 +3,7 @@
 	<name>plg_system_schemaorg</name>
 	<author>Joomla! Project</author>
 	<creationDate>2023-07</creationDate>
-
 	<copyright>(C) 2023 Open Source Matters, Inc.</copyright>
-
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -31,7 +29,6 @@
 					validate="options"
 					required="true"
 					>
-
 					<option value="organization">PLG_SYSTEM_SCHEMAORG_BASETYPE_OPTION_ORGANIZATION</option>
 					<option value="person">PLG_SYSTEM_SCHEMAORG_BASETYPE_OPTION_PERSON</option>
 				</field>
@@ -69,7 +66,6 @@
 							label="PLG_SYSTEM_SCHEMAORG_SOCIALMEDIA_URL_LABEL"
 							required="true"
 							hint="https://"
-
 							validate="url"
 						/>
 					</form>
