@@ -11,7 +11,7 @@
 				showon="schemaType:Organization"
 			>
 				<form>
-					
+
 					<field
 						name="@type"
 						type="hidden"
@@ -30,13 +30,9 @@
 						type="text"
 						filter="string"
 						label="PLG_SCHEMAORG_ORGANIZATION_FIELD_NAME_LABEL"
-
-
-
-
 					/>
 
-					<field 
+					<field
 						name="image"
 						type="media"
 						label="PLG_SCHEMAORG_ORGANIZATION_FIELD_LOGO_LABEL"
@@ -48,14 +44,13 @@
 						label="PLG_SCHEMAORG_ORGANIZATION_FIELD_URL_LABEL"
 						filter="url"
 						validate="url"
-
 					/>
+
 					<field
 						name="email"
 						type="email"
 						label="PLG_SCHEMAORG_ORGANIZATION_FIELD_EMAIL_LABEL"
 						validate="email"
-
 					/>
 
 					<field
@@ -64,7 +59,7 @@
 						label="PLG_SCHEMAORG_ORGANIZATION_FIELD_ADDRESS_LABEL"
 					>
 						<form>
-							
+
 							<field
 								name="@type"
 								type="hidden"
@@ -116,7 +111,7 @@
 							/>
 
 						</form>
-					
+
 					</field>
 
 				</form>
