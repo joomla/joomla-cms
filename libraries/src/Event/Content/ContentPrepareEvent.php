@@ -58,7 +58,7 @@ class ContentPrepareEvent extends ContentEvent
     protected function setParams($value): Registry
     {
         // This is for b/c compatibility, because some extensions pass a mixed types
-        if ($value instanceof Registry) {
+        if (!$value instanceof Registry) {
             $value = new Registry($value);
 
             // @TODO: In 6.0 throw an exception
