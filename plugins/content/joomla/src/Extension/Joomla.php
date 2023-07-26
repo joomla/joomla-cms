@@ -275,18 +275,18 @@ final class Joomla extends CMSPlugin
             }
         }
 
-        $additionalSchema = [];
+        $additionalSchemas = [];
 
         $component = $this->getApplication()->bootComponent('com_content')->getMVCFactory();
 
-        $enableCache = $this->params->get('schema_cache', 1);
+        $enableCache = $this->params->get('schema_cache', 0);
 
         $cache = Factory::getContainer()->get(CacheControllerFactory::class)
             ->createCacheController('Callback', ['lifetime' => $app->get('cachetime'), 'caching' => $enableCache, 'defaultgroup' => 'schemaorg']);
 
         // Add article data
         if ($view == 'article' && $id > 0) {
-            $additionalSchema = $cache->get(function ($id) use ($component, $baseId) {
+            $additionalSchemas = $cache->get(function ($id) use ($component, $baseId) {
                 $model = $component->createModel('Article', 'Site');
 
                 $article = $model->getItem($id);
@@ -301,12 +301,14 @@ final class Joomla extends CMSPlugin
 
                 $articleSchema['isPartOf'] = ['@id' => $baseId . 'WebPage/base'];
 
-                return $articleSchema;
+                return [$articleSchema];
             }, [$id]);
         } elseif (in_array($view, ['category', 'featured', 'archive'])) {
-            $additionalSchema = $cache->get(function ($view, $id) use ($component, $baseId, $app, $db) {
+            $additionalSchemas = $cache->get(function ($view, $id) use ($component, $baseId, $app, $db) {
                 $menu = $app->getMenu()->getActive();
                 $schemaId = $baseId . 'com_content/' . $view . ($view == 'category' ? '/' . $id : '');
+
+                $additionalSchemas = [];
 
                 $additionalSchema = [
                     '@type'    => 'Blog',
@@ -347,7 +349,9 @@ final class Joomla extends CMSPlugin
 
                             $localSchema->set('@id', $baseId . str_replace('.', '/', $aContext) . '/' . (int) $article->id);
 
-                            $additionalSchema['blogPost'][] = $localSchema->toArray();
+                            $additionalSchema['blogPost'][] = ['@id' => $localSchema->get('@id')];
+
+                            $additionalSchemas[] = $localSchema->toArray();
 
                             continue;
                         }
@@ -360,14 +364,20 @@ final class Joomla extends CMSPlugin
                         // Set to BlogPosting
                         $articleSchema['@type'] = 'BlogPosting';
 
-                        $additionalSchema['blogPost'][] = $articleSchema;
+                        $additionalSchemas[] = $articleSchema;
+
+                        $additionalSchema['blogPost'][] = ['@id' => $articleSchema['@id']];
                     }
                 }
+
+                array_unshift($additionalSchemas, $additionalSchema);
+
+                return $additionalSchemas;
             }, [$view, $id]);
         }
 
-        if (!empty($additionalSchema)) {
-            $mySchema['@graph'][] = $additionalSchema;
+        if (!empty($additionalSchemas)) {
+            $mySchema['@graph'] = array_merge($mySchema['@graph'], $additionalSchemas);
         }
 
         $schema->set('@graph', $mySchema['@graph']);

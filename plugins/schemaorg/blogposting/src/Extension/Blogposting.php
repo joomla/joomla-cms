@@ -12,6 +12,10 @@ namespace Joomla\Plugin\Schemaorg\Blogposting\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
+use Joomla\CMS\Schemaorg\SchemaorgPrepareDateTrait;
+use Joomla\CMS\Schemaorg\SchemaorgPrepareImageTrait;
+use Joomla\Event\Event;
+use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -26,6 +30,8 @@ use Joomla\Event\SubscriberInterface;
 final class Blogposting extends CMSPlugin implements SubscriberInterface
 {
     use SchemaorgPluginTrait;
+    use SchemaorgPrepareDateTrait;
+    use SchemaorgPrepareImageTrait;
 
     /**
      * Load the language file on instantiation.
@@ -44,14 +50,54 @@ final class Blogposting extends CMSPlugin implements SubscriberInterface
     protected $pluginName = 'BlogPosting';
 
     /**
-     *  To add plugin specific functions
+     * Returns an array of events this subscriber will listen to.
      *
-     *  @param   array $schema Schema form
+     * @return  array
      *
-     *  @return  array Updated schema form
+     * @since   __DEPLOY_VERSION__
      */
-    public function customCleanup(array $schema)
+    public static function getSubscribedEvents(): array
     {
-        return $this->cleanupDate($schema, ['datePublished', 'dateModified']);
+        $subscribed = SchemaorgPluginTrait::getSubscribedEvents();
+
+        $subscribed['onSchemaBeforeCompileHead'] = ['onSchemaBeforeCompileHead', Priority::BELOW_NORMAL];
+
+        return $subscribed;
+    }
+
+    /**
+     * Cleanup all BlogPosting types
+     *
+     * @param   Event  $event  The given event
+     *
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onSchemaBeforeCompileHead(Event $event)
+    {
+        $schema = $event->getArgument('subject');
+
+        $graph = $schema->get('@graph');
+
+        foreach ($graph as &$entry) {
+            if (!isset($entry['@type']) || $entry['@type'] !== 'BlogPosting') {
+                continue;
+            }
+
+            if (!empty($entry['datePublished'])) {
+                $entry['datePublished'] = $this->prepareDate($entry['datePublished']);
+            }
+
+            if (!empty($entry['dateModified'])) {
+                $entry['dateModified'] = $this->prepareDate($entry['dateModified']);
+            }
+
+            if (!empty($entry['image'])) {
+                $entry['image'] = $this->prepareImage($entry['image']);
+            }
+        }
+
+        $schema->set('@graph', $graph);
     }
 }
