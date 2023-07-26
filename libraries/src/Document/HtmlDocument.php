@@ -126,7 +126,8 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     /**
      * List of type \Joomla\CMS\Toolbar\Toolbar
      *
-     * @var Toolbar[]
+     * @var    Toolbar[]
+     * @since  __DEPLOY_VERSION__
      */
     private $toolbars = [];
 
