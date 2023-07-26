@@ -64,17 +64,14 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $toolbar = Toolbar::getInstance('toolbar');
+        /** @var Toolbar $toolbar */
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_FINDER_INDEXER_TOOLBAR_TITLE'), 'search-plus finder');
 
-        $arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
-
-        ToolbarHelper::link(
-            Route::_('index.php?option=com_finder&view=index'),
-            'JTOOLBAR_BACK',
-            $arrow
-        );
+        $toolbar->linkButton('back','JTOOLBAR_BACK')
+            ->icon('icon-arrow-' . ($this->getLanguage()->isRtl() ? 'right' : 'left'))
+            ->url(Route::_('index.php?option=com_finder&view=index'));
 
         $toolbar->standardButton('index', 'COM_FINDER_INDEX')
             ->icon('icon-play')
