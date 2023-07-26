@@ -53,7 +53,7 @@
 			name="articletext"
 			type="editor"
 			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 			buttons="true"
 		/>
 
@@ -927,13 +927,13 @@
 		<field
 			name="introtext"
 			label="COM_CONTENT_FIELD_INTROTEXT"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		/>
 
 		<field
 			name="fulltext"
 			label="COM_CONTENT_FIELD_FULLTEXT"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		/>
 	</fields>
 
