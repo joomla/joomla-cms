@@ -23,7 +23,7 @@ use Joomla\Registry\Registry;
 class ContentPrepareEvent extends AbstractContentEvent
 {
     /**
-     * The argument names (mandatory AND optional). In order expected by legacy plugins.
+     * The argument names, in order expected by legacy plugins.
      *
      * @var array
      *

@@ -10,6 +10,7 @@
 namespace Joomla\CMS\MVC\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Content\ContentBeforeSaveEvent;
 use Joomla\CMS\Event\Model\BeforeBatchEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
@@ -1217,6 +1218,7 @@ abstract class AdminModel extends FormModel
         $table      = $this->getTable();
         $context    = $this->option . '.' . $this->name;
         $app        = Factory::getApplication();
+        $dispatcher = $this->getDispatcher() ?: $app->getDispatcher();
 
         if (\array_key_exists('tags', $data) && \is_array($data['tags'])) {
             $table->newTags = $data['tags'];
@@ -1227,7 +1229,7 @@ abstract class AdminModel extends FormModel
         $isNew = true;
 
         // Include the plugins for the save events.
-        PluginHelper::importPlugin($this->events_map['save']);
+        PluginHelper::importPlugin($this->events_map['save'], null, true, $dispatcher);
 
         // Allow an exception to be thrown.
         try {
@@ -1255,7 +1257,14 @@ abstract class AdminModel extends FormModel
             }
 
             // Trigger the before save event.
-            $result = $app->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
+            $beforeSaveEvent = new ContentBeforeSaveEvent($this->event_before_save, [
+                'context' => $context,
+                'subject' => $table,
+                'isNew'   => $isNew,
+                'data'    => $data,
+            ]);
+            $dispatcher->dispatch($this->event_before_save, $beforeSaveEvent);
+            $result = $beforeSaveEvent['result'];
 
             if (\in_array(false, $result, true)) {
                 $this->setError($table->getError());

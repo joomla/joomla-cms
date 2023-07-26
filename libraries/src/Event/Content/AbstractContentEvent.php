@@ -26,7 +26,7 @@ abstract class AbstractContentEvent extends AbstractImmutableEvent
     use ReshapeArgumentsAware;
 
     /**
-     * The argument names (mandatory AND optional). In order expected by legacy plugins.
+     * The argument names, in order expected by legacy plugins.
      *
      * @var array
      *

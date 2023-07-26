@@ -110,6 +110,7 @@ trait CoreEventAware
         'onContentPrepareForm'          => Content\ContentPrepareFormEvent::class,
         'onContentPrepareData'          => Content\ContentPrepareDataEvent::class,
         'onContentNormaliseRequestData' => Content\ContentNormaliseRequestDataEvent::class,
+        'onContentBeforeSave'           => Content\ContentBeforeSaveEvent::class,
     ];
 
     /**

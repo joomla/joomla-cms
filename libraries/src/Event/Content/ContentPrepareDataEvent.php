@@ -21,7 +21,7 @@ namespace Joomla\CMS\Event\Content;
 class ContentPrepareDataEvent extends AbstractContentEvent
 {
     /**
-     * The argument names (mandatory AND optional). In order expected by legacy plugins.
+     * The argument names, in order expected by legacy plugins.
      *
      * @var array
      *
