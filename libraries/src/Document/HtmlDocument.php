@@ -826,12 +826,14 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     /**
      * Adds a new or replace an existing toolbar object
      *
-     * @param $name
-     * @param Toolbar $toolbar
+     * @param   string   $name
+     * @param   Toolbar  $toolbar
      *
-     * @return $this
+     * @return  $this
+     *
+     * @since   __DEPLOY_VERSION__
      */
-    public function setToolbar($name, Toolbar $toolbar): self
+    public function setToolbar(string $name, Toolbar $toolbar): self
     {
         $this->toolbars[$name] = $toolbar;
 
