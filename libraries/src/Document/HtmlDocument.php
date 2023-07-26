@@ -791,10 +791,14 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     /**
      * Returns a toolbar object or null
      *
-     * @param $toolbar
-     * @return Toolbar|null
+     * @param   string   $toolbar
+     * @param   boolean  $create
+     *
+     * @return  ?Toolbar
+     *
+     * @since   __DEPLOY_VERSION__
      */
-    public function getToolbar($toolbar = 'toolbar', $create = true): ?Toolbar
+    public function getToolbar(string $toolbar = 'toolbar', bool $create = true): ?Toolbar
     {
         if (empty($this->toolbars[$toolbar])) {
             if (!$create) {
