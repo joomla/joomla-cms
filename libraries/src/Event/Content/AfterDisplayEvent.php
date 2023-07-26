@@ -18,7 +18,9 @@ use Joomla\CMS\Event\Result\ResultTypeStringAware;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Content event
+ * Class for Content event.
+ * Example:
+ *  new AfterDisplayEvent('onEventName', ['context' => 'com_example.viewName', 'subject' => $contentObject, 'params' => $params, 'page' => $pageNum]);
  *
  * @since  __DEPLOY_VERSION__
  */

@@ -16,7 +16,9 @@ use Joomla\Registry\Registry;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Content event
+ * Class for Content event.
+ * Example:
+ *  new ContentPrepareEvent('onEventName', ['context' => 'com_example.viewName', 'subject' => $contentObject, 'params' => $params, 'page' => $pageNum]);
  *
  * @since  __DEPLOY_VERSION__
  */
