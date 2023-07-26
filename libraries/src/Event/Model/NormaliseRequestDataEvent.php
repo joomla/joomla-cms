@@ -14,7 +14,9 @@ namespace Joomla\CMS\Event\Model;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Model Form event
+ * Class for Model Form event.
+ * Example:
+ *  new NormaliseRequestDataEvent('onEventName', ['context' => 'com_example.example', 'data' => $data, 'subject' => $form]);
  *
  * @since  __DEPLOY_VERSION__
  */

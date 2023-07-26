@@ -20,7 +20,7 @@ use Joomla\CMS\Event\Result\ResultTypeStringAware;
 /**
  * Class for Content event.
  * Example:
- *  new AfterTitleEvent('onEventName', ['context' => 'com_example.viewName', 'subject' => $contentObject, 'params' => $params, 'page' => $pageNum]);
+ *  new AfterTitleEvent('onEventName', ['context' => 'com_example.example', 'subject' => $contentObject, 'params' => $params, 'page' => $pageNum]);
  *
  * @since  __DEPLOY_VERSION__
  */

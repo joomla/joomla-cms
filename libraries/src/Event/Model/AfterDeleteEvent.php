@@ -14,7 +14,9 @@ namespace Joomla\CMS\Event\Model;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Model event
+ * Class for Model event.
+ * Example:
+ *  new AfterDeleteEvent('onEventName', ['context' => 'com_example.example', 'subject' => $itemObjectToDelete]);
  *
  * @since  __DEPLOY_VERSION__
  */

@@ -18,7 +18,7 @@ use Joomla\Registry\Registry;
 /**
  * Class for Content event.
  * Example:
- *  new ContentPrepareEvent('onEventName', ['context' => 'com_example.viewName', 'subject' => $contentObject, 'params' => $params, 'page' => $pageNum]);
+ *  new ContentPrepareEvent('onEventName', ['context' => 'com_example.example', 'subject' => $contentObject, 'params' => $params, 'page' => $pageNum]);
  *
  * @since  __DEPLOY_VERSION__
  */

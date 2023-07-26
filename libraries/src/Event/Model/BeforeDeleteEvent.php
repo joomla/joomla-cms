@@ -18,7 +18,9 @@ use Joomla\CMS\Event\Result\ResultTypeBooleanAware;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Model event
+ * Class for Model event.
+ * Example:
+ *  new BeforeDeleteEvent('onEventName', ['context' => 'com_example.example', 'subject' => $itemObjectToDelete]);
  *
  * @since  __DEPLOY_VERSION__
  */
