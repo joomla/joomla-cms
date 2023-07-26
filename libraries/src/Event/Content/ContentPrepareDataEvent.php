@@ -33,7 +33,7 @@ class ContentPrepareDataEvent extends ContentEvent
     /**
      * Getter for the data.
      *
-     * @return  object|array
+     * @return  object
      *
      * @since  __DEPLOY_VERSION__
      */

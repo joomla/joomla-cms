@@ -20,6 +20,7 @@ use Joomla\CMS\Form\FormRule;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -198,6 +199,13 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
         // Include the plugins for the delete events.
         PluginHelper::importPlugin($this->events_map['validate'], null, true, $dispatcher);
 
+        // When the data is array, wrap it in to an array-access object
+        $eventData = $data;
+        if (is_array($data)) {
+            $eventData = new Registry(null, '');
+            $eventData->loadArray($data, true);
+        }
+
         if (!empty($dispatcher->getListeners('onUserBeforeDataValidation'))) {
             @trigger_error(
                 'The `onUserBeforeDataValidation` event is deprecated and will be removed in 5.0.'
@@ -205,18 +213,21 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
                 E_USER_DEPRECATED
             );
 
-            //Factory::getApplication()->triggerEvent('onUserBeforeDataValidation', [$form, &$data]);
             $dispatcher->dispatch('onUserBeforeDataValidation', new ContentBeforeValidateDataEvent('onUserBeforeDataValidation', [
                 'subject' => $form,
-                'data'    => $data,
+                'data'    => $eventData,
             ]));
         }
 
-        //Factory::getApplication()->triggerEvent('onContentBeforeValidateData', [$form, &$data]);
         $dispatcher->dispatch('onContentBeforeValidateData', new ContentBeforeValidateDataEvent('onContentBeforeValidateData', [
             'subject' => $form,
-            'data'    => $data,
+            'data'    => $eventData,
         ]));
+
+        // Restore the data
+        if (is_array($data)) {
+            $data = $eventData->toArray();
+        }
 
         // Filter and validate the form data.
         $return = $form->process($data, $group);
