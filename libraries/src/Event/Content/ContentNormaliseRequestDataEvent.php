@@ -20,7 +20,7 @@ use Joomla\CMS\Form\Form;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ContentNormaliseRequestDataEvent extends AbstractContentEvent
+class ContentNormaliseRequestDataEvent extends ContentEvent
 {
     /**
      * The argument names, in order expected by legacy plugins.

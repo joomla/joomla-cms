@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\Content;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ContentPrepareDataEvent extends AbstractContentEvent
+class ContentPrepareDataEvent extends ContentEvent
 {
     /**
      * The argument names, in order expected by legacy plugins.

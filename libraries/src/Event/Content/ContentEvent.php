@@ -21,7 +21,7 @@ use Joomla\CMS\Event\ReshapeArgumentsAware;
  *
  * @since  __DEPLOY_VERSION__
  */
-abstract class AbstractContentEvent extends AbstractImmutableEvent
+abstract class ContentEvent extends AbstractImmutableEvent
 {
     use ReshapeArgumentsAware;
 

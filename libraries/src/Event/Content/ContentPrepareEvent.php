@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ContentPrepareEvent extends AbstractContentEvent
+class ContentPrepareEvent extends ContentEvent
 {
     /**
      * The argument names, in order expected by legacy plugins.
