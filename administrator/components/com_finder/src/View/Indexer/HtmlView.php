@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\View\Indexer;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -69,7 +68,7 @@ class HtmlView extends BaseHtmlView
 
         ToolbarHelper::title(Text::_('COM_FINDER_INDEXER_TOOLBAR_TITLE'), 'search-plus finder');
 
-        $toolbar->linkButton('back','JTOOLBAR_BACK')
+        $toolbar->linkButton('back', 'JTOOLBAR_BACK')
             ->icon('icon-arrow-' . ($this->getLanguage()->isRtl() ? 'right' : 'left'))
             ->url(Route::_('index.php?option=com_finder&view=index'));
 
