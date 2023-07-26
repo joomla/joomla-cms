@@ -1,24 +1,29 @@
-const { defineConfig } = require('cypress')
+const { defineConfig } = require('cypress');
+const setupPlugins = require('./tests/System/plugins/index');
 
 module.exports = defineConfig({
-  fixturesFolder: 'tests/cypress/fixtures',
-  videosFolder: 'tests/cypress/output/videos',
-  screenshotsFolder: 'tests/cypress/output/screenshots',
+  fixturesFolder: 'tests/System/fixtures',
+  videosFolder: 'tests/System/output/videos',
+  screenshotsFolder: 'tests/System/output/screenshots',
   viewportHeight: 1000,
   viewportWidth: 1200,
   e2e: {
-    setupNodeEvents(on, config) {},
+    setupNodeEvents(on, config) {
+      setupPlugins(on, config);
+    },
     baseUrl: 'http://localhost/',
     specPattern: [
-      'tests/cypress/integration/install/*.cy.{js,jsx,ts,tsx}',
-      'tests/cypress/integration/administrator/**/*.cy.{js,jsx,ts,tsx}',
-      'tests/cypress/integration/site/**/*.cy.{js,jsx,ts,tsx}'
+      'tests/System/integration/install/**/*.cy.{js,jsx,ts,tsx}',
+      'tests/System/integration/administrator/**/*.cy.{js,jsx,ts,tsx}',
+      'tests/System/integration/site/**/*.cy.{js,jsx,ts,tsx}',
+      'tests/System/integration/api/**/*.cy.{js,jsx,ts,tsx}',
+      'tests/System/integration/plugins/**/*.cy.{js,jsx,ts,tsx}',
     ],
-    supportFile: 'tests/cypress/support/index.js',
+    supportFile: 'tests/System/support/index.js',
     scrollBehavior: 'center',
     browser: 'firefox',
     screenshotOnRunFailure: true,
-    video: false
+    video: false,
   },
   env: {
     sitename: 'Joomla CMS Test',
@@ -28,9 +33,13 @@ module.exports = defineConfig({
     password: 'joomla-17082005',
     db_type: 'MySQLi',
     db_host: 'localhost',
+    db_port: '',
     db_name: 'test_joomla',
     db_user: 'root',
     db_password: '',
     db_prefix: 'jos_',
+    smtp_host: 'localhost',
+    smtp_port: '1025',
+    cmsPath: '.',
   },
-})
+});

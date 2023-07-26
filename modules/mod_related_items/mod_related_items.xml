@@ -11,7 +11,7 @@
 	<description>MOD_RELATED_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\RelatedItems</namespace>
 	<files>
-		<filename module="mod_related_items">mod_related_items.php</filename>
+		<folder module="mod_related_items">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

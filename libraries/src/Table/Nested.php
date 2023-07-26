@@ -15,7 +15,7 @@ use Joomla\Event\Event;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -530,7 +530,7 @@ class Nested extends Table
             $name = $this->_getAssetName();
 
             /** @var Asset $asset */
-            $asset = Table::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
+            $asset = Table::getInstance('Asset', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
 
             if ($asset->loadByName($name)) {
                 // Delete the node in assets table.

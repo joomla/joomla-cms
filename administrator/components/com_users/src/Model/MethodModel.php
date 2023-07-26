@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
-use Exception;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -84,7 +83,7 @@ class MethodModel extends BaseDatabaseModel
      * @param   User|null  $user  The user record. Null to use the currently logged in user.
      *
      * @return  array
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
@@ -123,7 +122,7 @@ class MethodModel extends BaseDatabaseModel
      * @param   User|null  $user  The user record. Null to use the currently logged in user.
      *
      * @return  MfaTable
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
@@ -188,7 +187,7 @@ class MethodModel extends BaseDatabaseModel
      * @param   User|null  $user  The user record. Null to use the current user.
      *
      * @return  MfaTable
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */

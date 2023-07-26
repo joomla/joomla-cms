@@ -11,9 +11,10 @@ namespace Joomla\CMS\MVC\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
+use Joomla\CMS\Document\DocumentAwareInterface;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
@@ -26,10 +27,11 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Filesystem\Path;
 use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -95,7 +97,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
     /**
      * The name of the controller
      *
-     * @var    array
+     * @var    string
      * @since  3.0
      */
     protected $name;
@@ -345,12 +347,12 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     *                                         Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                         'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    Input
+     * @param   array                 $config   An optional associative array of configuration settings.
+     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                          'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since   3.0
      */
@@ -581,6 +583,10 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
             $view->setCurrentUser($this->app->getIdentity());
         }
 
+        if ($view instanceof LanguageAwareInterface && $this->app->getLanguage()) {
+            $view->setLanguage($this->app->getLanguage());
+        }
+
         return $view;
     }
 
@@ -607,13 +613,18 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 
         $view = $this->getView($viewName, $viewType, '', ['base_path' => $this->basePath, 'layout' => $viewLayout]);
 
-        // Get/Create the model
-        if ($model = $this->getModel($viewName, '', ['base_path' => $this->basePath])) {
-            // Push the model into the view (as default)
-            $view->setModel($model, true);
-        }
+        // Set models for the View
+        $this->prepareViewModel($view);
 
-        $view->document = $document;
+        if ($view instanceof DocumentAwareInterface && $document) {
+            $view->setDocument($this->app->getDocument());
+        } else {
+            @trigger_error(
+                'View should implement document aware interface.',
+                E_USER_DEPRECATED
+            );
+            $view->document = $document;
+        }
 
         // Display the view
         if ($cachable && $viewType !== 'feed' && $this->app->get('caching') >= 1) {
@@ -1066,5 +1077,34 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Method to set the View Models
+     *
+     * This function is provided as a default implementation,
+     * and only set one Model in the view (that with the same prefix/sufix than the view).
+     * In case you want to set several Models for your view,
+     * you will need to override it in your DisplayController controller.
+     *
+     * @param   ViewInterface  $view  The view Object
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    protected function prepareViewModel(ViewInterface $view)
+    {
+        if (!method_exists($view, 'setModel')) {
+            return;
+        }
+
+        $viewName = $view->getName();
+
+        // Get/Create the model
+        if ($model = $this->getModel($viewName, '', ['base_path' => $this->basePath])) {
+            // Push the model into the view (as default)
+            $view->setModel($model, true);
+        }
     }
 }

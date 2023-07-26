@@ -71,6 +71,7 @@ $previousReleaseExclude = [
     $options['from'] . '/plugins/fields/repeatable',
     $options['from'] . '/plugins/quickicon/eos310',
     $options['from'] . '/plugins/search',
+    $options['from'] . '/plugins/task/demotasks',
 ];
 
 /**
@@ -148,7 +149,6 @@ $foldersDifference = array_diff($previousReleaseFolders, $newReleaseFolders);
 
 // Specific files (e.g. language files) that we want to keep on upgrade
 $filesToKeep = [
-    "'/administrator/components/com_joomlaupdate/restore_finalisation.php',",
     "'/administrator/language/en-GB/en-GB.com_search.ini',",
     "'/administrator/language/en-GB/en-GB.com_search.sys.ini',",
     "'/administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.ini',",
@@ -171,6 +171,8 @@ $filesToKeep = [
     "'/administrator/language/en-GB/en-GB.plg_search_weblinks.sys.ini',",
     "'/administrator/language/en-GB/en-GB.plg_system_weblinks.ini',",
     "'/administrator/language/en-GB/en-GB.plg_system_weblinks.sys.ini',",
+    "'/administrator/language/en-GB/plg_task_demotasks.ini',",
+    "'/administrator/language/en-GB/plg_task_demotasks.sys.ini',",
     "'/language/en-GB/en-GB.com_search.ini',",
     "'/language/en-GB/en-GB.mod_search.ini',",
     "'/language/en-GB/en-GB.mod_search.sys.ini',",

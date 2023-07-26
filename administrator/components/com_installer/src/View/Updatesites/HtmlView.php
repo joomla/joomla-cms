@@ -67,7 +67,7 @@ class HtmlView extends InstallerViewDefault
      *
      * @param   string  $tpl  Template
      *
-     * @return  mixed|void
+     * @return  void
      *
      * @since   3.4
      *

@@ -469,7 +469,7 @@ class SearchModel extends ListModel
         $input    = $app->getInput();
         $params   = $app->getParams();
         $user     = $this->getCurrentUser();
-        $language = Factory::getLanguage();
+        $language = $app->getLanguage();
 
         $this->setState('filter.language', Multilanguage::isEnabled());
 
