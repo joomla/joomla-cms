@@ -12,13 +12,13 @@ namespace Joomla\CMS\Event\Application;
 use Joomla\DI\Container;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class for BeforeExecute event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforeExecuteEvent extends ApplicationEvent
 {
@@ -27,7 +27,7 @@ class BeforeExecuteEvent extends ApplicationEvent
      *
      * @return  ?Container
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getContainer(): ?Container
     {
