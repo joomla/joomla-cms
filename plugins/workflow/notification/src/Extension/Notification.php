@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\Workflow\Notification\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageFactoryInterface;
@@ -20,7 +21,6 @@ use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
 
@@ -90,18 +90,16 @@ final class Notification extends CMSPlugin implements SubscriberInterface
     /**
      * The form event.
      *
-     * @param   Form      $form  The form
-     * @param   stdClass  $data  The data
+     * @param   Model\PrepareFormEvent   $event  The event
      *
      * @return   boolean
      *
      * @since   4.0.0
      */
-    public function onContentPrepareForm(EventInterface $event)
+    public function onContentPrepareForm(Model\PrepareFormEvent $event)
     {
-        $form = $event->getArgument('0');
-        $data = $event->getArgument('1');
-
+        $form    = $event->getForm();
+        $data    = $event->getData();
         $context = $form->getName();
 
         // Extend the transition form

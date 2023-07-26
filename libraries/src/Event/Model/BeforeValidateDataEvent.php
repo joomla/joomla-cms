@@ -7,23 +7,17 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Joomla\CMS\Event\Content;
-
-use Joomla\CMS\Event\Result\ResultAware;
-use Joomla\CMS\Event\Result\ResultAwareInterface;
-use Joomla\CMS\Event\Result\ResultTypeBooleanAware;
+namespace Joomla\CMS\Event\Model;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Content event
+ * Class for Model Form event
  *
  * @since  __DEPLOY_VERSION__
  */
-class ContentBeforeSaveEvent extends ContentSaveEvent implements ResultAwareInterface
+class BeforeValidateDataEvent extends FormEvent
 {
-    use ResultAware;
-    use ResultTypeBooleanAware;
 }

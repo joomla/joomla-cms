@@ -7,18 +7,18 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Joomla\CMS\Event\Content;
+namespace Joomla\CMS\Event\Model;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Content event
+ * Class for Model event
  *
  * @since  __DEPLOY_VERSION__
  */
-abstract class ContentChangeStateEvent extends ContentEvent
+abstract class SaveEvent extends ModelEvent
 {
     /**
      * The argument names, in order expected by legacy plugins.
@@ -28,57 +28,69 @@ abstract class ContentChangeStateEvent extends ContentEvent
      * @since  __DEPLOY_VERSION__
      * @deprecated 5.0 will be removed in 6.0
      */
-    protected $legacyArgumentsOrder = ['context', 'subject', 'value'];
+    protected $legacyArgumentsOrder = ['context', 'subject', 'isNew', 'data'];
 
     /**
      * Setter for the subject argument.
      *
-     * @param   array  $value  The value to set
+     * @param   object  $value  The value to set
      *
-     * @return  array
+     * @return  object
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected function setSubject(array $value): array
+    protected function setSubject(object $value): object
     {
         return $value;
     }
 
     /**
-     * Setter for the value argument.
+     * Setter for the isNew argument.
      *
-     * @param   int  $value  The value to set
+     * @param   bool  $value  The value to set
      *
-     * @return  int
+     * @return  bool
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected function setValue($value): int
+    protected function setIsNew($value): bool
     {
-        return (int) $value;
+        return (bool) $value;
     }
 
     /**
-     * Getter for the list of primary keys.
+     * Getter for the item.
      *
-     * @return  array
+     * @return  object
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getPks(): array
+    public function getItem(): object
     {
         return $this->arguments['subject'];
     }
 
     /**
-     * Getter for the value state.
+     * Getter for the isNew state.
      *
-     * @return  integer
+     * @return  boolean
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getValue(): int
+    public function getIsNew(): bool
     {
-        return $this->arguments['value'];
+        return $this->arguments['isNew'];
+    }
+
+    /**
+     * Getter for the data.
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getData()
+    {
+        return $this->arguments['data'];
     }
 }

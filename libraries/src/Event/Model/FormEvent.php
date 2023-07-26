@@ -7,9 +7,10 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Joomla\CMS\Event\Content;
+namespace Joomla\CMS\Event\Model;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
+use Joomla\CMS\Event\ReshapeArgumentsAware;
 use Joomla\CMS\Form\Form;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -17,12 +18,24 @@ use Joomla\CMS\Form\Form;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Content Form event
+ * Class for Model Form event
  *
  * @since  __DEPLOY_VERSION__
  */
-class ContentPrepareFormEvent extends AbstractImmutableEvent
+abstract class FormEvent extends AbstractImmutableEvent
 {
+    use ReshapeArgumentsAware;
+
+    /**
+     * The argument names, in order expected by legacy plugins.
+     *
+     * @var array
+     *
+     * @since  __DEPLOY_VERSION__
+     * @deprecated 5.0 will be removed in 6.0
+     */
+    protected $legacyArgumentsOrder = ['subject', 'data'];
+
     /**
      * Constructor.
      *
@@ -36,11 +49,13 @@ class ContentPrepareFormEvent extends AbstractImmutableEvent
     public function __construct($name, array $arguments = [])
     {
         // Reshape the arguments array to preserve b/c with legacy listeners
-        // Check for non-associative list
-        if (key($arguments) === 0) {
-            $arguments = array_combine(['subject', 'data'], $arguments);
-        } else {
-            $arguments = array_replace(['subject' => null, 'data' => null], $arguments);
+        if ($this->legacyArgumentsOrder) {
+            // Check for non-associative list
+            if (key($arguments) === 0) {
+                $arguments = array_combine($this->legacyArgumentsOrder, $arguments);
+            } else {
+                $arguments = $this->reshapeArguments($arguments, $this->legacyArgumentsOrder);
+            }
         }
 
         if (!\array_key_exists('subject', $arguments)) {
@@ -52,6 +67,32 @@ class ContentPrepareFormEvent extends AbstractImmutableEvent
         }
 
         parent::__construct($name, $arguments);
+    }
+
+    /**
+     * Setter for the context argument.
+     *
+     * @param   string  $value  The value to set
+     *
+     * @return  string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function setContext(string $value): string
+    {
+        return $value;
+    }
+
+    /**
+     * Getter for the context argument.
+     *
+     * @return  string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getContext(): string
+    {
+        return $this->arguments['context'];
     }
 
     /**

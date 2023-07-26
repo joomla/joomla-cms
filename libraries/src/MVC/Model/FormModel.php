@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-use Joomla\CMS\Event\Content\ContentBeforeValidateDataEvent;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
@@ -213,13 +213,13 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
                 E_USER_DEPRECATED
             );
 
-            $dispatcher->dispatch('onUserBeforeDataValidation', new ContentBeforeValidateDataEvent('onUserBeforeDataValidation', [
+            $dispatcher->dispatch('onUserBeforeDataValidation', new Model\BeforeValidateDataEvent('onUserBeforeDataValidation', [
                 'subject' => $form,
                 'data'    => $eventData,
             ]));
         }
 
-        $dispatcher->dispatch('onContentBeforeValidateData', new ContentBeforeValidateDataEvent('onContentBeforeValidateData', [
+        $dispatcher->dispatch('onContentBeforeValidateData', new Model\BeforeValidateDataEvent('onContentBeforeValidateData', [
             'subject' => $form,
             'data'    => $eventData,
         ]));

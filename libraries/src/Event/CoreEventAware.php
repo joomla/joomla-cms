@@ -106,17 +106,17 @@ trait CoreEventAware
         'onContentBeforeDisplay' => Content\BeforeDisplayEvent::class,
         'onContentAfterDisplay'  => Content\AfterDisplayEvent::class,
         // Model
+        'onContentNormaliseRequestData' => Model\NormaliseRequestDataEvent::class,
+        'onContentBeforeValidateData'   => Model\BeforeValidateDataEvent::class,
+        'onContentPrepareForm'          => Model\PrepareFormEvent::class,
+        'onContentPrepareData'          => Model\PrepareDataEvent::class,
+        'onContentBeforeSave'           => Model\BeforeSaveEvent::class,
+        'onContentAfterSave'            => Model\AfterSaveEvent::class,
+        'onContentBeforeDelete'         => Model\BeforeDeleteEvent::class,
+        'onContentAfterDelete'          => Model\AfterDeleteEvent::class,
+        'onContentBeforeChangeState'    => Model\BeforeChangeStateEvent::class,
+        'onContentChangeState'          => Model\AfterChangeStateEvent::class,
         'onBeforeBatch'                 => Model\BeforeBatchEvent::class,
-        'onContentPrepareForm'          => Content\ContentPrepareFormEvent::class,
-        'onContentPrepareData'          => Content\ContentPrepareDataEvent::class,
-        'onContentNormaliseRequestData' => Content\ContentNormaliseRequestDataEvent::class,
-        'onContentBeforeValidateData'   => Content\ContentBeforeValidateDataEvent::class,
-        'onContentBeforeSave'           => Content\ContentBeforeSaveEvent::class,
-        'onContentAfterSave'            => Content\ContentAfterSaveEvent::class,
-        'onContentBeforeDelete'         => Content\ContentBeforeDeleteEvent::class,
-        'onContentAfterDelete'          => Content\ContentAfterDeleteEvent::class,
-        'onContentBeforeChangeState'    => Content\ContentBeforeChangeStateEvent::class,
-        'onContentChangeState'          => Content\ContentAfterChangeStateEvent::class,
     ];
 
     /**

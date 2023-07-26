@@ -9,8 +9,7 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-use Joomla\CMS\Event\Content\ContentPrepareDataEvent;
-use Joomla\CMS\Event\Content\ContentPrepareFormEvent;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
@@ -168,7 +167,7 @@ trait FormBehaviorTrait
         // Trigger the data preparation event.
         $dispatcher->dispatch(
             'onContentPrepareData',
-            new ContentPrepareDataEvent('onContentPrepareData', ['context' => $context, 'subject' => $eventData])
+            new Model\PrepareDataEvent('onContentPrepareData', ['context' => $context, 'subject' => $eventData])
         );
 
         // Restore the data
@@ -204,7 +203,7 @@ trait FormBehaviorTrait
         // Trigger the form preparation event.
         $dispatcher->dispatch(
             'onContentPrepareForm',
-            new ContentPrepareFormEvent('onContentPrepareForm', ['subject' => $form, 'data' => $data])
+            new Model\PrepareFormEvent('onContentPrepareForm', ['subject' => $form, 'data' => $data])
         );
     }
 

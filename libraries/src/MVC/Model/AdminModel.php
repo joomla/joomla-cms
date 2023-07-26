@@ -10,13 +10,7 @@
 namespace Joomla\CMS\MVC\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\Content\ContentAfterChangeStateEvent;
-use Joomla\CMS\Event\Content\ContentAfterDeleteEvent;
-use Joomla\CMS\Event\Content\ContentAfterSaveEvent;
-use Joomla\CMS\Event\Content\ContentBeforeChangeStateEvent;
-use Joomla\CMS\Event\Content\ContentBeforeDeleteEvent;
-use Joomla\CMS\Event\Content\ContentBeforeSaveEvent;
-use Joomla\CMS\Event\Model\BeforeBatchEvent;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Associations;
@@ -371,7 +365,7 @@ abstract class AdminModel extends FormModel
                 $this->table->load($pk);
                 $this->table->access = (int) $value;
 
-                $event = new BeforeBatchEvent(
+                $event = new Model\BeforeBatchEvent(
                     $this->event_before_batch,
                     ['src' => $this->table, 'type' => 'access']
                 );
@@ -474,7 +468,7 @@ abstract class AdminModel extends FormModel
             // New category ID
             $this->table->catid = $categoryId;
 
-            $event = new BeforeBatchEvent(
+            $event = new Model\BeforeBatchEvent(
                 $this->event_before_batch,
                 ['src' => $this->table, 'type' => 'copy']
             );
@@ -575,7 +569,7 @@ abstract class AdminModel extends FormModel
                 $this->table->load($pk);
                 $this->table->language = $value;
 
-                $event = new BeforeBatchEvent(
+                $event = new Model\BeforeBatchEvent(
                     $this->event_before_batch,
                     ['src' => $this->table, 'type' => 'language']
                 );
@@ -653,7 +647,7 @@ abstract class AdminModel extends FormModel
             // Set the new category ID
             $this->table->catid = $categoryId;
 
-            $event = new BeforeBatchEvent(
+            $event = new Model\BeforeBatchEvent(
                 $this->event_before_batch,
                 ['src' => $this->table, 'type' => 'move']
             );
@@ -841,7 +835,7 @@ abstract class AdminModel extends FormModel
                     $context = $this->option . '.' . $this->name;
 
                     // Trigger the before delete event.
-                    $beforeDeleteEvent = new ContentBeforeDeleteEvent($this->event_before_delete, [
+                    $beforeDeleteEvent = new Model\BeforeDeleteEvent($this->event_before_delete, [
                         'context' => $context,
                         'subject' => $table,
                     ]);
@@ -908,7 +902,7 @@ abstract class AdminModel extends FormModel
                     }
 
                     // Trigger the after event.
-                    $dispatcher->dispatch($this->event_after_delete, new ContentAfterDeleteEvent($this->event_after_delete, [
+                    $dispatcher->dispatch($this->event_after_delete, new Model\AfterDeleteEvent($this->event_after_delete, [
                         'context' => $context,
                         'subject' => $table,
                     ]));
@@ -1126,7 +1120,7 @@ abstract class AdminModel extends FormModel
         }
 
         // Trigger the before change state event.
-        $beforeChngEvent = new ContentBeforeChangeStateEvent($this->event_before_change_state, [
+        $beforeChngEvent = new Model\BeforeChangeStateEvent($this->event_before_change_state, [
             'context' => $context,
             'subject' => $pks,
             'value'   => $value,
@@ -1148,7 +1142,7 @@ abstract class AdminModel extends FormModel
         }
 
         // Trigger the change state event.
-        $afterChngEvent = new ContentAfterChangeStateEvent($this->event_change_state, [
+        $afterChngEvent = new Model\AfterChangeStateEvent($this->event_change_state, [
             'context' => $context,
             'subject' => $pks,
             'value'   => $value,
@@ -1284,7 +1278,7 @@ abstract class AdminModel extends FormModel
             }
 
             // Trigger the before save event.
-            $beforeSaveEvent = new ContentBeforeSaveEvent($this->event_before_save, [
+            $beforeSaveEvent = new Model\BeforeSaveEvent($this->event_before_save, [
                 'context' => $context,
                 'subject' => $table,
                 'isNew'   => $isNew,
@@ -1310,7 +1304,7 @@ abstract class AdminModel extends FormModel
             $this->cleanCache();
 
             // Trigger the after save event.
-            $dispatcher->dispatch($this->event_after_save, new ContentAfterSaveEvent($this->event_after_save, [
+            $dispatcher->dispatch($this->event_after_save, new Model\AfterSaveEvent($this->event_after_save, [
                 'context' => $context,
                 'subject' => $table,
                 'isNew'   => $isNew,

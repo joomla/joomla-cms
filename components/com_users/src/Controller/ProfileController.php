@@ -10,7 +10,7 @@
 
 namespace Joomla\Component\Users\Site\Controller;
 
-use Joomla\CMS\Event\Content\ContentNormaliseRequestDataEvent;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
@@ -108,10 +108,10 @@ class ProfileController extends BaseController
         $objData = (object) $requestData;
         $this->getDispatcher()->dispatch(
             'onContentNormaliseRequestData',
-            new ContentNormaliseRequestDataEvent('onContentNormaliseRequestData', [
+            new Model\NormaliseRequestDataEvent('onContentNormaliseRequestData', [
                 'context' => 'com_users.user',
-                'subject' => $objData,
-                'form'    => $form,
+                'data'    => $objData,
+                'subject' => $form,
             ])
         );
         $requestData = (array) $objData;

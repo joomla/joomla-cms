@@ -7,7 +7,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Joomla\CMS\Event\Content;
+namespace Joomla\CMS\Event\Model;
 
 use Joomla\CMS\Event\Result\ResultAware;
 use Joomla\CMS\Event\Result\ResultAwareInterface;
@@ -18,11 +18,11 @@ use Joomla\CMS\Event\Result\ResultTypeBooleanAware;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Content event
+ * Class for Model event
  *
  * @since  __DEPLOY_VERSION__
  */
-class ContentAfterChangeStateEvent extends ContentChangeStateEvent implements ResultAwareInterface
+class BeforeDeleteEvent extends DeleteEvent implements ResultAwareInterface
 {
     use ResultAware;
     use ResultTypeBooleanAware;

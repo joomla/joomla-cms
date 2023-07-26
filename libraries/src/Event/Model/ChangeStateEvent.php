@@ -7,20 +7,18 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Joomla\CMS\Event\Content;
-
-use Joomla\CMS\Form\Form;
+namespace Joomla\CMS\Event\Model;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Content event
+ * Class for Model event
  *
  * @since  __DEPLOY_VERSION__
  */
-class ContentNormaliseRequestDataEvent extends ContentEvent
+abstract class ChangeStateEvent extends ModelEvent
 {
     /**
      * The argument names, in order expected by legacy plugins.
@@ -30,43 +28,57 @@ class ContentNormaliseRequestDataEvent extends ContentEvent
      * @since  __DEPLOY_VERSION__
      * @deprecated 5.0 will be removed in 6.0
      */
-    protected $legacyArgumentsOrder = ['context', 'subject', 'form'];
+    protected $legacyArgumentsOrder = ['context', 'subject', 'value'];
 
     /**
-     * Setter for the form argument.
+     * Setter for the subject argument.
      *
-     * @param   Form  $value  The value to set
+     * @param   array  $value  The value to set
      *
-     * @return  Form
+     * @return  array
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected function setForm(Form $value): Form
+    protected function setSubject(array $value): array
     {
         return $value;
     }
 
     /**
-     * Getter for the form.
+     * Setter for the value argument.
      *
-     * @return  Form
+     * @param   int  $value  The value to set
+     *
+     * @return  int
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getForm(): Form
+    protected function setValue($value): int
     {
-        return $this->arguments['form'];
+        return (int) $value;
     }
 
     /**
-     * Getter for the data.
+     * Getter for the list of primary keys.
      *
-     * @return  object|array
+     * @return  array
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getData()
+    public function getPks(): array
     {
         return $this->arguments['subject'];
+    }
+
+    /**
+     * Getter for the value state.
+     *
+     * @return  integer
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getValue(): int
+    {
+        return $this->arguments['value'];
     }
 }

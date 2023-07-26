@@ -7,18 +7,18 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Joomla\CMS\Event\Content;
+namespace Joomla\CMS\Event\Model;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Content event
+ * Class for Model event
  *
  * @since  __DEPLOY_VERSION__
  */
-class ContentPrepareDataEvent extends ContentEvent
+class PrepareDataEvent extends ModelEvent
 {
     /**
      * The argument names, in order expected by legacy plugins.

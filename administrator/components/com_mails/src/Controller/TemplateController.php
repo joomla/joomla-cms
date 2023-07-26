@@ -11,7 +11,7 @@
 namespace Joomla\Component\Mails\Administrator\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Event\Content\ContentNormaliseRequestDataEvent;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -194,10 +194,10 @@ class TemplateController extends FormController
         $objData = (object) $data;
         $this->getDispatcher()->dispatch(
             'onContentNormaliseRequestData',
-            new ContentNormaliseRequestDataEvent('onContentNormaliseRequestData', [
+            new Model\NormaliseRequestDataEvent('onContentNormaliseRequestData', [
                 'context' => $this->option . '.' . $this->context,
-                'subject' => $objData,
-                'form'    => $form,
+                'data'    => $objData,
+                'subject' => $form,
             ])
         );
         $data = (array) $objData;

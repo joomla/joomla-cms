@@ -10,8 +10,7 @@
 
 namespace Joomla\Plugin\Workflow\Publishing\Extension;
 
-use Joomla\CMS\Event\Content\ContentBeforeChangeStateEvent;
-use Joomla\CMS\Event\Content\ContentBeforeSaveEvent;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Table\BeforeStoreEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
@@ -83,15 +82,14 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
     /**
      * The form event.
      *
-     * @param   EventInterface  $event  The event
+     * @param   Model\PrepareFormEvent  $event  The event
      *
      * @since   4.0.0
      */
-    public function onContentPrepareForm(EventInterface $event)
+    public function onContentPrepareForm(Model\PrepareFormEvent $event)
     {
-        $form = $event->getArgument('0');
-        $data = $event->getArgument('1');
-
+        $form    = $event->getForm();
+        $data    = $event->getData();
         $context = $form->getName();
 
         // Extend the transition form
@@ -346,14 +344,14 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
     /**
      * Change State of an item. Used to disable state change
      *
-     * @param   ContentBeforeChangeStateEvent  $event
+     * @param   Model\BeforeChangeStateEvent  $event
      *
      * @return boolean
      *
      * @throws \Exception
      * @since   4.0.0
      */
-    public function onContentBeforeChangeState(ContentBeforeChangeStateEvent $event)
+    public function onContentBeforeChangeState(Model\BeforeChangeStateEvent $event)
     {
         $context = $event->getContext();
         $pks     = $event->getPks();
@@ -374,13 +372,13 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
     /**
      * The save event.
      *
-     * @param   ContentBeforeSaveEvent  $event
+     * @param   Model\BeforeSaveEvent  $event
      *
      * @return  boolean
      *
      * @since   4.0.0
      */
-    public function onContentBeforeSave(ContentBeforeSaveEvent $event)
+    public function onContentBeforeSave(Model\BeforeSaveEvent $event)
     {
         $context = $event->getContext();
 
