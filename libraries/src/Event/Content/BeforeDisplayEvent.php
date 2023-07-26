@@ -22,7 +22,7 @@ use Joomla\CMS\Event\Result\ResultTypeStringAware;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ContentAfterDisplayEvent extends ContentPrepareEvent implements ResultAwareInterface
+class BeforeDisplayEvent extends ContentPrepareEvent implements ResultAwareInterface
 {
     use ResultAware;
     use ResultTypeStringAware;

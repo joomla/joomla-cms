@@ -11,10 +11,7 @@
 namespace Joomla\Component\Content\Site\View\Article;
 
 use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Event\Content\ContentAfterDisplayEvent;
-use Joomla\CMS\Event\Content\ContentAfterTitleEvent;
-use Joomla\CMS\Event\Content\ContentBeforeDisplayEvent;
-use Joomla\CMS\Event\Content\ContentPrepareEvent;
+use Joomla\CMS\Event\Content;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
@@ -235,14 +232,14 @@ class HtmlView extends BaseHtmlView
             'page'    => $offset,
         ];
 
-        $this->dispatchEvent(new ContentPrepareEvent('onContentPrepare', $contentEventArguments));
+        $this->dispatchEvent(new Content\ContentPrepareEvent('onContentPrepare', $contentEventArguments));
 
         // Extra content from events
         $item->event   = new \stdClass();
         $contentEvents = [
-            'afterDisplayTitle'    => new ContentAfterTitleEvent('onContentAfterTitle', $contentEventArguments),
-            'beforeDisplayContent' => new ContentBeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
-            'afterDisplayContent'  => new ContentAfterDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
+            'afterDisplayTitle'    => new Content\AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
+            'beforeDisplayContent' => new Content\BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
+            'afterDisplayContent'  => new Content\AfterDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
         ];
 
         foreach ($contentEvents as $resultKey => $event) {

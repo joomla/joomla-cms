@@ -49,18 +49,12 @@ abstract class Content
 
         $dispatcher = Factory::getApplication()->getDispatcher();
         PluginHelper::importPlugin('content', null, true, $dispatcher);
-        $dispatcher->dispatch(
-            'onContentPrepare',
-            new ContentPrepareEvent(
-                'onContentPrepare',
-                [
-                    'context' => $context,
-                    'subject' => $article,
-                    'params'  => $params,
-                    'page'    => 0,
-                ]
-            )
-        );
+        $dispatcher->dispatch('onContentPrepare', new ContentPrepareEvent('onContentPrepare', [
+            'context' => $context,
+            'subject' => $article,
+            'params'  => $params,
+            'page'    => 0,
+        ]));
 
         return $article->text;
     }

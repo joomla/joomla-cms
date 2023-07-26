@@ -54,8 +54,6 @@ trait CoreEventAware
         'onBeforeRespond'     => Application\BeforeRespondEvent::class,
         'onAfterRespond'      => Application\AfterRespondEvent::class,
         'onError'             => ErrorEvent::class,
-        // Model
-        'onBeforeBatch' => Model\BeforeBatchEvent::class,
         // Quickicon
         'onGetIcon' => QuickIcon\GetIconEvent::class,
         // Table
@@ -103,10 +101,12 @@ trait CoreEventAware
         'onBeforeExtensionBoot' => BeforeExtensionBootEvent::class,
         'onAfterExtensionBoot'  => AfterExtensionBootEvent::class,
         // Content
-        'onContentPrepare'              => Content\ContentPrepareEvent::class,
-        'onContentAfterTitle'           => Content\ContentAfterTitleEvent::class,
-        'onContentBeforeDisplay'        => Content\ContentBeforeDisplayEvent::class,
-        'onContentAfterDisplay'         => Content\ContentAfterDisplayEvent::class,
+        'onContentPrepare'       => Content\ContentPrepareEvent::class,
+        'onContentAfterTitle'    => Content\AfterTitleEvent::class,
+        'onContentBeforeDisplay' => Content\BeforeDisplayEvent::class,
+        'onContentAfterDisplay'  => Content\AfterDisplayEvent::class,
+        // Model
+        'onBeforeBatch'                 => Model\BeforeBatchEvent::class,
         'onContentPrepareForm'          => Content\ContentPrepareFormEvent::class,
         'onContentPrepareData'          => Content\ContentPrepareDataEvent::class,
         'onContentNormaliseRequestData' => Content\ContentNormaliseRequestDataEvent::class,
