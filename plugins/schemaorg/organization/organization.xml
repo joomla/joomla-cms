@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>5.0.0</version>
 	<description>PLG_SCHEMAORG_ORGANIZATION_XML_DESCRIPTION</description>
- -	<namespace path="src">Joomla\Plugin\Schemaorg\Organization</namespace>
+	<namespace path="src">Joomla\Plugin\Schemaorg\Organization</namespace>
 	<files>
 		<folder plugin="organization">services</folder>
 		<folder>src</folder>
