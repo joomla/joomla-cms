@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Schemaorg;
 
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -27,13 +26,6 @@ use Joomla\Event\EventInterface;
  */
 trait SchemaorgPluginTrait
 {
-    /**
-     * The application object
-     *
-     * @var CMSApplication
-     */
-    protected $app;
-
     /**
      * Define all fields which are media type to clean them
      *
@@ -175,7 +167,7 @@ trait SchemaorgPluginTrait
             return false;
         }
 
-        $component = $this->app->bootComponent($parts[0]);
+        $component = $this->getApplication()->bootComponent($parts[0]);
 
         return $component instanceof SchemaorgServiceInterface;
     }

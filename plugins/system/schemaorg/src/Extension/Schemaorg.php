@@ -13,8 +13,8 @@ namespace Joomla\Plugin\System\Schemaorg\Extension;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -41,7 +41,6 @@ use Joomla\Registry\Registry;
  */
 final class Schemaorg extends CMSPlugin implements SubscriberInterface
 {
-    // use SchemaorgPluginTrait;
     use DatabaseAwareTrait;
     use SchemaorgPrepareImageTrait;
     use SchemaorgPrepareDateTrait;
@@ -467,8 +466,8 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         $schema->set('@graph', $data);
 
-        $schemaString = $schema->toString();
-echo $schemaString;
+        $schemaString = $schema->toString('JSON', ['bitmask' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE]);
+
         if ($schemaString !== '{}') {
             $wa = $this->getApplication()->getDocument()->getWebAssetManager();
             $wa->addInlineScript($schemaString, ['position' => 'after'], ['type' => 'application/ld+json']);
@@ -545,7 +544,7 @@ echo $schemaString;
      *
      * @return   boolean
      *
-     * @since   _DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function isSupported($context)
     {
