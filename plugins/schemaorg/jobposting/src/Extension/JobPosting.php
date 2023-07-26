@@ -13,7 +13,6 @@ namespace Joomla\Plugin\Schemaorg\JobPosting\Extension;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
 use Joomla\CMS\Schemaorg\SchemaorgPrepareDateTrait;
-use Joomla\CMS\Schemaorg\SchemaorgPrepareImageTrait;
 use Joomla\Event\Event;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;

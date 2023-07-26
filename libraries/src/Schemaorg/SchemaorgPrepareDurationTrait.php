@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Schemaorg;
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects

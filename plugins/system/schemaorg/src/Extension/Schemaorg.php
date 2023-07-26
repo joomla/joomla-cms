@@ -63,11 +63,10 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onBeforeCompileHead'       => 'onBeforeCompileHead',
-            'onContentPrepareData'      => 'onContentPrepareData',
-            'onContentPrepareForm'      => 'onContentPrepareForm',
-            'onContentAfterSave'        => 'onContentAfterSave',
-            // 'onSchemaBeforeCompileHead' => 'onSchemaBeforeCompileHead',
+            'onBeforeCompileHead'  => 'onBeforeCompileHead',
+            'onContentPrepareData' => 'onContentPrepareData',
+            'onContentPrepareForm' => 'onContentPrepareForm',
+            'onContentAfterSave'   => 'onContentAfterSave',
         ];
     }
 
@@ -517,7 +516,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
                         $value = null;
                     }
                 } elseif ($key == 'genericField') {
-
                     foreach ($value as $field) {
                         $result[$field['genericTitle']] = $field['genericValue'];
                     }

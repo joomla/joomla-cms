@@ -9,10 +9,7 @@
 
 namespace Joomla\CMS\Schemaorg;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
 use Joomla\Event\EventInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
