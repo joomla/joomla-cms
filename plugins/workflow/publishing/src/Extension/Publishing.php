@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\Workflow\Publishing\Extension;
 
+use Joomla\CMS\Event\Content\ContentBeforeSaveEvent;
 use Joomla\CMS\Event\Table\BeforeStoreEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
@@ -372,25 +373,23 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
     /**
      * The save event.
      *
-     * @param   EventInterface  $event
+     * @param   ContentBeforeSaveEvent  $event
      *
      * @return  boolean
      *
      * @since   4.0.0
      */
-    public function onContentBeforeSave(EventInterface $event)
+    public function onContentBeforeSave(ContentBeforeSaveEvent $event)
     {
-        $context = $event->getArgument('0');
-
-        /** @var TableInterface $table */
-        $table = $event->getArgument('1');
-        $isNew = $event->getArgument('2');
-        $data  = $event->getArgument('3');
+        $context = $event->getContext();
 
         if (!$this->isSupported($context)) {
             return true;
         }
 
+        /** @var TableInterface $table */
+        $table   = $event->getItem();
+        $data    = $event->getData();
         $keyName = $table->getColumnAlias('published');
 
         // Check for the old value
