@@ -10,7 +10,9 @@
 namespace Joomla\CMS\MVC\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Content\ContentAfterDeleteEvent;
 use Joomla\CMS\Event\Content\ContentAfterSaveEvent;
+use Joomla\CMS\Event\Content\ContentBeforeDeleteEvent;
 use Joomla\CMS\Event\Content\ContentBeforeSaveEvent;
 use Joomla\CMS\Event\Model\BeforeBatchEvent;
 use Joomla\CMS\Factory;
@@ -823,11 +825,12 @@ abstract class AdminModel extends FormModel
      */
     public function delete(&$pks)
     {
-        $pks   = ArrayHelper::toInteger((array) $pks);
-        $table = $this->getTable();
+        $pks        = ArrayHelper::toInteger((array) $pks);
+        $table      = $this->getTable();
+        $dispatcher = $this->getDispatcher() ?: Factory::getApplication()->getDispatcher();
 
         // Include the plugins for the delete events.
-        PluginHelper::importPlugin($this->events_map['delete']);
+        PluginHelper::importPlugin($this->events_map['delete'], null, true, $dispatcher);
 
         // Iterate the items to delete each one.
         foreach ($pks as $i => $pk) {
@@ -836,7 +839,12 @@ abstract class AdminModel extends FormModel
                     $context = $this->option . '.' . $this->name;
 
                     // Trigger the before delete event.
-                    $result = Factory::getApplication()->triggerEvent($this->event_before_delete, [$context, $table]);
+                    $beforeDeleteEvent = new ContentBeforeDeleteEvent($this->event_before_delete, [
+                        'context' => $context,
+                        'subject' => $table,
+                    ]);
+                    $dispatcher->dispatch($this->event_before_delete, $beforeDeleteEvent);
+                    $result = $beforeDeleteEvent['result'] ?? [];
 
                     if (\in_array(false, $result, true)) {
                         $this->setError($table->getError());
@@ -898,7 +906,10 @@ abstract class AdminModel extends FormModel
                     }
 
                     // Trigger the after event.
-                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$context, $table]);
+                    $dispatcher->dispatch($this->event_after_delete, new ContentAfterDeleteEvent($this->event_after_delete, [
+                        'context' => $context,
+                        'subject' => $table,
+                    ]));
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
@@ -1265,7 +1276,7 @@ abstract class AdminModel extends FormModel
                 'data'    => $data,
             ]);
             $dispatcher->dispatch($this->event_before_save, $beforeSaveEvent);
-            $result = $beforeSaveEvent['result'];
+            $result = $beforeSaveEvent['result'] ?? [];
 
             if (\in_array(false, $result, true)) {
                 $this->setError($table->getError());
