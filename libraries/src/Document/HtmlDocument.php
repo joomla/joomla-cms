@@ -814,7 +814,9 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     /**
      * Returns the toolbar array
      *
-     * @return array
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
      */
     public function getToolbars(): array
     {
