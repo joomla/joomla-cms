@@ -10,8 +10,10 @@
 namespace Joomla\CMS\MVC\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Content\ContentAfterChangeStateEvent;
 use Joomla\CMS\Event\Content\ContentAfterDeleteEvent;
 use Joomla\CMS\Event\Content\ContentAfterSaveEvent;
+use Joomla\CMS\Event\Content\ContentBeforeChangeStateEvent;
 use Joomla\CMS\Event\Content\ContentBeforeDeleteEvent;
 use Joomla\CMS\Event\Content\ContentBeforeSaveEvent;
 use Joomla\CMS\Event\Model\BeforeBatchEvent;
@@ -1076,10 +1078,11 @@ abstract class AdminModel extends FormModel
         $table = $this->getTable();
         $pks   = (array) $pks;
 
-        $context = $this->option . '.' . $this->name;
+        $context    = $this->option . '.' . $this->name;
+        $dispatcher = $this->getDispatcher() ?: Factory::getApplication()->getDispatcher();
 
         // Include the plugins for the change of state event.
-        PluginHelper::importPlugin($this->events_map['change_state']);
+        PluginHelper::importPlugin($this->events_map['change_state'], null, true, $dispatcher);
 
         // Access checks.
         foreach ($pks as $i => $pk) {
@@ -1123,7 +1126,13 @@ abstract class AdminModel extends FormModel
         }
 
         // Trigger the before change state event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_change_state, [$context, $pks, $value]);
+        $beforeChngEvent = new ContentBeforeChangeStateEvent($this->event_before_change_state, [
+            'context' => $context,
+            'subject' => $pks,
+            'value'   => $value,
+        ]);
+        $dispatcher->dispatch($this->event_before_change_state, $beforeChngEvent);
+        $result = $beforeChngEvent['result'] ?? [];
 
         if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
@@ -1139,7 +1148,13 @@ abstract class AdminModel extends FormModel
         }
 
         // Trigger the change state event.
-        $result = Factory::getApplication()->triggerEvent($this->event_change_state, [$context, $pks, $value]);
+        $afterChngEvent = new ContentAfterChangeStateEvent($this->event_change_state, [
+            'context' => $context,
+            'subject' => $pks,
+            'value'   => $value,
+        ]);
+        $dispatcher->dispatch($this->event_change_state, $afterChngEvent);
+        $result = $afterChngEvent['result'] ?? [];
 
         if (\in_array(false, $result, true)) {
             $this->setError($table->getError());

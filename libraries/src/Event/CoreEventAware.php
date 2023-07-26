@@ -114,6 +114,8 @@ trait CoreEventAware
         'onContentAfterSave'            => Content\ContentAfterSaveEvent::class,
         'onContentBeforeDelete'         => Content\ContentBeforeDeleteEvent::class,
         'onContentAfterDelete'          => Content\ContentAfterDeleteEvent::class,
+        'onContentBeforeChangeState'    => Content\ContentBeforeChangeStateEvent::class,
+        'onContentChangeState'          => Content\ContentAfterChangeStateEvent::class,
     ];
 
     /**

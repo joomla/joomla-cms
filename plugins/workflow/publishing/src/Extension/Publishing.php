@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\Workflow\Publishing\Extension;
 
+use Joomla\CMS\Event\Content\ContentBeforeChangeStateEvent;
 use Joomla\CMS\Event\Content\ContentBeforeSaveEvent;
 use Joomla\CMS\Event\Table\BeforeStoreEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
@@ -345,17 +346,17 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
     /**
      * Change State of an item. Used to disable state change
      *
-     * @param   EventInterface  $event
+     * @param   ContentBeforeChangeStateEvent  $event
      *
      * @return boolean
      *
      * @throws \Exception
      * @since   4.0.0
      */
-    public function onContentBeforeChangeState(EventInterface $event)
+    public function onContentBeforeChangeState(ContentBeforeChangeStateEvent $event)
     {
-        $context = $event->getArgument('0');
-        $pks     = $event->getArgument('1');
+        $context = $event->getContext();
+        $pks     = $event->getPks();
 
         if (!$this->isSupported($context)) {
             return true;
