@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\Model;
 
+use Joomla\CMS\Event\Content\ContentBeforeValidateDataEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
@@ -192,10 +193,10 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
      */
     public function validate($form, $data, $group = null)
     {
-        // Include the plugins for the delete events.
-        PluginHelper::importPlugin($this->events_map['validate']);
+        $dispatcher = $this->getDispatcher() ?: Factory::getApplication()->getDispatcher();
 
-        $dispatcher = Factory::getContainer()->get('dispatcher');
+        // Include the plugins for the delete events.
+        PluginHelper::importPlugin($this->events_map['validate'], null, true, $dispatcher);
 
         if (!empty($dispatcher->getListeners('onUserBeforeDataValidation'))) {
             @trigger_error(
@@ -204,10 +205,18 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
                 E_USER_DEPRECATED
             );
 
-            Factory::getApplication()->triggerEvent('onUserBeforeDataValidation', [$form, &$data]);
+            //Factory::getApplication()->triggerEvent('onUserBeforeDataValidation', [$form, &$data]);
+            $dispatcher->dispatch('onUserBeforeDataValidation', new ContentBeforeValidateDataEvent('onUserBeforeDataValidation', [
+                'subject' => $form,
+                'data'    => $data,
+            ]));
         }
 
-        Factory::getApplication()->triggerEvent('onContentBeforeValidateData', [$form, &$data]);
+        //Factory::getApplication()->triggerEvent('onContentBeforeValidateData', [$form, &$data]);
+        $dispatcher->dispatch('onContentBeforeValidateData', new ContentBeforeValidateDataEvent('onContentBeforeValidateData', [
+            'subject' => $form,
+            'data'    => $data,
+        ]));
 
         // Filter and validate the form data.
         $return = $form->process($data, $group);
