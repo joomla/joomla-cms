@@ -10,6 +10,7 @@
 namespace Joomla\CMS\MVC\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Content\ContentAfterSaveEvent;
 use Joomla\CMS\Event\Content\ContentBeforeSaveEvent;
 use Joomla\CMS\Event\Model\BeforeBatchEvent;
 use Joomla\CMS\Factory;
@@ -1283,7 +1284,12 @@ abstract class AdminModel extends FormModel
             $this->cleanCache();
 
             // Trigger the after save event.
-            $app->triggerEvent($this->event_after_save, [$context, $table, $isNew, $data]);
+            $dispatcher->dispatch($this->event_after_save, new ContentAfterSaveEvent($this->event_after_save, [
+                'context' => $context,
+                'subject' => $table,
+                'isNew'   => $isNew,
+                'data'    => $data,
+            ]));
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
 
