@@ -279,6 +279,15 @@ class ExtensionHelper
         ['plugin', 'blog', 'sampledata', 0],
         ['plugin', 'multilang', 'sampledata', 0],
 
+        // Core plugin extensions - schemaorg
+        ['plugin', 'blogposting', 'schemaorg', 0],
+        ['plugin', 'book', 'schemaorg', 0],
+        ['plugin', 'event', 'schemaorg', 0],
+        ['plugin', 'jobposting', 'schemaorg', 0],
+        ['plugin', 'organization', 'schemaorg', 0],
+        ['plugin', 'person', 'schemaorg', 0],
+        ['plugin', 'recipe', 'schemaorg', 0],
+
         // Core plugin extensions - system
         ['plugin', 'accessibility', 'system', 0],
         ['plugin', 'actionlogs', 'system', 0],
@@ -299,6 +308,7 @@ class ExtensionHelper
         ['plugin', 'redirect', 'system', 0],
         ['plugin', 'remember', 'system', 0],
         ['plugin', 'schedulerunner', 'system', 0],
+        ['plugin', 'schemaorg', 'system', 0],
         ['plugin', 'sef', 'system', 0],
         ['plugin', 'sessiongc', 'system', 0],
         ['plugin', 'shortcut', 'system', 0],
