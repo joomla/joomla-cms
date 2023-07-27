@@ -19,7 +19,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\UCM\UCMType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -60,26 +60,26 @@ class CategoryFeedView extends AbstractView
     {
         $app      = Factory::getApplication();
 
-        $extension      = $app->input->getString('option');
-        $contentType = $extension . '.' . $this->viewName;
+        $extension      = $app->getInput()->getString('option');
+        $contentType    = $extension . '.' . $this->viewName;
 
-        $ucmType = new UCMType();
-        $ucmRow = $ucmType->getTypeByAlias($contentType);
+        $ucmType      = new UCMType();
+        $ucmRow       = $ucmType->getTypeByAlias($contentType);
         $ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
         $createdField = null;
-        $titleField = null;
+        $titleField   = null;
 
         if (\is_object($ucmMapCommon)) {
             $createdField = $ucmMapCommon->core_created_time;
-            $titleField = $ucmMapCommon->core_title;
+            $titleField   = $ucmMapCommon->core_title;
         } elseif (\is_array($ucmMapCommon)) {
             $createdField = $ucmMapCommon[0]->core_created_time;
-            $titleField = $ucmMapCommon[0]->core_title;
+            $titleField   = $ucmMapCommon[0]->core_title;
         }
 
         $this->getDocument()->link = Route::_(RouteHelper::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
 
-        $app->input->set('limit', $app->get('feed_limit'));
+        $app->getInput()->set('limit', $app->get('feed_limit'));
         $siteEmail        = $app->get('mailfrom');
         $fromName         = $app->get('fromname');
         $feedEmail        = $app->get('feed_email', 'none');
@@ -103,7 +103,7 @@ class CategoryFeedView extends AbstractView
 
             // Strip html from feed item title
             if ($titleField) {
-                $title = htmlspecialchars($item->$titleField, ENT_QUOTES, 'UTF-8');
+                $title = $this->escape($item->$titleField);
                 $title = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
             } else {
                 $title = '';

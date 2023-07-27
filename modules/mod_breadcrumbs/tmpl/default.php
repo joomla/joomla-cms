@@ -71,6 +71,7 @@ use Joomla\CMS\WebAsset\WebAssetManager;
     $data = [
             '@context'        => 'https://schema.org',
             '@type'           => 'BreadcrumbList',
+            '@id'             => Uri::root() . '#/schema/BreadcrumbList/' . (int) $module->id,
             'itemListElement' => []
     ];
 

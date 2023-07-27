@@ -19,7 +19,7 @@ use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -69,31 +69,31 @@ class SiteRouter extends Router
 
         // Add core rules
         if ($this->app->get('force_ssl') === 2) {
-            $this->attachParseRule(array($this, 'parseCheckSSL'), self::PROCESS_BEFORE);
+            $this->attachParseRule([$this, 'parseCheckSSL'], self::PROCESS_BEFORE);
         }
 
-        $this->attachParseRule(array($this, 'parseInit'), self::PROCESS_BEFORE);
-        $this->attachBuildRule(array($this, 'buildInit'), self::PROCESS_BEFORE);
-        $this->attachBuildRule(array($this, 'buildComponentPreprocess'), self::PROCESS_BEFORE);
+        $this->attachParseRule([$this, 'parseInit'], self::PROCESS_BEFORE);
+        $this->attachBuildRule([$this, 'buildInit'], self::PROCESS_BEFORE);
+        $this->attachBuildRule([$this, 'buildComponentPreprocess'], self::PROCESS_BEFORE);
 
         if ($this->app->get('sef', 1)) {
             if ($this->app->get('sef_suffix')) {
-                $this->attachParseRule(array($this, 'parseFormat'), self::PROCESS_BEFORE);
-                $this->attachBuildRule(array($this, 'buildFormat'), self::PROCESS_AFTER);
+                $this->attachParseRule([$this, 'parseFormat'], self::PROCESS_BEFORE);
+                $this->attachBuildRule([$this, 'buildFormat'], self::PROCESS_AFTER);
             }
 
-            $this->attachParseRule(array($this, 'parseSefRoute'), self::PROCESS_DURING);
-            $this->attachBuildRule(array($this, 'buildSefRoute'), self::PROCESS_DURING);
-            $this->attachParseRule(array($this, 'parsePaginationData'), self::PROCESS_AFTER);
-            $this->attachBuildRule(array($this, 'buildPaginationData'), self::PROCESS_AFTER);
+            $this->attachParseRule([$this, 'parseSefRoute'], self::PROCESS_DURING);
+            $this->attachBuildRule([$this, 'buildSefRoute'], self::PROCESS_DURING);
+            $this->attachParseRule([$this, 'parsePaginationData'], self::PROCESS_AFTER);
+            $this->attachBuildRule([$this, 'buildPaginationData'], self::PROCESS_AFTER);
 
             if ($this->app->get('sef_rewrite')) {
-                $this->attachBuildRule(array($this, 'buildRewrite'), self::PROCESS_AFTER);
+                $this->attachBuildRule([$this, 'buildRewrite'], self::PROCESS_AFTER);
             }
         }
 
-        $this->attachParseRule(array($this, 'parseRawRoute'), self::PROCESS_DURING);
-        $this->attachBuildRule(array($this, 'buildBase'), self::PROCESS_AFTER);
+        $this->attachParseRule([$this, 'parseRawRoute'], self::PROCESS_DURING);
+        $this->attachBuildRule([$this, 'buildBase'], self::PROCESS_AFTER);
     }
 
     /**
@@ -215,7 +215,7 @@ class SiteRouter extends Router
             // Get menu items.
             $items    = $this->menu->getItems(['parent_id', 'access'], [1, null]);
             $lang_tag = $this->app->getLanguage()->getTag();
-            $found   = null;
+            $found    = null;
 
             foreach ($segments as $segment) {
                 $matched = false;
@@ -227,9 +227,9 @@ class SiteRouter extends Router
                         || ($item->language === '*'
                         || $item->language === $lang_tag))
                     ) {
-                        $found = $item;
+                        $found   = $item;
                         $matched = true;
-                        $items = $item->getChildren();
+                        $items   = $item->getChildren();
                         break;
                     }
                 }
@@ -283,7 +283,7 @@ class SiteRouter extends Router
             if (\count($segments)) {
                 // Handle component route
                 $component = preg_replace('/[^A-Z0-9_\.-]/i', '', $uri->getVar('option'));
-                $crouter = $this->getComponentRouter($component);
+                $crouter   = $this->getComponentRouter($component);
                 $uri->setQuery(array_merge($uri->getQuery(true), $crouter->parse($segments)));
             }
 
@@ -407,7 +407,10 @@ class SiteRouter extends Router
         ) {
             // Get the active menu item
             $item = $this->menu->getItem($query['Itemid']);
-            $query = array_merge($item->query, $query);
+
+            if ($item !== null) {
+                $query = array_merge($item->query, $query);
+            }
         }
 
         $uri->setQuery($query);

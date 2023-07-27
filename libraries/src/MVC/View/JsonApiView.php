@@ -121,9 +121,9 @@ abstract class JsonApiView extends JsonView
         $model = $this->getModel();
 
         // Get page query
-        $currentUrl = Uri::getInstance();
+        $currentUrl                    = Uri::getInstance();
         $currentPageDefaultInformation = ['offset' => 0, 'limit' => 20];
-        $currentPageQuery = $currentUrl->getVar('page', $currentPageDefaultInformation);
+        $currentPageQuery              = $currentUrl->getVar('page', $currentPageDefaultInformation);
 
         if ($items === null) {
             $items = [];
@@ -147,40 +147,40 @@ abstract class JsonApiView extends JsonView
         // Set up links for pagination
         $totalItemsCount = ($pagination->pagesTotal * $pagination->limit);
 
-        $this->document->addMeta('total-pages', $pagination->pagesTotal)
+        $this->getDocument()->addMeta('total-pages', $pagination->pagesTotal)
             ->addLink('self', (string) $currentUrl);
 
         // Check for first and previous pages
         if ($pagination->limitstart > 0) {
-            $firstPage = clone $currentUrl;
-            $firstPageQuery = $currentPageQuery;
+            $firstPage                = clone $currentUrl;
+            $firstPageQuery           = $currentPageQuery;
             $firstPageQuery['offset'] = 0;
             $firstPage->setVar('page', $firstPageQuery);
 
-            $previousPage = clone $currentUrl;
-            $previousPageQuery = $currentPageQuery;
-            $previousOffset = $currentPageQuery['offset'] - $pagination->limit;
+            $previousPage                = clone $currentUrl;
+            $previousPageQuery           = $currentPageQuery;
+            $previousOffset              = $currentPageQuery['offset'] - $pagination->limit;
             $previousPageQuery['offset'] = $previousOffset >= 0 ? $previousOffset : 0;
             $previousPage->setVar('page', $previousPageQuery);
 
-            $this->document->addLink('first', $this->queryEncode((string) $firstPage))
+            $this->getDocument()->addLink('first', $this->queryEncode((string) $firstPage))
                 ->addLink('previous', $this->queryEncode((string) $previousPage));
         }
 
         // Check for next and last pages
         if ($pagination->limitstart + $pagination->limit < $totalItemsCount) {
-            $nextPage = clone $currentUrl;
-            $nextPageQuery = $currentPageQuery;
-            $nextOffset = $currentPageQuery['offset'] + $pagination->limit;
+            $nextPage                = clone $currentUrl;
+            $nextPageQuery           = $currentPageQuery;
+            $nextOffset              = $currentPageQuery['offset'] + $pagination->limit;
             $nextPageQuery['offset'] = ($nextOffset > ($pagination->pagesTotal * $pagination->limit)) ? $pagination->pagesTotal - $pagination->limit : $nextOffset;
             $nextPage->setVar('page', $nextPageQuery);
 
-            $lastPage = clone $currentUrl;
-            $lastPageQuery = $currentPageQuery;
+            $lastPage                = clone $currentUrl;
+            $lastPageQuery           = $currentPageQuery;
             $lastPageQuery['offset'] = ($pagination->pagesTotal - 1) * $pagination->limit;
             $lastPage->setVar('page', $lastPageQuery);
 
-            $this->document->addLink('next', $this->queryEncode((string) $nextPage))
+            $this->getDocument()->addLink('next', $this->queryEncode((string) $nextPage))
                 ->addLink('last', $this->queryEncode((string) $lastPage));
         }
 
@@ -198,9 +198,9 @@ abstract class JsonApiView extends JsonView
         }
 
         // Set the data into the document and render it
-        $this->document->setData($collection);
+        $this->getDocument()->setData($collection);
 
-        return $this->document->render();
+        return $this->getDocument()->render();
     }
 
     /**
@@ -234,10 +234,10 @@ abstract class JsonApiView extends JsonView
         }
 
         $eventData = [
-            'type' => OnGetApiFields::ITEM,
-            'fields' => $this->fieldsToRenderItem,
+            'type'      => OnGetApiFields::ITEM,
+            'fields'    => $this->fieldsToRenderItem,
             'relations' => $this->relationship,
-            'context' => $this->type,
+            'context'   => $this->type,
         ];
         $event     = new OnGetApiFields('onApiGetFields', $eventData);
 
@@ -251,10 +251,10 @@ abstract class JsonApiView extends JsonView
             $element->with($eventResult->getAllRelationsToRender());
         }
 
-        $this->document->setData($element);
-        $this->document->addLink('self', Uri::current());
+        $this->getDocument()->setData($element);
+        $this->getDocument()->addLink('self', Uri::current());
 
-        return $this->document->render();
+        return $this->getDocument()->render();
     }
 
     /**
@@ -282,6 +282,6 @@ abstract class JsonApiView extends JsonView
      */
     protected function queryEncode($query)
     {
-        return str_replace(array('[', ']'), array('%5B', '%5D'), $query);
+        return str_replace(['[', ']'], ['%5B', '%5D'], $query);
     }
 }

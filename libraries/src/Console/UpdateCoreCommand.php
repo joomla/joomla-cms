@@ -10,18 +10,18 @@
 namespace Joomla\CMS\Console;
 
 use Joomla\Application\Cli\CliInput;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Filesystem\File;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -129,7 +129,7 @@ class UpdateCoreCommand extends AbstractCommand
         $this->progressBar->setFormat('custom');
 
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
+        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 
     /**
@@ -224,6 +224,13 @@ class UpdateCoreCommand extends AbstractCommand
                 $this->progressBar->advance();
                 $this->progressBar->setMessage("Cleaning up ...");
 
+                // Remove the administrator/cache/autoload_psr4.php file
+                $autoloadFile = JPATH_CACHE . '/autoload_psr4.php';
+
+                if (file_exists($autoloadFile)) {
+                    File::delete($autoloadFile);
+                }
+
                 // Remove the xml
                 if (file_exists(JPATH_BASE . '/joomla.xml')) {
                     File::delete(JPATH_BASE . '/joomla.xml');
@@ -281,7 +288,7 @@ class UpdateCoreCommand extends AbstractCommand
      */
     public function setUpdateModel(): void
     {
-        $app = $this->getApplication();
+        $app         = $this->getApplication();
         $updatemodel = $app->bootComponent('com_joomlaupdate')->getMVCFactory($app)->createModel('Update', 'Administrator');
 
         if (is_bool($updatemodel)) {
@@ -315,7 +322,7 @@ class UpdateCoreCommand extends AbstractCommand
         $this->progressBar->setMessage("Downloading update package ...");
         $file = $this->downloadFile($updateInformation['object']->downloadurl->_data);
 
-        $tmpPath    = $this->getApplication()->get('tmp_path');
+        $tmpPath       = $this->getApplication()->get('tmp_path');
         $updatePackage = $tmpPath . '/' . $file;
 
         $this->progressBar->advance();

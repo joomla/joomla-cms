@@ -19,7 +19,7 @@ use Joomla\CMS\Table\TableInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -40,7 +40,7 @@ class CMSHelper
      */
     public function getCurrentLanguage($detectBrowser = true)
     {
-        $app = Factory::getApplication();
+        $app      = Factory::getApplication();
         $langCode = null;
 
         // Get the languagefilter parameters
@@ -49,7 +49,7 @@ class CMSHelper
             $pluginParams = new Registry($plugin->params);
 
             if ((int) $pluginParams->get('lang_cookie', 1) === 1) {
-                $langCode = $app->input->cookie->getString(ApplicationHelper::getHash('language'));
+                $langCode = $app->getInput()->cookie->getString(ApplicationHelper::getHash('language'));
             } else {
                 $langCode = $app->getSession()->get('plg_system_languagefilter.language');
             }
@@ -101,11 +101,11 @@ class CMSHelper
     public function getRowData(TableInterface $table)
     {
         $fields = $table->getFields();
-        $data = array();
+        $data   = [];
 
         foreach ($fields as &$field) {
-            $columnName = $field->Field;
-            $value = $table->$columnName;
+            $columnName        = $field->Field;
+            $value             = $table->$columnName;
             $data[$columnName] = $value;
         }
 
@@ -123,12 +123,12 @@ class CMSHelper
      */
     public function getDataObject(TableInterface $table)
     {
-        $fields = $table->getFields();
+        $fields     = $table->getFields();
         $dataObject = new \stdClass();
 
         foreach ($fields as $field) {
-            $fieldName = $field->Field;
-            $dataObject->$fieldName = $table->get($fieldName);
+            $fieldName              = $field->Field;
+            $dataObject->$fieldName = $table->$fieldName ?? null;
         }
 
         return $dataObject;

@@ -37,7 +37,7 @@ class CheckfilesPluginTest extends UnitTestCase
      *
      * @var string
      *
-     * @since 5.0.0
+     * @since 4.3.0
      */
     private $tmpFolder;
 
@@ -102,7 +102,7 @@ class CheckfilesPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params' => (object)['path' => '/', 'dimension' => 'width', 'limit' => 20, 'numImages' => 1]
+                'params'  => (object)['path' => '/', 'dimension' => 'width', 'limit' => 20, 'numImages' => 1],
             ]
         );
         $plugin->standardRoutineHandler($event);
@@ -141,7 +141,7 @@ class CheckfilesPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params' => (object)['path' => '/', 'dimension' => 'width', 'limit' => 20, 'numImages' => 1]
+                'params'  => (object)['path' => '/', 'dimension' => 'width', 'limit' => 20, 'numImages' => 1],
             ]
         );
         $plugin->standardRoutineHandler($event);
@@ -182,7 +182,7 @@ class CheckfilesPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params' => (object)['path' => '/', 'dimension' => 'width', 'limit' => 2000, 'numImages' => 1]
+                'params'  => (object)['path' => '/', 'dimension' => 'width', 'limit' => 2000, 'numImages' => 1],
             ]
         );
         $plugin->standardRoutineHandler($event);
@@ -219,7 +219,7 @@ class CheckfilesPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params' => (object)['path' => '/invalid', 'dimension' => 'width', 'limit' => 20, 'numImages' => 1]
+                'params'  => (object)['path' => '/invalid', 'dimension' => 'width', 'limit' => 20, 'numImages' => 1],
             ]
         );
         $plugin->standardRoutineHandler($event);

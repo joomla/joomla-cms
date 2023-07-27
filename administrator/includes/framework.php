@@ -22,7 +22,11 @@ if (
     || (file_exists(JPATH_INSTALLATION . '/index.php') && (false === (new Version())->isInDevelopmentState()))
 ) {
     if (file_exists(JPATH_INSTALLATION . '/index.php')) {
-        header('Location: ../installation/index.php');
+        if (JPATH_ROOT === JPATH_PUBLIC) {
+            header('Location: ../installation/index.php');
+        } else {
+            echo 'Installation from a public folder is not supported, revert your Server configuration to point at the Joomla\'s root folder to continue.';
+        }
 
         exit();
     } else {
@@ -88,7 +92,7 @@ if (JDEBUG || $config->error_reporting === 'maximum') {
     $errorHandler->setExceptionHandler(
         [
             new \Symfony\Component\ErrorHandler\ErrorHandler(null, true),
-            'renderException'
+            'renderException',
         ]
     );
 }

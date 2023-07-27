@@ -53,6 +53,10 @@ window.customElements.define('joomla-hidden-mail', class extends HTMLElement {
       this.newElement.innerText = `${window.atob(this.getAttribute('first'))}@${window.atob(this.getAttribute('last'))}`;
     }
 
+    // Remove class and style Attributes
+    this.removeAttribute('class');
+    this.removeAttribute('style');
+
     // Remove the noscript message
     this.innerText = '';
 

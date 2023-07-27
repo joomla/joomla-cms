@@ -18,8 +18,7 @@ use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Multifactorauth\Yubikey\Extension\Yubikey;
 
-return new class implements ServiceProviderInterface
-{
+return new class () implements ServiceProviderInterface {
     /**
      * Registers the service provider with a DI container.
      *
@@ -34,10 +33,7 @@ return new class implements ServiceProviderInterface
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $config  = (array) PluginHelper::getPlugin('multifactorauth', 'yubikey');
-                $subject = $container->get(DispatcherInterface::class);
-
-                $plugin = new Yubikey($subject, $config);
+                $plugin = new Yubikey($container->get(DispatcherInterface::class), (array) PluginHelper::getPlugin('multifactorauth', 'yubikey'));
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;

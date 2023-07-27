@@ -15,7 +15,7 @@ use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -52,7 +52,7 @@ class FolderlistField extends ListField
     /**
      * The recursive.
      *
-     * @var    string
+     * @var    bool
      * @since  3.6
      */
     protected $recursive;
@@ -127,7 +127,7 @@ class FolderlistField extends ListField
 
             case 'hideNone':
             case 'hideDefault':
-                $value = (string) $value;
+                $value       = (string) $value;
                 $this->$name = ($value === 'true' || $value === $name || $value === '1');
                 break;
 
@@ -177,13 +177,13 @@ class FolderlistField extends ListField
     /**
      * Method to get the field options.
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   1.7.0
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         $path = $this->directory;
 

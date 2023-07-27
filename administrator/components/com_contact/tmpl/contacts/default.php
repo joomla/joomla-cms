@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
@@ -24,7 +23,7 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
-$user      = Factory::getUser();
+$user      = $this->getCurrentUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -40,7 +39,7 @@ if ($saveOrder && !empty($this->items)) {
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
                         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -185,18 +184,19 @@ if ($saveOrder && !empty($this->items)) {
                     <?php echo $this->pagination->getListFooter(); ?>
 
                     <?php // Load the batch processing form. ?>
-                    <?php if (
-                    $user->authorise('core.create', 'com_contact')
+                    <?php
+                    if (
+                        $user->authorise('core.create', 'com_contact')
                         && $user->authorise('core.edit', 'com_contact')
                         && $user->authorise('core.edit.state', 'com_contact')
-) : ?>
+                    ) : ?>
                         <?php echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'collapseModal',
-                            array(
+                            [
                                 'title'  => Text::_('COM_CONTACT_BATCH_OPTIONS'),
                                 'footer' => $this->loadTemplate('batch_footer'),
-                            ),
+                            ],
                             $this->loadTemplate('batch_body')
                         ); ?>
                     <?php endif; ?>

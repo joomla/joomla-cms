@@ -15,7 +15,6 @@
 define('_JEXEC', 1);
 
 // Maximise error reporting.
-ini_set('zend.ze1_compatibility_mode', '0');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -36,6 +35,13 @@ if (!defined('JPATH_ROOT')) {
     define('JPATH_ROOT', JPATH_BASE);
 }
 
+if (!defined('JPATH_PUBLIC')) {
+    define('JPATH_PUBLIC', JPATH_ROOT);
+}
+
+/**
+ * @deprecated 4.4.0 will be removed in 6.0
+ **/
 if (!defined('JPATH_PLATFORM')) {
     define('JPATH_PLATFORM', JPATH_BASE . DIRECTORY_SEPARATOR . 'libraries');
 }
@@ -86,7 +92,7 @@ if (!defined('JDEBUG')) {
 
 // Import the library loader if necessary.
 if (!class_exists('JLoader')) {
-    require_once JPATH_PLATFORM . '/loader.php';
+    require_once JPATH_LIBRARIES . '/loader.php';
 
     // If JLoader still does not exist panic.
     if (!class_exists('JLoader')) {
@@ -108,9 +114,6 @@ $loader->unregister();
 
 // Decorate Composer autoloader
 spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
-
-// Register the class aliases for Framework classes that have replaced their Platform equivalents
-require_once JPATH_LIBRARIES . '/classmap.php';
 
 // Load extension classes
 require_once JPATH_LIBRARIES . '/namespacemap.php';

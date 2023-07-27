@@ -20,16 +20,16 @@ use Joomla\CMS\Component\Router\RouterServiceInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\Dispatcher\LegacyComponentDispatcher;
 use Joomla\CMS\Fields\FieldsServiceInterface;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Tag\TagServiceInterface;
 use Joomla\CMS\Tag\TagServiceTrait;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -143,7 +143,7 @@ class LegacyComponent implements
     {
         $helper = $this->loadHelper();
 
-        if (!$helper || !\is_callable(array($helper, 'countItems'))) {
+        if (!$helper || !\is_callable([$helper, 'countItems'])) {
             return;
         }
 
@@ -165,7 +165,7 @@ class LegacyComponent implements
     {
         $helper = $this->loadHelper();
 
-        if (!$helper || !\is_callable(array($helper, 'countTagItems'))) {
+        if (!$helper || !\is_callable([$helper, 'countTagItems'])) {
             return;
         }
 
@@ -187,7 +187,7 @@ class LegacyComponent implements
     {
         $helper = $this->loadHelper();
 
-        if (!$helper || !\is_callable(array($helper, 'validateSection'))) {
+        if (!$helper || !\is_callable([$helper, 'validateSection'])) {
             return $section;
         }
 
@@ -205,7 +205,7 @@ class LegacyComponent implements
     {
         $helper = $this->loadHelper();
 
-        if (!$helper || !\is_callable(array($helper, 'getContexts'))) {
+        if (!$helper || !\is_callable([$helper, 'getContexts'])) {
             return [];
         }
 
@@ -225,7 +225,7 @@ class LegacyComponent implements
     public function createRouter(CMSApplicationInterface $application, AbstractMenu $menu): RouterInterface
     {
         $compname = ucfirst($this->component);
-        $class = $compname . 'Router';
+        $class    = $compname . 'Router';
 
         if (!class_exists($class)) {
             // Use the component routing handler if it exists

@@ -34,7 +34,7 @@ use Joomla\CMS\Language\Text;
             $label = $label ?: $link;
             ?>
             <li>
-                <a href="<?php echo $link; ?>" itemprop="url" rel="noopener noreferrer">
+                <a href="<?php echo $link; ?>" rel="noopener noreferrer">
                     <?php echo $label; ?>
                 </a>
             </li>

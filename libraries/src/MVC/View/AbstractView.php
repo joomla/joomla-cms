@@ -14,15 +14,18 @@ use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\DocumentAwareInterface;
 use Joomla\CMS\Document\DocumentAwareTrait;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Language\LanguageAwareInterface;
+use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\EventInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -32,10 +35,16 @@ use Joomla\Event\EventInterface;
  *
  * @since  2.5.5
  */
-abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, DocumentAwareInterface
+#[\AllowDynamicProperties]
+abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, DocumentAwareInterface, LanguageAwareInterface
 {
     use DispatcherAwareTrait;
     use DocumentAwareTrait;
+    use LanguageAwareTrait;
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait {
+        get as private legacyGet;
+    }
 
     /**
      * The URL option for the component. It is usually passed by controller while it creates the view
@@ -48,7 +57,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
     /**
      * The name of the view
      *
-     * @var    array
+     * @var    string
      * @since  3.0
      */
     protected $_name = null;
@@ -59,7 +68,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      * @var    array
      * @since  3.0
      */
-    protected $_models = array();
+    protected $_models = [];
 
     /**
      * The default model
@@ -76,7 +85,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      *
      * @since   3.0
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
     }
 
@@ -122,12 +131,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
             }
         }
 
-        if (isset($this->{$property})) {
-            @trigger_error("Class properties should be retrieved directly through \$this->$property in version 6.0", E_USER_DEPRECATED);
-            return $this->{$property};
-        }
-
-        return $default;
+        return $this->legacyGet($property, $default);
     }
 
     /**
@@ -164,7 +168,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      */
     public function setModel($model, $default = false)
     {
-        $name = strtolower($model->getName());
+        $name                 = strtolower($model->getName());
         $this->_models[$name] = $model;
 
         if ($default) {
@@ -206,7 +210,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
             }
 
             if (empty($this->_name)) {
-                throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
+                throw new \Exception(sprintf($this->text('JLIB_APPLICATION_ERROR_GET_NAME'), __METHOD__), 500);
             }
         }
 
@@ -318,5 +322,23 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
         }
 
         return $result;
+    }
+
+    /**
+     * Returns the string for the given key from the internal language object.
+     *
+     * @param   string  $key  The key
+     *
+     * @return  string
+     *
+     * @since   4.4.0
+     */
+    protected function text(string $key): string
+    {
+        try {
+            return $this->getLanguage()->_($key);
+        } catch (\UnexpectedValueException $e) {
+            return Factory::getApplication()->getLanguage()->_($key);
+        }
     }
 }

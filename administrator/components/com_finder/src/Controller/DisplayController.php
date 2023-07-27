@@ -46,10 +46,10 @@ class DisplayController extends BaseController
      *
      * @since   2.5
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
-        $view   = $this->input->get('view', 'index', 'word');
-        $layout = $this->input->get('layout', 'index', 'word');
+        $view     = $this->input->get('view', 'index', 'word');
+        $layout   = $this->input->get('layout', 'index', 'word');
         $filterId = $this->input->get('filter_id', null, 'int');
 
         if ($view === 'index') {
@@ -57,7 +57,7 @@ class DisplayController extends BaseController
 
             if (!$pluginEnabled) {
                 $finderPluginId   = FinderHelper::getFinderPluginId();
-                $link = HTMLHelper::_(
+                $link             = HTMLHelper::_(
                     'link',
                     '#plugin' . $finderPluginId . 'Modal',
                     Text::_('COM_FINDER_CONTENT_PLUGIN'),
@@ -71,7 +71,7 @@ class DisplayController extends BaseController
         if ($view === 'filter' && $layout === 'edit' && !$this->checkEditId('com_finder.edit.filter', $filterId)) {
             // Somehow the person just went to the form - we don't allow that.
             if (!\count($this->app->getMessageQueue())) {
-                $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $f_id), 'error');
+                $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $filterId), 'error');
             }
 
             $this->setRedirect(Route::_('index.php?option=com_finder&view=filters', false));

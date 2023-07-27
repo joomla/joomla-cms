@@ -678,7 +678,7 @@ class ZIPExtraction
 
                         // Update running tallies when we start extracting a file
                         $this->filesProcessed++;
-                        $this->compressedTotal   += array_key_exists('compressed', get_object_vars($this->fileHeader))
+                        $this->compressedTotal += array_key_exists('compressed', get_object_vars($this->fileHeader))
                             ? $this->fileHeader->compressed : 0;
                         $this->uncompressedTotal += $this->fileHeader->uncompressed;
                     }
@@ -1357,8 +1357,8 @@ class ZIPExtraction
             $toReadBytes     = min($leftBytes, self::CHUNK_SIZE);
             $mydata          = $this->fread($this->fp, $toReadBytes);
             $reallyReadBytes = $this->binStringLength($mydata);
-            $data            .= $mydata;
-            $leftBytes       -= $reallyReadBytes;
+            $data .= $mydata;
+            $leftBytes -= $reallyReadBytes;
 
             if ($reallyReadBytes < $toReadBytes) {
                 // We read less than requested!
@@ -1443,7 +1443,7 @@ class ZIPExtraction
             $toReadBytes          = min($leftBytes, self::CHUNK_SIZE);
             $data                 = $this->fread($this->fp, $toReadBytes);
             $reallyReadBytes      = $this->binStringLength($data);
-            $leftBytes            -= $reallyReadBytes;
+            $leftBytes -= $reallyReadBytes;
             $this->dataReadLength += $reallyReadBytes;
 
             if ($reallyReadBytes < $toReadBytes) {
@@ -1714,7 +1714,7 @@ function clearFileInOPCache(string $file): bool
  * @return  boolean  True if the two strings are identical.
  * @since   4.0.4
  *
- * @see     http://blog.ircmaxell.com/2014/11/its-all-about-time.html
+ * @link    http://blog.ircmaxell.com/2014/11/its-all-about-time.html
  */
 function timingSafeEquals($known, $user)
 {
@@ -1879,7 +1879,6 @@ if ($enabled) {
     $engine->setFilename($sourceFile);
     $engine->setAddPath($destDir);
     $skipFiles = [
-        'administrator/components/com_joomlaupdate/restoration.php',
         'administrator/components/com_joomlaupdate/update.php',
     ];
 
@@ -1908,7 +1907,7 @@ if ($enabled) {
                 $retArray['files']    = $engine->filesProcessed;
                 $retArray['bytesIn']  = $engine->compressedTotal;
                 $retArray['bytesOut'] = $engine->uncompressedTotal;
-                $retArray['percent']  = 100;
+                $retArray['percent']  = 80;
                 $retArray['status']   = true;
                 $retArray['done']     = true;
 
@@ -1917,7 +1916,7 @@ if ($enabled) {
                 $retArray['files']    = $engine->filesProcessed;
                 $retArray['bytesIn']  = $engine->compressedTotal;
                 $retArray['bytesOut'] = $engine->uncompressedTotal;
-                $retArray['percent']  = ($engine->totalSize > 0) ? (100 * $engine->compressedTotal / $engine->totalSize) : 0;
+                $retArray['percent']  = ($engine->totalSize > 0) ? (80 * $engine->compressedTotal / $engine->totalSize) : 0;
                 $retArray['status']   = true;
                 $retArray['done']     = false;
                 $retArray['instance'] = ZIPExtraction::getSerialised();

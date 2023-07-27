@@ -15,7 +15,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -36,7 +36,7 @@ class ModuleRenderer extends DocumentRenderer
      *
      * @since   3.5
      */
-    public function render($module, $attribs = array(), $content = null)
+    public function render($module, $attribs = [], $content = null)
     {
         if (!\is_object($module)) {
             $title = $attribs['title'] ?? null;
@@ -52,12 +52,12 @@ class ModuleRenderer extends DocumentRenderer
                  * If module isn't found in the database but data has been pushed in the buffer
                  * we want to render it
                  */
-                $tmp = $module;
-                $module = new \stdClass();
+                $tmp            = $module;
+                $module         = new \stdClass();
                 $module->params = null;
                 $module->module = $tmp;
-                $module->id = 0;
-                $module->user = 0;
+                $module->id     = 0;
+                $module->user   = 0;
             }
         }
 
@@ -73,7 +73,7 @@ class ModuleRenderer extends DocumentRenderer
         if (isset($attribs['params'])) {
             $template_params = new Registry(html_entity_decode($attribs['params'], ENT_COMPAT, 'UTF-8'));
             $params->merge($template_params);
-            $module = clone $module;
+            $module         = clone $module;
             $module->params = (string) $params;
         }
 
@@ -82,15 +82,15 @@ class ModuleRenderer extends DocumentRenderer
 
         if ($params->get('cache', 0) == 1 && Factory::getApplication()->get('caching') >= 1 && $cachemode !== 'id' && $cachemode !== 'safeuri') {
             // Default to itemid creating method and workarounds on
-            $cacheparams = new \stdClass();
-            $cacheparams->cachemode = $cachemode;
-            $cacheparams->class = ModuleHelper::class;
-            $cacheparams->method = 'renderModule';
-            $cacheparams->methodparams = array($module, $attribs);
-            $cacheparams->cachesuffix = $attribs['contentOnly'] ?? false;
+            $cacheparams               = new \stdClass();
+            $cacheparams->cachemode    = $cachemode;
+            $cacheparams->class        = ModuleHelper::class;
+            $cacheparams->method       = 'renderModule';
+            $cacheparams->methodparams = [$module, $attribs];
+            $cacheparams->cachesuffix  = $attribs['contentOnly'] ?? false;
 
             // It need to be done here because the cache controller does not keep reference to the module object
-            $module->content = ModuleHelper::moduleCache($module, $params, $cacheparams);
+            $module->content         = ModuleHelper::moduleCache($module, $params, $cacheparams);
             $module->contentRendered = true;
 
             return $module->content;
