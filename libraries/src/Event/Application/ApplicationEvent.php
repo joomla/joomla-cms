@@ -19,7 +19,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 /**
  * Class for Application events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 abstract class ApplicationEvent extends AbstractImmutableEvent
 {
@@ -31,7 +31,7 @@ abstract class ApplicationEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -49,7 +49,7 @@ abstract class ApplicationEvent extends AbstractImmutableEvent
      *
      * @return  AbstractApplication
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     final protected function setSubject(AbstractApplication $value): AbstractApplication
     {
@@ -61,7 +61,7 @@ abstract class ApplicationEvent extends AbstractImmutableEvent
      *
      * @return  AbstractApplication
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     final public function getApplication(): AbstractApplication
     {
