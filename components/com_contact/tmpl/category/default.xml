@@ -630,7 +630,7 @@
 			<field
 				name="show_articles_introimage"
 				type="list"
-				label="COM_CONTACT_FIELD_ARTICLES_INTROIMAGE_SHOW_LABEL"
+				label="COM_CONTACT_FIELD_ARTICLES_SHOW_INTROIMAGE_LABEL"
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"
@@ -642,7 +642,7 @@
 			<field
 				name="show_articles_introtext"
 				type="list"
-				label="COM_CONTACT_FIELD_ARTICLES_INTROTEXT_SHOW_LABEL"
+				label="COM_CONTACT_FIELD_ARTICLES_SHOW_INTROTEXT_LABEL"
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"
