@@ -90,17 +90,6 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 
 // @see administrator/templates/atum/html/layouts/status.php
 $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
-
-$data = ['text' => 'before'];
-$proxyArray = new \Joomla\CMS\Proxy\ArrayProxy($data);
-//$proxyArray['test1'] = 'test--1';
-//$proxyArray['test2'] = 'test--2';
-
-foreach ($proxyArray as $k => $v) {
-    dump([$k, $v]);
-}
-
-dd($data, $proxyArray, count($proxyArray));
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $a11y_font ? ' class="a11y_font"' : ''; ?>>
