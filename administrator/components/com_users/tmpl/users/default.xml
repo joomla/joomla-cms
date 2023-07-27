@@ -5,4 +5,25 @@
 			<![CDATA[COM_USERS_USERS_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
+	<fields name="params">
+		<fieldset name="basic">
+
+			<field
+				name="menu-quicktask"
+				type="radio"
+				label="MOD_MENU_FIELD_SHOWNEW"
+				layout="joomla.form.field.radio.switcher"
+				>
+				<option value="">JHIDE</option>
+				<option value="index.php?option=com_users&amp;task=user.add">JSHOW</option>
+			</field>
+
+			<field
+				name="menu-quicktask-title"
+				type="hidden"
+				default="COM_USERS_MENUS_ADD_USER"
+			/>
+
+		</fieldset>
+	</fields>
 </metadata>

@@ -5,4 +5,25 @@
 			<![CDATA[COM_MESSAGES_MESSAGES_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
+	<fields name="params">
+		<fieldset name="basic">
+
+			<field
+				name="menu-quicktask"
+				type="radio"
+				label="MOD_MENU_FIELD_SHOWNEW"
+				layout="joomla.form.field.radio.switcher"
+				>
+				<option value="">JHIDE</option>
+				<option value="index.php?option=com_messages&amp;task=message.add">JSHOW</option>
+			</field>
+
+			<field
+				name="menu-quicktask-title"
+				type="hidden"
+				default="MOD_MENU_MESSAGING_NEW"
+			/>
+
+		</fieldset>
+	</fields>
 </metadata>

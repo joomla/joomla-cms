@@ -5,4 +5,25 @@
 			<![CDATA[COM_MODULES_MODULES_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
+	<fields name="params">
+		<fieldset name="basic">
+
+			<field
+				name="menu-quicktask"
+				type="radio"
+				label="MOD_MENU_FIELD_SHOWNEW"
+				layout="joomla.form.field.radio.switcher"
+				>
+				<option value="">JHIDE</option>
+				<option value="index.php?option=com_modules&amp;view=select&amp;client_id=0">JSHOW</option>
+			</field>
+
+			<field
+				name="menu-quicktask-title"
+				type="hidden"
+				default="COM_CONTENT_MENUS_NEW_SITE_MODULE"
+			/>
+
+		</fieldset>
+	</fields>
 </metadata>
