@@ -77,7 +77,7 @@ class CategoryFeedView extends AbstractView
             $titleField   = $ucmMapCommon[0]->core_title;
         }
 
-        $this->getDocument()->link = Route::_(RouteHelper::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
+        $this->getDocument()->link = Route::_(RouteHelper::getCategoryRoute($app->getInput()->getInt('id'), $language = 0, $extension));
 
         $app->getInput()->set('limit', $app->get('feed_limit'));
         $siteEmail        = $app->get('mailfrom');
