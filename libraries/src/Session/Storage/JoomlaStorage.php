@@ -41,10 +41,10 @@ class JoomlaStorage extends NativeStorage
     private $forceSSL = false;
 
     /**
-     * The path that domain for the session cookie
+     * The domain to set in the session cookie
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     private $cookieDomain = '';
 
@@ -52,7 +52,7 @@ class JoomlaStorage extends NativeStorage
      * The path to set in the session cookie
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     private $cookiePath = '/';
 
@@ -267,7 +267,7 @@ class JoomlaStorage extends NativeStorage
      *
      * @return  $this
      *
-     * @see     http://php.net/session.configuration
+     * @link    http://php.net/session.configuration
      * @since   4.0.0
      */
     public function setOptions(array $options): NativeStorage

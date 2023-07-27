@@ -874,7 +874,7 @@ class CategoryModel extends AdminModel
         $parentId = (int) ArrayHelper::getValue($parts, 0, 1);
 
         $db        = $this->getDatabase();
-        $extension = Factory::getApplication()->input->get('extension', '', 'word');
+        $extension = Factory::getApplication()->getInput()->get('extension', '', 'word');
         $newIds    = [];
 
         // Check that the parent exists
