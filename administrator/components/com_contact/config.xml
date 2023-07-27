@@ -294,8 +294,8 @@
 		<field
 			name="show_articles_introimage"
 			type="radio"
-			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_ARTICLES_SHOW_INTROIMAGE_LABEL"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			showon="show_articles:1"
 			>
@@ -307,7 +307,7 @@
 			name="show_articles_introtext"
 			type="radio"
 			layout="joomla.form.field.radio.switcher"
-			label="COM_CONTACT_FIELD_ARTICLES_SHOW_INTROTEXT_LABEL"
+			label="COM_CONTACT_FIELD_ARTICLES_INTROTEXT_SHOW_LABEL"
 			default="0"
 			showon="show_articles:1"
 			>
