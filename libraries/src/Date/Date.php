@@ -499,7 +499,7 @@ class Date extends \DateTime
     * @return string
     * @author BohwaZ <https://bohwaz.net/>
     */
-    public static function strftime (string $format, $timestamp = null, ?string $locale = null) : string {
+    public static function strftime(string $format, $timestamp = null, ?string $locale = null) : string {
         if (!($timestamp instanceof DateTimeInterface)) {
             $timestamp = is_int($timestamp) ? '@' . $timestamp : (string) $timestamp;
 
@@ -528,10 +528,10 @@ class Date extends \DateTime
         ];
 
         $intl_formatter = function (DateTimeInterface $timestamp, string $format) use ($intl_formats, $locale) {
-            $tz = $timestamp->getTimezone();
-            $date_type = IntlDateFormatter::FULL;
-            $time_type = IntlDateFormatter::FULL;
-            $pattern = '';
+            $tz         = $timestamp->getTimezone();
+            $date_type  = IntlDateFormatter::FULL;
+            $time_type  = IntlDateFormatter::FULL;
+            $pattern    = '';
 
             switch ($format) {
                 // %c = Preferred date and time stamp based on locale
@@ -583,7 +583,7 @@ class Date extends \DateTime
             },
             '%j' => function ($timestamp) {
                 // Day number in year, 001 to 366
-                return sprintf('%03d', $timestamp->format('z')+1);
+                return sprintf('%03d', $timestamp->format('z') + 1);
             },
             '%u' => 'N',
             '%w' => 'w',
