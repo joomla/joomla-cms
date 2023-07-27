@@ -65,7 +65,7 @@ final class Event extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Cleanup all Book types
+     * Cleanup all Event types
      *
      * @param   Event  $event  The given event
      *

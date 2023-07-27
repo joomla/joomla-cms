@@ -524,7 +524,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
                 }
             }
 
-            // No data, no pary
+            // No data, no play
             if (empty($value)) {
                 continue;
             }

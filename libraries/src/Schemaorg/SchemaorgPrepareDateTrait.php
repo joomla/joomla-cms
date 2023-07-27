@@ -40,7 +40,7 @@ trait SchemaorgPrepareDateTrait
             $newDates = [];
 
             foreach ($date as $d) {
-                $newDates[] = $this->prepareImage($d);
+                $newDates[] = $this->prepareDate($d);
             }
 
             return $newDates;

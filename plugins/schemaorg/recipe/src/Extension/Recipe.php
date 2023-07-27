@@ -65,7 +65,7 @@ final class Recipe extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Cleanup all Book types
+     * Cleanup all Recipe types
      *
      * @param   Event  $event  The given event
      *

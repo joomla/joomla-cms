@@ -63,7 +63,7 @@ final class JobPosting extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Cleanup all BlogPosting types
+     * Cleanup all JobPosting types
      *
      * @param   Event  $event  The given event
      *
