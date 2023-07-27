@@ -12,7 +12,6 @@ namespace Joomla\CMS\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
-
 use DateTime;
 use DateTimeZone;
 use DateTimeInterface;
@@ -521,11 +520,11 @@ class Date extends \DateTime
         $locale = preg_replace('/[^\w-].*$/', '', $locale);
 
         $intl_formats = [
-            '%a' => 'EEE',	// An abbreviated textual representation of the day	Sun through Sat
-            '%A' => 'EEEE',	// A full textual representation of the day	Sunday through Saturday
-            '%b' => 'MMM',	// Abbreviated month name, based on the locale	Jan through Dec
-            '%B' => 'MMMM',	// Full month name, based on the locale	January through December
-            '%h' => 'MMM',	// Abbreviated month name, based on the locale (an alias of %b)	Jan through Dec
+            '%a' => 'EEE',  // An abbreviated textual representation of the day	Sun through Sat
+            '%A' => 'EEEE', // A full textual representation of the day	Sunday through Saturday
+            '%b' => 'MMM',  // Abbreviated month name, based on the locale	Jan through Dec
+            '%B' => 'MMMM', // Full month name, based on the locale	January through December
+            '%h' => 'MMM',  // Abbreviated month name, based on the locale (an alias of %b)	Jan through Dec
         ];
 
         $intl_formatter = function (DateTimeInterface $timestamp, string $format) use ($intl_formats, $locale) {
@@ -540,20 +539,20 @@ class Date extends \DateTime
                 case '%c':
                     $date_type = IntlDateFormatter::LONG;
                     $time_type = IntlDateFormatter::SHORT;
-                break;
+                    break;
 
                 // %x = Preferred date representation based on locale, without the time
                 // Example: 02/05/09 for February 5, 2009
                 case '%x':
                     $date_type = IntlDateFormatter::SHORT;
                     $time_type = IntlDateFormatter::NONE;
-                break;
+                    break;
 
                 // Localized time format
                 case '%X':
                     $date_type = IntlDateFormatter::NONE;
                     $time_type = IntlDateFormatter::MEDIUM;
-                break;
+                    break;
 
                 default:
                     $pattern = $intl_formats[$format];
@@ -652,8 +651,8 @@ class Date extends \DateTime
 
         $out = preg_replace_callback('/(?<!%)%([_#-]?)([a-zA-Z])/', function ($match) use ($translation_table, $timestamp) {
             $prefix = $match[1];
-            $char = $match[2];
-            $pattern = '%'.$char;
+            $char   = $match[2];
+            $pattern = '%' . $char;
             if ($pattern == '%n') {
                 return "\n";
             } elseif ($pattern == '%t') {
@@ -674,12 +673,12 @@ class Date extends \DateTime
 
             switch ($prefix) {
                 case '_':
-                // replace leading zeros with spaces but keep last char if also zero
-                return preg_replace('/\G0(?=.)/', ' ', $result);
+                    // replace leading zeros with spaces but keep last char if also zero
+                    return preg_replace('/\G0(?=.)/', ' ', $result);
                 case '#':
                 case '-':
-                // remove leading zeros but keep last char if also zero
-                return preg_replace('/^0+(?=.)/', '', $result);
+                    // remove leading zeros but keep last char if also zero
+                    return preg_replace('/^0+(?=.)/', '', $result);
             }
 
             return $result;
