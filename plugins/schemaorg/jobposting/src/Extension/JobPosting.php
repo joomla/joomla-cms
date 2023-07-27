@@ -58,7 +58,7 @@ final class JobPosting extends CMSPlugin implements SubscriberInterface
     {
         return [
             'onSchemaPrepareForm'       => 'onSchemaPrepareForm',
-            'onSchemaBeforeCompileHead' => ['onSchemaBeforeCompileHead', Priority::BELOW_NORMAL]
+            'onSchemaBeforeCompileHead' => ['onSchemaBeforeCompileHead', Priority::BELOW_NORMAL],
         ];
     }
 
