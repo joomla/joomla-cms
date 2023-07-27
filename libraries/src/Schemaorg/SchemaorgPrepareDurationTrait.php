@@ -14,7 +14,7 @@ namespace Joomla\CMS\Schemaorg;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Prepare images to be valid for JSON-LD output
+ * Prepare duration to be valid for JSON-LD output
  *
  * @since  __DEPLOY_VERSION__
  */
