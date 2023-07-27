@@ -499,7 +499,8 @@ class Date extends \DateTime
     * @return string
     * @author BohwaZ <https://bohwaz.net/>
     */
-    public static function strftime(string $format, $timestamp = null, ?string $locale = null) : string {
+    public static function strftime(string $format, $timestamp = null, ?string $locale = null): string 
+    {
         if (!($timestamp instanceof DateTimeInterface)) {
             $timestamp = is_int($timestamp) ? '@' . $timestamp : (string) $timestamp;
 
