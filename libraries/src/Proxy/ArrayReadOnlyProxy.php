@@ -14,12 +14,36 @@ namespace Joomla\CMS\Proxy;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Array read-only proxy class
+ * Array read-only proxy class.
+ * The class provides read-only feature for Array, including its children.
  *
  * @since  __DEPLOY_VERSION__
  */
 class ArrayReadOnlyProxy extends ArrayProxy implements ReadOnlyProxyInterface
 {
+    /**
+     * Implementation of ArrayAccess interface
+     *
+     * @param mixed $offset The key to get
+     *
+     * @return mixed
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function offsetGet(mixed $offset): mixed
+    {
+        $value = $this->data[$offset] ?? null;
+
+        // Ensure that the child also is a read-only
+        if (\is_array($value)) {
+            $value = new static($value);
+        } elseif (\is_object($value)) {
+            $value = new ObjectReadOnlyProxy($value);
+        }
+
+        return $value;
+    }
+
     /**
      * Implementation of ArrayAccess interface
      *
@@ -34,6 +58,6 @@ class ArrayReadOnlyProxy extends ArrayProxy implements ReadOnlyProxyInterface
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
-        throw new \RuntimeException(sprintf('Trying to modify read-only element, by key "%s"', $offset));
+        throw new \RuntimeException(sprintf('ArrayReadOnlyProxy: trying to modify read-only element, by key "%s"', $offset));
     }
 }
