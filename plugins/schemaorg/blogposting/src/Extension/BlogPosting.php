@@ -27,7 +27,7 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since  5.0.0
  */
-final class Blogposting extends CMSPlugin implements SubscriberInterface
+final class BlogPosting extends CMSPlugin implements SubscriberInterface
 {
     use SchemaorgPluginTrait;
     use SchemaorgPrepareDateTrait;
@@ -54,15 +54,14 @@ final class Blogposting extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public static function getSubscribedEvents(): array
     {
-        $subscribed = SchemaorgPluginTrait::getSubscribedEvents();
-
-        $subscribed['onSchemaBeforeCompileHead'] = ['onSchemaBeforeCompileHead', Priority::BELOW_NORMAL];
-
-        return $subscribed;
+        return [
+            'onSchemaPrepareForm'       => 'onSchemaPrepareForm',
+            'onSchemaBeforeCompileHead' => ['onSchemaBeforeCompileHead', Priority::BELOW_NORMAL]
+        ];
     }
 
     /**
