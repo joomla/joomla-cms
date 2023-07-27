@@ -81,7 +81,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
     /**
      * Constructor
      *
-     * @param   array  $config  The document object to inject into the
+     * @param   array  $config  A named configuration array for object construction.
      *
      * @since   3.0
      */
