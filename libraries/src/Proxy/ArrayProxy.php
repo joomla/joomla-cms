@@ -18,7 +18,7 @@ namespace Joomla\CMS\Proxy;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ArrayProxy implements ProxyInterface, \Countable, \ArrayAccess, \IteratorAggregate
+class ArrayProxy implements ProxyInterface, \Countable, \ArrayAccess, \Iterator
 {
     /**
      * Data source
@@ -111,14 +111,64 @@ class ArrayProxy implements ProxyInterface, \Countable, \ArrayAccess, \IteratorA
     }
 
     /**
-     * Implementation of IteratorAggregate interface
+     * Implementation of Iterator interface
      *
-     * @return \Traversable
+     * @return mixed
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getIterator(): \Traversable
+    public function current(): mixed
     {
-        return new \ArrayIterator($this->data);
+        $key = key($this->data);
+
+        return $this->offsetGet($key);
+    }
+
+    /**
+     * Implementation of Iterator interface
+     *
+     * @return mixed
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function key(): mixed
+    {
+        return key($this->data);
+    }
+
+    /**
+     * Implementation of Iterator interface
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function next(): void
+    {
+        next($this->data);
+    }
+
+    /**
+     * Implementation of Iterator interface
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function rewind(): void
+    {
+        reset($this->data);
+    }
+
+    /**
+     * Implementation of Iterator interface
+     *
+     * @return boolean
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function valid(): bool
+    {
+        return key($this->data) !== null;
     }
 }

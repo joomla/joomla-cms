@@ -18,16 +18,25 @@ namespace Joomla\CMS\Proxy;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ObjectProxy implements ProxyInterface, \IteratorAggregate
+class ObjectProxy implements ProxyInterface, \Iterator
 {
     /**
      * Data source
      *
-     * @var array
+     * @var object
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected $data = [];
+    protected $data;
+
+    /**
+     * An iterator instance
+     *
+     * @var \ArrayIterator
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $iterator;
 
     /**
      * Class constructor
@@ -71,14 +80,62 @@ class ObjectProxy implements ProxyInterface, \IteratorAggregate
     }
 
     /**
-     * Implementation of IteratorAggregate interface
+     * Implementation of Iterator interface
      *
-     * @return \Traversable
+     * @return mixed
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getIterator(): \Traversable
+    public function current(): mixed
     {
-        return new \ArrayIterator($this->data);
+        return $this->iterator->current();
+    }
+
+    /**
+     * Implementation of Iterator interface
+     *
+     * @return mixed
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function key(): mixed
+    {
+        return $this->iterator->key();
+    }
+
+    /**
+     * Implementation of Iterator interface
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function next(): void
+    {
+        $this->iterator->next();
+    }
+
+    /**
+     * Implementation of Iterator interface
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function rewind(): void
+    {
+        $this->iterator = new \ArrayIterator($this->data);
+    }
+
+    /**
+     * Implementation of Iterator interface
+     *
+     * @return boolean
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function valid(): bool
+    {
+        return $this->iterator->valid();
     }
 }

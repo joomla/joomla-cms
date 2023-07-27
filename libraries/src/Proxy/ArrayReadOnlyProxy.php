@@ -35,7 +35,9 @@ class ArrayReadOnlyProxy extends ArrayProxy implements ReadOnlyProxyInterface
         $value = $this->data[$offset] ?? null;
 
         // Ensure that the child also is a read-only
-        if (\is_array($value)) {
+        if (\is_scalar($value) || $value === null) {
+            return $value;
+        } elseif (\is_array($value)) {
             $value = new static($value);
         } elseif (\is_object($value)) {
             $value = new ObjectReadOnlyProxy($value);
