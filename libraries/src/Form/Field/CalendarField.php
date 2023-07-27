@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Date'
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -319,7 +320,7 @@ class CalendarField extends FormField
                 $date        = \DateTimeImmutable::createFromFormat('U', strtotime($this->value));
                 $this->value = $date->format($this->filterFormat);
             } else {
-                $this->value = (new DateTime($this->value))->format($this->format);
+                $this->value = \Date::strftime($this->format, strtotime($this->value));
             }
 
             date_default_timezone_set($tz);
