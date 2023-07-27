@@ -21,7 +21,7 @@ namespace Joomla\CMS\Schemaorg;
 trait SchemaorgPrepareDurationTrait
 {
     /**
-     * Prepare media image files
+     * Prepare duration image files
      *
      * @param string|array $image
      *
