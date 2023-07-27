@@ -20,7 +20,7 @@ use Joomla\CMS\Form\FormRule;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Registry\Registry;
+use Joomla\CMS\Proxy\ArrayProxy;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -199,11 +199,10 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
         // Include the plugins for the delete events.
         PluginHelper::importPlugin($this->events_map['validate'], null, true, $dispatcher);
 
-        // When the data is array, wrap it in to an array-access object
+        // When the data is an array wrap it in to an array-access object
         $eventData = $data;
         if (is_array($data)) {
-            $eventData = new Registry(null, '');
-            $eventData->loadArray($data, true);
+            $eventData = new ArrayProxy($data);
         }
 
         if (!empty($dispatcher->getListeners('onUserBeforeDataValidation'))) {
@@ -223,11 +222,6 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
             'subject' => $form,
             'data'    => $eventData,
         ]));
-
-        // Restore the data
-        if (is_array($data)) {
-            $data = $eventData->toArray();
-        }
 
         // Filter and validate the form data.
         $return = $form->process($data, $group);

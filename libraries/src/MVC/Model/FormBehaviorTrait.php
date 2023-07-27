@@ -15,9 +15,9 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\Event\DispatcherAwareInterface;
-use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -157,11 +157,10 @@ trait FormBehaviorTrait
         // Get the dispatcher and load the users plugins.
         PluginHelper::importPlugin($group, null, true, $dispatcher);
 
-        // When the data is array, wrap it in to an array-access object
+        // When the data is an array wrap it in to an array-access object
         $eventData = $data;
         if (is_array($data)) {
-            $eventData = new Registry(null, '');
-            $eventData->loadArray($data, true);
+            $eventData = new ArrayProxy($data);
         }
 
         // Trigger the data preparation event.
@@ -169,11 +168,6 @@ trait FormBehaviorTrait
             'onContentPrepareData',
             new Model\PrepareDataEvent('onContentPrepareData', ['context' => $context, 'subject' => $eventData])
         );
-
-        // Restore the data
-        if (is_array($data)) {
-            $data = $eventData->toArray();
-        }
     }
 
     /**
