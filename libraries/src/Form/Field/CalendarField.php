@@ -319,7 +319,7 @@ class CalendarField extends FormField
                 $date        = \DateTimeImmutable::createFromFormat('U', strtotime($this->value));
                 $this->value = $date->format($this->filterFormat);
             } else {
-				$this->value = \Joomla\CMS\Date\Date::getInstance($this->value)->format($this->format);
+                $this->value = \Joomla\CMS\Date\Date::getInstance($this->value)->format($this->format);
             }
 
             date_default_timezone_set($tz);
