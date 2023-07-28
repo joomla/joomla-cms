@@ -22,7 +22,10 @@ describe('Install Joomla', () => {
     // cy.disableStatistics();
 
     cy.log('**testing test**');
-    cy.visit('administrator/index.php?option=com_config&debug=1');
+    cy.visit('administrator/index.php?option=com_config&debug=1').then(() => {
+      cy.setErrorReportingToDevelopment();
+      cy.doAdministratorLogout();
+    });
 
     // cy.setErrorReportingToDevelopment();
     // cy.doAdministratorLogout();
