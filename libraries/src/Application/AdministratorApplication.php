@@ -179,10 +179,6 @@ class AdministratorApplication extends CMSApplication
         // Route the application
         $this->route();
 
-        if (isset($_GET['debug'])) {
-            throw new \Exception('Works');
-        }
-
         // Mark afterRoute in the profiler.
         JDEBUG ? $this->profiler->mark('afterRoute') : null;
 
@@ -194,6 +190,10 @@ class AdministratorApplication extends CMSApplication
          * ex: due of the sef urls
          */
         $this->checkUserRequireReset('com_users', 'user', 'edit', 'com_users/user.edit,com_users/user.save,com_users/user.apply,com_login/logout');
+
+        if (isset($_GET['debug'])) {
+            throw new \Exception('Works', 500);
+        }
 
         // Dispatch the application
         $this->dispatch();
