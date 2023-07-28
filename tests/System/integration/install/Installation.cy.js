@@ -24,8 +24,8 @@ describe('Install Joomla', () => {
     cy.log('**testing test**');
     cy.visit('administrator/index.php?option=com_config&debug=1');
 
-    cy.setErrorReportingToDevelopment();
-    cy.doAdministratorLogout();
+    // cy.setErrorReportingToDevelopment();
+    // cy.doAdministratorLogout();
 
     cy.readFile(`${Cypress.env('cmsPath')}/configuration.php`).then((fileContent) => {
       // Update to the correct secret for the API tests because of the bearer token
