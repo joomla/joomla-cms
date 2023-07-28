@@ -370,7 +370,7 @@ class ConfigurationModel extends BaseInstallationModel
         $registry->set('access', 1);
 
         // Debug settings.
-        $registry->set('debug', true);
+        $registry->set('debug', false);
         $registry->set('debug_lang', false);
         $registry->set('debug_lang_const', true);
 
@@ -393,7 +393,7 @@ class ConfigurationModel extends BaseInstallationModel
         $registry->set('live_site', '');
         $registry->set('secret', UserHelper::genRandomPassword(16));
         $registry->set('gzip', false);
-        $registry->set('error_reporting', 'maximum');
+        $registry->set('error_reporting', 'default');
         $registry->set('helpurl', $options->helpurl);
 
         // Locale settings.
