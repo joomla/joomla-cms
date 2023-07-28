@@ -393,7 +393,7 @@ class ConfigurationModel extends BaseInstallationModel
         $registry->set('live_site', '');
         $registry->set('secret', UserHelper::genRandomPassword(16));
         $registry->set('gzip', false);
-        $registry->set('error_reporting', 'default');
+        $registry->set('error_reporting', 'maximum');
         $registry->set('helpurl', $options->helpurl);
 
         // Locale settings.
