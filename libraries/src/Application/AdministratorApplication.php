@@ -191,11 +191,6 @@ class AdministratorApplication extends CMSApplication
          */
         $this->checkUserRequireReset('com_users', 'user', 'edit', 'com_users/user.edit,com_users/user.save,com_users/user.apply,com_login/logout');
 
-        if (isset($_GET['debug'])) {
-            var_dump('Works');
-            exit;
-        }
-
         // Dispatch the application
         $this->dispatch();
 
@@ -462,6 +457,11 @@ class AdministratorApplication extends CMSApplication
         }
 
         $this->isHandlingMultiFactorAuthentication();
+
+        if (isset($_GET['debug'])) {
+            var_dump('Works');
+            exit;
+        }
 
         // Trigger the onAfterRoute event.
         PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
