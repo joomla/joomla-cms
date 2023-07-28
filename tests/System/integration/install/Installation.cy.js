@@ -19,11 +19,11 @@ describe('Install Joomla', () => {
     cy.installJoomla(config);
 
     cy.doAdministratorLogin(config.username, config.password, false);
+    cy.disableStatistics();
 
     cy.log('**testing test**');
     cy.visit('administrator/index.php?option=com_config&debug=1');
 
-    cy.disableStatistics();
     cy.setErrorReportingToDevelopment();
     cy.doAdministratorLogout();
 

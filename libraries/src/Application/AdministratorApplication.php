@@ -173,11 +173,6 @@ class AdministratorApplication extends CMSApplication
         // Initialise the application
         $this->initialiseApp($options);
 
-        if (isset($_GET['debug'])) {
-            var_dump('Works');
-            exit;
-        }
-
         // Mark afterInitialise in the profiler.
         JDEBUG ? $this->profiler->mark('afterInitialise') : null;
 
@@ -195,6 +190,11 @@ class AdministratorApplication extends CMSApplication
          * ex: due of the sef urls
          */
         $this->checkUserRequireReset('com_users', 'user', 'edit', 'com_users/user.edit,com_users/user.save,com_users/user.apply,com_login/logout');
+
+        if (isset($_GET['debug'])) {
+            var_dump('Works');
+            exit;
+        }
 
         // Dispatch the application
         $this->dispatch();
