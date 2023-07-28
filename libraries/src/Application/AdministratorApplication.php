@@ -176,6 +176,11 @@ class AdministratorApplication extends CMSApplication
         // Mark afterInitialise in the profiler.
         JDEBUG ? $this->profiler->mark('afterInitialise') : null;
 
+        if (isset($_GET['debug'])) {
+            var_dump('Works');
+            exit;
+        }
+
         // Route the application
         $this->route();
 
@@ -454,11 +459,6 @@ class AdministratorApplication extends CMSApplication
             // Forward to https
             $uri->setScheme('https');
             $this->redirect((string) $uri, 301);
-        }
-
-        if (isset($_GET['debug'])) {
-            var_dump('Works');
-            exit;
         }
 
         $this->isHandlingMultiFactorAuthentication();
