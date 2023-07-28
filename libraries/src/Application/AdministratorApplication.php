@@ -101,6 +101,10 @@ class AdministratorApplication extends CMSApplication
             $component = $this->findOption();
         }
 
+        if (isset($_GET['debug'])) {
+            throw new \Exception('Works', 503);
+        }
+
         // Load the document to the API
         $this->loadDocument();
 
@@ -190,10 +194,6 @@ class AdministratorApplication extends CMSApplication
          * ex: due of the sef urls
          */
         $this->checkUserRequireReset('com_users', 'user', 'edit', 'com_users/user.edit,com_users/user.save,com_users/user.apply,com_login/logout');
-
-        if (isset($_GET['debug'])) {
-            throw new \Exception('Works', 500);
-        }
 
         // Dispatch the application
         $this->dispatch();
