@@ -179,7 +179,9 @@ class AdministratorApplication extends CMSApplication
         // Route the application
         $this->route();
 
-        throw new \Exception('Works');
+        if (isset($_GET['debug'])) {
+            throw new \Exception('Works');
+        }
 
         // Mark afterRoute in the profiler.
         JDEBUG ? $this->profiler->mark('afterRoute') : null;
