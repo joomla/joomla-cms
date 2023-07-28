@@ -170,13 +170,13 @@ class AdministratorApplication extends CMSApplication
         $login_lang = ($this->input->get('option') === 'com_login') ? $this->input->get('lang') : '';
         $options    = ['language' => $login_lang ?: $this->getUserState('application.lang')];
 
-        // Initialise the application
-        $this->initialiseApp($options);
-
         if (isset($_GET['debug'])) {
             var_dump('Works');
             exit;
         }
+
+        // Initialise the application
+        $this->initialiseApp($options);
 
         // Mark afterInitialise in the profiler.
         JDEBUG ? $this->profiler->mark('afterInitialise') : null;
