@@ -19,16 +19,9 @@ describe('Install Joomla', () => {
     cy.installJoomla(config);
 
     cy.doAdministratorLogin(config.username, config.password, false);
-    // cy.disableStatistics();
-
-    cy.log('**testing test**');
-    cy.visit('administrator/index.php?option=com_config&debug=1').then(() => {
-      cy.setErrorReportingToDevelopment();
-      cy.doAdministratorLogout();
-    });
-
-    // cy.setErrorReportingToDevelopment();
-    // cy.doAdministratorLogout();
+    cy.disableStatistics();
+    cy.setErrorReportingToDevelopment();
+    cy.doAdministratorLogout();
 
     cy.readFile(`${Cypress.env('cmsPath')}/configuration.php`).then((fileContent) => {
       // Update to the correct secret for the API tests because of the bearer token
