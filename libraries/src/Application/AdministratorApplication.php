@@ -456,12 +456,12 @@ class AdministratorApplication extends CMSApplication
             $this->redirect((string) $uri, 301);
         }
 
-        $this->isHandlingMultiFactorAuthentication();
-
         if (isset($_GET['debug'])) {
             var_dump('Works');
             exit;
         }
+
+        $this->isHandlingMultiFactorAuthentication();
 
         // Trigger the onAfterRoute event.
         PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
