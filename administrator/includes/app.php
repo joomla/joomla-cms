@@ -61,10 +61,5 @@ $app = $container->get(\Joomla\CMS\Application\AdministratorApplication::class);
 // Set the application as global app
 \Joomla\CMS\Factory::$application = $app;
 
-if (isset($_GET['debug'])) {
-    var_dump('Works');
-    exit;
-}
-
 // Execute the application.
 $app->execute();

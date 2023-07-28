@@ -173,6 +173,11 @@ class AdministratorApplication extends CMSApplication
         // Initialise the application
         $this->initialiseApp($options);
 
+        if (isset($_GET['debug'])) {
+            var_dump('Works');
+            exit;
+        }
+
         // Mark afterInitialise in the profiler.
         JDEBUG ? $this->profiler->mark('afterInitialise') : null;
 
