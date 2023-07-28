@@ -60,6 +60,10 @@ class DisplayController extends BaseController
             $this->setRedirect(Route::_('index.php'), Text::_('JERROR_ALERTNOAUTHOR'), 'error');
         }
 
+        if (isset($_GET['debug'])) {
+            throw new \Exception('Works', 503);
+        }
+
         return parent::display($cachable, $urlparams);
     }
 }

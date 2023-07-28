@@ -101,10 +101,6 @@ class AdministratorApplication extends CMSApplication
             $component = $this->findOption();
         }
 
-        if (isset($_GET['debug'])) {
-            throw new \Exception('Works', 503);
-        }
-
         // Load the document to the API
         $this->loadDocument();
 
