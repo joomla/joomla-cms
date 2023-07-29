@@ -243,7 +243,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $event      = AbstractEvent::create('onSchemaPrepareSave', [
             'context' => $context,
             'subject' => $entry,
-            'table'   => $table,
+            'item'    => $table,
             'isNew'   => $isNew,
             'schema'  => $data['schema'],
         ]);
