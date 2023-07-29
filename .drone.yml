@@ -38,16 +38,16 @@ steps:
 #    commands:
 #      - ./libraries/vendor/bin/phan
 
-#  - name: npm
-#    image: node:16-bullseye-slim
+  - name: npm
+    image: node:16-bullseye-slim
 #    depends_on: [ phpcs ]
-#    volumes:
-#      - name: npm-cache
-#        path: /tmp/npm-cache
-#    environment:
-#      npm_config_cache: /tmp/npm-cache
-#    commands:
-#      - npm ci --unsafe-perm
+    volumes:
+      - name: npm-cache
+        path: /tmp/npm-cache
+    environment:
+      npm_config_cache: /tmp/npm-cache
+    commands:
+      - npm ci --unsafe-perm
 
 #  - name: php81-unit
 #    depends_on: [ phpcs ]
@@ -105,8 +105,8 @@ steps:
 #      - npm run lint:testjs
 
   - name: prepare_system_tests
-#    depends_on:
-#      - npm
+    depends_on:
+      - npm
     image: joomlaprojects/docker-images:systemtests8.1
     volumes:
       - name: cypress-cache
