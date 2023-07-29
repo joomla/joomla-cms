@@ -16,6 +16,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Table\Table;
+use Microsoft\PhpParser\Node\ElseIfClauseNode;
 
 /*
  * References
@@ -151,25 +152,6 @@ if (!$format) {
         $basePath   = ($table->client_id) ? JPATH_ADMINISTRATOR : JPATH_SITE;
         $baseClient = ($table->client_id) ? 'Administrator' : 'Site';
         $helperFile = $basePath . '/templates/' . $template . '/helper.php';
-
-        if (strpos($template, '_')) {
-            $parts = explode('_', $template);
-        } elseif (strpos($template, '-')) {
-            $parts = explode('-', $template);
-        }
-
-        if ($parts) {
-            $class = 'Tpl';
-
-            foreach ($parts as $part) {
-                $class .= ucfirst($part);
-            }
-
-            $class .= 'Helper';
-        } else {
-            $class = 'Tpl' . ucfirst($template) . 'Helper';
-        }
-
         $method     = $input->get('method') ?: 'get';
         $fileExists = false;
         $xmlData    = simplexml_load_file($basePath . '/templates/' . $template . '/templateDetails.xml');
@@ -180,11 +162,31 @@ if (!$format) {
             && isset($xmlData->ajaxhelper)
             && class_exists((string) $xmlData->namespace . '\\' . $baseClient . '\\Helper\\' . (string) $xmlData->ajaxhelper)
         ) {
-            $class = (string) $xmlData->namespace . '\\' . $baseClient . '\\Helper\\' . (string) $xmlData->ajaxhelper;
+            $class      = (string) $xmlData->namespace . '\\' . $baseClient . '\\Helper\\' . (string) $xmlData->ajaxhelper;
             $fileExists = true;
-        } elseif (is_file($helperFile)) {
-            JLoader::register($class, $helperFile);
-            $fileExists = true;
+        } else {
+            if (strpos($template, '_')) {
+                $parts = explode('_', $template);
+            } elseif (strpos($template, '-')) {
+                $parts = explode('-', $template);
+            }
+
+            if ($parts) {
+                $class = 'Tpl';
+
+                foreach ($parts as $part) {
+                    $class .= ucfirst($part);
+                }
+
+                $class .= 'Helper';
+            } else {
+                $class = 'Tpl' . ucfirst($template) . 'Helper';
+            }
+
+            if (is_file($helperFile)) {
+                JLoader::register($class, $helperFile);
+                $fileExists = true;
+            }
         }
 
         if ($fileExists) {
