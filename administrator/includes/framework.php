@@ -97,14 +97,6 @@ if (JDEBUG || $config->error_reporting === 'maximum') {
     );
 }
 
-set_exception_handler(function (Throwable $e) {
-    echo '<pre>';
-    var_dump($e->getMessage() . PHP_EOL);
-    var_dump($e->getFile() . ' ' . $e->getLine() . PHP_EOL);
-    var_dump($e->getTraceAsString() . PHP_EOL);
-    echo '</pre>';
-});
-
 /**
  * Correctly set the allowing of IP Overrides if behind a trusted proxy/load balancer.
  *

@@ -20,7 +20,7 @@ describe('Install Joomla', () => {
 
     cy.doAdministratorLogin(config.username, config.password, false);
 
-    cy.visit('administrator/index.php?option=com_config&debug=1').then(() => {
+    cy.visit('administrator/index.php?option=com_config').then(() => {
       cy.screenshot('debugging-debug-com_config').then(() => {
         throw new Error('testing test exit here');
       });
