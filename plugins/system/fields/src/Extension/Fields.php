@@ -248,7 +248,7 @@ final class Fields extends CMSPlugin
      *
      * @param   Model\PrepareFormEvent  $event  The event object
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.7.0
      */
@@ -276,7 +276,7 @@ final class Fields extends CMSPlugin
         $parts = FieldsHelper::extract($context, $form);
 
         if (!$parts) {
-            return true;
+            return;
         }
 
         $input = $this->getApplication()->getInput();
@@ -293,8 +293,6 @@ final class Fields extends CMSPlugin
         }
 
         FieldsHelper::prepareForm($parts[0] . '.' . $parts[1], $form, $data);
-
-        return true;
     }
 
     /**
@@ -302,13 +300,13 @@ final class Fields extends CMSPlugin
      *
      * @param   Content\AfterTitleEvent  $event  The event object
      *
-     * @return  string
+     * @return  void
      *
      * @since   3.7.0
      */
     public function onContentAfterTitle(Content\AfterTitleEvent $event)
     {
-        return $this->display($event->getContext(), $event->getItem(), $event->getParams(), 1);
+        $event->addResult($this->display($event->getContext(), $event->getItem(), $event->getParams(), 1));
     }
 
     /**
@@ -316,13 +314,13 @@ final class Fields extends CMSPlugin
      *
      * @param   Content\BeforeDisplayEvent  $event  The event object
      *
-     * @return  string
+     * @return  void
      *
      * @since   3.7.0
      */
     public function onContentBeforeDisplay(Content\BeforeDisplayEvent $event)
     {
-        return $this->display($event->getContext(), $event->getItem(), $event->getParams(), 2);
+        $event->addResult($this->display($event->getContext(), $event->getItem(), $event->getParams(), 2));
     }
 
     /**
@@ -330,13 +328,13 @@ final class Fields extends CMSPlugin
      *
      * @param   Content\AfterDisplayEvent  $event  The event object
      *
-     * @return  string
+     * @return  void
      *
      * @since   3.7.0
      */
     public function onContentAfterDisplay(Content\AfterDisplayEvent $event)
     {
-        return $this->display($event->getContext(), $event->getItem(), $event->getParams(), 3);
+        $event->addResult($this->display($event->getContext(), $event->getItem(), $event->getParams(), 3));
     }
 
     /**

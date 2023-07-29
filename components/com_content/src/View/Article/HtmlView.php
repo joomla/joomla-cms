@@ -239,14 +239,14 @@ class HtmlView extends BaseHtmlView
         $contentEvents = [
             'afterDisplayTitle'    => new Content\AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
             'beforeDisplayContent' => new Content\BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
-            'afterDisplayContent'  => new Content\AfterDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
+            'afterDisplayContent'  => new Content\AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
         ];
 
         foreach ($contentEvents as $resultKey => $event) {
             $this->dispatchEvent($event);
             $results = $event['result'];
 
-            $item->event->{$resultKey} = trim(implode("\n", $results));
+            $item->event->{$resultKey} = $results ? trim(implode("\n", $results)) : '';
         }
 
         // Escape strings for HTML output
