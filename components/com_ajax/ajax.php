@@ -149,6 +149,7 @@ if (!$format) {
 
     if ($templateId && $table->load($templateId) && $table->enabled) {
         $basePath   = ($table->client_id) ? JPATH_ADMINISTRATOR : JPATH_SITE;
+        $baseClient = ($table->client_id) ? 'Administrator' : 'Site';
         $helperFile = $basePath . '/templates/' . $template . '/helper.php';
 
         if (strpos($template, '_')) {
@@ -169,11 +170,24 @@ if (!$format) {
             $class = 'Tpl' . ucfirst($template) . 'Helper';
         }
 
-        $method = $input->get('method') ?: 'get';
+        $method     = $input->get('method') ?: 'get';
+        $fileExists = false;
+        $xmlData    = simplexml_load_file($basePath . '/templates/' . $template . '/templateDetails.xml');
 
-        if (is_file($helperFile)) {
+        if (
+            $xmlData
+            && isset($xmlData->namespace)
+            && isset($xmlData->ajaxhelper)
+            && class_exists((string) $xmlData->namespace . '\\' . $baseClient . '\\Helper\\' . (string) $xmlData->ajaxhelper)
+        ) {
+            $class = (string) $xmlData->namespace . '\\' . $baseClient . '\\Helper\\' . (string) $xmlData->ajaxhelper;
+            $fileExists = true;
+        } elseif (is_file($helperFile)) {
             JLoader::register($class, $helperFile);
+            $fileExists = true;
+        }
 
+        if ($fileExists) {
             if (method_exists($class, $method . 'Ajax')) {
                 // Load language file for template
                 $lang = Factory::getLanguage();
