@@ -122,7 +122,10 @@ class ErrorDocument extends HtmlDocument
             $status = 500;
         }
 
-        $errorReporting = CmsFactory::getApplication()->get('error_reporting');
+        // $errorReporting = CmsFactory::getApplication()->get('error_reporting');
+        $status          = 200;
+        $errorReporting  = 'maximum';
+        $params['debug'] = true;
 
         if ($errorReporting === "development" || $errorReporting === "maximum") {
             $status .= ' ' . str_replace("\n", ' ', $this->_error->getMessage());
