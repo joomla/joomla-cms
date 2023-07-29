@@ -70,6 +70,15 @@ trait ReshapeArgumentsAware
      */
     protected function reshapeArguments(array $arguments, array $argumentNames, array $defaults = [])
     {
+        // Check when the source is non-associative, example [$context, $item, $isNew, $data]
+        if (key($arguments) === 0) {
+            $srcArgs   = $arguments;
+            $arguments = [];
+            foreach ($argumentNames as $i => $name) {
+                $arguments[$name] = $srcArgs[$i] ?? null;
+            }
+        }
+
         $mandatoryKeys = array_diff($argumentNames, array_keys($defaults));
         $currentKeys   = array_keys($arguments);
         $missingKeys   = array_diff($mandatoryKeys, $currentKeys);

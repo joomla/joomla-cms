@@ -49,12 +49,7 @@ abstract class ModelEvent extends AbstractImmutableEvent
     {
         // Reshape the arguments array to preserve b/c with legacy listeners
         if ($this->legacyArgumentsOrder) {
-            // Check for non-associative list
-            if (key($arguments) === 0) {
-                $arguments = array_combine($this->legacyArgumentsOrder, $arguments);
-            } else {
-                $arguments = $this->reshapeArguments($arguments, $this->legacyArgumentsOrder);
-            }
+            $arguments = $this->reshapeArguments($arguments, $this->legacyArgumentsOrder);
         }
 
         if (!\array_key_exists('context', $arguments)) {
