@@ -22,25 +22,25 @@ steps:
       - composer validate --no-check-all --strict
       - composer install --no-progress --ignore-platform-reqs
 
-#  - name: phpcs
-#    image: joomlaprojects/docker-images:php8.1
-#    depends_on: [ composer ]
-#    commands:
-#      - echo $(date)
-#      - ./libraries/vendor/bin/php-cs-fixer fix -vvv --dry-run --diff
-#      - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
-#      - echo $(date)
+  - name: phpcs
+    image: joomlaprojects/docker-images:php8.1
+    depends_on: [ composer ]
+    commands:
+      - echo $(date)
+      - ./libraries/vendor/bin/php-cs-fixer fix -vvv --dry-run --diff
+      - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
+      - echo $(date)
 
-#  - name: phan
-#    image: joomlaprojects/docker-images:php8.1-ast
-#    depends_on: [ phpcs ]
-#    failure: ignore
-#    commands:
-#      - ./libraries/vendor/bin/phan
+  - name: phan
+    image: joomlaprojects/docker-images:php8.1-ast
+    depends_on: [ phpcs ]
+    failure: ignore
+    commands:
+      - ./libraries/vendor/bin/phan
 
   - name: npm
     image: node:16-bullseye-slim
-#    depends_on: [ phpcs ]
+    depends_on: [ phpcs ]
     volumes:
       - name: npm-cache
         path: /tmp/npm-cache
@@ -49,60 +49,60 @@ steps:
     commands:
       - npm ci --unsafe-perm
 
-#  - name: php81-unit
-#    depends_on: [ phpcs ]
-#    image: joomlaprojects/docker-images:php8.1
-#    commands:
-#      - php -v
-#      - ./libraries/vendor/bin/phpunit --testsuite Unit
-#
-#  - name: php82-unit
-#    depends_on: [ phpcs ]
-#    image: joomlaprojects/docker-images:php8.2
-#    commands:
-#      - php -v
-#      - ./libraries/vendor/bin/phpunit --testsuite Unit
-#
-#  - name: php81-integration
-#    depends_on: [ npm ]
-#    image: joomlaprojects/docker-images:php8.1
-#    commands:
-#      - php -v
-#      - ./libraries/vendor/bin/phpunit --testsuite Integration
-#
-#  - name: php82-integration
-#    depends_on: [ npm ]
-#    image: joomlaprojects/docker-images:php8.2
-#    commands:
-#      - php -v
-#      - ./libraries/vendor/bin/phpunit --testsuite Integration
-#
-#  - name: php81-integration-pgsql
-#    depends_on: [ npm ]
-#    image: joomlaprojects/docker-images:php8.1
-#    commands:
-#      - php -v
-#      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-#
-#  - name: php82-integration-pgsql
-#    depends_on: [ npm ]
-#    image: joomlaprojects/docker-images:php8.2
-#    commands:
-#      - php -v
-#      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-#
-#  - name: scss-cs
-#    depends_on: [ npm ]
-#    image: node:current-alpine
-#    commands:
-#      - npm run lint:css
-#
-#  - name: javascript-cs
-#    depends_on: [ npm ]
-#    image: node:current-alpine
-#    commands:
-#      - npm run lint:js
-#      - npm run lint:testjs
+  - name: php81-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php8.1
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
+  - name: php82-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php8.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
+  - name: php81-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.1
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php82-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php81-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.1
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+  - name: php82-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+  - name: scss-cs
+    depends_on: [ npm ]
+    image: node:current-alpine
+    commands:
+      - npm run lint:css
+
+  - name: javascript-cs
+    depends_on: [ npm ]
+    image: node:current-alpine
+    commands:
+      - npm run lint:js
+      - npm run lint:testjs
 
   - name: prepare_system_tests
     depends_on:
