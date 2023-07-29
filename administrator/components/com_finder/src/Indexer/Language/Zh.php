@@ -61,35 +61,11 @@ class Zh extends Language
      */
     public function tokenise($input)
     {
-        // We first split on whitespace
+        // We first add whitespace around each chinese character, so that our later code can easily split on this.
+        $input = preg_replace('#\p{Han}#mui', ' $0 ', $input);
+
+        // Now we split up the input into individuel terms
         $terms = parent::tokenise($input);
-
-        // Iterate through the terms and test if they contain Chinese.
-        for ($i = 0, $n = count($terms); $i < $n; $i++) {
-            $charMatches = [];
-            preg_match_all('#\p{Han}#mui', $terms[$i], $charMatches);
-
-            // No chinese characters found in this term, aborting early.
-            if (!count($charMatches[0])) {
-                continue;
-            }
-
-            // Our term contains chinese words, so we replace those with nothing.
-            $tSplit = StringHelper::str_ireplace($charMatches[0], '', $terms[$i], false);
-
-            if (!empty($tSplit)) {
-                // A subset of the term is non-chinese and we keep it
-                $terms[$i] = $tSplit;
-            } else {
-                // The term is empty now and we remove it.
-                unset($terms[$i]);
-            }
-
-            // We now add all found chinese characters as terms. We do this also for duplicates to support the weighing algorithm.
-            foreach ($charMatches[0] as $term) {
-                $terms[] = $term;
-            }
-        }
 
         return $terms;
     }
