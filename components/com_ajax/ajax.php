@@ -16,7 +16,6 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Table\Table;
-use Microsoft\PhpParser\Node\ElseIfClauseNode;
 
 /*
  * References
