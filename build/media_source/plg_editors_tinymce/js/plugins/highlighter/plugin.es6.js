@@ -1,84 +1,71 @@
 /**
- * plugin.js
- *
- * Original code by Arjan Haverkamp
- * Copyright 2013-2015 Arjan Haverkamp (arjan@webgear.nl)
+ * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-window.tinymce.PluginManager.add('highlightPlus', (editor, url) => {
-  const showSourceEditor = () => {
+window.tinymce.PluginManager.add('joomla-highlighter', (editor, url) => {
+  console.log(editor);
+
+  const setContent = (html) => {
     editor.focus();
-    editor.selection.collapse(true);
-
-    editor.options.register('codemirror', {
-      processor: 'object',
-      default: {
-        codemirrorWidth: 800,
-        codemirrorHeight: 550,
-        fullscreen: false,
-        indentOnInit: true,
-        config: {
-          mode: 'htmlmixed',
-          theme: 'default',
-          lineNumbers: true,
-          lineWrapping: true,
-          indentUnit: 2,
-          tabSize: 2,
-          indentWithTabs: true,
-          matchBrackets: true,
-          saveCursorPosition: false,
-          styleActiveLine: true,
-        },
-      },
+    editor.undoManager.transact(() => {
+      editor.setContent(html);
     });
+    editor.selection.setCursorLocation();
+    editor.nodeChanged();
+  };
 
-    const cmSettings = editor.options.get('codemirror');
+  const getContent = () => {
+    return editor.getContent({ source_view: true });
+  };
 
-    // Insert caret marker
-    if (cmSettings.config.saveCursorPosition) {
-      editor.selection.setContent('<span style="display: none;" class="CmCaReT">&#x0;</span>');
-    }
-
-    const buttonsConfig = [
-      {
-        type: 'custom',
-        text: 'Ok',
-        name: 'codemirrorOk',
-        primary: true,
-      },
-      {
-        type: 'cancel',
-        text: 'Cancel',
-        name: 'codemirrorCancel',
-      },
-    ];
-
-    const config = {
+  const showSourceEditor = () => {
+    let popup;
+    const popupConfig = {
       title: 'Source code',
-      url: `${url}/source.html`,
-      width: cmSettings.width,
-      height: cmSettings.height,
-      resizable: true,
-      maximizable: true,
-      fullScreen: cmSettings.fullscreen,
-      saveCursorPosition: false,
-      buttons: buttonsConfig,
+      body: {
+        type: 'panel',
+        items: [{
+          type: 'textarea',
+          name: 'joomla-highlighter-input',
+          inputMode: 'text',
+          maximized: true,
+        }]
+      },
+      size: 'large',
+      buttons: [
+        {
+          type: 'cancel',
+          name: 'cancel',
+          text: 'Cancel'
+        },
+        {
+          type: 'submit',
+          name: 'save',
+          text: 'Save',
+          primary: true
+        }
+      ],
+      initialData: { 'joomla-highlighter-input': getContent() },
     };
 
-    config.onAction = (dialogApi, actionData) => {
-      if (actionData.name === 'codemirrorOk') {
-        const doc = document.querySelectorAll('.tox-dialog__body-iframe iframe')[0];
-        doc.contentWindow.tinymceHighlighterSubmit();
-        editor.undoManager.add();
-        // eslint-disable-next-line no-use-before-define
-        win.close();
-      }
+    popupConfig.onSubmit = (dialogApi, actionData) => {
+      console.log('onSubmit', dialogApi, actionData)
+      // if (actionData.name === 'codemirrorOk') {
+      //   const doc = document.querySelectorAll('.tox-dialog__body-iframe iframe')[0];
+      //   doc.contentWindow.tinymceHighlighterSubmit();
+      //   editor.undoManager.add();
+      //   // eslint-disable-next-line no-use-before-define
+      //   win.close();
+      // }
+      popup.close();
+    };
+    popupConfig.onClose = (dialogApi, actionData) => {
+      console.log('onClose', dialogApi, actionData)
     };
 
-    const win = editor.windowManager.openUrl(config);
+    popup = editor.windowManager.open(popupConfig);
 
-    if (cmSettings.fullscreen) {
-      win.fullscreen(true);
-    }
+    console.log(popupConfig, popup);
   };
 
   editor.ui.registry.addButton('code', {
@@ -95,4 +82,11 @@ window.tinymce.PluginManager.add('highlightPlus', (editor, url) => {
     context: 'tools',
   });
   editor.addShortcut('Alt+U', 'Opens the code editor', showSourceEditor);
+
+  return {
+    getMetadata: () => ({
+      name: 'Joomla highlighter plugin',
+      url: 'https://www.joomla.org/',
+    }),
+  };
 });
