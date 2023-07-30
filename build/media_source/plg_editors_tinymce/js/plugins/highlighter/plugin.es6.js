@@ -26,44 +26,39 @@ window.tinymce.PluginManager.add('joomla-highlighter', (editor, url) => {
         type: 'panel',
         items: [{
           type: 'textarea',
-          name: 'joomla-highlighter-input',
+          name: 'joomla_highlighter_input',
           inputMode: 'text',
           maximized: true,
-        }]
+        }],
       },
       size: 'large',
       buttons: [
         {
           type: 'cancel',
           name: 'cancel',
-          text: 'Cancel'
+          text: 'Cancel',
         },
         {
           type: 'submit',
           name: 'save',
           text: 'Save',
-          primary: true
-        }
+          primary: true,
+        },
       ],
-      initialData: { 'joomla-highlighter-input': getContent() },
+      initialData: { joomla_highlighter_input: getContent() },
     };
 
-    popupConfig.onSubmit = (dialogApi, actionData) => {
-      console.log('onSubmit', dialogApi, actionData)
-      // if (actionData.name === 'codemirrorOk') {
-      //   const doc = document.querySelectorAll('.tox-dialog__body-iframe iframe')[0];
-      //   doc.contentWindow.tinymceHighlighterSubmit();
-      //   editor.undoManager.add();
-      //   // eslint-disable-next-line no-use-before-define
-      //   win.close();
-      // }
-      popup.close();
+    popupConfig.onSubmit = (dialogApi) => {
+      console.log('onSubmit', dialogApi)
+      setContent(dialogApi.getData().joomla_highlighter_input);
+      dialogApi.close();
     };
     popupConfig.onClose = (dialogApi, actionData) => {
       console.log('onClose', dialogApi, actionData)
     };
 
     popup = editor.windowManager.open(popupConfig);
+    //popup.toggleFullscreen();
 
     console.log(popupConfig, popup);
   };
