@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Log;
 
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Filesystem\Path;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

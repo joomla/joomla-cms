@@ -25,7 +25,7 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 ?>
 
-<div class="com-contact contact" itemscope itemtype="https://schema.org/Person">
+<div class="com-contact contact">
     <?php if ($tparams->get('show_page_heading')) : ?>
         <h1>
             <?php echo $this->escape($tparams->get('page_heading')); ?>
@@ -38,7 +38,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
                 <?php if ($this->item->published == 0) : ?>
                     <span class="badge bg-warning text-light"><?php echo Text::_('JUNPUBLISHED'); ?></span>
                 <?php endif; ?>
-                <span class="contact-name" itemprop="name"><?php echo $this->item->name; ?></span>
+                <span class="contact-name"><?php echo $this->item->name; ?></span>
             </<?php echo $htag; ?>>
         </div>
     <?php endif; ?>
@@ -106,7 +106,6 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
                         [
                             'src'      => $this->item->image,
                             'alt'      => $this->item->name,
-                            'itemprop' => 'image',
                         ]
                     ); ?>
                 </div>
@@ -115,7 +114,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
             <?php if ($this->item->con_position && $tparams->get('show_position')) : ?>
                 <dl class="com-contact__position contact-position dl-horizontal">
                     <dt><?php echo Text::_('COM_CONTACT_POSITION'); ?>:</dt>
-                    <dd itemprop="jobTitle">
+                    <dd>
                         <?php echo $this->item->con_position; ?>
                     </dd>
                 </dl>

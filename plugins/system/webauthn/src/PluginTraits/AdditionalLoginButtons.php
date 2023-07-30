@@ -76,7 +76,7 @@ trait AdditionalLoginButtons
             UserHelper::genRandomPassword(12) . '-' . UserHelper::genRandomPassword(8);
 
         // Get local path to image
-        $image = HTMLHelper::_('image', 'plg_system_webauthn/webauthn.svg', '', '', true, true);
+        $image = HTMLHelper::_('image', 'plg_system_webauthn/fido-passkey-black.svg', '', '', true, true);
 
         // If you can't find the image then skip it
         $image = $image ? JPATH_ROOT . substr($image, \strlen(Uri::root(true))) : '';

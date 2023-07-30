@@ -140,7 +140,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
      *
      * @return  boolean  True on success, false on failure
      *
-     * @see     \JTable::check
+     * @see     \Joomla\CMS\Table\Table::check
      * @since   1.5
      */
     public function check()

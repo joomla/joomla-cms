@@ -6,20 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_contenthistory.admin-compare-compare.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core",
-        "diff"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_contenthistory.admin-compare-compare",
       "type": "script",
       "uri": "com_contenthistory/admin-compare-compare.min.js",
@@ -31,19 +17,6 @@
       }
     },
     {
-      "name": "com_contenthistory.admin-history-modal.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_contenthistory.admin-history-modal",
       "type": "script",
       "uri": "com_contenthistory/admin-history-modal.min.js",
@@ -52,19 +25,6 @@
       ],
       "attributes": {
         "type": "module"
-      }
-    },
-    {
-      "name": "com_contenthistory.admin-history-versions.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
       }
     },
     {
