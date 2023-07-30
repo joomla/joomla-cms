@@ -13,7 +13,7 @@ namespace Joomla\Plugin\Authentication\Ldap\Extension;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Event\Dispatcher;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactoryInterface;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\ConnectionException;
@@ -50,7 +50,7 @@ final class Ldap extends CMSPlugin
      *
      * @since   4.3.0
      */
-    public function __construct(LdapFactoryInterface $factory, Dispatcher $dispatcher, $config = [])
+    public function __construct(LdapFactoryInterface $factory, DispatcherInterface $dispatcher, array $config = [])
     {
         parent::__construct($dispatcher, $config);
 

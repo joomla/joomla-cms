@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\LogRotation\Extension;
 
-use Exception;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -83,7 +82,7 @@ final class LogRotation extends CMSPlugin
         try {
             // Lock the tables to prevent multiple plugin executions causing a race condition
             $db->lockTable('#__extensions');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // If we can't lock the tables it's too risky to continue execution
             return;
         }
@@ -93,7 +92,7 @@ final class LogRotation extends CMSPlugin
             $result = $db->setQuery($query)->execute();
 
             $this->clearCacheGroups(['com_plugins'], [0, 1]);
-        } catch (Exception $exc) {
+        } catch (\Exception $exc) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
@@ -102,7 +101,7 @@ final class LogRotation extends CMSPlugin
         try {
             // Unlock the tables after writing
             $db->unlockTables();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }
@@ -230,7 +229,7 @@ final class LogRotation extends CMSPlugin
 
                     $cache = Cache::getInstance('callback', $options);
                     $cache->clean();
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     // Ignore it
                 }
             }

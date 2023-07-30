@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\User\Token\Extension;
 
-use Exception;
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -140,7 +139,7 @@ final class Token extends CMSPlugin
 
                 $data->{$this->profileKeyPrefix}[$k] = $v[1];
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // We suppress any database error. It means we get no token saved by default.
         }
 
@@ -180,7 +179,7 @@ final class Token extends CMSPlugin
      *
      * @return  boolean
      *
-     * @throws  Exception  When $form is not a valid form object
+     * @throws  \Exception  When $form is not a valid form object
      * @since   4.0.0
      */
     public function onContentPrepareForm(Form $form, $data): bool
@@ -380,7 +379,7 @@ final class Token extends CMSPlugin
      *
      * @return  void
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.0.0
      */
     public function onUserAfterDelete(array $user, bool $success, string $msg): void
@@ -407,7 +406,7 @@ final class Token extends CMSPlugin
             $query->bind(':profileKey', $profileKey, ParameterType::STRING);
 
             $db->setQuery($query)->execute();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Do nothing.
         }
     }
@@ -452,7 +451,7 @@ final class Token extends CMSPlugin
             $query->bind(':userId', $userId, ParameterType::INTEGER);
 
             return $db->setQuery($query)->loadResult();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return null;
         }
     }
@@ -599,7 +598,7 @@ final class Token extends CMSPlugin
 
         try {
             $numRows = $db->setQuery($q)->loadResult() ?? 0;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
 

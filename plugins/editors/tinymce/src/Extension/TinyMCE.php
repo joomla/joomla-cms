@@ -127,7 +127,7 @@ HTMLSTRING;
 
         $templates = [];
         $language  = $this->getApplication()->getLanguage();
-        $template  = $this->getApplication()->input->getPath('template', '');
+        $template  = $this->getApplication()->getInput()->getPath('template', '');
 
         if ('' === $template) {
             echo json_encode([]);
