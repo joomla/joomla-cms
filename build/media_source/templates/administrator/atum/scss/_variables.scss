@@ -1,8 +1,8 @@
 // Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
 $prefix: "";
 
-// Disable dark mode in J4.4 - it's going to cause major b/c breaks to introduce. We will enable it in 5.0
-$enable-dark-mode:                 false;
+// Use dark mode conditionally based on media queries from the browser to match the desktop theme
+$color-mode-type: media-query;
 
 // Variables
 $white:                            #fff;
@@ -55,11 +55,14 @@ $theme-colors: (
   "action":                          $base-color,
   "error":                           $red-dark) !default;
 
+$template-background-light: #f0f4fb; //light background color, frontend dashboard background and installer
+                                     // body background
+
 $atum-colors: (
   template-sidebar-bg:             var(--template-bg-dark-80),
   template-sidebar-font-color:     $white,
   template-sidebar-link-color:     $white,
-  template-bg-light:               #f0f4fb, //light background color, frontend dashboard background
+  template-bg-light:               $template-background-light,
   template-link-color:             var(--link-color),
   template-text-light:             $white,
   template-text-dark:              $atum-text-dark,
@@ -152,7 +155,6 @@ $extrabold-weight:                 800;
 $black-weight:                     900;
 
 // Tables
-$table-bg:                         var(--white);
 $table-cell-padding-y:             .75rem;
 $table-cell-padding-x:             1rem;
 $table-cell-padding-y-sm:          .3rem;
