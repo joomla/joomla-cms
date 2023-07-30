@@ -1,0 +1,23 @@
+$theme-colors-text: map-merge(
+  $theme-colors-text,
+  (
+    "action": shade-color($base-color, 60%),
+    "error": shade-color($red-dark, 60%)
+  )
+);
+
+$theme-colors-bg-subtle: map-merge(
+  $theme-colors-bg-subtle,
+  (
+    "action": tint-color($base-color, 80%),
+    "error": tint-color($red-dark, 80%)
+  )
+);
+
+$theme-colors-border-subtle: map-merge(
+  $theme-colors-border-subtle,
+  (
+    "action": tint-color($base-color, 60%),
+    "error": tint-color($red-dark, 60%)
+  )
+);
