@@ -879,6 +879,8 @@ abstract class Adapter extends CMSPlugin
                 foreach ($items as $item) {
                     $this->remove($item);
                 }
+                // Stop processing plugins
+                break;
             }
         }
     }
