@@ -2,7 +2,7 @@
  * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-window.tinymce.PluginManager.add('joomla-highlighter', (editor, url) => {
+window.tinymce.PluginManager.add('joomlaHighlighter', (editor) => {
   console.log(editor);
 
   const setContent = (html) => {
@@ -14,16 +14,23 @@ window.tinymce.PluginManager.add('joomla-highlighter', (editor, url) => {
     editor.nodeChanged();
   };
 
-  const getContent = () => {
-    return editor.getContent({ source_view: true });
-  };
+  const getContent = () => editor.getContent({ source_view: true });
 
+  let running = false;
   const showSourceEditor = () => {
-    let popup;
-    const popupConfig = {
+    if (running) {
+      return;
+    }
+    running = true;
+
+    // Create the dialog
+    let dialog;
+    let cmEditor;
+    const dialogConfig = {
       title: 'Source code',
       body: {
         type: 'panel',
+        classes: ['joomla-highlighter-dialog'],
         items: [{
           type: 'textarea',
           name: 'joomla_highlighter_input',
@@ -46,21 +53,38 @@ window.tinymce.PluginManager.add('joomla-highlighter', (editor, url) => {
         },
       ],
       initialData: { joomla_highlighter_input: getContent() },
+      onSubmit: (dialogApi) => {
+        setContent(cmEditor.state.doc.toString());
+        dialogApi.close();
+      },
+      onClose: () => {
+        cmEditor.destroy();
+        cmEditor = null;
+        running = false;
+      },
     };
 
-    popupConfig.onSubmit = (dialogApi) => {
-      console.log('onSubmit', dialogApi)
-      setContent(dialogApi.getData().joomla_highlighter_input);
-      dialogApi.close();
-    };
-    popupConfig.onClose = (dialogApi, actionData) => {
-      console.log('onClose', dialogApi, actionData)
-    };
+    // Import codemirror and open the dialog
+    // eslint-disable-next-line import/no-unresolved
+    import('codemirror').then(({ createFromTextarea }) => {
+      dialog = editor.windowManager.open(dialogConfig);
+      // dialog.toggleFullscreen();
 
-    popup = editor.windowManager.open(popupConfig);
-    //popup.toggleFullscreen();
+      const cmOptions = {
+        mode: 'html',
+        lineNumbers: true,
+        lineWrapping: true,
+        activeLine: true,
+        highlightSelection: true,
+        foldGutter: true,
+      };
+      const textarea = document.querySelector('.joomla-highlighter-dialog textarea');
+      createFromTextarea(textarea, cmOptions).then((cmView) => {
+        cmEditor = cmView;
+      });
 
-    console.log(popupConfig, popup);
+      console.log(dialogConfig, dialog);
+    });
   };
 
   editor.ui.registry.addButton('code', {

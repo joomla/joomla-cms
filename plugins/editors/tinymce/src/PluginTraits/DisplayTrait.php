@@ -323,7 +323,7 @@ trait DisplayTrait
                 $wa->getRegistry()->addExtensionRegistryFile('plg_editors_codemirror');
                 $wa->registerScript(
                     'plg_editors_tinymce_highlighter',
-                    'plg_editors_tinymce/plugins/highlighter/plugin.min.js',
+                    'plg_editors_tinymce/plugins/joomla-highlighter/plugin.min.js',
                     [],
                     ['type' => 'module'],
                     ['core', 'tinymce', 'codemirror']
@@ -332,7 +332,7 @@ trait DisplayTrait
 
             // Enable joomla-highlighter plugin
             $wa->useScript('plg_editors_tinymce_highlighter');
-            $plugins[] = 'joomla-highlighter';
+            $plugins[] = 'joomlaHighlighter';
         }
 
         $dragdrop = $levelParams->get('drag_drop', 1);
