@@ -33,7 +33,7 @@ window.tinymce.PluginManager.add('joomlaHighlighter', (editor) => {
         classes: ['joomla-highlighter-dialog'],
         items: [{
           type: 'textarea',
-          name: 'joomla_highlighter_input',
+          name: 'textarea',
           inputMode: 'text',
           maximized: true,
         }],
@@ -52,7 +52,6 @@ window.tinymce.PluginManager.add('joomlaHighlighter', (editor) => {
           primary: true,
         },
       ],
-      initialData: { joomla_highlighter_input: getContent() },
       onSubmit: (dialogApi) => {
         setContent(cmEditor.state.doc.toString());
         dialogApi.close();
@@ -61,6 +60,9 @@ window.tinymce.PluginManager.add('joomlaHighlighter', (editor) => {
         cmEditor.destroy();
         cmEditor = null;
         running = false;
+      },
+      initialData: {
+        textarea: getContent(),
       },
     };
 
@@ -81,9 +83,9 @@ window.tinymce.PluginManager.add('joomlaHighlighter', (editor) => {
       const textarea = document.querySelector('.joomla-highlighter-dialog textarea');
       createFromTextarea(textarea, cmOptions).then((cmView) => {
         cmEditor = cmView;
-      });
 
-      console.log(dialogConfig, dialog);
+        console.log(dialog, cmEditor);
+      });
     });
   };
 
