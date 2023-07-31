@@ -20,13 +20,13 @@ describe('Test that banners clients API endpoint', () => {
   it('can create a client', () => {
     cy.api_post('/banners/clients', {
       name: 'automated test banner client',
-      contact : 'automated test banner client',
+      contact: 'automated test banner client',
       state: 1,
       extrainfo: '',
     })
-    .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
-      .its('name')
-      .should('include', 'automated test banner client'));
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+        .its('name')
+        .should('include', 'automated test banner client'));
   });
 
   it('can update a client', () => {
