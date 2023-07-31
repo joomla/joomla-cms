@@ -12,6 +12,7 @@ namespace Joomla\CMS\Helper;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Module;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageHelper;
@@ -19,6 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
@@ -174,6 +176,7 @@ abstract class ModuleHelper
 
         // Set scope to component name
         $app->scope = $module->module;
+        $dispatcher = $app->getDispatcher();
 
         // Get the template
         $template = $app->getTemplate();
@@ -206,9 +209,13 @@ abstract class ModuleHelper
         $module->style = $attribs['style'];
 
         // If the $module is nulled it will return an empty content, otherwise it will render the module normally.
-        $app->triggerEvent('onRenderModule', [&$module, &$attribs]);
+        $attrProxy = new ArrayProxy($attribs);
+        $dispatcher->dispatch('onRenderModule', new Module\BeforeRenderModuleEvent('onRenderModule', [
+            'subject'    => $module,
+            'attributes' => $attrProxy,
+        ]));
 
-        if ($module === null || !isset($module->content)) {
+        if (!isset($module->content)) {
             return '';
         }
 
@@ -232,7 +239,10 @@ abstract class ModuleHelper
         // Revert the scope
         $app->scope = $scope;
 
-        $app->triggerEvent('onAfterRenderModule', [&$module, &$attribs]);
+        $dispatcher->dispatch('onAfterRenderModule', new Module\AfterRenderModuleEvent('onAfterRenderModule', [
+            'subject'    => $module,
+            'attributes' => $attrProxy,
+        ]));
 
         if (JDEBUG) {
             Profiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
