@@ -372,22 +372,27 @@ abstract class ModuleHelper
             return $modules;
         }
 
-        $app = Factory::getApplication();
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        $modules    = [];
 
-        $modules = null;
-
-        $app->triggerEvent('onPrepareModuleList', [&$modules]);
+        $dispatcher->dispatch('onPrepareModuleList', new Module\PrepareModuleListEvent('onPrepareModuleList', [
+            'subject' => new ArrayProxy($modules),
+        ]));
 
         // If the onPrepareModuleList event returns an array of modules, then ignore the default module list creation
-        if (!\is_array($modules)) {
+        if (!$modules) {
             $modules = static::getModuleList();
         }
 
-        $app->triggerEvent('onAfterModuleList', [&$modules]);
+        $dispatcher->dispatch('onAfterModuleList', new Module\AfterModuleListEvent('onAfterModuleList', [
+            'subject' => new ArrayProxy($modules),
+        ]));
 
         $modules = static::cleanModuleList($modules);
 
-        $app->triggerEvent('onAfterCleanModuleList', [&$modules]);
+        $dispatcher->dispatch('onAfterCleanModuleList', new Module\AfterCleanModuleListEvent('onAfterCleanModuleList', [
+            'subject' => new ArrayProxy($modules),
+        ]));
 
         return $modules;
     }
