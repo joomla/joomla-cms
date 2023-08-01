@@ -14,9 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-$hideLinks = $app->getInput()->getBool('hidemainmenu');
-
-if ($hideLinks || !$tours) {
+if (!$tours) {
     return;
 }
 
@@ -27,16 +25,20 @@ $app->getDocument()
 
 $lang       = $app->getLanguage();
 $extension  = $app->getInput()->get('option');
+$contextTours  = [];
 $listTours  = [];
 $allTours   = [];
 $toursCount = $params->get('tourscount', 7);
 
 foreach ($tours as $tour) :
-    if ($toursCount > 0 && count(array_intersect(['*', $extension], $tour->extensions))) :
-        $listTours[] = $tour;
-        $toursCount--;
+    if (count(array_intersect(['*', $extension], $tour->extensions))) :
+        $contextTours[] = $tour;
+    else :
+        if ($toursCount > 0) :
+            $listTours[] = $tour;
+            $toursCount--;
+        endif;
     endif;
-
     $uri = new Uri($tour->url);
 
     // We assume the url is the starting point
@@ -63,17 +65,39 @@ endforeach;
         </div>
         <span class="icon-angle-down" aria-hidden="true"></span>
     </button>
-    <div class="dropdown-menu dropdown-menu-end">
-        <?php foreach ($listTours as $tour) : ?>
-            <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
-                <span class="icon-map-signs" aria-hidden="true"></span>
-                <?php echo $tour->title; ?>
-            </button>
+    <ul class="dropdown-menu dropdown-menu-end">
+        <?php foreach ($contextTours as $tour) : ?>
+            <li>
+                <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
+                    <span class="icon-map-signs" aria-hidden="true"></span>
+                    <?php echo $tour->title; ?>
+                </button>
+            </li>
         <?php endforeach; ?>
-        <button type="button" class="dropdown-item text-center" data-bs-toggle="modal" data-bs-target="#modGuidedTours-modal">
-            <?php echo Text::_('MOD_GUIDEDTOURS_SHOW_ALL'); ?>
-        </button>
-    </div>
+
+        <?php if (count($contextTours) > 0 && count($listTours) > 0) : ?>
+            <li><hr class="dropdown-divider m-0"></li>
+        <?php endif; ?>
+
+        <?php foreach ($listTours as $tour) : ?>
+            <li>
+                <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
+                    <span class="icon-map-signs" aria-hidden="true"></span>
+                    <?php echo $tour->title; ?>
+                </button>
+            </li>
+        <?php endforeach; ?>
+
+        <?php if (count($contextTours) > 0 || count($listTours) > 0) : ?>
+            <li><hr class="dropdown-divider m-0"></li>
+        <?php endif; ?>
+
+        <li>
+            <button type="button" class="dropdown-item text-center" data-bs-toggle="modal" data-bs-target="#modGuidedTours-modal">
+                <?php echo Text::_('MOD_GUIDEDTOURS_SHOW_ALL'); ?>
+            </button>
+        </li>
+    </ul>
 </div>
 <?php
 
