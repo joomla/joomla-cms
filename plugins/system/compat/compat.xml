@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="system" method="upgrade">
-	<name>plg_system_combat</name>
+	<name>plg_system_compat</name>
 	<author>Joomla! Project</author>
 	<creationDate>2023-03</creationDate>
 	<copyright>(C) 2023 Open Source Matters, Inc.</copyright>
@@ -30,8 +30,20 @@
 					default="1"
 					filter="integer"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="es5_assets"
+					type="radio"
+					label="PLG_COMPAT_FIELD_ES5_ASSETS_LABEL"
+					description="PLG_COMPAT_FIELD_ES5_ASSETS_DESCRIPTION"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 		</fields>

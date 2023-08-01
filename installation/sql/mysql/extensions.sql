@@ -931,6 +931,21 @@ VALUES (97,'UpdateNotification','update.notification', CONCAT('{"rule-type":"int
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `#__schemaorg`
+--
+
+CREATE TABLE IF NOT EXISTS `#__schemaorg` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `itemId` int unsigned,
+  `context` varchar(100),
+  `schemaType` varchar(100),
+  `schema` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `#__guidedtours`
 --
 

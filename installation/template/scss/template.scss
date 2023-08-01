@@ -208,7 +208,7 @@ body {
     color: $white;
 
     &:hover {
-      color: var(--template-link-color);
+      color: var(--#{$prefix}link-color);
     }
   }
 }

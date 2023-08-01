@@ -74,6 +74,14 @@ class HtmlView extends BaseHtmlView
     public $activeFilters;
 
     /**
+     * Ordering of the items
+     *
+     * @var    array
+     * @since  __DEPLOY_SINCE__
+     */
+    protected $ordering;
+
+    /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
