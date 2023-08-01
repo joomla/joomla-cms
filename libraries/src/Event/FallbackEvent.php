@@ -17,12 +17,12 @@ use Joomla\Event\Event;
 
 /**
  * The FallbackEvent class used for b/c $event->getArgument(0).
- * Is a fallback for CoreEventAware::getEventClassByEventName, when the event class not found.
+ * It is a fallback for CoreEventAware::getEventClassByEventName() when the event class not found.
  * It should be removed in Joomla 6.
  *
  * @since  __DEPLOY_VERSION__
  *
- * @deprecated Use event classes, will be removed in Joomla 6.
+ * @deprecated Will be removed in Joomla 6. Use Joomla\Event\Event.
  */
 final class FallbackEvent extends Event
 {
