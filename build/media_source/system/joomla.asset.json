@@ -12,19 +12,6 @@
       "uri": "system/core.min.js"
     },
     {
-      "name": "keepalive.es5",
-      "type": "script",
-      "deprecated": true,
-      "dependencies": [
-        "core"
-      ],
-      "uri": "",
-      "attributes": {
-        "defer": true,
-        "nomodule": true
-      }
-    },
-    {
       "name": "keepalive",
       "type": "script",
       "class": "KeepaliveAssetItem",
@@ -122,19 +109,6 @@
       "name": "searchtools",
       "type": "style",
       "uri": ""
-    },
-    {
-      "name": "showon.es5",
-      "type": "script",
-      "deprecated": true,
-      "dependencies": [
-        "core"
-      ],
-      "uri": "",
-      "attributes": {
-        "defer": true,
-        "nomodule": true
-      }
     },
     {
       "name": "showon",

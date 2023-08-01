@@ -484,7 +484,7 @@ trait MultiFactorAuthenticationHandler
      *
      * @return  string  Decrypted, but JSON-encoded, information
      *
-     * @see     https://github.com/joomla/joomla-cms/pull/12497
+     * @link    https://github.com/joomla/joomla-cms/pull/12497
      * @since   4.2.0
      */
     private function decryptLegacyTFAString(string $secret, string $stringToDecrypt): string

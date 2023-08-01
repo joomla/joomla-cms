@@ -12,6 +12,10 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Access\Exception\AuthenticationFailed;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Application\AfterApiRouteEvent;
+use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
+use Joomla\CMS\Event\Application\AfterDispatchEvent;
+use Joomla\CMS\Event\Application\BeforeApiRouteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\ApiRouter;
@@ -227,8 +231,12 @@ final class ApiApplication extends CMSApplication
         $router = $this->getContainer()->get(ApiRouter::class);
 
         // Trigger the onBeforeApiRoute event.
-        PluginHelper::importPlugin('webservices');
-        $this->triggerEvent('onBeforeApiRoute', [&$router, $this]);
+        PluginHelper::importPlugin('webservices', null, true, $this->getDispatcher());
+        $this->dispatchEvent(
+            'onBeforeApiRoute',
+            new BeforeApiRouteEvent('onBeforeApiRoute', ['router' => $router, 'subject' => $this])
+        );
+
         $caught404 = false;
         $method    = $this->input->getMethod();
 
@@ -299,7 +307,10 @@ final class ApiApplication extends CMSApplication
             }
         }
 
-        $this->triggerEvent('onAfterApiRoute', [$this]);
+        $this->dispatchEvent(
+            'onAfterApiRoute',
+            new AfterApiRouteEvent('onAfterApiRoute', ['subject' => $this])
+        );
 
         if (!isset($route['vars']['public']) || $route['vars']['public'] === false) {
             if (!$this->login(['username' => ''], ['silent' => true, 'action' => 'core.login.api'])) {
@@ -412,11 +423,20 @@ final class ApiApplication extends CMSApplication
         // Set up the params
         $document = Factory::getDocument();
 
+        // Trigger the onAfterInitialiseDocument event.
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        $this->dispatchEvent(
+            'onAfterInitialiseDocument',
+            new AfterInitialiseDocumentEvent('onAfterInitialiseDocument', ['subject' => $this, 'document' => $document])
+        );
+
         $contents = ComponentHelper::renderComponent($component);
         $document->setBuffer($contents, ['type' => 'component']);
 
         // Trigger the onAfterDispatch event.
-        PluginHelper::importPlugin('system');
-        $this->triggerEvent('onAfterDispatch');
+        $this->dispatchEvent(
+            'onAfterDispatch',
+            new AfterDispatchEvent('onAfterDispatch', ['subject' => $this])
+        );
     }
 }
