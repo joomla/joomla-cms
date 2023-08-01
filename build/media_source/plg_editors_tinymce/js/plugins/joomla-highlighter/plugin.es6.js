@@ -3,8 +3,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 window.tinymce.PluginManager.add('joomlaHighlighter', (editor) => {
-  console.log(editor);
-
   const setContent = (html) => {
     editor.focus();
     editor.undoManager.transact(() => {
@@ -24,7 +22,6 @@ window.tinymce.PluginManager.add('joomlaHighlighter', (editor) => {
     running = true;
 
     // Create the dialog
-    let dialog;
     let cmEditor;
     const dialogConfig = {
       title: 'Source code',
@@ -69,9 +66,9 @@ window.tinymce.PluginManager.add('joomlaHighlighter', (editor) => {
     // Import codemirror and open the dialog
     // eslint-disable-next-line import/no-unresolved
     import('codemirror').then(({ createFromTextarea }) => {
-      dialog = editor.windowManager.open(dialogConfig);
-      // dialog.toggleFullscreen();
+      editor.windowManager.open(dialogConfig);
 
+      const textarea = document.querySelector('.joomla-highlighter-dialog textarea');
       const cmOptions = {
         mode: 'html',
         lineNumbers: true,
@@ -79,12 +76,11 @@ window.tinymce.PluginManager.add('joomlaHighlighter', (editor) => {
         activeLine: true,
         highlightSelection: true,
         foldGutter: true,
+        width: '100%',
       };
-      const textarea = document.querySelector('.joomla-highlighter-dialog textarea');
+
       createFromTextarea(textarea, cmOptions).then((cmView) => {
         cmEditor = cmView;
-
-        console.log(dialog, cmEditor);
       });
     });
   };
