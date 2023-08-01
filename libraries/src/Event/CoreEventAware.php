@@ -118,8 +118,9 @@ trait CoreEventAware
         'onContentChangeState'          => Model\AfterChangeStateEvent::class,
         'onBeforeBatch'                 => Model\BeforeBatchEvent::class,
         // Modules
-        'onRenderModule'      => Module\BeforeRenderModuleEvent::class,
-        'onAfterRenderModule' => Module\AfterRenderModuleEvent::class,
+        'onRenderModule'       => Module\BeforeRenderModuleEvent::class,
+        'onAfterRenderModule'  => Module\AfterRenderModuleEvent::class,
+        'onAfterRenderModules' => Module\AfterRenderModulesEvent::class,
     ];
 
     /**
