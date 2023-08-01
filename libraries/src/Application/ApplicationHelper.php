@@ -11,7 +11,7 @@ namespace Joomla\CMS\Application;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\Filter\OutputFilter;
+use Joomla\CMS\Filter\OutputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
