@@ -140,18 +140,24 @@ abstract class AbstractEvent extends BaseEvent
      */
     public function getArgument($name, $default = null)
     {
-        $methodName = 'get' . ucfirst($name);
-
         // B/C check for numeric access to named argument, eg $event->getArgument('0').
-        if (is_numeric($name) && key($this->arguments) !== 0) {
+        if (is_numeric($name)) {
+            if (key($this->arguments) != 0) {
+                $argNames = \array_keys($this->arguments);
+                $name     = $argNames[$name] ?? '';
+            }
+
             @trigger_error(
-                sprintf('Numeric access to named event arguments is deprecated, and will not work in Joomla 6. Event %s', \get_class($this)),
+                sprintf(
+                    'Numeric access to named event arguments is deprecated, and will not work in Joomla 6. Event %s argument %s',
+                    \get_class($this),
+                    $name
+                ),
                 E_USER_DEPRECATED
             );
-
-            $argNames = \array_keys($this->arguments);
-            $name     = $argNames[$name] ?? '';
         }
+
+        $methodName = 'get' . ucfirst($name);
 
         $value = parent::getArgument($name, $default);
 
@@ -181,6 +187,23 @@ abstract class AbstractEvent extends BaseEvent
      */
     public function setArgument($name, $value)
     {
+        // B/C check for numeric access to named argument, eg $event->getArgument('0').
+        if (is_numeric($name)) {
+            if (key($this->arguments) != 0) {
+                $argNames = \array_keys($this->arguments);
+                $name     = $argNames[$name] ?? '';
+            }
+
+            @trigger_error(
+                sprintf(
+                    'Numeric access to named event arguments is deprecated, and will not work in Joomla 6. Event %s argument %s',
+                    \get_class($this),
+                    $name
+                ),
+                E_USER_DEPRECATED
+            );
+        }
+
         $methodName = 'set' . ucfirst($name);
 
         if (method_exists($this, $methodName)) {

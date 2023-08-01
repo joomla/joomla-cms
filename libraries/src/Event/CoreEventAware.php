@@ -46,7 +46,6 @@ use Joomla\CMS\Event\Table\SetNewTagsEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
-use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -129,6 +128,6 @@ trait CoreEventAware
      */
     protected static function getEventClassByEventName(string $eventName): string
     {
-        return self::$eventNameToConcreteClass[$eventName] ?? Event::class;
+        return self::$eventNameToConcreteClass[$eventName] ?? FallbackEvent::class;
     }
 }
