@@ -142,6 +142,17 @@ abstract class AbstractEvent extends BaseEvent
     {
         $methodName = 'get' . ucfirst($name);
 
+        // B/C check for numeric access to named argument, eg $event->getArgument('0').
+        if (is_numeric($name) && key($this->arguments) !== 0) {
+            @trigger_error(
+                sprintf('Numeric access to named event arguments is deprecated, and will not work in Joomla 6. Event %s', \get_class($this)),
+                E_USER_DEPRECATED
+            );
+
+            $argNames = \array_keys($this->arguments);
+            $name     = $argNames[$name] ?? '';
+        }
+
         $value = parent::getArgument($name, $default);
 
         if (method_exists($this, $methodName)) {
