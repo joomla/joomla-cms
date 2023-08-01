@@ -81,6 +81,7 @@ window.tinymce.PluginManager.add('joomlaHighlighter', (editor) => {
 
       createFromTextarea(textarea, cmOptions).then((cmView) => {
         cmEditor = cmView;
+        cmEditor.focus();
       });
     });
   };
