@@ -13,6 +13,7 @@ namespace Joomla\Component\Users\Administrator\Model;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Event\Module;
 use Joomla\CMS\Event\MultiFactor\Captive;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -334,24 +335,22 @@ class CaptiveModel extends BaseDatabaseModel
      * the way this event is handled, taking its return into account. For now, we just abuse the mutable event
      * properties - a feature of the event objects we discussed in the Joomla! 4 Working Group back in August 2015.
      *
-     * @param   Event  $event  The Joomla! event object
+     * @param   Module\AfterModuleListEvent  $event  The Joomla! event object
      *
      * @return  void
      * @throws  \Exception
      *
      * @since 4.2.0
      */
-    public function onAfterModuleList(Event $event): void
+    public function onAfterModuleList(Module\AfterModuleListEvent $event): void
     {
-        $modules = $event->getArgument(0);
+        $modules = $event->getModules();
 
         if (empty($modules)) {
             return;
         }
 
         $this->filterModules($modules);
-
-        $event->setArgument(0, $modules);
     }
 
     /**
