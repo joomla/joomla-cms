@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Event\Application;
@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\Application;
 /**
  * Class for AfterDispatch event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterDispatchEvent extends ApplicationEvent
 {

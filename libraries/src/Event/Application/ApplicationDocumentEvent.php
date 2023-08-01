@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Event\Application;
@@ -18,7 +18,7 @@ use Joomla\CMS\Document\Document;
 /**
  * Class for Application's Document events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 abstract class ApplicationDocumentEvent extends ApplicationEvent
 {
@@ -30,7 +30,7 @@ abstract class ApplicationDocumentEvent extends ApplicationEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -48,7 +48,7 @@ abstract class ApplicationDocumentEvent extends ApplicationEvent
      *
      * @return  Document
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setDocument(Document $value): Document
     {
@@ -60,7 +60,7 @@ abstract class ApplicationDocumentEvent extends ApplicationEvent
      *
      * @return  Document
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getDocument(): Document
     {
