@@ -167,18 +167,24 @@ class Router extends RouterBase
         $menuItem = !empty($query['Itemid']) ? $this->menu->getItem($query['Itemid']) : false;
 
         if ($menuItem && $menuItem->query['option'] == 'com_tags') {
-            if ($menuItem->query['view'] == 'tags' && isset($query['id'])) {
-                $ids = $query['id'];
+            if ($menuItem->query['view'] == 'tags') {
+                if (isset($query['id'])) {
+                    $ids = $query['id'];
 
-                if (!is_array($ids)) {
-                    $ids = [$ids];
+                    if (!is_array($ids)) {
+                        $ids = [$ids];
+                    }
+
+                    foreach ($ids as $id) {
+                        $segments[] = $id;
+                    }
+
+                    unset($query['id']);
+                } elseif (isset($query['parent_id'], $menuItem->query['parent_id'])) {
+                    if ($query['parent_id'] == $menuItem->query['parent_id']) {
+                        unset($query['parent_id']);
+                    }
                 }
-
-                foreach ($ids as $id) {
-                    $segments[] = $id;
-                }
-
-                unset($query['id']);
             } elseif ($menuItem->query['view'] == 'tag') {
                 $ids     = $query['id'];
                 $int_ids = ArrayHelper::toInteger($ids);
