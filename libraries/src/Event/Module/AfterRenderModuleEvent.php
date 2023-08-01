@@ -14,7 +14,9 @@ namespace Joomla\CMS\Event\Module;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Module events
+ * Class for Module events.
+ * Example:
+ *  new AfterRenderModuleEvent('onEventName', ['subject' => $module, 'attributes' => $attrs]);
  *
  * @since  __DEPLOY_VERSION__
  */
