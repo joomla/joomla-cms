@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Event;
 
-use Joomla\CMS\Event\Model\BeforeBatchEvent;
 use Joomla\CMS\Event\Plugin\System\Webauthn\Ajax as PlgSystemWebauthnAjax;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxChallenge as PlgSystemWebauthnAjaxChallenge;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxCreate as PlgSystemWebauthnAjaxCreate;
@@ -17,35 +16,6 @@ use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxDelete as PlgSystemWebauthnAjaxD
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxInitCreate as PlgSystemWebauthnAjaxInitCreate;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxLogin as PlgSystemWebauthnAjaxLogin;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxSaveLabel as PlgSystemWebauthnAjaxSaveLabel;
-use Joomla\CMS\Event\QuickIcon\GetIconEvent;
-use Joomla\CMS\Event\Table\AfterBindEvent;
-use Joomla\CMS\Event\Table\AfterCheckinEvent;
-use Joomla\CMS\Event\Table\AfterCheckoutEvent;
-use Joomla\CMS\Event\Table\AfterDeleteEvent;
-use Joomla\CMS\Event\Table\AfterHitEvent;
-use Joomla\CMS\Event\Table\AfterLoadEvent;
-use Joomla\CMS\Event\Table\AfterMoveEvent;
-use Joomla\CMS\Event\Table\AfterPublishEvent;
-use Joomla\CMS\Event\Table\AfterReorderEvent;
-use Joomla\CMS\Event\Table\AfterResetEvent;
-use Joomla\CMS\Event\Table\AfterStoreEvent;
-use Joomla\CMS\Event\Table\BeforeBindEvent;
-use Joomla\CMS\Event\Table\BeforeCheckinEvent;
-use Joomla\CMS\Event\Table\BeforeCheckoutEvent;
-use Joomla\CMS\Event\Table\BeforeDeleteEvent;
-use Joomla\CMS\Event\Table\BeforeHitEvent;
-use Joomla\CMS\Event\Table\BeforeLoadEvent;
-use Joomla\CMS\Event\Table\BeforeMoveEvent;
-use Joomla\CMS\Event\Table\BeforePublishEvent;
-use Joomla\CMS\Event\Table\BeforeReorderEvent;
-use Joomla\CMS\Event\Table\BeforeResetEvent;
-use Joomla\CMS\Event\Table\BeforeStoreEvent;
-use Joomla\CMS\Event\Table\CheckEvent;
-use Joomla\CMS\Event\Table\ObjectCreateEvent;
-use Joomla\CMS\Event\Table\SetNewTagsEvent;
-use Joomla\CMS\Event\View\DisplayEvent;
-use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
-use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -69,43 +39,58 @@ trait CoreEventAware
      * @since 4.2.0
      */
     private static $eventNameToConcreteClass = [
+        // Application
+        'onBeforeExecute'     => Application\BeforeExecuteEvent::class,
+        'onAfterExecute'      => Application\AfterExecuteEvent::class,
+        'onAfterInitialise'   => Application\AfterInitialiseEvent::class,
+        'onAfterRoute'        => Application\AfterRouteEvent::class,
+        'onBeforeApiRoute'    => Application\BeforeApiRouteEvent::class,
+        'onAfterApiRoute'     => Application\AfterApiRouteEvent::class,
+        'onAfterDispatch'     => Application\AfterDispatchEvent::class,
+        'onBeforeRender'      => Application\BeforeRenderEvent::class,
+        'onAfterRender'       => Application\AfterRenderEvent::class,
+        'onBeforeCompileHead' => Application\BeforeCompileHeadEvent::class,
+        'onAfterCompress'     => Application\AfterCompressEvent::class,
+        'onBeforeRespond'     => Application\BeforeRespondEvent::class,
+        'onAfterRespond'      => Application\AfterRespondEvent::class,
+        'onError'             => ErrorEvent::class,
         // Model
-        'onBeforeBatch' => BeforeBatchEvent::class,
+        'onBeforeBatch' => Model\BeforeBatchEvent::class,
         // Quickicon
-        'onGetIcon' => GetIconEvent::class,
+        'onGetIcon' => QuickIcon\GetIconEvent::class,
         // Table
-        'onTableAfterBind'      => AfterBindEvent::class,
-        'onTableAfterCheckin'   => AfterCheckinEvent::class,
-        'onTableAfterCheckout'  => AfterCheckoutEvent::class,
-        'onTableAfterDelete'    => AfterDeleteEvent::class,
-        'onTableAfterHit'       => AfterHitEvent::class,
-        'onTableAfterLoad'      => AfterLoadEvent::class,
-        'onTableAfterMove'      => AfterMoveEvent::class,
-        'onTableAfterPublish'   => AfterPublishEvent::class,
-        'onTableAfterReorder'   => AfterReorderEvent::class,
-        'onTableAfterReset'     => AfterResetEvent::class,
-        'onTableAfterStore'     => AfterStoreEvent::class,
-        'onTableBeforeBind'     => BeforeBindEvent::class,
-        'onTableBeforeCheckin'  => BeforeCheckinEvent::class,
-        'onTableBeforeCheckout' => BeforeCheckoutEvent::class,
-        'onTableBeforeDelete'   => BeforeDeleteEvent::class,
-        'onTableBeforeHit'      => BeforeHitEvent::class,
-        'onTableBeforeLoad'     => BeforeLoadEvent::class,
-        'onTableBeforeMove'     => BeforeMoveEvent::class,
-        'onTableBeforePublish'  => BeforePublishEvent::class,
-        'onTableBeforeReorder'  => BeforeReorderEvent::class,
-        'onTableBeforeReset'    => BeforeResetEvent::class,
-        'onTableBeforeStore'    => BeforeStoreEvent::class,
-        'onTableCheck'          => CheckEvent::class,
-        'onTableObjectCreate'   => ObjectCreateEvent::class,
-        'onTableSetNewTags'     => SetNewTagsEvent::class,
+        'onTableAfterBind'      => Table\AfterBindEvent::class,
+        'onTableAfterCheckin'   => Table\AfterCheckinEvent::class,
+        'onTableAfterCheckout'  => Table\AfterCheckoutEvent::class,
+        'onTableAfterDelete'    => Table\AfterDeleteEvent::class,
+        'onTableAfterHit'       => Table\AfterHitEvent::class,
+        'onTableAfterLoad'      => Table\AfterLoadEvent::class,
+        'onTableAfterMove'      => Table\AfterMoveEvent::class,
+        'onTableAfterPublish'   => Table\AfterPublishEvent::class,
+        'onTableAfterReorder'   => Table\AfterReorderEvent::class,
+        'onTableAfterReset'     => Table\AfterResetEvent::class,
+        'onTableAfterStore'     => Table\AfterStoreEvent::class,
+        'onTableBeforeBind'     => Table\BeforeBindEvent::class,
+        'onTableBeforeCheckin'  => Table\BeforeCheckinEvent::class,
+        'onTableBeforeCheckout' => Table\BeforeCheckoutEvent::class,
+        'onTableBeforeDelete'   => Table\BeforeDeleteEvent::class,
+        'onTableBeforeHit'      => Table\BeforeHitEvent::class,
+        'onTableBeforeLoad'     => Table\BeforeLoadEvent::class,
+        'onTableBeforeMove'     => Table\BeforeMoveEvent::class,
+        'onTableBeforePublish'  => Table\BeforePublishEvent::class,
+        'onTableBeforeReorder'  => Table\BeforeReorderEvent::class,
+        'onTableBeforeReset'    => Table\BeforeResetEvent::class,
+        'onTableBeforeStore'    => Table\BeforeStoreEvent::class,
+        'onTableCheck'          => Table\CheckEvent::class,
+        'onTableObjectCreate'   => Table\ObjectCreateEvent::class,
+        'onTableSetNewTags'     => Table\SetNewTagsEvent::class,
         // View
-        'onBeforeDisplay' => DisplayEvent::class,
-        'onAfterDisplay'  => DisplayEvent::class,
+        'onBeforeDisplay' => View\DisplayEvent::class,
+        'onAfterDisplay'  => View\DisplayEvent::class,
         // Workflow
-        'onWorkflowFunctionalityUsed' => WorkflowFunctionalityUsedEvent::class,
-        'onWorkflowAfterTransition'   => WorkflowTransitionEvent::class,
-        'onWorkflowBeforeTransition'  => WorkflowTransitionEvent::class,
+        'onWorkflowFunctionalityUsed' => Workflow\WorkflowFunctionalityUsedEvent::class,
+        'onWorkflowAfterTransition'   => Workflow\WorkflowTransitionEvent::class,
+        'onWorkflowBeforeTransition'  => Workflow\WorkflowTransitionEvent::class,
         // Plugin: System, WebAuthn
         'onAjaxWebauthn'           => PlgSystemWebauthnAjax::class,
         'onAjaxWebauthnChallenge'  => PlgSystemWebauthnAjaxChallenge::class,
@@ -114,6 +99,9 @@ trait CoreEventAware
         'onAjaxWebauthnInitcreate' => PlgSystemWebauthnAjaxInitCreate::class,
         'onAjaxWebauthnLogin'      => PlgSystemWebauthnAjaxLogin::class,
         'onAjaxWebauthnSavelabel'  => PlgSystemWebauthnAjaxSaveLabel::class,
+        // Extensions
+        'onBeforeExtensionBoot' => BeforeExtensionBootEvent::class,
+        'onAfterExtensionBoot'  => AfterExtensionBootEvent::class,
     ];
 
     /**

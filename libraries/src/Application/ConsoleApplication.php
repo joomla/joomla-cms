@@ -252,8 +252,8 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
         $this->populateHttpHost();
 
         // Import CMS plugin groups to be able to subscribe to events
-        PluginHelper::importPlugin('system');
-        PluginHelper::importPlugin('console');
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        PluginHelper::importPlugin('console', null, true, $this->getDispatcher());
 
         parent::execute();
     }
@@ -505,7 +505,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      *
      * @return  void
      * @since   4.2.1
-     * @see     https://github.com/joomla/joomla-cms/issues/38518
+     * @link    https://github.com/joomla/joomla-cms/issues/38518
      */
     protected function populateHttpHost()
     {

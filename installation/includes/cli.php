@@ -59,5 +59,10 @@ $container->alias('session', 'session.cli')
     ->alias(\Joomla\Session\Session::class, 'session.cli')
     ->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
 
+/** @var \Joomla\CMS\Installation\Application\CliInstallationApplication $app */
+$app = $container->get(\Joomla\CMS\Installation\Application\CliInstallationApplication::class);
+
+\Joomla\CMS\Factory::$application = $app;
+
 // Instantiate and execute the application
-$container->get(\Joomla\CMS\Installation\Application\CliInstallationApplication::class)->execute();
+$app->execute();
