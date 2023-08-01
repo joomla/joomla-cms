@@ -11,7 +11,6 @@
 namespace Joomla\Component\Finder\Administrator\Indexer\Language;
 
 use Joomla\Component\Finder\Administrator\Indexer\Language;
-use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
