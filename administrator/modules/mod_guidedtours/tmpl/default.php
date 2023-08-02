@@ -40,30 +40,24 @@ foreach ($tours as $tour) :
             if ($uri->getVar('option', '') === 'com_categories') :
                 if ($uri->getVar('extension', '') === $app->getInput()->get('extension', '')) :
                     $contextTours[] = $tour;
-                else :
-                    if ($toursCount > 0) :
-                        $listTours[] = $tour;
-                        $toursCount--;
-                    endif;
+                elseif ($toursCount > 0) :
+                    $listTours[] = $tour;
+                    $toursCount--;
                 endif;
             else :
                 if (in_array($app->getInput()->get('extension', ''), $tour->extensions)) :
                     $contextTours[] = $tour;
-                else :
-                    if ($toursCount > 0) :
-                        $listTours[] = $tour;
-                        $toursCount--;
-                    endif;
+                elseif ($toursCount > 0) :
+                    $listTours[] = $tour;
+                    $toursCount--;
                 endif;
             endif;
         else :
             $contextTours[] = $tour;
         endif;
-    else :
-        if ($toursCount > 0) :
-            $listTours[] = $tour;
-            $toursCount--;
-        endif;
+    elseif ($toursCount > 0) :
+        $listTours[] = $tour;
+        $toursCount--;
     endif;
 
     // We assume the url is the starting point
