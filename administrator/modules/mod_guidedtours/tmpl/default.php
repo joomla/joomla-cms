@@ -33,15 +33,38 @@ $allTours   = [];
 $toursCount = $params->get('tourscount', 7);
 
 foreach ($tours as $tour) :
+    $uri = new Uri($tour->url);
     if (count(array_intersect(['*', $extension], $tour->extensions))) :
-        $contextTours[] = $tour;
+        // Special case for the categories page, where the context is complemented with the extension the categories apply to.
+        if ($extension === 'com_categories') :
+            if ($uri->getVar('option', '') === 'com_categories') :
+                if ($uri->getVar('extension', '') === $app->getInput()->get('extension', '')) :
+                    $contextTours[] = $tour;
+                else :
+                    if ($toursCount > 0) :
+                        $listTours[] = $tour;
+                        $toursCount--;
+                    endif;
+                endif;
+            else:
+                if (in_array($app->getInput()->get('extension', ''), $tour->extensions)) :
+                    $contextTours[] = $tour;
+                else:
+                    if ($toursCount > 0) :
+                        $listTours[] = $tour;
+                        $toursCount--;
+                    endif;
+                endif;
+            endif;
+        else :
+            $contextTours[] = $tour;
+        endif;
     else :
         if ($toursCount > 0) :
             $listTours[] = $tour;
             $toursCount--;
         endif;
     endif;
-    $uri = new Uri($tour->url);
 
     // We assume the url is the starting point
     $key = $uri->getVar('option') ?? Text::_('MOD_GUIDEDTOURS_GENERIC_TOUR');
