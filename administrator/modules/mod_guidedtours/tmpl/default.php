@@ -90,39 +90,33 @@ endforeach;
         </div>
         <span class="icon-angle-down" aria-hidden="true"></span>
     </button>
-    <ul class="dropdown-menu dropdown-menu-end">
+    <div class="dropdown-menu dropdown-menu-end">
         <?php foreach ($contextTours as $tour) : ?>
-            <li>
-                <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
-                    <span class="icon-map-signs" aria-hidden="true"></span>
-                    <?php echo $tour->title; ?>
-                </button>
-            </li>
+            <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
+                <span class="icon-map-signs" aria-hidden="true"></span>
+                <?php echo $tour->title; ?>
+            </button>
         <?php endforeach; ?>
 
         <?php if (count($contextTours) > 0 && count($listTours) > 0) : ?>
-            <li><hr class="dropdown-divider m-0"></li>
+            <hr class="dropdown-divider m-0">
         <?php endif; ?>
 
         <?php foreach ($listTours as $tour) : ?>
-            <li>
-                <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
-                    <span class="icon-map-signs" aria-hidden="true"></span>
-                    <?php echo $tour->title; ?>
-                </button>
-            </li>
+            <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
+                <span class="icon-map-signs" aria-hidden="true"></span>
+                <?php echo $tour->title; ?>
+            </button>
         <?php endforeach; ?>
 
         <?php if (count($contextTours) > 0 || count($listTours) > 0) : ?>
-            <li><hr class="dropdown-divider m-0"></li>
+            <hr class="dropdown-divider m-0">
         <?php endif; ?>
 
-        <li>
-            <button type="button" class="dropdown-item text-center" data-bs-toggle="modal" data-bs-target="#modGuidedTours-modal">
-                <?php echo Text::_('MOD_GUIDEDTOURS_SHOW_ALL'); ?>
-            </button>
-        </li>
-    </ul>
+        <button type="button" class="dropdown-item text-center" data-bs-toggle="modal" data-bs-target="#modGuidedTours-modal">
+            <?php echo Text::_('MOD_GUIDEDTOURS_SHOW_ALL'); ?>
+        </button>
+    </div>
 </div>
 <?php
 
