@@ -84,43 +84,37 @@ endforeach;
         </div>
         <span class="icon-angle-down" aria-hidden="true"></span>
     </button>
-    <ul class="dropdown-menu dropdown-menu-end">
+    <div class="dropdown-menu dropdown-menu-end">
         <?php if (count($contextTours) > 0) : ?>
-            <li>
-                <ol class="p-0 m-0">
-                    <?php foreach ($contextTours as $tour) : ?>
-                        <li>
-                            <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
-                                <span class="icon-star" aria-hidden="true"></span>
-                                <?php echo $tour->title; ?>
-                            </button>
-                        </li>
-                    <?php endforeach; ?>
-                </ol>
-            </li>
-            <li class="dropdown-divider m-0" role="separator"></li>
+            <ol class="p-0 m-0">
+                <?php foreach ($contextTours as $tour) : ?>
+                    <li>
+                        <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
+                            <span class="icon-star" aria-hidden="true"></span>
+                            <?php echo $tour->title; ?>
+                        </button>
+                    </li>
+                <?php endforeach; ?>
+            </ol>
+            <hr class="dropdown-divider m-0" role="separator" />
         <?php endif; ?>
         <?php if (count($listTours) > 0) : ?>
-            <li>
-                <ol class="p-0 m-0">
-                    <?php foreach ($listTours as $tour) : ?>
-                        <li>
-                            <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
-                                <span class="icon-map-signs" aria-hidden="true"></span>
-                                <?php echo $tour->title; ?>
-                            </button>
-                        </li>
-                    <?php endforeach; ?>
-                </ol>
-            </li>
-            <li class="dropdown-divider m-0" role="separator"></li>
+            <ol class="p-0 m-0">
+                <?php foreach ($listTours as $tour) : ?>
+                    <li>
+                        <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
+                            <span class="icon-map-signs" aria-hidden="true"></span>
+                            <?php echo $tour->title; ?>
+                        </button>
+                    </li>
+                <?php endforeach; ?>
+            </ol>
+            <hr class="dropdown-divider m-0" role="separator" />
         <?php endif; ?>
-        <li>
-            <button type="button" class="dropdown-item text-center" data-bs-toggle="modal" data-bs-target="#modGuidedTours-modal">
-                <?php echo Text::_('MOD_GUIDEDTOURS_SHOW_ALL'); ?>
-            </button>
-        </li>
-    </ul>
+        <button type="button" class="dropdown-item text-center" data-bs-toggle="modal" data-bs-target="#modGuidedTours-modal">
+            <?php echo Text::_('MOD_GUIDEDTOURS_SHOW_ALL'); ?>
+        </button>
+    </div>
 </div>
 <?php
 

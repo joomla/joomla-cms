@@ -83,10 +83,6 @@
 
     li {
       list-style: none;
-
-      li:not(:first-child) > .dropdown-item {
-        border-radius: 0;
-      }
     }
   }
 
