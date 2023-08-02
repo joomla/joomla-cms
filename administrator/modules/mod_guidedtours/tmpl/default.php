@@ -46,10 +46,10 @@ foreach ($tours as $tour) :
                         $toursCount--;
                     endif;
                 endif;
-            else:
+            else :
                 if (in_array($app->getInput()->get('extension', ''), $tour->extensions)) :
                     $contextTours[] = $tour;
-                else:
+                else :
                     if ($toursCount > 0) :
                         $listTours[] = $tour;
                         $toursCount--;
