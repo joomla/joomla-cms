@@ -80,6 +80,14 @@
 
   .dropdown-menu {
     font-size: .85rem;
+
+    li {
+      list-style: none;
+
+      li:not(:first-child) > .dropdown-item {
+        border-radius: 0;
+      }
+    }
   }
 
   .dropdown-header,
