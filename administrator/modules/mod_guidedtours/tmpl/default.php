@@ -25,12 +25,12 @@ $app->getDocument()
     ->getWebAssetManager()
     ->useScript('bootstrap.dropdown');
 
-$lang       = $app->getLanguage();
-$extension  = $app->getInput()->get('option');
-$contextTours  = [];
-$listTours  = [];
-$allTours   = [];
-$toursCount = $params->get('tourscount', 7);
+$lang         = $app->getLanguage();
+$extension    = $app->getInput()->get('option');
+$contextTours = [];
+$listTours    = [];
+$allTours     = [];
+$toursCount   = $params->get('tourscount', 7);
 
 foreach ($tours as $tour) :
     $uri = new Uri($tour->url);
