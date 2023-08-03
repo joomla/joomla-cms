@@ -117,6 +117,8 @@ trait CoreEventAware
         'onContentBeforeChangeState'    => Model\BeforeChangeStateEvent::class,
         'onContentChangeState'          => Model\AfterChangeStateEvent::class,
         'onBeforeBatch'                 => Model\BeforeBatchEvent::class,
+        // User
+        'onUserAuthorisation' => User\AuthorisationEvent::class,
     ];
 
     /**
