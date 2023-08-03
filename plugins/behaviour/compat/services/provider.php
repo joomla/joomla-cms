@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.compat
+ * @subpackage  Behaviour.compat
  *
  * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -18,7 +18,7 @@ use Joomla\CMS\Router\SiteRouter;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\System\Compat\Extension\Compat;
+use Joomla\Plugin\Behaviour\Compat\Extension\Compat;
 
 return new class () implements ServiceProviderInterface {
     /**
@@ -34,7 +34,7 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $plugin     = PluginHelper::getPlugin('system', 'compat');
+                $plugin     = PluginHelper::getPlugin('behaviour', 'compat');
                 $dispatcher = $container->get(DispatcherInterface::class);
                 $profiler   = (defined('JDEBUG') && JDEBUG) ? Profiler::getInstance('Application') : null;
                 $router     = $container->has(SiteRouter::class) ? $container->get(SiteRouter::class) : null;
