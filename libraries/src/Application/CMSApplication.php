@@ -20,6 +20,7 @@ use Joomla\CMS\Event\Application\AfterRouteEvent;
 use Joomla\CMS\Event\Application\BeforeRenderEvent;
 use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Event\ErrorEvent;
+use Joomla\CMS\Event\User\AuthorisationFailureEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
@@ -836,9 +837,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         // Get the global Authentication object.
         $authenticate = Authentication::getInstance($this->authenticationPluginType);
         $response     = $authenticate->authenticate($credentials, $options);
+        $dispatcher   = $this->getDispatcher();
 
         // Import the user plugin group.
-        PluginHelper::importPlugin('user', null, true, $this->getDispatcher());
+        PluginHelper::importPlugin('user', null, true, $dispatcher);
 
         if ($response->status === Authentication::STATUS_SUCCESS) {
             /*
@@ -851,7 +853,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             foreach ($authorisations as $authorisation) {
                 if ((int) $authorisation->status & $denied_states) {
                     // Trigger onUserAuthorisationFailure Event.
-                    $this->triggerEvent('onUserAuthorisationFailure', [(array) $authorisation]);
+                    $dispatcher->dispatch('onUserAuthorisationFailure', new AuthorisationFailureEvent('onUserAuthorisationFailure', [
+                        'subject' => (array) $authorisation,
+                    ]));
 
                     // If silent is set, just return false.
                     if (isset($options['silent']) && $options['silent']) {
@@ -861,17 +865,17 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                     // Return the error.
                     switch ($authorisation->status) {
                         case Authentication::STATUS_EXPIRED:
-                            Factory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_EXPIRED'), 'error');
+                            $this->enqueueMessage(Text::_('JLIB_LOGIN_EXPIRED'), 'error');
 
                             return false;
 
                         case Authentication::STATUS_DENIED:
-                            Factory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_DENIED'), 'error');
+                            $this->enqueueMessage(Text::_('JLIB_LOGIN_DENIED'), 'error');
 
                             return false;
 
                         default:
-                            Factory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_AUTHORISATION'), 'error');
+                            $this->enqueueMessage(Text::_('JLIB_LOGIN_AUTHORISATION'), 'error');
 
                             return false;
                     }
