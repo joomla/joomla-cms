@@ -430,7 +430,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since   3.2
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  3.2 will be removed in 6.0
      *              Use get() instead
      *              Example: Factory::getApplication()->get($varname, $default);
      */
