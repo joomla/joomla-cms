@@ -61,7 +61,7 @@ foreach ($tours as $tour) :
     endif;
 
     // We assume the url is the starting point
-    $key = $uri->getVar('option') ?? Text::_('MOD_GUIDEDTOURS_GENERIC_TOUR');
+    $key = $uri->getVar('option') ?? 'com_cpanel';
 
     if (!isset($allTours[$key])) :
         $lang->load("$key.sys", JPATH_ADMINISTRATOR)
