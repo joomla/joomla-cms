@@ -21,9 +21,12 @@ use Joomla\CMS\Event\Application\BeforeRenderEvent;
 use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Event\User\AfterLoginEvent;
+use Joomla\CMS\Event\User\AfterLogoutEvent;
 use Joomla\CMS\Event\User\AuthorisationFailureEvent;
 use Joomla\CMS\Event\User\LoginEvent;
 use Joomla\CMS\Event\User\LoginFailureEvent;
+use Joomla\CMS\Event\User\LogoutEvent;
+use Joomla\CMS\Event\User\LogoutFailureEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
@@ -956,7 +959,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     public function logout($userid = null, $options = [])
     {
         // Get a user object from the Application.
-        $user = Factory::getUser($userid);
+        $user       = Factory::getUser($userid);
+        $dispatcher = $this->getDispatcher();
 
         // Build the credentials array.
         $parameters = [
@@ -970,21 +974,29 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         // Import the user plugin group.
-        PluginHelper::importPlugin('user', null, true, $this->getDispatcher());
+        PluginHelper::importPlugin('user', null, true, $dispatcher);
 
         // OK, the credentials are built. Lets fire the onLogout event.
-        $results = $this->triggerEvent('onUserLogout', [$parameters, $options]);
+        $logoutEvent = new LogoutEvent('onUserLogout', ['subject' => $parameters, 'options' => $options]);
+        $dispatcher->dispatch('onUserLogout', $logoutEvent);
+        $results = $logoutEvent['result'] ?? [];
 
         // Check if any of the plugins failed. If none did, success.
         if (!\in_array(false, $results, true)) {
             $options['username'] = $user->get('username');
-            $this->triggerEvent('onUserAfterLogout', [$options]);
+            $dispatcher->dispatch('onUserAfterLogout', new AfterLogoutEvent('onUserAfterLogout', [
+                'options' => $options,
+                'subject' => $parameters,
+            ]));
 
             return true;
         }
 
         // Trigger onUserLogoutFailure Event.
-        $this->triggerEvent('onUserLogoutFailure', [$parameters]);
+        $dispatcher->dispatch('onUserLogoutFailure', new LogoutFailureEvent('onUserLogoutFailure', [
+            'subject' => $parameters,
+            'options' => $options,
+        ]));
 
         return false;
     }
