@@ -18,7 +18,9 @@ use Joomla\CMS\Event\Result\ResultTypeBooleanAware;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for User event
+ * Class for User event.
+ * Example:
+ *  new LogoutEvent('onEventName', ['subject' => $parameters, 'options' => $options]);
  *
  * @since  __DEPLOY_VERSION__
  */

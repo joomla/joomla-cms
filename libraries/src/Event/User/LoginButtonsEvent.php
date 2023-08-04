@@ -18,7 +18,9 @@ use Joomla\CMS\Event\Result\ResultTypeArrayAware;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for User event
+ * Class for User event.
+ * Example:
+ *  new LoginButtonsEvent('onEventName', ['subject' => $formId]);
  *
  * @since  __DEPLOY_VERSION__
  */

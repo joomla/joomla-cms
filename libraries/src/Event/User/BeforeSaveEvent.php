@@ -18,7 +18,9 @@ use Joomla\CMS\Event\Result\ResultTypeBooleanAware;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for User save event
+ * Class for User save event.
+ * Example:
+ *  new BeforeSaveEvent('onEventName', ['subject' => $oldUserArray, 'isNew' => $isNew, 'data' => $data]);
  *
  * @since  __DEPLOY_VERSION__
  */

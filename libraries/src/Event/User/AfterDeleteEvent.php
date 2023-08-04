@@ -14,7 +14,9 @@ namespace Joomla\CMS\Event\User;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for User delete event
+ * Class for User delete event.
+ * Example:
+ *  new AfterDeleteEvent('onEventName', ['subject' => $userArray, 'deletingResult' => $result, 'errorMessage' => $errorStr]);
  *
  * @since  __DEPLOY_VERSION__
  */

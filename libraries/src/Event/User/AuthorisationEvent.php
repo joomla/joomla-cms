@@ -18,7 +18,9 @@ use Joomla\CMS\Event\Result\ResultAwareInterface;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for User event
+ * Class for User event.
+ * Example:
+ *  new AuthorisationEvent('onEventName', ['subject' => $authenticationResponse, 'options' => $options]);
  *
  * @since  __DEPLOY_VERSION__
  */

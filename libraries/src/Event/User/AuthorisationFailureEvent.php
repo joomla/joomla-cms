@@ -14,7 +14,9 @@ namespace Joomla\CMS\Event\User;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for User event
+ * Class for User event.
+ * Example:
+ *  new AuthorisationFailureEvent('onEventName', ['subject' => $authenticationResponseArray, 'options' => $options]);
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -28,7 +30,7 @@ class AuthorisationFailureEvent extends UserEvent
      * @since  __DEPLOY_VERSION__
      * @deprecated 5.0 will be removed in 6.0
      */
-    protected $legacyArgumentsOrder = ['subject'];
+    protected $legacyArgumentsOrder = ['subject', 'options'];
 
     /**
      * Setter for the subject argument.
@@ -45,6 +47,20 @@ class AuthorisationFailureEvent extends UserEvent
     }
 
     /**
+     * Setter for the options argument.
+     *
+     * @param   array  $value  The value to set
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function setOptions(array $value): array
+    {
+        return $value;
+    }
+
+    /**
      * Getter for the response.
      *
      * @return  array
@@ -54,5 +70,17 @@ class AuthorisationFailureEvent extends UserEvent
     public function getAuthenticationResponse(): array
     {
         return $this->arguments['subject'];
+    }
+
+    /**
+     * Getter for the options.
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getOptions(): array
+    {
+        return $this->arguments['options'] ?? [];
     }
 }

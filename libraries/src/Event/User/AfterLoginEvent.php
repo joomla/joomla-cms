@@ -14,7 +14,9 @@ namespace Joomla\CMS\Event\User;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for User event
+ * Class for User event.
+ * Example:
+ *  new AfterLoginEvent('onEventName', ['subject' => $authenticationResponseArray, 'options' => $options]);
  *
  * @since  __DEPLOY_VERSION__
  */

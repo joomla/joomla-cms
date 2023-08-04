@@ -14,7 +14,9 @@ namespace Joomla\CMS\Event\User;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for User save event
+ * Class for User save event.
+ * Example:
+ *  new AfterSaveEvent('onEventName', ['subject' => $userArray, 'isNew' => $isNew, 'savingResult' => $result, 'errorMessage' => $errorStr]);
  *
  * @since  __DEPLOY_VERSION__
  */

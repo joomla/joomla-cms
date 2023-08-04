@@ -861,6 +861,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                     // Trigger onUserAuthorisationFailure Event.
                     $dispatcher->dispatch('onUserAuthorisationFailure', new AuthorisationFailureEvent('onUserAuthorisationFailure', [
                         'subject' => (array) $authorisation,
+                        'options' => $options,
                     ]));
 
                     // If silent is set, just return false.
