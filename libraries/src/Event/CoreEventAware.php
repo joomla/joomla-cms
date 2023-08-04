@@ -131,6 +131,7 @@ trait CoreEventAware
         'onUserAfterSave'            => User\AfterSaveEvent::class,
         'onUserBeforeDelete'         => User\BeforeDeleteEvent::class,
         'onUserAfterDelete'          => User\AfterDeleteEvent::class,
+        'onUserAfterRemind'          => User\AfterRemindEvent::class,
         // User Group
         'onUserBeforeSaveGroup'   => Model\BeforeSaveEvent::class,
         'onUserAfterSaveGroup'    => Model\AfterSaveEvent::class,
