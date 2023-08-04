@@ -10,7 +10,9 @@
 namespace Joomla\CMS\User;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Event\User\AfterDeleteEvent;
 use Joomla\CMS\Event\User\AfterSaveEvent;
+use Joomla\CMS\Event\User\BeforeDeleteEvent;
 use Joomla\CMS\Event\User\BeforeSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -801,7 +803,7 @@ class User
                 'subject'      => $this->getProperties(),
                 'isNew'        => $isNew,
                 'savingResult' => $result,
-                'errorMessage' => $this->getError(),
+                'errorMessage' => $this->getError() ?? '',
             ]));
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
@@ -821,10 +823,13 @@ class User
      */
     public function delete()
     {
-        PluginHelper::importPlugin('user');
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        PluginHelper::importPlugin('user', null, true, $dispatcher);
 
         // Trigger the onUserBeforeDelete event
-        Factory::getApplication()->triggerEvent('onUserBeforeDelete', [$this->getProperties()]);
+        $dispatcher->dispatch('onUserBeforeDelete', new BeforeDeleteEvent('onUserBeforeDelete', [
+            'subject' => $this->getProperties(),
+        ]));
 
         // Create the user table object
         $table = $this->getTable();
@@ -834,7 +839,11 @@ class User
         }
 
         // Trigger the onUserAfterDelete event
-        Factory::getApplication()->triggerEvent('onUserAfterDelete', [$this->getProperties(), $result, $this->getError()]);
+        $dispatcher->dispatch('onUserAfterDelete', new AfterDeleteEvent('onUserAfterDelete', [
+            'subject'        => $this->getProperties(),
+            'deletingResult' => $result,
+            'errorMessage'   => $this->getError() ?? '',
+        ]));
 
         return $result;
     }
