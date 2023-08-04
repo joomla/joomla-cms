@@ -64,5 +64,4 @@ class LoginButtonsEvent extends UserEvent implements ResultAwareInterface
     {
         return $this->arguments['subject'];
     }
-
 }

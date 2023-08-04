@@ -107,5 +107,4 @@ class AuthorisationEvent extends UserEvent implements ResultAwareInterface
     {
         return $this->arguments['options'] ?? [];
     }
-
 }
