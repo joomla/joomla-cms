@@ -20,7 +20,10 @@ use Joomla\CMS\Event\Application\AfterRouteEvent;
 use Joomla\CMS\Event\Application\BeforeRenderEvent;
 use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Event\ErrorEvent;
+use Joomla\CMS\Event\User\AfterLoginEvent;
 use Joomla\CMS\Event\User\AuthorisationFailureEvent;
+use Joomla\CMS\Event\User\LoginEvent;
+use Joomla\CMS\Event\User\LoginFailureEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
@@ -883,7 +886,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             }
 
             // OK, the credentials are authenticated and user is authorised.  Let's fire the onLogin event.
-            $results = $this->triggerEvent('onUserLogin', [(array) $response, $options]);
+            $loginEvent = new LoginEvent('onUserLogin', ['subject' => (array) $response, 'options' => $options]);
+            $dispatcher->dispatch('onUserLogin', $loginEvent);
+            $results = $loginEvent['result'] ?? [];
 
             /*
              * If any of the user plugins did not successfully complete the login routine
@@ -903,14 +908,20 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 $options['responseType'] = $response->type;
 
                 // The user is successfully logged in. Run the after login events
-                $this->triggerEvent('onUserAfterLogin', [$options]);
+                $dispatcher->dispatch('onUserAfterLogin', new AfterLoginEvent('onUserAfterLogin', [
+                    'options' => $options,
+                    'subject' => (array) $response,
+                ]));
 
                 return true;
             }
         }
 
         // Trigger onUserLoginFailure Event.
-        $this->triggerEvent('onUserLoginFailure', [(array) $response]);
+        $dispatcher->dispatch('onUserLoginFailure', new LoginFailureEvent('onUserLoginFailure', [
+            'subject' => (array) $response,
+            'options' => $options,
+        ]));
 
         // If silent is set, just return false.
         if (isset($options['silent']) && $options['silent']) {
