@@ -10,6 +10,8 @@
 namespace Joomla\CMS\User;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Event\User\AfterSaveEvent;
+use Joomla\CMS\Event\User\BeforeSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
@@ -765,9 +767,16 @@ class User
             }
 
             // Fire the onUserBeforeSave event.
-            PluginHelper::importPlugin('user');
+            $dispatcher = Factory::getApplication()->getDispatcher();
+            PluginHelper::importPlugin('user', null, true, $dispatcher);
 
-            $result = Factory::getApplication()->triggerEvent('onUserBeforeSave', [$oldUser->getProperties(), $isNew, $this->getProperties()]);
+            $saveEvent = new BeforeSaveEvent('onUserBeforeSave', [
+                'subject' => $oldUser->getProperties(),
+                'isNew'   => $isNew,
+                'data'    => $this->getProperties(),
+            ]);
+            $dispatcher->dispatch('onUserBeforeSave', $saveEvent);
+            $result = $saveEvent['result'] ?? [];
 
             if (\in_array(false, $result, true)) {
                 // Plugin will have to raise its own error or throw an exception.
@@ -788,7 +797,12 @@ class User
             }
 
             // Fire the onUserAfterSave event
-            Factory::getApplication()->triggerEvent('onUserAfterSave', [$this->getProperties(), $isNew, $result, $this->getError()]);
+            $dispatcher->dispatch('onUserAfterSave', new AfterSaveEvent('onUserAfterSave', [
+                'subject'      => $this->getProperties(),
+                'isNew'        => $isNew,
+                'savingResult' => $result,
+                'errorMessage' => $this->getError(),
+            ]));
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
 

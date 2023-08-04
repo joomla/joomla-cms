@@ -127,6 +127,8 @@ trait CoreEventAware
         'onUserAfterLogout'          => User\AfterLogoutEvent::class,
         'onUserLogoutFailure'        => User\LogoutFailureEvent::class,
         'onUserLoginButtons'         => User\LoginButtonsEvent::class,
+        'onUserBeforeSave'           => User\BeforeSaveEvent::class,
+        'onUserAfterSave'            => User\AfterSaveEvent::class,
     ];
 
     /**
