@@ -89,7 +89,7 @@ endforeach;
             <ol class="list-unstyled m-0">
                 <?php foreach ($contextTours as $tour) : ?>
                     <li>
-                        <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
+                        <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id; ?>">
                             <span class="icon-star" aria-hidden="true"></span>
                             <?php echo $tour->title; ?>
                         </button>
@@ -102,7 +102,7 @@ endforeach;
             <ol class="list-unstyled m-0">
                 <?php foreach ($listTours as $tour) : ?>
                     <li>
-                        <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
+                        <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id; ?>">
                             <span class="icon-map-signs" aria-hidden="true"></span>
                             <?php echo $tour->title; ?>
                         </button>
