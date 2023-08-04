@@ -86,7 +86,7 @@ endforeach;
     </button>
     <div class="dropdown-menu dropdown-menu-end">
         <?php if (count($contextTours) > 0) : ?>
-            <ol class="p-0 m-0">
+            <ol class="list-unstyled m-0">
                 <?php foreach ($contextTours as $tour) : ?>
                     <li>
                         <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
@@ -99,7 +99,7 @@ endforeach;
             <hr class="dropdown-divider m-0" role="separator" />
         <?php endif; ?>
         <?php if (count($listTours) > 0) : ?>
-            <ol class="p-0 m-0">
+            <ol class="list-unstyled m-0">
                 <?php foreach ($listTours as $tour) : ?>
                     <li>
                         <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
