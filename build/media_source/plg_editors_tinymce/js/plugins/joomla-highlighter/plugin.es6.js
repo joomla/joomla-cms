@@ -58,9 +58,6 @@ window.tinymce.PluginManager.add('joomlaHighlighter', (editor) => {
         cmEditor = null;
         running = false;
       },
-      initialData: {
-        textarea: getContent(),
-      },
     };
 
     // Import codemirror and open the dialog
@@ -68,7 +65,13 @@ window.tinymce.PluginManager.add('joomlaHighlighter', (editor) => {
     import('codemirror').then(({ createFromTextarea }) => {
       editor.windowManager.open(dialogConfig);
 
+      // Find textarea and move it to shadow DOM to isolate from TinyMCE styling
       const textarea = document.querySelector('.joomla-highlighter-dialog textarea');
+      const wrapper = textarea.parentElement;
+      const shadow = wrapper.attachShadow({ mode: 'open' });
+      textarea.value = getContent();
+      shadow.appendChild(textarea);
+
       const cmOptions = {
         mode: 'html',
         lineNumbers: true,
@@ -77,11 +80,15 @@ window.tinymce.PluginManager.add('joomlaHighlighter', (editor) => {
         highlightSelection: true,
         foldGutter: true,
         width: '100%',
+        height: '100%',
+        root: shadow,
       };
+      const wrapperheight = wrapper.scrollHeight;
 
       createFromTextarea(textarea, cmOptions).then((cmView) => {
         cmEditor = cmView;
         cmEditor.focus();
+        cmEditor.dom.style.maxHeight = `${wrapperheight}px`;
       });
     });
   };
