@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\Extension;
  *
  * @since  __DEPLOY_VERSION__
  */
-class BeforeInstallEvent extends AbstractExtensionEvent
+class BeforeUpdateEvent extends AbstractExtensionEvent
 {
     /**
      * The argument names, in order expected by legacy plugins.
@@ -28,7 +28,7 @@ class BeforeInstallEvent extends AbstractExtensionEvent
      * @since  __DEPLOY_VERSION__
      * @deprecated 5.0 will be removed in 6.0
      */
-    protected $legacyArgumentsOrder = ['method', 'type', 'manifest', 'extension'];
+    protected $legacyArgumentsOrder = ['type', 'manifest'];
 
     /**
      * Constructor.
@@ -44,27 +44,13 @@ class BeforeInstallEvent extends AbstractExtensionEvent
     {
         parent::__construct($name, $arguments);
 
-        if (!\array_key_exists('method', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'method' of event {$name} is required but has not been provided");
-        }
-
         if (!\array_key_exists('type', $this->arguments)) {
             throw new \BadMethodCallException("Argument 'type' of event {$name} is required but has not been provided");
         }
-    }
 
-    /**
-     * Setter for the method argument.
-     *
-     * @param   string  $value  The value to set
-     *
-     * @return  string
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    protected function setMethod(string $value): string
-    {
-        return $value;
+        if (!\array_key_exists('manifest', $this->arguments)) {
+            throw new \BadMethodCallException("Argument 'manifest' of event {$name} is required but has not been provided");
+        }
     }
 
     /**
@@ -96,32 +82,6 @@ class BeforeInstallEvent extends AbstractExtensionEvent
     }
 
     /**
-     * Setter for the extension argument.
-     *
-     * @param   integer  $value  The value to set
-     *
-     * @return  integer
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    protected function setExtension(int $value): int
-    {
-        return $value;
-    }
-
-    /**
-     * Getter for the method.
-     *
-     * @return  string
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public function getMethod(): string
-    {
-        return $this->arguments['method'];
-    }
-
-    /**
      * Getter for the type.
      *
      * @return  string
@@ -142,18 +102,6 @@ class BeforeInstallEvent extends AbstractExtensionEvent
      */
     public function getManifest(): ?\SimpleXMLElement
     {
-        return $this->arguments['manifest'] ?? null;
-    }
-
-    /**
-     * Getter for the extension.
-     *
-     * @return  integer
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public function getExtension(): int
-    {
-        return $this->arguments['extension'] ?? 0;
+        return $this->arguments['manifest'];
     }
 }
