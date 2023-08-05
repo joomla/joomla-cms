@@ -123,6 +123,8 @@ trait CoreEventAware
         'onFinderAfterDelete'         => Finder\AfterDeleteEvent::class,
         'onFinderBeforeSave'          => Finder\BeforeSaveEvent::class,
         'onFinderAfterSave'           => Finder\AfterSaveEvent::class,
+        'onFinderResult'              => Finder\ResultEvent::class,
+        'onPrepareFinderContent'      => Finder\PrepareContentEvent::class,
     ];
 
     /**
