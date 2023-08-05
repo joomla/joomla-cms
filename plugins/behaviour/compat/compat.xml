@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension type="plugin" group="system" method="upgrade">
-	<name>plg_system_compat</name>
+<extension type="plugin" group="behaviour" method="upgrade">
+	<name>plg_behaviour_compat</name>
 	<author>Joomla! Project</author>
 	<creationDate>2023-03</creationDate>
 	<copyright>(C) 2023 Open Source Matters, Inc.</copyright>
@@ -9,14 +9,14 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>5.0.0</version>
 	<description>PLG_COMPAT_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\System\Compat</namespace>
+	<namespace path="src">Joomla\Plugin\Behaviour\Compat</namespace>
 	<files>
 		<folder plugin="compat">services</folder>
 		<folder>src</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/plg_system_compat.ini</language>
-		<language tag="en-GB">language/en-GB/plg_system_compat.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_behaviour_compat.ini</language>
+		<language tag="en-GB">language/en-GB/plg_behaviour_compat.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

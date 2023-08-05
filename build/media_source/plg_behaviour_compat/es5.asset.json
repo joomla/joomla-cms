@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
-  "name": "plg_system_compat",
+  "name": "plg_behaviour_compat",
   "version": "5.0.0",
   "description": "Joomla CMS ES5 b/c entries, the entries are only placeholders without functionality.",
   "license": "GPL-2.0-or-later",
