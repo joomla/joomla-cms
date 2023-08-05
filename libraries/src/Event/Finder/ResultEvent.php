@@ -17,7 +17,9 @@ use Joomla\Component\Finder\Administrator\Indexer\Result;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Finder events
+ * Class for Finder events.
+ * Example:
+ *  new ResultEvent('onEventName', ['subject' => $item, 'query' => $query]);
  *
  * @since  __DEPLOY_VERSION__
  */
