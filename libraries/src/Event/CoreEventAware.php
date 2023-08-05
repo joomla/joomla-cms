@@ -116,6 +116,7 @@ trait CoreEventAware
         'onContentAfterDelete'          => Model\AfterDeleteEvent::class,
         'onContentBeforeChangeState'    => Model\BeforeChangeStateEvent::class,
         'onContentChangeState'          => Model\AfterChangeStateEvent::class,
+        'onCategoryChangeState'         => Model\AfterCategoryChangeStateEvent::class,
         'onBeforeBatch'                 => Model\BeforeBatchEvent::class,
         // Finder
         'onFinderCategoryChangeState' => Finder\AfterCategoryChangeStateEvent::class,
