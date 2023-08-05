@@ -16,7 +16,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\Schemaorg\Blogposting\Extension\BlogPosting;
+use Joomla\Plugin\Schemaorg\BlogPosting\Extension\BlogPosting;
 
 return new class () implements ServiceProviderInterface {
     /**
