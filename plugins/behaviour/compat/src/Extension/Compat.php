@@ -2,13 +2,13 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.compat
+ * @subpackage  Behaviour.compat
  *
  * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Plugin\System\Compat\Extension;
+namespace Joomla\Plugin\Behaviour\Compat\Extension;
 
 use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -64,7 +64,7 @@ final class Compat extends CMSPlugin implements SubscriberInterface
         /**
          * Normally we should never use the constructor to execute any logic which would
          * affect other parts of the cms, but since we need to load class aliases as
-         * early as possible we load the class aliases in the constructor so system plugins
+         * early as possible we load the class aliases in the constructor so behaviour and system plugins
          * which depend on the JPlugin alias for example still are working
          */
 
@@ -96,7 +96,7 @@ final class Compat extends CMSPlugin implements SubscriberInterface
             $event->getDocument()
                 ->getWebAssetManager()
                 ->getRegistry()
-                ->addRegistryFile('media/plg_system_compat/es5.asset.json');
+                ->addRegistryFile('media/plg_behaviour_compat/es5.asset.json');
         }
     }
 }
