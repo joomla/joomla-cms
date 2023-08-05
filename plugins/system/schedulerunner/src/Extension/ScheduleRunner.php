@@ -343,7 +343,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
     public function generateWebcronKey(EventInterface $event): void
     {
         /** @var Extension $table */
-        [$context, $table] = $event->getArguments();
+        [$context, $table] = array_values($event->getArguments());
 
         if ($context !== 'com_config.component' || $table->name !== 'com_scheduler') {
             return;
