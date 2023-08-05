@@ -118,6 +118,10 @@ trait CoreEventAware
         'onContentChangeState'          => Model\AfterChangeStateEvent::class,
         'onCategoryChangeState'         => Model\AfterCategoryChangeStateEvent::class,
         'onBeforeBatch'                 => Model\BeforeBatchEvent::class,
+        // Installer
+        'onExtensionBeforeSave'  => Model\BeforeSaveEvent::class,
+        'onExtensionAfterSave'   => Model\AfterSaveEvent::class,
+        'onExtensionAfterDelete' => Model\AfterDeleteEvent::class,
     ];
 
     /**
