@@ -25,9 +25,11 @@ trait SchemaorgPrepareDateTrait
     /**
      * Prepare date
      *
-     * @param string|array $image
+     * @param   string|array $date
      *
-     * @return string|null
+     * @return  string|array
+     *
+     * @since   __DEPLOY_VERSION__
      */
     protected function prepareDate($date)
     {
@@ -40,7 +42,7 @@ trait SchemaorgPrepareDateTrait
             $newDates = [];
 
             foreach ($date as $d) {
-                $newDates[] = $this->prepareImage($d);
+                $newDates[] = $this->prepareDate($d);
             }
 
             return $newDates;

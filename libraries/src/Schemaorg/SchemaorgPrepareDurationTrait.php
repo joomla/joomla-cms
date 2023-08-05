@@ -14,18 +14,20 @@ namespace Joomla\CMS\Schemaorg;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Prepare images to be valid for JSON-LD output
+ * Prepare duration to be valid for JSON-LD output
  *
  * @since  __DEPLOY_VERSION__
  */
 trait SchemaorgPrepareDurationTrait
 {
     /**
-     * Prepare media image files
+     * Prepare duration
      *
-     * @param string|array $image
+     * @param   array $duration
      *
-     * @return string|null
+     * @return  ?string
+     *
+     * @since   __DEPLOY_VERSION__
      */
     protected function prepareDuration($duration)
     {
