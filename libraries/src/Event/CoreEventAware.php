@@ -117,6 +117,12 @@ trait CoreEventAware
         'onContentBeforeChangeState'    => Model\BeforeChangeStateEvent::class,
         'onContentChangeState'          => Model\AfterChangeStateEvent::class,
         'onBeforeBatch'                 => Model\BeforeBatchEvent::class,
+        // Finder
+        'onFinderCategoryChangeState' => Finder\AfterCategoryChangeStateEvent::class,
+        'onFinderChangeState'         => Finder\AfterChangeStateEvent::class,
+        'onFinderAfterDelete'         => Finder\AfterDeleteEvent::class,
+        'onFinderBeforeSave'          => Finder\BeforeSaveEvent::class,
+        'onFinderAfterSave'           => Finder\AfterSaveEvent::class,
     ];
 
     /**
