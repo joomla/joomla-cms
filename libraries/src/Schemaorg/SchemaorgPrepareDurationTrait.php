@@ -21,11 +21,13 @@ namespace Joomla\CMS\Schemaorg;
 trait SchemaorgPrepareDurationTrait
 {
     /**
-     * Prepare duration image files
+     * Prepare duration
      *
-     * @param string|array $image
+     * @param   array $duration
      *
-     * @return string|null
+     * @return  ?string
+     *
+     * @since   __DEPLOY_VERSION__
      */
     protected function prepareDuration($duration)
     {

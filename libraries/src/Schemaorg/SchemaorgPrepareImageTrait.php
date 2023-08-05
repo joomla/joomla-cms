@@ -25,9 +25,11 @@ trait SchemaorgPrepareImageTrait
     /**
      * Prepare media image files
      *
-     * @param string|array $image
+     * @param   string|array $image
      *
-     * @return string|null
+     * @return  string|array
+     *
+     * @since   __DEPLOY_VERSION__
      */
     protected function prepareImage($image)
     {
