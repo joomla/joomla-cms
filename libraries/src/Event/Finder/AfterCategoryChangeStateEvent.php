@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event\Finder;
 
-use Joomla\CMS\Event\Model\ChangeStateEvent;
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -22,6 +20,6 @@ use Joomla\CMS\Event\Model\ChangeStateEvent;
  *
  * @since  __DEPLOY_VERSION__
  */
-class AfterCategoryChangeStateEvent extends ChangeStateEvent implements FinderEventInterface
+class AfterCategoryChangeStateEvent extends \Joomla\CMS\Event\Model\AfterCategoryChangeStateEvent implements FinderEventInterface
 {
 }
