@@ -120,6 +120,7 @@ trait CoreEventAware
         'onBeforeBatch'                 => Model\BeforeBatchEvent::class,
         // Extension and Installer
         'onExtensionBeforeInstall' => Extension\BeforeInstallEvent::class,
+        'onExtensionAfterInstall'  => Extension\AfterInstallEvent::class,
         'onExtensionBeforeSave'    => Model\BeforeSaveEvent::class,
         'onExtensionAfterSave'     => Model\AfterSaveEvent::class,
         'onExtensionAfterDelete'   => Model\AfterDeleteEvent::class,
