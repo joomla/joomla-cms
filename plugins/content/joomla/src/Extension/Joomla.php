@@ -279,7 +279,7 @@ final class Joomla extends CMSPlugin
 
         $component = $this->getApplication()->bootComponent('com_content')->getMVCFactory();
 
-        $enableCache = $this->params->get('schema_cache', 0);
+        $enableCache = $this->params->get('schema_cache', 1);
 
         $cache = Factory::getContainer()->get(CacheControllerFactory::class)
             ->createCacheController('Callback', ['lifetime' => $app->get('cachetime'), 'caching' => $enableCache, 'defaultgroup' => 'schemaorg']);
