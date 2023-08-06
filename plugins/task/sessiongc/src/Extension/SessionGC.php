@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\Task\SessionGC\Extension;
 
 use Joomla\CMS\Factory;
-
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
