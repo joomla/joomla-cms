@@ -39,7 +39,7 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
      * Application object
      *
      * @var    CMSApplication
-     * @since  3.8.6
+     * @since  __DEPLOY_VERSION__
      */
     protected $app;
 
