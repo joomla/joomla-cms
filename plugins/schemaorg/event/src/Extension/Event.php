@@ -10,11 +10,11 @@
 
 namespace Joomla\Plugin\Schemaorg\Event\Extension;
 
+use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
 use Joomla\CMS\Schemaorg\SchemaorgPrepareDateTrait;
 use Joomla\CMS\Schemaorg\SchemaorgPrepareImageTrait;
-use Joomla\Event\Event as EventEvent;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
@@ -67,15 +67,15 @@ final class Event extends CMSPlugin implements SubscriberInterface
     /**
      * Cleanup all Event types
      *
-     * @param   Event  $event  The given event
+     * @param   BeforeCompileHeadEvent  $event  The given event
      *
-     * @return void
+     * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function onSchemaBeforeCompileHead(EventEvent $event)
+    public function onSchemaBeforeCompileHead(BeforeCompileHeadEvent $event): void
     {
-        $schema = $event->getArgument('subject');
+        $schema = $event->getSchema();
 
         $graph = $schema->get('@graph');
 

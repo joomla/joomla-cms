@@ -9,8 +9,8 @@
 
 namespace Joomla\CMS\Schemaorg;
 
+use Joomla\CMS\Event\Plugin\System\Schemaorg\PrepareFormEvent;
 use Joomla\CMS\Form\Field\ListField;
-use Joomla\Event\EventInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,15 +23,6 @@ use Joomla\Event\EventInterface;
  */
 trait SchemaorgPluginTrait
 {
-    /**
-     * Define all fields which are media type to clean them
-     *
-     * @var array
-     */
-    protected $imageFields = [
-        'image',
-    ];
-
     /**
      * Returns an array of events this subscriber will listen to.
      *
@@ -49,19 +40,19 @@ trait SchemaorgPluginTrait
     /**
      * Add a new option to schemaType list field in schema form
      *
-     * @param   EventInterface $event
+     * @param   PrepareFormEvent  $event
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   5.0.0
      */
-    protected function addSchemaType(EventInterface $event)
+    protected function addSchemaType(PrepareFormEvent $event): void
     {
-        $form = $event->getArgument('subject');
+        $form = $event->getForm();
         $name = $this->pluginName;
 
         if (!$form || !$name) {
-            return false;
+            return;
         }
 
         $schemaType = $form->getField('schemaType', 'schema');
@@ -69,43 +60,43 @@ trait SchemaorgPluginTrait
         if ($schemaType instanceof ListField) {
             $schemaType->addOption($name, ['value' => $name]);
         }
-
-        return true;
     }
 
     /**
-     *  Add a new option to the schema type in the item editing page
+     * Add a new option to the schema type in the item editing page
      *
-     *  @param   EventInterface  $event  The form to be altered.
+     * @param   PrepareFormEvent  $event  The form to be altered.
      *
-     *  @return  boolean
+     * @return  void
+     *
+     * @since   5.0.0
      */
-    public function onSchemaPrepareForm(EventInterface $event)
+    public function onSchemaPrepareForm(PrepareFormEvent $event): void
     {
-        $form    = $event->getArgument('subject');
+        $form    = $event->getForm();
         $context = $form->getName();
 
         if (!$this->isSupported($context)) {
-            return false;
+            return;
         }
 
         $this->addSchemaType($event);
 
-        //Load the form fields
+        // Load the form fields
         if (is_file(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/schemaorg.xml')) {
             $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/schemaorg.xml');
         }
-
-        return true;
     }
 
     /**
-     *  To create an array from repeatable text field data
+     * To create an array from repeatable text field data
      *
-     *  @param   array $schema Schema form
-     *  @param   array $repeatableFields Names of all the Repeatable fields
+     * @param   array  $schema            Schema form
+     * @param   array  $repeatableFields  Names of all the Repeatable fields
      *
-     *  @return  array
+     * @return  array
+     *
+     * @since   5.0.0
      */
     protected function convertToArray(array $schema, array $repeatableFields)
     {
@@ -147,7 +138,7 @@ trait SchemaorgPluginTrait
      *
      * @param   string  $context
      *
-     * @return boolean
+     * @return  boolean
      *
      * @since   5.0.0
      */
@@ -172,9 +163,11 @@ trait SchemaorgPluginTrait
     /**
      * Check if the context is listed in the allowed or forbidden lists and return the result.
      *
-     * @param   string $context Context to check
+     * @param   string  $context  Context to check
      *
      * @return  boolean
+     *
+     * @since   5.0.0
      */
     protected function checkAllowedAndForbiddenlist($context)
     {

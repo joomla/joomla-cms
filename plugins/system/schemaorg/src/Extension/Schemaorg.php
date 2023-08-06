@@ -11,6 +11,10 @@
 namespace Joomla\Plugin\System\Schemaorg\Extension;
 
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
+use Joomla\CMS\Event\Plugin\System\Schemaorg\PrepareDataEvent;
+use Joomla\CMS\Event\Plugin\System\Schemaorg\PrepareFormEvent;
+use Joomla\CMS\Event\Plugin\System\Schemaorg\PrepareSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
@@ -119,18 +123,11 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             $data->schema[$schemaType] = $schema->toArray();
         }
 
-        $dispatcher = Factory::getApplication()->getDispatcher();
-
-        $event = AbstractEvent::create(
+        PluginHelper::importPlugin('schemaorg', null, true, $this->getDispatcher());
+        $this->getDispatcher()->dispatch(
             'onSchemaPrepareData',
-            [
-                'subject' => $data,
-                'context' => $context,
-            ]
+            new PrepareDataEvent('onSchemaPrepareData', ['subject' => $data, 'context' => $context])
         );
-
-        PluginHelper::importPlugin('schemaorg');
-        $eventResult = $dispatcher->dispatch('onSchemaPrepareData', $event);
 
         return true;
     }
@@ -179,17 +176,11 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             return true;
         }
 
-        $dispatcher = Factory::getApplication()->getDispatcher();
-
-        $event   = AbstractEvent::create(
+        PluginHelper::importPlugin('schemaorg', null, true, $this->getDispatcher());
+        $this->getDispatcher()->dispatch(
             'onSchemaPrepareForm',
-            [
-                'subject' => $form,
-            ]
+            new PrepareFormEvent('onSchemaPrepareForm', ['subject' => $form])
         );
-
-        PluginHelper::importPlugin('schemaorg');
-        $eventResult = $dispatcher->dispatch('onSchemaPrepareForm', $event);
 
         return true;
     }
@@ -202,7 +193,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      * @return  boolean
      *
      * @since   5.0.0
-     *
      */
     public function onContentAfterSave(EventInterface $event)
     {
@@ -260,22 +250,20 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             }
         }
 
-        PluginHelper::importPlugin('schemaorg');
-
-        $dispatcher = $app->getDispatcher();
-
-        $event   = AbstractEvent::create(
+        PluginHelper::importPlugin('schemaorg', null, true, $this->getDispatcher());
+        $this->getDispatcher()->dispatch(
             'onSchemaPrepareSave',
-            [
-                'subject' => $entry,
-                'context' => $context,
-                'table'   => $table,
-                'isNew'   => $isNew,
-                'schema'  => $data['schema'],
-            ]
+            new PrepareSaveEvent(
+                'onSchemaPrepareSave',
+                [
+                    'subject' => $entry,
+                    'context' => $context,
+                    'table'   => $table,
+                    'isNew'   => $isNew,
+                    'schema'  => $data['schema'],
+                ]
+            )
         );
-
-        $eventResult = $dispatcher->dispatch('onSchemaPrepareSave', $event);
 
         if (!isset($entry->schemaType)) {
             return true;
@@ -293,9 +281,11 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
     /**
      * This event is triggered before the framework creates the Head section of the Document
      *
+     * @return  void
+     *
      * @since   5.0.0
      */
-    public function onBeforeCompileHead()
+    public function onBeforeCompileHead(): void
     {
         $app      = $this->getApplication();
         $baseType = $this->params->get('baseType');
@@ -446,16 +436,11 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         $schema->loadArray($baseSchema);
 
-        $event = AbstractEvent::create(
+        PluginHelper::importPlugin('schemaorg', null, true, $this->getDispatcher());
+        $this->getDispatcher()->dispatch(
             'onSchemaBeforeCompileHead',
-            [
-                'subject' => $schema,
-                'context' => $context . '.' . $itemId,
-            ]
+            new BeforeCompileHeadEvent('onSchemaBeforeCompileHead', ['subject' => $schema, 'context' => $context . '.' . $itemId])
         );
-
-        PluginHelper::importPlugin('schemaorg');
-        $eventResult = $app->getDispatcher()->dispatch('onSchemaBeforeCompileHead', $event);
 
         $data = $schema->get('@graph');
 
