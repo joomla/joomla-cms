@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -229,6 +230,7 @@ class JoomlaInstallerScript
              * 'pre_function' => Name of an optional migration function to be called before
              *                   uninstalling, `null` if not used.
              */
+             ['type' => 'plugin', 'element' => 'sessiongc', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateSessionGCPlugin'],
              ['type' => 'plugin', 'element' => 'demotasks', 'folder' => 'task', 'client_id' => 0, 'pre_function' => null],
         ];
 
@@ -280,6 +282,48 @@ class JoomlaInstallerScript
                 throw $e;
             }
         }
+    }
+
+    /**
+     * This method is for migration for old updatenotification system plugin migration to task.
+     *
+     * @param   \stdClass  $data  Object with `extension_id` and `params` of the extension
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function migrateSessionGCPlugin($data)
+    {
+        if (!$data->enabled) {
+            return;
+        }
+
+        // Get the plugin parameters
+        $params = new Registry($data->params);
+
+        /** @var SchedulerComponent $component */
+        $component = Factory::getApplication()->bootComponent('com_scheduler');
+
+        /** @var TaskModel $model */
+        $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+        $task  = [
+            'title'           => 'SessionGC',
+            'type'            => 'session.datapurge',
+            'execution_rules' => [
+                'rule-type'      => 'interval-hours',
+                'interval-hours' => 24,
+                'exec-time'      => gmdate("H:i", 0),
+            ],
+            'state'  => 1,
+            'params' => [
+                'enable_session_gc'          => $params->get('enable_session_gc', 1),
+                'gc_probability'             => $params->get('gc_probability', 1),
+                'gc_divisor'                 => $params->get('gc_divisor', 100),
+                'enable_session_metadata_gc' => $params->get('enable_session_metadata_gc', 1),
+            ],
+        ];
+        $model->save($task);
     }
 
     /**
