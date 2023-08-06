@@ -54,6 +54,9 @@ trait CoreEventAware
         'onBeforeRespond'     => Application\BeforeRespondEvent::class,
         'onAfterRespond'      => Application\AfterRespondEvent::class,
         'onError'             => ErrorEvent::class,
+        // Application configuration
+        'onApplicationBeforeSave' => Application\BeforeSaveConfigurationEvent::class,
+        'onApplicationAfterSave'  => Application\AfterSaveConfigurationEvent::class,
         // Model
         'onBeforeBatch' => Model\BeforeBatchEvent::class,
         // Quickicon
