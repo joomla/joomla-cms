@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\User\Profile\Extension;
 
 use Exception;
-use InvalidArgumentException;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
@@ -297,7 +296,7 @@ final class Profile extends CMSPlugin
      * @return  boolean
      *
      * @since   3.1
-     * @throws  InvalidArgumentException on invalid date.
+     * @throws  \InvalidArgumentException on invalid date.
      */
     public function onUserBeforeSave($user, $isnew, $data)
     {
@@ -309,14 +308,14 @@ final class Profile extends CMSPlugin
             try {
                 $date       = new Date($data['profile']['dob']);
                 $this->date = $date->format('Y-m-d H:i:s');
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // Throw an exception if date is not valid.
-                throw new InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
+                throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
             }
 
             if (Date::getInstance('now') < $date) {
                 // Throw an exception if dob is greater than now.
-                throw new InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
+                throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
             }
         }
 
@@ -327,7 +326,7 @@ final class Profile extends CMSPlugin
 
         // Check that the tos is checked.
         if ($task === 'register' && $tosEnabled && $option === 'com_users' && !$data['profile']['tos']) {
-            throw new InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
+            throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
         }
 
         return true;

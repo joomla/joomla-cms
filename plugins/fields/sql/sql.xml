@@ -34,6 +34,14 @@
 				/>
 
 				<field
+					name="header"
+					type="text"
+					label="PLG_FIELDS_SQL_PARAMS_HEADER_LABEL"
+					description="PLG_FIELDS_SQL_PARAMS_HEADER_DESC"
+					filter="string"
+				/>
+
+				<field
 					name="multiple"
 					type="radio"
 					layout="joomla.form.field.radio.switcher"

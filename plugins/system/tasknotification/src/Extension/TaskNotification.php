@@ -10,9 +10,7 @@
 
 namespace Joomla\Plugin\System\TaskNotification\Extension;
 
-use Exception;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailTemplate;
@@ -24,8 +22,8 @@ use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Filesystem\Path;
 use PHPMailer\PHPMailer\Exception as MailerException;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -99,7 +97,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         try {
             $formFile = Path::check($formFile);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Log?
             return false;
         }
@@ -121,7 +119,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
      * @return void
      *
      * @since 4.1.0
-     * @throws Exception
+     * @throws \Exception
      */
     public function notifyFailure(Event $event): void
     {
@@ -151,7 +149,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
      * @return void
      *
      * @since 4.1.0
-     * @throws Exception
+     * @throws \Exception
      */
     public function notifyOrphan(Event $event): void
     {
@@ -177,7 +175,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
      * @return void
      *
      * @since 4.1.0
-     * @throws Exception
+     * @throws \Exception
      */
     public function notifySuccess(Event $event): void
     {
@@ -210,7 +208,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
      * @return void
      *
      * @since 4.1.0
-     * @throws Exception
+     * @throws \Exception
      */
     public function notifyFatalRecovery(Event $event): void
     {
@@ -256,7 +254,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
      * @return void
      *
      * @since 4.1.0
-     * @throws Exception
+     * @throws \Exception
      */
     private function sendMail(string $template, array $data, string $attachment = ''): void
     {
@@ -275,7 +273,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         try {
             $users = $db->loadObjectList();
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             return;
         }
 

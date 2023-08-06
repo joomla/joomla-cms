@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\WebAsset\WebAssetManager;
 
 ?>
@@ -70,6 +71,7 @@ use Joomla\CMS\WebAsset\WebAssetManager;
     $data = [
             '@context'        => 'https://schema.org',
             '@type'           => 'BreadcrumbList',
+            '@id'             => Uri::root() . '#/schema/BreadcrumbList/' . (int) $module->id,
             'itemListElement' => []
     ];
 

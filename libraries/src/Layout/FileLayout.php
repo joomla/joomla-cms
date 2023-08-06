@@ -12,8 +12,8 @@ namespace Joomla\CMS\Layout;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Version;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -21,7 +21,7 @@ use Joomla\CMS\Version;
 
 /**
  * Base class for rendering a display layout
- * loaded from from a layout file
+ * loaded from a layout file
  *
  * @link   https://docs.joomla.org/Special:MyLanguage/Sharing_layouts_across_views_or_extensions_with_JLayout
  * @since  3.0

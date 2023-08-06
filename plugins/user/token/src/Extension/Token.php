@@ -10,12 +10,11 @@
 
 namespace Joomla\Plugin\User\Token\Extension;
 
-use Exception;
 use Joomla\CMS\Crypt\Crypt;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -32,6 +31,7 @@ use Joomla\Utilities\ArrayHelper;
 final class Token extends CMSPlugin
 {
     use DatabaseAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * Joomla XML form contexts where we should inject our token management user interface.
@@ -134,7 +134,7 @@ final class Token extends CMSPlugin
 
                 $data->{$this->profileKeyPrefix}[$k] = $v[1];
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // We suppress any database error. It means we get no token saved by default.
         }
 
@@ -174,7 +174,7 @@ final class Token extends CMSPlugin
      *
      * @return  boolean
      *
-     * @throws  Exception  When $form is not a valid form object
+     * @throws  \Exception  When $form is not a valid form object
      * @since   4.0.0
      */
     public function onContentPrepareForm(Form $form, $data): bool
@@ -377,7 +377,7 @@ final class Token extends CMSPlugin
      *
      * @return  void
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.0.0
      */
     public function onUserAfterDelete(array $user, bool $success, string $msg): void
@@ -404,7 +404,7 @@ final class Token extends CMSPlugin
             $query->bind(':profileKey', $profileKey, ParameterType::STRING);
 
             $db->setQuery($query)->execute();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Do nothing.
         }
     }
@@ -449,7 +449,7 @@ final class Token extends CMSPlugin
             $query->bind(':userId', $userId, ParameterType::INTEGER);
 
             return $db->setQuery($query)->loadResult();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return null;
         }
     }
@@ -487,7 +487,7 @@ final class Token extends CMSPlugin
     {
         $allowedUserGroups = $this->getAllowedUserGroups();
 
-        $user = Factory::getUser($userId);
+        $user = $this->getUserFactory()->loadUserById($userId);
 
         if ($user->id != $userId) {
             return false;
@@ -596,7 +596,7 @@ final class Token extends CMSPlugin
 
         try {
             $numRows = $db->setQuery($q)->loadResult() ?? 0;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
 

@@ -10,12 +10,10 @@
 
 namespace Joomla\Plugin\System\UpdateNotification\Extension;
 
-use Exception;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailTemplate;
@@ -98,7 +96,7 @@ final class UpdateNotification extends CMSPlugin
         try {
             // Lock the tables to prevent multiple plugin executions causing a race condition
             $db->lockTable('#__extensions');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // If we can't lock the tables it's too risky to continue execution
             return;
         }
@@ -108,7 +106,7 @@ final class UpdateNotification extends CMSPlugin
             $result = $db->setQuery($query)->execute();
 
             $this->clearCacheGroups(['com_plugins']);
-        } catch (Exception $exc) {
+        } catch (\Exception $exc) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
@@ -117,12 +115,12 @@ final class UpdateNotification extends CMSPlugin
         try {
             // Unlock the tables after writing
             $db->unlockTables();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }
 
-        // Abort on failure
+        // Stop on failure
         if (!$result) {
             return;
         }
@@ -296,7 +294,7 @@ final class UpdateNotification extends CMSPlugin
             if (empty($groups)) {
                 return $ret;
             }
-        } catch (Exception $exc) {
+        } catch (\Exception $exc) {
             return $ret;
         }
 
@@ -313,7 +311,7 @@ final class UpdateNotification extends CMSPlugin
             if (empty($userIDs)) {
                 return $ret;
             }
-        } catch (Exception $exc) {
+        } catch (\Exception $exc) {
             return $ret;
         }
 
@@ -333,7 +331,7 @@ final class UpdateNotification extends CMSPlugin
 
             $db->setQuery($query);
             $ret = $db->loadObjectList();
-        } catch (Exception $exc) {
+        } catch (\Exception $exc) {
             return $ret;
         }
 
@@ -360,7 +358,7 @@ final class UpdateNotification extends CMSPlugin
 
                 $cache = Cache::getInstance('callback', $options);
                 $cache->clean();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // Ignore it
             }
         }

@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\User\Terms\Extension;
 
-use InvalidArgumentException;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -73,7 +72,7 @@ final class Terms extends CMSPlugin
      * @return  boolean
      *
      * @since   3.9.0
-     * @throws  InvalidArgumentException on missing required data.
+     * @throws  \InvalidArgumentException on missing required data.
      */
     public function onUserBeforeSave($user, $isNew, $data)
     {
@@ -99,7 +98,7 @@ final class Terms extends CMSPlugin
         $form   = $input->post->get('jform', [], 'array');
 
         if ($option == 'com_users' && in_array($task, ['registration.register']) && empty($form['terms']['terms'])) {
-            throw new InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_TERMS_FIELD_ERROR'));
+            throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_TERMS_FIELD_ERROR'));
         }
 
         return true;
