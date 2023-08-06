@@ -30,6 +30,14 @@ use Joomla\CMS\Version;
 class ExtensionAdapter extends UpdateAdapter
 {
     /**
+     * The update table instance
+     *
+     * @var bool|Table
+     * @since __DEPLOY_VERSION__
+     */
+    private bool|Table $currentUpdate;
+
+    /**
      * Start element parser callback.
      *
      * @param   object  $parser  The parser object.
