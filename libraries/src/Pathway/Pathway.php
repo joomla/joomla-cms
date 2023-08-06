@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -58,7 +58,11 @@ class Pathway
      *
      * @since       1.5
      * @throws      \RuntimeException
-     * @deprecated  5.0 Get the instance from the application, eg. $application->getPathway()
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Get the instance from the application
+     *              Example:
+     *              $app->getPathway()
      */
     public static function getInstance($client)
     {

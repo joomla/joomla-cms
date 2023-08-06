@@ -1,16 +1,15 @@
 <?php
 
 /**
- * @package         Joomla.Plugin
- * @subpackage      System.Webauthn
+ * @package     Joomla.Plugin
+ * @subpackage  System.Webauthn
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Helper\AuthenticationHelper;
@@ -77,7 +76,7 @@ trait AdditionalLoginButtons
             UserHelper::genRandomPassword(12) . '-' . UserHelper::genRandomPassword(8);
 
         // Get local path to image
-        $image = HTMLHelper::_('image', 'plg_system_webauthn/webauthn.svg', '', '', true, true);
+        $image = HTMLHelper::_('image', 'plg_system_webauthn/fido-passkey-black.svg', '', '', true, true);
 
         // If you can't find the image then skip it
         $image = $image ? JPATH_ROOT . substr($image, \strlen(Uri::root(true))) : '';
@@ -136,7 +135,7 @@ trait AdditionalLoginButtons
              */
             try {
                 $document = $this->getApplication()->getDocument();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $document = null;
             }
 

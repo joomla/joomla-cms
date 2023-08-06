@@ -51,7 +51,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state.
      *
-     * @var   CMSObject
+     * @var   \Joomla\Registry\Registry
      * @since 1.6
      */
     protected $state;
@@ -87,7 +87,9 @@ class HtmlView extends BaseHtmlView
      * @var    DatabaseDriver
      * @since  3.6.3
      *
-     * @deprecated 5.0 Will be removed without replacement
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement use database from the container instead
+     *              Example: Factory::getContainer()->get(DatabaseInterface::class);
      */
     protected $db;
 

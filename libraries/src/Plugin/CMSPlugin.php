@@ -12,6 +12,8 @@ namespace Joomla\CMS\Plugin;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageAwareInterface;
+use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -21,7 +23,7 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -29,9 +31,10 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
+abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, LanguageAwareInterface
 {
     use DispatcherAwareTrait;
+    use LanguageAwareTrait;
 
     /**
      * A Registry object holding the parameters for the plugin
@@ -75,7 +78,12 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
      * @var    boolean
      * @since  4.0.0
      *
-     * @deprecated
+     * @deprecated  4.3 will be removed in 6.0
+     *              Implement your plugin methods accepting an AbstractEvent object
+     *              Example:
+     *              onEventTriggerName(AbstractEvent $event) {
+     *                  $context = $event->getArgument(...);
+     *              }
      */
     protected $allowLegacyListeners = true;
 
@@ -91,14 +99,14 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
     /**
      * Constructor
      *
-     * @param   DispatcherInterface  &$subject  The object to observe
-     * @param   array                $config    An optional associative array of configuration settings.
-     *                                          Recognized key values include 'name', 'group', 'params', 'language'
-     *                                         (this list is not meant to be comprehensive).
+     * @param   DispatcherInterface  $dispatcher  The event dispatcher
+     * @param   array                $config      An optional associative array of configuration settings.
+     *                                            Recognized key values include 'name', 'group', 'params', 'language'
+     *                                            (this list is not meant to be comprehensive).
      *
      * @since   1.5
      */
-    public function __construct(&$subject, $config = [])
+    public function __construct(DispatcherInterface $dispatcher, array $config = [])
     {
         // Get the parameters.
         if (isset($config['params'])) {
@@ -140,7 +148,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
         }
 
         // Set the dispatcher we are to register our listeners with
-        $this->setDispatcher($subject);
+        $this->setDispatcher($dispatcher);
     }
 
     /**
@@ -395,5 +403,27 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
     public function setApplication(CMSApplicationInterface $application): void
     {
         $this->application = $application;
+
+        if ($application->getLanguage()) {
+            $this->setLanguage($application->getLanguage());
+        }
+    }
+
+    /**
+     * Returns the string for the given key from the internal language object.
+     *
+     * @param   string  $key  The key
+     *
+     * @return  string
+     *
+     * @since   5.0.0
+     */
+    protected function text(string $key): string
+    {
+        try {
+            return $this->getLanguage()->_($key);
+        } catch (\UnexpectedValueException $e) {
+            return $this->getApplication()->getLanguage()->_($key);
+        }
     }
 }

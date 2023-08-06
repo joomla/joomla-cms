@@ -15,7 +15,7 @@ use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Date\Date;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -66,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'dev';
+    public const EXTRA_VERSION = 'alpha4-dev';
 
     /**
      * Development status.
@@ -82,7 +82,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const CODENAME = 'Schnitzel';
+    public const CODENAME = 'Kuboresha';
 
     /**
      * Release date.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '29-August-2022';
+    public const RELDATE = '25-July-2023';
 
     /**
      * Release time.
@@ -98,7 +98,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTIME = '12:18';
+    public const RELTIME = '17:01';
 
     /**
      * Release timezone.

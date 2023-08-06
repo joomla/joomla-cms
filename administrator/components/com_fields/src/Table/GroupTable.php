@@ -14,6 +14,8 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 
@@ -26,8 +28,10 @@ use Joomla\Registry\Registry;
  *
  * @since  3.7.0
  */
-class GroupTable extends Table
+class GroupTable extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
@@ -51,11 +55,11 @@ class GroupTable extends Table
     }
 
     /**
-     * Method to bind an associative array or object to the JTable instance.This
+     * Method to bind an associative array or object to the \Joomla\CMS\Table\Table instance.This
      * method only binds properties that are publicly accessible and optionally
      * takes an array of properties to ignore when binding.
      *
-     * @param   mixed  $src     An associative array or object to bind to the JTable instance.
+     * @param   mixed  $src     An associative array or object to bind to the \Joomla\CMS\Table\Table instance.
      * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
      *
      * @return  boolean  True on success.
@@ -81,7 +85,7 @@ class GroupTable extends Table
     }
 
     /**
-     * Method to perform sanity checks on the JTable instance properties to ensure
+     * Method to perform sanity checks on the \Joomla\CMS\Table\Table instance properties to ensure
      * they are safe to store in the database.  Child classes should override this
      * method to make sure the data they are storing in the database is safe and
      * as expected before storage.
@@ -101,7 +105,7 @@ class GroupTable extends Table
         }
 
         $date = Factory::getDate()->toSql();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Set created date if not set.
         if (!(int) $this->created) {

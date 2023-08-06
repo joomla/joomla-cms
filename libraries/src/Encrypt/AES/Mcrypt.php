@@ -12,7 +12,7 @@ namespace Joomla\CMS\Encrypt\AES;
 use Joomla\CMS\Encrypt\Randval;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -20,7 +20,8 @@ use Joomla\CMS\Encrypt\Randval;
  *
  * @since    4.0.0
  *
- * @deprecated 4.0.0 will be removed in 5.0.0
+ * @deprecated  4.3 will be removed in 6.0
+ *              Will be removed without replacement
  */
 class Mcrypt extends AbstractAES implements AesInterface
 {

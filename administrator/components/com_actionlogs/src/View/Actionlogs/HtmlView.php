@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\View\Actionlogs;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -98,7 +97,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since   3.9.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function display($tpl = null)
     {

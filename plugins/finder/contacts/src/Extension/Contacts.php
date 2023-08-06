@@ -122,7 +122,7 @@ final class Contacts extends Adapter
      * @return  void
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function onFinderAfterDelete($context, $table): void
     {
@@ -148,7 +148,7 @@ final class Contacts extends Adapter
      * @return  void
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function onFinderAfterSave($context, $row, $isNew): void
     {
@@ -185,7 +185,7 @@ final class Contacts extends Adapter
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function onFinderBeforeSave($context, $row, $isNew)
     {
@@ -242,7 +242,7 @@ final class Contacts extends Adapter
      * @return  void
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function index(Result $item)
     {
@@ -333,35 +333,45 @@ final class Contacts extends Adapter
         // Handle the contact user name.
         $item->addInstruction(Indexer::META_CONTEXT, 'user');
 
+        // Get taxonomies to display
+        $taxonomies = $this->params->get('taxonomies', ['type', 'category', 'language', 'region', 'country']);
+
         // Add the type taxonomy data.
-        $item->addTaxonomy('Type', 'Contact');
+        if (in_array('type', $taxonomies)) {
+            $item->addTaxonomy('Type', 'Contact');
+        }
 
         // Add the category taxonomy data.
         $categories = $this->getApplication()->bootComponent('com_contact')->getCategory(['published' => false, 'access' => false]);
         $category   = $categories->get($item->catid);
 
-        // Category does not exist, stop here
         if (!$category) {
             return;
         }
 
-        $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
+        // Add the category taxonomy data.
+        if (in_array('category', $taxonomies)) {
+            $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
+        }
 
         // Add the language taxonomy data.
-        $item->addTaxonomy('Language', $item->language);
+        if (in_array('language', $taxonomies)) {
+            $item->addTaxonomy('Language', $item->language);
+        }
 
         // Add the region taxonomy data.
-        if (!empty($item->region) && $this->params->get('tax_add_region', true)) {
+        if (in_array('region', $taxonomies) && !empty($item->region) && $this->params->get('tax_add_region', true)) {
             $item->addTaxonomy('Region', $item->region);
         }
 
         // Add the country taxonomy data.
-        if (!empty($item->country) && $this->params->get('tax_add_country', true)) {
+        if (in_array('country', $taxonomies) && !empty($item->country) && $this->params->get('tax_add_country', true)) {
             $item->addTaxonomy('Country', $item->country);
         }
 
         // Get content extras.
         Helper::getContentExtras($item);
+        Helper::addCustomFields($item, 'com_contact.contact');
 
         // Index the item.
         $this->indexer->index($item);
