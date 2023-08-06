@@ -12,6 +12,9 @@ namespace Joomla\Plugin\Schemaorg\Book\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
+use Joomla\CMS\Schemaorg\SchemaorgPrepareDateTrait;
+use Joomla\Event\Event;
+use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -26,6 +29,7 @@ use Joomla\Event\SubscriberInterface;
 final class Book extends CMSPlugin implements SubscriberInterface
 {
     use SchemaorgPluginTrait;
+    use SchemaorgPrepareDateTrait;
 
     /**
      * Load the language file on instantiation.
@@ -44,14 +48,45 @@ final class Book extends CMSPlugin implements SubscriberInterface
     protected $pluginName = 'Book';
 
     /**
-     *  To add plugin specific functions
+     * Returns an array of events this subscriber will listen to.
      *
-     *  @param   array $schema Schema form
+     * @return  array
      *
-     *  @return  array Updated schema form
+     * @since   5.0.0
      */
-    public function customCleanup(array $schema)
+    public static function getSubscribedEvents(): array
     {
-        return $this->cleanupDate($schema, ['datePublished']);
+        return [
+            'onSchemaPrepareForm'       => 'onSchemaPrepareForm',
+            'onSchemaBeforeCompileHead' => ['onSchemaBeforeCompileHead', Priority::BELOW_NORMAL],
+        ];
+    }
+
+    /**
+     * Cleanup all Book types
+     *
+     * @param   Event  $event  The given event
+     *
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onSchemaBeforeCompileHead(Event $event)
+    {
+        $schema = $event->getArgument('subject');
+
+        $graph = $schema->get('@graph');
+
+        foreach ($graph as &$entry) {
+            if (!isset($entry['@type']) || $entry['@type'] !== 'Book') {
+                continue;
+            }
+
+            if (!empty($entry['datePublished'])) {
+                $entry['datePublished'] = $this->prepareDate($entry['datePublished']);
+            }
+        }
+
+        $schema->set('@graph', $graph);
     }
 }

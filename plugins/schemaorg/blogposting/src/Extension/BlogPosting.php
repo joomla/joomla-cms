@@ -2,18 +2,18 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Schemaorg.recipe
+ * @subpackage  Schemaorg.blogposting
  *
  * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Plugin\Schemaorg\Recipe\Extension;
+namespace Joomla\Plugin\Schemaorg\BlogPosting\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
 use Joomla\CMS\Schemaorg\SchemaorgPrepareDateTrait;
-use Joomla\CMS\Schemaorg\SchemaorgPrepareDurationTrait;
+use Joomla\CMS\Schemaorg\SchemaorgPrepareImageTrait;
 use Joomla\Event\Event;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
@@ -27,11 +27,11 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since  5.0.0
  */
-final class Recipe extends CMSPlugin implements SubscriberInterface
+final class BlogPosting extends CMSPlugin implements SubscriberInterface
 {
     use SchemaorgPluginTrait;
     use SchemaorgPrepareDateTrait;
-    use SchemaorgPrepareDurationTrait;
+    use SchemaorgPrepareImageTrait;
 
     /**
      * Load the language file on instantiation.
@@ -47,7 +47,7 @@ final class Recipe extends CMSPlugin implements SubscriberInterface
      * @var   string
      * @since 5.0.0
      */
-    protected $pluginName = 'Recipe';
+    protected $pluginName = 'BlogPosting';
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -65,7 +65,7 @@ final class Recipe extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Cleanup all Recipe types
+     * Cleanup all BlogPosting types
      *
      * @param   Event  $event  The given event
      *
@@ -80,7 +80,7 @@ final class Recipe extends CMSPlugin implements SubscriberInterface
         $graph = $schema->get('@graph');
 
         foreach ($graph as &$entry) {
-            if (!isset($entry['@type']) || $entry['@type'] !== 'Recipe') {
+            if (!isset($entry['@type']) || $entry['@type'] !== 'BlogPosting') {
                 continue;
             }
 
@@ -88,31 +88,12 @@ final class Recipe extends CMSPlugin implements SubscriberInterface
                 $entry['datePublished'] = $this->prepareDate($entry['datePublished']);
             }
 
-            if (!empty($entry['cookTime'])) {
-                $entry['cookTime'] = $this->prepareDuration($entry['cookTime']);
+            if (!empty($entry['dateModified'])) {
+                $entry['dateModified'] = $this->prepareDate($entry['dateModified']);
             }
 
-            if (!empty($entry['prepTime'])) {
-                $entry['prepTime'] = $this->prepareDuration($entry['prepTime']);
-            }
-
-            // Clean recipeIngredient
-            if (isset($entry['recipeIngredient']) && is_array($entry['recipeIngredient'])) {
-                $result = [];
-
-                foreach ($entry['recipeIngredient'] as $key => $value) {
-                    if (is_array($value)) {
-                        foreach ($value as $k => $v) {
-                            $result[] = $v;
-                        }
-
-                        continue;
-                    }
-
-                    $result[] = $value;
-                }
-
-                $entry['recipeIngredient'] = !empty($result) ? $result : null;
+            if (!empty($entry['image'])) {
+                $entry['image'] = $this->prepareImage($entry['image']);
             }
         }
 

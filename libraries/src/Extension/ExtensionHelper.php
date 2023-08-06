@@ -172,6 +172,7 @@ class ExtensionHelper
         ['plugin', 'ldap', 'authentication', 0],
 
         // Core plugin extensions - behaviour
+        ['plugin', 'compat', 'behaviour', 0],
         ['plugin', 'taggable', 'behaviour', 0],
         ['plugin', 'versionable', 'behaviour', 0],
 
@@ -292,7 +293,6 @@ class ExtensionHelper
         ['plugin', 'accessibility', 'system', 0],
         ['plugin', 'actionlogs', 'system', 0],
         ['plugin', 'cache', 'system', 0],
-        ['plugin', 'compat', 'system', 0],
         ['plugin', 'debug', 'system', 0],
         ['plugin', 'fields', 'system', 0],
         ['plugin', 'guidedtours', 'system', 0],
