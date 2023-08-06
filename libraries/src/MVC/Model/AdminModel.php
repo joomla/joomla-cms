@@ -839,8 +839,7 @@ abstract class AdminModel extends FormModel
                         'context' => $context,
                         'subject' => $table,
                     ]);
-                    $dispatcher->dispatch($this->event_before_delete, $beforeDeleteEvent);
-                    $result = $beforeDeleteEvent['result'] ?? [];
+                    $result = $dispatcher->dispatch($this->event_before_delete, $beforeDeleteEvent)->getArgument('result', []);
 
                     if (\in_array(false, $result, true)) {
                         $this->setError($table->getError());
@@ -1125,8 +1124,7 @@ abstract class AdminModel extends FormModel
             'subject' => $pks,
             'value'   => $value,
         ]);
-        $dispatcher->dispatch($this->event_before_change_state, $beforeChngEvent);
-        $result = $beforeChngEvent['result'] ?? [];
+        $result = $dispatcher->dispatch($this->event_before_change_state, $beforeChngEvent)->getArgument('result', []);
 
         if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
@@ -1147,8 +1145,7 @@ abstract class AdminModel extends FormModel
             'subject' => $pks,
             'value'   => $value,
         ]);
-        $dispatcher->dispatch($this->event_change_state, $afterChngEvent);
-        $result = $afterChngEvent['result'] ?? [];
+        $result = $dispatcher->dispatch($this->event_change_state, $afterChngEvent)->getArgument('result', []);
 
         if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
@@ -1284,8 +1281,7 @@ abstract class AdminModel extends FormModel
                 'isNew'   => $isNew,
                 'data'    => $data,
             ]);
-            $dispatcher->dispatch($this->event_before_save, $beforeSaveEvent);
-            $result = $beforeSaveEvent['result'] ?? [];
+            $result = $dispatcher->dispatch($this->event_before_save, $beforeSaveEvent)->getArgument('result', []);
 
             if (\in_array(false, $result, true)) {
                 $this->setError($table->getError());
