@@ -324,7 +324,7 @@ class SysinfoModel extends BaseDatabaseModel
             'server'                 => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
             'sapi_name'              => PHP_SAPI,
             'version'                => (new Version())->getLongVersion(),
-            'compatpluginenabled'    => PluginHelper::isEnabled('system', 'compat'),
+            'compatpluginenabled'    => PluginHelper::isEnabled('behaviour', 'compat'),
             'compatpluginparameters' => $this->getCompatPluginParameters(),
             'useragent'              => $_SERVER['HTTP_USER_AGENT'] ?? '',
         ];
@@ -334,7 +334,7 @@ class SysinfoModel extends BaseDatabaseModel
 
     private function getCompatPluginParameters()
     {
-        $record = ExtensionHelper::getExtensionRecord('compat', 'plugin', 0, 'system');
+        $record = ExtensionHelper::getExtensionRecord('compat', 'plugin', 0, 'behaviour');
 
         if ($record) {
             $params = new Registry($record->params);
