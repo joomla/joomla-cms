@@ -15,9 +15,9 @@ use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Version;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
@@ -25,7 +25,7 @@ use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
-use PHPMailer\PHPMailer\Exception as phpmailerException;
+use PHPMailer\PHPMailer\Exception as phpMailerException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -202,7 +202,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
                 $mailer->send();
             } catch (MailDisabledException | phpMailerException $exception) {
                 try {
-                    $this->logTask(Text::_($exception->getMessage()));
+                    $this->logTask($this->text($exception->getMessage()));
                 } catch (\RuntimeException $exception) {
                     return Status::KNOCKOUT;
                 }
