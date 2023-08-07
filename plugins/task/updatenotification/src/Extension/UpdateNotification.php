@@ -25,7 +25,7 @@ use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
-use PHPMailer\PHPMailer\Exception as phpmailerException;
+use PHPMailer\PHPMailer\Exception as phpMailerException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
