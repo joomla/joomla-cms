@@ -141,7 +141,7 @@
 					<field
 						name="nutrition"
 						type="subform"
-						label="Nutrition"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_NUTRITION_LABEL"
 					>
 
 						<form>
