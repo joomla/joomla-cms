@@ -202,7 +202,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
                 $mailer->send();
             } catch (MailDisabledException | phpMailerException $exception) {
                 try {
-                    $this->logTask(Text::_($exception->getMessage()));
+                    $this->logTask($this->text($exception->getMessage()));
                 } catch (\RuntimeException $exception) {
                     return Status::KNOCKOUT;
                 }
