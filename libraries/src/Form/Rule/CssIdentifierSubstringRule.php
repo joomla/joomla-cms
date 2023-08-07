@@ -52,7 +52,7 @@ class CssIdentifierSubstringRule extends FormRule
          * The following regex rules are based on the Html::cleanCssIdentifier method from Drupal
          * https://github.com/drupal/drupal/blob/8.8.5/core/lib/Drupal/Component/Utility/Html.php#L116-L130
          *
-         * with the addition for Joomla that we allow the colon (U+003A).
+         * with the addition for Joomla that we allow the colon (U+003A) and the @ (U+0040).
          */
 
         /**
