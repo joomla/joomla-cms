@@ -66,10 +66,11 @@ class CssIdentifierRule extends FormRule
              * - A-Z (U+0041 - U+005A)
              * - the underscore (U+005F)
              * - the colon (U+003A)
+             * - the @-sign (U+0040)
              * - 0-9 (U+0061 - U+007A)
              * - ISO 10646 characters U+00A1 and higher
              */
-            if (preg_match('/[^\\x{002D}\\x{0030}-\\x{0039}\\x{0041}-\\x{005A}\\x{005F}\\x{003A}\\x{0061}-\\x{007A}\\x{00A1}-\\x{FFFF}]/u', $identifier)) {
+            if (preg_match('/[^\\x{002D}\\x{0030}-\\x{0040}\\x{0041}-\\x{005A}\\x{005F}\\x{003A}\\x{0061}-\\x{007A}\\x{00A1}-\\x{FFFF}]/u', $identifier)) {
                 return false;
             }
 
