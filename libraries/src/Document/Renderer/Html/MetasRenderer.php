@@ -68,7 +68,7 @@ class MetasRenderer extends DocumentRenderer
         $scriptOptions = $this->_doc->getScriptOptions();
 
         if ($scriptOptions) {
-            $jsonFlags   = (JDEBUG ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE : JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+            $jsonFlags   = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | (JDEBUG ? JSON_PRETTY_PRINT : 0);
             $jsonOptions = json_encode($scriptOptions, $jsonFlags);
             $jsonOptions = $jsonOptions ?: '{}';
 
