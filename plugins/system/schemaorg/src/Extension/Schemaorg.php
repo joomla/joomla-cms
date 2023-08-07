@@ -465,7 +465,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         $schema->set('@graph', $data);
 
-        $prettyPrint  = JDEBUG ? JSON_PRETTY_PRINT : false;
+        $prettyPrint  = JDEBUG ? JSON_PRETTY_PRINT : 0;
         $schemaString = $schema->toString('JSON', ['bitmask' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | $prettyPrint]);
 
         if ($schemaString !== '{}') {
