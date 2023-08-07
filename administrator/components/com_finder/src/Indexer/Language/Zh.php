@@ -63,7 +63,7 @@ class Zh extends Language
         // We first add whitespace around each chinese character, so that our later code can easily split on this.
         $input = preg_replace('#\p{Han}#mui', ' $0 ', $input);
 
-        // Now we split up the input into individuel terms
+        // Now we split up the input into individual terms
         $terms = parent::tokenise($input);
 
         return $terms;
