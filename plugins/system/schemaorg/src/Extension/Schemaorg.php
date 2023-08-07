@@ -465,7 +465,8 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         $schema->set('@graph', $data);
 
-        $schemaString = $schema->toString('JSON', ['bitmask' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE]);
+        $jsonFlags    = (JDEBUG ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE : JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        $schemaString = $schema->toString('JSON', ['bitmask' => $jsonFlags]);
 
         if ($schemaString !== '{}') {
             $wa = $this->getApplication()->getDocument()->getWebAssetManager();

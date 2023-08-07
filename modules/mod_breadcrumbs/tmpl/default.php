@@ -116,8 +116,9 @@ use Joomla\CMS\WebAsset\WebAssetManager;
 
     if ($itemsCounter) {
         /** @var WebAssetManager $wa */
-        $wa = $app->getDocument()->getWebAssetManager();
-        $wa->addInline('script', json_encode($data, JSON_UNESCAPED_UNICODE), [], ['type' => 'application/ld+json']);
+        $wa        = $app->getDocument()->getWebAssetManager();
+        $jsonFlags = (JDEBUG ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE : JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        $wa->addInline('script', json_encode($data, $jsonFlags), [], ['type' => 'application/ld+json']);
     }
     ?>
 </nav>

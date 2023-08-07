@@ -68,8 +68,8 @@ class MetasRenderer extends DocumentRenderer
         $scriptOptions = $this->_doc->getScriptOptions();
 
         if ($scriptOptions) {
-            $prettyPrint = (JDEBUG && \defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
-            $jsonOptions = json_encode($scriptOptions, $prettyPrint);
+            $jsonFlags   = (JDEBUG ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE : JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+            $jsonOptions = json_encode($scriptOptions, $jsonFlags);
             $jsonOptions = $jsonOptions ?: '{}';
 
             $wa->addInlineScript(
