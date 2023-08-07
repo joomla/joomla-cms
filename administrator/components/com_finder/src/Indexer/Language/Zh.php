@@ -60,7 +60,7 @@ class Zh extends Language
      */
     public function tokenise($input)
     {
-        // We first add whitespace around each chinese character, so that our later code can easily split on this.
+        // We first add whitespace around each Chinese character, so that our later code can easily split on this.
         $input = preg_replace('#\p{Han}#mui', ' $0 ', $input);
 
         // Now we split up the input into individual terms
