@@ -14,6 +14,7 @@ use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Categories\CategoryInterface;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
+use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
@@ -68,7 +69,57 @@ class ArticlesCategoriesHelper implements DatabaseAwareInterface
             $childrenCategories = \array_slice($childrenCategories, 0, $count);
         }
 
-        return $childrenCategories;
+        $categoryOrderby  = $moduleParams->def('orderby_pri', '');
+        $ordering   = $this->getCategoryOrdering($categoryOrderby);
+
+        // Order the array based on the Joomla database query
+        $db = Factory::getDbo();
+        $query = $db->getQuery(true)
+            ->select('*')
+            ->from('#__categories AS c')
+            ->where('parent_id = ' . (int) $parentCategory->id)
+            ->order($ordering);
+        $db->setQuery($query);
+        $sortedCategories = $db->loadObjectList();
+
+        // Create a map of category IDs to their corresponding category objects
+        $categoryMap = [];
+        foreach ($childrenCategories as $category) {
+            $categoryMap[$category->id] = $category;
+        }
+
+        // Reorder the $childrenCategories array based on the sorted array
+        $orderedChildrenCategories = [];
+        foreach ($sortedCategories as $sortedCategory) {
+            if (isset($categoryMap[$sortedCategory->id])) {
+                $orderedChildrenCategories[] = $categoryMap[$sortedCategory->id];
+            }
+        }
+
+        return $orderedChildrenCategories;
+    }
+
+    public static function getCategoryOrdering($orderby)
+    {
+        switch ($orderby) {
+            case 'alpha':
+                $orderby = 'c.title ASC';
+                break;
+
+            case 'ralpha':
+                $orderby = 'c.title DESC';
+                break;
+
+            case 'order':
+                $orderby = 'c.lft';
+                break;
+
+            default:
+                $orderby = '\'\''; // By default, no specific ordering is applied
+                break;
+        }
+
+        return $orderby;
     }
 
     /**
