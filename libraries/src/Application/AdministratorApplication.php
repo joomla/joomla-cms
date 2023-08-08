@@ -11,6 +11,9 @@ namespace Joomla\CMS\Application;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Application\AfterDispatchEvent;
+use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
+use Joomla\CMS\Event\Application\AfterRouteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
@@ -137,12 +140,21 @@ class AdministratorApplication extends CMSApplication
         $document->setDescription($this->get('MetaDesc'));
         $document->setGenerator('Joomla! - Open Source Content Management');
 
+        // Trigger the onAfterInitialiseDocument event.
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        $this->dispatchEvent(
+            'onAfterInitialiseDocument',
+            new AfterInitialiseDocumentEvent('onAfterInitialiseDocument', ['subject' => $this, 'document' => $document])
+        );
+
         $contents = ComponentHelper::renderComponent($component);
         $document->setBuffer($contents, ['type' => 'component']);
 
         // Trigger the onAfterDispatch event.
-        PluginHelper::importPlugin('system');
-        $this->triggerEvent('onAfterDispatch');
+        $this->dispatchEvent(
+            'onAfterDispatch',
+            new AfterDispatchEvent('onAfterDispatch', ['subject' => $this])
+        );
     }
 
     /**
@@ -447,8 +459,11 @@ class AdministratorApplication extends CMSApplication
         $this->isHandlingMultiFactorAuthentication();
 
         // Trigger the onAfterRoute event.
-        PluginHelper::importPlugin('system');
-        $this->triggerEvent('onAfterRoute');
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        $this->dispatchEvent(
+            'onAfterRoute',
+            new AfterRouteEvent('onAfterRoute', ['subject' => $this])
+        );
     }
 
     /**

@@ -15,19 +15,6 @@
       "attributes": {
         "defer": true
       }
-    },
-    {
-      "name": "plg_multifactorauth_webauthn.webauthn.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
     }
   ]
 }
