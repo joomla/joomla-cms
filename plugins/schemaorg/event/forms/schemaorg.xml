@@ -100,7 +100,7 @@
 							<field
 								name="name"
 								type="text"
-								label="PLG_SCHEMAORG_EVENT_FIELD_NAME_LABEL"
+								label="PLG_SCHEMAORG_EVENT_FIELD_LOCATION_NAME_LABEL"
 							/>
 
 							<field
@@ -150,7 +150,7 @@
 							<field
 								name="@type"
 								type="list"
-								label="Type"
+								label="PLG_SCHEMAORG_EVENT_FIELD_TYPE_LABEL"
 								default="person"
 								>
 								<option value="person">PLG_SCHEMAORG_EVENT_FIELD_PERSON_LABEL</option>
@@ -160,7 +160,7 @@
 							<field
 								name="name"
 								type="text"
-								label="PLG_SCHEMAORG_EVENT_FIELD_NAME_LABEL"
+								label="PLG_SCHEMAORG_EVENT_FIELD_ORGANIZER_NAME_LABEL"
 								filter="string"
 							/>
 
@@ -175,7 +175,7 @@
 							<field
 								name="logo"
 								type="subform"
-								label="logo"
+								label="PLG_SCHEMAORG_EVENT_FIELD_LOGO_LABEL"
 								showon="@type:organization"
 							>
 								<form>
