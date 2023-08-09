@@ -9,6 +9,14 @@ describe('Test that banners API endpoint', () => {
         .should('include', 'automated test banner'));
   });
 
+  it('can deliver a single banner', () => {
+    cy.db_createBanner({ name: 'automated test banner' })
+      .then((banner) => cy.api_get(`/banners/${banner.id}`))
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+        .its('name')
+        .should('include', 'automated test banner'));
+  });
+
   it('can create a banner', () => {
     cy.db_createCategory({ extension: 'com_banners' })
       .then((categoryId) => cy.api_post('/banners', {
