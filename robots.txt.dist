@@ -27,3 +27,9 @@ Disallow: /logs/
 Disallow: /modules/
 Disallow: /plugins/
 Disallow: /tmp/
+
+# GPTBot is OpenAI’s web crawler. This rule prevents the GPTBot from crawling
+# the web site to use its content when building new models.
+
+User-agent: GPTBot
+Disallow: /
