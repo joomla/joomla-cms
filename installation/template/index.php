@@ -29,7 +29,7 @@ $this->getWebAssetManager()
     ->useScript('webcomponent.core-loader')
     ->addInlineStyle(':root {
 		--hue: 214;
-  }');
+	}');
 
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
