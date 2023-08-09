@@ -26,7 +26,10 @@ $this->getWebAssetManager()
 $this->getWebAssetManager()
     ->useStyle('webcomponent.joomla-alert')
     ->useScript('messages')
-    ->useScript('webcomponent.core-loader');
+    ->useScript('webcomponent.core-loader')
+    ->addInlineStyle(':root {
+		--hue: 214;
+  }');
 
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
