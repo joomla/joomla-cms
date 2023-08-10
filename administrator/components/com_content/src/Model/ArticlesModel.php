@@ -111,6 +111,97 @@ class ArticlesModel extends ListModel
         return $form;
     }
 
+	/**
+	 * get field names with enable property show in admin list content
+	 * @param mixed $cat array id categories
+	 *	if $cat == null(default) where id category get from Input GET REQUEST
+	 *  if $cat == [] where category not use
+	 *  if $cat == [2,8] where category use get from this array
+	 * @return type
+	 */
+    public function getFieldNames($cat = null)
+	{
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true);
+
+		$query->from($db->quoteName('#__fields'));
+
+		$query->where($db->quoteName('show_in_list'));
+		$query->where($db->quoteName('state'));
+		$query->where($db->quoteName('access'));
+		$query->where($db->quoteName('context') . ' = ' . $db->quote('com_content.article'));
+
+		$cats_ids = [];
+		$catWhere = [];
+
+		/* If the $cat parameter is null then the category ID values are used from REQUEST Input. */
+		if (is_null($cat)) {
+
+			$filter = Factory::getApplication()->getInput()->get('filter');
+
+			if (isset($filter['category_id'])) {
+				$cats_ids = array_map(fn($id) => is_numeric($id) ? (int)$id : 0, (array)$filter['category_id']);
+			}
+		} else {
+			$cats_ids = (array)$cat;
+		}
+
+		/* if the param $cat array contains a list of IDs, then fields with the specified category ID will be selected. */
+		if ($cats_ids) {
+			$cats_ids = array_filter($cats_ids);
+			$catWhere[] = $db->quoteName('c.category_id')  . ' IN (' . implode(',', $cats_ids) . ')';
+		}
+
+		/* if you use an empty param $cat value in the Category ID array then fields without the specified category IDs will be displayed. */
+		if (is_null($cat) || is_array($cat) && in_array(null, $cat, true)) {
+			$catWhere[] = $db->quoteName('c.category_id') . ' IS NULL ';
+		}
+
+		/* If the category IDs are set, then the fields for the specified categories will be displayed. */
+		if ($cat !== [] && $catWhere) {
+			$query->join('LEFT', $db->quoteName('#__fields_categories', 'c'), $db->quoteName('c.field_id') . ' = ' . $db->quoteName('id'));
+			$query->where('(' . implode(' OR ', $catWhere) . ')');
+			
+			$query->select($query->groupConcat($db->quoteName('c.category_id')) . ' AS ' . $db->quote('category_id')); //GROUP_CONCAT(  SEPARATOR ',')
+			$query->group($db->quoteName('id'));
+		} else {
+			$query->select('NULL AS' . $db->quote('category_id'));
+		}
+
+		$langWhere = [ $db->quoteName('language')  . ' = ' . $db->quote('*') ];
+
+		if (PluginHelper::isEnabled('system', 'languagefilter')) {
+			$tag = Factory::getApplication()->getLanguage()->getTag();
+			$langWhere[] = $db->quoteName('language')  . ' = ' . $db->quote($tag) ;
+		}
+
+		$query->where('(' . implode(' OR ', $langWhere) . ')');
+
+		$query->select($db->quoteName('id'));
+		$query->select($db->quoteName('label'));
+		$query->select($db->quoteName('show_in_list'));
+		$query->select($db->quoteName('type'));
+		$query->select($db->quoteName('default_value'));
+		$query->select($db->quoteName('fieldparams'));
+		$query->select($db->quoteName('params'));
+		$query->select(' "" AS ' . $db->quote('item_id'));
+		$query->select(' "" AS ' . $db->quote('value'));
+
+		$query->order($db->quoteName('ordering') . ',' . $db->quoteName('label'));
+
+		$fields = $db->setQuery($query)->loadObjectList('id');
+
+		foreach ($fields as &$field) {
+			if ($field->category_id) {
+				$field->category_id = explode(',', $field->category_id);
+			} else {
+				$field->category_id = [];
+			}
+		}
+
+		return $fields;
+    }
+
     /**
      * Method to auto-populate the model state.
      *

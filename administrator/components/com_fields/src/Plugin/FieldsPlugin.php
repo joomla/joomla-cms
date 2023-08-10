@@ -251,6 +251,54 @@ abstract class FieldsPlugin extends CMSPlugin
     }
 
     /**
+	 * Getting field values for content elements.
+	 * @param int $fieldID ID of the field to get a column of values
+	 * @param array $contentIDs Array of content element IDs
+	 * @param object $field The field object is used only for rendering values in layout. By default, a new object will be created for the layout
+	 * @return array
+	 * 
+	 * @since   4.0.0
+	 */
+	public function getCustomFieldsColumnList($fieldID = 0, $contentIDs = [], $field = null)
+	{
+		$db	   = \Joomla\CMS\Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
+		$query = $db->getQuery(true);
+
+		$query->from($db->quoteName('#__fields_values'));
+
+		$query->where($db->quoteName('field_id') . ' = ' . (int)$fieldID);
+		$query->where($db->quoteName('item_id') . ' IN (' . implode(',', $contentIDs) .')');
+
+		$query->select($db->quoteName('field_id'));
+		$query->select($db->quoteName('item_id'));
+		$query->select($db->quoteName('value'));
+
+		$fieldValues = $db->setQuery($query)->loadObjectList('item_id');
+
+		$contentFieldValues = [];
+
+		if ($field) {
+			$field = clone $field;
+		} else {
+			$field = new \stdClass ();
+			$field->default_value = '';
+		}
+
+		foreach ($contentIDs as $itemID) {
+			$field->item_id  = $itemID;
+			$field->value	 = $fieldValues[$itemID]->value ?? $field->default_value;
+
+			$path = \Joomla\CMS\Plugin\PluginHelper::getLayoutPath('fields', $this->_name, $this->_name);
+
+			ob_start();
+			include $path;
+			$contentFieldValues[$itemID] = ob_get_clean();
+		}
+
+		return $contentFieldValues;
+	}
+
+    /**
      * Returns the path of the XML definition file for the field parameters
      *
      * @param   Form       $form  The form
