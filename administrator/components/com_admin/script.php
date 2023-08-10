@@ -309,7 +309,7 @@ class JoomlaInstallerScript
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
             'title'           => 'SessionGC',
-            'type'            => 'session.datapurge',
+            'type'            => 'session.gc',
             'execution_rules' => [
                 'rule-type'      => 'interval-hours',
                 'interval-hours' => 24,
