@@ -51,6 +51,7 @@ class ToursModel extends ListModel
                 'created_by', 'a.created_by',
                 'modified', 'a.modified',
                 'modified_by', 'a.modified_by',
+                'note', 'a.note',
             ];
         }
 
@@ -213,16 +214,17 @@ class ToursModel extends ListModel
                 $query->where($db->quoteName('a.id') . ' = :search')
                     ->bind(':search', $search, ParameterType::INTEGER);
             } elseif (stripos($search, 'description:') === 0) {
-                $search = '%' . substr($search, 8) . '%';
+                $search = '%' . substr($search, 12) . '%';
                 $query->where('(' . $db->quoteName('a.description') . ' LIKE :search1)')
                     ->bind([':search1'], $search);
             } else {
                 $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->where(
                     '(' . $db->quoteName('a.title') . ' LIKE :search1'
-                    . ' OR ' . $db->quoteName('a.description') . ' LIKE :search2)'
+                    . ' OR ' . $db->quoteName('a.description') . ' LIKE :search2'
+                    . ' OR ' . $db->quoteName('a.note') . ' LIKE :search3)'
                 )
-                    ->bind([':search1', ':search2'], $search);
+                    ->bind([':search1', ':search2', ':search3'], $search);
             }
         }
 

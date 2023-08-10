@@ -59,7 +59,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      *
      * @var bool
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected static $enabled = false;
 
@@ -70,7 +70,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      * @param   array                $config   An optional associative array of configuration settings.
      * @param   boolean              $enabled  An internal flag whether plugin should listen any event.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function __construct($subject, array $config = [], bool $enabled = false)
     {
@@ -85,7 +85,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public static function getSubscribedEvents(): array
     {
