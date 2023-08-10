@@ -880,6 +880,11 @@ CREATE TABLE IF NOT EXISTS "#__scheduler_tasks" (
   PRIMARY KEY ("id")
 );
 
+INSERT INTO "#__scheduler_tasks"("id", "asset_id", "title", "type", "execution_rules", "cron_rules", "state", "last_exit_code", "params", "created")
+VALUES (1, 97,'UpdateNotification','update.notification', CONCAT('{"rule-type":"interval-hours","interval-hours":"24","exec-day":"01","exec-time":"', TO_CHAR(CURRENT_TIMESTAMP, 'HH24:00'), '"}'), '{"type":"interval","exp":"PT24H"}', 1, 0, '{}', CURRENT_TIMESTAMP);
+
+SELECT setval('#__scheduler_tasks_id_seq', 2, false); 
+
 CREATE INDEX "#__scheduler_tasks_idx_type" ON "#__scheduler_tasks" ("type");
 CREATE INDEX "#__scheduler_tasks_idx_state" ON "#__scheduler_tasks" ("state");
 CREATE INDEX "#__scheduler_tasks_idx_last_exit" ON "#__scheduler_tasks" ("last_exit_code");

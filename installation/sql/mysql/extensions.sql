@@ -925,6 +925,8 @@ CREATE TABLE IF NOT EXISTS `#__scheduler_tasks` (
   KEY `idx_checked_out` (`checked_out`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 
+INSERT INTO `#__scheduler_tasks`(`id`, `asset_id`, `title`, `type`, `execution_rules`, `cron_rules`, `state`, `last_exit_code`, `params`, `created`)
+VALUES (1, 97,'SessionGC','session.gc', CONCAT('{"rule-type":"interval-hours","interval-hours":"24","exec-day":"01","exec-time":"', TIME_FORMAT(NOW(), '%H:00'), '"}'), '{"type":"interval","exp":"PT24H"}', 1, 0, '{}', now());
 -- --------------------------------------------------------
 
 --

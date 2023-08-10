@@ -17,8 +17,9 @@ use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
-use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
+
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -32,16 +33,14 @@ use Joomla\Event\SubscriberInterface;
  */
 final class SessionGC extends CMSPlugin implements SubscriberInterface
 {
-    use TaskPluginTrait;
-    use DatabaseAwareTrait;
-
     /**
-     * Application object
+     * The meta data manager
      *
-     * @var    CMSApplication
-     * @since  __DEPLOY_VERSION__
+     * @var   MetadataManager
+     *
+     * @since 4.4.0
      */
-    protected $app;
+    private $metadataManager;
 
     /**
      * @var string[]
@@ -55,11 +54,23 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
         ],
     ];
 
+    use TaskPluginTrait;
+
     /**
-     * @var boolean
-     * @since __DEPLOY_VERSION__
+     * Constructor.
+     *
+     * @param   DispatcherInterface  $dispatcher       The dispatcher
+     * @param   array                $config           An optional associative array of configuration settings
+     * @param   MetadataManager      $metadataManager  The user factory
+     *
+     * @since   4.4.0
      */
-    protected $autoloadLanguage = true;
+    public function __construct(DispatcherInterface $dispatcher, array $config, MetadataManager $metadataManager)
+    {
+        parent::__construct($dispatcher, $config);
+
+        $this->metadataManager = $metadataManager;
+    }
 
     /**
      * @inheritDoc
@@ -96,22 +107,20 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
             $random = $divisor * lcg_value();
 
             if ($probability > 0 && $random < $probability) {
-                $this->app->getSession()->gc();
+                $this->getApplication()->getSession()->gc();
             }
         }
 
         $enableMetadata = (int) $event->getArgument('params')->enable_session_metadata_gc ?? 1;
 
-        if ($this->app->get('session_handler', 'none') !== 'database' && $enableMetadata) {
+        if ($this->getApplication()->get('session_handler', 'none') !== 'database' && $enableMetadata) {
             $probability = (int) $event->getArgument('params')->gc_probability ?? 1;
             $divisor     = (int) $event->getArgument('params')->gc_divisor ?? 100;
 
             $random = $divisor * lcg_value();
 
             if ($probability > 0 && $random < $probability) {
-                /** @var MetadataManager $metadataManager */
-                $metadataManager = Factory::getContainer()->get(MetadataManager::class);
-                $metadataManager->deletePriorTo(time() - $this->app->getSession()->getExpire());
+                $this->metadataManager->deletePriorTo(time() - $this->getApplication()->getSession()->getExpire());
             }
         }
 

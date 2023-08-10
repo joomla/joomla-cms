@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Session\MetadataManager;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -34,14 +35,12 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
-
                 $plugin = new SessionGC(
-                    $dispatcher,
-                    (array) PluginHelper::getPlugin('task', 'sessiongc')
+                    $container->get(DispatcherInterface::class),
+                    (array) PluginHelper::getPlugin('task', 'sessiongc'),
+                    $container->get(MetadataManager::class)
                 );
                 $plugin->setApplication(Factory::getApplication());
-                $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 return $plugin;
             }
