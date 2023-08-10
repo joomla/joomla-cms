@@ -86,6 +86,21 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
+
+		<field
+			name="show_in_list"
+			type="list"
+			label="In list administation page"
+			_layout="joomla.form.field.list-fancy-select"
+			class="form-select"
+			validate="options"
+			default="0"
+			>
+			<option value="0">JDISABLED</option>
+			<option value="1">JHIDE</option>
+			<option value="2">JSHOW</option>
+		</field>
+
 		<field
 			name="default_value"
 			type="textarea"
