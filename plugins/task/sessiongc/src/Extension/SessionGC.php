@@ -20,7 +20,6 @@ use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -33,6 +32,7 @@ use Joomla\Event\SubscriberInterface;
  */
 final class SessionGC extends CMSPlugin implements SubscriberInterface
 {
+    use TaskPluginTrait;
     /**
      * The meta data manager
      *
@@ -53,8 +53,6 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
             'form'            => 'sessionGCForm',
         ],
     ];
-
-    use TaskPluginTrait;
 
     /**
      * Constructor.
