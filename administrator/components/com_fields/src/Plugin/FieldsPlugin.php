@@ -256,7 +256,7 @@ abstract class FieldsPlugin extends CMSPlugin
      * @param array $contentIDs Array of content element IDs
      * @param object $field The field object is used only for rendering values in layout. By default, a new object will be created for the layout
      * @return array
-     * 
+     *
      * @since   4.0.0
      */
     public function getCustomFieldsColumnList($fieldID = 0, $contentIDs = [], $field = null)
@@ -280,7 +280,7 @@ abstract class FieldsPlugin extends CMSPlugin
         if ($field) {
             $field = clone $field;
         } else {
-            $field                = new \stdClass ();
+            $field                = new \stdClass();
             $field->default_value = '';
         }
 
