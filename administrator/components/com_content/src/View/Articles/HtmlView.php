@@ -128,15 +128,15 @@ class HtmlView extends BaseHtmlView
         }
 
         // Getting a list of fields with the display mode enabled in the columns of the content table.
-        $this->fields = $this->get('FieldNames');
-		$contentIDs = array_column($this->items, 'id');			
-		$this->contentColumnField = [];
+        $this->fields             = $this->get('FieldNames');
+        $contentIDs               = array_column($this->items, 'id');			
+        $this->contentColumnField = [];
 
         // Getting values for columns from a list of fields.
-		foreach ($this->fields as $fieldID => $field){
-			$plugin = Factory::getApplication()->bootPlugin($field->type, 'fields');
-			$this->contentColumnField[$fieldID] = $plugin->getCustomFieldsColumnList($fieldID, $contentIDs, $field);
-		}
+        foreach ($this->fields as $fieldID => $field){
+            $plugin                             = Factory::getApplication()->bootPlugin($field->type, 'fields');
+            $this->contentColumnField[$fieldID] = $plugin->getCustomFieldsColumnList($fieldID, $contentIDs, $field);
+        }
 
         // Check for errors.
         if (\count($errors = $this->get('Errors')) || $this->transitions === false) {
