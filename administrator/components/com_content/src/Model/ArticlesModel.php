@@ -199,7 +199,7 @@ class ArticlesModel extends ListModel
             }
         }
 
-		return $fields;
+        return $fields;
     }
 
     /**
