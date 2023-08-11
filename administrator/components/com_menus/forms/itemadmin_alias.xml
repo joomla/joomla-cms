@@ -32,6 +32,7 @@
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_ICON_TITLE_LABEL"
 				description="COM_MENUS_ITEM_FIELD_ICON_TITLE_DESC"
+				validate="CssIdentifier"
 			/>
 
 			<field
