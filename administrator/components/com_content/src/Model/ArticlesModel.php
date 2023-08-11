@@ -117,7 +117,7 @@ class ArticlesModel extends ListModel
 	 *	if $cat == null(default) where id category get from Input GET REQUEST
 	 *  if $cat == [] where category not use
 	 *  if $cat == [2,8] where category use get from this array
-	 * @return type
+	 * @return array
 	 */
     public function getFieldNames($cat = null)
 	{
