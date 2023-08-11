@@ -53,8 +53,7 @@ $theme-colors: (
   "light":                           $gray-100,
   "dark":                            $gray-900,
   "action":                          $base-color,
-  "error":                           $red-dark,
-  "alert-success":                   $green-dark) !default;
+  "error":                           $red-dark) !default;
 
 $atum-colors: (
   template-sidebar-bg:             var(--template-bg-dark-80),
@@ -63,6 +62,7 @@ $atum-colors: (
   template-bg-light:               #f0f4fb, //light background color, frontend dashboard background
   template-link-color:             var(--link-color),
   template-text-light:             $white,
+  template-text-dark:              $atum-text-dark,
   template-special-color:          $dark-blue,
   template-contrast:               $light-blue,
   template-bg-dark:                hsl(var(--hue), 40%, 20%),
