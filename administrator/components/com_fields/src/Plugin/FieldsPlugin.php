@@ -277,26 +277,26 @@ abstract class FieldsPlugin extends CMSPlugin
 
 		$contentFieldValues = [];
 
-		if ($field) {
-			$field = clone $field;
-		} else {
-			$field = new \stdClass ();
-			$field->default_value = '';
-		}
+        if ($field) {
+		    $field = clone $field;
+        } else {
+		    $field = new \stdClass ();
+		    $field->default_value = '';
+        }
 
-		foreach ($contentIDs as $itemID) {
-			$field->item_id  = $itemID;
-			$field->value	 = $fieldValues[$itemID]->value ?? $field->default_value;
+        foreach ($contentIDs as $itemID) {
+		    $field->item_id  = $itemID;
+		    $field->value	 = $fieldValues[$itemID]->value ?? $field->default_value;
 
-			$path = \Joomla\CMS\Plugin\PluginHelper::getLayoutPath('fields', $this->_name, $this->_name);
+		    $path = \Joomla\CMS\Plugin\PluginHelper::getLayoutPath('fields', $this->_name, $this->_name);
 
-			ob_start();
-			include $path;
-			$contentFieldValues[$itemID] = ob_get_clean();
-		}
+		    ob_start();
+		    include $path;
+		    $contentFieldValues[$itemID] = ob_get_clean();
+        }
 
-		return $contentFieldValues;
-	}
+        return $contentFieldValues;
+    }
 
     /**
      * Returns the path of the XML definition file for the field parameters
