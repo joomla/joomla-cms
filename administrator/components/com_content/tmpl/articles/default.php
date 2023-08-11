@@ -110,11 +110,11 @@ $assoc = Associations::isEnabled();
                                 <th scope="col" style="min-width:100px">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
                                 </th>
-								<?php foreach ($this->fields as $field): ?>
+                                <?php foreach ($this->fields as $field): ?>
                                 <th scope="col" class="w-10 <?= $field->show_in_list == 1 ? 'd-none ' : '' ?>d-md-table-cell">
                                     <?php echo $field->label; // HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
                                 </th>
-								<?php endforeach; ?>
+                                <?php endforeach; ?>
                                 <th scope="col" class="w-10 d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
                                 </th>
@@ -310,11 +310,11 @@ $assoc = Associations::isEnabled();
                                         </div>
                                     </div>
                                 </th>
-								<?php foreach ($this->fields as $fieldID => $field): ?>
-								<th scope="col" class="small <?= $field->show_in_list == 1 ? 'd-none ' : '' ?>d-md-table-cell">
+                                <?php foreach ($this->fields as $fieldID => $field): ?>
+                                <th scope="col" class="small <?= $field->show_in_list == 1 ? 'd-none ' : '' ?>d-md-table-cell">
                                     <?php if(empty($field->category_id) || in_array($item->catid, $field->category_id)) : ?>
-										<?php echo $this->contentColumnField[$fieldID][$item->id] ?? ''; ?>
-									<?php endif; ?>
+                                        <?php echo $this->contentColumnField[$fieldID][$item->id] ?? ''; ?>
+                                    <?php endif; ?>
                                 </th>
 								<?php endforeach; ?>
                                 <td class="small d-none d-md-table-cell">
