@@ -148,10 +148,11 @@ class JoomlaDialog extends HTMLElement {
 
     // On close callback
     const onClose = () => {
-      this.dispatchEvent(new CustomEvent('joomla-dialog:close'));
+      this.dispatchEvent(new CustomEvent('joomla-dialog:close', { bubbles: true }));
     };
     const onCancel = (event) => {
       if (!this.cancelable) {
+        // Prevent closing by Esc
         event.preventDefault();
       }
     };
@@ -489,7 +490,7 @@ class JoomlaDialog extends HTMLElement {
     }
 
     this.dialog.showModal();
-    this.dispatchEvent(new CustomEvent('joomla-dialog:open'));
+    this.dispatchEvent(new CustomEvent('joomla-dialog:open', { bubbles: true }));
     return this;
   }
 
