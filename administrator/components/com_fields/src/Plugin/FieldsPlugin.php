@@ -261,13 +261,13 @@ abstract class FieldsPlugin extends CMSPlugin
      */
     public function getCustomFieldsColumnList($fieldID = 0, $contentIDs = [], $field = null)
     {
-        $db	   = \Joomla\CMS\Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
+        $db    = \Joomla\CMS\Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
         $query = $db->getQuery(true);
 
         $query->from($db->quoteName('#__fields_values'));
 
         $query->where($db->quoteName('field_id') . ' = ' . (int)$fieldID);
-        $query->where($db->quoteName('item_id') . ' IN (' . implode(',', $contentIDs) .')');
+        $query->where($db->quoteName('item_id') . ' IN (' . implode(',', $contentIDs) . ')');
 
         $query->select($db->quoteName('field_id'));
         $query->select($db->quoteName('item_id'));
