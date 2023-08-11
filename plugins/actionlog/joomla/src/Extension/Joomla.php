@@ -95,7 +95,7 @@ final class Joomla extends ActionLogPlugin
      * Method is called right after the content is saved
      *
      * @param   string   $context  The context of the content passed to the plugin
-     * @param   object   $article  A JTableContent object
+     * @param   object   $article  A \Joomla\CMS\Table\Table object
      * @param   boolean  $isNew    If the content is just about to be created
      *
      * @return  void
@@ -153,7 +153,7 @@ final class Joomla extends ActionLogPlugin
      * Method is called right after the content is deleted
      *
      * @param   string  $context  The context of the content passed to the plugin
-     * @param   object  $article  A JTableContent object
+     * @param   object  $article  A \Joomla\CMS\Table\Table object
      *
      * @return  void
      *
@@ -1135,7 +1135,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onUserAfterResetRequest($user)
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -1168,7 +1168,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onUserAfterResetComplete($user)
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;

@@ -13,7 +13,6 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Document\DocumentAwareInterface;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\Text;
@@ -28,6 +27,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Filesystem\Path;
 use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -597,7 +597,8 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      * you will need to override it in your own controllers.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link InputFilter::clean()}.
+     * @param   array    $urlparams  An array of safe url parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static  A \JControllerLegacy object to support chaining.
      *

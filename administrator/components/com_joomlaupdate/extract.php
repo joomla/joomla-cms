@@ -1714,7 +1714,7 @@ function clearFileInOPCache(string $file): bool
  * @return  boolean  True if the two strings are identical.
  * @since   4.0.4
  *
- * @see     http://blog.ircmaxell.com/2014/11/its-all-about-time.html
+ * @link    http://blog.ircmaxell.com/2014/11/its-all-about-time.html
  */
 function timingSafeEquals($known, $user)
 {

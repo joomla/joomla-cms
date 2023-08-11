@@ -12,6 +12,12 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Event\Application\AfterExecuteEvent;
+use Joomla\CMS\Event\Application\AfterRenderEvent;
+use Joomla\CMS\Event\Application\AfterRespondEvent;
+use Joomla\CMS\Event\Application\BeforeExecuteEvent;
+use Joomla\CMS\Event\Application\BeforeRenderEvent;
+use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
@@ -19,6 +25,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Version;
+use Joomla\Filter\OutputFilter;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 use Psr\Http\Message\ResponseInterface;
@@ -153,24 +160,36 @@ abstract class WebApplication extends AbstractWebApplication
     public function execute()
     {
         // Trigger the onBeforeExecute event.
-        $this->triggerEvent('onBeforeExecute');
+        $this->dispatchEvent(
+            'onBeforeExecute',
+            new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this])
+        );
 
         // Perform application routines.
         $this->doExecute();
 
         // Trigger the onAfterExecute event.
-        $this->triggerEvent('onAfterExecute');
+        $this->dispatchEvent(
+            'onAfterExecute',
+            new AfterExecuteEvent('onAfterExecute', ['subject' => $this])
+        );
 
         // If we have an application document object, render it.
         if ($this->document instanceof Document) {
             // Trigger the onBeforeRender event.
-            $this->triggerEvent('onBeforeRender');
+            $this->dispatchEvent(
+                'onBeforeRender',
+                new BeforeRenderEvent('onBeforeRender', ['subject' => $this])
+            );
 
             // Render the application output.
             $this->render();
 
             // Trigger the onAfterRender event.
-            $this->triggerEvent('onAfterRender');
+            $this->dispatchEvent(
+                'onAfterRender',
+                new AfterRenderEvent('onAfterRender', ['subject' => $this])
+            );
         }
 
         // If gzip compression is enabled in configuration and the server is compliant, compress the output.
@@ -179,13 +198,19 @@ abstract class WebApplication extends AbstractWebApplication
         }
 
         // Trigger the onBeforeRespond event.
-        $this->triggerEvent('onBeforeRespond');
+        $this->dispatchEvent(
+            'onBeforeRespond',
+            new BeforeRespondEvent('onBeforeRespond', ['subject' => $this])
+        );
 
         // Send the application response.
         $this->respond();
 
         // Trigger the onAfterRespond event.
-        $this->triggerEvent('onAfterRespond');
+        $this->dispatchEvent(
+            'onAfterRespond',
+            new AfterRespondEvent('onAfterRespond', ['subject' => $this])
+        );
     }
 
     /**
@@ -296,6 +321,7 @@ abstract class WebApplication extends AbstractWebApplication
     public function loadLanguage(Language $language = null)
     {
         $this->language = $language ?? Factory::getLanguage();
+        OutputFilter::setLanguage($language);
 
         return $this;
     }

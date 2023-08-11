@@ -25,8 +25,8 @@ trait KnownButtons
 {
     /**
      * Return list of known TinyMCE buttons
-     * @see https://www.tiny.cloud/docs/demo/full-featured/
-     * @see https://www.tiny.cloud/apps/#core-plugins
+     * @link https://www.tiny.cloud/docs/demo/full-featured/
+     * @link https://www.tiny.cloud/apps/#core-plugins
      *
      * @return array
      *

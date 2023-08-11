@@ -2,29 +2,10 @@ const {
   existsSync, copy, writeFile, mkdir, mkdirs, ensureDir,
 } = require('fs-extra');
 const { dirname, join } = require('path');
-const { codeMirror } = require('./exemptions/codemirror.es6.js');
 const { tinyMCE } = require('./exemptions/tinymce.es6.js');
+const { resolvePackageFile } = require('./common/resolve-package.es6.js');
 
 const RootPath = process.cwd();
-
-/**
- * Find full path for package file.
- * Replacement for require.resolve(), as it is broken for packages with "exports" property.
- *
- * @param {string} relativePath Relative path to the file to resolve, in format packageName/file-name.js
- * @returns {string|boolean}
- */
-const resolvePackageFile = (relativePath) => {
-  for (let i = 0, l = module.paths.length; i < l; i += 1) {
-    const path = module.paths[i];
-    const fullPath = `${path}/${relativePath}`;
-    if (existsSync(fullPath)) {
-      return fullPath;
-    }
-  }
-
-  return false;
-};
 
 /**
  *
@@ -65,9 +46,7 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
 
   const promises = [];
 
-  if (packageName === 'codemirror') {
-    promises.push(codeMirror(packageName, moduleOptions.version));
-  } else if (packageName === 'tinymce') {
+  if (packageName === 'tinymce') {
     promises.push(tinyMCE(packageName, moduleOptions.version));
   } else {
     await mkdirs(join(mediaVendorPath, vendorName));

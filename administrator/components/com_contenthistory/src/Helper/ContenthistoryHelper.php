@@ -13,12 +13,12 @@ namespace Joomla\Component\Contenthistory\Administrator\Helper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
