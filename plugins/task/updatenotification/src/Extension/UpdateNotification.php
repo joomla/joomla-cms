@@ -89,7 +89,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
     private function sendNotification(ExecuteTaskEvent $event): int
     {
         // Load the parameters.
-        $specificEmail  =  $event->getArgument('params')->email ?? '';
+        $specificEmail  = $event->getArgument('params')->email ?? '';
         $forcedLanguage = $event->getArgument('params')->language_override ?? '';
 
         // This is the extension ID for Joomla! itself
@@ -146,7 +146,7 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
         $this->getApplication()->triggerEvent('onBuildAdministratorLoginURL', [&$uri]);
 
         // Let's find out the email addresses to notify
-        $superUsers    = [];
+        $superUsers = [];
 
         if (!empty($specificEmail)) {
             $superUsers = $this->getSuperUsers($specificEmail);
