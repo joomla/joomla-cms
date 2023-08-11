@@ -136,11 +136,10 @@ class ArticlesModel extends ListModel
 
         /* If the $cat parameter is null then the category ID values are used from REQUEST Input. */
         if (is_null($cat)) {
-
             $filter = Factory::getApplication()->getInput()->get('filter');
 
             if (isset($filter['category_id'])) {
-                $cats_ids = array_map(fn($id) => is_numeric($id) ? (int)$id : 0, (array)$filter['category_id']);
+                $cats_ids = array_map(fn ($id) => is_numeric($id) ? (int)$id : 0, (array)$filter['category_id']);
             }
         } else {
             $cats_ids = (array)$cat;
@@ -148,7 +147,7 @@ class ArticlesModel extends ListModel
 
         /* if the param $cat array contains a list of IDs, then fields with the specified category ID will be selected. */
         if ($cats_ids) {
-            $cats_ids = array_filter($cats_ids);
+            $cats_ids   = array_filter($cats_ids);
             $catWhere[] = $db->quoteName('c.category_id')  . ' IN (' . implode(',', $cats_ids) . ')';
         }
 
@@ -171,7 +170,7 @@ class ArticlesModel extends ListModel
         $langWhere = [ $db->quoteName('language')  . ' = ' . $db->quote('*') ];
 
         if (PluginHelper::isEnabled('system', 'languagefilter')) {
-            $tag = Factory::getApplication()->getLanguage()->getTag();
+            $tag         = Factory::getApplication()->getLanguage()->getTag();
             $langWhere[] = $db->quoteName('language')  . ' = ' . $db->quote($tag) ;
         }
 
