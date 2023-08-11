@@ -34,11 +34,10 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
                 $app        = Factory::getApplication();
 
                 $plugin = new GuidedTours(
-                    $dispatcher,
+                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('system', 'guidedtours'),
                     $app->isClient('administrator')
                 );

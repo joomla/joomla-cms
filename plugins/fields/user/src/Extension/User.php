@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\Fields\User\Extension;
 
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -24,6 +25,8 @@ use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
  */
 final class User extends FieldsPlugin
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Transforms the field into a DOM XML element and appends it as a child on the given parent.
      *

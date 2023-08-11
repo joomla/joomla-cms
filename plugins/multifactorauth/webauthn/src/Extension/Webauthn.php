@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\Multifactorauth\Webauthn\Extension;
 
 use Exception;
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\MultiFactor\Captive;
 use Joomla\CMS\Event\MultiFactor\GetMethod;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
@@ -96,7 +95,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
                     'name'               => $this->mfaMethodName,
                     'display'            => Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_DISPLAYEDAS'),
                     'shortinfo'          => Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_SHORTINFO'),
-                    'image'              => 'media/plg_multifactorauth_webauthn/images/webauthn.svg',
+                    'image'              => 'media/plg_multifactorauth_webauthn/images/passkeys.svg',
                     'allowMultiple'      => true,
                     'allowEntryBatching' => true,
                 ]
@@ -342,9 +341,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         $wam->getRegistry()->addExtensionRegistryFile('plg_multifactorauth_webauthn');
 
         try {
-            /** @var CMSApplication $app */
-            $app = Factory::getApplication();
-            $app->getDocument()->addScriptOptions('com_users.authData', base64_encode($pkRequest), false);
+            $document->addScriptOptions('com_users.authData', base64_encode($pkRequest), false);
             $layoutPath = PluginHelper::getLayoutPath('multifactorauth', 'webauthn');
             ob_start();
             include $layoutPath;

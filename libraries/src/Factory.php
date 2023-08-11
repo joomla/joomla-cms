@@ -29,7 +29,7 @@ use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -612,6 +612,7 @@ abstract class Factory
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form())
+            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Input())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Logger())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Language())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Mailer())

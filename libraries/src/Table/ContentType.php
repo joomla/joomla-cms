@@ -13,7 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -79,7 +79,7 @@ class ContentType extends Table
     public function store($updateNulls = false)
     {
         // Verify that the alias is unique
-        $table = Table::getInstance('Contenttype', 'JTable', ['dbo' => $this->getDbo()]);
+        $table = Table::getInstance('ContentType', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
 
         if ($table->load(['type_alias' => $this->type_alias]) && ($table->type_id != $this->type_id || $this->type_id == 0)) {
             $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));

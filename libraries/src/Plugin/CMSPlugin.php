@@ -23,7 +23,7 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -99,14 +99,14 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
     /**
      * Constructor
      *
-     * @param   DispatcherInterface  &$subject  The object to observe
-     * @param   array                $config    An optional associative array of configuration settings.
-     *                                          Recognized key values include 'name', 'group', 'params', 'language'
-     *                                         (this list is not meant to be comprehensive).
+     * @param   DispatcherInterface  $dispatcher  The event dispatcher
+     * @param   array                $config      An optional associative array of configuration settings.
+     *                                            Recognized key values include 'name', 'group', 'params', 'language'
+     *                                            (this list is not meant to be comprehensive).
      *
      * @since   1.5
      */
-    public function __construct(&$subject, $config = [])
+    public function __construct(DispatcherInterface $dispatcher, array $config = [])
     {
         // Get the parameters.
         if (isset($config['params'])) {
@@ -153,7 +153,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         }
 
         // Set the dispatcher we are to register our listeners with
-        $this->setDispatcher($subject);
+        $this->setDispatcher($dispatcher);
     }
 
     /**
@@ -392,7 +392,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      *
      * @return  string
      *
-     * @since   4.4.0
+     * @since   5.0.0
      */
     protected function text(string $key): string
     {

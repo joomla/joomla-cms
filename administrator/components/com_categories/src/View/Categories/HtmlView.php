@@ -12,7 +12,6 @@ namespace Joomla\Component\Categories\Administrator\View\Categories;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -22,6 +21,7 @@ use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -145,6 +145,10 @@ class HtmlView extends BaseHtmlView
                 unset($this->activeFilters['language']);
             }
         }
+
+        // If filter by category is active we need to know the extension name to filter the categories
+        $extensionName = $this->escape($this->state->get('filter.extension'));
+        $this->filterForm->setFieldAttribute('category_id', 'extension', $extensionName, 'filter');
 
         parent::display($tpl);
     }

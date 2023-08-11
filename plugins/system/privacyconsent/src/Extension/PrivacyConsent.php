@@ -22,6 +22,7 @@ use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\Component\Messages\Administrator\Model\MessageModel;
@@ -43,6 +44,7 @@ use PHPMailer\PHPMailer\Exception as phpmailerException;
 final class PrivacyConsent extends CMSPlugin
 {
     use DatabaseAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * Load the language file on instantiation.
@@ -657,7 +659,7 @@ final class PrivacyConsent extends CMSPlugin
 
             $messageModel->notifySuperUsers(
                 $this->getApplication()->getLanguage()->_('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_SUBJECT'),
-                Text::sprintf('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_MESSAGE', Factory::getUser($user->user_id)->username)
+                Text::sprintf('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_MESSAGE', $this->getUserFactory()->loadUserById($user->user_id)->username)
             );
         }
 

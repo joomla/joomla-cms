@@ -11,10 +11,10 @@
 namespace Joomla\Plugin\User\Token\Extension;
 
 use Joomla\CMS\Crypt\Crypt;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -31,6 +31,7 @@ use Joomla\Utilities\ArrayHelper;
 final class Token extends CMSPlugin
 {
     use DatabaseAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * Load the language file on instantiation.
@@ -217,7 +218,7 @@ final class Token extends CMSPlugin
 
         // No token: no reset
         $userTokenSeed = $this->getTokenSeedForUser($userId);
-        $currentUser   = Factory::getUser();
+        $currentUser   = $this->getApplication()->getIdentity();
 
         if (empty($userTokenSeed)) {
             $form->removeField('notokenforotherpeople', 'joomlatoken');
@@ -488,7 +489,7 @@ final class Token extends CMSPlugin
     {
         $allowedUserGroups = $this->getAllowedUserGroups();
 
-        $user = Factory::getUser($userId);
+        $user = $this->getUserFactory()->loadUserById($userId);
 
         if ($user->id != $userId) {
             return false;

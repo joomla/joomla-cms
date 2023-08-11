@@ -10,11 +10,11 @@
 namespace Joomla\CMS\Event\Table;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onAfterLoad event
+ * Event class for \Joomla\CMS\Table\Table onAfterLoad event
  *
  * @since  4.0.0
  */
@@ -24,9 +24,9 @@ class AfterLoadEvent extends AbstractEvent
      * Constructor.
      *
      * Mandatory arguments:
-     * subject  JTableInterface The table we are operating on
-     * result   boolean         Did the table record load succeed?
-     * row      null|array      The values loaded from the database, null if it failed
+     * subject  \Joomla\CMS\Table\TableInterface The table we are operating on
+     * result   boolean                          Did the table record load succeed?
+     * row      null|array                       The values loaded from the database, null if it failed
      *
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.

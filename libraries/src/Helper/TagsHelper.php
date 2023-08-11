@@ -21,7 +21,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -326,7 +326,7 @@ class TagsHelper extends CMSHelper
         $result = $this->unTagItem($contentItemId[$key], $table);
 
         /** @var  CoreContent $ucmContentTable */
-        $ucmContentTable = Table::getInstance('Corecontent');
+        $ucmContentTable = Table::getInstance('CoreContent');
 
         return $result && $ucmContentTable->deleteByContentId($contentItemId[$key], $this->typeAlias);
     }
@@ -843,7 +843,7 @@ class TagsHelper extends CMSHelper
             } else {
                 // Process the tags
                 $data            = $this->getRowData($table);
-                $ucmContentTable = Table::getInstance('Corecontent');
+                $ucmContentTable = Table::getInstance('CoreContent');
 
                 $ucm     = new UCMContent($table, $this->typeAlias);
                 $ucmData = $data ? $ucm->mapData($data) : $ucm->ucmData;

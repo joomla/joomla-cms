@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Application;
 
+use Joomla\CMS\Event\Application\AfterExecuteEvent;
+use Joomla\CMS\Event\Application\BeforeExecuteEvent;
+use Joomla\CMS\Event\Application\DeamonForkEvent;
+use Joomla\CMS\Event\Application\DeamonReceiveSignalEvent;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Log\Log;
@@ -16,7 +20,7 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -99,16 +103,16 @@ abstract class DaemonApplication extends CliApplication
     /**
      * Class constructor.
      *
-     * @param   Cli                  $input       An optional argument to provide dependency injection for the application's
-     *                                            input object.  If the argument is a JInputCli object that object will become
-     *                                            the application's input object, otherwise a default input object is created.
-     * @param   Registry             $config      An optional argument to provide dependency injection for the application's
-     *                                            config object.  If the argument is a Registry object that object will become
-     *                                            the application's config object, otherwise a default config object is created.
-     * @param   DispatcherInterface  $dispatcher  An optional argument to provide dependency injection for the application's
-     *                                            event dispatcher.  If the argument is a DispatcherInterface object that object will become
-     *                                            the application's event dispatcher, if it is null then the default event dispatcher
-     *                                            will be created based on the application's loadDispatcher() method.
+     * @param   ?Cli                  $input       An optional argument to provide dependency injection for the application's
+     *                                             input object.  If the argument is a JInputCli object that object will become
+     *                                             the application's input object, otherwise a default input object is created.
+     * @param   ?Registry             $config      An optional argument to provide dependency injection for the application's
+     *                                             config object.  If the argument is a Registry object that object will become
+     *                                             the application's config object, otherwise a default config object is created.
+     * @param   ?DispatcherInterface  $dispatcher  An optional argument to provide dependency injection for the application's
+     *                                             event dispatcher.  If the argument is a DispatcherInterface object that object will become
+     *                                             the application's event dispatcher, if it is null then the default event dispatcher
+     *                                             will be created based on the application's loadDispatcher() method.
      *
      * @since   1.7.0
      */
@@ -163,7 +167,13 @@ abstract class DaemonApplication extends CliApplication
         }
 
         // Fire the onReceiveSignal event.
-        static::$instance->triggerEvent('onReceiveSignal', [$signal]);
+        static::$instance->getDispatcher()->dispatch(
+            'onReceiveSignal',
+            new DeamonReceiveSignalEvent('onReceiveSignal', [
+                'signal'  => $signal,
+                'subject' => static::$instance,
+            ])
+        );
 
         switch ($signal) {
             case SIGINT:
@@ -345,7 +355,10 @@ abstract class DaemonApplication extends CliApplication
     public function execute()
     {
         // Trigger the onBeforeExecute event
-        $this->triggerEvent('onBeforeExecute');
+        $this->dispatchEvent(
+            'onBeforeExecute',
+            new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
+        );
 
         // Enable basic garbage collection.
         gc_enable();
@@ -375,7 +388,10 @@ abstract class DaemonApplication extends CliApplication
         }
 
         // Trigger the onAfterExecute event.
-        $this->triggerEvent('onAfterExecute');
+        $this->dispatchEvent(
+            'onAfterExecute',
+            new AfterExecuteEvent('onAfterExecute', ['subject' => $this])
+        );
     }
 
     /**
@@ -768,7 +784,10 @@ abstract class DaemonApplication extends CliApplication
     protected function postFork()
     {
         // Trigger the onFork event.
-        $this->triggerEvent('onFork');
+        $this->dispatchEvent(
+            'onFork',
+            new DeamonForkEvent('onFork', ['subject' => $this])
+        );
     }
 
     /**

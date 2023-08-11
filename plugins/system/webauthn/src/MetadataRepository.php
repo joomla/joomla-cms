@@ -12,8 +12,8 @@ namespace Joomla\Plugin\System\Webauthn;
 
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Token\Plain;
-use Webauthn\MetadataService\MetadataStatement;
 use Webauthn\MetadataService\MetadataStatementRepository;
+use Webauthn\MetadataService\Statement\MetadataStatement;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -25,7 +25,7 @@ use Webauthn\MetadataService\MetadataStatementRepository;
  * This repository contains the metadata of all FIDO authenticators as published by the FIDO
  * Alliance in their MDS version 3.0.
  *
- * @see   https://fidoalliance.org/metadata/
+ * @link  https://fidoalliance.org/metadata/
  * @since 4.2.0
  */
 final class MetadataRepository implements MetadataStatementRepository

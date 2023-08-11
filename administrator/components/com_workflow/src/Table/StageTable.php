@@ -256,7 +256,7 @@ class StageTable extends Table
      */
     protected function _getAssetParentId(Table $table = null, $id = null)
     {
-        $asset = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
+        $asset = self::getInstance('Asset', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
 
         $workflow = new WorkflowTable($this->getDbo());
         $workflow->load($this->workflow_id);

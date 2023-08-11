@@ -10,11 +10,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\Filter\OutputFilter;
 
 ?>
 
@@ -120,7 +120,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 
         <!-- Show items -->
         <?php if (!empty($this->rssDoc[0])) : ?>
-            <ol class="com-newsfeeds-newsfeed__items">
+            <ul class="com-newsfeeds-newsfeed__items">
                 <?php for ($i = 0; $i < $this->item->numarticles; $i++) : ?>
                     <?php if (empty($this->rssDoc[$i])) : ?>
                         <?php break; ?>
@@ -150,7 +150,7 @@ use Joomla\CMS\Layout\LayoutHelper;
                         <?php endif; ?>
                     </li>
                 <?php endfor; ?>
-            </ol>
+            </ul>
         <?php endif; ?>
     </div>
 <?php endif; ?>

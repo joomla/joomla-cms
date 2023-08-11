@@ -8,7 +8,8 @@ clone_folder: C:\projects\joomla-cms
 environment:
   PHPBuild: "x64"
   matrix:
-  - php_ver_target: 8.0
+  - php_ver_target: 8.1
+
 
 init:
   - SET PATH=C:\Tools\php;%PATH%
@@ -40,7 +41,8 @@ install:
     - choco install composer
     - cd C:\projects\joomla-cms
     - refreshenv
-    - composer install --no-progress --profile --ignore-platform-req=ext-sodium
+    - echo "TODO Ignore platform reqs till all composer dependencies are compatible with php 8.1"
+    - composer install --no-progress --profile --ignore-platform-req=ext-sodium --ignore-platform-reqs
 
 hosts:
   openldap: 127.0.0.1

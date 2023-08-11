@@ -10,11 +10,11 @@
 namespace Joomla\CMS\Event\Table;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onBeforePublish event
+ * Event class for \Joomla\CMS\Table\Table onBeforePublish event
  *
  * @since  4.0.0
  */
@@ -24,10 +24,10 @@ class BeforePublishEvent extends AbstractEvent
      * Constructor.
      *
      * Mandatory arguments:
-     * subject      JTableInterface The table we are operating on
-     * pks          mixed           An optional array of primary key values to update.
-     * state        int             The publishing state. eg. [0 = unpublished, 1 = published]
-     * userId       int             The user id of the user performing the operation.
+     * subject      \Joomla\CMS\Table\TableInterface The table we are operating on
+     * pks          mixed                            An optional array of primary key values to update.
+     * state        int                              The publishing state. eg. [0 = unpublished, 1 = published]
+     * userId       int                              The user id of the user performing the operation.
      *
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.

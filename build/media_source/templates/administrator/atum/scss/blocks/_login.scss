@@ -258,18 +258,6 @@ label {
   }
 }
 
-// Detect IE 10+ and display alert
-.ie11 {
-  display: none;
-}
-
-@media all and (-ms-high-contrast: none),
-  (-ms-high-contrast: active) {
-  .ie11 {
-    display: block;
-  }
-}
-
 .login_message {
   margin: 1rem 1rem 0;
 }

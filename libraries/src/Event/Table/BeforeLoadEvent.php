@@ -10,11 +10,11 @@
 namespace Joomla\CMS\Event\Table;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onBeforeLoad event
+ * Event class for \Joomla\CMS\Table\Table onBeforeLoad event
  *
  * @since  4.0.0
  */
@@ -24,9 +24,9 @@ class BeforeLoadEvent extends AbstractEvent
      * Constructor.
      *
      * Mandatory arguments:
-     * subject  JTableInterface The table we are operating on
-     * keys     mixed           The optional primary key value to load the row by, or an array of fields to match.
-     * reset    boolean         True to reset the default values before loading the new row.
+     * subject  \Joomla\CMS\Table\TableInterface The table we are operating on
+     * keys     mixed                            The optional primary key value to load the row by, or an array of fields to match.
+     * reset    boolean                          True to reset the default values before loading the new row.
      *
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.

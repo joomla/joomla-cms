@@ -13,6 +13,7 @@ namespace Joomla\Plugin\System\Cache\Extension;
 use Joomla\CMS\Cache\CacheController;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Document\FactoryInterface as DocumentFactoryInterface;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
@@ -77,32 +78,32 @@ final class Cache extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor
      *
-     * @param   DispatcherInterface              $subject                 The object to observe
-     * @param   array                            $config                  An optional associative
-     *                                                                    array of configuration
-     *                                                                    settings. Recognized key
-     *                                                                    values include 'name',
-     *                                                                    'group', 'params',
-     *                                                                    'language'
-     *                                                                    (this list is not meant
-     *                                                                    to be comprehensive).
-     * @param   DocumentFactoryInterface         $documentFactory         The application's
-     *                                                                    document factory
-     * @param   CacheControllerFactoryInterface  $cacheControllerFactory  Cache controller factory
-     * @param   Profiler|null                    $profiler                The application profiler
-     * @param   SiteRouter|null                  $router                  The frontend router
+     * @param   DispatcherInterface              $dispatcher                 The object to observe
+     * @param   array                            $config                     An optional associative
+     *                                                                       array of configuration
+     *                                                                       settings. Recognized key
+     *                                                                       values include 'name',
+     *                                                                       'group', 'params',
+     *                                                                       'language'
+     *                                                                       (this list is not meant
+     *                                                                       to be comprehensive).
+     * @param   DocumentFactoryInterface         $documentFactory            The application's
+     *                                                                       document factory
+     * @param   CacheControllerFactoryInterface  $cacheControllerFactory     Cache controller factory
+     * @param   Profiler|null                    $profiler                   The application profiler
+     * @param   SiteRouter|null                  $router                     The frontend router
      *
      * @since   4.2.0
      */
     public function __construct(
-        &$subject,
-        $config,
+        DispatcherInterface $dispatcher,
+        array $config,
         DocumentFactoryInterface $documentFactory,
         CacheControllerFactoryInterface $cacheControllerFactory,
         ?Profiler $profiler,
         ?SiteRouter $router
     ) {
-        parent::__construct($subject, $config);
+        parent::__construct($dispatcher, $config);
 
         $this->documentFactory        = $documentFactory;
         $this->cacheControllerFactory = $cacheControllerFactory;
@@ -177,7 +178,12 @@ final class Cache extends CMSPlugin implements SubscriberInterface
                 $this->profiler->mark('afterCache');
             }
 
-            $this->getApplication()->triggerEvent('onAfterRespond');
+            $this->getDispatcher()->dispatch('onAfterRespond', AbstractEvent::create(
+                'onAfterRespond',
+                [
+                    'subject' => $this->getApplication(),
+                ]
+            ));
         }
 
         // Closes the application.

@@ -458,6 +458,10 @@ class Indexer
                     $nodeId = Taxonomy::addNode($branch, $node->title, $node->state, $node->access, $node->language);
                 }
 
+                if (!$nodeId) {
+                    continue;
+                }
+
                 // Add the link => node map.
                 Taxonomy::addMap($linkId, $nodeId);
                 $node->id = $nodeId;

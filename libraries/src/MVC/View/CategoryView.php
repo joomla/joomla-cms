@@ -17,7 +17,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -126,7 +126,7 @@ class CategoryView extends HtmlView
     public function commonCategoryDisplay()
     {
         $app    = Factory::getApplication();
-        $user   = Factory::getUser();
+        $user   = $this->getCurrentUser();
         $params = $app->getParams();
 
         // Get some data from the models
