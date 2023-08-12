@@ -230,6 +230,7 @@ class JoomlaInstallerScript
              *                   uninstalling, `null` if not used.
              */
              ['type' => 'plugin', 'element' => 'demotasks', 'folder' => 'task', 'client_id' => 0, 'pre_function' => null],
+             ['type' => 'plugin', 'element' => 'compat', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateCompatPlugin'],
         ];
 
         $db = Factory::getDbo();
@@ -280,6 +281,33 @@ class JoomlaInstallerScript
                 throw $e;
             }
         }
+    }
+
+    /**
+     * Migrate plugin parameters of obsolete compat system plugin to compat behaviour plugin
+     *
+     * @param   \stdClass  $rowOld  Object with the obsolete plugin's record in the `#__extensions` table
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function migrateCompatPlugin($rowOld)
+    {
+        $db = Factory::getDbo();
+
+        $db->setQuery(
+            $db->getQuery(true)
+                ->update($db->quoteName('#__extensions'))
+                ->set($db->quoteName('enabled') . ' = :enabled')
+                ->set($db->quoteName('params') . ' = :params')
+                ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+                ->where($db->quoteName('element') . ' = ' . $db->quote('compat'))
+                ->where($db->quoteName('folder') . ' = ' . $db->quote('behaviour'))
+                ->where($db->quoteName('client_id') . ' = 0')
+                ->bind(':enabled', $rowOld->enabled, ParameterType::INTEGER)
+                ->bind(':params', $rowOld->params)
+        )->execute();
     }
 
     /**
