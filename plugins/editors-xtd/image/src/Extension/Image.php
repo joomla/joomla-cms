@@ -118,6 +118,9 @@ final class Image extends CMSPlugin
                     )
                 );
 
+                $a = array_change_key_case(array_flip($imagesExt), CASE_UPPER);
+                $imagesExt = array_unique(array_merge($imagesExt, array_flip($a)));
+
                 $doc->addScriptOptions('media-picker', [
                     'images'    => $imagesExt,
                     'audios'    => $audiosExt,
