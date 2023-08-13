@@ -288,7 +288,7 @@ class JoomlaInstallerScript
     /**
      * This method is for migration for old updatenotification system plugin migration to task.
      *
-     * @param   \stdClass  $data  Object with `extension_id` and `params` of the extension
+     * @param   \stdClass  $data  Object with the extension's record in the `#__extensions` table
      *
      * @return  void
      *
