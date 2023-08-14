@@ -29,6 +29,9 @@ use Joomla\CMS\Version;
  */
 class ExtensionAdapter extends UpdateAdapter
 {
+    protected $currentUpdate;
+    protected $latest;
+
     /**
      * Start element parser callback.
      *
