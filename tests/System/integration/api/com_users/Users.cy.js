@@ -3,7 +3,7 @@ describe('Test that users API endpoint', () => {
   it('can deliver a list of users', () => {
     cy.db_createUser({ name: 'automated test user', username: 'automated test username' })
       .then(() => cy.api_get('/users'))
-      .then((response) => cy.wrap(response).its('body').its('data.2').its('attributes')
+      .then((response) => cy.wrap(response).its('body').its('data.1').its('attributes')
         .its('name')
         .should('include', 'automated test user'));
   });
