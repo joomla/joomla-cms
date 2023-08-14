@@ -823,7 +823,13 @@ abstract class AdminModel extends FormModel
     {
         $pks        = ArrayHelper::toInteger((array) $pks);
         $table      = $this->getTable();
-        $dispatcher = $this->getDispatcher() ?: Factory::getApplication()->getDispatcher();
+
+        // Play safe, legacy extension may have not set the Dispatcher.
+        try {
+            $dispatcher = $this->getDispatcher();
+        } catch (\UnexpectedValueException $e) {
+            $dispatcher = Factory::getApplication()->getDispatcher();
+        }
 
         // Include the plugins for the delete events.
         PluginHelper::importPlugin($this->events_map['delete'], null, true, $dispatcher);
@@ -1071,8 +1077,14 @@ abstract class AdminModel extends FormModel
         $table = $this->getTable();
         $pks   = (array) $pks;
 
-        $context    = $this->option . '.' . $this->name;
-        $dispatcher = $this->getDispatcher() ?: Factory::getApplication()->getDispatcher();
+        $context = $this->option . '.' . $this->name;
+
+        // Play safe, legacy extension may have not set the Dispatcher.
+        try {
+            $dispatcher = $this->getDispatcher();
+        } catch (\UnexpectedValueException $e) {
+            $dispatcher = Factory::getApplication()->getDispatcher();
+        }
 
         // Include the plugins for the change of state event.
         PluginHelper::importPlugin($this->events_map['change_state'], null, true, $dispatcher);
@@ -1233,10 +1245,16 @@ abstract class AdminModel extends FormModel
      */
     public function save($data)
     {
-        $table      = $this->getTable();
-        $context    = $this->option . '.' . $this->name;
-        $app        = Factory::getApplication();
-        $dispatcher = $this->getDispatcher() ?: $app->getDispatcher();
+        $table   = $this->getTable();
+        $context = $this->option . '.' . $this->name;
+        $app     = Factory::getApplication();
+
+        // Play safe, legacy extension may have not set the Dispatcher.
+        try {
+            $dispatcher = $this->getDispatcher();
+        } catch (\UnexpectedValueException $e) {
+            $dispatcher = $app->getDispatcher();
+        }
 
         if (\array_key_exists('tags', $data) && \is_array($data['tags'])) {
             $table->newTags = $data['tags'];

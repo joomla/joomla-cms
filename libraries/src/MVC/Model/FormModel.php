@@ -194,7 +194,12 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
      */
     public function validate($form, $data, $group = null)
     {
-        $dispatcher = $this->getDispatcher() ?: Factory::getApplication()->getDispatcher();
+        // Play safe, legacy extension may have not set the Dispatcher.
+        try {
+            $dispatcher = $this->getDispatcher();
+        } catch (\UnexpectedValueException $e) {
+            $dispatcher = Factory::getApplication()->getDispatcher();
+        }
 
         // Include the plugins for the delete events.
         PluginHelper::importPlugin($this->events_map['validate'], null, true, $dispatcher);
