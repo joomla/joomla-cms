@@ -445,14 +445,13 @@ function startTour(obj) {
                 (ele.hasAttribute('required') || (obj.steps[index].params.required || 0))
                 && (
                   (ele.tagName.toLowerCase() === 'input' && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(ele.type))
-                || ele.tagName.toLowerCase() === 'textarea'
+                  || ele.tagName.toLowerCase() === 'textarea'
                 )
               ) {
                 ['input', 'focus'].forEach((eventName) => ele.addEventListener(eventName, (event) => {
                   if (!sessionStorage.getItem('tourId')) {
                     return;
                   }
-                  if (event.target.value.trim().length) {
                   if ((obj.steps[index].params.requiredvalue || '') !== '') {
                     if (event.target.value.trim() === obj.steps[index].params.requiredvalue) {
                       enableButton(event);
