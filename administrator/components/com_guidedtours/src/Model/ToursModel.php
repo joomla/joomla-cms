@@ -264,8 +264,7 @@ class ToursModel extends ListModel
 
                 // Remove the last _TITLE part
                 $pos = strrpos($aliasTitle, "_TITLE");
-                if($pos !== false)
-                {
+                if ($pos !== false) {
                     $aliasTitle = substr($aliasTitle, 0, $pos);
                 }
 

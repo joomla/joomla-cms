@@ -88,7 +88,7 @@ class TourModel extends AdminModel
             $aliasTitle = $host . " " . str_replace('COM_GUIDEDTOURS_TOUR_', '', $data['title']);
             // Remove the last _TITLE part
             if (str_ends_with($aliasTitle, '_TITLE')) {
-                $pos = strrpos($aliasTitle, "_TITLE");
+                $pos        = strrpos($aliasTitle, "_TITLE");
                 $aliasTitle = substr($aliasTitle, 0, $pos);
             }
             if ($app->get('unicodeslugs') == 1) {
@@ -260,7 +260,7 @@ class TourModel extends AdminModel
             $aliasTitle = $host . " " . str_replace('COM_GUIDEDTOURS_TOUR_', '', $result->title);
             // Remove the last _TITLE part
             if (str_ends_with($aliasTitle, '_TITLE')) {
-                $pos = strrpos($aliasTitle, "_TITLE");
+                $pos        = strrpos($aliasTitle, "_TITLE");
                 $aliasTitle = substr($aliasTitle, 0, $pos);
             }
             if ($app->get('unicodeslugs') == 1) {
@@ -315,7 +315,7 @@ class TourModel extends AdminModel
             $aliasTitle = $host . " " . str_replace('COM_GUIDEDTOURS_TOUR_', '', $result->title);
             // Remove the last _TITLE part
             if (str_ends_with($result->title, '_TITLE')) {
-                $pos = strrpos($aliasTitle, "_TITLE");
+                $pos        = strrpos($aliasTitle, "_TITLE");
                 $aliasTitle = substr($aliasTitle, 0, $pos);
             }
             if ($app->get('unicodeslugs') == 1) {
