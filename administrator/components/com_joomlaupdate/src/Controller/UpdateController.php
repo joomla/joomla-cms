@@ -149,7 +149,7 @@ class UpdateController extends BaseController
 
         $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
         $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
+        Log::addLogger($options, Log::ALL, ['Update', 'databasequery', 'jerror']);
 
         try {
             Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_FINALISE'), Log::INFO, 'Update');
