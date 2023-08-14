@@ -2350,7 +2350,9 @@ class JoomlaInstallerScript
                     }
                 } else {
                     // On Unix with both files: Delete the incorrectly cased file.
-                    File::delete(JPATH_ROOT . $old);
+                    if (is_file(JPATH_ROOT . $old)) {
+                        File::delete(JPATH_ROOT . $old);
+                    }
                 }
             }
         }

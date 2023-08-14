@@ -135,19 +135,19 @@ module.exports.createErrorPages = async (options) => {
       template = template.replace('{{jsContents}}', jsContent.code);
     }
 
-    let mediaExists = false;
-    try {
-      await access(dirname(`${RootPath}${options.settings.errorPages[name].destFile}`));
-      mediaExists = true;
-    } catch (err) {
-      // Do nothing
-    }
-
-    if (!mediaExists) {
-      await mkdir(dirname(`${RootPath}${options.settings.errorPages[name].destFile}`), { recursive: true, mode: 0o755 });
-    }
-
     options.settings.errorPages[name].destFile.forEach(async (folder) => {
+      let mediaExists = false;
+      try {
+        await access(dirname(`${RootPath}${folder}`));
+        mediaExists = true;
+      } catch (err) {
+        // Do nothing
+      }
+
+      if (!mediaExists) {
+        await mkdir(dirname(`${RootPath}${folder}`), { recursive: true, mode: 0o755 });
+      }
+
       await writeFile(`${RootPath}${folder}`, template, { encoding: 'utf8', mode: 0o644 });
 
       // eslint-disable-next-line no-console
