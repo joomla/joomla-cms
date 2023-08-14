@@ -87,25 +87,53 @@ class JoomlaInstallerScript
 
         Log::addLogger($options, Log::ALL, ['Update', 'databasequery', 'jerror']);
 
+        // Uninstall plugins before removing their files and folders
         try {
-            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), Log::INFO, 'Update');
-        } catch (RuntimeException $exception) {
-            // Informational log only
+            $this->uninstallRepeatableFieldsPlugin();
+        } catch (\Throwable $e) {
+            $msg = sprintf('Uninstalling Repeatable fields plugin failed: %s', $e->getMessage());
+            echo $msg . '<br>';
+            Log::add($msg, Log::ERROR, 'Update');
         }
 
-        // Uninstall plugins before removing their files and folders
-        $this->uninstallRepeatableFieldsPlugin();
-        $this->uninstallEosPlugin();
+        try {
+            $this->uninstallEosPlugin();
+        } catch (\Throwable $e) {
+            $msg = sprintf('Uninstalling EOS plugin failed: %s', $e->getMessage());
+            echo $msg . '<br>';
+            Log::add($msg, Log::ERROR, 'Update');
+        }
 
         // This needs to stay for 2.5 update compatibility
-        $this->deleteUnexistingFiles();
-        $this->updateManifestCaches();
-        $this->updateDatabase();
-        $this->updateAssets($installer);
-        $this->clearStatsCache();
-        $this->convertTablesToUtf8mb4(true);
-        $this->addUserAuthProviderColumn();
-        $this->cleanJoomlaCache();
+        try {
+            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), Log::INFO, 'Update');
+            $this->deleteUnexistingFiles();
+        } catch (\Throwable $e) {
+            $msg = sprintf('Deleting legacy files failed: %s', $e->getMessage());
+            echo $msg . '<br>';
+            Log::add($msg, Log::ERROR, 'Update');
+        }
+
+        try {
+            $this->updateManifestCaches();
+            $this->updateDatabase();
+            $this->updateAssets($installer);
+            $this->clearStatsCache();
+            $this->convertTablesToUtf8mb4(true);
+            $this->addUserAuthProviderColumn();
+        } catch (\Throwable $e) {
+            $msg = sprintf('Processing further update failed: %s', $e->getMessage());
+            echo $msg . '<br>';
+            Log::add($msg, Log::ERROR, 'Update');
+        }
+
+        try {
+            $this->cleanJoomlaCache();
+        } catch (\Throwable $e) {
+            $msg = sprintf('Cleaning cache failed: %s', $e->getMessage());
+            echo $msg . '<br>';
+            Log::add($msg, Log::ERROR, 'Update');
+        }
     }
 
     /**
