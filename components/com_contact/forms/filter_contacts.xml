@@ -98,8 +98,8 @@
 			<option value="a.published DESC">JSTATUS_DESC</option>
 			<option value="a.featured ASC">JFEATURED_ASC</option>
 			<option value="a.featured DESC">JFEATURED_DESC</option>
-			<option value="a.name ASC">JGLOBAL_TITLE_ASC</option>
-			<option value="a.name DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="a.name ASC">JGLOBAL_NAME_ASC</option>
+			<option value="a.name DESC">JGLOBAL_NAME_DESC</option>
 			<option value="category_title ASC">JCATEGORY_ASC</option>
 			<option value="category_title DESC">JCATEGORY_DESC</option>
 			<option value="ul.name ASC">COM_CONTACT_FIELD_LINKED_USER_LABEL_ASC</option>
