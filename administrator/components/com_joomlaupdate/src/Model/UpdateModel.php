@@ -653,9 +653,9 @@ ENDDATA;
         \JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
         $manifestClass = new \JoomlaInstallerScript();
+        $msg           = '';
 
         ob_start();
-        ob_implicit_flush(false);
 
         if ($manifestClass && method_exists($manifestClass, 'preflight')) {
             if ($manifestClass->preflight('update', $installer) === false) {
@@ -671,7 +671,7 @@ ENDDATA;
         }
 
         // Create msg object; first use here.
-        $msg = ob_get_contents();
+        $msg .= ob_get_contents();
         ob_end_clean();
 
         // Get a database connector object.
@@ -766,7 +766,6 @@ ENDDATA;
 
         // Start Joomla! 1.6.
         ob_start();
-        ob_implicit_flush(false);
 
         if ($manifestClass && method_exists($manifestClass, 'update')) {
             if ($manifestClass->update($installer) === false) {
@@ -798,7 +797,6 @@ ENDDATA;
 
         // And now we run the postflight.
         ob_start();
-        ob_implicit_flush(false);
 
         if ($manifestClass && method_exists($manifestClass, 'postflight')) {
             $manifestClass->postflight('update', $installer);
@@ -808,8 +806,9 @@ ENDDATA;
         $msg .= ob_get_contents();
         ob_end_clean();
 
-        if ($msg != '') {
+        if ($msg) {
             $installer->set('extension_message', $msg);
+            Log::add(str_replace('<br>', PHP_EOL . PHP_EOL, $msg), Log::INFO, 'Update');
         }
 
         // Refresh versionable assets cache.
