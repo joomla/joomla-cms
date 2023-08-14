@@ -33,6 +33,7 @@ use Joomla\Event\SubscriberInterface;
 final class SessionGC extends CMSPlugin implements SubscriberInterface
 {
     use TaskPluginTrait;
+
     /**
      * The meta data manager
      *
