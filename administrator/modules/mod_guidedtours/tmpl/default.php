@@ -43,6 +43,10 @@ foreach ($tours as $tour) :
     $key = $uri->getVar('option') ?? Text::_('MOD_GUIDEDTOURS_GENERIC_TOUR');
 
     if (!isset($allTours[$key])) :
+	    // Load extension language sys file to pick up translation of extension
+        $lang->load("$key.sys", JPATH_ADMINISTRATOR)
+        || $lang->load("$key.sys", JPATH_ADMINISTRATOR . '/components/' . $key);
+
         $allTours[$key] = [];
     endif;
 

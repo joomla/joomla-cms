@@ -256,8 +256,8 @@ class StepModel extends AdminModel
                 $tourLanguage = !empty($tour->language) ? $tour->language : '*';
 
                 if (!empty($tour->alias)) {
-                    $lang->load("com_guidedtours_" . str_replace("-", "_", $tour->alias), JPATH_ADMINISTRATOR);
-                    $lang->load("com_guidedtours_" . str_replace("-", "_", $tour->alias) . ".steps", JPATH_ADMINISTRATOR);
+                    $lang->load("com_guidedtours_" . str_replace("-", "_", $tour->alias) . "_title", JPATH_ADMINISTRATOR);
+                    $lang->load("com_guidedtours_" . str_replace("-", "_", $tour->alias) . "_steps", JPATH_ADMINISTRATOR);
                 }
 
                 // Sets step language to parent tour language
