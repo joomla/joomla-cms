@@ -232,7 +232,7 @@ class Update
      * @since  3.10.2
      */
     protected $compatibleVersions = [];
-    protected $downloadurl;
+    public $downloadurl;
     protected $tag;
     protected $stability;
     protected $supported_databases;
