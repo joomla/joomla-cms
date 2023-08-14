@@ -86,6 +86,11 @@ class TourModel extends AdminModel
             $uri        = Uri::getInstance();
             $host       = $uri->toString(['host']);
             $aliasTitle = $host . " " . str_replace('COM_GUIDEDTOURS_TOUR_', '', $data['title']);
+            // Remove the last _TITLE part
+            if (str_ends_with($aliasTitle, '_TITLE')) {
+                $pos = strrpos($aliasTitle, "_TITLE");
+                $aliasTitle = substr($aliasTitle, 0, $pos);
+            }
             if ($app->get('unicodeslugs') == 1) {
                 $data['alias'] = OutputFilter::stringUrlUnicodeSlug($aliasTitle);
             } else {
@@ -239,8 +244,8 @@ class TourModel extends AdminModel
         $result = parent::getItem($pk);
 
         if (!empty($result->alias)) {
-            $lang->load('com_guidedtours_' . str_replace('-', '_', $result->alias), JPATH_ADMINISTRATOR);
-            $lang->load('com_guidedtours_' . str_replace('-', '_', $result->alias) . ".steps", JPATH_ADMINISTRATOR);
+            $lang->load('com_guidedtours_' . str_replace('-', '_', $result->alias) . "_title", JPATH_ADMINISTRATOR);
+            $lang->load('com_guidedtours_' . str_replace('-', '_', $result->alias) . "_steps", JPATH_ADMINISTRATOR);
         }
 
         if (!empty($result->id)) {
@@ -253,6 +258,11 @@ class TourModel extends AdminModel
             $uri        = Uri::getInstance();
             $host       = $uri->toString(['host']);
             $aliasTitle = $host . " " . str_replace('COM_GUIDEDTOURS_TOUR_', '', $result->title);
+            // Remove the last _TITLE part
+            if (str_ends_with($aliasTitle, '_TITLE')) {
+                $pos = strrpos($aliasTitle, "_TITLE");
+                $aliasTitle = substr($aliasTitle, 0, $pos);
+            }
             if ($app->get('unicodeslugs') == 1) {
                 $result->alias = OutputFilter::stringUrlUnicodeSlug($aliasTitle);
             } else {
@@ -301,7 +311,13 @@ class TourModel extends AdminModel
             $app        = Factory::getApplication();
             $uri        = Uri::getInstance();
             $host       = $uri->toString(['host']);
+
             $aliasTitle = $host . " " . str_replace('COM_GUIDEDTOURS_TOUR_', '', $result->title);
+            // Remove the last _TITLE part
+            if (str_ends_with($result->title, '_TITLE')) {
+                $pos = strrpos($aliasTitle, "_TITLE");
+                $aliasTitle = substr($aliasTitle, 0, $pos);
+            }
             if ($app->get('unicodeslugs') == 1) {
                 $result->alias = OutputFilter::stringUrlUnicodeSlug($aliasTitle);
             } else {
