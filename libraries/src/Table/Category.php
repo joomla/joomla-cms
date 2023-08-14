@@ -257,7 +257,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
         }
 
         // Verify that the alias is unique
-        $table = Table::getInstance('Category', 'JTable', ['dbo' => $this->getDbo()]);
+        $table = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
 
         if (
             $table->load(['alias' => $this->alias, 'parent_id' => (int) $this->parent_id, 'extension' => $this->extension])
