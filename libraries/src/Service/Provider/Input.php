@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Service\Provider;
@@ -24,7 +24,7 @@ use Joomla\DI\ServiceProviderInterface;
  * @note It is strongly recommended that extensions get the input object from the application and DO NOT use this
  * service container.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class Input implements ServiceProviderInterface
 {
@@ -35,7 +35,7 @@ class Input implements ServiceProviderInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function register(Container $container)
     {

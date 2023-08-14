@@ -25,16 +25,16 @@ $app->getDocument()
     ->getWebAssetManager()
     ->useScript('bootstrap.dropdown');
 
-$lang = $app->getLanguage();
-
-$extension = $app->getInput()->get('option');
-
-$listTours = [];
-$allTours  = [];
+$lang       = $app->getLanguage();
+$extension  = $app->getInput()->get('option');
+$listTours  = [];
+$allTours   = [];
+$toursCount = $params->get('tourscount', 7);
 
 foreach ($tours as $tour) :
-    if (count(array_intersect(['*', $extension], $tour->extensions))) :
+    if ($toursCount > 0 && count(array_intersect(['*', $extension], $tour->extensions))) :
         $listTours[] = $tour;
+        $toursCount--;
     endif;
 
     $uri = new Uri($tour->url);
@@ -43,6 +43,9 @@ foreach ($tours as $tour) :
     $key = $uri->getVar('option') ?? Text::_('MOD_GUIDEDTOURS_GENERIC_TOUR');
 
     if (!isset($allTours[$key])) :
+        $lang->load("$key.sys", JPATH_ADMINISTRATOR)
+        || $lang->load("$key.sys", JPATH_ADMINISTRATOR . '/components/' . $key);
+
         $allTours[$key] = [];
     endif;
 
@@ -51,8 +54,7 @@ endforeach;
 
 ?>
 <div class="header-item-content dropdown header-tours d-none d-sm-block">
-    <button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button"
-            title="<?php echo Text::_('MOD_GUIDEDTOURS_MENU'); ?>">
+    <button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button" title="<?php echo Text::_('MOD_GUIDEDTOURS_MENU'); ?>">
         <div class="header-item-icon">
             <span class="icon-map-signs" aria-hidden="true"></span>
         </div>
@@ -62,17 +64,13 @@ endforeach;
         <span class="icon-angle-down" aria-hidden="true"></span>
     </button>
     <div class="dropdown-menu dropdown-menu-end">
-        <?php foreach ($listTours as $i => $tour) : ?>
-            <?php if ($i >= $params->get('tourscount', 7)) : ?>
-                <?php break; ?>
-            <?php endif; ?>
+        <?php foreach ($listTours as $tour) : ?>
             <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
                 <span class="icon-map-signs" aria-hidden="true"></span>
                 <?php echo $tour->title; ?>
             </button>
         <?php endforeach; ?>
-        <button type="button" class="dropdown-item text-center" data-bs-toggle="modal"
-                data-bs-target="#modGuidedTours-modal">
+        <button type="button" class="dropdown-item text-center" data-bs-toggle="modal" data-bs-target="#modGuidedTours-modal">
             <?php echo Text::_('MOD_GUIDEDTOURS_SHOW_ALL'); ?>
         </button>
     </div>
@@ -82,10 +80,10 @@ endforeach;
 $modalParams = [
     'title'  => Text::_('MOD_GUIDEDTOURS_START_TOUR'),
     'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
-                . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
+        . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 ];
 
-$modalHtml   = [];
+$modalHtml = [];
 $modalHtml[] = '<div class="p-3">';
 $modalHtml[] = '<div class="row">';
 foreach ($allTours as $extension => $tours) :

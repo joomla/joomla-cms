@@ -365,8 +365,8 @@ class CategoryModel extends AdminModel
      *
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
-     * @see     JFormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Form\FormRule
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.9.23
      */
     public function validate($form, $data, $group = null)
@@ -874,7 +874,7 @@ class CategoryModel extends AdminModel
         $parentId = (int) ArrayHelper::getValue($parts, 0, 1);
 
         $db        = $this->getDatabase();
-        $extension = Factory::getApplication()->input->get('extension', '', 'word');
+        $extension = Factory::getApplication()->getInput()->get('extension', '', 'word');
         $newIds    = [];
 
         // Check that the parent exists
