@@ -584,15 +584,24 @@
       ]
     },
     {
-      "name": "dialog",
+      "name": "joomla.dialog",
       "type": "script",
       "uri": "system/joomla-dialog.min.js",
+      "importmap": true,
+      "dependencies": [
+        "wcpolyfill",
+        "core"
+      ]
+    },
+    {
+      "name": "joomla.dialog-autocreate",
+      "type": "script",
+      "uri": "system/joomla-dialog-autocreate.min.js",
       "attributes": {
         "type": "module"
       },
       "dependencies": [
-        "wcpolyfill",
-        "core"
+        "joomla.dialog"
       ]
     },
     {
