@@ -430,7 +430,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since   3.2
      *
-     * @deprecated  4.0 will be removed in 6.0
+     * @deprecated  3.2 will be removed in 6.0
      *              Use get() instead
      *              Example: Factory::getApplication()->get($varname, $default);
      */
@@ -438,7 +438,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     {
         try {
             Log::add(
-                sprintf('%s() is deprecated and will be removed in 5.0. Use JFactory->getApplication()->get() instead.', __METHOD__),
+                sprintf('%s() is deprecated and will be removed in 6.0. Use Factory->getApplication()->get() instead.', __METHOD__),
                 Log::WARNING,
                 'deprecated'
             );
@@ -687,7 +687,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @param   string  $key      The key of the user state variable.
      * @param   string  $request  The name of the variable passed in a request.
      * @param   string  $default  The default value for the variable if not found. Optional.
-     * @param   string  $type     Filter for the variable, for valid values see {@link InputFilter::clean()}. Optional.
+     * @param   string  $type     Filter for the variable. Optional.
+     *                  @see      \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  mixed  The request user state.
      *

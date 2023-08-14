@@ -19,9 +19,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Schemaorg\SchemaorgPrepareDateTrait;
+use Joomla\CMS\Schemaorg\SchemaorgPrepareImageTrait;
 use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\User\UserFactory;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
@@ -39,6 +41,9 @@ use Joomla\Registry\Registry;
 final class Schemaorg extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
+    use SchemaorgPrepareImageTrait;
+    use SchemaorgPrepareDateTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * Load the language file on instantiation.
@@ -303,8 +308,8 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         $name = $this->params->get('name');
 
-        if ($isPerson && $this->params->get('userId') > 0) {
-            $user = Factory::getContainer()->get(UserFactory::class)->loadUserById($this->params->get('userId'));
+        if ($isPerson && $this->params->get('user') > 0) {
+            $user = $this->getUserFactory()->loadUserById($this->params->get('user'));
 
             $name = $user ? $user->name : '';
         }
@@ -427,12 +432,83 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         PluginHelper::importPlugin('schemaorg', null, true, $dispatcher);
         $dispatcher->dispatch('onSchemaBeforeCompileHead', $event);
 
-        $schemaString = $schema->toString('JSON', ['bitmask' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE]);
+        $data = $schema->get('@graph');
+
+        foreach ($data as $key => $entry) {
+            $data[$key] = $this->cleanupSchema($entry);
+        }
+
+        $schema->set('@graph', $data);
+
+        $prettyPrint  = JDEBUG ? JSON_PRETTY_PRINT : 0;
+        $schemaString = $schema->toString('JSON', ['bitmask' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | $prettyPrint]);
 
         if ($schemaString !== '{}') {
             $wa = $this->getApplication()->getDocument()->getWebAssetManager();
             $wa->addInlineScript($schemaString, ['name' => 'inline.schemaorg'], ['type' => 'application/ld+json']);
         }
+    }
+
+    /**
+     * Clean the schema and remove empty fields
+     *
+     * @param   array  $schema
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    private function cleanupSchema($schema)
+    {
+        $result = [];
+
+        foreach ($schema as $key => $value) {
+            if (is_array($value)) {
+                // Subtypes need special handling
+                if (!empty($value['@type'])) {
+                    if ($value['@type'] === 'ImageObject') {
+                        if (!empty($value['url'])) {
+                            $value['url'] = $this->prepareImage($value['url']);
+                        }
+
+                        if (empty($value['url'])) {
+                            $value = [];
+                        }
+                    } elseif ($value['@type'] === 'Date') {
+                        if (!empty($value['value'])) {
+                            $value['value'] = $this->prepareDate($value['value']);
+                        }
+
+                        if (empty($value['value'])) {
+                            $value = [];
+                        }
+                    }
+
+                    // Go into the array
+                    $value = $this->cleanupSchema($value);
+
+                    // We don't save when the array contains only the @type
+                    if (empty($value) || count($value) <= 1) {
+                        $value = null;
+                    }
+                } elseif ($key == 'genericField') {
+                    foreach ($value as $field) {
+                        $result[$field['genericTitle']] = $field['genericValue'];
+                    }
+
+                    continue;
+                }
+            }
+
+            // No data, no play
+            if (empty($value)) {
+                continue;
+            }
+
+            $result[$key] = $value;
+        }
+
+        return $result;
     }
 
     /**
