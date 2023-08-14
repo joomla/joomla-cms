@@ -244,7 +244,7 @@ class StepsModel extends ListModel
                 $tour = $tourModel->getItem($tourId);
 
                 if (!empty($tour->alias)) {
-                    $lang->load("com_guidedtours_" . str_replace("-", "_", $tour->alias) . "_title", JPATH_ADMINISTRATOR);
+                    $lang->load("com_guidedtours_" . str_replace("-", "_", $tour->alias), JPATH_ADMINISTRATOR);
                     $lang->load("com_guidedtours_" . str_replace("-", "_", $tour->alias) . "_steps", JPATH_ADMINISTRATOR);
                 }
                 $tourLanguageLoaded = true;

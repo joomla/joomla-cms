@@ -244,7 +244,7 @@ class TourModel extends AdminModel
         $result = parent::getItem($pk);
 
         if (!empty($result->alias)) {
-            $lang->load('com_guidedtours_' . str_replace('-', '_', $result->alias) . "_title", JPATH_ADMINISTRATOR);
+            $lang->load('com_guidedtours_' . str_replace('-', '_', $result->alias), JPATH_ADMINISTRATOR);
             $lang->load('com_guidedtours_' . str_replace('-', '_', $result->alias) . "_steps", JPATH_ADMINISTRATOR);
         }
 
