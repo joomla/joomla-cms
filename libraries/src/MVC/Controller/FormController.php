@@ -612,15 +612,9 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             return false;
         }
 
-        // Play safe, legacy extension may have not set the Dispatcher.
-        try {
-            $dispatcher = $this->getDispatcher();
-        } catch (\UnexpectedValueException $e) {
-            $dispatcher = $app->getDispatcher();
-        }
-
         // Send an object which can be modified through the plugin event
         $objData    = (object) $data;
+        $dispatcher = $this->getDispatcher() ?: $app->getDispatcher();
         $dispatcher->dispatch(
             'onContentNormaliseRequestData',
             new Model\NormaliseRequestDataEvent('onContentNormaliseRequestData', [

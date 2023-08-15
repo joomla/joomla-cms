@@ -148,14 +148,9 @@ trait FormBehaviorTrait
      */
     protected function preprocessData($context, &$data, $group = 'content')
     {
-        // Play safe, legacy extension may have not set the Dispatcher.
-        try {
-            if ($this instanceof DispatcherAwareInterface) {
-                $dispatcher = $this->getDispatcher();
-            } else {
-                $dispatcher = Factory::getApplication()->getDispatcher();
-            }
-        } catch (\UnexpectedValueException $e) {
+        if ($this instanceof DispatcherAwareInterface) {
+            $dispatcher = $this->getDispatcher();
+        } else {
             $dispatcher = Factory::getApplication()->getDispatcher();
         }
 
@@ -190,14 +185,9 @@ trait FormBehaviorTrait
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
-        // Play safe, legacy extension may have not set the Dispatcher.
-        try {
-            if ($this instanceof DispatcherAwareInterface) {
-                $dispatcher = $this->getDispatcher();
-            } else {
-                $dispatcher = Factory::getApplication()->getDispatcher();
-            }
-        } catch (\UnexpectedValueException $e) {
+        if ($this instanceof DispatcherAwareInterface) {
+            $dispatcher = $this->getDispatcher();
+        } else {
             $dispatcher = Factory::getApplication()->getDispatcher();
         }
 
