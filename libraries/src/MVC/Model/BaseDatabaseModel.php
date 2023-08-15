@@ -115,21 +115,19 @@ abstract class BaseDatabaseModel extends BaseModel implements
         }
 
         /**
-         * Ensure dispatcher are set. For backward compatibility with legacy components.
+         * Detect a legacy components and ensure dispatcher are set. For backward compatibility.
          *
          * @deprecated  4.4 will be Removed in 6.0
          *              Dispatcher instance are set in the model __constructor. But should be set through MVC factory.
          */
-        if (!empty($config['dispatcher']) && $config['dispatcher'] instanceof DispatcherInterface) {
-            $this->setDispatcher($config['dispatcher']);
-        } else {
+        if (!$factory) {
             $this->setDispatcher(Factory::getApplication()->getDispatcher());
-        }
 
-        @trigger_error(
-            'Dispatcher instance are set in the model __constructor will not work in 6.0. Should be set through MVC factory.',
-            E_USER_DEPRECATED
-        );
+            @trigger_error(
+                'Dispatcher instance are set in the model __constructor will not work in 6.0. Should be set through MVC factory.',
+                E_USER_DEPRECATED
+            );
+        }
 
         // Set the default view search path
         if (\array_key_exists('table_path', $config)) {
