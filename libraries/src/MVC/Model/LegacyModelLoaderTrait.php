@@ -103,14 +103,7 @@ trait LegacyModelLoaderTrait
             }
         }
 
-        $instance = new $modelClass($config);
-
-        // Ensure dispatcher is set
-        if ($instance instanceof DispatcherAwareInterface) {
-            $instance->setDispatcher(Factory::getApplication()->getDispatcher());
-        }
-
-        return $instance;
+        return new $modelClass($config);
     }
 
     /**

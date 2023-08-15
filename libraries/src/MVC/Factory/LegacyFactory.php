@@ -10,14 +10,12 @@
 namespace Joomla\CMS\MVC\Factory;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Model\ModelInterface;
 use Joomla\CMS\Table\Table;
-use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -110,14 +108,7 @@ class LegacyFactory implements MVCFactoryInterface
             }
         }
 
-        $instance = new $viewClass($config);
-
-        // Ensure dispatcher is set
-        if ($instance instanceof DispatcherAwareInterface) {
-            $instance->setDispatcher(Factory::getApplication()->getDispatcher());
-        }
-
-        return $instance;
+        return new $viewClass($config);
     }
 
     /**

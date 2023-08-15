@@ -114,21 +114,6 @@ abstract class BaseDatabaseModel extends BaseModel implements
             $this->setDbo($db);
         }
 
-        /**
-         * Detect a legacy components and ensure dispatcher is set. For backward compatibility.
-         *
-         * @deprecated  4.4 will be Removed in 6.0
-         *              Dispatcher instance is set in the model __constructor. But should be set through MVC factory.
-         */
-        if (!$factory) {
-            $this->setDispatcher(Factory::getApplication()->getDispatcher());
-
-            @trigger_error(
-                'Dispatcher instance is set in the model __constructor will not work in 6.0. Should be set through MVC factory.',
-                E_USER_DEPRECATED
-            );
-        }
-
         // Set the default view search path
         if (\array_key_exists('table_path', $config)) {
             $this->addTablePath($config['table_path']);
