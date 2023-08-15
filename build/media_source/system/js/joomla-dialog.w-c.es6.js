@@ -472,7 +472,7 @@ class JoomlaDialog extends HTMLElement {
   getFooter() {
     this.renderLayout();
 
-    return this.popupTmplB || false;
+    return this.popupTmplF || false;
   }
 
   /**
