@@ -421,7 +421,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
                 $this->filterFormName = 'filter_' . str_replace('\\', '', strtolower($classNameParts[1]));
             }
         }
-$this->getDispatcher();
+
         if (empty($this->filterFormName)) {
             return null;
         }
