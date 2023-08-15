@@ -215,7 +215,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Return  a tour and its steps or null if not found
+     * Return a tour and its steps or null if not found
      *
      * @param   TourTable  $item  The tour to load
      *
