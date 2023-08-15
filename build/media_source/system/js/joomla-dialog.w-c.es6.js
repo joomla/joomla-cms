@@ -365,8 +365,14 @@ class JoomlaDialog extends HTMLElement {
         const frame = document.createElement('iframe');
         frame.addEventListener('load', onLoad);
         frame.src = this.src;
-        frame.style.width = '100%';
-        frame.style.height = '100%';
+        // Enlarge default size of iframe, make sure it is usable without extra styling
+        frame.width = '100%';
+        frame.height = '720';
+        if (!this.width) {
+          frame.style.maxWidth = '100%';
+          frame.width = '1024';
+        }
+        frame.classList.add('iframe-content');
         this.popupContentElement = frame;
         this.popupTmplB.appendChild(frame);
         break;
