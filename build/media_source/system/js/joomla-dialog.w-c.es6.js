@@ -102,16 +102,16 @@ class JoomlaDialog extends HTMLElement {
     super();
 
     // Define default params (doing it here because browser support of public props)
-    this.popupType = 'inline';
-    this.textHeader = '';
+    this.popupType = this.getAttribute('type') || 'inline';
+    this.textHeader = this.getAttribute('text-header') || '';
     this.iconHeader = '';
     this.textClose = 'Close';
     this.popupContent = '';
-    this.src = '';
+    this.src = this.getAttribute('src') || '';
     this.popupButtons = [];
-    this.cancelable = true;
-    this.width = '';
-    this.height = '';
+    this.cancelable = !this.hasAttribute('not-cancelable');
+    this.width = this.getAttribute('width') || '';
+    this.height = this.getAttribute('height') || '';
     this.popupTemplate = popupTemplate;
     this.preferredParent = null;
     // @internal. Parent of the popupContent for cases when it is HTMLElement. Need for recovery on destroy().
