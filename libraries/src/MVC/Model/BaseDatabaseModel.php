@@ -337,7 +337,9 @@ abstract class BaseDatabaseModel extends BaseModel implements
 
     /**
      * Get the event dispatcher.
+     *
      * The override was made to keep a backward compatibility for legacy component.
+     * TODO: Remove the override in 6.0
      *
      * @return  DispatcherInterface
      *
