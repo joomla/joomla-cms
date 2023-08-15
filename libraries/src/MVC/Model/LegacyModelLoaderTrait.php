@@ -105,7 +105,7 @@ trait LegacyModelLoaderTrait
 
         $instance = new $modelClass($config);
 
-        // Ensure dispatcher are set
+        // Ensure dispatcher is set
         if ($instance instanceof DispatcherAwareInterface) {
             $instance->setDispatcher(Factory::getApplication()->getDispatcher());
         }
