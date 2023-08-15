@@ -255,27 +255,6 @@ class ToursModel extends ListModel
         foreach ($items as $item) {
             if (!empty($item->alias)) {
                 $lang->load('com_guidedtours_' . str_replace('-', '_', $item->alias), JPATH_ADMINISTRATOR);
-            } elseif ($item->id < 12 && str_starts_with($item->title, 'COM_GUIDEDTOURS_TOUR_') && str_ends_with($item->title, '_TITLE')) {
-                // We have an orphan tour with no alias, so we set it now for official Joomla tours
-                $tourItem = $this->getTable('Tour');
-                $tourItem->load($item->id);
-                $app        = Factory::getApplication();
-                $aliasTitle = 'joomla_ ' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $tourItem->title);
-
-                // Remove the last _TITLE part
-                $pos = strrpos($aliasTitle, "_TITLE");
-                if ($pos !== false) {
-                    $aliasTitle = substr($aliasTitle, 0, $pos);
-                }
-
-                if ($app->get('unicodeslugs') == 1) {
-                    $tourItem->alias = OutputFilter::stringUrlUnicodeSlug($aliasTitle);
-                } else {
-                    $tourItem->alias = OutputFilter::stringURLSafe($aliasTitle);
-                }
-                $tourItem->store();
-                $item->alias = $tourItem->alias;
-                $lang->load('com_guidedtours_' . str_replace('-', '_', $item->alias), JPATH_ADMINISTRATOR);
             }
             $item->title       = Text::_($item->title);
             $item->description = Text::_($item->description);
