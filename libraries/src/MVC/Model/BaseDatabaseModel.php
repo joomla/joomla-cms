@@ -346,8 +346,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      */
     public function getDispatcher()
     {
-        if (!$this->dispatcher)
-        {
+        if (!$this->dispatcher) {
             @trigger_error(
                 sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
                 E_USER_DEPRECATED
