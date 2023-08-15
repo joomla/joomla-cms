@@ -336,6 +336,30 @@ abstract class BaseDatabaseModel extends BaseModel implements
     }
 
     /**
+     * Get the event dispatcher.
+     * The override was made to keep a backward compatibility for legacy component.
+     *
+     * @return  DispatcherInterface
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
+     */
+    public function getDispatcher()
+    {
+        if (!$this->dispatcher)
+        {
+            @trigger_error(
+                sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                E_USER_DEPRECATED
+            );
+
+            return Factory::getContainer()->get(DispatcherInterface::class);
+        }
+
+        return $this->dispatcher;
+    }
+
+    /**
      * Dispatches the given event on the internal dispatcher, does a fallback to the global one.
      *
      * @param   EventInterface  $event  The event
