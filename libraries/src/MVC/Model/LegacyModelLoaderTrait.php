@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
+use Joomla\Event\DispatcherAwareInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -102,7 +103,14 @@ trait LegacyModelLoaderTrait
             }
         }
 
-        return new $modelClass($config);
+        $instance = new $modelClass($config);
+
+        // Ensure dispatcher are set
+        if ($instance instanceof DispatcherAwareInterface) {
+            $instance->setDispatcher(Factory::getApplication()->getDispatcher());
+        }
+
+        return $instance;
     }
 
     /**
