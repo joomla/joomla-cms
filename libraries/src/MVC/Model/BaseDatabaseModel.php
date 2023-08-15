@@ -358,6 +358,8 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @return  void
      *
      * @since   4.1.0
+     *
+     * @deprecated 4.4 will be removed in 6.0. Use $this->getDispatcher() directly.
      */
     protected function dispatchEvent(EventInterface $event)
     {
@@ -366,6 +368,14 @@ abstract class BaseDatabaseModel extends BaseModel implements
         } catch (\UnexpectedValueException $e) {
             Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
         }
+
+        @trigger_error(
+            sprintf(
+                'Method %s is deprecated and will be removed in 6.0. Use getDispatcher()->dispatch() directly.',
+                __METHOD__
+            ),
+            E_USER_DEPRECATED
+        );
     }
 
     /**
