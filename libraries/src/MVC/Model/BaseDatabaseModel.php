@@ -371,11 +371,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      */
     protected function dispatchEvent(EventInterface $event)
     {
-        try {
-            $this->getDispatcher()->dispatch($event->getName(), $event);
-        } catch (\UnexpectedValueException $e) {
-            Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
-        }
+        $this->getDispatcher()->dispatch($event->getName(), $event);
 
         @trigger_error(
             sprintf(
