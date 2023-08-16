@@ -239,7 +239,7 @@ class RequestsPluginTest extends UnitTestCase
         );
         $plugin->standardRoutineHandler($event);
 
-        $this->assertEquals(['basic' => '123'], $transport->headers);
+        $this->assertEquals(['Authorization' => 'basic 123'], $transport->headers);
     }
 
     /**

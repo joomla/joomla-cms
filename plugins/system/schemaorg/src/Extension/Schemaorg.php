@@ -23,7 +23,7 @@ use Joomla\CMS\Schemaorg\SchemaorgPrepareDateTrait;
 use Joomla\CMS\Schemaorg\SchemaorgPrepareImageTrait;
 use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\User\UserFactory;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\EventInterface;
@@ -44,6 +44,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
     use DatabaseAwareTrait;
     use SchemaorgPrepareImageTrait;
     use SchemaorgPrepareDateTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * Load the language file on instantiation.
@@ -331,8 +332,8 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         $name = $this->params->get('name');
 
-        if ($isPerson && $this->params->get('userId') > 0) {
-            $user = Factory::getContainer()->get(UserFactory::class)->loadUserById($this->params->get('userId'));
+        if ($isPerson && $this->params->get('user') > 0) {
+            $user = $this->getUserFactory()->loadUserById($this->params->get('user'));
 
             $name = $user ? $user->name : '';
         }
@@ -465,7 +466,8 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         $schema->set('@graph', $data);
 
-        $schemaString = $schema->toString('JSON', ['bitmask' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE]);
+        $prettyPrint  = JDEBUG ? JSON_PRETTY_PRINT : 0;
+        $schemaString = $schema->toString('JSON', ['bitmask' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | $prettyPrint]);
 
         if ($schemaString !== '{}') {
             $wa = $this->getApplication()->getDocument()->getWebAssetManager();
