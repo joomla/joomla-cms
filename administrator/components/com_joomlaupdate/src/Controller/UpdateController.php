@@ -12,6 +12,7 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -41,10 +42,9 @@ class UpdateController extends BaseController
     {
         $this->checkToken();
 
-        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-        $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
-        $user = $this->app->getIdentity();
+        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        $model = $this->getModel('Update');
+        $user  = $this->app->getIdentity();
 
         try {
             Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), Log::INFO, 'Update');
@@ -52,8 +52,6 @@ class UpdateController extends BaseController
             // Informational log only
         }
 
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
-        $model  = $this->getModel('Update');
         $result = $model->download();
         $file   = $result['basename'];
 
@@ -109,18 +107,14 @@ class UpdateController extends BaseController
         $this->checkToken('get');
         $this->app->setUserState('com_joomlaupdate.oldversion', JVERSION);
 
-        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-        $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
+        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        $model = $this->getModel('Update');
 
         try {
             Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), Log::INFO, 'Update');
         } catch (\RuntimeException $exception) {
             // Informational log only
         }
-
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
-        $model = $this->getModel('Update');
 
         $file = $this->app->getUserState('com_joomlaupdate.file', null);
         $model->createRestorationFile($file);
@@ -150,7 +144,22 @@ class UpdateController extends BaseController
         /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
         $model = $this->getModel('Update');
 
-        $model->finaliseUpgrade();
+        try {
+            $model->finaliseUpgrade();
+        } catch (\Throwable $e) {
+            $model->collectError('finaliseUpgrade', $e);
+        }
+
+        // Check for update errors
+        if ($model->getErrors()) {
+            $this->app->setUserState('com_joomlaupdate.update_finished_with_error', true);
+        }
+
+        // Check for captured output messages in the installer
+        $msg = Installer::getInstance()->get('extension_message');
+        if ($msg) {
+            $this->app->setUserState('com_joomlaupdate.extension_message', $msg);
+        }
 
         $url = 'index.php?option=com_joomlaupdate&task=update.cleanup&' . Session::getFormToken() . '=1';
         $this->setRedirect($url);
@@ -175,29 +184,28 @@ class UpdateController extends BaseController
             return;
         }
 
-        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-        $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
-
-        try {
-            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_CLEANUP'), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
-            // Informational log only
-        }
-
         /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
         $model = $this->getModel('Update');
 
-        $model->cleanUp();
+        try {
+            $model->cleanUp();
+        } catch (\Throwable $e) {
+            $model->collectError('cleanUp', $e);
+        }
+
+        // Check for update errors
+        if ($model->getErrors()) {
+            $this->app->setUserState('com_joomlaupdate.update_finished_with_error', true);
+        }
 
         $url = 'index.php?option=com_joomlaupdate&view=joomlaupdate&layout=complete';
-        $this->setRedirect($url);
 
-        try {
-            Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', \JVERSION), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
-            // Informational log only
+        // In case for errored update, redirect to component view
+        if ($this->app->getUserState('com_joomlaupdate.update_finished_with_error')) {
+            $url .= '&tmpl=component';
         }
+
+        $this->setRedirect($url);
     }
 
     /**

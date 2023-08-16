@@ -869,6 +869,12 @@ ENDDATA;
      */
     public function cleanUp()
     {
+        try {
+            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_CLEANUP'), Log::INFO, 'Update');
+        } catch (\RuntimeException $exception) {
+            // Informational log only
+        }
+
         // Load overrides plugin.
         PluginHelper::importPlugin('installer');
 
@@ -911,6 +917,12 @@ ENDDATA;
         // Trigger event after joomla update.
         $app->triggerEvent('onJoomlaAfterUpdate', [$oldVersion]);
         $app->setUserState('com_joomlaupdate.oldversion', null);
+
+        try {
+            Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', \JVERSION), Log::INFO, 'Update');
+        } catch (\RuntimeException $exception) {
+            // Informational log only
+        }
     }
 
     /**
@@ -1763,7 +1775,7 @@ ENDDATA;
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected function collectError(string $context, \Throwable $error)
+    public function collectError(string $context, \Throwable $error)
     {
         // Store error for further processing by controller
         $this->setError($error);

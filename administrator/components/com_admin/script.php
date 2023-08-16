@@ -189,7 +189,7 @@ class JoomlaInstallerScript
                     ->where($db->quoteName('element') . ' = ' . $db->quote('stats'))
             )->loadResult();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -213,7 +213,7 @@ class JoomlaInstallerScript
         try {
             $db->setQuery($query)->execute();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -8080,6 +8080,8 @@ class JoomlaInstallerScript
             $asset->setLocation(1, 'last-child');
 
             if (!$asset->store()) {
+                $this->collectError(__METHOD__, new \Exception($asset->getError(true)));
+
                 // Install failed, roll back changes
                 $installer->abort(Text::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->getError(true)));
 
@@ -8113,8 +8115,7 @@ class JoomlaInstallerScript
         try {
             $rows = $db->loadRowList(0);
         } catch (Exception $e) {
-            // Render the error message from the Exception object
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+            $this->collectError(__METHOD__, $e);
 
             if ($doDbFixMsg) {
                 // Show an error message telling to check database problems
@@ -8141,8 +8142,7 @@ class JoomlaInstallerScript
         try {
             $convertedDB = $db->loadResult();
         } catch (Exception $e) {
-            // Render the error message from the Exception object
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+            $this->collectError(__METHOD__, $e);
 
             if ($doDbFixMsg) {
                 // Show an error message telling to check database problems
@@ -8174,8 +8174,7 @@ class JoomlaInstallerScript
                         } catch (Exception $e) {
                             $converted = $convertedDB;
 
-                            // Still render the error message from the Exception object
-                            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+                            $this->collectError(__METHOD__, $e);
                         }
                     }
                 }
@@ -8209,8 +8208,7 @@ class JoomlaInstallerScript
                             } catch (Exception $e) {
                                 $converted = 99;
 
-                                // Still render the error message from the Exception object
-                                Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+                                $this->collectError(__METHOD__, $e);
                             }
                         }
                     }
@@ -8863,7 +8861,7 @@ class JoomlaInstallerScript
         try {
             $db->setQuery($query)->execute();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
