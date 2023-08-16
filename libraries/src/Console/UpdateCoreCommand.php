@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Console;
 
 use Joomla\Application\Cli\CliInput;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\InstallerHelper;
@@ -132,6 +133,11 @@ class UpdateCoreCommand extends AbstractCommand
 
         $this->cliInput = $input;
         $this->ioStyle  = new SymfonyStyle($input, $output);
+
+        $language = Factory::getLanguage();
+        $language->load('lib_joomla', JPATH_ADMINISTRATOR);
+        $language->load('', JPATH_ADMINISTRATOR);
+        $language->load('com_joomlaupdate', JPATH_ADMINISTRATOR);
     }
 
     /**
@@ -174,6 +180,12 @@ class UpdateCoreCommand extends AbstractCommand
 
         if ($this->updateJoomlaCore($model)) {
             $this->progressBar->finish();
+
+            if ($model->getErrors()) {
+                $this->ioStyle->error('Update finished with errors. Please check logs for details.');
+                return self::ERR_UPDATE_FAILED;
+            }
+
             $this->ioStyle->success('Joomla core updated successfully!');
 
             return self::UPDATE_SUCCESSFUL;
