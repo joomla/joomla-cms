@@ -8821,7 +8821,7 @@ class JoomlaInstallerScript
 
         foreach (['atum', 'cassiopeia'] as $template) {
             $clientId = $template === 'atum' ? 1 : 0;
-            $query = $db->getQuery(true)
+            $query    = $db->getQuery(true)
                 ->update($db->quoteName('#__template_styles'))
                 ->set($db->quoteName('inheritable') . ' = 1')
                 ->where($db->quoteName('template') . ' = ' . $db->quote($template))

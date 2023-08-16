@@ -800,7 +800,7 @@ ENDDATA;
         // Reinitialise the installer's extensions table's properties.
         $installer->extension->getFields(true);
 
-        try{
+        try {
             ob_start();
 
             if ($manifestClass->update($installer) === false) {
@@ -836,7 +836,7 @@ ENDDATA;
         }
 
         // And now we run the postflight.
-        try{
+        try {
             ob_start();
             $manifestClass->postflight('update', $installer);
 
@@ -1792,9 +1792,9 @@ ENDDATA;
             'Update'
         );
 
-       if (JDEBUG) {
-           $trace = $error->getFile() . ':' . $error->getLine() . PHP_EOL . $error->getTraceAsString();
-           Log::add(sprintf('An error trace: %s.', $trace), Log::DEBUG, 'Update');
-       }
+        if (JDEBUG) {
+            $trace = $error->getFile() . ':' . $error->getLine() . PHP_EOL . $error->getTraceAsString();
+            Log::add(sprintf('An error trace: %s.', $trace), Log::DEBUG, 'Update');
+        }
     }
 }
