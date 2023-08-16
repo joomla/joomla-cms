@@ -688,7 +688,7 @@ ENDDATA;
             ob_start();
 
             if ($manifestClass->preflight('update', $installer) === false) {
-                $this->collectError('JoomlaInstallerScript::preflight', new \Exception('Preflight finished with "false".'));
+                $this->collectError('JoomlaInstallerScript::preflight', new \Exception('Script::preflight finished with "false" result.'));
                 $installer->abort(
                     Text::sprintf(
                         'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
@@ -698,6 +698,7 @@ ENDDATA;
                 return false;
             }
 
+            // Append messages.
             $msg .= ob_get_contents();
             ob_end_clean();
         } catch (\Throwable $e) {
@@ -724,6 +725,7 @@ ENDDATA;
         try {
             $db->execute();
         } catch (\RuntimeException $e) {
+            $this->collectError('Extension check', $e);
             // Install failed, roll back changes.
             $installer->abort(
                 Text::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', Text::_('JLIB_INSTALLER_UPDATE'), $e->getMessage())
@@ -746,6 +748,7 @@ ENDDATA;
             $row->manifest_cache = $installer->generateManifestCache();
 
             if (!$row->store()) {
+                $this->collectError('Update the manifest_cache', new \Exception('Update the manifest_cache finished with "false" result.'));
                 // Install failed, roll back changes.
                 $installer->abort(
                     Text::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', Text::_('JLIB_INSTALLER_UPDATE'), $row->getError())
@@ -769,6 +772,7 @@ ENDDATA;
             $row->set('manifest_cache', $installer->generateManifestCache());
 
             if (!$row->store()) {
+                $this->collectError('Write the manifest_cache', new \Exception('Writing the manifest_cache finished with "false" result.'));
                 // Install failed, roll back changes.
                 $installer->abort(Text::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_ROLLBACK', $row->getError()));
 
@@ -786,6 +790,7 @@ ENDDATA;
         $result = $installer->parseSchemaUpdates($manifest->update->schemas, $row->extension_id);
 
         if ($result === false) {
+            $this->collectError('installer::parseSchemaUpdates', new \Exception('installer::parseSchemaUpdates finished with "false" result.'));
             // Install failed, rollback changes (message already logged by the installer).
             $installer->abort();
 
@@ -795,11 +800,12 @@ ENDDATA;
         // Reinitialise the installer's extensions table's properties.
         $installer->extension->getFields(true);
 
-        // Start Joomla! 1.6.
-        ob_start();
+        try{
+            ob_start();
 
-        if ($manifestClass && method_exists($manifestClass, 'update')) {
             if ($manifestClass->update($installer) === false) {
+                $this->collectError('JoomlaInstallerScript::update', new \Exception('Script::update finished with "false" result.'));
+
                 // Install failed, rollback changes.
                 $installer->abort(
                     Text::sprintf(
@@ -810,11 +816,14 @@ ENDDATA;
 
                 return false;
             }
-        }
 
-        // Append messages.
-        $msg .= ob_get_contents();
-        ob_end_clean();
+            // Append messages.
+            $msg .= ob_get_contents();
+            ob_end_clean();
+        } catch (\Throwable $e) {
+            $this->collectError('JoomlaInstallerScript::update', $e);
+            return false;
+        }
 
         // Clobber any possible pending updates.
         $update = new \Joomla\CMS\Table\Update($db);
@@ -827,23 +836,21 @@ ENDDATA;
         }
 
         // And now we run the postflight.
-        ob_start();
-
-        if ($manifestClass && method_exists($manifestClass, 'postflight')) {
+        try{
+            ob_start();
             $manifestClass->postflight('update', $installer);
-        }
 
-        // Append messages.
-        $msg .= ob_get_contents();
-        ob_end_clean();
+            // Append messages.
+            $msg .= ob_get_contents();
+            ob_end_clean();
+        } catch (\Throwable $e) {
+            $this->collectError('JoomlaInstallerScript::postflight', $e);
+            return false;
+        }
 
         if ($msg) {
             $installer->set('extension_message', $msg);
-            Log::add(str_replace('<br>', PHP_EOL . PHP_EOL, $msg), Log::INFO, 'Update');
         }
-
-        // Refresh versionable assets cache.
-        Factory::getApplication()->flushAssets();
 
         return true;
     }

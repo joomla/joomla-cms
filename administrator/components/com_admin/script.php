@@ -75,7 +75,13 @@ class JoomlaInstallerScript
      */
     protected function collectError(string $context, \Throwable $error)
     {
-        call_user_func($this->errorCollector, $context, $error);
+        // The errorCollector are required
+        // However when someone already running the script manually the code may fail.
+        if ($this->errorCollector) {
+            call_user_func($this->errorCollector, $context, $error);
+        } else {
+            Log::add($error->getMessage(), Log::ERROR, 'Update');
+        }
     }
 
     /**
@@ -120,38 +126,28 @@ class JoomlaInstallerScript
      */
     public function update($installer)
     {
-        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-        $options['text_file'] = 'joomla_update.php';
-
-        Log::addLogger($options, Log::ALL, ['Update', 'databasequery', 'jerror']);
-
         // Uninstall plugins before removing their files and folders
         try {
             $this->uninstallRepeatableFieldsPlugin();
         } catch (\Throwable $e) {
-            $msg = sprintf('Uninstalling Repeatable fields plugin failed: %s', $e->getMessage());
-            echo $msg . '<br>';
-            Log::add($msg, Log::ERROR, 'Update');
+            $this->collectError('uninstallRepeatableFieldsPlugin', $e);
         }
 
         try {
             $this->uninstallEosPlugin();
         } catch (\Throwable $e) {
-            $msg = sprintf('Uninstalling EOS plugin failed: %s', $e->getMessage());
-            echo $msg . '<br>';
-            Log::add($msg, Log::ERROR, 'Update');
+            $this->collectError('uninstallEosPlugin', $e);
         }
 
-        // This needs to stay for 2.5 update compatibility
+        // Remove old files
         try {
             Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), Log::INFO, 'Update');
             $this->deleteUnexistingFiles();
         } catch (\Throwable $e) {
-            $msg = sprintf('Deleting legacy files failed: %s', $e->getMessage());
-            echo $msg . '<br>';
-            Log::add($msg, Log::ERROR, 'Update');
+            $this->collectError('deleteUnexistingFiles', $e);
         }
 
+        // Further update
         try {
             $this->updateManifestCaches();
             $this->updateDatabase();
@@ -160,17 +156,14 @@ class JoomlaInstallerScript
             $this->convertTablesToUtf8mb4(true);
             $this->addUserAuthProviderColumn();
         } catch (\Throwable $e) {
-            $msg = sprintf('Processing further update failed: %s', $e->getMessage());
-            echo $msg . '<br>';
-            Log::add($msg, Log::ERROR, 'Update');
+            $this->collectError('Further update', $e);
         }
 
+        // Clean cache
         try {
             $this->cleanJoomlaCache();
         } catch (\Throwable $e) {
-            $msg = sprintf('Cleaning cache failed: %s', $e->getMessage());
-            echo $msg . '<br>';
-            Log::add($msg, Log::ERROR, 'Update');
+            $this->collectError('cleanJoomlaCache', $e);
         }
     }
 
@@ -252,7 +245,7 @@ class JoomlaInstallerScript
         try {
             $results = $db->loadObjectList();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -267,7 +260,7 @@ class JoomlaInstallerScript
             try {
                 $db->execute();
             } catch (Exception $e) {
-                echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+                $this->collectError(__METHOD__, $e);
 
                 return;
             }
@@ -629,7 +622,7 @@ class JoomlaInstallerScript
         try {
             $extensions = $db->loadObjectList();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -639,7 +632,10 @@ class JoomlaInstallerScript
 
         foreach ($extensions as $extension) {
             if (!$installer->refreshManifestCache($extension->extension_id)) {
-                echo Text::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id) . '<br>';
+                $this->collectError(
+                    __METHOD__,
+                    new \Exception(Text::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id))
+                );
             }
         }
     }
@@ -8352,6 +8348,9 @@ class JoomlaInstallerScript
                 return false;
             }
         }
+
+        // Refresh versionable assets cache.
+        Factory::getApplication()->flushAssets();
 
         return true;
     }
