@@ -1188,7 +1188,7 @@ final class Joomla extends ActionLogPlugin
         $this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_USER_RESET_COMPLETE', $context, $user->id);
     }
 
-        /**
+    /**
      * On after User unblock
      *
      * Method is called after user is unblocked.
