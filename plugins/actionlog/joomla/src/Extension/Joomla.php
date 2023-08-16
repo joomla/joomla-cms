@@ -586,6 +586,10 @@ final class Joomla extends ActionLogPlugin
             return;
         }
 
+        if ($task === 'block' || $task === 'unblock') {
+            return;
+        }
+
         $jUser = $this->getApplication()->getIdentity();
 
         if (!$jUser->id) {
@@ -1194,14 +1198,13 @@ final class Joomla extends ActionLogPlugin
      * Method is called after user is unblocked.
      *
      * @param   array    $user    Holds the user data.
-     * 
      * @param   integer  $object  Holds the user unblocked id.
      * 
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function onUserUnblock($user, $object) :void
+    public function onUserUnblock($user, $object): void
     {
         $context = $this->getApplication()->input->get('option');
 
@@ -1209,7 +1212,7 @@ final class Joomla extends ActionLogPlugin
             return;
         }
 
-        $message = array(
+        $message = [
             'action'      => 'unblock',
             'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
             'id'          => $user->id,
@@ -1219,9 +1222,9 @@ final class Joomla extends ActionLogPlugin
             'username'    => $user->username,
             'unblockid'    => $object,
             'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-        );
+        ];
 
-        $this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_UNBLOCK', $context, $user->id);
+        $this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_USER_UNBLOCK', $context, $user->id);
     }
 
     /**
@@ -1230,14 +1233,13 @@ final class Joomla extends ActionLogPlugin
      * Method is called after user is blocked.
      *
      * @param   array    $user    Holds the user data.
-     * 
      * @param   integer  $object  Holds the user blocked id.
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function onUserBlock($user, $object) :void
+    public function onUserBlock($user, $object): void
     {
         $context = $this->getApplication()->input->get('option');
 
@@ -1245,7 +1247,7 @@ final class Joomla extends ActionLogPlugin
             return;
         }
 
-        $message = array(
+        $message = [
             'action'      => 'block',
             'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
             'id'          => $user->id,
@@ -1255,8 +1257,8 @@ final class Joomla extends ActionLogPlugin
             'username'    => $user->username,
             'blockid'     => $object,
             'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-        );
+        ];
 
-        $this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_BLOCK', $context, $user->id);
+        $this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_USER_BLOCK', $context, $user->id);
     }
 }

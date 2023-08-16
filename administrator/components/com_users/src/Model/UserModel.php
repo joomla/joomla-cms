@@ -270,9 +270,9 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
         }
 
         $triggerEvent = false;
-        if ($user->block !== (int) $data['block']){
+        if ($user->block !== (int) $data['block']) {
             $triggerEvent = true;
-            if ($user->block === 1){
+            if ($user->block === 1) {
                 $eventName ='onUserUnblock';
             } else {
                 $eventName ='onUserBlock';
