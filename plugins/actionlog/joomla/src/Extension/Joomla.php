@@ -1220,7 +1220,7 @@ final class Joomla extends ActionLogPlugin
             'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $object,
             'userid'      => $user->id,
             'username'    => $user->username,
-            'unblockid'    => $object,
+            'unblockid'   => $object,
             'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
         ];
 
