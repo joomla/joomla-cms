@@ -13,6 +13,8 @@ use Joomla\Application\Cli\CliInput;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\InstallerHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -152,6 +154,8 @@ class UpdateCoreCommand extends AbstractCommand
         $this->progressBar->start();
 
         $model = $this->getUpdateModel();
+
+        Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', 0, 'CLI', \JVERSION), Log::INFO, 'Update');
 
         $this->setUpdateInfo($model->getUpdateInformation());
 
