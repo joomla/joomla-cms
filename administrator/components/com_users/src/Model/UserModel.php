@@ -12,6 +12,7 @@ namespace Joomla\Component\Users\Administrator\Model;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
@@ -268,6 +269,16 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
             }
         }
 
+        $triggerEvent = false;
+        if ($user->block !== (int) $data['block']){
+            $triggerEvent = true;
+            if ($user->block === 1){
+                $eventName ='onUserUnblock';
+            } else {
+                $eventName ='onUserBlock';
+            }
+        }
+
         // Bind the data.
         if (!$user->bind($data)) {
             $this->setError($user->getError());
@@ -280,6 +291,17 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
             $this->setError($user->getError());
 
             return false;
+        }
+
+        if ($triggerEvent) {
+            $event = AbstractEvent::create(
+                $eventName,
+                [
+                    'subject' => $my,
+                    'object'  => $data['id'],
+                ]
+            );
+            Factory::getApplication()->getDispatcher()->dispatch($event->getName(), $event);
         }
 
         // Destroy all active sessions for the user after changing the password or blocking him
@@ -436,12 +458,24 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
                             return false;
                         }
 
+                        $eventName = 'onUserUnblock';
                         if ($table->block) {
+                            $eventName = 'onUserBlock';
                             UserHelper::destroyUserSessions($table->id);
                         }
 
                         // Trigger the after save event
                         Factory::getApplication()->triggerEvent($this->event_after_save, [$table->getProperties(), false, true, null]);
+
+
+                        $event = AbstractEvent::create(
+                            $eventName,
+                            [
+                                'subject' => $user,
+                                'object'  => $pk,
+                            ]
+                        );
+                        $app->getDispatcher()->dispatch($event->getName(), $event);
                     } catch (\Exception $e) {
                         $this->setError($e->getMessage());
 

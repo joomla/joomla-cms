@@ -1187,4 +1187,76 @@ final class Joomla extends ActionLogPlugin
 
         $this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_USER_RESET_COMPLETE', $context, $user->id);
     }
+
+        /**
+     * On after User unblock
+     *
+     * Method is called after user is unblocked.
+     *
+     * @param   array    $user    Holds the user data.
+     * 
+     * @param   integer  $object  Holds the user unblocked id.
+     * 
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onUserUnblock($user, $object) :void
+    {
+        $context = $this->getApplication()->input->get('option');
+
+        if (!$this->checkLoggable($context)) {
+            return;
+        }
+
+        $message = array(
+            'action'      => 'unblock',
+            'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+            'id'          => $user->id,
+            'title'       => $user->name,
+            'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $object,
+            'userid'      => $user->id,
+            'username'    => $user->username,
+            'unblockid'    => $object,
+            'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+        );
+
+        $this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_UNBLOCK', $context, $user->id);
+    }
+
+    /**
+     * On after User block
+     *
+     * Method is called after user is blocked.
+     *
+     * @param   array    $user    Holds the user data.
+     * 
+     * @param   integer  $object  Holds the user blocked id.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onUserBlock($user, $object) :void
+    {
+        $context = $this->getApplication()->input->get('option');
+
+        if (!$this->checkLoggable($context)) {
+            return;
+        }
+
+        $message = array(
+            'action'      => 'block',
+            'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+            'id'          => $user->id,
+            'title'       => $user->name,
+            'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $object,
+            'userid'      => $user->id,
+            'username'    => $user->username,
+            'blockid'     => $object,
+            'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+        );
+
+        $this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_BLOCK', $context, $user->id);
+    }
 }
