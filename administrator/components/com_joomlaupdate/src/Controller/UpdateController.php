@@ -152,13 +152,21 @@ class UpdateController extends BaseController
 
         // Check for update errors
         if ($model->getErrors()) {
+            // The errors already should be logged at this point
+            // Collect a messages to show them later in the complete page
+            $errors = [];
+            foreach ($model->getErrors() as $error) {
+                $errors[] = $error->getMessage();
+            }
+
             $this->app->setUserState('com_joomlaupdate.update_finished_with_error', true);
+            $this->app->setUserState('com_joomlaupdate.update_errors', $errors);
         }
 
         // Check for captured output messages in the installer
         $msg = Installer::getInstance()->get('extension_message');
         if ($msg) {
-            $this->app->setUserState('com_joomlaupdate.extension_message', $msg);
+            $this->app->setUserState('com_joomlaupdate.installer_message', $msg);
         }
 
         $url = 'index.php?option=com_joomlaupdate&task=update.cleanup&' . Session::getFormToken() . '=1';
@@ -195,7 +203,15 @@ class UpdateController extends BaseController
 
         // Check for update errors
         if ($model->getErrors()) {
+            // The errors already should be logged at this point
+            // Collect a messages to show them later in the complete page
+            $errors = $this->app->getUserState('com_joomlaupdate.update_errors', []);
+            foreach ($model->getErrors() as $error) {
+                $errors[] = $error->getMessage();
+            }
+
             $this->app->setUserState('com_joomlaupdate.update_finished_with_error', true);
+            $this->app->setUserState('com_joomlaupdate.update_errors', $errors);
         }
 
         $url = 'index.php?option=com_joomlaupdate&view=joomlaupdate&layout=complete';
