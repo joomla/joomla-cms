@@ -237,7 +237,7 @@ class StepsModel extends ListModel
 
             if (isset($item->params)) {
                 $params = new Registry($item->params);
-                if (isset($item->params->requiredvalue) && !empty($item->params->requiredvalue)) {
+                if (!empty($item->params->requiredvalue)) {
                     $item->params->requiredvalue = Text::_($item->params->requiredvalue);
                 }
             }
