@@ -28,6 +28,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -1080,5 +1081,30 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Get the event dispatcher.
+     *
+     * The override was made to keep a backward compatibility for legacy component.
+     * TODO: Remove the override in 6.0
+     *
+     * @return  DispatcherInterface
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
+     */
+    public function getDispatcher()
+    {
+        if (!$this->dispatcher) {
+            @trigger_error(
+                sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                E_USER_DEPRECATED
+            );
+
+            return $this->app->getDispatcher();
+        }
+
+        return $this->dispatcher;
     }
 }
