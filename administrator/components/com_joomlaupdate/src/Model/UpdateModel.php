@@ -21,6 +21,7 @@ use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
@@ -49,6 +50,28 @@ class UpdateModel extends BaseDatabaseModel
      * @since 3.10.0
      */
     private $updateInformation = null;
+
+    /**
+     * Constructor
+     *
+     * @param   array                 $config   An array of configuration options.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception
+     */
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    {
+        parent::__construct($config, $factory);
+
+        // Register a logger for update process
+        $options = [
+            'format'    => '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}',
+            'text_file' => 'joomla_update.php',
+        ];
+
+        Log::addLogger($options, Log::ALL, ['Update', 'databasequery', 'jerror']);
+    }
 
     /**
      * Detects if the Joomla! update site currently in use matches the one
@@ -624,6 +647,8 @@ ENDDATA;
      */
     public function finaliseUpgrade()
     {
+        Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_FINALISE'), Log::INFO, 'Update');
+
         $installer = Installer::getInstance();
 
         $manifest = $installer->isManifest(JPATH_MANIFESTS . '/files/joomla.xml');
@@ -652,27 +677,33 @@ ENDDATA;
         // Run the script file.
         \JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
-        $manifestClass = new \JoomlaInstallerScript();
         $msg           = '';
+        $manifestClass = new \JoomlaInstallerScript();
+        $manifestClass->setErrorCollector(function (string $context, \Throwable $error) {
+            $this->collectError($context, $error);
+        });
 
-        ob_start();
+        // Run Installer preflight
+        try {
+            ob_start();
 
-        if ($manifestClass && method_exists($manifestClass, 'preflight')) {
             if ($manifestClass->preflight('update', $installer) === false) {
+                $this->collectError('JoomlaInstallerScript::preflight', new \Exception('Preflight finished with "false".'));
                 $installer->abort(
                     Text::sprintf(
                         'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
                         Text::_('JLIB_INSTALLER_INSTALL')
                     )
                 );
-
                 return false;
             }
-        }
 
-        // Create msg object; first use here.
-        $msg .= ob_get_contents();
-        ob_end_clean();
+            $msg .= ob_get_contents();
+            ob_end_clean();
+        } catch (\Throwable $e) {
+            $this->collectError('JoomlaInstallerScript::preflight', $e);
+            return false;
+        }
 
         // Get a database connector object.
         $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
@@ -1713,5 +1744,38 @@ ENDDATA;
         }
 
         return $home || $menu;
+    }
+
+    /**
+     * Collect errors that happened during update.
+     *
+     * @param  string      $context  A context/place where error happened
+     * @param  \Throwable  $error    The error that occurred
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function collectError(string $context, \Throwable $error)
+    {
+        // Store error for further processing by controller
+        $this->setError($error);
+
+        // Log it
+        Log::add(
+            sprintf(
+                'An error has occurred while running "%s". Code: %s. Message: %s.',
+                $context,
+                $error->getCode(),
+                $error->getMessage()
+            ),
+            Log::ERROR,
+            'Update'
+        );
+
+       if (JDEBUG) {
+           $trace = $error->getFile() . ':' . $error->getLine() . PHP_EOL . $error->getTraceAsString();
+           Log::add(sprintf('An error trace: %s.', $trace), Log::DEBUG, 'Update');
+       }
     }
 }

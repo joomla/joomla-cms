@@ -41,6 +41,44 @@ class JoomlaInstallerScript
     protected $fromVersion = null;
 
     /**
+     * Callback for collecting errors. Like function(string $context, \Throwable $error){};
+     *
+     * @var callable
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $errorCollector;
+
+    /**
+     * Set the callback for collecting errors.
+     *
+     * @param   callable  $callback  The callback Like function(string $context, \Throwable $error){};
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function setErrorCollector(callable $callback)
+    {
+        $this->errorCollector = $callback;
+    }
+
+    /**
+     * Collect errors.
+     *
+     * @param  string      $context  A context/place where error happened
+     * @param  \Throwable  $error    The error that occurred
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function collectError(string $context, \Throwable $error)
+    {
+        call_user_func($this->errorCollector, $context, $error);
+    }
+
+    /**
      * Function to act prior to installation process begins
      *
      * @param   string     $action     Which action is happening (install|uninstall|discover_install|update)
@@ -8784,25 +8822,20 @@ class JoomlaInstallerScript
     {
         $db = Factory::getContainer()->get('DatabaseDriver');
 
-        array_map(
-            function ($template) use ($db) {
-                $clientId = $template === 'atum' ? 1 : 0;
-                $query = $db->getQuery(true)
-                    ->update($db->quoteName('#__template_styles'))
-                    ->set($db->quoteName('inheritable') . ' = 1')
-                    ->where($db->quoteName('template') . ' = ' . $db->quote($template))
-                    ->where($db->quoteName('client_id') . ' = ' . $clientId);
+        foreach (['atum', 'cassiopeia'] as $template) {
+            $clientId = $template === 'atum' ? 1 : 0;
+            $query = $db->getQuery(true)
+                ->update($db->quoteName('#__template_styles'))
+                ->set($db->quoteName('inheritable') . ' = 1')
+                ->where($db->quoteName('template') . ' = ' . $db->quote($template))
+                ->where($db->quoteName('client_id') . ' = ' . $clientId);
 
-                try {
-                    $db->setQuery($query)->execute();
-                } catch (Exception $e) {
-                    echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
-
-                    return;
-                }
-            },
-            ['atum', 'cassiopeia']
-        );
+            try {
+                $db->setQuery($query)->execute();
+            } catch (Exception $e) {
+                $this->collectError(__METHOD__, $e);
+            }
+        }
     }
 
     /**

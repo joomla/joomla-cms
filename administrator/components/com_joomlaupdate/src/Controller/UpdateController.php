@@ -147,16 +147,6 @@ class UpdateController extends BaseController
             return;
         }
 
-        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-        $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::ALL, ['Update', 'databasequery', 'jerror']);
-
-        try {
-            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_FINALISE'), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
-            // Informational log only
-        }
-
         /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
         $model = $this->getModel('Update');
 
