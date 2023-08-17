@@ -634,11 +634,11 @@ final class Joomla extends ActionLogPlugin
         $this->addLog([$message], $messageLanguageKey, $context, $userId);
 
         // Check if on save a block / unblock has changed
-        if ($action === 'update'){
+        if ($action === 'update') {
             $session = Factory::getSession();
             $data    = $session->get('block', null);
 
-            if ($data !== null){
+            if ($data !== null) {
                 $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_UNBLOCK';
                 $action             = 'unblock';
                 if ($data === 'block') {
@@ -1229,11 +1229,12 @@ final class Joomla extends ActionLogPlugin
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function onUserBeforeSave($user, $isnew, $new): void {
+    public function onUserBeforeSave($user, $isnew, $new): void
+    {
         $session = Factory::getSession();
         $session->set('block', null);
 
-        if ($user['block'] !== (int) $new['block']){
+        if ($user['block'] !== (int) $new['block']) {
             $blockunblock = $new['block'] === "1" ? 'block' : 'unblock';
             $session->set('block', $blockunblock);
         }
