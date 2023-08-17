@@ -70,7 +70,7 @@ class CssIdentifierSubstringRule extends FormRule
         $cssIdentifiers = explode(' ', $value);
 
         foreach ($cssIdentifiers as $identifier) {
-            if (preg_match('/[^\\x{002D}\\x{0030}-\\x{0040}\\x{0041}-\\x{005A}\\x{005F}\\x{003A}\\x{0061}-\\x{007A}\\x{00A1}-\\x{FFFF}]/u', $identifier)) {
+            if (preg_match('/[^\\x{002D}\\x{0030}-\\x{0039}\\x{0040}-\\x{005A}\\x{005F}\\x{003A}\\x{0061}-\\x{007A}\\x{00A1}-\\x{FFFF}]/u', $identifier)) {
                 return false;
             }
         }
