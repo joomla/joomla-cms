@@ -479,7 +479,9 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Make sure the target does not exist.
-        File::delete($target);
+        if (is_file($target)) {
+            File::delete($target);
+        }
 
         // Download the package
         try {
@@ -492,8 +494,15 @@ class UpdateModel extends BaseDatabaseModel
             return false;
         }
 
+        // Fix Indirect Modification of Overloaded Property
+        $body = $result->body;
+
         // Write the file to disk
-        File::write($target, $result->body);
+        $result = File::write($target, $body);
+
+        if (!$result) {
+            return false;
+        }
 
         return basename($target);
     }
@@ -574,35 +583,24 @@ ENDDATA;
         $configpath = JPATH_COMPONENT_ADMINISTRATOR . '/update.php';
 
         if (is_file($configpath)) {
-            if (!File::delete($configpath)) {
-                File::invalidateFileCache($configpath);
-                @unlink($configpath);
-            }
+            File::delete($configpath);
         }
 
         // Write new file. First try with File.
         $result = File::write($configpath, $data);
 
-        // In case File used FTP but direct access could help.
+        // In case File failed but direct access could help.
         if (!$result) {
-            if (function_exists('file_put_contents')) {
-                $result = @file_put_contents($configpath, $data);
+            $fp = @fopen($configpath, 'wt');
+
+            if ($fp !== false) {
+                $result = @fwrite($fp, $data);
 
                 if ($result !== false) {
                     $result = true;
                 }
-            } else {
-                $fp = @fopen($configpath, 'wt');
 
-                if ($fp !== false) {
-                    $result = @fwrite($fp, $data);
-
-                    if ($result !== false) {
-                        $result = true;
-                    }
-
-                    @fclose($fp);
-                }
+                @fclose($fp);
             }
         }
 

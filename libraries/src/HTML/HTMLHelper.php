@@ -12,10 +12,10 @@ namespace Joomla\CMS\HTML;
 use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -95,9 +95,13 @@ abstract class HTMLHelper
             );
         }
 
-        $prefix = \count($parts) === 3 ? array_shift($parts) : 'JHtml';
+        $prefix = \count($parts) === 3 ? array_shift($parts) : 'Joomla\\CMS\\HTML\\HTMLHelper';
         $file   = \count($parts) === 2 ? array_shift($parts) : '';
         $func   = array_shift($parts);
+
+        if (strtolower($prefix) === 'jhtml') {
+            $prefix = 'Joomla\\CMS\\HTML\\HTMLHelper';
+        }
 
         return [strtolower($prefix . '.' . $file . '.' . $func), $prefix, $file, $func];
     }
@@ -132,7 +136,7 @@ abstract class HTMLHelper
          * Support fetching services from the registry if a custom class prefix was not given (a three segment key),
          * the service comes from a class other than this one, and a service has been registered for the file.
          */
-        if ($prefix === 'JHtml' && $file !== '' && static::getServiceRegistry()->hasService($file)) {
+        if ($prefix === 'Joomla\\CMS\\HTML\\HTMLHelper' && $file !== '' && static::getServiceRegistry()->hasService($file)) {
             $service = static::getServiceRegistry()->getService($file);
 
             $toCall = [$service, $func];

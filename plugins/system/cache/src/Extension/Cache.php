@@ -13,6 +13,7 @@ namespace Joomla\Plugin\System\Cache\Extension;
 use Joomla\CMS\Cache\CacheController;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Document\FactoryInterface as DocumentFactoryInterface;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
@@ -177,7 +178,12 @@ final class Cache extends CMSPlugin implements SubscriberInterface
                 $this->profiler->mark('afterCache');
             }
 
-            $this->getApplication()->triggerEvent('onAfterRespond');
+            $this->getDispatcher()->dispatch('onAfterRespond', AbstractEvent::create(
+                'onAfterRespond',
+                [
+                    'subject' => $this->getApplication(),
+                ]
+            ));
         }
 
         // Closes the application.

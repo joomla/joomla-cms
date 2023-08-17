@@ -74,19 +74,6 @@
             ]
           },
           {
-            "name": "bootstrap.es5",
-            "type": "script",
-            "deprecated": true,
-            "uri": "",
-            "dependencies": [
-              "core"
-            ],
-            "attributes": {
-              "nomodule": true,
-              "defer": true
-            }
-          },
-          {
             "name": "bootstrap.alert",
             "type": "script",
             "uri": "alert.min.js",
@@ -617,7 +604,7 @@
         ],
         "licenseFilename": "LICENSE.md"
       },
-      "codemirror": {
+      "@codemirror/view": {
         "name": "codemirror",
         "licenseFilename": "LICENSE"
       },
