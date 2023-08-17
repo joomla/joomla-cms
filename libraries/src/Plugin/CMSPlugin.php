@@ -404,23 +404,23 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      */
     protected function render(string $layout, array $displayData = []): string
     {
-        $layout = new FileLayout($layout);
-        $layout->setLanguage($this->getLanguage());
+        $renderer = new FileLayout($layout);
+        $renderer->setLanguage($this->getLanguage());
 
         if ($this->getApplication() instanceof CMSWebApplicationInterface) {
-            $layout->setDocument($this->getApplication()->getDocument());
+            $renderer->setDocument($this->getApplication()->getDocument());
         }
 
         $template = $this->getApplication()->getTemplate();
 
-        $layout->addIncludePaths([
+        $renderer->addIncludePaths([
             JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/layouts/plugins/' . $this->_type . '/' . $this->_name,
             JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/layouts',
             JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/tmpl/plugins/' . $this->_type . '/' . $this->_name,
             JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/tmpl',
         ]);
 
-        return $layout->render($displayData);
+        return $renderer->render($displayData);
     }
 
     /**

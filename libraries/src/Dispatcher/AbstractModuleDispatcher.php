@@ -10,7 +10,9 @@
 namespace Joomla\CMS\Dispatcher;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Document\DocumentAwareTrait;
+use Joomla\CMS\Language\LanguageAwareTrait;
+use Joomla\CMS\Layout\FileLayout;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
@@ -25,6 +27,9 @@ use Joomla\Registry\Registry;
  */
 abstract class AbstractModuleDispatcher extends Dispatcher
 {
+    use LanguageAwareTrait;
+    use DocumentAwareTrait;
+
     /**
      * The module instance
      *
@@ -67,27 +72,51 @@ abstract class AbstractModuleDispatcher extends Dispatcher
             return;
         }
 
-        // Execute the layout without the module context
-        $loader = static function (array $displayData) {
-            // If $displayData doesn't exist in extracted data, unset the variable.
-            if (!\array_key_exists('displayData', $displayData)) {
-                extract($displayData);
-                unset($displayData);
-            } else {
-                extract($displayData);
-            }
+        $renderer = new FileLayout($displayData['params']->get('layout', 'default'));
 
-            /**
-             * Extracted variables
-             * -----------------
-             * @var   \stdClass  $module
-             * @var   Registry   $params
-             */
+        try {
+            $renderer->setLanguage($this->getLanguage());
+        } catch (\UnexpectedValueException $e) {
+            $renderer->setLanguage($this->getApplication()->getLanguage());
+        }
 
-            require ModuleHelper::getLayoutPath($module->module, $params->get('layout', 'default'));
-        };
+        try {
+            $renderer->setDocument($this->getDocument());
+        } catch (\UnexpectedValueException $e) {
+            $renderer->setDocument($this->getApplication()->getDocument());
+        }
 
-        $loader($displayData);
+        $layout        = $renderer->getLayoutId();
+        $templateObj   = $this->getApplication()->getTemplate(true);
+        $defaultLayout = $layout;
+        $template      = $templateObj->template;
+
+        if (strpos($layout, ':') !== false) {
+            // Get the template and file name from the string
+            $temp          = explode(':', $layout);
+            $template      = $temp[0] === '_' ? $template : $temp[0];
+            $layout        = $temp[1];
+            $defaultLayout = $temp[1] ?: 'default';
+        }
+
+        $renderer->addIncludePaths([
+            JPATH_THEMES . '/' . $template . '/html/' . $this->module->module,
+            JPATH_THEMES . '/' . $templateObj->parent . '/html/' . $this->module->module,
+        ]);
+
+        $content = $renderer->render($displayData);
+
+        // Render the default layout
+        if (!$content) {
+            $content = $renderer->setLayoutId($defaultLayout)->render($displayData);
+        }
+
+        // Render default
+        if (!$content) {
+            $content = $renderer->setLayoutId('default')->render($displayData);
+        }
+
+        return $content;
     }
 
     /**
