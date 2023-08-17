@@ -80,15 +80,15 @@ final class Vote extends CMSPlugin
      * Displays the voting area
      *
      * @param   string   $context  The context of the content being passed to the plugin
-     * @param   object   &$row     The article object
-     * @param   object   &$params  The article params
+     * @param   object   $row     The article object
+     * @param   object   $params  The article params
      * @param   integer  $page     The 'page' number
      *
      * @return  string|boolean  HTML string containing code for the votes if in com_content else boolean false
      *
      * @since   3.7.0
      */
-    private function displayVotingData($context, &$row, &$params, $page)
+    private function displayVotingData($context, $row, $params, $page)
     {
         $parts = explode('.', $context);
 
@@ -103,22 +103,13 @@ final class Vote extends CMSPlugin
         // Load plugin language files only when needed (ex: they are not needed if show_vote is not active).
         $this->loadLanguage();
 
-        // Get the path for the rating summary layout file
-        $path = PluginHelper::getLayoutPath('content', 'vote', 'rating');
+        $combinedParams = clone $this->params;
+        $combinedParams->merge($params);
 
-        // Render the layout
-        ob_start();
-        include $path;
-        $html = ob_get_clean();
+        $html = $this->render('rating', ['context' => $context, 'row' => $row, 'params' => $combinedParams]);
 
         if ($this->getApplication()->getInput()->getString('view', '') === 'article' && $row->state == 1) {
-            // Get the path for the voting form layout file
-            $path = PluginHelper::getLayoutPath('content', 'vote', 'vote');
-
-            // Render the layout
-            ob_start();
-            include $path;
-            $html .= ob_get_clean();
+            $html .= $this->render('vote', ['context' => $context, 'row' => $row, 'params' => $combinedParams]);
         }
 
         return $html;

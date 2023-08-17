@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Layout;
 
+use Joomla\CMS\Document\DocumentAwareTrait;
+use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -23,6 +25,9 @@ use Joomla\Registry\Registry;
  */
 class BaseLayout implements LayoutInterface
 {
+    use LanguageAwareTrait;
+    use DocumentAwareTrait;
+
     /**
      * Options object
      *
@@ -114,6 +119,20 @@ class BaseLayout implements LayoutInterface
     public function escape($output)
     {
         return $output === null ? '' : htmlspecialchars($output, ENT_QUOTES, 'UTF-8');
+    }
+
+    /**
+     * Returns the string for the given key from the internal language object.
+     *
+     * @param   string  $key  The key
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function text(string $key): string
+    {
+        return $this->getLanguage()->_($key);
     }
 
     /**

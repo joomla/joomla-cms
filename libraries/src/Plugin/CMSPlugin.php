@@ -10,12 +10,14 @@
 namespace Joomla\CMS\Plugin;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\LanguageAwareTrait;
+use Joomla\CMS\Layout\FileLayout;
 use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -389,6 +391,36 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         if ($application->getLanguage()) {
             $this->setLanguage($application->getLanguage());
         }
+    }
+
+    /**
+     * Renders the layout with the given data.
+     *
+     * @param   string  $key  The key
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function render(string $layout, array $displayData = []): string
+    {
+        $layout = new FileLayout($layout);
+        $layout->setLanguage($this->getLanguage());
+
+        if ($this->getApplication() instanceof CMSWebApplicationInterface) {
+            $layout->setDocument($this->getApplication()->getDocument());
+        }
+
+        $template = $this->getApplication()->getTemplate();
+
+        $layout->addIncludePaths([
+            JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/layouts/plugins/' . $this->_type . '/' . $this->_name,
+            JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/layouts',
+            JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/tmpl/plugins/' . $this->_type . '/' . $this->_name,
+            JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/tmpl',
+        ]);
+
+        return $layout->render($displayData);
     }
 
     /**

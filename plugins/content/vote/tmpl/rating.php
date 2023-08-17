@@ -11,19 +11,18 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->getApplication()->getDocument()->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->registerAndUseStyle('plg_content_vote', 'plg_content_vote/rating.css');
 
 /**
  * Layout variables
  * -----------------
  * @var   string   $context  The context of the content being passed to the plugin
- * @var   object   &$row     The article object
- * @var   object   &$params  The article params
+ * @var   object   $row      The article object
+ * @var   object   $params   The article params
  * @var   integer  $page     The 'page' number
  * @var   array    $parts    The context segments
  * @var   string   $path     Path to this file
@@ -77,15 +76,15 @@ for ($i = $stars; $i < 5; $i++) {
 }
 
 ?>
-<div class="content_rating" role="img" aria-label="<?php echo Text::sprintf('PLG_VOTE_STAR_RATING', $rating); ?>">
+<div class="content_rating" role="img" aria-label="<?php echo sprintf($this->text('PLG_VOTE_STAR_RATING'), $rating); ?>">
     <?php if ($rcount) : ?>
         <p class="visually-hidden" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
-            <?php echo Text::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
+            <?php echo sprintf($this->text('PLG_VOTE_USER_RATING'), '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
             <meta itemprop="ratingCount" content="<?php echo $rcount; ?>">
             <meta itemprop="worstRating" content="1">
         </p>
-        <?php if ($this->params->get('show_total_votes', 0)) : ?>
-            <?php echo Text::sprintf('PLG_VOTE_TOTAL_VOTES', $rcount); ?>
+        <?php if ($params->get('show_total_votes', 0)) : ?>
+            <?php echo sprintf($this->text('PLG_VOTE_TOTAL_VOTES'), $rcount); ?>
         <?php endif; ?>
     <?php endif; ?>
     <ul>

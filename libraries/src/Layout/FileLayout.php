@@ -124,6 +124,10 @@ class FileLayout extends BaseLayout
             return $layoutOutput;
         }
 
+        if (\is_array($displayData)) {
+            extract($displayData);
+        }
+
         ob_start();
         include $path;
         $layoutOutput .= ob_get_contents();
