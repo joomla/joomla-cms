@@ -1,5 +1,5 @@
 describe('Test that users API endpoint', () => {
-  afterEach(() => cy.task('queryDB', "DELETE FROM #__users WHERE name = 'automated test user' OR name = 'updated automated user name'"));
+  afterEach(() => cy.task('queryDB', "DELETE FROM #__users WHERE name = 'automated test user' OR name = 'updated automated test user'"));
 
   it('can deliver a list of users', () => {
     cy.db_createUser({ name: 'automated test user', username: 'automated_test_username' })
