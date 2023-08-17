@@ -1,7 +1,8 @@
 describe('Test that users API endpoint', () => {
-  afterEach(() => cy.task('queryDB', " DELETE FROM #__users WHERE name = 'automated test user' "));
+  afterEach(() => cy.task('queryDB', "DELETE FROM #__users WHERE name = 'automated test user' OR name = 'updated automated user name'"));
+
   it('can deliver a list of users', () => {
-    cy.db_createUser({ name: 'automated test user', username: 'automated test username' })
+    cy.db_createUser({ name: 'automated test user', username: 'automated_test_username' })
       .then(() => cy.api_get('/users'))
       .then((response) => cy.wrap(response).its('body').its('data.1').its('attributes')
         .its('name')
@@ -33,7 +34,7 @@ describe('Test that users API endpoint', () => {
       requireReset: '0',
       resetCount: '0',
       sendEmail: '0',
-      username: 'automated test username',
+      username: 'automated_test_username',
     })
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('name')
