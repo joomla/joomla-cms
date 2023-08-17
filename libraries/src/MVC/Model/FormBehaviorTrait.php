@@ -92,11 +92,21 @@ trait FormBehaviorTrait
         }
 
         if ($form instanceof LanguageAwareInterface && method_exists($this, 'getLanguage')) {
-            $form->setLanguage($this->getLanguage());
+            try {
+                $form->setLanguage($this->getLanguage());
+            } catch (\UnexpectedValueException $e) {
+                @trigger_error(sprintf('Language must be set in %s, this will not be caught anymore in 7.0.', __CLASS__), E_USER_DEPRECATED);
+                $form->setLanguage(Factory::getApplication()->getLanguage());
+            }
         }
 
         if ($form instanceof DocumentAwareInterface && method_exists($this, 'getDocument')) {
-            $form->setDocument($this->getDocument());
+            try {
+                $form->setDocument($this->getDocument());
+            } catch (\UnexpectedValueException $e) {
+                @trigger_error(sprintf('Document must be set in %s, this will not be caught anymore in 7.0.', __CLASS__), E_USER_DEPRECATED);
+                $form->setDocument(Factory::getApplication()->getDocument());
+            }
         }
 
         // Load the data.
