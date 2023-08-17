@@ -18,6 +18,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -151,7 +152,7 @@ trait FormBehaviorTrait
         if ($this instanceof DispatcherAwareInterface) {
             $dispatcher = $this->getDispatcher();
         } else {
-            $dispatcher = Factory::getApplication()->getDispatcher();
+            $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
         }
 
         // Get the dispatcher and load the users plugins.
@@ -188,7 +189,7 @@ trait FormBehaviorTrait
         if ($this instanceof DispatcherAwareInterface) {
             $dispatcher = $this->getDispatcher();
         } else {
-            $dispatcher = Factory::getApplication()->getDispatcher();
+            $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
         }
 
         // Import the appropriate plugin group.

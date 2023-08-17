@@ -222,8 +222,10 @@ class HtmlView extends BaseHtmlView
             $item->associations = AssociationHelper::displayAssociations($item->id);
         }
 
+        $dispatcher = $this->getDispatcher();
+
         // Process the content plugins.
-        PluginHelper::importPlugin('content', null, true, $this->getDispatcher());
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
         $contentEventArguments = [
             'context' => 'com_content.article',
@@ -232,7 +234,7 @@ class HtmlView extends BaseHtmlView
             'page'    => $offset,
         ];
 
-        $this->dispatchEvent(new Content\ContentPrepareEvent('onContentPrepare', $contentEventArguments));
+        $dispatcher->dispatch('onContentPrepare', new Content\ContentPrepareEvent('onContentPrepare', $contentEventArguments));
 
         // Extra content from events
         $item->event   = new \stdClass();
@@ -243,8 +245,7 @@ class HtmlView extends BaseHtmlView
         ];
 
         foreach ($contentEvents as $resultKey => $event) {
-            $this->dispatchEvent($event);
-            $results = $event['result'];
+            $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
 
             $item->event->{$resultKey} = $results ? trim(implode("\n", $results)) : '';
         }
