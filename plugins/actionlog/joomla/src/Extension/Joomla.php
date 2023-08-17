@@ -619,6 +619,7 @@ final class Joomla extends ActionLogPlugin
             'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
         ];
 
+        // Check if block / unblock comes from Actions on list
         if ($task === 'block' || $task === 'unblock') {
             $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_UNBLOCK';
             $action             = 'unblock';
@@ -631,6 +632,24 @@ final class Joomla extends ActionLogPlugin
         }
 
         $this->addLog([$message], $messageLanguageKey, $context, $userId);
+
+        // Check if on save a block / unblock has changed
+        if ($action === 'update'){
+            $session = Factory::getSession();
+            $data    = $session->get('block', null);
+
+            if ($data !== null){
+                $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_UNBLOCK';
+                $action             = 'unblock';
+                if ($data === 'block') {
+                    $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_BLOCK';
+                    $action             = 'block';
+                }
+
+                $message['action'] = $action;
+                $this->addLog([$message], $messageLanguageKey, $context, $userId);
+            }
+        }
     }
 
     /**
@@ -1197,5 +1216,28 @@ final class Joomla extends ActionLogPlugin
         ];
 
         $this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_USER_RESET_COMPLETE', $context, $user->id);
+    }
+
+    /**
+     * Method is called before user data is stored in the database
+     *
+     * @param   array    $user   Holds the old user data.
+     * @param   boolean  $isNew  True if a new user is stored.
+     * @param   array    $data   Holds the new user data.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onUserBeforeSave($user, $isnew, $new): void {
+        $session = Factory::getSession();
+        $session->set('block', null);
+
+        if ($user['block'] !== (int) $new['block']){
+            $blockunblock = $new['block'] === "1" ? 'block' : 'unblock';
+            $session->set('block', $blockunblock);
+        }
+
+        return;
     }
 }
