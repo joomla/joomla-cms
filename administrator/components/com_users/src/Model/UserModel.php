@@ -441,7 +441,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
                         }
 
                         // Trigger the after save event
-                        Factory::getApplication()->triggerEvent($this->event_after_save, [$table->getProperties(), false, true, $pk]);
+                        Factory::getApplication()->triggerEvent($this->event_after_save, [$table->getProperties(), false, true, null]);
                     } catch (\Exception $e) {
                         $this->setError($e->getMessage());
 
