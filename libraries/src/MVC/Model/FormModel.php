@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\MVC\Model;
 
+use Joomla\CMS\Document\DocumentAwareInterface;
+use Joomla\CMS\Document\DocumentAwareTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
@@ -16,6 +18,8 @@ use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Form\FormRule;
+use Joomla\CMS\Language\LanguageAwareInterface;
+use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -32,10 +36,12 @@ use Joomla\CMS\Plugin\PluginHelper;
  * @see    FormRule
  * @since  1.6
  */
-abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareInterface, FormModelInterface
+abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareInterface, FormModelInterface, LanguageAwareInterface, DocumentAwareInterface
 {
     use FormBehaviorTrait;
     use FormFactoryAwareTrait;
+    use LanguageAwareTrait;
+    use DocumentAwareTrait;
 
     /**
      * Maps events to plugin groups.

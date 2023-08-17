@@ -9,10 +9,12 @@
 
 namespace Joomla\CMS\MVC\Model;
 
+use Joomla\CMS\Document\DocumentAwareInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -87,6 +89,14 @@ trait FormBehaviorTrait
 
         if ($form instanceof CurrentUserInterface && method_exists($this, 'getCurrentUser')) {
             $form->setCurrentUser($this->getCurrentUser());
+        }
+
+        if ($form instanceof LanguageAwareInterface && method_exists($this, 'getLanguage')) {
+            $form->setLanguage($this->getLanguage());
+        }
+
+        if ($form instanceof DocumentAwareInterface && method_exists($this, 'getDocument')) {
+            $form->setDocument($this->getDocument());
         }
 
         // Load the data.

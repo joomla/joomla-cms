@@ -9,7 +9,11 @@
 
 namespace Joomla\CMS\Form;
 
+use Joomla\CMS\Document\DocumentAwareInterface;
+use Joomla\CMS\Document\DocumentAwareTrait;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageAwareInterface;
+use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\User\CurrentUserInterface;
@@ -37,10 +41,12 @@ use Joomla\Utilities\ArrayHelper;
  * @link   https://html.spec.whatwg.org/multipage/forms.html
  * @since  1.7.0
  */
-class Form implements CurrentUserInterface
+class Form implements CurrentUserInterface, LanguageAwareInterface, DocumentAwareInterface
 {
     use DatabaseAwareTrait;
     use CurrentUserTrait;
+    use LanguageAwareTrait;
+    use DocumentAwareTrait;
 
     /**
      * The Registry data store for form fields during display.
@@ -1464,6 +1470,24 @@ class Form implements CurrentUserInterface
 
         if ($field instanceof CurrentUserInterface) {
             $field->setCurrentUser($this->getCurrentUser());
+        }
+
+        if ($field instanceof LanguageAwareInterface) {
+            try {
+                $field->setLanguage($this->getLanguage());
+            } catch (\UnexpectedValueException $e) {
+                @trigger_error(sprintf('Language must be set in %s, this will not be caught anymore in 7.0.', __CLASS__), E_USER_DEPRECATED);
+                $field->setLanguage(Factory::getApplication()->getLanguage());
+            }
+        }
+
+        if ($field instanceof DocumentAwareInterface) {
+            try {
+                $field->setDocument($this->getDocument());
+            } catch (\UnexpectedValueException $e) {
+                @trigger_error(sprintf('Document must be set in %s, this will not be caught anymore in 7.0.', __CLASS__), E_USER_DEPRECATED);
+                $field->setDocument(Factory::getApplication()->getDocument());
+            }
         }
 
         // If the object could not be loaded, get a text field object.

@@ -9,9 +9,13 @@
 
 namespace Joomla\CMS\Form;
 
+use Joomla\CMS\Document\DocumentAwareInterface;
+use Joomla\CMS\Document\DocumentAwareTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Field\SubformField;
+use Joomla\CMS\Language\LanguageAwareInterface;
+use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Log\Log;
@@ -34,10 +38,12 @@ use Joomla\String\StringHelper;
  *
  * @since  1.7.0
  */
-abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
+abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface, LanguageAwareInterface, DocumentAwareInterface
 {
     use DatabaseAwareTrait;
     use CurrentUserTrait;
+    use LanguageAwareTrait;
+    use DocumentAwareTrait;
 
     /**
      * The description text for the form field. Usually used in tooltips.
@@ -1331,6 +1337,20 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     protected function getRenderer($layoutId = 'default')
     {
         $renderer = new FileLayout($layoutId);
+
+        try {
+            $renderer->setLanguage($this->getLanguage());
+        } catch (\UnexpectedValueException $e) {
+            @trigger_error(sprintf('Language must be set in %s, this will not be caught anymore in 7.0.', __CLASS__), E_USER_DEPRECATED);
+            $renderer->setLanguage(Factory::getApplication()->getLanguage());
+        }
+
+        try {
+            $renderer->setDocument($this->getDocument());
+        } catch (\UnexpectedValueException $e) {
+            @trigger_error(sprintf('Document must be set in %s, this will not be caught anymore in 7.0.', __CLASS__), E_USER_DEPRECATED);
+            $renderer->setDocument(Factory::getApplication()->getDocument());
+        }
 
         $renderer->setDebug($this->isDebugEnabled());
 
