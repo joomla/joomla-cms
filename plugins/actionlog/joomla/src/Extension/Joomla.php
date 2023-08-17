@@ -621,22 +621,13 @@ final class Joomla extends ActionLogPlugin
 
         if ($task === 'block' || $task === 'unblock') {
             $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_UNBLOCK';
-
+            $action = 'unblock';
             if ($task === 'block') {
                 $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_BLOCK';
+                $action = 'block';
             }
 
-            $message = [
-                'action'      => $action[0],
-                'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
-                'id'          => $user['id'],
-                'title'       => $user['name'],
-                'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $msg,
-                'userid'      => $userId,
-                'username'    => $username,
-                'blockid'     => $msg,
-                'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
-            ];
+            $message['action'] = $action;
         }
 
         $this->addLog([$message], $messageLanguageKey, $context, $userId);
