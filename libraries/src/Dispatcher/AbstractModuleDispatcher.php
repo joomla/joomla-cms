@@ -77,12 +77,14 @@ abstract class AbstractModuleDispatcher extends Dispatcher
         try {
             $renderer->setLanguage($this->getLanguage());
         } catch (\UnexpectedValueException $e) {
+            @trigger_error(sprintf('Document must be set in %s, this will not be caught anymore in 7.0.', __CLASS__), E_USER_DEPRECATED);
             $renderer->setLanguage($this->getApplication()->getLanguage());
         }
 
         try {
             $renderer->setDocument($this->getDocument());
         } catch (\UnexpectedValueException $e) {
+            @trigger_error(sprintf('Document must be set in %s, this will not be caught anymore in 7.0.', __CLASS__), E_USER_DEPRECATED);
             $renderer->setDocument($this->getApplication()->getDocument());
         }
 
