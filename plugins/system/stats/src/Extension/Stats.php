@@ -418,7 +418,7 @@ final class Stats extends CMSPlugin
      *
      * @since   3.5
      */
-    public function render(string $layoutId, array $data = []):  string
+    public function render(string $layoutId, array $data = []): string
     {
         $data = array_merge($this->getLayoutData(), $data);
 
