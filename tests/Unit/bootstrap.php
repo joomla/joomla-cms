@@ -115,9 +115,6 @@ $loader->unregister();
 // Decorate Composer autoloader
 spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
-// Register the class aliases for Framework classes that have replaced their Platform equivalents
-require_once JPATH_LIBRARIES . '/classmap.php';
-
 // Load extension classes
 require_once JPATH_LIBRARIES . '/namespacemap.php';
 $extensionPsr4Loader = new \JNamespacePsr4Map();
