@@ -621,10 +621,10 @@ final class Joomla extends ActionLogPlugin
 
         if ($task === 'block' || $task === 'unblock') {
             $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_UNBLOCK';
-            $action = 'unblock';
+            $action             = 'unblock';
             if ($task === 'block') {
                 $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_BLOCK';
-                $action = 'block';
+                $action             = 'block';
             }
 
             $message['action'] = $action;
