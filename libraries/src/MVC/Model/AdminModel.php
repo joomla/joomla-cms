@@ -359,6 +359,8 @@ abstract class AdminModel extends FormModel
         // Initialize re-usable member properties, and re-usable local variables
         $this->initBatch();
 
+        $dispatcher = $this->getDispatcher();
+
         foreach ($pks as $pk) {
             if ($this->user->authorise('core.edit', $contexts[$pk])) {
                 $this->table->reset();
@@ -369,7 +371,7 @@ abstract class AdminModel extends FormModel
                     $this->event_before_batch,
                     ['src' => $this->table, 'type' => 'access']
                 );
-                $this->dispatchEvent($event);
+                $dispatcher->dispatch($event->getName(), $event);
 
                 // Check the row.
                 if (!$this->table->check()) {
@@ -418,8 +420,9 @@ abstract class AdminModel extends FormModel
             return false;
         }
 
-        $newIds = [];
-        $db     = $this->getDatabase();
+        $newIds     = [];
+        $db         = $this->getDatabase();
+        $dispatcher = $this->getDispatcher();
 
         // Parent exists so let's proceed
         while (!empty($pks)) {
@@ -472,7 +475,7 @@ abstract class AdminModel extends FormModel
                 $this->event_before_batch,
                 ['src' => $this->table, 'type' => 'copy']
             );
-            $this->dispatchEvent($event);
+            $dispatcher->dispatch($event->getName(), $event);
 
             // @todo: Deal with ordering?
             // $this->table->ordering = 1;
@@ -563,6 +566,8 @@ abstract class AdminModel extends FormModel
         // Initialize re-usable member properties, and re-usable local variables
         $this->initBatch();
 
+        $dispatcher = $this->getDispatcher();
+
         foreach ($pks as $pk) {
             if ($this->user->authorise('core.edit', $contexts[$pk])) {
                 $this->table->reset();
@@ -573,7 +578,7 @@ abstract class AdminModel extends FormModel
                     $this->event_before_batch,
                     ['src' => $this->table, 'type' => 'language']
                 );
-                $this->dispatchEvent($event);
+                $dispatcher->dispatch($event->getName(), $event);
 
                 // Check the row.
                 if (!$this->table->check()) {
@@ -622,6 +627,8 @@ abstract class AdminModel extends FormModel
             return false;
         }
 
+        $dispatcher = $this->getDispatcher();
+
         // Parent exists so we proceed
         foreach ($pks as $pk) {
             if (!$this->user->authorise('core.edit', $contexts[$pk])) {
@@ -651,7 +658,7 @@ abstract class AdminModel extends FormModel
                 $this->event_before_batch,
                 ['src' => $this->table, 'type' => 'move']
             );
-            $this->dispatchEvent($event);
+            $dispatcher->dispatch($event->getName(), $event);
 
             // Check the row.
             if (!$this->table->check()) {

@@ -316,7 +316,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
         }
 
         // Trigger the onContentCleanCache event.
-        $this->dispatchEvent(new Event($this->event_clean_cache, $options));
+        $this->getDispatcher()->dispatch($this->event_clean_cache, new Event($this->event_clean_cache, $options));
     }
 
     /**
