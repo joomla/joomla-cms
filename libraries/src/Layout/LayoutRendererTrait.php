@@ -14,14 +14,15 @@ namespace Joomla\CMS\Layout;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Defines the trait for a LayoutFactoryInterface Aware Class.
+ * Functions to execute rendering a FileLayout.
  *
  * @since  __DEPLOY_VERSION__
  */
 trait LayoutRendererTrait
 {
     /**
-     * Allow to override renderer include paths in child fields.
+     * Implementing classes have to provide layout include paths. If empty, then the default ones are
+     * used from the FileLayout class.
      *
      * @return  array
      *
@@ -39,7 +40,7 @@ trait LayoutRendererTrait
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function render(string $layout, array $layoutData): string
+    protected function render(string $layout, array $layoutData = []): string
     {
         return $this->getRenderer($layout)->render($layoutData);
     }
@@ -47,15 +48,15 @@ trait LayoutRendererTrait
     /**
      * Get the renderer.
      *
-     * @param   string  $layoutId  Id to load
+     * @param   string  $layout  Id to load
      *
      * @return  FileLayout
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function getRenderer($layoutId = 'default'): LayoutInterface
+    protected function getRenderer($layout = 'default'): FileLayout
     {
-        $renderer = new FileLayout($layoutId);
+        $renderer = new FileLayout($layout);
 
         $renderer->setDebug($this->isDebugEnabled());
 

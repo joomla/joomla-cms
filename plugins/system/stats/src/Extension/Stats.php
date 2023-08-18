@@ -12,6 +12,7 @@ namespace Joomla\Plugin\System\Stats\Extension;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Layout\LayoutRendererTrait;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserHelper;
@@ -33,6 +34,7 @@ use Joomla\Database\DatabaseAwareTrait;
 final class Stats extends CMSPlugin
 {
     use DatabaseAwareTrait;
+    use LayoutRendererTrait;
 
     /**
      * Indicates sending statistics is always allowed.
@@ -207,7 +209,7 @@ final class Stats extends CMSPlugin
         if ((int) $this->params->get('mode') !== static::MODE_ALLOW_ALWAYS) {
             $data = [
                 'sent' => 0,
-                'html' => $this->getRenderer('message')->render($this->getLayoutData()),
+                'html' => $this->render('message', $this->getLayoutData()),
             ];
 
             echo json_encode($data);
