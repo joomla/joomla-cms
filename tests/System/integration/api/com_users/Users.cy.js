@@ -1,12 +1,10 @@
 describe('Test that users API endpoint', () => {
-  afterEach(() => cy.task('queryDB', "DELETE FROM #__users WHERE name = 'automated test user' OR name = 'updated automated test user'"));
+  afterEach(() => cy.task('queryDB', "DELETE FROM #__users WHERE name = 'automated test user'"));
 
   it('can deliver a list of users', () => {
     cy.db_createUser({ name: 'automated test user', username: 'automated_test_username' })
       .then(() => cy.api_get('/users'))
-      .then((response) => cy.wrap(response).its('body').its('data.1').its('attributes')
-        .its('name')
-        .should('include', 'automated test user'));
+      .then((response) => cy.api_responseContains(response, 'name', 'automated test user'));
   });
 
   it('can create a user', () => {
