@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\WebAsset\WebAssetManager;
@@ -20,7 +21,7 @@ use Joomla\CMS\WebAsset\WebAssetManager;
     <ol class="mod-breadcrumbs breadcrumb px-3 py-2">
         <?php if ($params->get('showHere', 1)) : ?>
             <li class="mod-breadcrumbs__here float-start">
-                <?php echo $this->text('MOD_BREADCRUMBS_HERE'); ?>&#160;
+                <?php echo Text::_('MOD_BREADCRUMBS_HERE'); ?>&#160;
             </li>
         <?php else : ?>
             <li class="mod-breadcrumbs__divider float-start">
@@ -115,7 +116,7 @@ use Joomla\CMS\WebAsset\WebAssetManager;
 
     if ($itemsCounter) {
         /** @var WebAssetManager $wa */
-        $wa = $this->getDocument()->getWebAssetManager();
+        $wa = $app->getDocument()->getWebAssetManager();
         $prettyPrint = JDEBUG ? JSON_PRETTY_PRINT : 0;
         $wa->addInline('script', json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | $prettyPrint), [], ['type' => 'application/ld+json']);
     }

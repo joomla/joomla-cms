@@ -72,16 +72,6 @@ class ModuleDispatcherFactory implements ModuleDispatcherFactoryInterface
             $className = ModuleDispatcher::class;
         }
 
-        $moduleDispatcher = new $className($module, $application, $input ?: $application->getInput());
-
-        if ($moduleDispatcher instanceof LanguageAwareInterface) {
-            $moduleDispatcher->setLanguage($application->getLanguage());
-        }
-
-        if ($moduleDispatcher instanceof DocumentAwareInterface && $application instanceof CMSWebApplicationInterface) {
-            $moduleDispatcher->setDocument($application->getDocument());
-        }
-
-        return $moduleDispatcher;
+        return new $className($module, $application, $input ?: $application->getInput());
     }
 }

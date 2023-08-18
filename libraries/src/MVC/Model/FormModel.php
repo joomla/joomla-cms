@@ -36,12 +36,10 @@ use Joomla\CMS\Plugin\PluginHelper;
  * @see    FormRule
  * @since  1.6
  */
-abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareInterface, FormModelInterface, LanguageAwareInterface, DocumentAwareInterface
+abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareInterface, FormModelInterface
 {
     use FormBehaviorTrait;
     use FormFactoryAwareTrait;
-    use LanguageAwareTrait;
-    use DocumentAwareTrait;
 
     /**
      * Maps events to plugin groups.

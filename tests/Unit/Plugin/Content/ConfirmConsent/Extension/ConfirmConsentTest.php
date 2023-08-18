@@ -11,7 +11,6 @@
 namespace Joomla\Tests\Unit\Plugin\Content\ConfirmConsent\Extension;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Document\Document;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\User\User;
@@ -42,8 +41,6 @@ class ConfirmConsentTest extends UnitTestCase
     {
         $form = new Form('com_contact.contact');
         $form->setCurrentUser(new User());
-        $form->setLanguage($this->createStub(Language::class));
-        $form->setDocument(new Document());
 
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($this->createStub(Language::class));

@@ -93,11 +93,11 @@ if ($showPreview) {
         'style' => $style,
     ];
 
-    $img = HTMLHelper::_('image', $src, $this->text('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
+    $img = HTMLHelper::_('image', $src, Text::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
 
     $previewImg = '<div id="' . $id . '_preview_img">' . $img . '</div>';
     $previewImgEmpty = '<div id="' . $id . '_preview_empty"' . ($src ? ' class="hidden"' : '') . '>'
-        . $this->text('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
+        . Text::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
 
     $showPreview = 'static';
 }
@@ -110,7 +110,7 @@ $url = ($readonly ? ''
 
 // Correctly route the url to ensure it's correctly using sef modes and subfolders
 $url = Route::_($url);
-$doc = $this->getDocument();
+$doc = Factory::getDocument();
 $wam = $doc->getWebAssetManager();
 
 $wam->useScript('webcomponent.media-select');
@@ -142,14 +142,14 @@ $modalHTML = HTMLHelper::_(
     'imageModal_' . $id,
     [
         'url'         => $url,
-        'title'       => $this->text('JLIB_FORM_CHANGE_IMAGE'),
+        'title'       => Text::_('JLIB_FORM_CHANGE_IMAGE'),
         'closeButton' => true,
         'height'      => '100%',
         'width'       => '100%',
         'modalWidth'  => '80',
         'bodyHeight'  => '60',
-        'footer'      => '<button type="button" class="btn btn-success button-save-selected">' . $this->text('JSELECT') . '</button>'
-            . '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . $this->text('JCANCEL') . '</button>',
+        'footer'      => '<button type="button" class="btn btn-success button-save-selected">' . Text::_('JSELECT') . '</button>'
+            . '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
     ]
 );
 
@@ -193,8 +193,8 @@ if (count($doc->getScriptOptions('media-picker')) === 0) {
     <div class="input-group">
         <input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php echo $attr; ?>>
         <?php if ($disabled != true) : ?>
-            <button type="button" class="btn btn-success button-select"><?php echo $this->text('JLIB_FORM_BUTTON_SELECT'); ?></button>
-            <button type="button" class="btn btn-danger button-clear"><span class="icon-times" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('JLIB_FORM_BUTTON_CLEAR'); ?></span></button>
+            <button type="button" class="btn btn-success button-select"><?php echo Text::_('JLIB_FORM_BUTTON_SELECT'); ?></button>
+            <button type="button" class="btn btn-danger button-clear"><span class="icon-times" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('JLIB_FORM_BUTTON_CLEAR'); ?></span></button>
         <?php endif; ?>
     </div>
 </joomla-field-media>

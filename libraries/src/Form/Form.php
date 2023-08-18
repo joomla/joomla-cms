@@ -41,12 +41,10 @@ use Joomla\Utilities\ArrayHelper;
  * @link   https://html.spec.whatwg.org/multipage/forms.html
  * @since  1.7.0
  */
-class Form implements CurrentUserInterface, LanguageAwareInterface, DocumentAwareInterface
+class Form implements CurrentUserInterface
 {
     use DatabaseAwareTrait;
     use CurrentUserTrait;
-    use LanguageAwareTrait;
-    use DocumentAwareTrait;
 
     /**
      * The Registry data store for form fields during display.
@@ -1470,24 +1468,6 @@ class Form implements CurrentUserInterface, LanguageAwareInterface, DocumentAwar
 
         if ($field instanceof CurrentUserInterface) {
             $field->setCurrentUser($this->getCurrentUser());
-        }
-
-        if ($field instanceof LanguageAwareInterface) {
-            try {
-                $field->setLanguage($this->getLanguage());
-            } catch (\UnexpectedValueException $e) {
-                @trigger_error(sprintf('Language must be set in %s, this will not be caught anymore in 7.0.', __CLASS__), E_USER_DEPRECATED);
-                $field->setLanguage(Factory::getApplication()->getLanguage());
-            }
-        }
-
-        if ($field instanceof DocumentAwareInterface) {
-            try {
-                $field->setDocument($this->getDocument());
-            } catch (\UnexpectedValueException $e) {
-                @trigger_error(sprintf('Document must be set in %s, this will not be caught anymore in 7.0.', __CLASS__), E_USER_DEPRECATED);
-                $field->setDocument(Factory::getApplication()->getDocument());
-            }
         }
 
         // If the object could not be loaded, get a text field object.

@@ -553,14 +553,6 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
             $model->setCurrentUser($this->app->getIdentity());
         }
 
-        if ($model instanceof LanguageAwareInterface) {
-            $model->setLanguage($this->app->getLanguage());
-        }
-
-        if ($model instanceof DocumentAwareInterface) {
-            $model->setDocument($this->app->getDocument());
-        }
-
         return $model;
     }
 
