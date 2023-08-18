@@ -14,10 +14,10 @@ namespace Joomla\CMS\Event\Application;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Fork event for DemonApplication
+ * Class for Fork event for DaemonApplication
  *
  * @since  5.0.0
  */
-class DeamonForkEvent extends ApplicationEvent
+class DaemonForkEvent extends ApplicationEvent
 {
 }
