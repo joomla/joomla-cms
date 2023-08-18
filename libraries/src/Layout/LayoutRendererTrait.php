@@ -60,7 +60,7 @@ trait LayoutRendererTrait
      */
     protected function getRenderer($layout = 'default'): FileLayout
     {
-        $app = $this->getApplication();
+        $app = method_exists($this, 'getApplication') ? $this->getApplication() : null;
 
         $templateObj = $app instanceof CMSWebApplicationInterface ? $app->getTemplate(true) : (object) [ 'template' => '', 'parent' => ''];
 
