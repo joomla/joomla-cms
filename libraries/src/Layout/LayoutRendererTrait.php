@@ -42,34 +42,14 @@ trait LayoutRendererTrait
      */
     protected function render(string $layout, array $displayData = []): string
     {
-        // Sets the default layout
-        $defaultLayout = $layout;
-
         // Check if the layout has a default one
         if (strpos($layout, ':') !== false) {
             // Get the template and file name from the string
             $temp          = explode(':', $layout);
             $layout        = $temp[1];
-            $defaultLayout = $temp[1] ?: 'default';
         }
 
-        // Get the renderer
-        $renderer = $this->getRenderer($layout);
-
-        // Render the original layout
-        $content = $renderer->render($displayData);
-
-        // Render the default layout
-        if (!$content) {
-            $content = $renderer->setLayoutId($defaultLayout)->render($displayData);
-        }
-
-        // Render default
-        if (!$content) {
-            $content = $renderer->setLayoutId('default')->render($displayData);
-        }
-
-        return $content;
+        return $this->getRenderer($layout)->render($displayData);
     }
 
     /**
