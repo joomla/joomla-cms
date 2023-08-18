@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Layout;
 
+use Joomla\CMS\Application\CMSWebApplicationInterface;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -24,13 +26,13 @@ trait LayoutRendererTrait
      * Implementing classes have to provide layout include paths. If empty, then the default ones are
      * used from the FileLayout class.
      *
-     * @param   string  $layout The layout
+     * @param   string  $template The template name
      *
      * @return  array
      *
      * @since   __DEPLOY_VERSION__
      */
-    abstract protected function getLayoutIncludePaths(string $layout): array;
+    abstract protected function getLayoutIncludePaths(string $template): array;
 
     /**
      * Render the given layout with the data.
@@ -58,11 +60,24 @@ trait LayoutRendererTrait
      */
     protected function getRenderer($layout = 'default'): FileLayout
     {
+        $app = $this->getApplication();
+
+        $templateObj = $app instanceof CMSWebApplicationInterface ? $app->getTemplate(true) : (object) [ 'template' => '', 'parent' => ''];
+
+        $template = $templateObj->template;
+
+        if (strpos($layout, ':') !== false) {
+            // Get the template and file name from the string
+            $temp          = explode(':', $layout);
+            $template      = $temp[0] === '_' ? $template : $temp[0];
+            $layout        = $temp[1];
+        }
+
         $renderer = new FileLayout($layout);
 
         $renderer->setDebug($this->isDebugEnabled());
 
-        $layoutPaths = $this->getLayoutIncludePaths($layout);
+        $layoutPaths = $this->getLayoutIncludePaths($template);
 
         if ($layoutPaths) {
             $renderer->setIncludePaths($layoutPaths);

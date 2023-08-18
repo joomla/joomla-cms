@@ -396,26 +396,17 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      * Implementing classes have to provide layout include paths. If empty, then the default ones are
      * used from the FileLayout class.
      *
-     * @param   string  $layout The layout
+     * @param   string  $template The template name
      *
      * @return  array
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function getLayoutIncludePaths(string $layout): array
+    protected function getLayoutIncludePaths(string $template): array
     {
         $app = $this->getApplication();
 
         $templateObj = $app instanceof CMSWebApplicationInterface ? $app->getTemplate(true) : (object) [ 'template' => '', 'parent' => ''];
-
-        $template = $templateObj->template;
-
-        if (strpos($layout, ':') !== false) {
-            // Get the template and file name from the string
-            $temp          = explode(':', $layout);
-            $template      = $temp[0] === '_' ? $template : $temp[0];
-            $layout        = $temp[1];
-        }
 
         // Build the template and base path for the layout
         $layoutPaths = [];
