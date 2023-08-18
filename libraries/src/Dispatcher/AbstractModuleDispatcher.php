@@ -10,9 +10,10 @@
 namespace Joomla\CMS\Dispatcher;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Document\DocumentAwareTrait;
 use Joomla\CMS\Language\LanguageAwareTrait;
-use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutRendererTrait;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
@@ -29,6 +30,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 {
     use LanguageAwareTrait;
     use DocumentAwareTrait;
+    use LayoutRendererTrait;
 
     /**
      * The module instance
@@ -52,6 +54,12 @@ abstract class AbstractModuleDispatcher extends Dispatcher
         parent::__construct($app, $input);
 
         $this->module = $module;
+
+        $this->setLanguage($app->getLanguage());
+
+        if ($app instanceof CMSWebApplicationInterface) {
+            $this->setDocument($app->getDocument());
+        }
     }
 
     /**
@@ -72,53 +80,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
             return;
         }
 
-        $renderer = new FileLayout($displayData['params']->get('layout', 'default'));
-
-        try {
-            $renderer->setLanguage($this->getLanguage());
-        } catch (\UnexpectedValueException $e) {
-            @trigger_error(sprintf('Document must be set in %s, this will not be caught anymore in 7.0.', __CLASS__), E_USER_DEPRECATED);
-            $renderer->setLanguage($this->getApplication()->getLanguage());
-        }
-
-        try {
-            $renderer->setDocument($this->getDocument());
-        } catch (\UnexpectedValueException $e) {
-            @trigger_error(sprintf('Document must be set in %s, this will not be caught anymore in 7.0.', __CLASS__), E_USER_DEPRECATED);
-            $renderer->setDocument($this->getApplication()->getDocument());
-        }
-
-        $layout        = $renderer->getLayoutId();
-        $templateObj   = $this->getApplication()->getTemplate(true);
-        $defaultLayout = $layout;
-        $template      = $templateObj->template;
-
-        if (strpos($layout, ':') !== false) {
-            // Get the template and file name from the string
-            $temp          = explode(':', $layout);
-            $template      = $temp[0] === '_' ? $template : $temp[0];
-            $layout        = $temp[1];
-            $defaultLayout = $temp[1] ?: 'default';
-        }
-
-        $renderer->addIncludePaths([
-            JPATH_THEMES . '/' . $template . '/html/' . $this->module->module,
-            JPATH_THEMES . '/' . $templateObj->parent . '/html/' . $this->module->module,
-        ]);
-
-        $content = $renderer->render($displayData);
-
-        // Render the default layout
-        if (!$content) {
-            $content = $renderer->setLayoutId($defaultLayout)->render($displayData);
-        }
-
-        // Render default
-        if (!$content) {
-            $content = $renderer->setLayoutId('default')->render($displayData);
-        }
-
-        return $content;
+        echo $this->render($displayData['params']->get('layout', 'default'), $this->getLayoutData());
     }
 
     /**
@@ -143,6 +105,35 @@ abstract class AbstractModuleDispatcher extends Dispatcher
     }
 
     /**
+     * Allow to override renderer include paths in extending classes.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getLayoutPaths(): array
+    {
+        $app = $this->getApplication();
+
+        $templateObj = $app instanceof CMSWebApplicationInterface ? $app->getTemplate(true) : (object) [ 'template' => '', 'parent' => ''];
+
+        // Build the template and base path for the layout
+        $layoutPaths = [];
+
+        if ($templateObj->template) {
+            $layoutPaths[] = JPATH_THEMES . '/' . $templateObj->template . '/html' . $this->module->module;
+        }
+
+        if ($templateObj->parent) {
+            $layoutPaths[] = JPATH_THEMES . '/' . $templateObj->parent . '/html' . $this->module->module;
+        }
+
+        $layoutPaths[] =  JPATH_BASE . '/modules/' . $this->module->module . '/tmpl';
+
+        return $layoutPaths;
+    }
+
+    /**
      * Load the language.
      *
      * @return  void
@@ -151,7 +142,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
      */
     protected function loadLanguage()
     {
-        $language = $this->app->getLanguage();
+        $language = $this->getLanguage();
 
         $coreLanguageDirectory      = JPATH_BASE;
         $extensionLanguageDirectory = JPATH_BASE . '/modules/' . $this->module->module;

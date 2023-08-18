@@ -18,6 +18,7 @@ use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutRendererTrait;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
@@ -44,6 +45,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     use CurrentUserTrait;
     use LanguageAwareTrait;
     use DocumentAwareTrait;
+    use LayoutRendererTrait;
 
     /**
      * The description text for the form field. Usually used in tooltips.
@@ -1323,44 +1325,6 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         $renderer = new FileLayout('default');
 
         return $renderer->getDefaultIncludePaths();
-    }
-
-    /**
-     * Get the renderer
-     *
-     * @param   string  $layoutId  Id to load
-     *
-     * @return  FileLayout
-     *
-     * @since   3.5
-     */
-    protected function getRenderer($layoutId = 'default')
-    {
-        $renderer = new FileLayout($layoutId);
-
-        try {
-            $renderer->setLanguage($this->getLanguage());
-        } catch (\UnexpectedValueException $e) {
-            @trigger_error(sprintf('Language must be set in %s, this will not be caught anymore in 7.0.', __CLASS__), E_USER_DEPRECATED);
-            $renderer->setLanguage(Factory::getApplication()->getLanguage());
-        }
-
-        try {
-            $renderer->setDocument($this->getDocument());
-        } catch (\UnexpectedValueException $e) {
-            @trigger_error(sprintf('Document must be set in %s, this will not be caught anymore in 7.0.', __CLASS__), E_USER_DEPRECATED);
-            $renderer->setDocument(Factory::getApplication()->getDocument());
-        }
-
-        $renderer->setDebug($this->isDebugEnabled());
-
-        $layoutPaths = $this->getLayoutPaths();
-
-        if ($layoutPaths) {
-            $renderer->setIncludePaths($layoutPaths);
-        }
-
-        return $renderer;
     }
 
     /**

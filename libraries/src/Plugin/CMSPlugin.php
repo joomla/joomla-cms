@@ -11,13 +11,14 @@ namespace Joomla\CMS\Plugin;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
+use Joomla\CMS\Document\DocumentAwareInterface;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\LanguageAwareTrait;
-use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutRendererTrait;
 use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -39,6 +40,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 {
     use DispatcherAwareTrait;
     use LanguageAwareTrait;
+    use LayoutRendererTrait;
 
     /**
      * A Registry object holding the parameters for the plugin
@@ -391,36 +393,39 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         if ($application->getLanguage()) {
             $this->setLanguage($application->getLanguage());
         }
+
+        if ($application instanceof CMSWebApplicationInterface && $this instanceof DocumentAwareInterface) {
+            $this->setDocument($application->getDocument());
+        }
     }
 
     /**
-     * Renders the layout with the given data.
+     * Allow to override renderer include paths in extending classes.
      *
-     * @param   string  $key  The key
-     *
-     * @return  string
+     * @return  array
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function render(string $layout, array $displayData = []): string
+    protected function getLayoutPaths()
     {
-        $renderer = new FileLayout($layout);
-        $renderer->setLanguage($this->getLanguage());
+        $app = $this->getApplication();
 
-        if ($this->getApplication() instanceof CMSWebApplicationInterface) {
-            $renderer->setDocument($this->getApplication()->getDocument());
+        $templateObj = $app instanceof CMSWebApplicationInterface ? $app->getTemplate(true) : (object) [ 'template' => '', 'parent' => ''];
+
+        // Build the template and base path for the layout
+        $layoutPaths = [];
+
+        if ($templateObj->template) {
+            $layoutPaths[] = JPATH_THEMES . '/' . $templateObj->template . '/html/plg_' . $this->_type . '_' . $this->_name;
         }
 
-        $template = $this->getApplication()->getTemplate();
+        if ($templateObj->parent) {
+            $layoutPaths[] = JPATH_THEMES . '/' . $templateObj->parent . '/html/plg_' . $this->_type . '_' . $this->_name;
+        }
 
-        $renderer->addIncludePaths([
-            JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/layouts/plugins/' . $this->_type . '/' . $this->_name,
-            JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/layouts',
-            JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/tmpl/plugins/' . $this->_type . '/' . $this->_name,
-            JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/tmpl',
-        ]);
+        $layoutPaths[] = JPATH_PLUGINS . '/' . $this->_type  . '/' . $this->_name . '/tmpl';
 
-        return $renderer->render($displayData);
+        return $layoutPaths;
     }
 
     /**
