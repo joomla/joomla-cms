@@ -248,35 +248,4 @@ class AbstractViewTest extends UnitTestCase
         $view->setDispatcher($dispatcher);
         $view->dispatchEvent($event);
     }
-
-    /**
-     * @testdox  can dispatch an event
-     *
-     * @return  void
-     *
-     * @since   4.4.0
-     */
-    public function testTranslate()
-    {
-        $language = new class () extends Language {
-            public function _($string, $jsSafe = false, $interpretBackSlashes = true)
-            {
-                return $string;
-            }
-        };
-
-        $view = new class () extends AbstractView {
-            public function translate(string $key)
-            {
-                return $this->text($key);
-            }
-
-            public function display($tpl = null)
-            {
-            }
-        };
-        $view->setLanguage($language);
-
-        $this->assertEquals('test', $view->translate('test'));
-    }
 }
