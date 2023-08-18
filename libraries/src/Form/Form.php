@@ -9,11 +9,7 @@
 
 namespace Joomla\CMS\Form;
 
-use Joomla\CMS\Document\DocumentAwareInterface;
-use Joomla\CMS\Document\DocumentAwareTrait;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\LanguageAwareInterface;
-use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\User\CurrentUserInterface;

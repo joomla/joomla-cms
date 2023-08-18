@@ -18,7 +18,6 @@ use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\LanguageAwareTrait;
-use Joomla\CMS\Layout\LayoutRendererTrait;
 use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -40,7 +39,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 {
     use DispatcherAwareTrait;
     use LanguageAwareTrait;
-    use LayoutRendererTrait;
 
     /**
      * A Registry object holding the parameters for the plugin

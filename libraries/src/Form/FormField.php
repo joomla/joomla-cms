@@ -9,13 +9,9 @@
 
 namespace Joomla\CMS\Form;
 
-use Joomla\CMS\Document\DocumentAwareInterface;
-use Joomla\CMS\Document\DocumentAwareTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Field\SubformField;
-use Joomla\CMS\Language\LanguageAwareInterface;
-use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Layout\LayoutRendererTrait;
@@ -39,12 +35,10 @@ use Joomla\String\StringHelper;
  *
  * @since  1.7.0
  */
-abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface, LanguageAwareInterface, DocumentAwareInterface
+abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 {
     use DatabaseAwareTrait;
     use CurrentUserTrait;
-    use LanguageAwareTrait;
-    use DocumentAwareTrait;
     use LayoutRendererTrait;
 
     /**

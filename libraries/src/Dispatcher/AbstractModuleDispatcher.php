@@ -11,8 +11,6 @@ namespace Joomla\CMS\Dispatcher;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
-use Joomla\CMS\Document\DocumentAwareTrait;
-use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\Layout\LayoutRendererTrait;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
@@ -28,8 +26,6 @@ use Joomla\Registry\Registry;
  */
 abstract class AbstractModuleDispatcher extends Dispatcher
 {
-    use LanguageAwareTrait;
-    use DocumentAwareTrait;
     use LayoutRendererTrait;
 
     /**
@@ -54,12 +50,6 @@ abstract class AbstractModuleDispatcher extends Dispatcher
         parent::__construct($app, $input);
 
         $this->module = $module;
-
-        $this->setLanguage($app->getLanguage());
-
-        if ($app instanceof CMSWebApplicationInterface) {
-            $this->setDocument($app->getDocument());
-        }
     }
 
     /**
@@ -142,7 +132,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
      */
     protected function loadLanguage()
     {
-        $language = $this->getLanguage();
+        $language = $this->app->getLanguage();
 
         $coreLanguageDirectory      = JPATH_BASE;
         $extensionLanguageDirectory = JPATH_BASE . '/modules/' . $this->module->module;

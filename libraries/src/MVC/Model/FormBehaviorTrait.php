@@ -9,12 +9,10 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-use Joomla\CMS\Document\DocumentAwareInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Form\FormField;
-use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\Utilities\ArrayHelper;

@@ -21,6 +21,15 @@ namespace Joomla\CMS\Layout;
 trait LayoutRendererTrait
 {
     /**
+     * Allow to override renderer include paths in child fields.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    abstract protected function getLayoutPaths();
+
+    /**
      * Render the given layout with the data.
      *
      * @param   string  $layout      The layout
@@ -57,18 +66,6 @@ trait LayoutRendererTrait
         }
 
         return $renderer;
-    }
-
-    /**
-     * Allow to override renderer include paths in child fields.
-     *
-     * @return  array
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function getLayoutPaths()
-    {
-        return [];
     }
 
     /**

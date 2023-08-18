@@ -12,7 +12,6 @@ namespace Joomla\Plugin\System\Stats\Extension;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Http\HttpFactory;
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserHelper;
@@ -277,7 +276,7 @@ final class Stats extends CMSPlugin
      *
      * @since   3.5
      */
-    private function getLayoutPaths()
+    protected function getLayoutPaths()
     {
         $template = $this->getApplication()->getTemplate();
 
@@ -285,24 +284,6 @@ final class Stats extends CMSPlugin
             JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/layouts/plugins/' . $this->_type . '/' . $this->_name,
             JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/layouts',
         ];
-    }
-
-    /**
-     * Get the plugin renderer
-     *
-     * @param   string  $layoutId  Layout identifier
-     *
-     * @return  \Joomla\CMS\Layout\LayoutInterface
-     *
-     * @since   3.5
-     */
-    private function getRenderer($layoutId = 'default')
-    {
-        $renderer = new FileLayout($layoutId);
-
-        $renderer->setIncludePaths($this->getLayoutPaths());
-
-        return $renderer;
     }
 
     /**
@@ -366,7 +347,7 @@ final class Stats extends CMSPlugin
      *
      * @since   3.5
      */
-    private function isDebugEnabled()
+    protected function isDebugEnabled()
     {
         return defined('PLG_SYSTEM_STATS_DEBUG');
     }
@@ -406,23 +387,6 @@ final class Stats extends CMSPlugin
     private function isAjaxRequest()
     {
         return strtolower($this->getApplication()->getInput()->server->get('HTTP_X_REQUESTED_WITH', '')) === 'xmlhttprequest';
-    }
-
-    /**
-     * Render a layout of this plugin
-     *
-     * @param   string  $layoutId  Layout identifier
-     * @param   array   $data      Optional data for the layout
-     *
-     * @return  string
-     *
-     * @since   3.5
-     */
-    public function render(string $layoutId, array $data = []): string
-    {
-        $data = array_merge($this->getLayoutData(), $data);
-
-        return $this->getRenderer($layoutId)->render($data);
     }
 
     /**

@@ -10,9 +10,6 @@
 namespace Joomla\CMS\Dispatcher;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Application\CMSWebApplicationInterface;
-use Joomla\CMS\Document\DocumentAwareInterface;
-use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects

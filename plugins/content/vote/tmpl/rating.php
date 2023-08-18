@@ -10,12 +10,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->getApplication()->getDocument()->getWebAssetManager();
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->registerAndUseStyle('plg_content_vote', 'plg_content_vote/rating.css');
 
 /**
@@ -84,7 +85,7 @@ for ($i = $stars; $i < 5; $i++) {
             <meta itemprop="ratingCount" content="<?php echo $rcount; ?>">
             <meta itemprop="worstRating" content="1">
         </p>
-        <?php if ($this->params->get('show_total_votes', 0)) : ?>
+        <?php if ($params->get('show_total_votes', 0)) : ?>
             <?php echo Text::sprintf('PLG_VOTE_TOTAL_VOTES', $rcount); ?>
         <?php endif; ?>
     <?php endif; ?>

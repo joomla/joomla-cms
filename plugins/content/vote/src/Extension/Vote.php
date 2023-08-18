@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\Content\Vote\Extension;
 
+use Joomla\CMS\Layout\LayoutRendererTrait;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -23,6 +24,8 @@ use Joomla\CMS\Plugin\CMSPlugin;
  */
 final class Vote extends CMSPlugin
 {
+    use LayoutRendererTrait;
+
     /**
      * @var    \Joomla\CMS\Application\CMSApplication
      *
