@@ -93,22 +93,27 @@ $user = $this->getCurrentUser();
 
         <?php
         $this->fieldsets = [];
-        $this->ignore_fieldsets = ['basic', 'description', 'assignment'];
+        $this->ignore_fieldsets = ['basic', 'description', 'assigned'];
         echo LayoutHelper::render('joomla.edit.params', $this);
         ?>
 
         <?php if ($user->authorise('core.edit', 'com_menus') && $this->item->client_id == 0 && $this->canDo->get('core.edit.state')) : ?>
             <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'assignment', Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT')); ?>
-            <fieldset id="fieldset-assignment" class="options-form">
-                <legend><?php echo Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT'); ?></legend>
-                <div>
-                <?php if ($this->form->getField('assigned', 'params')) : ?>
-                    <?php echo $this->form->renderField('assigned', 'params'); ?>
-                <?php else : ?>
+            <?php if ($this->form->getGroup('assigned')) : ?>
+                <?php
+                $this->ignore_fieldsets = ['basic', 'description', 'params'];
+                $this->fieldset         = 'assigned';
+                echo LayoutHelper::render('joomla.edit.fieldset', $this);
+                ?>
+            <?php else : ?>
+                <fieldset id="fieldset-assignment" class="options-form">
+                    <legend><?php echo Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT'); ?></legend>
+                    <div>
                     <?php echo $this->loadTemplate('assignment'); ?>
-                <?php endif; ?>
-                </div>
-            </fieldset>
+                    </div>
+                </fieldset>
+            <?php endif; ?>
+
             <?php echo HTMLHelper::_('uitab.endTab'); ?>
         <?php endif; ?>
 
