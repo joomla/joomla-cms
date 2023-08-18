@@ -272,13 +272,15 @@ final class Stats extends CMSPlugin
     }
 
     /**
-     * Get the layout paths
+     * Get the layout paths.
+     *
+     * @param   string  $layout The layout
      *
      * @return  array
      *
      * @since   3.5
      */
-    protected function getLayoutPaths()
+    protected function getLayoutIncludePaths(string $layout): array
     {
         $template = $this->getApplication()->getTemplate();
 

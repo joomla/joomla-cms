@@ -1332,4 +1332,19 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     {
         return $this->getAttribute('debug', 'false') === 'true';
     }
+
+    /**
+     * Implementing classes have to provide layout include paths. If empty, then the default ones are
+     * used from the FileLayout class.
+     *
+     * @param   string  $layout The layout
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getLayoutIncludePaths(string $layout): array
+    {
+        return $this->getLayoutPaths();
+    }
 }

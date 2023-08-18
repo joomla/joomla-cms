@@ -24,11 +24,13 @@ trait LayoutRendererTrait
      * Implementing classes have to provide layout include paths. If empty, then the default ones are
      * used from the FileLayout class.
      *
+     * @param   string  $layout The layout
+     *
      * @return  array
      *
      * @since   __DEPLOY_VERSION__
      */
-    abstract protected function getLayoutPaths();
+    abstract protected function getLayoutIncludePaths(string $layout): array;
 
     /**
      * Render the given layout with the data.
@@ -42,13 +44,6 @@ trait LayoutRendererTrait
      */
     protected function render(string $layout, array $displayData = []): string
     {
-        // Check if the layout has a default one
-        if (strpos($layout, ':') !== false) {
-            // Get the template and file name from the string
-            $temp          = explode(':', $layout);
-            $layout        = $temp[1];
-        }
-
         return $this->getRenderer($layout)->render($displayData);
     }
 
@@ -67,7 +62,7 @@ trait LayoutRendererTrait
 
         $renderer->setDebug($this->isDebugEnabled());
 
-        $layoutPaths = $this->getLayoutPaths();
+        $layoutPaths = $this->getLayoutIncludePaths($layout);
 
         if ($layoutPaths) {
             $renderer->setIncludePaths($layoutPaths);

@@ -70,7 +70,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
             return;
         }
 
-        echo $this->render($displayData['params']->get('layout', 'default'), $this->getLayoutData());
+        echo $this->render($displayData['params']->get('layout', 'default'), $displayData);
     }
 
     /**
@@ -95,27 +95,39 @@ abstract class AbstractModuleDispatcher extends Dispatcher
     }
 
     /**
-     * Allow to override renderer include paths in extending classes.
+     * Implementing classes have to provide layout include paths. If empty, then the default ones are
+     * used from the FileLayout class.
+     *
+     * @param   string  $layout The layout
      *
      * @return  array
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function getLayoutPaths(): array
+    protected function getLayoutIncludePaths(string $layout): array
     {
         $app = $this->getApplication();
 
         $templateObj = $app instanceof CMSWebApplicationInterface ? $app->getTemplate(true) : (object) [ 'template' => '', 'parent' => ''];
 
+        $template = $templateObj->template;
+
+        if (strpos($layout, ':') !== false) {
+            // Get the template and file name from the string
+            $temp          = explode(':', $layout);
+            $template      = $temp[0] === '_' ? $template : $temp[0];
+            $layout        = $temp[1];
+        }
+
         // Build the template and base path for the layout
         $layoutPaths = [];
 
-        if ($templateObj->template) {
-            $layoutPaths[] = JPATH_THEMES . '/' . $templateObj->template . '/html' . $this->module->module;
+        if ($template) {
+            $layoutPaths[] = JPATH_THEMES . '/' . $template . '/html/' . $this->module->module;
         }
 
         if ($templateObj->parent) {
-            $layoutPaths[] = JPATH_THEMES . '/' . $templateObj->parent . '/html' . $this->module->module;
+            $layoutPaths[] = JPATH_THEMES . '/' . $templateObj->parent . '/html/' . $this->module->module;
         }
 
         $layoutPaths[] =  JPATH_BASE . '/modules/' . $this->module->module . '/tmpl';
