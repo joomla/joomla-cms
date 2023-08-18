@@ -11,7 +11,6 @@ namespace Joomla\CMS\Plugin;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
-use Joomla\CMS\Document\DocumentAwareInterface;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Extension\PluginInterface;
@@ -390,10 +389,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 
         if ($application->getLanguage()) {
             $this->setLanguage($application->getLanguage());
-        }
-
-        if ($application instanceof CMSWebApplicationInterface && $this instanceof DocumentAwareInterface) {
-            $this->setDocument($application->getDocument());
         }
     }
 
