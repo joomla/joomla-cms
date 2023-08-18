@@ -93,7 +93,7 @@ $user = $this->getCurrentUser();
 
         <?php
         $this->fieldsets = [];
-        $this->ignore_fieldsets = ['basic', 'description'];
+        $this->ignore_fieldsets = ['basic', 'description', 'assignment'];
         echo LayoutHelper::render('joomla.edit.params', $this);
         ?>
 
@@ -102,7 +102,11 @@ $user = $this->getCurrentUser();
             <fieldset id="fieldset-assignment" class="options-form">
                 <legend><?php echo Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT'); ?></legend>
                 <div>
-                <?php echo $this->loadTemplate('assignment'); ?>
+                <?php if ($this->form->getField('menu_assignment', 'params')) : ?>
+                    <?php echo $this->form->renderField('menu_assignment', 'params'); ?>
+                <?php else : ?>
+                    <?php echo $this->loadTemplate('assignment'); ?>
+                <?php endif; ?>
                 </div>
             </fieldset>
             <?php echo HTMLHelper::_('uitab.endTab'); ?>
