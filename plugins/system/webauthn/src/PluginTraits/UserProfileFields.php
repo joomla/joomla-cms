@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -91,7 +90,7 @@ trait UserProfileFields
      *
      * @return  void
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.0.0
      */
     public function onContentPrepareForm(Event $event)
@@ -152,7 +151,7 @@ trait UserProfileFields
      *
      * @return  void
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.0.0
      */
     public function onContentPrepareData(Event $event): void
@@ -181,7 +180,7 @@ trait UserProfileFields
      *
      * @return  User|null  A user object or null if no match is found
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.0.0
      */
     private function getUserFromData($data): ?User

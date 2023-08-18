@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\SampleData\Blog\Extension;
 
-use Exception;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
@@ -22,7 +21,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -58,7 +56,7 @@ final class Blog extends CMSPlugin
     /**
      * Get an overview of the proposed sampledata.
      *
-     * @return  stdClass|void  Will be converted into the JSON response to the module.
+     * @return  \stdClass|void  Will be converted into the JSON response to the module.
      *
      * @since  3.8.0
      */
@@ -68,7 +66,7 @@ final class Blog extends CMSPlugin
             return;
         }
 
-        $data              = new stdClass();
+        $data              = new \stdClass();
         $data->name        = $this->_name;
         $data->title       = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_OVERVIEW_TITLE');
         $data->description = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_OVERVIEW_DESC');
@@ -133,9 +131,9 @@ final class Blog extends CMSPlugin
             try {
                 if (!$modelTag->save($tag)) {
                     $this->getApplication()->getLanguage()->load('com_tags');
-                    throw new Exception($this->getApplication()->getLanguage()->_($modelTag->getError()));
+                    throw new \Exception($this->getApplication()->getLanguage()->_($modelTag->getError()));
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response            = [];
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
@@ -178,9 +176,9 @@ final class Blog extends CMSPlugin
 
             try {
                 if (!$groupModel->save($group)) {
-                    throw new Exception($groupModel->getError());
+                    throw new \Exception($groupModel->getError());
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response            = [];
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
@@ -241,9 +239,9 @@ final class Blog extends CMSPlugin
 
                 try {
                     if (!$fieldModel->save($cf)) {
-                        throw new Exception($fieldModel->getError());
+                        throw new \Exception($fieldModel->getError());
                     }
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $response            = [];
                     $response['success'] = false;
                     $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
@@ -495,9 +493,9 @@ final class Blog extends CMSPlugin
             try {
                 if (!$categoryModel->save($category)) {
                     $this->getApplication()->getLanguage()->load('com_categories');
-                    throw new Exception($categoryModel->getError());
+                    throw new \Exception($categoryModel->getError());
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response            = [];
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
@@ -818,11 +816,11 @@ final class Blog extends CMSPlugin
 
                 if (!$menuTable->check()) {
                     $this->getApplication()->getLanguage()->load('com_menu');
-                    throw new Exception($menuTable->getError());
+                    throw new \Exception($menuTable->getError());
                 }
 
                 $menuTable->store();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response            = [];
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
@@ -1050,7 +1048,7 @@ final class Blog extends CMSPlugin
 
         try {
             $menuIdsLevel1 = $this->addMenuItems($menuItems, 1);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
@@ -1119,7 +1117,7 @@ final class Blog extends CMSPlugin
 
         try {
             $menuIdsLevel1 = array_merge($menuIdsLevel1, $this->addMenuItems($menuItems, 1));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
@@ -1256,7 +1254,7 @@ final class Blog extends CMSPlugin
 
         try {
             $menuIdsLevel2 = $this->addMenuItems($menuItems, 2);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
@@ -1303,7 +1301,7 @@ final class Blog extends CMSPlugin
 
         try {
             $this->addMenuItems($menuItems, 3);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
@@ -1783,7 +1781,7 @@ final class Blog extends CMSPlugin
      *
      * @since  3.8.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     private function addMenuItems(array $menuItems, $level)
     {
@@ -1856,7 +1854,7 @@ final class Blog extends CMSPlugin
                     $menuItem['alias'] = substr_replace($menuItem['alias'], '2', -1);
 
                     if (!$this->menuItemModel->save($menuItem)) {
-                        throw new Exception($menuItem['title'] . ' => ' . $menuItem['alias'] . ' : ' . $this->menuItemModel->getError());
+                        throw new \Exception($menuItem['title'] . ' => ' . $menuItem['alias'] . ' : ' . $this->menuItemModel->getError());
                     }
                 }
             }

@@ -10,12 +10,10 @@
 
 namespace Joomla\Plugin\Editors\CodeMirror\Extension;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Event\Event;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -28,86 +26,6 @@ use stdClass;
  */
 final class Codemirror extends CMSPlugin
 {
-    /**
-     * Affects constructor behavior. If true, language files will be loaded automatically.
-     *
-     * @var    boolean
-     * @since  3.1.4
-     */
-    protected $autoloadLanguage = true;
-
-    /**
-     * Mapping of syntax to CodeMirror modes.
-     *
-     * @var array
-     */
-    protected $modeAlias = [];
-
-    /**
-     * Base path for editor assets.
-     *
-     * @var  string
-     *
-     * @since  4.0.0
-     */
-    protected $basePath = 'media/vendor/codemirror/';
-
-    /**
-     * Base path for editor modes.
-     *
-     * @var  string
-     *
-     * @since  4.0.0
-     */
-    protected $modePath = 'media/vendor/codemirror/mode/%N/%N';
-
-    /**
-     * Initialises the Editor.
-     *
-     * @return  void
-     */
-    public function onInit()
-    {
-        static $done = false;
-
-        // Do this only once.
-        if ($done) {
-            return;
-        }
-
-        $done = true;
-
-        // Most likely need this later
-        $doc = $this->getApplication()->getDocument();
-
-        // Codemirror shall have its own group of plugins to modify and extend its behavior
-        PluginHelper::importPlugin('editors_codemirror');
-
-        // At this point, params can be modified by a plugin before going to the layout renderer.
-        $this->getApplication()->triggerEvent('onCodeMirrorBeforeInit', [&$this->params, &$this->basePath, &$this->modePath]);
-
-        $displayData = (object) ['params' => $this->params];
-        $font        = $this->params->get('fontFamily', '0');
-        $fontInfo    = $this->getFontInfo($font);
-
-        if (isset($fontInfo)) {
-            if (isset($fontInfo->url)) {
-                $doc->addStyleSheet($fontInfo->url);
-            }
-
-            if (isset($fontInfo->css)) {
-                $displayData->fontFamily = $fontInfo->css . '!important';
-            }
-        }
-
-        // We need to do output buffering here because layouts may actually 'echo' things which we do not want.
-        ob_start();
-        LayoutHelper::render('editors.codemirror.styles', $displayData, JPATH_PLUGINS . '/editors/codemirror/layouts');
-        ob_end_clean();
-
-        $this->getApplication()->triggerEvent('onCodeMirrorAfterInit', [&$this->params, &$this->basePath, &$this->modePath]);
-    }
-
     /**
      * Display the editor area.
      *
@@ -138,135 +56,80 @@ final class Codemirror extends CMSPlugin
         $author = null,
         $params = []
     ) {
-        // True if a CodeMirror already has autofocus. Prevent multiple autofocuses.
-        static $autofocused;
+        $this->loadLanguage();
 
         $id = empty($id) ? $name : $id;
 
         // Must pass the field id to the buttons in this editor.
         $buttons = $this->displayButtons($id, $buttons, $asset, $author);
 
-        // Only add "px" to width and height if they are not given as a percentage.
-        $width .= is_numeric($width) ? 'px' : '';
-        $height .= is_numeric($height) ? 'px' : '';
-
         // Options for the CodeMirror constructor.
-        $options   = new stdClass();
-        $keyMapUrl = '';
+        $options = new \stdClass();
 
         // Is field readonly?
         if (!empty($params['readonly'])) {
-            $options->readOnly = 'nocursor';
+            $options->readOnly = true;
         }
 
-        // Should we focus on the editor on load?
-        if (!$autofocused) {
-            $options->autofocus = isset($params['autofocus']) ? (bool) $params['autofocus'] : false;
-            $autofocused        = $options->autofocus;
-        }
-        // Set autorefresh to true - fixes issue when editor is not loaded in a focused tab
-        $options->autoRefresh = true;
+        // Only add "px" to width and height if they are not given as a percentage.
+        $options->width  = is_numeric($width) ? $width . 'px' : $width;
+        $options->height = is_numeric($height) ? $height . 'px' : $height;
 
-        $options->lineWrapping = (bool) $this->params->get('lineWrapping', 1);
-
-        // Add styling to the active line.
-        $options->styleActiveLine = (bool) $this->params->get('activeLine', 1);
-
-        // Do we highlight selection matches?
-        if ($this->params->get('selectionMatches', 1)) {
-            $options->highlightSelectionMatches = [
-                    'showToken'         => true,
-                    'annotateScrollbar' => true,
-                ];
-        }
-
-        // Do we use line numbering?
-        if ($options->lineNumbers = (bool) $this->params->get('lineNumbers', 1)) {
-            $options->gutters[] = 'CodeMirror-linenumbers';
-        }
-
-        // Do we use code folding?
-        if ($options->foldGutter = (bool) $this->params->get('codeFolding', 1)) {
-            $options->gutters[] = 'CodeMirror-foldgutter';
-        }
-
-        // Do we use a marker gutter?
-        if ($options->markerGutter = (bool) $this->params->get('markerGutter', $this->params->get('marker-gutter', 1))) {
-            $options->gutters[] = 'CodeMirror-markergutter';
-        }
+        $options->lineNumbers        = (bool) $this->params->get('lineNumbers', 1);
+        $options->foldGutter         = (bool) $this->params->get('codeFolding', 1);
+        $options->lineWrapping       = (bool) $this->params->get('lineWrapping', 1);
+        $options->activeLine         = (bool) $this->params->get('activeLine', 1);
+        $options->highlightSelection = (bool) $this->params->get('selectionMatches', 1);
 
         // Load the syntax mode.
-        $syntax = !empty($params['syntax'])
-            ? $params['syntax']
-            : $this->params->get('syntax', 'html');
-        $options->mode = $this->modeAlias[$syntax] ?? $syntax;
-
-        // Load the theme if specified.
-        if ($theme = $this->params->get('theme')) {
-            $options->theme = $theme;
-
-            $this->getApplication()->getDocument()->getWebAssetManager()
-                ->registerAndUseStyle('codemirror.theme', $this->basePath . 'theme/' . $theme . '.css');
-        }
-
-        // Special options for tagged modes (xml/html).
-        if (in_array($options->mode, ['xml', 'html', 'php'])) {
-            // Autogenerate closing tags (html/xml only).
-            $options->autoCloseTags = (bool) $this->params->get('autoCloseTags', 1);
-
-            // Highlight the matching tag when the cursor is in a tag (html/xml only).
-            $options->matchTags = (bool) $this->params->get('matchTags', 1);
-        }
+        $modeAlias = [
+            'scss' => 'css',
+            'sass' => 'css',
+            'less' => 'css',
+        ];
+        $options->mode = !empty($params['syntax']) ? $params['syntax'] : $this->params->get('syntax', 'html');
+        $options->mode = $modeAlias[$options->mode] ?? $options->mode;
 
         // Special options for non-tagged modes.
         if (!in_array($options->mode, ['xml', 'html'])) {
             // Autogenerate closing brackets.
             $options->autoCloseBrackets = (bool) $this->params->get('autoCloseBrackets', 1);
-
-            // Highlight the matching bracket.
-            $options->matchBrackets = (bool) $this->params->get('matchBrackets', 1);
         }
-
-        $options->scrollbarStyle = $this->params->get('scrollbarStyle', 'native');
 
         // KeyMap settings.
-        $options->keyMap = $this->params->get('keyMap', false);
+        $options->keyMap = $this->params->get('keyMap', '');
 
-        // Support for older settings.
-        if ($options->keyMap === false) {
-            $options->keyMap = $this->params->get('vimKeyBinding', 0) ? 'vim' : 'default';
+        // Check for custom extensions
+        $customExtensions          = $this->params->get('customExtensions', []);
+        $options->customExtensions = [];
+
+        if ($customExtensions) {
+            foreach ($customExtensions as $item) {
+                $methods = array_filter(array_map('trim', explode(',', $item->methods ?? '')));
+
+                if (empty($item->module) || !$methods) {
+                    continue;
+                }
+
+                // Prepend root path if we have a file
+                $module = str_ends_with($item->module, '.js') ? Uri::root(true) . '/' . $item->module : $item->module;
+
+                $options->customExtensions[] = [$module, $methods];
+            }
         }
 
-        if ($options->keyMap !== 'default') {
-            $keyMapUrl = HTMLHelper::_('script', $this->basePath . 'keymap/' . $options->keyMap . '.min.js', ['relative' => false, 'pathOnly' => true]);
-            $keyMapUrl .= '?' . $this->getApplication()->getDocument()->getMediaVersion();
-        }
-
-        $options->keyMapUrl = $keyMapUrl;
-
-        $displayData = (object) [
-            'options'  => $options,
-            'params'   => $this->params,
-            'name'     => $name,
-            'id'       => $id,
-            'cols'     => $col,
-            'rows'     => $row,
-            'content'  => $content,
-            'buttons'  => $buttons,
-            'basePath' => $this->basePath,
-            'modePath' => $this->modePath,
+        $displayData = [
+            'options' => $options,
+            'params'  => $this->params,
+            'name'    => $name,
+            'id'      => $id,
+            'cols'    => $col,
+            'rows'    => $row,
+            'content' => $content,
+            'buttons' => $buttons,
         ];
 
-        // At this point, displayData can be modified by a plugin before going to the layout renderer.
-        $results = $this->getApplication()->triggerEvent('onCodeMirrorBeforeDisplay', [&$displayData]);
-
-        $results[] = LayoutHelper::render('editors.codemirror.element', $displayData, JPATH_PLUGINS . '/editors/codemirror/layouts');
-
-        foreach ($this->getApplication()->triggerEvent('onCodeMirrorAfterDisplay', [&$displayData]) as $result) {
-            $results[] = $result;
-        }
-
-        return implode("\n", $results);
+        return LayoutHelper::render('editors.codemirror.codemirror', $displayData, JPATH_PLUGINS . '/editors/codemirror/layouts');
     }
 
     /**
@@ -295,23 +158,5 @@ final class Codemirror extends CMSPlugin
 
             return LayoutHelper::render('joomla.editors.buttons', $buttons);
         }
-    }
-
-    /**
-     * Gets font info from the json data file
-     *
-     * @param   string  $font  A key from the $fonts array.
-     *
-     * @return  object
-     */
-    protected function getFontInfo($font)
-    {
-        static $fonts;
-
-        if (!$fonts) {
-            $fonts = json_decode(file_get_contents(JPATH_PLUGINS . '/editors/codemirror/fonts.json'), true);
-        }
-
-        return isset($fonts[$font]) ? (object) $fonts[$font] : null;
     }
 }

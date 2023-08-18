@@ -16,7 +16,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -195,7 +194,7 @@ final class Fields extends CMSPlugin
      * The delete event.
      *
      * @param   string    $context  The context
-     * @param   stdClass  $item     The item
+     * @param   \stdClass  $item     The item
      *
      * @return  void
      *
@@ -225,7 +224,7 @@ final class Fields extends CMSPlugin
     /**
      * The user delete event.
      *
-     * @param   stdClass  $user    The context
+     * @param   \stdClass  $user    The context
      * @param   boolean   $success Is success
      * @param   string    $msg     The message
      *
@@ -235,7 +234,7 @@ final class Fields extends CMSPlugin
      */
     public function onUserAfterDelete($user, $success, $msg): void
     {
-        $item     = new stdClass();
+        $item     = new \stdClass();
         $item->id = $user['id'];
 
         $this->onContentAfterDelete('com_users.user', $item);
@@ -245,7 +244,7 @@ final class Fields extends CMSPlugin
      * The form event.
      *
      * @param   Form      $form  The form
-     * @param   stdClass  $data  The data
+     * @param   \stdClass  $data  The data
      *
      * @return  boolean
      *
@@ -298,7 +297,7 @@ final class Fields extends CMSPlugin
      * The display event.
      *
      * @param   string    $context     The context
-     * @param   stdClass  $item        The item
+     * @param   \stdClass  $item        The item
      * @param   Registry  $params      The params
      * @param   integer   $limitstart  The start
      *
@@ -315,7 +314,7 @@ final class Fields extends CMSPlugin
      * The display event.
      *
      * @param   string    $context     The context
-     * @param   stdClass  $item        The item
+     * @param   \stdClass  $item        The item
      * @param   Registry  $params      The params
      * @param   integer   $limitstart  The start
      *
@@ -332,7 +331,7 @@ final class Fields extends CMSPlugin
      * The display event.
      *
      * @param   string    $context     The context
-     * @param   stdClass  $item        The item
+     * @param   \stdClass  $item        The item
      * @param   Registry  $params      The params
      * @param   integer   $limitstart  The start
      *
@@ -349,7 +348,7 @@ final class Fields extends CMSPlugin
      * Performs the display event.
      *
      * @param   string    $context      The context
-     * @param   stdClass  $item         The item
+     * @param   \stdClass  $item         The item
      * @param   Registry  $params       The params
      * @param   integer   $displayType  The type
      *
@@ -431,7 +430,7 @@ final class Fields extends CMSPlugin
      * Performs the display event.
      *
      * @param   string    $context  The context
-     * @param   stdClass  $item     The item
+     * @param   \stdClass  $item     The item
      *
      * @return  void
      *
@@ -475,7 +474,7 @@ final class Fields extends CMSPlugin
     /**
      * Prepares a tag item to be ready for com_fields.
      *
-     * @param   stdClass  $item  The item
+     * @param   \stdClass  $item  The item
      *
      * @return  object
      *
