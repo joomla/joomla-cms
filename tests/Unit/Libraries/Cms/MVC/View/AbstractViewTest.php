@@ -10,7 +10,6 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\MVC\View;
 
-use Joomla\CMS\Language\Language;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\Event\DispatcherInterface;
