@@ -102,8 +102,8 @@ $user = $this->getCurrentUser();
             <fieldset id="fieldset-assignment" class="options-form">
                 <legend><?php echo Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT'); ?></legend>
                 <div>
-                <?php if ($this->form->getField('menu_assignment', 'params')) : ?>
-                    <?php echo $this->form->renderField('menu_assignment', 'params'); ?>
+                <?php if ($this->form->getField('assigned', 'params')) : ?>
+                    <?php echo $this->form->renderField('assigned', 'params'); ?>
                 <?php else : ?>
                     <?php echo $this->loadTemplate('assignment'); ?>
                 <?php endif; ?>
