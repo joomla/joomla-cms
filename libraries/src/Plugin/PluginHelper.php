@@ -44,6 +44,9 @@ abstract class PluginHelper
      * @return  string  Layout path
      *
      * @since   3.0
+     *
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     *              The layout path is now computed in the CMSPlugin::getLayoutPaths() function
      */
     public static function getLayoutPath($type, $name, $layout = 'default')
     {

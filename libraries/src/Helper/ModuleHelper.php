@@ -304,6 +304,9 @@ abstract class ModuleHelper
      * @return  string  The path to the module layout
      *
      * @since   1.5
+     *
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     *              The layout path is now computed in the AbstractModuleDispatcher::getLayoutPaths() function
      */
     public static function getLayoutPath($module, $layout = 'default')
     {
