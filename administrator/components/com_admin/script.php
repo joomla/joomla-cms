@@ -1888,6 +1888,16 @@ class JoomlaInstallerScript
             // From 5.0.0-alpha3 to 5.0.0-alpha4
             '/libraries/src/Event/Application/DeamonForkEvent.php',
             '/libraries/src/Event/Application/DeamonReceiveSignalEvent.php',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/plugin.js',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/plugin.min.js',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/plugin.min.js.gz',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/source.css',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/source.html',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/source.js',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/source.min.css',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/source.min.css.gz',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/source.min.js',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/source.min.js.gz',
             '/media/plg_system_compat/es5.asset.json',
         ];
 
@@ -2107,6 +2117,7 @@ class JoomlaInstallerScript
             '/templates/system/incompatible.html,/includes',
             '/templates/system/incompatible.html,',
             '/media/plg_system_compat',
+            '/media/plg_editors_tinymce/js/plugins/highlighter',
         ];
 
         $status['files_checked']   = $files;
