@@ -1857,8 +1857,7 @@ class JoomlaInstallerScript
             '/plugins/editors/codemirror/layouts/editors/codemirror/element.php',
             '/plugins/editors/codemirror/layouts/editors/codemirror/styles.php',
             '/plugins/editors/codemirror/src/Field/FontsField.php',
-
-            // From 5.0.0-alpha1 to 5.0.0-alpha4
+            // From 5.0.0-alpha3 to 5.0.0-alpha4
             '/libraries/src/Event/Application/DeamonForkEvent.php',
             '/libraries/src/Event/Application/DeamonReceiveSignalEvent.php',
         ];
