@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.8.0</version>
 	<description>PLG_SAMPLEDATA_BLOG_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\SampleData\Blog</namespace>
 	<files>
-		<filename plugin="blog">blog.php</filename>
+		<folder plugin="blog">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_sampledata_blog.ini</language>

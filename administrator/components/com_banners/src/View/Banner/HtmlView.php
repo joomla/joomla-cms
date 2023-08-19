@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Banners\Administrator\View\Banner;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -66,7 +65,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since   1.5
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function display($tpl = null): void
     {
@@ -92,7 +91,7 @@ class HtmlView extends BaseHtmlView
      * @return  void
      *
      * @since   1.6
-     * @throws  Exception
+     * @throws  \Exception
      */
     protected function addToolbar(): void
     {
