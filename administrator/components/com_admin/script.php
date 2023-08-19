@@ -1898,7 +1898,6 @@ class JoomlaInstallerScript
             '/media/plg_editors_tinymce/js/plugins/highlighter/source.min.css.gz',
             '/media/plg_editors_tinymce/js/plugins/highlighter/source.min.js',
             '/media/plg_editors_tinymce/js/plugins/highlighter/source.min.js.gz',
-            '/media/plg_system_compat/es5.asset.json',
         ];
 
         $folders = [
@@ -2116,7 +2115,6 @@ class JoomlaInstallerScript
             // From 5.0.0-alpha3 to 5.0.0-alpha4
             '/templates/system/incompatible.html,/includes',
             '/templates/system/incompatible.html,',
-            '/media/plg_system_compat',
             '/media/plg_editors_tinymce/js/plugins/highlighter',
         ];
 
