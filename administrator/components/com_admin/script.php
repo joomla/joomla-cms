@@ -1886,16 +1886,9 @@ class JoomlaInstallerScript
             '/plugins/editors/codemirror/layouts/editors/codemirror/styles.php',
             '/plugins/editors/codemirror/src/Field/FontsField.php',
             // From 5.0.0-alpha3 to 5.0.0-alpha4
-            '/administrator/language/en-GB/plg_system_compat.ini',
-            '/administrator/language/en-GB/plg_system_compat.sys.ini',
             '/libraries/src/Event/Application/DeamonForkEvent.php',
             '/libraries/src/Event/Application/DeamonReceiveSignalEvent.php',
             '/media/plg_system_compat/es5.asset.json',
-            '/plugins/system/compat/compat.xml',
-            '/plugins/system/compat/services/provider.php',
-            '/plugins/system/compat/src/Extension/Compat.php',
-            '/plugins/system/compat/src/classmap/classmap.php',
-            '/plugins/system/compat/src/classmap/extensions.classmap.php',
         ];
 
         $folders = [
@@ -2113,11 +2106,6 @@ class JoomlaInstallerScript
             // From 5.0.0-alpha3 to 5.0.0-alpha4
             '/templates/system/incompatible.html,/includes',
             '/templates/system/incompatible.html,',
-            '/plugins/system/compat/src/classmap',
-            '/plugins/system/compat/src/Extension',
-            '/plugins/system/compat/src',
-            '/plugins/system/compat/services',
-            '/plugins/system/compat',
             '/media/plg_system_compat',
         ];
 
