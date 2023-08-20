@@ -92,8 +92,7 @@
     align-items: center;
     padding: 1rem 1rem .75rem;
     font-weight: $font-weight-bold;
-    color: var(--template-bg-dark);
-    background: hsla(0, 0%, 100%, .7); // default: var(--card-bg);
+    --card-bg: hsla(0, 0%, 100%, .7);
 
     > [class^="icon-"],
     > img {
@@ -135,8 +134,8 @@
     font-weight: 700;
     line-height: 1;
     color: hsl(var(--hue),30%,40%);
-    background-color: hsl(var(--hue),35%,98%);
-    border: 1px solid hsl(var(--hue),35%,88%);
+    background-color: var(--body-bg);
+    border: 1px solid var(--body-bg);
     border-radius: $border-radius;
     transition: all .15s ease-in;
 
