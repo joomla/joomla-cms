@@ -66,3 +66,12 @@
     }
   }
 }
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .form-select {
+      background: $form-select-background-dark #{"/* rtl:"}$form-select-background-rtl-dark#{"*/"};;
+    }
+  }
+}
+

@@ -239,8 +239,12 @@ $form-select-indicator:            url("../images/select-bg.svg");
 $form-select-indicator-rtl:        url("../images/select-bg-rtl.svg");
 $form-select-indicator-active:     url("../../../images/select-bg.svg");
 $form-select-indicator-active-rtl: url("../../../images/select-bg-rtl.svg");
+$form-select-indicator-dark:       url("../images/select-bg-dark.svg");
+$form-select-indicator-rtl-dark:   url("../images/select-bg-rtl-dark.svg");
 $form-select-background:           $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 $form-select-background-rtl:       $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$form-select-background-dark:      $form-select-indicator-dark no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$form-select-background-rtl-dark:  $form-select-indicator-rtl-dark no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 $form-select-box-shadow:           $atum-box-shadow;
 $form-select-bg-size-sm:           75rem;
 $form-select-multiple-padding-y:   .3rem;
