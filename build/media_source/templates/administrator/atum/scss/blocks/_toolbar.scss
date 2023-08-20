@@ -138,6 +138,15 @@
   }
 }
 
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .subhead {
+      background-color: var(--body-bg);
+      background-image: linear-gradient(var(--body-bg), var(--dark-bg));
+    }
+  }
+}
+
 @include media-breakpoint-down(sm) {
   joomla-tab[view=accordion] .col-md-9,
   joomla-tab[view=accordion] .col-md-3 {

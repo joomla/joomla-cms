@@ -109,7 +109,7 @@ joomla-tab {
     --gutter-x: 2rem;
     display: none;
     padding: 30px 2vw;
-    background-color: $white;
+    background-color: var(--body-bg);
     border: 0;
     border-radius: .25rem;
     box-shadow: none;

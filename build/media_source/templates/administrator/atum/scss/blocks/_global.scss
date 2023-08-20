@@ -153,7 +153,7 @@ body .container-main {
 }
 
 body:not(.contentpane) .main-card {
-  background: $white;
+  background: var(--body-bg);
   border-radius: $border-radius;
   box-shadow: 0 2px 10px -8px var(--template-bg-dark-50);
 }
