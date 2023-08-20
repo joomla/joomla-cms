@@ -111,8 +111,6 @@ abstract class AbstractEvent extends Event
     {
         parent::__construct($name, $arguments);
 
-        $this->arguments = [];
-
         foreach ($arguments as $argumentName => $value) {
             $this->setArgument($argumentName, $value);
         }
