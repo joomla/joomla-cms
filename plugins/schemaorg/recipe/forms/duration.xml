@@ -4,12 +4,16 @@
         name="hour"
         type="number"
         label="PLG_SCHEMAORG_RECIPE_FIELD_HOUR_LABEL"
+		min="0"
+		pattern="\d+"
     />
 
     <field
         name="min"
         type="number"
         label="PLG_SCHEMAORG_RECIPE_FIELD_MINUTE_LABEL"
-        max="59"
+        min="0"
+		max="59"
+		pattern="\d+"
     />
 </form>
