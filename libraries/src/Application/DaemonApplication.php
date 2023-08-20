@@ -11,8 +11,8 @@ namespace Joomla\CMS\Application;
 
 use Joomla\CMS\Event\Application\AfterExecuteEvent;
 use Joomla\CMS\Event\Application\BeforeExecuteEvent;
-use Joomla\CMS\Event\Application\DeamonForkEvent;
-use Joomla\CMS\Event\Application\DeamonReceiveSignalEvent;
+use Joomla\CMS\Event\Application\DaemonForkEvent;
+use Joomla\CMS\Event\Application\DaemonReceiveSignalEvent;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Log\Log;
@@ -169,7 +169,7 @@ abstract class DaemonApplication extends CliApplication
         // Fire the onReceiveSignal event.
         static::$instance->getDispatcher()->dispatch(
             'onReceiveSignal',
-            new DeamonReceiveSignalEvent('onReceiveSignal', [
+            new DaemonReceiveSignalEvent('onReceiveSignal', [
                 'signal'  => $signal,
                 'subject' => static::$instance,
             ])
@@ -786,7 +786,7 @@ abstract class DaemonApplication extends CliApplication
         // Trigger the onFork event.
         $this->dispatchEvent(
             'onFork',
-            new DeamonForkEvent('onFork', ['subject' => $this])
+            new DaemonForkEvent('onFork', ['subject' => $this])
         );
     }
 
