@@ -36,7 +36,7 @@ extract($displayData);
 
 Factory::getApplication()->getDocument()->getWebAssetManager()
     ->useScript('core')
-    ->useScript('joomla.dialog')
+    ->useScript('joomla.dialog-autocreate')
     ->useScript('webcomponent.toolbar-button');
 
 $tagName    = $tagName ?? 'button';
