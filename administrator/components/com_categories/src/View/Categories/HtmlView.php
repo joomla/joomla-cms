@@ -167,7 +167,7 @@ class HtmlView extends BaseHtmlView
         $component  = $this->state->get('filter.component');
         $section    = $this->state->get('filter.section');
         $canDo      = ContentHelper::getActions($component, 'category', $categoryId);
-        $user       = Factory::getApplication()->getIdentity();
+        $user       = $this->getCurrentUser();
         $toolbar    = Toolbar::getInstance();
 
         // Avoid nonsense situation.

@@ -52,15 +52,15 @@ abstract class ContentEvent extends AbstractImmutableEvent
             $arguments = $this->reshapeArguments($arguments, $this->legacyArgumentsOrder);
         }
 
-        if (!\array_key_exists('context', $arguments)) {
+        parent::__construct($name, $arguments);
+
+        if (!\array_key_exists('context', $this->arguments)) {
             throw new \BadMethodCallException("Argument 'context' of event {$name} is required but has not been provided");
         }
 
-        if (!\array_key_exists('subject', $arguments)) {
+        if (!\array_key_exists('subject', $this->arguments)) {
             throw new \BadMethodCallException("Argument 'subject' of event {$name} is required but has not been provided");
         }
-
-        parent::__construct($name, $arguments);
     }
 
     /**
