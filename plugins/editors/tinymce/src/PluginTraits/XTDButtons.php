@@ -50,6 +50,9 @@ trait XTDButtons
         $buttonsResult = $this->getDispatcher()->dispatch('getButtons', $buttonsEvent);
         $buttons       = $buttonsResult['result'];
 
+        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        $wa = $this->getApplication()->getDocument()->getWebAssetManager();
+
         if (is_array($buttons) || (is_bool($buttons) && $buttons)) {
             Text::script('PLG_TINY_CORE_BUTTONS');
 
@@ -63,6 +66,16 @@ trait XTDButtons
                 $link    = $button->get('link');
                 $action  = $button->get('action', '');
                 $options = (array) $button->get('options');
+
+                $btnAsset = 'editor-button.' . $button->getButtonName();
+
+                // Enable the button assets if any
+                if ($wa->assetExists('style', $btnAsset)) {
+                    $wa->useStyle($btnAsset);
+                }
+                if ($wa->assetExists('script', $btnAsset)) {
+                    $wa->useScript($btnAsset);
+                }
 
                 // Correct the link
                 if ($link && $link[0] !== '#') {
