@@ -50,7 +50,7 @@ final class ReadMore extends CMSPlugin
                 'com_content/admin-article-readmore.min.js',
                 [],
                 ['type' => 'module'],
-                ['editors', 'dialog']
+                ['editors', 'joomla.dialog']
             );
 
         Text::script('PLG_READMORE_ALREADY_EXISTS');

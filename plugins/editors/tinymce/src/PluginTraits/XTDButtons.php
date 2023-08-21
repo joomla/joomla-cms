@@ -89,11 +89,11 @@ trait XTDButtons
                 // Prepare default values for modal
                 if ($action === 'modal') {
                     $this->getApplication()->getDocument()
-                        ->getWebAssetManager()->useScript('dialog');
+                        ->getWebAssetManager()->useScript('joomla.dialog');
 
-                    $options['popupType']  = $popupOptions['popupType'] ?? 'iframe';
-                    $options['textHeader'] = $popupOptions['textHeader'] ?? $title;
-                    $options['iconHeader'] = $popupOptions['iconHeader'] ?? 'icon-' . $icon;
+                    $options['popupType']  = $options['popupType'] ?? 'iframe';
+                    $options['textHeader'] = $options['textHeader'] ?? $title;
+                    $options['iconHeader'] = $options['iconHeader'] ?? 'icon-' . $icon;
                 }
 
                 $coreButton            = [];
