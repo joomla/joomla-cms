@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Messages\Administrator\View\Messages;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -46,7 +45,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -117,7 +116,7 @@ class HtmlView extends BaseHtmlView
     {
         $state = $this->get('State');
         $canDo = ContentHelper::getActions('com_messages');
-        $user  = Factory::getApplication()->getIdentity();
+        $user  = $this->getCurrentUser();
 
         // Get the toolbar object instance
         $toolbar = Toolbar::getInstance('toolbar');

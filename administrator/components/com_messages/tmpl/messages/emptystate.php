@@ -21,8 +21,8 @@ $displayData = [
 ];
 
 if (
-    Factory::getApplication()->getIdentity()->authorise('core.create', 'com_messages')
-    && Factory::getApplication()->getIdentity()->authorise('core.manage', 'com_users')
+    $this->getCurrentUser()->authorise('core.create', 'com_messages')
+    && $this->getCurrentUser()->authorise('core.manage', 'com_users')
 ) {
     $displayData['createURL'] = 'index.php?option=com_messages&task=message.add';
 }

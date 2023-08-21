@@ -53,7 +53,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var \Joomla\CMS\Object\CMSObject
+     * @var \Joomla\Registry\Registry
      */
     protected $canDo;
 
@@ -92,9 +92,9 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $user       = Factory::getApplication()->getIdentity();
+        $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = empty($this->item->id);
 

@@ -12,23 +12,10 @@
       "uri": "system/core.min.js"
     },
     {
-      "name": "keepalive.es5",
-      "type": "script",
-      "dependencies": [
-        "core"
-      ],
-      "uri": "system/keepalive-es5.min.js",
-      "attributes": {
-        "defer": true,
-        "nomodule": true
-      }
-    },
-    {
       "name": "keepalive",
       "type": "script",
       "class": "KeepaliveAssetItem",
       "dependencies": [
-        "keepalive.es5",
         "core"
       ],
       "uri": "system/keepalive.min.js",
@@ -39,7 +26,8 @@
     {
       "name": "messages-legacy",
       "type": "script",
-      "uri": "system/messages-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -62,7 +50,8 @@
     {
       "name": "inlinehelp-legacy",
       "type": "script",
-      "uri": "system/inlinehelp-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -122,23 +111,10 @@
       "uri": ""
     },
     {
-      "name": "showon.es5",
-      "type": "script",
-      "dependencies": [
-        "core"
-      ],
-      "uri": "system/showon-es5.min.js",
-      "attributes": {
-        "defer": true,
-        "nomodule": true
-      }
-    },
-    {
       "name": "showon",
       "type": "script",
       "dependencies": [
-        "core",
-        "showon.es5"
+        "core"
       ],
       "uri": "system/showon.min.js",
       "attributes": {
@@ -200,7 +176,8 @@
     {
       "name": "highlight-legacy",
       "type": "script",
-      "uri": "system/highlight-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "defer": true,
         "nomodule": true
@@ -301,7 +278,8 @@
     {
       "name": "webcomponent.field-fancy-select-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-field-fancy-select-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -336,7 +314,8 @@
     {
       "name": "webcomponent.media-select-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-media-select-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -359,7 +338,8 @@
     {
       "name": "webcomponent.field-media-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-field-media-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -382,7 +362,8 @@
     {
       "name": "webcomponent.field-module-order-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-field-module-order-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -410,7 +391,8 @@
     {
       "name": "webcomponent.field-permissions-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-field-permissions-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -433,7 +415,8 @@
     {
       "name": "webcomponent.field-send-test-mail-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-field-send-test-mail-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -461,7 +444,8 @@
     {
       "name": "webcomponent.field-simple-color-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-field-simple-color-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -484,7 +468,8 @@
     {
       "name": "webcomponent.field-subform-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-field-subform-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -507,7 +492,8 @@
     {
       "name": "webcomponent.field-user-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-field-user-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -530,7 +516,8 @@
     {
       "name": "webcomponent.core-loader-legacy",
       "type": "script",
-      "uri": "system/joomla-core-loader-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -553,7 +540,8 @@
     {
       "name": "webcomponent.hidden-mail-legacy",
       "type": "script",
-      "uri": "system/joomla-hidden-mail-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -576,7 +564,8 @@
     {
       "name": "webcomponent.toolbar-button-legacy",
       "type": "script",
-      "uri": "system/joomla-toolbar-button-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -594,6 +583,27 @@
       },
       "dependencies": [
         "webcomponent.toolbar-button-legacy"
+      ]
+    },
+    {
+      "name": "joomla.dialog",
+      "type": "script",
+      "uri": "system/joomla-dialog.min.js",
+      "importmap": true,
+      "dependencies": [
+        "wcpolyfill",
+        "core"
+      ]
+    },
+    {
+      "name": "joomla.dialog-autocreate",
+      "type": "script",
+      "uri": "system/joomla-dialog-autocreate.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "joomla.dialog"
       ]
     },
     {
