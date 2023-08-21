@@ -54,6 +54,9 @@ trait CoreEventAware
         'onBeforeRespond'     => Application\BeforeRespondEvent::class,
         'onAfterRespond'      => Application\AfterRespondEvent::class,
         'onError'             => ErrorEvent::class,
+        // Application configuration
+        'onApplicationBeforeSave' => Application\BeforeSaveConfigurationEvent::class,
+        'onApplicationAfterSave'  => Application\AfterSaveConfigurationEvent::class,
         // Quickicon
         'onGetIcon' => QuickIcon\GetIconEvent::class,
         // Table
@@ -138,6 +141,13 @@ trait CoreEventAware
         'onUserAfterSaveGroup'    => Model\AfterSaveEvent::class,
         'onUserBeforeDeleteGroup' => Model\BeforeDeleteEvent::class,
         'onUserAfterDeleteGroup'  => Model\AfterDeleteEvent::class,
+        // Modules
+        'onRenderModule'         => Module\BeforeRenderModuleEvent::class,
+        'onAfterRenderModule'    => Module\AfterRenderModuleEvent::class,
+        'onAfterRenderModules'   => Module\AfterRenderModulesEvent::class,
+        'onPrepareModuleList'    => Module\PrepareModuleListEvent::class,
+        'onAfterModuleList'      => Module\AfterModuleListEvent::class,
+        'onAfterCleanModuleList' => Module\AfterCleanModuleListEvent::class,
         // Extension and Installer
         'onExtensionBeforeInstall'   => Extension\BeforeInstallEvent::class,
         'onExtensionAfterInstall'    => Extension\AfterInstallEvent::class,
@@ -148,6 +158,14 @@ trait CoreEventAware
         'onExtensionBeforeSave'      => Model\BeforeSaveEvent::class,
         'onExtensionAfterSave'       => Model\AfterSaveEvent::class,
         'onExtensionAfterDelete'     => Model\AfterDeleteEvent::class,
+        // Finder
+        'onFinderCategoryChangeState' => Finder\AfterCategoryChangeStateEvent::class,
+        'onFinderChangeState'         => Finder\AfterChangeStateEvent::class,
+        'onFinderAfterDelete'         => Finder\AfterDeleteEvent::class,
+        'onFinderBeforeSave'          => Finder\BeforeSaveEvent::class,
+        'onFinderAfterSave'           => Finder\AfterSaveEvent::class,
+        'onFinderResult'              => Finder\ResultEvent::class,
+        'onPrepareFinderContent'      => Finder\PrepareContentEvent::class,
     ];
 
     /**
