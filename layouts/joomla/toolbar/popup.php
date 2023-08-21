@@ -34,9 +34,9 @@ extract($displayData);
  * @var   string  $textHeader
  */
 
-Factory::getDocument()->getWebAssetManager()
+Factory::getApplication()->getDocument()->getWebAssetManager()
     ->useScript('core')
-    ->useScript('dialog')
+    ->useScript('joomla.dialog')
     ->useScript('webcomponent.toolbar-button');
 
 $tagName    = $tagName ?? 'button';
