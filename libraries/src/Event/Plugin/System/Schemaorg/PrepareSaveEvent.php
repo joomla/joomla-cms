@@ -19,7 +19,7 @@ use Joomla\CMS\Table\TableInterface;
 /**
  * Class for SchemaPrepareSaveEvent event
  * Example:
- *  new PrepareFormEvent('onSchemaPrepareForm', ['subject' => $subject, 'context' => $context, 'table' => $table, 'isNew' => $isNew, 'schema' => $schema]);
+ *  new PrepareFormEvent('onSchemaPrepareForm', ['subject' => $subject, 'context' => $context, 'item' => $table, 'isNew' => $isNew, 'schema' => $schema]);
  *
  * @since  __DEPLOY_VERSION__
  */
