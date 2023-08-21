@@ -12,9 +12,9 @@ namespace Joomla\CMS\MVC\View;
 use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -53,7 +53,7 @@ class ListView extends HtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var  CMSObject
+     * @var  Registry
      */
     protected $canDo;
 
@@ -137,7 +137,8 @@ class ListView extends HtmlView
         }
 
         // Set default value for $canDo to avoid fatal error if child class doesn't set value for this property
-        $this->canDo = new CMSObject();
+        // Return a CanDo object to prevent any BC break, will be changed in 7.0 to Registry
+        $this->canDo = new CanDo();
     }
 
     /**
