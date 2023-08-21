@@ -20,7 +20,7 @@ $displayData = [
     'icon'       => 'icon-tags tags',
 ];
 
-if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_tags')) {
+if ($this->getCurrentUser()->authorise('core.create', 'com_tags')) {
     $displayData['createURL'] = 'index.php?option=com_tags&task=tag.add';
 }
 

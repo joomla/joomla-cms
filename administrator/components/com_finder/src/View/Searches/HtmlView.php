@@ -81,7 +81,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  4.0.0
      */

@@ -56,6 +56,7 @@ const collectExternals = () => {
   externalModules.push(
     'cropper-module',
     'codemirror',
+    'joomla.dialog',
   );
 
   // Codemirror modules

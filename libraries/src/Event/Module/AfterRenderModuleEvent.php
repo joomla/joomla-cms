@@ -7,17 +7,19 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Event\Application;
+namespace Joomla\CMS\Event\Module;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Fork event for DemonApplication
+ * Class for Module events.
+ * Example:
+ *  new AfterRenderModuleEvent('onEventName', ['subject' => $module, 'attributes' => $attrs]);
  *
- * @since  5.0.0
+ * @since  __DEPLOY_VERSION__
  */
-class DeamonForkEvent extends ApplicationEvent
+class AfterRenderModuleEvent extends RenderModuleEvent
 {
 }
