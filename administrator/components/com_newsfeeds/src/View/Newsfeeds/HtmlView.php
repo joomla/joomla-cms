@@ -147,7 +147,7 @@ class HtmlView extends BaseHtmlView
     {
         $state   = $this->get('State');
         $canDo   = ContentHelper::getActions('com_newsfeeds', 'category', $state->get('filter.category_id'));
-        $user    = Factory::getApplication()->getIdentity();
+        $user    = $this->getCurrentUser();
         $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'rss newsfeeds');

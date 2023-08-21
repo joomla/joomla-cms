@@ -20,7 +20,7 @@ $displayData = [
     'icon'       => 'icon-users user',
 ];
 
-if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_users')) {
+if ($this->getCurrentUser()->authorise('core.create', 'com_users')) {
     $displayData['createURL'] = 'index.php?option=com_users&task=note.add';
 }
 
