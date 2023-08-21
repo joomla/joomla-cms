@@ -392,6 +392,23 @@ final class Stats extends CMSPlugin
     }
 
     /**
+     * Render a layout of this plugin
+     *
+     * @param   string  $layoutId  Layout identifier
+     * @param   array   $data      Optional data for the layout
+     *
+     * @return  string
+     *
+     * @since   3.5
+     */
+    public function render($layoutId, $data = [])
+    {
+        $data = array_merge($this->getLayoutData(), $data);
+
+        return $this->getRenderer($layoutId)->render($data);
+    }
+
+    /**
      * Save the plugin parameters
      *
      * @return  boolean
