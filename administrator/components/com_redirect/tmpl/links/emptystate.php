@@ -23,7 +23,7 @@ $displayData = [
     'icon'       => 'icon-map-signs redirect',
 ];
 
-$user = Factory::getApplication()->getIdentity();
+$user = $this->getCurrentUser();
 
 if ($user->authorise('core.create', 'com_redirect')) {
     $displayData['createURL'] = 'index.php?option=com_redirect&task=link.add';

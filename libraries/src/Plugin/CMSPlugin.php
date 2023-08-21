@@ -423,22 +423,4 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 
         return $layoutPaths;
     }
-
-    /**
-     * Returns the string for the given key from the internal language object.
-     *
-     * @param   string  $key  The key
-     *
-     * @return  string
-     *
-     * @since   5.0.0
-     */
-    protected function text(string $key): string
-    {
-        try {
-            return $this->getLanguage()->_($key);
-        } catch (\UnexpectedValueException $e) {
-            return $this->getApplication()->getLanguage()->_($key);
-        }
-    }
 }
