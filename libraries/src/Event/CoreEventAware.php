@@ -138,6 +138,14 @@ trait CoreEventAware
         'onExtensionBeforeSave'      => Model\BeforeSaveEvent::class,
         'onExtensionAfterSave'       => Model\AfterSaveEvent::class,
         'onExtensionAfterDelete'     => Model\AfterDeleteEvent::class,
+        // Finder
+        'onFinderCategoryChangeState' => Finder\AfterCategoryChangeStateEvent::class,
+        'onFinderChangeState'         => Finder\AfterChangeStateEvent::class,
+        'onFinderAfterDelete'         => Finder\AfterDeleteEvent::class,
+        'onFinderBeforeSave'          => Finder\BeforeSaveEvent::class,
+        'onFinderAfterSave'           => Finder\AfterSaveEvent::class,
+        'onFinderResult'              => Finder\ResultEvent::class,
+        'onPrepareFinderContent'      => Finder\PrepareContentEvent::class,
     ];
 
     /**
