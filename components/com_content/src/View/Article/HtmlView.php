@@ -11,6 +11,7 @@
 namespace Joomla\Component\Content\Site\View\Article;
 
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Event\Content;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
@@ -23,7 +24,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
-use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -173,7 +173,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        $offset = $this->state->get('list.offset');
+        $offset = (int) $this->state->get('list.offset');
 
         // Check the view access to the article (the model has already computed the values).
         if ($item->params->get('access-view') == false && ($item->params->get('show_noauth', '0') == '0')) {
@@ -223,18 +223,31 @@ class HtmlView extends BaseHtmlView
         }
 
         // Process the content plugins.
-        PluginHelper::importPlugin('content');
-        $this->dispatchEvent(new Event('onContentPrepare', ['com_content.article', &$item, &$item->params, $offset]));
+        PluginHelper::importPlugin('content', null, true, $this->getDispatcher());
 
-        $item->event                    = new \stdClass();
-        $results                        = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_content.article', &$item, &$item->params, $offset]);
-        $item->event->afterDisplayTitle = trim(implode("\n", $results));
+        $contentEventArguments = [
+            'context' => 'com_content.article',
+            'subject' => $item,
+            'params'  => $item->params,
+            'page'    => $offset,
+        ];
 
-        $results                           = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_content.article', &$item, &$item->params, $offset]);
-        $item->event->beforeDisplayContent = trim(implode("\n", $results));
+        $this->dispatchEvent(new Content\ContentPrepareEvent('onContentPrepare', $contentEventArguments));
 
-        $results                          = Factory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_content.article', &$item, &$item->params, $offset]);
-        $item->event->afterDisplayContent = trim(implode("\n", $results));
+        // Extra content from events
+        $item->event   = new \stdClass();
+        $contentEvents = [
+            'afterDisplayTitle'    => new Content\AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
+            'beforeDisplayContent' => new Content\BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
+            'afterDisplayContent'  => new Content\AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
+        ];
+
+        foreach ($contentEvents as $resultKey => $event) {
+            $this->dispatchEvent($event);
+            $results = $event['result'];
+
+            $item->event->{$resultKey} = $results ? trim(implode("\n", $results)) : '';
+        }
 
         // Escape strings for HTML output
         $this->pageclass_sfx = htmlspecialchars($this->item->params->get('pageclass_sfx', ''));
