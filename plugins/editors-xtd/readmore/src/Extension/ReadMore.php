@@ -29,14 +29,6 @@ use Joomla\Event\SubscriberInterface;
 final class ReadMore extends CMSPlugin implements SubscriberInterface
 {
     /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     * @since  3.1
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Returns an array of events this subscriber will listen to.
      *
      * @return array
@@ -66,10 +58,7 @@ final class ReadMore extends CMSPlugin implements SubscriberInterface
         $this->loadLanguage();
 
         $button = $this->onDisplay($event->getEditorId());
-
-        if ($button) {
-            $subject->add($button);
-        }
+        $subject->add($button);
     }
 
     /**
@@ -77,7 +66,7 @@ final class ReadMore extends CMSPlugin implements SubscriberInterface
      *
      * @param   string  $name  The name of the button to add
      *
-     * @return  CMSObject  $button  A two element array of (imageName, textToInsert)
+     * @return  Button  $button  A two element array of (imageName, textToInsert)
      *
      * @since   1.5
      *
