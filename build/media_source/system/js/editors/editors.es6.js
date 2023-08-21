@@ -5,8 +5,8 @@
 
 // eslint-disable-next-line import/no-unresolved
 import { JoomlaEditorButton, JoomlaEditorDecorator } from 'editor-api';
-
-/* global JoomlaDialog */
+// eslint-disable-next-line import/no-unresolved
+import JoomlaDialog from 'joomla.dialog';
 
 if (!window.Joomla) {
   throw new Error('JoomlaEditors API require Joomla to be loaded.');
