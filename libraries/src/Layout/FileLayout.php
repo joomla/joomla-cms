@@ -125,7 +125,7 @@ class FileLayout extends BaseLayout
         }
 
         if (\is_array($displayData)) {
-            extract($displayData);
+            extract($displayData, EXTR_SKIP);
         }
 
         ob_start();
