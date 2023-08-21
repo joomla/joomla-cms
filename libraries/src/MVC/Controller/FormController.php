@@ -613,9 +613,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         }
 
         // Send an object which can be modified through the plugin event
-        $objData    = (object) $data;
-        $dispatcher = $this->getDispatcher() ?: $app->getDispatcher();
-        $dispatcher->dispatch(
+        $objData = (object) $data;
+        $this->getDispatcher()->dispatch(
             'onContentNormaliseRequestData',
             new Model\NormaliseRequestDataEvent('onContentNormaliseRequestData', [
                 'context' => $this->option . '.' . $this->context,

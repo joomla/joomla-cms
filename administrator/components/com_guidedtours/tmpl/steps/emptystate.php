@@ -20,7 +20,7 @@ $displayData = [
     'icon'       => 'icon-map-signs',
 ];
 
-$user = Factory::getApplication()->getIdentity();
+$user = $this->getCurrentUser();
 
 if ($user->authorise('core.create', 'com_guidedtours')) {
     $displayData['createURL'] = 'index.php?option=com_guidedtours&task=step.add';
