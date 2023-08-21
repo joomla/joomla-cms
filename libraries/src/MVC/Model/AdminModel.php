@@ -359,6 +359,8 @@ abstract class AdminModel extends FormModel
         // Initialize re-usable member properties, and re-usable local variables
         $this->initBatch();
 
+        $dispatcher = $this->getDispatcher();
+
         foreach ($pks as $pk) {
             if ($this->user->authorise('core.edit', $contexts[$pk])) {
                 $this->table->reset();
@@ -369,7 +371,7 @@ abstract class AdminModel extends FormModel
                     $this->event_before_batch,
                     ['src' => $this->table, 'type' => 'access']
                 );
-                $this->dispatchEvent($event);
+                $dispatcher->dispatch($event->getName(), $event);
 
                 // Check the row.
                 if (!$this->table->check()) {
@@ -418,8 +420,9 @@ abstract class AdminModel extends FormModel
             return false;
         }
 
-        $newIds = [];
-        $db     = $this->getDatabase();
+        $newIds     = [];
+        $db         = $this->getDatabase();
+        $dispatcher = $this->getDispatcher();
 
         // Parent exists so let's proceed
         while (!empty($pks)) {
@@ -472,7 +475,7 @@ abstract class AdminModel extends FormModel
                 $this->event_before_batch,
                 ['src' => $this->table, 'type' => 'copy']
             );
-            $this->dispatchEvent($event);
+            $dispatcher->dispatch($event->getName(), $event);
 
             // @todo: Deal with ordering?
             // $this->table->ordering = 1;
@@ -563,6 +566,8 @@ abstract class AdminModel extends FormModel
         // Initialize re-usable member properties, and re-usable local variables
         $this->initBatch();
 
+        $dispatcher = $this->getDispatcher();
+
         foreach ($pks as $pk) {
             if ($this->user->authorise('core.edit', $contexts[$pk])) {
                 $this->table->reset();
@@ -573,7 +578,7 @@ abstract class AdminModel extends FormModel
                     $this->event_before_batch,
                     ['src' => $this->table, 'type' => 'language']
                 );
-                $this->dispatchEvent($event);
+                $dispatcher->dispatch($event->getName(), $event);
 
                 // Check the row.
                 if (!$this->table->check()) {
@@ -622,6 +627,8 @@ abstract class AdminModel extends FormModel
             return false;
         }
 
+        $dispatcher = $this->getDispatcher();
+
         // Parent exists so we proceed
         foreach ($pks as $pk) {
             if (!$this->user->authorise('core.edit', $contexts[$pk])) {
@@ -651,7 +658,7 @@ abstract class AdminModel extends FormModel
                 $this->event_before_batch,
                 ['src' => $this->table, 'type' => 'move']
             );
-            $this->dispatchEvent($event);
+            $dispatcher->dispatch($event->getName(), $event);
 
             // Check the row.
             if (!$this->table->check()) {
@@ -823,7 +830,7 @@ abstract class AdminModel extends FormModel
     {
         $pks        = ArrayHelper::toInteger((array) $pks);
         $table      = $this->getTable();
-        $dispatcher = $this->getDispatcher() ?: Factory::getApplication()->getDispatcher();
+        $dispatcher = $this->getDispatcher();
 
         // Include the plugins for the delete events.
         PluginHelper::importPlugin($this->events_map['delete'], null, true, $dispatcher);
@@ -839,8 +846,7 @@ abstract class AdminModel extends FormModel
                         'context' => $context,
                         'subject' => $table,
                     ]);
-                    $dispatcher->dispatch($this->event_before_delete, $beforeDeleteEvent);
-                    $result = $beforeDeleteEvent['result'] ?? [];
+                    $result = $dispatcher->dispatch($this->event_before_delete, $beforeDeleteEvent)->getArgument('result', []);
 
                     if (\in_array(false, $result, true)) {
                         $this->setError($table->getError());
@@ -1073,7 +1079,7 @@ abstract class AdminModel extends FormModel
         $pks   = (array) $pks;
 
         $context    = $this->option . '.' . $this->name;
-        $dispatcher = $this->getDispatcher() ?: Factory::getApplication()->getDispatcher();
+        $dispatcher = $this->getDispatcher();
 
         // Include the plugins for the change of state event.
         PluginHelper::importPlugin($this->events_map['change_state'], null, true, $dispatcher);
@@ -1125,8 +1131,7 @@ abstract class AdminModel extends FormModel
             'subject' => $pks,
             'value'   => $value,
         ]);
-        $dispatcher->dispatch($this->event_before_change_state, $beforeChngEvent);
-        $result = $beforeChngEvent['result'] ?? [];
+        $result = $dispatcher->dispatch($this->event_before_change_state, $beforeChngEvent)->getArgument('result', []);
 
         if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
@@ -1147,8 +1152,7 @@ abstract class AdminModel extends FormModel
             'subject' => $pks,
             'value'   => $value,
         ]);
-        $dispatcher->dispatch($this->event_change_state, $afterChngEvent);
-        $result = $afterChngEvent['result'] ?? [];
+        $result = $dispatcher->dispatch($this->event_change_state, $afterChngEvent)->getArgument('result', []);
 
         if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
@@ -1239,7 +1243,7 @@ abstract class AdminModel extends FormModel
         $table      = $this->getTable();
         $context    = $this->option . '.' . $this->name;
         $app        = Factory::getApplication();
-        $dispatcher = $this->getDispatcher() ?: $app->getDispatcher();
+        $dispatcher = $this->getDispatcher();
 
         if (\array_key_exists('tags', $data) && \is_array($data['tags'])) {
             $table->newTags = $data['tags'];
@@ -1284,8 +1288,7 @@ abstract class AdminModel extends FormModel
                 'isNew'   => $isNew,
                 'data'    => $data,
             ]);
-            $dispatcher->dispatch($this->event_before_save, $beforeSaveEvent);
-            $result = $beforeSaveEvent['result'] ?? [];
+            $result = $dispatcher->dispatch($this->event_before_save, $beforeSaveEvent)->getArgument('result', []);
 
             if (\in_array(false, $result, true)) {
                 $this->setError($table->getError());

@@ -14,6 +14,7 @@ use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -47,7 +48,8 @@ abstract class Content
         $article       = new \stdClass();
         $article->text = $text;
 
-        $dispatcher = Factory::getApplication()->getDispatcher();
+        $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+
         PluginHelper::importPlugin('content', null, true, $dispatcher);
         $dispatcher->dispatch('onContentPrepare', new ContentPrepareEvent('onContentPrepare', [
             'context' => $context,
