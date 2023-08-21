@@ -45,8 +45,8 @@ class PrepareSaveEvent extends AbstractImmutableEvent
             throw new \BadMethodCallException("Argument 'context' of event {$name} is required but has not been provided");
         }
 
-        if (!\array_key_exists('table', $arguments)) {
-            throw new \BadMethodCallException("Argument 'table' of event {$name} is required but has not been provided");
+        if (!\array_key_exists('item', $arguments)) {
+            throw new \BadMethodCallException("Argument 'item' of event {$name} is required but has not been provided");
         }
 
         if (!\array_key_exists('isNew', $arguments)) {
@@ -89,7 +89,7 @@ class PrepareSaveEvent extends AbstractImmutableEvent
     }
 
     /**
-     * Setter for the table argument.
+     * Setter for the item argument.
      *
      * @param   TableInterface  $value  The value to set
      *
@@ -97,7 +97,7 @@ class PrepareSaveEvent extends AbstractImmutableEvent
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function setTable(TableInterface $value): TableInterface
+    protected function setItem(TableInterface $value): TableInterface
     {
         return $value;
     }
@@ -155,15 +155,15 @@ class PrepareSaveEvent extends AbstractImmutableEvent
     }
 
     /**
-     * Getter for the table argument.
+     * Getter for the item argument.
      *
      * @return  TableInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getTable(): TableInterface
+    public function getItem(): TableInterface
     {
-        return $this->arguments['table'];
+        return $this->arguments['item'];
     }
 
     /**
