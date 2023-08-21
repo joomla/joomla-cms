@@ -27,7 +27,7 @@ $displayData = [
     'createURL'  => 'index.php?option=com_joomlaupdate&task=update.purge&' . Session::getFormToken() . '=1'
 ];
 
-if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_joomlaupdate')) {
+if ($this->getCurrentUser()->authorise('core.admin', 'com_joomlaupdate')) {
     $displayData['formAppend'] = '<div class="text-center"><a href="' . $uploadLink . '" class="btn btn-sm btn-outline-secondary">' . Text::_($displayData['textPrefix'] . '_EMPTYSTATE_APPEND') . '</a></div>';
 }
 

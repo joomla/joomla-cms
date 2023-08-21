@@ -20,7 +20,7 @@ $displayData = [
     'icon'       => 'icon-rss newsfeeds',
 ];
 
-$user = Factory::getApplication()->getIdentity();
+$user = $this->getCurrentUser();
 
 if ($user->authorise('core.create', 'com_newsfeeds') || count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
     $displayData['createURL'] = 'index.php?option=com_newsfeeds&task=newsfeed.add';
