@@ -11,8 +11,8 @@
 	<description>PLG_MULTIFACTORAUTH_WEBAUTHN_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Multifactorauth\Webauthn</namespace>
 	<files>
-		<folder>services</folder>
-		<folder plugin="webauthn">src</folder>
+		<folder plugin="webauthn">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
