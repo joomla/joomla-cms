@@ -5,3 +5,9 @@ UPDATE `#__extensions`
    AND `element` IN ('editor', 'text', 'textarea')
    AND `params` <> ''
    AND JSON_EXTRACT(`params`, '$.filter') = 'JComponentHelper::filterText';
+
+UPDATE `#__fields`
+   SET `fieldparams` = JSON_REPLACE(`fieldparams`, '$.filter' , '\\Joomla\\CMS\\Component\\ComponentHelper::filterText')
+ WHERE `type` IN ('editor', 'text', 'textarea')
+   AND `fieldparams` <> ''
+   AND JSON_EXTRACT(`fieldparams`, '$.filter') = 'JComponentHelper::filterText';
