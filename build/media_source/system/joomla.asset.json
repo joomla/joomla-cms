@@ -633,7 +633,7 @@
       "name": "modal-content-select-field",
       "dependencies": [
         "core",
-        "dialog"
+        "joomla.dialog"
       ],
       "uri": "system/fields/modal-content-select-field.min.js",
       "attributes": {

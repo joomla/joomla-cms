@@ -3,7 +3,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/* global JoomlaDialog */
+// eslint-disable-next-line import/no-unresolved
+import JoomlaDialog from 'joomla.dialog';
 
 /**
  * Helper method to set values on the fields, and trigger "change" event
@@ -37,7 +38,6 @@ const doSelect = (inputValue, inputTitle, dialogConfig) => {
   const dialog = new JoomlaDialog(dialogConfig);
   dialog.classList.add('joomla-modal-content-select-field');
   dialog.show();
-  // Joomla.Modal.setCurrent(dialog);
 
   return new Promise((resolve) => {
     const msgListener = (event) => {
@@ -55,7 +55,6 @@ const doSelect = (inputValue, inputTitle, dialogConfig) => {
     // Clear all when dialog is closed
     dialog.addEventListener('joomla-dialog:close', () => {
       window.removeEventListener('message', msgListener);
-      // Joomla.Modal.setCurrent(null);
       dialog.destroy();
       resolve();
     });
