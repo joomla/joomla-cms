@@ -12,7 +12,6 @@ namespace Joomla\Plugin\System\Schemaorg\Extension;
 
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\Model;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
