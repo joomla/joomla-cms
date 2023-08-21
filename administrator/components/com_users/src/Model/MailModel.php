@@ -105,7 +105,7 @@ class MailModel extends AdminModel
         $user     = $this->getCurrentUser();
         $access   = new Access();
         $db       = $this->getDatabase();
-        $language = Factory::getLanguage();
+        $language = Factory::getApplication()->getLanguage();
 
         $mode         = array_key_exists('mode', $data) ? (int) $data['mode'] : 0;
         $subject      = array_key_exists('subject', $data) ? $data['subject'] : '';

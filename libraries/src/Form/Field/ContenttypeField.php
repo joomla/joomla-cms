@@ -62,7 +62,7 @@ class ContenttypeField extends ListField
      */
     protected function getOptions()
     {
-        $lang  = Factory::getLanguage();
+        $lang  = Factory::getApplication()->getLanguage();
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select(

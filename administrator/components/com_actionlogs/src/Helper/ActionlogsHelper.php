@@ -100,7 +100,7 @@ class ActionlogsHelper
             return;
         }
 
-        $lang   = Factory::getLanguage();
+        $lang   = Factory::getApplication()->getLanguage();
         $source = '';
 
         switch (substr($extension, 0, 3)) {
@@ -268,7 +268,7 @@ class ActionlogsHelper
      */
     public static function loadActionLogPluginsLanguage()
     {
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
         $db   = Factory::getDbo();
 
         // Get all (both enabled and disabled) actionlog plugins

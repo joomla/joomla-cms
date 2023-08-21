@@ -321,7 +321,7 @@ class FileLayout extends BaseLayout
      */
     public function loadLanguageSuffixes()
     {
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
 
         $langTag   = $lang->getTag();
         $langParts = explode('-', $langTag);

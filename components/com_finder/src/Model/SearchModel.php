@@ -234,7 +234,7 @@ class SearchModel extends ListModel
 
         // Filter by language
         if ($this->getState('filter.language')) {
-            $query->where('l.language IN (' . $db->quote(Factory::getLanguage()->getTag()) . ', ' . $db->quote('*') . ')');
+            $query->where('l.language IN (' . $db->quote(Factory::getApplication()->getLanguage()->getTag()) . ', ' . $db->quote('*') . ')');
         }
 
         // Get the result ordering and direction.

@@ -59,7 +59,7 @@ class ComponentsWorkflowField extends ListField
         $options = [];
 
         if (count($items)) {
-            $lang = Factory::getLanguage();
+            $lang = Factory::getApplication()->getLanguage();
 
             $components = [];
 

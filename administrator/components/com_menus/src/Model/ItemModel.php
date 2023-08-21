@@ -698,7 +698,7 @@ class ItemModel extends AdminModel
 
                 if (isset($args['option'])) {
                     // Load the language file for the component.
-                    $lang = Factory::getLanguage();
+                    $lang = Factory::getApplication()->getLanguage();
                     $lang->load($args['option'], JPATH_ADMINISTRATOR)
                         || $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option']);
 

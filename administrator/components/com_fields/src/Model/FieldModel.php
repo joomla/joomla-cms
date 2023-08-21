@@ -1026,13 +1026,13 @@ class FieldModel extends AdminModel
             // Allow to override the default value label and description through the plugin
             $key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_LABEL';
 
-            if (Factory::getLanguage()->hasKey($key)) {
+            if (Factory::getApplication()->getLanguage()->hasKey($key)) {
                 $form->setFieldAttribute('default_value', 'label', $key);
             }
 
             $key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_DESC';
 
-            if (Factory::getLanguage()->hasKey($key)) {
+            if (Factory::getApplication()->getLanguage()->hasKey($key)) {
                 $form->setFieldAttribute('default_value', 'description', $key);
             }
 
@@ -1094,7 +1094,7 @@ class FieldModel extends AdminModel
         }
 
         if (file_exists($path)) {
-            $lang = Factory::getLanguage();
+            $lang = Factory::getApplication()->getLanguage();
             $lang->load($component, JPATH_BASE);
             $lang->load($component, JPATH_BASE . '/components/' . $component);
 

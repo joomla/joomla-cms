@@ -82,7 +82,7 @@ class ModulelayoutField extends FormField
         // If an extension and view are present build the options.
         if ($module && $client) {
             // Load language file
-            $lang = Factory::getLanguage();
+            $lang = Factory::getApplication()->getLanguage();
             $lang->load($module . '.sys', $client->path)
                 || $lang->load($module . '.sys', $client->path . '/modules/' . $module);
 

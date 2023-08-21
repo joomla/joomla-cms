@@ -59,7 +59,7 @@ class DatabaseModel extends BaseInstallationModel
         $options = ArrayHelper::toObject($options);
 
         // Load the backend language files so that the DB error messages work.
-        $lang        = Factory::getLanguage();
+        $lang        = Factory::getApplication()->getLanguage();
         $currentLang = $lang->getTag();
 
         // Load the selected language

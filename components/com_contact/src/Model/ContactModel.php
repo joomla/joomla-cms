@@ -151,7 +151,7 @@ class ContactModel extends FormModel
         $data = (array) Factory::getApplication()->getUserState('com_contact.contact.data', []);
 
         if (empty($data['language']) && Multilanguage::isEnabled()) {
-            $data['language'] = Factory::getLanguage()->getTag();
+            $data['language'] = Factory::getApplication()->getLanguage()->getTag();
         }
 
         // Add contact catid to contact form data, so fields plugin can work properly
@@ -331,7 +331,7 @@ class ContactModel extends FormModel
 
             // Filter per language if plugin published
             if (Multilanguage::isEnabled()) {
-                $language = [Factory::getLanguage()->getTag(), $db->quote('*')];
+                $language = [Factory::getApplication()->getLanguage()->getTag(), $db->quote('*')];
                 $query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
             }
 

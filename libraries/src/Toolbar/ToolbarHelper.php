@@ -210,7 +210,7 @@ abstract class ToolbarHelper
         $bar = Toolbar::getInstance('toolbar');
 
         // Add a back button.
-        $arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+        $arrow  = Factory::getApplication()->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
         $bar->appendButton('Link', $arrow, $alt, $href);
     }
 
@@ -671,7 +671,7 @@ abstract class ToolbarHelper
      */
     public static function versions($typeAlias, $itemId, $height = 800, $width = 500, $alt = 'JTOOLBAR_VERSIONS')
     {
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
         $lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 
         /** @var \Joomla\CMS\Table\ContentType $contentTypeTable */

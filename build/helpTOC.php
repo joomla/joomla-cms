@@ -104,7 +104,7 @@ $command = new class () extends AbstractCommand {
         }
 
         // Get the language object
-        $language = Factory::getLanguage();
+        $language = Factory::getApplication()->getLanguage();
 
         /*
          * Now we start fancy processing so we can get the language key for the titles

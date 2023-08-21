@@ -145,7 +145,7 @@ class Filter
             }
 
             // Translate node titles if possible.
-            $lang = Factory::getLanguage();
+            $lang = Factory::getApplication()->getLanguage();
 
             foreach ($nodes as $nk => $nv) {
                 if (trim($nv->parent_title, '*') === 'Language') {
@@ -217,7 +217,7 @@ class Filter
 
         // Try to load the results from cache.
         $cache   = Factory::getCache('com_finder', '');
-        $cacheId = 'filter_select_' . serialize([$idxQuery->filter, $options, $groups, Factory::getLanguage()->getTag()]);
+        $cacheId = 'filter_select_' . serialize([$idxQuery->filter, $options, $groups, Factory::getApplication()->getLanguage()->getTag()]);
 
         // Check the cached results.
         if ($cache->contains($cacheId)) {
@@ -317,7 +317,7 @@ class Filter
                 }
 
                 // Translate branch nodes if possible.
-                $language = Factory::getLanguage();
+                $language = Factory::getApplication()->getLanguage();
 
                 foreach ($branches[$bk]->nodes as $node_id => $node) {
                     if (trim($node->parent_title, '*') === 'Language') {

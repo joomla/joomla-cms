@@ -398,7 +398,7 @@ class CategoryModel extends AdminModel
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
-        $lang      = Factory::getLanguage();
+        $lang      = Factory::getApplication()->getLanguage();
         $component = $this->getState('category.component');
         $section   = $this->getState('category.section');
         $extension = Factory::getApplication()->getInput()->get('extension', null);

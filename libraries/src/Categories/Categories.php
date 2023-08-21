@@ -120,7 +120,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $options['access']      = $options['access'] ?? 'true';
         $options['published']   = $options['published'] ?? 1;
         $options['countItems']  = $options['countItems'] ?? 0;
-        $options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
+        $options['currentlang'] = Multilanguage::isEnabled() ? Factory::getApplication()->getLanguage()->getTag() : 0;
 
         $this->_options = $options;
     }
@@ -327,7 +327,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
                     '(' . $db->quoteName('s.lft') . ' < ' . $db->quoteName('c.lft')
                     . ' AND ' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.rgt')
                     . ' AND ' . $db->quoteName('c.language')
-                    . ' IN (' . implode(',', $query->bindArray([Factory::getLanguage()->getTag(), '*'], ParameterType::STRING)) . '))'
+                    . ' IN (' . implode(',', $query->bindArray([Factory::getApplication()->getLanguage()->getTag(), '*'], ParameterType::STRING)) . '))'
                     . ' OR (' . $db->quoteName('c.lft') . ' <= ' . $db->quoteName('s.lft')
                     . ' AND ' . $db->quoteName('s.rgt') . ' <= ' . $db->quoteName('c.rgt') . ')'
                 );
@@ -345,7 +345,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
             $query->from($db->quoteName('#__categories', 'c'));
 
             if ($app->isClient('site') && Multilanguage::isEnabled()) {
-                $query->whereIn($db->quoteName('c.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
+                $query->whereIn($db->quoteName('c.language'), [Factory::getApplication()->getLanguage()->getTag(), '*'], ParameterType::STRING);
             }
         }
 

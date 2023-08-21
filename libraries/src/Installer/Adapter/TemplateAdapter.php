@@ -315,7 +315,7 @@ class TemplateAdapter extends InstallerAdapter
         if (\in_array($this->route, ['install', 'discover_install'])) {
             $db    = $this->getDatabase();
             $query = $db->getQuery(true);
-            $lang  = Factory::getLanguage();
+            $lang  = Factory::getApplication()->getLanguage();
             $debug = $lang->setDebug(false);
 
             $columns = [

@@ -131,7 +131,7 @@ class LoginModel extends BaseDatabaseModel
         }
 
         $app      = Factory::getApplication();
-        $lang     = Factory::getLanguage()->getTag();
+        $lang     = Factory::getApplication()->getLanguage()->getTag();
         $clientId = (int) $app->getClientId();
 
         /** @var \Joomla\CMS\Cache\Controller\CallbackController $cache */

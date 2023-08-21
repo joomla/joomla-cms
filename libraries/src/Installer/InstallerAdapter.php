@@ -500,7 +500,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      */
     protected function doLoadLanguage($extension, $source, $base = JPATH_ADMINISTRATOR)
     {
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
         $lang->load($extension . '.sys', $source) || $lang->load($extension . '.sys', $base);
     }
 

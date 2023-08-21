@@ -320,7 +320,7 @@ abstract class WebApplication extends AbstractWebApplication
      */
     public function loadLanguage(Language $language = null)
     {
-        $this->language = $language ?? Factory::getLanguage();
+        $this->language = $language ?? Factory::getApplication()->getLanguage();
         OutputFilter::setLanguage($this->language);
 
         return $this;

@@ -785,7 +785,7 @@ class ModuleModel extends AdminModel
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
-        $lang     = Factory::getLanguage();
+        $lang     = Factory::getApplication()->getLanguage();
         $clientId = $this->getState('item.client_id');
         $module   = $this->getState('item.module');
 

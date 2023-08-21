@@ -128,7 +128,7 @@ class SelectModel extends ListModel
         $items = parent::getItems();
 
         $client = ApplicationHelper::getClientInfo($this->getState('client_id', 0));
-        $lang   = Factory::getLanguage();
+        $lang   = Factory::getApplication()->getLanguage();
 
         // Loop through the results to add the XML metadata,
         // and load language support.

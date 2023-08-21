@@ -58,7 +58,7 @@ class SetupModel extends BaseInstallationModel
 
         // Ensure that we have language
         if (!isset($options['language']) || empty($options['language'])) {
-            $options['language'] = Factory::getLanguage()->getTag();
+            $options['language'] = Factory::getApplication()->getLanguage()->getTag();
         }
 
         // Store passwords as a separate key that is not used in the forms
@@ -249,7 +249,7 @@ class SetupModel extends BaseInstallationModel
         $options = ArrayHelper::toObject($options);
 
         // Load the backend language files so that the DB error messages work.
-        $lang        = Factory::getLanguage();
+        $lang        = Factory::getApplication()->getLanguage();
         $currentLang = $lang->getTag();
 
         // Load the selected language

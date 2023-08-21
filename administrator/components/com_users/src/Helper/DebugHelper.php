@@ -47,7 +47,7 @@ class DebugHelper
         $items = $db->setQuery($query)->loadObjectList();
 
         if (count($items)) {
-            $lang = Factory::getLanguage();
+            $lang = Factory::getApplication()->getLanguage();
 
             foreach ($items as &$item) {
                 // Load language
@@ -128,7 +128,7 @@ class DebugHelper
                 }
 
                 // Load language
-                $lang      = Factory::getLanguage();
+                $lang      = Factory::getApplication()->getLanguage();
                 $extension = 'com_config';
                 $source    = JPATH_ADMINISTRATOR . '/components/' . $extension;
 

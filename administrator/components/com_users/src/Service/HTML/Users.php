@@ -399,7 +399,7 @@ class Users
             return static::value($value);
         } else {
             $db    = Factory::getDbo();
-            $lang  = Factory::getLanguage();
+            $lang  = Factory::getApplication()->getLanguage();
             $query = $db->getQuery(true)
                 ->select($db->quoteName('name'))
                 ->from($db->quoteName('#__extensions'))

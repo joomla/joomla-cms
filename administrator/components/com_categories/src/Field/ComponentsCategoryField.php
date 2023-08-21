@@ -65,7 +65,7 @@ class ComponentsCategoryField extends ListField
             $section   = (\count($parts) > 1) ? $parts[1] : null;
 
             // Load component language files
-            $lang = Factory::getLanguage();
+            $lang = Factory::getApplication()->getLanguage();
             $lang->load($component, JPATH_BASE)
             || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
 

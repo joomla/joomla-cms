@@ -55,7 +55,7 @@ class ContactField extends FormField
         $languages = LanguageHelper::getContentLanguages([0, 1], false);
 
         // Load language
-        Factory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
+        Factory::getApplication()->getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
 
         // The active contact id field.
         $value = (int) $this->value ?: '';

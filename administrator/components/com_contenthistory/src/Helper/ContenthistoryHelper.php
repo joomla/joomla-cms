@@ -248,7 +248,7 @@ class ContenthistoryHelper
 
         if (is_array($aliasArray) && count($aliasArray) == 2) {
             $component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
-            $lang      = Factory::getLanguage();
+            $lang      = Factory::getApplication()->getLanguage();
 
             /**
              * Loading language file from the administrator/language directory then

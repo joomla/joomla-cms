@@ -68,7 +68,7 @@ class LanguageField extends ListField
         $options = LanguageHelper::createLanguageList($native);
 
         // Fix wrongly set parentheses in RTL languages
-        if (Factory::getLanguage()->isRtl()) {
+        if (Factory::getApplication()->getLanguage()->isRtl()) {
             foreach ($options as &$option) {
                 $option['text'] .= '&#x200E;';
             }

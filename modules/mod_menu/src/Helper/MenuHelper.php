@@ -233,7 +233,7 @@ class MenuHelper
 
         // Look for the home menu
         if (Multilanguage::isEnabled()) {
-            return $menu->getDefault(Factory::getLanguage()->getTag());
+            return $menu->getDefault(Factory::getApplication()->getLanguage()->getTag());
         }
 
         return $menu->getDefault();

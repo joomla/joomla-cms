@@ -132,7 +132,7 @@ class TemplatestyleField extends GroupedlistField
     protected function getGroups()
     {
         $groups = [];
-        $lang   = Factory::getLanguage();
+        $lang   = Factory::getApplication()->getLanguage();
 
         // Get the client and client_id.
         $client = ApplicationHelper::getClientInfo($this->clientName, true);

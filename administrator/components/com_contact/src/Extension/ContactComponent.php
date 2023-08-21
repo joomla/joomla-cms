@@ -118,7 +118,7 @@ class ContactComponent extends MVCComponent implements
      */
     public function getContexts(): array
     {
-        Factory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
+        Factory::getApplication()->getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
 
         $contexts = [
             'com_contact.contact'    => Text::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
@@ -166,7 +166,7 @@ class ContactComponent extends MVCComponent implements
      */
     public function getSchemaorgContexts(): array
     {
-        Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+        Factory::getApplication()->getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
         $contexts = [
             'com_contact.contact' => Text::_('COM_CONTACT'),

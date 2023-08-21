@@ -195,7 +195,7 @@ class TourModel extends AdminModel
      */
     public function getItem($pk = null)
     {
-        Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
+        Factory::getApplication()->getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
         $result = parent::getItem($pk);
 

@@ -141,7 +141,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
         }
 
         $this->input    = new \Joomla\CMS\Input\Cli();
-        $this->language = Factory::getLanguage();
+        $this->language = Factory::getApplication()->getLanguage();
         $this->output   = $output ?: new Stdout();
         $this->cliInput = $cliInput ?: new CliInput();
 

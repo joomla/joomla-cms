@@ -32,7 +32,7 @@ extract($displayData, EXTR_OVERWRITE);
  * @var   string  $toggleSplit
  */
 
-$direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-end' : '';
+$direction = Factory::getApplication()->getLanguage()->isRtl() ? 'dropdown-menu-end' : '';
 
 /**
  * The dropdown class is also injected on the button from \Joomla\CMS\Toolbar\ToolbarButton::prepareOptions() and therefore we need the dropdown script whether we

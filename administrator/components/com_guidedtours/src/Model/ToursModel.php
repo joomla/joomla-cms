@@ -248,7 +248,7 @@ class ToursModel extends ListModel
     {
         $items = parent::getItems();
 
-        Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
+        Factory::getApplication()->getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
         foreach ($items as $item) {
             $item->title       = Text::_($item->title);

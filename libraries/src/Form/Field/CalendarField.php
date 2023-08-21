@@ -255,7 +255,7 @@ class CalendarField extends FormField
             if ($translateFormat && $translateFormat !== 'false') {
                 $showTime = (string) $this->element['showtime'];
 
-                $lang  = Factory::getLanguage();
+                $lang  = Factory::getApplication()->getLanguage();
                 $debug = $lang->setDebug(false);
 
                 if ($showTime && $showTime !== 'false') {

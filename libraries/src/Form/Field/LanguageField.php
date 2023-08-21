@@ -85,7 +85,7 @@ class LanguageField extends ListField
                 break;
             case 'active':
             case 'auto':
-                $lang        = Factory::getLanguage();
+                $lang        = Factory::getApplication()->getLanguage();
                 $this->value = $lang->getTag();
                 break;
             default:

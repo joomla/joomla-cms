@@ -227,7 +227,7 @@ class ModulesModel extends ListModel
      */
     protected function translate(&$items)
     {
-        $lang       = Factory::getLanguage();
+        $lang       = Factory::getApplication()->getLanguage();
         $clientPath = $this->getState('client_id') ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
         foreach ($items as $item) {
@@ -411,7 +411,7 @@ class ModulesModel extends ListModel
         // Filter on the language.
         if ($language = $this->getState('filter.language')) {
             if ($language === 'current') {
-                $language = [Factory::getLanguage()->getTag(), '*'];
+                $language = [Factory::getApplication()->getLanguage()->getTag(), '*'];
                 $query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
             } else {
                 $query->where($db->quoteName('a.language') . ' = :language')

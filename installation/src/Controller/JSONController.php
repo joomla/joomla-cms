@@ -45,7 +45,7 @@ abstract class JSONController extends BaseController
         // Very crude workaround to give an error message when JSON is disabled
         if (!function_exists('json_encode') || !function_exists('json_decode')) {
             $this->app->setHeader('status', 500);
-            echo '{"token":"' . Session::getFormToken(true) . '","lang":"' . Factory::getLanguage()->getTag()
+            echo '{"token":"' . Session::getFormToken(true) . '","lang":"' . Factory::getApplication()->getLanguage()->getTag()
                 . '","error":true,"header":"' . Text::_('INSTL_HEADER_ERROR') . '","message":"' . Text::_('INSTL_WARNJSON') . '"}';
 
             return;

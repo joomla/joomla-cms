@@ -168,7 +168,7 @@ class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
          * Error messages will still be displayed to the administrator, so those messages should continue to use the Text class.
          */
 
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
 
         $db = $this->getDatabase();
 

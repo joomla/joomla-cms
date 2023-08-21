@@ -385,7 +385,7 @@ class StyleModel extends AdminModel
     {
         $clientId = $this->getState('item.client_id');
         $template = $this->getState('item.template');
-        $lang     = Factory::getLanguage();
+        $lang     = Factory::getApplication()->getLanguage();
         $client   = ApplicationHelper::getClientInfo($clientId);
 
         if (!$form->loadFile('style_' . $client->name, true)) {

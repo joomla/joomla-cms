@@ -146,7 +146,7 @@ class InstallerModel extends ListModel
      */
     protected function translate(&$items)
     {
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
 
         foreach ($items as &$item) {
             if (strlen($item->manifest_cache) && $data = json_decode($item->manifest_cache)) {

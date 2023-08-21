@@ -48,7 +48,7 @@ $headerIcon = $params->get('header_icon') ? '<span class="' . htmlspecialchars($
         <?php if ($canEdit || $canChange || $headerIcon || $module->showtitle) : ?>
             <div class="card-header">
                 <?php if ($canEdit || $canChange) : ?>
-                    <?php $dropdownPosition = Factory::getLanguage()->isRtl() ? 'start' : 'end'; ?>
+                    <?php $dropdownPosition = Factory::getApplication()->getLanguage()->isRtl() ? 'start' : 'end'; ?>
                     <div class="module-actions dropdown">
                         <button type="button" data-bs-toggle="dropdown" data-bs-display="static" aria-haspopup="true" aria-expanded="false" class="btn" id="dropdownMenuButton-<?php echo $id; ?>">
                             <span class="icon-cogs" aria-hidden="true"></span>

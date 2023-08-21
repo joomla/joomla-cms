@@ -55,7 +55,7 @@ class ArticleField extends FormField
         $languages = LanguageHelper::getContentLanguages([0, 1], false);
 
         // Load language
-        Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+        Factory::getApplication()->getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
         // The active article id field.
         $value = (int) $this->value ?: '';

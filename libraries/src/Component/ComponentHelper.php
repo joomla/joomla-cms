@@ -283,7 +283,7 @@ class ComponentHelper
     public static function renderComponent($option, $params = [])
     {
         $app  = Factory::getApplication();
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
 
         if (!$app->isClient('api')) {
             // Load template language files.

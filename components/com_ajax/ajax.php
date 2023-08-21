@@ -94,7 +94,7 @@ if (!$format) {
             if (method_exists($class, $method . 'Ajax')) {
                 // Load language file for module
                 $basePath = JPATH_BASE;
-                $lang     = Factory::getLanguage();
+                $lang     = Factory::getApplication()->getLanguage();
                 $lang->load('mod_' . $module, $basePath)
                 || $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module);
 
@@ -176,7 +176,7 @@ if (!$format) {
 
             if (method_exists($class, $method . 'Ajax')) {
                 // Load language file for template
-                $lang = Factory::getLanguage();
+                $lang = Factory::getApplication()->getLanguage();
                 $lang->load('tpl_' . $template, $basePath)
                 || $lang->load('tpl_' . $template, $basePath . '/templates/' . $template);
 

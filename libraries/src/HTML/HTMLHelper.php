@@ -897,7 +897,7 @@ abstract class HTMLHelper
         // If no format is given use the default locale based format.
         if (!$format) {
             $format = Text::_('DATE_FORMAT_LC1');
-        } elseif (Factory::getLanguage()->hasKey($format)) {
+        } elseif (Factory::getApplication()->getLanguage()->hasKey($format)) {
             // $format is an existing language key
             $format = Text::_($format);
         }

@@ -1481,7 +1481,7 @@ class Form implements CurrentUserInterface
             $default = (string) ($element['default'] ? $element['default'] : $element->default);
 
             if (($translate = $element['translate_default']) && ((string) $translate === 'true' || (string) $translate === '1')) {
-                $lang = Factory::getLanguage();
+                $lang = Factory::getApplication()->getLanguage();
 
                 if ($lang->hasKey($default)) {
                     $debug   = $lang->setDebug(false);
