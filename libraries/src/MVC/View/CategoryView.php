@@ -184,23 +184,23 @@ class CategoryView extends HtmlView
                 // For some plugins.
                 !empty($itemElement->description) ? $itemElement->text = $itemElement->description : $itemElement->text = '';
 
-                Factory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', &$itemElement, &$itemElement->params, 0]);
+                Factory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', $itemElement, $itemElement->params, 0]);
 
                 $results = Factory::getApplication()->triggerEvent(
                     'onContentAfterTitle',
-                    [$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
+                    [$this->extension . '.category', $itemElement, $itemElement->core_params ?? $itemElement->params, 0]
                 );
                 $itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
 
                 $results = Factory::getApplication()->triggerEvent(
                     'onContentBeforeDisplay',
-                    [$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
+                    [$this->extension . '.category', $itemElement, $itemElement->core_params ?? $itemElement->params, 0]
                 );
                 $itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
 
                 $results = Factory::getApplication()->triggerEvent(
                     'onContentAfterDisplay',
-                    [$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
+                    [$this->extension . '.category', $itemElement, $itemElement->core_params ?? $itemElement->params, 0]
                 );
                 $itemElement->event->afterDisplayContent = trim(implode("\n", $results));
 
@@ -286,11 +286,11 @@ class CategoryView extends HtmlView
         $this->setDocumentTitle($this->params->get('page_title', ''));
 
         if ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
     }
 
@@ -305,10 +305,10 @@ class CategoryView extends HtmlView
     {
         if ($this->params->get('show_feed_link', 1) == 1) {
             $link    = '&format=feed&limitstart=';
-            $attribs = ['type' => 'application/rss+xml', 'title' => htmlspecialchars($this->document->getTitle())];
-            $this->document->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
-            $attribs = ['type' => 'application/atom+xml', 'title' => htmlspecialchars($this->document->getTitle())];
-            $this->document->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
+            $attribs = ['type' => 'application/rss+xml', 'title' => htmlspecialchars($this->getDocument()->getTitle())];
+            $this->getDocument()->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
+            $attribs = ['type' => 'application/atom+xml', 'title' => htmlspecialchars($this->getDocument()->getTitle())];
+            $this->getDocument()->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
         }
     }
 }

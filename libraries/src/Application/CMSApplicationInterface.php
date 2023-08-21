@@ -177,7 +177,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
     /**
      * Allows the application to load a custom or default identity.
      *
-     * @param   User  $identity  An optional identity object. If omitted, the factory user is created.
+     * @param   ?User  $identity  An optional identity object. If omitted, the factory user is created.
      *
      * @return  $this
      *

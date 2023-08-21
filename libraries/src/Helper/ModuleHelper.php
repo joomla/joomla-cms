@@ -12,15 +12,17 @@ namespace Joomla\CMS\Helper;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Module;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -174,6 +176,7 @@ abstract class ModuleHelper
 
         // Set scope to component name
         $app->scope = $module->module;
+        $dispatcher = $app->getDispatcher();
 
         // Get the template
         $template = $app->getTemplate();
@@ -206,9 +209,13 @@ abstract class ModuleHelper
         $module->style = $attribs['style'];
 
         // If the $module is nulled it will return an empty content, otherwise it will render the module normally.
-        $app->triggerEvent('onRenderModule', [&$module, &$attribs]);
+        $attrProxy = new ArrayProxy($attribs);
+        $dispatcher->dispatch('onRenderModule', new Module\BeforeRenderModuleEvent('onRenderModule', [
+            'subject'    => $module,
+            'attributes' => $attrProxy,
+        ]));
 
-        if ($module === null || !isset($module->content)) {
+        if (!isset($module->content)) {
             return '';
         }
 
@@ -232,7 +239,10 @@ abstract class ModuleHelper
         // Revert the scope
         $app->scope = $scope;
 
-        $app->triggerEvent('onAfterRenderModule', [&$module, &$attribs]);
+        $dispatcher->dispatch('onAfterRenderModule', new Module\AfterRenderModuleEvent('onAfterRenderModule', [
+            'subject'    => $module,
+            'attributes' => $attrProxy,
+        ]));
 
         if (JDEBUG) {
             Profiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
@@ -362,22 +372,27 @@ abstract class ModuleHelper
             return $modules;
         }
 
-        $app = Factory::getApplication();
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        $modules    = [];
 
-        $modules = null;
-
-        $app->triggerEvent('onPrepareModuleList', [&$modules]);
+        $dispatcher->dispatch('onPrepareModuleList', new Module\PrepareModuleListEvent('onPrepareModuleList', [
+            'subject' => new ArrayProxy($modules),
+        ]));
 
         // If the onPrepareModuleList event returns an array of modules, then ignore the default module list creation
-        if (!\is_array($modules)) {
+        if (!$modules) {
             $modules = static::getModuleList();
         }
 
-        $app->triggerEvent('onAfterModuleList', [&$modules]);
+        $dispatcher->dispatch('onAfterModuleList', new Module\AfterModuleListEvent('onAfterModuleList', [
+            'subject' => new ArrayProxy($modules),
+        ]));
 
         $modules = static::cleanModuleList($modules);
 
-        $app->triggerEvent('onAfterCleanModuleList', [&$modules]);
+        $dispatcher->dispatch('onAfterCleanModuleList', new Module\AfterCleanModuleListEvent('onAfterCleanModuleList', [
+            'subject' => new ArrayProxy($modules),
+        ]));
 
         return $modules;
     }

@@ -38,8 +38,6 @@ use Joomla\Event\SubscriberInterface;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 use RuntimeException;
 
-use function count;
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -177,7 +175,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 
         try {
             $this->sendCode($key, $user);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return;
         }
 
@@ -219,7 +217,7 @@ class Email extends CMSPlugin implements SubscriberInterface
      * @param   GetSetup  $event  The event we are handling
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public function onUserMultifactorGetSetup(GetSetup $event): void
@@ -326,7 +324,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 
         // If there is still no key in the options throw an error
         if (empty($key)) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         /**
@@ -347,7 +345,7 @@ class Email extends CMSPlugin implements SubscriberInterface
         $isValid  = $totp->checkCode((string) $key, (string) $code);
 
         if (!$isValid) {
-            throw new RuntimeException(Text::_('PLG_MULTIFACTORAUTH_EMAIL_ERR_INVALID_CODE'), 500);
+            throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_EMAIL_ERR_INVALID_CODE'), 500);
         }
 
         // The code is valid. Unset the key from the session.
@@ -415,7 +413,7 @@ class Email extends CMSPlugin implements SubscriberInterface
      * @param   BeforeDisplayMethods  $event  The event we are handling
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public function onUserMultifactorBeforeDisplayMethods(BeforeDisplayMethods $event): void
@@ -432,12 +430,12 @@ class Email extends CMSPlugin implements SubscriberInterface
         $userMfaRecords = MfaHelper::getUserMfaRecords($user->id);
 
         // If there are no Methods go back
-        if (count($userMfaRecords) < 1) {
+        if (\count($userMfaRecords) < 1) {
             return;
         }
 
         // If the only Method is backup codes go back
-        if (count($userMfaRecords) == 1) {
+        if (\count($userMfaRecords) == 1) {
             /** @var MfaTable $record */
             $record = reset($userMfaRecords);
 
@@ -454,7 +452,7 @@ class Email extends CMSPlugin implements SubscriberInterface
             }
         );
 
-        if (count($emailRecords)) {
+        if (\count($emailRecords)) {
             return;
         }
 
@@ -480,7 +478,7 @@ class Email extends CMSPlugin implements SubscriberInterface
                     'user_id' => $user->id,
                 ]
             );
-        } catch (Exception $event) {
+        } catch (\Exception $event) {
             // Fail gracefully
         }
     }
@@ -515,7 +513,7 @@ class Email extends CMSPlugin implements SubscriberInterface
      * @param   User|null  $user  The Joomla! user to use
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     private function sendCode(string $key, ?User $user = null)
@@ -559,7 +557,7 @@ class Email extends CMSPlugin implements SubscriberInterface
         } catch (MailDisabledException | phpMailerException $exception) {
             try {
                 Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
-            } catch (RuntimeException $exception) {
+            } catch (\RuntimeException $exception) {
                 $this->getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
             }
         }
@@ -585,7 +583,7 @@ class Email extends CMSPlugin implements SubscriberInterface
         } catch (MailDisabledException | phpMailerException $exception) {
             try {
                 Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
-            } catch (RuntimeException $exception) {
+            } catch (\RuntimeException $exception) {
                 $this->getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
             }
         }

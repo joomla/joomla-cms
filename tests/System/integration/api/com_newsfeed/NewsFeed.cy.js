@@ -55,7 +55,7 @@ describe('Test that newsfeed API endpoint', () => {
 
     it('can update a feed', () => {
       cy.db_createNewsFeed({ name: 'automated test contact', access: 1, link: `${Cypress.config('baseUrl')}/tests/System/data/com_newsfeeds/${file}.xml` })
-        .then((id) => cy.api_patch(`/newsfeeds/feeds/${id}`, { name: 'updated automated test feed' }))
+        .then((feed) => cy.api_patch(`/newsfeeds/feeds/${feed.id}`, { name: 'updated automated test feed' }))
         .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
           .its('name')
           .should('include', 'updated automated test feed'));
@@ -65,7 +65,7 @@ describe('Test that newsfeed API endpoint', () => {
       cy.db_createNewsFeed({
         name: 'automated test contact', access: 1, link: `${Cypress.config('baseUrl')}/tests/System/data/com_newsfeeds/${file}.xml`, published: -2,
       })
-        .then((id) => cy.api_delete(`/newsfeeds/feeds/${id}`));
+        .then((feed) => cy.api_delete(`/newsfeeds/feeds/${feed.id}`));
     });
   });
 });

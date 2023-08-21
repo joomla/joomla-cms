@@ -11,19 +11,16 @@
 namespace Joomla\Plugin\Actionlog\Joomla\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\Plugin\ActionLogPlugin;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Utilities\ArrayHelper;
-use RuntimeException;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -37,6 +34,7 @@ use stdClass;
 final class Joomla extends ActionLogPlugin
 {
     use DatabaseAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * Array of loggable extensions.
@@ -97,7 +95,7 @@ final class Joomla extends ActionLogPlugin
      * Method is called right after the content is saved
      *
      * @param   string   $context  The context of the content passed to the plugin
-     * @param   object   $article  A JTableContent object
+     * @param   object   $article  A \Joomla\CMS\Table\Table object
      * @param   boolean  $isNew    If the content is just about to be created
      *
      * @return  void
@@ -155,7 +153,7 @@ final class Joomla extends ActionLogPlugin
      * Method is called right after the content is deleted
      *
      * @param   string  $context  The context of the content passed to the plugin
-     * @param   object  $article  A JTableContent object
+     * @param   object  $article  A \Joomla\CMS\Table\Table object
      *
      * @return  void
      *
@@ -267,7 +265,7 @@ final class Joomla extends ActionLogPlugin
 
         try {
             $items = $db->loadObjectList($params->id_holder);
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             $items = [];
         }
 
@@ -835,7 +833,7 @@ final class Joomla extends ActionLogPlugin
             return;
         }
 
-        $loggedOutUser = User::getInstance($user['id']);
+        $loggedOutUser = $this->getUserFactory()->loadUserById($user['id']);
 
         if ($loggedOutUser->block) {
             return;
@@ -1109,11 +1107,11 @@ final class Joomla extends ActionLogPlugin
      *
      * @param   string  $context  The context of the action log
      *
-     * @return  stdClass  The params
+     * @return  \stdClass  The params
      *
      * @since   4.2.0
      */
-    private function getActionLogParams($context): ?stdClass
+    private function getActionLogParams($context): ?\stdClass
     {
         $component = $this->getApplication()->bootComponent('actionlogs');
 
@@ -1137,7 +1135,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onUserAfterResetRequest($user)
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -1170,7 +1168,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onUserAfterResetComplete($user)
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;

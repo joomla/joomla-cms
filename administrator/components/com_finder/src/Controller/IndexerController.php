@@ -156,6 +156,22 @@ class IndexerController extends BaseController
         // Import the finder plugins.
         PluginHelper::importPlugin('finder');
 
+        /*
+         * We are going to swap out the raw document object with an HTML document
+         * in order to work around some plugins that don't do proper environment
+         * checks before trying to use HTML document functions.
+         */
+        $lang = $this->app->getLanguage();
+
+        // Get the document properties.
+        $attributes = [
+            'charset'   => 'utf-8',
+            'lineend'   => 'unix',
+            'tab'       => '  ',
+            'language'  => $lang->getTag(),
+            'direction' => $lang->isRtl() ? 'rtl' : 'ltr',
+        ];
+
         // Start the indexer.
         try {
             // Trigger the onBeforeIndex event.
@@ -328,9 +344,9 @@ class IndexerController extends BaseController
         try {
             // Import the finder plugins.
             class_alias(DebugAdapter::class, Adapter::class);
-            $plugin = Factory::getApplication()->bootPlugin($this->app->input->get('plugin'), 'finder');
+            $plugin = $this->app->bootPlugin($this->app->getInput()->get('plugin'), 'finder');
             $plugin->setIndexer(new DebugIndexer());
-            $plugin->debug($this->app->input->get('id'));
+            $plugin->debug($this->app->getInput()->get('id'));
 
             $output = '';
 

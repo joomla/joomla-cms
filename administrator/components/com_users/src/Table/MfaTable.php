@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Table;
 
-use Exception;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -26,8 +25,6 @@ use Joomla\Component\Users\Administrator\Service\Encrypt;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
-use RuntimeException;
-use Throwable;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -171,7 +168,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
         // Store the record
         try {
             $result = parent::store($updateNulls);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $this->setError($e->getMessage());
 
             $result = false;
@@ -204,7 +201,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
      *
      * @since 4.2.0
      * @throws  \InvalidArgumentException
-     * @throws  RuntimeException
+     * @throws  \RuntimeException
      * @throws  \UnexpectedValueException
      */
     public function load($keys = null, $reset = true)
@@ -239,7 +236,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
 
             if (!$result) {
                 // If the record does not exist I will stomp my feet and deny your request
-                throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+                throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
             }
         }
 
@@ -247,7 +244,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
 
         // The user must be a registered user, not a guest
         if ($user->guest) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         // Save flags used onAfterDelete
@@ -331,7 +328,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
      * Regenerate backup code is the flag is set.
      *
      * @return void
-     * @throws Exception
+     * @throws \Exception
      * @since 4.2.0
      */
     private function generateBackupCodes(): void
