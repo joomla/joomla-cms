@@ -19,7 +19,7 @@ $displayData = [
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Adding_a_new_article',
 ];
 
-$user = Factory::getApplication()->getIdentity();
+$user = $this->getCurrentUser();
 
 if ($user->authorise('core.create', 'com_content') || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0) {
     $displayData['createURL'] = 'index.php?option=com_content&task=article.add';

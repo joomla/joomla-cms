@@ -154,7 +154,7 @@ final class ActionLogs extends CMSPlugin
             $data = (object) $data;
         }
 
-        if (!$this->getUserFactory()->loadUserById($data->id)->authorise('core.admin')) {
+        if (empty($data->id) || !$this->getUserFactory()->loadUserById($data->id)->authorise('core.admin')) {
             return true;
         }
 

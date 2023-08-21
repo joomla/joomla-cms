@@ -27,6 +27,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Filesystem\Path;
 use Joomla\Input\Input;
 
@@ -597,7 +598,8 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      * you will need to override it in your own controllers.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link InputFilter::clean()}.
+     * @param   array    $urlparams  An array of safe url parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static  A \JControllerLegacy object to support chaining.
      *
@@ -1106,5 +1108,30 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
             // Push the model into the view (as default)
             $view->setModel($model, true);
         }
+    }
+
+    /**
+     * Get the event dispatcher.
+     *
+     * The override was made to keep a backward compatibility for legacy component.
+     * TODO: Remove the override in 6.0
+     *
+     * @return  DispatcherInterface
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
+     */
+    public function getDispatcher()
+    {
+        if (!$this->dispatcher) {
+            @trigger_error(
+                sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                E_USER_DEPRECATED
+            );
+
+            return $this->app->getDispatcher();
+        }
+
+        return $this->dispatcher;
     }
 }

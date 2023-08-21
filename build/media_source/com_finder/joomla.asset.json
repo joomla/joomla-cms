@@ -11,19 +11,6 @@
       "uri": "com_finder/dates.min.css"
     },
     {
-      "name": "com_finder.debug.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_finder.debug",
       "type": "script",
       "uri": "com_finder/debug.min.js",
@@ -32,19 +19,6 @@
       ],
       "attributes": {
         "type": "module"
-      }
-    },
-    {
-      "name": "com_finder.filters.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
       }
     },
     {
@@ -64,19 +38,6 @@
       "uri": "com_finder/finder.min.css"
     },
     {
-      "name": "com_finder.finder.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_finder.finder",
       "type": "script",
       "uri": "com_finder/finder.min.js",
@@ -85,19 +46,6 @@
       ],
       "attributes": {
         "type": "module"
-      }
-    },
-    {
-      "name": "com_finder.finder-edit.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
       }
     },
     {
@@ -117,19 +65,6 @@
       "uri": "com_finder/indexer.min.css"
     },
     {
-      "name": "com_finder.indexer.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_finder.indexer",
       "type": "script",
       "uri": "com_finder/indexer.min.js",
@@ -138,19 +73,6 @@
       ],
       "attributes": {
         "type": "module"
-      }
-    },
-    {
-      "name": "com_finder.maps.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
       }
     },
     {
