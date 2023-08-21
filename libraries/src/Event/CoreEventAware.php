@@ -57,8 +57,6 @@ trait CoreEventAware
         // Application configuration
         'onApplicationBeforeSave' => Application\BeforeSaveConfigurationEvent::class,
         'onApplicationAfterSave'  => Application\AfterSaveConfigurationEvent::class,
-        // Model
-        'onBeforeBatch' => Model\BeforeBatchEvent::class,
         // Quickicon
         'onGetIcon' => QuickIcon\GetIconEvent::class,
         // Table
@@ -105,6 +103,34 @@ trait CoreEventAware
         // Extensions
         'onBeforeExtensionBoot' => BeforeExtensionBootEvent::class,
         'onAfterExtensionBoot'  => AfterExtensionBootEvent::class,
+        // Content
+        'onContentPrepare'       => Content\ContentPrepareEvent::class,
+        'onContentAfterTitle'    => Content\AfterTitleEvent::class,
+        'onContentBeforeDisplay' => Content\BeforeDisplayEvent::class,
+        'onContentAfterDisplay'  => Content\AfterDisplayEvent::class,
+        // Model
+        'onContentNormaliseRequestData' => Model\NormaliseRequestDataEvent::class,
+        'onContentBeforeValidateData'   => Model\BeforeValidateDataEvent::class,
+        'onContentPrepareForm'          => Model\PrepareFormEvent::class,
+        'onContentPrepareData'          => Model\PrepareDataEvent::class,
+        'onContentBeforeSave'           => Model\BeforeSaveEvent::class,
+        'onContentAfterSave'            => Model\AfterSaveEvent::class,
+        'onContentBeforeDelete'         => Model\BeforeDeleteEvent::class,
+        'onContentAfterDelete'          => Model\AfterDeleteEvent::class,
+        'onContentBeforeChangeState'    => Model\BeforeChangeStateEvent::class,
+        'onContentChangeState'          => Model\AfterChangeStateEvent::class,
+        'onCategoryChangeState'         => Model\AfterCategoryChangeStateEvent::class,
+        'onBeforeBatch'                 => Model\BeforeBatchEvent::class,
+        // Extension and Installer
+        'onExtensionBeforeInstall'   => Extension\BeforeInstallEvent::class,
+        'onExtensionAfterInstall'    => Extension\AfterInstallEvent::class,
+        'onExtensionBeforeUninstall' => Extension\BeforeUninstallEvent::class,
+        'onExtensionAfterUninstall'  => Extension\AfterUninstallEvent::class,
+        'onExtensionBeforeUpdate'    => Extension\BeforeUpdateEvent::class,
+        'onExtensionAfterUpdate'     => Extension\AfterUpdateEvent::class,
+        'onExtensionBeforeSave'      => Model\BeforeSaveEvent::class,
+        'onExtensionAfterSave'       => Model\AfterSaveEvent::class,
+        'onExtensionAfterDelete'     => Model\AfterDeleteEvent::class,
     ];
 
     /**

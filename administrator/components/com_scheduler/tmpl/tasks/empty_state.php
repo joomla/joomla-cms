@@ -20,7 +20,7 @@ $displayData = [
     'icon' => 'icon-clock clock',
 ];
 
-if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_scheduler')) {
+if ($this->getCurrentUser()->authorise('core.create', 'com_scheduler')) {
     $displayData['createURL'] = 'index.php?option=com_scheduler&view=select&layout=default';
 }
 
