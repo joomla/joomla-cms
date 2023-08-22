@@ -5,8 +5,8 @@
 
 // eslint-disable-next-line import/no-unresolved
 import { JoomlaEditor, JoomlaEditorButton } from 'editor-api';
-
-/* global JoomlaDialog */
+// eslint-disable-next-line import/no-unresolved
+import JoomlaDialog from 'joomla.dialog';
 
 const insertReadmoreHandler = (editor) => {
   const content = editor.getValue();
