@@ -1,5 +1,5 @@
 UPDATE `#__extensions`
-   SET `params` = JSON_REPLACE(`params`, '$.filter' , '\\Joomla\\CMS\\Component\\ComponentHelper::filterText')
+   SET `params` = JSON_REPLACE(`params`, '$.filter' , '\\\\Joomla\\\\CMS\\\\Component\\\\ComponentHelper::filterText')
  WHERE `type` = 'plugin'
    AND `folder` = 'fields'
    AND `element` IN ('editor', 'text', 'textarea')
@@ -7,7 +7,7 @@ UPDATE `#__extensions`
    AND JSON_EXTRACT(`params`, '$.filter') = 'JComponentHelper::filterText';
 
 UPDATE `#__fields`
-   SET `fieldparams` = JSON_REPLACE(`fieldparams`, '$.filter' , '\\Joomla\\CMS\\Component\\ComponentHelper::filterText')
+   SET `fieldparams` = JSON_REPLACE(`fieldparams`, '$.filter' , '\\\\Joomla\\\\CMS\\\\Component\\\\ComponentHelper::filterText')
  WHERE `type` IN ('editor', 'text', 'textarea')
    AND `fieldparams` <> ''
    AND JSON_EXTRACT(`fieldparams`, '$.filter') = 'JComponentHelper::filterText';
