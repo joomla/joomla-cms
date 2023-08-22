@@ -11,9 +11,14 @@ namespace Joomla\CMS\Installer;
 
 use Joomla\CMS\Adapter\Adapter;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Event\Extension\AfterInstallEvent;
+use Joomla\CMS\Event\Extension\AfterUninstallEvent;
+use Joomla\CMS\Event\Extension\AfterUpdateEvent;
+use Joomla\CMS\Event\Extension\BeforeInstallEvent;
+use Joomla\CMS\Event\Extension\BeforeUninstallEvent;
+use Joomla\CMS\Event\Extension\BeforeUpdateEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -21,12 +26,12 @@ use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -628,17 +633,16 @@ class Installer extends Adapter implements DatabaseAwareInterface
             $adapter->loadLanguage($path);
         }
 
+        $dispatcher = Factory::getApplication()->getDispatcher();
+
         // Fire the onExtensionBeforeInstall event.
-        PluginHelper::importPlugin('extension');
-        Factory::getApplication()->triggerEvent(
-            'onExtensionBeforeInstall',
-            [
-                'method'    => 'install',
-                'type'      => $this->manifest->attributes()->type,
-                'manifest'  => $this->manifest,
-                'extension' => 0,
-            ]
-        );
+        PluginHelper::importPlugin('extension', null, true, $dispatcher);
+        $dispatcher->dispatch('onExtensionBeforeInstall', new BeforeInstallEvent('onExtensionBeforeInstall', [
+            'method'    => 'install',
+            'type'      => $this->manifest->attributes()->type,
+            'manifest'  => $this->manifest,
+            'extension' => 0,
+        ]));
 
         // Run the install
         $result = $adapter->install();
@@ -647,10 +651,10 @@ class Installer extends Adapter implements DatabaseAwareInterface
         clearstatcache();
 
         // Fire the onExtensionAfterInstall
-        Factory::getApplication()->triggerEvent(
-            'onExtensionAfterInstall',
-            ['installer' => clone $this, 'eid' => $result]
-        );
+        $dispatcher->dispatch('onExtensionAfterInstall', new AfterInstallEvent('onExtensionAfterInstall', [
+            'installer' => clone $this,
+            'eid'       => $result,
+        ]));
 
         if ($result !== false) {
             // Refresh versionable assets cache
@@ -723,26 +727,25 @@ class Installer extends Adapter implements DatabaseAwareInterface
             $adapter->loadLanguage();
         }
 
+        $dispatcher = Factory::getApplication()->getDispatcher();
+
         // Fire the onExtensionBeforeInstall event.
-        PluginHelper::importPlugin('extension');
-        Factory::getApplication()->triggerEvent(
-            'onExtensionBeforeInstall',
-            [
-                'method'    => 'discover_install',
-                'type'      => $this->extension->get('type'),
-                'manifest'  => null,
-                'extension' => $this->extension->get('extension_id'),
-            ]
-        );
+        PluginHelper::importPlugin('extension', null, true, $dispatcher);
+        $dispatcher->dispatch('onExtensionBeforeInstall', new BeforeInstallEvent('onExtensionBeforeInstall', [
+            'method'    => 'discover_install',
+            'type'      => $this->extension->get('type'),
+            'manifest'  => null,
+            'extension' => (int) $this->extension->get('extension_id'),
+        ]));
 
         // Run the install
         $result = $adapter->discover_install();
 
         // Fire the onExtensionAfterInstall
-        Factory::getApplication()->triggerEvent(
-            'onExtensionAfterInstall',
-            ['installer' => clone $this, 'eid' => $result]
-        );
+        $dispatcher->dispatch('onExtensionAfterInstall', new AfterInstallEvent('onExtensionAfterInstall', [
+            'installer' => clone $this,
+            'eid'       => $result,
+        ]));
 
         if ($result !== false) {
             // Refresh versionable assets cache
@@ -819,21 +822,23 @@ class Installer extends Adapter implements DatabaseAwareInterface
             $adapter->loadLanguage($path);
         }
 
+        $dispatcher = Factory::getApplication()->getDispatcher();
+
         // Fire the onExtensionBeforeUpdate event.
-        PluginHelper::importPlugin('extension');
-        Factory::getApplication()->triggerEvent(
-            'onExtensionBeforeUpdate',
-            ['type' => $this->manifest->attributes()->type, 'manifest' => $this->manifest]
-        );
+        PluginHelper::importPlugin('extension', null, true, $dispatcher);
+        $dispatcher->dispatch('onExtensionBeforeUpdate', new BeforeUpdateEvent('onExtensionBeforeUpdate', [
+            'type'     => $this->manifest->attributes()->type,
+            'manifest' => $this->manifest,
+        ]));
 
         // Run the update
         $result = $adapter->update();
 
         // Fire the onExtensionAfterUpdate
-        Factory::getApplication()->triggerEvent(
-            'onExtensionAfterUpdate',
-            ['installer' => clone $this, 'eid' => $result]
-        );
+        $dispatcher->dispatch('onExtensionAfterUpdate', new AfterUpdateEvent('onExtensionAfterUpdate', [
+            'installer' => clone $this,
+            'eid'       => $result,
+        ]));
 
         if ($result !== false) {
             return true;
@@ -862,22 +867,24 @@ class Installer extends Adapter implements DatabaseAwareInterface
             return false;
         }
 
+        $dispatcher = Factory::getApplication()->getDispatcher();
+
         // We don't load languages here, we get the extension adapter to work it out
         // Fire the onExtensionBeforeUninstall event.
-        PluginHelper::importPlugin('extension');
-        Factory::getApplication()->triggerEvent(
-            'onExtensionBeforeUninstall',
-            ['eid' => $identifier]
-        );
+        PluginHelper::importPlugin('extension', null, true, $dispatcher);
+        $dispatcher->dispatch('onExtensionBeforeUninstall', new BeforeUninstallEvent('onExtensionBeforeUninstall', [
+            'eid' => (int) $identifier,
+        ]));
 
         // Run the uninstall
         $result = $adapter->uninstall($identifier);
 
         // Fire the onExtensionAfterInstall
-        Factory::getApplication()->triggerEvent(
-            'onExtensionAfterUninstall',
-            ['installer' => clone $this, 'eid' => $identifier, 'removed' => $result]
-        );
+        $dispatcher->dispatch('onExtensionAfterUninstall', new AfterUninstallEvent('onExtensionAfterUninstall', [
+            'installer' => clone $this,
+            'eid'       => (int) $identifier,
+            'removed'   => $result,
+        ]));
 
         // Refresh versionable assets cache
         Factory::getApplication()->flushAssets();
@@ -1327,8 +1334,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     protected function updateSchemaTable(int $eid, string $version, bool $update = false): void
     {
-        /** @var DatabaseDriver $db */
-        $db    = Factory::getContainer()->get('DatabaseDriver');
+        $db = $this->getDatabase();
 
         $o = (object) [
             'extension_id' => $eid,

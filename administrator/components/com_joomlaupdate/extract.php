@@ -1714,7 +1714,7 @@ function clearFileInOPCache(string $file): bool
  * @return  boolean  True if the two strings are identical.
  * @since   4.0.4
  *
- * @see     http://blog.ircmaxell.com/2014/11/its-all-about-time.html
+ * @link    http://blog.ircmaxell.com/2014/11/its-all-about-time.html
  */
 function timingSafeEquals($known, $user)
 {
@@ -1907,7 +1907,7 @@ if ($enabled) {
                 $retArray['files']    = $engine->filesProcessed;
                 $retArray['bytesIn']  = $engine->compressedTotal;
                 $retArray['bytesOut'] = $engine->uncompressedTotal;
-                $retArray['percent']  = 100;
+                $retArray['percent']  = 80;
                 $retArray['status']   = true;
                 $retArray['done']     = true;
 
@@ -1916,7 +1916,7 @@ if ($enabled) {
                 $retArray['files']    = $engine->filesProcessed;
                 $retArray['bytesIn']  = $engine->compressedTotal;
                 $retArray['bytesOut'] = $engine->uncompressedTotal;
-                $retArray['percent']  = ($engine->totalSize > 0) ? (100 * $engine->compressedTotal / $engine->totalSize) : 0;
+                $retArray['percent']  = ($engine->totalSize > 0) ? (80 * $engine->compressedTotal / $engine->totalSize) : 0;
                 $retArray['status']   = true;
                 $retArray['done']     = false;
                 $retArray['instance'] = ZIPExtraction::getSerialised();

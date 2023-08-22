@@ -386,7 +386,7 @@ class RequestModel extends AdminModel implements UserFactoryAwareInterface
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
      * @see     \Joomla\CMS\Form\FormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.9.0
      */
     public function validate($form, $data, $group = null)

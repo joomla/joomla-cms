@@ -12,6 +12,7 @@ namespace Joomla\CMS\MVC\Controller;
 use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\Form\FormFactoryInterface;
@@ -613,9 +614,13 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
         // Send an object which can be modified through the plugin event
         $objData = (object) $data;
-        $app->triggerEvent(
+        $this->getDispatcher()->dispatch(
             'onContentNormaliseRequestData',
-            [$this->option . '.' . $this->context, $objData, $form]
+            new Model\NormaliseRequestDataEvent('onContentNormaliseRequestData', [
+                'context' => $this->option . '.' . $this->context,
+                'data'    => $objData,
+                'subject' => $form,
+            ])
         );
         $data = (array) $objData;
 

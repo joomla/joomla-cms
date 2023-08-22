@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\Content\Finder\Extension;
 
+use Joomla\CMS\Event\Finder as FinderEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 
@@ -25,12 +26,21 @@ use Joomla\CMS\Plugin\PluginHelper;
 final class Finder extends CMSPlugin
 {
     /**
+     * Flag to check whether finder plugins already imported.
+     *
+     * @var bool
+     *
+     * @since  5.0.0
+     */
+    protected $pluginsImported = false;
+
+    /**
      * Smart Search after save content method.
      * Content is passed by reference, but after the save, so no changes will be saved.
      * Method is called right after the content is saved.
      *
      * @param   string  $context  The context of the content passed to the plugin (added in 1.6)
-     * @param   object  $article  A JTableContent object
+     * @param   object  $article  A \Joomla\CMS\Table\Table\ object
      * @param   bool    $isNew    If the content has just been created
      *
      * @return  void
@@ -39,10 +49,14 @@ final class Finder extends CMSPlugin
      */
     public function onContentAfterSave($context, $article, $isNew): void
     {
-        PluginHelper::importPlugin('finder');
+        $this->importFinderPlugins();
 
         // Trigger the onFinderAfterSave event.
-        $this->getApplication()->triggerEvent('onFinderAfterSave', [$context, $article, $isNew]);
+        $this->getDispatcher()->dispatch('onFinderAfterSave', new FinderEvent\AfterSaveEvent('onFinderAfterSave', [
+            'context' => $context,
+            'subject' => $article,
+            'isNew'   => $isNew,
+        ]));
     }
 
     /**
@@ -50,7 +64,7 @@ final class Finder extends CMSPlugin
      * Content is passed by reference. Method is called before the content is saved.
      *
      * @param   string  $context  The context of the content passed to the plugin (added in 1.6).
-     * @param   object  $article  A JTableContent object.
+     * @param   object  $article  A \Joomla\CMS\Table\Table\ object.
      * @param   bool    $isNew    If the content is just about to be created.
      *
      * @return  void
@@ -59,10 +73,14 @@ final class Finder extends CMSPlugin
      */
     public function onContentBeforeSave($context, $article, $isNew)
     {
-        PluginHelper::importPlugin('finder');
+        $this->importFinderPlugins();
 
         // Trigger the onFinderBeforeSave event.
-        $this->getApplication()->triggerEvent('onFinderBeforeSave', [$context, $article, $isNew]);
+        $this->getDispatcher()->dispatch('onFinderBeforeSave', new FinderEvent\BeforeSaveEvent('onFinderBeforeSave', [
+            'context' => $context,
+            'subject' => $article,
+            'isNew'   => $isNew,
+        ]));
     }
 
     /**
@@ -70,7 +88,7 @@ final class Finder extends CMSPlugin
      * Content is passed by reference, but after the deletion.
      *
      * @param   string  $context  The context of the content passed to the plugin (added in 1.6).
-     * @param   object  $article  A JTableContent object.
+     * @param   object  $article  A \Joomla\CMS\Table\Table object.
      *
      * @return  void
      *
@@ -78,10 +96,13 @@ final class Finder extends CMSPlugin
      */
     public function onContentAfterDelete($context, $article): void
     {
-        PluginHelper::importPlugin('finder');
+        $this->importFinderPlugins();
 
         // Trigger the onFinderAfterDelete event.
-        $this->getApplication()->triggerEvent('onFinderAfterDelete', [$context, $article]);
+        $this->getDispatcher()->dispatch('onFinderAfterDelete', new FinderEvent\AfterDeleteEvent('onFinderAfterDelete', [
+            'context' => $context,
+            'subject' => $article,
+        ]));
     }
 
     /**
@@ -100,10 +121,14 @@ final class Finder extends CMSPlugin
      */
     public function onContentChangeState($context, $pks, $value)
     {
-        PluginHelper::importPlugin('finder');
+        $this->importFinderPlugins();
 
         // Trigger the onFinderChangeState event.
-        $this->getApplication()->triggerEvent('onFinderChangeState', [$context, $pks, $value]);
+        $this->getDispatcher()->dispatch('onFinderChangeState', new FinderEvent\AfterChangeStateEvent('onFinderChangeState', [
+            'context' => $context,
+            'subject' => $pks,
+            'value'   => $value,
+        ]));
     }
 
     /**
@@ -121,9 +146,31 @@ final class Finder extends CMSPlugin
      */
     public function onCategoryChangeState($extension, $pks, $value)
     {
-        PluginHelper::importPlugin('finder');
+        $this->importFinderPlugins();
 
         // Trigger the onFinderCategoryChangeState event.
-        $this->getApplication()->triggerEvent('onFinderCategoryChangeState', [$extension, $pks, $value]);
+        $this->getDispatcher()->dispatch('onFinderCategoryChangeState', new FinderEvent\AfterCategoryChangeStateEvent('onFinderCategoryChangeState', [
+            'context' => $extension,
+            'subject' => $pks,
+            'value'   => $value,
+        ]));
+    }
+
+    /**
+     * A helper method to import finder plugins.
+     *
+     * @return void
+     *
+     * @since  5.0.0
+     */
+    protected function importFinderPlugins()
+    {
+        if ($this->pluginsImported) {
+            return;
+        }
+
+        $this->pluginsImported = true;
+
+        PluginHelper::importPlugin('finder', null, true, $this->getDispatcher());
     }
 }

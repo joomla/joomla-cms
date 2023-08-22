@@ -54,7 +54,7 @@ class LibraryAdapter extends InstallerAdapter
 
                 // Clear the cached data
                 $this->currentExtensionId = null;
-                $this->extension          = Table::getInstance('Extension', 'JTable', ['dbo' => $this->getDatabase()]);
+                $this->extension          = Table::getInstance('Extension', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDatabase()]);
 
                 // From this point we'll consider this an update
                 $this->setRoute('update');
