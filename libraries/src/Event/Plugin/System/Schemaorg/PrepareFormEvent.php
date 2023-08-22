@@ -7,17 +7,23 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Event\Captcha;
+namespace Joomla\CMS\Event\Plugin\System\Schemaorg;
 
-use Joomla\CMS\Captcha\CaptchaRegistry;
 use Joomla\CMS\Event\AbstractImmutableEvent;
+use Joomla\CMS\Form\Form;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Captcha setup event
+ * Class for SchemaPrepareFormEvent event
+ * Example:
+ *  new PrepareFormEvent('onSchemaPrepareForm', ['subject' => $form]);
  *
- * @since   __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
-class CaptchaSetupEvent extends AbstractImmutableEvent
+class PrepareFormEvent extends AbstractImmutableEvent
 {
     /**
      * Constructor.
@@ -39,28 +45,28 @@ class CaptchaSetupEvent extends AbstractImmutableEvent
     }
 
     /**
-     * Setter for the subject argument
+     * Setter for the subject argument.
      *
-     * @param   CaptchaRegistry  $value  The value to set
+     * @param   Form  $value  The value to set
      *
-     * @return  CaptchaRegistry
+     * @return  Form
      *
-     * @since  __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
-    protected function setSubject(CaptchaRegistry $value): CaptchaRegistry
+    protected function setSubject(Form $value): Form
     {
         return $value;
     }
 
     /**
-     * Returns Captcha Registry instance.
+     * Getter for the form argument.
      *
-     * @return  CaptchaRegistry
+     * @return  Form
      *
-     * @since  __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
-    public function getCaptchaRegistry(): CaptchaRegistry
+    public function getForm(): Form
     {
-        return $this->getArgument('subject');
+        return $this->arguments['subject'];
     }
 }

@@ -10,11 +10,11 @@
 
 namespace Joomla\Plugin\Schemaorg\BlogPosting\Extension;
 
+use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
 use Joomla\CMS\Schemaorg\SchemaorgPrepareDateTrait;
 use Joomla\CMS\Schemaorg\SchemaorgPrepareImageTrait;
-use Joomla\Event\Event;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
@@ -67,15 +67,15 @@ final class BlogPosting extends CMSPlugin implements SubscriberInterface
     /**
      * Cleanup all BlogPosting types
      *
-     * @param   Event  $event  The given event
+     * @param   BeforeCompileHeadEvent  $event  The given event
      *
-     * @return void
+     * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function onSchemaBeforeCompileHead(Event $event)
+    public function onSchemaBeforeCompileHead(BeforeCompileHeadEvent $event): void
     {
-        $schema = $event->getArgument('subject');
+        $schema = $event->getSchema();
 
         $graph = $schema->get('@graph');
 
