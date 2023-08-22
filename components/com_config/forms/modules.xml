@@ -117,7 +117,7 @@
 			type="editor"
 			label="COM_MODULES_FIELD_CONTENT_LABEL"
 			buttons="true"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 			hide="readmore,pagebreak"
 		/>
 
