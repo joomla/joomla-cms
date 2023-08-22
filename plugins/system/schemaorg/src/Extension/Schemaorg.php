@@ -459,7 +459,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     private function cleanupSchema($schema)
     {

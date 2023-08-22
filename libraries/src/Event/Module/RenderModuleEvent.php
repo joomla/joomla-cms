@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\Module;
 /**
  * Class for Module events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 abstract class RenderModuleEvent extends ModuleEvent
 {
@@ -25,7 +25,7 @@ abstract class RenderModuleEvent extends ModuleEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject', 'attributes'];
@@ -38,7 +38,7 @@ abstract class RenderModuleEvent extends ModuleEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -56,7 +56,7 @@ abstract class RenderModuleEvent extends ModuleEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(object $value): object
     {
@@ -70,7 +70,7 @@ abstract class RenderModuleEvent extends ModuleEvent
      *
      * @return  array|\ArrayAccess
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setAttributes(array|\ArrayAccess $value): array|\ArrayAccess
     {
@@ -82,7 +82,7 @@ abstract class RenderModuleEvent extends ModuleEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getModule(): object
     {
@@ -94,7 +94,7 @@ abstract class RenderModuleEvent extends ModuleEvent
      *
      * @return  array|\ArrayAccess
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getAttributes(): array|\ArrayAccess
     {

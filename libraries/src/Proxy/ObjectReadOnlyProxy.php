@@ -17,7 +17,7 @@ namespace Joomla\CMS\Proxy;
  * Object read-only proxy class.
  * The class provides read-only feature for Object, including its children.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class ObjectReadOnlyProxy extends ObjectProxy implements ReadOnlyProxyInterface
 {
@@ -28,7 +28,7 @@ class ObjectReadOnlyProxy extends ObjectProxy implements ReadOnlyProxyInterface
      *
      * @return mixed
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function __get($key): mixed
     {
@@ -56,7 +56,7 @@ class ObjectReadOnlyProxy extends ObjectProxy implements ReadOnlyProxyInterface
      *
      * @throws \RuntimeException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function __set($key, $value): void
     {
@@ -68,7 +68,7 @@ class ObjectReadOnlyProxy extends ObjectProxy implements ReadOnlyProxyInterface
      *
      * @return mixed
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function current(): mixed
     {

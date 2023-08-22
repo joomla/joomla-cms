@@ -16,7 +16,7 @@ namespace Joomla\CMS\Editor\Exception;
 /**
  * Exception class defining a missing element
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class EditorNotFoundException extends \RuntimeException
 {

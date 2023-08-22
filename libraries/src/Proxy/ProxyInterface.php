@@ -16,7 +16,7 @@ namespace Joomla\CMS\Proxy;
 /**
  * Interface for Proxy classes
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 interface ProxyInterface
 {

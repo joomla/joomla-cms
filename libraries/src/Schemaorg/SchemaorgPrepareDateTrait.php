@@ -18,7 +18,7 @@ use Joomla\CMS\Factory;
 /**
  * Prepare dates to be valid for JSON-LD output
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 trait SchemaorgPrepareDateTrait
 {
@@ -29,7 +29,7 @@ trait SchemaorgPrepareDateTrait
      *
      * @return  string|array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function prepareDate($date)
     {

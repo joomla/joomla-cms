@@ -20,7 +20,7 @@ use Joomla\Event\DispatcherAwareTrait;
 
 /**
  * Editor Registry class
- * @since   __DEPLOY_VERSION__
+ * @since   5.0.0
  */
 final class EditorsRegistry implements EditorsRegistryInterface, DispatcherAwareInterface
 {
@@ -30,7 +30,7 @@ final class EditorsRegistry implements EditorsRegistryInterface, DispatcherAware
      * List of registered elements
      *
      * @var    EditorProviderInterface[]
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private $registry = [];
 
@@ -38,7 +38,7 @@ final class EditorsRegistry implements EditorsRegistryInterface, DispatcherAware
      * Internal flag of initialisation
      *
      * @var    boolean
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private $initialised = false;
 
@@ -46,7 +46,7 @@ final class EditorsRegistry implements EditorsRegistryInterface, DispatcherAware
      * Return list of all registered elements
      *
      * @return EditorProviderInterface[]
-     * @since    __DEPLOY_VERSION__
+     * @since    5.0.0
      */
     public function getAll(): array
     {
@@ -59,7 +59,7 @@ final class EditorsRegistry implements EditorsRegistryInterface, DispatcherAware
      * @param   string  $name  Element name
      *
      * @return  bool
-     * @since    __DEPLOY_VERSION__
+     * @since    5.0.0
      */
     public function has(string $name): bool
     {
@@ -73,7 +73,7 @@ final class EditorsRegistry implements EditorsRegistryInterface, DispatcherAware
      *
      * @return  EditorProviderInterface
      * @throws  EditorNotFoundException
-     * @since    __DEPLOY_VERSION__
+     * @since    5.0.0
      */
     public function get(string $name): EditorProviderInterface
     {
@@ -90,7 +90,7 @@ final class EditorsRegistry implements EditorsRegistryInterface, DispatcherAware
      * @param   EditorProviderInterface $instance
      *
      * @return  EditorsRegistryInterface
-     * @since    __DEPLOY_VERSION__
+     * @since    5.0.0
      */
     public function add(EditorProviderInterface $instance): EditorsRegistryInterface
     {
@@ -103,7 +103,7 @@ final class EditorsRegistry implements EditorsRegistryInterface, DispatcherAware
      * Trigger event to allow register the element through plugins.
      *
      * @return  EditorsRegistryInterface
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function initRegistry(): EditorsRegistryInterface
     {

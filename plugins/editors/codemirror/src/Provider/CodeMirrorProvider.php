@@ -19,7 +19,7 @@ use Joomla\Registry\Registry;
 /**
  * Editor provider class
  *
- * @since   __DEPLOY_VERSION__
+ * @since   5.0.0
  */
 final class CodeMirrorProvider extends AbstractEditorProvider
 {
@@ -27,7 +27,7 @@ final class CodeMirrorProvider extends AbstractEditorProvider
      * A Registry object holding the parameters for the plugin
      *
      * @var    Registry
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $params;
 
@@ -36,7 +36,7 @@ final class CodeMirrorProvider extends AbstractEditorProvider
      *
      * @var    CMSApplicationInterface
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $application;
 
@@ -47,7 +47,7 @@ final class CodeMirrorProvider extends AbstractEditorProvider
      * @param   CMSApplicationInterface  $application
      * @param   DispatcherInterface      $dispatcher
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function __construct(Registry $params, CMSApplicationInterface $application, DispatcherInterface $dispatcher)
     {
@@ -61,7 +61,7 @@ final class CodeMirrorProvider extends AbstractEditorProvider
      * Return Editor name, CMD string.
      *
      * @return string
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getName(): string
     {
@@ -78,7 +78,7 @@ final class CodeMirrorProvider extends AbstractEditorProvider
      *
      * @return  string  The HTML markup of the editor
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function display(string $name, string $content = '', array $attributes = [], array $params = []): string
     {

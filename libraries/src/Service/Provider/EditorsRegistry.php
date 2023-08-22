@@ -22,7 +22,7 @@ use Joomla\Event\DispatcherInterface;
 /**
  * Service provider for the application's EditorsRegistry dependency
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class EditorsRegistry implements ServiceProviderInterface
 {
@@ -33,7 +33,7 @@ class EditorsRegistry implements ServiceProviderInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function register(Container $container)
     {

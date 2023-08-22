@@ -18,7 +18,7 @@ use Joomla\CMS\Installer\Installer;
 /**
  * Class for Extension events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterUninstallEvent extends AbstractExtensionEvent
 {
@@ -27,7 +27,7 @@ class AfterUninstallEvent extends AbstractExtensionEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['installer', 'eid', 'removed'];
@@ -40,7 +40,7 @@ class AfterUninstallEvent extends AbstractExtensionEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -66,7 +66,7 @@ class AfterUninstallEvent extends AbstractExtensionEvent
      *
      * @return  Installer
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setInstaller(Installer $value): Installer
     {
@@ -80,7 +80,7 @@ class AfterUninstallEvent extends AbstractExtensionEvent
      *
      * @return  integer
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setEid(int $value): int
     {
@@ -94,7 +94,7 @@ class AfterUninstallEvent extends AbstractExtensionEvent
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setRemoved(bool $value): bool
     {
@@ -106,7 +106,7 @@ class AfterUninstallEvent extends AbstractExtensionEvent
      *
      * @return  Installer
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getInstaller(): Installer
     {
@@ -118,7 +118,7 @@ class AfterUninstallEvent extends AbstractExtensionEvent
      *
      * @return  integer
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getEid(): int
     {
@@ -130,7 +130,7 @@ class AfterUninstallEvent extends AbstractExtensionEvent
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getRemoved(): bool
     {

@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\Model;
 /**
  * Class for Model event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 abstract class DeleteEvent extends ModelEvent
 {
@@ -25,7 +25,7 @@ abstract class DeleteEvent extends ModelEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['context', 'subject'];
@@ -37,7 +37,7 @@ abstract class DeleteEvent extends ModelEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(object $value): object
     {
@@ -49,7 +49,7 @@ abstract class DeleteEvent extends ModelEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getItem(): object
     {

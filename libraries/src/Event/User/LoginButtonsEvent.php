@@ -22,7 +22,7 @@ use Joomla\CMS\Event\Result\ResultTypeArrayAware;
  * Example:
  *  new LoginButtonsEvent('onEventName', ['subject' => $formId]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class LoginButtonsEvent extends UserEvent implements ResultAwareInterface
 {
@@ -34,7 +34,7 @@ class LoginButtonsEvent extends UserEvent implements ResultAwareInterface
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject'];
@@ -46,7 +46,7 @@ class LoginButtonsEvent extends UserEvent implements ResultAwareInterface
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(string $value): string
     {
@@ -58,7 +58,7 @@ class LoginButtonsEvent extends UserEvent implements ResultAwareInterface
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getFormId(): string
     {

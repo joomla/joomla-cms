@@ -20,7 +20,7 @@ use Joomla\CMS\Event\Model\SaveEvent;
  * Example:
  *  new AfterSaveEvent('onEventName', ['context' => 'com_example.example', 'subject' => $itemObjectToSave, 'isNew' => $isNew]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterSaveEvent extends SaveEvent implements FinderEventInterface
 {
@@ -29,7 +29,7 @@ class AfterSaveEvent extends SaveEvent implements FinderEventInterface
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['context', 'subject', 'isNew'];

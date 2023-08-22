@@ -21,7 +21,7 @@ use Joomla\Registry\Registry;
  * Example:
  *  new BeforeCompileHeadEvent('onSchemaBeforeCompileHead', ['subject' => $schema, 'context' => 'com_example.example']);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforeCompileHeadEvent extends AbstractImmutableEvent
 {
@@ -33,7 +33,7 @@ class BeforeCompileHeadEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -55,7 +55,7 @@ class BeforeCompileHeadEvent extends AbstractImmutableEvent
      *
      * @return  Registry
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function setSubject(Registry $value): Registry
     {
@@ -69,7 +69,7 @@ class BeforeCompileHeadEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function setContext(string $value): string
     {
@@ -81,7 +81,7 @@ class BeforeCompileHeadEvent extends AbstractImmutableEvent
      *
      * @return  Registry
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getSchema(): Registry
     {
@@ -93,7 +93,7 @@ class BeforeCompileHeadEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getContext(): string
     {
