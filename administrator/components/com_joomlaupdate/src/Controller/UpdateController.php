@@ -46,11 +46,7 @@ class UpdateController extends BaseController
         $model = $this->getModel('Update');
         $user  = $this->app->getIdentity();
 
-        try {
-            Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
-            // Informational log only
-        }
+        Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), Log::INFO, 'Update');
 
         $result = $model->download();
         $file   = $result['basename'];
@@ -80,11 +76,7 @@ class UpdateController extends BaseController
             $this->app->setUserState('com_joomlaupdate.file', $file);
             $url = 'index.php?option=com_joomlaupdate&task=update.install&' . $this->app->getSession()->getFormToken() . '=1';
 
-            try {
-                Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $file), Log::INFO, 'Update');
-            } catch (\RuntimeException $exception) {
-                // Informational log only
-            }
+            Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $file), Log::INFO, 'Update');
         } else {
             $this->app->setUserState('com_joomlaupdate.file', null);
             $url         = 'index.php?option=com_joomlaupdate';
@@ -110,11 +102,7 @@ class UpdateController extends BaseController
         /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
         $model = $this->getModel('Update');
 
-        try {
-            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
-            // Informational log only
-        }
+        Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), Log::INFO, 'Update');
 
         $file = $this->app->getUserState('com_joomlaupdate.file', null);
         $model->createRestorationFile($file);
@@ -262,6 +250,8 @@ class UpdateController extends BaseController
 
         /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
         $model = $this->getModel('Update');
+
+        Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_UPLOAD'), Log::INFO, 'Update');
 
         try {
             $model->upload();
