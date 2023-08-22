@@ -20,6 +20,13 @@ use Joomla\CMS\Event\Application\AfterRouteEvent;
 use Joomla\CMS\Event\Application\BeforeRenderEvent;
 use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Event\ErrorEvent;
+use Joomla\CMS\Event\User\AfterLoginEvent;
+use Joomla\CMS\Event\User\AfterLogoutEvent;
+use Joomla\CMS\Event\User\AuthorisationFailureEvent;
+use Joomla\CMS\Event\User\LoginEvent;
+use Joomla\CMS\Event\User\LoginFailureEvent;
+use Joomla\CMS\Event\User\LogoutEvent;
+use Joomla\CMS\Event\User\LogoutFailureEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
@@ -837,9 +844,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         // Get the global Authentication object.
         $authenticate = Authentication::getInstance($this->authenticationPluginType);
         $response     = $authenticate->authenticate($credentials, $options);
+        $dispatcher   = $this->getDispatcher();
 
         // Import the user plugin group.
-        PluginHelper::importPlugin('user', null, true, $this->getDispatcher());
+        PluginHelper::importPlugin('user', null, true, $dispatcher);
 
         if ($response->status === Authentication::STATUS_SUCCESS) {
             /*
@@ -852,7 +860,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             foreach ($authorisations as $authorisation) {
                 if ((int) $authorisation->status & $denied_states) {
                     // Trigger onUserAuthorisationFailure Event.
-                    $this->triggerEvent('onUserAuthorisationFailure', [(array) $authorisation]);
+                    $dispatcher->dispatch('onUserAuthorisationFailure', new AuthorisationFailureEvent('onUserAuthorisationFailure', [
+                        'subject' => (array) $authorisation,
+                        'options' => $options,
+                    ]));
 
                     // If silent is set, just return false.
                     if (isset($options['silent']) && $options['silent']) {
@@ -862,17 +873,17 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                     // Return the error.
                     switch ($authorisation->status) {
                         case Authentication::STATUS_EXPIRED:
-                            Factory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_EXPIRED'), 'error');
+                            $this->enqueueMessage(Text::_('JLIB_LOGIN_EXPIRED'), 'error');
 
                             return false;
 
                         case Authentication::STATUS_DENIED:
-                            Factory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_DENIED'), 'error');
+                            $this->enqueueMessage(Text::_('JLIB_LOGIN_DENIED'), 'error');
 
                             return false;
 
                         default:
-                            Factory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_AUTHORISATION'), 'error');
+                            $this->enqueueMessage(Text::_('JLIB_LOGIN_AUTHORISATION'), 'error');
 
                             return false;
                     }
@@ -880,7 +891,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             }
 
             // OK, the credentials are authenticated and user is authorised.  Let's fire the onLogin event.
-            $results = $this->triggerEvent('onUserLogin', [(array) $response, $options]);
+            $loginEvent = new LoginEvent('onUserLogin', ['subject' => (array) $response, 'options' => $options]);
+            $dispatcher->dispatch('onUserLogin', $loginEvent);
+            $results = $loginEvent['result'] ?? [];
 
             /*
              * If any of the user plugins did not successfully complete the login routine
@@ -900,14 +913,20 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 $options['responseType'] = $response->type;
 
                 // The user is successfully logged in. Run the after login events
-                $this->triggerEvent('onUserAfterLogin', [$options]);
+                $dispatcher->dispatch('onUserAfterLogin', new AfterLoginEvent('onUserAfterLogin', [
+                    'options' => $options,
+                    'subject' => (array) $response,
+                ]));
 
                 return true;
             }
         }
 
         // Trigger onUserLoginFailure Event.
-        $this->triggerEvent('onUserLoginFailure', [(array) $response]);
+        $dispatcher->dispatch('onUserLoginFailure', new LoginFailureEvent('onUserLoginFailure', [
+            'subject' => (array) $response,
+            'options' => $options,
+        ]));
 
         // If silent is set, just return false.
         if (isset($options['silent']) && $options['silent']) {
@@ -942,7 +961,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     public function logout($userid = null, $options = [])
     {
         // Get a user object from the Application.
-        $user = Factory::getUser($userid);
+        $user       = Factory::getUser($userid);
+        $dispatcher = $this->getDispatcher();
 
         // Build the credentials array.
         $parameters = [
@@ -956,21 +976,29 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         // Import the user plugin group.
-        PluginHelper::importPlugin('user', null, true, $this->getDispatcher());
+        PluginHelper::importPlugin('user', null, true, $dispatcher);
 
         // OK, the credentials are built. Lets fire the onLogout event.
-        $results = $this->triggerEvent('onUserLogout', [$parameters, $options]);
+        $logoutEvent = new LogoutEvent('onUserLogout', ['subject' => $parameters, 'options' => $options]);
+        $dispatcher->dispatch('onUserLogout', $logoutEvent);
+        $results = $logoutEvent['result'] ?? [];
 
         // Check if any of the plugins failed. If none did, success.
         if (!\in_array(false, $results, true)) {
             $options['username'] = $user->get('username');
-            $this->triggerEvent('onUserAfterLogout', [$options]);
+            $dispatcher->dispatch('onUserAfterLogout', new AfterLogoutEvent('onUserAfterLogout', [
+                'options' => $options,
+                'subject' => $parameters,
+            ]));
 
             return true;
         }
 
         // Trigger onUserLogoutFailure Event.
-        $this->triggerEvent('onUserLogoutFailure', [$parameters]);
+        $dispatcher->dispatch('onUserLogoutFailure', new LogoutFailureEvent('onUserLogoutFailure', [
+            'subject' => $parameters,
+            'options' => $options,
+        ]));
 
         return false;
     }
