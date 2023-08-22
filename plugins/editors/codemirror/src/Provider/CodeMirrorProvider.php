@@ -84,8 +84,8 @@ final class CodeMirrorProvider extends AbstractEditorProvider
     {
         $col     = $attributes['col'] ?? '';
         $row     = $attributes['row'] ?? '';
-        $width   = $params['width'] ?? '';
-        $height  = $params['height'] ?? '';
+        $width   = $attributes['width'] ?? '';
+        $height  = $attributes['height'] ?? '';
         $id      = $attributes['id'] ?? '';
         $buttons = $params['buttons'] ?? true;
         $asset   = $params['asset'] ?? 0;
