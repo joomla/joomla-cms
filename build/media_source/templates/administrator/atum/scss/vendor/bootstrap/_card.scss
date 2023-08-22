@@ -30,6 +30,7 @@
     font-weight: $font-weight-bold;
     color: var(--template-bg-dark);
     background: var(--card-bg);
+    align-items: center;
 
     > [class^="icon-"],
     > img {

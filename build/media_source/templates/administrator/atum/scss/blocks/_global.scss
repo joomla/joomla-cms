@@ -20,14 +20,6 @@ body {
     background-color: var(--template-bg-dark-5);
   }
 
-  @if $enable-dark-mode {
-    @include color-mode(dark) {
-      &.admin {
-        background-color: var(--secondary-bg);
-      }
-    }
-  }
-
   &.monochrome {
     filter: grayscale(1);
     &::after {
@@ -203,6 +195,14 @@ a[target="_blank"]::before {
 .text-muted {
   color: var(--template-text-dark) !important;
   opacity: .7;
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .text-muted {
+      color: var(--template-text-light) !important;
+    }
+  }
 }
 
 .card-columns {
