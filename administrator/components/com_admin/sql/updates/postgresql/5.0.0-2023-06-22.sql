@@ -2,7 +2,7 @@ ALTER TABLE "#__guidedtours" ADD COLUMN "alias" varchar(255) DEFAULT '' NOT NULL
 CREATE INDEX "#__guidedtours_idx_alias" ON "#__guidedtours" ("alias") /** CAN FAIL **/;
 
 UPDATE "#__guidedtours" SET "alias" = 'joomla_guidedtours' WHERE "title" = 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURS_TITLE';
-UPDATE "#__guidedtours" SET "alias" = 'joomla_guidedtourssteps' WHERE "title" = 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURSTEPS_TITLE';
+UPDATE "#__guidedtours" SET "alias" = 'joomla_guidedtoursteps' WHERE "title" = 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURSTEPS_TITLE';
 UPDATE "#__guidedtours" SET "alias" = 'joomla_articles'  WHERE "title" = 'COM_GUIDEDTOURS_TOUR_ARTICLES_TITLE';
 UPDATE "#__guidedtours" SET "alias" = 'joomla_categories' WHERE "title" = 'COM_GUIDEDTOURS_TOUR_CATEGORIES_TITLE';
 UPDATE "#__guidedtours" SET "alias" = 'joomla_menus' WHERE "title" = 'COM_GUIDEDTOURS_TOUR_MENUS_TITLE';
