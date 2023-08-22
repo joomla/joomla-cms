@@ -13,11 +13,13 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 $hadErrors    = $this->state->get('update_finished_with_error');
 $errors       = $this->state->get('update_errors');
 $logFile      = $this->state->get('log_file');
 $installerMsg = $this->state->get('installer_message');
+$forumLink    = '<a href="https://forum.joomla.org/" target="_blank" rel="noopener noreferrer">https://forum.joomla.org/</a>';
 
 ?>
 <div class="card">
@@ -31,13 +33,17 @@ $installerMsg = $this->state->get('installer_message');
         <?php else : ?>
             <div class="alert alert-error">
                 <span class="icon-check-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('NOTICE'); ?></span>
-                <?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_COMPLETE_WITH_ERROR_MESSAGE', $logFile); ?>
+                <?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_COMPLETE_WITH_ERROR_MESSAGE', $logFile, $forumLink); ?>
             </div>
-
+            <p>
+                <a href="<?php echo Uri::base(true); ?>/" class="btn btn-primary"><?php echo Text::_('JGLOBAL_TPL_CPANEL_LINK_TEXT') ?></a>
+            </p>
+            <?php if ($errors): ?>
             <h3><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_COMPLETE_UPDATE_ERRORS'); ?></h3>
             <?php foreach ($errors as $error) : ?>
                 <div class="alert alert-error"><?php echo $error; ?></div>
             <?php endforeach; ?>
+            <?php endif; ?>
         <?php endif; ?>
 
         <?php if ($installerMsg) : ?>
