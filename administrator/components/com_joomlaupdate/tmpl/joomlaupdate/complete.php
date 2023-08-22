@@ -38,11 +38,11 @@ $forumLink    = '<a href="https://forum.joomla.org/" target="_blank" rel="noopen
             <p>
                 <a href="<?php echo Uri::base(true); ?>/" class="btn btn-primary"><?php echo Text::_('JGLOBAL_TPL_CPANEL_LINK_TEXT') ?></a>
             </p>
-            <?php if ($errors): ?>
-            <h3><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_COMPLETE_UPDATE_ERRORS'); ?></h3>
-            <?php foreach ($errors as $error) : ?>
-                <div class="alert alert-error"><?php echo $error; ?></div>
-            <?php endforeach; ?>
+            <?php if ($errors) : ?>
+                <h3><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_COMPLETE_UPDATE_ERRORS'); ?></h3>
+                <?php foreach ($errors as $error) : ?>
+                    <div class="alert alert-error"><?php echo $error; ?></div>
+                <?php endforeach; ?>
             <?php endif; ?>
         <?php endif; ?>
 
