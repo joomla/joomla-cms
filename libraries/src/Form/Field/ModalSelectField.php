@@ -83,23 +83,107 @@ class ModalSelectField extends FormField
         }
 
         // Prepare enabled actions
-        $this->canDo['select'] = ((string) $this->element['select'] != 'false');
-        $this->canDo['new']    = ((string) $this->element['new'] == 'true');
-        $this->canDo['edit']   = ((string) $this->element['edit'] == 'true');
-        $this->canDo['clear']  = ((string) $this->element['clear'] != 'false');
+        $this->__set('select', (string) $this->element['select'] != 'false');
+        $this->__set('new', (string) $this->element['new'] == 'true');
+        $this->__set('edit', (string) $this->element['edit'] == 'true');
+        $this->__set('clear', (string) $this->element['clear'] != 'false');
 
-        // Prepare Urls
-        $this->urls['select']  = (string) $this->element['urlSelect'];
-        $this->urls['new']     = (string) $this->element['urlNew'];
-        $this->urls['edit']    = (string) $this->element['urlEdit'];
-        $this->urls['checkin'] = (string) $this->element['urlCheckin'];
-
-        // Prepare titles
-        $this->modalTitles['select']  = (string) $this->element['titleSelect'];
-        $this->modalTitles['new']     = (string) $this->element['titleNew'];
-        $this->modalTitles['edit']    = (string) $this->element['titleEdit'];
+        // Prepare Urls and titles
+        foreach (['urlSelect', 'urlNew', 'urlEdit', 'urlCheckin', 'titleSelect', 'titleNew', 'titleEdit'] as $attr) {
+            $this->__set($attr, (string) $this->element[$attr]);
+        }
 
         return $result;
+    }
+
+    /**
+     * Method to get certain otherwise inaccessible properties from the form field object.
+     *
+     * @param   string  $name  The property name for which to get the value.
+     *
+     * @return  mixed  The property value or null.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __get($name)
+    {
+        switch ($name) {
+            case 'select':
+                return $this->canDo['select'] ?? true;
+            case 'new':
+                return $this->canDo['new'] ?? false;
+            case 'edit':
+                return $this->canDo['edit'] ?? false;
+            case 'clear':
+                return $this->canDo['clear'] ?? true;
+            case 'urlSelect':
+                return $this->urls['select'] ?? '';
+            case 'urlNew':
+                return $this->urls['new'] ?? '';
+            case 'urlEdit':
+                return $this->urls['edit'] ?? '';
+            case 'urlCheckin':
+                return $this->urls['checkin'] ?? '';
+            case 'titleSelect':
+                return $this->modalTitles['select'] ?? '';
+            case 'titleNew':
+                return $this->modalTitles['new'] ?? '';
+            case 'titleEdit':
+                return $this->modalTitles['edit'] ?? '';
+            default:
+                return parent::__get($name);
+        }
+    }
+
+    /**
+     * Method to set certain otherwise inaccessible properties of the form field object.
+     *
+     * @param   string  $name   The property name for which to set the value.
+     * @param   mixed   $value  The value of the property.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __set($name, $value)
+    {
+        switch ($name) {
+            case 'select':
+                $this->canDo['select'] = (bool) $value;
+                break;
+            case 'new':
+                $this->canDo['new'] = (bool) $value;
+                break;
+            case 'edit':
+                $this->canDo['edit'] = (bool) $value;
+                break;
+            case 'clear':
+                $this->canDo['clear'] = (bool) $value;
+                break;
+            case 'urlSelect':
+                $this->urls['select'] = (string) $value;
+                break;
+            case 'urlNew':
+                $this->urls['new'] = (string) $value;
+                break;
+            case 'urlEdit':
+                $this->urls['edit'] = (string) $value;
+                break;
+            case 'urlCheckin':
+                $this->urls['checkin'] = (string) $value;
+                break;
+            case 'titleSelect':
+                $this->modalTitles['select'] = (string) $value;
+                break;
+            case 'titleNew':
+                $this->modalTitles['new'] = (string) $value;
+                break;
+            case 'titleEdit':
+                $this->modalTitles['edit'] = (string) $value;
+                break;
+            default:
+                parent::__set($name, $value);
+        }
     }
 
     /**
