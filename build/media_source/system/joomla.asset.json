@@ -580,7 +580,8 @@
         "type": "module"
       },
       "dependencies": [
-        "webcomponent.toolbar-button-legacy"
+        "webcomponent.toolbar-button-legacy",
+        "joomla.dialog"
       ]
     },
     {
