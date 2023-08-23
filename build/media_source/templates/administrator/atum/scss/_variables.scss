@@ -55,8 +55,7 @@ $theme-colors: (
   "action":                          $base-color,
   "error":                           $red-dark) !default;
 
-$template-background-light: #f0f4fb; //light background color, frontend dashboard background and installer
-                                     // body background
+$template-background-light: #f0f4fb; //light background color, frontend dashboard background and installer body background
 
 $atum-colors: (
   template-sidebar-bg:             var(--template-bg-dark-80),

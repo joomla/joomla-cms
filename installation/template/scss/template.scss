@@ -257,8 +257,8 @@ $body-bg: $template-background-light;
     // For now in dark mode we swap the color and the background around. But this probably is too much
     // emphasis than we require for the header
     .j-install-step-header {
-      background-color: $dark-blue;
       color: #fff;
+      background-color: $dark-blue;
     }
   }
 }
