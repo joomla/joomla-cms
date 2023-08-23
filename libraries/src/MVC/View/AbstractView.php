@@ -278,6 +278,31 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
     }
 
     /**
+     * Get the event dispatcher.
+     *
+     * The override was made to keep a backward compatibility for legacy component.
+     * TODO: Remove the override in 6.0
+     *
+     * @return  DispatcherInterface
+     *
+     * @since   5.0.0
+     * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
+     */
+    public function getDispatcher()
+    {
+        if (!$this->dispatcher) {
+            @trigger_error(
+                sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                E_USER_DEPRECATED
+            );
+
+            return Factory::getContainer()->get(DispatcherInterface::class);
+        }
+
+        return $this->dispatcher;
+    }
+
+    /**
      * Dispatches the given event on the internal dispatcher, does a fallback to the global one.
      *
      * @param   EventInterface  $event  The event
@@ -285,31 +310,19 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      * @return  void
      *
      * @since   4.1.0
+     *
+     * @deprecated 4.4 will be removed in 6.0. Use $this->getDispatcher() directly.
      */
     protected function dispatchEvent(EventInterface $event)
     {
-        try {
-            $this->getDispatcher()->dispatch($event->getName(), $event);
-        } catch (\UnexpectedValueException $e) {
-            Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
-        }
-    }
+        $this->getDispatcher()->dispatch($event->getName(), $event);
 
-    /**
-     * Returns the string for the given key from the internal language object.
-     *
-     * @param   string  $key  The key
-     *
-     * @return  string
-     *
-     * @since   4.4.0
-     */
-    protected function text(string $key): string
-    {
-        try {
-            return $this->getLanguage()->_($key);
-        } catch (\UnexpectedValueException $e) {
-            return Factory::getApplication()->getLanguage()->_($key);
-        }
+        @trigger_error(
+            sprintf(
+                'Method %s is deprecated and will be removed in 6.0. Use getDispatcher()->dispatch() directly.',
+                __METHOD__
+            ),
+            E_USER_DEPRECATED
+        );
     }
 }

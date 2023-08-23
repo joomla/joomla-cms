@@ -10,8 +10,12 @@
 
 namespace Joomla\Plugin\Schemaorg\Recipe\Extension;
 
+use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
+use Joomla\CMS\Schemaorg\SchemaorgPrepareDateTrait;
+use Joomla\CMS\Schemaorg\SchemaorgPrepareDurationTrait;
+use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -26,6 +30,8 @@ use Joomla\Event\SubscriberInterface;
 final class Recipe extends CMSPlugin implements SubscriberInterface
 {
     use SchemaorgPluginTrait;
+    use SchemaorgPrepareDateTrait;
+    use SchemaorgPrepareDurationTrait;
 
     /**
      * Load the language file on instantiation.
@@ -44,20 +50,72 @@ final class Recipe extends CMSPlugin implements SubscriberInterface
     protected $pluginName = 'Recipe';
 
     /**
-     *  To add plugin specific functions
+     * Returns an array of events this subscriber will listen to.
      *
-     *  @param   array $schema Schema form
+     * @return  array
      *
-     *  @return  array Updated schema form
+     * @since   5.0.0
      */
-    public function customCleanup(array $schema)
+    public static function getSubscribedEvents(): array
     {
-        $schema = $this->normalizeDurationsToISO($schema, ['cookTime', 'prepTime']);
+        return [
+            'onSchemaPrepareForm'       => 'onSchemaPrepareForm',
+            'onSchemaBeforeCompileHead' => ['onSchemaBeforeCompileHead', Priority::BELOW_NORMAL],
+        ];
+    }
 
-        $schema = $this->convertToArray($schema, ['recipeIngredient']);
+    /**
+     * Cleanup all Recipe types
+     *
+     * @param   BeforeCompileHeadEvent  $event  The given event
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    public function onSchemaBeforeCompileHead(BeforeCompileHeadEvent $event)
+    {
+        $schema = $event->getSchema();
 
-        $schema = $this->cleanupDate($schema, ['datePublished']);
+        $graph = $schema->get('@graph');
 
-        return $schema;
+        foreach ($graph as &$entry) {
+            if (!isset($entry['@type']) || $entry['@type'] !== 'Recipe') {
+                continue;
+            }
+
+            if (!empty($entry['datePublished'])) {
+                $entry['datePublished'] = $this->prepareDate($entry['datePublished']);
+            }
+
+            if (!empty($entry['cookTime'])) {
+                $entry['cookTime'] = $this->prepareDuration($entry['cookTime']);
+            }
+
+            if (!empty($entry['prepTime'])) {
+                $entry['prepTime'] = $this->prepareDuration($entry['prepTime']);
+            }
+
+            // Clean recipeIngredient
+            if (isset($entry['recipeIngredient']) && is_array($entry['recipeIngredient'])) {
+                $result = [];
+
+                foreach ($entry['recipeIngredient'] as $key => $value) {
+                    if (is_array($value)) {
+                        foreach ($value as $k => $v) {
+                            $result[] = $v;
+                        }
+
+                        continue;
+                    }
+
+                    $result[] = $value;
+                }
+
+                $entry['recipeIngredient'] = !empty($result) ? $result : null;
+            }
+        }
+
+        $schema->set('@graph', $graph);
     }
 }
