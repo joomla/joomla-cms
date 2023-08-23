@@ -32,6 +32,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.7.0
  */
+#[\AllowDynamicProperties]
 class User
 {
     use LegacyErrorHandlingTrait;

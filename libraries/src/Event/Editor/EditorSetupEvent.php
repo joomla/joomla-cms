@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Event\Editor;
@@ -15,7 +15,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 /**
  * Editor setup event
  *
- * @since   __DEPLOY_VERSION__
+ * @since   5.0.0
  */
 final class EditorSetupEvent extends AbstractImmutableEvent
 {
@@ -27,7 +27,7 @@ final class EditorSetupEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -45,7 +45,7 @@ final class EditorSetupEvent extends AbstractImmutableEvent
      *
      * @return  EditorsRegistryInterface
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(EditorsRegistryInterface $value): EditorsRegistryInterface
     {
@@ -57,7 +57,7 @@ final class EditorSetupEvent extends AbstractImmutableEvent
      *
      * @return  EditorsRegistryInterface
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getEditorsRegistry(): EditorsRegistryInterface
     {

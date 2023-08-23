@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\User;
  * Example:
  *  new BeforeDeleteEvent('onEventName', ['subject' => $userArray]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforeDeleteEvent extends AbstractDeleteEvent
 {

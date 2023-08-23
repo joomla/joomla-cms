@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\User;
 /**
  * Base class for User delete event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 abstract class AbstractDeleteEvent extends UserEvent
 {
@@ -25,7 +25,7 @@ abstract class AbstractDeleteEvent extends UserEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject'];
@@ -37,7 +37,7 @@ abstract class AbstractDeleteEvent extends UserEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(array $value): array
     {
@@ -49,7 +49,7 @@ abstract class AbstractDeleteEvent extends UserEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getUser(): array
     {

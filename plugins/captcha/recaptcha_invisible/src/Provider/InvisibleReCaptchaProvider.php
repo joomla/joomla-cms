@@ -19,12 +19,12 @@ use Joomla\Utilities\IpHelper;
 use ReCaptcha\RequestMethod;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Provider for Invisible Captcha
- * @since   __DEPLOY_VERSION__
+ * @since   5.0.0
  */
 final class InvisibleReCaptchaProvider implements CaptchaProviderInterface
 {
@@ -32,7 +32,7 @@ final class InvisibleReCaptchaProvider implements CaptchaProviderInterface
      * A Registry object holding the parameters for the plugin
      *
      * @var    Registry
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $params;
 
@@ -41,7 +41,7 @@ final class InvisibleReCaptchaProvider implements CaptchaProviderInterface
      *
      * @var    CMSApplicationInterface
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $application;
 
@@ -49,7 +49,7 @@ final class InvisibleReCaptchaProvider implements CaptchaProviderInterface
      * The http request method
      *
      * @var    RequestMethod
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $requestMethod;
 
@@ -60,7 +60,7 @@ final class InvisibleReCaptchaProvider implements CaptchaProviderInterface
      * @param   CMSApplicationInterface  $application
      * @param   RequestMethod|null       $requestMethod  The http request method
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function __construct(Registry $params, CMSApplicationInterface $application, RequestMethod $requestMethod = null)
     {
@@ -73,7 +73,7 @@ final class InvisibleReCaptchaProvider implements CaptchaProviderInterface
      * Return Captcha name, CMD string.
      *
      * @return string
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getName(): string
     {
@@ -88,7 +88,7 @@ final class InvisibleReCaptchaProvider implements CaptchaProviderInterface
      *
      * @return  string  The HTML to be embedded in the form
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      *
      * @throws  \RuntimeException
      */
@@ -119,7 +119,7 @@ final class InvisibleReCaptchaProvider implements CaptchaProviderInterface
      * Load captcha assets
      *
      * @return void
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function loadAssets()
     {
@@ -146,7 +146,7 @@ final class InvisibleReCaptchaProvider implements CaptchaProviderInterface
      *
      * @return  bool    If the answer is correct, false otherwise
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      *
      * @throws  \RuntimeException
      */
@@ -188,7 +188,7 @@ final class InvisibleReCaptchaProvider implements CaptchaProviderInterface
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      *
      * @throws  \RuntimeException
      */
@@ -207,7 +207,7 @@ final class InvisibleReCaptchaProvider implements CaptchaProviderInterface
      *
      * @return  boolean  True if response is good | False if response is bad.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  \RuntimeException
      */
     private function getResponse($privatekey, $remoteip, $response)

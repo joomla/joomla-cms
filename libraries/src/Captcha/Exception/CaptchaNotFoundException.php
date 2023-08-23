@@ -10,13 +10,13 @@
 namespace Joomla\CMS\Captcha\Exception;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Exception class defining a missing element
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class CaptchaNotFoundException extends \RuntimeException
 {

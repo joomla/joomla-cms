@@ -22,7 +22,7 @@ use Joomla\CMS\Event\Result\ResultTypeBooleanAware;
  * Example:
  *  new LoginEvent('onEventName', ['subject' => $authenticationResponseArray, 'options' => $options]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class LoginEvent extends AbstractLoginEvent implements ResultAwareInterface
 {

@@ -16,13 +16,13 @@ use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Abstract editor provider
  *
- * @since   __DEPLOY_VERSION__
+ * @since   5.0.0
  */
 abstract class AbstractEditorProvider implements EditorProviderInterface, DispatcherAwareInterface
 {
@@ -37,7 +37,7 @@ abstract class AbstractEditorProvider implements EditorProviderInterface, Dispat
      * @return  ButtonInterface[]
      * @throws \Exception
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getButtons($buttons, array $options = []): array
     {
@@ -89,7 +89,7 @@ abstract class AbstractEditorProvider implements EditorProviderInterface, Dispat
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function displayButtons($buttons, array $options = [])
     {

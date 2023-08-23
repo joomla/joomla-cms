@@ -49,7 +49,7 @@ final class InvisibleReCaptcha extends CMSPlugin implements SubscriberInterface
      * @param CaptchaSetupEvent $event
      *
      * @return void
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function onCaptchaSetup(CaptchaSetupEvent $event)
     {

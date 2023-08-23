@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\User;
  * Example:
  *  new AfterRemindEvent('onEventName', ['subject' => $user]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterRemindEvent extends UserEvent
 {
@@ -27,7 +27,7 @@ class AfterRemindEvent extends UserEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject'];
@@ -39,7 +39,7 @@ class AfterRemindEvent extends UserEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(object $value): object
     {
@@ -51,7 +51,7 @@ class AfterRemindEvent extends UserEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getUser(): object
     {

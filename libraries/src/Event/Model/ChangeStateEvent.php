@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\Model;
 /**
  * Class for Model event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 abstract class ChangeStateEvent extends ModelEvent
 {
@@ -25,7 +25,7 @@ abstract class ChangeStateEvent extends ModelEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['context', 'subject', 'value'];
@@ -37,7 +37,7 @@ abstract class ChangeStateEvent extends ModelEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(array $value): array
     {
@@ -51,7 +51,7 @@ abstract class ChangeStateEvent extends ModelEvent
      *
      * @return  int
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setValue($value): int
     {
@@ -63,7 +63,7 @@ abstract class ChangeStateEvent extends ModelEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getPks(): array
     {
@@ -75,7 +75,7 @@ abstract class ChangeStateEvent extends ModelEvent
      *
      * @return  integer
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getValue(): int
     {

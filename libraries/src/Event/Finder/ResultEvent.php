@@ -21,7 +21,7 @@ use Joomla\Component\Finder\Administrator\Indexer\Result;
  * Example:
  *  new ResultEvent('onEventName', ['subject' => $item, 'query' => $query]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class ResultEvent extends AbstractFinderEvent
 {
@@ -30,7 +30,7 @@ class ResultEvent extends AbstractFinderEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject', 'query'];
@@ -42,7 +42,7 @@ class ResultEvent extends AbstractFinderEvent
      *
      * @return  Result
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(Result $value): Result
     {
@@ -56,7 +56,7 @@ class ResultEvent extends AbstractFinderEvent
      *
      * @return  Query
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setQuery(Query $value): Query
     {
@@ -68,7 +68,7 @@ class ResultEvent extends AbstractFinderEvent
      *
      * @return  Result
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getItem(): Result
     {
@@ -80,7 +80,7 @@ class ResultEvent extends AbstractFinderEvent
      *
      * @return  Query
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getQuery(): Query
     {
