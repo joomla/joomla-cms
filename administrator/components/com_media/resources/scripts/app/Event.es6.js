@@ -3,17 +3,17 @@
  */
 export default class Event {
   /**
-     * Media Event constructor
-     */
+   * Media Event constructor
+   */
   constructor() {
     this.events = {};
   }
 
   /**
-     * Fire an event
-     * @param event
-     * @param data
-     */
+   * Fire an event
+   * @param event
+   * @param data
+   */
   fire(event, data = null) {
     if (this.events[event]) {
       this.events[event].forEach((fn) => fn(data));
@@ -21,12 +21,18 @@ export default class Event {
   }
 
   /**
-     * Listen to events
-     * @param event
-     * @param callback
-     */
+   * Listen to events
+   * @param event
+   * @param callback
+   */
   listen(event, callback) {
     this.events[event] = this.events[event] || [];
     this.events[event].push(callback);
+  }
+
+  stopListen(event) {
+    if (this.events[event]) {
+      // remove from the array
+    }
   }
 }

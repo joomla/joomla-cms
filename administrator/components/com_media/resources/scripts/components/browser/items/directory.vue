@@ -26,15 +26,18 @@
   </div>
 </template>
 <script>
-import navigable from '../../../mixins/navigable.es6';
+import {
+  computed, defineComponent, onMounted, ref,
+} from 'vue';
 import MediaBrowserActionItemsContainer from '../actionItems/actionItemsContainer.vue';
+import { useFileStore } from '../../../stores/files.es6.js';
+import { useViewStore } from '../../../stores/listview.es6.js';
 
 export default {
   name: 'MediaBrowserItemDirectory',
   components: {
     MediaBrowserActionItemsContainer,
   },
-  mixins: [navigable],
   props: {
     item: {
       type: Object,
@@ -42,6 +45,51 @@ export default {
     },
   },
   emits: ['toggle-settings'],
+  setup() {
+    const fileStore = useFileStore();
+    const disks = computed(() => fileStore.disks);
+    const directories = computed(() => fileStore.directories);
+    const selectedDirectory = computed(() => fileStore.selectedDirectory);
+    const selectedItems = computed(() => fileStore.selectedItems);
+    const search = computed(() => fileStore.search);
+
+    const viewStore = useViewStore();
+    const loading = computed(() => fileStore.loading);
+    const openInfoBar = computed(() => fileStore.openInfoBar);
+    const listView = computed(() => fileStore.listView);
+    const gridSize = computed(() => fileStore.gridSize);
+    const showConfirmDeleteModal = computed(() => fileStore.showConfirmDeleteModal);
+    const showCreateFolderModal = computed(() => fileStore.showCreateFolderModal);
+    const showPreviewModal = computed(() => fileStore.showPreviewModal);
+    const showShareModal = computed(() => fileStore.showShareModal);
+    const showRenameModal = computed(() => fileStore.showRenameModal);
+    const previewItem = computed(() => fileStore.previewItem);
+    const sortBy = computed(() => fileStore.sortBy);
+    const sortDirection = computed(() => fileStore.sortDirection);
+
+    return {
+      disks,
+      directories,
+      selectedDirectory,
+      selectedItems,
+      search,
+      fileStore,
+
+      loading,
+      openInfoBar,
+      listView,
+      gridSize,
+      showConfirmDeleteModal,
+      showCreateFolderModal,
+      showPreviewModal,
+      showShareModal,
+      showRenameModal,
+      previewItem,
+      sortBy,
+      sortDirection,
+      viewStore,
+    };
+  },
   data() {
     return {
       showActions: false,
@@ -50,7 +98,7 @@ export default {
   methods: {
     /* Handle the on preview double click event */
     onPreviewDblClick() {
-      this.navigateTo(this.item.path);
+      this.fileStore.getPathContents(this.item.path, false, false);
     },
     /* Hide actions dropdown */
     hideActions() {

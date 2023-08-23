@@ -1,13 +1,15 @@
 <template>
   <transition name="infobar">
     <div
-      v-if="showInfoBar && item"
+      v-if="infoBarState && item"
       class="media-infobar"
     >
-      <span
+      <button
         class="infobar-close"
-        @click="hideInfoBar()"
-      >×</span>
+        @click="viewStore.toggleInfoBar"
+      >
+        ×
+      </button>
       <h2>{{ item.name }}</h2>
       <div
         v-if="item.path === '/'"
@@ -63,37 +65,74 @@
   </transition>
 </template>
 <script>
-import * as types from '../../store/mutation-types.es6';
+import {
+  computed, defineComponent, onMounted, ref,
+} from 'vue';
+import { useFileStore } from '../../stores/files.es6.js';
+import { useViewStore } from '../../stores/listview.es6.js';
 
 export default {
   name: 'MediaInfobar',
+  setup() {
+    const fileStore = useFileStore();
+    const disks = computed(() => fileStore.disks);
+    const directories = computed(() => fileStore.directories);
+    const selectedDirectory = computed(() => fileStore.selectedDirectory);
+    const selectedItems = computed(() => fileStore.selectedItems);
+    const search = computed(() => fileStore.search);
+
+    const viewStore = useViewStore();
+    const loading = computed(() => viewStore.loading);
+    const infoBarState = computed(() => viewStore.infoBarState);
+    const listView = computed(() => viewStore.listView);
+    const gridSize = computed(() => viewStore.gridSize);
+    const showConfirmDeleteModal = computed(() => viewStore.showConfirmDeleteModal);
+    const showCreateFolderModal = computed(() => viewStore.showCreateFolderModal);
+    const showPreviewModal = computed(() => viewStore.showPreviewModal);
+    const showShareModal = computed(() => viewStore.showShareModal);
+    const showRenameModal = computed(() => viewStore.showRenameModal);
+    const previewItem = computed(() => viewStore.previewItem);
+    const sortBy = computed(() => viewStore.sortBy);
+    const sortDirection = computed(() => viewStore.sortDirection);
+
+    return {
+      disks,
+      directories,
+      selectedDirectory,
+      selectedItems,
+      search,
+      fileStore,
+
+      loading,
+      infoBarState,
+      listView,
+      gridSize,
+      showConfirmDeleteModal,
+      showCreateFolderModal,
+      showPreviewModal,
+      showShareModal,
+      showRenameModal,
+      previewItem,
+      sortBy,
+      sortDirection,
+      viewStore,
+    };
+  },
   computed: {
     /* Get the item to show in the infobar */
     item() {
-      // Check if there are selected items
-      const { selectedItems } = this.$store.state;
-
       // If there is only one selected item, show that one.
-      if (selectedItems.length === 1) {
-        return selectedItems[0];
+      if (this.selectedItems.length === 1) {
+        return this.selectedItems[0];
       }
 
       // If there are more selected items, use the last one
-      if (selectedItems.length > 1) {
-        return selectedItems.slice(-1)[0];
+      if (this.selectedItems.length > 1) {
+        return this.selectedItems.slice(-1)[0];
       }
 
       // Use the currently selected directory as a fallback
-      return this.$store.getters.getSelectedDirectory;
-    },
-    /* Show/Hide the InfoBar */
-    showInfoBar() {
-      return this.$store.state.showInfoBar;
-    },
-  },
-  methods: {
-    hideInfoBar() {
-      this.$store.commit(types.HIDE_INFOBAR);
+      return this.fileStore.getSelectedDirectory;
     },
   },
 };

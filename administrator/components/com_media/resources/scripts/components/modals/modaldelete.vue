@@ -1,6 +1,6 @@
 <template>
   <MediaModal
-    v-if="$store.state.showConfirmDeleteModal"
+    v-if="openModal"
     :size="'md'"
     :show-close="false"
     label-element="confirmDeleteTitle"
@@ -41,30 +41,24 @@
   </MediaModal>
 </template>
 
-<script>
-import * as types from '../../store/mutation-types.es6';
+<script setup>
+import { computed } from 'vue';
 import MediaModal from './modal.vue';
+import { useFileStore } from '../../stores/files.es6.js';
+import { useModalStore } from '../../stores/modalview.es6';
 
-export default {
-  name: 'MediaShareModal',
-  components: {
-    MediaModal,
-  },
-  computed: {
-    item() {
-      return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1];
-    },
-  },
-  methods: {
-    /* Delete Item */
-    deleteItem() {
-      this.$store.dispatch('deleteSelectedItems');
-      this.$store.commit(types.HIDE_CONFIRM_DELETE_MODAL);
-    },
-    /* Close the modal instance */
-    close() {
-      this.$store.commit(types.HIDE_CONFIRM_DELETE_MODAL);
-    },
-  },
-};
+const filesStore = useFileStore();
+const modalStore = useModalStore();
+const openModal = computed(() => modalStore.openModal);
+
+/* Delete Item */
+function deleteItem() {
+  filesStore.deleteSelectedItems();
+  modalStore.setOpenModal(null);
+}
+
+/* Close the modal instance */
+function close() {
+  modalStore.setOpenModal(null);
+}
 </script>

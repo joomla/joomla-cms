@@ -40,58 +40,55 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { onMounted, onBeforeUnmount } from 'vue';
 import Lock from 'vue-focus-lock/src/Lock.vue';
 
-export default {
-  name: 'MediaModal',
-  components: {
-    Lock,
+const props = defineProps({
+  // Whether or not the close button in the header should be shown
+  showClose: {
+    type: Boolean,
+    default: true,
   },
-  props: {
-    /* Whether or not the close button in the header should be shown */
-    showClose: {
-      type: Boolean,
-      default: true,
-    },
-    /* The size of the modal */
-    size: {
-      type: String,
-      default: '',
-    },
-    labelElement: {
-      type: String,
-      required: true,
-    },
+  // The size of the modal
+  size: {
+    type: String,
+    default: '',
   },
-  emits: ['close'],
-  computed: {
-    /* Get the modal css class */
-    modalClass() {
-      return {
-        'modal-sm': this.size === 'sm',
-      };
-    },
+  labelElement: {
+    type: String,
+    required: true,
   },
-  mounted() {
-    // Listen to keydown events on the document
-    document.addEventListener('keydown', this.onKeyDown);
-  },
-  beforeUnmount() {
-    // Remove the keydown event listener
-    document.removeEventListener('keydown', this.onKeyDown);
-  },
-  methods: {
-    /* Close the modal instance */
-    close() {
-      this.$emit('close');
-    },
-    /* Handle keydown events */
-    onKeyDown(event) {
-      if (event.keyCode === 27) {
-        this.close();
-      }
-    },
-  },
-};
+});
+
+const emit = defineEmits(['close']);
+
+// Get the modal css class
+function modalClass() {
+  return {
+    'modal-sm': this.size === 'sm',
+  };
+}
+
+// Listen to keydown events on the document
+onMounted(() => {
+  document.addEventListener('keydown', this.onKeyDown);
+});
+
+// Remove the keydown event listener
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', this.onKeyDown);
+});
+
+// Close the modal instance
+function close() {
+  emit('close');
+}
+
+// Handle keydown events
+function onKeyDown(event) {
+  if (event.key === 'Escape') {
+    this.close();
+  }
+}
 </script>

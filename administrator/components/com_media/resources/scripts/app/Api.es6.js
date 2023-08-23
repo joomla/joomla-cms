@@ -1,5 +1,5 @@
 import notifications from './Notifications.es6';
-import { dirname } from './path';
+import dirname from './path.es6';
 
 /**
  * Normalize a single item
@@ -28,17 +28,10 @@ function normalizeItem(item) {
  * @returns {{directories, files}}
  * @private
  */
-function normalizeArray(data) {
-  const directories = data.filter((item) => (item.type === 'dir'))
-    .map((directory) => normalizeItem(directory));
-  const files = data.filter((item) => (item.type === 'file'))
-    .map((file) => normalizeItem(file));
-
-  return {
-    directories,
-    files,
-  };
-}
+const normalizeArray = (data) => ({
+  directories: data.filter((item) => (item.type === 'dir')).map((directory) => normalizeItem(directory)),
+  files: data.filter((item) => (item.type === 'file')).map((file) => normalizeItem(file)),
+});
 
 /**
  * Handle errors
@@ -81,8 +74,8 @@ function handleError(error) {
  */
 class Api {
   /**
-     * Store constructor
-     */
+   * Store constructor
+   */
   constructor() {
     const options = Joomla.getOptions('com_media', {});
     if (options.apiBaseUrl === undefined) {
@@ -126,7 +119,7 @@ class Api {
       }
 
       Joomla.request({
-        url: url.toString(),
+        url,
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         onSuccess: (response) => {
@@ -152,7 +145,7 @@ class Api {
       const data = { [this.csrfToken]: '1', name };
 
       Joomla.request({
-        url: url.toString(),
+        url,
         method: 'POST',
         data: JSON.stringify(data),
         headers: { 'Content-Type': 'application/json' },
@@ -192,7 +185,7 @@ class Api {
       }
 
       Joomla.request({
-        url: url.toString(),
+        url,
         method: 'POST',
         data: JSON.stringify(data),
         headers: { 'Content-Type': 'application/json' },
@@ -223,7 +216,7 @@ class Api {
       };
 
       Joomla.request({
-        url: url.toString(),
+        url,
         method: 'PUT',
         data: JSON.stringify(data),
         headers: { 'Content-Type': 'application/json' },
@@ -251,7 +244,7 @@ class Api {
       const data = { [this.csrfToken]: '1' };
 
       Joomla.request({
-        url: url.toString(),
+        url,
         method: 'DELETE',
         data: JSON.stringify(data),
         headers: { 'Content-Type': 'application/json' },

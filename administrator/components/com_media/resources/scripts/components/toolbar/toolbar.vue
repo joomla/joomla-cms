@@ -5,7 +5,7 @@
     :aria-label="translate('COM_MEDIA_TOOLBAR_LABEL')"
   >
     <div
-      v-if="isLoading"
+      v-if="loading"
       class="media-loader"
     />
     <div class="media-view-icons">
@@ -17,7 +17,7 @@
         @click.stop="toggleSelectAll"
       >
     </div>
-    <MediaBreadcrumb />
+    <Breadcrumb />
     <div
       class="media-view-search-input"
       role="search"
@@ -42,7 +42,7 @@
         class="media-toolbar-icon"
         :class="{ active: sortingOptions }"
         :aria-label="translate('COM_MEDIA_CHANGE_ORDERING')"
-        @click="showSortOptions()"
+        @click="viewStore.toggleSortingOptions"
       >
         <span
           class="fas fa-sort-amount-down-alt"
@@ -55,7 +55,7 @@
         class="media-toolbar-icon media-toolbar-decrease-grid-size"
         :class="{disabled: isGridSize('sm')}"
         :aria-label="translate('COM_MEDIA_DECREASE_GRID')"
-        @click.stop.prevent="decreaseGridSize()"
+        @click.stop.prevent="localDecreaseGridSize"
       >
         <span
           class="icon-search-minus"
@@ -68,7 +68,7 @@
         class="media-toolbar-icon media-toolbar-increase-grid-size"
         :class="{disabled: isGridSize('xl')}"
         :aria-label="translate('COM_MEDIA_INCREASE_GRID')"
-        @click.stop.prevent="increaseGridSize()"
+        @click.stop.prevent="localIncreaseGridSize"
       >
         <span
           class="icon-search-plus"
@@ -79,7 +79,7 @@
         type="button"
         class="media-toolbar-icon media-toolbar-list-view"
         :aria-label="translate('COM_MEDIA_TOGGLE_LIST_VIEW')"
-        @click.stop.prevent="changeListView()"
+        @click.stop.prevent="toggleListView"
       >
         <span
           :class="toggleListViewBtnIcon"
@@ -90,7 +90,7 @@
         type="button"
         class="media-toolbar-icon media-toolbar-info"
         :aria-label="translate('COM_MEDIA_TOGGLE_INFO')"
-        @click.stop.prevent="toggleInfoBar"
+        @click.stop.prevent="viewStore.toggleInfoBar"
       >
         <span
           class="icon-info"
@@ -106,11 +106,10 @@
   >
     <div class="col-3">
       <select
-        ref="orderby"
         class="form-select"
         :aria-label="translate('COM_MEDIA_ORDER_BY')"
-        :value="$store.state.sortBy"
-        @change="changeOrderBy()"
+        :value="sortBy"
+        @change="changeOrderBy"
       >
         <option value="name">
           {{ translate('COM_MEDIA_MEDIA_NAME') }}
@@ -131,11 +130,10 @@
     </div>
     <div class="col-3">
       <select
-        ref="orderdirection"
         class="form-select"
         :aria-label="translate('COM_MEDIA_ORDER_DIRECTION')"
-        :value="$store.state.sortDirection"
-        @change="changeOrderDirection()"
+        :value="sortDirection"
+        @change="changeOrderDirection"
       >
         <option value="asc">
           {{ translate('COM_MEDIA_ORDER_ASC') }}
@@ -148,104 +146,72 @@
   </div>
 </template>
 
-<script>
-import * as types from '../../store/mutation-types.es6';
-import MediaBreadcrumb from '../breadcrumb/breadcrumb.vue';
+<script setup>
+import { computed, ref, watch } from 'vue';
+import { storeToRefs } from 'pinia';
+import Breadcrumb from '../breadcrumb/breadcrumb.vue';
+import { useFileStore } from '../../stores/files.es6.js';
+import { useViewStore } from '../../stores/listview.es6.js';
 
-export default {
-  name: 'MediaToolbar',
-  components: {
-    MediaBreadcrumb,
-  },
-  data() {
-    return {
-      sortingOptions: false,
-    };
-  },
-  computed: {
-    toggleListViewBtnIcon() {
-      return (this.isGridView) ? 'icon-list' : 'icon-th';
-    },
-    isLoading() {
-      return this.$store.state.isLoading;
-    },
-    atLeastOneItemSelected() {
-      return this.$store.state.selectedItems.length > 0;
-    },
-    isGridView() {
-      return (this.$store.state.listView === 'grid');
-    },
-    allItemsSelected() {
-      return (this.$store.getters.getSelectedDirectoryContents.length === this.$store.state.selectedItems.length);
-    },
-    search() {
-      return this.$store.state.search;
-    },
-  },
-  watch: {
-    '$store.state.selectedItems': function () {
-      if (!this.allItemsSelected) {
-        this.$refs.mediaToolbarSelectAll.checked = false;
-      }
-    },
-  },
-  methods: {
-    toggleInfoBar() {
-      if (this.$store.state.showInfoBar) {
-        this.$store.commit(types.HIDE_INFOBAR);
-      } else {
-        this.$store.commit(types.SHOW_INFOBAR);
-      }
-    },
-    decreaseGridSize() {
-      if (!this.isGridSize('sm')) {
-        this.$store.commit(types.DECREASE_GRID_SIZE);
-      }
-    },
-    increaseGridSize() {
-      if (!this.isGridSize('xl')) {
-        this.$store.commit(types.INCREASE_GRID_SIZE);
-      }
-    },
-    changeListView() {
-      if (this.$store.state.listView === 'grid') {
-        this.$store.commit(types.CHANGE_LIST_VIEW, 'table');
-      } else {
-        this.$store.commit(types.CHANGE_LIST_VIEW, 'grid');
-      }
-    },
-    toggleSelectAll() {
-      if (this.allItemsSelected) {
-        this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-      } else {
-        this.$store.commit(types.SELECT_BROWSER_ITEMS, this.$store.getters.getSelectedDirectoryContents);
-        window.parent.document.dispatchEvent(
-          new CustomEvent(
-            'onMediaFileSelected',
-            {
-              bubbles: true,
-              cancelable: false,
-              detail: {},
-            },
-          ),
-        );
-      }
-    },
-    isGridSize(size) {
-      return (this.$store.state.gridSize === size);
-    },
-    changeSearch(query) {
-      this.$store.commit(types.SET_SEARCH_QUERY, query.target.value);
-    },
-    showSortOptions() {
-      this.sortingOptions = !this.sortingOptions;
-    },
-    changeOrderDirection() {
-      this.$store.commit(types.UPDATE_SORT_DIRECTION, this.$refs.orderdirection.value);
-    },
-    changeOrderBy() {
-      this.$store.commit(types.UPDATE_SORT_BY, this.$refs.orderby.value);
-    },
-  },
-};
+const mediaToolbarSelectAll = ref(null);
+const fileStore = useFileStore();
+const viewStore = useViewStore();
+const { selectedItems } = storeToRefs(fileStore);
+const search = computed(() => fileStore.search);
+const getSelectedDirectoryContents = computed(() => fileStore.getSelectedDirectoryContents);
+const loading = computed(() => viewStore.loading);
+const listView = computed(() => viewStore.listView);
+const gridSize = computed(() => viewStore.gridSize);
+const sortingOptions = computed(() => viewStore.sortingOptions);
+const sortBy = computed(() => viewStore.sortBy);
+const sortDirection = computed(() => viewStore.sortDirection);
+const isGridView = computed(() => listView.value === 'grid');
+const toggleListViewBtnIcon = computed(() => ((isGridView.value) ? 'icon-list' : 'icon-th'));
+
+function toggleListView() {
+  viewStore.toggleListView();
+}
+
+function localDecreaseGridSize() {
+  if (!isGridSize('sm')) {
+    viewStore.decreaseGridSize();
+  }
+}
+
+function localIncreaseGridSize() {
+  if (!isGridSize('xl')) {
+    viewStore.increaseGridSize();
+  }
+}
+
+function toggleSelectAll() {
+  if (selectedItems.value.length === getSelectedDirectoryContents.value.length) {
+    fileStore.resetSelectedItems();
+  } else {
+    fileStore.addItemsToSelectedItems([...fileStore.getSelectedDirectoryContents]);
+  }
+  window.parent.document.dispatchEvent(new CustomEvent('onMediaFileSelected', { bubbles: true, cancelable: false, detail: {} }));
+}
+
+function isGridSize(size) {
+  return gridSize.value === size;
+}
+
+function changeSearch(event) {
+  fileStore.setSearchQuery(event.target.value);
+}
+
+function changeOrderDirection(event) {
+  viewStore.updateSortDirection(event.target.value);
+}
+
+function changeOrderBy(event) {
+  viewStore.updateSortBy(event.target.value);
+}
+
+watch(selectedItems, (ev) => {
+  if (!([...ev].length === getSelectedDirectoryContents.value.length)) {
+    mediaToolbarSelectAll.value.checked = false;
+  }
+});
 </script>

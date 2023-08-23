@@ -1,6 +1,6 @@
 <template>
   <MediaModal
-    v-if="$store.state.showRenameModal"
+    v-if="showRenameModal"
     :size="'sm'"
     :show-close="false"
     label-element="renameTitle"
@@ -70,17 +70,52 @@
 </template>
 
 <script>
-import * as types from '../../store/mutation-types.es6';
+import { computed } from 'vue';
 import MediaModal from './modal.vue';
+import { useFileStore } from '../../stores/files.es6.js';
+import { useViewStore } from '../../stores/listview.es6.js';
 
 export default {
   name: 'MediaRenameModal',
   components: {
     MediaModal,
   },
+  setup() {
+    const filesStore = useFileStore();
+    const disks = computed(() => filesStore.disks);
+    const directories = computed(() => filesStore.directories);
+    const selectedDirectory = computed(() => filesStore.selectedDirectory);
+    const selectedItems = computed(() => filesStore.selectedItems);
+    const search = computed(() => filesStore.search);
+
+    const viewStore = useViewStore();
+    const loading = computed(() => filesStore.loading);
+    const showInfoBar = computed(() => filesStore.showInfoBar);
+    const listView = computed(() => filesStore.listView);
+    const gridSize = computed(() => filesStore.gridSize);
+    const sortBy = computed(() => filesStore.sortBy);
+    const sortDirection = computed(() => filesStore.sortDirection);
+
+    return {
+      disks,
+      directories,
+      selectedDirectory,
+      selectedItems,
+      search,
+      filesStore,
+
+      loading,
+      showInfoBar,
+      listView,
+      gridSize,
+      sortBy,
+      sortDirection,
+      viewStore,
+    };
+  },
   computed: {
     item() {
-      return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1];
+      return this.store.selectedItems[this.store.selectedItems.length - 1];
     },
     name() {
       return this.item.name.replace(`.${this.item.extension}`, '');
@@ -99,7 +134,7 @@ export default {
     },
     /* Close the modal instance */
     close() {
-      this.$store.commit(types.HIDE_RENAME_MODAL);
+      this.store.hideRenameModal();
     },
     /* Save the form and create the folder */
     save() {
@@ -119,7 +154,7 @@ export default {
       }
 
       // Rename the item
-      this.$store.dispatch('renameItem', {
+      this.store.renameItem({
         item: this.item,
         newPath: newPath + newName,
         newName,

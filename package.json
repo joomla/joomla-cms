@@ -73,6 +73,7 @@
     "mark.js": "^8.11.1",
     "mediaelement": "^5.1.1",
     "metismenujs": "^1.4.0",
+    "pinia": "^2.1.6",
     "punycode": "^2.3.0",
     "qrcode-generator": "^1.4.4",
     "roboto-fontface": "^0.10.0",
@@ -80,10 +81,8 @@
     "short-and-sweet": "^1.0.4",
     "skipto": "^4.1.7",
     "tinymce": "^6.6.2",
-    "vue": "3.2.45",
-    "vue-focus-lock": "^2.0.5",
-    "vuex": "^4.1.0",
-    "vuex-persist": "^3.1.3"
+    "vue": "3.3.0",
+    "vue-focus-lock": "^2.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.22.10",

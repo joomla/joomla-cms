@@ -38,7 +38,10 @@
       />
       <p>{{ translate("COM_MEDIA_DROP_FILE") }}</p>
     </div>
-    <div class="media-dragoutline">
+    <div
+      ref="mmDragoutline"
+      class="media-dragoutline"
+    >
       <span
         class="icon-cloud-upload upload-icon"
         aria-hidden="true"
@@ -47,7 +50,7 @@
     </div>
     <MediaBrowserTable
       v-if="(listView === 'table' && !isEmpty && !isEmptySearch)"
-      :local-items="localItems"
+      :items="localItems"
       :current-directory="currentDirectory"
       :style="mediaBrowserStyles"
     />
@@ -72,52 +75,16 @@
 </template>
 
 <script>
-import * as types from '../../store/mutation-types.es6';
+import {
+  computed, defineComponent, onMounted, ref,
+} from 'vue';
+import { storeToRefs } from 'pinia';
 import MediaBrowserTable from './table/table.vue';
 import MediaBrowserItem from './items/item.es6';
 import MediaInfobar from '../infobar/infobar.vue';
-
-function sortArray(array, by, direction) {
-  return array.sort((a, b) => {
-    // By name
-    if (by === 'name') {
-      if (direction === 'asc') {
-        return a.name.toUpperCase().localeCompare(b.name.toUpperCase(), 'en', { sensitivity: 'base' });
-      }
-      return b.name.toUpperCase().localeCompare(a.name.toUpperCase(), 'en', { sensitivity: 'base' });
-    }
-    // By size
-    if (by === 'size') {
-      if (direction === 'asc') {
-        return parseInt(a.size, 10) - parseInt(b.size, 10);
-      }
-      return parseInt(b.size, 10) - parseInt(a.size, 10);
-    }
-    // By dimension
-    if (by === 'dimension') {
-      if (direction === 'asc') {
-        return (parseInt(a.width, 10) * parseInt(a.height, 10)) - (parseInt(b.width, 10) * parseInt(b.height, 10));
-      }
-      return (parseInt(b.width, 10) * parseInt(b.height, 10)) - (parseInt(a.width, 10) * parseInt(a.height, 10));
-    }
-    // By date created
-    if (by === 'date_created') {
-      if (direction === 'asc') {
-        return new Date(a.create_date) - new Date(b.create_date);
-      }
-      return new Date(b.create_date) - new Date(a.create_date);
-    }
-    // By date modified
-    if (by === 'date_modified') {
-      if (direction === 'asc') {
-        return new Date(a.modified_date) - new Date(b.modified_date);
-      }
-      return new Date(b.modified_date) - new Date(a.modified_date);
-    }
-
-    return array;
-  });
-}
+import { useFileStore } from '../../stores/files.es6.js';
+import { useViewStore } from '../../stores/listview.es6.js';
+import sortArray from '../../app/sorting.es6';
 
 export default {
   name: 'MediaBrowser',
@@ -126,50 +93,95 @@ export default {
     MediaInfobar,
     MediaBrowserItem,
   },
+  setup() {
+    const fileStore = useFileStore();
+    const disks = computed(() => fileStore.disks);
+    const directories = computed(() => fileStore.directories);
+    const selectedDirectory = computed(() => fileStore.selectedDirectory);
+    const selectedItems = computed(() => fileStore.selectedItems);
+    const search = computed(() => fileStore.search);
+    const { getSelectedDirectoryDirectories, getSelectedDirectoryFiles } = storeToRefs(fileStore);
+
+    const viewStore = useViewStore();
+    const loading = computed(() => viewStore.loading);
+    const infoBarState = computed(() => viewStore.infoBarState);
+    const listView = computed(() => viewStore.listView);
+    const gridSize = computed(() => viewStore.gridSize);
+    const showConfirmDeleteModal = computed(() => viewStore.showConfirmDeleteModal);
+    const showCreateFolderModal = computed(() => viewStore.showCreateFolderModal);
+    const showPreviewModal = computed(() => viewStore.showPreviewModal);
+    const showShareModal = computed(() => viewStore.showShareModal);
+    const showRenameModal = computed(() => viewStore.showRenameModal);
+    const previewItem = computed(() => viewStore.previewItem);
+    const sortBy = computed(() => viewStore.sortBy);
+    const sortDirection = computed(() => viewStore.sortDirection);
+
+    return {
+      disks,
+      directories,
+      selectedDirectory,
+      selectedItems,
+      search,
+      sortBy,
+      sortDirection,
+      getSelectedDirectoryDirectories,
+      getSelectedDirectoryFiles,
+      fileStore,
+
+      loading,
+      infoBarState,
+      listView,
+      gridSize,
+      showConfirmDeleteModal,
+      showCreateFolderModal,
+      showPreviewModal,
+      showShareModal,
+      showRenameModal,
+      previewItem,
+      sortBy,
+      sortDirection,
+      viewStore,
+    };
+  },
   computed: {
     /* Get the contents of the currently selected directory */
     localItems() {
-      const dirs = sortArray(this.$store.getters.getSelectedDirectoryDirectories.slice(0), this.$store.state.sortBy, this.$store.state.sortDirection);
-      const files = sortArray(this.$store.getters.getSelectedDirectoryFiles.slice(0), this.$store.state.sortBy, this.$store.state.sortDirection);
+      const dirs = sortArray(this.getSelectedDirectoryDirectories.slice(0), this.sortBy, this.sortDirection);
+      const files = sortArray(this.getSelectedDirectoryFiles.slice(0), this.sortBy, this.sortDirection);
 
       return [
-        ...dirs.filter((dir) => dir.name.toLowerCase().includes(this.$store.state.search.toLowerCase())),
-        ...files.filter((file) => file.name.toLowerCase().includes(this.$store.state.search.toLowerCase())),
+        ...dirs.filter((dir) => dir.name.toLowerCase().includes(this.search.toLowerCase())),
+        ...files.filter((file) => file.name.toLowerCase().includes(this.search.toLowerCase())),
       ];
     },
     /* The styles for the media-browser element */
     getHeight() {
       return {
-        height: this.$store.state.listView === 'table' && !this.isEmpty ? 'unset' : '100%',
+        height: this.listView === 'table' && !this.isEmpty ? 'unset' : '100%',
       };
     },
     mediaBrowserStyles() {
       return {
-        width: this.$store.state.showInfoBar ? '75%' : '100%',
-        height: this.$store.state.listView === 'table' && !this.isEmpty ? 'unset' : '100%',
+        width: this.infoBarState ? '75%' : '100%',
+        height: this.listView === 'table' && !this.isEmpty ? 'unset' : '100%',
       };
     },
     isEmptySearch() {
-      return this.$store.state.search !== '' && this.localItems.length === 0;
+      return this.search !== '' && this.localItems.length === 0;
     },
     isEmpty() {
-      return ![...this.$store.getters.getSelectedDirectoryDirectories, ...this.$store.getters.getSelectedDirectoryFiles].length
-       && !this.$store.state.isLoading;
-    },
-    /* The styles for the media-browser element */
-    listView() {
-      return this.$store.state.listView;
+      return this.localItems.length === 0 && !this.loading;
     },
     mediaBrowserGridItemsClass() {
       return {
-        [`media-browser-items-${this.$store.state.gridSize}`]: true,
+        [`media-browser-items-${this.gridSize}`]: true,
       };
     },
     isModal() {
       return Joomla.getOptions('com_media', {}).isModal;
     },
     currentDirectory() {
-      const parts = this.$store.state.selectedDirectory.split('/').filter((crumb) => crumb.length !== 0);
+      const parts = this.selectedDirectory.split('/').filter((crumb) => crumb.length !== 0);
 
       // The first part is the name of the drive, so if we have a folder name display it. Else
       // find the filename
@@ -179,7 +191,7 @@ export default {
 
       let diskName = '';
 
-      this.$store.state.disks.forEach((disk) => {
+      this.disks.forEach((disk) => {
         disk.drives.forEach((drive) => {
           if (drive.root === `${parts[0]}/`) {
             diskName = drive.displayName;
@@ -209,7 +221,7 @@ export default {
 
       const clickedOutside = notClickedBrowserItems && notClickedInfobar && !clickedDelete;
       if (clickedOutside) {
-        this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+        this.fileStore.resetSelectedItems();
 
         window.parent.document.dispatchEvent(
           new CustomEvent(
@@ -255,9 +267,9 @@ export default {
         const content = result.slice(splitIndex, result.length);
 
         // Upload the file
-        this.$store.dispatch('uploadFile', {
+        this.fileStore.uploadFile({
           name: file.name,
-          parent: this.$store.state.selectedDirectory,
+          parent: selectedDirectory,
           content,
         });
       };

@@ -52,8 +52,13 @@
 </template>
 
 <script>
+import {
+  computed, defineComponent, onMounted, ref,
+} from 'vue';
 import api from '../../../app/Api.es6';
 import MediaBrowserActionItemsContainer from '../actionItems/actionItemsContainer.vue';
+import { useFileStore } from '../../../stores/files.es6.js';
+import { useViewStore } from '../../../stores/listview.es6.js';
 
 export default {
   name: 'MediaBrowserItemImage',
@@ -65,6 +70,51 @@ export default {
     focused: { type: Boolean, required: true, default: false },
   },
   emits: ['toggle-settings'],
+  setup() {
+    const fileStore = useFileStore();
+    const disks = computed(() => fileStore.disks);
+    const directories = computed(() => fileStore.directories);
+    const selectedDirectory = computed(() => fileStore.selectedDirectory);
+    const selectedItems = computed(() => fileStore.selectedItems);
+    const search = computed(() => fileStore.search);
+
+    const viewStore = useViewStore();
+    const isLoading = computed(() => viewStore.isLoading);
+    const showInfoBar = computed(() => viewStore.showInfoBar);
+    const listView = computed(() => viewStore.listView);
+    const gridSize = computed(() => viewStore.gridSize);
+    const showConfirmDeleteModal = computed(() => viewStore.showConfirmDeleteModal);
+    const showCreateFolderModal = computed(() => viewStore.showCreateFolderModal);
+    const showPreviewModal = computed(() => viewStore.showPreviewModal);
+    const showShareModal = computed(() => viewStore.showShareModal);
+    const showRenameModal = computed(() => viewStore.showRenameModal);
+    const previewItem = computed(() => viewStore.previewItem);
+    const sortBy = computed(() => viewStore.sortBy);
+    const sortDirection = computed(() => viewStore.sortDirection);
+
+    return {
+      disks,
+      directories,
+      selectedDirectory,
+      selectedItems,
+      search,
+      fileStore,
+
+      isLoading,
+      showInfoBar,
+      listView,
+      gridSize,
+      showConfirmDeleteModal,
+      showCreateFolderModal,
+      showPreviewModal,
+      showShareModal,
+      showRenameModal,
+      previewItem,
+      sortBy,
+      sortDirection,
+      viewStore,
+    };
+  },
   data() {
     return {
       showActions: { type: Boolean, default: false },
@@ -122,7 +172,8 @@ export default {
       if (this.item.mime_type === 'image/svg+xml') {
         const image = event.target;
         // Update the item properties
-        this.$store.dispatch('updateItemProperties', { item: this.item, width: image.naturalWidth ? image.naturalWidth : 300, height: image.naturalHeight ? image.naturalHeight : 150 });
+        this.fileStore.updateItemProperties({ item: this.item, width: image.naturalWidth ? image.naturalWidth : 300, height: image.naturalHeight ? image.naturalHeight : 150 });
+
         // @TODO Remove the fallback size (300x150) when https://bugzilla.mozilla.org/show_bug.cgi?id=1328124 is fixed
         // Also https://github.com/whatwg/html/issues/3510
       }

@@ -19,27 +19,26 @@
   </button>
 </template>
 
-<script>
-export default {
-  name: 'MediaBrowserActionItemEdit',
-  props: {
-    onFocused: { type: Function, default: () => {} },
-    mainAction: { type: Function, default: () => {} },
-    closingAction: { type: Function, default: () => {} },
-  },
-  methods: {
-    openRenameModal() {
-      this.mainAction();
-    },
-    hideActions() {
-      this.closingAction();
-    },
-    focused(bool) {
-      this.onFocused(bool);
-    },
-    editItem() {
-      this.mainAction();
-    },
-  },
-};
+<script setup>
+defineProps({
+  onFocused: { type: Function, default: () => {} },
+  mainAction: { type: Function, default: () => {} },
+  closingAction: { type: Function, default: () => {} },
+});
+
+function openRenameModal() {
+  this.mainAction();
+}
+
+function hideActions() {
+  this.closingAction();
+}
+
+function focused(bool) {
+  this.onFocused(bool);
+}
+
+function editItem() {
+  this.mainAction();
+}
 </script>

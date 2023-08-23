@@ -19,24 +19,22 @@
   </button>
 </template>
 
-<script>
-export default {
-  name: 'MediaBrowserActionItemPreview',
-  props: {
-    onFocused: { type: Function, default: () => {} },
-    mainAction: { type: Function, default: () => {} },
-    closingAction: { type: Function, default: () => {} },
-  },
-  methods: {
-    openPreview() {
-      this.mainAction();
-    },
-    hideActions() {
-      this.closingAction();
-    },
-    focused(bool) {
-      this.onFocused(bool);
-    },
-  },
-};
+<script setup>
+defineProps({
+  onFocused: { type: Function, default: () => {} },
+  mainAction: { type: Function, default: () => {} },
+  closingAction: { type: Function, default: () => {} },
+});
+
+function openPreview() {
+  this.mainAction();
+}
+
+function hideActions() {
+  this.closingAction();
+}
+
+function focused(bool) {
+  this.onFocused(bool);
+}
 </script>

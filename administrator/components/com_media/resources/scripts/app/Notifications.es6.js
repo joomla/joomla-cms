@@ -10,9 +10,7 @@ function notify(message, options) {
     timer = 3000;
   }
   Joomla.renderMessages(
-    {
-      [options.type]: [Joomla.Text._(message)],
-    },
+    { [options.type]: [Joomla.Text._(message)] },
     undefined,
     true,
     timer,

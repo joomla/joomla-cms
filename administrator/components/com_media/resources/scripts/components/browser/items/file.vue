@@ -1,7 +1,7 @@
 <template>
   <div
     class="media-browser-item-file"
-    @mouseleave="hideActions()"
+    @mouseleave="hideActions"
   >
     <div class="media-browser-item-preview">
       <div class="file-background">

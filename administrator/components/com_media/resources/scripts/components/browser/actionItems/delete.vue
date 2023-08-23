@@ -2,12 +2,12 @@
   <button
     type="button"
     class="action-delete"
-    @keyup.enter="openConfirmDeleteModal()"
-    @keyup.space="openConfirmDeleteModal()"
+    @keyup.enter="mainAction()"
+    @keyup.space="mainAction()"
     @focus="focused(true)"
     @blur="focused(false)"
     @keyup.esc="hideActions()"
-    @click.stop="openConfirmDeleteModal()"
+    @click.stop="mainAction()"
   >
     <span
       class="image-browser-action icon-trash"
@@ -19,24 +19,14 @@
   </button>
 </template>
 
-<script>
-export default {
-  name: 'MediaBrowserActionItemDelete',
-  props: {
-    onFocused: { type: Function, default: () => {} },
-    mainAction: { type: Function, default: () => {} },
-    closingAction: { type: Function, default: () => {} },
-  },
-  methods: {
-    openConfirmDeleteModal() {
-      this.mainAction();
-    },
-    hideActions() {
-      this.hideActions();
-    },
-    focused(bool) {
-      this.onFocused(bool);
-    },
-  },
-};
+<script setup>
+defineProps({
+  onFocused: { type: Function, default: () => {} },
+  mainAction: { type: Function, default: () => {} },
+  closingAction: { type: Function, default: () => {} },
+});
+
+function focused(bool) {
+  this.onFocused(bool);
+}
 </script>

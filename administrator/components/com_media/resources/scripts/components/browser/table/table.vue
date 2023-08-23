@@ -21,9 +21,9 @@
             <span
               class="ms-1"
               :class="{
-                'icon-sort': $store.state.sortBy !== 'name',
-                'icon-caret-up': $store.state.sortBy === 'name' && $store.state.sortDirection === 'asc',
-                'icon-caret-down': $store.state.sortBy === 'name' && $store.state.sortDirection === 'desc'
+                'icon-sort': sortBy !== 'name',
+                'icon-caret-up': sortBy === 'name' && sortDirection === 'asc',
+                'icon-caret-down': sortBy === 'name' && sortDirection === 'desc'
               }"
               aria-hidden="true"
             />
@@ -41,9 +41,9 @@
             <span
               class="ms-1"
               :class="{
-                'icon-sort': $store.state.sortBy !== 'size',
-                'icon-caret-up': $store.state.sortBy === 'size' && $store.state.sortDirection === 'asc',
-                'icon-caret-down': $store.state.sortBy === 'size' && $store.state.sortDirection === 'desc'
+                'icon-sort': sortBy !== 'size',
+                'icon-caret-up': sortBy === 'size' && sortDirection === 'asc',
+                'icon-caret-down': sortBy === 'size' && sortDirection === 'desc'
               }"
               aria-hidden="true"
             />
@@ -61,9 +61,9 @@
             <span
               class="ms-1"
               :class="{
-                'icon-sort': $store.state.sortBy !== 'dimension',
-                'icon-caret-up': $store.state.sortBy === 'dimension' && $store.state.sortDirection === 'asc',
-                'icon-caret-down': $store.state.sortBy === 'dimension' && $store.state.sortDirection === 'desc'
+                'icon-sort': sortBy !== 'dimension',
+                'icon-caret-up': sortBy === 'dimension' && sortDirection === 'asc',
+                'icon-caret-down': sortBy === 'dimension' && sortDirection === 'desc'
               }"
               aria-hidden="true"
             />
@@ -81,9 +81,9 @@
             <span
               class="ms-1"
               :class="{
-                'icon-sort': $store.state.sortBy !== 'date_created',
-                'icon-caret-up': $store.state.sortBy === 'date_created' && $store.state.sortDirection === 'asc',
-                'icon-caret-down': $store.state.sortBy === 'date_created' && $store.state.sortDirection === 'desc'
+                'icon-sort': sortBy !== 'date_created',
+                'icon-caret-up': sortBy === 'date_created' && sortDirection === 'asc',
+                'icon-caret-down': sortBy === 'date_created' && sortDirection === 'desc'
               }"
               aria-hidden="true"
             />
@@ -101,9 +101,9 @@
             <span
               class="ms-1"
               :class="{
-                'icon-sort': $store.state.sortBy !== 'date_modified',
-                'icon-caret-up': $store.state.sortBy === 'date_modified' && $store.state.sortDirection === 'asc',
-                'icon-caret-down': $store.state.sortBy === 'date_modified' && $store.state.sortDirection === 'desc'
+                'icon-sort': sortBy !== 'date_modified',
+                'icon-caret-up': sortBy === 'date_modified' && sortDirection === 'asc',
+                'icon-caret-down': sortBy === 'date_modified' && sortDirection === 'desc'
               }"
               aria-hidden="true"
             />
@@ -113,7 +113,7 @@
     </thead>
     <tbody>
       <MediaBrowserItemRow
-        v-for="item in localItems"
+        v-for="item in items"
         :key="item.path"
         :item="item"
       />
@@ -122,8 +122,12 @@
 </template>
 
 <script>
-import * as types from '../../../store/mutation-types.es6';
+import {
+  computed, defineComponent, onMounted, ref,
+} from 'vue';
 import MediaBrowserItemRow from './row.vue';
+import { useFileStore } from '../../../stores/files.es6.js';
+import { useViewStore } from '../../../stores/listview.es6.js';
 
 export default {
   name: 'MediaBrowserTable',
@@ -131,7 +135,7 @@ export default {
     MediaBrowserItemRow,
   },
   props: {
-    localItems: {
+    items: {
       type: Object,
       default: () => {},
     },
@@ -140,10 +144,55 @@ export default {
       default: '',
     },
   },
+  setup() {
+    const filesStore = useFileStore();
+    const disks = computed(() => filesStore.disks);
+    const directories = computed(() => filesStore.directories);
+    const selectedDirectory = computed(() => filesStore.selectedDirectory);
+    const selectedItems = computed(() => filesStore.selectedItems);
+    const search = computed(() => filesStore.search);
+
+    const viewStore = useViewStore();
+    const isLoading = computed(() => viewStore.isLoading);
+    const showInfoBar = computed(() => viewStore.showInfoBar);
+    const listView = computed(() => viewStore.listView);
+    const gridSize = computed(() => viewStore.gridSize);
+    const showConfirmDeleteModal = computed(() => viewStore.showConfirmDeleteModal);
+    const showCreateFolderModal = computed(() => viewStore.showCreateFolderModal);
+    const showPreviewModal = computed(() => viewStore.showPreviewModal);
+    const showShareModal = computed(() => viewStore.showShareModal);
+    const showRenameModal = computed(() => viewStore.showRenameModal);
+    const previewItem = computed(() => viewStore.previewItem);
+    const sortBy = computed(() => viewStore.sortBy);
+    const sortDirection = computed(() => viewStore.sortDirection);
+
+    return {
+      disks,
+      directories,
+      selectedDirectory,
+      selectedItems,
+      search,
+      filesStore,
+
+      isLoading,
+      showInfoBar,
+      listView,
+      gridSize,
+      showConfirmDeleteModal,
+      showCreateFolderModal,
+      showPreviewModal,
+      showShareModal,
+      showRenameModal,
+      previewItem,
+      sortBy,
+      sortDirection,
+      viewStore,
+    };
+  },
   methods: {
     changeOrder(name) {
-      this.$store.commit(types.UPDATE_SORT_BY, name);
-      this.$store.commit(types.UPDATE_SORT_DIRECTION, this.$store.state.sortDirection === 'asc' ? 'desc' : 'asc');
+      this.viewStore.updateSortBy(name);
+      this.viewStore.updateSortDirection(this.sortDirection === 'asc' ? 'desc' : 'asc');
     },
   },
 };

@@ -17,20 +17,20 @@
   </button>
 </template>
 
-<script>
-export default {
-  name: 'MediaBrowserActionItemToggle',
-  props: {
-    mainAction: { type: Function, default: () => {} },
-  },
-  emits: ['on-focused'],
-  methods: {
-    openActions() {
-      this.mainAction();
-    },
-    focused(bool) {
-      this.$emit('on-focused', bool);
-    },
-  },
-};
+<script setup>
+import { defineEmits } from 'vue';
+
+const props = defineProps({
+  mainAction: Function,
+});
+
+const emit = defineEmits(['on-focused']);
+
+function openActions() {
+  props.mainAction();
+}
+
+function focused(bool) {
+  emit('on-focused', bool);
+}
 </script>

@@ -145,9 +145,12 @@
 </template>
 
 <script>
-import * as types from '../../../store/mutation-types.es6';
+import {
+  computed, defineComponent, onMounted, ref,
+} from 'vue';
 import api from '../../../app/Api.es6';
-
+import { useFileStore } from '../../../stores/files.es6.js';
+import { useViewStore } from '../../../stores/listview.es6.js';
 import MediaBrowserActionItemEdit from './edit.vue';
 import MediaBrowserActionItemDelete from './delete.vue';
 import MediaBrowserActionItemDownload from './download.vue';
@@ -175,6 +178,51 @@ export default {
     shareable: { type: Boolean, default: false },
   },
   emits: ['toggle-settings'],
+  setup() {
+    const filesStore = useFileStore();
+    const disks = computed(() => filesStore.disks);
+    const directories = computed(() => filesStore.directories);
+    const selectedDirectory = computed(() => filesStore.selectedDirectory);
+    const selectedItems = computed(() => filesStore.selectedItems);
+    const search = computed(() => filesStore.search);
+
+    const viewStore = useViewStore();
+    const isLoading = computed(() => filesStore.isLoading);
+    const showInfoBar = computed(() => filesStore.showInfoBar);
+    const listView = computed(() => filesStore.listView);
+    const gridSize = computed(() => filesStore.gridSize);
+    const showConfirmDeleteModal = computed(() => filesStore.showConfirmDeleteModal);
+    const showCreateFolderModal = computed(() => filesStore.showCreateFolderModal);
+    const showPreviewModal = computed(() => filesStore.showPreviewModal);
+    const showShareModal = computed(() => filesStore.showShareModal);
+    const showRenameModal = computed(() => filesStore.showRenameModal);
+    const previewItem = computed(() => filesStore.previewItem);
+    const sortBy = computed(() => filesStore.sortBy);
+    const sortDirection = computed(() => filesStore.sortDirection);
+
+    return {
+      disks,
+      directories,
+      selectedDirectory,
+      selectedItems,
+      search,
+      filesStore,
+
+      isLoading,
+      showInfoBar,
+      listView,
+      gridSize,
+      showConfirmDeleteModal,
+      showCreateFolderModal,
+      showPreviewModal,
+      showShareModal,
+      showRenameModal,
+      previewItem,
+      sortBy,
+      sortDirection,
+      viewStore,
+    };
+  },
   data() {
     return {
       showActions: false,
@@ -192,11 +240,11 @@ export default {
     },
   },
   watch: {
-    '$store.state.showRenameModal': function (show) {
+    'filesStore.showRenameModal': function (show) {
       if (
         !show
         && this.$refs.actionToggle
-        && this.$store.state.selectedItems.find(
+        && this.selectedItems.find(
           (item) => item.name === this.item.name,
         ) !== undefined
       ) {
@@ -212,29 +260,29 @@ export default {
     },
     /* Preview an item */
     openPreview() {
-      this.$store.commit(types.SHOW_PREVIEW_MODAL);
-      this.$store.dispatch('getFullContents', this.item);
+      showPreviewModal();
+      this.filesStore.getFullContents(this.item);
     },
     /* Download an item */
     download() {
-      this.$store.dispatch('download', this.item);
+      this.filesStore.download(this.item);
     },
     /* Opening confirm delete modal */
     openConfirmDeleteModal() {
-      this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-      this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(types.SHOW_CONFIRM_DELETE_MODAL);
+      this.filesStore.unselectAllBrowserItems();
+      this.filesStore.selectAllBrowserItem(this.item);
+      this.filesStore.showConfirmDeleteModal();
     },
     /* Rename an item */
     openRenameModal() {
       this.hideActions();
-      this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(types.SHOW_RENAME_MODAL);
+      this.filesStore.selectAllBrowserItem(this.item);
+      this.filesStore.showRenameModal();
     },
     /* Open modal for share url */
     openShareUrlModal() {
-      this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(types.SHOW_SHARE_MODAL);
+      this.filesStore.selectAllBrowserItem(this.item);
+      this.filesStore.showShareModal();
     },
     /* Open actions dropdown */
     openActions() {

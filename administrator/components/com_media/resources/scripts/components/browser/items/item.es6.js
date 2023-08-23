@@ -1,12 +1,15 @@
-import { h } from 'vue';
+import {
+  computed, defineComponent, onMounted, ref, h,
+} from 'vue';
 import Directory from './directory.vue';
 import File from './file.vue';
 import Image from './image.vue';
 import Video from './video.vue';
 import Audio from './audio.vue';
 import Doc from './document.vue';
-import * as types from '../../../store/mutation-types.es6';
 import api from '../../../app/Api.es6';
+import { useFileStore } from '../../../stores/files.es6.js';
+import { useViewStore } from '../../../stores/listview.es6.js';
 
 export default {
   props: {
@@ -14,6 +17,51 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    const fileStore = useFileStore();
+    const disks = computed(() => fileStore.disks);
+    const directories = computed(() => fileStore.directories);
+    const selectedDirectory = computed(() => fileStore.selectedDirectory);
+    const selectedItems = computed(() => fileStore.selectedItems);
+    const search = computed(() => fileStore.search);
+
+    const viewStore = useViewStore();
+    const loading = computed(() => viewStore.loading);
+    const showInfoBar = computed(() => viewStore.showInfoBar);
+    const listView = computed(() => viewStore.listView);
+    const gridSize = computed(() => viewStore.gridSize);
+    const showConfirmDeleteModal = computed(() => viewStore.showConfirmDeleteModal);
+    const showCreateFolderModal = computed(() => viewStore.showCreateFolderModal);
+    const showPreviewModal = computed(() => viewStore.showPreviewModal);
+    const showShareModal = computed(() => viewStore.showShareModal);
+    const showRenameModal = computed(() => viewStore.showRenameModal);
+    const previewItem = computed(() => viewStore.previewItem);
+    const sortBy = computed(() => viewStore.sortBy);
+    const sortDirection = computed(() => viewStore.sortDirection);
+
+    return {
+      disks,
+      directories,
+      selectedDirectory,
+      selectedItems,
+      search,
+      fileStore,
+
+      loading,
+      showInfoBar,
+      listView,
+      gridSize,
+      showConfirmDeleteModal,
+      showCreateFolderModal,
+      showPreviewModal,
+      showShareModal,
+      showRenameModal,
+      previewItem,
+      sortBy,
+      sortDirection,
+      viewStore,
+    };
   },
   data() {
     return {
@@ -71,7 +119,7 @@ export default {
      */
     styles() {
       return {
-        width: `calc(${this.$store.state.gridSize}% - 20px)`,
+        width: `calc(${this.gridSize}% - 20px)`,
       };
     },
 
@@ -80,9 +128,7 @@ export default {
      * @returns {boolean}
      */
     isSelected() {
-      return this.$store.state.selectedItems.some(
-        (selected) => selected.path === this.item.path,
-      );
+      return this.selectedItems.some((selected) => selected.path === this.item.path);
     },
 
     /**
@@ -152,12 +198,18 @@ export default {
         // Unselect all other selected items,
         // if the shift key was not pressed during the click event
         if (!(event.shiftKey || event.keyCode === 13)) {
-          this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+          this.fileStore.resetSelectedItems();
         }
-        this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
+        this.fileStore.addItemToSelectedItems(this.item);
         return;
       }
-      this.$store.dispatch('toggleBrowserItemSelect', this.item);
+
+      // if (this.selectedItems.includes(this.item)) {
+      //   this.fileStore.removeItemFromSelectedItems(this.item);
+      // } else {
+      //   this.fileStore.addItemToSelectedItems(this.item);
+      // }
+
       window.parent.document.dispatchEvent(
         new CustomEvent('onMediaFileSelected', {
           bubbles: true,
@@ -168,9 +220,10 @@ export default {
 
       // If more than one item was selected and the user clicks again on the selected item,
       // he most probably wants to unselect all other items.
-      if (this.$store.state.selectedItems.length > 1) {
-        this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-        this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
+      if (this.selectedItems.length > 1) {
+        console.log('nope')
+        this.fileStore.resetSelectedItems();
+        this.fileStore.addItemToSelectedItems(this.item);
       }
     },
 
