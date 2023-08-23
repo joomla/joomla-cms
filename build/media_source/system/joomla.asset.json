@@ -265,7 +265,7 @@
         "defer": true
       },
       "deprecated": true,
-      "deprecatedMsg": "Use [content-dialog-field] asset instead. To be removed in Joomla 6."
+      "deprecatedMsg": "Use [modal-content-select-field] asset instead. To be removed in Joomla 6."
     },
     {
       "name": "joomla.batch-copymove",
