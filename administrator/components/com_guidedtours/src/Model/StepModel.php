@@ -241,7 +241,20 @@ class StepModel extends AdminModel
         $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
         if ($result = parent::getItem($pk)) {
+            $app = Factory::getApplication();
+
+            /** @var \Joomla\Component\Guidedtours\Administrator\Model\TourModel $tourModel */
+            $tourModel = $app->bootComponent('com_guidedtours')
+            ->getMVCFactory()->createModel('Tour', 'Administrator', ['ignore_request' => true]);
+
             if (!empty($result->id)) {
+                $tour = $tourModel->getItem($result->tour_id);
+
+                if (!empty($tour->alias)) {
+                    $lang->load('com_guidedtours_' . str_replace('-', '_', $tour->alias), JPATH_ADMINISTRATOR);
+                    $lang->load('com_guidedtours_' . str_replace('-', '_', $tour->alias) . '_steps', JPATH_ADMINISTRATOR);
+                }
+
                 $result->title_translation       = Text::_($result->title);
                 $result->description_translation = Text::_($result->description);
             } else {
