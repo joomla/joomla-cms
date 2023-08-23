@@ -254,7 +254,7 @@ class HtmlView extends BaseHtmlView
         $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
         $toolbar    = Toolbar::getInstance();
 
-        // Built the actions for new and existing records.
+        // Build the actions for new and existing records.
         $canDo = $this->canDo;
 
         ToolbarHelper::title(

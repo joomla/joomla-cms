@@ -69,7 +69,7 @@ class ArticleController extends FormController
     {
         $result = parent::cancel($key);
 
-        // When is editing in modal then redirect to modalreturn layout
+        // When editing in modal then redirect to modalreturn layout
         if ($result && $this->input->get('layout') === 'modal') {
             $id     = $this->input->get('id');
             $tmpl   = $this->input->get('tmpl');
@@ -120,7 +120,7 @@ class ArticleController extends FormController
 
             $this->setRedirect(Route::_('index.php?option=com_menus&view=item&client_id=0&menutype=mainmenu&layout=edit', false));
         } elseif ($this->input->get('layout') === 'modal' && $this->task === 'save') {
-            // When is editing in modal then redirect to modalreturn layout
+            // When editing in modal then redirect to modalreturn layout
             $id     = $model->getState('article.id', '');
             $tmpl   = $this->input->get('tmpl');
             $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . '&layout=modalreturn&from-task=save&id=' . $id;

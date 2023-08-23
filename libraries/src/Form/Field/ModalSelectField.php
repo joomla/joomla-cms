@@ -47,7 +47,7 @@ class ModalSelectField extends FormField
     protected $canDo = [];
 
     /**
-     * Urls to for modal: select, edit, new
+     * Urls for modal: select, edit, new
      *
      * @var    string[]
      * @since  __DEPLOY_VERSION__
