@@ -221,8 +221,7 @@ $treeselect-line-height:           2.2rem;
 $treeselect-indent:                40px;
 
 // List
-$list-group-bg:                    var(--white-offset);
-$list-group-border-color:          hsl(var(--hue),40%,85%);
+$list-group-border-color:          var(--template-bg-dark-15);
 $list-group-item-padding-y:        .75rem;
 
 // Buttons
