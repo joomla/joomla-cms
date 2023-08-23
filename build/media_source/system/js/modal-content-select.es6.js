@@ -9,7 +9,7 @@
  */
 const send = (data) => {
   // Set the message type and send it
-  data.messageType = 'joomla:content-select';
+  data.messageType = data.messageType || 'joomla:content-select';
   window.parent.postMessage(data);
 };
 
