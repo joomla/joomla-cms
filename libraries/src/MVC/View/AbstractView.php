@@ -279,7 +279,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      *
      * @return  DispatcherInterface
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
      */
     public function getDispatcher()
@@ -318,23 +318,5 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
             ),
             E_USER_DEPRECATED
         );
-    }
-
-    /**
-     * Returns the string for the given key from the internal language object.
-     *
-     * @param   string  $key  The key
-     *
-     * @return  string
-     *
-     * @since   4.4.0
-     */
-    protected function text(string $key): string
-    {
-        try {
-            return $this->getLanguage()->_($key);
-        } catch (\UnexpectedValueException $e) {
-            return Factory::getApplication()->getLanguage()->_($key);
-        }
     }
 }
