@@ -146,7 +146,7 @@ class WorkflowsModel extends ListModel
      *
      * @param   array  $items  The workflow items
      *
-     * @return  mixed  An array of data items on success, false on failure.
+     * @return  void
      *
      * @since  4.0.0
      */

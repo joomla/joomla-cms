@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -62,7 +62,8 @@ class Date extends \DateTime
      * @var    object
      * @since  1.7.0
      *
-     * @deprecated  5.0 Without replacement
+     * @deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacement
      */
     protected static $gmt;
 
@@ -73,7 +74,8 @@ class Date extends \DateTime
      * @var    object
      * @since  1.7.0
      *
-     * @deprecated  5.0 Without replacement
+     * @deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacement
      */
     protected static $stz;
 
@@ -288,8 +290,7 @@ class Date extends \DateTime
      *
      * @since   1.7.0
      */
-    #[\ReturnTypeWillChange]
-    public function format($format, $local = false, $translate = true)
+    public function format($format, $local = false, $translate = true): string
     {
         if ($translate) {
             // Do string replacements for date format options that can be translated.
@@ -397,8 +398,7 @@ class Date extends \DateTime
      * @since   1.7.0
      * @note    This method can't be type hinted due to a PHP bug: https://bugs.php.net/bug.php?id=61483
      */
-    #[\ReturnTypeWillChange]
-    public function setTimezone($tz)
+    public function setTimezone($tz): \Datetime
     {
         $this->tz = $tz;
 

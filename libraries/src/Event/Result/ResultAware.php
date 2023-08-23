@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license        GNU General Public License version 2 or later; see LICENSE
+ * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Event\Result;
@@ -13,7 +13,7 @@ use BadMethodCallException;
 use Joomla\Event\Event as BaseEvent;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -35,7 +35,8 @@ trait ResultAware
      * @var    boolean
      * @since  4.2.0
      *
-     * @deprecated 5.0 Using setArgument() for the result argument will always be disallowed.
+     * @deprecated  4.3 will be removed in 6.0
+     *              Using setResult() for the result argument will always be disallowed.
      */
     protected $preventSetArgumentResult = false;
 
@@ -89,7 +90,7 @@ trait ResultAware
     protected function setResult(array $value)
     {
         if ($this->preventSetArgumentResult) {
-            throw new BadMethodCallException('You are not allowed to set the result argument directly. Use addResult() instead.');
+            throw new \BadMethodCallException('You are not allowed to set the result argument directly. Use addResult() instead.');
         }
 
         // Always assume that the last element of the array is the result the handler is trying to append.

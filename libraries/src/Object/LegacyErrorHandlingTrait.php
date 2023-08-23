@@ -4,13 +4,13 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Object;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -20,6 +20,7 @@ namespace Joomla\CMS\Object;
  * @since       4.3.0
  *
  * @deprecated  4.3 will be removed in 6.0
+ *              Will be removed without replacement
  *              Throw an Exception instead of setError
  */
 trait LegacyErrorHandlingTrait
@@ -44,7 +45,10 @@ trait LegacyErrorHandlingTrait
      * @return  string   Error message
      *
      * @since   1.7.0
-     * @deprecated 3.1.4  JError has been deprecated
+     *
+     * @deprecated  3.1.4 will be removed in 6.0
+     *              Will be removed without replacement
+     *              Catch thrown Exceptions instead of getError
      */
     public function getError($i = null, $toString = true)
     {
@@ -73,7 +77,10 @@ trait LegacyErrorHandlingTrait
      * @return  array  Array of error messages.
      *
      * @since   1.7.0
-     * @deprecated 3.1.4  JError has been deprecated
+     *
+     * @deprecated  3.1.4 will be removed in 6.0
+     *              Will be removed without replacement
+     *              Catch thrown Exceptions instead of getErrors
      */
     public function getErrors()
     {
@@ -88,7 +95,10 @@ trait LegacyErrorHandlingTrait
      * @return  void
      *
      * @since   1.7.0
-     * @deprecated 3.1.4  JError has been deprecated
+     *
+     * @deprecated  3.1.4 will be removed in 6.0
+     *              Will be removed without replacement
+     *              Throw an Exception instead of using setError
      */
     public function setError($error)
     {

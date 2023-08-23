@@ -13,15 +13,13 @@ use Joomla\CMS\Factory;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Extension Helper class.
  *
  * @since       3.7.4
- *
- * @deprecated  4.0  Replace class with a non static methods for better testing
  */
 class ExtensionHelper
 {
@@ -174,6 +172,7 @@ class ExtensionHelper
         ['plugin', 'ldap', 'authentication', 0],
 
         // Core plugin extensions - behaviour
+        ['plugin', 'compat', 'behaviour', 0],
         ['plugin', 'taggable', 'behaviour', 0],
         ['plugin', 'versionable', 'behaviour', 0],
 
@@ -275,10 +274,20 @@ class ExtensionHelper
         ['plugin', 'overridecheck', 'quickicon', 0],
         ['plugin', 'phpversioncheck', 'quickicon', 0],
         ['plugin', 'privacycheck', 'quickicon', 0],
+        ['plugin', 'eos', 'quickicon', 0],
 
         // Core plugin extensions - sample data
         ['plugin', 'blog', 'sampledata', 0],
         ['plugin', 'multilang', 'sampledata', 0],
+
+        // Core plugin extensions - schemaorg
+        ['plugin', 'blogposting', 'schemaorg', 0],
+        ['plugin', 'book', 'schemaorg', 0],
+        ['plugin', 'event', 'schemaorg', 0],
+        ['plugin', 'jobposting', 'schemaorg', 0],
+        ['plugin', 'organization', 'schemaorg', 0],
+        ['plugin', 'person', 'schemaorg', 0],
+        ['plugin', 'recipe', 'schemaorg', 0],
 
         // Core plugin extensions - system
         ['plugin', 'accessibility', 'system', 0],
@@ -299,6 +308,7 @@ class ExtensionHelper
         ['plugin', 'redirect', 'system', 0],
         ['plugin', 'remember', 'system', 0],
         ['plugin', 'schedulerunner', 'system', 0],
+        ['plugin', 'schemaorg', 'system', 0],
         ['plugin', 'sef', 'system', 0],
         ['plugin', 'sessiongc', 'system', 0],
         ['plugin', 'shortcut', 'system', 0],
@@ -310,7 +320,6 @@ class ExtensionHelper
 
         // Core plugin extensions - task scheduler
         ['plugin', 'checkfiles', 'task', 0],
-        ['plugin', 'demotasks', 'task', 0],
         ['plugin', 'requests', 'task', 0],
         ['plugin', 'sitestatus', 'task', 0],
 

@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -34,7 +34,7 @@ class RegistrationdaterangeField extends PredefinedlistField
     /**
      * Available options
      *
-     * @var  array
+     * @var  string[]
      * @since  3.2
      */
     protected $predefinedOptions = [

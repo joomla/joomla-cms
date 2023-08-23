@@ -171,7 +171,11 @@ class ArticlesPopularHelper
      *
      * @since  4.3.0
      *
-     * @deprecated 5.0 Use the none static function getArticles
+     * @deprecated 4.3 will be removed in 6.0
+     *             Use the non-static method getArticles
+     *             Example: Factory::getApplication()->bootModule('mod_articles_popular', 'site')
+     *                          ->getHelper('ArticlesPopularHelper')
+     *                          ->getArticles($params, Factory::getApplication())
      */
     public static function getList(&$params)
     {

@@ -12,11 +12,12 @@
 
 namespace Joomla\CMS\Utility;
 
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 
 /**
- * @deprecated 5.0 Workaround for B/C. (removal missed in 4.0, also remove phpcs exception).
- * If BufferStreamHandler is needed directly call BufferStreamHandler::stream_register();
+ * @deprecated  3.8 will be removed in 5.0
+ *              Workaround for B/C. (removal missed in 4.0, also remove phpcs exception).
+ *              If BufferStreamHandler is needed directly call BufferStreamHandler::stream_register();
  */
 BufferStreamHandler::stream_register();
 
