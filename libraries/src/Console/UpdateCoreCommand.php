@@ -161,6 +161,15 @@ class UpdateCoreCommand extends AbstractCommand
 
         $model = $this->getUpdateModel();
 
+        // Make sure logging is working before continue
+        try {
+            Log::add('Test logging', Log::INFO, 'Update');
+        } catch (\Throwable $e) {
+            $message = Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOGGING_TEST_FAIL', $e->getMessage());
+            $this->ioStyle->error($message);
+            return self::ERR_UPDATE_FAILED;
+        }
+
         Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', 0, 'CLI', \JVERSION), Log::INFO, 'Update');
 
         $this->setUpdateInfo($model->getUpdateInformation());

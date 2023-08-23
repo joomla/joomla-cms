@@ -46,6 +46,15 @@ class UpdateController extends BaseController
         $model = $this->getModel('Update');
         $user  = $this->app->getIdentity();
 
+        // Make sure logging is working before continue
+        try {
+            Log::add('Test logging', Log::INFO, 'Update');
+        } catch (\Throwable $e) {
+            $message = Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOGGING_TEST_FAIL', $e->getMessage());
+            $this->setRedirect('index.php?option=com_joomlaupdate', $message, 'error');
+            return;
+        }
+
         Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), Log::INFO, 'Update');
 
         $result = $model->download();
@@ -250,6 +259,15 @@ class UpdateController extends BaseController
 
         /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
         $model = $this->getModel('Update');
+
+        // Make sure logging is working before continue
+        try {
+            Log::add('Test logging', Log::INFO, 'Update');
+        } catch (\Throwable $e) {
+            $message = Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOGGING_TEST_FAIL', $e->getMessage());
+            $this->setRedirect('index.php?option=com_joomlaupdate', $message, 'error');
+            return;
+        }
 
         Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_UPLOAD'), Log::INFO, 'Update');
 
