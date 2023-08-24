@@ -264,7 +264,7 @@ class StepModel extends AdminModel
                 $tour   = $tourModel->getItem($tourId);
 
                 // Sets step language to parent tour language
-                $tourLanguage = !empty($tour->language) ? $tour->language : '*';
+                $tourLanguage     = !empty($tour->language) ? $tour->language : '*';
                 $result->language = $tourLanguage;
 
                 // Set the step's tour id
