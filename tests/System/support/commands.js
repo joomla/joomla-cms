@@ -66,11 +66,11 @@ Cypress.Commands.overwrite('doAdministratorLogout', (originalFn) => {
 
 // Click Joomla Dialog Confirm, isOkay: true = ok button, false = cancel button
 Cypress.Commands.add('clickDialogConfirm', (isOkay) => {
-  let selector = '.joomla-dialog-confirm:last-of-type';
+  let selector = '.joomla-dialog-confirm';
   if (isOkay) {
     selector += ' button[data-button-ok]';
   } else {
     selector += ' button[data-button-cancel]';
   }
-  cy.get(selector).click();
+  return cy.get(selector).click();
 });
