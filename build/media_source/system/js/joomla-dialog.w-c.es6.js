@@ -221,6 +221,7 @@ class JoomlaDialog extends HTMLElement {
         label: '',
         ariaLabel: this.textClose,
         className: 'button-close btn-close',
+        data: { buttonClose: '' },
         onClick: () => this.close(),
         location: 'header',
       });
