@@ -103,7 +103,7 @@ class ModalSelectField extends FormField
      *
      * @return  mixed  The property value or null.
      *
-     * @since   __DEPLOY_VERSION__1
+     * @since   __DEPLOY_VERSION__
      */
     public function __get($name)
     {
