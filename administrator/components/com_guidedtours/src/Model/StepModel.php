@@ -261,13 +261,7 @@ class StepModel extends AdminModel
             } else {
                 // Creating a new step so we get the tour id from the session data
                 $tourId = $app->getUserState('com_guidedtours.tour_id');
-
-                $tour         = $tourModel->getItem($tourId);
-
-                if (!empty($tour->alias)) {
-                    $lang->load('com_guidedtours_' . str_replace('-', '_', $tour->alias), JPATH_ADMINISTRATOR);
-                    $lang->load('com_guidedtours_' . str_replace('-', '_', $tour->alias) . '_steps', JPATH_ADMINISTRATOR);
-                }
+                $tour   = $tourModel->getItem($tourId);
 
                 // Sets step language to parent tour language
                 $tourLanguage = !empty($tour->language) ? $tour->language : '*';
