@@ -72,5 +72,5 @@ Cypress.Commands.add('clickDialogConfirm', (isOkay) => {
   } else {
     selector += ' button[data-button-cancel]';
   }
-  return cy.get(selector).click();
+  return cy.get(selector, { timeout: 1000 }).click();
 });
