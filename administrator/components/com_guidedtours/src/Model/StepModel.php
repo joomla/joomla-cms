@@ -248,6 +248,7 @@ class StepModel extends AdminModel
             ->getMVCFactory()->createModel('Tour', 'Administrator', ['ignore_request' => true]);
 
             if (!empty($result->id)) {
+                // Editing an existing step
                 $tour = $tourModel->getItem($result->tour_id);
 
                 if (!empty($tour->alias)) {
@@ -258,15 +259,10 @@ class StepModel extends AdminModel
                 $result->title_translation       = Text::_($result->title);
                 $result->description_translation = Text::_($result->description);
             } else {
-                $app    = Factory::getApplication();
+                // Creating a new step so we get the tour id from the session data
                 $tourId = $app->getUserState('com_guidedtours.tour_id');
 
-                /** @var \Joomla\Component\Guidedtours\Administrator\Model\TourModel $tourModel */
-                $tourModel = $app->bootComponent('com_guidedtours')
-                    ->getMVCFactory()->createModel('Tour', 'Administrator', ['ignore_request' => true]);
-
                 $tour         = $tourModel->getItem($tourId);
-                $tourLanguage = !empty($tour->language) ? $tour->language : '*';
 
                 if (!empty($tour->alias)) {
                     $lang->load('com_guidedtours_' . str_replace('-', '_', $tour->alias), JPATH_ADMINISTRATOR);
@@ -274,6 +270,7 @@ class StepModel extends AdminModel
                 }
 
                 // Sets step language to parent tour language
+                $tourLanguage = !empty($tour->language) ? $tour->language : '*';
                 $result->language = $tourLanguage;
 
                 // Set the step's tour id

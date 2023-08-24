@@ -1,14 +1,14 @@
 ALTER TABLE `#__guidedtours` ADD COLUMN `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL AFTER `title`/** CAN FAIL **/;
 ALTER TABLE `#__guidedtours` ADD INDEX `idx_alias` (`alias`(191)) /** CAN FAIL **/;
 
-UPDATE `#__guidedtours` SET `alias` = 'joomla_guidedtours' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURS_TITLE';
-UPDATE `#__guidedtours` SET `alias` = 'joomla_guidedtoursteps' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURSTEPS_TITLE';
-UPDATE `#__guidedtours` SET `alias` = 'joomla_articles'  WHERE `title` = 'COM_GUIDEDTOURS_TOUR_ARTICLES_TITLE';
-UPDATE `#__guidedtours` SET `alias` = 'joomla_categories' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_CATEGORIES_TITLE';
-UPDATE `#__guidedtours` SET `alias` = 'joomla_menus' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_MENUS_TITLE';
-UPDATE `#__guidedtours` SET `alias` = 'joomla_tags' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_TAGS_TITLE';
-UPDATE `#__guidedtours` SET `alias` = 'joomla_banners' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_BANNERS_TITLE';
-UPDATE `#__guidedtours` SET `alias` = 'joomla_contacts' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_CONTACTS_TITLE';
-UPDATE `#__guidedtours` SET `alias` = 'joomla_newsfeeds' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_NEWSFEEDS_TITLE';
-UPDATE `#__guidedtours` SET `alias` = 'joomla_smartsearch' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_SMARTSEARCH_TITLE';
-UPDATE `#__guidedtours` SET `alias` = 'joomla_users' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_USERS_TITLE';
+UPDATE `#__guidedtours` SET `alias` = 'joomla-guidedtours' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURS_TITLE';
+UPDATE `#__guidedtours` SET `alias` = 'joomla-guidedtoursteps' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURSTEPS_TITLE';
+UPDATE `#__guidedtours` SET `alias` = 'joomla-articles'  WHERE `title` = 'COM_GUIDEDTOURS_TOUR_ARTICLES_TITLE';
+UPDATE `#__guidedtours` SET `alias` = 'joomla-categories' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_CATEGORIES_TITLE';
+UPDATE `#__guidedtours` SET `alias` = 'joomla-menus' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_MENUS_TITLE';
+UPDATE `#__guidedtours` SET `alias` = 'joomla-tags' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_TAGS_TITLE';
+UPDATE `#__guidedtours` SET `alias` = 'joomla-banners' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_BANNERS_TITLE';
+UPDATE `#__guidedtours` SET `alias` = 'joomla-contacts' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_CONTACTS_TITLE';
+UPDATE `#__guidedtours` SET `alias` = 'joomla-newsfeeds' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_NEWSFEEDS_TITLE';
+UPDATE `#__guidedtours` SET `alias` = 'joomla-smartsearch' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_SMARTSEARCH_TITLE';
+UPDATE `#__guidedtours` SET `alias` = 'joomla-users' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_USERS_TITLE';
