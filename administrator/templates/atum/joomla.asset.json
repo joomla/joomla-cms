@@ -71,8 +71,7 @@
       "type": "preset",
       "dependencies": [
         "core#script",
-        "template.atum#script",
-        "es-module-shims#script"
+        "template.atum#script"
       ]
     },
     {
