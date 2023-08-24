@@ -4,7 +4,7 @@ CREATE INDEX "#__guidedtours_idx_alias" ON "#__guidedtours" ("alias") /** CAN FA
 UPDATE "#__guidedtours" SET "alias" = 'joomla-guidedtours' WHERE "title" = 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURS_TITLE';
 UPDATE "#__guidedtours" SET "alias" = 'joomla-guidedtoursteps' WHERE "title" = 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURSTEPS_TITLE';
 UPDATE "#__guidedtours" SET "alias" = 'joomla-articles'  WHERE "title" = 'COM_GUIDEDTOURS_TOUR_ARTICLES_TITLE';
-UPDATE "#__guidedtours" SET "alias" = 'joomla_categories' WHERE "title" = 'COM_GUIDEDTOURS_TOUR_CATEGORIES_TITLE';
+UPDATE "#__guidedtours" SET "alias" = 'joomla-categories' WHERE "title" = 'COM_GUIDEDTOURS_TOUR_CATEGORIES_TITLE';
 UPDATE "#__guidedtours" SET "alias" = 'joomla-menus' WHERE "title" = 'COM_GUIDEDTOURS_TOUR_MENUS_TITLE';
 UPDATE "#__guidedtours" SET "alias" = 'joomla-tags' WHERE "title" = 'COM_GUIDEDTOURS_TOUR_TAGS_TITLE';
 UPDATE "#__guidedtours" SET "alias" = 'joomla-banners' WHERE "title" = 'COM_GUIDEDTOURS_TOUR_BANNERS_TITLE';
