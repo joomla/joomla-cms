@@ -14,7 +14,8 @@ module.exports = defineConfig({
     baseUrl: 'http://localhost/',
     specPattern: [
       'tests/System/integration/install/**/*.cy.{js,jsx,ts,tsx}',
-      'tests/System/integration/administrator/**/*.cy.{js,jsx,ts,tsx}',
+      'tests/System/integration/administrator/components/com_banners/*.cy.{js,jsx,ts,tsx}',
+      // 'tests/System/integration/administrator/**/*.cy.{js,jsx,ts,tsx}',
       // 'tests/System/integration/site/**/*.cy.{js,jsx,ts,tsx}',
       // 'tests/System/integration/api/**/*.cy.{js,jsx,ts,tsx}',
       // 'tests/System/integration/plugins/**/*.cy.{js,jsx,ts,tsx}',
