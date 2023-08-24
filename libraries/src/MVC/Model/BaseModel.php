@@ -9,9 +9,10 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -22,10 +23,14 @@ use Joomla\CMS\Object\CMSObject;
  *
  * @since  4.0.0
  */
-abstract class BaseModel extends CMSObject implements ModelInterface, StatefulModelInterface
+#[\AllowDynamicProperties]
+abstract class BaseModel implements ModelInterface, StatefulModelInterface
 {
     use StateBehaviorTrait;
     use LegacyModelLoaderTrait;
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
 
     /**
      * The model (base) name

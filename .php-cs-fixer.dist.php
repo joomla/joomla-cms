@@ -9,8 +9,8 @@
 /**
  * This is the configuration file for php-cs-fixer
  *
- * @see https://github.com/FriendsOfPHP/PHP-CS-Fixer
- * @see https://mlocati.github.io/php-cs-fixer-configurator/#version:3.0
+ * @link https://github.com/FriendsOfPHP/PHP-CS-Fixer
+ * @link https://mlocati.github.io/php-cs-fixer-configurator/#version:3.0
  *
  *
  * If you would like to run the automated clean up, then open a command line and type one of the commands below
@@ -78,6 +78,10 @@ $config
             'binary_operator_spaces'         => ['operators' => ['=>' => 'align_single_space_minimal', '=' => 'align']],
             // The "No break" comment in switch statements
             'no_break_comment'               => ['comment_text' => 'No break'],
+            // Remove unused imports
+            'no_unused_imports'              => true,
+            // Classes from the global namespace should not be imported
+            'global_namespace_import'        => ['import_classes' => false, 'import_constants' => false, 'import_functions' => false],
         ]
     )
     ->setFinder($finder);

@@ -172,7 +172,7 @@ class Menu extends Nested
         $db = $this->getDbo();
 
         // Verify that the alias is unique
-        $table = Table::getInstance('Menu', 'JTable', ['dbo' => $db]);
+        $table = Table::getInstance('Menu', '\\Joomla\\CMS\\Table\\', ['dbo' => $db]);
 
         $originalAlias = trim($this->alias);
         $this->alias   = !$originalAlias ? $this->title : $originalAlias;
@@ -240,7 +240,7 @@ class Menu extends Nested
 
             // The alias already exists. Enqueue an error message.
             if ($error) {
-                $menuTypeTable = Table::getInstance('MenuType', 'JTable', ['dbo' => $db]);
+                $menuTypeTable = Table::getInstance('MenuType', '\\Joomla\\CMS\\Table\\', ['dbo' => $db]);
                 $menuTypeTable->load(['menutype' => $table->menutype]);
                 $url = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $table->id);
 

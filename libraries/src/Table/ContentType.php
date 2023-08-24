@@ -79,7 +79,7 @@ class ContentType extends Table
     public function store($updateNulls = false)
     {
         // Verify that the alias is unique
-        $table = Table::getInstance('Contenttype', 'JTable', ['dbo' => $this->getDbo()]);
+        $table = Table::getInstance('ContentType', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
 
         if ($table->load(['type_alias' => $this->type_alias]) && ($table->type_id != $this->type_id || $this->type_id == 0)) {
             $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
@@ -145,7 +145,7 @@ class ContentType extends Table
                 $class = $tableInfo->special->class ?? 'Joomla\\CMS\\Table\\Table';
 
                 if (!class_implements($class, 'Joomla\\CMS\\Table\\TableInterface')) {
-                    // This isn't an instance of TableInterface. Abort.
+                    // This isn't an instance of TableInterface. Stop.
                     throw new \RuntimeException('Class must be an instance of Joomla\\CMS\\Table\\TableInterface');
                 }
 

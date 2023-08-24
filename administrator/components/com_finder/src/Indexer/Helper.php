@@ -10,8 +10,8 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Finder\PrepareContentEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -45,7 +45,7 @@ class Helper
      * @return  string  The parsed input.
      *
      * @since   2.5
-     * @throws  Exception on invalid parser.
+     * @throws  \Exception on invalid parser.
      */
     public static function parse($input, $format = 'html')
     {
@@ -221,7 +221,7 @@ class Helper
      * @return  integer  The id of the content type.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public static function addContentType($title, $mime = null)
     {
@@ -306,7 +306,7 @@ class Helper
      * @return  array  Array of common terms.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public static function getCommonWords($lang)
     {
@@ -379,14 +379,18 @@ class Helper
      * @return  boolean  True on success, false on failure.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public static function getContentExtras(Result $item)
     {
-        // Load the finder plugin group.
-        PluginHelper::importPlugin('finder');
+        $dispatcher = Factory::getApplication()->getDispatcher();
 
-        Factory::getApplication()->triggerEvent('onPrepareFinderContent', [&$item]);
+        // Load the finder plugin group.
+        PluginHelper::importPlugin('finder', null, true, $dispatcher);
+
+        $dispatcher->dispatch('onPrepareFinderContent', new PrepareContentEvent('onPrepareFinderContent', [
+            'subject' => $item,
+        ]));
 
         return true;
     }

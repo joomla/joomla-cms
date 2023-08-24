@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Admin\Administrator\View\Sysinfo;
 
-use Exception;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -41,7 +40,7 @@ class JsonView extends AbstractView implements CurrentUserInterface
      *
      * @since   3.5
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function display($tpl = null): void
     {

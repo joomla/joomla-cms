@@ -52,7 +52,7 @@ class Crypt extends JCrypt
         /**
          * If hash_equals is not available we use a pure PHP implementation by Anthony Ferrara.
          *
-         * @see https://blog.ircmaxell.com/2014/11/its-all-about-time.html
+         * @link https://blog.ircmaxell.com/2014/11/its-all-about-time.html
          */
         $safeLen = strlen($known);
         $userLen = strlen($unknown);

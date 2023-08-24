@@ -139,7 +139,7 @@ class TaskTable extends Table
 
         // Set `created_by` if not set for a new item.
         if ($isNew && empty($this->created_by)) {
-            $this->created_by = Factory::getApplication()->getIdentity()->id;
+            $this->created_by = $this->getCurrentUser()->id;
         }
 
         // @todo : Should we add modified, modified_by fields? [ ]
