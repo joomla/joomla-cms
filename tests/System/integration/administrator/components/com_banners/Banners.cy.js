@@ -70,7 +70,7 @@ describe('Test in backend that the banners list', () => {
       cy.clickToolbarButton('empty trash');
       // cy.on('window:confirm', () => true);
       cy.clickDialogConfirm(true).then(() => {
-        cy.log('Dialog clicked')
+        cy.log('Dialog clicked');
       });
 
       cy.get('#system-message-container').contains('Banner deleted.').should('exist');
