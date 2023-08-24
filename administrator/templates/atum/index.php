@@ -81,9 +81,6 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
-// Importmap polyfill
-$wa->useScript('es-module-shims');
-
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
