@@ -23,7 +23,7 @@ document.querySelectorAll('.js-module-insert').forEach((element) => {
   });
 });
 
-  // Assign listener for click event (for position insertion)
+// Assign listener for click event (for position insertion)
 document.querySelectorAll('.js-position-insert').forEach((element) => {
   element.addEventListener('click', (event) => {
     event.preventDefault();
