@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\User;
 /**
  * Base class for User login event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 abstract class AbstractLoginEvent extends UserEvent
 {
@@ -25,7 +25,7 @@ abstract class AbstractLoginEvent extends UserEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject', 'options'];
@@ -37,7 +37,7 @@ abstract class AbstractLoginEvent extends UserEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(array $value): array
     {
@@ -51,7 +51,7 @@ abstract class AbstractLoginEvent extends UserEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setOptions(array $value): array
     {
@@ -63,7 +63,7 @@ abstract class AbstractLoginEvent extends UserEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getAuthenticationResponse(): array
     {
@@ -75,7 +75,7 @@ abstract class AbstractLoginEvent extends UserEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getOptions(): array
     {

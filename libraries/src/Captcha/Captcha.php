@@ -46,7 +46,7 @@ class Captcha implements DispatcherAwareInterface
      * Captcha Provider instance
      *
      * @var    CaptchaProviderInterface
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     private $provider;
 

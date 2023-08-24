@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\Model;
  * Example:
  *  new BeforeValidateDataEvent('onEventName', ['subject' => $form, 'data' => $data]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforeValidateDataEvent extends FormEvent
 {

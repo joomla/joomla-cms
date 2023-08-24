@@ -21,7 +21,7 @@ use Joomla\CMS\Table\TableInterface;
  * Example:
  *  new PrepareFormEvent('onSchemaPrepareForm', ['subject' => $subject, 'context' => $context, 'item' => $table, 'isNew' => $isNew, 'schema' => $schema]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class PrepareSaveEvent extends AbstractImmutableEvent
 {
@@ -33,7 +33,7 @@ class PrepareSaveEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -67,7 +67,7 @@ class PrepareSaveEvent extends AbstractImmutableEvent
      *
      * @return  object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function setSubject(object $value): object
     {
@@ -81,7 +81,7 @@ class PrepareSaveEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function setContext(string $value): string
     {
@@ -95,7 +95,7 @@ class PrepareSaveEvent extends AbstractImmutableEvent
      *
      * @return  TableInterface
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function setItem(TableInterface $value): TableInterface
     {
@@ -109,7 +109,7 @@ class PrepareSaveEvent extends AbstractImmutableEvent
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function setIsNew(bool $value): bool
     {
@@ -123,7 +123,7 @@ class PrepareSaveEvent extends AbstractImmutableEvent
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function setSchema(array $value): array
     {
@@ -135,7 +135,7 @@ class PrepareSaveEvent extends AbstractImmutableEvent
      *
      * @return  object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getData(): object
     {
@@ -147,7 +147,7 @@ class PrepareSaveEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getContext(): string
     {
@@ -159,7 +159,7 @@ class PrepareSaveEvent extends AbstractImmutableEvent
      *
      * @return  TableInterface
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getItem(): TableInterface
     {
@@ -171,7 +171,7 @@ class PrepareSaveEvent extends AbstractImmutableEvent
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getIsNew(): bool
     {
@@ -183,7 +183,7 @@ class PrepareSaveEvent extends AbstractImmutableEvent
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getSchema(): array
     {

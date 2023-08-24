@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\Extension;
 /**
  * Class for Extension events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforeInstallEvent extends AbstractExtensionEvent
 {
@@ -25,7 +25,7 @@ class BeforeInstallEvent extends AbstractExtensionEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['method', 'type', 'manifest', 'extension'];
@@ -38,7 +38,7 @@ class BeforeInstallEvent extends AbstractExtensionEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -60,7 +60,7 @@ class BeforeInstallEvent extends AbstractExtensionEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setMethod(string $value): string
     {
@@ -74,7 +74,7 @@ class BeforeInstallEvent extends AbstractExtensionEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setType(string $value): string
     {
@@ -88,7 +88,7 @@ class BeforeInstallEvent extends AbstractExtensionEvent
      *
      * @return  ?\SimpleXMLElement
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setManifest(?\SimpleXMLElement $value): ?\SimpleXMLElement
     {
@@ -102,7 +102,7 @@ class BeforeInstallEvent extends AbstractExtensionEvent
      *
      * @return  integer
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setExtension(int $value): int
     {
@@ -114,7 +114,7 @@ class BeforeInstallEvent extends AbstractExtensionEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getMethod(): string
     {
@@ -126,7 +126,7 @@ class BeforeInstallEvent extends AbstractExtensionEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getType(): string
     {
@@ -138,7 +138,7 @@ class BeforeInstallEvent extends AbstractExtensionEvent
      *
      * @return  ?\SimpleXMLElement
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getManifest(): ?\SimpleXMLElement
     {
@@ -150,7 +150,7 @@ class BeforeInstallEvent extends AbstractExtensionEvent
      *
      * @return  integer
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getExtension(): int
     {

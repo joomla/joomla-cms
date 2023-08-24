@@ -22,7 +22,7 @@ use Joomla\CMS\Event\Result\ResultAwareInterface;
  * Example:
  *  new AuthorisationEvent('onEventName', ['subject' => $authenticationResponse, 'options' => $options]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AuthorisationEvent extends UserEvent implements ResultAwareInterface
 {
@@ -33,7 +33,7 @@ class AuthorisationEvent extends UserEvent implements ResultAwareInterface
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject', 'options'];
@@ -45,7 +45,7 @@ class AuthorisationEvent extends UserEvent implements ResultAwareInterface
      *
      * @return  AuthenticationResponse
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(AuthenticationResponse $value): AuthenticationResponse
     {
@@ -59,7 +59,7 @@ class AuthorisationEvent extends UserEvent implements ResultAwareInterface
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setOptions(array $value): array
     {
@@ -75,7 +75,7 @@ class AuthorisationEvent extends UserEvent implements ResultAwareInterface
      * @throws  \InvalidArgumentException
      *
      * @internal
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function typeCheckResult($data): void
     {
@@ -89,7 +89,7 @@ class AuthorisationEvent extends UserEvent implements ResultAwareInterface
      *
      * @return  AuthenticationResponse
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getAuthenticationResponse(): AuthenticationResponse
     {
@@ -101,7 +101,7 @@ class AuthorisationEvent extends UserEvent implements ResultAwareInterface
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getOptions(): array
     {

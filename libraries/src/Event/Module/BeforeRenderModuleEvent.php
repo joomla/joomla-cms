@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\Module;
  * Example:
  *  new BeforeRenderModuleEvent('onEventName', ['subject' => $module, 'attributes' => $attrs]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforeRenderModuleEvent extends RenderModuleEvent
 {

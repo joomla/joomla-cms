@@ -69,7 +69,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function testOnSetUpEvent(): void
     {
@@ -124,7 +124,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function testDisplayEmptyPublicKey()
     {

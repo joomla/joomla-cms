@@ -12,7 +12,7 @@ namespace Joomla\CMS\Event\Finder;
 /**
  * Interface class for finder events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 interface FinderEventInterface
 {

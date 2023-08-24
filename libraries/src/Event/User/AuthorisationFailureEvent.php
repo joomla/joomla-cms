@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\User;
  * Example:
  *  new AuthorisationFailureEvent('onEventName', ['subject' => $authenticationResponseArray, 'options' => $options]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AuthorisationFailureEvent extends UserEvent
 {
@@ -27,7 +27,7 @@ class AuthorisationFailureEvent extends UserEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject', 'options'];
@@ -39,7 +39,7 @@ class AuthorisationFailureEvent extends UserEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(array $value): array
     {
@@ -53,7 +53,7 @@ class AuthorisationFailureEvent extends UserEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setOptions(array $value): array
     {
@@ -65,7 +65,7 @@ class AuthorisationFailureEvent extends UserEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getAuthenticationResponse(): array
     {
@@ -77,7 +77,7 @@ class AuthorisationFailureEvent extends UserEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getOptions(): array
     {

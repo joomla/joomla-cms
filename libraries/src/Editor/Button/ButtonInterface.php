@@ -16,7 +16,7 @@ namespace Joomla\CMS\Editor\Button;
 /**
  * Editor button interface
  *
- * @since   __DEPLOY_VERSION__
+ * @since   5.0.0
  */
 interface ButtonInterface
 {
@@ -24,7 +24,7 @@ interface ButtonInterface
      * Return Button name, CMD string.
      *
      * @return string
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getButtonName(): string;
 
@@ -34,7 +34,7 @@ interface ButtonInterface
      * @param string $name Property name
      *
      * @return mixed
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function get(string $name);
 
@@ -45,7 +45,7 @@ interface ButtonInterface
      * @param mixed  $value Property value
      *
      * @return ButtonInterface
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function set(string $name, $value): ButtonInterface;
 
@@ -53,7 +53,7 @@ interface ButtonInterface
      * Return Button options.
      *
      * @return array
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getOptions(): array;
 
@@ -63,7 +63,7 @@ interface ButtonInterface
      * @param array  $options The button options.
      *
      * @return ButtonInterface
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function setOptions(array $options): ButtonInterface;
 }
