@@ -406,7 +406,7 @@ class CssMenu
             }
 
             // Exclude if link is invalid
-            if (is_null($item->link) || !\in_array($item->type, ['separator', 'heading', 'container']) && trim($item->link) === '') {
+            if (\is_null($item->link) || !\in_array($item->type, ['separator', 'heading', 'container']) && trim($item->link) === '') {
                 $parent->removeChild($item);
                 continue;
             }

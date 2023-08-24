@@ -55,7 +55,7 @@ abstract class Bootstrap
             $scriptOptions = $doc->getScriptOptions('bootstrap.alert');
             $options       = [$selector];
 
-            if (is_array($scriptOptions)) {
+            if (\is_array($scriptOptions)) {
                 $options = array_merge($scriptOptions, $options);
             }
 
@@ -95,7 +95,7 @@ abstract class Bootstrap
             $scriptOptions = $doc->getScriptOptions('bootstrap.button');
             $options       = [$selector];
 
-            if (is_array($scriptOptions)) {
+            if (\is_array($scriptOptions)) {
                 $options = array_merge($scriptOptions, $options);
             }
 

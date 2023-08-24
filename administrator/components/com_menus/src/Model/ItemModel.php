@@ -250,7 +250,7 @@ class ItemModel extends AdminModel
 
             // Add child IDs to the array only if they aren't already there.
             foreach ($childIds as $childId) {
-                if (!in_array($childId, $pks)) {
+                if (!\in_array($childId, $pks)) {
                     $pks[] = $childId;
                 }
             }
@@ -568,7 +568,7 @@ class ItemModel extends AdminModel
         // Only merge if there is a session and itemId or itemid is null.
         if (
             isset($sessionData['id']) && isset($itemData['id']) && $sessionData['id'] === $itemData['id']
-            || is_null($itemData['id'])
+            || \is_null($itemData['id'])
         ) {
             $data = array_merge($itemData, $sessionData);
         } else {
@@ -1193,7 +1193,7 @@ class ItemModel extends AdminModel
         if ($clientId == 0 && Associations::isEnabled()) {
             $languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
-            if (count($languages) > 1) {
+            if (\count($languages) > 1) {
                 $addform = new \SimpleXMLElement('<form />');
                 $fields  = $addform->addChild('fields');
                 $fields->addAttribute('name', 'associations');
@@ -1408,7 +1408,7 @@ class ItemModel extends AdminModel
         $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew, $data]);
 
         // Store the data.
-        if (in_array(false, $result, true) || !$table->store()) {
+        if (\in_array(false, $result, true) || !$table->store()) {
             $this->setError($table->getError());
 
             return false;
@@ -1528,7 +1528,7 @@ class ItemModel extends AdminModel
                 $associations[$table->language] = (int) $table->id;
             }
 
-            if (count($associations) > 1) {
+            if (\count($associations) > 1) {
                 // Adding new association for these items
                 $key   = md5(json_encode($associations));
                 $query = $db->getQuery(true)
@@ -1634,7 +1634,7 @@ class ItemModel extends AdminModel
         // so we need to loop through the primary key array.
         foreach ($pks as $i => $pk) {
             if ($table->load($pk)) {
-                if (!array_key_exists($table->language, $languages)) {
+                if (!\array_key_exists($table->language, $languages)) {
                     $languages[$table->language] = true;
 
                     if ($table->home == $value) {

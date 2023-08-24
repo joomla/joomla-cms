@@ -138,7 +138,7 @@ class MediumModel extends BaseModel
             // com_media expects separate directory and file name.
             // If we moved the file before, we must use the new path.
             $basename = basename($resultPath ?: $path);
-            $dirname  = dirname($resultPath ?: $path);
+            $dirname  = \dirname($resultPath ?: $path);
 
             try {
                 // If there is content, com_media's assumes the new item is a file.
@@ -192,7 +192,7 @@ class MediumModel extends BaseModel
             // com_media expects separate directory and file name.
             // If we moved the file before, we must use the new path.
             $basename = basename($resultPath ?: $oldPath);
-            $dirname  = dirname($resultPath ?: $oldPath);
+            $dirname  = \dirname($resultPath ?: $oldPath);
 
             try {
                 $this->mediaApiModel->updateFile(

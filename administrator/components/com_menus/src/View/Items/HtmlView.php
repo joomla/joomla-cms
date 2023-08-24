@@ -105,7 +105,7 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters = $this->get('ActiveFilters');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -219,7 +219,7 @@ class HtmlView extends BaseHtmlView
                             unset($xml);
 
                             // Special case if neither a view nor layout title is found
-                            if (count($titleParts) == 1) {
+                            if (\count($titleParts) == 1) {
                                 $titleParts[] = $vars['view'];
                             }
                         }

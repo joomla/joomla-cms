@@ -58,7 +58,7 @@ final class Actionlogs extends PrivacyPlugin
 
         $data = $db->loadObjectList();
 
-        if (!count($data)) {
+        if (!\count($data)) {
             return [];
         }
 

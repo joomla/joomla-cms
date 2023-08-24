@@ -160,7 +160,7 @@ trait FormBehaviorTrait
 
         // When the data is an array wrap it in to an array-access object
         $eventData = $data;
-        if (is_array($data)) {
+        if (\is_array($data)) {
             $eventData = new ArrayProxy($data);
         }
 

@@ -51,7 +51,7 @@ class StyleTable extends Table
      */
     public function bind($array, $ignore = '')
     {
-        if (isset($array['params']) && is_array($array['params'])) {
+        if (isset($array['params']) && \is_array($array['params'])) {
             $registry        = new Registry($array['params']);
             $array['params'] = (string) $registry;
         }
@@ -131,9 +131,9 @@ class StyleTable extends Table
     public function delete($pk = null)
     {
         $k  = $this->_tbl_key;
-        $pk = is_null($pk) ? $this->$k : $pk;
+        $pk = \is_null($pk) ? $this->$k : $pk;
 
-        if (!is_null($pk)) {
+        if (!\is_null($pk)) {
             $clientId = (int) $this->client_id;
             $query    = $this->_db->getQuery(true)
                 ->select($this->_db->quoteName('id'))
@@ -145,7 +145,7 @@ class StyleTable extends Table
             $this->_db->setQuery($query);
             $results = $this->_db->loadColumn();
 
-            if (count($results) == 1 && $results[0] == $pk) {
+            if (\count($results) == 1 && $results[0] == $pk) {
                 $this->setError(Text::_('COM_TEMPLATES_ERROR_CANNOT_DELETE_LAST_STYLE'));
 
                 return false;

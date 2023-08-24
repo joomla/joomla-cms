@@ -151,7 +151,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
     {
         $type = strtolower($type);
 
-        if (!array_key_exists($type, $this->assets)) {
+        if (!\array_key_exists($type, $this->assets)) {
             $this->assets[$type] = [];
         }
 

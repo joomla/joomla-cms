@@ -316,7 +316,7 @@ class Language extends BaseLanguage
 
         // Check if all symbols were transliterated (contains only ASCII),
         // Otherwise try to use native php function if available
-        if (preg_match('/[\\x80-\\xff]/', $string) && function_exists('transliterator_transliterate') && function_exists('iconv')) {
+        if (preg_match('/[\\x80-\\xff]/', $string) && \function_exists('transliterator_transliterate') && \function_exists('iconv')) {
             return iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $string));
         }
 

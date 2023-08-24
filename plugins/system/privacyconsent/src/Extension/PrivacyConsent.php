@@ -69,12 +69,12 @@ final class PrivacyConsent extends CMSPlugin
         // Check we are manipulating a valid form - we only display this on user registration form and user profile form.
         $name = $form->getName();
 
-        if (!in_array($name, ['com_users.profile', 'com_users.registration'])) {
+        if (!\in_array($name, ['com_users.profile', 'com_users.registration'])) {
             return true;
         }
 
         // We only display this if user has not consented before
-        if (is_object($data)) {
+        if (\is_object($data)) {
             $userId = $data->id ?? 0;
 
             if ($userId > 0 && $this->isUserConsented($userId)) {
@@ -129,7 +129,7 @@ final class PrivacyConsent extends CMSPlugin
         $form   = $input->post->get('jform', [], 'array');
 
         if (
-            $option == 'com_users' && in_array($task, ['registration.register', 'profile.save'])
+            $option == 'com_users' && \in_array($task, ['registration.register', 'profile.save'])
             && empty($form['privacyconsent']['privacy'])
         ) {
             throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_SYSTEM_PRIVACYCONSENT_FIELD_ERROR'));
@@ -172,7 +172,7 @@ final class PrivacyConsent extends CMSPlugin
 
         if (
             $option == 'com_users'
-            && in_array($task, ['registration.register', 'profile.save'])
+            && \in_array($task, ['registration.register', 'profile.save'])
             && !empty($form['privacyconsent']['privacy'])
         ) {
             $userId = ArrayHelper::getValue($data, 'id', 0, 'int');
@@ -288,7 +288,7 @@ final class PrivacyConsent extends CMSPlugin
                 'profile.save', 'profile.apply', 'user.logout', 'user.menulogout',
                 'method', 'methods', 'captive', 'callback',
             ];
-            $isAllowedUserTask = in_array($task, $allowedUserTasks)
+            $isAllowedUserTask = \in_array($task, $allowedUserTasks)
                 || substr($task, 0, 8) === 'captive.'
                 || substr($task, 0, 8) === 'methods.'
                 || substr($task, 0, 7) === 'method.'

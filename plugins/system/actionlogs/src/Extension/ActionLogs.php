@@ -88,7 +88,7 @@ final class ActionLogs extends CMSPlugin
             'com_users.user',
         ];
 
-        if (!in_array($formName, $allowedFormNames, true)) {
+        if (!\in_array($formName, $allowedFormNames, true)) {
             return true;
         }
 
@@ -109,7 +109,7 @@ final class ActionLogs extends CMSPlugin
             $data = $jformData;
         }
 
-        if (is_array($data)) {
+        if (\is_array($data)) {
             $data = (object) $data;
         }
 
@@ -146,11 +146,11 @@ final class ActionLogs extends CMSPlugin
      */
     public function onContentPrepareData($context, $data)
     {
-        if (!in_array($context, ['com_users.profile', 'com_users.user'])) {
+        if (!\in_array($context, ['com_users.profile', 'com_users.user'])) {
             return true;
         }
 
-        if (is_array($data)) {
+        if (\is_array($data)) {
             $data = (object) $data;
         }
 

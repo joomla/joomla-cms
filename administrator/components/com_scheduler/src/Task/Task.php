@@ -261,7 +261,7 @@ class Task implements LoggerAwareInterface
         }
 
         // The only acceptable "successful" statuses are either clean exit or resuming execution.
-        if (!in_array($this->snapshot['status'], [Status::WILL_RESUME, Status::OK])) {
+        if (!\in_array($this->snapshot['status'], [Status::WILL_RESUME, Status::OK])) {
             $this->set('times_failed', $this->get('times_failed') + 1);
         }
 
@@ -484,7 +484,7 @@ class Task implements LoggerAwareInterface
      */
     public function isSuccess(): bool
     {
-        return in_array(($this->snapshot['status'] ?? null), [Status::OK, Status::WILL_RESUME]);
+        return \in_array(($this->snapshot['status'] ?? null), [Status::OK, Status::WILL_RESUME]);
     }
 
     /**

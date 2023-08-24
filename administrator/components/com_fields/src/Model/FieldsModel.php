@@ -180,7 +180,7 @@ class FieldsModel extends ListModel
 
         // Filter by access level.
         if ($access = $this->getState('filter.access')) {
-            if (is_array($access)) {
+            if (\is_array($access)) {
                 $access = ArrayHelper::toInteger($access);
                 $query->whereIn($db->quoteName('a.access'), $access);
             } else {
@@ -250,7 +250,7 @@ class FieldsModel extends ListModel
             // Join over the assigned categories
             $query->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id');
 
-            if (in_array('0', $categories)) {
+            if (\in_array('0', $categories)) {
                 $query->where(
                     '(' .
                         $db->quoteName('fc.category_id') . ' IS NULL OR ' .
@@ -396,7 +396,7 @@ class FieldsModel extends ListModel
     {
         $result = parent::_getList($query, $limitstart, $limit);
 
-        if (is_array($result)) {
+        if (\is_array($result)) {
             foreach ($result as $field) {
                 $field->fieldparams = new Registry($field->fieldparams);
                 $field->params      = new Registry($field->params);

@@ -79,7 +79,7 @@ final class UpdateNotification extends CMSPlugin
         $now  = time();
         $last = (int) $this->params->get('lastrun', 0);
 
-        if (!defined('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG') && (abs($now - $last) < $cache_timeout)) {
+        if (!\defined('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG') && (abs($now - $last) < $cache_timeout)) {
             return;
         }
 

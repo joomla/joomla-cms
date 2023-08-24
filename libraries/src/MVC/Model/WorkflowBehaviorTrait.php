@@ -76,7 +76,7 @@ trait WorkflowBehaviorTrait
 
         $this->extension = array_shift($parts);
 
-        if (count($parts)) {
+        if (\count($parts)) {
             $this->section = array_shift($parts);
         }
 

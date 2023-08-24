@@ -936,7 +936,7 @@ final class Testing extends CMSPlugin
             ],
             [
                 'catid'    => $catIdsLevel5[0],
-                'tags'     => array_map('strval', array_slice($tagIds, 0, 3)),
+                'tags'     => array_map('strval', \array_slice($tagIds, 0, 3)),
                 'ordering' => 0,
             ],
             [
@@ -1057,7 +1057,7 @@ final class Testing extends CMSPlugin
         // Categories A-Z.
         for ($i = 65; $i <= 90; $i++) {
             $categories[] = [
-                'title'     => chr($i),
+                'title'     => \chr($i),
                 'parent_id' => $catIdsLevel3[1],
             ];
         }

@@ -73,7 +73,7 @@ class ArticleField extends FormField
         if ($allowSelect) {
             static $scriptSelect = null;
 
-            if (is_null($scriptSelect)) {
+            if (\is_null($scriptSelect)) {
                 $scriptSelect = [];
             }
 
@@ -187,9 +187,9 @@ class ArticleField extends FormField
         }
 
         // Propagate article button
-        if ($allowPropagate && count($languages) > 2) {
+        if ($allowPropagate && \count($languages) > 2) {
             // Strip off language tag at the end
-            $tagLength            = (int) strlen($this->element['language']);
+            $tagLength            = (int) \strlen($this->element['language']);
             $callbackFunctionStem = substr("jSelectArticle_" . $this->id, 0, -$tagLength);
 
             $html .= '<button'

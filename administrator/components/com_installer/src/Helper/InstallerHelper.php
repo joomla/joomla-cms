@@ -264,10 +264,10 @@ class InstallerHelper
 
         $prefix = (string) $installXmlFile->dlid['prefix'];
         $suffix = (string) $installXmlFile->dlid['suffix'];
-        $value  = substr($extension->get('extra_query'), strlen($prefix));
+        $value  = substr($extension->get('extra_query'), \strlen($prefix));
 
         if ($suffix) {
-            $value = substr($value, 0, -strlen($suffix));
+            $value = substr($value, 0, -\strlen($suffix));
         }
 
         $downloadKey = [

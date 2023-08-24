@@ -120,7 +120,7 @@ class DisplayController extends BaseController
             $this->setRedirect(Route::_('index.php?option=com_users&view=notes', false));
 
             return false;
-        } elseif (in_array($view, ['captive', 'callback', 'methods', 'method'])) {
+        } elseif (\in_array($view, ['captive', 'callback', 'methods', 'method'])) {
             $controller = $this->factory->createController($view, 'Administrator', [], $this->app, $this->input);
             $task       = $this->input->get('task', '');
 

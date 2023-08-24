@@ -389,7 +389,7 @@ trait DisplayTrait
         $toolbar = array_merge($toolbar1, $toolbar2);
 
         // Should load the templates plugin?
-        if (in_array('jtemplate', $toolbar)) {
+        if (\in_array('jtemplate', $toolbar)) {
             $externalPlugins['jtemplate'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/jtemplate/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
         }
 

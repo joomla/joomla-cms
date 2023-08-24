@@ -54,8 +54,8 @@ class Filter
 
         // Get the configuration options.
         $filterId    = $options['filter_id'] ?? null;
-        $activeNodes = array_key_exists('selected_nodes', $options) ? $options['selected_nodes'] : [];
-        $classSuffix = array_key_exists('class_suffix', $options) ? $options['class_suffix'] : '';
+        $activeNodes = \array_key_exists('selected_nodes', $options) ? $options['selected_nodes'] : [];
+        $classSuffix = \array_key_exists('class_suffix', $options) ? $options['class_suffix'] : '';
 
         // Load the predefined filter if specified.
         if (!empty($filterId)) {
@@ -104,7 +104,7 @@ class Filter
         }
 
         // Check that we have at least one branch.
-        if (count($branches) === 0) {
+        if (\count($branches) === 0) {
             return null;
         }
 
@@ -164,7 +164,7 @@ class Filter
                 'accordion',
                 Text::sprintf(
                     'COM_FINDER_FILTER_BRANCH_LABEL',
-                    Text::_(LanguageHelper::branchSingular($bv->title)) . ' - ' . count($nodes)
+                    Text::_(LanguageHelper::branchSingular($bv->title)) . ' - ' . \count($nodes)
                 ),
                 'accordion-' . $bk
             );
@@ -176,7 +176,7 @@ class Filter
             // Populate the group with nodes.
             foreach ($nodes as $nk => $nv) {
                 // Determine if the node should be checked.
-                $checked = in_array($nk, $activeNodes) ? ' checked="checked"' : '';
+                $checked = \in_array($nk, $activeNodes) ? ' checked="checked"' : '';
 
                 // Build a node.
                 $html .= '<div class="form-check">';
@@ -277,7 +277,7 @@ class Filter
             }
 
             // Check that we have at least one branch.
-            if (count($branches) === 0) {
+            if (\count($branches) === 0) {
                 return null;
             }
 
@@ -361,13 +361,13 @@ class Filter
             $active = null;
 
             // Check if the branch is in the filter.
-            if (array_key_exists($bv->title, $idxQuery->filters)) {
+            if (\array_key_exists($bv->title, $idxQuery->filters)) {
                 // Get the request filters.
                 $temp   = Factory::getApplication()->getInput()->request->get('t', [], 'array');
 
                 // Search for active nodes in the branch and get the active node.
                 $active = array_intersect($temp, $idxQuery->filters[$bv->title]);
-                $active = count($active) === 1 ? array_shift($active) : null;
+                $active = \count($active) === 1 ? array_shift($active) : null;
             }
 
             // Build a node.

@@ -114,7 +114,7 @@ class LevelController extends FormController
 
             // Remove the items.
             if ($model->delete($ids)) {
-                $this->setMessage(Text::plural('COM_USERS_N_LEVELS_DELETED', count($ids)));
+                $this->setMessage(Text::plural('COM_USERS_N_LEVELS_DELETED', \count($ids)));
             }
         }
 

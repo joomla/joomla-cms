@@ -76,7 +76,7 @@ class Route
              * @deprecated  3.9 int conversion will be removed in 5.0
              *              Before 3.9.7 this method silently converted $tls to integer
              */
-            if (!is_int($tls)) {
+            if (!\is_int($tls)) {
                 @trigger_error(
                     __METHOD__ . '() called with incompatible variable type on parameter $tls.',
                     E_USER_DEPRECATED
@@ -172,7 +172,7 @@ class Route
                 $scheme_host_port = [$uri2->getScheme(), $uri2->getHost(), $uri2->getPort()];
             }
 
-            if (is_null($uri->getScheme())) {
+            if (\is_null($uri->getScheme())) {
                 $uri->setScheme($scheme_host_port[0]);
             }
 

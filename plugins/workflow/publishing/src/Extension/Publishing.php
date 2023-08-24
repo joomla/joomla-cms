@@ -291,7 +291,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
         // Release allowed pks, the job is done
         $this->getApplication()->set('plgWorkflowPublishing.' . $context, []);
 
-        if (in_array(false, $result, true)) {
+        if (\in_array(false, $result, true)) {
             $event->setStopTransition();
 
             return false;
@@ -500,7 +500,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
         $parts = explode('.', $context);
 
         // We need at least the extension + view for loading the table fields
-        if (count($parts) < 2) {
+        if (\count($parts) < 2) {
             return false;
         }
 

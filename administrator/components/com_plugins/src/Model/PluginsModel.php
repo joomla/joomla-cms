@@ -145,7 +145,7 @@ class PluginsModel extends ListModel
             $direction         = ($orderingDirection == 'desc') ? -1 : 1;
             $result            = ArrayHelper::sortObjects($result, $ordering, $direction, true, true);
 
-            $total                                      = count($result);
+            $total                                      = \count($result);
             $this->cache[$this->getStoreId('getTotal')] = $total;
 
             if ($total < $limitstart) {
@@ -154,7 +154,7 @@ class PluginsModel extends ListModel
 
             $this->cache[$this->getStoreId('getStart')] = $limitstart;
 
-            return array_slice($result, $limitstart, $limit ?: null);
+            return \array_slice($result, $limitstart, $limit ?: null);
         } else {
             if ($ordering == 'ordering') {
                 $query->order('a.folder ASC');

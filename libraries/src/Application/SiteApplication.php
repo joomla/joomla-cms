@@ -854,7 +854,7 @@ final class SiteApplication extends CMSApplication
      */
     public function setTemplate($template, $styleParams = null)
     {
-        if (is_object($template)) {
+        if (\is_object($template)) {
             $templateName        = empty($template->template)
                 ? ''
                 : $template->template;

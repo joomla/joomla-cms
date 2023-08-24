@@ -680,7 +680,7 @@ class SysinfoModel extends BaseDatabaseModel
      */
     public function &getEditor(): string
     {
-        if (!is_null($this->editor)) {
+        if (!\is_null($this->editor)) {
             return $this->editor;
         }
 

@@ -15,11 +15,11 @@
 namespace
 {
     // Require the restoration environment or fail cold. Prevents direct web access.
-    \defined('_JOOMLA_UPDATE') or die();
+    defined('_JOOMLA_UPDATE') or die();
 
     // Fake a miniature Joomla environment
-    if (!\defined('_JEXEC')) {
-        \define('_JEXEC', 1);
+    if (!defined('_JEXEC')) {
+        define('_JEXEC', 1);
     }
 
     if (!function_exists('jimport')) {
@@ -53,8 +53,8 @@ namespace
          */
         function finalizeUpdate(string $siteRoot, string $restorePath): void
         {
-            if (!\defined('JPATH_ROOT')) {
-                \define('JPATH_ROOT', $siteRoot);
+            if (!defined('JPATH_ROOT')) {
+                define('JPATH_ROOT', $siteRoot);
             }
 
             $filePath = JPATH_ROOT . '/administrator/components/com_admin/script.php';
@@ -162,7 +162,7 @@ namespace Joomla\CMS\Filesystem
              */
             public static function invalidateFileCache($filepath, $force = true)
             {
-                return \clearFileInOPCache($filepath);
+                return clearFileInOPCache($filepath);
             }
         }
     }
@@ -227,7 +227,7 @@ namespace Joomla\CMS\Filesystem
                         continue;
                     }
 
-                    \clearFileInOPCache($item->getPathname());
+                    clearFileInOPCache($item->getPathname());
 
                     @unlink($item->getPathname());
                 }

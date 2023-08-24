@@ -104,11 +104,11 @@ final class Token extends CMSPlugin
         // Apache specific fixes. See https://github.com/symfony/symfony/issues/19693
         if (
             empty($authHeader) && \PHP_SAPI === 'apache2handler'
-            && function_exists('apache_request_headers') && apache_request_headers() !== false
+            && \function_exists('apache_request_headers') && apache_request_headers() !== false
         ) {
             $apacheHeaders = array_change_key_case(apache_request_headers(), CASE_LOWER);
 
-            if (array_key_exists('authorization', $apacheHeaders)) {
+            if (\array_key_exists('authorization', $apacheHeaders)) {
                 $authHeader = $this->filter->clean($apacheHeaders['authorization'], 'STRING');
             }
         }
@@ -141,7 +141,7 @@ final class Token extends CMSPlugin
          */
         $parts = explode(':', $authString, 3);
 
-        if (count($parts) != 3) {
+        if (\count($parts) != 3) {
             return;
         }
 
@@ -150,7 +150,7 @@ final class Token extends CMSPlugin
         /**
          * Verify the HMAC algorithm requested in the token string is allowed
          */
-        $allowedAlgo = in_array($algo, $this->allowedAlgos);
+        $allowedAlgo = \in_array($algo, $this->allowedAlgos);
 
         /**
          * Make sure the user ID is an integer
@@ -337,7 +337,7 @@ final class Token extends CMSPlugin
             return [];
         }
 
-        if (!is_array($userGroups)) {
+        if (!\is_array($userGroups)) {
             $userGroups = [$userGroups];
         }
 

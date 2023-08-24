@@ -102,11 +102,11 @@ trait GlobalFilters
                  * Each list is cumulative.
                  * "BL" is deprecated in Joomla! 4, will be removed in Joomla! 5
                  */
-                if (in_array($filterType, ['BL', 'FL'])) {
+                if (\in_array($filterType, ['BL', 'FL'])) {
                     $forbiddenList           = true;
                     $forbiddenListTags       = array_merge($forbiddenListTags, $tempTags);
                     $forbiddenListAttributes = array_merge($forbiddenListAttributes, $tempAttributes);
-                } elseif (in_array($filterType, ['CBL', 'CFL'])) {
+                } elseif (\in_array($filterType, ['CBL', 'CFL'])) {
                     // "CBL" is deprecated in Joomla! 4, will be removed in Joomla! 5
                     // Only set to true if Tags or Attributes were added
                     if ($tempTags || $tempAttributes) {
@@ -114,7 +114,7 @@ trait GlobalFilters
                         $customListTags       = array_merge($customListTags, $tempTags);
                         $customListAttributes = array_merge($customListAttributes, $tempAttributes);
                     }
-                } elseif (in_array($filterType, ['WL', 'AL'])) {
+                } elseif (\in_array($filterType, ['WL', 'AL'])) {
                     // "WL" is deprecated in Joomla! 4, will be removed in Joomla! 5
                     $allowedList           = true;
                     $allowedListTags       = array_merge($allowedListTags, $tempTags);

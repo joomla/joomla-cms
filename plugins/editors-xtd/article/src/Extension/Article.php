@@ -87,11 +87,11 @@ final class Article extends CMSPlugin implements SubscriberInterface
 
         // Can create in any category (component permission) or at least in one category
         $canCreateRecords = $user->authorise('core.create', 'com_content')
-            || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0;
+            || \count($user->getAuthorisedCategories('com_content', 'core.create')) > 0;
 
         // Instead of checking edit on all records, we can use **same** check as the form editing view
         $values           = (array) $this->getApplication()->getUserState('com_content.edit.article.id');
-        $isEditingRecords = count($values);
+        $isEditingRecords = \count($values);
 
         // This ACL check is probably a double-check (form view already performed checks)
         $hasAccess = $canCreateRecords || $isEditingRecords;

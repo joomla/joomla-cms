@@ -422,7 +422,7 @@ class BaseControllerTest extends UnitTestCase
      */
     public function testInjectViewPath()
     {
-        $path       = dirname(__DIR__);
+        $path       = \dirname(__DIR__);
         $controller = new class (['view_path' => $path, 'base_path' => __DIR__], $this->createStub(MVCFactoryInterface::class), $this->createStub(CMSApplication::class)) extends BaseController {
             public function getPaths()
             {

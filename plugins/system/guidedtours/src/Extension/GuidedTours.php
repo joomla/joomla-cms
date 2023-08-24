@@ -178,7 +178,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
 
         $item = $tourModel->getItem($tourId);
 
-        if (empty($item->id) || $item->published < 1 || !in_array($item->access, $user->getAuthorisedViewLevels())) {
+        if (empty($item->id) || $item->published < 1 || !\in_array($item->access, $user->getAuthorisedViewLevels())) {
             return null;
         }
 

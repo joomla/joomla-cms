@@ -112,7 +112,7 @@ class LanguageHelper
     {
         static $languages = [];
 
-        if (!count($languages)) {
+        if (!\count($languages)) {
             // Installation uses available languages
             if (Factory::getApplication()->isClient('installation')) {
                 $languages[$key] = [];

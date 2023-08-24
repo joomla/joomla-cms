@@ -473,7 +473,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
             }
         }
 
-        if ($this->params->get('query_explains') && in_array($db->getServerType(), ['mysql', 'postgresql'], true)) {
+        if ($this->params->get('query_explains') && \in_array($db->getServerType(), ['mysql', 'postgresql'], true)) {
             $logs        = $this->queryMonitor->getLogs();
             $boundParams = $this->queryMonitor->getBoundParams();
 
@@ -687,7 +687,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
             $metrics .= sprintf('%s;dur=%f;desc="%s", ', $index . $name, $mark->time, $desc);
 
             // Do not create too large headers, some web servers don't love them
-            if (strlen($metrics) > 3000) {
+            if (\strlen($metrics) > 3000) {
                 $metrics .= 'System;dur=0;desc="Data truncated to 3000 characters", ';
                 break;
             }

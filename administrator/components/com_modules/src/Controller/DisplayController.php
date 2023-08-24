@@ -53,7 +53,7 @@ class DisplayController extends BaseController
         // Verify client
         $clientId = $this->input->post->getInt('client_id');
 
-        if (!is_null($clientId)) {
+        if (!\is_null($clientId)) {
             $uri = Uri::getInstance();
 
             if ((int) $uri->getVar('client_id') !== (int) $clientId) {

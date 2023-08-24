@@ -68,7 +68,7 @@ final class ListPlugin extends FieldsListPlugin
         }
 
         // The field's rawvalue should be an array
-        if (!is_array($field->rawvalue)) {
+        if (!\is_array($field->rawvalue)) {
             $field->rawvalue = (array) $field->rawvalue;
         }
 

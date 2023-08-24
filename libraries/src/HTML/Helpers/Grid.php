@@ -172,7 +172,7 @@ abstract class Grid
      */
     public static function published($value, $i, $img1 = 'tick.png', $img0 = 'publish_x.png', $prefix = '')
     {
-        if (is_object($value)) {
+        if (\is_object($value)) {
             $value = $value->published;
         }
 
@@ -237,7 +237,7 @@ abstract class Grid
     public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
     {
         return '<a href="javascript:saveorder('
-            . (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-sm btn-secondary float-end" title="'
+            . (\count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-sm btn-secondary float-end" title="'
             . Text::_('JLIB_HTML_SAVE_ORDER') . '"><span class="icon-sort"></span></a>';
     }
 

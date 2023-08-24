@@ -14,7 +14,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**

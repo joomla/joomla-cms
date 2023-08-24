@@ -149,8 +149,8 @@ class FilterTable extends Table implements CurrentUserInterface
             }
         }
 
-        if (is_array($this->data)) {
-            $this->map_count = count($this->data);
+        if (\is_array($this->data)) {
+            $this->map_count = \count($this->data);
             $this->data      = implode(',', $this->data);
         } else {
             $this->map_count = 0;

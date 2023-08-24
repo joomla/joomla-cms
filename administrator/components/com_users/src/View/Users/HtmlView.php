@@ -110,7 +110,7 @@ class HtmlView extends BaseHtmlView
         $this->db            = Factory::getDbo();
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

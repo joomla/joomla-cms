@@ -62,7 +62,7 @@ class CaptiveModel extends BaseDatabaseModel
      */
     public function suppressAllModules(CMSApplication $app = null): void
     {
-        if (is_null($app)) {
+        if (\is_null($app)) {
             $app = Factory::getApplication();
         }
 
@@ -82,7 +82,7 @@ class CaptiveModel extends BaseDatabaseModel
      */
     public function getRecords(User $user = null, bool $includeBackupCodes = false): array
     {
-        if (is_null($user)) {
+        if (\is_null($user)) {
             $user = $this->getCurrentUser();
         }
 
@@ -114,7 +114,7 @@ class CaptiveModel extends BaseDatabaseModel
 
         foreach ($records as $record) {
             // Backup codes must not be included in the list. We add them in the View, at the end of the list.
-            if (in_array($record->method, $methodNames)) {
+            if (\in_array($record->method, $methodNames)) {
                 $ret[$record->id] = $record;
             }
         }
@@ -130,7 +130,7 @@ class CaptiveModel extends BaseDatabaseModel
      */
     private function getActiveMethodNames(): ?array
     {
-        if (!is_null($this->activeMFAMethodNames)) {
+        if (!\is_null($this->activeMFAMethodNames)) {
             return $this->activeMFAMethodNames;
         }
 
@@ -173,7 +173,7 @@ class CaptiveModel extends BaseDatabaseModel
             return null;
         }
 
-        if (is_null($user)) {
+        if (\is_null($user)) {
             $user = $this->getCurrentUser();
         }
 
@@ -192,7 +192,7 @@ class CaptiveModel extends BaseDatabaseModel
 
         $methodNames = $this->getActiveMethodNames();
 
-        if (!in_array($record->method, $methodNames) && ($record->method != 'backupcodes')) {
+        if (!\in_array($record->method, $methodNames) && ($record->method != 'backupcodes')) {
             return null;
         }
 
@@ -277,7 +277,7 @@ class CaptiveModel extends BaseDatabaseModel
     {
         static $map = null;
 
-        if (!is_array($map)) {
+        if (!\is_array($map)) {
             $map        = [];
             $mfaMethods = MfaHelper::getMfaMethods();
 
@@ -307,7 +307,7 @@ class CaptiveModel extends BaseDatabaseModel
     {
         static $map = null;
 
-        if (!is_array($map)) {
+        if (!\is_array($map)) {
             $map        = [];
             $mfaMethods = MfaHelper::getMfaMethods();
 
@@ -375,7 +375,7 @@ class CaptiveModel extends BaseDatabaseModel
         $filtered = [];
 
         foreach ($modules as $module) {
-            if (in_array($module->position, $allowedPositions)) {
+            if (\in_array($module->position, $allowedPositions)) {
                 $filtered[] = $module;
             }
         }

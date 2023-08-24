@@ -117,7 +117,7 @@ class FieldModel extends AdminModel
 
         if (
             isset($data['params']['searchindex'])
-            && ((is_null($field) && $data['params']['searchindex'] > 0)
+            && ((\is_null($field) && $data['params']['searchindex'] > 0)
                 || ($field->params['searchindex'] != $data['params']['searchindex'])
                 || ($data['params']['searchindex'] > 0 && ($field->state != $data['state'] || $field->access != $data['access'])))
         ) {
@@ -222,13 +222,13 @@ class FieldModel extends AdminModel
          * when the options of a subfields field are getting changed.
          */
         if (
-            $field && in_array($field->type, ['list', 'checkboxes', 'radio'], true)
+            $field && \in_array($field->type, ['list', 'checkboxes', 'radio'], true)
             && isset($data['fieldparams']['options']) && isset($field->fieldparams['options'])
         ) {
             $oldParams = $this->getParams($field->fieldparams['options']);
             $newParams = $this->getParams($data['fieldparams']['options']);
 
-            if (is_object($oldParams) && is_object($newParams) && $oldParams != $newParams) {
+            if (\is_object($oldParams) && \is_object($newParams) && $oldParams != $newParams) {
                 // Get new values.
                 $names = array_column((array) $newParams, 'value');
 
@@ -274,7 +274,7 @@ class FieldModel extends AdminModel
         $types = FieldsHelper::getFieldTypes();
 
         // Check if type exists
-        if (!array_key_exists($data['type'], $types)) {
+        if (!\array_key_exists($data['type'], $types)) {
             return true;
         }
 
@@ -356,11 +356,11 @@ class FieldModel extends AdminModel
      */
     private function getParams($params)
     {
-        if (is_string($params)) {
+        if (\is_string($params)) {
             $params = json_decode($params);
         }
 
-        if (is_array($params)) {
+        if (\is_array($params)) {
             $params = (object) $params;
         }
 
@@ -606,7 +606,7 @@ class FieldModel extends AdminModel
         $field  = $this->getItem($fieldId);
         $params = $field->params;
 
-        if (is_array($params)) {
+        if (\is_array($params)) {
             $params = new Registry($params);
         }
 
@@ -625,9 +625,9 @@ class FieldModel extends AdminModel
         if ($oldValue === null) {
             // No records available, doing normal insert
             $needsInsert = true;
-        } elseif (count($value) == 1 && count((array) $oldValue) == 1) {
+        } elseif (\count($value) == 1 && \count((array) $oldValue) == 1) {
             // Only a single row value update can be done when not empty
-            $needsUpdate = is_array($value[0]) ? count($value[0]) : strlen($value[0]);
+            $needsUpdate = \is_array($value[0]) ? \count($value[0]) : \strlen($value[0]);
             $needsDelete = !$needsUpdate;
         } else {
             // Multiple values, we need to purge the data and do a new
@@ -695,7 +695,7 @@ class FieldModel extends AdminModel
     {
         $values = $this->getFieldValues([$fieldId], $itemId);
 
-        if (array_key_exists($fieldId, $values)) {
+        if (\array_key_exists($fieldId, $values)) {
             return $values[$fieldId];
         }
 
@@ -722,7 +722,7 @@ class FieldModel extends AdminModel
         $key = md5(serialize($fieldIds) . $itemId);
 
         // Fill the cache when it doesn't exist
-        if (!array_key_exists($key, $this->valueCache)) {
+        if (!\array_key_exists($key, $this->valueCache)) {
             // Create the query
             $db    = $this->getDatabase();
             $query = $db->getQuery(true);
@@ -741,9 +741,9 @@ class FieldModel extends AdminModel
             // Fill the data container from the database rows
             foreach ($rows as $row) {
                 // If there are multiple values for a field, create an array
-                if (array_key_exists($row->field_id, $data)) {
+                if (\array_key_exists($row->field_id, $data)) {
                     // Transform it to an array
-                    if (!is_array($data[$row->field_id])) {
+                    if (!\is_array($data[$row->field_id])) {
                         $data[$row->field_id] = [$data[$row->field_id]];
                     }
 
@@ -862,7 +862,7 @@ class FieldModel extends AdminModel
         $this->setState('field.component', $parts[0]);
 
         // Extract the optional section name
-        $this->setState('field.section', (count($parts) > 1) ? $parts[1] : null);
+        $this->setState('field.section', (\count($parts) > 1) ? $parts[1] : null);
 
         // Load the parameters.
         $params = ComponentHelper::getParams('com_fields');
@@ -1011,7 +1011,7 @@ class FieldModel extends AdminModel
         $section    = $this->state->get('field.section');
         $dataObject = $data;
 
-        if (is_array($dataObject)) {
+        if (\is_array($dataObject)) {
             $dataObject = (object) $dataObject;
         }
 

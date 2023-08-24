@@ -237,7 +237,7 @@ abstract class DebugAdapter extends CMSPlugin
         $items = $this->getItems($offset, $limit);
 
         // Iterate through the items and index them.
-        for ($i = 0, $n = count($items); $i < $n; $i++) {
+        for ($i = 0, $n = \count($items); $i < $n; $i++) {
             // Index the item.
             $this->index($items[$i]);
 
@@ -283,7 +283,7 @@ abstract class DebugAdapter extends CMSPlugin
             $this->indexer->remove($item);
         }
 
-        return count($items);
+        return \count($items);
     }
 
     /**

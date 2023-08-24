@@ -170,7 +170,7 @@ class StepsModel extends ListModel
             $tourId = (int) $tourId;
             $query->where($db->quoteName('a.tour_id') . ' = :tour_id')
                 ->bind(':tour_id', $tourId, ParameterType::INTEGER);
-        } elseif (is_array($tourId)) {
+        } elseif (\is_array($tourId)) {
             $tourId = ArrayHelper::toInteger($tourId);
             $query->whereIn($db->quoteName('a.tour_id'), $tourId);
         }

@@ -87,12 +87,12 @@ final class Token extends CMSPlugin
         }
 
         // Check we are manipulating a valid form.
-        if (!in_array($context, $this->allowedContexts)) {
+        if (!\in_array($context, $this->allowedContexts)) {
             return true;
         }
 
         // $data must be an object
-        if (!is_object($data)) {
+        if (!\is_object($data)) {
             return true;
         }
 
@@ -102,7 +102,7 @@ final class Token extends CMSPlugin
         }
 
         // Get the user ID
-        $userId = intval($data->id);
+        $userId = \intval($data->id);
 
         // Make sure we have a positive integer user ID
         if ($userId <= 0) {
@@ -190,7 +190,7 @@ final class Token extends CMSPlugin
         }
 
         // Check we are manipulating a valid form.
-        if (!in_array($form->getName(), $this->allowedContexts)) {
+        if (!\in_array($form->getName(), $this->allowedContexts)) {
             return true;
         }
 
@@ -201,12 +201,12 @@ final class Token extends CMSPlugin
             $data = $jformData;
         }
 
-        if (is_array($data)) {
+        if (\is_array($data)) {
             $data = (object) $data;
         }
 
         // Check if the user belongs to an allowed user group
-        $userId = (is_object($data) && isset($data->id)) ? $data->id : 0;
+        $userId = (\is_object($data) && isset($data->id)) ? $data->id : 0;
 
         if (!empty($userId) && !$this->isInAllowedUserGroup($userId)) {
             return true;
@@ -262,7 +262,7 @@ final class Token extends CMSPlugin
      */
     public function onUserAfterSave($data, bool $isNew, bool $result, ?string $error): void
     {
-        if (!is_array($data)) {
+        if (!\is_array($data)) {
             return;
         }
 
@@ -470,7 +470,7 @@ final class Token extends CMSPlugin
             return [];
         }
 
-        if (!is_array($userGroups)) {
+        if (!\is_array($userGroups)) {
             $userGroups = [$userGroups];
         }
 
@@ -585,7 +585,7 @@ final class Token extends CMSPlugin
      */
     private function hasTokenProfileFields(?int $userId): bool
     {
-        if (is_null($userId) || ($userId <= 0)) {
+        if (\is_null($userId) || ($userId <= 0)) {
             return false;
         }
 

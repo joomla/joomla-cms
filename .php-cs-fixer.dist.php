@@ -82,6 +82,8 @@ $config
             'no_unused_imports'              => true,
             // Classes from the global namespace should not be imported
             'global_namespace_import'        => ['import_classes' => false, 'import_constants' => false, 'import_functions' => false],
+            // Native function invocation
+            'native_function_invocation'     => ['include' => ['@compiler_optimized'], 'scope' => 'namespaced'],
         ]
     )
     ->setFinder($finder);

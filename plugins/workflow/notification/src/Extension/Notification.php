@@ -160,7 +160,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
         // Don't send the notification to the active user
         $key = array_search($user->id, $userIds);
 
-        if (is_int($key)) {
+        if (\is_int($key)) {
             unset($userIds[$key]);
         }
 
@@ -302,7 +302,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
         $parts = explode('.', $context);
 
         // We need at least the extension + view for loading the table fields
-        if (count($parts) < 2) {
+        if (\count($parts) < 2) {
             return false;
         }
 

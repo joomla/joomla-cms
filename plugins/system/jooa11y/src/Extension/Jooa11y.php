@@ -58,7 +58,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
     {
         static $result;
 
-        if (is_bool($result)) {
+        if (\is_bool($result)) {
             return $result;
         }
 

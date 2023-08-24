@@ -42,11 +42,11 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
             throw new \BadMethodCallException("Argument 'asset' of event $name is not of the expected type");
         }
 
-        if (!\array_key_exists('assetType', $arguments) || !is_string($arguments['assetType'])) {
+        if (!\array_key_exists('assetType', $arguments) || !\is_string($arguments['assetType'])) {
             throw new \BadMethodCallException("Argument 'assetType' of event $name is not of the expected type");
         }
 
-        if (!\array_key_exists('change', $arguments) || !is_string($arguments['change'])) {
+        if (!\array_key_exists('change', $arguments) || !\is_string($arguments['change'])) {
             throw new \BadMethodCallException("Argument 'change' of event $name is not of the expected type");
         }
     }

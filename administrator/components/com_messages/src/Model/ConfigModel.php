@@ -143,7 +143,7 @@ class ConfigModel extends FormModel
                 return false;
             }
 
-            if (count($data)) {
+            if (\count($data)) {
                 $query = $db->getQuery(true)
                     ->insert($db->quoteName('#__messages_cfg'))
                     ->columns(

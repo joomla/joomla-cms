@@ -161,7 +161,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
         }
 
         // Since the the request from the frontend may time out, try allowing execution after disconnect.
-        if (function_exists('ignore_user_abort')) {
+        if (\function_exists('ignore_user_abort')) {
             ignore_user_abort(true);
         }
 
@@ -206,7 +206,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        if (!strlen($hash) || $hash !== $this->getApplication()->getInput()->get('hash')) {
+        if (!\strlen($hash) || $hash !== $this->getApplication()->getInput()->get('hash')) {
             throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
@@ -262,7 +262,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             ]
         );
 
-        if (!is_null($task)) {
+        if (!\is_null($task)) {
             $task->run();
             $event->addArgument('result', $task->getContent());
         } else {

@@ -129,7 +129,7 @@ class UpdateModel extends ListModel
                 ->bind(':clientid', $clientId, ParameterType::INTEGER);
         }
 
-        if ($folder != '' && in_array($type, ['plugin', 'library', ''])) {
+        if ($folder != '' && \in_array($type, ['plugin', 'library', ''])) {
             $folder = $folder === '*' ? '' : $folder;
             $query->where($db->quoteName('u.folder') . ' = :folder')
                 ->bind(':folder', $folder);
@@ -216,19 +216,19 @@ class UpdateModel extends ListModel
         $listDirn  = $this->getState('list.direction', 'asc');
 
         // Process ordering.
-        if (in_array($listOrder, ['client_translated', 'folder_translated', 'type_translated'])) {
+        if (\in_array($listOrder, ['client_translated', 'folder_translated', 'type_translated'])) {
             $db->setQuery($query);
             $result = $db->loadObjectList();
             $this->translate($result);
             $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
-            $total  = count($result);
+            $total  = \count($result);
 
             if ($total < $limitstart) {
                 $limitstart = 0;
                 $this->setState('list.start', 0);
             }
 
-            return array_slice($result, $limitstart, $limit ?: null);
+            return \array_slice($result, $limitstart, $limit ?: null);
         } else {
             $query->order($db->quoteName($listOrder) . ' ' . $db->escape($listDirn));
 
@@ -565,8 +565,8 @@ class UpdateModel extends ListModel
                 if (is_file($path)) {
                     require_once $path;
 
-                    if (class_exists($cname) && is_callable([$cname, 'prepareUpdate'])) {
-                        call_user_func_array([$cname, 'prepareUpdate'], [&$update, &$table]);
+                    if (class_exists($cname) && \is_callable([$cname, 'prepareUpdate'])) {
+                        \call_user_func_array([$cname, 'prepareUpdate'], [&$update, &$table]);
                     }
                 }
 
@@ -580,8 +580,8 @@ class UpdateModel extends ListModel
                 if (is_file($path)) {
                     require_once $path;
 
-                    if (class_exists($cname) && is_callable([$cname, 'prepareUpdate'])) {
-                        call_user_func_array([$cname, 'prepareUpdate'], [&$update, &$table]);
+                    if (class_exists($cname) && \is_callable([$cname, 'prepareUpdate'])) {
+                        \call_user_func_array([$cname, 'prepareUpdate'], [&$update, &$table]);
                     }
                 }
 

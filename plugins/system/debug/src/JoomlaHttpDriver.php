@@ -103,7 +103,7 @@ final class JoomlaHttpDriver implements HttpDriverInterface
      */
     public function hasSessionValue($name)
     {
-        return array_key_exists($name, $this->dummySession);
+        return \array_key_exists($name, $this->dummySession);
     }
 
     /**

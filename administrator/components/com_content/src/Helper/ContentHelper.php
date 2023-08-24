@@ -70,7 +70,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
             array_filter(
                 $transitions,
                 function ($var) use ($pk, $workflowId) {
-                    return in_array($var['from_stage_id'], [-1, $pk]) && $workflowId == $var['workflow_id'];
+                    return \in_array($var['from_stage_id'], [-1, $pk]) && $workflowId == $var['workflow_id'];
                 }
             )
         );
@@ -166,7 +166,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
                     } elseif ($workflow_id = (int) $workflow_id) {
                         $title = $db->loadResult();
 
-                        if (!is_null($title)) {
+                        if (!\is_null($title)) {
                             $option = Text::sprintf('COM_WORKFLOW_INHERIT_WORKFLOW', Text::_($title));
 
                             break;
