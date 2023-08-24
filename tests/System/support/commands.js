@@ -63,3 +63,14 @@ Cypress.Commands.overwrite('doAdministratorLogout', (originalFn) => {
   // Clear the session data
   Cypress.session.clearAllSavedSessions();
 });
+
+// Click Joomla Dialog Confirm, isOkay: true = ok button, false = cancel button
+Cypress.Commands.add('clickDialogConfirm', (isOkay) => {
+  let selector = '.joomla-dialog-confirm:last-of-type';
+  if (isOkay) {
+    selector += ' button[data-button-ok]';
+  } else {
+    selector += ' button[data-button-cancel]';
+  }
+  cy.get(selector).click();
+});
