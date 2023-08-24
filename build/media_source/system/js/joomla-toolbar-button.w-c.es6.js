@@ -98,7 +98,7 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
   }
 
   executeTask() {
-    if (this.disabled) {
+    if (this.disabled) {1
       return false;
     }
 
