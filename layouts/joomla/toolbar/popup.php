@@ -34,6 +34,7 @@ extract($displayData);
  * @var   string  $textHeader
  */
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 Factory::getApplication()->getDocument()->getWebAssetManager()
     ->useScript('core')
     ->useScript('joomla.dialog-autocreate')
