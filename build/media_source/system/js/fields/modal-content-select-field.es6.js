@@ -36,7 +36,7 @@ const setValues = (data, inputValue, inputTitle) => {
 const doSelect = (inputValue, inputTitle, dialogConfig) => {
   // Create and show the dialog
   const dialog = new JoomlaDialog(dialogConfig);
-  dialog.classList.add('joomla-modal-content-select-field');
+  dialog.classList.add('joomla-dialog-content-select-field');
   dialog.show();
 
   return new Promise((resolve) => {
