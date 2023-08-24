@@ -88,10 +88,10 @@ $n         = count($this->items);
     <?php else : ?>
         <?php foreach ($this->items as $i => $item) : ?>
             <?php if ($n === 1 || $i === 0 || $bscolumns === 1 || $i % $bscolumns === 0) : ?>
-                <ul class="com-tags__category category list-group">
-            <?php endif; ?>
+                <div class="com-tags__category category row">
 
-            <li class="list-group-item list-group-item-action">
+                <?php endif; ?>
+                <div class="col">
                 <?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
                     <h3 class="mb-0">
                         <a href="<?php echo Route::_(RouteHelper::getComponentTagRoute($item->id . ':' . $item->alias, $item->language)); ?>">
@@ -131,10 +131,10 @@ $n         = count($this->items);
                         <?php endif; ?>
                     </div>
                 <?php endif; ?>
-            </li>
+                </div>
 
             <?php if (($i === 0 && $n === 1) || $i === $n - 1 || $bscolumns === 1 || (($i + 1) % $bscolumns === 0)) : ?>
-                </ul>
+            </div>
             <?php endif; ?>
 
         <?php endforeach; ?>
