@@ -22,7 +22,7 @@ use Joomla\CMS\Event\Result\ResultTypeBooleanAware;
  * Example:
  *  new LogoutEvent('onEventName', ['subject' => $parameters, 'options' => $options]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class LogoutEvent extends AbstractLogoutEvent implements ResultAwareInterface
 {

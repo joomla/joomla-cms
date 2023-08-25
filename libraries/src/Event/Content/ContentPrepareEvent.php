@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
  * Example:
  *  new ContentPrepareEvent('onEventName', ['context' => 'com_example.example', 'subject' => $contentObject, 'params' => $params, 'page' => $pageNum]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class ContentPrepareEvent extends ContentEvent
 {
@@ -29,7 +29,7 @@ class ContentPrepareEvent extends ContentEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['context', 'subject', 'params', 'page'];
@@ -41,7 +41,7 @@ class ContentPrepareEvent extends ContentEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(object $value): object
     {
@@ -55,7 +55,7 @@ class ContentPrepareEvent extends ContentEvent
      *
      * @return  Registry
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setParams($value): Registry
     {
@@ -80,7 +80,7 @@ class ContentPrepareEvent extends ContentEvent
      *
      * @return  ?int
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setPage(?int $value): ?int
     {
@@ -92,7 +92,7 @@ class ContentPrepareEvent extends ContentEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getItem(): object
     {
@@ -104,7 +104,7 @@ class ContentPrepareEvent extends ContentEvent
      *
      * @return  Registry
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getParams(): Registry
     {
@@ -116,7 +116,7 @@ class ContentPrepareEvent extends ContentEvent
      *
      * @return  ?int
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getPage(): ?int
     {

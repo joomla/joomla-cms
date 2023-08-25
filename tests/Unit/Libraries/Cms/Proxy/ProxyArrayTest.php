@@ -21,7 +21,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class ProxyArrayTest extends UnitTestCase
 {
@@ -30,7 +30,7 @@ class ProxyArrayTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function testArrayAccessAndModification()
     {
@@ -54,7 +54,7 @@ class ProxyArrayTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function testArrayCountable()
     {
@@ -75,7 +75,7 @@ class ProxyArrayTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function testArrayIterator()
     {
@@ -96,7 +96,7 @@ class ProxyArrayTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function testArrayReadOnlyIterator()
     {
@@ -122,7 +122,7 @@ class ProxyArrayTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function testArrayReadOnlyAccessAndModification()
     {
@@ -145,7 +145,7 @@ class ProxyArrayTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function testArrayReadOnlyChildAccessAndModification()
     {

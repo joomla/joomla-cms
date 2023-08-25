@@ -21,7 +21,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @package     Joomla.UnitTest
  * @subpackage  Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class ProxyObjectTest extends UnitTestCase
 {
@@ -30,7 +30,7 @@ class ProxyObjectTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function testObjectAccessAndModification()
     {
@@ -54,7 +54,7 @@ class ProxyObjectTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function testObjectReadOnlyAccessAndModification()
     {
@@ -77,7 +77,7 @@ class ProxyObjectTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function testObjectReadOnlyChildAccessAndModification()
     {
@@ -100,7 +100,7 @@ class ProxyObjectTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function testObjectIterator()
     {
@@ -121,7 +121,7 @@ class ProxyObjectTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function testObjectReadOnlyIterator()
     {

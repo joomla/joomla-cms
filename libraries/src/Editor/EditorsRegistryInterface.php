@@ -12,13 +12,13 @@ namespace Joomla\CMS\Editor;
 use Joomla\CMS\Editor\Exception\EditorNotFoundException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface for Editor Registry classes
  *
- * @since   __DEPLOY_VERSION__
+ * @since   5.0.0
  */
 interface EditorsRegistryInterface
 {
@@ -28,7 +28,7 @@ interface EditorsRegistryInterface
      * @param   string  $name  Element name
      *
      * @return  bool
-     * @since    __DEPLOY_VERSION__
+     * @since    5.0.0
      */
     public function has(string $name): bool;
 
@@ -39,7 +39,7 @@ interface EditorsRegistryInterface
      *
      * @return  EditorProviderInterface
      * @throws  EditorNotFoundException
-     * @since    __DEPLOY_VERSION__
+     * @since    5.0.0
      */
     public function get(string $name): EditorProviderInterface;
 
@@ -49,7 +49,7 @@ interface EditorsRegistryInterface
      * @param   EditorProviderInterface $instance
      *
      * @return  EditorsRegistryInterface
-     * @since    __DEPLOY_VERSION__
+     * @since    5.0.0
      */
     public function add(EditorProviderInterface $instance): EditorsRegistryInterface;
 
@@ -57,7 +57,7 @@ interface EditorsRegistryInterface
      * Return list of all registered elements
      *
      * @return EditorProviderInterface[]
-     * @since    __DEPLOY_VERSION__
+     * @since    5.0.0
      */
     public function getAll(): array;
 
@@ -65,7 +65,7 @@ interface EditorsRegistryInterface
      * Initial set up of the registry elements through plugins etc.
      *
      * @return  EditorsRegistryInterface
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function initRegistry(): EditorsRegistryInterface;
 }

@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\Model;
 /**
  * Class for Model event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 abstract class SaveEvent extends ModelEvent
 {
@@ -25,7 +25,7 @@ abstract class SaveEvent extends ModelEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['context', 'subject', 'isNew', 'data'];
@@ -37,7 +37,7 @@ abstract class SaveEvent extends ModelEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(object $value): object
     {
@@ -51,7 +51,7 @@ abstract class SaveEvent extends ModelEvent
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setIsNew($value): bool
     {
@@ -63,7 +63,7 @@ abstract class SaveEvent extends ModelEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getItem(): object
     {
@@ -75,7 +75,7 @@ abstract class SaveEvent extends ModelEvent
      *
      * @return  boolean
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getIsNew(): bool
     {
@@ -87,7 +87,7 @@ abstract class SaveEvent extends ModelEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getData()
     {

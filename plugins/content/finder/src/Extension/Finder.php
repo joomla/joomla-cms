@@ -30,7 +30,7 @@ final class Finder extends CMSPlugin
      *
      * @var bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $pluginsImported = false;
 
@@ -161,7 +161,7 @@ final class Finder extends CMSPlugin
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function importFinderPlugins()
     {

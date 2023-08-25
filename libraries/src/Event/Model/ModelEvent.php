@@ -19,7 +19,7 @@ use Joomla\CMS\Event\ReshapeArgumentsAware;
 /**
  * Base class for Model events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 abstract class ModelEvent extends AbstractImmutableEvent
 {
@@ -30,7 +30,7 @@ abstract class ModelEvent extends AbstractImmutableEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = [];
@@ -43,7 +43,7 @@ abstract class ModelEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -70,7 +70,7 @@ abstract class ModelEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setContext(string $value): string
     {
@@ -82,7 +82,7 @@ abstract class ModelEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getContext(): string
     {

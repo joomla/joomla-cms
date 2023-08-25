@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\User;
  * Example:
  *  new AfterSaveEvent('onEventName', ['subject' => $userArray, 'isNew' => $isNew, 'savingResult' => $result, 'errorMessage' => $errorStr]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterSaveEvent extends AbstractSaveEvent
 {
@@ -27,7 +27,7 @@ class AfterSaveEvent extends AbstractSaveEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject', 'isNew', 'savingResult', 'errorMessage'];
@@ -39,7 +39,7 @@ class AfterSaveEvent extends AbstractSaveEvent
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSavingResult(bool $value): bool
     {
@@ -53,7 +53,7 @@ class AfterSaveEvent extends AbstractSaveEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setErrorMessage(string $value): string
     {
@@ -65,7 +65,7 @@ class AfterSaveEvent extends AbstractSaveEvent
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getSavingResult(): bool
     {
@@ -77,7 +77,7 @@ class AfterSaveEvent extends AbstractSaveEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getErrorMessage(): string
     {
