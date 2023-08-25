@@ -158,7 +158,7 @@ if (!empty($current->dashboard)) {
     $iconDashboard = HTMLHelper::_('image', $pathDashboard, '', $attrDashboard, false, 0);
 
     echo '<span class="menu-dashboard"><a href="'
-        . Route::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard) . '"'
+        . Route::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard) . '" '
         . 'title="'. $titleDashboard .'">'
         . '<span>' . $iconDashboard . '</span>'
         . '<span class="visually-hidden">' . $titleDashboard . '</span>'
