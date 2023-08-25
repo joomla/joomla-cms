@@ -10,14 +10,17 @@
 
 namespace Joomla\Tests\Unit\Plugin\Captcha\InvisibleRecaptcha\Extension;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
+use Joomla\CMS\Captcha\CaptchaRegistry;
 use Joomla\CMS\Document\HtmlDocument;
+use Joomla\CMS\Event\Captcha\CaptchaSetupEvent;
 use Joomla\CMS\Form\Field\CaptchaField;
 use Joomla\CMS\Language\Language;
 use Joomla\Event\Dispatcher;
 use Joomla\Input\Input;
 use Joomla\Plugin\Captcha\InvisibleReCaptcha\Extension\InvisibleReCaptcha;
+use Joomla\Plugin\Captcha\InvisibleReCaptcha\Provider\InvisibleReCaptchaProvider;
+use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
 use ReCaptcha\RequestMethod;
 
@@ -62,53 +65,13 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can init the captcha
+     * @testdox  Captcha Setup event test
      *
      * @return  void
      *
-     * @since   4.3.0
+     * @since   5.0.0
      */
-    public function testInit()
-    {
-        $document = new HtmlDocument();
-        $language = $this->createStub(Language::class);
-        $language->method('_')->willReturn('test');
-
-        $app = $this->createStub(CMSWebApplicationInterface::class);
-        $app->method('getDocument')->willReturn($document);
-        $app->method('getLanguage')->willReturn($language);
-
-        $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => ['public_key' => 'test']], $this->createStub(RequestMethod::class));
-        $plugin->setApplication($app);
-
-        $this->assertTrue($plugin->onInit());
-        $this->assertNotEmpty($document->getWebAssetManager()->getAsset('script', 'plg_captcha_recaptchainvisible'));
-        $this->assertNotEmpty($document->getWebAssetManager()->getAsset('script', 'plg_captcha_recaptchainvisible.api'));
-    }
-
-    /**
-     * @testdox  can init the captcha with a wrong application
-     *
-     * @return  void
-     *
-     * @since   4.3.0
-     */
-    public function testInitWrongApplication()
-    {
-        $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => ['public_key' => 'test']], $this->createStub(RequestMethod::class));
-        $plugin->setApplication($this->createStub(CMSApplicationInterface::class));
-
-        $this->assertFalse($plugin->onInit());
-    }
-
-    /**
-     * @testdox  can init the captcha with an empty public key
-     *
-     * @return  void
-     *
-     * @since   4.3.0
-     */
-    public function testInitEmptyPublicKey()
+    public function testOnSetUpEvent(): void
     {
         $language = $this->createStub(Language::class);
         $language->method('_')->willReturn('test');
@@ -116,12 +79,15 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $app = $this->createStub(CMSWebApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => []], $this->createStub(RequestMethod::class));
+        $dispatcher = new Dispatcher();
+        $registry   = new CaptchaRegistry();
+        $event      = new CaptchaSetupEvent('onCaptchaSetup', ['subject' => $registry]);
+
+        $plugin = new InvisibleReCaptcha($dispatcher, ['name' => 'test', 'params' => []]);
         $plugin->setApplication($app);
+        $plugin->onCaptchaSetup($event);
 
-        $this->expectException(\RuntimeException::class);
-
-        $plugin->onInit();
+        $this->assertTrue($registry->has('recaptcha_invisible'), 'The captcha provider are registered.');
     }
 
     /**
@@ -133,13 +99,47 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
      */
     public function testDisplay()
     {
-        $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => []], $this->createStub(RequestMethod::class));
-        $plugin->setApplication($this->createStub(CMSWebApplicationInterface::class));
+        $document = new HtmlDocument();
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
 
-        $html = $plugin->onDisplay();
+        $app = $this->createStub(CMSWebApplicationInterface::class);
+        $app->method('getDocument')->willReturn($document);
+        $app->method('getLanguage')->willReturn($language);
+
+        $params  = new Registry(['public_key' => 'test']);
+        $captcha = new InvisibleReCaptchaProvider($params, $app);
+
+        $html = $captcha->display();
 
         $this->assertNotEmpty($html);
         $this->assertNotEquals($html, strip_tags($html));
+
+        $this->assertNotEmpty($document->getWebAssetManager()->getAsset('script', 'plg_captcha_recaptchainvisible'));
+        $this->assertNotEmpty($document->getWebAssetManager()->getAsset('script', 'plg_captcha_recaptchainvisible.api'));
+    }
+
+    /**
+     * @testdox  can init the captcha with an empty public key
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    public function testDisplayEmptyPublicKey()
+    {
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
+        $app = $this->createStub(CMSWebApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+
+        $params  = new Registry(['public_key' => '']);
+        $captcha = new InvisibleReCaptchaProvider($params, $app);
+
+        $this->expectException(\RuntimeException::class);
+
+        $captcha->display();
     }
 
     /**
@@ -161,10 +161,11 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $method = $this->createStub(RequestMethod::class);
         $method->method('submit')->willReturn(json_encode(['success' => true]));
 
-        $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => ['private_key' => 'test']], $method);
-        $plugin->setApplication($app);
+        $params  = new Registry(['private_key' => 'test']);
+        $captcha = new InvisibleReCaptchaProvider($params, $app, $method);
 
-        $this->assertTrue($plugin->onCheckAnswer());
+        $this->assertTrue($captcha->checkAnswer());
+        $this->assertTrue($captcha->checkAnswer('test'));
     }
 
     /**
@@ -182,12 +183,12 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $app = $this->createStub(CMSWebApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => []], $this->createStub(RequestMethod::class));
-        $plugin->setApplication($app);
+        $params  = new Registry(['private_key' => '']);
+        $captcha = new InvisibleReCaptchaProvider($params, $app);
 
         $this->expectException(\RuntimeException::class);
 
-        $plugin->onCheckAnswer();
+        $captcha->checkAnswer('test');
     }
 
     /**
@@ -206,12 +207,12 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $app->method('getLanguage')->willReturn($language);
         $app->method('getInput')->willReturn(new Input(['g-recaptcha-response' => '']));
 
-        $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => ['private_key' => 'test']], $this->createStub(RequestMethod::class));
-        $plugin->setApplication($app);
+        $params  = new Registry(['private_key' => 'test']);
+        $captcha = new InvisibleReCaptchaProvider($params, $app, $this->createStub(RequestMethod::class));
 
         $this->expectException(\RuntimeException::class);
 
-        $plugin->onCheckAnswer();
+        $captcha->checkAnswer();
     }
 
     /**
@@ -233,12 +234,13 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $method = $this->createStub(RequestMethod::class);
         $method->method('submit')->willReturn(json_encode(['success' => false]));
 
-        $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => ['private_key' => 'test']], $method);
-        $plugin->setApplication($app);
+        $params  = new Registry(['private_key' => 'test']);
+        $captcha = new InvisibleReCaptchaProvider($params, $app, $method);
 
         $this->expectException(\RuntimeException::class);
 
-        $plugin->onCheckAnswer();
+        $captcha->checkAnswer();
+        $captcha->checkAnswer('test');
     }
 
     /**
@@ -250,10 +252,13 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
      */
     public function testSetupField()
     {
-        $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => ['private_key' => 'test']], $this->createStub(RequestMethod::class));
-        $plugin->setApplication($this->createStub(CMSWebApplicationInterface::class));
+        $params  = new Registry(['private_key' => 'test']);
+        $captcha = new InvisibleReCaptchaProvider($params, $this->createStub(CMSWebApplicationInterface::class));
 
-        $this->assertNull($plugin->onSetupField(new CaptchaField(), new \SimpleXMLElement('<test/>')));
+        $fieldXml = new \SimpleXMLElement('<test/>');
+        $captcha->setupField(new CaptchaField(), $fieldXml);
+
+        $this->assertEquals('true', (string) $fieldXml['hiddenLabel'], 'setupField() method should set correct attribute.');
     }
 
     /**
@@ -271,11 +276,15 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $app = $this->createStub(CMSWebApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => ['private_key' => 'test']], $this->createStub(RequestMethod::class));
+        $dispatcher = new Dispatcher();
+
+        $plugin = new InvisibleReCaptcha($dispatcher, ['name' => 'test', 'params' => []]);
         $plugin->setApplication($app);
 
-        $caps = $plugin->onPrivacyCollectAdminCapabilities();
+        // @TODO: The event should be changed to what the Privacy component provide.
+        $event = new \Joomla\Event\Event('onPrivacyCollectAdminCapabilities', ['result' => []]);
+        $plugin->onPrivacyCollectAdminCapabilities($event);
 
-        $this->assertNotEmpty($caps);
+        $this->assertNotEmpty($event['result']);
     }
 }

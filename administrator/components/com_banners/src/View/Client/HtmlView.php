@@ -60,7 +60,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Object containing permissions for the item
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  1.5
      */
     protected $canDo;

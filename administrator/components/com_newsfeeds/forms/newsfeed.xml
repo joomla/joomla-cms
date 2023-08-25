@@ -79,7 +79,7 @@
 			label="JGLOBAL_DESCRIPTION"
 			buttons="true"
 			hide="pagebreak,readmore"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		/>
 
 		<field

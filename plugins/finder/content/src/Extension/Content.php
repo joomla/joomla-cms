@@ -11,7 +11,7 @@
 namespace Joomla\Plugin\Finder\Content\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Event\Finder as FinderEvent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Adapter;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
@@ -19,6 +19,7 @@ use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -30,7 +31,7 @@ use Joomla\Registry\Registry;
  *
  * @since  2.5
  */
-final class Content extends Adapter
+final class Content extends Adapter implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
@@ -83,6 +84,24 @@ final class Content extends Adapter
     protected $autoloadLanguage = true;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.0.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onFinderCategoryChangeState' => 'onFinderCategoryChangeState',
+            'onFinderChangeState'         => 'onFinderChangeState',
+            'onFinderAfterDelete'         => 'onFinderAfterDelete',
+            'onFinderBeforeSave'          => 'onFinderBeforeSave',
+            'onFinderAfterSave'           => 'onFinderAfterSave',
+        ];
+    }
+
+    /**
      * Method to setup the indexer to be run.
      *
      * @return  boolean  True on success.
@@ -99,35 +118,35 @@ final class Content extends Adapter
      * changed. This is fired when the item category is published or unpublished
      * from the list view.
      *
-     * @param   string   $extension  The extension whose category has been updated.
-     * @param   array    $pks        A list of primary key ids of the content that has changed state.
-     * @param   integer  $value      The value of the state that the content has been changed to.
+     * @param   FinderEvent\AfterCategoryChangeStateEvent   $event  The event instance.
      *
      * @return  void
      *
      * @since   2.5
      */
-    public function onFinderCategoryChangeState($extension, $pks, $value)
+    public function onFinderCategoryChangeState(FinderEvent\AfterCategoryChangeStateEvent $event)
     {
         // Make sure we're handling com_content categories.
-        if ($extension === 'com_content') {
-            $this->categoryStateChange($pks, $value);
+        if ($event->getExtension() === 'com_content') {
+            $this->categoryStateChange($event->getPks(), $event->getValue());
         }
     }
 
     /**
      * Method to remove the link information for items that have been deleted.
      *
-     * @param   string  $context  The context of the action being performed.
-     * @param   Table   $table    A Table object containing the record to be deleted
+     * @param   FinderEvent\AfterDeleteEvent   $event  The event instance.
      *
      * @return  void
      *
      * @since   2.5
      * @throws  \Exception on database error.
      */
-    public function onFinderAfterDelete($context, $table): void
+    public function onFinderAfterDelete(FinderEvent\AfterDeleteEvent $event): void
     {
+        $context = $event->getContext();
+        $table   = $event->getItem();
+
         if ($context === 'com_content.article') {
             $id = $table->id;
         } elseif ($context === 'com_finder.index') {
@@ -146,17 +165,19 @@ final class Content extends Adapter
      * It also makes adjustments if the access level of an item or the
      * category to which it belongs has changed.
      *
-     * @param   string   $context  The context of the content passed to the plugin.
-     * @param   Table    $row      A Table object.
-     * @param   boolean  $isNew    True if the content has just been created.
+     * @param   FinderEvent\AfterSaveEvent   $event  The event instance.
      *
      * @return  void
      *
      * @since   2.5
      * @throws  \Exception on database error.
      */
-    public function onFinderAfterSave($context, $row, $isNew): void
+    public function onFinderAfterSave(FinderEvent\AfterSaveEvent $event): void
     {
+        $context = $event->getContext();
+        $row     = $event->getItem();
+        $isNew   = $event->getIsNew();
+
         // We only want to handle articles here.
         if ($context === 'com_content.article' || $context === 'com_content.form') {
             // Check if the access levels are different.
@@ -182,17 +203,19 @@ final class Content extends Adapter
      * Smart Search before content save method.
      * This event is fired before the data is actually saved.
      *
-     * @param   string   $context  The context of the content passed to the plugin.
-     * @param   Table    $row      A Table object.
-     * @param   boolean  $isNew    If the content is just about to be created.
+     * @param   FinderEvent\BeforeSaveEvent   $event  The event instance.
      *
      * @return  boolean  True on success.
      *
      * @since   2.5
      * @throws  \Exception on database error.
      */
-    public function onFinderBeforeSave($context, $row, $isNew)
+    public function onFinderBeforeSave(FinderEvent\BeforeSaveEvent $event)
     {
+        $context = $event->getContext();
+        $row     = $event->getItem();
+        $isNew   = $event->getIsNew();
+
         // We only want to handle articles here.
         if ($context === 'com_content.article' || $context === 'com_content.form') {
             // Query the database for the old access level if the item isn't new.
@@ -217,16 +240,18 @@ final class Content extends Adapter
      * from outside the edit screen. This is fired when the item is published,
      * unpublished, archived, or unarchived from the list view.
      *
-     * @param   string   $context  The context for the content passed to the plugin.
-     * @param   array    $pks      An array of primary key ids of the content that has changed state.
-     * @param   integer  $value    The value of the state that the content has been changed to.
+     * @param   FinderEvent\AfterChangeStateEvent   $event  The event instance.
      *
      * @return  void
      *
      * @since   2.5
      */
-    public function onFinderChangeState($context, $pks, $value)
+    public function onFinderChangeState(FinderEvent\AfterChangeStateEvent $event)
     {
+        $context = $event->getContext();
+        $pks     = $event->getPks();
+        $value   = $event->getValue();
+
         // We only want to handle articles here.
         if ($context === 'com_content.article' || $context === 'com_content.form') {
             $this->itemStateChange($pks, $value);

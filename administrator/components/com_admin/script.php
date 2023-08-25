@@ -231,6 +231,7 @@ class JoomlaInstallerScript
              *                   uninstalling, `null` if not used.
              */
              ['type' => 'plugin', 'element' => 'demotasks', 'folder' => 'task', 'client_id' => 0, 'pre_function' => null],
+             ['type' => 'plugin', 'element' => 'compat', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateCompatPlugin'],
              ['type' => 'plugin', 'element' => 'logrotation', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateLogRotationPlugin'],
         ];
 
@@ -282,6 +283,33 @@ class JoomlaInstallerScript
                 throw $e;
             }
         }
+    }
+
+    /**
+     * Migrate plugin parameters of obsolete compat system plugin to compat behaviour plugin
+     *
+     * @param   \stdClass  $rowOld  Object with the obsolete plugin's record in the `#__extensions` table
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    private function migrateCompatPlugin($rowOld)
+    {
+        $db = Factory::getDbo();
+
+        $db->setQuery(
+            $db->getQuery(true)
+                ->update($db->quoteName('#__extensions'))
+                ->set($db->quoteName('enabled') . ' = :enabled')
+                ->set($db->quoteName('params') . ' = :params')
+                ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+                ->where($db->quoteName('element') . ' = ' . $db->quote('compat'))
+                ->where($db->quoteName('folder') . ' = ' . $db->quote('behaviour'))
+                ->where($db->quoteName('client_id') . ' = 0')
+                ->bind(':enabled', $rowOld->enabled, ParameterType::INTEGER)
+                ->bind(':params', $rowOld->params)
+        )->execute();
     }
 
     /**
@@ -1902,6 +1930,20 @@ class JoomlaInstallerScript
             '/plugins/editors/codemirror/layouts/editors/codemirror/element.php',
             '/plugins/editors/codemirror/layouts/editors/codemirror/styles.php',
             '/plugins/editors/codemirror/src/Field/FontsField.php',
+            // From 5.0.0-alpha3 to 5.0.0-alpha4
+            '/libraries/src/Event/Application/DeamonForkEvent.php',
+            '/libraries/src/Event/Application/DeamonReceiveSignalEvent.php',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/plugin.js',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/plugin.min.js',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/plugin.min.js.gz',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/source.css',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/source.html',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/source.js',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/source.min.css',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/source.min.css.gz',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/source.min.js',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/source.min.js.gz',
+            '/media/plg_system_compat/es5.asset.json',
         ];
 
         $folders = [
@@ -2116,6 +2158,11 @@ class JoomlaInstallerScript
             '/media/vendor/codemirror/addon/dialog',
             '/media/vendor/codemirror/addon/comment',
             '/media/vendor/codemirror/addon',
+            // From 5.0.0-alpha3 to 5.0.0-alpha4
+            '/templates/system/incompatible.html,/includes',
+            '/templates/system/incompatible.html,',
+            '/media/plg_system_compat',
+            '/media/plg_editors_tinymce/js/plugins/highlighter',
         ];
 
         $status['files_checked']   = $files;
@@ -2359,6 +2406,8 @@ class JoomlaInstallerScript
             // From 4.4 to 5.0
             '/libraries/vendor/web-auth/cose-lib/src/Algorithm/Signature/EdDSA/ED256.php' => '/libraries/vendor/web-auth/cose-lib/src/Algorithm/Signature/EdDSA/Ed256.php',
             '/libraries/vendor/web-auth/cose-lib/src/Algorithm/Signature/EdDSA/ED512.php' => '/libraries/vendor/web-auth/cose-lib/src/Algorithm/Signature/EdDSA/Ed512.php',
+            // From 5.0.0-alpha3 to 5.0.0-alpha4
+            '/plugins/schemaorg/blogposting/src/Extension/Blogposting.php' => '/plugins/schemaorg/blogposting/src/Extension/BlogPosting.php',
         ];
 
         foreach ($files as $old => $expected) {
