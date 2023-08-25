@@ -14,11 +14,11 @@ namespace Joomla\CMS\Event\Application;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for ReceiveSignal event for DemonApplication
+ * Class for ReceiveSignal event for DaemonApplication
  *
  * @since  5.0.0
  */
-class DeamonReceiveSignalEvent extends ApplicationEvent
+class DaemonReceiveSignalEvent extends ApplicationEvent
 {
     /**
      * Constructor.
