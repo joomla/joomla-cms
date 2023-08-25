@@ -55,10 +55,11 @@ endforeach;
 
 $popupId      = 'guidedtours-popup-content' . $module->id;
 $popupOptions = json_encode([
-    'src'        => '#' . $popupId,
-    'width'      => '800px',
-    'height'     => 'fit-content',
-    'textHeader' => Text::_('MOD_GUIDEDTOURS_START_TOUR'),
+    'src'             => '#' . $popupId,
+    'width'           => '800px',
+    'height'          => 'fit-content',
+    'textHeader'      => Text::_('MOD_GUIDEDTOURS_START_TOUR'),
+    'preferredParent' => 'body',
 ]);
 
 ?>
