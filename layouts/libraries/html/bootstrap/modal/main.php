@@ -42,7 +42,7 @@ if (!isset($params['animation']) || $params['animation']) {
 }
 
 $modalWidth       = isset($params['modalWidth']) ? round((int) $params['modalWidth'], -1) : '';
-$modalDialogClass = isset($params['modalDialogClass']) ? $params['modalDialogClass'] : '';
+$modalDialogClass = isset($params['modalDialogClass']) ? $params['modalDialogClass'] : 'modal-lg';
 
 if ($modalWidth && $modalWidth > 0 && $modalWidth <= 100) {
     $modalDialogClass .= ' jviewport-width' . $modalWidth;
@@ -67,7 +67,7 @@ if (isset($params['url'])) {
 }
 ?>
 <div id="<?php echo $selector; ?>" role="dialog" <?php echo ArrayHelper::toString($modalAttributes); ?> <?php echo $url ?? ''; ?> <?php echo isset($url) ? 'data-iframe="' . trim($iframeHtml) . '"' : ''; ?>>
-    <div class="modal-dialog modal-lg <?php echo $modalDialogClass; ?>">
+    <div class="modal-dialog <?php echo $modalDialogClass; ?>">
         <div class="modal-content">
             <?php
                 // Header
