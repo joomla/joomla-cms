@@ -41,8 +41,8 @@
   @if $enable-dark-mode {
     @include color-mode(dark) {
       .card-header {
-        background: var(--body-bg);
         color: var(--body-color);
+        background-color: var(--body-bg);
       }
     }
   }
