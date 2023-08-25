@@ -111,6 +111,14 @@
       padding: 0;
       color: var(--template-bg-dark-70);
     }
+
+    @if $enable-dark-mode {
+      @include color-mode(dark) {
+        > * {
+          color: var(--body-color);
+        }
+      }
+    }
   }
 
   .cpanel-add-module {
@@ -217,7 +225,7 @@
 
 .sample-data__title {
   font-weight: bold;
-  color: var(--primary);
+  color: var(--template-bg-dark-50);
 }
 
 .sample-data__icon {

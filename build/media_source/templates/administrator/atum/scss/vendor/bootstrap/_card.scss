@@ -37,4 +37,13 @@
       margin-inline-end: .5rem;
     }
   }
+
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      .card-header {
+        background: var(--body-bg);
+        color: var(--body-color);
+      }
+    }
+  }
 }
