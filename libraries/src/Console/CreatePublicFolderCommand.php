@@ -180,10 +180,12 @@ class CreatePublicFolderCommand extends AbstractCommand
         }
 
         // Create the required folders
-        if (!mkdir($folder . '/administrator/components/com_joomlaupdate', 0755, true)
+        if (
+            !mkdir($folder . '/administrator/components/com_joomlaupdate', 0755, true)
             || !mkdir($folder . '/administrator/includes', 0755, true)
             || !mkdir($folder . '/api/includes', 0755, true)
-            || !mkdir($folder . '/includes', 0755)) {
+            || !mkdir($folder . '/includes', 0755)
+        ) {
             throw new \Exception('Unable to write on the given directory, check the permissions', 200);
         }
 
@@ -206,11 +208,11 @@ class CreatePublicFolderCommand extends AbstractCommand
             '/api/includes/incompatible.html',
 
             // Media static assets
-            '/media'
+            '/media',
         ];
 
         // Create essential symlinks
-        foreach($filesSymLink as $localDirectory) {
+        foreach ($filesSymLink as $localDirectory) {
             $this->createSymlink(JPATH_ROOT . $localDirectory, $folder . $localDirectory);
         }
 
@@ -219,7 +221,7 @@ class CreatePublicFolderCommand extends AbstractCommand
             $local            = PluginHelper::getPlugin('filesystem', 'local');
             $localDirectories = (new Registry($local->params))->get('directories', '[{"directory":"images"}]');
 
-            foreach($localDirectories as $localDirectory) {
+            foreach ($localDirectories as $localDirectory) {
                 if ($localDirectory->directory === 'media') {
                     continue;
                 }
@@ -244,7 +246,7 @@ class CreatePublicFolderCommand extends AbstractCommand
             $filesHardCopies[] = '/htaccess.txt';
         }
 
-        foreach($filesHardCopies as $file) {
+        foreach ($filesHardCopies as $file) {
             $this->createFile($folder . $file, file_get_contents(JPATH_ROOT . $file));
         }
 
@@ -278,22 +280,22 @@ define('JPATH_CLI', JPATH_ROOT . DIRECTORY_SEPARATOR . 'cli');
 define('_JDEFINES', '1');
 HTML;
 
-    // The defines files
-    $this->createFile(
-        $folder . '/defines.php',
-        str_replace(['{{ROOTFOLDER}}', '{{BASEFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . JPATH_ROOT . '"', '"' . $folder . '"'], $definesTemplate)
-    );
+        // The defines files
+        $this->createFile(
+            $folder . '/defines.php',
+            str_replace(['{{ROOTFOLDER}}', '{{BASEFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . JPATH_ROOT . '"', '"' . $folder . '"'], $definesTemplate)
+        );
 
-    $this->createFile(
-        $folder . '/administrator/defines.php',
-        str_replace(['{{ROOTFOLDER}}', '{{BASEFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . JPATH_ROOT . '/administrator"', '"' . $folder . '"'], $definesTemplate)
-    );
+        $this->createFile(
+            $folder . '/administrator/defines.php',
+            str_replace(['{{ROOTFOLDER}}', '{{BASEFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . JPATH_ROOT . '/administrator"', '"' . $folder . '"'], $definesTemplate)
+        );
 
-    $this->createFile(
-        $folder . '/api/defines.php',
-        str_replace(['{{ROOTFOLDER}}',  '{{BASEFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . JPATH_ROOT . '/api"', '"' . $folder . '"'], $definesTemplate)
-    );
+        $this->createFile(
+            $folder . '/api/defines.php',
+            str_replace(['{{ROOTFOLDER}}',  '{{BASEFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . JPATH_ROOT . '/api"', '"' . $folder . '"'], $definesTemplate)
+        );
 
-    return true;
-  }
+        return true;
+    }
 }
