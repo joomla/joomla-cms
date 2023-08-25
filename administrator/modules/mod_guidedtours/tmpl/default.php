@@ -23,7 +23,7 @@ if ($hideLinks || !$tours) {
 $app->getDocument()
     ->getWebAssetManager()
     ->useScript('bootstrap.dropdown')
-    ->useScript('dialog')
+    ->useScript('joomla.dialog-autocreate')
 ;
 
 $lang       = $app->getLanguage();
