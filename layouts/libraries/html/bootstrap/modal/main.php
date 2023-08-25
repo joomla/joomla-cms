@@ -42,15 +42,15 @@ if (!isset($params['animation']) || $params['animation']) {
 }
 
 $modalWidth       = isset($params['modalWidth']) ? round((int) $params['modalWidth'], -1) : '';
-$modalDialogClass = '';
+$modalDialogClass = isset($params['modalDialogClass']) ? $params['modalDialogClass'] : '';
 
 if ($modalWidth && $modalWidth > 0 && $modalWidth <= 100) {
-    $modalDialogClass = ' jviewport-width' . $modalWidth;
+    $modalDialogClass .= ' jviewport-width' . $modalWidth;
 }
 
 $modalAttributes = [
     'tabindex' => '-1',
-    'class'    => 'joomla-modal ' . implode(' ', $modalClasses)
+    'class'    => 'joomla-modal ' . implode(' ', $modalClasses),
 ];
 
 if (isset($params['backdrop'])) {
@@ -67,7 +67,7 @@ if (isset($params['url'])) {
 }
 ?>
 <div id="<?php echo $selector; ?>" role="dialog" <?php echo ArrayHelper::toString($modalAttributes); ?> <?php echo $url ?? ''; ?> <?php echo isset($url) ? 'data-iframe="' . trim($iframeHtml) . '"' : ''; ?>>
-    <div class="modal-dialog modal-lg<?php echo $modalDialogClass; ?>">
+    <div class="modal-dialog modal-lg <?php echo $modalDialogClass; ?>">
         <div class="modal-content">
             <?php
                 // Header
