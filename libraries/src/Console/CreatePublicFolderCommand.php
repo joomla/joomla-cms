@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Console;
 
-use Joomla\Component\Admin\Administrator\Helper\PublicFolderGenerator;
+use Joomla\CMS\Helper\PublicFolderGeneratorHelper;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Filter\InputFilter;
 use Symfony\Component\Console\Command\Command;
@@ -81,7 +81,7 @@ class CreatePublicFolderCommand extends AbstractCommand
         $this->publicFolder = rtrim((new InputFilter())->clean($this->publicFolder, 'PATH'), '/');
         $this->publicFolder = rtrim($this->publicFolder, '\\');
 
-        if (!((new PublicFolderGenerator())->createPublicFolder($this->publicFolder))) {
+        if (!((new PublicFolderGeneratorHelper())->createPublicFolder($this->publicFolder))) {
             return Command::FAILURE;
         }
 

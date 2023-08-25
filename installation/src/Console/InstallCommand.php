@@ -19,7 +19,7 @@ use Joomla\CMS\Installation\Model\DatabaseModel;
 use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Version;
-use Joomla\CMS\Installation\Helper\PublicFolderGeneratorHelper;
+use Joomla\CMS\Helper\PublicFolderGeneratorHelper;
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
