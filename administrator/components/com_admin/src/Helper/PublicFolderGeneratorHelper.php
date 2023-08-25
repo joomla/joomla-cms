@@ -23,7 +23,7 @@ use Joomla\Registry\Registry;
  *
  * @since  __DEPLOY_VERSION__
  */
-class PublicFolderGenerator
+class PublicFolderGeneratorHelper
 {
     /**
      * Create a public folder
@@ -36,7 +36,7 @@ class PublicFolderGenerator
      */
     public function createPublicFolder($destinationPath): void
     {
-        if (!Factory::getApplication()->isClient('cli')) {
+        if (!(Factory::getApplication()->isClient('cli') || Factory::getApplication()->isClient('cli_installation'))) {
             throw new \Exception('Only CLI applications are allowed');
         }
 

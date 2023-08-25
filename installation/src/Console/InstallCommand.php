@@ -19,6 +19,7 @@ use Joomla\CMS\Installation\Model\DatabaseModel;
 use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Version;
+use Joomla\CMS\Installation\Helper\PublicFolderGeneratorHelper;
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -104,6 +105,7 @@ class InstallCommand extends AbstractCommand
         $cfg['language']             = 'en-GB';
         $cfg['helpurl']              = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
         $this->ioStyle->writeln('OK');
+        // var_dump($cfg);die;
 
         /** @var SetupModel $setupModel */
         $setupModel = $app->getMVCFactory()->createModel('Setup', 'Installation');
@@ -175,6 +177,16 @@ class InstallCommand extends AbstractCommand
             $cleanupModel = $app->getMVCFactory()->createModel('Cleanup', 'Installation');
 
             if (!$cleanupModel->deleteInstallationFolder()) {
+                return Command::FAILURE;
+            }
+
+            $this->ioStyle->writeln('OK');
+        }
+
+        if (null !== $cfg['public_folder']) {
+            $this->ioStyle->write('Creating the public folder...');
+
+            if (!(new PublicFolderGeneratorHelper())->createPublicFolder($cfg['public_folder'])) {
                 return Command::FAILURE;
             }
 
