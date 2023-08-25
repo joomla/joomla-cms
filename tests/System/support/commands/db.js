@@ -42,6 +42,7 @@ function createInsertQuery(table, values) {
 
   return query;
 }
+
 /**
  * Creates a privacy request in the database with the given data.
  * The privacy request contains some default values when not all required fields are passed in the given data.
