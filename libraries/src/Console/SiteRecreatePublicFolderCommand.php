@@ -23,11 +23,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Console command for creating a public folder
+ * Console command for recreating a public folder
  *
  * @since  __DEPLOY_VERSION__
  */
-class CreatePublicFolderCommand extends AbstractCommand
+class SiteRecreatePublicFolderCommand extends AbstractCommand
 {
     /**
      * The default command name
@@ -35,7 +35,7 @@ class CreatePublicFolderCommand extends AbstractCommand
      * @var    string
      * @since  __DEPLOY_VERSION__
      */
-    protected static $defaultName = 'site:create-public-folder';
+    protected static $defaultName = 'site:recreate-public-folder';
 
     /**
      * SymfonyStyle Object
@@ -73,19 +73,27 @@ class CreatePublicFolderCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
-        $this->ioStyle->title('Create a public folder');
+        $this->ioStyle->title('Recreate a public folder');
 
-        $this->publicFolder = $this->getStringFromOption('public-folder', 'Please enter the path to the public folder', true);
+        $this->publicFolder = $this->getStringFromOption('public-folder', 'Please enter the absolute path to the public folder', true);
 
         // Remove the last (Windows || NIX) slash
         $this->publicFolder = rtrim((new InputFilter())->clean($this->publicFolder, 'PATH'), '/');
         $this->publicFolder = rtrim($this->publicFolder, '\\');
 
-        if (!((new PublicFolderGeneratorHelper())->createPublicFolder($this->publicFolder))) {
+        $generatorClass = new PublicFolderGeneratorHelper();
+
+        if (is_dir($this->publicFolder)) {
+            if (!($generatorClass->cleanPublicFolder($this->publicFolder))) {
+                return Command::FAILURE;
+            }
+        }
+
+        if (!($generatorClass->createPublicFolder($this->publicFolder))) {
             return Command::FAILURE;
         }
 
-        $this->ioStyle->success("Public folder created! \nAdjust your server configuration to serve from the public folder.");
+        $this->ioStyle->success("Public folder recreated!");
 
         return Command::SUCCESS;
     }
@@ -141,11 +149,11 @@ class CreatePublicFolderCommand extends AbstractCommand
      */
     protected function configure(): void
     {
-        $help = "<info>%command.name%</info> will create a public folder
+        $help = "<info>%command.name%</info> will recreate a public folder
 		\nUsage: <info>php %command.full_name%</info>";
 
         $this->addOption('public-folder', null, InputOption::VALUE_REQUIRED, 'public folder absolute path');
-        $this->setDescription('Create a public folder');
+        $this->setDescription('Recreate a public folder');
         $this->setHelp($help);
     }
 }

@@ -24,6 +24,27 @@ use Joomla\Registry\Registry;
  */
 class PublicFolderGeneratorHelper
 {
+    private $filesSymLink = [
+        // Site
+        '/includes/app.php',
+        '/includes/framework.php',
+        '/index.php',
+
+        // Administrator
+        '/administrator/components/com_joomlaupdate/extract.php',
+        '/administrator/includes/framework.php',
+        '/administrator/includes/app.php',
+        '/administrator/index.php',
+
+        // API
+        '/api/includes/framework.php',
+        '/api/includes/app.php',
+        '/api/index.php',
+
+        // Media static assets
+        '/media',
+    ];
+
     /**
      * Create a public folder
      *
@@ -33,13 +54,13 @@ class PublicFolderGeneratorHelper
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function createPublicFolder($destinationPath): void
+    public function createPublicFolder($destinationPath, $allowOvewrite = false): void
     {
         if (!(Factory::getApplication()->isClient('cli') || Factory::getApplication()->isClient('cli_installation'))) {
             throw new \Exception('Only CLI applications are allowed');
         }
 
-        if (!is_dir($destinationPath) && !mkdir($destinationPath, 0755, true)) {
+        if ((!is_dir($destinationPath) && !mkdir($destinationPath, 0755, true)) && !$allowOvewrite) {
             throw new \Exception('Unable to create the given folder, check the permissions');
         }
 
@@ -53,30 +74,8 @@ class PublicFolderGeneratorHelper
             throw new \Exception('Unable to create the given folder, check the permissions');
         }
 
-        $filesSymLink = [
-            // Site
-            '/index.php',
-            '/includes/app.php',
-            '/includes/framework.php',
-
-            // Administrator
-            '/administrator/index.php',
-            '/administrator/includes/app.php',
-            '/administrator/includes/framework.php',
-            '/administrator/components/com_joomlaupdate/extract.php',
-
-            // API
-            '/api/index.php',
-            '/api/includes/app.php',
-            '/api/includes/framework.php',
-            '/api/includes/incompatible.html',
-
-            // Media static assets
-            '/media',
-        ];
-
         // Create essential symlinks
-        foreach ($filesSymLink as $localDirectory) {
+        foreach ($this->filesSymLink as $localDirectory) {
             $this->createSymlink(JPATH_ROOT . $localDirectory, $destinationPath . $localDirectory);
         }
 
@@ -162,7 +161,36 @@ HTML;
     }
 
     /**
-     * Undocumented function
+     * Removes all known files/symlinks from the public folder
+     *
+     * @param  string  $destinationPath  The public folder path
+     * @param  string  $shouldBackup     Should create a backup copy?
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function cleanPublicFolder($destinationPath, $shouldBackup = true): void
+    {
+        // @todo add the removal logic
+    }
+
+    /**
+     * Remove the Public folder
+     *
+     * @param  string  $destinationPath  The source path
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function removePublicFolder($destinationPath): void
+    {
+        // @todo implement the removal logic
+    }
+
+    /**
+     * Creates a symlink
      *
      * @param  string  $source  The source path
      * @param  string  $dest    The destination path
@@ -179,7 +207,7 @@ HTML;
     }
 
     /**
-     * Undocumented function
+     * Writes the content to a given file
      *
      * @param  string  $path     The destination path
      * @param  string  $content  The contents of the file
