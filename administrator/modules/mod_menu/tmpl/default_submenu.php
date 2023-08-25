@@ -152,7 +152,7 @@ if (!empty($current->dashboard)) {
         'decoding'    => 'async',
         'aria-hidden' => 'true',
         'class'       => 'atum-dashboard',
-        'height'      => '18px'
+        'height'      => '18px',
     ];
 
     $iconDashboard = HTMLHelper::_('image', $pathDashboard, '', $attrDashboard, false, 0);
