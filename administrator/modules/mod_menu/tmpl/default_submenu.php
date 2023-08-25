@@ -159,7 +159,7 @@ if (!empty($current->dashboard)) {
 
     echo '<span class="menu-dashboard"><a href="'
         . Route::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard) . '" '
-        . 'title="'. $titleDashboard .'">'
+        . 'title="' . $titleDashboard . '">'
         . '<span>' . $iconDashboard . '</span>'
         . '<span class="visually-hidden">' . $titleDashboard . '</span>'
         . '</a></span>';
