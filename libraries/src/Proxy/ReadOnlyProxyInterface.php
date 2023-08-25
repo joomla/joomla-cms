@@ -7,17 +7,17 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Event\Application;
+namespace Joomla\CMS\Proxy;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Fork event for DemonApplication
+ * Interface for read-only Proxy classes
  *
  * @since  5.0.0
  */
-class DeamonForkEvent extends ApplicationEvent
+interface ReadOnlyProxyInterface extends ProxyInterface
 {
 }

@@ -16,7 +16,7 @@ namespace Joomla\CMS\Schemaorg;
 /**
  * Prepare duration to be valid for JSON-LD output
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 trait SchemaorgPrepareDurationTrait
 {
@@ -27,7 +27,7 @@ trait SchemaorgPrepareDurationTrait
      *
      * @return  ?string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function prepareDuration($duration)
     {

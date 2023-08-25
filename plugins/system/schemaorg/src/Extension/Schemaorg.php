@@ -10,9 +10,11 @@
 
 namespace Joomla\Plugin\System\Schemaorg\Extension;
 
-use Joomla\CMS\Event\AbstractEvent;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
+use Joomla\CMS\Event\Model;
+use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
+use Joomla\CMS\Event\Plugin\System\Schemaorg\PrepareDataEvent;
+use Joomla\CMS\Event\Plugin\System\Schemaorg\PrepareFormEvent;
+use Joomla\CMS\Event\Plugin\System\Schemaorg\PrepareSaveEvent;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -26,7 +28,6 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
-use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
@@ -74,20 +75,20 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
     /**
      * Runs on content preparation
      *
-     * @param   EventInterface  $event  The event
+     * @param   Model\PrepareDataEvent  $event  The event
      *
      * @since   5.0.0
      *
      */
-    public function onContentPrepareData(EventInterface $event)
+    public function onContentPrepareData(Model\PrepareDataEvent $event)
     {
-        $context = $event->getArgument('0');
-        $data    = $event->getArgument('1');
+        $context = $event->getContext();
+        $data    = $event->getData();
 
         $app = $this->getApplication();
 
         if ($app->isClient('site') || !$this->isSupported($context)) {
-            return true;
+            return;
         }
 
         $data = (object) $data;
@@ -109,7 +110,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             $results = $db->setQuery($query)->loadAssoc();
 
             if (empty($results)) {
-                return false;
+                return;
             }
 
             $schemaType                 = $results['schemaType'];
@@ -120,45 +121,36 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             $data->schema[$schemaType] = $schema->toArray();
         }
 
-        $dispatcher = Factory::getApplication()->getDispatcher();
+        $dispatcher = $this->getDispatcher();
+        $event      = new PrepareDataEvent('onSchemaPrepareData', [
+            'subject' => $data,
+            'context' => $context,
+        ]);
 
-        $event = AbstractEvent::create(
-            'onSchemaPrepareData',
-            [
-                'subject' => $data,
-                'context' => $context,
-            ]
-        );
-
-        PluginHelper::importPlugin('schemaorg');
-        $eventResult = $dispatcher->dispatch('onSchemaPrepareData', $event);
-
-        return true;
+        PluginHelper::importPlugin('schemaorg', null, true, $dispatcher);
+        $dispatcher->dispatch('onSchemaPrepareData', $event);
     }
 
     /**
      * The form event.
      *
-     * @param   EventInterface  $event  The event
+     * @param   Model\PrepareFormEvent  $event  The event
      *
      * @since   5.0.0
      */
-    public function onContentPrepareForm(EventInterface $event)
+    public function onContentPrepareForm(Model\PrepareFormEvent $event)
     {
-        /**
-         * @var Form
-         */
-        $form    = $event->getArgument('0');
+        $form    = $event->getForm();
         $context = $form->getName();
-
-        $app = $this->getApplication();
+        $app     = $this->getApplication();
 
         if (!$app->isClient('administrator') || !$this->isSupported($context)) {
-            return true;
+            return;
         }
 
         // Load the form fields
         $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/schemaorg.xml');
+
 
         // The user should configure the plugin first
         if (!$this->params->get('baseType')) {
@@ -177,46 +169,38 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
             $form->setFieldAttribute('schemainfo', 'description', $infoText, 'schema');
 
-            return true;
+            return;
         }
 
-        $dispatcher = Factory::getApplication()->getDispatcher();
+        $dispatcher = $this->getDispatcher();
+        $event      = new PrepareFormEvent('onSchemaPrepareForm', [
+            'subject' => $form,
+        ]);
 
-        $event   = AbstractEvent::create(
-            'onSchemaPrepareForm',
-            [
-                'subject' => $form,
-            ]
-        );
-
-        PluginHelper::importPlugin('schemaorg');
-        $eventResult = $dispatcher->dispatch('onSchemaPrepareForm', $event);
-
-        return true;
+        PluginHelper::importPlugin('schemaorg', null, true, $dispatcher);
+        $dispatcher->dispatch('onSchemaPrepareForm', $event);
     }
 
     /**
      * Saves form field data in the database
      *
-     * @param   EventInterface $event
+     * @param   Model\AfterSaveEvent $event
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   5.0.0
-     *
      */
-    public function onContentAfterSave(EventInterface $event)
+    public function onContentAfterSave(Model\AfterSaveEvent $event)
     {
-        $context  = $event->getArgument('0');
-        $table    = $event->getArgument('1');
-        $isNew    = $event->getArgument('2');
-        $data     = $event->getArgument('3');
-
-        $app = $this->getApplication();
-        $db  = $this->getDatabase();
+        $context = $event->getContext();
+        $table   = $event->getItem();
+        $isNew   = $event->getIsNew();
+        $data    = $event->getData();
+        $app     = $this->getApplication();
+        $db      = $this->getDatabase();
 
         if (!$app->isClient('administrator') || !$this->isSupported($context)) {
-            return true;
+            return;
         }
 
         $itemId = (int) $table->id;
@@ -232,7 +216,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
             $db->setQuery($query)->execute();
 
-            return true;
+            return;
         }
 
         $query = $db->getQuery(true);
@@ -261,25 +245,20 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             }
         }
 
-        PluginHelper::importPlugin('schemaorg');
+        $dispatcher = $this->getDispatcher();
+        $event      = new PrepareSaveEvent('onSchemaPrepareSave', [
+            'subject' => $entry,
+            'context' => $context,
+            'item'    => $table,
+            'isNew'   => $isNew,
+            'schema'  => $data['schema'],
+        ]);
 
-        $dispatcher = $app->getDispatcher();
-
-        $event   = AbstractEvent::create(
-            'onSchemaPrepareSave',
-            [
-                'subject' => $entry,
-                'context' => $context,
-                'table'   => $table,
-                'isNew'   => $isNew,
-                'schema'  => $data['schema'],
-            ]
-        );
-
-        $eventResult = $dispatcher->dispatch('onSchemaPrepareSave', $event);
+        PluginHelper::importPlugin('schemaorg', null, true, $dispatcher);
+        $dispatcher->dispatch('onSchemaPrepareSave', $event);
 
         if (!isset($entry->schemaType)) {
-            return true;
+            return;
         }
 
         if (!empty($entry->id)) {
@@ -287,16 +266,16 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         } else {
             $db->insertObject('#__schemaorg', $entry, 'id');
         }
-
-        return true;
     }
 
     /**
      * This event is triggered before the framework creates the Head section of the Document
      *
+     * @return  void
+     *
      * @since   5.0.0
      */
-    public function onBeforeCompileHead()
+    public function onBeforeCompileHead(): void
     {
         $app      = $this->getApplication();
         $baseType = $this->params->get('baseType');
@@ -447,16 +426,14 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         $schema->loadArray($baseSchema);
 
-        $event = AbstractEvent::create(
-            'onSchemaBeforeCompileHead',
-            [
-                'subject' => $schema,
-                'context' => $context . '.' . $itemId,
-            ]
-        );
+        $dispatcher = $this->getDispatcher();
+        $event      = new BeforeCompileHeadEvent('onSchemaBeforeCompileHead', [
+            'subject' => $schema,
+            'context' => $context . '.' . $itemId,
+        ]);
 
-        PluginHelper::importPlugin('schemaorg');
-        $eventResult = $app->getDispatcher()->dispatch('onSchemaBeforeCompileHead', $event);
+        PluginHelper::importPlugin('schemaorg', null, true, $dispatcher);
+        $dispatcher->dispatch('onSchemaBeforeCompileHead', $event);
 
         $data = $schema->get('@graph');
 
@@ -466,11 +443,12 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         $schema->set('@graph', $data);
 
-        $schemaString = $schema->toString('JSON', ['bitmask' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE]);
+        $prettyPrint  = JDEBUG ? JSON_PRETTY_PRINT : 0;
+        $schemaString = $schema->toString('JSON', ['bitmask' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | $prettyPrint]);
 
         if ($schemaString !== '{}') {
             $wa = $this->getApplication()->getDocument()->getWebAssetManager();
-            $wa->addInlineScript($schemaString, ['position' => 'after'], ['type' => 'application/ld+json']);
+            $wa->addInlineScript($schemaString, ['name' => 'inline.schemaorg'], ['type' => 'application/ld+json']);
         }
     }
 
@@ -481,7 +459,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     private function cleanupSchema($schema)
     {
@@ -547,13 +525,12 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      */
     protected function isSupported($context)
     {
-        $parts = explode('.', $context);
-
         // We need at least the extension + view for loading the table fields
-        if (count($parts) < 2) {
+        if (!str_contains($context, '.')) {
             return false;
         }
 
+        $parts     = explode('.', $context, 2);
         $component = $this->getApplication()->bootComponent($parts[0]);
 
         return $component instanceof SchemaorgServiceInterface;
