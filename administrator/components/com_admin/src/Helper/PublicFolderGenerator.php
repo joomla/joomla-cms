@@ -28,28 +28,28 @@ class PublicFolderGenerator
     /**
      * Create a public folder
      *
-     * @param  string  $folder The full path for the public folder
+     * @param  string  $destinationPath The full path for the public folder
      *
      * @return void
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function createPublicFolder($folder): void
+    public function createPublicFolder($destinationPath): void
     {
         if (!Factory::getApplication()->isClient('cli')) {
             throw new \Exception('Only CLI applications are allowed');
         }
 
-        if (!is_dir($folder) && !mkdir($folder, 0755, true)) {
+        if (!is_dir($destinationPath) && !mkdir($destinationPath, 0755, true)) {
             throw new \Exception('The given directory doesn\'t exist or not accessible due to wrong permissions');
         }
 
         // Create the required folders
         if (
-            !mkdir($folder . '/administrator/components/com_joomlaupdate', 0755, true)
-            || !mkdir($folder . '/administrator/includes', 0755, true)
-            || !mkdir($folder . '/api/includes', 0755, true)
-            || !mkdir($folder . '/includes', 0755)
+            !mkdir($destinationPath . '/administrator/components/com_joomlaupdate', 0755, true)
+            || !mkdir($destinationPath . '/administrator/includes', 0755, true)
+            || !mkdir($destinationPath . '/api/includes', 0755, true)
+            || !mkdir($destinationPath . '/includes', 0755)
         ) {
             throw new \Exception('Unable to write on the given directory, check the permissions');
         }
@@ -78,7 +78,7 @@ class PublicFolderGenerator
 
         // Create essential symlinks
         foreach ($filesSymLink as $localDirectory) {
-            $this->createSymlink(JPATH_ROOT . $localDirectory, $folder . $localDirectory);
+            $this->createSymlink(JPATH_ROOT . $localDirectory, $destinationPath . $localDirectory);
         }
 
         // Create symlinks for all the local filesystem directories
@@ -91,7 +91,7 @@ class PublicFolderGenerator
                     continue;
                 }
 
-                $this->createSymlink(JPATH_ROOT . '/' . $localDirectory->directory, $folder . '/' . $localDirectory->directory);
+                $this->createSymlink(JPATH_ROOT . '/' . $localDirectory->directory, $destinationPath . '/' . $localDirectory->directory);
             }
         }
 
@@ -112,7 +112,7 @@ class PublicFolderGenerator
         }
 
         foreach ($filesHardCopies as $file) {
-            $this->createFile($folder . $file, file_get_contents(JPATH_ROOT . $file));
+            $this->createFile($destinationPath . $file, file_get_contents(JPATH_ROOT . $file));
         }
 
         $definesTemplate = <<<HTML
@@ -147,18 +147,18 @@ HTML;
 
         // The defines files
         $this->createFile(
-            $folder . '/defines.php',
-            str_replace(['{{ROOTFOLDER}}', '{{BASEFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . JPATH_ROOT . '"', '"' . $folder . '"'], $definesTemplate)
+            $destinationPath . '/defines.php',
+            str_replace(['{{ROOTFOLDER}}', '{{BASEFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . JPATH_ROOT . '"', '"' . $destinationPath . '"'], $definesTemplate)
         );
 
         $this->createFile(
-            $folder . '/administrator/defines.php',
-            str_replace(['{{ROOTFOLDER}}', '{{BASEFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . JPATH_ROOT . '/administrator"', '"' . $folder . '"'], $definesTemplate)
+            $destinationPath . '/administrator/defines.php',
+            str_replace(['{{ROOTFOLDER}}', '{{BASEFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . JPATH_ROOT . '/administrator"', '"' . $destinationPath . '"'], $definesTemplate)
         );
 
         $this->createFile(
-            $folder . '/api/defines.php',
-            str_replace(['{{ROOTFOLDER}}',  '{{BASEFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . JPATH_ROOT . '/api"', '"' . $folder . '"'], $definesTemplate)
+            $destinationPath . '/api/defines.php',
+            str_replace(['{{ROOTFOLDER}}',  '{{BASEFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . JPATH_ROOT . '/api"', '"' . $destinationPath . '"'], $definesTemplate)
         );
     }
 
