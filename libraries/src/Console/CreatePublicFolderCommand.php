@@ -9,10 +9,9 @@
 
 namespace Joomla\CMS\Console;
 
-use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Admin\Administrator\Helper\PublicFolderGenerator;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Filter\InputFilter;
-use Joomla\Registry\Registry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -24,7 +23,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Console command for adding a user
+ * Console command for creating a public folder
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -62,15 +61,6 @@ class CreatePublicFolderCommand extends AbstractCommand
     private $publicFolder;
 
     /**
-     * The flag for symlinking or creating copies
-     *
-     * @var    bool
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    private $hardCopies;
-
-    /**
      * Internal function to execute the command.
      *
      * @param   InputInterface   $input   The input to inject into the command.
@@ -88,10 +78,10 @@ class CreatePublicFolderCommand extends AbstractCommand
         $this->publicFolder = $this->getStringFromOption('public-folder', 'Please enter the path to the public folder', true);
 
         // Remove the last (Windows || NIX) slash
-        $folder = rtrim((new InputFilter())->clean($this->publicFolder, 'PATH'), '/');
-        $folder = rtrim($folder, '\\');
+        $this->publicFolder = rtrim((new InputFilter())->clean($this->publicFolder, 'PATH'), '/');
+        $this->publicFolder = rtrim($this->publicFolder, '\\');
 
-        if (!$this->createPublicFolder($folder)) {
+        if (!((new PublicFolderGenerator())->createPublicFolder($this->publicFolder))) {
             return Command::FAILURE;
         }
 
@@ -157,145 +147,5 @@ class CreatePublicFolderCommand extends AbstractCommand
         $this->addOption('public-folder', null, InputOption::VALUE_REQUIRED, 'public folder absolute path');
         $this->setDescription('Create a public folder');
         $this->setHelp($help);
-    }
-
-    private function createSymlink($source, $dest)
-    {
-        if (!symlink($source, $dest)) {
-            throw new \Exception('Unable to symlink the file: ' . str_replace(JPATH_ROOT, '', $source), 200);
-        }
-    }
-
-    private function createFile($path, $content)
-    {
-        if (!file_put_contents($path, $content)) {
-            throw new \Exception('Unable to create the file: ' . str_replace(JPATH_ROOT, '', $path), 200);
-        }
-    }
-
-    private function createPublicFolder($folder): bool
-    {
-        if (!is_dir($folder) && !mkdir($folder, 0755, true)) {
-            throw new \Exception('The given directory doesn\'t exist or not accessible due to wrong permissions', 200);
-        }
-
-        // Create the required folders
-        if (
-            !mkdir($folder . '/administrator/components/com_joomlaupdate', 0755, true)
-            || !mkdir($folder . '/administrator/includes', 0755, true)
-            || !mkdir($folder . '/api/includes', 0755, true)
-            || !mkdir($folder . '/includes', 0755)
-        ) {
-            throw new \Exception('Unable to write on the given directory, check the permissions', 200);
-        }
-
-        $filesSymLink = [
-            // Site
-            '/index.php',
-            '/includes/app.php',
-            '/includes/framework.php',
-
-            // Administrator
-            '/administrator/index.php',
-            '/administrator/includes/app.php',
-            '/administrator/includes/framework.php',
-            '/administrator/components/com_joomlaupdate/extract.php',
-
-            // API
-            '/api/index.php',
-            '/api/includes/app.php',
-            '/api/includes/framework.php',
-            '/api/includes/incompatible.html',
-
-            // Media static assets
-            '/media',
-        ];
-
-        // Create essential symlinks
-        foreach ($filesSymLink as $localDirectory) {
-            $this->createSymlink(JPATH_ROOT . $localDirectory, $folder . $localDirectory);
-        }
-
-        // Create symlinks for all the local filesystem directories
-        if (PluginHelper::isEnabled('filesystem', 'local')) {
-            $local            = PluginHelper::getPlugin('filesystem', 'local');
-            $localDirectories = (new Registry($local->params))->get('directories', '[{"directory":"images"}]');
-
-            foreach ($localDirectories as $localDirectory) {
-                if ($localDirectory->directory === 'media') {
-                    continue;
-                }
-
-                $this->createSymlink(JPATH_ROOT . '/' . $localDirectory->directory, $folder . '/' . $localDirectory->directory);
-            }
-        }
-
-        $filesHardCopies = [];
-
-        // Copy the robots
-        if (is_file(JPATH_ROOT . '/robots.txt')) {
-            $filesHardCopies[] = '/robots.txt';
-        } elseif (is_file(JPATH_ROOT . '/robots.txt.dist')) {
-            $filesHardCopies[] = '/robots.txt.dist';
-        }
-
-        // Copy the apache config
-        if (is_file(JPATH_ROOT . '/.htaccess')) {
-            $filesHardCopies[] = '/.htaccess';
-        } elseif (is_file(JPATH_ROOT . '/htaccess.txt')) {
-            $filesHardCopies[] = '/htaccess.txt';
-        }
-
-        foreach ($filesHardCopies as $file) {
-            $this->createFile($folder . $file, file_get_contents(JPATH_ROOT . $file));
-        }
-
-        $definesTemplate = <<<HTML
-<?php
-
-/**
- * @package    Joomla.Site
- *
- * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
- */
-
-defined('_JEXEC') || die;
-
-// Defines.
-define('JPATH_BASE', {{BASEFOLDER}});
-define('JPATH_ROOT', {{ROOTFOLDER}});
-define('JPATH_PUBLIC', {{PUBLICFOLDER}});
-define('JPATH_CONFIGURATION', JPATH_ROOT);
-define('JPATH_SITE', JPATH_ROOT);
-define('JPATH_ADMINISTRATOR', JPATH_ROOT . DIRECTORY_SEPARATOR . 'administrator');
-define('JPATH_LIBRARIES', JPATH_ROOT . DIRECTORY_SEPARATOR . 'libraries');
-define('JPATH_PLUGINS', JPATH_ROOT . DIRECTORY_SEPARATOR . 'plugins');
-define('JPATH_INSTALLATION', JPATH_ROOT . DIRECTORY_SEPARATOR . 'installation');
-define('JPATH_THEMES', JPATH_BASE . DIRECTORY_SEPARATOR . 'templates');
-define('JPATH_CACHE', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'cache');
-define('JPATH_MANIFESTS', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'manifests');
-define('JPATH_API', JPATH_ROOT . DIRECTORY_SEPARATOR . 'api');
-define('JPATH_CLI', JPATH_ROOT . DIRECTORY_SEPARATOR . 'cli');
-define('_JDEFINES', '1');
-HTML;
-
-        // The defines files
-        $this->createFile(
-            $folder . '/defines.php',
-            str_replace(['{{ROOTFOLDER}}', '{{BASEFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . JPATH_ROOT . '"', '"' . $folder . '"'], $definesTemplate)
-        );
-
-        $this->createFile(
-            $folder . '/administrator/defines.php',
-            str_replace(['{{ROOTFOLDER}}', '{{BASEFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . JPATH_ROOT . '/administrator"', '"' . $folder . '"'], $definesTemplate)
-        );
-
-        $this->createFile(
-            $folder . '/api/defines.php',
-            str_replace(['{{ROOTFOLDER}}',  '{{BASEFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . JPATH_ROOT . '/api"', '"' . $folder . '"'], $definesTemplate)
-        );
-
-        return true;
     }
 }
