@@ -83,7 +83,7 @@ class PublicFolderGeneratorHelper
         // Create symlinks for all the local filesystem directories
         if (PluginHelper::isEnabled('filesystem', 'local')) {
             $local            = PluginHelper::getPlugin('filesystem', 'local');
-            $localDirectories = (new Registry($local->params))->get('directories', '[{"directory":"images"}]');
+            $localDirectories = (new Registry($local->params))->get('directories', [(object) ['directory' => 'images']]);
 
             foreach ($localDirectories as $localDirectory) {
                 if ($localDirectory->directory === 'media') {
