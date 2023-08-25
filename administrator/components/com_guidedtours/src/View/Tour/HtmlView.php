@@ -53,7 +53,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var \Joomla\CMS\Object\CMSObject
+     * @var \Joomla\Registry\Registry
      */
     protected $canDo;
 
@@ -92,15 +92,13 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $user       = Factory::getUser();
+        $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = empty($this->item->id);
 
         $canDo = ContentHelper::getActions('com_guidedtours');
-
-        $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_($isNew ? 'COM_GUIDEDTOURS_MANAGER_TOUR_NEW' : 'COM_GUIDEDTOURS_MANAGER_TOUR_EDIT'), 'map-signs');
 
@@ -116,6 +114,10 @@ class HtmlView extends BaseHtmlView
             ToolbarHelper::saveGroup(
                 $toolbarButtons,
                 'btn-success'
+            );
+
+            ToolbarHelper::cancel(
+                'tour.cancel'
             );
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
@@ -135,13 +137,13 @@ class HtmlView extends BaseHtmlView
                     $toolbarButtons,
                     'btn-success'
                 );
+
+                ToolbarHelper::cancel(
+                    'tour.cancel',
+                    'JTOOLBAR_CLOSE'
+                );
             }
         }
-
-        ToolbarHelper::cancel(
-            'tour.cancel',
-            'JTOOLBAR_CLOSE'
-        );
 
         ToolbarHelper::divider();
 

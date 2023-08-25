@@ -10,10 +10,11 @@
 namespace Joomla\CMS\Filesystem;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -33,8 +34,11 @@ use Joomla\CMS\Object\CMSObject;
  * @deprecated  4.4 will be removed in 6.0
  *              Use Joomla\Filesystem\Stream instead.
  */
-class Stream extends CMSObject
+class Stream
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
     /**
      * File Mode
      *
@@ -880,7 +884,7 @@ class Stream extends CMSObject
      * Stream contexts
      * Builds the context from the array
      *
-     * @return  mixed
+     * @return  void
      *
      * @since   1.7.0
      * @deprecated  4.4 will be removed in 6.0

@@ -24,6 +24,8 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper as LibraryContentHelper;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
+use Joomla\CMS\Schemaorg\SchemaorgServiceTrait;
 use Joomla\CMS\Tag\TagServiceInterface;
 use Joomla\CMS\Tag\TagServiceTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
@@ -34,7 +36,7 @@ use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -47,6 +49,7 @@ class ContentComponent extends MVCComponent implements
     CategoryServiceInterface,
     FieldsServiceInterface,
     AssociationServiceInterface,
+    SchemaorgServiceInterface,
     WorkflowServiceInterface,
     RouterServiceInterface,
     TagServiceInterface
@@ -55,6 +58,7 @@ class ContentComponent extends MVCComponent implements
     use RouterServiceTrait;
     use HTMLRegistryAwareTrait;
     use WorkflowServiceTrait;
+    use SchemaorgServiceTrait;
     use CategoryServiceTrait, TagServiceTrait {
         CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
         CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
@@ -175,6 +179,24 @@ class ContentComponent extends MVCComponent implements
         $contexts = [
             'com_content.article'    => Text::_('COM_CONTENT'),
             'com_content.categories' => Text::_('JCATEGORY'),
+        ];
+
+        return $contexts;
+    }
+
+    /**
+     * Returns valid contexts for schemaorg
+     *
+     * @return  array
+     *
+     * @since  5.0.0
+     */
+    public function getSchemaorgContexts(): array
+    {
+        Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+
+        $contexts = [
+            'com_content.article' => Text::_('COM_CONTENT'),
         ];
 
         return $contexts;

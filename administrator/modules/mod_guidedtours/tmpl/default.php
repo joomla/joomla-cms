@@ -26,16 +26,16 @@ $app->getDocument()
     ->useScript('dialog')
 ;
 
-$lang = $app->getLanguage();
-
-$extension = $app->input->get('option');
-
-$listTours = [];
-$allTours = [];
+$lang       = $app->getLanguage();
+$extension  = $app->getInput()->get('option');
+$listTours  = [];
+$allTours   = [];
+$toursCount = $params->get('tourscount', 7);
 
 foreach ($tours as $tour) :
-    if (count(array_intersect(['*', $extension], $tour->extensions))) :
+    if ($toursCount > 0 && count(array_intersect(['*', $extension], $tour->extensions))) :
         $listTours[] = $tour;
+        $toursCount--;
     endif;
 
     $uri = new Uri($tour->url);
@@ -53,9 +53,7 @@ foreach ($tours as $tour) :
     $allTours[$key][] = $tour;
 endforeach;
 
-ksort($allTours);
-
-$popupId = 'guidedtours-popup-content' . $module->id;
+$popupId      = 'guidedtours-popup-content' . $module->id;
 $popupOptions = json_encode([
     'src'        => '#' . $popupId,
     'width'      => '800px',
@@ -75,10 +73,7 @@ $popupOptions = json_encode([
         <span class="icon-angle-down" aria-hidden="true"></span>
     </button>
     <div class="dropdown-menu dropdown-menu-end">
-        <?php foreach ($listTours as $i => $tour) : ?>
-            <?php if ($i >= $params->get('tourscount', 7)) : ?>
-                <?php break; ?>
-            <?php endif; ?>
+        <?php foreach ($listTours as $tour) : ?>
             <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
                 <span class="icon-map-signs" aria-hidden="true"></span>
                 <?php echo $tour->title; ?>

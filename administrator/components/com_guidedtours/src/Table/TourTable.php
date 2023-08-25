@@ -12,6 +12,8 @@ namespace Joomla\Component\Guidedtours\Administrator\Table;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -23,15 +25,16 @@ use Joomla\Database\DatabaseDriver;
  *
  * @since 4.3.0
  */
-class TourTable extends Table
+class TourTable extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
      * @var    boolean
      * @since  4.3.0
      */
-    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
     protected $_supportNullValue = true;
 
     /**
@@ -40,7 +43,6 @@ class TourTable extends Table
      * @var    array
      * @since  4.3.0
      */
-    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
     protected $_jsonEncode = ['extensions'];
 
     /**
@@ -67,7 +69,7 @@ class TourTable extends Table
     public function store($updateNulls = true)
     {
         $date   = Factory::getDate()->toSql();
-        $userId = Factory::getUser()->id;
+        $userId = $this->getCurrentUser()->id;
 
         // Set created date if not set.
         if (!(int) $this->created) {
@@ -98,33 +100,5 @@ class TourTable extends Table
         }
 
         return parent::store($updateNulls);
-    }
-
-    /**
-     * Returns the asset name of the entry as it appears in the {@see Asset} table.
-     *
-     * @return  string  The asset name.
-     *
-     * @since   4.3.0
-     */
-    // phpcs:ignore
-    protected function _getAssetName(): string
-    {
-        $k = $this->_tbl_key;
-
-        return 'com_guidedtours.tour.' . (int) $this->$k;
-    }
-
-    /**
-     * Method to return the title to use for the asset table.
-     *
-     * @return  string  The string to use as the title in the asset table.
-     *
-     * @since   4.3.0
-     */
-    // phpcs:ignore
-    protected function _getAssetTitle()
-    {
-        return $this->title;
     }
 }

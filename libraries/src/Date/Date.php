@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -62,7 +62,8 @@ class Date extends \DateTime
      * @var    object
      * @since  1.7.0
      *
-     * @deprecated  5.0 Without replacement
+     * @deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacement
      */
     protected static $gmt;
 
@@ -73,7 +74,8 @@ class Date extends \DateTime
      * @var    object
      * @since  1.7.0
      *
-     * @deprecated  5.0 Without replacement
+     * @deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacement
      */
     protected static $stz;
 
