@@ -40,7 +40,7 @@ class PublicFolderGeneratorHelper
         }
 
         if (!is_dir($destinationPath) && !mkdir($destinationPath, 0755, true)) {
-            throw new \Exception('The given path doesn\'t exist or not accessible due to wrong permissions');
+            throw new \Exception('Unable to create the given folder, check the permissions');
         }
 
         // Create the required folders
