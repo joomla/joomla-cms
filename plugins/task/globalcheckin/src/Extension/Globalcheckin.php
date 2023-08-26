@@ -31,14 +31,6 @@ class Globalcheckin extends CMSPlugin implements SubscriberInterface
     use TaskPluginTrait;
 
     /**
-     * The application object
-     *
-     * @var    CMSApplicationInterface
-     * @since  __DEPLOY_VERSION__
-     */
-    protected $app;
-
-    /**
      * @var string[]
      * @since __DEPLOY_VERSION__
      */
@@ -85,7 +77,7 @@ class Globalcheckin extends CMSPlugin implements SubscriberInterface
     {
         $db     = $this->getDatabase();
         $tables = $db->getTableList();
-        $prefix = $this->app->get('dbprefix');
+        $prefix = $this->getApplication()->get('dbprefix');
         $delay  = (int) $event->getArgument('params')->delay ?? 1;
         $failed = false;
 
