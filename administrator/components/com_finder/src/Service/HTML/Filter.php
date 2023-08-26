@@ -293,12 +293,15 @@ class Filter
                 $query->clear()
                     ->select('t.*')
                     ->from($db->quoteName('#__finder_taxonomy') . ' AS t')
-                    ->where('t.lft > ' . (int) $bv->lft)
-                    ->where('t.rgt < ' . (int) $bv->rgt)
+                    ->where('t.lft > :lft')
+                    ->where('t.rgt < :rgt')
                     ->where('t.state = 1')
-                    ->where('t.access IN (' . $groups . ')')
-                    ->order('t.title');
+                    ->whereIn('t.access', $user->getAuthorisedViewLevels())
+                    ->order('t.title')
+                    ->bind(':lft', $bv->lft, ParameterType::INTEGER)
+                    ->bind(':rgt', $bv->rgt, ParameterType::INTEGER);
 
+                // Apply multilanguage filter
                 if (Multilanguage::isEnabled()) {
                     $language = [Factory::getLanguage()->getTag(), '*'];
                     $query->whereIn($db->quoteName('t.language'), $language, ParameterType::STRING);
@@ -310,7 +313,7 @@ class Filter
 
                 // Limit the nodes to a predefined filter.
                 if (!empty($filter->data)) {
-                    $query->where('t.id IN(' . $filter->data . ')');
+                    $query->whereIn('t.id', explode(",", $filter->data));
                 }
 
                 // Load the branches.
