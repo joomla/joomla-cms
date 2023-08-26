@@ -15,6 +15,8 @@ use Joomla\CMS\Form\Field\SubformField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
@@ -24,7 +26,7 @@ use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -32,9 +34,10 @@ use Joomla\String\StringHelper;
  *
  * @since  1.7.0
  */
-abstract class FormField implements DatabaseAwareInterface
+abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 {
     use DatabaseAwareTrait;
+    use CurrentUserTrait;
 
     /**
      * The description text for the form field. Usually used in tooltips.
@@ -1015,7 +1018,7 @@ abstract class FormField implements DatabaseAwareInterface
             }
         }
 
-        $options['inlineHelp'] = isset($this->form->getXml()->config->inlinehelp['button'])
+        $options['inlineHelp'] = isset($this->form, $this->form->getXml()->config->inlinehelp['button'])
             ? ((string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false)
             : false;
 
@@ -1067,8 +1070,24 @@ abstract class FormField implements DatabaseAwareInterface
             }
 
             // Check for a callback filter
-            if (strpos($filter, '::') !== false && \is_callable(explode('::', $filter))) {
-                return \call_user_func(explode('::', $filter), $value);
+            if (strpos($filter, '::') !== false) {
+                if (\is_callable(explode('::', $filter))) {
+                    return \call_user_func(explode('::', $filter), $value);
+                }
+
+                /** @deprecated Can be removed with Joomla 6.0 since the class alias is deprecated since Joomla 4.0*/
+                [$class, $method] = explode('::', $filter);
+                if ($class === 'JComponentHelper') {
+                    throw new \UnexpectedValueException(
+                        sprintf(
+                            '%s::filter field `%s` calls a deprecated filter class %s, the class needs to be namespaced use %s instead or activate the backward compatible plugin.',
+                            \get_class($this),
+                            $this->element['name'],
+                            $class,
+                            '\\Joomla\\CMS\\Component\\ComponentHelper'
+                        )
+                    );
+                }
             }
 
             // Load the FormRule object for the field. FormRule objects take precedence over PHP functions
@@ -1180,6 +1199,10 @@ abstract class FormField implements DatabaseAwareInterface
                 }
             }
 
+            if ($rule instanceof CurrentUserInterface) {
+                $rule->setCurrentUser($this->getCurrentUser());
+            }
+
             try {
                 // Run the field validation rule test.
                 $valid = $rule->test($this->element, $value, $group, $input, $this->form);
@@ -1199,6 +1222,10 @@ abstract class FormField implements DatabaseAwareInterface
                     @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
                     $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
                 }
+            }
+
+            if ($rule instanceof CurrentUserInterface) {
+                $rule->setCurrentUser($this->getCurrentUser());
             }
 
             try {

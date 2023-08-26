@@ -85,7 +85,7 @@ if (Multilanguage::isEnabled()) {
 
                     <hr>
 
-                    <?php if (Factory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
+                    <?php if ($this->getCurrentUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
                     <div class="control-group">
                         <div class="control-label">
                             <?php echo $this->form->getLabel('published'); ?>

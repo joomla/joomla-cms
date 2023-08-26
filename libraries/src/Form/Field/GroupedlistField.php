@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -145,7 +145,7 @@ class GroupedlistField extends FormField
     }
 
     /**
-     * Method to get the field input markup fora grouped list.
+     * Method to get the field input markup for a grouped list.
      * Multiselect is enabled by using the multiple attribute.
      *
      * @return  string  The field input markup.

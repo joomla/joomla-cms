@@ -13,7 +13,7 @@ use BadMethodCallException;
 use Joomla\Event\Event as BaseEvent;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -90,7 +90,7 @@ trait ResultAware
     protected function setResult(array $value)
     {
         if ($this->preventSetArgumentResult) {
-            throw new BadMethodCallException('You are not allowed to set the result argument directly. Use addResult() instead.');
+            throw new \BadMethodCallException('You are not allowed to set the result argument directly. Use addResult() instead.');
         }
 
         // Always assume that the last element of the array is the result the handler is trying to append.

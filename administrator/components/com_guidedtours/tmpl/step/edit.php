@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -26,7 +25,7 @@ if (empty($this->item->tour_id)) {
     throw new GenericDataException("\nThe Tour id was not set!\n", 500);
 }
 
-$lang = Factory::getLanguage()->getTag();
+$lang = $this->getLanguage()->getTag();
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_guidedtours&view=step&layout=edit&id=' .

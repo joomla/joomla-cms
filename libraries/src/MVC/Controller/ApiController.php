@@ -23,7 +23,7 @@ use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -78,7 +78,7 @@ class ApiController extends BaseController
     /**
      * The model state to inject
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $modelState;
 

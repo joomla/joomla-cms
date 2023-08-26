@@ -34,7 +34,7 @@ $wa->useScript('form.validate')
     ->useStyle('com_templates.admin-templates');
 
 // No access if not global SuperUser
-if (!Factory::getUser()->authorise('core.admin')) {
+if (!$this->getCurrentUser()->authorise('core.admin')) {
     Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'danger');
 }
 

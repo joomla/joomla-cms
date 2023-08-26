@@ -9,13 +9,12 @@
 
 namespace Joomla\CMS\Helper;
 
-use Exception;
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Event\User\LoginButtonsEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -90,19 +89,19 @@ abstract class AuthenticationHelper
      */
     public static function getLoginButtons(string $formId): array
     {
-        // Get all the User plugins.
-        PluginHelper::importPlugin('user');
-
-        // Trigger the onUserLoginButtons event and return the button definitions.
         try {
-            /** @var CMSApplication $app */
-            $app = Factory::getApplication();
-        } catch (Exception $e) {
+            // Get all the User plugins.
+            $dispatcher = Factory::getApplication()->getDispatcher();
+            PluginHelper::importPlugin('user', null, true, $dispatcher);
+        } catch (\Exception $e) {
             return [];
         }
 
-        $results        = $app->triggerEvent('onUserLoginButtons', [$formId]);
-        $buttons        = [];
+        // Trigger the onUserLoginButtons event and return the button definitions.
+        $btnEvent = new LoginButtonsEvent('onUserLoginButtons', ['subject' => $formId]);
+        $dispatcher->dispatch('onUserLoginButtons', $btnEvent);
+        $results = $btnEvent['result'] ?? [];
+        $buttons = [];
 
         foreach ($results as $result) {
             // Did we get garbage back from the plugin?

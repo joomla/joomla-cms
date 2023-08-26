@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\QueryTypeAlreadyDefinedException;
 
@@ -29,8 +31,10 @@ use Joomla\Database\Exception\QueryTypeAlreadyDefinedException;
  *
  * @since  4.1.0
  */
-class TaskTable extends Table
+class TaskTable extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
@@ -139,7 +143,7 @@ class TaskTable extends Table
 
         // Set `created_by` if not set for a new item.
         if ($isNew && empty($this->created_by)) {
-            $this->created_by = Factory::getApplication()->getIdentity()->id;
+            $this->created_by = $this->getCurrentUser()->id;
         }
 
         // @todo : Should we add modified, modified_by fields? [ ]

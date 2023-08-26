@@ -12,7 +12,7 @@ namespace Joomla\CMS\Event\MultiFactor;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -30,6 +30,7 @@ class NotifyActionLog extends AbstractImmutableEvent
         'onComUsersCaptiveShowSelect',
         'onComUsersCaptiveValidateFailed',
         'onComUsersCaptiveValidateInvalidMethod',
+        'onComUsersCaptiveValidateTryLimitReached',
         'onComUsersCaptiveValidateSuccess',
         'onComUsersControllerMethodAfterRegenerateBackupCodes',
         'onComUsersControllerMethodBeforeAdd',
