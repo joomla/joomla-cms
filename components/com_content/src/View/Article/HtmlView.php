@@ -311,12 +311,13 @@ class HtmlView extends BaseHtmlView
         } else {
             /**
              * This case the menu item links directly to the article, browser will be determined by following
-             * priority:
+             * order:
              * 1. Browser page title set from menu item itself
              * 2. Browser page title set for the article
              * 3. Article title
              */
-            $title = $this->params->get(
+            $menuItemParams = $menu->getParams();
+            $title = $menuItemParams->get(
                 'page_title',
                 $this->item->params->get('article_page_title', $this->item->title)
             );
