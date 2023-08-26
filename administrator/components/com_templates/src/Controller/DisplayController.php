@@ -19,7 +19,7 @@ use Joomla\CMS\Router\Route;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Templates manager master display controller.
+ * Templates manager display controller.
  *
  * @since  1.6
  */
