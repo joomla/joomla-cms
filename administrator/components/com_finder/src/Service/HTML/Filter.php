@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -297,6 +298,11 @@ class Filter
                     ->where('t.state = 1')
                     ->where('t.access IN (' . $groups . ')')
                     ->order('t.title');
+
+                if (Multilanguage::isEnabled()) {
+                    $language = [Factory::getLanguage()->getTag(), '*'];
+                    $query->whereIn($db->quoteName('t.language'), $language, ParameterType::STRING);
+                }
 
                 // Self-join to get the parent title.
                 $query->select('e.title AS parent_title')
