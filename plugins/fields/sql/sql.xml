@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="fields" method="upgrade">
 	<name>plg_fields_sql</name>
 	<author>Joomla! Project</author>
@@ -31,6 +31,14 @@
 					rows="10"
 					filter="raw"
 					required="true"
+				/>
+
+				<field
+					name="header"
+					type="text"
+					label="PLG_FIELDS_SQL_PARAMS_HEADER_LABEL"
+					description="PLG_FIELDS_SQL_PARAMS_HEADER_DESC"
+					filter="string"
 				/>
 
 				<field

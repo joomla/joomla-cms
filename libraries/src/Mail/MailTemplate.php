@@ -12,15 +12,15 @@ namespace Joomla\CMS\Mail;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -196,8 +196,10 @@ class MailTemplate
         }
 
         /** @var Registry $params */
-        $params = $mail->params;
-        $app    = Factory::getApplication();
+        $params      = $mail->params;
+        $app         = Factory::getApplication();
+        $replyTo     = $app->get('replyto', '');
+        $replyToName = $app->get('replytoname', '');
 
         if ((int) $config->get('alternative_mailconfig', 0) === 1 && (int) $params->get('alternative_mailconfig', 0) === 1) {
             if ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp') {
@@ -220,6 +222,9 @@ class MailTemplate
             if (MailHelper::isEmailAddress($mailfrom)) {
                 $this->mailer->setFrom(MailHelper::cleanLine($mailfrom), MailHelper::cleanLine($fromname), false);
             }
+
+            $replyTo     = $params->get('replyto', $replyTo);
+            $replyToName = $params->get('replytoname', $replyToName);
         }
 
         $app->triggerEvent('onMailBeforeRendering', [$this->template_id, &$this]);
@@ -278,6 +283,8 @@ class MailTemplate
 
         if ($this->replyto) {
             $this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
+        } elseif ($replyTo) {
+            $this->mailer->addReplyTo($replyTo, $replyToName);
         }
 
         if (trim($config->get('attachment_folder', ''))) {
@@ -320,14 +327,17 @@ class MailTemplate
         foreach ($tags as $key => $value) {
             if (is_array($value)) {
                 $matches = [];
+                $pregKey = preg_quote(strtoupper($key), '/');
 
-                if (preg_match_all('/{' . strtoupper($key) . '}(.*?){\/' . strtoupper($key) . '}/s', $text, $matches)) {
+                if (preg_match_all('/{' . $pregKey . '}(.*?){\/' . $pregKey . '}/s', $text, $matches)) {
                     foreach ($matches[0] as $i => $match) {
                         $replacement = '';
 
                         foreach ($value as $name => $subvalue) {
                             if (is_array($subvalue) && $name == $matches[1][$i]) {
                                 $replacement .= implode("\n", $subvalue);
+                            } elseif (is_array($subvalue)) {
+                                $replacement .= $this->replaceTags($matches[1][$i], $subvalue);
                             } elseif (is_string($subvalue) && $name == $matches[1][$i]) {
                                 $replacement .= $subvalue;
                             }
@@ -397,9 +407,10 @@ class MailTemplate
         $template->subject     = $subject;
         $template->body        = $body;
         $template->htmlbody    = $htmlbody;
+        $template->extension   = explode('.', $key, 2)[0] ?? '';
         $template->attachments = '';
         $params                = new \stdClass();
-        $params->tags          = [$tags];
+        $params->tags          = (array) $tags;
         $template->params      = json_encode($params);
 
         return $db->insertObject('#__mail_templates', $template);
@@ -429,7 +440,7 @@ class MailTemplate
         $template->body        = $body;
         $template->htmlbody    = $htmlbody;
         $params                = new \stdClass();
-        $params->tags          = [$tags];
+        $params->tags          = (array) $tags;
         $template->params      = json_encode($params);
 
         return $db->updateObject('#__mail_templates', $template, ['template_id', 'language']);

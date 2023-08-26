@@ -13,6 +13,7 @@
  * - php build/bump.php -v 3.6.0-beta2
  * - php build/bump.php -v 3.6.0-rc1
  * - php build/bump.php -v 3.6.0
+ * - php build/bump.php -v 3.6.0 -d "2015-05-12 16:00"
  * - php build/bump.php -v 3.6.0 -c Unicorn
  * - php build/bump.php -v 3.6.0 -c "Custom Codename"
  * - /usr/bin/php /path/to/joomla-cms/build/bump.php -v 3.7.0
@@ -28,8 +29,9 @@ function usage($command)
     echo PHP_EOL;
     echo 'Usage: php ' . $command . ' [options]' . PHP_EOL;
     echo PHP_TAB . '[options]:' . PHP_EOL;
-    echo PHP_TAB . PHP_TAB . '-v <version>:' . PHP_TAB . 'Version (ex: 3.6.0-dev, 3.6.0-beta1, 3.6.0-beta1-dev, 3.6.0-rc1, 3.6.0)' . PHP_EOL;
-    echo PHP_TAB . PHP_TAB . '-c <codename>:' . PHP_TAB . 'Codename [optional] (ex: Unicorn)' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '-v <version>:' . PHP_TAB . PHP_TAB . 'Version (ex: 3.6.0-dev, 3.6.0-beta1, 3.6.0-beta1-dev, 3.6.0-rc1, 3.6.0)' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '-c <codename>:' . PHP_TAB . PHP_TAB . 'Codename [optional] (ex: Unicorn)' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '-d <release date>:' . PHP_TAB . 'Release Date in ISO 8601 format [optional] (ex: "2015-05-12 16:00")' . PHP_EOL;
     echo PHP_EOL;
 }
 
@@ -81,7 +83,7 @@ $directoryLoopExcludeDirectories = [
 $directoryLoopExcludeFiles = [];
 
 // Check arguments (exit if incorrect cli arguments).
-$opts = getopt("v:c:");
+$opts = getopt("v:c:d:");
 
 if (empty($opts['v'])) {
     usage($argv[0]);
@@ -139,6 +141,10 @@ if (!isset($versionParts[2])) {
 // Set version properties.
 $versionSubParts = explode('.', $versionParts[0]);
 
+// The release date
+$date = new DateTime($opts['d'] ?? 'now');
+
+// The version data
 $version = [
     'main'       => $versionSubParts[0] . '.' . $versionSubParts[1],
     'major'      => $versionSubParts[0],
@@ -149,10 +155,10 @@ $version = [
     'dev_devel'  => $versionSubParts[2] . (!empty($versionParts[1]) ? '-' . $versionParts[1] : '') . (!empty($versionParts[2]) ? '-' . $versionParts[2] : ''),
     'dev_status' => $dev_status,
     'build'      => '',
-    'reldate'    => date('j-F-Y'),
-    'reltime'    => date('H:i'),
+    'reldate'    => $date->format('j-F-Y'),
+    'reltime'    => $date->format('H:i'),
     'reltz'      => 'GMT',
-    'credate'    => date('Y-m'),
+    'credate'    => $date->format('Y-m'),
 ];
 
 // Version Codename.

@@ -11,7 +11,6 @@
 namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -60,7 +59,7 @@ class UpdateController extends BaseController
         $message     = null;
         $messageType = null;
 
-        // The validation was not successful so abort.
+        // The validation was not successful so stop.
         if ($result['check'] === false) {
             $message     = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
             $messageType = 'error';
@@ -283,7 +282,7 @@ class UpdateController extends BaseController
         // Do I really have an update package?
         $tempFile = $this->app->getUserState('com_joomlaupdate.temp_file', null);
 
-        if (empty($tempFile) || !File::exists($tempFile)) {
+        if (empty($tempFile) || !is_file($tempFile)) {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
         }
 
@@ -354,7 +353,8 @@ class UpdateController extends BaseController
      * Method to display a view.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static  This object to support chaining.
      *
@@ -436,7 +436,10 @@ class UpdateController extends BaseController
      * Called from JS.
      *
      * @since       3.10.0
-     * @deprecated  5.0  Use batchextensioncompatibility instead.
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use batchextensioncompatibility instead.
+     *              Example: $updateController->batchextensioncompatibility();
      *
      * @return void
      */

@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -27,17 +26,17 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function register(Container $container)
     {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $plugin = new InvisibleReCaptcha(
-                    $container->get(DispatcherInterface::class),
+                $dispatcher = $container->get(DispatcherInterface::class);
+                $plugin     = new InvisibleReCaptcha(
+                    $dispatcher,
                     (array) PluginHelper::getPlugin('captcha', 'recaptcha_invisible'),
-                    new HttpBridgePostRequestMethod()
                 );
                 $plugin->setApplication(Factory::getApplication());
 

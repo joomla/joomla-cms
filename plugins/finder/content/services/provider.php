@@ -27,16 +27,15 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function register(Container $container)
     {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
                 $plugin     = new Content(
-                    $dispatcher,
+                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('finder', 'content')
                 );
                 $plugin->setApplication(Factory::getApplication());

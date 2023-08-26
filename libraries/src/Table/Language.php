@@ -13,7 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -72,7 +72,7 @@ class Language extends Table
      */
     public function store($updateNulls = false)
     {
-        $table = Table::getInstance('Language', 'JTable', ['dbo' => $this->getDbo()]);
+        $table = Table::getInstance('Language', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
 
         // Verify that the language code is unique
         if ($table->load(['lang_code' => $this->lang_code]) && ($table->lang_id != $this->lang_id || $this->lang_id == 0)) {

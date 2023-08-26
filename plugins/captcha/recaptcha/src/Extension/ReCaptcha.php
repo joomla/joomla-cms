@@ -41,7 +41,7 @@ final class ReCaptcha extends CMSPlugin
      * The http request method
      *
      * @var    RequestMethod
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     private $requestMethod;
 
@@ -52,7 +52,7 @@ final class ReCaptcha extends CMSPlugin
      * @param   array                $config         An optional associative array of configuration settings
      * @param   RequestMethod        $requestMethod  The http request method
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function __construct(DispatcherInterface $dispatcher, array $config, RequestMethod $requestMethod)
     {

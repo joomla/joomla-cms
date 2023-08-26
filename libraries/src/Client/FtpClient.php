@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Client;
 
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -88,7 +88,7 @@ class FtpClient
      * The response code
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public $_responseCode;
 
@@ -96,7 +96,7 @@ class FtpClient
      * The response message
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public $_responseMsg;
 
@@ -1495,7 +1495,7 @@ class FtpClient
         // Here is where it is going to get dirty....
         if ($osType === 'UNIX' || $osType === 'MAC') {
             foreach ($contents as $file) {
-                $tmp_array = null;
+                $tmp_array = [];
 
                 if (@preg_match($regexp, $file, $regs)) {
                     $fType = (int) strpos('-dl', $regs[1][0]);
@@ -1523,13 +1523,13 @@ class FtpClient
                     continue;
                 }
 
-                if (\is_array($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..') {
+                if (\count($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..') {
                     $dir_list[] = $tmp_array;
                 }
             }
         } else {
             foreach ($contents as $file) {
-                $tmp_array = null;
+                $tmp_array = [];
 
                 if (@preg_match($regexp, $file, $regs)) {
                     $fType     = (int) ($regs[7] === '<DIR>');
@@ -1558,7 +1558,7 @@ class FtpClient
                     continue;
                 }
 
-                if (\is_array($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..') {
+                if (\count($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..') {
                     $dir_list[] = $tmp_array;
                 }
             }

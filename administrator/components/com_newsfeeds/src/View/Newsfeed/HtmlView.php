@@ -34,7 +34,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The item object for the newsfeed
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  1.6
      */
@@ -52,7 +52,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state of the newsfeed
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      *
      * @since  1.6
      */
@@ -159,6 +159,6 @@ class HtmlView extends BaseHtmlView
         }
 
         $toolbar->divider();
-        $toolbar->help('News_Feeds:_New_or_Edit');
+        $toolbar->help('News_Feeds:_Edit');
     }
 }

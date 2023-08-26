@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -210,10 +210,8 @@ class Text
             }
         }
 
-        if (!$found) {
-            // Not found so revert to the original.
-            $key = $string;
-        }
+        // Not found so revert to the original.
+        $key = !$found ? $string : $key;
 
         if (\is_array($args[$count - 1])) {
             $args[0] = $lang->_(

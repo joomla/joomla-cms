@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<config>
 		<inlinehelp button="show"/>
@@ -122,7 +122,7 @@
 			type="editor"
 			label="COM_MODULES_FIELD_CONTENT_LABEL"
 			buttons="true"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 			hide="readmore,pagebreak,module,menu,fields,contact,article"
 		/>
 

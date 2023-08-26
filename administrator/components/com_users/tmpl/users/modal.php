@@ -48,8 +48,8 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
         <table class="table table-sm">
             <caption class="visually-hidden">
                 <?php echo Text::_('COM_USERS_USERS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+                <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
             </caption>
             <thead>
                 <tr>

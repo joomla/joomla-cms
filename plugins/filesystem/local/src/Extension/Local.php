@@ -40,7 +40,7 @@ final class Local extends CMSPlugin implements ProviderInterface
      * The root directory path
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     private $rootDirectory;
 
@@ -51,7 +51,7 @@ final class Local extends CMSPlugin implements ProviderInterface
      * @param   array                $config         An optional associative array of configuration settings
      * @param   string               $rootDirectory  The root directory to look for images
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function __construct(DispatcherInterface $dispatcher, array $config, string $rootDirectory)
     {
@@ -95,7 +95,7 @@ final class Local extends CMSPlugin implements ProviderInterface
      */
     public function getDisplayName()
     {
-        return $this->getApplication()->getLanguage()->_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
+        return $this->getLanguage()->_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
     }
 
     /**
@@ -133,6 +133,7 @@ final class Local extends CMSPlugin implements ProviderInterface
                 $directoryEntity->thumbs,
                 [200, 200]
             );
+            $adapter->setCurrentUser($this->getApplication()->getIdentity());
 
             $adapters[$adapter->getAdapterName()] = $adapter;
         }

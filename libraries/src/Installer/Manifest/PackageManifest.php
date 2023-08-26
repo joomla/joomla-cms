@@ -13,7 +13,7 @@ use Joomla\CMS\Installer\InstallerExtension;
 use Joomla\CMS\Installer\Manifest;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -27,7 +27,7 @@ class PackageManifest extends Manifest
      * Author url of the package
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public $authorurl;
 
@@ -35,7 +35,7 @@ class PackageManifest extends Manifest
      * Author of the package
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public $author;
 
@@ -43,7 +43,7 @@ class PackageManifest extends Manifest
      * Author email of the package
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public $authoremail;
 

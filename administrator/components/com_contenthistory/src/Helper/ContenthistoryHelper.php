@@ -13,12 +13,12 @@ namespace Joomla\Component\Contenthistory\Administrator\Helper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -76,7 +76,7 @@ class ContenthistoryHelper
 
         if (is_object($object)) {
             foreach ($object as $name => $value) {
-                if ($subObject = json_decode($value)) {
+                if (!is_null($value) && $subObject = json_decode($value)) {
                     $object->$name = $subObject;
                 }
             }
@@ -161,7 +161,7 @@ class ContenthistoryHelper
         // First, see if we have a file name in the $typesTable
         $options = json_decode($typesTable->content_history_options);
 
-        if (is_object($options) && isset($options->formFile) && File::exists(JPATH_ROOT . '/' . $options->formFile)) {
+        if (is_object($options) && isset($options->formFile) && is_file(JPATH_ROOT . '/' . $options->formFile)) {
             $result = JPATH_ROOT . '/' . $options->formFile;
         } else {
             $aliasArray = explode('.', $typesTable->type_alias);
@@ -169,7 +169,7 @@ class ContenthistoryHelper
             $path       = Folder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
             array_shift($aliasArray);
             $file   = File::makeSafe(implode('.', $aliasArray) . '.xml');
-            $result = File::exists($path . $file) ? $path . $file : false;
+            $result = is_file($path . $file) ? $path . $file : false;
         }
 
         return $result;

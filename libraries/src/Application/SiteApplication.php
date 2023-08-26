@@ -13,6 +13,9 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Application\AfterDispatchEvent;
+use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
+use Joomla\CMS\Event\Application\AfterRouteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
@@ -28,7 +31,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -61,23 +64,23 @@ final class SiteApplication extends CMSApplication
      * The registered URL parameters.
      *
      * @var    object
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public $registeredurlparams;
 
     /**
      * Class constructor.
      *
-     * @param   Input      $input      An optional argument to provide dependency injection for the application's input
-     *                                 object.  If the argument is a JInput object that object will become the
-     *                                 application's input object, otherwise a default input object is created.
-     * @param   Registry   $config     An optional argument to provide dependency injection for the application's config
-     *                                 object.  If the argument is a Registry object that object will become the
-     *                                 application's config object, otherwise a default config object is created.
-     * @param   WebClient  $client     An optional argument to provide dependency injection for the application's client
-     *                                 object.  If the argument is a WebClient object that object will become the
-     *                                 application's client object, otherwise a default client object is created.
-     * @param   Container  $container  Dependency injection container.
+     * @param   ?Input      $input      An optional argument to provide dependency injection for the application's input
+     *                                  object.  If the argument is a JInput object that object will become the
+     *                                  application's input object, otherwise a default input object is created.
+     * @param   ?Registry   $config     An optional argument to provide dependency injection for the application's config
+     *                                  object.  If the argument is a Registry object that object will become the
+     *                                  application's config object, otherwise a default config object is created.
+     * @param   ?WebClient  $client     An optional argument to provide dependency injection for the application's client
+     *                                  object.  If the argument is a WebClient object that object will become the
+     *                                  application's client object, otherwise a default client object is created.
+     * @param   ?Container  $container  Dependency injection container.
      *
      * @since   3.2
      */
@@ -205,12 +208,21 @@ final class SiteApplication extends CMSApplication
             $document->setGenerator('Joomla! - Open Source Content Management');
         }
 
+        // Trigger the onAfterInitialiseDocument event.
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        $this->dispatchEvent(
+            'onAfterInitialiseDocument',
+            new AfterInitialiseDocumentEvent('onAfterInitialiseDocument', ['subject' => $this, 'document' => $document])
+        );
+
         $contents = ComponentHelper::renderComponent($component);
-        $document->setBuffer($contents, 'component');
+        $document->setBuffer($contents, ['type' => 'component']);
 
         // Trigger the onAfterDispatch event.
-        PluginHelper::importPlugin('system');
-        $this->triggerEvent('onAfterDispatch');
+        $this->dispatchEvent(
+            'onAfterDispatch',
+            new AfterDispatchEvent('onAfterDispatch', ['subject' => $this])
+        );
     }
 
     /**
@@ -375,7 +387,9 @@ final class SiteApplication extends CMSApplication
      *
      * @since      3.2
      *
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     * @deprecated  4.3 will be removed in 6.0
+     *              Inject the router or load it from the dependency injection container
+     *              Example: Factory::getContainer()->get(SiteRouter::class);
      */
     public static function getRouter($name = 'site', array $options = [])
     {
@@ -784,8 +798,11 @@ final class SiteApplication extends CMSApplication
         }
 
         // Trigger the onAfterRoute event.
-        PluginHelper::importPlugin('system');
-        $this->triggerEvent('onAfterRoute');
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        $this->dispatchEvent(
+            'onAfterRoute',
+            new AfterRouteEvent('onAfterRoute', ['subject' => $this])
+        );
 
         $Itemid = $this->input->getInt('Itemid', null);
         $this->authorise($Itemid);

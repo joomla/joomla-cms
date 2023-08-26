@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fieldset>
 		<field
@@ -22,7 +22,7 @@
 			buttons="false"
 			rows="20"
 			class="form-control"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		/>
 		<field
 			name="htmlbody"
@@ -31,7 +31,7 @@
 			buttons="true"
 			hide="fields,pagebreak,readmore,module"
 			class="inputbox"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		/>
 	</fieldset>
 	<field

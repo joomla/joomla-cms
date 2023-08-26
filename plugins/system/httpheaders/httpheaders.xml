@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_httpheaders</name>
 	<author>Joomla! Project</author>
@@ -9,9 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_SYSTEM_HTTPHEADERS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\Httpheaders</namespace>
 	<files>
 		<folder>postinstall</folder>
-		<filename plugin="httpheaders">httpheaders.php</filename>
+		<folder plugin="httpheaders">services</folder>
+		<folder>src</folder>
 	</files>
 	<config>
 		<fields name="params">

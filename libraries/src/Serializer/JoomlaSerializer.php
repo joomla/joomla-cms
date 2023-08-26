@@ -87,7 +87,7 @@ class JoomlaSerializer extends AbstractSerializer
      * @param   mixed   $model  The model of the entity being rendered
      * @param   string  $name   The name of the relationship to return
      *
-     * @return \Tobscure\JsonApi\Relationship|void
+     * @return \Tobscure\JsonApi\Relationship|null
      *
      * @since   4.0.0
      */
@@ -111,5 +111,7 @@ class JoomlaSerializer extends AbstractSerializer
         if ($relationship instanceof Relationship) {
             return $relationship;
         }
+
+        return null;
     }
 }
