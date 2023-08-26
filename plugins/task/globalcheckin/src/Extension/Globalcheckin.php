@@ -77,7 +77,7 @@ class Globalcheckin extends CMSPlugin implements SubscriberInterface
     {
         $db     = $this->getDatabase();
         $tables = $db->getTableList();
-        $prefix = $this->getApplication()->get('dbprefix');
+        $prefix = $db->getPrefix();
         $delay  = (int) $event->getArgument('params')->delay ?? 1;
         $failed = false;
 
