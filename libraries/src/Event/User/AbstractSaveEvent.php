@@ -31,6 +31,25 @@ abstract class AbstractSaveEvent extends UserEvent
     protected $legacyArgumentsOrder = ['subject', 'isNew'];
 
     /**
+     * Constructor.
+     *
+     * @param   string  $name       The event name.
+     * @param   array   $arguments  The event arguments.
+     *
+     * @throws  \BadMethodCallException
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct($name, array $arguments = [])
+    {
+        parent::__construct($name, $arguments);
+
+        if (!\array_key_exists('isNew', $this->arguments)) {
+            throw new \BadMethodCallException("Argument 'isNew' of event {$name} is required but has not been provided");
+        }
+    }
+
+    /**
      * Setter for the subject argument.
      *
      * @param   array  $value  The value to set
