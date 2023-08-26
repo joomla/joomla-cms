@@ -2328,7 +2328,7 @@ class JoomlaInstallerScript
                     $replace = ['fontfamily', 'fontsize', 'blocks', 'styles'];
 
                     // Don't redo the template
-                    if (!in_array('jtemplate', $params['configuration']['toolbars'][$setIdx]['menu']))) {
+                    if (!in_array('jtemplate', $params['configuration']['toolbars'][$setIdx][$toolbarIdx]))) {
                         $search[]  = 'template';
                         $replace[] = 'jtemplate';
                     }
