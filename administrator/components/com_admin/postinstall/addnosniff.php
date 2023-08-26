@@ -11,7 +11,9 @@
  * in the default .htaccess and web.config files.
  */
 
-
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Notifies users of the add the nosniff headers by applying the changes from the default .htaccess or web.config file

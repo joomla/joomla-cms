@@ -15,6 +15,10 @@ use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Supports an HTML select list of files
  *
@@ -124,7 +128,7 @@ class FilelistField extends ListField
             case 'hideNone':
             case 'hideDefault':
             case 'stripExt':
-                $value = (string) $value;
+                $value       = (string) $value;
                 $this->$name = ($value === 'true' || $value === $name || $value === '1');
                 break;
 
@@ -177,13 +181,13 @@ class FilelistField extends ListField
      * Attributes allow an exclude mask and stripping of extensions from file name.
      * Default attribute may optionally be set to null (no file) or -1 (use a default).
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   1.7.0
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         $path = $this->directory;
 

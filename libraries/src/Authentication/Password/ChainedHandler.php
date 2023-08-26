@@ -11,6 +11,10 @@ namespace Joomla\CMS\Authentication\Password;
 
 use Joomla\Authentication\Password\HandlerInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Password handler supporting testing against a chain of handlers
  *

@@ -11,6 +11,10 @@ namespace Joomla\CMS\Button;
 
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The PublishedButton class.
  *
@@ -38,8 +42,8 @@ class TransitionButton extends ActionButton
     {
         parent::__construct($options);
 
-        $this->unknownState['icon'] = 'shuffle';
-        $this->unknownState['title'] = $options['title'] ?? Text::_('JLIB_HTML_UNKNOWN_STATE');
+        $this->unknownState['icon']        = 'shuffle';
+        $this->unknownState['title']       = $options['title'] ?? Text::_('JLIB_HTML_UNKNOWN_STATE');
         $this->unknownState['tip_content'] = $options['tip_content'] ?? $this->unknownState['title'];
     }
 

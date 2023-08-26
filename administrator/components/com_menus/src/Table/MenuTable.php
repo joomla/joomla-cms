@@ -14,6 +14,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Menu;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Menu table
  *
@@ -54,7 +58,7 @@ class MenuTable extends Menu
      *
      * @return  boolean  True on success, false on failure
      *
-     * @see     JTable::check
+     * @see     \Joomla\CMS\Table\Table::check
      * @since   4.0.0
      */
     public function check()

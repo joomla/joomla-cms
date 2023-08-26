@@ -17,6 +17,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Privacy\Administrator\Model\ExportModel;
 use Tobscure\JsonApi\Resource;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The requests view
  *
@@ -59,11 +63,11 @@ class JsonapiView extends BaseApiView
         }
 
         $serializer = new JoomlaSerializer('export');
-        $element = (new Resource($exportData, $serializer));
+        $element    = (new Resource($exportData, $serializer));
 
-        $this->document->setData($element);
-        $this->document->addLink('self', Uri::current());
+        $this->getDocument()->setData($element);
+        $this->getDocument()->addLink('self', Uri::current());
 
-        return $this->document->render();
+        return $this->getDocument()->render();
     }
 }

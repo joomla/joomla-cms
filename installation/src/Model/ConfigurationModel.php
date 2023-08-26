@@ -22,6 +22,10 @@ use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Configuration setup model for the Joomla Core Installer.
  *
@@ -105,10 +109,10 @@ class ConfigurationModel extends BaseInstallationModel
         $query->clear()
             ->insert($db->quoteName('#__schemas'))
             ->columns(
-                array(
+                [
                     $db->quoteName('extension_id'),
-                    $db->quoteName('version_id')
-                )
+                    $db->quoteName('version_id'),
+                ]
             )
             ->values($eid . ', ' . $db->quote($version));
         $db->setQuery($query);
@@ -137,7 +141,9 @@ class ConfigurationModel extends BaseInstallationModel
         }
 
         // This is needed because the installer loads the extension table in constructor, needs to be refactored in 5.0
-        Factory::$database = $db;
+        // It doesn't honor the DatabaseAware interface
+        Factory::getContainer()->set('\Joomla\CMS\Table\Extension', new \Joomla\CMS\Table\Extension($db));
+
         $installer = Installer::getInstance();
 
         foreach ($extensions as $extension) {
@@ -156,7 +162,7 @@ class ConfigurationModel extends BaseInstallationModel
 
         if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['site'])) {
             // Build the language parameters for the language manager.
-            $params = array();
+            $params = [];
 
             // Set default administrator/site language to sample data values.
             $params['administrator'] = 'en-GB';
@@ -270,20 +276,11 @@ class ConfigurationModel extends BaseInstallationModel
         $userId = self::getUserId();
 
         // Update all core tables created_by fields of the tables with the random user id.
-        $updatesArray = array(
-            '#__banners'         => array('created_by', 'modified_by'),
-            '#__categories'      => array('created_user_id', 'modified_user_id'),
-            '#__contact_details' => array('created_by', 'modified_by'),
-            '#__content'         => array('created_by', 'modified_by'),
-            '#__fields'          => array('created_user_id', 'modified_by'),
-            '#__finder_filters'  => array('created_by', 'modified_by'),
-            '#__newsfeeds'       => array('created_by', 'modified_by'),
-            '#__tags'            => array('created_user_id', 'modified_user_id'),
-            '#__ucm_content'     => array('core_created_user_id', 'core_modified_user_id'),
-            '#__history'         => array('editor_user_id'),
-            '#__user_notes'      => array('created_user_id', 'modified_user_id'),
-            '#__workflows'       => array('created_by', 'modified_by'),
-        );
+        $updatesArray = [
+            '#__categories' => ['created_user_id', 'modified_user_id'],
+            '#__tags'       => ['created_user_id', 'modified_user_id'],
+            '#__workflows'  => ['created_by', 'modified_by'],
+        ];
 
         foreach ($updatesArray as $table => $fields) {
             foreach ($fields as $field) {
@@ -317,22 +314,22 @@ class ConfigurationModel extends BaseInstallationModel
     {
         $version = new Version();
 
-        if (!$version->isInDevelopmentState() || !is_file(JPATH_PLUGINS . '/sampledata/testing/testing.php')) {
+        if (!$version->isInDevelopmentState() || !is_file(JPATH_PLUGINS . '/sampledata/testing/testing.xml')) {
             return;
         }
 
-        $testingPlugin = new \stdClass();
-        $testingPlugin->extension_id = null;
-        $testingPlugin->name = 'plg_sampledata_testing';
-        $testingPlugin->type = 'plugin';
-        $testingPlugin->element = 'testing';
-        $testingPlugin->folder = 'sampledata';
-        $testingPlugin->client_id = 0;
-        $testingPlugin->enabled = 1;
-        $testingPlugin->access = 1;
+        $testingPlugin                 = new \stdClass();
+        $testingPlugin->extension_id   = null;
+        $testingPlugin->name           = 'plg_sampledata_testing';
+        $testingPlugin->type           = 'plugin';
+        $testingPlugin->element        = 'testing';
+        $testingPlugin->folder         = 'sampledata';
+        $testingPlugin->client_id      = 0;
+        $testingPlugin->enabled        = 1;
+        $testingPlugin->access         = 1;
         $testingPlugin->manifest_cache = '';
-        $testingPlugin->params = '{}';
-        $testingPlugin->custom_data = '';
+        $testingPlugin->params         = '{}';
+        $testingPlugin->custom_data    = '';
 
         $db->insertObject('#__extensions', $testingPlugin, 'extension_id');
 
@@ -447,7 +444,7 @@ class ConfigurationModel extends BaseInstallationModel
         $registry->set('session_metadata', true);
 
         // Generate the configuration class string buffer.
-        $buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+        $buffer = $registry->toString('PHP', ['class' => 'JConfig', 'closingtag' => false]);
 
         // Build the configuration file path.
         $path = JPATH_CONFIGURATION . '/configuration.php';
@@ -532,7 +529,7 @@ class ConfigurationModel extends BaseInstallationModel
                 ->set($db->quoteName('params') . ' = ' . $db->quote(''))
                 ->where($db->quoteName('id') . ' = ' . $db->quote($userId));
         } else {
-            $columns = array(
+            $columns = [
                 $db->quoteName('id'),
                 $db->quoteName('name'),
                 $db->quoteName('username'),
@@ -543,8 +540,8 @@ class ConfigurationModel extends BaseInstallationModel
                 $db->quoteName('registerDate'),
                 $db->quoteName('lastvisitDate'),
                 $db->quoteName('activation'),
-                $db->quoteName('params')
-            );
+                $db->quoteName('params'),
+            ];
             $query->clear()
                 ->insert('#__users', true)
                 ->columns($columns)
@@ -582,7 +579,7 @@ class ConfigurationModel extends BaseInstallationModel
         } else {
             $query->clear()
                 ->insert($db->quoteName('#__user_usergroup_map'), false)
-                ->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')))
+                ->columns([$db->quoteName('user_id'), $db->quoteName('group_id')])
                 ->values($db->quote($userId) . ', 8');
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is used to build the list of deleted files between two reference points.
  *
@@ -25,53 +26,53 @@ const PHP_TAB = "\t";
 
 function usage($command)
 {
-	echo PHP_EOL;
-	echo 'Usage: php ' . $command . ' [options]' . PHP_EOL;
-	echo PHP_TAB . '--from <ref>:' . PHP_TAB . 'Starting commit reference (branch/tag)' . PHP_EOL;
-	echo PHP_TAB . '--to <ref>:' . PHP_TAB . 'Ending commit reference (branch/tag) [optional]' . PHP_EOL;
-	echo PHP_EOL;
+    echo PHP_EOL;
+    echo 'Usage: php ' . $command . ' [options]' . PHP_EOL;
+    echo PHP_TAB . '--from <ref>:' . PHP_TAB . 'Starting commit reference (branch/tag)' . PHP_EOL;
+    echo PHP_TAB . '--to <ref>:' . PHP_TAB . 'Ending commit reference (branch/tag) [optional]' . PHP_EOL;
+    echo PHP_EOL;
 }
 
 /*
  * This is where the magic happens
  */
 
-$options = getopt('', array('from:', 'to::'));
+$options = getopt('', ['from:', 'to::']);
 
 // We need the from reference, otherwise we're doomed to fail
-if (empty($options['from']))
-{
-	echo PHP_EOL;
-	echo 'Missing starting directory' . PHP_EOL;
+if (empty($options['from'])) {
+    echo PHP_EOL;
+    echo 'Missing starting directory' . PHP_EOL;
 
-	usage($argv[0]);
+    usage($argv[0]);
 
-	exit(1);
+    exit(1);
 }
 
 // Missing the to reference?  No problem, grab the current HEAD
-if (empty($options['to']))
-{
-	echo PHP_EOL;
-	echo 'Missing ending directory' . PHP_EOL;
+if (empty($options['to'])) {
+    echo PHP_EOL;
+    echo 'Missing ending directory' . PHP_EOL;
 
-	usage($argv[0]);
+    usage($argv[0]);
 
-	exit(1);
+    exit(1);
 }
 
 // Directories to skip for the check (needs to include anything from J3 we want to keep)
 $previousReleaseExclude = [
-	$options['from'] . '/administrator/components/com_search',
-	$options['from'] . '/components/com_search',
-	$options['from'] . '/images/sampledata',
-	$options['from'] . '/installation',
-	$options['from'] . '/media/plg_quickicon_eos310',
-	$options['from'] . '/media/system/images',
-	$options['from'] . '/modules/mod_search',
-	$options['from'] . '/plugins/fields/repeatable',
-	$options['from'] . '/plugins/quickicon/eos310',
-	$options['from'] . '/plugins/search',
+    $options['from'] . '/administrator/components/com_search',
+    $options['from'] . '/components/com_search',
+    $options['from'] . '/images/sampledata',
+    $options['from'] . '/installation',
+    $options['from'] . '/media/plg_quickicon_eos310',
+    $options['from'] . '/media/system/images',
+    $options['from'] . '/modules/mod_search',
+    $options['from'] . '/plugins/fields/repeatable',
+    $options['from'] . '/plugins/quickicon/eos310',
+    $options['from'] . '/plugins/search',
+    $options['from'] . '/plugins/system/compat',
+    $options['from'] . '/plugins/task/demotasks',
 ];
 
 /**
@@ -82,17 +83,16 @@ $previousReleaseExclude = [
  * @return bool True if you need to recurse or if the item is acceptable
  */
 $previousReleaseFilter = function ($file, $key, $iterator) use ($previousReleaseExclude) {
-	if ($iterator->hasChildren() && !in_array($file->getPathname(), $previousReleaseExclude))
-	{
-		return true;
-	}
+    if ($iterator->hasChildren() && !in_array($file->getPathname(), $previousReleaseExclude)) {
+        return true;
+    }
 
-	return $file->isFile();
+    return $file->isFile();
 };
 
 // Directories to skip for the check
 $newReleaseExclude = [
-	$options['to'] . '/installation'
+    $options['to'] . '/installation',
 ];
 
 /**
@@ -103,50 +103,45 @@ $newReleaseExclude = [
  * @return bool True if you need to recurse or if the item is acceptable
  */
 $newReleaseFilter = function ($file, $key, $iterator) use ($newReleaseExclude) {
-	if ($iterator->hasChildren() && !in_array($file->getPathname(), $newReleaseExclude))
-	{
-		return true;
-	}
+    if ($iterator->hasChildren() && !in_array($file->getPathname(), $newReleaseExclude)) {
+        return true;
+    }
 
-	return $file->isFile();
+    return $file->isFile();
 };
 
 $previousReleaseDirIterator = new RecursiveDirectoryIterator($options['from'], RecursiveDirectoryIterator::SKIP_DOTS);
-$previousReleaseIterator = new RecursiveIteratorIterator(
-	new RecursiveCallbackFilterIterator($previousReleaseDirIterator, $previousReleaseFilter),
-	RecursiveIteratorIterator::SELF_FIRST
+$previousReleaseIterator    = new RecursiveIteratorIterator(
+    new RecursiveCallbackFilterIterator($previousReleaseDirIterator, $previousReleaseFilter),
+    RecursiveIteratorIterator::SELF_FIRST
 );
-$previousReleaseFiles = [];
+$previousReleaseFiles   = [];
 $previousReleaseFolders = [];
 
-foreach ($previousReleaseIterator as $info)
-{
-	if ($info->isDir())
-	{
-		$previousReleaseFolders[] = "'" . str_replace($options['from'], '', $info->getPathname()) . "',";
-		continue;
-	}
+foreach ($previousReleaseIterator as $info) {
+    if ($info->isDir()) {
+        $previousReleaseFolders[] = "'" . str_replace($options['from'], '', $info->getPathname()) . "',";
+        continue;
+    }
 
-	$previousReleaseFiles[] = "'" . str_replace($options['from'], '', $info->getPathname()) . "',";
+    $previousReleaseFiles[] = "'" . str_replace($options['from'], '', $info->getPathname()) . "',";
 }
 
 $newReleaseDirIterator = new RecursiveDirectoryIterator($options['to'], RecursiveDirectoryIterator::SKIP_DOTS);
-$newReleaseIterator = new RecursiveIteratorIterator(
-	new RecursiveCallbackFilterIterator($newReleaseDirIterator, $newReleaseFilter),
-	RecursiveIteratorIterator::SELF_FIRST
+$newReleaseIterator    = new RecursiveIteratorIterator(
+    new RecursiveCallbackFilterIterator($newReleaseDirIterator, $newReleaseFilter),
+    RecursiveIteratorIterator::SELF_FIRST
 );
-$newReleaseFiles = [];
+$newReleaseFiles   = [];
 $newReleaseFolders = [];
 
-foreach ($newReleaseIterator as $info)
-{
-	if ($info->isDir())
-	{
-		$newReleaseFolders[] = "'" . str_replace($options['to'], '', $info->getPathname()) . "',";
-		continue;
-	}
+foreach ($newReleaseIterator as $info) {
+    if ($info->isDir()) {
+        $newReleaseFolders[] = "'" . str_replace($options['to'], '', $info->getPathname()) . "',";
+        continue;
+    }
 
-	$newReleaseFiles[] = "'" . str_replace($options['to'], '', $info->getPathname()) . "',";
+    $newReleaseFiles[] = "'" . str_replace($options['to'], '', $info->getPathname()) . "',";
 }
 
 $filesDifference = array_diff($previousReleaseFiles, $newReleaseFiles);
@@ -155,45 +150,47 @@ $foldersDifference = array_diff($previousReleaseFolders, $newReleaseFolders);
 
 // Specific files (e.g. language files) that we want to keep on upgrade
 $filesToKeep = [
-	"'/administrator/components/com_joomlaupdate/restore_finalisation.php',",
-	"'/administrator/language/en-GB/en-GB.com_search.ini',",
-	"'/administrator/language/en-GB/en-GB.com_search.sys.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.sys.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_fields_repeatable.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_fields_repeatable.sys.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_quickicon_eos310.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_quickicon_eos310.sys.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_search_categories.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_search_categories.sys.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_search_contacts.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_search_contacts.sys.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_search_content.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_search_content.sys.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_search_newsfeeds.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_search_newsfeeds.sys.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_search_tags.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_search_tags.sys.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_search_weblinks.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_search_weblinks.sys.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_system_weblinks.ini',",
-	"'/administrator/language/en-GB/en-GB.plg_system_weblinks.sys.ini',",
-	"'/language/en-GB/en-GB.com_search.ini',",
-	"'/language/en-GB/en-GB.mod_search.ini',",
-	"'/language/en-GB/en-GB.mod_search.sys.ini',",
+    "'/administrator/language/en-GB/en-GB.com_search.ini',",
+    "'/administrator/language/en-GB/en-GB.com_search.sys.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.sys.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_fields_repeatable.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_fields_repeatable.sys.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_quickicon_eos310.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_quickicon_eos310.sys.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_search_categories.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_search_categories.sys.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_search_contacts.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_search_contacts.sys.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_search_content.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_search_content.sys.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_search_newsfeeds.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_search_newsfeeds.sys.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_search_tags.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_search_tags.sys.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_search_weblinks.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_search_weblinks.sys.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_system_weblinks.ini',",
+    "'/administrator/language/en-GB/en-GB.plg_system_weblinks.sys.ini',",
+    "'/administrator/language/en-GB/plg_system_compat.ini',",
+    "'/administrator/language/en-GB/plg_system_compat.sys.ini',",
+    "'/administrator/language/en-GB/plg_task_demotasks.ini',",
+    "'/administrator/language/en-GB/plg_task_demotasks.sys.ini',",
+    "'/language/en-GB/en-GB.com_search.ini',",
+    "'/language/en-GB/en-GB.mod_search.ini',",
+    "'/language/en-GB/en-GB.mod_search.sys.ini',",
 ];
 
 // Specific folders that we want to keep on upgrade
 $foldersToKeep = [
-	"'/bin',",
+    "'/bin',",
 ];
 
 // Remove folders from the results which we want to keep on upgrade
-foreach ($foldersToKeep as $folder)
-{
-	if (($key = array_search($folder, $foldersDifference)) !== false) {
-		unset($foldersDifference[$key]);
-	}
+foreach ($foldersToKeep as $folder) {
+    if (($key = array_search($folder, $foldersDifference)) !== false) {
+        unset($foldersDifference[$key]);
+    }
 }
 
 asort($filesDifference);
@@ -202,34 +199,29 @@ rsort($foldersDifference);
 $deletedFiles = [];
 $renamedFiles = [];
 
-foreach ($filesDifference as $file)
-{
-	// Don't remove any specific files (e.g. language files) that we want to keep on upgrade
-	if (array_search($file, $filesToKeep) !== false)
-	{
-		continue;
-	}
+foreach ($filesDifference as $file) {
+    // Don't remove any specific files (e.g. language files) that we want to keep on upgrade
+    if (array_search($file, $filesToKeep) !== false) {
+        continue;
+    }
 
-	// Check for files which might have been renamed only
-	$matches = preg_grep('/^' . preg_quote($file, '/') . '$/i', $newReleaseFiles);
+    // Check for files which might have been renamed only
+    $matches = preg_grep('/^' . preg_quote($file, '/') . '$/i', $newReleaseFiles);
 
-	if ($matches !== false)
-	{
-		foreach ($matches as $match)
-		{
-			if (dirname($match) === dirname($file) && strtolower(basename($match)) === strtolower(basename($file)))
-			{
-				// File has been renamed only: Add to renamed files list
-				$renamedFiles[] = substr($file, 0, -1) . ' => ' . $match;
+    if ($matches !== false) {
+        foreach ($matches as $match) {
+            if (dirname($match) === dirname($file) && strtolower(basename($match)) === strtolower(basename($file))) {
+                // File has been renamed only: Add to renamed files list
+                $renamedFiles[] = substr($file, 0, -1) . ' => ' . $match;
 
-				// Go on with the next file in $filesDifference
-				continue 2;
-			}
-		}
-	}
+                // Go on with the next file in $filesDifference
+                continue 2;
+            }
+        }
+    }
 
-	// File has been really deleted and not just renamed
-	$deletedFiles[] = $file;
+    // File has been really deleted and not just renamed
+    $deletedFiles[] = $file;
 }
 
 // Write the lists to files for later reference

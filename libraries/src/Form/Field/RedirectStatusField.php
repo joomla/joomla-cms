@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Form\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Redirect Status field.
  *
@@ -22,19 +26,19 @@ class RedirectStatusField extends PredefinedlistField
      * @var    string
      * @since  3.8.0
      */
-    public $type = 'Redirect_Status';
+    public $type = 'RedirectStatus';
 
     /**
      * Available statuses
      *
-     * @var  array
+     * @var  string[]
      * @since  3.8.0
      */
-    protected $predefinedOptions = array(
+    protected $predefinedOptions = [
         '-2' => 'JTRASHED',
         '0'  => 'JDISABLED',
         '1'  => 'JENABLED',
         '2'  => 'JARCHIVED',
         '*'  => 'JALL',
-    );
+    ];
 }

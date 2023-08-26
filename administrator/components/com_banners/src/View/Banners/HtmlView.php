@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Banners\Administrator\View\Banners;
 
-use Exception;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -19,10 +17,15 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Banners\Administrator\Model\BannersModel;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of banners.
@@ -95,7 +98,7 @@ class HtmlView extends BaseHtmlView
      * @return  void
      *
      * @since   1.6
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function display($tpl = null): void
     {
@@ -137,11 +140,9 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar(): void
     {
-        $canDo = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
-        $user  = Factory::getApplication()->getIdentity();
-
-        // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $canDo   = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
+        $user    = $this->getCurrentUser();
+        $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_BANNERS'), 'bookmark banners');
 
@@ -150,8 +151,8 @@ class HtmlView extends BaseHtmlView
         }
 
         if (!$this->isEmptyState && ($canDo->get('core.edit.state') || ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')))) {
-            $dropdown = $toolbar->dropdownButton('status-group')
-                ->text('JTOOLBAR_CHANGE_STATUS')
+            /** @var  DropdownButton $dropdown */
+            $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
                 ->icon('icon-ellipsis-h')
                 ->buttonClass('btn btn-action')
@@ -174,7 +175,7 @@ class HtmlView extends BaseHtmlView
                     }
                 }
 
-                $childBar->checkin('banners.checkin')->listCheck(true);
+                $childBar->checkin('banners.checkin');
 
                 if ($this->state->get('filter.published') != -2) {
                     $childBar->trash('banners.trash')->listCheck(true);
@@ -182,8 +183,7 @@ class HtmlView extends BaseHtmlView
             }
 
             if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-                $toolbar->delete('banners.delete')
-                    ->text('JTOOLBAR_EMPTY_TRASH')
+                $toolbar->delete('banners.delete', 'JTOOLBAR_EMPTY_TRASH')
                     ->message('JGLOBAL_CONFIRM_DELETE')
                     ->listCheck(true);
             }
@@ -194,8 +194,7 @@ class HtmlView extends BaseHtmlView
                 && $user->authorise('core.edit', 'com_banners')
                 && $user->authorise('core.edit.state', 'com_banners')
             ) {
-                $childBar->popupButton('batch')
-                    ->text('JTOOLBAR_BATCH')
+                $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
                     ->selector('collapseModal')
                     ->listCheck(true);
             }

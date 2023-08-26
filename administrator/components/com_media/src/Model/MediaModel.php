@@ -13,6 +13,10 @@ namespace Joomla\Component\Media\Administrator\Model;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Media View Model
  *

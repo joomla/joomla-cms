@@ -34,7 +34,7 @@ use Joomla\CMS\Console\TasksListCommand;
 use Joomla\CMS\Console\TasksRunCommand;
 use Joomla\CMS\Console\TasksStateCommand;
 use Joomla\CMS\Console\UpdateCoreCommand;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Input\Input as CMSInput;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Menu\MenuFactoryInterface;
 use Joomla\CMS\User\UserFactoryInterface;
@@ -46,8 +46,14 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Priority;
+use Joomla\Session\SessionEvents;
 use Joomla\Session\SessionInterface;
 use Psr\Log\LoggerInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Application service provider
@@ -71,18 +77,15 @@ class Application implements ServiceProviderInterface
             ->share(
                 'JApplicationAdministrator',
                 function (Container $container) {
-                    $app = new AdministratorApplication(null, $container->get('config'), null, $container);
-
-                    // The session service provider needs Factory::$application, set it if still null
-                    if (Factory::$application === null) {
-                        Factory::$application = $app;
-                    }
-
+                    $app = new AdministratorApplication($container->get(CMSInput::class), $container->get('config'), null, $container);
                     $app->setDispatcher($container->get(DispatcherInterface::class));
                     $app->setLogger($container->get(LoggerInterface::class));
                     $app->setSession($container->get(SessionInterface::class));
                     $app->setUserFactory($container->get(UserFactoryInterface::class));
                     $app->setMenuFactory($container->get(MenuFactoryInterface::class));
+
+                    // Ensure that session purging is configured now we have a dispatcher
+                    $app->getDispatcher()->addListener(SessionEvents::START, [$app, 'afterSessionStart'], Priority::HIGH);
 
                     return $app;
                 },
@@ -93,19 +96,16 @@ class Application implements ServiceProviderInterface
             ->share(
                 'JApplicationSite',
                 function (Container $container) {
-                    $app = new SiteApplication(null, $container->get('config'), null, $container);
-
-                    // The session service provider needs Factory::$application, set it if still null
-                    if (Factory::$application === null) {
-                        Factory::$application = $app;
-                    }
-
+                    $app = new SiteApplication($container->get(CMSInput::class), $container->get('config'), null, $container);
                     $app->setDispatcher($container->get(DispatcherInterface::class));
                     $app->setLogger($container->get(LoggerInterface::class));
                     $app->setSession($container->get(SessionInterface::class));
                     $app->setUserFactory($container->get(UserFactoryInterface::class));
                     $app->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
                     $app->setMenuFactory($container->get(MenuFactoryInterface::class));
+
+                    // Ensure that session purging is configured now we have a dispatcher
+                    $app->getDispatcher()->addListener(SessionEvents::START, [$app, 'afterSessionStart'], Priority::HIGH);
 
                     return $app;
                 },
@@ -126,12 +126,6 @@ class Application implements ServiceProviderInterface
                     $lang = $container->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
 
                     $app = new ConsoleApplication($config, $dispatcher, $container, $lang);
-
-                    // The session service provider needs Factory::$application, set it if still null
-                    if (Factory::$application === null) {
-                        Factory::$application = $app;
-                    }
-
                     $app->setCommandLoader($container->get(LoaderInterface::class));
                     $app->setLogger($container->get(LoggerInterface::class));
                     $app->setSession($container->get(SessionInterface::class));
@@ -181,16 +175,13 @@ class Application implements ServiceProviderInterface
                 'JApplicationApi',
                 function (Container $container) {
                     $app = new ApiApplication(null, $container->get('config'), null, $container);
-
-                    // The session service provider needs Factory::$application, set it if still null
-                    if (Factory::$application === null) {
-                        Factory::$application = $app;
-                    }
-
                     $app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
                     $app->setLogger($container->get(LoggerInterface::class));
                     $app->setSession($container->get('Joomla\Session\SessionInterface'));
                     $app->setMenuFactory($container->get(MenuFactoryInterface::class));
+
+                    // Ensure that session purging is configured now we have a dispatcher
+                    $app->getDispatcher()->addListener(SessionEvents::START, [$app, 'afterSessionStart'], Priority::HIGH);
 
                     return $app;
                 },

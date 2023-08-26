@@ -15,6 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML View class for the Tags component all tags view
  *
@@ -27,22 +31,22 @@ class FeedView extends BaseHtmlView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  mixed  A string if successful, otherwise an Error object.
+     * @return  void
      */
     public function display($tpl = null)
     {
-        $app                  = Factory::getApplication();
-        $this->document->link = Route::_('index.php?option=com_tags&view=tags');
+        $app                       = Factory::getApplication();
+        $this->getDocument()->link = Route::_('index.php?option=com_tags&view=tags');
 
-        $app->input->set('limit', $app->get('feed_limit'));
+        $app->getInput()->set('limit', $app->get('feed_limit'));
         $siteEmail = $app->get('mailfrom');
         $fromName  = $app->get('fromname');
         $feedEmail = $app->get('feed_email', 'none');
 
-        $this->document->editor = $fromName;
+        $this->getDocument()->editor = $fromName;
 
         if ($feedEmail !== 'none') {
-            $this->document->editorEmail = $siteEmail;
+            $this->getDocument()->editorEmail = $siteEmail;
         }
 
         // Get some data from the model
@@ -59,7 +63,7 @@ class FeedView extends BaseHtmlView
             $date        = $item->created_time ? date('r', strtotime($item->created_time)) : '';
 
             // Load individual item creator class
-            $feeditem = new FeedItem();
+            $feeditem              = new FeedItem();
             $feeditem->title       = $title;
             $feeditem->link        = '/index.php?option=com_tags&view=tag&id=' . (int) $item->id;
             $feeditem->description = $description;
@@ -76,7 +80,7 @@ class FeedView extends BaseHtmlView
             }
 
             // Loads item info into RSS array
-            $this->document->addItem($feeditem);
+            $this->getDocument()->addItem($feeditem);
         }
     }
 }

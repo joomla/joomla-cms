@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Form\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugin Status field.
  *
@@ -27,11 +31,11 @@ class PluginstatusField extends PredefinedlistField
     /**
      * Available statuses
      *
-     * @var  array
+     * @var  string[]
      * @since  3.5
      */
-    protected $predefinedOptions = array(
-        '0'  => 'JDISABLED',
-        '1'  => 'JENABLED',
-    );
+    protected $predefinedOptions = [
+        '0' => 'JDISABLED',
+        '1' => 'JENABLED',
+    ];
 }

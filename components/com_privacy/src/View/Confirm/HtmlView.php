@@ -15,8 +15,11 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Request confirmation view class
@@ -52,7 +55,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The state information
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  3.9.0
      */
     protected $state;
@@ -110,11 +113,11 @@ class HtmlView extends BaseHtmlView
         $this->setDocumentTitle($this->params->get('page_title', ''));
 
         if ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
     }
 }
