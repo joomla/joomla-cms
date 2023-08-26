@@ -56,7 +56,7 @@
 							<field
 								name="@type"
 								type="list"
-								label="Type"
+								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_TYPE_LABEL"
 								default="person"
 								>
 								<option value="person">PLG_SCHEMAORG_BLOGPOSTING_FIELD_PERSON_LABEL</option>
@@ -81,7 +81,7 @@
 							<field
 								name="logo"
 								type="subform"
-								label="logo"
+								label="PLG_SCHEMAORG_BLOGPOSTING_FIELD_LOGO_LABEL"
 								showon="@type:organization"
 							>
 								<form>

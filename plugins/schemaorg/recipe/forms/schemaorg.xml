@@ -19,6 +19,13 @@
 					/>
 
 					<field
+						name="noteBook"
+						type="note"
+						description="PLG_SCHEMAORG_RECIPE_DESCRIPTION_LABEL"
+						class="alert alert-info w-100"
+					/>
+
+					<field
 						name="image"
 						type="media"
 						label="PLG_SCHEMAORG_RECIPE_FIELD_IMAGE_LABEL"
@@ -72,7 +79,7 @@
 						type="text"
 						filter="string"
 						size="30"
-						label="PLG_SCHEMAORG_RECIPE_FIELD_COOKING_MEHTOD_LABEL"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_COOKING_METHOD_LABEL"
 					/>
 
 					<field
@@ -141,7 +148,7 @@
 					<field
 						name="nutrition"
 						type="subform"
-						label="Nutrition"
+						label="PLG_SCHEMAORG_RECIPE_FIELD_NUTRITION_LABEL"
 					>
 
 						<form>
@@ -169,7 +176,7 @@
 								name="cholesterolContent"
 								type="text"
 								filter="string"
-								label="PLG_SCHEMAORG_RECIPE_FIELD_CHOLESTROL_CONTENT_LABEL"
+								label="PLG_SCHEMAORG_RECIPE_FIELD_CHOLESTEROL_CONTENT_LABEL"
 							/>
 
 							<field

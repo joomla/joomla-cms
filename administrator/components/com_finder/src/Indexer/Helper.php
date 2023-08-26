@@ -11,6 +11,7 @@
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Finder\PrepareContentEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -382,10 +383,14 @@ class Helper
      */
     public static function getContentExtras(Result $item)
     {
-        // Load the finder plugin group.
-        PluginHelper::importPlugin('finder');
+        $dispatcher = Factory::getApplication()->getDispatcher();
 
-        Factory::getApplication()->triggerEvent('onPrepareFinderContent', [&$item]);
+        // Load the finder plugin group.
+        PluginHelper::importPlugin('finder', null, true, $dispatcher);
+
+        $dispatcher->dispatch('onPrepareFinderContent', new PrepareContentEvent('onPrepareFinderContent', [
+            'subject' => $item,
+        ]));
 
         return true;
     }
