@@ -10,14 +10,17 @@
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Modules component helper.
  *
  * @since       1.6
  *
- * @deprecated  5.0  Use \Joomla\Component\Modules\Administrator\Helper\ModulesHelper instead
+ * @deprecated  4.3 will be removed in 6.0
+ *              Use \Joomla\Component\Modules\Administrator\Helper\ModulesHelper instead
  */
 abstract class ModulesHelper extends \Joomla\Component\Modules\Administrator\Helper\ModulesHelper
 {

@@ -10,16 +10,24 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Content History table.
  *
  * @since  3.2
  */
-class ContentHistory extends Table
+class ContentHistory extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Array of object fields to unset from the data object before calculating SHA1 hash. This allows us to detect a meaningful change
      * in the database row using the hash. This can be read from the #__content_types content_history_options column.
@@ -27,7 +35,7 @@ class ContentHistory extends Table
      * @var    array
      * @since  3.2
      */
-    public $ignoreChanges = array();
+    public $ignoreChanges = [];
 
     /**
      * Array of object fields to convert to integers before calculating SHA1 hash. Some values are stored differently
@@ -37,7 +45,7 @@ class ContentHistory extends Table
      * @var    array
      * @since  3.2
      */
-    public $convertToInt = array();
+    public $convertToInt = [];
 
     /**
      * Constructor
@@ -49,7 +57,7 @@ class ContentHistory extends Table
     public function __construct(DatabaseDriver $db)
     {
         parent::__construct('#__history', 'version_id', $db);
-        $this->ignoreChanges = array(
+        $this->ignoreChanges = [
             'modified_by',
             'modified_user_id',
             'modified',
@@ -59,8 +67,8 @@ class ContentHistory extends Table
             'version',
             'hits',
             'path',
-        );
-        $this->convertToInt  = array('publish_up', 'publish_down', 'ordering', 'featured');
+        ];
+        $this->convertToInt  = ['publish_up', 'publish_down', 'ordering', 'featured'];
     }
 
     /**
@@ -75,10 +83,10 @@ class ContentHistory extends Table
     public function store($updateNulls = false)
     {
         $this->set('character_count', \strlen($this->get('version_data')));
-        $typeTable = Table::getInstance('ContentType', 'JTable', array('dbo' => $this->getDbo()));
+        $typeTable = Table::getInstance('ContentType', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
         $typeAlias = explode('.', $this->item_id);
         array_pop($typeAlias);
-        $typeTable->load(array('type_alias' => implode('.', $typeAlias)));
+        $typeTable->load(['type_alias' => implode('.', $typeAlias)]);
 
         if (!isset($this->sha1_hash)) {
             $this->set('sha1_hash', $this->getSha1($this->get('version_data'), $typeTable));
@@ -86,7 +94,7 @@ class ContentHistory extends Table
 
         // Modify author and date only when not toggling Keep Forever
         if ($this->get('keep_forever') === null) {
-            $this->set('editor_user_id', Factory::getUser()->id);
+            $this->set('editor_user_id', $this->getCurrentUser()->id);
             $this->set('save_date', Factory::getDate()->toSql());
         }
 
@@ -109,9 +117,9 @@ class ContentHistory extends Table
         $object = \is_object($jsonData) ? $jsonData : json_decode($jsonData);
 
         if (isset($typeTable->content_history_options) && \is_object(json_decode($typeTable->content_history_options))) {
-            $options = json_decode($typeTable->content_history_options);
+            $options             = json_decode($typeTable->content_history_options);
             $this->ignoreChanges = $options->ignoreChanges ?? $this->ignoreChanges;
-            $this->convertToInt = $options->convertToInt ?? $this->convertToInt;
+            $this->convertToInt  = $options->convertToInt ?? $this->convertToInt;
         }
 
         foreach ($this->ignoreChanges as $remove) {
@@ -188,7 +196,7 @@ class ContentHistory extends Table
 
         // Get the list of version_id values we want to save
         $db        = $this->_db;
-        $itemId = $this->get('item_id');
+        $itemId    = $this->get('item_id');
         $query     = $db->getQuery(true);
         $query->select($db->quoteName('version_id'))
             ->from($db->quoteName('#__history'))

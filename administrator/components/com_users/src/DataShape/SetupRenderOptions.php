@@ -10,8 +10,9 @@
 
 namespace Joomla\Component\Users\Administrator\DataShape;
 
-use InvalidArgumentException;
-use Joomla\Database\ParameterType;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Data shape for Method Setup Render Options
@@ -204,13 +205,13 @@ class SetupRenderOptions extends DataShapeObject
      * @param   string  $value  One of self::FIELD_INPUT, self::FIELD_CUSTOM
      *
      * @since   4.2.0
-     * @throws  InvalidArgumentException
+     * @throws  \InvalidArgumentException
      */
     // phpcs:ignore
     protected function setField_type($value)
     {
         if (!in_array($value, [self::FIELD_INPUT, self::FIELD_CUSTOM])) {
-            throw new InvalidArgumentException('Invalid value for property field_type.');
+            throw new \InvalidArgumentException('Invalid value for property field_type.');
         }
 
         $this->field_type = $value;

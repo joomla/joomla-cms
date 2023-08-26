@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML View class for the Modules component
  *
@@ -27,7 +31,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -54,8 +58,8 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state = $this->get('State');
-        $this->items = $this->get('Items');
+        $this->state     = $this->get('State');
+        $this->items     = $this->get('Items');
         $this->modalLink = '';
 
         // Check for errors.
@@ -78,6 +82,7 @@ class HtmlView extends BaseHtmlView
     {
         $state    = $this->get('State');
         $clientId = (int) $state->get('client_id', 0);
+        $toolbar  = Toolbar::getInstance();
 
         // Add page title
         ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
@@ -86,12 +91,10 @@ class HtmlView extends BaseHtmlView
             ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
         }
 
-        // Get the toolbar object instance
-        $bar = Toolbar::getInstance('toolbar');
-
         // Instantiate a new FileLayout instance and render the layout
         $layout = new FileLayout('toolbar.cancelselect');
 
-        $bar->appendButton('Custom', $layout->render(array('client_id' => $clientId)), 'new');
+        $toolbar->customButton('new')
+            ->html($layout->render(['client_id' => $clientId]));
     }
 }

@@ -10,11 +10,15 @@
 
 namespace Joomla\Component\Checkin\Administrator\View\Checkin;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML View class for the Checkin component
@@ -40,7 +44,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -112,17 +116,18 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         ToolbarHelper::title(Text::_('COM_CHECKIN_GLOBAL_CHECK_IN'), 'check-square');
+        $toolbar    = Toolbar::getInstance();
 
         if (!$this->isEmptyState) {
-            ToolbarHelper::custom('checkin', 'checkin', '', 'JTOOLBAR_CHECKIN', true);
+            $toolbar->checkin('checkin');
         }
 
-        if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_checkin')) {
-            ToolbarHelper::divider();
-            ToolbarHelper::preferences('com_checkin');
-            ToolbarHelper::divider();
+        if ($this->getCurrentUser()->authorise('core.admin', 'com_checkin')) {
+            $toolbar->divider();
+            $toolbar->preferences('com_checkin');
+            $toolbar->divider();
         }
 
-        ToolbarHelper::help('Maintenance:_Global_Check-in');
+        $toolbar->help('Maintenance:_Global_Check-in');
     }
 }

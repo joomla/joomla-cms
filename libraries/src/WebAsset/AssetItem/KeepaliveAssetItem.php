@@ -15,6 +15,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\WebAsset\WebAssetAttachBehaviorInterface;
 use Joomla\CMS\WebAsset\WebAssetItem;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Web Asset Item class for Keepalive asset
  *
@@ -54,6 +58,6 @@ class KeepaliveAssetItem extends WebAssetItem implements WebAssetAttachBehaviorI
         $uri = 'index.php' . ($app->isClient('site') || !Factory::getUser()->guest ? '?option=com_ajax&format=json' : '');
 
         // Add keepalive script options.
-        $doc->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => Route::_($uri)));
+        $doc->addScriptOptions('system.keepalive', ['interval' => $refreshTime * 1000, 'uri' => Route::_($uri)]);
     }
 }

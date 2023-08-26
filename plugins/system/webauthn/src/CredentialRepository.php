@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn;
 
-use Exception;
-use InvalidArgumentException;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Encrypt\Aes;
 use Joomla\CMS\Factory;
@@ -19,16 +17,16 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Plugin\System\Webauthn\Extension\Webauthn;
 use Joomla\Registry\Registry;
-use JsonException;
-use RuntimeException;
-use Throwable;
 use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Handles the storage of WebAuthn credentials in the database
@@ -44,7 +42,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      *
      * @param   DatabaseInterface|null  $db  The database driver object to use for persistence.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function __construct(DatabaseInterface $db = null)
     {
@@ -62,13 +60,13 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      */
     public function findOneByCredentialId(string $publicKeyCredentialId): ?PublicKeyCredentialSource
     {
-        /** @var DatabaseDriver $db */
+        /** @var DatabaseInterface $db */
         $db           = $this->getDatabase();
         $credentialId = base64_encode($publicKeyCredentialId);
         $query        = $db->getQuery(true)
-            ->select($db->qn('credential'))
-            ->from($db->qn('#__webauthn_credentials'))
-            ->where($db->qn('id') . ' = :credentialId')
+            ->select($db->quoteName('credential'))
+            ->from($db->quoteName('#__webauthn_credentials'))
+            ->where($db->quoteName('id') . ' = :credentialId')
             ->bind(':credentialId', $credentialId);
 
         $encrypted = $db->setQuery($query)->loadResult();
@@ -81,7 +79,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
 
         try {
             return PublicKeyCredentialSource::createFromArray(json_decode($json, true));
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             return null;
         }
     }
@@ -98,18 +96,18 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      */
     public function findAllForUserEntity(PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity): array
     {
-        /** @var DatabaseDriver $db */
+        /** @var DatabaseInterface $db */
         $db         = $this->getDatabase();
         $userHandle = $publicKeyCredentialUserEntity->getId();
         $query      = $db->getQuery(true)
             ->select('*')
-            ->from($db->qn('#__webauthn_credentials'))
-            ->where($db->qn('user_id') . ' = :user_id')
+            ->from($db->quoteName('#__webauthn_credentials'))
+            ->where($db->quoteName('user_id') . ' = :user_id')
             ->bind(':user_id', $userHandle);
 
         try {
             $records = $db->setQuery($query)->loadAssocList();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [];
         }
 
@@ -128,7 +126,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             try {
                 $json = $this->decryptCredential($record['credential']);
                 $data = json_decode($json, true);
-            } catch (JsonException $e) {
+            } catch (\JsonException $e) {
                 return null;
             }
 
@@ -138,7 +136,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
 
             try {
                 return PublicKeyCredentialSource::createFromArray($data);
-            } catch (InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException $e) {
                 return null;
             }
         };
@@ -172,7 +170,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      *
      * @return  void
      *
-     * @throws Exception
+     * @throws \Exception
      * @since   4.0.0
      */
     public function saveCredentialSource(PublicKeyCredentialSource $publicKeyCredentialSource): void
@@ -186,9 +184,9 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         $credentialId        = base64_encode($publicKeyCredentialSource->getPublicKeyCredentialId());
         $user                = Factory::getApplication()->getIdentity();
         $o                   = (object) [
-            'id'         => $credentialId,
-            'user_id'    => $this->getHandleFromUserId($user->id),
-            'label'      => Text::sprintf(
+            'id'      => $credentialId,
+            'user_id' => $this->getHandleFromUserId($user->id),
+            'label'   => Text::sprintf(
                 'PLG_SYSTEM_WEBAUTHN_LBL_DEFAULT_AUTHENTICATOR_LABEL',
                 $defaultName,
                 $this->formatDate('now')
@@ -197,20 +195,20 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         ];
         $update              = false;
 
-        /** @var DatabaseDriver $db */
-        $db     = $this->getDatabase();
+        /** @var DatabaseInterface $db */
+        $db = $this->getDatabase();
 
         // Try to find an existing record
         try {
             $query     = $db->getQuery(true)
                 ->select('*')
-                ->from($db->qn('#__webauthn_credentials'))
-                ->where($db->qn('id') . ' = :credentialId')
+                ->from($db->quoteName('#__webauthn_credentials'))
+                ->where($db->quoteName('id') . ' = :credentialId')
                 ->bind(':credentialId', $credentialId);
             $oldRecord = $db->setQuery($query)->loadObject();
 
             if (\is_null($oldRecord)) {
-                throw new Exception('This is a new record');
+                throw new \Exception('This is a new record');
             }
 
             /**
@@ -218,13 +216,13 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
              * save. Otherwise something fishy is going on.
              */
             if ($oldRecord->user_id != $publicKeyCredentialSource->getUserHandle()) {
-                throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREDENTIAL_ID_ALREADY_IN_USE'));
+                throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREDENTIAL_ID_ALREADY_IN_USE'));
             }
 
             $o->user_id = $oldRecord->user_id;
             $o->label   = $oldRecord->label;
             $update     = true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
 
         $o->credential = $this->encryptCredential($o->credential);
@@ -242,7 +240,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
          * the check below.
          */
         if ((\is_null($user) || $user->guest)) {
-            throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CANT_STORE_FOR_GUEST'));
+            throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CANT_STORE_FOR_GUEST'));
         }
 
         $db->insertObject('#__webauthn_credentials', $o);
@@ -259,18 +257,18 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      */
     public function getAll(int $userId): array
     {
-        /** @var DatabaseDriver $db */
+        /** @var DatabaseInterface $db */
         $db         = $this->getDatabase();
         $userHandle = $this->getHandleFromUserId($userId);
         $query      = $db->getQuery(true)
             ->select('*')
-            ->from($db->qn('#__webauthn_credentials'))
-            ->where($db->qn('user_id') . ' = :user_id')
+            ->from($db->quoteName('#__webauthn_credentials'))
+            ->where($db->quoteName('user_id') . ' = :user_id')
             ->bind(':user_id', $userHandle);
 
         try {
             $results = $db->setQuery($query)->loadAssocList();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [];
         }
 
@@ -284,13 +282,13 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
          * @param   array  $record  The record to convert
          *
          * @return  array
-         * @since   __DEPLOY_VERSION__
+         * @since   4.2.0
          */
         $recordsMapperClosure = function ($record) {
             try {
                 $json = $this->decryptCredential($record['credential']);
                 $data = json_decode($json, true);
-            } catch (JsonException $e) {
+            } catch (\JsonException $e) {
                 $record['credential'] = null;
 
                 return $record;
@@ -306,7 +304,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
                 $record['credential'] = PublicKeyCredentialSource::createFromArray($data);
 
                 return $record;
-            } catch (InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException $e) {
                 $record['credential'] = null;
 
                 return $record;
@@ -327,20 +325,20 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      */
     public function has(string $credentialId): bool
     {
-        /** @var DatabaseDriver $db */
+        /** @var DatabaseInterface $db */
         $db           = $this->getDatabase();
         $credentialId = base64_encode($credentialId);
         $query        = $db->getQuery(true)
             ->select('COUNT(*)')
-            ->from($db->qn('#__webauthn_credentials'))
-            ->where($db->qn('id') . ' = :credentialId')
+            ->from($db->quoteName('#__webauthn_credentials'))
+            ->where($db->quoteName('id') . ' = :credentialId')
             ->bind(':credentialId', $credentialId);
 
         try {
             $count = $db->setQuery($query)->loadResult();
 
             return $count > 0;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
@@ -357,7 +355,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      */
     public function setLabel(string $credentialId, string $label): void
     {
-        /** @var DatabaseDriver $db */
+        /** @var DatabaseInterface $db */
         $db           = $this->getDatabase();
         $credentialId = base64_encode($credentialId);
         $o            = (object) [
@@ -383,12 +381,12 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             return;
         }
 
-        /** @var DatabaseDriver $db */
+        /** @var DatabaseInterface $db */
         $db           = $this->getDatabase();
         $credentialId = base64_encode($credentialId);
         $query        = $db->getQuery(true)
-            ->delete($db->qn('#__webauthn_credentials'))
-            ->where($db->qn('id') . ' = :credentialId')
+            ->delete($db->quoteName('#__webauthn_credentials'))
+            ->where($db->quoteName('id') . ' = :credentialId')
             ->bind(':credentialId', $credentialId);
 
         $db->setQuery($query)->execute();
@@ -456,7 +454,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      * @param   string|null  $userHandle  The user handle which will be converted to a user ID.
      *
      * @return  integer|null
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function getUserIdFromHandle(?string $userHandle): ?int
     {
@@ -464,18 +462,18 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             return null;
         }
 
-        /** @var DatabaseDriver $db */
+        /** @var DatabaseInterface $db */
         $db = $this->getDatabase();
 
         // Check that the userHandle does exist in the database
         $query = $db->getQuery(true)
             ->select('COUNT(*)')
-            ->from($db->qn('#__webauthn_credentials'))
-            ->where($db->qn('user_id') . ' = ' . $db->q($userHandle));
+            ->from($db->quoteName('#__webauthn_credentials'))
+            ->where($db->quoteName('user_id') . ' = ' . $db->q($userHandle));
 
         try {
             $numRecords = $db->setQuery($query)->loadResult();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return null;
         }
 
@@ -485,14 +483,14 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
 
         // Prepare the query
         $query = $db->getQuery(true)
-            ->select([$db->qn('id')])
-            ->from($db->qn('#__users'))
-            ->where($db->qn('block') . ' = 0')
+            ->select([$db->quoteName('id')])
+            ->from($db->quoteName('#__users'))
+            ->where($db->quoteName('block') . ' = 0')
             ->where(
                 '(' .
-                $db->qn('activation') . ' IS NULL OR ' .
-                $db->qn('activation') . ' = 0 OR ' .
-                $db->qn('activation') . ' = ' . $db->q('') .
+                $db->quoteName('activation') . ' IS NULL OR ' .
+                $db->quoteName('activation') . ' = 0 OR ' .
+                $db->quoteName('activation') . ' = ' . $db->q('') .
                 ')'
             );
 
@@ -503,7 +501,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         while (true) {
             try {
                 $ids = $db->setQuery($query, $start, $limit)->loadColumn();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 return null;
             }
 
@@ -587,7 +585,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             /** @var Registry $config */
             $config = $app->getConfig();
             $secret = $config->get('secret', '');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $secret = '';
         }
 
@@ -608,7 +606,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      * @param   bool              $tzAware  Should the format be timezone aware? See notes above.
      *
      * @return  string
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function formatDate($date, ?string $format = null, bool $tzAware = true): string
     {

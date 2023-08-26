@@ -11,6 +11,10 @@ namespace Joomla\CMS\Crypt;
 
 use Joomla\Crypt\Crypt as JCrypt;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Crypt is a Joomla Platform class for handling basic encryption/decryption of data.
  *
@@ -48,7 +52,7 @@ class Crypt extends JCrypt
         /**
          * If hash_equals is not available we use a pure PHP implementation by Anthony Ferrara.
          *
-         * @see https://blog.ircmaxell.com/2014/11/its-all-about-time.html
+         * @link https://blog.ircmaxell.com/2014/11/its-all-about-time.html
          */
         $safeLen = strlen($known);
         $userLen = strlen($unknown);

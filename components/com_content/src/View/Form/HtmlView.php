@@ -18,6 +18,10 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML Article View class for the Content component
  *
@@ -49,7 +53,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -140,11 +144,11 @@ class HtmlView extends BaseHtmlView
             $this->item->tags->getItemTags('com_content.article', $this->item->id);
 
             $this->item->images = json_decode($this->item->images);
-            $this->item->urls = json_decode($this->item->urls);
+            $this->item->urls   = json_decode($this->item->urls);
 
-            $tmp = new \stdClass();
+            $tmp         = new \stdClass();
             $tmp->images = $this->item->images;
-            $tmp->urls = $this->item->urls;
+            $tmp->urls   = $this->item->urls;
             $this->form->bind($tmp);
         }
 
@@ -167,7 +171,7 @@ class HtmlView extends BaseHtmlView
 
         // Propose current language as default when creating new article
         if (empty($this->item->id) && Multilanguage::isEnabled() && $params->get('enable_category') != 1) {
-            $lang = Factory::getLanguage()->getTag();
+            $lang = $this->getLanguage()->getTag();
             $this->form->setFieldAttribute('language', 'default', $lang);
         }
 
@@ -219,11 +223,11 @@ class HtmlView extends BaseHtmlView
         $app->getPathway()->addItem($title);
 
         if ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
     }
 }

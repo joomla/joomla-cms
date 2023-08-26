@@ -12,6 +12,10 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Editor\Editor;
 use Joomla\CMS\Factory;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * A textarea field for content creation
  *
@@ -87,7 +91,7 @@ class EditorField extends TextareaField
     /**
      * The hide of the editor.
      *
-     * @var    array
+     * @var    string[]
      * @since  3.2
      */
     protected $hide;
@@ -95,7 +99,7 @@ class EditorField extends TextareaField
     /**
      * The editorType of the editor.
      *
-     * @var    array
+     * @var    string[]
      * @since  3.2
      */
     protected $editorType;
@@ -168,8 +172,8 @@ class EditorField extends TextareaField
                 break;
 
             case 'hide':
-                $value = (string) $value;
-                $this->hide = $value ? explode(',', $value) : array();
+                $value      = (string) $value;
+                $this->hide = $value ? explode(',', $value) : [];
                 break;
 
             case 'editorType':
@@ -216,11 +220,11 @@ class EditorField extends TextareaField
             } elseif ($buttons === 'false' || $buttons === 'no' || $buttons === '0') {
                 $this->buttons = false;
             } else {
-                $this->buttons = !empty($hide) ? explode(',', $buttons) : array();
+                $this->buttons = !empty($hide) ? explode(',', $buttons) : [];
             }
 
-            $this->hide        = !empty($hide) ? explode(',', (string) $this->element['hide']) : array();
-            $this->editorType  = !empty($editorType) ? explode('|', trim($editorType)) : array();
+            $this->hide        = !empty($hide) ? explode(',', (string) $this->element['hide']) : [];
+            $this->editorType  = !empty($editorType) ? explode('|', trim($editorType)) : [];
         }
 
         return $result;
@@ -237,11 +241,11 @@ class EditorField extends TextareaField
     {
         // Get an editor object.
         $editor = $this->getEditor();
-        $params = array(
+        $params = [
             'autofocus' => $this->autofocus,
             'readonly'  => $this->readonly || $this->disabled,
             'syntax'    => (string) $this->element['syntax'],
-        );
+        ];
 
         return $editor->display(
             $this->name,

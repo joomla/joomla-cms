@@ -13,6 +13,10 @@ namespace Joomla\Plugin\System\Stats\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base field for the Stats Plugin.
  *
@@ -31,10 +35,10 @@ abstract class AbstractStatsField extends FormField
     {
         $template = Factory::getApplication()->getTemplate();
 
-        return array(
+        return [
             JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/layouts/plugins/system/stats',
             JPATH_PLUGINS . '/system/stats/layouts',
             JPATH_SITE . '/layouts',
-        );
+        ];
     }
 }

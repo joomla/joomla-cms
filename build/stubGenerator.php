@@ -135,7 +135,7 @@ PHP;
      *
      * @since   4.0.0
      */
-    public function getMenu($name = null, $options = array())
+    public function getMenu($name = null, $options = [])
     {
         throw new \BadMethodCallException('CLI Application has no menu');
     }
@@ -156,6 +156,6 @@ Factory::getContainer()->share(
     true
 );
 
-$app = Factory::getContainer()->get('StubGenerator');
+$app                  = Factory::getContainer()->get('StubGenerator');
 Factory::$application = $app;
 $app->execute();

@@ -9,9 +9,14 @@
 
 namespace Joomla\CMS\HTML\Helpers;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML utility class for building a dropdown menu
@@ -24,7 +29,7 @@ abstract class ActionsDropdown
      * @var    string  HTML markup for the dropdown list
      * @since  3.2
      */
-    protected static $dropDownList = array();
+    protected static $dropDownList = [];
 
     /**
      * Method to render current dropdown menu
@@ -37,7 +42,7 @@ abstract class ActionsDropdown
      */
     public static function render($item = '')
     {
-        $html = array();
+        $html = [];
 
         $html[] = '<button data-bs-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-secondary">';
         $html[] = '<span class="caret"></span>';
@@ -225,12 +230,16 @@ abstract class ActionsDropdown
      */
     public static function addCustomItem($label, $icon = '', $id = '', $task = '')
     {
+        Factory::getDocument()->getWebAssetManager()->useScript('list-view');
+
         static::$dropDownList[] = '<li>'
             . HTMLHelper::link(
-                'javascript://',
+                '#',
                 ($icon ? LayoutHelper::render('joomla.icon.iconclass', ['icon' => $icon]) : '') . $label,
                 [
-                    'onclick' => 'Joomla.listItemTask(\'' . $id . '\', \'' . $task . '\')'
+                    'data-item-id'   => $id,
+                    'data-item-task' => $task,
+                    'class'          => 'js-grid-item-action',
                 ]
             )
             . '</li>';

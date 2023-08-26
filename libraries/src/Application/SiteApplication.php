@@ -13,6 +13,9 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Application\AfterDispatchEvent;
+use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
+use Joomla\CMS\Event\Application\AfterRouteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
@@ -26,6 +29,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Site Application class
@@ -54,18 +61,26 @@ final class SiteApplication extends CMSApplication
     protected $detect_browser = false;
 
     /**
+     * The registered URL parameters.
+     *
+     * @var    object
+     * @since  4.3.0
+     */
+    public $registeredurlparams;
+
+    /**
      * Class constructor.
      *
-     * @param   Input      $input      An optional argument to provide dependency injection for the application's input
-     *                                 object.  If the argument is a JInput object that object will become the
-     *                                 application's input object, otherwise a default input object is created.
-     * @param   Registry   $config     An optional argument to provide dependency injection for the application's config
-     *                                 object.  If the argument is a Registry object that object will become the
-     *                                 application's config object, otherwise a default config object is created.
-     * @param   WebClient  $client     An optional argument to provide dependency injection for the application's client
-     *                                 object.  If the argument is a WebClient object that object will become the
-     *                                 application's client object, otherwise a default client object is created.
-     * @param   Container  $container  Dependency injection container.
+     * @param   ?Input      $input      An optional argument to provide dependency injection for the application's input
+     *                                  object.  If the argument is a JInput object that object will become the
+     *                                  application's input object, otherwise a default input object is created.
+     * @param   ?Registry   $config     An optional argument to provide dependency injection for the application's config
+     *                                  object.  If the argument is a Registry object that object will become the
+     *                                  application's config object, otherwise a default config object is created.
+     * @param   ?WebClient  $client     An optional argument to provide dependency injection for the application's client
+     *                                  object.  If the argument is a WebClient object that object will become the
+     *                                  application's client object, otherwise a default client object is created.
+     * @param   ?Container  $container  Dependency injection container.
      *
      * @since   3.2
      */
@@ -95,12 +110,12 @@ final class SiteApplication extends CMSApplication
     protected function authorise($itemid)
     {
         $menus = $this->getMenu();
-        $user = Factory::getUser();
+        $user  = Factory::getUser();
 
         if (!$menus->authorise($itemid)) {
             if ($user->get('id') == 0) {
                 // Set the data
-                $this->setUserState('users.login.form.data', array('return' => Uri::getInstance()->toString()));
+                $this->setUserState('users.login.form.data', ['return' => Uri::getInstance()->toString()]);
 
                 $url = Route::_('index.php?option=com_users&view=login', false);
 
@@ -193,12 +208,21 @@ final class SiteApplication extends CMSApplication
             $document->setGenerator('Joomla! - Open Source Content Management');
         }
 
+        // Trigger the onAfterInitialiseDocument event.
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        $this->dispatchEvent(
+            'onAfterInitialiseDocument',
+            new AfterInitialiseDocumentEvent('onAfterInitialiseDocument', ['subject' => $this, 'document' => $document])
+        );
+
         $contents = ComponentHelper::renderComponent($component);
-        $document->setBuffer($contents, 'component');
+        $document->setBuffer($contents, ['type' => 'component']);
 
         // Trigger the onAfterDispatch event.
-        PluginHelper::importPlugin('system');
-        $this->triggerEvent('onAfterDispatch');
+        $this->dispatchEvent(
+            'onAfterDispatch',
+            new AfterDispatchEvent('onAfterDispatch', ['subject' => $this])
+        );
     }
 
     /**
@@ -275,7 +299,7 @@ final class SiteApplication extends CMSApplication
      */
     public function getParams($option = null)
     {
-        static $params = array();
+        static $params = [];
 
         $hash = '__default';
 
@@ -348,7 +372,7 @@ final class SiteApplication extends CMSApplication
      *
      * @since   3.2
      */
-    public function getPathway($name = 'site', $options = array())
+    public function getPathway($name = 'site', $options = [])
     {
         return parent::getPathway($name, $options);
     }
@@ -363,9 +387,11 @@ final class SiteApplication extends CMSApplication
      *
      * @since      3.2
      *
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     * @deprecated  4.3 will be removed in 6.0
+     *              Inject the router or load it from the dependency injection container
+     *              Example: Factory::getContainer()->get(SiteRouter::class);
      */
-    public static function getRouter($name = 'site', array $options = array())
+    public static function getRouter($name = 'site', array $options = [])
     {
         return parent::getRouter($name, $options);
     }
@@ -375,7 +401,7 @@ final class SiteApplication extends CMSApplication
      *
      * @param   boolean  $params  True to return the template parameters
      *
-     * @return  string  The name of the template.
+     * @return  string|\stdClass  The name of the template if the params argument is false. The template object if the params argument is true.
      *
      * @since   3.2
      * @throws  \InvalidArgumentException
@@ -453,7 +479,7 @@ final class SiteApplication extends CMSApplication
             // Add home element, after loop to avoid double execution
             if (isset($template_home)) {
                 $template_home->params = new Registry($template_home->params);
-                $templates[0] = $template_home;
+                $templates[0]          = $template_home;
             }
 
             $cache->store($templates, $cacheId);
@@ -543,14 +569,14 @@ final class SiteApplication extends CMSApplication
      *
      * @since   3.2
      */
-    protected function initialiseApp($options = array())
+    protected function initialiseApp($options = [])
     {
         $user = Factory::getUser();
 
         // If the user is a guest we populate it with the guest user group.
         if ($user->guest) {
             $guestUsergroup = ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
-            $user->groups = array($guestUsergroup);
+            $user->groups   = [$guestUsergroup];
         }
 
         if ($plugin = PluginHelper::getPlugin('system', 'languagefilter')) {
@@ -601,7 +627,7 @@ final class SiteApplication extends CMSApplication
 
         if (empty($options['language'])) {
             // Detect default language
-            $params = ComponentHelper::getParams('com_languages');
+            $params              = ComponentHelper::getParams('com_languages');
             $options['language'] = $params->get('site', $this->get('language', 'en-GB'));
         }
 
@@ -648,7 +674,7 @@ final class SiteApplication extends CMSApplication
      *
      * @since   3.2
      */
-    public function login($credentials, $options = array())
+    public function login($credentials, $options = [])
     {
         // Set the application login entry point
         if (!\array_key_exists('entry_url', $options)) {
@@ -687,7 +713,7 @@ final class SiteApplication extends CMSApplication
                 }
 
                 if ($this->get('offline') && !Factory::getUser()->authorise('core.login.offline')) {
-                    $this->setUserState('users.login.form.data', array('return' => Uri::getInstance()->toString()));
+                    $this->setUserState('users.login.form.data', ['return' => Uri::getInstance()->toString()]);
                     $this->set('themeFile', 'offline.php');
                     $this->setHeader('Status', '503 Service Temporarily Unavailable', 'true');
                 }
@@ -748,8 +774,8 @@ final class SiteApplication extends CMSApplication
                     $oldUri->setVar('Itemid', $item->id);
                 }
 
-                $base = Uri::base(true);
-                $oldPath = StringHelper::strtolower(substr($oldUri->getPath(), \strlen($base) + 1));
+                $base             = Uri::base(true);
+                $oldPath          = StringHelper::strtolower(substr($oldUri->getPath(), \strlen($base) + 1));
                 $activePathPrefix = StringHelper::strtolower($active->route);
 
                 $position = strpos($oldPath, $activePathPrefix);
@@ -772,8 +798,11 @@ final class SiteApplication extends CMSApplication
         }
 
         // Trigger the onAfterRoute event.
-        PluginHelper::importPlugin('system');
-        $this->triggerEvent('onAfterRoute');
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        $this->dispatchEvent(
+            'onAfterRoute',
+            new AfterRouteEvent('onAfterRoute', ['subject' => $this])
+        );
 
         $Itemid = $this->input->getInt('Itemid', null);
         $this->authorise($Itemid);
@@ -790,7 +819,7 @@ final class SiteApplication extends CMSApplication
      */
     public function setDetectBrowser($state = false)
     {
-        $old = $this->getDetectBrowser();
+        $old                  = $this->getDetectBrowser();
         $this->detect_browser = $state;
 
         return $old;
@@ -807,7 +836,7 @@ final class SiteApplication extends CMSApplication
      */
     public function setLanguageFilter($state = false)
     {
-        $old = $this->getLanguageFilter();
+        $old                   = $this->getLanguageFilter();
         $this->language_filter = $state;
 
         return $old;
@@ -846,7 +875,7 @@ final class SiteApplication extends CMSApplication
         }
 
         if (is_dir(JPATH_THEMES . '/' . $templateName)) {
-            $this->template = new \stdClass();
+            $this->template           = new \stdClass();
             $this->template->template = $templateName;
 
             if ($templateParams instanceof Registry) {

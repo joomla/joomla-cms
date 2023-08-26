@@ -21,8 +21,10 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
-use RuntimeException;
-use Throwable;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Ajax handler for akaction=login
@@ -56,7 +58,7 @@ trait AjaxHandlerLogin
             if (empty($userId)) {
                 Log::add('Cannot determine the user ID', Log::NOTICE, 'webauthn.system');
 
-                throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+                throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
             }
 
             // Do I have a valid user?
@@ -66,7 +68,7 @@ trait AjaxHandlerLogin
                 $message = sprintf('User #%d does not exist', $userId);
                 Log::add($message, Log::NOTICE, 'webauthn.system');
 
-                throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+                throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
             }
 
             // Validate the authenticator response and get the user handle
@@ -75,7 +77,7 @@ trait AjaxHandlerLogin
             if (is_null($userHandle)) {
                 Log::add('Cannot retrieve the user handle from the request; the browser did not assert our request.', Log::NOTICE, 'webauthn.system');
 
-                throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+                throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
             }
 
             // Does the user handle match the user ID? This should never trigger by definition of the login check.
@@ -85,7 +87,7 @@ trait AjaxHandlerLogin
                 $message = sprintf('Invalid user handle; expected %s, got %s', $validUserHandle, $userHandle);
                 Log::add($message, Log::NOTICE, 'webauthn.system');
 
-                throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+                throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
             }
 
             // Make sure the user exists
@@ -95,13 +97,13 @@ trait AjaxHandlerLogin
                 $message = sprintf('Invalid user ID; expected %d, got %d', $userId, $user->id);
                 Log::add($message, Log::NOTICE, 'webauthn.system');
 
-                throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+                throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
             }
 
             // Login the user
             Log::add("Logging in the user", Log::INFO, 'webauthn.system');
             $this->loginUser((int) $userId);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $session->set('plg_system_webauthn.publicKeyCredentialRequestOptions', null);
 
             $response                = $this->getAuthenticationResponseObject();
@@ -134,8 +136,8 @@ trait AjaxHandlerLogin
      * @param   int   $userId   The user ID to log in
      *
      * @return  void
-     * @throws  Exception
-     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception
+     * @since   4.2.0
      */
     private function loginUser(int $userId): void
     {
@@ -148,12 +150,12 @@ trait AjaxHandlerLogin
 
         // Does the user account have a pending activation?
         if (!empty($user->activation)) {
-            throw new RuntimeException(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+            throw new \RuntimeException(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
         }
 
         // Is the user account blocked?
         if ($user->block) {
-            throw new RuntimeException(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+            throw new \RuntimeException(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
         }
 
         $statusSuccess = Authentication::STATUS_SUCCESS;
@@ -225,7 +227,7 @@ trait AjaxHandlerLogin
         Log::add($response->error_message, Log::WARNING, 'jerror');
 
         // Throw an exception to let the caller know that the login failed
-        throw new RuntimeException($response->error_message);
+        throw new \RuntimeException($response->error_message);
     }
 
     /**
@@ -233,7 +235,7 @@ trait AjaxHandlerLogin
      *
      * @return  AuthenticationResponse
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function getAuthenticationResponseObject(): AuthenticationResponse
     {
@@ -250,7 +252,7 @@ trait AjaxHandlerLogin
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function processLoginFailure(AuthenticationResponse $response): bool
     {
@@ -288,14 +290,14 @@ trait AjaxHandlerLogin
      *
      * @return  string|null  The user handle or null
      *
-     * @throws  Exception
-     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception
+     * @since   4.2.0
      */
     private function getUserHandleFromResponse(User $user): ?string
     {
         // Retrieve data from the request and session
         $pubKeyCredentialSource = $this->authenticationHelper->validateAssertionResponse(
-            $this->getApplication()->input->getBase64('data', ''),
+            $this->getApplication()->getInput()->getBase64('data', ''),
             $user
         );
 

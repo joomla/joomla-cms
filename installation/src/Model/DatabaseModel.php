@@ -19,6 +19,10 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Database configuration model for the Joomla Core Installer.
  *
@@ -35,7 +39,7 @@ class DatabaseModel extends BaseInstallationModel
      */
     public function getOptions()
     {
-        return Factory::getSession()->get('setup.options', array());
+        return Factory::getSession()->get('setup.options', []);
     }
 
     /**
@@ -55,7 +59,7 @@ class DatabaseModel extends BaseInstallationModel
         $options = ArrayHelper::toObject($options);
 
         // Load the backend language files so that the DB error messages work.
-        $lang = Factory::getLanguage();
+        $lang        = Factory::getLanguage();
         $currentLang = $lang->getTag();
 
         // Load the selected language
@@ -143,7 +147,7 @@ class DatabaseModel extends BaseInstallationModel
                  */
                 if ($type === 'mysql') {
                     // MySQL (PDO): Don't specify database name
-                    $altDBoptions = array(
+                    $altDBoptions = [
                         'driver'   => $options->db_type,
                         'host'     => $options->db_host,
                         'user'     => $options->db_user,
@@ -151,10 +155,10 @@ class DatabaseModel extends BaseInstallationModel
                         'prefix'   => $options->db_prefix,
                         'select'   => false,
                         DatabaseHelper::getEncryptionSettings($options),
-                    );
+                    ];
                 } else {
                     // PostgreSQL (PDO): Use 'postgres'
-                    $altDBoptions = array(
+                    $altDBoptions = [
                         'driver'   => $options->db_type,
                         'host'     => $options->db_host,
                         'user'     => $options->db_user,
@@ -163,7 +167,7 @@ class DatabaseModel extends BaseInstallationModel
                         'prefix'   => $options->db_prefix,
                         'select'   => false,
                         DatabaseHelper::getEncryptionSettings($options),
-                    );
+                    ];
                 }
 
                 $altDB = DatabaseDriver::getInstance($altDBoptions);
@@ -310,7 +314,7 @@ class DatabaseModel extends BaseInstallationModel
         $serverType = $db->getServerType();
 
         // Set the appropriate schema script based on UTF-8 support.
-        $schemaFile = 'sql/' . $serverType . '/' . $schema . '.sql';
+        $schemaFile = JPATH_INSTALLATION . '/sql/' . $serverType . '/' . $schema . '.sql';
 
         // Check if the schema is a valid file
         if (!is_file($schemaFile)) {
@@ -459,8 +463,8 @@ class DatabaseModel extends BaseInstallationModel
      */
     protected function splitQueries($query)
     {
-        $buffer    = array();
-        $queries   = array();
+        $buffer    = [];
+        $queries   = [];
         $in_string = false;
 
         // Trim any whitespace.

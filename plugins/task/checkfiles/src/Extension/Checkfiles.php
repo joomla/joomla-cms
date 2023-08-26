@@ -19,7 +19,10 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
-use LogicException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Task plugin with routines that offer checks on files.
@@ -70,7 +73,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
      * The root directory path
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.0
      */
     private $rootDirectory;
 
@@ -81,7 +84,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
      * @param   array                $config         An optional associative array of configuration settings
      * @param   string               $rootDirectory  The root directory to look for images
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function __construct(DispatcherInterface $dispatcher, array $config, string $rootDirectory)
     {
@@ -96,8 +99,8 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
      * @return integer  The exit code
      *
      * @since 4.1.0
-     * @throws RuntimeException
-     * @throws LogicException
+     * @throws \RuntimeException
+     * @throws \LogicException
      */
     protected function checkImages(ExecuteTaskEvent $event): int
     {
@@ -140,7 +143,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
 
             try {
                 $image->resize($newWidth, $newHeight, false);
-            } catch (LogicException $e) {
+            } catch (\LogicException $e) {
                 $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_CHECK_FILES_LOG_RESIZE_FAIL'), 'error');
 
                 return TaskStatus::KNOCKOUT;

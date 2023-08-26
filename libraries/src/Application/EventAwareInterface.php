@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application;
@@ -13,11 +13,17 @@ use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Interface defining application that can trigger Joomla 3.x style events
  *
  * @since       4.0.0
- * @deprecated  5.0   This interface will be removed as the Joomla 3.x compatibility layer will be removed
+ * @deprecated  4.3 will be removed in 6.0
+ *              This interface will be removed without replacement as the Joomla 3.x compatibility layer will be removed
+ * @todo        Move to compat plugin
  */
 interface EventAwareInterface extends DispatcherAwareInterface
 {
@@ -47,7 +53,10 @@ interface EventAwareInterface extends DispatcherAwareInterface
      *
      * @since       4.0.0
      * @throws      \InvalidArgumentException
-     * @deprecated  5.0
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the Dispatcher method instead
+     *              Example: Factory::getApplication()->getDispatcher()->dispatch($eventName, $event);
      */
     public function triggerEvent($eventName, $args = []);
 }

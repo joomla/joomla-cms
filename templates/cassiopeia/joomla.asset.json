@@ -44,6 +44,7 @@
       "description": "A file where a user can add their own css.",
       "type": "style",
       "uri": "user.css",
+      "weight": 500,
       "dependencies": [
         "template.active",
         "template.active.language"
@@ -55,7 +56,7 @@
       "type": "script",
       "uri": "template.js",
       "attributes" : {
-        "defer": true
+        "type": "module"
       },
       "dependencies": [
         "core"

@@ -11,6 +11,10 @@ namespace Joomla\CMS\Toolbar\Button;
 
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Renders a standard button
  *
@@ -63,7 +67,8 @@ class StandardButton extends BasicButton
      *
      * @since   3.0
      *
-     * @deprecated  5.0 Use render() instead.
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use render() instead.
      */
     public function fetchButton($type = 'Standard', $name = '', $text = '', $task = '', $list = true, $formId = null)
     {
@@ -130,8 +135,8 @@ class StandardButton extends BasicButton
 
         if ($this->getListCheck()) {
             $messages = "{error: [Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
-            $alert = 'Joomla.renderMessages(' . $messages . ')';
-            $cmd   = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
+            $alert    = 'Joomla.renderMessages(' . $messages . ')';
+            $cmd      = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
         }
 
         return $cmd;

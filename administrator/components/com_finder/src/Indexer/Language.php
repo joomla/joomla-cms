@@ -15,6 +15,10 @@ use Wamania\Snowball\NotFoundException;
 use Wamania\Snowball\Stemmer\Stemmer;
 use Wamania\Snowball\StemmerFactory;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Language support class for the Finder indexer package.
  *
@@ -28,7 +32,7 @@ class Language
      * @var    Language[]
      * @since  4.0.0
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Language locale of the class
@@ -71,7 +75,12 @@ class Language
         }
 
         try {
-            $this->stemmer = StemmerFactory::create($this->language);
+            foreach (StemmerFactory::LANGS as $classname => $isoCodes) {
+                if (in_array($this->language, $isoCodes)) {
+                    $this->stemmer = StemmerFactory::create($this->language);
+                    break;
+                }
+            }
         } catch (NotFoundException $e) {
             // We don't have a stemmer for the language
         }

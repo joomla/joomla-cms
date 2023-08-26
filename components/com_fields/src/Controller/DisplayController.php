@@ -13,6 +13,10 @@ namespace Joomla\Component\Fields\Site\Controller;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base controller class for Fields Component.
  *
@@ -30,7 +34,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
      *
      * @since   3.7.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         // Frontpage Editor Fields Button proxying.
         if ($input->get('view') === 'fields' && $input->get('layout') === 'modal') {

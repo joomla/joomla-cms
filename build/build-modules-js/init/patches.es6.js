@@ -27,23 +27,17 @@ module.exports.patchPackages = async (options) => {
   dest = join(mediaVendorPath, 'short-and-sweet');
   const shortandsweetPath = `${dest}/${options.settings.vendors['short-and-sweet'].js['dist/short-and-sweet.min.js']}`;
   let ShortandsweetJs = await readFile(shortandsweetPath, { encoding: 'utf8' });
-  ShortandsweetJs = ShortandsweetJs.concat('shortAndSweet(\'textarea.charcount\', {counterClassName: \'small text-muted\'});');
+  ShortandsweetJs = ShortandsweetJs.concat(`
+shortAndSweet('textarea.charcount,input.charcount', {counterClassName: 'small text-muted'});
+/** Repeatable */
+document.addEventListener("joomla:updated", (event) => [].slice.call(event.target.querySelectorAll('textarea.charcount,input.charcount')).map((el) => shortAndSweet(el, {counterClassName: 'small text-muted'})));
+`);
   await writeFile(shortandsweetPath, ShortandsweetJs, { encoding: 'utf8', mode: 0o644 });
 
-  // Patch the Font Awesome math.div sass deprecations
-  // _larger.scss
-  let faPath = join(mediaVendorPath, 'fontawesome-free/scss/_larger.scss');
-  let newScss = (await readFile(faPath, { encoding: 'utf8' })).replace('(4em / 3)', '(4em * .333)').replace('(3em / 4)', '(3em * .25)');
+  // Include the v5 shim for Font Awesome
+  const faPath = join(mediaVendorPath, 'fontawesome-free/scss/fontawesome.scss');
+  const newScss = (await readFile(faPath, { encoding: 'utf8' })).concat(`
+@import 'shims';
+`);
   await writeFile(faPath, newScss, { encoding: 'utf8', mode: 0o644 });
-  await writeFile(join(RootPath, 'node_modules/@fortawesome/fontawesome-free/scss/_larger.scss'), newScss, { encoding: 'utf8', mode: 0o644 });
-  // _list.scss
-  faPath = join(mediaVendorPath, 'fontawesome-free/scss/_list.scss');
-  newScss = (await readFile(faPath, { encoding: 'utf8' })).replace('5/4', '1.25');
-  await writeFile(faPath, newScss, { encoding: 'utf8', mode: 0o644 });
-  await writeFile(join(RootPath, 'node_modules/@fortawesome/fontawesome-free/scss/_list.scss'), newScss, { encoding: 'utf8', mode: 0o644 });
-  // _variables.scss
-  faPath = join(mediaVendorPath, 'fontawesome-free/scss/_variables.scss');
-  newScss = (await readFile(faPath, { encoding: 'utf8' })).replace('(20em / 16)', '(20em * .0625)');
-  await writeFile(faPath, newScss, { encoding: 'utf8', mode: 0o644 });
-  await writeFile(join(RootPath, 'node_modules/@fortawesome/fontawesome-free/scss/_variables.scss'), newScss, { encoding: 'utf8', mode: 0o644 });
 };

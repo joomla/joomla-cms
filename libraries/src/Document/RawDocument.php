@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Document;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * RawDocument class, provides an easy interface to parse and display raw output
  *
@@ -23,7 +27,7 @@ class RawDocument extends Document
      *
      * @since   1.7.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         parent::__construct($options);
 
@@ -44,7 +48,7 @@ class RawDocument extends Document
      *
      * @since   1.7.0
      */
-    public function render($cache = false, $params = array())
+    public function render($cache = false, $params = [])
     {
         parent::render($cache, $params);
 
