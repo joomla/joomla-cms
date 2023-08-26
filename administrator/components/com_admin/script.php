@@ -2324,20 +2324,13 @@ class JoomlaInstallerScript
                      * "styleselect"    -> "styles"
                      * "template"       -> "jtemplate"
                      */
-                    $search  = ['fontselect', 'fontsizeselect', 'formatselect'];
-                    $replace = ['fontfamily', 'fontsize', 'blocks'];
+                    $search  = ['fontselect', 'fontsizeselect', 'formatselect', 'styleselect'];
+                    $replace = ['fontfamily', 'fontsize', 'blocks', 'styles'];
 
                     // Don't redo the template
                     if (!str_contains($params['configuration']['toolbars'][$setIdx]['menu'], 'jtemplate')) {
                         $search[]  = 'template';
                         $replace[] = 'jtemplate';
-                    }
-
-
-                    // Don't redo the styles
-                    if (str_contains($params['configuration']['toolbars'][$setIdx]['menu'], 'styleselect')) {
-                        $search[]  = 'styleselect';
-                        $replace[] = 'styles';
                     }
 
                     $params['configuration']['toolbars'][$setIdx][$toolbarIdx] = str_replace($search, $replace, $toolbarConfig[$toolbarIdx]);
