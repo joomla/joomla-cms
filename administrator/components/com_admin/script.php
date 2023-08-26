@@ -2300,10 +2300,16 @@ class JoomlaInstallerScript
                  * "formats"      -> "styles"
                  * "template"     -> "jtemplate"
                  */
-                $params['configuration']['toolbars'][$setIdx]['menu'] = str_replace(
-                    ['blockformats', 'fontformats', 'fontsizes', 'formats', 'template'],
-                    ['blocks', 'fontfamily', 'fontsize', 'styles', 'jtemplate'],
-                    $toolbarConfig['menu']
+                $search  = ['blockformats', 'fontformats', 'fontsizes', 'formats'];
+                $replace = ['blocks', 'fontfamily', 'fontsize', 'styles'];
+
+                // Don't redo the template
+                if (!str_contains($params['configuration']['toolbars'][$setIdx]['menu'], 'jtemplate')) {
+                    $search[]  = 'template';
+                    $replace[] = 'jtemplate';
+                }
+
+                $params['configuration']['toolbars'][$setIdx]['menu'] = str_replace($search, $replace, $toolbarConfig['menu']
                 );
             }
 
@@ -2319,11 +2325,16 @@ class JoomlaInstallerScript
                      * "styleselect"    -> "styles"
                      * "template"       -> "jtemplate"
                      */
-                    $params['configuration']['toolbars'][$setIdx][$toolbarIdx] = str_replace(
-                        ['fontselect', 'fontsizeselect', 'formatselect', 'styleselect', 'template'],
-                        ['fontfamily', 'fontsize', 'blocks', 'styles', 'jtemplate'],
-                        $toolbarConfig[$toolbarIdx]
-                    );
+                    $search  = ['fontselect', 'fontsizeselect', 'formatselect', 'styleselect'];
+                    $replace = ['fontfamily', 'fontsize', 'blocks', 'styles'];
+
+                    // Don't redo the template
+                    if (!str_contains($params['configuration']['toolbars'][$setIdx]['menu'], 'jtemplate')) {
+                        $search[]  = 'template';
+                        $replace[] = 'jtemplate';
+                    }
+
+                    $params['configuration']['toolbars'][$setIdx][$toolbarIdx] = str_replace($search, $replace, $toolbarConfig[$toolbarIdx]);
                 }
             }
         }
