@@ -280,12 +280,10 @@ class HtmlView extends BaseHtmlView
             $this->params->def('page_heading', Text::_('JGLOBAL_ARTICLES'));
         }
 
-        $title = $this->params->get('page_title', '');
-
         // If the menu item is not linked to this article
         if (!$this->menuItemMatchArticle) {
             // If a browser page title is defined, use that, then fall back to the article title if set, then fall back to the page_title option
-            $title = $this->item->params->get('article_page_title', $this->item->title ?: $title);
+            $title = $this->item->params->get('article_page_title', $this->item->title);
 
             // Get ID of the category from active menu item
             if (
@@ -310,15 +308,18 @@ class HtmlView extends BaseHtmlView
             foreach ($path as $item) {
                 $pathway->addItem($item['title'], $item['link']);
             }
-        }
-
-        if (empty($title)) {
+        } else {
             /**
-             * This happens when the current active menu item is linked to the article without browser
-             * page title set, so we use Browser Page Title in article and fallback to article title
-             * if that is not set
+             * This case the menu item links directly to the article, browser will be determined by following
+             * priority:
+             * 1. Browser page title set from menu item itself
+             * 2. Browser page title set for the article
+             * 3. Article title
              */
-            $title = $this->item->params->get('article_page_title', $this->item->title);
+            $title = $this->params->get(
+                'page_title',
+                $this->item->params->get('article_page_title', $this->item->title)
+            );
         }
 
         $this->setDocumentTitle($title);
