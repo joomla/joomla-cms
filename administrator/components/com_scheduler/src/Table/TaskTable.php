@@ -34,7 +34,7 @@ use Joomla\Database\Exception\QueryTypeAlreadyDefinedException;
 class TaskTable extends Table implements CurrentUserInterface
 {
     use CurrentUserTrait;
-    
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
