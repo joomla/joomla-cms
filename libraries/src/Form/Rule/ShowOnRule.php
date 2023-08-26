@@ -3,7 +3,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 
 class ShowOnRule extends FormRule
