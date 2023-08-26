@@ -10,11 +10,26 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
+/** @var \Joomla\CMS\Editor\Button\Button $button */
 $button = $displayData;
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa     = Factory::getApplication()->getDocument()->getWebAssetManager();
+
 if ($button->get('name')) :
+    $btnAsset = 'editor-button.' . $button->getButtonName();
+
+    // Enable button assets if any
+    if ($wa->assetExists('style', $btnAsset)) {
+        $wa->useStyle($btnAsset);
+    }
+    if ($wa->assetExists('script', $btnAsset)) {
+        $wa->useScript($btnAsset);
+    }
+
     $class   = 'btn btn-secondary';
     $class  .= ($button->get('class')) ? ' ' . $button->get('class') : null;
     $class  .= ($button->get('modal')) ? ' modal-button' : null;
