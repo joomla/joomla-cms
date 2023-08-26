@@ -2304,7 +2304,7 @@ class JoomlaInstallerScript
                 $replace = ['blocks', 'fontfamily', 'fontsize', 'styles'];
 
                 // Don't redo the template
-                if (!str_contains($params['configuration']['toolbars'][$setIdx]['menu'], 'jtemplate')) {
+                if (!in_array('jtemplate', $params['configuration']['toolbars'][$setIdx]['menu'])) {
                     $search[]  = 'template';
                     $replace[] = 'jtemplate';
                 }
@@ -2328,7 +2328,7 @@ class JoomlaInstallerScript
                     $replace = ['fontfamily', 'fontsize', 'blocks', 'styles'];
 
                     // Don't redo the template
-                    if (!str_contains($params['configuration']['toolbars'][$setIdx]['menu'], 'jtemplate')) {
+                    if (!in_array('jtemplate', $params['configuration']['toolbars'][$setIdx]['menu']))) {
                         $search[]  = 'template';
                         $replace[] = 'jtemplate';
                     }
