@@ -342,7 +342,7 @@ class JoomlaInstallerScript
             'title'           => 'RotateLogs',
             'type'            => 'rotation.logs',
             'execution_rules' => [
-                'rule-type'      => 'interval-hours',
+                'rule-type'      => 'interval-days',
                 'interval-hours' => $cachetimeout,
                 'exec-time'      => gmdate("H:i", $lastrun),
                 'exec-day'       => gmdate('d'),
