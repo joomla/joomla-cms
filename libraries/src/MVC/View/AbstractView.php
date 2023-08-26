@@ -285,7 +285,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      *
      * @return  DispatcherInterface
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
      */
     public function getDispatcher()
@@ -324,23 +324,5 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
             ),
             E_USER_DEPRECATED
         );
-    }
-
-    /**
-     * Returns the string for the given key from the internal language object.
-     *
-     * @param   string  $key  The key
-     *
-     * @return  string
-     *
-     * @since   4.4.0
-     */
-    protected function text(string $key): string
-    {
-        try {
-            return $this->getLanguage()->_($key);
-        } catch (\UnexpectedValueException $e) {
-            return Factory::getApplication()->getLanguage()->_($key);
-        }
     }
 }

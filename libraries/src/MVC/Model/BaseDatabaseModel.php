@@ -14,6 +14,7 @@ use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\AfterCleanCacheEvent;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -31,7 +32,6 @@ use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -316,7 +316,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
         }
 
         // Trigger the onContentCleanCache event.
-        $this->dispatchEvent(new Event($this->event_clean_cache, $options));
+        $this->getDispatcher()->dispatch($this->event_clean_cache, new AfterCleanCacheEvent($this->event_clean_cache, $options));
     }
 
     /**
@@ -341,7 +341,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      *
      * @return  DispatcherInterface
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
      */
     public function getDispatcher()
