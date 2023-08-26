@@ -1231,7 +1231,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onUserBeforeSave($user, $isnew, $new): void
     {
-        $session = Factory::getSession();
+        $session = $this->getApplication()->getSession();
         $session->set('block', null);
 
         if ($user['block'] !== (int) $new['block']) {
