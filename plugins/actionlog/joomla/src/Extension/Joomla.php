@@ -635,7 +635,7 @@ final class Joomla extends ActionLogPlugin
 
         // Check if on save a block / unblock has changed
         if ($action === 'update') {
-            $session = Factory::getSession();
+            $session = $this->getApplication()->getSession();
             $data    = $session->get('block', null);
 
             if ($data !== null) {
