@@ -317,7 +317,7 @@ class HtmlView extends BaseHtmlView
              * 3. Article title
              */
             $menuItemParams = $menu->getParams();
-            $title = $menuItemParams->get(
+            $title          = $menuItemParams->get(
                 'page_title',
                 $this->item->params->get('article_page_title', $this->item->title)
             );
