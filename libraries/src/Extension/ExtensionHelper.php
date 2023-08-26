@@ -321,6 +321,7 @@ class ExtensionHelper
         // Core plugin extensions - task scheduler
         ['plugin', 'checkfiles', 'task', 0],
         ['plugin', 'deleteactionlogs', 'task', 0],
+        ['plugin', 'globalcheckin', 'task', 0],
         ['plugin', 'requests', 'task', 0],
         ['plugin', 'sitestatus', 'task', 0],
 
