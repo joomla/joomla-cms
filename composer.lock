@@ -1956,16 +1956,16 @@
         },
         {
             "name": "joomla/oauth1",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/oauth1.git",
-                "reference": "9665ddab986bb7f4525b54ee6be0ab42bb51182d"
+                "reference": "49b0db7d369bc20dc28c58eee41350d367144cf3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/oauth1/zipball/9665ddab986bb7f4525b54ee6be0ab42bb51182d",
-                "reference": "9665ddab986bb7f4525b54ee6be0ab42bb51182d",
+                "url": "https://api.github.com/repos/joomla-framework/oauth1/zipball/49b0db7d369bc20dc28c58eee41350d367144cf3",
+                "reference": "49b0db7d369bc20dc28c58eee41350d367144cf3",
                 "shasum": ""
             },
             "require": {
@@ -2007,7 +2007,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/oauth1/issues",
-                "source": "https://github.com/joomla-framework/oauth1/tree/2.0.1"
+                "source": "https://github.com/joomla-framework/oauth1/tree/2.0.2"
             },
             "funding": [
                 {
@@ -2019,20 +2019,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-08-21T13:21:21+00:00"
+            "time": "2023-06-05T20:09:55+00:00"
         },
         {
             "name": "joomla/oauth2",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/oauth2.git",
-                "reference": "59268f587cfc4e8a1b75074fad610bc7d96ca7bf"
+                "reference": "43f358dd33d2f2714e4002995d2b33cca35bd3c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/59268f587cfc4e8a1b75074fad610bc7d96ca7bf",
-                "reference": "59268f587cfc4e8a1b75074fad610bc7d96ca7bf",
+                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/43f358dd33d2f2714e4002995d2b33cca35bd3c5",
+                "reference": "43f358dd33d2f2714e4002995d2b33cca35bd3c5",
                 "shasum": ""
             },
             "require": {
@@ -2071,7 +2071,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/oauth2/issues",
-                "source": "https://github.com/joomla-framework/oauth2/tree/2.0.1"
+                "source": "https://github.com/joomla-framework/oauth2/tree/2.0.2"
             },
             "funding": [
                 {
@@ -2083,7 +2083,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-08-21T11:53:25+00:00"
+            "time": "2023-06-05T20:11:14+00:00"
         },
         {
             "name": "joomla/registry",
@@ -12081,5 +12081,5 @@
     "platform-overrides": {
         "php": "7.2.5"
     },
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.3.0"
 }
