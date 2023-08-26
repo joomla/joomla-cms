@@ -346,7 +346,7 @@ class FieldsHelper
         $fieldTypes = self::getFieldTypes();
 
         // Creating the dom
-        $xml = new \DOMDocument('1.0', 'UTF-8');
+        $xml        = new \DOMDocument('1.0', 'UTF-8');
         $fieldsNode = $xml->appendChild(new \DOMElement('form'))->appendChild(new \DOMElement('fields'));
         $fieldsNode->setAttribute('name', 'com_fields');
 
@@ -385,11 +385,11 @@ class FieldsHelper
          * have the 'default' group with id 0 which is not in the database,
          * so we create it virtually here.
          */
-        $defaultGroup = new \stdClass();
-        $defaultGroup->id = 0;
-        $defaultGroup->title = '';
+        $defaultGroup              = new \stdClass();
+        $defaultGroup->id          = 0;
+        $defaultGroup->title       = '';
         $defaultGroup->description = '';
-        $iterateGroups = array_merge([$defaultGroup], $model->getItems());
+        $iterateGroups             = array_merge([$defaultGroup], $model->getItems());
 
         // Looping through the groups
         foreach ($iterateGroups as $group) {
@@ -458,11 +458,11 @@ class FieldsHelper
             ->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true]);
 
         if (
-            (!isset($data->id) || !$data->id) && Factory::getApplication()->input->getCmd('controller') == 'modules'
+            (!isset($data->id) || !$data->id) && Factory::getApplication()->getInput()->getCmd('controller') == 'modules'
             && Factory::getApplication()->isClient('site')
         ) {
             // Modules on front end editing don't have data and an id set
-            $data->id = Factory::getApplication()->input->getInt('id');
+            $data->id = Factory::getApplication()->getInput()->getInt('id');
         }
 
         // Looping through the fields again to set the value

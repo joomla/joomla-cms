@@ -83,7 +83,7 @@ class ConfigController extends BaseController
         $model = $this->getModel();
 
         $form  = $model->getForm();
-        $data  = $this->app->input->post->get('jform', [], 'array');
+        $data  = $this->app->getInput()->post->get('jform', [], 'array');
 
         // Validate the posted data.
         $return = $model->validate($form, $data);

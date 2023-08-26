@@ -332,14 +332,14 @@ class HtmlView extends BaseHtmlView
         $app->triggerEvent('onContentPrepare', ['com_contact.contact', &$item, &$item->params, $offset]);
 
         // Store the events for later
-        $item->event = new \stdClass();
-        $results = $app->triggerEvent('onContentAfterTitle', ['com_contact.contact', &$item, &$item->params, $offset]);
+        $item->event                    = new \stdClass();
+        $results                        = $app->triggerEvent('onContentAfterTitle', ['com_contact.contact', &$item, &$item->params, $offset]);
         $item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-        $results = $app->triggerEvent('onContentBeforeDisplay', ['com_contact.contact', &$item, &$item->params, $offset]);
+        $results                           = $app->triggerEvent('onContentBeforeDisplay', ['com_contact.contact', &$item, &$item->params, $offset]);
         $item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-        $results = $app->triggerEvent('onContentAfterDisplay', ['com_contact.contact', &$item, &$item->params, $offset]);
+        $results                          = $app->triggerEvent('onContentAfterDisplay', ['com_contact.contact', &$item, &$item->params, $offset]);
         $item->event->afterDisplayContent = trim(implode("\n", $results));
 
         if (!empty($item->text)) {
@@ -425,11 +425,11 @@ class HtmlView extends BaseHtmlView
                 $id = 0;
             }
 
-            $path = [['title' => $this->item->name, 'link' => '']];
+            $path     = [['title' => $this->item->name, 'link' => '']];
             $category = Categories::getInstance('Contact')->get($this->item->catid);
 
             while ($category !== null && $category->id != $id && $category->id !== 'root') {
-                $path[] = ['title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language)];
+                $path[]   = ['title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language)];
                 $category = $category->getParent();
             }
 

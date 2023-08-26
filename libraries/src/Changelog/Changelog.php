@@ -253,9 +253,9 @@ class Changelog extends CMSObject
             case 'CHANGE':
             case 'REMOVE':
             case 'NOTE':
-                $name = strtolower($name);
+                $name                                = strtolower($name);
                 $this->currentChangelog->$name->data = $this->items;
-                $this->items = [];
+                $this->items                         = [];
                 break;
             case 'CHANGELOG':
                 if (version_compare($this->currentChangelog->version->data, $this->matchVersion, '==') === true) {

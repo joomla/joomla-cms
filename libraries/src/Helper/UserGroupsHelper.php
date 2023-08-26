@@ -305,7 +305,7 @@ final class UserGroupsHelper
         $parentId = (int) $group->parent_id;
 
         if ($parentId === 0) {
-            $group->path = [$group->id];
+            $group->path  = [$group->id];
             $group->level = 0;
 
             return $group;
@@ -317,7 +317,7 @@ final class UserGroupsHelper
             $parentGroup = $this->populateGroupData($parentGroup);
         }
 
-        $group->path = array_merge($parentGroup->path, [$group->id]);
+        $group->path  = array_merge($parentGroup->path, [$group->id]);
         $group->level = \count($group->path) - 1;
 
         return $group;

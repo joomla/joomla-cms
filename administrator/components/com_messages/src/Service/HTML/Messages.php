@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Messages\Administrator\Service\HTML;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
@@ -37,6 +38,8 @@ class Messages
      */
     public function status($i, $value = 0, $canChange = false)
     {
+        Factory::getDocument()->getWebAssetManager()->useScript('list-view');
+
         // Array of image, task, title, action.
         $states = [
             -2 => ['trash', 'messages.unpublish', 'JTRASHED', 'COM_MESSAGES_MARK_AS_UNREAD'],
@@ -48,8 +51,9 @@ class Messages
         $icon  = $state[0];
 
         if ($canChange) {
-            $html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon'
-                . ($value == 1 ? ' active' : '') . '" aria-labelledby="cb' . $state[0] . $i . '-desc"><span class="icon-'
+            $html = '<a href="#" class="js-grid-item-action tbody-icon'
+                . ($value == 1 ? ' active' : '') . '" aria-labelledby="cb' . $state[0] . $i . '-desc"'
+                . ' data-item-id="cb' . $i . '" data-item-task="' . $state[1] . '"><span class="icon-'
                 . $icon . '" aria-hidden="true"></span></a><div role="tooltip" id="cb' . $state[0] . $i
                 . '-desc">' . Text::_($state[3]) . '</div>';
         }

@@ -52,10 +52,10 @@ class FilesystemHelper
 
         if (($sch === 'ftp') || ($sch === 'ftps')) {
             $server = parse_url($url, PHP_URL_HOST);
-            $port = parse_url($url, PHP_URL_PORT);
-            $path = parse_url($url, PHP_URL_PATH);
-            $user = parse_url($url, PHP_URL_USER);
-            $pass = parse_url($url, PHP_URL_PASS);
+            $port   = parse_url($url, PHP_URL_PORT);
+            $path   = parse_url($url, PHP_URL_PATH);
+            $user   = parse_url($url, PHP_URL_USER);
+            $pass   = parse_url($url, PHP_URL_PASS);
 
             if ((!$server) || (!$path)) {
                 return false;
@@ -124,10 +124,10 @@ class FilesystemHelper
         }
 
         $server = parse_url($url, PHP_URL_HOST);
-        $port = parse_url($url, PHP_URL_PORT);
-        $path = parse_url($url, PHP_URL_PATH);
-        $user = parse_url($url, PHP_URL_USER);
-        $pass = parse_url($url, PHP_URL_PASS);
+        $port   = parse_url($url, PHP_URL_PORT);
+        $path   = parse_url($url, PHP_URL_PATH);
+        $user   = parse_url($url, PHP_URL_USER);
+        $pass   = parse_url($url, PHP_URL_PASS);
 
         if ((!$server) || (!$path)) {
             return false;
@@ -287,7 +287,7 @@ class FilesystemHelper
      */
     public static function fileUploadMaxSize($unitOutput = true)
     {
-        static $max_size = false;
+        static $max_size    = false;
         static $output_type = true;
 
         if ($max_size === false || $output_type != $unitOutput) {

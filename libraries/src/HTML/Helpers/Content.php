@@ -44,7 +44,7 @@ abstract class Content
             $params = new CMSObject();
         }
 
-        $article = new \stdClass();
+        $article       = new \stdClass();
         $article->text = $text;
         PluginHelper::importPlugin('content');
         Factory::getApplication()->triggerEvent('onContentPrepare', [$context, &$article, &$params, 0]);

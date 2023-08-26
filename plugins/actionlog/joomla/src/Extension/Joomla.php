@@ -163,7 +163,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onContentAfterDelete($context, $article): void
     {
-        $option = $this->getApplication()->input->get('option');
+        $option = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($option)) {
             return;
@@ -210,7 +210,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onContentChangeState($context, $pks, $value)
     {
-        $option = $this->getApplication()->input->getCmd('option');
+        $option = $this->getApplication()->getInput()->getCmd('option');
 
         if (!$this->checkLoggable($option)) {
             return;
@@ -275,11 +275,11 @@ final class Joomla extends ActionLogPlugin
 
         foreach ($pks as $pk) {
             $message = [
-                'action'      => $action,
-                'type'        => $params->text_prefix . '_TYPE_' . $params->type_title,
-                'id'          => $pk,
-                'title'       => $items[$pk]->{$params->title_holder},
-                'itemlink'    => ActionlogsHelper::getContentTypeLink($option, $contentType, $pk, $params->id_holder, null),
+                'action'   => $action,
+                'type'     => $params->text_prefix . '_TYPE_' . $params->type_title,
+                'id'       => $pk,
+                'title'    => $items[$pk]->{$params->title_holder},
+                'itemlink' => ActionlogsHelper::getContentTypeLink($option, $contentType, $pk, $params->id_holder, null),
             ];
 
             $messages[] = $message;
@@ -300,7 +300,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onApplicationAfterSave($config): void
     {
-        $option = $this->getApplication()->input->getCmd('option');
+        $option = $this->getApplication()->getInput()->getCmd('option');
 
         if (!$this->checkLoggable($option)) {
             return;
@@ -333,7 +333,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onExtensionAfterInstall($installer, $eid)
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -380,7 +380,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onExtensionAfterUninstall($installer, $eid, $result)
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -431,7 +431,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onExtensionAfterUpdate($installer, $eid)
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -477,7 +477,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onExtensionAfterSave($context, $table, $isNew): void
     {
-        $option = $this->getApplication()->input->getCmd('option');
+        $option = $this->getApplication()->getInput()->getCmd('option');
 
         if ($table->get('module') != null) {
             $option = 'com_modules';
@@ -534,7 +534,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onExtensionAfterDelete($context, $table): void
     {
-        if (!$this->checkLoggable($this->getApplication()->input->get('option'))) {
+        if (!$this->checkLoggable($this->getApplication()->getInput()->get('option'))) {
             return;
         }
 
@@ -573,8 +573,8 @@ final class Joomla extends ActionLogPlugin
      */
     public function onUserAfterSave($user, $isnew, $success, $msg): void
     {
-        $context = $this->getApplication()->input->get('option');
-        $task    = $this->getApplication()->input->get('task');
+        $context = $this->getApplication()->getInput()->get('option');
+        $task    = $this->getApplication()->getInput()->get('task');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -639,7 +639,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onUserAfterDelete($user, $success, $msg): void
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -648,10 +648,10 @@ final class Joomla extends ActionLogPlugin
         $messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_DELETED';
 
         $message = [
-            'action'      => 'delete',
-            'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
-            'id'          => $user['id'],
-            'title'       => $user['name'],
+            'action' => 'delete',
+            'type'   => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+            'id'     => $user['id'],
+            'title'  => $user['name'],
         ];
 
         $this->addLog([$message], $messageLanguageKey, $context);
@@ -673,7 +673,7 @@ final class Joomla extends ActionLogPlugin
     public function onUserAfterSaveGroup($context, $table, $isNew): void
     {
         // Override context (com_users.group) with the component context (com_users) to pass the checkLoggable
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -688,11 +688,11 @@ final class Joomla extends ActionLogPlugin
         }
 
         $message = [
-            'action'      => $action,
-            'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER_GROUP',
-            'id'          => $table->id,
-            'title'       => $table->title,
-            'itemlink'    => 'index.php?option=com_users&task=group.edit&id=' . $table->id,
+            'action'   => $action,
+            'type'     => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER_GROUP',
+            'id'       => $table->id,
+            'title'    => $table->title,
+            'itemlink' => 'index.php?option=com_users&task=group.edit&id=' . $table->id,
         ];
 
         $this->addLog([$message], $messageLanguageKey, $context);
@@ -713,7 +713,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onUserAfterDeleteGroup($group, $success, $msg): void
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -722,10 +722,10 @@ final class Joomla extends ActionLogPlugin
         $messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_DELETED';
 
         $message = [
-            'action'      => 'delete',
-            'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER_GROUP',
-            'id'          => $group['id'],
-            'title'       => $group['title'],
+            'action' => 'delete',
+            'type'   => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER_GROUP',
+            'id'     => $group['id'],
+            'title'  => $group['title'],
         ];
 
         $this->addLog([$message], $messageLanguageKey, $context);
@@ -882,7 +882,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onUserAfterRemind($user)
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -950,7 +950,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onAfterLogPurge($group = '')
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
         $user    = Factory::getUser();
         $message = [
             'action'      => 'actionlogs',
@@ -978,7 +978,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onAfterLogExport($group = '')
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
         $user    = Factory::getUser();
         $message = [
             'action'      => 'actionlogs',
@@ -1006,7 +1006,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onAfterPurge($group = 'all')
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
         $user    = Factory::getUser();
 
         if (!$this->checkLoggable($context)) {
@@ -1046,19 +1046,19 @@ final class Joomla extends ActionLogPlugin
             return;
         }
 
-        $verb = $this->getApplication()->input->getMethod();
+        $verb = $this->getApplication()->getInput()->getMethod();
 
         if (!in_array($verb, $this->loggableVerbs)) {
             return;
         }
 
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
         }
 
-        $user = $this->getApplication()->getIdentity();
+        $user    = $this->getApplication()->getIdentity();
         $message = [
             'action'      => 'API',
             'verb'        => $verb,
@@ -1082,7 +1082,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onJoomlaAfterUpdate($oldVersion = null)
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
         $user    = Factory::getUser();
 
         if (empty($oldVersion)) {
@@ -1143,7 +1143,7 @@ final class Joomla extends ActionLogPlugin
             return;
         }
 
-        $message = array(
+        $message = [
             'action'      => 'reset',
             'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
             'id'          => $user->id,
@@ -1152,9 +1152,9 @@ final class Joomla extends ActionLogPlugin
             'userid'      => $user->id,
             'username'    => $user->name,
             'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-        );
+        ];
 
-        $this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_RESET_REQUEST', $context, $user->id);
+        $this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_USER_RESET_REQUEST', $context, $user->id);
     }
 
     /**
@@ -1176,7 +1176,7 @@ final class Joomla extends ActionLogPlugin
             return;
         }
 
-        $message = array(
+        $message = [
             'action'      => 'complete',
             'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
             'id'          => $user->id,
@@ -1185,8 +1185,8 @@ final class Joomla extends ActionLogPlugin
             'userid'      => $user->id,
             'username'    => $user->name,
             'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-        );
+        ];
 
-        $this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_RESET_COMPLETE', $context, $user->id);
+        $this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_USER_RESET_COMPLETE', $context, $user->id);
     }
 }

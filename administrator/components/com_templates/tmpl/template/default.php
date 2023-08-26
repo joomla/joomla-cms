@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Jfcherng\Diff\DiffHelper;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -22,14 +24,14 @@ HTMLHelper::_('bootstrap.modal');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa    = $this->document->getWebAssetManager();
-$input = Factory::getApplication()->input;
+$input = Factory::getApplication()->getInput();
 
 // Enable assets
 $wa->useScript('form.validate')
     ->useScript('keepalive')
-    ->useScript('diff')
-    ->useScript('com_templates.admin-template-compare')
-    ->useScript('com_templates.admin-template-toggle-switch');
+    ->useScript('com_templates.admin-template-toggle-switch')
+    ->useScript('com_templates.admin-templates')
+    ->useStyle('com_templates.admin-templates');
 
 // No access if not global SuperUser
 if (!Factory::getUser()->authorise('core.admin')) {
@@ -39,9 +41,6 @@ if (!Factory::getUser()->authorise('core.admin')) {
 if ($this->type == 'image') {
     $wa->usePreset('cropperjs');
 }
-
-$wa->useStyle('com_templates.admin-templates')
-    ->useScript('com_templates.admin-templates');
 
 if ($this->type == 'font') {
     $wa->addInlineStyle("
@@ -55,7 +54,6 @@ if ($this->type == 'font') {
 	");
 }
 ?>
-
 <div class="main-card">
     <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'editor', 'recall' => true, 'breakpoint' => 768]); ?>
     <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', Text::_('COM_TEMPLATES_TAB_EDITOR')); ?>
@@ -141,20 +139,38 @@ if ($this->type == 'font') {
                             </form>
                         </div>
                         <?php if (!empty($this->source->coreFile)) : ?>
-                            <?php $coreFileContent = file_get_contents($this->source->coreFile); ?>
-                            <?php $overrideFileContent = file_get_contents($this->source->filePath); ?>
                             <div class="col-md-12" id="core-pane">
                                 <h2><?php echo Text::_('COM_TEMPLATES_FILE_CORE_PANE'); ?></h2>
                                 <div class="editor-border">
                                     <?php echo $this->form->getInput('core'); ?>
                                 </div>
                             </div>
+                            <?php
+                                $difference = DiffHelper::calculateFiles(
+                                    $this->source->coreFile,
+                                    $this->source->filePath,
+                                    ComponentHelper::getParams('com_templates')->get('difference', 'SideBySide'),
+                                    [
+                                        'context' => 1,
+                                        'ignoreLineEnding' => true,
+                                    ],
+                                    [
+                                        'language' => [
+                                            'old_version' => Text::_('COM_TEMPLATES_DIFF_CORE'),
+                                            'new_version' => Text::_('COM_TEMPLATES_DIFF_OVERRIDE'),
+                                            'differences' => Text::_('COM_TEMPLATES_DIFF_DIFFERENCES'),
+                                        ],
+                                        'resultForIdenticals' => Text::_('COM_TEMPLATES_DIFF_IDENTICAL'),
+                                        'detailLevel' => 'word',
+                                        'spaceToHtmlTag' => true,
+                                        'wrapperClasses' => ['diff-wrapper', 'columns-order-ignore'],
+                                    ]
+                                );
+                            ?>
                             <div class="col-md-12" id="diff-main">
                                 <h2><?php echo Text::_('COM_TEMPLATES_FILE_COMPARE_PANE'); ?></h2>
                                 <div class="diff-pane">
-                                    <div class="diffview d-none" id="original"><?php echo htmlspecialchars($coreFileContent, ENT_COMPAT, 'UTF-8'); ?></div>
-                                    <div class="diffview d-none" id="changed"><?php echo htmlspecialchars($overrideFileContent, ENT_COMPAT, 'UTF-8'); ?></div>
-                                    <div id="diff"></div>
+                                    <div id="diff"><?php echo $difference; ?></div>
                                 </div>
                             </div>
                         <?php endif; ?>

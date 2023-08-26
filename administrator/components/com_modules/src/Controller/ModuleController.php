@@ -215,9 +215,9 @@ class ModuleController extends FormController
         $this->checkToken();
 
         if ($this->app->getDocument()->getType() == 'json') {
-            $model = $this->getModel();
-            $data  = $this->input->post->get('jform', [], 'array');
-            $item = $model->getItem($this->input->get('id'));
+            $model      = $this->getModel();
+            $data       = $this->input->post->get('jform', [], 'array');
+            $item       = $model->getItem($this->input->get('id'));
             $properties = $item->getProperties();
 
             if (isset($data['params'])) {
@@ -279,9 +279,9 @@ class ModuleController extends FormController
             $app->close();
         }
 
-        $db    = Factory::getDbo();
+        $db       = Factory::getDbo();
         $clientId = (int) $clientId;
-        $query = $db->getQuery(true)
+        $query    = $db->getQuery(true)
             ->select($db->quoteName(['position', 'ordering', 'title']))
             ->from($db->quoteName('#__modules'))
             ->where($db->quoteName('client_id') . ' = :clientid')
@@ -301,7 +301,7 @@ class ModuleController extends FormController
         }
 
         $orders2 = [];
-        $n = count($orders);
+        $n       = count($orders);
 
         if ($n > 0) {
             for ($i = 0; $i < $n; $i++) {
@@ -310,7 +310,7 @@ class ModuleController extends FormController
                 }
 
                 $orders2[$orders[$i]->position]++;
-                $ord = $orders2[$orders[$i]->position];
+                $ord   = $orders2[$orders[$i]->position];
                 $title = Text::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($orders[$i]->title, ENT_QUOTES, 'UTF-8'));
 
                 $html[] = $orders[$i]->position . ',' . $ord . ',' . $title;

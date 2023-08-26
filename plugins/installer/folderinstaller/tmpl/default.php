@@ -34,7 +34,7 @@ $this->app->getDocument()->getWebAssetManager()
     </label>
     <div class="controls">
         <input type="text" id="install_directory" name="install_directory" class="form-control"
-            value="<?php echo $this->app->input->get('install_directory', $this->app->get('tmp_path')); ?>">
+            value="<?php echo $this->app->getInput()->get('install_directory', $this->app->get('tmp_path')); ?>">
     </div>
 </div>
 <div class="control-group">

@@ -142,9 +142,9 @@ class JsonapiView extends BaseApiView
         }
 
         // Set up links for pagination
-        $currentUrl = Uri::getInstance();
+        $currentUrl                    = Uri::getInstance();
         $currentPageDefaultInformation = ['offset' => 0, 'limit' => 20];
-        $currentPageQuery = $currentUrl->getVar('page', $currentPageDefaultInformation);
+        $currentPageQuery              = $currentUrl->getVar('page', $currentPageDefaultInformation);
 
         $offset              = $currentPageQuery['offset'];
         $limit               = $currentPageQuery['limit'];
@@ -153,25 +153,25 @@ class JsonapiView extends BaseApiView
 
         $items = array_splice($items, $offset, $limit);
 
-        $firstPage = clone $currentUrl;
-        $firstPageQuery = $currentPageQuery;
+        $firstPage                = clone $currentUrl;
+        $firstPageQuery           = $currentPageQuery;
         $firstPageQuery['offset'] = 0;
         $firstPage->setVar('page', $firstPageQuery);
 
-        $nextPage = clone $currentUrl;
-        $nextPageQuery = $currentPageQuery;
-        $nextOffset = $currentPageQuery['offset'] + $limit;
+        $nextPage                = clone $currentUrl;
+        $nextPageQuery           = $currentPageQuery;
+        $nextOffset              = $currentPageQuery['offset'] + $limit;
         $nextPageQuery['offset'] = ($nextOffset > ($totalPagesAvailable * $limit)) ? $totalPagesAvailable - $limit : $nextOffset;
         $nextPage->setVar('page', $nextPageQuery);
 
-        $previousPage = clone $currentUrl;
-        $previousPageQuery = $currentPageQuery;
-        $previousOffset = $currentPageQuery['offset'] - $limit;
+        $previousPage                = clone $currentUrl;
+        $previousPageQuery           = $currentPageQuery;
+        $previousOffset              = $currentPageQuery['offset'] - $limit;
         $previousPageQuery['offset'] = $previousOffset >= 0 ? $previousOffset : 0;
         $previousPage->setVar('page', $previousPageQuery);
 
-        $lastPage = clone $currentUrl;
-        $lastPageQuery = $currentPageQuery;
+        $lastPage                = clone $currentUrl;
+        $lastPageQuery           = $currentPageQuery;
         $lastPageQuery['offset'] = $totalPagesAvailable - $limit;
         $lastPage->setVar('page', $lastPageQuery);
 

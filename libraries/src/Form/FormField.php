@@ -408,7 +408,7 @@ abstract class FormField implements DatabaseAwareInterface
     {
         // If there is a form passed into the constructor set the form and form control properties.
         if ($form instanceof Form) {
-            $this->form = $form;
+            $this->form        = $form;
             $this->formControl = $form->getFormControl();
         }
 
@@ -537,7 +537,7 @@ abstract class FormField implements DatabaseAwareInterface
 
             case 'name':
                 $this->fieldname = $this->getFieldName((string) $value);
-                $this->name = $this->getName($this->fieldname);
+                $this->name      = $this->getName($this->fieldname);
                 break;
 
             case 'multiple':
@@ -550,7 +550,7 @@ abstract class FormField implements DatabaseAwareInterface
             case 'readonly':
             case 'autofocus':
             case 'hidden':
-                $value = (string) $value;
+                $value       = (string) $value;
                 $this->$name = ($value === 'true' || $value === $name || $value === '1');
                 break;
 
@@ -558,17 +558,17 @@ abstract class FormField implements DatabaseAwareInterface
             case 'translateLabel':
             case 'translateDescription':
             case 'translateHint':
-                $value = (string) $value;
+                $value       = (string) $value;
                 $this->$name = !($value === 'false' || $value === 'off' || $value === '0');
                 break;
 
             case 'translate_label':
-                $value = (string) $value;
+                $value                = (string) $value;
                 $this->translateLabel = $this->translateLabel && !($value === 'false' || $value === 'off' || $value === '0');
                 break;
 
             case 'translate_description':
-                $value = (string) $value;
+                $value                      = (string) $value;
                 $this->translateDescription = $this->translateDescription && !($value === 'false' || $value === 'off' || $value === '0');
                 break;
 
@@ -601,7 +601,7 @@ abstract class FormField implements DatabaseAwareInterface
      */
     public function setForm(Form $form)
     {
-        $this->form = $form;
+        $this->form        = $form;
         $this->formControl = $form->getFormControl();
 
         return $this;
@@ -640,7 +640,7 @@ abstract class FormField implements DatabaseAwareInterface
         $attributes = [
             'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext',
             'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-            'translate_label', 'translateDescription', 'translate_description', 'size', 'showon'];
+            'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', ];
 
         $this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -664,7 +664,7 @@ abstract class FormField implements DatabaseAwareInterface
         }
 
         // Allow for repeatable elements
-        $repeat = (string) $element['repeat'];
+        $repeat       = (string) $element['repeat'];
         $this->repeat = ($repeat === 'true' || $repeat === 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
 
         // Set the visibility.
@@ -806,10 +806,10 @@ abstract class FormField implements DatabaseAwareInterface
 
         // Here mainly for B/C with old layouts. This can be done in the layouts directly
         $extraData = [
-            'text'        => $data['label'],
-            'for'         => $this->id,
-            'classes'     => explode(' ', $data['labelclass']),
-            'position'    => $position,
+            'text'     => $data['label'],
+            'for'      => $this->id,
+            'classes'  => explode(' ', $data['labelclass']),
+            'position' => $position,
         ];
 
         return $this->getRenderer($this->renderLabelLayout)->render(array_merge($data, $extraData));

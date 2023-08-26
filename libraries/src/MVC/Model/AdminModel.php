@@ -130,8 +130,8 @@ abstract class AdminModel extends FormModel
      */
     protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
-        'language_id' => 'batchLanguage',
-        'tag' => 'batchTag'
+        'language_id'   => 'batchLanguage',
+        'tag'           => 'batchTag',
     ];
 
     /**
@@ -764,7 +764,7 @@ abstract class AdminModel extends FormModel
      */
     public function checkin($pks = [])
     {
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
         $table = $this->getTable();
         $count = 0;
 
@@ -844,7 +844,7 @@ abstract class AdminModel extends FormModel
 
                     // Multilanguage: if associated, delete the item in the _associations table
                     if ($this->associationsContext && Associations::isEnabled()) {
-                        $db = $this->getDbo();
+                        $db    = $this->getDbo();
                         $query = $db->getQuery(true)
                             ->select(
                                 [
@@ -966,7 +966,7 @@ abstract class AdminModel extends FormModel
      */
     public function getItem($pk = null)
     {
-        $pk = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
+        $pk    = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
         $table = $this->getTable();
 
         if ($pk > 0) {
@@ -988,10 +988,10 @@ abstract class AdminModel extends FormModel
 
         // Convert to the CMSObject before adding other data.
         $properties = $table->getProperties(1);
-        $item = ArrayHelper::toObject($properties, CMSObject::class);
+        $item       = ArrayHelper::toObject($properties, CMSObject::class);
 
         if (property_exists($item, 'params')) {
-            $registry = new Registry($item->params);
+            $registry     = new Registry($item->params);
             $item->params = $registry->toArray();
         }
 
@@ -1022,10 +1022,10 @@ abstract class AdminModel extends FormModel
     protected function populateState()
     {
         $table = $this->getTable();
-        $key = $table->getKeyName();
+        $key   = $table->getKeyName();
 
         // Get the pk of the record from the request.
-        $pk = Factory::getApplication()->input->getInt($key);
+        $pk = Factory::getApplication()->getInput()->getInt($key);
         $this->setState($this->getName() . '.id', $pk);
 
         // Load the parameters.
@@ -1059,9 +1059,9 @@ abstract class AdminModel extends FormModel
      */
     public function publish(&$pks, $value = 1)
     {
-        $user = Factory::getUser();
+        $user  = Factory::getUser();
         $table = $this->getTable();
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
 
         $context = $this->option . '.' . $this->name;
 
@@ -1155,8 +1155,8 @@ abstract class AdminModel extends FormModel
      */
     public function reorder($pks, $delta = 0)
     {
-        $table = $this->getTable();
-        $pks = (array) $pks;
+        $table  = $this->getTable();
+        $pks    = (array) $pks;
         $result = true;
 
         $allowed = true;
@@ -1222,8 +1222,8 @@ abstract class AdminModel extends FormModel
             $table->newTags = $data['tags'];
         }
 
-        $key = $table->getKeyName();
-        $pk = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+        $key   = $table->getKeyName();
+        $pk    = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
         $isNew = true;
 
         // Include the plugins for the save events.
@@ -1379,7 +1379,7 @@ abstract class AdminModel extends FormModel
             }
         }
 
-        if ($app->input->get('task') == 'editAssociations') {
+        if ($app->getInput()->get('task') == 'editAssociations') {
             return $this->redirectToAssociations($data);
         }
 
@@ -1436,7 +1436,7 @@ abstract class AdminModel extends FormModel
 
                 // Remember to reorder within position and client_id
                 $condition = $this->getReorderConditions($this->table);
-                $found = false;
+                $found     = false;
 
                 foreach ($conditions as $cond) {
                     if ($cond[1] == $condition) {
@@ -1446,7 +1446,7 @@ abstract class AdminModel extends FormModel
                 }
 
                 if (!$found) {
-                    $key = $this->table->getKeyName();
+                    $key          = $this->table->getKeyName();
                     $conditions[] = [$this->table->$key, $condition];
                 }
             }
@@ -1500,8 +1500,8 @@ abstract class AdminModel extends FormModel
         }
 
         // Check that the user has create permission for the component
-        $extension = Factory::getApplication()->input->get('option', '');
-        $user = Factory::getUser();
+        $extension = Factory::getApplication()->getInput()->get('option', '');
+        $user      = Factory::getUser();
 
         if (!$user->authorise('core.create', $extension . '.category.' . $categoryId)) {
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
@@ -1552,12 +1552,12 @@ abstract class AdminModel extends FormModel
             $this->table = $this->getTable();
 
             // Get table class name
-            $tc = explode('\\', \get_class($this->table));
+            $tc                   = explode('\\', \get_class($this->table));
             $this->tableClassName = end($tc);
 
             // Get UCM Type data
             $this->contentType = new UCMType();
-            $this->type = $this->contentType->getTypeByTable($this->tableClassName)
+            $this->type        = $this->contentType->getTypeByTable($this->tableClassName)
                 ?: $this->contentType->getTypeByAlias($this->typeAlias);
         }
     }
@@ -1571,7 +1571,8 @@ abstract class AdminModel extends FormModel
      *
      * @since   3.9.0
      *
-     * @deprecated 5.0  It is handled by regular save method now.
+     * @deprecated  4.3 will be removed in 6.0
+     *              It is handled by regular save method now.
      */
     public function editAssociations($data)
     {
@@ -1596,7 +1597,7 @@ abstract class AdminModel extends FormModel
 
         // Deal with categories associations
         if ($this->text_prefix === 'COM_CATEGORIES') {
-            $extension       = $app->input->get('extension', 'com_content');
+            $extension       = $app->getInput()->get('extension', 'com_content');
             $this->typeAlias = $extension . '.category';
             $component       = strtolower($this->text_prefix);
             $view            = 'category';
@@ -1637,6 +1638,8 @@ abstract class AdminModel extends FormModel
          * otherwise select already the target language
          */
         if (count($languages) === 2) {
+            $lang_code = [];
+
             foreach ($languages as $language) {
                 $lang_code[] = $language->lang_code;
             }
@@ -1656,7 +1659,7 @@ abstract class AdminModel extends FormModel
         $app->redirect(
             Route::_(
                 'index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
-                . '&task=association.edit&id=' . $id . $target,
+                    . '&task=association.edit&id=' . $id . $target,
                 false
             )
         );

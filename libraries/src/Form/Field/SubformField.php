@@ -132,7 +132,7 @@ class SubformField extends FormField
 
             case 'groupByFieldset':
                 if ($value !== null) {
-                    $value = (string) $value;
+                    $value                 = (string) $value;
                     $this->groupByFieldset = !($value === 'false' || $value === 'off' || $value === '0');
                 }
                 break;
@@ -160,7 +160,7 @@ class SubformField extends FormField
                 }
 
                 if ($value) {
-                    $value = array_merge(['add' => false, 'remove' => false, 'move' => false], $value);
+                    $value         = array_merge(['add' => false, 'remove' => false, 'move' => false], $value);
                     $this->buttons = $value;
                 }
 
@@ -240,14 +240,14 @@ class SubformField extends FormField
             return $e->getMessage();
         }
 
-        $data['tmpl']      = $tmpl;
-        $data['forms']     = $forms;
-        $data['min']       = $this->min;
-        $data['max']       = $this->max;
-        $data['control']   = $control;
-        $data['buttons']   = $this->buttons;
-        $data['fieldname'] = $this->fieldname;
-        $data['fieldId']   = $this->id;
+        $data['tmpl']            = $tmpl;
+        $data['forms']           = $forms;
+        $data['min']             = $this->min;
+        $data['max']             = $this->max;
+        $data['control']         = $control;
+        $data['buttons']         = $this->buttons;
+        $data['fieldname']       = $this->fieldname;
+        $data['fieldId']         = $this->id;
         $data['groupByFieldset'] = $this->groupByFieldset;
 
         /**
@@ -255,7 +255,7 @@ class SubformField extends FormField
          * separate unique subform id present to could distinguish the eventhandlers
          * regarding adding/moving/removing rows from nested subforms from their parents.
          */
-        static $unique_subform_id = 0;
+        static $unique_subform_id  = 0;
         $data['unique_subform_id'] = ('sr-' . ($unique_subform_id++));
 
         // Prepare renderer

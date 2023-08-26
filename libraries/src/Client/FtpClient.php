@@ -88,7 +88,7 @@ class FtpClient
      * The response code
      *
      * @var    string
-     * @since  4.2.9
+     * @since  4.3.0
      */
     public $_responseCode;
 
@@ -96,7 +96,7 @@ class FtpClient
      * The response message
      *
      * @var    string
-     * @since  4.2.9
+     * @since  4.3.0
      */
     public $_responseMsg;
 
@@ -290,7 +290,7 @@ class FtpClient
     public function connect($host = '127.0.0.1', $port = 21)
     {
         $errno = null;
-        $err = null;
+        $err   = null;
 
         // If already connected, return
         if (\is_resource($this->_conn)) {
@@ -1246,8 +1246,8 @@ class FtpClient
 
             // In case ftp_size fails, try the SIZE command directly.
             if ($size === -1) {
-                $response = ftp_raw($this->_conn, 'SIZE ' . $remote);
-                $responseCode = substr($response[0], 0, 3);
+                $response        = ftp_raw($this->_conn, 'SIZE ' . $remote);
+                $responseCode    = substr($response[0], 0, 3);
                 $responseMessage = substr($response[0], 4);
 
                 if ($responseCode != '213') {
@@ -1386,8 +1386,8 @@ class FtpClient
     public function listDetails($path = null, $type = 'all')
     {
         $dir_list = [];
-        $data = null;
-        $regs = null;
+        $data     = null;
+        $regs     = null;
 
         // @todo: Deal with recurse -- nightmare
         // For now we will just set it to false
@@ -1532,20 +1532,20 @@ class FtpClient
                 $tmp_array = null;
 
                 if (@preg_match($regexp, $file, $regs)) {
-                    $fType = (int) ($regs[7] === '<DIR>');
+                    $fType     = (int) ($regs[7] === '<DIR>');
                     $timestamp = strtotime("$regs[3]-$regs[1]-$regs[2] $regs[4]:$regs[5]$regs[6]");
 
                     // $tmp_array['line'] = $regs[0];
-                    $tmp_array['type'] = $fType;
+                    $tmp_array['type']   = $fType;
                     $tmp_array['rights'] = '';
 
                     // $tmp_array['number'] = 0;
-                    $tmp_array['user'] = '';
+                    $tmp_array['user']  = '';
                     $tmp_array['group'] = '';
-                    $tmp_array['size'] = (int) $regs[7];
-                    $tmp_array['date'] = date('m-d', $timestamp);
-                    $tmp_array['time'] = date('H:i', $timestamp);
-                    $tmp_array['name'] = $regs[8];
+                    $tmp_array['size']  = (int) $regs[7];
+                    $tmp_array['date']  = date('m-d', $timestamp);
+                    $tmp_array['time']  = date('H:i', $timestamp);
+                    $tmp_array['name']  = $regs[8];
                 }
 
                 // If we just want files, do not add a folder
@@ -1608,7 +1608,7 @@ class FtpClient
         $parts = null;
 
         // Wait for a response from the server, but timeout after the set time limit
-        $endTime = time() + $this->_timeout;
+        $endTime         = time() + $this->_timeout;
         $this->_response = '';
 
         do {
@@ -1624,7 +1624,7 @@ class FtpClient
 
         // Separate the code from the message
         $this->_responseCode = $parts[1];
-        $this->_responseMsg = $parts[0];
+        $this->_responseMsg  = $parts[0];
 
         // Did the server respond with the code we wanted?
         if (\is_array($expected)) {
@@ -1656,7 +1656,7 @@ class FtpClient
         $match = [];
         $parts = [];
         $errno = null;
-        $err = null;
+        $err   = null;
 
         // Make sure we have a connection to the server
         if (!\is_resource($this->_conn)) {
@@ -1669,7 +1669,7 @@ class FtpClient
         @ fwrite($this->_conn, "PASV\r\n");
 
         // Wait for a response from the server, but timeout after the set time limit
-        $endTime = time() + $this->_timeout;
+        $endTime         = time() + $this->_timeout;
         $this->_response = '';
 
         do {
@@ -1685,7 +1685,7 @@ class FtpClient
 
         // Separate the code from the message
         $this->_responseCode = $parts[1];
-        $this->_responseMsg = $parts[0];
+        $this->_responseMsg  = $parts[0];
 
         // If it's not 227, we weren't given an IP and port, which means it failed.
         if ($this->_responseCode != '227') {

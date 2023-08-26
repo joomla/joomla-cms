@@ -54,12 +54,12 @@ class LibraryAdapter extends InstallerAdapter
 
                 // Clear the cached data
                 $this->currentExtensionId = null;
-                $this->extension = Table::getInstance('Extension', 'JTable', ['dbo' => $this->getDatabase()]);
+                $this->extension          = Table::getInstance('Extension', 'JTable', ['dbo' => $this->getDatabase()]);
 
                 // From this point we'll consider this an update
                 $this->setRoute('update');
             } else {
-                // Abort the install, no upgrade possible
+                // Stop the install, no upgrade possible
                 throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_ALREADY_INSTALLED'));
             }
         }
@@ -134,6 +134,7 @@ class LibraryAdapter extends InstallerAdapter
 
             // If there is a manifest script, let's copy it.
             if ($this->manifest_script) {
+                $path         = [];
                 $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
                 $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
@@ -445,8 +446,8 @@ class LibraryAdapter extends InstallerAdapter
         $results = [];
 
         $mainFolder = JPATH_MANIFESTS . '/libraries';
-        $folder = new \RecursiveDirectoryIterator($mainFolder);
-        $iterator = new \RegexIterator(
+        $folder     = new \RecursiveDirectoryIterator($mainFolder);
+        $iterator   = new \RegexIterator(
             new \RecursiveIteratorIterator($folder),
             '/\.xml$/i',
             \RecursiveRegexIterator::GET_MATCH

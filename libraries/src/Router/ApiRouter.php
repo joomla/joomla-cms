@@ -119,13 +119,15 @@ class ApiRouter extends Router
 
                     $controller = preg_split("/[.]+/", $route->getController());
 
-                    /** @deprecated  4.3  Query parameters will not be merged into route variables from 5.0 */
+                    /** @deprecated  4.3  will be removed in 5.0
+                     *               Query parameters will not be merged into route variables from 5.0
+                     */
                     $vars       = array_merge($vars, $query);
 
                     return [
                         'controller' => $controller[0],
                         'task'       => $controller[1],
-                        'vars'       => $vars
+                        'vars'       => $vars,
                     ];
                 }
             }

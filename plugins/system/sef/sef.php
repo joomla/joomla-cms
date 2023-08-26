@@ -166,8 +166,8 @@ class PlgSystemSef extends CMSPlugin
         // Replace all unknown protocols in CSS background image.
         if (strpos($buffer, 'style=') !== false) {
             $regex_url  = '\s*url\s*\(([\'\"]|\&\#0?3[49];)?(?!/|\&\#0?3[49];|' . $protocols . '|\#)([^\)\'\"]+)([\'\"]|\&\#0?3[49];)?\)';
-            $regex  = '#style=\s*([\'\"])(.*):' . $regex_url . '#m';
-            $buffer = preg_replace($regex, 'style=$1$2: url($3' . $base . '$4$5)', $buffer);
+            $regex      = '#style=\s*([\'\"])(.*):' . $regex_url . '#m';
+            $buffer     = preg_replace($regex, 'style=$1$2: url($3' . $base . '$4$5)', $buffer);
             $this->checkBuffer($buffer);
         }
 

@@ -52,7 +52,7 @@ class GroupedlistField extends FormField
     protected function getGroups()
     {
         $groups = [];
-        $label = 0;
+        $label  = 0;
 
         foreach ($this->element->children() as $element) {
             switch ($element->getName()) {
@@ -145,7 +145,7 @@ class GroupedlistField extends FormField
     }
 
     /**
-     * Method to get the field input markup fora grouped list.
+     * Method to get the field input markup for a grouped list.
      * Multiselect is enabled by using the multiple attribute.
      *
      * @return  string  The field input markup.

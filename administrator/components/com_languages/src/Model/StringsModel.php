@@ -130,10 +130,10 @@ class StringsModel extends BaseDatabaseModel
      */
     public function search()
     {
-        $results = [];
-        $input   = Factory::getApplication()->input;
-        $filter  = InputFilter::getInstance();
-        $db      = $this->getDatabase();
+        $results    = [];
+        $input      = Factory::getApplication()->getInput();
+        $filter     = InputFilter::getInstance();
+        $db         = $this->getDatabase();
         $searchTerm = $input->getString('searchstring');
 
         $limitstart = $input->getInt('more');

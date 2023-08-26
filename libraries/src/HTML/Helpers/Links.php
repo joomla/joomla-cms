@@ -47,7 +47,7 @@ abstract class Links
                     $html[] = $layout->render($title);
                 }
 
-                $layout = new FileLayout('joomla.links.groupopen');
+                $layout     = new FileLayout('joomla.links.groupopen');
                 $htmlHeader = $layout->render($title);
 
                 $htmlLinks  = HTMLHelper::_('links.links', $links);

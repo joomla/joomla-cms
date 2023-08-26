@@ -71,7 +71,7 @@ class WebauthnField extends FormField
         $layoutFile  = new FileLayout('plugins.system.webauthn.manage');
 
         return $layoutFile->render([
-                'user'                => Factory::getContainer()
+                'user' => Factory::getContainer()
                     ->get(UserFactoryInterface::class)
                     ->loadUserById($userId),
                 'allow_add'           => $userId == $app->getIdentity()->id,

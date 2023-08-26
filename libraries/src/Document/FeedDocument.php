@@ -203,7 +203,7 @@ class FeedDocument extends Document
     public function render($cache = false, $params = [])
     {
         // Get the feed type
-        $type = CmsFactory::getApplication()->input->get('type', 'rss');
+        $type = CmsFactory::getApplication()->getInput()->get('type', 'rss');
 
         // Instantiate feed renderer and set the mime encoding
         $renderer = $this->loadRenderer($type ?: 'rss');
@@ -243,7 +243,7 @@ class FeedDocument extends Document
      */
     public function addItem(FeedItem $item)
     {
-        $item->source = $this->link;
+        $item->source  = $this->link;
         $this->items[] = $item;
 
         return $this;

@@ -12,7 +12,6 @@ namespace Joomla\Component\Contact\Site\Model;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -98,7 +97,7 @@ class CategoryModel extends ListModel
                 'sortname1', 'a.sortname1',
                 'sortname2', 'a.sortname2',
                 'sortname3', 'a.sortname3',
-                'featuredordering', 'a.featured'
+                'featuredordering', 'a.featured',
             ];
         }
 
@@ -129,7 +128,7 @@ class CategoryModel extends ListModel
 
             // Some contexts may not use tags data at all, so we allow callers to disable loading tag data
             if ($this->getState('load_tags', true)) {
-                $item->tags = new TagsHelper();
+                $item->tags             = new TagsHelper();
                 $taggedItems[$item->id] = $item;
             }
         }
@@ -137,7 +136,7 @@ class CategoryModel extends ListModel
         // Load tags of all items.
         if ($taggedItems) {
             $tagsHelper = new TagsHelper();
-            $itemIds = \array_keys($taggedItems);
+            $itemIds    = \array_keys($taggedItems);
 
             foreach ($tagsHelper->getMultipleItemTags('com_contact.contact', $itemIds) as $id => $tags) {
                 $taggedItems[$id]->tags->itemTags = $tags;
@@ -156,7 +155,7 @@ class CategoryModel extends ListModel
      */
     protected function getListQuery()
     {
-        $user   = Factory::getUser();
+        $user   = $this->getCurrentUser();
         $groups = $user->getAuthorisedViewLevels();
 
         // Create a new query object.
@@ -255,21 +254,14 @@ class CategoryModel extends ListModel
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $app = Factory::getApplication();
-        $params = ComponentHelper::getParams('com_contact');
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
-        // Get list ordering default from the parameters
-        if ($menu = $app->getMenu()->getActive()) {
-            $menuParams = $menu->getParams();
-        } else {
-            $menuParams = new Registry();
-        }
-
-        $mergedParams = clone $params;
-        $mergedParams->merge($menuParams);
+        $params = $app->getParams();
+        $this->setState('params', $params);
 
         // List state information
-        $format = $app->input->getWord('format');
+        $format = $input->getWord('format');
 
         if ($format === 'feed') {
             $limit = $app->get('feed_limit');
@@ -277,22 +269,22 @@ class CategoryModel extends ListModel
             $limit = $app->getUserStateFromRequest(
                 'com_contact.category.list.limit',
                 'limit',
-                $mergedParams->get('contacts_display_num', $app->get('list_limit')),
+                $params->get('contacts_display_num', $app->get('list_limit')),
                 'uint'
             );
         }
 
         $this->setState('list.limit', $limit);
 
-        $limitstart = $app->input->get('limitstart', 0, 'uint');
+        $limitstart = $input->get('limitstart', 0, 'uint');
         $this->setState('list.start', $limitstart);
 
         // Optional filter text
-        $itemid = $app->input->get('Itemid', 0, 'int');
+        $itemid = $input->get('Itemid', 0, 'int');
         $search = $app->getUserStateFromRequest('com_contact.category.list.' . $itemid . '.filter-search', 'filter-search', '', 'string');
         $this->setState('list.filter', $search);
 
-        $orderCol = $app->input->get('filter_order', $mergedParams->get('initial_sort', 'ordering'));
+        $orderCol = $input->get('filter_order', $params->get('initial_sort', 'ordering'));
 
         if (!in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'ordering';
@@ -300,7 +292,7 @@ class CategoryModel extends ListModel
 
         $this->setState('list.ordering', $orderCol);
 
-        $listOrder = $app->input->get('filter_order_Dir', 'ASC');
+        $listOrder = $input->get('filter_order_Dir', 'ASC');
 
         if (!in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
@@ -308,10 +300,10 @@ class CategoryModel extends ListModel
 
         $this->setState('list.direction', $listOrder);
 
-        $id = $app->input->get('id', 0, 'int');
+        $id = $input->get('id', 0, 'int');
         $this->setState('category.id', $id);
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact'))) {
             // Limit to published for people who can't edit or edit.state.
@@ -322,9 +314,6 @@ class CategoryModel extends ListModel
         }
 
         $this->setState('filter.language', Multilanguage::isEnabled());
-
-        // Load the parameters.
-        $this->setState('params', $params);
     }
 
     /**
@@ -337,8 +326,8 @@ class CategoryModel extends ListModel
     public function getCategory()
     {
         if (!is_object($this->_item)) {
-            $app = Factory::getApplication();
-            $menu = $app->getMenu();
+            $app    = Factory::getApplication();
+            $menu   = $app->getMenu();
             $active = $menu->getActive();
 
             if ($active) {
@@ -347,24 +336,24 @@ class CategoryModel extends ListModel
                 $params = new Registry();
             }
 
-            $options = [];
+            $options               = [];
             $options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
-            $categories = Categories::getInstance('Contact', $options);
-            $this->_item = $categories->get($this->getState('category.id', 'root'));
+            $categories            = Categories::getInstance('Contact', $options);
+            $this->_item           = $categories->get($this->getState('category.id', 'root'));
 
             if (is_object($this->_item)) {
                 $this->_children = $this->_item->getChildren();
-                $this->_parent = false;
+                $this->_parent   = false;
 
                 if ($this->_item->getParent()) {
                     $this->_parent = $this->_item->getParent();
                 }
 
                 $this->_rightsibling = $this->_item->getSibling();
-                $this->_leftsibling = $this->_item->getSibling(false);
+                $this->_leftsibling  = $this->_item->getSibling(false);
             } else {
                 $this->_children = false;
-                $this->_parent = false;
+                $this->_parent   = false;
             }
         }
 
@@ -459,7 +448,7 @@ class CategoryModel extends ListModel
      */
     public function hit($pk = 0)
     {
-        $input = Factory::getApplication()->input;
+        $input    = Factory::getApplication()->getInput();
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {

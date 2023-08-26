@@ -85,10 +85,10 @@ class FeedParserTest extends UnitTestCase
      */
     public function testParseNamespaceElement()
     {
-        $content = 'test';
-        $prefix = 'custom';
-        $xml = "<root xmlns:$prefix='http://namespace'><$prefix:content>$content</$prefix:content></root>";
-        $xmlReader = $this->getXmlReader($xml, $prefix . ':content');
+        $content       = 'test';
+        $prefix        = 'custom';
+        $xml           = "<root xmlns:$prefix='http://namespace'><$prefix:content>$content</$prefix:content></root>";
+        $xmlReader     = $this->getXmlReader($xml, $prefix . ':content');
         $namespaceMock = $this->createMock(NamespaceParserInterface::class);
         $namespaceMock
             ->expects($this->once())
@@ -119,9 +119,9 @@ class FeedParserTest extends UnitTestCase
      */
     public function testParseDetectsUnregisteredNamespace()
     {
-        $content = 'test';
-        $prefix = 'unregistered';
-        $xml = "<root xmlns:$prefix='http://namespace'><$prefix:content>$content</$prefix:content></root>";
+        $content   = 'test';
+        $prefix    = 'unregistered';
+        $xml       = "<root xmlns:$prefix='http://namespace'><$prefix:content>$content</$prefix:content></root>";
         $xmlReader = $this->getXmlReader($xml, "$prefix:content");
 
         $parser = new FeedParserStub($xmlReader);
@@ -170,10 +170,10 @@ class FeedParserTest extends UnitTestCase
      */
     public function testParseElementWithNamespaceEntry()
     {
-        $content = 'test';
-        $prefix = 'custom';
-        $xml = "<root xmlns:$prefix='http://namespace'><$prefix:entry></$prefix:entry></root>";
-        $xmlReader = $this->getXmlReader($xml, $prefix . ':entry');
+        $content       = 'test';
+        $prefix        = 'custom';
+        $xml           = "<root xmlns:$prefix='http://namespace'><$prefix:entry></$prefix:entry></root>";
+        $xmlReader     = $this->getXmlReader($xml, $prefix . ':entry');
         $namespaceMock = $this->createMock(NamespaceParserInterface::class);
         $namespaceMock
             ->expects($this->once())
@@ -221,14 +221,14 @@ class FeedParserTest extends UnitTestCase
      */
     public function testMoveToNextElement()
     {
-        $xml = '<root><node test="first"><child>foobar</child></node><node test="second"></node></root>';
+        $xml       = '<root><node test="first"><child>foobar</child></node><node test="second"></node></root>';
         $xmlReader = $this->getXmlReader($xml, 'root');
 
         $parser = new FeedParserStub($xmlReader);
 
         // Use reflection to test protected method (it's easier than testing this using the public interface)
         $reflectionClass = new ReflectionClass($parser);
-        $method = $reflectionClass->getMethod('moveToNextElement');
+        $method          = $reflectionClass->getMethod('moveToNextElement');
         $method->setAccessible(true);
 
         // Move to next element
@@ -266,14 +266,14 @@ class FeedParserTest extends UnitTestCase
      */
     public function testMoveToNextElementByName()
     {
-        $xml = '<root><node test="first"><child>foobar</child></node><node test="second"></node></root>';
+        $xml       = '<root><node test="first"><child>foobar</child></node><node test="second"></node></root>';
         $xmlReader = $this->getXmlReader($xml, 'root');
 
         $parser = new FeedParserStub($xmlReader);
 
         // Use reflection to test protected method (it's easier than testing this using the public interface)
         $reflectionClass = new ReflectionClass($parser);
-        $method = $reflectionClass->getMethod('moveToNextElement');
+        $method          = $reflectionClass->getMethod('moveToNextElement');
         $method->setAccessible(true);
 
         // Move to next element
@@ -299,14 +299,14 @@ class FeedParserTest extends UnitTestCase
      */
     public function testMoveToClosingElement()
     {
-        $xml = '<root><child>foobar</child></root>';
+        $xml       = '<root><child>foobar</child></root>';
         $xmlReader = $this->getXmlReader($xml, 'root');
 
         $parser = new FeedParserStub($xmlReader);
 
         // Use reflection to test protected method (it's easier than testing this using the public interface)
         $reflectionClass = new ReflectionClass($parser);
-        $method = $reflectionClass->getMethod('moveToClosingElement');
+        $method          = $reflectionClass->getMethod('moveToClosingElement');
         $method->setAccessible(true);
 
         // Move to next element
@@ -328,14 +328,14 @@ class FeedParserTest extends UnitTestCase
     public function testMoveToClosingElementWithInternalElements()
     {
         // Set the XML for the internal reader and move the stream to the first <node> element.
-        $xml = '<root><node test="first"><child>foobar</child></node><node test="second"></node></root>';
+        $xml       = '<root><node test="first"><child>foobar</child></node><node test="second"></node></root>';
         $xmlReader = $this->getXmlReader($xml, 'node');
 
         $parser = new FeedParserStub($xmlReader);
 
         // Use reflection to test protected method (it's easier than testing this using the public interface)
         $reflectionClass = new ReflectionClass($parser);
-        $method = $reflectionClass->getMethod('moveToClosingElement');
+        $method          = $reflectionClass->getMethod('moveToClosingElement');
         $method->setAccessible(true);
 
         // Move to next element
@@ -357,14 +357,14 @@ class FeedParserTest extends UnitTestCase
     public function testMoveToClosingElementWithSelfClosingTag()
     {
         // Set the XML for the internal reader and move the stream to the first <node> element.
-        $xml = '<root><node test="first" /><node test="second"></node></root>';
+        $xml       = '<root><node test="first" /><node test="second"></node></root>';
         $xmlReader = $this->getXmlReader($xml, 'node');
 
         $parser = new FeedParserStub($xmlReader);
 
         // Use reflection to test protected method (it's easier than testing this using the public interface)
         $reflectionClass = new ReflectionClass($parser);
-        $method = $reflectionClass->getMethod('moveToClosingElement');
+        $method          = $reflectionClass->getMethod('moveToClosingElement');
         $method->setAccessible(true);
 
         // Move to closing element
@@ -499,7 +499,7 @@ class FeedParserStub extends FeedParser
     {
         $this->processFeedEntryCalledWith[] = [
             'entry' => $entry,
-            'el'   => $el,
+            'el'    => $el,
         ];
     }
 

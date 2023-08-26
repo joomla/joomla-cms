@@ -34,7 +34,7 @@ class InputFilter extends BaseInputFilter
      */
     public const FORBIDDEN_FILE_EXTENSIONS = [
         'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7', 'asp',
-        'php8', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py', 'aspx'
+        'php8', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py', 'aspx',
     ];
 
     /**
@@ -187,27 +187,27 @@ class InputFilter extends BaseInputFilter
         $defaultOptions = [
 
             // Null byte in file name
-            'null_byte'                  => true,
+            'null_byte' => true,
 
             // Forbidden string in extension (e.g. php matched .php, .xxx.php, .php.xxx and so on)
-            'forbidden_extensions'       => self::FORBIDDEN_FILE_EXTENSIONS,
+            'forbidden_extensions' => self::FORBIDDEN_FILE_EXTENSIONS,
 
             // <?php tag in file contents
-            'php_tag_in_content'         => true,
+            'php_tag_in_content' => true,
 
             // <? tag in file contents
-            'shorttag_in_content'        => true,
+            'shorttag_in_content' => true,
 
             // __HALT_COMPILER()
-            'phar_stub_in_content'        => true,
+            'phar_stub_in_content' => true,
 
             // Which file extensions to scan for short tags
-            'shorttag_extensions'        => [
+            'shorttag_extensions' => [
                 'inc', 'phps', 'class', 'php3', 'php4', 'php5', 'php6', 'php7', 'php8', 'txt', 'dat', 'tpl', 'tmpl',
             ],
 
             // Forbidden extensions anywhere in the content
-            'fobidden_ext_in_content'    => true,
+            'fobidden_ext_in_content' => true,
 
             // Which file extensions to scan for .php in the content
             'php_ext_content_extensions' => ['zip', 'rar', 'tar', 'gz', 'tgz', 'bz2', 'tbz', 'jpa'],

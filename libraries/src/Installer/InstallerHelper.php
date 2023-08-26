@@ -105,7 +105,7 @@ abstract class InstallerHelper
             !empty($headers['content-disposition'])
             && preg_match("/\s*filename\s?=\s?(.*)/", $headers['content-disposition'][0], $parts)
         ) {
-            $flds = explode(';', $parts[1]);
+            $flds   = explode(';', $parts[1]);
             $target = trim($flds[0], '"');
         }
 
@@ -151,7 +151,7 @@ abstract class InstallerHelper
         $tmpdir = uniqid('install_');
 
         // Clean the paths to use for archive extraction
-        $extractdir = Path::clean(\dirname($packageFilename) . '/' . $tmpdir);
+        $extractdir  = Path::clean(\dirname($packageFilename) . '/' . $tmpdir);
         $archivename = Path::clean($archivename);
 
         // Do the unpacking of the archive
@@ -186,7 +186,8 @@ abstract class InstallerHelper
          * Let's set the extraction directory and package file in the result array so we can
          * cleanup everything properly later on.
          */
-        $retval['extractdir'] = $extractdir;
+        $retval                = [];
+        $retval['extractdir']  = $extractdir;
         $retval['packagefile'] = $archivename;
 
         /*

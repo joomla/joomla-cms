@@ -173,7 +173,7 @@ class ListView extends HtmlView
     protected function initializeView()
     {
         $componentName = substr($this->option, 4);
-        $helperClass = ucfirst($componentName . 'Helper');
+        $helperClass   = ucfirst($componentName . 'Helper');
 
         // Include the component helpers.
         \JLoader::register($helperClass, JPATH_COMPONENT . '/helpers/' . $componentName . '.php');
@@ -208,7 +208,7 @@ class ListView extends HtmlView
         // Get the toolbar object instance
         $bar = Toolbar::getInstance('toolbar');
 
-        $viewName = $this->getName();
+        $viewName         = $this->getName();
         $singularViewName = \Joomla\String\Inflector::getInstance()->toSingular($viewName);
 
         ToolbarHelper::title(Text::_($this->toolbarTitle), $this->toolbarIcon);

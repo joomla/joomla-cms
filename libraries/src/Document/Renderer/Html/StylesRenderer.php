@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Document\Renderer\Html;
@@ -104,7 +104,7 @@ class StylesRenderer extends DocumentRenderer
             foreach ($contents as $content) {
                 $buffer .= $this->renderInlineElement(
                     [
-                        'type' => $type,
+                        'type'    => $type,
                         'content' => $content,
                     ]
                 );

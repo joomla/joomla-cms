@@ -48,8 +48,8 @@ class DisplayController extends BaseController
      */
     public function display($cachable = false, $urlparams = [])
     {
-        $view   = $this->input->get('view', 'index', 'word');
-        $layout = $this->input->get('layout', 'index', 'word');
+        $view     = $this->input->get('view', 'index', 'word');
+        $layout   = $this->input->get('layout', 'index', 'word');
         $filterId = $this->input->get('filter_id', null, 'int');
 
         if ($view === 'index') {
@@ -57,7 +57,7 @@ class DisplayController extends BaseController
 
             if (!$pluginEnabled) {
                 $finderPluginId   = FinderHelper::getFinderPluginId();
-                $link = HTMLHelper::_(
+                $link             = HTMLHelper::_(
                     'link',
                     '#plugin' . $finderPluginId . 'Modal',
                     Text::_('COM_FINDER_CONTENT_PLUGIN'),

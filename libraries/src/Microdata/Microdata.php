@@ -115,7 +115,7 @@ class Microdata
     {
         // Load the JSON
         if (!static::$types) {
-            $path = __DIR__ . '/types.json';
+            $path          = __DIR__ . '/types.json';
             static::$types = json_decode(file_get_contents($path), true);
         }
     }
@@ -252,7 +252,7 @@ class Microdata
      */
     public function content($content, $machineContent = null)
     {
-        $this->content = $content;
+        $this->content        = $content;
         $this->machineContent = $machineContent;
 
         return $this;
@@ -397,7 +397,7 @@ class Microdata
                 switch (static::getExpectedDisplayType($this->type, $this->property)) {
                     case 'nested':
                         // Retrieve the expected 'nested' Type of the $Property
-                        $nestedType = static::getExpectedTypes($this->type, $this->property);
+                        $nestedType     = static::getExpectedTypes($this->type, $this->property);
                         $nestedProperty = '';
 
                         // If there is a Fallback Type then probably it could be the expectedType

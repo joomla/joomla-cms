@@ -16,8 +16,8 @@ function insertDefineOrDie($file, $keyword)
 
     $currentcontent     = file($realfile);
     $lastUse            = 0;
-    $lastComment = 0;
-    $lastNamespace = 0;
+    $lastComment        = 0;
+    $lastNamespace      = 0;
     foreach ($currentcontent as $k => $line) {
         if ($k > 200) {
             // we only test the first 200 lines for a jexec die

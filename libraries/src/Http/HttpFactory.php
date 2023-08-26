@@ -44,7 +44,7 @@ class HttpFactory
 
         // Set default userAgent if nothing else is set
         if (!isset($options['userAgent'])) {
-            $version = new Version();
+            $version              = new Version();
             $options['userAgent'] = $version->getUserAgent('Joomla', true, false);
         }
 
@@ -104,7 +104,7 @@ class HttpFactory
      */
     public static function getHttpTransports()
     {
-        $names = [];
+        $names    = [];
         $iterator = new \DirectoryIterator(__DIR__ . '/Transport');
 
         /** @type  $file  \DirectoryIterator */

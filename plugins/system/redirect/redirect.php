@@ -246,12 +246,12 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
                 $nowDate = Factory::getDate()->toSql();
 
                 $data = (object) [
-                    'id' => 0,
-                    'old_url' => $url,
-                    'referer' => $app->input->server->getString('HTTP_REFERER', ''),
-                    'hits' => 1,
-                    'published' => 0,
-                    'created_date' => $nowDate,
+                    'id'            => 0,
+                    'old_url'       => $url,
+                    'referer'       => $app->getInput()->server->getString('HTTP_REFERER', ''),
+                    'hits'          => 1,
+                    'published'     => 0,
+                    'created_date'  => $nowDate,
                     'modified_date' => $nowDate,
                 ];
 

@@ -86,7 +86,7 @@ class PlgContentLoadmodule extends CMSPlugin
                     }
 
                     $position = trim($matcheslist[0]);
-                    $style = trim($matcheslist[1]);
+                    $style    = trim($matcheslist[1]);
 
                     $output = $this->_load($position, $style);
 
@@ -141,7 +141,7 @@ class PlgContentLoadmodule extends CMSPlugin
             // If no matches, skip this
             if ($matchesmodid) {
                 foreach ($matchesmodid as $match) {
-                    $id = trim($match[1]);
+                    $id     = trim($match[1]);
                     $output = $this->_loadid($id);
 
                     // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:

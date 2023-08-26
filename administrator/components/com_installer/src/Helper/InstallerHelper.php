@@ -277,7 +277,7 @@ class InstallerHelper
             'valid'     => $value ? true : false,
             'prefix'    => $prefix,
             'suffix'    => $suffix,
-            'value'     => $value
+            'value'     => $value,
         ];
 
         return $downloadKey;

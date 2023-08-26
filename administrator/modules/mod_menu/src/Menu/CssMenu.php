@@ -96,7 +96,7 @@ class CssMenu
     public function __construct(CMSApplication $application)
     {
         $this->application = $application;
-        $this->root = new AdministratorMenuItem();
+        $this->root        = new AdministratorMenuItem();
     }
 
     /**
@@ -116,7 +116,7 @@ class CssMenu
         $menutype      = $this->params->get('menutype', '*');
 
         if ($menutype === '*') {
-            $name   = $this->params->get('preset', 'default');
+            $name       = $this->params->get('preset', 'default');
             $this->root = MenusHelper::loadPreset($name);
         } else {
             $this->root = MenusHelper::getMenuItems($menutype, true);
@@ -131,7 +131,7 @@ class CssMenu
 
                 // In recovery mode, load the preset inside a special root node.
                 $this->root = new AdministratorMenuItem(['level' => 0]);
-                $heading = new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading']);
+                $heading    = new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading']);
                 $this->root->addChild($heading);
 
                 MenusHelper::loadPreset('default', true, $heading);
@@ -259,7 +259,7 @@ class CssMenu
         $language   = $this->application->getLanguage();
 
         $noSeparator = true;
-        $children = $parent->getChildren();
+        $children    = $parent->getChildren();
 
         /**
          * Trigger onPreprocessMenuItems for the current level of backend menu items.

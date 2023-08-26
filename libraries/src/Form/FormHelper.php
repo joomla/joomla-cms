@@ -214,7 +214,7 @@ class FormHelper
 
             if (strpos($name, '.')) {
                 list($subPrefix, $name) = explode('.', $name);
-                $subPrefix = ucfirst($subPrefix) . '\\';
+                $subPrefix              = ucfirst($subPrefix) . '\\';
             }
 
             // Compile the classname
