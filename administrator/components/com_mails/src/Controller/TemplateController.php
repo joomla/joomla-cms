@@ -43,7 +43,7 @@ class TemplateController extends FormController
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -85,10 +85,10 @@ class TemplateController extends FormController
 
         // Get the previous record id (if any) and the current record id.
         $template_id = $this->input->getCmd('template_id');
-        $language = $this->input->getCmd('language');
+        $language    = $this->input->getCmd('language');
 
         // Access check.
-        if (!$this->allowEdit(array('template_id' => $template_id, 'language' => $language), $template_id)) {
+        if (!$this->allowEdit(['template_id' => $template_id, 'language' => $language], $template_id)) {
             $this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
 
             $this->setRedirect(
@@ -109,7 +109,7 @@ class TemplateController extends FormController
         $this->setRedirect(
             Route::_(
                 'index.php?option=' . $this->option . '&view=' . $this->view_item
-                . $this->getRedirectToItemAppend(array($template_id, $language), 'template_id'),
+                . $this->getRedirectToItemAppend([$template_id, $language], 'template_id'),
                 false
             )
         );
@@ -131,7 +131,7 @@ class TemplateController extends FormController
     protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
     {
         $language = array_pop($recordId);
-        $return = parent::getRedirectToItemAppend(array_pop($recordId), $urlVar);
+        $return   = parent::getRedirectToItemAppend(array_pop($recordId), $urlVar);
         $return .= '&language=' . $language;
 
         return $return;
@@ -153,17 +153,17 @@ class TemplateController extends FormController
         $this->checkToken();
 
         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
-        $model = $this->getModel();
-        $data  = $this->input->post->get('jform', array(), 'array');
+        $model   = $this->getModel();
+        $data    = $this->input->post->get('jform', [], 'array');
         $context = "$this->option.edit.$this->context";
-        $task = $this->getTask();
+        $task    = $this->getTask();
 
         $recordId = $this->input->getCmd('template_id');
         $language = $this->input->getCmd('language');
 
         // Populate the row id from the session.
         $data['template_id'] = $recordId;
-        $data['language'] = $language;
+        $data['language']    = $language;
 
         // Access check.
         if (!$this->allowSave($data, 'template_id')) {
@@ -194,7 +194,7 @@ class TemplateController extends FormController
         $objData = (object) $data;
         $this->app->triggerEvent(
             'onContentNormaliseRequestData',
-            array($this->option . '.' . $this->context, $objData, $form)
+            [$this->option . '.' . $this->context, $objData, $form]
         );
         $data = (array) $objData;
 
@@ -222,7 +222,7 @@ class TemplateController extends FormController
             $this->setRedirect(
                 Route::_(
                     'index.php?option=' . $this->option . '&view=' . $this->view_item
-                    . $this->getRedirectToItemAppend(array($recordId, $language), 'template_id'),
+                    . $this->getRedirectToItemAppend([$recordId, $language], 'template_id'),
                     false
                 )
             );
@@ -241,7 +241,7 @@ class TemplateController extends FormController
             $this->setRedirect(
                 Route::_(
                     'index.php?option=' . $this->option . '&view=' . $this->view_item
-                    . $this->getRedirectToItemAppend(array($recordId, $language), 'template_id'),
+                    . $this->getRedirectToItemAppend([$recordId, $language], 'template_id'),
                     false
                 )
             );
@@ -265,7 +265,7 @@ class TemplateController extends FormController
                 $this->setRedirect(
                     Route::_(
                         'index.php?option=' . $this->option . '&view=' . $this->view_item
-                        . $this->getRedirectToItemAppend(array($recordId, $language), 'template_id'),
+                        . $this->getRedirectToItemAppend([$recordId, $language], 'template_id'),
                         false
                     )
                 );

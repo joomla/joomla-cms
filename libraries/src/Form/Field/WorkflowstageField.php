@@ -69,7 +69,7 @@ class WorkflowstageField extends GroupedlistField
             if (\strlen($element['extension'])) {
                 $this->extension = (string) $element['extension'];
             } else {
-                $this->extension = Factory::getApplication()->input->getCmd('extension');
+                $this->extension = Factory::getApplication()->getInput()->getCmd('extension');
             }
 
             if ((string) $element['activeonly'] === '1' || (string) $element['activeonly'] === 'true') {
@@ -135,7 +135,7 @@ class WorkflowstageField extends GroupedlistField
 
         $stages = $db->setQuery($query)->loadObjectList();
 
-        $workflowStages = array();
+        $workflowStages = [];
 
         // Grouping the stages by workflow
         foreach ($stages as $stage) {
@@ -143,7 +143,7 @@ class WorkflowstageField extends GroupedlistField
             $workflowStageKey = Text::_($stage->workflow_title) . ' (' . $stage->workflow_id . ')';
 
             if (!\array_key_exists($workflowStageKey, $workflowStages)) {
-                $workflowStages[$workflowStageKey] = array();
+                $workflowStages[$workflowStageKey] = [];
             }
 
             $workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $stage->workflow_stage_id, Text::_($stage->workflow_stage_title));

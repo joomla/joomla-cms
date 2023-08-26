@@ -15,12 +15,12 @@ use Joomla\CMS\Helper\ModuleHelper;
 
 $app    = Factory::getApplication();
 $form   = $displayData->getForm();
-$input  = $app->input;
+$input  = $app->getInput();
 
-$fields = $displayData->get('fields') ?: array(
-    array('parent', 'parent_id'),
-    array('published', 'state', 'enabled'),
-    array('category', 'catid'),
+$fields = $displayData->get('fields') ?: [
+    ['parent', 'parent_id'],
+    ['published', 'state', 'enabled'],
+    ['category', 'catid'],
     'featured',
     'sticky',
     'access',
@@ -28,16 +28,16 @@ $fields = $displayData->get('fields') ?: array(
     'tags',
     'note',
     'version_note',
-);
+];
 
-$hiddenFields = $displayData->get('hidden_fields') ?: array();
+$hiddenFields = $displayData->get('hidden_fields') ?: [];
 
 if (!ModuleHelper::isAdminMultilang()) {
     $hiddenFields[] = 'language';
     $form->setFieldAttribute('language', 'default', '*');
 }
 
-$html   = array();
+$html   = [];
 $html[] = '<fieldset class="form-vertical">';
 
 foreach ($fields as $field) {

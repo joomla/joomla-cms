@@ -71,7 +71,7 @@ class SubformField extends FormField
      * Which buttons to show in multiple mode
      * @var array $buttons
      */
-    protected $buttons = array('add' => true, 'remove' => true, 'move' => true);
+    protected $buttons = ['add' => true, 'remove' => true, 'move' => true];
 
     /**
      * Method to get certain otherwise inaccessible properties from the form field object.
@@ -132,7 +132,7 @@ class SubformField extends FormField
 
             case 'groupByFieldset':
                 if ($value !== null) {
-                    $value = (string) $value;
+                    $value                 = (string) $value;
                     $this->groupByFieldset = !($value === 'false' || $value === 'off' || $value === '0');
                 }
                 break;
@@ -150,7 +150,7 @@ class SubformField extends FormField
 
             case 'buttons':
                 if (!$this->multiple) {
-                    $this->buttons = array();
+                    $this->buttons = [];
                     break;
                 }
 
@@ -160,7 +160,7 @@ class SubformField extends FormField
                 }
 
                 if ($value) {
-                    $value = array_merge(array('add' => false, 'remove' => false, 'move' => false), $value);
+                    $value         = array_merge(['add' => false, 'remove' => false, 'move' => false], $value);
                     $this->buttons = $value;
                 }
 
@@ -198,7 +198,7 @@ class SubformField extends FormField
             return false;
         }
 
-        foreach (array('formsource', 'min', 'max', 'layout', 'groupByFieldset', 'buttons') as $attributeName) {
+        foreach (['formsource', 'min', 'max', 'layout', 'groupByFieldset', 'buttons'] as $attributeName) {
             $this->__set($attributeName, $element[$attributeName]);
         }
 
@@ -240,14 +240,14 @@ class SubformField extends FormField
             return $e->getMessage();
         }
 
-        $data['tmpl']      = $tmpl;
-        $data['forms']     = $forms;
-        $data['min']       = $this->min;
-        $data['max']       = $this->max;
-        $data['control']   = $control;
-        $data['buttons']   = $this->buttons;
-        $data['fieldname'] = $this->fieldname;
-        $data['fieldId']   = $this->id;
+        $data['tmpl']            = $tmpl;
+        $data['forms']           = $forms;
+        $data['min']             = $this->min;
+        $data['max']             = $this->max;
+        $data['control']         = $control;
+        $data['buttons']         = $this->buttons;
+        $data['fieldname']       = $this->fieldname;
+        $data['fieldId']         = $this->id;
         $data['groupByFieldset'] = $this->groupByFieldset;
 
         /**
@@ -255,7 +255,7 @@ class SubformField extends FormField
          * separate unique subform id present to could distinguish the eventhandlers
          * regarding adding/moving/removing rows from nested subforms from their parents.
          */
-        static $unique_subform_id = 0;
+        static $unique_subform_id  = 0;
         $data['unique_subform_id'] = ('sr-' . ($unique_subform_id++));
 
         // Prepare renderer
@@ -347,8 +347,8 @@ class SubformField extends FormField
         }
 
         // Prepare the form template
-        $formname = 'subform.' . str_replace(array('jform[', '[', ']'), array('', '.', ''), $this->name);
-        $tmpl     = Form::getInstance($formname, $this->formsource, array('control' => $control));
+        $formname = 'subform.' . str_replace(['jform[', '[', ']'], ['', '.', ''], $this->name);
+        $tmpl     = Form::getInstance($formname, $this->formsource, ['control' => $control]);
 
         return $tmpl;
     }
@@ -364,17 +364,17 @@ class SubformField extends FormField
      */
     protected function loadSubFormData(Form $subForm)
     {
-        $value = $this->value ? (array) $this->value : array();
+        $value = $this->value ? (array) $this->value : [];
 
         // Simple form, just bind the data and return one row.
         if (!$this->multiple) {
             $subForm->bind($value);
 
-            return array($subForm);
+            return [$subForm];
         }
 
         // Multiple rows possible: Construct array and bind values to their respective forms.
-        $forms = array();
+        $forms = [];
         $value = array_values($value);
 
         // Show as many rows as we have values, but at least min and at most max.
@@ -382,7 +382,7 @@ class SubformField extends FormField
 
         for ($i = 0; $i < $c; $i++) {
             $control  = $this->name . '[' . $this->fieldname . $i . ']';
-            $itemForm = Form::getInstance($subForm->getName() . $i, $this->formsource, array('control' => $control));
+            $itemForm = Form::getInstance($subForm->getName() . $i, $this->formsource, ['control' => $control]);
 
             if (!empty($value[$i])) {
                 $itemForm->bind($value[$i]);

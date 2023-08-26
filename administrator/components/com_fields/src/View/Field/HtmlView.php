@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -75,7 +76,7 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $this->addToolbar();
 
@@ -95,6 +96,7 @@ class HtmlView extends BaseHtmlView
         $section   = $this->state->get('field.section');
         $userId    = $this->getCurrentUser()->get('id');
         $canDo     = $this->canDo;
+        $toolbar   = Toolbar::getInstance();
 
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
@@ -120,48 +122,46 @@ class HtmlView extends BaseHtmlView
 
         // For new records, check the create permission.
         if ($isNew) {
-            ToolbarHelper::apply('field.apply');
-
-            ToolbarHelper::saveGroup(
-                [
-                    ['save', 'field.save'],
-                    ['save2new', 'field.save2new']
-                ],
-                'btn-success'
+            $toolbar->apply('field.apply');
+            $saveGroup = $toolbar->dropdownButton('save-group');
+            $saveGroup->configure(
+                function (Toolbar $childBar) {
+                    $childBar->save('field.save');
+                    $childBar->save2new('field.save2new');
+                }
             );
-
-            ToolbarHelper::cancel('field.cancel');
+            $toolbar->cancel('field.cancel');
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
-            $toolbarButtons = [];
-
             // Can't save the record if it's checked out and editable
             if (!$checkedOut && $itemEditable) {
-                ToolbarHelper::apply('field.apply');
+                $toolbar->apply('field.apply');
+            }
 
-                $toolbarButtons[] = ['save', 'field.save'];
+            $saveGroup = $toolbar->dropdownButton('save-group');
+            $saveGroup->configure(
+                function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo) {
+                    if (!$checkedOut && $itemEditable) {
+                        $childBar->save('field.save');
 
-                // We can save this record, but check the create permission to see if we can return to make a new one.
-                if ($canDo->get('core.create')) {
-                    $toolbarButtons[] = ['save2new', 'field.save2new'];
+                        // We can save this record, but check the create permission to see if we can return to make a new one.
+                        if ($canDo->get('core.create')) {
+                            $childBar->save2new('field.save2new');
+                        }
+                    }
+
+                    // If an existing item, can save to a copy.
+                    if ($canDo->get('core.create')) {
+                        $childBar->save2copy('field.save2copy');
+                    }
                 }
-            }
-
-            // If an existing item, can save to a copy.
-            if ($canDo->get('core.create')) {
-                $toolbarButtons[] = ['save2copy', 'field.save2copy'];
-            }
-
-            ToolbarHelper::saveGroup(
-                $toolbarButtons,
-                'btn-success'
             );
 
-            ToolbarHelper::cancel('field.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('field.cancel');
         }
 
-        ToolbarHelper::help('Component:_New_or_Edit_Field');
+        $toolbar->help('Fields:_Edit');
     }
 }

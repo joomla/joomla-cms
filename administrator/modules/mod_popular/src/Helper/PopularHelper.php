@@ -44,7 +44,7 @@ abstract class PopularHelper
 
         // Set List SELECT
         $model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .
-            ' a.publish_up, a.hits');
+            ' a.created_by, a.publish_up, a.hits');
 
         // Set Ordering filter
         $model->setState('list.ordering', 'a.hits');

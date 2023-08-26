@@ -139,7 +139,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
             $result = false;
         }
 
-        // Abort on failure
+        // Stop on failure
         if (!$result) {
             return;
         }
@@ -277,7 +277,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
      */
     private function getSuperUsers($email = null)
     {
-        $db = $this->db;
+        $db     = $this->db;
         $emails = [];
 
         // Convert the email list to an array

@@ -82,7 +82,7 @@ trait ToolbarPresets
                     'language',
                 ],
                 'toolbar2' => [],
-            ]
+            ],
         ];
     }
 }

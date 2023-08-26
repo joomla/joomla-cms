@@ -57,9 +57,9 @@ class PlgSystemLogout extends CMSPlugin
 
         $hash  = ApplicationHelper::getHash('PlgSystemLogout');
 
-        if ($this->app->input->cookie->getString($hash)) {
+        if ($this->app->getInput()->cookie->getString($hash)) {
             // Destroy the cookie.
-            $this->app->input->cookie->set(
+            $this->app->getInput()->cookie->set(
                 $hash,
                 '',
                 1,
@@ -83,7 +83,7 @@ class PlgSystemLogout extends CMSPlugin
     {
         if ($this->app->isClient('site')) {
             // Create the cookie.
-            $this->app->input->cookie->set(
+            $this->app->getInput()->cookie->set(
                 ApplicationHelper::getHash('PlgSystemLogout'),
                 true,
                 time() + 86400,

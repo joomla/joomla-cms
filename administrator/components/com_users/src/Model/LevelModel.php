@@ -54,7 +54,7 @@ class LevelModel extends AdminModel
             throw new \RuntimeException('Invalid rules schema');
         }
 
-        $isAdmin = Factory::getUser()->authorise('core.admin');
+        $isAdmin = $this->getCurrentUser()->authorise('core.admin');
 
         // Check permissions
         foreach ($groups as $group) {
@@ -68,7 +68,7 @@ class LevelModel extends AdminModel
         // Check if the access level is being used by any content.
         if ($this->levelsInUse === null) {
             // Populate the list once.
-            $this->levelsInUse = array();
+            $this->levelsInUse = [];
 
             $db    = $this->getDatabase();
             $query = $db->getQuery(true)
@@ -134,7 +134,7 @@ class LevelModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'ViewLevel', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
+    public function getTable($type = 'ViewLevel', $prefix = 'Joomla\\CMS\\Table\\', $config = [])
     {
         $return = Table::getInstance($type, $prefix, $config);
 
@@ -155,7 +155,7 @@ class LevelModel extends AdminModel
         $result = parent::getItem($pk);
 
         // Convert the params field to an array.
-        $result->rules = json_decode($result->rules);
+        $result->rules = $result->rules !== null ? json_decode($result->rules) : [];
 
         return $result;
     }
@@ -170,10 +170,10 @@ class LevelModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.level', 'level', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_users.level', 'level', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -193,7 +193,7 @@ class LevelModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_users.edit.level.data', array());
+        $data = Factory::getApplication()->getUserState('com_users.edit.level.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -234,7 +234,7 @@ class LevelModel extends AdminModel
     public function save($data)
     {
         if (!isset($data['rules'])) {
-            $data['rules'] = array();
+            $data['rules'] = [];
         }
 
         $data['title'] = InputFilter::getInstance()->clean($data['title'], 'TRIM');
@@ -257,17 +257,17 @@ class LevelModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
-        $isSuperAdmin = Factory::getUser()->authorise('core.admin');
+        $isSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
 
         // Non Super user should not be able to change the access levels of super user groups
         if (!$isSuperAdmin) {
             if (!isset($data['rules']) || !is_array($data['rules'])) {
-                $data['rules'] = array();
+                $data['rules'] = [];
             }
 
             $groups = array_values(UserGroupsHelper::getInstance()->getAll());
 
-            $rules = array();
+            $rules = [];
 
             if (!empty($data['id'])) {
                 $table = $this->getTable();

@@ -23,6 +23,14 @@ use Joomla\CMS\Installer\Manifest;
 class LibraryManifest extends Manifest
 {
     /**
+     * Creation date of the library
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $creationdate;
+
+    /**
      * File system name of the library
      *
      * @var    string

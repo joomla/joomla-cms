@@ -299,7 +299,7 @@ trait AjaxHandlerLogin
     {
         // Retrieve data from the request and session
         $pubKeyCredentialSource = $this->authenticationHelper->validateAssertionResponse(
-            $this->getApplication()->input->getBase64('data', ''),
+            $this->getApplication()->getInput()->getBase64('data', ''),
             $user
         );
 

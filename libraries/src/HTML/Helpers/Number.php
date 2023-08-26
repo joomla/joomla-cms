@@ -75,8 +75,8 @@ abstract class Number
             return (string) $oBytes;
         }
 
-        $stdSuffixes = array('b', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
-        $iecSuffixes = array('b', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB');
+        $stdSuffixes = ['b', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        $iecSuffixes = ['b', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
 
         // User supplied method
         if (in_array($unit, $iecSuffixes)) {

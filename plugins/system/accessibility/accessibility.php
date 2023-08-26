@@ -55,7 +55,7 @@ class PlgSystemAccessibility extends CMSPlugin
         }
 
         // Are we in a modal?
-        if ($this->app->input->get('tmpl', '', 'cmd') === 'component') {
+        if ($this->app->getInput()->get('tmpl', '', 'cmd') === 'component') {
             return;
         }
 
@@ -94,14 +94,14 @@ class PlgSystemAccessibility extends CMSPlugin
                 'icon' => [
                     'position' => [
                         $direction => [
-                            'size' => '0',
+                            'size'  => '0',
                             'units' => 'px',
                         ],
                     ],
                     'useEmojis' => $this->params->get('useEmojis') != 'false' ? true : false,
                 ],
                 'hotkeys' => [
-                    'enabled' => true,
+                    'enabled'    => true,
                     'helpTitles' => true,
                 ],
                 'textToSpeechLang' => [$lang],

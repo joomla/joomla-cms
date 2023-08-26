@@ -113,12 +113,12 @@ class MeterField extends FormField
                 break;
 
             case 'active':
-                $value = (string) $value;
+                $value        = (string) $value;
                 $this->active = ($value === 'true' || $value === $name || $value === '1');
                 break;
 
             case 'animated':
-                $value = (string) $value;
+                $value          = (string) $value;
                 $this->animated = !($value === 'false' || $value === 'off' || $value === '0');
                 break;
 
@@ -184,14 +184,14 @@ class MeterField extends FormField
         $data = parent::getLayoutData();
 
         // Initialize some field attributes.
-        $extraData = array(
+        $extraData = [
             'width'    => $this->width,
             'color'    => $this->color,
             'animated' => $this->animated,
             'active'   => $this->active,
             'max'      => $this->max,
             'min'      => $this->min,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }
