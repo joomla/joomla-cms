@@ -418,7 +418,7 @@ class TourModel extends AdminModel
                 $table->id = 0;
 
                 $table->published   = 0;
-                $table->alias       = '';
+                $table->alias       = $this->generateNewAlias($table->alias, 0);
 
                 if (!$table->check() || !$table->store()) {
                     throw new \Exception($table->getError());
