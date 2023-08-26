@@ -2309,8 +2309,7 @@ class JoomlaInstallerScript
                     $replace[] = 'jtemplate';
                 }
 
-                $params['configuration']['toolbars'][$setIdx]['menu'] = str_replace($search, $replace, $toolbarConfig['menu']
-                );
+                $params['configuration']['toolbars'][$setIdx]['menu'] = str_replace($search, $replace, $toolbarConfig['menu']);
             }
 
             // There could be no toolbar at all, or only toolbar1, or both toolbar1 and toolbar2
