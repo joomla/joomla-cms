@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Toolbar\Button;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Renders a button to show / hide the inline help text
  *
@@ -39,13 +43,13 @@ class InlinehelpButton extends BasicButton
      */
     protected function prepareOptions(array &$options)
     {
-        $options['text'] = $options['text'] ?: 'JINLINEHELP';
-        $options['icon'] = $options['icon'] ?? 'fa-question-circle';
+        $options['text']         = $options['text'] ?: 'JINLINEHELP';
+        $options['icon']         = $options['icon'] ?? 'fa-question-circle';
         $options['button_class'] = $options['button_class'] ?? 'btn btn-info';
-        $options['attributes'] = array_merge(
+        $options['attributes']   = array_merge(
             $options['attributes'] ?? [],
             [
-                'data-class' => $options['targetclass'] ?? 'hide-aware-inline-help'
+                'data-class' => $options['targetclass'] ?? 'hide-aware-inline-help',
             ]
         );
 
@@ -65,7 +69,8 @@ class InlinehelpButton extends BasicButton
      *
      * @since       4.1.0
      *
-     * @deprecated  5.0 Use render() instead.
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use render() instead.
      */
     public function fetchButton(
         $type = 'Inlinehelp',

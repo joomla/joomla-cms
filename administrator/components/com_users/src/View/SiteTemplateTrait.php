@@ -10,11 +10,12 @@
 
 namespace Joomla\Component\Users\Administrator\View;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use ReflectionException;
-use ReflectionObject;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Dynamically modify the frontend template when showing a MFA captive page.
@@ -27,7 +28,7 @@ trait SiteTemplateTrait
      * Set a specific site template style in the frontend application
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     private function setSiteTemplateStyle(): void
@@ -39,20 +40,20 @@ trait SiteTemplateTrait
             return;
         }
 
-        $itemId = $app->input->get('Itemid');
+        $itemId = $app->getInput()->get('Itemid');
 
         if (!empty($itemId)) {
             return;
         }
 
-        $app->input->set('templateStyle', $templateStyle);
+        $app->getInput()->set('templateStyle', $templateStyle);
 
         try {
-            $refApp      = new ReflectionObject($app);
+            $refApp      = new \ReflectionObject($app);
             $refTemplate = $refApp->getProperty('template');
             $refTemplate->setAccessible(true);
             $refTemplate->setValue($app, null);
-        } catch (ReflectionException $e) {
+        } catch (\ReflectionException $e) {
             return;
         }
 

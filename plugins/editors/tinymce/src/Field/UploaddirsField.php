@@ -14,6 +14,10 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Field\FolderlistField;
 use Joomla\CMS\HTML\HTMLHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Generates the list of directories  available for drag and drop upload.
  *
@@ -44,7 +48,7 @@ class UploaddirsField extends FolderlistField
         $return = parent::setup($element, $value, $group);
 
         // Get the path in which to search for file options.
-        $this->directory   = ComponentHelper::getParams('com_media')->get('image_path');
+        $this->directory   = JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('image_path');
         $this->recursive   = true;
         $this->hideDefault = true;
 
@@ -72,7 +76,7 @@ class UploaddirsField extends FolderlistField
      */
     protected function getInput()
     {
-        $html = array();
+        $html = [];
 
         // Get the field options.
         $options = (array) $this->getOptions();

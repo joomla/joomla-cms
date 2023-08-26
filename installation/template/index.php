@@ -32,7 +32,7 @@ $this->getWebAssetManager()
 		--template-bg-light: #f0f4fb;
 		--template-text-dark: #495057;
 		--template-text-light: #ffffff;
-		--template-link-color: #2a69b8;
+		--link-color: #2a69b8;
 		--template-special-color: #001b4c;
 	}');
 
@@ -69,7 +69,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
     </head>
     <body data-basepath="<?php echo Uri::root(true); ?>">
         <div class="j-install">
-            <?php // Header ?>
+            <?php // Header?>
             <header id="header" class="header">
                 <div class="row me-0">
                     <div class="col">
@@ -97,7 +97,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
                     </div>
                 </div>
             </header>
-            <?php // Container ?>
+            <?php // Container?>
             <div id="wrapper" class="d-flex wrapper flex-wrap">
                 <div class="container-fluid container-main">
                     <div id="content" class="content h-100">

@@ -54,19 +54,17 @@ if (container) {
 
     // Element is moved down
     if (dragIndex < dropIndex) {
-      rows[dropIndex].setAttribute('value', rows[dropIndex - 1].value);
+      rows[dropIndex].value = rows[dropIndex - 1].value;
 
       for (i = dragIndex; i < dropIndex; i += 1) {
         if (direction === 'asc') {
-          rows[i].setAttribute('value', parseInt(rows[i].value, 10) - 1);
+          rows[i].value = parseInt(rows[i].value, 10) - 1;
         } else {
-          rows[i].setAttribute('value', parseInt(rows[i].value, 10) + 1);
+          rows[i].value = parseInt(rows[i].value, 10) + 1;
         }
       }
     } else {
       // Element is moved up
-
-      rows[dropIndex].setAttribute('value', rows[dropIndex + 1].value);
       rows[dropIndex].value = rows[dropIndex + 1].value;
 
       for (i = dropIndex + 1; i <= dragIndex; i += 1) {

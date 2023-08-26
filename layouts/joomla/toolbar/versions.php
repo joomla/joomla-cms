@@ -38,7 +38,7 @@ $wa->useScript('core')
 echo HTMLHelper::_(
     'bootstrap.renderModal',
     'versionsModal',
-    array(
+    [
         'url'    => 'index.php?' . http_build_query(
             [
                 'option' => 'com_contenthistory',
@@ -56,7 +56,7 @@ echo HTMLHelper::_(
         'bodyHeight'  => '60',
         'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
             . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-    )
+    ]
 );
 ?>
 <joomla-toolbar-button id="toolbar-versions">

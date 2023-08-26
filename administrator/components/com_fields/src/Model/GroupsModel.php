@@ -10,12 +10,15 @@
 
 namespace Joomla\Component\Fields\Administrator\Model;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Groups Model
@@ -42,10 +45,10 @@ class GroupsModel extends ListModel
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'type', 'a.type',
@@ -58,7 +61,7 @@ class GroupsModel extends ListModel
                 'checked_out_time', 'a.checked_out_time',
                 'created', 'a.created',
                 'created_by', 'a.created_by',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -123,9 +126,9 @@ class GroupsModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user = Factory::getUser();
+        $user  = $this->getCurrentUser();
 
         // Select the required fields from the table.
         $query->select($this->getState('list.select', 'a.*'));
@@ -203,7 +206,7 @@ class GroupsModel extends ListModel
 
         // Add the list ordering clause
         $listOrdering = $this->getState('list.ordering', 'a.ordering');
-        $listDirn = $db->escape($this->getState('list.direction', 'ASC'));
+        $listDirn     = $db->escape($this->getState('list.direction', 'ASC'));
 
         $query->order($db->escape($listOrdering) . ' ' . $listDirn);
 

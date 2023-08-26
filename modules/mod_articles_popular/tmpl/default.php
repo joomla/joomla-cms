@@ -10,7 +10,10 @@
 
 defined('_JEXEC') or die;
 
-if (!$list) {
+if (!isset($list)) {
+    if (isset($hitsDisabledMessage)) {
+        echo $hitsDisabledMessage;
+    }
     return;
 }
 

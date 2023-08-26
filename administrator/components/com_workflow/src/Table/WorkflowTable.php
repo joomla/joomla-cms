@@ -14,16 +14,24 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Workflow table
  *
  * @since  4.0.0
  */
-class WorkflowTable extends Table
+class WorkflowTable extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
@@ -169,7 +177,7 @@ class WorkflowTable extends Table
     public function store($updateNulls = true)
     {
         $date = Factory::getDate();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $table = new WorkflowTable($this->getDbo());
 
@@ -203,7 +211,7 @@ class WorkflowTable extends Table
                 $table->load(
                     [
                     'default' => '1',
-                    'extension' => $this->extension
+                    'extension' => $this->extension,
                     ]
                 )
             ) {
@@ -228,7 +236,7 @@ class WorkflowTable extends Table
      * @since   4.0.0
      * @throws  \InvalidArgumentException
      */
-    public function bind($src, $ignore = array())
+    public function bind($src, $ignore = [])
     {
         // Bind the rules.
         if (isset($src['rules']) && \is_array($src['rules'])) {

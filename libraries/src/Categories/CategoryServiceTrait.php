@@ -4,13 +4,17 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Categories;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Trait for component categories service.
@@ -71,12 +75,12 @@ trait CategoryServiceTrait
      */
     public function countItems(array $items, string $section)
     {
-        $config = (object) array(
+        $config = (object) [
             'related_tbl'   => $this->getTableNameForSection($section),
             'state_col'     => $this->getStateColumnForSection($section),
             'group_col'     => 'catid',
             'relation_type' => 'category_or_group',
-        );
+        ];
 
         ContentHelper::countRelations($items, $config);
     }

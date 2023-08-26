@@ -11,6 +11,10 @@ namespace Joomla\CMS\Feed;
 
 use Joomla\CMS\Date\Date;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Class to encapsulate a feed for the Joomla Platform.
  *
@@ -34,20 +38,20 @@ class Feed implements \ArrayAccess, \Countable
      * @var    array  The entry properties.
      * @since  3.1.4
      */
-    protected $properties = array(
-        'uri' => '',
-        'title' => '',
-        'updatedDate' => '',
-        'description' => '',
-        'categories' => array(),
-        'contributors' => array(),
-    );
+    protected $properties = [
+        'uri'          => '',
+        'title'        => '',
+        'updatedDate'  => '',
+        'description'  => '',
+        'categories'   => [],
+        'contributors' => [],
+    ];
 
     /**
      * @var    array  The list of feed entry objects.
      * @since  3.1.4
      */
-    protected $entries = array();
+    protected $entries = [];
 
     /**
      * Magic method to return values for feed properties.
@@ -92,7 +96,7 @@ class Feed implements \ArrayAccess, \Countable
         }
 
         // Disallow setting categories or contributors directly.
-        if (\in_array($name, array('categories', 'contributors'))) {
+        if (\in_array($name, ['categories', 'contributors'])) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'Cannot directly set %1$s property "%2$s".',
@@ -183,8 +187,7 @@ class Feed implements \ArrayAccess, \Countable
      *
      * @return  integer number of entries in the feed.
      */
-    #[\ReturnTypeWillChange]
-    public function count()
+    public function count(): int
     {
         return \count($this->entries);
     }
@@ -200,8 +203,7 @@ class Feed implements \ArrayAccess, \Countable
      * @see     ArrayAccess::offsetExists()
      * @since   3.1.4
      */
-    #[\ReturnTypeWillChange]
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->entries[$offset]);
     }
@@ -216,8 +218,7 @@ class Feed implements \ArrayAccess, \Countable
      * @see     ArrayAccess::offsetGet()
      * @since   3.1.4
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->entries[$offset];
     }
@@ -228,14 +229,13 @@ class Feed implements \ArrayAccess, \Countable
      * @param   mixed      $offset  The offset to assign the value to.
      * @param   FeedEntry  $value   The JFeedEntry to set.
      *
-     * @return  boolean
+     * @return  void
      *
      * @see     ArrayAccess::offsetSet()
      * @since   3.1.4
      * @throws  \InvalidArgumentException
      */
-    #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (!($value instanceof FeedEntry)) {
             throw new \InvalidArgumentException(
@@ -248,8 +248,6 @@ class Feed implements \ArrayAccess, \Countable
         }
 
         $this->entries[$offset] = $value;
-
-        return true;
     }
 
     /**
@@ -262,8 +260,7 @@ class Feed implements \ArrayAccess, \Countable
      * @see     ArrayAccess::offsetUnset()
      * @since   3.1.4
      */
-    #[\ReturnTypeWillChange]
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->entries[$offset]);
     }

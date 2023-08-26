@@ -16,7 +16,12 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View to edit a plugin.
@@ -42,7 +47,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state of the newsfeed
      *
-     * @var   CMSObject
+     * @var   \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -77,36 +82,37 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $canDo = ContentHelper::getActions('com_plugins');
+        $canDo   = ContentHelper::getActions('com_plugins');
+        $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::sprintf('COM_PLUGINS_MANAGER_PLUGIN', Text::_($this->item->name)), 'plug plugin');
 
         // If not checked out, can save the item.
         if ($canDo->get('core.edit')) {
-            ToolbarHelper::apply('plugin.apply');
+            $toolbar->apply('plugin.apply');
 
-            ToolbarHelper::save('plugin.save');
+            $toolbar->save('plugin.save');
         }
 
-        ToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
-        ToolbarHelper::divider();
+        $toolbar->cancel('plugin.cancel');
+        $toolbar->divider();
 
         // Get the help information for the plugin item.
-        $lang = Factory::getLanguage();
+        $lang = $this->getLanguage();
 
         $help = $this->get('Help');
 
         if ($help->url && $lang->hasKey($help->url)) {
             $debug = $lang->setDebug(false);
-            $url = Text::_($help->url);
+            $url   = Text::_($help->url);
             $lang->setDebug($debug);
         } else {
             $url = null;
         }
 
-        ToolbarHelper::inlinehelp();
-        ToolbarHelper::help($help->key, false, $url);
+        $toolbar->inlinehelp();
+        $toolbar->help($help->key, false, $url);
     }
 }

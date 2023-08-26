@@ -11,6 +11,7 @@
 namespace Joomla\Component\Content\Site\View\Article;
 
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Event\Content;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
@@ -23,7 +24,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
-use Joomla\Event\Event;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML Article View class for the Content component
@@ -58,7 +62,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var   \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -104,7 +108,7 @@ class HtmlView extends BaseHtmlView
         $user = $this->getCurrentUser();
 
         $this->item  = $this->get('Item');
-        $this->print = $app->input->getBool('print', false);
+        $this->print = $app->getInput()->getBool('print', false);
         $this->state = $this->get('State');
         $this->user  = $user;
 
@@ -169,7 +173,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        $offset = $this->state->get('list.offset');
+        $offset = (int) $this->state->get('list.offset');
 
         // Check the view access to the article (the model has already computed the values).
         if ($item->params->get('access-view') == false && ($item->params->get('show_noauth', '0') == '0')) {
@@ -187,7 +191,7 @@ class HtmlView extends BaseHtmlView
          */
         if ($item->params->get('access-view') == false && !strlen($item->fulltext)) {
             if ($this->user->get('guest')) {
-                $return = base64_encode(Uri::getInstance());
+                $return                = base64_encode(Uri::getInstance());
                 $login_url_with_return = Route::_('index.php?option=com_users&view=login&return=' . $return);
                 $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'notice');
                 $app->redirect($login_url_with_return, 403);
@@ -218,19 +222,33 @@ class HtmlView extends BaseHtmlView
             $item->associations = AssociationHelper::displayAssociations($item->id);
         }
 
+        $dispatcher = $this->getDispatcher();
+
         // Process the content plugins.
-        PluginHelper::importPlugin('content');
-        $this->dispatchEvent(new Event('onContentPrepare', array('com_content.article', &$item, &$item->params, $offset)));
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
-        $item->event = new \stdClass();
-        $results = Factory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));
-        $item->event->afterDisplayTitle = trim(implode("\n", $results));
+        $contentEventArguments = [
+            'context' => 'com_content.article',
+            'subject' => $item,
+            'params'  => $item->params,
+            'page'    => $offset,
+        ];
 
-        $results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$item->params, $offset));
-        $item->event->beforeDisplayContent = trim(implode("\n", $results));
+        $dispatcher->dispatch('onContentPrepare', new Content\ContentPrepareEvent('onContentPrepare', $contentEventArguments));
 
-        $results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$item->params, $offset));
-        $item->event->afterDisplayContent = trim(implode("\n", $results));
+        // Extra content from events
+        $item->event   = new \stdClass();
+        $contentEvents = [
+            'afterDisplayTitle'    => new Content\AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
+            'beforeDisplayContent' => new Content\BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
+            'afterDisplayContent'  => new Content\AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
+        ];
+
+        foreach ($contentEvents as $resultKey => $event) {
+            $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
+
+            $item->event->{$resultKey} = $results ? trim(implode("\n", $results)) : '';
+        }
 
         // Escape strings for HTML output
         $this->pageclass_sfx = htmlspecialchars($this->item->params->get('pageclass_sfx', ''));
@@ -279,11 +297,11 @@ class HtmlView extends BaseHtmlView
                 $id = 0;
             }
 
-            $path     = array(array('title' => $this->item->title, 'link' => ''));
+            $path     = [['title' => $this->item->title, 'link' => '']];
             $category = Categories::getInstance('Content')->get($this->item->catid);
 
             while ($category !== null && $category->id != $id && $category->id !== 'root') {
-                $path[]   = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
+                $path[]   = ['title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language)];
                 $category = $category->getParent();
             }
 
@@ -295,31 +313,36 @@ class HtmlView extends BaseHtmlView
         }
 
         if (empty($title)) {
-            $title = $this->item->title;
+            /**
+             * This happens when the current active menu item is linked to the article without browser
+             * page title set, so we use Browser Page Title in article and fallback to article title
+             * if that is not set
+             */
+            $title = $this->item->params->get('article_page_title', $this->item->title);
         }
 
         $this->setDocumentTitle($title);
 
         if ($this->item->metadesc) {
-            $this->document->setDescription($this->item->metadesc);
+            $this->getDocument()->setDescription($this->item->metadesc);
         } elseif ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
 
         if ($app->get('MetaAuthor') == '1') {
             $author = $this->item->created_by_alias ?: $this->item->author;
-            $this->document->setMetaData('author', $author);
+            $this->getDocument()->setMetaData('author', $author);
         }
 
         $mdata = $this->item->metadata->toArray();
 
         foreach ($mdata as $k => $v) {
             if ($v) {
-                $this->document->setMetaData($k, $v);
+                $this->getDocument()->setMetaData($k, $v);
             }
         }
 
@@ -332,7 +355,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($this->print) {
-            $this->document->setMetaData('robots', 'noindex, nofollow');
+            $this->getDocument()->setMetaData('robots', 'noindex, nofollow');
         }
     }
 }

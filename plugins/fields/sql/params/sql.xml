@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields name="fieldparams">
 		<fieldset name="fieldparams">
@@ -11,7 +11,13 @@
 				rows="10"
 				required="true"
 			/>
-
+			<field
+				name="header"
+				type="text"
+				label="PLG_FIELDS_SQL_PARAMS_HEADER_LABEL"
+				description="PLG_FIELDS_SQL_PARAMS_HEADER_DESC"
+				filter="string"
+			/>
 			<field
 				name="multiple"
 				type="list"

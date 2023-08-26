@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Form\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Provides radio button inputs
@@ -45,10 +49,10 @@ class RadioField extends ListField
     {
         $data = parent::getLayoutData();
 
-        $extraData = array(
+        $extraData = [
             'options' => $this->getOptions(),
             'value'   => (string) $this->value,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

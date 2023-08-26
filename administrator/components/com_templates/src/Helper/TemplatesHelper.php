@@ -11,12 +11,16 @@
 namespace Joomla\Component\Templates\Administrator\Helper;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Templates component helper.
@@ -33,7 +37,7 @@ class TemplatesHelper
     public static function getClientOptions()
     {
         // Build the filter options.
-        $options = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
         $options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
 
@@ -50,7 +54,7 @@ class TemplatesHelper
     public static function getTemplateOptions($clientId = '*')
     {
         // Build the filter options.
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true);
 
         $query->select($db->quoteName('element', 'value'))
@@ -112,10 +116,10 @@ class TemplatesHelper
      */
     public static function getPositions($clientId, $templateDir)
     {
-        $positions = array();
+        $positions = [];
 
         $templateBaseDir = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
-        $filePath = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+        $filePath        = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
 
         if (is_file($filePath)) {
             // Read the file to see if it's a valid component XML file
@@ -140,7 +144,7 @@ class TemplatesHelper
             if (isset($positions['position'])) {
                 $positions = (array) $positions['position'];
             } else {
-                $positions = array();
+                $positions = [];
             }
         }
 

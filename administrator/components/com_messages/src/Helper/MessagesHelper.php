@@ -13,6 +13,10 @@ namespace Joomla\Component\Messages\Administrator\Helper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Messages helper class.
  *
@@ -30,7 +34,7 @@ class MessagesHelper
     public static function getStateOptions()
     {
         // Build the filter options.
-        $options   = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '1', Text::_('COM_MESSAGES_OPTION_READ'));
         $options[] = HTMLHelper::_('select.option', '0', Text::_('COM_MESSAGES_OPTION_UNREAD'));
         $options[] = HTMLHelper::_('select.option', '-2', Text::_('JTRASHED'));

@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The Menu Type Controller
  *
@@ -28,7 +32,8 @@ class MenuController extends FormController
      * Dummy method to redirect back to standard controller
      *
      * @param   boolean  $cachable   If true, the view output will be cached.
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  void
      *
@@ -55,7 +60,7 @@ class MenuController extends FormController
         $this->checkToken();
 
         $app      = $this->app;
-        $data     = $this->input->post->get('jform', array(), 'array');
+        $data     = $this->input->post->get('jform', [], 'array');
         $context  = 'com_menus.edit.menu';
         $task     = $this->getTask();
         $recordId = $this->input->getInt('id');
@@ -188,7 +193,7 @@ class MenuController extends FormController
         // Check for request forgeries.
         $this->checkToken();
 
-        $cid = (array) $this->input->get('cid', array(), 'int');
+        $cid = (array) $this->input->get('cid', [], 'int');
 
         // We know the first element is the one we need because we don't allow multi selection of rows
         $id = empty($cid) ? 0 : reset($cid);

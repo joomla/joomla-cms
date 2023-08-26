@@ -10,33 +10,34 @@
 
 namespace Joomla\Component\Users\Administrator\Controller;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Event\MultiFactor\Validate;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\CaptiveModel;
 use Joomla\Input\Input;
-use ReflectionObject;
-use RuntimeException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Captive Multi-factor Authentication page controller
  *
  * @since 4.2.0
  */
-class CaptiveController extends BaseController
+class CaptiveController extends BaseController implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Public constructor
      *
@@ -61,17 +62,16 @@ class CaptiveController extends BaseController
      * @param   boolean|array  $urlparams  Ignored. This page is never cached.
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public function display($cachable = false, $urlparams = false): void
     {
-        $user = $this->app->getIdentity()
-            ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        $user = $this->app->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
 
         // Only allow logged in Users
         if ($user->guest) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         // Get the view object
@@ -107,7 +107,7 @@ class CaptiveController extends BaseController
         try {
             // Suppress all modules on the page except those explicitly allowed
             $model->suppressAllModules();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // If we can't kill the modules we can still survive.
         }
 
@@ -126,7 +126,7 @@ class CaptiveController extends BaseController
      * @param   array  $urlparameters    Ignored. This page is never cached.
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public function validate($cachable = false, $urlparameters = [])
@@ -148,12 +148,23 @@ class CaptiveController extends BaseController
             $event = new NotifyActionLog('onComUsersCaptiveValidateInvalidMethod');
             $this->app->getDispatcher()->dispatch($event->getName(), $event);
 
-            throw new RuntimeException(Text::_('COM_USERS_MFA_INVALID_METHOD'), 500);
+            throw new \RuntimeException(Text::_('COM_USERS_MFA_INVALID_METHOD'), 500);
+        }
+
+        if (!$model->checkTryLimit($record)) {
+            // The try limit is reached, show error and return
+            $captiveURL = Route::_('index.php?option=com_users&view=captive&task=select', false);
+            $message    = Text::_('COM_USERS_MFA_TRY_LIMIT_REACHED');
+            $this->setRedirect($captiveURL, $message, 'error');
+
+            $event = new NotifyActionLog('onComUsersCaptiveValidateTryLimitReached');
+            $this->app->getDispatcher()->dispatch($event->getName(), $event);
+
+            return;
         }
 
         // Validate the code
-        $user = $this->app->getIdentity()
-            ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        $user = $this->app->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
 
         $event   = new Validate($record, $user, $code);
         $results = $this->app
@@ -208,8 +219,9 @@ class CaptiveController extends BaseController
         // Update the Last Used, UA and IP columns
         $jNow = Date::getInstance();
 
-		// phpcs:ignore
-		$record->last_used = $jNow->toSql();
+        $record->last_used = $jNow->toSql();
+        $record->tries     = 0;
+        $record->last_try  = null;
         $record->store();
 
         // Flag the user as fully logged in

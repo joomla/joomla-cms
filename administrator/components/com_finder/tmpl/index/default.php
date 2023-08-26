@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -20,25 +19,24 @@ use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$lang      = Factory::getLanguage();
+$lang      = $this->getLanguage();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('multiselect')
     ->useScript('table.columns');
-
 ?>
 <form action="<?php echo Route::_('index.php?option=com_finder&view=index'); ?>" method="post" name="adminForm" id="adminForm">
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if ($this->finderPluginId) : ?>
                     <?php $link = Route::_('index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $this->finderPluginId . '&tmpl=component&layout=modal'); ?>
                     <?php echo HTMLHelper::_(
                         'bootstrap.renderModal',
                         'plugin' . $this->finderPluginId . 'Modal',
-                        array(
+                        [
                             'url'         => $link,
                             'title'       => Text::_('COM_FINDER_EDIT_PLUGIN_SETTINGS'),
                             'height'      => '400px',
@@ -55,7 +53,7 @@ $wa->useScript('multiselect')
                                 . Text::_("JSAVE") . '</button>'
                                 . '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
                                 . Text::_("JAPPLY") . '</button>'
-                        )
+                        ]
                     ); ?>
                 <?php endif; ?>
                 <?php if (empty($this->items)) : ?>
@@ -101,7 +99,7 @@ $wa->useScript('multiselect')
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $canChange = Factory::getUser()->authorise('core.manage', 'com_finder'); ?>
+                            <?php $canChange = $this->getCurrentUser()->authorise('core.manage', 'com_finder'); ?>
                             <?php foreach ($this->items as $i => $item) : ?>
                             <tr class="row<?php echo $i % 2; ?>">
                                 <td class="text-center">
@@ -111,7 +109,13 @@ $wa->useScript('multiselect')
                                     <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
                                 </td>
                                 <th scope="row">
-                                    <?php echo $this->escape($item->title); ?>
+                                    <?php if (JDEBUG) : ?>
+                                        <a href="index.php?option=com_finder&view=item&id=<?php echo $item->link_id; ?>">
+                                            <?php echo $this->escape($item->title); ?>
+                                        </a>
+                                    <?php else : ?>
+                                        <?php echo $this->escape($item->title); ?>
+                                    <?php endif; ?>
                                 </th>
                                 <td class="small d-none d-md-table-cell">
                                     <?php

@@ -15,7 +15,11 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Plugin\PluginHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Registration view class for Users.
@@ -48,7 +52,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -58,6 +62,15 @@ class HtmlView extends BaseHtmlView
      * @var  HtmlDocument
      */
     public $document;
+
+    /**
+     * Should we show a captcha form for the submission of the article?
+     *
+     * @var    boolean
+     *
+     * @since  3.7.0
+     */
+    protected $captchaEnabled = false;
 
     /**
      * The page class suffix
@@ -97,6 +110,15 @@ class HtmlView extends BaseHtmlView
             $this->setLayout($active->query['layout']);
         }
 
+        $captchaSet = $this->params->get('captcha', Factory::getApplication()->get('captcha', '0'));
+
+        foreach (PluginHelper::getPlugin('captcha') as $plugin) {
+            if ($captchaSet === $plugin->name) {
+                $this->captchaEnabled = true;
+                break;
+            }
+        }
+
         // Escape strings for HTML output
         $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
 
@@ -128,11 +150,11 @@ class HtmlView extends BaseHtmlView
         $this->setDocumentTitle($this->params->get('page_title', ''));
 
         if ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
     }
 }

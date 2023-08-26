@@ -13,8 +13,12 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
- * Viewlevels table class.
+ * ViewLevel table class.
  *
  * @since  1.7.0
  */
@@ -81,7 +85,7 @@ class ViewLevel extends Table
         $id = (int) $this->id;
 
         // Check for a duplicate title.
-        $db = $this->_db;
+        $db    = $this->_db;
         $query = $db->getQuery(true)
             ->select('COUNT(' . $db->quoteName('title') . ')')
             ->from($db->quoteName('#__viewlevels'))

@@ -9,12 +9,17 @@
 
 namespace Joomla\CMS\Authentication;
 
+use Joomla\CMS\Event\User\AuthorisationEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Authentication class, provides an interface for the Joomla authentication system
@@ -143,7 +148,7 @@ class Authentication
      * @see     AuthenticationResponse
      * @since   1.7.0
      */
-    public function authenticate($credentials, $options = array())
+    public function authenticate($credentials, $options = [])
     {
         // Get plugins
         $plugins = PluginHelper::getPlugin($this->pluginType);
@@ -206,12 +211,16 @@ class Authentication
      * @since  1.7.0
      * @throws \Exception
      */
-    public function authorise($response, $options = array())
+    public function authorise($response, $options = [])
     {
-        // Get plugins in case they haven't been imported already
-        PluginHelper::importPlugin('user');
-        $results = Factory::getApplication()->triggerEvent('onUserAuthorisation', array($response, $options));
+        $dispatcher = $this->getDispatcher();
 
-        return $results;
+        // Get plugins in case they haven't been imported already
+        PluginHelper::importPlugin('user', null, true, $dispatcher);
+
+        $event = new AuthorisationEvent('onUserAuthorisation', ['subject' => $response, 'options' => $options]);
+        $dispatcher->dispatch('onUserAuthorisation', $event);
+
+        return $event['result'] ?? [];
     }
 }

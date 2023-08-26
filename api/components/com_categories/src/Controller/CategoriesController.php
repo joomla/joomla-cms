@@ -13,6 +13,10 @@ namespace Joomla\Component\Categories\Api\Controller;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\Table\Category;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The categories controller
  *
@@ -47,7 +51,7 @@ class CategoriesController extends ApiController
      */
     protected function preprocessSaveData(array $data): array
     {
-        $extension = $this->getExtensionFromInput();
+        $extension         = $this->getExtensionFromInput();
         $data['extension'] = $extension;
 
         // TODO: This is a hack to drop the extension into the global input object - to satisfy how state is built

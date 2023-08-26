@@ -10,10 +10,15 @@
 
 namespace Joomla\Component\Users\Site\Controller;
 
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Profile controller class for Users.
@@ -87,7 +92,7 @@ class ProfileController extends BaseController
         $userId = (int) $user->get('id');
 
         // Get the user data.
-        $requestData = $app->input->post->get('jform', array(), 'array');
+        $requestData = $app->getInput()->post->get('jform', [], 'array');
 
         // Force the ID to this user.
         $requestData['id'] = $userId;
@@ -101,9 +106,13 @@ class ProfileController extends BaseController
 
         // Send an object which can be modified through the plugin event
         $objData = (object) $requestData;
-        $app->triggerEvent(
+        $this->getDispatcher()->dispatch(
             'onContentNormaliseRequestData',
-            array('com_users.user', $objData, $form)
+            new Model\NormaliseRequestDataEvent('onContentNormaliseRequestData', [
+                'context' => 'com_users.user',
+                'data'    => $objData,
+                'subject' => $form,
+            ])
         );
         $requestData = (array) $objData;
 

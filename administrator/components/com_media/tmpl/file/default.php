@@ -27,7 +27,7 @@ $wa->useScript('keepalive')
 $script = $wa->getAsset('script', 'com_media.edit-images')->getUri(true);
 
 $params = ComponentHelper::getParams('com_media');
-$input  = Factory::getApplication()->input;
+$input  = Factory::getApplication()->getInput();
 
 /** @var \Joomla\CMS\Form\Form $form */
 $form = $this->form;
@@ -51,10 +51,10 @@ $config = [
     'csrfToken'          => Session::getFormToken(),
     'uploadPath'         => $this->file->path,
     'editViewUrl'        => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : '') . '&mediatypes=' . $mediaTypes,
-    'imagesExtensions'   => explode(',', $params->get('image_extensions', 'bmp,gif,jpg,jpeg,png,webp')),
-    'audioExtensions'    => explode(',', $params->get('audio_extensions', 'mp3,m4a,mp4a,ogg')),
-    'videoExtensions'    => explode(',', $params->get('video_extensions', 'mp4,mp4v,mpeg,mov,webm')),
-    'documentExtensions' => explode(',', $params->get('doc_extensions', 'doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')),
+    'imagesExtensions'   => array_map('trim', explode(',', $params->get('image_extensions', 'bmp,gif,jpg,jpeg,png,webp'))),
+    'audioExtensions'    => array_map('trim', explode(',', $params->get('audio_extensions', 'mp3,m4a,mp4a,ogg'))),
+    'videoExtensions'    => array_map('trim', explode(',', $params->get('video_extensions', 'mp4,mp4v,mpeg,mov,webm'))),
+    'documentExtensions' => array_map('trim', explode(',', $params->get('doc_extensions', 'doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv'))),
     'maxUploadSizeMb'    => $params->get('upload_maxsize', 10),
     'contents'           => $this->file->content,
 ];
@@ -71,6 +71,6 @@ $this->useCoreUI = true;
         <?php echo '<div id="media-manager-edit-container" class="media-manager-edit"></div>'; ?>
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
     <?php endif; ?>
-    <input type="hidden" name="mediatypes" value="<?php echo $mediaTypes; ?>">
+    <input type="hidden" name="mediatypes" value="<?php echo $this->escape($mediaTypes); ?>">
 </form>
 <script type="module" src="<?php echo $script . '?' . $this->document->getMediaVersion(); ?>"></script>
