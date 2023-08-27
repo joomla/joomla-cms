@@ -171,6 +171,10 @@ trait CoreEventAware
         'onFinderAfterSave'           => Finder\AfterSaveEvent::class,
         'onFinderResult'              => Finder\ResultEvent::class,
         'onPrepareFinderContent'      => Finder\PrepareContentEvent::class,
+        // Privacy
+        'onPrivacyCollectAdminCapabilities'    => Privacy\CollectCapabilitiesEvent::class,
+        'onPrivacyCheckPrivacyPolicyPublished' => Privacy\CheckPrivacyPolicyPublishedEvent::class,
+        'onPrivacyExportRequest'               => Privacy\ExportRequestEvent::class,
     ];
 
     /**
