@@ -175,6 +175,7 @@ trait CoreEventAware
         'onPrivacyCollectAdminCapabilities'    => Privacy\CollectCapabilitiesEvent::class,
         'onPrivacyCheckPrivacyPolicyPublished' => Privacy\CheckPrivacyPolicyPublishedEvent::class,
         'onPrivacyExportRequest'               => Privacy\ExportRequestEvent::class,
+        'onPrivacyCanRemoveData'               => Privacy\CanRemoveDataEvent::class,
     ];
 
     /**

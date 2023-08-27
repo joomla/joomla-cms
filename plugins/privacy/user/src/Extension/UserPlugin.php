@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\Privacy\User\Extension;
 
+use Joomla\CMS\Event\Privacy\CanRemoveDataEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\User as TableUser;
 use Joomla\CMS\User\User;
@@ -36,19 +37,20 @@ final class UserPlugin extends PrivacyPlugin
      *
      * This event will not allow a super user account to be removed
      *
-     * @param   RequestTable  $request  The request record being processed
-     * @param   User          $user     The user account associated with this request if available
+     * @param   CanRemoveDataEvent  $event  The request event
      *
-     * @return  Status
+     * @return  void
      *
      * @since   3.9.0
      */
-    public function onPrivacyCanRemoveData(RequestTable $request, User $user = null)
+    public function onPrivacyCanRemoveData(CanRemoveDataEvent $event)
     {
+        $user   = $event->getUser();
         $status = new Status();
 
         if (!$user) {
-            return $status;
+            $event->addResult($status);
+            return;
         }
 
         if ($user->authorise('core.admin')) {
@@ -56,7 +58,7 @@ final class UserPlugin extends PrivacyPlugin
             $status->reason    = Text::_('PLG_PRIVACY_USER_ERROR_CANNOT_REMOVE_SUPER_USER');
         }
 
-        return $status;
+        $event->addResult($status);
     }
 
     /**
