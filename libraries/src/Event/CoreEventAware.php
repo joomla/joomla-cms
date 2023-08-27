@@ -174,6 +174,8 @@ trait CoreEventAware
         // ActionLog
         'onAfterLogPurge'  => ActionLog\AfterLogPurgeEvent::class,
         'onAfterLogExport' => ActionLog\AfterLogExportEvent::class,
+        // Cache
+        'onAfterPurge' => Cache\AfterPurgeEvent::class,
     ];
 
     /**
