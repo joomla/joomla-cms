@@ -171,6 +171,9 @@ trait CoreEventAware
         'onFinderAfterSave'           => Finder\AfterSaveEvent::class,
         'onFinderResult'              => Finder\ResultEvent::class,
         'onPrepareFinderContent'      => Finder\PrepareContentEvent::class,
+        // ActionLog
+        'onAfterLogPurge'  => ActionLog\AfterLogPurgeEvent::class,
+        'onAfterLogExport' => ActionLog\AfterLogExportEvent::class,
     ];
 
     /**
