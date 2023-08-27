@@ -45,6 +45,7 @@ final class UserPlugin extends PrivacyPlugin implements SubscriberInterface
     {
         return [
             'onPrivacyCanRemoveData' => 'onPrivacyCanRemoveData',
+            'onPrivacyRemoveData'    => 'onPrivacyRemoveData',
             'onPrivacyExportRequest' => 'onPrivacyExportRequest',
         ];
     }

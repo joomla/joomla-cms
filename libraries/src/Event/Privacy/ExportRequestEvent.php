@@ -11,8 +11,8 @@ namespace Joomla\CMS\Event\Privacy;
 
 use Joomla\CMS\Event\Result\ResultAware;
 use Joomla\CMS\Event\Result\ResultAwareInterface;
-use Joomla\CMS\Event\Result\ResultTypeArrayAware;
 use Joomla\CMS\User\User;
+use Joomla\Component\Privacy\Administrator\Export\Domain;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -27,7 +27,6 @@ use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 class ExportRequestEvent extends PrivacyEvent implements ResultAwareInterface
 {
     use ResultAware;
-    use ResultTypeArrayAware;
 
     /**
      * The argument names, in order expected by legacy plugins.
@@ -112,5 +111,35 @@ class ExportRequestEvent extends PrivacyEvent implements ResultAwareInterface
     public function getUser(): ?User
     {
         return $this->arguments['user'];
+    }
+
+    /**
+     * Checks the type of the data being appended to the result argument.
+     *
+     * @param   mixed  $data  The data to type check
+     *
+     * @return  void
+     * @throws  \InvalidArgumentException
+     *
+     * @internal
+     * @since   __DEPLOY_VERSION__
+     */
+    public function typeCheckResult($data): void
+    {
+        if (!is_array($data)) {
+            throw new \InvalidArgumentException(sprintf('Event %s only accepts Array results.', \get_class($this)));
+        }
+
+        // Validate items in array
+        foreach ($data as $item) {
+            if (!$item instanceof Domain) {
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        'Event %s only accepts Joomla\Component\Privacy\Administrator\Export\Domain in result array.',
+                        \get_class($this)
+                    )
+                );
+            }
+        }
     }
 }
