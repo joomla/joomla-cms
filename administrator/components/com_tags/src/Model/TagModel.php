@@ -533,7 +533,7 @@ class TagModel extends AdminModel
             }
 
             // Make a copy of the old ID and Parent ID
-            $oldId = $table->id;
+            $oldId       = $table->id;
             $oldParentId = $table->parent_id;
 
             // Reset the id because we are making a copy.
@@ -542,7 +542,7 @@ class TagModel extends AdminModel
             // If we a copying children, the Old ID will turn up in the parents list
             // otherwise it's a new top level item
             $table->parent_id = isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
-            $table->menutype = $menuType;
+            $table->menutype  = $menuType;
 
             // Set the new location in the tree for the node.
             $table->setLocation($table->parent_id, 'last-child');
@@ -555,8 +555,8 @@ class TagModel extends AdminModel
 
             // Alter the title & alias
             list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
-            $table->title = $title;
-            $table->alias = $alias;
+            $table->title        = $title;
+            $table->alias        = $alias;
 
             // Check the row.
             if (!$table->check()) {
