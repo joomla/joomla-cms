@@ -9,11 +9,13 @@
 
 namespace Joomla\CMS\Authentication;
 
+use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Event\User\AuthorisationEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Event\Dispatcher;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 
@@ -151,10 +153,20 @@ class Authentication
     public function authenticate($credentials, $options = [])
     {
         // Get plugins
-        $plugins = PluginHelper::getPlugin($this->pluginType);
+        //$plugins = PluginHelper::getPlugin($this->pluginType);
 
         // Create authentication response
         $response = new AuthenticationResponse();
+
+        // Dispatch onUserAuthenticate event in the isolated dispatcher
+        $dispatcher = new Dispatcher();
+        PluginHelper::importPlugin($this->pluginType, null, true, $dispatcher);
+
+        $dispatcher->dispatch('onUserAuthenticate', new AuthenticationEvent('onUserAuthenticate', [
+            'credentials' => $credentials,
+            'options'     => $options,
+            'subject'     => $response,
+        ]));
 
         /*
          * Loop through the plugins and check if the credentials can be used to authenticate
@@ -162,7 +174,7 @@ class Authentication
          *
          * Any errors raised in the plugin should be returned via the AuthenticationResponse
          * and handled appropriately.
-         */
+         * /
         foreach ($plugins as $plugin) {
             $plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
@@ -183,7 +195,7 @@ class Authentication
 
                 break;
             }
-        }
+        }*/
 
         if (empty($response->username)) {
             $response->username = $credentials['username'];
