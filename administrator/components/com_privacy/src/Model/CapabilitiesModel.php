@@ -79,14 +79,11 @@ class CapabilitiesModel extends BaseModel
         PluginHelper::importPlugin('privacy', null, true, $dispatcher);
         PluginHelper::importPlugin('user', null, true, $dispatcher);
 
-        //$pluginResults = $app->triggerEvent('onPrivacyCollectAdminCapabilities');
         $pluginResults = $dispatcher->dispatch(
             'onPrivacyCollectAdminCapabilities',
             new CollectCapabilitiesEvent('onPrivacyCollectAdminCapabilities')
         )->getArgument('result', []);
 
-
-dump($pluginResults);
         // We are going to "cheat" here and include this component's capabilities without using a plugin
         $extensionCapabilities = [
             Text::_('COM_PRIVACY') => [
