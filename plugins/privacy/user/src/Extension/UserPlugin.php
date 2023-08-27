@@ -11,14 +11,16 @@
 namespace Joomla\Plugin\Privacy\User\Extension;
 
 use Joomla\CMS\Event\Privacy\CanRemoveDataEvent;
+use Joomla\CMS\Event\Privacy\ExportRequestEvent;
+use Joomla\CMS\Event\Privacy\RemoveDataEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\User as TableUser;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
 use Joomla\Component\Privacy\Administrator\Removal\Status;
-use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -30,8 +32,23 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.9.0
  */
-final class UserPlugin extends PrivacyPlugin
+final class UserPlugin extends PrivacyPlugin implements SubscriberInterface
 {
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onPrivacyCanRemoveData' => 'onPrivacyCanRemoveData',
+            'onPrivacyExportRequest' => 'onPrivacyExportRequest',
+        ];
+    }
+
     /**
      * Performs validation to determine if the data associated with a remove information request can be processed
      *
@@ -71,17 +88,18 @@ final class UserPlugin extends PrivacyPlugin
      * - #__user_profiles
      * - User custom fields
      *
-     * @param   RequestTable  $request  The request record being processed
-     * @param   User          $user     The user account associated with this request if available
+     * @param   ExportRequestEvent  $event  The request event
      *
-     * @return  \Joomla\Component\Privacy\Administrator\Export\Domain[]
+     * @return  void
      *
      * @since   3.9.0
      */
-    public function onPrivacyExportRequest(RequestTable $request, User $user = null)
+    public function onPrivacyExportRequest(ExportRequestEvent $event)
     {
+        $user = $event->getUser();
+
         if (!$user) {
-            return [];
+            return;
         }
 
         /** @var TableUser $userTable */
@@ -94,7 +112,7 @@ final class UserPlugin extends PrivacyPlugin
         $domains[] = $this->createProfileDomain($userTable);
         $domains[] = $this->createCustomFieldsDomain('com_users.user', [$userTable]);
 
-        return $domains;
+        $event->addResult($domains);
     }
 
     /**
@@ -102,15 +120,16 @@ final class UserPlugin extends PrivacyPlugin
      *
      * This event will pseudoanonymise the user account
      *
-     * @param   RequestTable  $request  The request record being processed
-     * @param   User          $user     The user account associated with this request if available
+     * @param   RemoveDataEvent  $event  The remove data event
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onPrivacyRemoveData(RequestTable $request, User $user = null)
+    public function onPrivacyRemoveData(RemoveDataEvent $event)
     {
+        $user = $event->getUser();
+
         // This plugin only processes data for registered user accounts
         if (!$user) {
             return;
