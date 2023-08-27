@@ -18,7 +18,9 @@ use Joomla\CMS\Event\Result\ResultTypeArrayAware;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Privacy events
+ * Class for Privacy events.
+ * Example:
+ *   new CollectCapabilitiesEvent('onEventName');
  *
  * @since  __DEPLOY_VERSION__
  */

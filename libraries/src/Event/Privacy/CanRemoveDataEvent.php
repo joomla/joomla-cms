@@ -20,7 +20,9 @@ use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Privacy events
+ * Class for Privacy events.
+ * Example:
+ *     new CanRemoveDataEvent('onEventName', ['subject' => $requestTable, 'user' => $user]);
  *
  * @since  __DEPLOY_VERSION__
  */

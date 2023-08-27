@@ -14,7 +14,9 @@ namespace Joomla\CMS\Event\Privacy;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Privacy events
+ * Class for Privacy events.
+ * Example:
+ *     new CheckPrivacyPolicyPublishedEvent('onEventName', ['subject' => $policyInfo]);
  *
  * @since  __DEPLOY_VERSION__
  */
