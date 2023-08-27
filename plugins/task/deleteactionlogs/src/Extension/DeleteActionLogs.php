@@ -40,7 +40,7 @@ final class DeleteActionLogs extends CMSPlugin implements SubscriberInterface
      */
     private const TASKS_MAP = [
         'delete.logs' => [
-            'langConstPrefix' => 'PLG_TASK_ROTATELOGS_DELETE',
+            'langConstPrefix' => 'PLG_TASK_DELETEACTIONLOGS_DELETE',
             'method'          => 'deleteLogs',
             'form'            => 'deleteForm',
         ],
