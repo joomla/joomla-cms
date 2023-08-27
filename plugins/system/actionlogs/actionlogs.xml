@@ -19,10 +19,4 @@
 		<language tag="en-GB">language/en-GB/plg_system_actionlogs.ini</language>
 		<language tag="en-GB">language/en-GB/plg_system_actionlogs.sys.ini</language>
 	</languages>
-	<config>
-		<fields name="params">
-			<fieldset name="basic">
-			</fieldset>
-		</fields>
-	</config>
 </extension>
