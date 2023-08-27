@@ -7,7 +7,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Event\Cache;
+namespace Joomla\CMS\Event\Contact;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\ReshapeArgumentsAware;
@@ -17,11 +17,11 @@ use Joomla\CMS\Event\ReshapeArgumentsAware;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Cache events
+ * Class for Contact events
  *
  * @since  __DEPLOY_VERSION__
  */
-class AfterPurgeEvent extends AbstractImmutableEvent
+class SubmitContactEvent extends AbstractImmutableEvent
 {
     use ReshapeArgumentsAware;
 
@@ -33,7 +33,7 @@ class AfterPurgeEvent extends AbstractImmutableEvent
      * @since  __DEPLOY_VERSION__
      * @deprecated 5.0 will be removed in 6.0
      */
-    protected $legacyArgumentsOrder = ['subject'];
+    protected $legacyArgumentsOrder = ['subject', 'data'];
 
     /**
      * Constructor.
@@ -53,31 +53,65 @@ class AfterPurgeEvent extends AbstractImmutableEvent
         }
 
         parent::__construct($name, $arguments);
+
+        if (!\array_key_exists('subject', $this->arguments)) {
+            throw new \BadMethodCallException("Argument 'subject' of event {$name} is required but has not been provided");
+        }
+
+        if (!\array_key_exists('data', $this->arguments)) {
+            throw new \BadMethodCallException("Argument 'data' of event {$name} is required but has not been provided");
+        }
     }
 
     /**
      * Setter for the subject argument.
      *
-     * @param   string  $value  The value to set
+     * @param   object  $value  The value to set
      *
-     * @return  string
+     * @return  object
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected function setSubject(string $value): string
+    protected function setSubject(object $value): object
     {
         return $value;
     }
 
     /**
-     * Getter for the group.
+     * Setter for the data argument.
      *
-     * @return  string
+     * @param   array|\ArrayAccess  $value  The value to set
+     *
+     * @return  array|\ArrayAccess
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getGroup(): string
+    protected function setData(array|\ArrayAccess $value): array|\ArrayAccess
     {
-        return $this->arguments['subject'] ?? '';
+        return $value;
+    }
+
+    /**
+     * Getter for the contact.
+     *
+     * @return  object
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getContact(): object
+    {
+        return $this->arguments['subject'];
+    }
+
+    /**
+     * Getter for the data.
+     *
+     * @return  array|\ArrayAccess
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getData(): array|\ArrayAccess
+    {
+        return $this->arguments['data'];
     }
 }

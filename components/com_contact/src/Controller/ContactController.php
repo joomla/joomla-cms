@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Contact\Site\Controller;
 
+use Joomla\CMS\Event\Contact\SubmitContactEvent;
+use Joomla\CMS\Event\Contact\ValidateContactEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -17,6 +19,7 @@ use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
@@ -171,7 +174,11 @@ class ContactController extends FormController implements UserFactoryAwareInterf
         }
 
         // Validation succeeded, continue with custom handlers
-        $results = $this->app->triggerEvent('onValidateContact', [&$contact, &$data]);
+        $eventData = new ArrayProxy($data);
+        $results   = $this->getDispatcher()->dispatch('onValidateContact', new ValidateContactEvent('onValidateContact', [
+            'subject' => $contact,
+            'data'    => $eventData,
+        ]))->getArgument('result', []);
 
         foreach ($results as $result) {
             if ($result instanceof \Exception) {
@@ -180,7 +187,10 @@ class ContactController extends FormController implements UserFactoryAwareInterf
         }
 
         // Passed Validation: Process the contact plugins to integrate with other applications
-        $this->app->triggerEvent('onSubmitContact', [&$contact, &$data]);
+        $this->getDispatcher()->dispatch('onSubmitContact', new SubmitContactEvent('onSubmitContact', [
+            'subject' => $contact,
+            'data'    => $eventData,
+        ]));
 
         // Send the email
         $sent = false;

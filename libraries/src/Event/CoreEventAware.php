@@ -176,6 +176,9 @@ trait CoreEventAware
         'onAfterLogExport' => ActionLog\AfterLogExportEvent::class,
         // Cache
         'onAfterPurge' => Cache\AfterPurgeEvent::class,
+        // Contact
+        'onValidateContact' => Contact\ValidateContactEvent::class,
+        'onSubmitContact'   => Contact\SubmitContactEvent::class,
     ];
 
     /**
