@@ -11,6 +11,7 @@
 namespace Joomla\Component\Content\Site\View\Article;
 
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Event\Content;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
@@ -23,7 +24,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
-use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -173,7 +173,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        $offset = $this->state->get('list.offset');
+        $offset = (int) $this->state->get('list.offset');
 
         // Check the view access to the article (the model has already computed the values).
         if ($item->params->get('access-view') == false && ($item->params->get('show_noauth', '0') == '0')) {
@@ -222,19 +222,33 @@ class HtmlView extends BaseHtmlView
             $item->associations = AssociationHelper::displayAssociations($item->id);
         }
 
+        $dispatcher = $this->getDispatcher();
+
         // Process the content plugins.
-        PluginHelper::importPlugin('content');
-        $this->dispatchEvent(new Event('onContentPrepare', ['com_content.article', &$item, &$item->params, $offset]));
+        PluginHelper::importPlugin('content', null, true, $dispatcher);
 
-        $item->event                    = new \stdClass();
-        $results                        = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_content.article', &$item, &$item->params, $offset]);
-        $item->event->afterDisplayTitle = trim(implode("\n", $results));
+        $contentEventArguments = [
+            'context' => 'com_content.article',
+            'subject' => $item,
+            'params'  => $item->params,
+            'page'    => $offset,
+        ];
 
-        $results                           = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_content.article', &$item, &$item->params, $offset]);
-        $item->event->beforeDisplayContent = trim(implode("\n", $results));
+        $dispatcher->dispatch('onContentPrepare', new Content\ContentPrepareEvent('onContentPrepare', $contentEventArguments));
 
-        $results                          = Factory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_content.article', &$item, &$item->params, $offset]);
-        $item->event->afterDisplayContent = trim(implode("\n", $results));
+        // Extra content from events
+        $item->event   = new \stdClass();
+        $contentEvents = [
+            'afterDisplayTitle'    => new Content\AfterTitleEvent('onContentAfterTitle', $contentEventArguments),
+            'beforeDisplayContent' => new Content\BeforeDisplayEvent('onContentBeforeDisplay', $contentEventArguments),
+            'afterDisplayContent'  => new Content\AfterDisplayEvent('onContentAfterDisplay', $contentEventArguments),
+        ];
+
+        foreach ($contentEvents as $resultKey => $event) {
+            $results = $dispatcher->dispatch($event->getName(), $event)->getArgument('result', []);
+
+            $item->event->{$resultKey} = $results ? trim(implode("\n", $results)) : '';
+        }
 
         // Escape strings for HTML output
         $this->pageclass_sfx = htmlspecialchars($this->item->params->get('pageclass_sfx', ''));
@@ -266,12 +280,10 @@ class HtmlView extends BaseHtmlView
             $this->params->def('page_heading', Text::_('JGLOBAL_ARTICLES'));
         }
 
-        $title = $this->params->get('page_title', '');
-
         // If the menu item is not linked to this article
         if (!$this->menuItemMatchArticle) {
             // If a browser page title is defined, use that, then fall back to the article title if set, then fall back to the page_title option
-            $title = $this->item->params->get('article_page_title', $this->item->title ?: $title);
+            $title = $this->item->params->get('article_page_title', $this->item->title);
 
             // Get ID of the category from active menu item
             if (
@@ -296,15 +308,19 @@ class HtmlView extends BaseHtmlView
             foreach ($path as $item) {
                 $pathway->addItem($item['title'], $item['link']);
             }
-        }
-
-        if (empty($title)) {
+        } else {
             /**
-             * This happens when the current active menu item is linked to the article without browser
-             * page title set, so we use Browser Page Title in article and fallback to article title
-             * if that is not set
+             * This case the menu item links directly to the article, browser will be determined by following
+             * order:
+             * 1. Browser page title set from menu item itself
+             * 2. Browser page title set for the article
+             * 3. Article title
              */
-            $title = $this->item->params->get('article_page_title', $this->item->title);
+            $menuItemParams = $menu->getParams();
+            $title          = $menuItemParams->get(
+                'page_title',
+                $this->item->params->get('article_page_title', $this->item->title)
+            );
         }
 
         $this->setDocumentTitle($title);
