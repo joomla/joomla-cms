@@ -6,23 +6,11 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-    "name": "com_admin.admin-help.es5",
-    "type": "script",
-    "uri": "com_admin/admin-help-es5.min.js",
-    "dependencies": [
-      "core"
-    ],
-    "attributes": {
-      "nomodule": true,
-      "defer": true
-    }
-  },
-    {
       "name": "com_admin.admin-help",
       "type": "script",
       "uri": "com_admin/admin-help.min.js",
       "dependencies": [
-        "com_admin.admin-help.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

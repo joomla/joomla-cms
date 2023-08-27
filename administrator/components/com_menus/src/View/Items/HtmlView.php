@@ -56,7 +56,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -96,7 +96,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $lang                = Factory::getLanguage();
+        $lang                = $this->getLanguage();
         $this->items         = $this->get('Items');
         $this->pagination    = $this->get('Pagination');
         $this->total         = $this->get('Total');

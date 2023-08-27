@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -227,7 +227,7 @@ class UpdateCoreCommand extends AbstractCommand
                 // Remove the administrator/cache/autoload_psr4.php file
                 $autoloadFile = JPATH_CACHE . '/autoload_psr4.php';
 
-                if (File::exists($autoloadFile)) {
+                if (file_exists($autoloadFile)) {
                     File::delete($autoloadFile);
                 }
 

@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Authentication;
 
+use Joomla\CMS\Event\User\AuthorisationEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -17,7 +18,7 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -212,10 +213,14 @@ class Authentication
      */
     public function authorise($response, $options = [])
     {
-        // Get plugins in case they haven't been imported already
-        PluginHelper::importPlugin('user');
-        $results = Factory::getApplication()->triggerEvent('onUserAuthorisation', [$response, $options]);
+        $dispatcher = $this->getDispatcher();
 
-        return $results;
+        // Get plugins in case they haven't been imported already
+        PluginHelper::importPlugin('user', null, true, $dispatcher);
+
+        $event = new AuthorisationEvent('onUserAuthorisation', ['subject' => $response, 'options' => $options]);
+        $dispatcher->dispatch('onUserAuthorisation', $event);
+
+        return $event['result'] ?? [];
     }
 }

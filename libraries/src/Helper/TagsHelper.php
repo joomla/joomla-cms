@@ -16,12 +16,12 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\UCM\UCMContent;
 use Joomla\CMS\UCM\UCMType;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -326,7 +326,7 @@ class TagsHelper extends CMSHelper
         $result = $this->unTagItem($contentItemId[$key], $table);
 
         /** @var  CoreContent $ucmContentTable */
-        $ucmContentTable = Table::getInstance('Corecontent');
+        $ucmContentTable = Table::getInstance('CoreContent');
 
         return $result && $ucmContentTable->deleteByContentId($contentItemId[$key], $this->typeAlias);
     }
@@ -407,8 +407,8 @@ class TagsHelper extends CMSHelper
 
         $ids = array_map('intval', $ids);
 
-        /** @var DatabaseDriver $db */
-        $db = Factory::getContainer()->get('DatabaseDriver');
+        /** @var DatabaseInterface $db */
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $query = $db->getQuery(true)
             ->select($db->quoteName(['m.tag_id', 'm.content_item_id']))
@@ -844,7 +844,7 @@ class TagsHelper extends CMSHelper
             } else {
                 // Process the tags
                 $data            = $this->getRowData($table);
-                $ucmContentTable = Table::getInstance('Corecontent');
+                $ucmContentTable = Table::getInstance('CoreContent');
 
                 $ucm     = new UCMContent($table, $this->typeAlias);
                 $ucmData = $data ? $ucm->mapData($data) : $ucm->ucmData;

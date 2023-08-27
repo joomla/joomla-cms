@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.8.6</version>
 	<description>PLG_SYSTEM_SESSIONGC_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\SessionGC</namespace>
 	<files>
-		<filename plugin="sessiongc">sessiongc.php</filename>
+		<folder plugin="sessiongc">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_system_sessiongc.ini</language>
