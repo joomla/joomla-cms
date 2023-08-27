@@ -152,9 +152,6 @@ class Authentication
      */
     public function authenticate($credentials, $options = [])
     {
-        // Get plugins
-        //$plugins = PluginHelper::getPlugin($this->pluginType);
-
         // Create authentication response
         $response = new AuthenticationResponse();
 
@@ -167,35 +164,6 @@ class Authentication
             'options'     => $options,
             'subject'     => $response,
         ]));
-
-        /*
-         * Loop through the plugins and check if the credentials can be used to authenticate
-         * the user
-         *
-         * Any errors raised in the plugin should be returned via the AuthenticationResponse
-         * and handled appropriately.
-         * /
-        foreach ($plugins as $plugin) {
-            $plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
-
-            if (!method_exists($plugin, 'onUserAuthenticate')) {
-                // Bail here if the plugin can't be created
-                Log::add(Text::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $plugin->name), Log::WARNING, 'jerror');
-                continue;
-            }
-
-            // Try to authenticate
-            $plugin->onUserAuthenticate($credentials, $options, $response);
-
-            // If authentication is successful break out of the loop
-            if ($response->status === self::STATUS_SUCCESS) {
-                if (empty($response->type)) {
-                    $response->type = $plugin->_name ?? $plugin->name;
-                }
-
-                break;
-            }
-        }*/
 
         if (empty($response->username)) {
             $response->username = $credentials['username'];
