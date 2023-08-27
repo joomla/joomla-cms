@@ -16,31 +16,14 @@ if (!array_key_exists('field', $displayData)) {
     return;
 }
 
-$field     = $displayData['field'];
-$label     = Text::_($field->label);
-$value     = $field->value;
-$class     = $field->params->get('render_class');
-$showLabel = $field->params->get('showlabel');
-$labelClass = $field->params->get('label_render_class');
+$field = $displayData['field'];
 
-if ($field->context == 'com_contact.mail') {
-    // Prepare the value for the contact form mail
-    $value = html_entity_decode($value);
-
-    echo($showLabel ? $label . ': ' : '') . $value . "\r\n";
+// Do nothing when not in mail context, like that the default rendering is used
+if ($field->context !== 'com_contact.mail') {
     return;
 }
 
-if (!strlen($value)) {
-    return;
-}
+// Prepare the value for the contact form mail
+$value = html_entity_decode($field->value);
 
-?>
-<dt class="contact-field-entry <?php echo $class; ?>">
-    <?php if ($showLabel == 1) : ?>
-        <span class="field-label <?php echo $labelClass; ?>"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?>: </span>
-    <?php endif; ?>
-</dt>
-<dd class="contact-field-entry <?php echo $class; ?>">
-    <span class="field-value"><?php echo $value; ?></span>
-</dd>
+echo ($field->params->get('showlabel') ? Text::_($field->label) . ': ' : '') . $value . "\r\n";

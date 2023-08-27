@@ -16,7 +16,6 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
@@ -26,6 +25,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -267,7 +267,7 @@ class TemplateModel extends FormModel
      * @param   string     $element   The path of the template element.
      * @param   \stdClass  $template  The stdClass object of template.
      *
-     * @return  array
+     * @return  void
      *
      * @since   4.0.0
      */
@@ -430,7 +430,7 @@ class TemplateModel extends FormModel
             }
         }
 
-        return $result;
+        return !empty($result) ? $result : ['.'];
     }
 
     /**
@@ -627,7 +627,7 @@ class TemplateModel extends FormModel
                 $this->template->client_id = (int) $this->template->client_id;
 
                 if (!isset($this->template->xmldata)) {
-                    $this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($this->template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $this->template->name);
+                    $this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($this->template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $this->template->element);
                 }
             }
         }
@@ -713,7 +713,7 @@ class TemplateModel extends FormModel
                     $src = Path::clean($client->path . '/language/' . $languageFile);
                     $dst = Path::clean($toPath . '/' . $folder . '/' . $languageFile);
 
-                    if (File::exists($src)) {
+                    if (is_file($src)) {
                         File::copy($src, $dst);
                     }
                 }
@@ -784,7 +784,7 @@ class TemplateModel extends FormModel
         // Edit XML file
         $xmlFile = $this->getState('to_path') . '/templateDetails.xml';
 
-        if (File::exists($xmlFile)) {
+        if (is_file($xmlFile)) {
             $contents  = file_get_contents($xmlFile);
             $pattern[] = '#<name>\s*' . $manifest->name . '\s*</name>#i';
             $replace[] = '<name>' . $newName . '</name>';
@@ -959,7 +959,7 @@ class TemplateModel extends FormModel
         $data['source'] = str_replace(["\r\n", "\r"], "\n", $data['source']);
 
         // If the asset file for the template ensure we have valid template so we don't instantly destroy it
-        if ($fileName === '/joomla.asset.json' && json_decode($data['source']) === null) {
+        if (str_ends_with($fileName, '/joomla.asset.json') && json_decode($data['source']) === null) {
             $this->setError(Text::_('COM_TEMPLATES_ERROR_ASSET_FILE_INVALID_JSON'));
 
             return false;
@@ -1215,7 +1215,7 @@ class TemplateModel extends FormModel
             $overrideFilePath = str_replace($overridePath, '', $file);
             $htmlFilePath     = $htmlPath . $overrideFilePath;
 
-            if (File::exists($htmlFilePath)) {
+            if (is_file($htmlFilePath)) {
                 // Generate new unique file name base on current time
                 $today        = Factory::getDate();
                 $htmlFilePath = File::stripExt($htmlFilePath) . '-' . $today->format('Ymd-His') . '.' . File::getExt($htmlFilePath);
@@ -1774,10 +1774,10 @@ class TemplateModel extends FormModel
     {
         if (!isset($this->allowedFormats)) {
             $params       = ComponentHelper::getParams('com_templates');
-            $imageTypes   = explode(',', $params->get('image_formats'));
-            $sourceTypes  = explode(',', $params->get('source_formats'));
-            $fontTypes    = explode(',', $params->get('font_formats'));
-            $archiveTypes = explode(',', $params->get('compressed_formats'));
+            $imageTypes   = explode(',', $params->get('image_formats', 'gif,bmp,jpg,jpeg,png,webp'));
+            $sourceTypes  = explode(',', $params->get('source_formats', 'txt,less,ini,xml,js,php,css,scss,sass,json'));
+            $fontTypes    = explode(',', $params->get('font_formats', 'woff,woff2,ttf,otf'));
+            $archiveTypes = explode(',', $params->get('compressed_formats', 'zip'));
 
             $this->allowedFormats = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
             $this->allowedFormats = array_map('strtolower', $this->allowedFormats);
@@ -1799,10 +1799,10 @@ class TemplateModel extends FormModel
         $template = $this->getTemplate();
 
         if (!isset($template->xmldata)) {
-            $template->xmldata = TemplatesHelper::parseXMLTemplateFile($template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $template->name);
+            $template->xmldata = TemplatesHelper::parseXMLTemplateFile($template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $template->element);
         }
 
-        if (empty($template->xmldata->inheritable) || (isset($template->xmldata->parent) && $template->xmldata->parent === '')) {
+        if (!isset($template->xmldata->inheritable) || (isset($template->xmldata->parent) && $template->xmldata->parent === '')) {
             return $result;
         }
 
@@ -1890,7 +1890,7 @@ class TemplateModel extends FormModel
         // Edit XML file
         $xmlFile = Path::clean($this->getState('to_path') . '/templateDetails.xml');
 
-        if (!File::exists($xmlFile)) {
+        if (!is_file($xmlFile)) {
             $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
 
             return false;

@@ -36,7 +36,7 @@ class XmlView extends BaseHtmlView
     protected $items;
 
     /**
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      *
      * @since  3.8.0
      */

@@ -120,7 +120,7 @@ final class Newsfeeds extends Adapter
      * @return  void
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function onFinderAfterDelete($context, $table): void
     {
@@ -149,7 +149,7 @@ final class Newsfeeds extends Adapter
      * @return  void
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function onFinderAfterSave($context, $row, $isNew): void
     {
@@ -185,7 +185,7 @@ final class Newsfeeds extends Adapter
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function onFinderBeforeSave($context, $row, $isNew)
     {
@@ -242,7 +242,7 @@ final class Newsfeeds extends Adapter
      * @return  void
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function index(Result $item)
     {
@@ -281,22 +281,31 @@ final class Newsfeeds extends Adapter
         $item->addInstruction(Indexer::META_CONTEXT, 'author');
         $item->addInstruction(Indexer::META_CONTEXT, 'created_by_alias');
 
+        // Get taxonomies to display
+        $taxonomies = $this->params->get('taxonomies', ['type', 'category', 'language']);
+
         // Add the type taxonomy data.
-        $item->addTaxonomy('Type', 'News Feed');
+        if (in_array('type', $taxonomies)) {
+            $item->addTaxonomy('Type', 'News Feed');
+        }
 
         // Add the category taxonomy data.
         $categories = $this->getApplication()->bootComponent('com_newsfeeds')->getCategory(['published' => false, 'access' => false]);
         $category   = $categories->get($item->catid);
 
-        // Category does not exist, stop here
         if (!$category) {
             return;
         }
 
-        $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
+        // Add the category taxonomy data.
+        if (in_array('category', $taxonomies)) {
+            $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
+        }
 
         // Add the language taxonomy data.
-        $item->addTaxonomy('Language', $item->language);
+        if (in_array('language', $taxonomies)) {
+            $item->addTaxonomy('Language', $item->language);
+        }
 
         // Get content extras.
         Helper::getContentExtras($item);

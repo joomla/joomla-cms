@@ -12,8 +12,8 @@ namespace Joomla\CMS\Cache;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Session\Session;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -86,7 +86,10 @@ class Cache
      * @return  CacheController
      *
      * @since       1.7.0
-     * @deprecated  5.0 Use the cache controller factory instead
+     *
+     * @deprecated  4.2 will be removed in 6.0
+     *              Use the cache controller factory instead
+     *              Example: Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
      */
     public static function getInstance($type = 'output', $options = [])
     {

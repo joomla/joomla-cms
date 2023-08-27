@@ -92,7 +92,8 @@ class TracksController extends BaseController
      * Display method for the raw track data.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static  This object to support chaining.
      *
@@ -138,21 +139,25 @@ class TracksController extends BaseController
             $this->input->cookie->set(
                 ApplicationHelper::getHash($this->context . '.basename'),
                 $form['basename'],
-                $cookieLifeTime,
-                $cookiePath,
-                $cookieDomain,
-                $isHttpsForced,
-                true
+                [
+                    'expires'  => $cookieLifeTime,
+                    'path'     => $cookiePath,
+                    'domain'   => $cookieDomain,
+                    'secure'   => $isHttpsForced,
+                    'httponly' => true,
+                ]
             );
 
             $this->input->cookie->set(
                 ApplicationHelper::getHash($this->context . '.compressed'),
                 $form['compressed'],
-                $cookieLifeTime,
-                $cookiePath,
-                $cookieDomain,
-                $isHttpsForced,
-                true
+                [
+                    'expires'  => $cookieLifeTime,
+                    'path'     => $cookiePath,
+                    'domain'   => $cookieDomain,
+                    'secure'   => $isHttpsForced,
+                    'httponly' => true,
+                ]
             );
 
             // Push the model into the view (as default).

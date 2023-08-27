@@ -294,16 +294,6 @@ class DatabaseModel extends InstallerModel
                 $installer = new \JoomlaInstallerScript();
                 $installer->deleteUnexistingFiles();
                 $this->fixDefaultTextFilters();
-
-                /*
-                 * Finally, if the schema updates succeeded, make sure the database table is
-                 * converted to utf8mb4 or, if not supported by the server, compatible to it.
-                 */
-                $statusArray = $changeSet['changeset']->getStatus();
-
-                if (count($statusArray['error']) == 0) {
-                    $installer->convertTablesToUtf8mb4(false);
-                }
             }
         }
     }
