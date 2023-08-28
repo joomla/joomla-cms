@@ -50,21 +50,12 @@ class AfterPrepareFieldEvent extends AbstractPrepareFieldEvent
 
         // For backward compatibility make sure the value is referenced
         // TODO: Remove in Joomla 6
+        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
         if (key($arguments) === 0 && \count($arguments) >= 4) {
             $this->arguments['value'] = &$arguments[3];
         } elseif (\array_key_exists('value', $arguments)) {
             $this->arguments['value'] = &$arguments['value'];
         }
-
-        @trigger_error(
-            sprintf(
-                'Passing argument by reference is deprecated, and will not work in Joomla 6. Event %s argument %s. Use %s.',
-                \get_class($this),
-                'value',
-                'updateValue()'
-            ),
-            E_USER_DEPRECATED
-        );
     }
 
     /**
