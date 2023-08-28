@@ -18,6 +18,7 @@ use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
@@ -42,6 +43,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use TaskPluginTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * @var string[]
@@ -250,7 +252,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
             $messageModel->notifySuperUsers(
                 Text::_('PLG_TASK_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_SUBJECT'),
-                Text::sprintf('PLG_TASK_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_MESSAGE', Factory::getUser($user->user_id)->username)
+                Text::sprintf('PLG_TASK_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_MESSAGE', $this->getUserFactory()->loadUserById($user->user_id)->username)
             );
         }
 
