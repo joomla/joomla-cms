@@ -126,7 +126,7 @@ final class Requests extends CMSPlugin implements SubscriberInterface
         $headers  = [];
 
         if ($auth && $authType && $authKey) {
-            $headers = [$authType => $authKey];
+            $headers = ['Authorization' => $authType . ' ' . $authKey];
         }
 
         try {
