@@ -84,8 +84,7 @@ class HtmlView extends BaseHtmlView
 
         // Remove unauthorised preference tabs.
         foreach($this->fieldsets as $key => $value) {
-            if($key == 'permissions')
-            {
+            if ($key == 'permissions') {
                 if ((!$user->authorise('core.admin', $component->option) || !$user->authorise('core.options.permission', $component->option) )
                     && isset($this->fieldsets['permissions']))
                 {
