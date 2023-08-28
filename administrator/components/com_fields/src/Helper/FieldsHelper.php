@@ -10,8 +10,10 @@
 
 namespace Joomla\Component\Fields\Administrator\Helper;
 
+use Joomla\CMS\Event\CustomFields\BeforePrepareFieldEvent;
 use Joomla\CMS\Event\CustomFields\GetTypesEvent;
 use Joomla\CMS\Event\CustomFields\PrepareDomEvent;
+use Joomla\CMS\Event\CustomFields\PrepareFieldEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Form\Form;
@@ -168,6 +170,9 @@ class FieldsHelper
                     ->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true]);
             }
 
+            /** @var DispatcherInterface $dispatcher */
+            $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+
             $fieldIds = array_map(
                 function ($f) {
                     return $f->id;
@@ -202,16 +207,24 @@ class FieldsHelper
 
                 // If boolean prepare, if int, it is the event type: 1 - After Title, 2 - Before Display Content, 3 - After Display Content, 0 - Do not prepare
                 if ($prepareValue && (is_bool($prepareValue) || $prepareValue === (int) $field->params->get('display', '2'))) {
-                    PluginHelper::importPlugin('fields');
+                    PluginHelper::importPlugin('fields', null, true, $dispatcher);
 
                     /*
                      * On before field prepare
                      * Event allow plugins to modify the output of the field before it is prepared
                      */
-                    Factory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', [$context, $item, &$field]);
+                    $dispatcher->dispatch('onCustomFieldsBeforePrepareField', new BeforePrepareFieldEvent('onCustomFieldsBeforePrepareField', [
+                        'context' => $context,
+                        'item'    => $item,
+                        'subject' => $field,
+                    ]));
 
                     // Gathering the value for the field
-                    $value = Factory::getApplication()->triggerEvent('onCustomFieldsPrepareField', [$context, $item, &$field]);
+                    $value = $dispatcher->dispatch('onCustomFieldsPrepareField', new PrepareFieldEvent('onCustomFieldsPrepareField', [
+                        'context' => $context,
+                        'item'    => $item,
+                        'subject' => $field,
+                    ]))->getArgument('result', []);
 
                     if (is_array($value)) {
                         $value = implode(' ', $value);

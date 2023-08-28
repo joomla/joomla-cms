@@ -172,7 +172,10 @@ trait CoreEventAware
         'onFinderResult'              => Finder\ResultEvent::class,
         'onPrepareFinderContent'      => Finder\PrepareContentEvent::class,
         // Custom Fields
-        'onCustomFieldsGetTypes' => CustomFields\GetTypesEvent::class,
+        'onCustomFieldsGetTypes'           => CustomFields\GetTypesEvent::class,
+        'onCustomFieldsPrepareDom'         => CustomFields\PrepareDomEvent::class,
+        'onCustomFieldsBeforePrepareField' => CustomFields\BeforePrepareFieldEvent::class,
+        'onCustomFieldsPrepareField'       => CustomFields\PrepareFieldEvent::class,
     ];
 
     /**

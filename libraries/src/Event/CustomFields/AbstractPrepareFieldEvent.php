@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event\CustomFields;
 
-use Joomla\CMS\Form\Form;
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -20,7 +18,7 @@ use Joomla\CMS\Form\Form;
  *
  * @since  __DEPLOY_VERSION__
  */
-class PrepareDomEvent extends CustomFieldsEvent
+abstract class AbstractPrepareFieldEvent extends CustomFieldsEvent
 {
     /**
      * The argument names, in order expected by legacy plugins.
@@ -30,7 +28,7 @@ class PrepareDomEvent extends CustomFieldsEvent
      * @since  __DEPLOY_VERSION__
      * @deprecated 5.0 will be removed in 6.0
      */
-    protected $legacyArgumentsOrder = ['subject', 'fieldset', 'form'];
+    protected $legacyArgumentsOrder = ['context', 'item', 'subject'];
 
     /**
      * Constructor.
@@ -46,39 +44,39 @@ class PrepareDomEvent extends CustomFieldsEvent
     {
         parent::__construct($name, $arguments);
 
-        if (!\array_key_exists('fieldset', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'fieldset' of event {$name} is required but has not been provided");
+        if (!\array_key_exists('context', $this->arguments)) {
+            throw new \BadMethodCallException("Argument 'context' of event {$name} is required but has not been provided");
         }
 
-        if (!\array_key_exists('form', $this->arguments)) {
-            throw new \BadMethodCallException("Argument 'form' of event {$name} is required but has not been provided");
+        if (!\array_key_exists('item', $this->arguments)) {
+            throw new \BadMethodCallException("Argument 'item' of event {$name} is required but has not been provided");
         }
     }
 
     /**
-     * Setter for the fieldset argument.
+     * Setter for the context argument.
      *
-     * @param   \DOMElement  $value  The value to set
+     * @param   string  $value  The value to set
      *
-     * @return  \DOMElement
+     * @return  string
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected function setFieldset(\DOMElement $value): \DOMElement
+    protected function setContext(string $value): string
     {
         return $value;
     }
 
     /**
-     * Setter for the form argument.
+     * Setter for the item argument.
      *
-     * @param   Form  $value  The value to set
+     * @param   object  $value  The value to set
      *
-     * @return  Form
+     * @return  object
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected function setForm(Form $value): Form
+    protected function setItem(object $value): object
     {
         return $value;
     }
@@ -96,26 +94,26 @@ class PrepareDomEvent extends CustomFieldsEvent
     }
 
     /**
-     * Getter for the fieldset.
+     * Getter for the context.
      *
-     * @return  \DOMElement
+     * @return  string
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getFieldset(): \DOMElement
+    public function getContext(): string
     {
-        return $this->arguments['fieldset'];
+        return $this->arguments['context'];
     }
 
     /**
-     * Getter for the form.
+     * Getter for the item.
      *
-     * @return  Form
+     * @return  object
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getForm(): Form
+    public function getItem(): object
     {
-        return $this->arguments['form'];
+        return $this->arguments['item'];
     }
 }
