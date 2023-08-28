@@ -52,10 +52,10 @@ abstract class ModuleEvent extends AbstractImmutableEvent
             $arguments = $this->reshapeArguments($arguments, $this->legacyArgumentsOrder);
         }
 
-        parent::__construct($name, $arguments);
-
-        if (!\array_key_exists('subject', $this->arguments)) {
+        if (!\array_key_exists('subject', $arguments)) {
             throw new \BadMethodCallException("Argument 'subject' of event {$name} is required but has not been provided");
         }
+
+        parent::__construct($name, $arguments);
     }
 }
