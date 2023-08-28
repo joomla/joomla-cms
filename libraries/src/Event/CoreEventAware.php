@@ -179,6 +179,8 @@ trait CoreEventAware
         // Contact
         'onValidateContact' => Contact\ValidateContactEvent::class,
         'onSubmitContact'   => Contact\SubmitContactEvent::class,
+        // Checkin
+        'onAfterCheckin' => Checkin\AfterCheckinEvent::class,
     ];
 
     /**
