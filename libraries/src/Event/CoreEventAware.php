@@ -174,6 +174,7 @@ trait CoreEventAware
         // Menu
         'onBeforeRenderMenuItems'   => Menu\BeforeRenderMenuItemsViewEvent::class,
         'onAfterGetMenuTypeOptions' => Menu\AfterGetMenuTypeOptionsEvent::class,
+        'onPreprocessMenuItems'     => Menu\PreprocessMenuItemsEvent::class,
     ];
 
     /**
