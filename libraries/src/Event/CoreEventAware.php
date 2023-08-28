@@ -172,7 +172,8 @@ trait CoreEventAware
         'onFinderResult'              => Finder\ResultEvent::class,
         'onPrepareFinderContent'      => Finder\PrepareContentEvent::class,
         // Menu
-        'onBeforeRenderMenuItems' => Menu\BeforeRenderMenuItemsViewEvent::class,
+        'onBeforeRenderMenuItems'   => Menu\BeforeRenderMenuItemsViewEvent::class,
+        'onAfterGetMenuTypeOptions' => Menu\AfterGetMenuTypeOptionsEvent::class,
     ];
 
     /**
