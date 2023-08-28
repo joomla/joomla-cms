@@ -2545,7 +2545,7 @@ final class Testing extends CMSPlugin
                             'secure'             => 0,
                         ],
                     ],
-                ]
+                ],
             ],
 
             // com_content
@@ -2779,7 +2779,7 @@ final class Testing extends CMSPlugin
                         ],
                         'sampledata_module' => 'mod_finder',
                     ],
-                ]
+                ],
             ],
 
             // com_newsfeeds
@@ -4310,7 +4310,7 @@ final class Testing extends CMSPlugin
                 'assigned' => [
                     $menuMapping['mod_tags_popular'],
                 ],
-                'params'   => [
+                'params' => [
                     'maximum'         => 5,
                     'timeframe'       => 'alltime',
                     'order_value'     => 'count',
@@ -4330,7 +4330,7 @@ final class Testing extends CMSPlugin
                 'assigned' => [
                     $menuMapping['mod_tags_similar'],
                 ],
-                'params'   => [
+                'params' => [
                     'maximum'   => 5,
                     'matchtype' => 'any',
                     'owncache'  => 1,
@@ -4384,16 +4384,16 @@ final class Testing extends CMSPlugin
                 'module'    => 'mod_feed',
                 'access'    => $access,
                 'params'    => [
-                    'rssurl'         => 'http://feeds.joomla.org/JoomlaAnnouncements',
-                    'rssrtl'         => 0,
-                    'rsstitle'       => 1,
-                    'rssdesc'        => 1,
-                    'rssimage'       => 1,
-                    'rssitems'       => 3,
-                    'rssitemdesc'    => 1,
-                    'word_count'     => 0,
-                    'cache'          => 1,
-                    'cache_time'     => 900,
+                    'rssurl'      => 'http://feeds.joomla.org/JoomlaAnnouncements',
+                    'rssrtl'      => 0,
+                    'rsstitle'    => 1,
+                    'rssdesc'     => 1,
+                    'rssimage'    => 1,
+                    'rssitems'    => 3,
+                    'rssitemdesc' => 1,
+                    'word_count'  => 0,
+                    'cache'       => 1,
+                    'cache_time'  => 900,
                 ],
                 'client_id' => 1,
             ],
@@ -4404,13 +4404,13 @@ final class Testing extends CMSPlugin
                 'module'   => 'mod_stats_admin',
                 'access'   => $access,
                 'params'   => [
-                    'serverinfo'     => 1,
-                    'siteinfo'       => 1,
-                    'counter'        => 1,
-                    'increase'       => 0,
-                    'cache'          => 1,
-                    'cache_time'     => 900,
-                    'cachemode'      => 'static',
+                    'serverinfo' => 1,
+                    'siteinfo'   => 1,
+                    'counter'    => 1,
+                    'increase'   => 0,
+                    'cache'      => 1,
+                    'cache_time' => 900,
+                    'cachemode'  => 'static',
                 ],
                 'client_id' => 1,
             ],
@@ -4721,7 +4721,7 @@ final class Testing extends CMSPlugin
             }
 
             // Get ID from menuitem we just added
-            $id = $this->menuItemModel->getstate('item.id');
+            $id        = $this->menuItemModel->getstate('item.id');
             $itemIds[] = $id;
 
             if (isset($menuItem['sampledata_module'])) {
