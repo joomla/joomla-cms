@@ -58,4 +58,18 @@ abstract class CustomFieldsEvent extends AbstractImmutableEvent
             throw new \BadMethodCallException("Argument 'subject' of event {$name} is required but has not been provided");
         }
     }
+
+    /**
+     * Setter for the subject argument.
+     *
+     * @param   object  $value  The value to set
+     *
+     * @return  object
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function setSubject(object $value): object
+    {
+        return $value;
+    }
 }

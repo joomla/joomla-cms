@@ -11,6 +11,7 @@
 namespace Joomla\Component\Fields\Administrator\Helper;
 
 use Joomla\CMS\Event\CustomFields\GetTypesEvent;
+use Joomla\CMS\Event\CustomFields\PrepareDomEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Form\Form;
@@ -381,6 +382,8 @@ class FieldsHelper
         $model = Factory::getApplication()->bootComponent('com_fields')
             ->getMVCFactory()->createModel('Groups', 'Administrator', ['ignore_request' => true]);
         $model->setState('filter.context', $context);
+        /** @var DispatcherInterface $dispatcher */
+        $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
 
         /**
          * $model->getItems() would only return existing groups, but we also
@@ -433,7 +436,11 @@ class FieldsHelper
             // Looping through the fields for that context
             foreach ($fieldsPerGroup[$group->id] as $field) {
                 try {
-                    Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', [$field, $fieldset, $form]);
+                    $dispatcher->dispatch('onCustomFieldsPrepareDom', new PrepareDomEvent('onCustomFieldsPrepareDom', [
+                        'subject'  => $field,
+                        'fieldset' => $fieldset,
+                        'form'     => $form,
+                    ]));
 
                     /*
                      * If the field belongs to an assigned_cat_id but the assigned_cat_ids in the data
