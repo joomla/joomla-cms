@@ -11,7 +11,6 @@ namespace Joomla\CMS\Event\Menu;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\ReshapeArgumentsAware;
-use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
