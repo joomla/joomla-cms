@@ -90,8 +90,7 @@ class HtmlView extends BaseHtmlView
                     unset($this->fieldsets['permissions']);
                 }
             } else {
-                if (!$user->authorise("core.options.$key", $component->option) && isset($this->fieldsets[$key]))
-                {
+                if (!$user->authorise("core.options.$key", $component->option) && isset($this->fieldsets[$key])) {
                     unset($this->fieldsets[$key]);
                 }
             }
