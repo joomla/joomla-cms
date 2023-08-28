@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Fields\Administrator\Helper;
 
+use Joomla\CMS\Event\CustomFields\AfterPrepareFieldEvent;
 use Joomla\CMS\Event\CustomFields\BeforePrepareFieldEvent;
 use Joomla\CMS\Event\CustomFields\GetTypesEvent;
 use Joomla\CMS\Event\CustomFields\PrepareDomEvent;
@@ -172,6 +173,7 @@ class FieldsHelper
 
             /** @var DispatcherInterface $dispatcher */
             $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+            PluginHelper::importPlugin('fields', null, true, $dispatcher);
 
             $fieldIds = array_map(
                 function ($f) {
@@ -207,8 +209,6 @@ class FieldsHelper
 
                 // If boolean prepare, if int, it is the event type: 1 - After Title, 2 - Before Display Content, 3 - After Display Content, 0 - Do not prepare
                 if ($prepareValue && (is_bool($prepareValue) || $prepareValue === (int) $field->params->get('display', '2'))) {
-                    PluginHelper::importPlugin('fields', null, true, $dispatcher);
-
                     /*
                      * On before field prepare
                      * Event allow plugins to modify the output of the field before it is prepared
@@ -234,7 +234,14 @@ class FieldsHelper
                      * On after field render
                      * Event allows plugins to modify the output of the prepared field
                      */
-                    Factory::getApplication()->triggerEvent('onCustomFieldsAfterPrepareField', [$context, $item, $field, &$value]);
+                    $eventAfter = new AfterPrepareFieldEvent('onCustomFieldsAfterPrepareField', [
+                        'context' => $context,
+                        'item'    => $item,
+                        'subject' => $field,
+                        'value'   => &$value, // TODO: Remove reference in Joomla 6, see AfterPrepareFieldEvent::__constructor()
+                    ]);
+                    $dispatcher->dispatch('onCustomFieldsAfterPrepareField', $eventAfter);
+                    $value = $eventAfter->getValue();
 
                     // Assign the value
                     $field->value = $value;

@@ -176,6 +176,7 @@ trait CoreEventAware
         'onCustomFieldsPrepareDom'         => CustomFields\PrepareDomEvent::class,
         'onCustomFieldsBeforePrepareField' => CustomFields\BeforePrepareFieldEvent::class,
         'onCustomFieldsPrepareField'       => CustomFields\PrepareFieldEvent::class,
+        'onCustomFieldsAfterPrepareField'  => CustomFields\AfterPrepareFieldEvent::class,
     ];
 
     /**
