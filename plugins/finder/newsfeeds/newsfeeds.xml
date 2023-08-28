@@ -26,6 +26,7 @@
 					type="radio"
 					layout="joomla.form.field.radio.switcher"
 					label="PLG_FINDER_NEWFEEDS_FIELD_SEARCH_ARCHIVED_LABEL"
+					description="PLG_FINDER_NEWSFEEDS_FIELD_SEARCH_ARCHIVED_DESC"
 					default="1"
 					filter="integer"
 				>
