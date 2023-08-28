@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Fields\Administrator\Helper;
 
+use Joomla\CMS\Event\CustomFields\GetTypesEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Form\Form;
@@ -21,6 +22,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Model\FieldsModel;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -651,8 +653,10 @@ class FieldsHelper
      */
     public static function getFieldTypes()
     {
-        PluginHelper::importPlugin('fields');
-        $eventData = Factory::getApplication()->triggerEvent('onCustomFieldsGetTypes');
+        /** @var DispatcherInterface $dispatcher */
+        $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+        PluginHelper::importPlugin('fields', null, true, $dispatcher);
+        $eventData = $dispatcher->dispatch('onCustomFieldsGetTypes', new GetTypesEvent('onCustomFieldsGetTypes'))->getArgument('result', []);
 
         $data = [];
 

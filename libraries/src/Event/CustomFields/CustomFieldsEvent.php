@@ -7,7 +7,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Event\Module;
+namespace Joomla\CMS\Event\CustomFields;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\ReshapeArgumentsAware;
@@ -17,11 +17,11 @@ use Joomla\CMS\Event\ReshapeArgumentsAware;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Base class for Module events
+ * Class for CustomFields events
  *
- * @since  5.0.0
+ * @since  __DEPLOY_VERSION__
  */
-abstract class ModuleEvent extends AbstractImmutableEvent
+abstract class CustomFieldsEvent extends AbstractImmutableEvent
 {
     use ReshapeArgumentsAware;
 
@@ -30,7 +30,7 @@ abstract class ModuleEvent extends AbstractImmutableEvent
      *
      * @var array
      *
-     * @since  5.0.0
+     * @since  __DEPLOY_VERSION__
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = [];
@@ -43,7 +43,7 @@ abstract class ModuleEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   5.0.0
+     * @since   __DEPLOY_VERSION__
      */
     public function __construct($name, array $arguments = [])
     {

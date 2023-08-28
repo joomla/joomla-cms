@@ -171,6 +171,8 @@ trait CoreEventAware
         'onFinderAfterSave'           => Finder\AfterSaveEvent::class,
         'onFinderResult'              => Finder\ResultEvent::class,
         'onPrepareFinderContent'      => Finder\PrepareContentEvent::class,
+        // Custom Fields
+        'onCustomFieldsGetTypes' => CustomFields\GetTypesEvent::class,
     ];
 
     /**
