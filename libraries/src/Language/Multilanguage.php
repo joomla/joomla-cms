@@ -11,6 +11,7 @@ namespace Joomla\CMS\Language;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Menu\SiteMenu;
 use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -89,38 +90,29 @@ class Multilanguage
     /**
      * Method to return a list of language home page menu items.
      *
-     * @param   ?DatabaseInterface  $db  The database
-     *
      * @return  array of menu objects.
      *
      * @since   3.5
      */
-    public static function getSiteHomePages(DatabaseInterface $db = null)
+    public static function getSiteHomePages()
     {
-        // To avoid doing duplicate database queries.
-        static $multilangSiteHomePages = null;
+        // To avoid doing duplicate discover.
+        static $multilangSiteHomePages;
 
-        if (!isset($multilangSiteHomePages)) {
-            // Check for Home pages languages.
-            $db    = $db ?: Factory::getDbo();
-            $query = $db->getQuery(true)
-                ->select(
-                    [
-                        $db->quoteName('language'),
-                        $db->quoteName('id'),
-                    ]
-                )
-                ->from($db->quoteName('#__menu'))
-                ->where(
-                    [
-                        $db->quoteName('home') . ' = ' . $db->quote('1'),
-                        $db->quoteName('published') . ' = 1',
-                        $db->quoteName('client_id') . ' = 0',
-                    ]
-                );
-            $db->setQuery($query);
+        if ($multilangSiteHomePages === null) {
+            $multilangSiteHomePages = [];
 
-            $multilangSiteHomePages = $db->loadObjectList('language');
+            // Get all site homepages.
+            /** @var SiteMenu $menu */
+            $menu = Factory::getApplication()->getMenu('site');
+            $items = $menu->getItems(['home', 'language', 'access'], [1, null, null]);
+
+            foreach ($items as $item) {
+                $multilangSiteHomePages[$item->language] = (object) [
+                    'language' => $item->language,
+                    'id' => $item->id,
+                ];
+            }
         }
 
         return $multilangSiteHomePages;
