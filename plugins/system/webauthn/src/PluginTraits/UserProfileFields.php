@@ -53,8 +53,7 @@ trait UserProfileFields
     /**
      * HTMLHelper method to render the WebAuthn user profile field in the profile view page.
      *
-     * Instead of showing a nonsensical "Website default" label next to the field, this method
-     * displays the number and names of authenticators already registered by the user.
+     * This method displays the number and names of authenticators already registered by the user.
      *
      * This static method is set up for use in the onContentPrepareData method of this plugin.
      *
