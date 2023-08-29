@@ -13,9 +13,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-Factory::getDocument()->getWebAssetManager()
-    ->useScript('core')
-    ->useScript('webcomponent.toolbar-button');
+$wa = Factory::getDocument()->getWebAssetManager();
+$wa->useScript('core')
+   ->useScript('webcomponent.toolbar-button');
 
 extract($displayData, EXTR_OVERWRITE);
 
@@ -40,13 +40,19 @@ extract($displayData, EXTR_OVERWRITE);
  */
 $tagName = $tagName ?? 'button';
 
-$taskAttr = '';
-$title    = '';
-$idAttr   = !empty($id)             ? ' id="' . $id . '"' : '';
-$listAttr = !empty($listCheck)      ? ' list-selection' : '';
-$formAttr = !empty($form)           ? ' form="' . $this->escape($form) . '"' : '';
-$validate = !empty($formValidation) ? ' form-validation' : '';
-$msgAttr  = !empty($message)        ? ' confirm-message="' . $this->escape($message) . '"' : '';
+$taskAttr        = '';
+$title           = '';
+$idAttr          = !empty($id) ? ' id="' . $id . '"' : '';
+$listAttr        = !empty($listCheck) ? ' list-selection' : '';
+$formAttr        = !empty($form) ? ' form="' . $this->escape($form) . '"' : '';
+$validate        = !empty($formValidation) ? ' form-validation' : '';
+$msgAttr         = !empty($message) ? ' confirm-message="' . $this->escape($message) . '"' : '';
+$alternativeAttr = !empty($alternativeGroup) ? ' data-alternative-group="' . $this->escape($alternativeGroup) . '"' : '';
+$alternativeAttr .= !empty($alternativeKeys) ? ' data-alternative-keys="' . $this->escape($alternativeKeys) . '"' : '';
+
+if (!empty($alternativeAttr)) {
+    $wa->useScript('joomla.alternative');
+}
 
 if ($id === 'toolbar-help') {
     $title = ' title="' . Text::_('JGLOBAL_OPENS_IN_A_NEW_WINDOW') . '"';
@@ -60,7 +66,7 @@ if (!empty($task)) {
 
 $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-end' : '';
 ?>
-<joomla-toolbar-button <?php echo $idAttr . $taskAttr . $listAttr . $formAttr . $validate . $msgAttr; ?>>
+<joomla-toolbar-button <?php echo $idAttr . $taskAttr . $listAttr . $formAttr . $validate . $msgAttr . $alternativeAttr; ?>>
 <<?php echo $tagName; ?>
     class="<?php echo $btnClass ?? ''; ?>"
     <?php echo $htmlAttributes ?? ''; ?>

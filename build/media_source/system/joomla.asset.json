@@ -605,6 +605,14 @@
       ]
     },
     {
+      "name": "joomla.alternative",
+      "type": "script",
+      "uri": "system/joomla-alternative.min.js",
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
       "name": "list-view",
       "type": "script",
       "uri": "system/list-view.min.js",
