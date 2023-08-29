@@ -61,7 +61,7 @@ class JoomlaSerializer extends AbstractSerializer
             throw new \InvalidArgumentException($message);
         }
 
-        // The response from a standard AdminModel query also works for Table which extends CMSObject
+        // The response from a standard AdminModel query also works for legacy objects which extends CMSObject
         if ($post instanceof CMSObject) {
             $post = $post->getProperties();
         }
