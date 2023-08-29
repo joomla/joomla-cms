@@ -90,7 +90,7 @@ class Multilanguage
     /**
      * Method to return a list of language home page menu items.
      *
-     * @return  array of menu objects.
+     * @return  array of menu item objects.
      *
      * @since   3.5
      */
@@ -108,10 +108,7 @@ class Multilanguage
             $items = $menu->getItems(['home', 'language', 'access'], [1, null, null]);
 
             foreach ($items as $item) {
-                $multilangSiteHomePages[$item->language] = (object) [
-                    'language' => $item->language,
-                    'id' => $item->id,
-                ];
+                $multilangSiteHomePages[$item->language] = $item;
             }
         }
 
