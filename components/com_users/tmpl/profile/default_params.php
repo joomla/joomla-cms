@@ -32,7 +32,7 @@ use Joomla\CMS\Language\Text;
                         <?php elseif (HTMLHelper::isRegistered('users.' . $field->type)) : ?>
                             <?php echo HTMLHelper::_('users.' . $field->type, $field->value); ?>
                         <?php else : ?>
-                            <?php echo HTMLHelper::_('users.value', $field->value); ?>
+                            <?php echo strlen($field->value) ? $field->value : Text::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
                         <?php endif; ?>
                     </dd>
                 <?php endif; ?>

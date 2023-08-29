@@ -56,7 +56,7 @@ unset($tmp);
                         </dt>
                         <dd>
                             <?php if (array_key_exists($field->fieldname, $customFields)) : ?>
-                                <?php echo strlen($customFields[$field->fieldname]->value) ? $customFields[$field->fieldname]->value : Text::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
+                                <?php echo strlen($customFields[$field->fieldname]->value) ? $customFields[$field->fieldname]->value : ''; ?>
                             <?php elseif (HTMLHelper::isRegistered('users.' . $field->id)) : ?>
                                 <?php echo HTMLHelper::_('users.' . $field->id, $field->value); ?>
                             <?php elseif (HTMLHelper::isRegistered('users.' . $field->fieldname)) : ?>
@@ -64,7 +64,7 @@ unset($tmp);
                             <?php elseif (HTMLHelper::isRegistered('users.' . $field->type)) : ?>
                                 <?php echo HTMLHelper::_('users.' . $field->type, $field->value); ?>
                             <?php else : ?>
-                                <?php echo HTMLHelper::_('users.value', $field->value); ?>
+                                <?php echo $field->value; ?>
                             <?php endif; ?>
                         </dd>
                     <?php endif; ?>

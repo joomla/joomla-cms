@@ -259,12 +259,6 @@ class Users
         if (is_string($value)) {
             $value = trim($value);
         }
-
-        if (empty($value)) {
-            return Text::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
-        } elseif (!is_array($value)) {
-            return htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
-        }
     }
 
     /**
