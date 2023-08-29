@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
+use Joomla\CMS\Event\Installer\AfterInstallerEvent;
 use Joomla\CMS\Event\Installer\BeforeInstallationEvent;
 use Joomla\CMS\Event\Installer\BeforeInstallerEvent;
 use Joomla\CMS\Factory;
@@ -218,7 +219,17 @@ class InstallModel extends BaseDatabaseModel
         }
 
         // This event allows a custom a post-flight:
-        $app->triggerEvent('onInstallerAfterInstaller', [$this, &$package, $installer, &$result, &$msg]);
+        $eventAfterInst = new AfterInstallerEvent('onInstallerAfterInstaller', [
+            'subject'         => $this,
+            'package'         => &$package, // TODO: Remove reference in Joomla 6, see InstallerEvent::__constructor()
+            'installer'       => $installer,
+            'installerResult' => &$result, // TODO: Remove reference in Joomla 6, see AfterInstallerEvent::__constructor()
+            'message'         => &$msg, // TODO: Remove reference in Joomla 6, see AfterInstallerEvent::__constructor()
+        ]);
+        $dispatcher->dispatch('onInstallerAfterInstaller', $eventAfterInst);
+        $package = $eventAfterInst->getPackage();
+        $result  = $eventAfterInst->getInstallerResult();
+        $msg     = $eventAfterInst->getMessage();
 
         // Set some model state values.
         $app->enqueueMessage($msg, $msgType);
