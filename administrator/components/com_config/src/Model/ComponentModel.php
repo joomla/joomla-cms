@@ -160,11 +160,12 @@ class ComponentModel extends FormModel
         $context    = $this->option . '.' . $this->name;
         PluginHelper::importPlugin('extension');
 
-        // Check super user group.
+        // Check super user group and individual preference tab access
         if (isset($data['params']) && !$this->getCurrentUser()->authorise('core.admin')) {
             $form = $this->getForm([], false);
 
             foreach ($form->getFieldsets() as $fieldset) {
+                $hasAccess = $this->getCurrentUser()->authorise("core.options.$fieldset");
                 foreach ($form->getFieldset($fieldset->name) as $field) {
                     if (
                         $field->type === 'UserGroupList' && isset($data['params'][$field->fieldname])
@@ -172,6 +173,9 @@ class ComponentModel extends FormModel
                         && Access::checkGroup($data['params'][$field->fieldname], 'core.admin')
                     ) {
                         throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+                    }
+                    if (!$hasAccess && isset($data['params'][$field->fieldname])) {
+                        unset($data['params'][$field->fieldname]);
                     }
                 }
             }
@@ -211,6 +215,13 @@ class ComponentModel extends FormModel
         }
 
         unset($data['id']);
+
+        // If the user only has access to a subset of preferences, 
+        // merge these with the full preference set
+        $previous = (array)\json_decode($table->params);
+        if (\count($data['params'], COUNT_RECURSIVE) != \count($previous, COUNT_RECURSIVE)) {
+            $data['params'] = \array_merge($previous, $data['params']);
+        }
 
         // Bind the data.
         if (!$table->bind($data)) {
