@@ -22,7 +22,7 @@ use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Redirect master display controller.
+ * Redirect display controller.
  *
  * @since  1.6
  */
