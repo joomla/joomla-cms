@@ -92,7 +92,6 @@ final class Content extends Adapter implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-
         return array_merge([
             'onFinderCategoryChangeState' => 'onFinderCategoryChangeState',
             'onFinderChangeState'         => 'onFinderChangeState',
