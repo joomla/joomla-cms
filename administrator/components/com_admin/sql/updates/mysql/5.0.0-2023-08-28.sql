@@ -7,3 +7,7 @@ UPDATE `#__guidedtours` SET `extensions` = '["com_contact"]' WHERE `url` LIKE '%
 UPDATE `#__guidedtours` SET `extensions` = '["com_newsfeeds"]' WHERE `url` LIKE '%com_newsfeeds%';
 UPDATE `#__guidedtours` SET `extensions` = '["com_finder"]' WHERE `url` LIKE '%com_finder%';
 UPDATE `#__guidedtours` SET `extensions` = '["com_users"]' WHERE `url` LIKE '%com_users%';
+
+UPDATE `#__update_sites`
+   SET `location` = 'https://update.joomla.org/language/translationlist_5.xml'
+ WHERE `location` = 'https://update.joomla.org/language/translationlist_4.xml';
