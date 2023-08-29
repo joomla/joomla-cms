@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
+use Joomla\CMS\Event\Installer\BeforeInstallationEvent;
+use Joomla\CMS\Event\Installer\BeforeInstallerEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Installer\Installer;
@@ -82,16 +84,22 @@ class InstallModel extends BaseDatabaseModel
     {
         $this->setState('action', 'install');
 
-        $app = Factory::getApplication();
+        $app        = Factory::getApplication();
+        $dispatcher = $this->getDispatcher();
 
         // Load installer plugins for assistance if required:
-        PluginHelper::importPlugin('installer');
+        PluginHelper::importPlugin('installer', null, true, $dispatcher);
 
         $package = null;
 
         // This event allows an input pre-treatment, a custom pre-packing or custom installation.
         // (e.g. from a \JSON description).
-        $results = $app->triggerEvent('onInstallerBeforeInstallation', [$this, &$package]);
+        $eventBefore = new BeforeInstallationEvent('onInstallerBeforeInstallation', [
+            'subject' => $this,
+            'package' => &$package, // TODO: Remove reference in Joomla 6, see InstallerEvent::__constructor()
+        ]);
+        $results = $dispatcher->dispatch('onInstallerBeforeInstallation', $eventBefore)->getArgument('result', []);
+        $package = $eventBefore->getPackage();
 
         if (in_array(true, $results, true)) {
             return true;
@@ -128,7 +136,12 @@ class InstallModel extends BaseDatabaseModel
         }
 
         // This event allows a custom installation of the package or a customization of the package:
-        $results = $app->triggerEvent('onInstallerBeforeInstaller', [$this, &$package]);
+        $eventBeforeInst = new BeforeInstallerEvent('onInstallerBeforeInstaller', [
+            'subject' => $this,
+            'package' => &$package, // TODO: Remove reference in Joomla 6, see InstallerEvent::__constructor()
+        ]);
+        $results = $dispatcher->dispatch('onInstallerBeforeInstaller', $eventBeforeInst)->getArgument('result', []);
+        $package = $eventBeforeInst->getPackage();
 
         if (in_array(true, $results, true)) {
             return true;

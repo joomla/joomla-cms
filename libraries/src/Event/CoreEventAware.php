@@ -165,6 +165,8 @@ trait CoreEventAware
         'onExtensionAfterDelete'     => Model\AfterDeleteEvent::class,
         // Installer
         'onInstallerAddInstallationTab' => Installer\AddInstallationTabEvent::class,
+        'onInstallerBeforeInstallation' => Installer\BeforeInstallationEvent::class,
+        'onInstallerBeforeInstaller'    => Installer\BeforeInstallerEvent::class,
         // Finder
         'onFinderCategoryChangeState' => Finder\AfterCategoryChangeStateEvent::class,
         'onFinderChangeState'         => Finder\AfterChangeStateEvent::class,
