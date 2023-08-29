@@ -10,7 +10,7 @@
 
 namespace Joomla\Plugin\Installer\Url\Extension;
 
-use Joomla\CMS\Event\Installer\AddInstallationTaEvent;
+use Joomla\CMS\Event\Installer\AddInstallationTabEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\SubscriberInterface;
@@ -50,13 +50,13 @@ final class UrlInstaller extends CMSPlugin implements SubscriberInterface
     /**
      * Installer add Installation Tab listener.
      *
-     * @param   AddInstallationTaEvent  $event  The event instance
+     * @param   AddInstallationTabEvent  $event  The event instance
      *
      * @return  void
      *
      * @since   3.6.0
      */
-    public function onInstallerAddInstallationTab(AddInstallationTaEvent $event)
+    public function onInstallerAddInstallationTab(AddInstallationTabEvent $event)
     {
         // Load language files
         $this->loadLanguage();

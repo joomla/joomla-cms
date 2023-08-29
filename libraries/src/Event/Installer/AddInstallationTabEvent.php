@@ -23,7 +23,7 @@ use Joomla\CMS\Event\Result\ResultTypeArrayAware;
  *
  * @since  __DEPLOY_VERSION__
  */
-class AddInstallationTaEvent extends AbstractImmutableEvent implements ResultAwareInterface
+class AddInstallationTabEvent extends AbstractImmutableEvent implements ResultAwareInterface
 {
     use ResultAware;
     use ResultTypeArrayAware;

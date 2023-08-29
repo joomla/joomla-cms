@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Event\Installer\AddInstallationTaEvent;
+use Joomla\CMS\Event\Installer\AddInstallationTabEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -31,7 +31,7 @@ $wa->useScript('core')
     ->useScript('webcomponent.core-loader');
 
 $tabs = Factory::getApplication()->getDispatcher()
-    ->dispatch('onInstallerAddInstallationTab', new AddInstallationTaEvent('onInstallerAddInstallationTab', []))
+    ->dispatch('onInstallerAddInstallationTab', new AddInstallationTabEvent('onInstallerAddInstallationTab', []))
     ->getArgument('result', []);
 
 ?>
