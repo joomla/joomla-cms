@@ -104,7 +104,7 @@ class Multilanguage
 
             // Get all site homepages.
             /** @var SiteMenu $menu */
-            $menu = Factory::getApplication()->getMenu('site');
+            $menu  = Factory::getApplication()->getMenu('site');
             $items = $menu->getItems(['home', 'language', 'access'], [1, null, null]);
 
             foreach ($items as $item) {
