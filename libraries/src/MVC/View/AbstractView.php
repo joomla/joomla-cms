@@ -64,7 +64,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      * @var    array
      * @since  3.0
      */
-    protected $_models = array();
+    protected $_models = [];
 
     /**
      * The default model
@@ -88,7 +88,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      *
      * @since   3.0
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         // Set the view name
         if (empty($this->_name)) {
@@ -185,7 +185,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      */
     public function setModel($model, $default = false)
     {
-        $name = strtolower($model->getName());
+        $name                 = strtolower($model->getName());
         $this->_models[$name] = $model;
 
         if ($default) {

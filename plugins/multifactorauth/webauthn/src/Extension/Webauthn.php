@@ -362,7 +362,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         $event->addResult(
             new CaptiveRenderOptions(
                 [
-                    'pre_message'        => Text::sprintf(
+                    'pre_message' => Text::sprintf(
                         'PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_INSTRUCTIONS',
                         Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_VALIDATEKEY')
                     ),

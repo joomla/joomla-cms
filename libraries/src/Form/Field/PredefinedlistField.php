@@ -36,7 +36,7 @@ abstract class PredefinedlistField extends ListField
      * @var    array
      * @since  3.2
      */
-    protected static $options = array();
+    protected static $options = [];
 
     /**
      * Available predefined options
@@ -44,7 +44,7 @@ abstract class PredefinedlistField extends ListField
      * @var  array
      * @since  3.2
      */
-    protected $predefinedOptions = array();
+    protected $predefinedOptions = [];
 
     /**
      * Translate options labels ?
@@ -104,7 +104,7 @@ abstract class PredefinedlistField extends ListField
         if (!isset(static::$options[$type][$hash]) && !empty($this->predefinedOptions)) {
             static::$options[$type][$hash] = parent::getOptions();
 
-            $options = array();
+            $options = [];
 
             foreach ($this->predefinedOptions as $value => $text) {
                 $val = (string) $value;
@@ -112,10 +112,10 @@ abstract class PredefinedlistField extends ListField
                 if (empty($this->optionsFilter) || in_array($val, $this->optionsFilter, true)) {
                     $text = $this->translate ? Text::_($text) : $text;
 
-                    $options[] = (object) array(
+                    $options[] = (object) [
                         'value' => $value,
                         'text'  => $text,
-                    );
+                    ];
                 }
             }
 

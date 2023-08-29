@@ -44,7 +44,7 @@ class BreadcrumbsHelper
         $count   = \count($items);
 
         // Don't use $items here as it references JPathway properties directly
-        $crumbs = array();
+        $crumbs = [];
 
         for ($i = 0; $i < $count; $i++) {
             $crumbs[$i]       = new \stdClass();

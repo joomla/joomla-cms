@@ -41,7 +41,7 @@ class ContactsController extends AdminController
      *
      * @since   3.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -60,8 +60,8 @@ class ContactsController extends AdminController
         // Check for request forgeries
         $this->checkToken();
 
-        $ids    = (array) $this->input->get('cid', array(), 'int');
-        $values = array('featured' => 1, 'unfeatured' => 0);
+        $ids    = (array) $this->input->get('cid', [], 'int');
+        $values = ['featured' => 1, 'unfeatured' => 0];
         $task   = $this->getTask();
         $value  = ArrayHelper::getValue($values, $task, 0, 'int');
 
@@ -118,7 +118,7 @@ class ContactsController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Contact', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Contact', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -142,7 +142,7 @@ class ContactsController extends AdminController
 
         $result['amount'] = $amount;
         $result['sronly'] = Text::plural('COM_CONTACT_N_QUICKICON_SRONLY', $amount);
-        $result['name'] = Text::plural('COM_CONTACT_N_QUICKICON', $amount);
+        $result['name']   = Text::plural('COM_CONTACT_N_QUICKICON', $amount);
 
         echo new JsonResponse($result);
     }

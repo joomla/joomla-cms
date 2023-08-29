@@ -44,7 +44,7 @@ class PlgWebservicesModules extends CMSPlugin
      */
     public function onBeforeApiRoute(&$router)
     {
-        $routes = array(
+        $routes = [
             new Route(
                 ['GET'],
                 'v1/modules/types/site',
@@ -59,7 +59,7 @@ class PlgWebservicesModules extends CMSPlugin
                 [],
                 ['public' => false, 'component' => 'com_modules', 'client_id' => 1]
             ),
-        );
+        ];
 
         $router->addRoutes($routes);
 

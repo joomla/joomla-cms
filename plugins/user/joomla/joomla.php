@@ -68,7 +68,7 @@ class PlgUserJoomla extends CMSPlugin
             // In case there is a validation error (like duplicated user), $data is an empty array on save.
             // After returning from error, $data is an array but populated
             if (!$data) {
-                $data = Factory::getApplication()->getInput()->get('jform', array(), 'array');
+                $data = Factory::getApplication()->getInput()->get('jform', [], 'array');
             }
 
             if (is_array($data)) {
@@ -208,12 +208,12 @@ class PlgUserJoomla extends CMSPlugin
 
         // Collect data for mail
         $data = [
-            'name' => $user['name'],
+            'name'     => $user['name'],
             'sitename' => $this->app->get('sitename'),
-            'url' => Uri::root(),
+            'url'      => Uri::root(),
             'username' => $user['username'],
             'password' => $user['password_clear'],
-            'email' => $user['email'],
+            'email'    => $user['email'],
         ];
 
         $mailer = new MailTemplate('plg_user_joomla.mail', $userLocale);
@@ -465,7 +465,7 @@ class PlgUserJoomla extends CMSPlugin
     protected function _getUser($user, $options = [])
     {
         $instance = User::getInstance();
-        $id = (int) UserHelper::getUserId($user['username']);
+        $id       = (int) UserHelper::getUserId($user['username']);
 
         if ($id) {
             $instance->load($id);
@@ -479,13 +479,13 @@ class PlgUserJoomla extends CMSPlugin
         // Read the default user group option from com_users
         $defaultUserGroup = $params->get('new_usertype', $params->get('guest_usergroup', 1));
 
-        $instance->id = 0;
-        $instance->name = $user['fullname'];
-        $instance->username = $user['username'];
+        $instance->id             = 0;
+        $instance->name           = $user['fullname'];
+        $instance->username       = $user['username'];
         $instance->password_clear = $user['password_clear'];
 
         // Result should contain an email (check).
-        $instance->email = $user['email'];
+        $instance->email  = $user['email'];
         $instance->groups = [$defaultUserGroup];
 
         // If autoregister is set let's register the user

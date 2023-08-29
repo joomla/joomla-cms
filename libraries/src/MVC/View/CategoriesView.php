@@ -86,7 +86,7 @@ class CategoriesView extends HtmlView
 
         $params = &$state->params;
 
-        $items = array($parent->id => $items);
+        $items = [$parent->id => $items];
 
         // Escape strings for HTML output
         $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');

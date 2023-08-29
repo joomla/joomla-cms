@@ -88,7 +88,7 @@ class GroupparentField extends ListField
             // Show groups only if user is super admin or group is not super admin
             if ($isSuperAdmin || !Access::checkGroup($options[$i]->id, 'core.admin')) {
                 $options[$i]->value = $options[$i]->id;
-                $options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->title;
+                $options[$i]->text  = str_repeat('- ', $options[$i]->level) . $options[$i]->title;
             } else {
                 unset($options[$i]);
             }

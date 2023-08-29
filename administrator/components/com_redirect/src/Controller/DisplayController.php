@@ -22,7 +22,7 @@ use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Redirect master display controller.
+ * Redirect display controller.
  *
  * @since  1.6
  */
@@ -59,7 +59,7 @@ class DisplayController extends BaseController
                 $this->app->enqueueMessage(Text::sprintf('COM_REDIRECT_COLLECT_URLS_ENABLED', Text::_('COM_REDIRECT_PLUGIN_ENABLED')), 'notice');
             } else {
                 $redirectPluginId = RedirectHelper::getRedirectPluginId();
-                $link = HTMLHelper::_(
+                $link             = HTMLHelper::_(
                     'link',
                     '#plugin' . $redirectPluginId . 'Modal',
                     Text::_('COM_REDIRECT_SYSTEM_PLUGIN'),

@@ -44,7 +44,7 @@ class TracksController extends BaseController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Tracks', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Tracks', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -99,7 +99,7 @@ class TracksController extends BaseController
      * @since   1.5
      * @todo    This should be done as a view, not here!
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         // Get the document object.
         $vName = 'tracks';
@@ -124,7 +124,7 @@ class TracksController extends BaseController
             $model->setState('list.limit', 0);
             $model->setState('list.start', 0);
 
-            $form = $this->input->get('jform', array(), 'array');
+            $form = $this->input->get('jform', [], 'array');
 
             $model->setState('basename', $form['basename']);
             $model->setState('compressed', $form['compressed']);

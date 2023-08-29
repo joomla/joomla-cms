@@ -53,7 +53,7 @@ class OptionsRule extends FormRule
         }
 
         // Make an array of all available option values.
-        $options = array();
+        $options = [];
 
         // Create the field
         $field = null;

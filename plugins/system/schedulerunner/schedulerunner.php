@@ -71,12 +71,12 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         $config = ComponentHelper::getParams('com_scheduler');
-        $app = Factory::getApplication();
+        $app    = Factory::getApplication();
 
         $mapping  = [];
 
         if ($app->isClient('site') || $app->isClient('administrator')) {
-            $mapping['onBeforeCompileHead'] = 'injectLazyJS';
+            $mapping['onBeforeCompileHead']    = 'injectLazyJS';
             $mapping['onAjaxRunSchedulerLazy'] = 'runLazyCron';
 
             // Only allowed in the frontend
@@ -85,7 +85,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
                     $mapping['onAjaxRunSchedulerWebcron'] = 'runWebCron';
                 }
             } elseif ($app->isClient('administrator')) {
-                $mapping['onContentPrepareForm'] = 'enhanceSchedulerConfig';
+                $mapping['onContentPrepareForm']  = 'enhanceSchedulerConfig';
                 $mapping['onExtensionBeforeSave'] = 'generateWebcronKey';
 
                 $mapping['onAjaxRunSchedulerTest'] = 'runTestCron';
@@ -168,7 +168,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        // Since `navigator.sendBeacon()` may time out, allow execution after disconnect if possible.
+        // Since the the request from the frontend may time out, try allowing execution after disconnect.
         if (function_exists('ignore_user_abort')) {
             ignore_user_abort(true);
         }
@@ -207,7 +207,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
     public function runWebCron(Event $event)
     {
         $config = ComponentHelper::getParams('com_scheduler');
-        $hash = $config->get('webcron.key', '');
+        $hash   = $config->get('webcron.key', '');
 
         if (!$config->get('webcron.enabled', false)) {
             Log::add(Text::_('PLG_SYSTEM_SCHEDULE_RUNNER_WEBCRON_DISABLED'));
@@ -246,7 +246,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $id = (int) $this->app->getInput()->getInt('id');
+        $id              = (int) $this->app->getInput()->getInt('id');
         $allowConcurrent = $this->app->getInput()->getBool('allowConcurrent', false);
 
         $user = Factory::getApplication()->getIdentity();
@@ -263,10 +263,10 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
          */
         $task = (new Scheduler())->getTask(
             [
-                'id' => $id,
-                'allowDisabled' => true,
+                'id'               => $id,
+                'allowDisabled'    => true,
                 'bypassScheduling' => true,
-                'allowConcurrent' => $allowConcurrent,
+                'allowConcurrent'  => $allowConcurrent,
             ]
         );
 
@@ -330,7 +330,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
             $form->removeField('generate_key_on_save', 'webcron');
 
             $relative = 'index.php?option=com_ajax&plugin=RunSchedulerWebcron&group=system&format=json&hash=' . $data['webcron']['key'];
-            $link = Route::link('site', $relative, false, Route::TLS_IGNORE, true);
+            $link     = Route::link('site', $relative, false, Route::TLS_IGNORE, true);
             $form->setValue('base_link', 'webcron', $link);
         } else {
             $form->removeField('base_link', 'webcron');

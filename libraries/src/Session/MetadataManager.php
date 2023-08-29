@@ -245,7 +245,7 @@ final class MetadataManager
             $clientId = $this->app->getClientId();
 
             $columns[] = $this->db->quoteName('client_id');
-            $values[] = ':client_id';
+            $values[]  = ':client_id';
 
             $query->bind(':client_id', $clientId, ParameterType::INTEGER);
         }

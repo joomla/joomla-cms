@@ -30,14 +30,19 @@ class RequestDataCollector extends \DebugBar\DataCollector\RequestDataCollector
      */
     public function collect()
     {
-        $vars = array('_GET', '_POST', '_SESSION', '_COOKIE', '_SERVER');
-        $returnData = array();
+        $vars       = ['_GET', '_POST', '_SESSION', '_COOKIE', '_SERVER'];
+        $returnData = [];
 
         foreach ($vars as $var) {
             if (isset($GLOBALS[$var])) {
                 $key = "$" . $var;
 
                 $data = $GLOBALS[$var];
+
+                // Replace Joomla session data from session data, it will be collected by SessionCollector
+                if ($var === '_SESSION' && !empty($data['joomla'])) {
+                    $data['joomla'] = '***redacted***';
+                }
 
                 array_walk_recursive($data, static function (&$value, $key) {
                     if (!preg_match(\PlgSystemDebug::PROTECTED_COLLECTOR_KEYS, $key)) {

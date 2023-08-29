@@ -89,12 +89,12 @@ class ArticleModel extends ItemModel
         $pk = (int) ($pk ?: $this->getState('article.id'));
 
         if ($this->_item === null) {
-            $this->_item = array();
+            $this->_item = [];
         }
 
         if (!isset($this->_item[$pk])) {
             try {
-                $db = $this->getDatabase();
+                $db    = $this->getDatabase();
                 $query = $db->getQuery(true);
 
                 $query->select(
@@ -204,7 +204,7 @@ class ArticleModel extends ItemModel
 
                 // Filter by published state.
                 $published = $this->getState('filter.published');
-                $archived = $this->getState('filter.archived');
+                $archived  = $this->getState('filter.archived');
 
                 if (is_numeric($published)) {
                     $query->whereIn($db->quoteName('a.state'), [(int) $published, (int) $archived]);
@@ -234,7 +234,7 @@ class ArticleModel extends ItemModel
                 // Technically guest could edit an article, but lets not check that to improve performance a little.
                 if (!$user->get('guest')) {
                     $userId = $user->get('id');
-                    $asset = 'com_content.article.' . $data->id;
+                    $asset  = 'com_content.article.' . $data->id;
 
                     // Check general edit permission first.
                     if ($user->authorise('core.edit', $asset)) {
@@ -254,7 +254,7 @@ class ArticleModel extends ItemModel
                     $data->params->set('access-view', true);
                 } else {
                     // If no access filter is set, the layout takes some responsibility for display of limited information.
-                    $user = $this->getCurrentUser();
+                    $user   = $this->getCurrentUser();
                     $groups = $user->getAuthorisedViewLevels();
 
                     if ($data->catid == 0 || $data->category_access === null) {
@@ -288,7 +288,7 @@ class ArticleModel extends ItemModel
      */
     public function hit($pk = 0)
     {
-        $input = Factory::getApplication()->getInput();
+        $input    = Factory::getApplication()->getInput();
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {
@@ -415,7 +415,8 @@ class ArticleModel extends ItemModel
      * Cleans the cache of com_content and content modules
      *
      * @param   string   $group     The cache group
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *

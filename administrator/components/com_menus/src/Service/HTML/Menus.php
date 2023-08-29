@@ -51,7 +51,7 @@ class Menus
         // Get the associations
         if ($associations = MenusHelper::getAssociations($itemid)) {
             // Get the associated menu items
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select(
                     [
@@ -80,7 +80,7 @@ class Menus
 
             // Construct html
             if ($items) {
-                $languages = LanguageHelper::getContentLanguages(array(0, 1));
+                $languages         = LanguageHelper::getContentLanguages([0, 1]);
                 $content_languages = array_column($languages, 'lang_code');
 
                 foreach ($items as &$item) {

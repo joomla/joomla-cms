@@ -44,7 +44,7 @@ final class NamespaceMap extends CMSPlugin
      *
      * @since   4.0.0
      */
-    public function __construct(DispatcherInterface $subject, JNamespacePsr4Map $map, $config = array())
+    public function __construct(DispatcherInterface $subject, JNamespacePsr4Map $map, $config = [])
     {
         $this->fileCreator = $map;
 

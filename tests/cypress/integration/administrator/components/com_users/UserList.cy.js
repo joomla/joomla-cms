@@ -10,10 +10,9 @@ describe('Test com_users features', () => {
       "name": "Test Bot",
       "email": "Testbot@example.com"
     }
-
   })
 
-  it('creates a new user', function () {
+  it('disables sending mails', function () {
     cy.visit('administrator/index.php?option=com_config')
     cy.contains('button', 'Server').click()
 
@@ -32,7 +31,9 @@ describe('Test com_users features', () => {
     cy.contains('#system-message-container', 'Configuration saved.').should('exist')
 
     cy.log('--Disable sending mails--')
+  })
 
+  it('creates a new user', function () {
     cy.visit('administrator/index.php?option=com_users&view=users')
     cy.checkForPhpNoticesOrWarnings()
     cy.get('h1.page-title').should('contain.text', 'Users')
@@ -75,5 +76,44 @@ describe('Test com_users features', () => {
 
     cy.get('#system-message-container').contains('User saved.').should('exist')
     cy.checkForPhpNoticesOrWarnings()
+  })
+
+  it('deletes a user', function () {
+    cy.visit('administrator/index.php?option=com_users&view=users')
+    cy.get('h1.page-title').should('contain.text', 'Users')
+
+    cy.searchForItem(cy.user.username)
+    cy.checkAllResults()
+    cy.clickToolbarButton('Action')
+
+    cy.contains('Delete').click()
+
+    cy.on("window:confirm", (s) => {
+      return true;
+    });
+      
+    cy.get('#system-message-container').contains('User deleted.').should('exist')
+    cy.checkForPhpNoticesOrWarnings()
+  })
+
+  it('enables sending mails', function () {
+    cy.visit('administrator/index.php?option=com_config')
+    cy.contains('button', 'Server').click()
+
+    cy.log('**Enable sending mails**')
+
+    cy.visit('administrator/index.php?option=com_config')
+
+    cy.contains('.page-title', 'Global Configuration').scrollIntoView()
+    cy.get("div[role='tablist'] button[aria-controls='page-server']").click()
+    cy.get('#jform_mailonline1').scrollIntoView().click()
+
+    cy.intercept('index.php?option=com_config*').as('config_save')
+    cy.clickToolbarButton('save')
+    cy.wait('@config_save')
+    cy.contains('.page-title', 'Global Configuration').should('exist')
+    cy.contains('#system-message-container', 'Configuration saved.').should('exist')
+
+    cy.log('--Enable sending mails--')
   })
 })

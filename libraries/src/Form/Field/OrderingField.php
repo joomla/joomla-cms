@@ -116,7 +116,7 @@ class OrderingField extends FormField
      */
     protected function getInput()
     {
-        $html = array();
+        $html = [];
         $attr = '';
 
         // Initialize some field attributes.

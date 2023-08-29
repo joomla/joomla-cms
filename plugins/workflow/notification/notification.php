@@ -71,8 +71,8 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onContentPrepareForm'        => 'onContentPrepareForm',
-            'onWorkflowAfterTransition'   => 'onWorkflowAfterTransition',
+            'onContentPrepareForm'      => 'onContentPrepareForm',
+            'onWorkflowAfterTransition' => 'onWorkflowAfterTransition',
         ];
     }
 
@@ -143,10 +143,10 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 
         // Prepare Language for messages
         $defaultLanguage = ComponentHelper::getParams('com_languages')->get('administrator');
-        $debug = $this->app->get('debug_lang');
+        $debug           = $this->app->get('debug_lang');
 
         $modelName = $component->getModelName($context);
-        $model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true]);
+        $model     = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true]);
 
         // Don't send the notification to the active user
         $key = array_search($user->id, $userIds);
@@ -184,14 +184,14 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
         $transitionName = $model_transition->getItem($transition->id)->title;
 
         $hasGetItem = method_exists($model, 'getItem');
-        $container = Factory::getContainer();
+        $container  = Factory::getContainer();
 
         foreach ($pks as $pk) {
             // Get the title of the item which has changed, unknown as fallback
             $title = Text::_('PLG_WORKFLOW_NOTIFICATION_NO_TITLE');
 
             if ($hasGetItem) {
-                $item = $model->getItem($pk);
+                $item  = $model->getItem($pk);
                 $title = !empty($item->title) ? $item->title : $title;
             }
 
@@ -199,7 +199,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
             foreach ($userIds as $user_id) {
                 $receiver = $container->get(UserFactoryInterface::class)->loadUserById($user_id);
 
-                if ($receiver->authorise('core.manage', 'com_message')) {
+                if ($receiver->authorise('core.manage', 'com_messages')) {
                     // Load language for messaging
                     $lang = $container->get(LanguageFactoryInterface::class)
                         ->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
@@ -217,10 +217,10 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
                     }
 
                     $message = [
-                        'id' => 0,
+                        'id'         => 0,
                         'user_id_to' => $receiver->id,
-                        'subject' => sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $title),
-                        'message' => $messageText,
+                        'subject'    => sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $title),
+                        'message'    => $messageText,
                     ];
 
                     $model_message->save($message);

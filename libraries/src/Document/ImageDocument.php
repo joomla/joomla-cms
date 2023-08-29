@@ -29,7 +29,7 @@ class ImageDocument extends Document
      *
      * @since   3.0.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         parent::__construct($options);
 
@@ -50,7 +50,7 @@ class ImageDocument extends Document
      *
      * @since   3.0.0
      */
-    public function render($cache = false, $params = array())
+    public function render($cache = false, $params = [])
     {
         // Get the image type
         $type = Factory::getApplication()->getInput()->get('type', 'png');

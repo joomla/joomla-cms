@@ -100,7 +100,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         }
 
         $properties = $table->getProperties(1);
-        $value = ArrayHelper::toObject($properties, CMSObject::class);
+        $value      = ArrayHelper::toObject($properties, CMSObject::class);
 
         // Convert attrib field to Registry.
         $value->params = new Registry($value->attribs);
@@ -144,13 +144,38 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         }
 
         // Convert the metadata field to an array.
-        $registry = new Registry($value->metadata);
+        $registry        = new Registry($value->metadata);
         $value->metadata = $registry->toArray();
 
         if ($itemId) {
             $value->tags = new TagsHelper();
             $value->tags->getTagIds($value->id, 'com_content.article');
             $value->metadata['tags'] = $value->tags;
+
+            $value->featured_up   = null;
+            $value->featured_down = null;
+
+            if ($value->featured) {
+                // Get featured dates.
+                $db    = $this->getDatabase();
+                $query = $db->getQuery(true)
+                    ->select(
+                        [
+                            $db->quoteName('featured_up'),
+                            $db->quoteName('featured_down'),
+                        ]
+                    )
+                    ->from($db->quoteName('#__content_frontpage'))
+                    ->where($db->quoteName('content_id') . ' = :id')
+                    ->bind(':id', $value->id, ParameterType::INTEGER);
+
+                $featured = $db->setQuery($query)->loadObject();
+
+                if ($featured) {
+                    $value->featured_up   = $featured->featured_up;
+                    $value->featured_down = $featured->featured_down;
+                }
+            }
         }
 
         return $value;
@@ -304,7 +329,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function getTable($name = 'Article', $prefix = 'Administrator', $options = array())
+    public function getTable($name = 'Article', $prefix = 'Administrator', $options = [])
     {
         return parent::getTable($name, $prefix, $options);
     }

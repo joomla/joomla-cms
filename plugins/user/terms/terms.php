@@ -66,7 +66,7 @@ class PlgUserTerms extends CMSPlugin
         // Check we are manipulating a valid form - we only display this on user registration form.
         $name = $form->getName();
 
-        if (!in_array($name, array('com_users.registration'))) {
+        if (!in_array($name, ['com_users.registration'])) {
             return true;
         }
 

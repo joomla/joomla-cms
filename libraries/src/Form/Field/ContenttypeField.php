@@ -62,7 +62,7 @@ class ContenttypeField extends ListField
      */
     protected function getOptions()
     {
-        $lang = Factory::getLanguage();
+        $lang  = Factory::getLanguage();
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select(
@@ -81,13 +81,13 @@ class ContenttypeField extends ListField
         try {
             $options = $db->loadObjectList();
         } catch (\RuntimeException $e) {
-            return array();
+            return [];
         }
 
         foreach ($options as $option) {
             // Make up the string from the component sys.ini file
             $parts = explode('.', $option->alias);
-            $comp = array_shift($parts);
+            $comp  = array_shift($parts);
 
             // Make sure the component sys.ini is loaded
             $lang->load($comp . '.sys', JPATH_ADMINISTRATOR)

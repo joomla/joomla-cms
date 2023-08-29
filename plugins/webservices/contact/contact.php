@@ -48,7 +48,7 @@ class PlgWebservicesContact extends CMSPlugin
             ['POST'],
             'v1/contacts/form/:id',
             'contact.submitForm',
-            ['id' => '(\d+)'],
+            ['id'        => '(\d+)'],
             ['component' => 'com_contact']
         );
 

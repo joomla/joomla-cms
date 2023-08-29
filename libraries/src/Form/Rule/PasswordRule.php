@@ -75,13 +75,13 @@ class PasswordRule extends FormRule
                 $meterp            = $params->get('meter');
                 $thresholdp        = $params->get('threshold', 66);
 
-                empty($minimumLengthp) ? : $minimumLength = (int) $minimumLengthp;
-                empty($minimumIntegersp) ? : $minimumIntegers = (int) $minimumIntegersp;
-                empty($minimumSymbolsp) ? : $minimumSymbols = (int) $minimumSymbolsp;
-                empty($minimumUppercasep) ? : $minimumUppercase = (int) $minimumUppercasep;
-                empty($minimumLowercasep) ? : $minimumLowercase = (int) $minimumLowercasep;
-                empty($meterp) ? : $meter = $meterp;
-                empty($thresholdp) ? : $threshold = $thresholdp;
+                empty($minimumLengthp) ?: $minimumLength       = (int) $minimumLengthp;
+                empty($minimumIntegersp) ?: $minimumIntegers   = (int) $minimumIntegersp;
+                empty($minimumSymbolsp) ?: $minimumSymbols     = (int) $minimumSymbolsp;
+                empty($minimumUppercasep) ?: $minimumUppercase = (int) $minimumUppercasep;
+                empty($minimumLowercasep) ?: $minimumLowercase = (int) $minimumLowercasep;
+                empty($meterp) ?: $meter                       = $meterp;
+                empty($thresholdp) ?: $threshold               = $thresholdp;
             }
         }
 

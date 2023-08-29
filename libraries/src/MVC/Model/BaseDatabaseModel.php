@@ -84,7 +84,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         parent::__construct($config);
 
@@ -100,13 +100,14 @@ abstract class BaseDatabaseModel extends BaseModel implements
         }
 
         /**
-         * @deprecated 5.0 Database instance is injected through the setter function,
-         *                 subclasses should not use the db instance in constructor anymore
+         * @deprecated  4.3 will be Removed in 6.0
+         *              Database instance is injected through the setter function,
+         *              subclasses should not use the db instance in constructor anymore
          */
         $db = \array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo();
 
         if ($db) {
-            @trigger_error(sprintf('Database is not available in constructor in 5.0.'), E_USER_DEPRECATED);
+            @trigger_error(sprintf('Database is not available in constructor in 6.0.'), E_USER_DEPRECATED);
             $this->setDatabase($db);
 
             // Is needed, when models use the deprecated MVC DatabaseAwareTrait, as the trait is overriding the local functions
@@ -224,7 +225,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @see     \JTable::getInstance()
      */
-    protected function _createTable($name, $prefix = 'Table', $config = array())
+    protected function _createTable($name, $prefix = 'Table', $config = [])
     {
         // Make sure we are returning a DBO object
         if (!\array_key_exists('dbo', $config)) {
@@ -252,7 +253,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @throws  \Exception
      */
-    public function getTable($name = '', $prefix = '', $options = array())
+    public function getTable($name = '', $prefix = '', $options = [])
     {
         if (empty($name)) {
             $name = $this->getName();
@@ -279,7 +280,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      */
     public function isCheckedOut($item)
     {
-        $table = $this->getTable();
+        $table           = $this->getTable();
         $checkedOutField = $table->getColumnAlias('checked_out');
 
         if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != $this->getCurrentUser()->id) {
@@ -360,7 +361,9 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   4.2.0
      * @throws  \UnexpectedValueException
      *
-     * @deprecated  5.0 Use getDatabase() instead
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use getDatabase() instead
+     *              Example: $model->getDatabase();
      */
     public function getDbo()
     {
@@ -380,7 +383,9 @@ abstract class BaseDatabaseModel extends BaseModel implements
      *
      * @since   4.2.0
      *
-     * @deprecated  5.0 Use setDatabase() instead
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use setDatabase() instead
+     *              Example: $model->setDatabase($db);
      */
     public function setDbo(DatabaseInterface $db = null)
     {
@@ -400,7 +405,8 @@ abstract class BaseDatabaseModel extends BaseModel implements
      *
      * @since   4.2.0
      *
-     * @deprecated  5.0 Use getDatabase() instead of directly accessing _db
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use getDatabase() instead of directly accessing _db
      */
     public function __get($name)
     {

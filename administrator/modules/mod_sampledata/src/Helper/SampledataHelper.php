@@ -43,7 +43,7 @@ abstract class SampledataHelper
                 AbstractEvent::create(
                     'onSampledataGetOverview',
                     [
-                        'subject'   => new \stdClass(),
+                        'subject' => new \stdClass(),
                     ]
                 )
             )

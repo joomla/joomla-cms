@@ -106,7 +106,7 @@ class PlgUserProfile extends CMSPlugin
                 $data->profile = [];
 
                 foreach ($results as $v) {
-                    $k = str_replace('profile.', '', $v[0]);
+                    $k                 = str_replace('profile.', '', $v[0]);
                     $data->profile[$k] = json_decode($v[1], true);
 
                     if ($data->profile[$k] === null) {
@@ -316,7 +316,7 @@ class PlgUserProfile extends CMSPlugin
         // Check that the date is valid.
         if (!empty($data['profile']['dob'])) {
             try {
-                $date = new Date($data['profile']['dob']);
+                $date       = new Date($data['profile']['dob']);
                 $this->date = $date->format('Y-m-d H:i:s');
             } catch (Exception $e) {
                 // Throw an exception if date is not valid.
@@ -441,7 +441,7 @@ class PlgUserProfile extends CMSPlugin
         $userId = ArrayHelper::getValue($user, 'id', 0, 'int');
 
         if ($userId) {
-            $db = $this->db;
+            $db    = $this->db;
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__user_profiles'))
                 ->where($db->quoteName('user_id') . ' = :userid')

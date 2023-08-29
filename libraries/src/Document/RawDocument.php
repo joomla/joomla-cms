@@ -27,7 +27,7 @@ class RawDocument extends Document
      *
      * @since   1.7.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         parent::__construct($options);
 
@@ -48,7 +48,7 @@ class RawDocument extends Document
      *
      * @since   1.7.0
      */
-    public function render($cache = false, $params = array())
+    public function render($cache = false, $params = [])
     {
         parent::render($cache, $params);
 

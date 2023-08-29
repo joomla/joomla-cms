@@ -83,11 +83,11 @@ class FeedLink
      */
     public function __construct($uri = null, $relation = null, $type = null, $language = null, $title = null, $length = null)
     {
-        $this->uri = $uri;
+        $this->uri      = $uri;
         $this->relation = $relation;
-        $this->type = $type;
+        $this->type     = $type;
         $this->language = $language;
-        $this->title = $title;
+        $this->title    = $title;
 
         // Validate the length input.
         if (isset($length) && !is_numeric($length)) {

@@ -103,7 +103,7 @@ class PlgSystemLogrotation extends CMSPlugin
             // Update the plugin parameters
             $result = $db->setQuery($query)->execute();
 
-            $this->clearCacheGroups(array('com_plugins'), array(0, 1));
+            $this->clearCacheGroups(['com_plugins'], [0, 1]);
         } catch (Exception $exc) {
             // If we failed to execute
             $db->unlockTables();
@@ -118,7 +118,7 @@ class PlgSystemLogrotation extends CMSPlugin
             $result = false;
         }
 
-        // Abort on failure
+        // Stop on failure
         if (!$result) {
             return;
         }
@@ -162,7 +162,7 @@ class PlgSystemLogrotation extends CMSPlugin
      */
     private function getLogFiles($path)
     {
-        $logFiles = array();
+        $logFiles = [];
         $files    = Folder::files($path, '\.php$');
 
         foreach ($files as $file) {
@@ -179,7 +179,7 @@ class PlgSystemLogrotation extends CMSPlugin
             }
 
             if (!isset($logFiles[$version])) {
-                $logFiles[$version] = array();
+                $logFiles[$version] = [];
             }
 
             $logFiles[$version][] = $file;
@@ -228,16 +228,16 @@ class PlgSystemLogrotation extends CMSPlugin
      *
      * @since   3.9.0
      */
-    private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
+    private function clearCacheGroups(array $clearGroups, array $cacheClients = [0, 1])
     {
         foreach ($clearGroups as $group) {
             foreach ($cacheClients as $client_id) {
                 try {
-                    $options = array(
+                    $options = [
                         'defaultgroup' => $group,
                         'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
                             Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache'),
-                    );
+                    ];
 
                     $cache = Cache::getInstance('callback', $options);
                     $cache->clean();

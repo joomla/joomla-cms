@@ -95,7 +95,7 @@ class File
             $file = iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII', $file));
         }
 
-        $regex = array('#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#');
+        $regex = ['#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#'];
 
         return trim(preg_replace($regex, '', $file));
     }
@@ -116,13 +116,13 @@ class File
     {
         // Prepend a base path if it exists
         if ($path) {
-            $src = Path::clean($path . '/' . $src);
+            $src  = Path::clean($path . '/' . $src);
             $dest = Path::clean($path . '/' . $dest);
         }
 
         // Check src path
         if (!is_readable($src)) {
-            Log::add(Text::sprintf('LIB_FILESYSTEM_ERROR_JFILE_FIND_COPY', __METHOD__, $src), Log::WARNING, 'jerror');
+            Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_FILE_FIND_COPY', __METHOD__, $src), Log::WARNING, 'jerror');
 
             return false;
         }
@@ -144,7 +144,7 @@ class File
 
             if ($FTPOptions['enabled'] == 1) {
                 // Connect the FTP client
-                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
 
                 // If the parent folder doesn't exist we must create it
                 if (!file_exists(\dirname($dest))) {
@@ -252,7 +252,7 @@ class File
         // Do NOT use ftp if it is not enabled
         if ($FTPOptions['enabled'] == 1) {
             // Connect the FTP client
-            $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+            $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
         }
 
         foreach ($files as $file) {
@@ -315,7 +315,7 @@ class File
     public static function move($src, $dest, $path = '', $useStreams = false)
     {
         if ($path) {
-            $src = Path::clean($path . '/' . $src);
+            $src  = Path::clean($path . '/' . $src);
             $dest = Path::clean($path . '/' . $dest);
         }
 
@@ -346,10 +346,10 @@ class File
 
             if ($FTPOptions['enabled'] == 1) {
                 // Connect the FTP client
-                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
 
                 // Translate path for the FTP account
-                $src = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
+                $src  = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
                 $dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
                 // Use FTP rename to simulate move
@@ -414,14 +414,14 @@ class File
 
             if ($FTPOptions['enabled'] == 1) {
                 // Connect the FTP client
-                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
 
                 // Translate path for the FTP account and use FTP write buffer to file
                 $file = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
-                $ret = $ftp->write($file, $buffer);
+                $ret  = $ftp->write($file, $buffer);
             } else {
                 $file = Path::clean($file);
-                $ret = \is_int(file_put_contents($file, $buffer));
+                $ret  = \is_int(file_put_contents($file, $buffer));
             }
 
             self::invalidateFileCache($file);
@@ -471,14 +471,14 @@ class File
 
             if ($FTPOptions['enabled'] == 1) {
                 // Connect the FTP client
-                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
 
                 // Translate path for the FTP account and use FTP write buffer to file
                 $file = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
-                $ret = $ftp->append($file, $buffer);
+                $ret  = $ftp->append($file, $buffer);
             } else {
                 $file = Path::clean($file);
-                $ret = \is_int(file_put_contents($file, $buffer, FILE_APPEND));
+                $ret  = \is_int(file_put_contents($file, $buffer, FILE_APPEND));
             }
 
             self::invalidateFileCache($file);
@@ -500,16 +500,16 @@ class File
      *
      * @since   1.7.0
      */
-    public static function upload($src, $dest, $useStreams = false, $allowUnsafe = false, $safeFileOptions = array())
+    public static function upload($src, $dest, $useStreams = false, $allowUnsafe = false, $safeFileOptions = [])
     {
         if (!$allowUnsafe) {
-            $descriptor = array(
+            $descriptor = [
                 'tmp_name' => $src,
                 'name'     => basename($dest),
                 'type'     => '',
                 'error'    => '',
                 'size'     => '',
-            );
+            ];
 
             $isSafe = InputFilter::isSafeFile($descriptor, $safeFileOptions);
 
@@ -542,11 +542,11 @@ class File
             return true;
         } else {
             $FTPOptions = ClientHelper::getCredentials('ftp');
-            $ret = false;
+            $ret        = false;
 
             if ($FTPOptions['enabled'] == 1) {
                 // Connect the FTP client
-                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
 
                 // Translate path for the FTP account
                 $dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
