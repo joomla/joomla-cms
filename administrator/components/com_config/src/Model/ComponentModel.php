@@ -216,7 +216,7 @@ class ComponentModel extends FormModel
 
         unset($data['id']);
 
-        // If the user only has access to a subset of preferences, 
+        // If the user only has access to a subset of preferences,
         // merge these with the full preference set
         $previous = (array)\json_decode($table->params);
         if (\count($data['params'], COUNT_RECURSIVE) != \count($previous, COUNT_RECURSIVE)) {
