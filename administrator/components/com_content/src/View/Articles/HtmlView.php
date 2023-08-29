@@ -225,8 +225,24 @@ class HtmlView extends BaseHtmlView
 
                 $childBar->checkin('articles.checkin');
 
-                if ($this->state->get('filter.published') != ContentComponent::CONDITION_TRASHED) {
-                    $childBar->trash('articles.trash')->listCheck(true);
+
+                if ($canDo->get('core.delete')) {
+                    if ($this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED) {
+                        $childBar->delete('articles.delete', 'JTOOLBAR_DELETE')
+                            ->message('JGLOBAL_CONFIRM_DELETE')
+                            ->listCheck(true);
+                    } else {
+                        $childBar->trash('articles.trash')
+                            ->listCheck(true)
+                            ->alternativeGroup('trash')
+                            ->alternativeKeys('Default');
+
+                        $childBar->delete('articles.delete', 'JTOOLBAR_DELETE')
+                            ->alternativeGroup('trash')
+                            ->alternativeKeys('Shift')
+                            ->message('JGLOBAL_CONFIRM_DELETE')
+                            ->listCheck(true);
+                    }
                 }
             }
 

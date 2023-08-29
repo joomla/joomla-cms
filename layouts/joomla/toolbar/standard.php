@@ -31,18 +31,24 @@ extract($displayData, EXTR_OVERWRITE);
  * @var   string  $message          Confirmation message before run the task
  */
 
-Factory::getDocument()->getWebAssetManager()
-    ->useScript('core')
+$wa = Factory::getDocument()->getWebAssetManager();
+$wa->useScript('core')
     ->useScript('webcomponent.toolbar-button');
 
 $tagName  = $tagName ?? 'button';
 
-$taskAttr = '';
-$idAttr   = !empty($id)             ? ' id="' . $id . '"' : '';
-$listAttr = !empty($listCheck)      ? ' list-selection' : '';
-$formAttr = !empty($form)           ? ' form="' . $this->escape($form) . '"' : '';
-$validate = !empty($formValidation) ? ' form-validation' : '';
-$msgAttr  = !empty($message)        ? ' confirm-message="' . $this->escape($message) . '"' : '';
+$taskAttr        = '';
+$idAttr          = !empty($id) ? ' id="' . $id . '"' : '';
+$listAttr        = !empty($listCheck) ? ' list-selection' : '';
+$formAttr        = !empty($form) ? ' form="' . $this->escape($form) . '"' : '';
+$validate        = !empty($formValidation) ? ' form-validation' : '';
+$msgAttr         = !empty($message) ? ' confirm-message="' . $this->escape($message) . '"' : '';
+$alternativeAttr = !empty($alternativeGroup) ? ' data-alternative-group="' . $this->escape($alternativeGroup) . '"' : '';
+$alternativeAttr .= !empty($alternativeKeys) ? ' data-alternative-keys="' . $this->escape($alternativeKeys) . '"' : '';
+
+if (!empty($alternativeAttr)) {
+    $wa->useScript('joomla.alternative');
+}
 
 if (!empty($task)) {
     $taskAttr = ' task="' . $task . '"';
@@ -51,8 +57,7 @@ if (!empty($task)) {
 }
 
 ?>
-
-<joomla-toolbar-button <?php echo $idAttr . $taskAttr . $listAttr . $formAttr . $validate . $msgAttr; ?>>
+<joomla-toolbar-button <?php echo $idAttr . $taskAttr . $listAttr . $formAttr . $validate . $msgAttr . $alternativeAttr; ?>>
 <?php if (!empty($group)) : ?>
 <a href="#" class="dropdown-item">
     <span class="<?php echo trim($class ?? ''); ?>"></span>
