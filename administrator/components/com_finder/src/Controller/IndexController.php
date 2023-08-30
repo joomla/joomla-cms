@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Controller;
 
+use Joomla\CMS\Event\Finder\GarbageCollectionEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -53,9 +54,11 @@ class IndexController extends AdminController
     {
         $this->checkToken();
 
+        $dispatcher = $this->getDispatcher();
+
         // Optimise the index by first running the garbage collection
-        PluginHelper::importPlugin('finder');
-        $this->app->triggerEvent('onFinderGarbageCollection');
+        PluginHelper::importPlugin('finder', null, true, $dispatcher);
+        $dispatcher->dispatch('onFinderGarbageCollection', new GarbageCollectionEvent('onFinderGarbageCollection', []));
 
         // Now run the optimisation method from the indexer
         $indexer = new Indexer();
