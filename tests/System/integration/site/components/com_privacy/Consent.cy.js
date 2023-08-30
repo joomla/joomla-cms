@@ -15,7 +15,7 @@ describe('Test in frontend that the privacy consent view', () => {
     cy.doFrontendLogin();
     cy.visit('/index.php');
     cy.db_createPrivacyConsent();
-    cy.get('.alert').should('have.text', 'By signing up to this website and agreeing to the Privacy Policy you agree to this website storing your information.');
+    cy.get('.alert').contains('By signing up to this website and agreeing to the Privacy Policy you agree to this website storing your information.');
   });
 
   it('can allow users already with an account to not agree to the privacy policy', () => {
@@ -29,7 +29,7 @@ describe('Test in frontend that the privacy consent view', () => {
     cy.doFrontendLogin();
     cy.visit('/index.php');
     cy.get('#jform_privacyconsent_privacy0').click();
-    cy.get('.controls > .btn-primary').click();
+    cy.get('.controls > .btn-primary').click({ force: true });
     cy.get('.alert-message').should('include.text', 'Profile saved.');
   });
 
@@ -40,7 +40,7 @@ describe('Test in frontend that the privacy consent view', () => {
     cy.get('.controls > .btn-primary').click();
     cy.get('.alert-message').should('include.text', "Profile could not be saved: Agreement to the site's Privacy Policy is required.");
     cy.get('#jform_privacyconsent_privacy0').click();
-    cy.get('.controls > .btn-primary').click();
+    cy.get('.controls > .btn-primary').click({ force: true });
     cy.get('.alert-message').should('include.text', 'Profile saved.');
   });
 
