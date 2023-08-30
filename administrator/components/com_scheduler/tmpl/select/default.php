@@ -31,7 +31,7 @@ $wa->useScript('com_scheduler.admin-view-select-task-search');
 <!-- Tasks search box on below the toolbar begins -->
 <div class="d-none" id="comSchedulerSelectSearchContainer">
     <div class="d-flex mt-2">
-        <div class="ms-auto me-auto">
+        <div class="m-auto">
             <label class="visually-hidden" for="comSchedulerSelectSearch">
                 <?php echo Text::_('COM_SCHEDULER_TYPE_CHOOSE'); ?>
             </label>
@@ -72,7 +72,6 @@ $wa->useScript('com_scheduler.admin-view-select-task-search');
                 <?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
                 <!-- The task card begins -->
                 <a href="<?php echo Route::_($link); ?>" class="new-task mb-3 comSchedulerSelectCard"
-                   data-function="' . $this->escape($function) : ''; ?>"
                    aria-label="<?php echo Text::sprintf('COM_SCHEDULER_SELECT_TASK_TYPE', $name); ?>">
                     <div class="new-task-details">
                         <h3 class="new-task-title"><?php echo $name; ?></h3>

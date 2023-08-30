@@ -14,6 +14,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * FolderInstaller Plugin.
  *
@@ -41,7 +45,7 @@ class PlgInstallerFolderInstaller extends CMSPlugin
         // Load language files
         $this->loadLanguage();
 
-        $tab            = array();
+        $tab            = [];
         $tab['name']    = 'folder';
         $tab['label']   = Text::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT');
 

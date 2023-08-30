@@ -12,6 +12,10 @@ namespace Joomla\CMS\Installation\Form\Field\Installation;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Database Prefix field.
  *
@@ -49,7 +53,7 @@ class PrefixField extends FormField
         }
 
         // If a prefix is already set, use it instead.
-        $session = Factory::getSession()->get('setup.options', array());
+        $session = Factory::getSession()->get('setup.options', []);
 
         if (empty($session['db_prefix'])) {
             // Create the random prefix.

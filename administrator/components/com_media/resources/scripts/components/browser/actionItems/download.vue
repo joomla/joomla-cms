@@ -2,10 +2,9 @@
   <button
     type="button"
     class="action-download"
-    :aria-label="translate('COM_MEDIA_ACTION_DOWNLOAD')"
-    :title="translate('COM_MEDIA_ACTION_DOWNLOAD')"
     @keyup.enter="download()"
     @keyup.space="download()"
+    @click.stop="download()"
     @focus="focused(true)"
     @blur="focused(false)"
     @keyup.esc="hideActions()"
@@ -13,8 +12,10 @@
     <span
       class="image-browser-action icon-download"
       aria-hidden="true"
-      @click.stop="download()"
     />
+    <span class="action-text">
+      {{ translate('COM_MEDIA_ACTION_DOWNLOAD') }}
+    </span>
   </button>
 </template>
 

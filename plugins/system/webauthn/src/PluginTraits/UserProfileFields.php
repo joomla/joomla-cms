@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @package         Joomla.Plugin
- * @subpackage      System.Webauthn
+ * @package     Joomla.Plugin
+ * @subpackage  System.Webauthn
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
@@ -22,6 +22,10 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Event\Event;
 use Joomla\Plugin\System\Webauthn\Extension\Webauthn;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Add extra fields in the User Profile page.
@@ -98,11 +102,6 @@ trait UserProfileFields
          */
         [$form, $data] = $event->getArguments();
 
-        // This feature only applies to HTTPS sites.
-        if (!Uri::getInstance()->isSsl()) {
-            return;
-        }
-
         $name = $form->getName();
 
         $allowedForms = [
@@ -110,6 +109,19 @@ trait UserProfileFields
         ];
 
         if (!\in_array($name, $allowedForms)) {
+            return;
+        }
+
+        // This feature only applies in the site and administrator applications
+        if (
+            !$this->getApplication()->isClient('site')
+            && !$this->getApplication()->isClient('administrator')
+        ) {
+            return;
+        }
+
+        // This feature only applies to HTTPS sites.
+        if (!Uri::getInstance()->isSsl()) {
             return;
         }
 
@@ -127,10 +139,12 @@ trait UserProfileFields
         }
 
         // Add the fields to the form.
-        Log::add('Injecting WebAuthn Passwordless Login fields in user profile edit page', Log::DEBUG, 'webauthn.system');
+        if ($name !== 'com_users.registration') {
+            Log::add('Injecting WebAuthn Passwordless Login fields in user profile edit page', Log::DEBUG, 'webauthn.system');
 
-        Form::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
-        $form->loadFile('webauthn', false);
+            Form::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
+            $form->loadFile('webauthn', false);
+        }
     }
 
     /**
@@ -203,7 +217,7 @@ trait UserProfileFields
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function canEditUser(?User $user = null): bool
     {

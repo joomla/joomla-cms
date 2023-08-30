@@ -12,6 +12,10 @@ namespace Joomla\CMS\Table;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Update table
  * Stores updates temporarily
@@ -86,9 +90,9 @@ class Update extends Table
      *
      * @since   1.7.0
      */
-    public function find($options = array())
+    public function find($options = [])
     {
-        $where = array();
+        $where = [];
 
         foreach ($options as $col => $val) {
             $where[] = $col . ' = ' . $this->_db->quote($val);

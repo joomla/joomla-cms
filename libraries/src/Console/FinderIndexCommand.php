@@ -23,6 +23,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command Purges and rebuilds the index (search filters are preserved)
  *
@@ -84,7 +88,7 @@ class FinderIndexCommand extends AbstractCommand
      * @var    array
      * @since  3.3
      */
-    private $filters = array();
+    private $filters = [];
 
     /**
      * Pausing type or defined pause time in seconds.
@@ -234,8 +238,8 @@ EOF;
     private function configureIO(InputInterface $input, OutputInterface $output): void
     {
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
-        $language = Factory::getLanguage();
+        $this->ioStyle  = new SymfonyStyle($input, $output);
+        $language       = Factory::getLanguage();
         $language->load('', JPATH_ADMINISTRATOR, null, false, false) ||
         $language->load('', JPATH_ADMINISTRATOR, null, true);
         $language->load('finder_cli', JPATH_SITE, null, false, false) ||
@@ -284,11 +288,11 @@ EOF;
 
             // Construct a temporary data structure to hold the filter information.
             foreach ($taxonomies as $taxonomy) {
-                $this->filters[$filter->filter_id][] = array(
+                $this->filters[$filter->filter_id][] = [
                     'filter' => $filter->title,
                     'title'  => $taxonomy->title,
                     'parent' => $taxonomy->parent,
-                );
+                ];
             }
         }
 
@@ -307,13 +311,13 @@ EOF;
         $this->ioStyle->text(Text::_('FINDER_CLI_INDEX_PURGE'));
 
         // Load the model.
-        $app = $this->getApplication();
+        $app   = $this->getApplication();
         $model = $app->bootComponent('com_finder')->getMVCFactory($app)->createModel('Index', 'Administrator');
 
         // Attempt to purge the index.
         $return = $model->purge();
 
-        // If unsuccessful then abort.
+        // If unsuccessful then stop.
         if (!$return) {
             $message = Text::_('FINDER_CLI_INDEX_PURGE_FAILED', $model->getError());
             $this->ioStyle->error($message);
@@ -454,7 +458,7 @@ EOF;
 
         // Use the temporary filter information to update the filter taxonomy ids.
         foreach ($this->filters as $filter_id => $filter) {
-            $tids = array();
+            $tids = [];
 
             foreach ($filter as $element) {
                 // Look for the old taxonomy in the new taxonomy table.

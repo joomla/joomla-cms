@@ -15,6 +15,10 @@ use Joomla\Http\Http;
 use ReCaptcha\RequestMethod;
 use ReCaptcha\RequestParameters;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Bridges the Joomla! HTTP API to the Google Recaptcha RequestMethod interface for a POST request.
  *

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="quickicon" method="upgrade">
 	<name>plg_quickicon_joomlaupdate</name>
 	<author>Joomla! Project</author>
@@ -11,7 +11,7 @@
 	<description>PLG_QUICKICON_JOOMLAUPDATE_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Quickicon\Joomlaupdate</namespace>
 	<files>
-		<folder>services</folder>
+		<folder plugin="joomlaupdate">services</folder>
 		<folder>src</folder>
 	</files>
 	<languages>

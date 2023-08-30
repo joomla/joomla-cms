@@ -25,7 +25,7 @@ $wa->useScript('keepalive')
     ->useScript('webcomponent.core-loader');
 
 $options = [
-    'layout'   => $this->app->input->get('layout', '', 'string'),
+    'layout'   => $this->app->getInput()->get('layout', '', 'string'),
     'itemtype' => $this->itemType,
     'id'       => $this->referenceId,
 ];

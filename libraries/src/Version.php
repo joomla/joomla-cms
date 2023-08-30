@@ -14,6 +14,10 @@ use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Date\Date;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Version information class for the Joomla CMS.
  *
@@ -43,7 +47,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MINOR_VERSION = 2;
+    public const MINOR_VERSION = 3;
 
     /**
      * Patch release version.
@@ -51,7 +55,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const PATCH_VERSION = 0;
+    public const PATCH_VERSION = 5;
 
     /**
      * Extra release version info.
@@ -78,7 +82,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const CODENAME = 'Uaminifu';
+    public const CODENAME = 'Bora';
 
     /**
      * Release date.
@@ -86,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '22-June-2022';
+    public const RELDATE = '22-August-2023';
 
     /**
      * Release time.
@@ -94,7 +98,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTIME = '17:00';
+    public const RELTIME = '16:01';
 
     /**
      * Release timezone.
@@ -306,8 +310,7 @@ final class Version
         $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
             ->createCacheController('callback', ['defaultgroup' => '_media_version', 'caching' => true]);
 
-        // Media version cache never expire
-        $cache->setLifeTime(INF);
+        $cache->setLifeTime(5259600);
 
         // Disable cache when Debug is enabled
         if (JDEBUG) {

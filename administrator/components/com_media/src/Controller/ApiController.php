@@ -12,14 +12,20 @@ namespace Joomla\Component\Media\Administrator\Controller;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\MediaHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Api Media Controller
@@ -44,8 +50,7 @@ class ApiController extends BaseController
     {
         $method = $this->input->getMethod();
 
-        $this->task   = $task;
-        $this->method = $method;
+        $this->task = $task;
 
         try {
             // Check token for requests which do modify files (all except get requests)
@@ -199,7 +204,7 @@ class ApiController extends BaseController
             // A file needs to be created
             $name = $this->getModel()->createFile($adapter, $name, $path, $mediaContent, $override);
         } else {
-            // A file needs to be created
+            // A folder needs to be created
             $name = $this->getModel()->createFolder($adapter, $name, $path, $override);
         }
 
@@ -352,7 +357,9 @@ class ApiController extends BaseController
             || ($postMaxSize > 0 && $contentLength > $postMaxSize)
             || ($memoryLimit > -1 && $contentLength > $memoryLimit)
         ) {
-            throw new \Exception(Text::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 403);
+            $link   = 'index.php?option=com_config&view=component&component=com_media';
+            $output = HTMLHelper::_('link', Route::_($link), Text::_('JOPTIONS'));
+            throw new \Exception(Text::sprintf('COM_MEDIA_ERROR_WARNFILETOOLARGE', $output), 403);
         }
     }
 

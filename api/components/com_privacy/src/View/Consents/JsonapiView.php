@@ -18,6 +18,10 @@ use Joomla\CMS\Serializer\JoomlaSerializer;
 use Joomla\CMS\Uri\Uri;
 use Tobscure\JsonApi\Resource;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The consents view
  *
@@ -105,7 +109,7 @@ class JsonapiView extends BaseApiView
         }
 
         $serializer = new JoomlaSerializer($this->type);
-        $element = (new Resource($displayItem, $serializer))
+        $element    = (new Resource($displayItem, $serializer))
             ->fields([$this->type => $this->fieldsToRenderItem]);
 
         $this->document->setData($element);

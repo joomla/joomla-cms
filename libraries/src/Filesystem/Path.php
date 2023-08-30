@@ -195,6 +195,17 @@ class Path
             );
         }
 
+        if ($path === null) {
+            @trigger_error(
+                sprintf(
+                    'Path can not be null, in 6.0 it will throw an exception',
+                    __METHOD__
+                ),
+                E_USER_DEPRECATED
+            );
+            $path = '';
+        }
+
         $path = trim($path);
 
         if (empty($path)) {
@@ -258,7 +269,7 @@ class Path
     /**
      * Searches the directory paths for a given file.
      *
-     * @param   mixed   $paths  An path string or array of path strings to search in
+     * @param   mixed   $paths  A path string or array of path strings to search in
      * @param   string  $file   The file name to look for.
      *
      * @return  mixed   The full path and file name for the target file, or boolean false if the file is not found in any of the paths.

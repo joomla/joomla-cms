@@ -26,6 +26,10 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Utilities\ArrayHelper;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Controller for single contact view
  *
@@ -62,9 +66,9 @@ class ContactController extends FormController
      *
      * @since   1.6.4
      */
-    public function getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))
+    public function getModel($name = 'form', $prefix = '', $config = ['ignore_request' => true])
     {
-        return parent::getModel($name, $prefix, array('ignore_request' => false));
+        return parent::getModel($name, $prefix, ['ignore_request' => false]);
     }
 
     /**
@@ -85,7 +89,7 @@ class ContactController extends FormController
         $id     = (int) $stub;
 
         // Get the data from POST
-        $data = $this->input->post->get('jform', array(), 'array');
+        $data = $this->input->post->get('jform', [], 'array');
 
         // Get item
         $model->setState('filter.published', 1);
@@ -98,7 +102,7 @@ class ContactController extends FormController
         }
 
         // Get item params, take menu parameters into account if necessary
-        $active = $app->getMenu()->getActive();
+        $active      = $app->getMenu()->getActive();
         $stateParams = clone $model->getState()->get('params');
 
         // If the current view is the active item and a contact view for this contact, then the menu item params take priority
@@ -165,7 +169,7 @@ class ContactController extends FormController
         }
 
         // Validation succeeded, continue with custom handlers
-        $results = $this->app->triggerEvent('onValidateContact', array(&$contact, &$data));
+        $results = $this->app->triggerEvent('onValidateContact', [&$contact, &$data]);
 
         $passValidation = true;
 
@@ -185,7 +189,7 @@ class ContactController extends FormController
         }
 
         // Passed Validation: Process the contact plugins to integrate with other applications
-        $this->app->triggerEvent('onSubmitContact', array(&$contact, &$data));
+        $this->app->triggerEvent('onSubmitContact', [&$contact, &$data]);
 
         // Send the email
         $sent = false;
@@ -235,14 +239,14 @@ class ContactController extends FormController
         }
 
         $templateData = [
-            'sitename' => $app->get('sitename'),
-            'name'     => $data['contact_name'],
-            'contactname' => $contact->name,
-            'email'    => PunycodeHelper::emailToPunycode($data['contact_email']),
-            'subject'  => $data['contact_subject'],
-            'body'     => stripslashes($data['contact_message']),
-            'url'      => Uri::base(),
-            'customfields' => ''
+            'sitename'     => $app->get('sitename'),
+            'name'         => $data['contact_name'],
+            'contactname'  => $contact->name,
+            'email'        => PunycodeHelper::emailToPunycode($data['contact_email']),
+            'subject'      => $data['contact_subject'],
+            'body'         => stripslashes($data['contact_message']),
+            'url'          => Uri::base(),
+            'customfields' => '',
         ];
 
         // Load the custom fields
@@ -250,11 +254,11 @@ class ContactController extends FormController
             $output = FieldsHelper::render(
                 'com_contact.mail',
                 'fields.render',
-                array(
+                [
                     'context' => 'com_contact.mail',
                     'item'    => $contact,
                     'fields'  => $fields,
-                )
+                ]
             );
 
             if ($output) {
@@ -301,7 +305,7 @@ class ContactController extends FormController
      *
      * @since   4.0.0
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         if ($categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int')) {
             $user = $this->app->getIdentity();
@@ -324,7 +328,7 @@ class ContactController extends FormController
      *
      * @since   4.0.0
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 

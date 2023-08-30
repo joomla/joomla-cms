@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Installer;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Legacy installer script which delegates the methods to the internal instance when possible.
  *

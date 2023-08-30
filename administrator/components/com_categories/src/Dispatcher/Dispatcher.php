@@ -13,6 +13,10 @@ namespace Joomla\Component\Categories\Administrator\Dispatcher;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * ComponentDispatcher class for com_categories
  *
@@ -27,7 +31,9 @@ class Dispatcher extends ComponentDispatcher
      */
     protected function checkAccess()
     {
-        $extension = $this->getApplication()->input->getCmd('extension');
+        $extension = empty($this->getApplication()->getInput()->getCmd('extension'))
+                    ? ''
+                    : $this->getApplication()->getInput()->getCmd('extension');
 
         $parts = explode('.', $extension);
 

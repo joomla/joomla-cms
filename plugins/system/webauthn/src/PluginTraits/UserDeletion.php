@@ -17,6 +17,10 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Event\Event;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Delete all WebAuthn credentials for a particular user
  *
@@ -57,8 +61,8 @@ trait UserDeletion
             $db = Factory::getContainer()->get('DatabaseDriver');
 
             $query = $db->getQuery(true)
-                ->delete($db->qn('#__webauthn_credentials'))
-                ->where($db->qn('user_id') . ' = :userId')
+                ->delete($db->quoteName('#__webauthn_credentials'))
+                ->where($db->quoteName('user_id') . ' = :userId')
                 ->bind(':userId', $userId);
 
             try {

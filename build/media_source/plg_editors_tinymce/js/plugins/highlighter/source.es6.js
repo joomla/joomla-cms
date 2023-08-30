@@ -165,7 +165,7 @@ const start = () => {
   }
 
   // Create legend for keyboard shortcuts for find & replace:
-  const head = window.parent.document.querySelectorAll('.tox-dialog__footer')[0];
+  const footer = window.parent.document.querySelectorAll('.tox-dialog__footer')[0];
   const div = window.parent.document.createElement('div');
   const td1 = '<td style="font-size:11px;background:#777;color:#fff;padding:0 4px">';
   const td2 = '<td style="font-size:11px;padding-right:5px">';
@@ -185,10 +185,8 @@ const start = () => {
     ${td2}${tinymce.translate('Replace all')}</td>
   </tr>
 </table>`;
-  div.style.position = 'absolute';
-  div.style.left = '5px';
-  div.style.bottom = '5px';
-  head.appendChild(div);
+
+  footer.insertAdjacentElement('afterbegin', div);
 
   // Set CodeMirror cursor and bookmark to same position as cursor was in TinyMCE:
   let html = editor.getContent({ source_view: true });

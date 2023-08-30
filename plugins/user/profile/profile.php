@@ -20,6 +20,10 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * An example custom profile plugin.
  *
@@ -102,7 +106,7 @@ class PlgUserProfile extends CMSPlugin
                 $data->profile = [];
 
                 foreach ($results as $v) {
-                    $k = str_replace('profile.', '', $v[0]);
+                    $k                 = str_replace('profile.', '', $v[0]);
                     $data->profile[$k] = json_decode($v[1], true);
 
                     if ($data->profile[$k] === null) {
@@ -312,7 +316,7 @@ class PlgUserProfile extends CMSPlugin
         // Check that the date is valid.
         if (!empty($data['profile']['dob'])) {
             try {
-                $date = new Date($data['profile']['dob']);
+                $date       = new Date($data['profile']['dob']);
                 $this->date = $date->format('Y-m-d H:i:s');
             } catch (Exception $e) {
                 // Throw an exception if date is not valid.
@@ -326,13 +330,12 @@ class PlgUserProfile extends CMSPlugin
         }
 
         // Check that the tos is checked if required ie only in registration from frontend.
-        $task       = $this->app->input->getCmd('task');
-        $option     = $this->app->input->getCmd('option');
-        $tosArticle = $this->params->get('register_tos_article');
+        $task       = $this->app->getInput()->getCmd('task');
+        $option     = $this->app->getInput()->getCmd('option');
         $tosEnabled = ($this->params->get('register-require_tos', 0) == 2);
 
         // Check that the tos is checked.
-        if ($task === 'register' && $tosEnabled && $tosArticle && $option === 'com_users' && !$data['profile']['tos']) {
+        if ($task === 'register' && $tosEnabled && $option === 'com_users' && !$data['profile']['tos']) {
             throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
         }
 
@@ -438,7 +441,7 @@ class PlgUserProfile extends CMSPlugin
         $userId = ArrayHelper::getValue($user, 'id', 0, 'int');
 
         if ($userId) {
-            $db = $this->db;
+            $db    = $this->db;
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__user_profiles'))
                 ->where($db->quoteName('user_id') . ' = :userid')

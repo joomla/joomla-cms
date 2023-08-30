@@ -12,6 +12,10 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Color Form Field class for the Joomla Platform.
  * This implementation is designed to be compatible with HTML5's `<input type="color">`
@@ -250,7 +254,7 @@ class ColorField extends FormField
         // Position of the panel can be: right (default), left, top or bottom (default RTL is left)
         $position = ' data-position="' . (($lang->isRtl() && $this->position === 'default') ? 'left' : $this->position) . '"';
 
-        if ($color === '' || \in_array($color, array('none', 'transparent'))) {
+        if ($color === '' || \in_array($color, ['none', 'transparent'])) {
             $color = 'none';
         } elseif ($color[0] !== '#' && $this->format === 'hex') {
             $color = '#' . $color;
@@ -269,13 +273,13 @@ class ColorField extends FormField
                 break;
         }
 
-        $extraData = array(
+        $extraData = [
             'color'    => $color,
             'format'   => $this->format,
             'keywords' => $this->keywords,
             'position' => $position,
             'validate' => $this->validate,
-        );
+        ];
 
         return array_merge($data, $extraData, $controlModeData);
     }
@@ -292,7 +296,7 @@ class ColorField extends FormField
         $colors = strtolower($this->colors);
 
         if (empty($colors)) {
-            $colors = array(
+            $colors = [
                 'none',
                 '#049cdb',
                 '#46a546',
@@ -305,7 +309,7 @@ class ColorField extends FormField
                 '#999999',
                 '#555555',
                 '#000000',
-            );
+            ];
         } else {
             $colors = explode(',', $colors);
         }
@@ -324,10 +328,10 @@ class ColorField extends FormField
 
         $split = $this->split ?: 3;
 
-        return array(
+        return [
             'colors' => $colors,
             'split'  => $split,
-        );
+        ];
     }
 
     /**
@@ -341,11 +345,11 @@ class ColorField extends FormField
      */
     protected function getAdvancedModeLayoutData($lang)
     {
-        return array(
+        return [
             'colors'  => $this->colors,
             'control' => $this->control,
             'lang'    => $lang,
-        );
+        ];
     }
 
     /**
@@ -357,11 +361,11 @@ class ColorField extends FormField
      */
     protected function getSliderModeLayoutData()
     {
-        return array(
+        return [
             'default'    => $this->default,
             'display'    => $this->display,
             'preview'    => $this->preview,
             'saveFormat' => $this->saveFormat,
-        );
+        ];
     }
 }

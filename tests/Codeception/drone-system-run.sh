@@ -20,7 +20,7 @@ google-chrome --version
 echo "[RUNNER] Prepare Selenium"
 mkdir -p tests/Codeception/_output
 if [[ -f "/usr/lib/node_modules/selenium-standalone/lib/default-config.js" ]]; then
-	cp /usr/lib/node_modules/selenium-standalone/lib/default-config.js tests/Codeception/_output/selenium.config.js
+	flock tests/Codeception/_output/selenium.config.js cp /usr/lib/node_modules/selenium-standalone/lib/default-config.js tests/Codeception/_output/selenium.config.js
 fi
 
 echo "[RUNNER] Start Selenium"

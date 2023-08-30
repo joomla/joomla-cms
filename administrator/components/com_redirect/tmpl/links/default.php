@@ -28,13 +28,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo Route::_('index.php?option=com_redirect&view=links'); ?>" method="post" name="adminForm" id="adminForm">
     <div id="j-main-container" class="j-main-container">
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if ($this->redirectPluginId) : ?>
             <?php $link = Route::_('index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $this->redirectPluginId . '&tmpl=component&layout=modal'); ?>
             <?php echo HTMLHelper::_(
                 'bootstrap.renderModal',
                 'plugin' . $this->redirectPluginId . 'Modal',
-                array(
+                [
                     'url'         => $link,
                     'title'       => Text::_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
                     'height'      => '400px',
@@ -51,7 +51,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         . Text::_('JSAVE') . '</button>'
                         . '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
                         . Text::_('JAPPLY') . '</button>'
-                )
+                ]
             ); ?>
         <?php endif; ?>
 
@@ -120,7 +120,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                             <?php endif; ?>
                         </th>
                         <td class="small break-word">
-                            <?php echo $this->escape(rawurldecode($item->new_url)); ?>
+                            <?php echo $this->escape(rawurldecode($item->new_url ?? '')); ?>
                         </td>
                         <td class="small break-word d-none d-md-table-cell">
                             <?php echo $this->escape($item->referer); ?>
@@ -151,18 +151,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
             <?php echo $this->loadTemplate('addform'); ?>
         <?php endif; ?>
         <?php // Load the batch processing form if user is allowed ?>
-            <?php if (
-            $user->authorise('core.create', 'com_redirect')
+            <?php
+            if (
+                $user->authorise('core.create', 'com_redirect')
                 && $user->authorise('core.edit', 'com_redirect')
                 && $user->authorise('core.edit.state', 'com_redirect')
-) : ?>
+            ) : ?>
                 <?php echo HTMLHelper::_(
                     'bootstrap.renderModal',
                     'collapseModal',
-                    array(
+                    [
                         'title'  => Text::_('COM_REDIRECT_BATCH_OPTIONS'),
                         'footer' => $this->loadTemplate('batch_footer'),
-                    ),
+                    ],
                     $this->loadTemplate('batch_body')
                 ); ?>
             <?php endif; ?>

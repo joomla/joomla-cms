@@ -16,7 +16,10 @@ use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Plugin\PluginHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Users component helper.
@@ -41,7 +44,7 @@ class UsersHelper extends ContentHelper
     public static function getStateOptions()
     {
         // Build the filter options.
-        $options = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '0', Text::_('JENABLED'));
         $options[] = HTMLHelper::_('select.option', '1', Text::_('JDISABLED'));
 
@@ -58,7 +61,7 @@ class UsersHelper extends ContentHelper
     public static function getActiveOptions()
     {
         // Build the filter options.
-        $options = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '0', Text::_('COM_USERS_ACTIVATED'));
         $options[] = HTMLHelper::_('select.option', '1', Text::_('COM_USERS_UNACTIVATED'));
 
@@ -78,7 +81,7 @@ class UsersHelper extends ContentHelper
 
         foreach ($options as &$option) {
             $option->value = $option->id;
-            $option->text = str_repeat('- ', $option->level) . $option->title;
+            $option->text  = str_repeat('- ', $option->level) . $option->title;
         }
 
         return $options;
@@ -94,7 +97,7 @@ class UsersHelper extends ContentHelper
      */
     public static function getRangeOptions()
     {
-        $options = array(
+        $options = [
             HTMLHelper::_('select.option', 'today', Text::_('COM_USERS_OPTION_RANGE_TODAY')),
             HTMLHelper::_('select.option', 'past_week', Text::_('COM_USERS_OPTION_RANGE_PAST_WEEK')),
             HTMLHelper::_('select.option', 'past_1month', Text::_('COM_USERS_OPTION_RANGE_PAST_1MONTH')),
@@ -102,7 +105,7 @@ class UsersHelper extends ContentHelper
             HTMLHelper::_('select.option', 'past_6month', Text::_('COM_USERS_OPTION_RANGE_PAST_6MONTH')),
             HTMLHelper::_('select.option', 'past_year', Text::_('COM_USERS_OPTION_RANGE_PAST_YEAR')),
             HTMLHelper::_('select.option', 'post_year', Text::_('COM_USERS_OPTION_RANGE_POST_YEAR')),
-        );
+        ];
 
         return $options;
     }
@@ -115,7 +118,8 @@ class UsersHelper extends ContentHelper
      * @since   3.2.0
      * @throws  \Exception
      *
-     * @deprecated 4.2.0 Will be removed in 5.0
+     * @deprecated  4.2 will be removed in 6.0
+     *              No longer used, will be removed without replacement
      */
     public static function getTwoFactorMethods()
     {
@@ -139,7 +143,7 @@ class UsersHelper extends ContentHelper
             return false;
         }
 
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select($db->quoteName('title', 'text'))
             ->from($db->quoteName('#__usergroups'))
@@ -162,7 +166,9 @@ class UsersHelper extends ContentHelper
      *
      * @since       3.7.0
      * @throws      \Exception
-     * @deprecated  5.0  Use \Joomla\Component\Users\Administrator\Extension\UsersComponent::validateSection() instead.
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use \Joomla\Component\Users\Administrator\Extension\UsersComponent::validateSection() instead.
      */
     public static function validateSection($section)
     {
@@ -175,7 +181,9 @@ class UsersHelper extends ContentHelper
      * @return  array
      *
      * @since       3.7.0
-     * @deprecated  5.0  Use \Joomla\Component\Users\Administrator\Extension\UsersComponent::getContexts() instead.
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use \Joomla\Component\Users\Administrator\Extension\UsersComponent::getContexts() instead.
      */
     public static function getContexts()
     {

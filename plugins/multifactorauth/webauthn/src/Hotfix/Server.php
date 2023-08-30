@@ -6,6 +6,10 @@
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2014-2019 Spomky-Labs
+ * @license     This software may be modified and distributed under the terms
+ *              of the MIT license.
+ *              See libraries/vendor/web-auth/webauthn-lib/LICENSE
  */
 
 namespace Joomla\Plugin\Multifactorauth\Webauthn\Hotfix;
@@ -44,6 +48,10 @@ use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
 use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Customised WebAuthn server object.
  *
@@ -70,7 +78,9 @@ use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
  *
  * @since   4.2.0
  *
- * @deprecated 5.0 We will upgrade the WebAuthn library to version 3 or later and this will go away.
+ * @deprecated  4.2 will be removed in 6.0
+ *              Will be removed without replacement
+ *              We will upgrade the WebAuthn library to version 3 or later and this will go away.
  */
 class Server extends \Webauthn\Server
 {
@@ -176,11 +186,11 @@ class Server extends \Webauthn\Server
         $this->coseAlgorithmManagerFactory->add('ES512', new ECDSA\ES512());
         $this->coseAlgorithmManagerFactory->add('Ed25519', new EdDSA\Ed25519());
 
-        $this->selectedAlgorithms = ['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512', 'Ed25519'];
+        $this->selectedAlgorithms                  = ['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512', 'Ed25519'];
         $this->publicKeyCredentialSourceRepository = $publicKeyCredentialSourceRepository;
-        $this->tokenBindingHandler = new TokenBindingNotSupportedHandler();
-        $this->extensionOutputCheckerHandler = new ExtensionOutputCheckerHandler();
-        $this->metadataStatementRepository = $metadataStatementRepository;
+        $this->tokenBindingHandler                 = new TokenBindingNotSupportedHandler();
+        $this->extensionOutputCheckerHandler       = new ExtensionOutputCheckerHandler();
+        $this->metadataStatementRepository         = $metadataStatementRepository;
     }
 
     /**
@@ -216,7 +226,7 @@ class Server extends \Webauthn\Server
     {
         $this->coseAlgorithmManagerFactory->add($alias, $algorithm);
         $this->selectedAlgorithms[] = $alias;
-        $this->selectedAlgorithms = array_unique($this->selectedAlgorithms);
+        $this->selectedAlgorithms   = array_unique($this->selectedAlgorithms);
     }
 
     /**
@@ -272,7 +282,7 @@ class Server extends \Webauthn\Server
         ?AuthenticatorSelectionCriteria $criteria = null,
         ?AuthenticationExtensionsClientInputs $extensions = null
     ): PublicKeyCredentialCreationOptions {
-        $coseAlgorithmManager = $this->coseAlgorithmManagerFactory->create($this->selectedAlgorithms);
+        $coseAlgorithmManager              = $this->coseAlgorithmManagerFactory->create($this->selectedAlgorithms);
         $publicKeyCredentialParametersList = [];
 
         foreach ($coseAlgorithmManager->all() as $algorithm) {
@@ -314,8 +324,8 @@ class Server extends \Webauthn\Server
         ServerRequestInterface $serverRequest
     ): PublicKeyCredentialSource {
         $attestationStatementSupportManager = $this->getAttestationStatementSupportManager();
-        $attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager);
-        $publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader);
+        $attestationObjectLoader            = new AttestationObjectLoader($attestationStatementSupportManager);
+        $publicKeyCredentialLoader          = new PublicKeyCredentialLoader($attestationObjectLoader);
 
         $publicKeyCredential   = $publicKeyCredentialLoader->load($data);
         $authenticatorResponse = $publicKeyCredential->getResponse();

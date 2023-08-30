@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Helper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Factory to load helper classes.
  *

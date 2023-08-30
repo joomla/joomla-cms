@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * UCM Class for handling content types
  *
@@ -93,7 +97,7 @@ class UCMType implements UCM
         $app      = $application ?: Factory::getApplication();
 
         // Make the best guess we can in the absence of information.
-        $this->alias = $alias ?: $app->input->get('option') . '.' . $app->input->get('view');
+        $this->alias = $alias ?: $app->getInput()->get('option') . '.' . $app->getInput()->get('view');
         $this->type  = $this->getTypeByAlias($this->alias);
     }
 
@@ -164,7 +168,7 @@ class UCMType implements UCM
         $types = $this->db->loadObjectList();
 
         foreach ($types as $type) {
-            $tableFromType = json_decode($type->table);
+            $tableFromType     = json_decode($type->table);
             $tableNameFromType = $tableFromType->special->prefix . $tableFromType->special->type;
 
             if ($tableNameFromType === $tableName) {

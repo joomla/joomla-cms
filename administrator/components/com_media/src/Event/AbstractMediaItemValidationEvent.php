@@ -12,6 +12,10 @@ namespace Joomla\Component\Media\Administrator\Event;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event to validate media items.
  *
@@ -54,12 +58,12 @@ abstract class AbstractMediaItemValidationEvent extends AbstractImmutableEvent
         }
 
         // Non empty string
-        if (empty($item->name) || !is_string($item->name)) {
+        if (!isset($item->name) || !is_string($item->name) || trim($item->name) === '') {
             throw new \BadMethodCallException("Property 'name' of argument 'item' of event {$this->name} has a wrong item. Valid: non empty string");
         }
 
         // Non empty string
-        if (empty($item->path) || !is_string($item->path)) {
+        if (!isset($item->path) || !is_string($item->path) || trim($item->path) === '') {
             throw new \BadMethodCallException("Property 'path' of argument 'item' of event {$this->name} has a wrong item. Valid: non empty string");
         }
 

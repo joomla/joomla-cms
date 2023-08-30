@@ -14,6 +14,10 @@ use Joomla\CMS\Form\FormFilterInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Filter class for integer arrays
  *
@@ -46,7 +50,7 @@ class IntarrayFilter implements FormFilterInterface
             $value = get_object_vars($value);
         }
 
-        $value = \is_array($value) ? $value : array($value);
+        $value = \is_array($value) ? $value : [$value];
 
         $value = ArrayHelper::toInteger($value);
 
