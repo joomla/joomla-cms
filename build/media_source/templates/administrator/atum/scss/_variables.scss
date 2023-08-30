@@ -67,6 +67,7 @@ $atum-colors: (
   template-text-dark:              $atum-text-dark,
   template-special-color:          $dark-blue,
   template-contrast:               $light-blue,
+  template-quickicon-color:        hsl(var(--hue), 30%, 40%),
   template-bg-dark:                hsl(var(--hue), 40%, 20%),
   template-bg-dark-3:              hsl(var(--hue), 40%, 97%),
   template-bg-dark-5:              hsl(var(--hue), 40%, 95%),

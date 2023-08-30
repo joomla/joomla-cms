@@ -132,7 +132,7 @@
     font-size: .875rem;
     font-weight: 700;
     line-height: 1;
-    color: hsl(var(--hue),30%,40%);
+    color: var(--template-quickicon-color);
     background-color: var(--body-bg);
     border: 1px solid var(--body-bg);
     border-radius: $border-radius;
@@ -152,7 +152,7 @@
 
     .cpanel-add-module-icon {
       font-size: 2rem;
-      color: hsl(var(--hue),30%,40%);
+      color: var(--template-quickicon-color);
       margin-inline-end: .5rem;
     }
   }

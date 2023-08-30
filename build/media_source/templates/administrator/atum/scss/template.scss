@@ -80,13 +80,13 @@
   }
 }
 
-//@if $enable-dark-mode {
-//  @include color-mode(dark, true) {
-//    @each $color, $value in $atum-colors-dark {
-//      --#{$prefix}#{$color}: #{$value};
-//    }
-//  }
-//}
+@if $enable-dark-mode {
+  @include color-mode(dark, true) {
+    @each $color, $value in $atum-colors-dark {
+      --#{$prefix}#{$color}: #{$value};
+    }
+  }
+}
 
 // Forcing reduced motion when set in the user OS
 @media (prefers-reduced-motion: reduce) {

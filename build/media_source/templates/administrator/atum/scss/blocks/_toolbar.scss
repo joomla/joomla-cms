@@ -46,7 +46,7 @@
     font-size: 1rem;
     line-height: $atum-toolbar-line-height;
     color: var(--template-text-dark);
-    background: $white;
+    background: var(--bg-color);
     border-color: hsl(var(--hue),20%,80%);
 
     > span {
@@ -113,6 +113,16 @@
       }
     }
   }
+
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      .btn {
+        --subhead-btn-accent: var(--template-text-light);
+        color: var(--template-text-light);
+      }
+    }
+  }
+
 
   .dropdown-toggle {
     &.btn {
