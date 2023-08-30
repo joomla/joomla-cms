@@ -44,11 +44,6 @@ class PlgContentLoadmodule extends CMSPlugin
      */
     public function onContentPrepare($context, &$article, &$params, $page = 0)
     {
-        // Don't run this plugin when the content is being indexed
-        if ($context === 'com_finder.indexer') {
-            return;
-        }
-
         // Only execute if $article is an object and has a text property
         if (!is_object($article) || !property_exists($article, 'text') || is_null($article->text)) {
             return;
@@ -69,6 +64,23 @@ class PlgContentLoadmodule extends CMSPlugin
 
         // Expression to search for(id)
         $regexmodid = '/{loadmoduleid\s([1-9][0-9]*)}/i';
+
+        // Remove macros and don't run this plugin when the content is being indexed
+        if ($context === 'com_finder.indexer') {
+            if (str_contains($article->text, 'loadposition')) {
+                $article->text = preg_replace($regex, '', $article->text);
+            }
+
+            if (str_contains($article->text, 'loadmoduleid')) {
+                $article->text = preg_replace($regexmodid, '', $article->text);
+            }
+
+            if (str_contains($article->text, 'loadmodule')) {
+                $article->text = preg_replace($regexmod, '', $article->text);
+            }
+
+            return;
+        }
 
         if (str_contains($article->text, '{loadposition ')) {
             // Find all instances of plugin and put in $matches for loadposition
