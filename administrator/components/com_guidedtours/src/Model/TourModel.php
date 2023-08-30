@@ -212,13 +212,13 @@ class TourModel extends AdminModel
     }
 
     /**
-     * Method to get a single record by alias
+     * Method to get a single record by id or alias
      *
      * @param   integer|string  $pk  The id or alias of the tour.
      *
      * @return  CMSObject|boolean  Object on success, false on failure.
      *
-     * @since   5.0.0
+     * @since   4.3.0
      */
     public function getItem($pk = null)
     {
