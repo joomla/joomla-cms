@@ -21,7 +21,7 @@ describe('Test in frontend that the privacy consent view', () => {
   it('can allow users already with an account to not agree to the privacy policy', () => {
     cy.doFrontendLogin();
     cy.visit('/index.php');
-    cy.get('.controls > .btn-primary').click();
+    cy.get('.controls > .btn-primary').click({ force: true });
     cy.get('.alert-message').should('include.text', "Profile could not be saved: Agreement to the site's Privacy Policy is required.");
   });
 
