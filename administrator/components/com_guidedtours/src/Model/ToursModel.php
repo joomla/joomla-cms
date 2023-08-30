@@ -253,7 +253,7 @@ class ToursModel extends ListModel
 
         foreach ($items as $item) {
             if (!empty($item->alias)) {
-                $lang->load('com_guidedtours_' . str_replace('-', '_', $item->alias), JPATH_ADMINISTRATOR);
+                $lang->load('com_guidedtours.' . str_replace('-', '_', $item->alias), JPATH_ADMINISTRATOR);
             }
             $item->title       = Text::_($item->title);
             $item->description = Text::_($item->description);

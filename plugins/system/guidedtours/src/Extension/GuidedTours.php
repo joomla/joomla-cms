@@ -108,22 +108,12 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $tourAlias = $this->getApplication()->getInput()->getString('alias');
         $tourAlias = $tourAlias !== '' ? @urldecode($tourAlias) : $tourAlias;
 
-        $activeTourId    = null;
-        $activeTourAlias = null;
         $tour            = null;
 
         if ($tourId > 0) {
             $tour = $this->getTour($tourId);
-
-            if (!empty($tour->id)) {
-                $activeTourId = $tour->id;
-            }
         } elseif ($tourAlias !== '') {
-            $tour = $this->getTourByAlias($tourAlias);
-
-            if (!empty($tour->id)) {
-                $activeTourId = $tour->id;
-            }
+            $tour = $this->getTour($tourAlias);
         }
 
         $event->setArgument('result', $tour ?? new \stdClass());
@@ -165,13 +155,13 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     /**
      * Get a tour and its steps or null if not found
      *
-     * @param   integer  $tourId  The ID of the tour to load
+     * @param   integer|string  $tourId  The ID or Alias of the tour to load
      *
      * @return null|object
      *
      * @since   4.3.0
      */
-    private function getTour(int $tourId)
+    private function getTour($tourId)
     {
         $app = $this->getApplication();
 
@@ -184,32 +174,6 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         );
 
         $item = $tourModel->getItem($tourId);
-
-        return $this->processTour($item);
-    }
-
-    /**
-     * Get a tour and its steps or null if not found
-     *
-     * @param   integer  $tourId  The ID of the tour to load
-     *
-     * @return null|object
-     *
-     * @since   4.3.0
-     */
-    private function getTourByAlias(string $tourAlias)
-    {
-        $app = $this->getApplication();
-
-        $factory = $app->bootComponent('com_guidedtours')->getMVCFactory();
-
-        $tourModel = $factory->createModel(
-            'Tour',
-            'Administrator',
-            ['ignore_request' => true]
-        );
-
-        $item = $tourModel->getItemByAlias($tourAlias);
 
         return $this->processTour($item);
     }

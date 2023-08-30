@@ -252,8 +252,8 @@ class StepModel extends AdminModel
                 $tour = $tourModel->getItem($result->tour_id);
 
                 if (!empty($tour->alias)) {
-                    $lang->load('com_guidedtours_' . str_replace('-', '_', $tour->alias), JPATH_ADMINISTRATOR);
-                    $lang->load('com_guidedtours_' . str_replace('-', '_', $tour->alias) . '_steps', JPATH_ADMINISTRATOR);
+                    $lang->load('com_guidedtours.' . str_replace('-', '_', $tour->alias), JPATH_ADMINISTRATOR);
+                    $lang->load('com_guidedtours.' . str_replace('-', '_', $tour->alias) . '_steps', JPATH_ADMINISTRATOR);
                 }
 
                 $result->title_translation       = Text::_($result->title);
