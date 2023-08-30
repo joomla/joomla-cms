@@ -64,6 +64,18 @@ class AbstractImmutableEvent extends AbstractEvent
      */
     public function offsetSet($name, $value)
     {
+        // B/C check for plugins which use $event['result'] = $result;
+        if ($name === 'result') {
+            parent::offsetSet($name, $value);
+
+            @trigger_error(
+                'Setting a result in to immutable event is deprecated, and will not work in Joomla 6. Event ' . $this->getName(),
+                E_USER_DEPRECATED
+            );
+
+            return;
+        }
+
         throw new \BadMethodCallException(
             sprintf(
                 'Cannot set the argument %s of the immutable event %s.',
