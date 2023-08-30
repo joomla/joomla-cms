@@ -519,7 +519,6 @@ Cypress.Commands.add('db_updateExtensionParameter', (key, value, extension) => c
 /**
  * Sets the enabled status for the given extension.
  *
- * @param {string} key The key
  * @param {string} value The value
  * @param {string} extension The extension
  */
