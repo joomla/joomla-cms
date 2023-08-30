@@ -8,7 +8,6 @@
 
 // Tabs
 
-
 //
 // Base styles
 //
@@ -40,7 +39,7 @@ joomla-tab {
       display: block;
       padding: .6rem 1rem;
       text-decoration: none;
-      background-color: var(--white);
+      background-color: var(--bg-color);
       border: 0;
       box-shadow: none;
 
@@ -76,6 +75,15 @@ joomla-tab {
         font-weight: $font-weight-bold;
         color: var(--primary);
         background: var(--template-bg-dark-3);
+      }
+
+      @if $enable-dark-mode {
+        @include color-mode(dark) {
+          &[aria-expanded=true] {
+            background: var(--template-bg-dark-60);
+            color: var(--template-text-light);
+          }
+        }
       }
 
       .text-muted {
