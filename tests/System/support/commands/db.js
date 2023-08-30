@@ -517,6 +517,15 @@ Cypress.Commands.add('db_updateExtensionParameter', (key, value, extension) => c
 }));
 
 /**
+ * Sets the enabled status for the given extension.
+ *
+ * @param {string} key The key
+ * @param {string} value The value
+ * @param {string} extension The extension
+ */
+Cypress.Commands.add('db_enableExtension', (value, extension) => cy.task('queryDB', `UPDATE #__extensions SET enabled ='${value}' WHERE name = '${extension}'`));
+
+/**
  * Returns the id of the currently logged in user.
  *
  * @returns integer

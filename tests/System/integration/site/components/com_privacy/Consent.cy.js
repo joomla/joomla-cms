@@ -1,10 +1,12 @@
 describe('Test in frontend that the privacy consent view', () => {
   beforeEach(() => {
     cy.db_updateExtensionParameter('allowUserRegistration', '1', 'com_users');
+    cy.db_enableExtension('1', 'plg_system_privacyconsent');
   });
 
   afterEach(() => {
     cy.db_updateExtensionParameter('allowUserRegistration', '0', 'com_users');
+    cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.task('queryDB', 'DELETE FROM #__privacy_consents');
     cy.task('queryDB', "DELETE FROM #__users WHERE username = 'test'");
   });
