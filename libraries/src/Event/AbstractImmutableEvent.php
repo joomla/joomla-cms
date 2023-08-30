@@ -69,7 +69,7 @@ class AbstractImmutableEvent extends AbstractEvent
             parent::offsetSet($name, $value);
 
             @trigger_error(
-                'Setting a result in to immutable event is deprecated, and will not work in Joomla 6. Event ' . $this->getName(),
+                'Setting a result in an immutable event is deprecated, and will not work in Joomla 6. Event ' . $this->getName(),
                 E_USER_DEPRECATED
             );
 
