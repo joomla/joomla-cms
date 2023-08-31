@@ -57,6 +57,7 @@ class JsonapiView extends BaseApiView
         'count_published',
         'count_archived',
         'params',
+        'description',
     ];
 
     /**
@@ -90,6 +91,7 @@ class JsonapiView extends BaseApiView
         'count_published',
         'count_archived',
         'params',
+        'description',
     ];
 
     /**
