@@ -12,6 +12,8 @@ namespace Joomla\Component\Guidedtours\Administrator\Table;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -23,15 +25,16 @@ use Joomla\Database\DatabaseDriver;
  *
  * @since 4.3.0
  */
-class StepTable extends Table
+class StepTable extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
      * @var    boolean
      * @since  4.3.0
      */
-    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
     protected $_supportNullValue = true;
 
     /**
@@ -58,7 +61,7 @@ class StepTable extends Table
     public function store($updateNulls = true)
     {
         $date   = Factory::getDate()->toSql();
-        $userId = Factory::getUser()->id;
+        $userId = $this->getCurrentUser()->id;
 
         // Set created date if not set.
         if (!(int) $this->created) {

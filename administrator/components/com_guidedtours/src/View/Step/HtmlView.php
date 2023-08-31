@@ -91,7 +91,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
@@ -136,21 +136,21 @@ class HtmlView extends BaseHtmlView
                     $toolbarButtons,
                     'btn-success'
                 );
+
+                ToolbarHelper::cancel(
+                    'step.cancel',
+                    'JTOOLBAR_CLOSE'
+                );
             }
-
-            ToolbarHelper::cancel(
-                'step.cancel',
-                'JTOOLBAR_CLOSE'
-            );
-
-            ToolbarHelper::divider();
-            $inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false;
-            $targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] ?: 'hide-aware-inline-help';
-
-            if ($inlinehelp) {
-                ToolbarHelper::inlinehelp($targetClass);
-            }
-            ToolbarHelper::help('Guided_Tours:_New_or_Edit_Step');
         }
+
+        ToolbarHelper::divider();
+        $inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false;
+        $targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] ?: 'hide-aware-inline-help';
+
+        if ($inlinehelp) {
+            ToolbarHelper::inlinehelp($targetClass);
+        }
+        ToolbarHelper::help('Guided_Tours:_New_or_Edit_Step');
     }
 }

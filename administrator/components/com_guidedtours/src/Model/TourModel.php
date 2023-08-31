@@ -57,7 +57,7 @@ class TourModel extends AdminModel
      */
     public function save($data)
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Language keys must include GUIDEDTOUR to prevent save issues
         if (strpos($data['description'], 'GUIDEDTOUR') !== false) {
@@ -77,24 +77,7 @@ class TourModel extends AdminModel
 
         $this->setStepsLanguage($id, $lang);
 
-        $result = parent::save($data);
-
-        // Create default step for new tour
-        if ($result && $input->getCmd('task') !== 'save2copy' && $this->getState($this->getName() . '.new')) {
-            $tourId = (int) $this->getState($this->getName() . '.id');
-
-            $table = $this->getTable('Step');
-
-            $table->id          = 0;
-            $table->title       = 'COM_GUIDEDTOURS_BASIC_STEP';
-            $table->description = '';
-            $table->tour_id     = $tourId;
-            $table->published   = 1;
-
-            $table->store();
-        }
-
-        return $result;
+        return parent::save($data);
     }
 
     /**
@@ -199,45 +182,6 @@ class TourModel extends AdminModel
         }
 
         return $data;
-    }
-
-    /**
-     * Method to test whether a record can be deleted.
-     *
-     * @param   object  $record  A record object.
-     *
-     * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
-     *
-     * @since  4.3.0
-     */
-    protected function canDelete($record)
-    {
-        if (!empty($record->id)) {
-            return $this->getCurrentUser()->authorise('core.delete', 'com_guidedtours.tour.' . (int) $record->id);
-        }
-
-        return false;
-    }
-
-    /**
-     * Method to test whether a record can have its state changed.
-     *
-     * @param   object  $record  A record object.
-     *
-     * @return  boolean  True if allowed to change the state of the record.
-     * Defaults to the permission set in the component.
-     *
-     * @since   4.3.0
-     */
-    protected function canEditState($record)
-    {
-        // Check for existing tour.
-        if (!empty($record->id)) {
-            return $this->getCurrentUser()->authorise('core.edit.state', 'com_guidedtours.tour.' . (int) $record->id);
-        }
-
-        // Default to component settings if neither tour nor category known.
-        return parent::canEditState($record);
     }
 
     /**
@@ -356,7 +300,7 @@ class TourModel extends AdminModel
         $db   = $this->getDatabase();
 
         // Access checks.
-        if (!$user->authorise('core.create', 'com_tours')) {
+        if (!$user->authorise('core.create', 'com_guidedtours')) {
             throw new \Exception(Text::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
         }
 

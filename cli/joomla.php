@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 /**
@@ -40,6 +41,10 @@ if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT
     echo 'Please see https://docs.joomla.org/Special:MyLanguage/J4.x:Setting_Up_Your_Local_Environment for further details.' . PHP_EOL;
 
     exit;
+}
+
+if (!defined('JPATH_PUBLIC')) {
+    define('JPATH_PUBLIC', JPATH_ROOT);
 }
 
 // Check if installed
