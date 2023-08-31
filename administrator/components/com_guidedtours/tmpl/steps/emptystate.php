@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
 $displayData = [
@@ -20,7 +19,7 @@ $displayData = [
     'icon'       => 'icon-map-signs',
 ];
 
-$user = Factory::getApplication()->getIdentity();
+$user = $this->getCurrentUser();
 
 if ($user->authorise('core.create', 'com_guidedtours')) {
     $displayData['createURL'] = 'index.php?option=com_guidedtours&task=step.add';

@@ -12,7 +12,7 @@ namespace Joomla\CMS\Input;
 use Joomla\CMS\Filter\InputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -21,7 +21,9 @@ use Joomla\CMS\Filter\InputFilter;
  * This is an abstracted input class used to manage retrieving data from the application environment.
  *
  * @since       1.7.0
- * @deprecated  5.0  Use Joomla\Input\Input instead
+ *
+ * @deprecated   4.3 will be removed in 6.0.
+ *               Use Joomla\Input\Input instead
  *
  * @property-read   Input   $get
  * @property-read   Input   $post
@@ -39,7 +41,9 @@ class Input extends \Joomla\Input\Input
      *
      * @var    array
      * @since  3.8.9
-     * @deprecated  5.0  Use Joomla\Input\Input instead
+     *
+     * @deprecated   4.3 will be removed in 6.0.
+     *               Use Joomla\Input\Input instead
      */
     private static $allowedGlobals = ['REQUEST', 'GET', 'POST', 'FILES', 'SERVER', 'ENV'];
 
@@ -48,7 +52,9 @@ class Input extends \Joomla\Input\Input
      *
      * @var    Input[]
      * @since  1.7.0
-     * @deprecated  5.0  Use Joomla\Input\Input instead
+     *
+     * @deprecated   4.3 will be removed in 6.0.
+     *               Use Joomla\Input\Input instead
      */
     protected $inputs = [];
 
@@ -59,7 +65,9 @@ class Input extends \Joomla\Input\Input
      * @param   array  $options  Array of configuration parameters (Optional)
      *
      * @since   1.7.0
-     * @deprecated  5.0  Use Joomla\Input\Input instead
+     *
+     * @deprecated   4.3 will be removed in 6.0.
+     *               Use Joomla\Input\Input instead
      */
     public function __construct($source = null, array $options = [])
     {
@@ -78,7 +86,9 @@ class Input extends \Joomla\Input\Input
      * @return  \Joomla\Input\Input  The request input object
      *
      * @since   1.7.0
-     * @deprecated  5.0  Use Joomla\Input\Input instead
+     *
+     * @deprecated   4.3 will be removed in 6.0.
+     *               Use Joomla\Input\Input instead
      */
     public function __get($name)
     {
@@ -121,7 +131,9 @@ class Input extends \Joomla\Input\Input
      * @return  mixed  The filtered input data.
      *
      * @since   1.7.0
-     * @deprecated  5.0  Use Joomla\Input\Input instead
+     *
+     * @deprecated   4.3 will be removed in 6.0.
+     *               Use Joomla\Input\Input instead
      */
     public function getArray(array $vars = [], $datasource = null, $defaultFilter = 'unknown')
     {
@@ -144,7 +156,9 @@ class Input extends \Joomla\Input\Input
      * @return  mixed  The filtered input data.
      *
      * @since   3.4.2
-     * @deprecated  5.0  Use Joomla\Input\Input instead
+     *
+     * @deprecated   4.3 will be removed in 6.0.
+     *               Use Joomla\Input\Input instead
      */
     protected function getArrayRecursive(array $vars = [], $datasource = null, $defaultFilter = 'unknown', $recursion = false)
     {
@@ -186,10 +200,12 @@ class Input extends \Joomla\Input\Input
      *
      * @param   string  $input  The serialized input.
      *
-     * @return  Input  The input object.
+     * @return  void
      *
      * @since   3.0.0
-     * @deprecated  5.0  Use Joomla\Input\Input instead
+     *
+     * @deprecated   4.3 will be removed in 6.0.
+     *               Use Joomla\Input\Input instead
      */
     public function unserialize($input)
     {

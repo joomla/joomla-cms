@@ -46,14 +46,14 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
     /**
      * The actions the user is authorised to perform
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  4.0.0
      */
@@ -116,26 +116,9 @@ class HtmlView extends BaseHtmlView
 
             $toolbar->cancel('module.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            $toolbarButtons = [];
-
             // Can't save the record if it's checked out.
-            if (!$checkedOut) {
-                // Since it's an existing record, check the edit permission.
-                if ($canDo->get('core.edit')) {
-                    $toolbar->apply('module.apply');
-
-                    $toolbarButtons[] = ['save', 'module.save'];
-
-                    // We can save this record, but check the create permission to see if we can return to make a new one.
-                    if ($canDo->get('core.create')) {
-                        $toolbarButtons[] = ['save2new', 'module.save2new'];
-                    }
-                }
-            }
-
-            // If checked out, we can still save
-            if ($canDo->get('core.create')) {
-                $toolbarButtons[] = ['save2copy', 'module.save2copy'];
+            if (!$checkedOut && $canDo->get('core.edit')) {
+                $toolbar->apply('module.apply');
             }
 
             $saveGroup = $toolbar->dropdownButton('save-group');
@@ -148,13 +131,13 @@ class HtmlView extends BaseHtmlView
 
                         // We can save this record, but check the create permission to see if we can return to make a new one.
                         if ($canDo->get('core.create')) {
-                            $childBar->save('module.save2new');
+                            $childBar->save2new('module.save2new');
                         }
                     }
 
                     // If checked out, we can still save
                     if ($canDo->get('core.create')) {
-                        $childBar->save('module.save2copy');
+                        $childBar->save2copy('module.save2copy');
                     }
                 }
             );
@@ -163,7 +146,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Get the help information for the menu item.
-        $lang = Factory::getLanguage();
+        $lang = $this->getLanguage();
 
         $help = $this->get('Help');
 

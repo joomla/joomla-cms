@@ -13,12 +13,11 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -61,7 +60,7 @@ class FormView extends HtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $canDo;
 
@@ -113,7 +112,8 @@ class FormView extends HtmlView
         }
 
         // Set default value for $canDo to avoid fatal error if child class doesn't set value for this property
-        $this->canDo = new CMSObject();
+        // Return a CanDo object to prevent any BC break, will be changed in 7.0 to Registry
+        $this->canDo = new CanDo();
     }
 
     /**
@@ -171,7 +171,7 @@ class FormView extends HtmlView
     {
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $user       = Factory::getUser();
+        $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = empty($this->item->{$this->keyName});
         $viewName   = $this->getName();

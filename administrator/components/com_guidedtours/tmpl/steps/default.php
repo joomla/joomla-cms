@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\Helpers\StringHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -27,7 +26,7 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
-$user      = Factory::getApplication()->getIdentity();
+$user      = $this->getCurrentUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -101,7 +100,7 @@ if ($saveOrder && !empty($this->items)) {
                     <th scope="col" class="w-1 text-center">
                         <?php echo HTMLHelper::_(
                             'searchtools.sort',
-                            'COM_GUIDEDTOURS_STATUS',
+                            'JSTATUS',
                             'a.published',
                             $listDirn,
                             $listOrder
@@ -126,7 +125,7 @@ if ($saveOrder && !empty($this->items)) {
                     <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                         <?php echo HTMLHelper::_(
                             'searchtools.sort',
-                            'COM_GUIDEDTOURS_STEP_ID',
+                            'JGRID_HEADING_ID',
                             'a.id',
                             $listDirn,
                             $listOrder

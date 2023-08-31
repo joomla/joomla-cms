@@ -20,7 +20,9 @@ use Joomla\CMS\Cache\CacheStorage;
  *
  * @link        https://www.php.net/manual/en/book.wincache.php
  * @since       1.7.0
- * @deprecated  5.0 WinCache is abandoned and not supported from PHP 8 onwards
+ * @deprecated  4.3 will be removed in 6.0
+ *              WinCache is abandoned and not supported from PHP 8 onwards
+ *              Will be removed without replacement
  */
 class WincacheStorage extends CacheStorage
 {
@@ -33,7 +35,9 @@ class WincacheStorage extends CacheStorage
      * @return  boolean
      *
      * @since       3.7.0
-     * @deprecated  5.0
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement
      */
     public function contains($id, $group)
     {
@@ -50,7 +54,9 @@ class WincacheStorage extends CacheStorage
      * @return  mixed  Boolean false on failure or a cached data object
      *
      * @since       1.7.0
-     * @deprecated  5.0
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement
      */
     public function get($id, $group, $checkTime = true)
     {
@@ -63,7 +69,9 @@ class WincacheStorage extends CacheStorage
      * @return  mixed  Boolean false on failure or a cached data object
      *
      * @since       1.7.0
-     * @deprecated  5.0
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement
      */
     public function getAll()
     {
@@ -109,7 +117,9 @@ class WincacheStorage extends CacheStorage
      * @return  boolean
      *
      * @since       1.7.0
-     * @deprecated  5.0
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement
      */
     public function store($id, $group, $data)
     {
@@ -125,7 +135,9 @@ class WincacheStorage extends CacheStorage
      * @return  boolean
      *
      * @since       1.7.0
-     * @deprecated  5.0
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement
      */
     public function remove($id, $group)
     {
@@ -144,7 +156,9 @@ class WincacheStorage extends CacheStorage
      * @return  boolean
      *
      * @since       1.7.0
-     * @deprecated  5.0
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement
      */
     public function clean($group, $mode = null)
     {
@@ -167,7 +181,9 @@ class WincacheStorage extends CacheStorage
      * @return  boolean
      *
      * @since       1.7.0
-     * @deprecated  5.0
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement
      */
     public function gc()
     {
@@ -190,7 +206,9 @@ class WincacheStorage extends CacheStorage
      * @return  boolean
      *
      * @since       3.0.0
-     * @deprecated  5.0
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement
      */
     public static function isSupported()
     {

@@ -54,14 +54,14 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var   CMSObject
+     * @var   \Joomla\Registry\Registry
      */
     protected $state;
 
     /**
      * The actions the user is authorised to perform
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  3.7.0
      */
     protected $canDo;
@@ -191,7 +191,7 @@ class HtmlView extends BaseHtmlView
         $toolbar->divider();
 
         // Get the help information for the menu item.
-        $lang = Factory::getLanguage();
+        $lang = $this->getLanguage();
 
         $help = $this->get('Help');
 

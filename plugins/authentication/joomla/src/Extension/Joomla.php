@@ -12,7 +12,7 @@ namespace Joomla\Plugin\Authentication\Joomla\Extension;
 
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
 
@@ -28,6 +28,7 @@ use Joomla\Database\DatabaseAwareTrait;
 final class Joomla extends CMSPlugin
 {
     use DatabaseAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * This method should handle any authentication and report back to the subject
@@ -67,7 +68,7 @@ final class Joomla extends CMSPlugin
 
             if ($match === true) {
                 // Bring this in line with the rest of the system
-                $user               = User::getInstance($result->id);
+                $user               = $this->getUserFactory()->loadUserById($result->id);
                 $response->email    = $user->email;
                 $response->fullname = $user->name;
 
@@ -83,7 +84,7 @@ final class Joomla extends CMSPlugin
                     if ($this->getApplication()->get('offline') && !$user->authorise('core.login.offline')) {
                         // User do not have access in offline mode
                         $_status       = Authentication::STATUS_FAILURE;
-                        $_errorMessage = Text::_('JLIB_LOGIN_DENIED');
+                        $_errorMessage = $this->getApplication()->getLanguage()->_('JLIB_LOGIN_DENIED');
                     }
                 }
 
