@@ -2,7 +2,7 @@
 <extension type="package" method="upgrade">
 	<name>English (en-GB) Language Pack</name>
 	<packagename>en-GB</packagename>
-	<version>4.3.5.1</version>
+	<version>5.0.0.1</version>
 	<creationDate>2023-08</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -21,7 +21,7 @@
 	</files>
 	<updateservers>
 		<server type="collection" priority="1" name="Accredited Joomla! Translations">
-			https://update.joomla.org/language/translationlist_4.xml
+			https://update.joomla.org/language/translationlist_5.xml
 		</server>
 	</updateservers>
 </extension>

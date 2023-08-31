@@ -15,6 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Nested;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\String\StringHelper;
@@ -28,8 +30,10 @@ use Joomla\String\StringHelper;
  *
  * @since  3.1
  */
-class TagTable extends Nested implements VersionableTableInterface
+class TagTable extends Nested implements VersionableTableInterface, CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * An array of key names to be json encoded in the bind function
      *
@@ -151,7 +155,7 @@ class TagTable extends Nested implements VersionableTableInterface
     }
 
     /**
-     * Overridden \JTable::store to set modified data and user id.
+     * Overridden \Joomla\CMS\Table\Table::store to set modified data and user id.
      *
      * @param   boolean  $updateNulls  True to update fields even if they are null.
      *
@@ -162,7 +166,7 @@ class TagTable extends Nested implements VersionableTableInterface
     public function store($updateNulls = true)
     {
         $date = Factory::getDate();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if ($this->id) {
             // Existing item

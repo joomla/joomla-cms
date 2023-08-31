@@ -52,7 +52,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -72,6 +72,14 @@ class HtmlView extends BaseHtmlView
      * @since  4.0.0
      */
     public $activeFilters;
+
+    /**
+     * Ordering of the items
+     *
+     * @var    array
+     * @since  __DEPLOY_SINCE__
+     */
+    protected $ordering;
 
     /**
      * Display the view

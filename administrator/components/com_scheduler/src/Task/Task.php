@@ -22,7 +22,6 @@ use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Table\TaskTable;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -142,7 +141,7 @@ class Task implements LoggerAwareInterface
 
         $this->set('taskOption', $taskOption);
         $this->app = Factory::getApplication();
-        $this->db  = Factory::getContainer()->get(DatabaseDriver::class);
+        $this->db  = Factory::getContainer()->get(DatabaseInterface::class);
         $this->setLogger(Log::createDelegatedLogger());
         $this->logCategory = 'task' . $this->get('id');
 

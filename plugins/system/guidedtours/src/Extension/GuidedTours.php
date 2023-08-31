@@ -66,18 +66,18 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor
      *
-     * @param   DispatcherInterface  $subject  The object to observe
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   boolean              $enabled  An internal flag whether plugin should listen any event.
+     * @param   DispatcherInterface  $dispatcher  The object to observe
+     * @param   array                $config      An optional associative array of configuration settings.
+     * @param   boolean              $enabled     An internal flag whether plugin should listen any event.
      *
      * @since   4.3.0
      */
-    public function __construct($subject, array $config = [], bool $enabled = false)
+    public function __construct(DispatcherInterface $dispatcher, array $config = [], bool $enabled = false)
     {
         $this->autoloadLanguage = $enabled;
         self::$enabled          = $enabled;
 
-        parent::__construct($subject, $config);
+        parent::__construct($dispatcher, $config);
     }
 
     /**
@@ -205,8 +205,8 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $temp = new \stdClass();
 
         $temp->id          = 0;
-        $temp->title       = Text::_($item->title);
-        $temp->description = Text::_($item->description);
+        $temp->title       = $this->getApplication()->getLanguage()->_($item->title);
+        $temp->description = $this->getApplication()->getLanguage()->_($item->description);
         $temp->url         = $item->url;
 
         // Replace 'images/' to '../images/' when using an image from /images in backend.
@@ -218,8 +218,8 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
             $temp = new \stdClass();
 
             $temp->id               = $i + 1;
-            $temp->title            = Text::_($step->title);
-            $temp->description      = Text::_($step->description);
+            $temp->title            = $this->getApplication()->getLanguage()->_($step->title);
+            $temp->description      = $this->getApplication()->getLanguage()->_($step->description);
             $temp->position         = $step->position;
             $temp->target           = $step->target;
             $temp->type             = $this->stepType[$step->type];
