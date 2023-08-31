@@ -57,24 +57,9 @@ $workflow_state    = false;
 $workflow_featured = false;
 
 if ($workflow_enabled) :
-// @todo move the script to a file
-    $js = <<<JS
-(function() {
-	document.addEventListener('DOMContentLoaded', function() {
-	  var elements = [].slice.call(document.querySelectorAll('.article-status'));
-
-	  elements.forEach(function (element) {
-		element.addEventListener('click', function(event) {
-			event.stopPropagation();
-		});
-	  });
-	});
-})();
-JS;
-
     $wa->getRegistry()->addExtensionRegistryFile('com_workflow');
     $wa->useScript('com_workflow.admin-items-workflow-buttons')
-    ->addInlineScript($js, [], ['type' => 'module']);
+    ->useScript('com_content.articles-status');
 
     $workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
     $workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article');
@@ -89,7 +74,7 @@ $assoc = Associations::isEnabled();
             <div id="j-main-container" class="j-main-container">
                 <?php
                 // Search tools bar
-                echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+                echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
                 ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
@@ -276,7 +261,7 @@ $assoc = Associations::isEnabled();
                                                     echo ' &#187; ';
                                                 endif;
                                             endif;
-                                            if (Factory::getLanguage()->isRtl()) {
+                                            if ($this->getLanguage()->isRtl()) {
                                                 if ($canEditCat || $canEditOwnCat) :
                                                     echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
                                                 endif;
@@ -384,18 +369,19 @@ $assoc = Associations::isEnabled();
                     <?php echo $this->pagination->getListFooter(); ?>
 
                     <?php // Load the batch processing form. ?>
-                    <?php if (
-                    $user->authorise('core.create', 'com_content')
+                    <?php
+                    if (
+                        $user->authorise('core.create', 'com_content')
                         && $user->authorise('core.edit', 'com_content')
                         && $user->authorise('core.edit.state', 'com_content')
-) : ?>
+                    ) : ?>
                         <?php echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'collapseModal',
-                            array(
+                            [
                                 'title'  => Text::_('COM_CONTENT_BATCH_OPTIONS'),
                                 'footer' => $this->loadTemplate('batch_footer'),
-                            ),
+                            ],
                             $this->loadTemplate('batch_body')
                         ); ?>
                     <?php endif; ?>

@@ -16,6 +16,10 @@ use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Serializer\JoomlaSerializer;
 use Tobscure\JsonApi\Collection;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The strings view
  *
@@ -73,9 +77,9 @@ class JsonapiView extends BaseApiView
             ->fields([$this->type => $this->fieldsToRenderList]);
 
         // Set the data into the document and render it
-        $this->document->setData($collection);
+        $this->getDocument()->setData($collection);
 
-        return $this->document->render();
+        return $this->getDocument()->render();
     }
 
     /**

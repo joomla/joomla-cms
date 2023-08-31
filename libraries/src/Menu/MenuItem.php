@@ -13,11 +13,16 @@ use Joomla\CMS\Tree\NodeInterface;
 use Joomla\CMS\Tree\NodeTrait;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Object representing a menu item
  *
  * @since  3.7.0
  */
+#[\AllowDynamicProperties]
 class MenuItem implements NodeInterface
 {
     use NodeTrait;
@@ -181,7 +186,7 @@ class MenuItem implements NodeInterface
      * @var    array
      * @since  3.7.0
      */
-    public $tree = array();
+    public $tree = [];
 
     /**
      * An array of the query string values for this item
@@ -189,7 +194,7 @@ class MenuItem implements NodeInterface
      * @var    array
      * @since  3.7.0
      */
-    public $query = array();
+    public $query = [];
 
     /**
      * Class constructor
@@ -198,7 +203,7 @@ class MenuItem implements NodeInterface
      *
      * @since   3.7.0
      */
-    public function __construct($data = array())
+    public function __construct($data = [])
     {
         foreach ((array) $data as $key => $value) {
             $this->$key = $value;

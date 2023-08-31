@@ -9,13 +9,13 @@
 
 namespace Joomla\CMS\Application;
 
-use InvalidArgumentException;
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Router;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 use Joomla\Console\Application;
 use Joomla\Database\DatabaseAwareTrait;
@@ -27,9 +27,16 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The Joomla! CMS Console Application
@@ -154,7 +161,11 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      * @return  mixed   A value if the property name is valid, null otherwise.
      *
      * @since       4.0.0
-     * @deprecated  5.0  This is a B/C proxy for deprecated read accesses
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              This is a B/C proxy for deprecated read accesses, use getInput() method instead
+     *              Example:
+     *              $app->getInput();
      */
     public function __get($name)
     {
@@ -228,6 +239,17 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
     {
         // Load extension namespaces
         $this->createExtensionNamespaceMap();
+
+        /**
+         * Address issues with instantiating WebApplication descendants under CLI.
+         *
+         * IMPORTANT! This code must be always be executed **before** the first use of
+         * PluginHelper::importPlugin(). Some plugins will attempt to register an MVCFactory for a
+         * component in their service provider. This will in turn try to get the SiteRouter service
+         * for the component which tries to get an instance of SiteApplication which will fail with
+         * a RuntimeException if the populateHttpHost() method has not already executed.
+         */
+        $this->populateHttpHost();
 
         // Import CMS plugin groups to be able to subscribe to events
         PluginHelper::importPlugin('system');
@@ -374,7 +396,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      * @return  boolean
      *
      * @since       4.0.0
-     * @deprecated  5.0  Will be removed without replacements
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacement. CLI will be handled by the joomla/console package instead
      */
     public function isCli()
     {
@@ -451,16 +475,112 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      *
      * @throws     \InvalidArgumentException
      *
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     * @deprecated  4.3 will be removed in 6.0
+     *              Inject the router or load it from the dependency injection container
+     *              Example: Factory::getContainer()->get(ApiRouter::class);
      */
-    public static function getRouter($name = null, array $options = array())
+    public static function getRouter($name = null, array $options = [])
     {
         if (empty($name)) {
-            throw new InvalidArgumentException('A router name must be set in console application.');
+            throw new \InvalidArgumentException('A router name must be set in console application.');
         }
 
         $options['mode'] = Factory::getApplication()->get('sef');
 
         return Router::getInstance($name, $options);
+    }
+
+    /**
+     * Populates the HTTP_HOST and REQUEST_URI from the URL provided in the --live-site parameter.
+     *
+     * If the URL provided is empty or invalid we will use the URL
+     * https://joomla.invalid/set/by/console/application just so that the CLI application doesn't
+     * crash when a WebApplication descendant is instantiated in it.
+     *
+     * This is a practical workaround for using any service depending on a WebApplication
+     * descendant under CLI.
+     *
+     * Practical example: using a component's MVCFactory which instantiates the SiteRouter
+     * service for that component which in turn relies on an instance of SiteApplication.
+     *
+     * @return  void
+     * @since   4.2.1
+     * @see     https://github.com/joomla/joomla-cms/issues/38518
+     */
+    protected function populateHttpHost()
+    {
+        // First check for the --live-site command line option.
+        $input    = $this->getConsoleInput();
+        $liveSite = '';
+
+        if ($input->hasParameterOption(['--live-site', false])) {
+            $liveSite = $input->getParameterOption(['--live-site'], '');
+        }
+
+        // Fallback to the $live_site global configuration option in configuration.php
+        $liveSite = $liveSite ?: $this->get('live_site', 'https://joomla.invalid/set/by/console/application');
+
+        /**
+         * Try to use the live site URL we were given. If all else fails, fall back to
+         * https://joomla.invalid/set/by/console/application.
+         */
+        try {
+            $uri = Uri::getInstance($liveSite);
+        } catch (\RuntimeException $e) {
+            $uri = Uri::getInstance('https://joomla.invalid/set/by/console/application');
+        }
+
+        /**
+         * Yes, this is icky but it is the only way to trick WebApplication into compliance.
+         *
+         * @see \Joomla\Application\AbstractWebApplication::detectRequestUri
+         */
+        $_SERVER['HTTP_HOST']   = $uri->toString(['host', 'port']);
+        $_SERVER['REQUEST_URI'] = $uri->getPath();
+        $_SERVER['HTTPS']       = $uri->getScheme() === 'https' ? 'on' : 'off';
+    }
+
+    /**
+     * Builds the default input definition.
+     *
+     * @return  InputDefinition
+     *
+     * @since   4.2.1
+     */
+    protected function getDefaultInputDefinition(): InputDefinition
+    {
+        return new InputDefinition(
+            [
+                new InputArgument('command', InputArgument::REQUIRED, 'The command to execute'),
+                new InputOption(
+                    '--live-site',
+                    null,
+                    InputOption::VALUE_OPTIONAL,
+                    'The URL to your site, e.g. https://www.example.com'
+                ),
+                new InputOption('--help', '-h', InputOption::VALUE_NONE, 'Display the help information'),
+                new InputOption(
+                    '--quiet',
+                    '-q',
+                    InputOption::VALUE_NONE,
+                    'Flag indicating that all output should be silenced'
+                ),
+                new InputOption(
+                    '--verbose',
+                    '-v|vv|vvv',
+                    InputOption::VALUE_NONE,
+                    'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+                ),
+                new InputOption('--version', '-V', InputOption::VALUE_NONE, 'Displays the application version'),
+                new InputOption('--ansi', '', InputOption::VALUE_NONE, 'Force ANSI output'),
+                new InputOption('--no-ansi', '', InputOption::VALUE_NONE, 'Disable ANSI output'),
+                new InputOption(
+                    '--no-interaction',
+                    '-n',
+                    InputOption::VALUE_NONE,
+                    'Flag to disable interacting with the user'
+                ),
+            ]
+        );
     }
 }

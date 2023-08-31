@@ -16,6 +16,10 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Template style model.
  *
@@ -49,13 +53,13 @@ class TemplatesModel extends FormModel
      *
      * @since   3.2
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         try {
             // Get the form.
-            $form = $this->loadForm('com_config.templates', 'templates', array('load_data' => $loadData));
+            $form = $this->loadForm('com_config.templates', 'templates', ['load_data' => $loadData]);
 
-            $data = array();
+            $data = [];
             $this->preprocessForm($form, $data);
 
             // Load the data into the form

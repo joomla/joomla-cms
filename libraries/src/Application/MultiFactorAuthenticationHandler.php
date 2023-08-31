@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Application;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Encrypt\Aes;
@@ -21,9 +20,12 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
-use RuntimeException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Implements the code required for integrating with Joomla's Multi-factor Authentication.
@@ -50,7 +52,7 @@ trait MultiFactorAuthenticationHandler
      * Handle the redirection to the Multi-factor Authentication captive login or setup page.
      *
      * @return  boolean  True if we are currently handling a Multi-factor Authentication captive page.
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     protected function isHandlingMultiFactorAuthentication(): bool
@@ -58,7 +60,7 @@ trait MultiFactorAuthenticationHandler
         // Multi-factor Authentication checks take place only for logged in users.
         try {
             $user = $this->getIdentity() ?? null;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
 
@@ -117,7 +119,7 @@ trait MultiFactorAuthenticationHandler
 
         // Prevent non-interactive (non-HTML) content from being loaded until MFA is validated.
         if ($isMFAPending && $isNonHtml) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         if ($isMFAPending && !$isMFADisallowed) {
@@ -165,7 +167,7 @@ trait MultiFactorAuthenticationHandler
 
         if (
             !$isMFAPending && !$isMFADisallowed && ($userOptions->get('mfaredirectonlogin', 0) == 1)
-            && !$user->guest  && !$hasRejectedMultiFactorAuthenticationSetup && !empty(MfaHelper::getMfaMethods())
+            && !$user->guest && !$hasRejectedMultiFactorAuthenticationSetup && !empty(MfaHelper::getMfaMethods())
         ) {
             $this->redirect(
                 $userOptions->get('mfaredirecturl', '') ?:
@@ -180,7 +182,7 @@ trait MultiFactorAuthenticationHandler
      * Does the current user need to complete MFA authentication before being allowed to access the site?
      *
      * @return  boolean
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     private function isMultiFactorAuthenticationPending(): bool
@@ -254,7 +256,7 @@ trait MultiFactorAuthenticationHandler
         // Make sure we are logged in
         try {
             $user = $this->getIdentity();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // This would happen if we are in CLI or under an old Joomla! version. Either case is not supported.
             return false;
         }
@@ -299,10 +301,12 @@ trait MultiFactorAuthenticationHandler
     /**
      * Is this a page concerning the Multi-factor Authentication feature?
      *
-     * @return boolean
-     * @since  4.2.0
+     * @param   bool  $onlyCaptive  Should I only check for the MFA captive page?
+     *
+     * @return  boolean
+     * @since   4.2.0
      */
-    private function isMultiFactorAuthenticationPage(): bool
+    public function isMultiFactorAuthenticationPage(bool $onlyCaptive = false): bool
     {
         $option = $this->input->get('option');
         $task   = $this->input->get('task');
@@ -315,9 +319,18 @@ trait MultiFactorAuthenticationHandler
         $allowedViews = ['captive', 'method', 'methods', 'callback'];
         $allowedTasks = [
             'captive.display', 'captive.captive', 'captive.validate',
-            'method.display', 'method.add', 'method.edit', 'method.regenerateBackupCodes', 'method.delete', 'method.save',
-            'methods.display', 'methods.disable', 'methods.doNotShowThisAgain',
+            'methods.display',
         ];
+
+        if (!$onlyCaptive) {
+            $allowedTasks = array_merge(
+                $allowedTasks,
+                [
+                    'method.display', 'method.add', 'method.edit', 'method.regenerateBackupCodes',
+                    'method.delete', 'method.save', 'methods.disable', 'methods.doNotShowThisAgain',
+                ]
+            );
+        }
 
         return in_array($view, $allowedViews) || in_array($task, $allowedTasks);
     }
@@ -332,8 +345,8 @@ trait MultiFactorAuthenticationHandler
     {
         $user       = $this->getIdentity();
         $profileKey = 'mfa.dontshow';
-        /** @var DatabaseDriver $db */
-        $db         = Factory::getContainer()->get('DatabaseDriver');
+        /** @var DatabaseInterface $db */
+        $db         = Factory::getContainer()->get(DatabaseInterface::class);
         $query      = $db->getQuery(true)
             ->select($db->quoteName('profile_value'))
             ->from($db->quoteName('#__user_profiles'))
@@ -344,7 +357,7 @@ trait MultiFactorAuthenticationHandler
 
         try {
             $result = $db->setQuery($query)->loadResult();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result = 1;
         }
 
@@ -365,8 +378,8 @@ trait MultiFactorAuthenticationHandler
             return;
         }
 
-        /** @var DatabaseDriver $db */
-        $db         = Factory::getContainer()->get('DatabaseDriver');
+        /** @var DatabaseInterface $db */
+        $db         = Factory::getContainer()->get(DatabaseInterface::class);
 
         $userTable = new UserTable($db);
 
@@ -375,11 +388,11 @@ trait MultiFactorAuthenticationHandler
         }
 
         [$otpMethod, $otpKey] = explode(':', $userTable->otpKey, 2);
-        $secret       = $this->get('secret');
-        $otpKey       = $this->decryptLegacyTFAString($secret, $otpKey);
-        $otep         = $this->decryptLegacyTFAString($secret, $userTable->otep);
-        $config       = @json_decode($otpKey, true);
-        $hasConverted = true;
+        $secret               = $this->get('secret');
+        $otpKey               = $this->decryptLegacyTFAString($secret, $otpKey);
+        $otep                 = $this->decryptLegacyTFAString($secret, $userTable->otep);
+        $config               = @json_decode($otpKey, true);
+        $hasConverted         = true;
 
         if (!empty($config)) {
             switch ($otpMethod) {
@@ -394,6 +407,8 @@ trait MultiFactorAuthenticationHandler
                             'default'    => 0,
                             'created_on' => Date::getInstance()->toSql(),
                             'last_used'  => null,
+                            'tries'      => 0,
+                            'try_count'  => null,
                             'options'    => ['key' => $config['code']],
                         ]
                     );
@@ -410,6 +425,8 @@ trait MultiFactorAuthenticationHandler
                             'default'    => 0,
                             'created_on' => Date::getInstance()->toSql(),
                             'last_used'  => null,
+                            'tries'      => 0,
+                            'try_count'  => null,
                             'options'    => ['id' => $config['yubikey']],
                         ]
                     );
@@ -427,9 +444,9 @@ trait MultiFactorAuthenticationHandler
             $method = 'emergencycodes';
             $userId = $user->id;
             $query  = $db->getQuery(true)
-                ->delete($db->qn('#__user_mfa'))
-                ->where($db->qn('user_id') . ' = :user_id')
-                ->where($db->qn('method') . ' = :method')
+                ->delete($db->quoteName('#__user_mfa'))
+                ->where($db->quoteName('user_id') . ' = :user_id')
+                ->where($db->quoteName('method') . ' = :method')
                 ->bind(':user_id', $userId, ParameterType::INTEGER)
                 ->bind(':method', $method);
             $db->setQuery($query)->execute();
@@ -443,6 +460,8 @@ trait MultiFactorAuthenticationHandler
                     'default'    => 0,
                     'created_on' => Date::getInstance()->toSql(),
                     'last_used'  => null,
+                    'tries'      => 0,
+                    'try_count'  => null,
                     'options'    => @json_decode($otep, true),
                 ]
             );
@@ -473,7 +492,7 @@ trait MultiFactorAuthenticationHandler
         // Is this already decrypted?
         try {
             $decrypted = @json_decode($stringToDecrypt, true);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $decrypted = null;
         }
 

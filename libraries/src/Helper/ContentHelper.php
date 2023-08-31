@@ -22,6 +22,10 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for standard content style extensions.
  * This class mainly simplifies static helper methods often repeated in individual components
@@ -58,15 +62,15 @@ class ContentHelper
         $db = Factory::getDbo();
 
         // Allow custom state / condition values and custom column names to support custom components
-        $counter_names = isset($config->counter_names) ? $config->counter_names : array(
+        $counter_names = isset($config->counter_names) ? $config->counter_names : [
             '-2' => 'count_trashed',
             '0'  => 'count_unpublished',
             '1'  => 'count_published',
             '2'  => 'count_archived',
-        );
+        ];
 
         // Index category objects by their ID
-        $records = array();
+        $records = [];
 
         foreach ($items as $item) {
             $records[(int) $item->id] = $item;
@@ -199,7 +203,7 @@ class ContentHelper
      */
     public static function getCurrentLanguage($detectBrowser = true)
     {
-        $app = Factory::getApplication();
+        $app      = Factory::getApplication();
         $langCode = null;
 
         // Get the languagefilter parameters
@@ -208,7 +212,7 @@ class ContentHelper
             $pluginParams = new Registry($plugin->params);
 
             if ((int) $pluginParams->get('lang_cookie', 1) === 1) {
-                $langCode = $app->input->cookie->getString(ApplicationHelper::getHash('language'));
+                $langCode = $app->getInput()->cookie->getString(ApplicationHelper::getHash('language'));
             } else {
                 $langCode = $app->getSession()->get('plg_system_languagefilter.language');
             }

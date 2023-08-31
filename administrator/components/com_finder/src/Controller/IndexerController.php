@@ -20,6 +20,10 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Response\Response;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Indexer controller class for Finder.
  *
@@ -46,7 +50,7 @@ class IndexerController extends BaseController
         $params = ComponentHelper::getParams('com_finder');
 
         if ($params->get('enable_logging', '0')) {
-            $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }
@@ -80,7 +84,7 @@ class IndexerController extends BaseController
             $this->app->triggerEvent('onStartIndex');
 
             // Get the indexer state.
-            $state = Indexer::getState();
+            $state        = Indexer::getState();
             $state->start = 1;
 
             // Send the response.
@@ -110,7 +114,7 @@ class IndexerController extends BaseController
         $params = ComponentHelper::getParams('com_finder');
 
         if ($params->get('enable_logging', '0')) {
-            $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }
@@ -148,16 +152,16 @@ class IndexerController extends BaseController
          * in order to work around some plugins that don't do proper environment
          * checks before trying to use HTML document functions.
          */
-        $lang = Factory::getLanguage();
+        $lang = $this->app->getLanguage();
 
         // Get the document properties.
-        $attributes = array (
+        $attributes = [
             'charset'   => 'utf-8',
             'lineend'   => 'unix',
             'tab'       => '  ',
             'language'  => $lang->getTag(),
-            'direction' => $lang->isRtl() ? 'rtl' : 'ltr'
-        );
+            'direction' => $lang->isRtl() ? 'rtl' : 'ltr',
+        ];
 
         // Start the indexer.
         try {
@@ -168,8 +172,8 @@ class IndexerController extends BaseController
             $this->app->triggerEvent('onBuildIndex');
 
             // Get the indexer state.
-            $state = Indexer::getState();
-            $state->start = 0;
+            $state           = Indexer::getState();
+            $state->start    = 0;
             $state->complete = 0;
 
             // Log batch completion and memory high-water mark.
@@ -219,8 +223,8 @@ class IndexerController extends BaseController
             $indexer->optimize();
 
             // Get the indexer state.
-            $state = Indexer::getState();
-            $state->start = 0;
+            $state           = Indexer::getState();
+            $state->start    = 0;
             $state->complete = 1;
 
             // Send the response.
@@ -249,7 +253,7 @@ class IndexerController extends BaseController
         $params = ComponentHelper::getParams('com_finder');
 
         if ($params->get('enable_logging', '0')) {
-            $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }

@@ -11,7 +11,9 @@
  * in the default textfilter settings
  */
 
-
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Notifies users the changes from the default textfilter.

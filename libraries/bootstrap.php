@@ -5,12 +5,17 @@
  * Including this file into your application will make Joomla libraries available for use.
  *
  * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-// Set the platform root path as a constant if necessary.
+/**
+ * Set the platform root path as a constant if necessary.
+ *
+ * @deprecated 4.4.0 will be removed in 6.0
+ *             Use defined('_JEXEC') or die; to detect if the CMS is loaded correctly
+ **/
 defined('JPATH_PLATFORM') or define('JPATH_PLATFORM', __DIR__);
 
 // Detect the native operating system type.

@@ -20,6 +20,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Prototype form model.
  *
@@ -44,19 +48,19 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
     /**
      * Constructor
      *
-     * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface   $factory      The factory.
-     * @param   FormFactoryInterface  $formFactory  The form factory.
+     * @param   array                  $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface   $factory      The factory.
+     * @param   ?FormFactoryInterface  $formFactory  The form factory.
      *
      * @since   3.6
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
     {
-        $config['events_map'] = $config['events_map'] ?? array();
+        $config['events_map'] = $config['events_map'] ?? [];
 
         $this->events_map = array_merge(
-            array('validate' => 'content'),
+            ['validate' => 'content'],
             $config['events_map']
         );
 
@@ -146,7 +150,13 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
                 return true;
             }
 
-            $user            = $this->getCurrentUser();
+            $user = $this->getCurrentUser();
+
+            // When the user is a guest, don't do a checkout
+            if (!$user->id) {
+                return false;
+            }
+
             $checkedOutField = $table->getColumnAlias('checked_out');
 
             // Check if this is the user having previously checked out the row.
@@ -194,10 +204,10 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
                 E_USER_DEPRECATED
             );
 
-            Factory::getApplication()->triggerEvent('onUserBeforeDataValidation', array($form, &$data));
+            Factory::getApplication()->triggerEvent('onUserBeforeDataValidation', [$form, &$data]);
         }
 
-        Factory::getApplication()->triggerEvent('onContentBeforeValidateData', array($form, &$data));
+        Factory::getApplication()->triggerEvent('onContentBeforeValidateData', [$form, &$data]);
 
         // Filter and validate the form data.
         $return = $form->process($data, $group);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Extension
@@ -23,39 +24,39 @@ use Joomla\Tests\Unit\UnitTestCase;
  */
 class ActionlogConfigModelTest extends UnitTestCase
 {
-	/**
-	 * @testdox  Test that getLogContentTypeParams returns the correct params
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function testGetLogContentTypeParams()
-	{
-		$config = new \stdClass;
-		$db = $this->createStub(DatabaseInterface::class);
-		$db->method('getQuery')->willReturn($this->getQueryStub($db));
-		$db->method('loadObject')->willReturn($config);
+    /**
+     * @testdox  Test that getLogContentTypeParams returns the correct params
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testGetLogContentTypeParams()
+    {
+        $config = new \stdClass();
+        $db     = $this->createStub(DatabaseInterface::class);
+        $db->method('getQuery')->willReturn($this->getQueryStub($db));
+        $db->method('loadObject')->willReturn($config);
 
-		$model = new ActionlogConfigModel(['dbo' => $db], $this->createStub(MVCFactoryInterface::class));
+        $model = new ActionlogConfigModel(['dbo' => $db], $this->createStub(MVCFactoryInterface::class));
 
-		$this->assertEquals($config, $model->getLogContentTypeParams('test'));
-	}
+        $this->assertEquals($config, $model->getLogContentTypeParams('test'));
+    }
 
-	/**
-	 * @testdox  Test that getLogContentTypeParams returns null when not found
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function testGetNullLogContentTypeParams()
-	{
-		$db = $this->createStub(DatabaseInterface::class);
-		$db->method('getQuery')->willReturn($this->getQueryStub($db));
+    /**
+     * @testdox  Test that getLogContentTypeParams returns null when not found
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testGetNullLogContentTypeParams()
+    {
+        $db = $this->createStub(DatabaseInterface::class);
+        $db->method('getQuery')->willReturn($this->getQueryStub($db));
 
-		$model = new ActionlogConfigModel(['dbo' => $db], $this->createStub(MVCFactoryInterface::class));
+        $model = new ActionlogConfigModel(['dbo' => $db], $this->createStub(MVCFactoryInterface::class));
 
-		$this->assertNull($model->getLogContentTypeParams('test'));
-	}
+        $this->assertNull($model->getLogContentTypeParams('test'));
+    }
 }

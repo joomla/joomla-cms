@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Layout;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Interface to handle display layout
  *

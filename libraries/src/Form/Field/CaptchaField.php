@@ -13,6 +13,10 @@ use Joomla\CMS\Captcha\Captcha;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Captcha field.
  *
@@ -29,9 +33,25 @@ class CaptchaField extends FormField
     protected $type = 'Captcha';
 
     /**
+     * The plugin of the captcha field.
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    protected $plugin;
+
+    /**
+     * The namespace of the captcha field.
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    protected $namespace;
+
+    /**
      * The captcha base instance of our type.
      *
-     * @var Captcha
+     * @var ?Captcha
      */
     protected $_captcha;
 
@@ -127,7 +147,7 @@ class CaptchaField extends FormField
 
         try {
             // Get an instance of the captcha class that we are using
-            $this->_captcha = Captcha::getInstance($this->plugin, array('namespace' => $this->namespace));
+            $this->_captcha = Captcha::getInstance($this->plugin, ['namespace' => $this->namespace]);
 
             /**
              * Give the captcha instance a possibility to react on the setup-process,

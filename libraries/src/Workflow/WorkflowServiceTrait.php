@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Workflow;
@@ -15,6 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 use Joomla\Event\DispatcherAwareInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Trait for component workflow service.
@@ -98,7 +102,7 @@ trait WorkflowServiceTrait
                     'eventClass'    => 'Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent',
                     'subject'       => $this,
                     'extension'     => $extension,
-                    'functionality' => $functionality
+                    'functionality' => $functionality,
                 ]
             )
         );

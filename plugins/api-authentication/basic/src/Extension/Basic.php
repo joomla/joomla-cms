@@ -12,10 +12,13 @@ namespace Joomla\Plugin\ApiAuthentication\Basic\Extension;
 
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Event\DispatcherInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla Authentication plugin
@@ -25,30 +28,7 @@ use Joomla\Event\DispatcherInterface;
 final class Basic extends CMSPlugin
 {
     use DatabaseAwareTrait;
-
-    /**
-     * The user factory
-     *
-     * @var    UserFactoryInterface
-     * @since  4.2.0
-     */
-    private $userFactory;
-
-    /**
-     * Constructor.
-     *
-     * @param   DispatcherInterface   $dispatcher   The dispatcher
-     * @param   array                 $config       An optional associative array of configuration settings
-     * @param   UserFactoryInterface  $userFactory  The user factory
-     *
-     * @since   4.2.0
-     */
-    public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory)
-    {
-        parent::__construct($dispatcher, $config);
-
-        $this->userFactory = $userFactory;
-    }
+    use UserFactoryAwareTrait;
 
     /**
      * This method should handle any authentication and report back to the subject
@@ -65,12 +45,12 @@ final class Basic extends CMSPlugin
     {
         $response->type = 'Basic';
 
-        $username = $this->getApplication()->input->server->get('PHP_AUTH_USER', '', 'USERNAME');
-        $password = $this->getApplication()->input->server->get('PHP_AUTH_PW', '', 'RAW');
+        $username = $this->getApplication()->getInput()->server->get('PHP_AUTH_USER', '', 'USERNAME');
+        $password = $this->getApplication()->getInput()->server->get('PHP_AUTH_PW', '', 'RAW');
 
         if ($password === '') {
             $response->status        = Authentication::STATUS_FAILURE;
-            $response->error_message = $this->translate('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
+            $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
 
             return;
         }
@@ -90,7 +70,7 @@ final class Basic extends CMSPlugin
 
             if ($match === true) {
                 // Bring this in line with the rest of the system
-                $user               = $this->userFactory->loadUserById($result->id);
+                $user               = $this->getUserFactory()->loadUserById($result->id);
                 $response->email    = $user->email;
                 $response->fullname = $user->name;
                 $response->username = $username;
@@ -106,7 +86,7 @@ final class Basic extends CMSPlugin
             } else {
                 // Invalid password
                 $response->status        = Authentication::STATUS_FAILURE;
-                $response->error_message = $this->translate('JGLOBAL_AUTH_INVALID_PASS');
+                $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_INVALID_PASS');
             }
         } else {
             // Let's hash the entered password even if we don't have a matching user for some extra response time
@@ -115,7 +95,7 @@ final class Basic extends CMSPlugin
 
             // Invalid user
             $response->status        = Authentication::STATUS_FAILURE;
-            $response->error_message = $this->translate('JGLOBAL_AUTH_NO_USER');
+            $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_NO_USER');
         }
     }
 }

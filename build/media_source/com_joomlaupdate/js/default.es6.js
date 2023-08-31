@@ -10,13 +10,14 @@ Joomla = window.Joomla || {};
 
   Joomla.submitbuttonUpload = () => {
     const form = document.getElementById('uploadForm');
+    const confirmBackup = document.getElementById('joomlaupdate-confirm-backup');
 
     // do field validation
     if (form.install_package.value === '') {
       alert(Joomla.Text._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE'), true);
     } else if (form.install_package.files[0].size > form.max_upload_size.value) {
       alert(Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
-    } else if (document.getElementById('joomlaupdate-confirm-backup').checked) {
+    } else if (confirmBackup && confirmBackup.checked) {
       form.submit();
     }
   };
@@ -53,13 +54,15 @@ Joomla = window.Joomla || {};
     const form = installButton ? installButton.closest('form') : null;
     const task = form ? form.querySelector('[name=task]', form) : null;
     if (uploadButton) {
-      uploadButton.disabled = !updateCheck.checked;
       uploadButton.addEventListener('click', Joomla.submitbuttonUpload);
-      updateCheck.addEventListener('change', () => {
-        uploadButton.disabled = !updateCheck.checked;
-      });
+      uploadButton.disabled = updateCheck && !updateCheck.checked;
+      if (updateCheck) {
+        updateCheck.addEventListener('change', () => {
+          uploadButton.disabled = !updateCheck.checked;
+        });
+      }
     }
-    if (confirmButton && !updateCheck.checked) {
+    if (confirmButton && updateCheck && !updateCheck.checked) {
       confirmButton.classList.add('disabled');
     }
     if (confirmButton && updateCheck) {
@@ -73,22 +76,24 @@ Joomla = window.Joomla || {};
     }
     if (uploadField) {
       uploadField.addEventListener('change', Joomla.installpackageChange);
-      uploadField.addEventListener('change', () => {
-        const fileSize = uploadForm.install_package.files[0].size;
-        const allowedSize = uploadForm.max_upload_size.value;
-        if (fileSize <= allowedSize && updateCheck.disabled) {
-          updateCheck.disabled = !updateCheck.disabled;
-        } else if (fileSize <= allowedSize && !updateCheck.disabled && !updateCheck.checked) {
-          updateCheck.disabled = false;
-        } else if (fileSize <= allowedSize && updateCheck.checked) {
-          updateCheck.checked = updateCheck.classList.contains('d-none');
-          uploadButton.disabled = true;
-        } else if (fileSize > allowedSize && !updateCheck.disabled) {
-          updateCheck.disabled = !updateCheck.disabled;
-          updateCheck.checked = updateCheck.classList.contains('d-none');
-          uploadButton.disabled = true;
-        }
-      });
+      if (updateCheck) {
+        uploadField.addEventListener('change', () => {
+          const fileSize = uploadForm.install_package.files[0].size;
+          const allowedSize = uploadForm.max_upload_size.value;
+          if (fileSize <= allowedSize && updateCheck.disabled) {
+            updateCheck.disabled = !updateCheck.disabled;
+          } else if (fileSize <= allowedSize && !updateCheck.disabled && !updateCheck.checked) {
+            updateCheck.disabled = false;
+          } else if (fileSize <= allowedSize && updateCheck.checked) {
+            updateCheck.checked = updateCheck.classList.contains('d-none');
+            uploadButton.disabled = true;
+          } else if (fileSize > allowedSize && !updateCheck.disabled) {
+            updateCheck.disabled = !updateCheck.disabled;
+            updateCheck.checked = updateCheck.classList.contains('d-none');
+            uploadButton.disabled = true;
+          }
+        });
+      }
     }
     // Trigger (re-) install (including checkbox confirm if we update)
     if (installButton && installButton.getAttribute('href') === '#' && task) {
@@ -564,10 +569,15 @@ Joomla = window.Joomla || {};
         status = 'warning';
       }
 
-      if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0 && status === 'success') {
+      if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0 && status === 'success' && document.getElementById('preupdatecheckbox')) {
         document.getElementById('preupdatecheckbox').style.display = 'none';
-        document.getElementById('noncoreplugins').checked = true;
+      }
 
+      if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0 && status === 'success' && document.getElementById('noncoreplugins')) {
+        document.getElementById('noncoreplugins').checked = true;
+      }
+
+      if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0 && status === 'success') {
         [].slice.call(document.querySelectorAll('button.submitupdate')).forEach((el) => {
           el.classList.remove('disabled');
           el.removeAttribute('disabled');

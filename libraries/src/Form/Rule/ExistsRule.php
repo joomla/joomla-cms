@@ -15,6 +15,10 @@ use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form rule class to determine if a value exists in a database table.
  *
@@ -32,8 +36,8 @@ class ExistsRule extends FormRule implements DatabaseAwareInterface
      * @param   string             $group    The field name group control value. This acts as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
-     * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
-     * @param   Form               $form     The form object for which the field is being tested.
+     * @param   ?Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
+     * @param   ?Form              $form     The form object for which the field is being tested.
      *
      * @return  boolean  True if the value is valid, false otherwise.
      *

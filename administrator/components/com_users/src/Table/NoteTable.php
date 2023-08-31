@@ -15,6 +15,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * User notes table class
  *
@@ -56,7 +60,7 @@ class NoteTable extends Table implements VersionableTableInterface
      */
     public function store($updateNulls = true)
     {
-        $date = Factory::getDate()->toSql();
+        $date   = Factory::getDate()->toSql();
         $userId = Factory::getUser()->get('id');
 
         if (!((int) $this->review_time)) {

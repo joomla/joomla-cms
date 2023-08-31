@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Feed
@@ -9,7 +10,6 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Feed;
 
-use InvalidArgumentException;
 use Joomla\CMS\Feed\FeedLink;
 use Joomla\Tests\Unit\UnitTestCase;
 
@@ -22,16 +22,16 @@ use Joomla\Tests\Unit\UnitTestCase;
  */
 class FeedLinkTest extends UnitTestCase
 {
-	/**
-	 * Tests the FeedLink::__construct() method with invalid length.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1.4
-	 */
-	public function testConstructWithInvalidLength()
-	{
-		$this->expectException(InvalidArgumentException::class);
-		new FeedLink('URI', 'self', 'application/x-pdf', 'en-GB', 'My Link', 'foobar');
-	}
+    /**
+     * Tests the FeedLink::__construct() method with invalid length.
+     *
+     * @return  void
+     *
+     * @since   3.1.4
+     */
+    public function testConstructWithInvalidLength()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        new FeedLink('URI', 'self', 'application/x-pdf', 'en-GB', 'My Link', 'foobar');
+    }
 }

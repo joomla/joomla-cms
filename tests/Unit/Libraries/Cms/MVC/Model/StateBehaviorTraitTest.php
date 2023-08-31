@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Base
@@ -25,134 +26,128 @@ use Joomla\Tests\Unit\UnitTestCase;
  */
 class StateBehaviorTraitTest extends UnitTestCase
 {
-	/**
-	 * @testdox  can fetch an empty state
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function testGetEmptyState()
-	{
-		$trait = new class
-		{
-			use StateBehaviorTrait;
-		};
+    /**
+     * @testdox  can fetch an empty state
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testGetEmptyState()
+    {
+        $trait = new class () {
+            use StateBehaviorTrait;
+        };
 
-		$this->assertInstanceOf(CMSObject::class, $trait->getState());
-	}
+        $this->assertInstanceOf(CMSObject::class, $trait->getState());
+    }
 
-	/**
-	 * @testdox  does populate the state when a state is requested
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function testStatePopulation()
-	{
-		$trait = new class
-		{
-			use StateBehaviorTrait;
+    /**
+     * @testdox  does populate the state when a state is requested
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testStatePopulation()
+    {
+        $trait = new class () {
+            use StateBehaviorTrait;
 
-			protected function populateState()
-			{
-				$this->setState('state.set', true);
-			}
-		};
+            protected function populateState()
+            {
+                $this->setState('state.set', true);
+            }
+        };
 
-		$this->assertTrue($trait->getState('state.set', false));
-	}
+        $this->assertTrue($trait->getState('state.set', false));
+    }
 
-	/**
-	 * @testdox  does not populated the state when already set
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function testStatePopulationIgnored()
-	{
-		$trait = new class
-		{
-			use StateBehaviorTrait;
+    /**
+     * @testdox  does not populated the state when already set
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testStatePopulationIgnored()
+    {
+        $trait = new class () {
+            use StateBehaviorTrait;
 
-			public function __construct()
-			{
-				$this->__state_set = true;
-			}
+            public function __construct()
+            {
+                $this->__state_set = true;
+            }
 
-			protected function populateState()
-			{
-				$this->setState('state.set', true);
-			}
-		};
+            protected function populateState()
+            {
+                $this->setState('state.set', true);
+            }
+        };
 
-		$this->assertFalse($trait->getState('state.set', false));
-	}
+        $this->assertFalse($trait->getState('state.set', false));
+    }
 
-	/**
-	 * @testdox  sets the state correctly
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function testSetState()
-	{
-		$trait = new class
-		{
-			use StateBehaviorTrait;
-		};
-		$trait->setState('state.set', true);
+    /**
+     * @testdox  sets the state correctly
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testSetState()
+    {
+        $trait = new class () {
+            use StateBehaviorTrait;
+        };
+        $trait->setState('state.set', true);
 
-		$this->assertTrue($trait->getState('state.set', false));
-	}
+        $this->assertTrue($trait->getState('state.set', false));
+    }
 
-	/**
-	 * @testdox  overwrites the state when it is not populated
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function testSetStateWithPopulation()
-	{
-		$trait = new class
-		{
-			use StateBehaviorTrait;
+    /**
+     * @testdox  overwrites the state when it is not populated
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testSetStateWithPopulation()
+    {
+        $trait = new class () {
+            use StateBehaviorTrait;
 
-			protected function populateState()
-			{
-				$this->setState('state.status', 1);
-			}
-		};
-		$trait->setState('state.status', 2);
+            protected function populateState()
+            {
+                $this->setState('state.status', 1);
+            }
+        };
+        $trait->setState('state.status', 2);
 
-		$this->assertEquals(1, $trait->getState('state.status'));
-	}
+        $this->assertEquals(1, $trait->getState('state.status'));
+    }
 
-	/**
-	 * @testdox  does not overwrite the state when it is already populated
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function testSetStateWithPrePopulation()
-	{
-		$trait = new class
-		{
-			use StateBehaviorTrait;
+    /**
+     * @testdox  does not overwrite the state when it is already populated
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testSetStateWithPrePopulation()
+    {
+        $trait = new class () {
+            use StateBehaviorTrait;
 
-			protected function populateState()
-			{
-				$this->setState('state.status', 1);
-			}
-		};
-		$trait->getState();
-		$trait->setState('state.status', 2);
+            protected function populateState()
+            {
+                $this->setState('state.status', 1);
+            }
+        };
+        $trait->getState();
+        $trait->setState('state.status', 2);
 
-		$this->assertEquals(2, $trait->getState('state.status'));
-	}
+        $this->assertEquals(2, $trait->getState('state.status'));
+    }
 }

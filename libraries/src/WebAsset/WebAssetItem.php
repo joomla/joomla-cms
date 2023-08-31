@@ -11,6 +11,10 @@ namespace Joomla\CMS\WebAsset;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Web Asset Item class
  *
@@ -334,6 +338,6 @@ class WebAssetItem implements WebAssetItemInterface
     protected function isPathAbsolute(string $path): bool
     {
         // We have a full path or not
-        return is_file(JPATH_ROOT . '/' . $path);
+        return strpos($path, '/') !== false && is_file(JPATH_ROOT . '/' . $path);
     }
 }

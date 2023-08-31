@@ -37,7 +37,7 @@ $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => ['selectorFieldName' => 'language_client'])); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['selectorFieldName' => 'language_client']]); ?>
                 <div class="clearfix"></div>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
@@ -93,11 +93,11 @@ $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
                                     <?php echo $language; ?>
                                 </td>
                                 <td class="d-none d-md-table-cell">
-                                    <?php echo $client; ?>
                                     <?php
-                                    if (isset($oppositeStrings[$key]) && ($oppositeStrings[$key] == $text)) {
+                                    echo $client;
+                                    if (isset($oppositeStrings[$key]) && $oppositeStrings[$key] === $text) :
                                         echo '/' . $oppositeClient;
-                                    }
+                                    endif;
                                     ?>
                                 </td>
                             </tr>

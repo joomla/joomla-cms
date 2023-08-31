@@ -12,7 +12,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 
 defined('_JEXEC') or die;
 
@@ -34,7 +33,7 @@ Text::script('JLIB_JS_AJAX_ERROR_PARSE');
 Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 
 // Ajax request data.
-$ajaxUri = Route::_('index.php?option=com_config&task=application.sendtestmail&format=json&' . Session::getFormToken() . '=1');
+$ajaxUri = Route::_('index.php?option=com_config&task=application.sendtestmail&format=json');
 
 $this->name = Text::_('COM_CONFIG_MAIL_SETTINGS');
 $this->fieldsname = 'mail';

@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Banners\Administrator\View\Tracks;
 
-use Exception;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -22,6 +21,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Banners\Administrator\Model\TracksModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of tracks.
@@ -86,7 +89,7 @@ class HtmlView extends BaseHtmlView
      * @return  void
      *
      * @since   1.6
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function display($tpl = null): void
     {
@@ -121,14 +124,13 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar(): void
     {
-        $canDo = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
+        $canDo   = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
+        $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_TRACKS'), 'bookmark banners-tracks');
 
-        $bar = Toolbar::getInstance('toolbar');
-
         if (!$this->isEmptyState) {
-            $bar->popupButton()
+            $toolbar->popupButton()
                 ->url(Route::_('index.php?option=com_banners&view=download&tmpl=component'))
                 ->text('JTOOLBAR_EXPORT')
                 ->selector('downloadModal')
@@ -142,13 +144,15 @@ class HtmlView extends BaseHtmlView
         }
 
         if (!$this->isEmptyState && $canDo->get('core.delete')) {
-            $bar->appendButton('Confirm', 'COM_BANNERS_DELETE_MSG', 'delete', 'COM_BANNERS_TRACKS_DELETE', 'tracks.delete', false);
+            $toolbar->delete('tracks.delete', 'COM_BANNERS_TRACKS_DELETE')
+                ->message('COM_BANNERS_DELETE_MSG')
+                ->listCheck(false);
         }
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            ToolbarHelper::preferences('com_banners');
+            $toolbar->preferences('com_banners');
         }
 
-        ToolbarHelper::help('Banners:_Tracks');
+        $toolbar->help('Banners:_Tracks');
     }
 }

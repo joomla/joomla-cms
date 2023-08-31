@@ -21,10 +21,11 @@ $icon = $this->params->get('contact_icons') == 0;
  */
 ?>
 <dl class="com-contact__address contact-address dl-horizontal" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-    <?php if (
-    ($this->params->get('address_check') > 0) &&
+    <?php
+    if (
+        ($this->params->get('address_check') > 0) &&
         ($this->item->address || $this->item->suburb  || $this->item->state || $this->item->country || $this->item->postcode)
-) : ?>
+    ) : ?>
         <dt>
             <?php if ($icon && !$this->params->get('marker_address')) : ?>
                 <span class="icon-address" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('COM_CONTACT_ADDRESS'); ?></span>

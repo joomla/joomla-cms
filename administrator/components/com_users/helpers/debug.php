@@ -12,12 +12,17 @@
 
 use Joomla\Component\Users\Administrator\Helper\DebugHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Users component debugging helper.
  *
  * @since       1.6
  *
- * @deprecated  5.0 Use \Joomla\Component\Users\Administrator\Helper\DebugHelper instead
+ * @deprecated  4.3 will be removed in 6.0
+ *              Use \Joomla\Component\Users\Administrator\Helper\DebugHelper instead
  */
 class UsersHelperDebug extends DebugHelper
 {
