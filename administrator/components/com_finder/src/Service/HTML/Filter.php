@@ -440,7 +440,7 @@ class Filter
             $html .= Text::_('COM_FINDER_FILTER_DATE1');
             $html .= '</label>';
             $html .= '<br>';
-            $html .= '<label for="finder-filter-w1" class="element-invisible">';
+            $html .= '<label for="finder-filter-w1" class="visually-hidden">';
             $html .= Text::_('COM_FINDER_FILTER_DATE1_OPERATOR');
             $html .= '</label>';
             $html .= HTMLHelper::_(
@@ -462,7 +462,7 @@ class Filter
             $html .= Text::_('COM_FINDER_FILTER_DATE2');
             $html .= '</label>';
             $html .= '<br>';
-            $html .= '<label for="finder-filter-w2" class="element-invisible">';
+            $html .= '<label for="finder-filter-w2" class="visually-hidden">';
             $html .= Text::_('COM_FINDER_FILTER_DATE2_OPERATOR');
             $html .= '</label>';
             $html .= HTMLHelper::_(
