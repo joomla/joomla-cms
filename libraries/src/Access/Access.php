@@ -20,7 +20,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -1063,7 +1063,7 @@ class Access
             foreach ($elements as $element) {
                 // Add the action to the actions array
                 $action = [
-                    'name' => (string) $element['name'],
+                    'name'  => (string) $element['name'],
                     'title' => (string) $element['title'],
                 ];
 

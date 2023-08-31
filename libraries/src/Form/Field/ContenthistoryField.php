@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -56,9 +56,9 @@ class ContenthistoryField extends FormField
             . $this->id . '&amp;item_id=' . $itemId . '&amp;' . Session::getFormToken() . '=1';
 
         $extraData = [
-            'item' => $itemId,
+            'item'  => $itemId,
             'label' => $label,
-            'link' => $link,
+            'link'  => $link,
         ];
 
         return array_merge($data, $extraData);

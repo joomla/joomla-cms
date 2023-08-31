@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Extension;
@@ -20,7 +20,7 @@ use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -128,7 +128,7 @@ trait ExtensionManagerTrait
                     'subject'       => $this,
                     'type'          => $type,
                     'extensionName' => $extensionName,
-                    'container'     => $container
+                    'container'     => $container,
                 ]
             )
         );
@@ -169,7 +169,7 @@ trait ExtensionManagerTrait
                     'subject'       => $this,
                     'type'          => $type,
                     'extensionName' => $extensionName,
-                    'container'     => $container
+                    'container'     => $container,
                 ]
             )
         );
@@ -219,8 +219,13 @@ trait ExtensionManagerTrait
         // Compile the classname
         $className = 'Plg' . str_replace('-', '', $type) . $plugin;
 
+        // Editors don't follow the convention
+        if ($type === 'editors') {
+            $className = 'PlgEditor' . ucfirst($plugin);
+        }
+
+        // Editor buttons don't follow the convention
         if ($type === 'editors-xtd') {
-            // This type doesn't follow the convention
             $className = 'PlgEditorsXtd' . $plugin;
 
             if (!class_exists($className)) {

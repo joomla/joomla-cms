@@ -15,7 +15,7 @@ use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -64,11 +64,11 @@ class Router
      * @since  1.5
      */
     protected $rules = [
-        'buildpreprocess' => [],
-        'build' => [],
+        'buildpreprocess'  => [],
+        'build'            => [],
         'buildpostprocess' => [],
-        'parsepreprocess' => [],
-        'parse' => [],
+        'parsepreprocess'  => [],
+        'parse'            => [],
         'parsepostprocess' => [],
     ];
 
@@ -101,7 +101,9 @@ class Router
      *
      * @throws     \RuntimeException
      *
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     * @deprecated  4.0 will be removed in 6.0
+     *              Inject the router or load it from the dependency injection container
+     *              Example: Factory::getContainer()->get(SiteRouter::class);
      */
     public static function getInstance($client, $options = [])
     {

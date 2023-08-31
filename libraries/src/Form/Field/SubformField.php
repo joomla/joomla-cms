@@ -9,13 +9,13 @@
 
 namespace Joomla\CMS\Form\Field;
 
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -69,7 +69,7 @@ class SubformField extends FormField
 
     /**
      * Which buttons to show in multiple mode
-     * @var array $buttons
+     * @var boolean[] $buttons
      */
     protected $buttons = ['add' => true, 'remove' => true, 'move' => true];
 
@@ -132,7 +132,7 @@ class SubformField extends FormField
 
             case 'groupByFieldset':
                 if ($value !== null) {
-                    $value = (string) $value;
+                    $value                 = (string) $value;
                     $this->groupByFieldset = !($value === 'false' || $value === 'off' || $value === '0');
                 }
                 break;
@@ -160,7 +160,7 @@ class SubformField extends FormField
                 }
 
                 if ($value) {
-                    $value = array_merge(['add' => false, 'remove' => false, 'move' => false], $value);
+                    $value         = array_merge(['add' => false, 'remove' => false, 'move' => false], $value);
                     $this->buttons = $value;
                 }
 
@@ -240,14 +240,14 @@ class SubformField extends FormField
             return $e->getMessage();
         }
 
-        $data['tmpl']      = $tmpl;
-        $data['forms']     = $forms;
-        $data['min']       = $this->min;
-        $data['max']       = $this->max;
-        $data['control']   = $control;
-        $data['buttons']   = $this->buttons;
-        $data['fieldname'] = $this->fieldname;
-        $data['fieldId']   = $this->id;
+        $data['tmpl']            = $tmpl;
+        $data['forms']           = $forms;
+        $data['min']             = $this->min;
+        $data['max']             = $this->max;
+        $data['control']         = $control;
+        $data['buttons']         = $this->buttons;
+        $data['fieldname']       = $this->fieldname;
+        $data['fieldId']         = $this->id;
         $data['groupByFieldset'] = $this->groupByFieldset;
 
         /**
@@ -255,7 +255,7 @@ class SubformField extends FormField
          * separate unique subform id present to could distinguish the eventhandlers
          * regarding adding/moving/removing rows from nested subforms from their parents.
          */
-        static $unique_subform_id = 0;
+        static $unique_subform_id  = 0;
         $data['unique_subform_id'] = ('sr-' . ($unique_subform_id++));
 
         // Prepare renderer
@@ -397,9 +397,9 @@ class SubformField extends FormField
     /**
      * Method to filter a field value.
      *
-     * @param   mixed     $value  The optional value to use as the default for the field.
-     * @param   string    $group  The optional dot-separated form group path on which to find the field.
-     * @param   Registry  $input  An optional Registry object with the entire data set to filter
+     * @param   mixed      $value  The optional value to use as the default for the field.
+     * @param   string     $group  The optional dot-separated form group path on which to find the field.
+     * @param   ?Registry  $input  An optional Registry object with the entire data set to filter
      *                            against the entire form.
      *
      * @return  mixed   The filtered value.

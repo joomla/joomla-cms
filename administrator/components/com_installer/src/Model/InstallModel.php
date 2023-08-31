@@ -12,7 +12,6 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\Text;
@@ -21,6 +20,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -101,8 +101,8 @@ class InstallModel extends BaseDatabaseModel
             return false;
         }
 
-        $installType = $app->input->getWord('installtype');
-        $installLang = $app->input->getWord('package');
+        $installType = $app->getInput()->getWord('installtype');
+        $installLang = $app->getInput()->getWord('package');
 
         if ($package === null) {
             switch ($installType) {
@@ -194,13 +194,13 @@ class InstallModel extends BaseDatabaseModel
         // Install the package.
         if (!$installer->install($package['dir'])) {
             // There was an error installing the package.
-            $msg = Text::sprintf('COM_INSTALLER_INSTALL_ERROR', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
-            $result = false;
+            $msg     = Text::sprintf('COM_INSTALLER_INSTALL_ERROR', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+            $result  = false;
             $msgType = 'error';
         } else {
             // Package installed successfully.
-            $msg = Text::sprintf('COM_INSTALLER_INSTALL_SUCCESS', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($installLang . $package['type'])));
-            $result = true;
+            $msg     = Text::sprintf('COM_INSTALLER_INSTALL_SUCCESS', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($installLang . $package['type'])));
+            $result  = true;
             $msgType = 'message';
         }
 
@@ -239,7 +239,7 @@ class InstallModel extends BaseDatabaseModel
     protected function _getPackageFromUpload()
     {
         // Get the uploaded file information.
-        $input    = Factory::getApplication()->input;
+        $input    = Factory::getApplication()->getInput();
 
         // Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See \JInputFiles::get.
         $userfile = $input->files->get('install_package', null, 'raw');
@@ -315,7 +315,7 @@ class InstallModel extends BaseDatabaseModel
      */
     protected function _getPackageFromFolder()
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Get the path to the package to install.
         $p_dir = $input->getString('install_directory');
@@ -337,9 +337,9 @@ class InstallModel extends BaseDatabaseModel
         }
 
         $package['packagefile'] = null;
-        $package['extractdir'] = null;
-        $package['dir'] = $p_dir;
-        $package['type'] = $type;
+        $package['extractdir']  = null;
+        $package['dir']         = $p_dir;
+        $package['type']        = $type;
 
         return $package;
     }
@@ -353,7 +353,7 @@ class InstallModel extends BaseDatabaseModel
      */
     protected function _getPackageFromUrl()
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Get the URL of the package to install.
         $url = $input->getString('install_url');

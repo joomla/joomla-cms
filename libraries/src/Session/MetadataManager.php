@@ -18,7 +18,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Session\SessionInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -245,7 +245,7 @@ final class MetadataManager
             $clientId = $this->app->getClientId();
 
             $columns[] = $this->db->quoteName('client_id');
-            $values[] = ':client_id';
+            $values[]  = ':client_id';
 
             $query->bind(':client_id', $clientId, ParameterType::INTEGER);
         }

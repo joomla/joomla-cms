@@ -13,7 +13,6 @@ namespace Joomla\Component\Menus\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
@@ -23,6 +22,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -93,7 +93,7 @@ class ItemModel extends AdminModel
      */
     protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
-        'language_id'   => 'batchLanguage'
+        'language_id'   => 'batchLanguage',
     ];
 
     /**
@@ -117,7 +117,7 @@ class ItemModel extends AdminModel
             $menuTypeId = $this->getMenuTypeId($record->menutype);
         }
 
-        return Factory::getUser()->authorise('core.delete', 'com_menus.menu.' . (int) $menuTypeId);
+        return $this->getCurrentUser()->authorise('core.delete', 'com_menus.menu.' . (int) $menuTypeId);
     }
 
     /**
@@ -134,7 +134,7 @@ class ItemModel extends AdminModel
         $menuTypeId = !empty($record->menutype) ? $this->getMenuTypeId($record->menutype) : 0;
         $assetKey   = $menuTypeId ? 'com_menus.menu.' . (int) $menuTypeId : 'com_menus';
 
-        return Factory::getUser()->authorise('core.edit.state', $assetKey);
+        return $this->getCurrentUser()->authorise('core.edit.state', $assetKey);
     }
 
     /**
@@ -186,7 +186,7 @@ class ItemModel extends AdminModel
         }
 
         // Check that user has create permission for menus
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $menuTypeId = (int) $this->getMenuTypeId($menuType);
 
@@ -256,7 +256,7 @@ class ItemModel extends AdminModel
             }
 
             // Make a copy of the old ID and Parent ID
-            $oldId = $table->id;
+            $oldId       = $table->id;
             $oldParentId = $table->parent_id;
 
             // Reset the id because we are making a copy.
@@ -265,7 +265,7 @@ class ItemModel extends AdminModel
             // If we a copying children, the Old ID will turn up in the parents list
             // otherwise it's a new top level item
             $table->parent_id = isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
-            $table->menutype = $menuType;
+            $table->menutype  = $menuType;
 
             // Set the new location in the tree for the node.
             $table->setLocation($table->parent_id, 'last-child');
@@ -279,8 +279,8 @@ class ItemModel extends AdminModel
 
             // Alter the title & alias
             list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
-            $table->title = $title;
-            $table->alias = $alias;
+            $table->title        = $title;
+            $table->alias        = $alias;
 
             // Check the row.
             if (!$table->check()) {
@@ -365,7 +365,7 @@ class ItemModel extends AdminModel
         }
 
         // Check that user has create and edit permission for menus
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $menuTypeId = (int) $this->getMenuTypeId($menuType);
 
@@ -482,7 +482,7 @@ class ItemModel extends AdminModel
      */
     protected function canSave($data = [], $key = 'id')
     {
-        return Factory::getUser()->authorise('core.edit', $this->option);
+        return $this->getCurrentUser()->authorise('core.edit', $this->option);
     }
 
     /**
@@ -578,7 +578,7 @@ class ItemModel extends AdminModel
         // For a new menu item, pre-select some filters (Status, Language, Access) in edit form if those have been selected in Menu Manager
         if (empty($data['id'])) {
             // Get selected fields
-            $filters = Factory::getApplication()->getUserState('com_menus.items.filter');
+            $filters           = Factory::getApplication()->getUserState('com_menus.items.filter');
             $data['parent_id'] = $data['parent_id'] ?? ($filters['parent_id'] ?? null);
             $data['published'] = $data['published'] ?? ($filters['published'] ?? null);
             $data['language']  = $data['language'] ?? ($filters['language'] ?? null);
@@ -646,7 +646,7 @@ class ItemModel extends AdminModel
             $table->parent_id = $this->getState('item.parent_id');
             $table->menutype  = $this->getState('item.menutype');
             $table->client_id = $this->getState('item.client_id');
-            $table->params = '{}';
+            $table->params    = '{}';
         }
 
         // If the link has been set in the state, possibly changing link type.
@@ -661,7 +661,7 @@ class ItemModel extends AdminModel
             case 'alias':
             case 'url':
                 $table->component_id = 0;
-                $args = [];
+                $args                = [];
 
                 if ($table->link) {
                     $q = parse_url($table->link, PHP_URL_QUERY);
@@ -676,7 +676,7 @@ class ItemModel extends AdminModel
             case 'separator':
             case 'heading':
             case 'container':
-                $table->link = '';
+                $table->link         = '';
                 $table->component_id = 0;
                 break;
 
@@ -700,7 +700,7 @@ class ItemModel extends AdminModel
                     // Load the language file for the component.
                     $lang = Factory::getLanguage();
                     $lang->load($args['option'], JPATH_ADMINISTRATOR)
-                    || $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option']);
+                        || $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option']);
 
                     // Determine the component id.
                     $component = ComponentHelper::getComponent($args['option']);
@@ -717,17 +717,17 @@ class ItemModel extends AdminModel
 
         // Convert to the \Joomla\CMS\Object\CMSObject before adding the params.
         $properties = $table->getProperties(1);
-        $result = ArrayHelper::toObject($properties);
+        $result     = ArrayHelper::toObject($properties);
 
         // Convert the params field to an array.
-        $registry = new Registry($table->params);
+        $registry       = new Registry($table->params);
         $result->params = $registry->toArray();
 
         // Merge the request arguments in to the params for a component.
         if ($table->type == 'component') {
             // Note that all request arguments become reserved parameter names.
             $result->request = $args;
-            $result->params = array_merge($result->params, $args);
+            $result->params  = array_merge($result->params, $args);
 
             // Special case for the Login menu item.
             // Display the login or logout redirect URL fields if not empty
@@ -930,7 +930,7 @@ class ItemModel extends AdminModel
         $app = Factory::getApplication();
 
         // Load the User state.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
         $this->setState('item.id', $pk);
 
         if (!$app->isClient('api')) {
@@ -938,11 +938,11 @@ class ItemModel extends AdminModel
             $menuType = $app->getUserStateFromRequest('com_menus.items.menutype', 'menutype', '', 'string');
         } else {
             $parentId = null;
-            $menuType = $app->input->get('com_menus.items.menutype');
+            $menuType = $app->getInput()->get('com_menus.items.menutype');
         }
 
         if (!$parentId) {
-            $parentId = $app->input->getInt('parent_id');
+            $parentId = $app->getInput()->getInt('parent_id');
         }
 
         $this->setState('item.parent_id', $parentId);
@@ -957,12 +957,12 @@ class ItemModel extends AdminModel
             $clientId   = (int) $menuTypeObj->client_id;
         } else {
             $menuTypeId = 0;
-            $clientId   = $app->isClient('api') ? $app->input->get('client_id') :
+            $clientId   = $app->isClient('api') ? $app->getInput()->get('client_id') :
                 $app->getUserState('com_menus.items.client_id', 0);
         }
 
         // Forced client id will override/clear menuType if conflicted
-        $forcedClientId = $app->input->get('client_id', null, 'string');
+        $forcedClientId = $app->getInput()->get('client_id', null, 'string');
 
         if (!$app->isClient('api')) {
             // Set the menu type and client id on the list view state, so we return to this menu after saving.
@@ -988,7 +988,7 @@ class ItemModel extends AdminModel
         $this->setState('item.menutypeid', $menuTypeId);
 
         if (!($type = $app->getUserState('com_menus.edit.item.type'))) {
-            $type = $app->input->get('type');
+            $type = $app->getInput()->get('type');
 
             /**
              * Note: a new menu item will have no field type.
@@ -998,7 +998,7 @@ class ItemModel extends AdminModel
 
         $this->setState('item.type', $type);
 
-        $link = $app->isClient('api') ? $app->input->get('link') :
+        $link = $app->isClient('api') ? $app->getInput()->get('link') :
             $app->getUserState('com_menus.edit.item.link');
 
         if ($link) {
@@ -1080,12 +1080,12 @@ class ItemModel extends AdminModel
 
             // Confirm that the option is defined.
             $option = '';
-            $base = '';
+            $base   = '';
 
             if (isset($args['option'])) {
                 // The option determines the base path to work with.
                 $option = $args['option'];
-                $base = $clientInfo->path . '/components/' . $option;
+                $base   = $clientInfo->path . '/components/' . $option;
             }
 
             if (isset($args['view'])) {
@@ -1128,7 +1128,7 @@ class ItemModel extends AdminModel
                 if (isset($view)) {
                     $metadataFolders = [
                         $base . '/view/' . $view,
-                        $base . '/views/' . $view
+                        $base . '/views/' . $view,
                     ];
                     $metaPath = Path::find($metadataFolders, 'metadata.xml');
 
@@ -1180,8 +1180,8 @@ class ItemModel extends AdminModel
             $helpURL = trim((string) $help[0]['url']);
             $helpLoc = trim((string) $help[0]['local']);
 
-            $this->helpKey = $helpKey ?: $this->helpKey;
-            $this->helpURL = $helpURL ?: $this->helpURL;
+            $this->helpKey   = $helpKey ?: $this->helpKey;
+            $this->helpURL   = $helpURL ?: $this->helpURL;
             $this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local'));
         }
 
@@ -1195,7 +1195,7 @@ class ItemModel extends AdminModel
 
             if (count($languages) > 1) {
                 $addform = new \SimpleXMLElement('<form />');
-                $fields = $addform->addChild('fields');
+                $fields  = $addform->addChild('fields');
                 $fields->addAttribute('name', 'associations');
                 $fieldset = $fields->addChild('fieldset');
                 $fieldset->addAttribute('name', 'item_associations');
@@ -1235,7 +1235,7 @@ class ItemModel extends AdminModel
     public function rebuild()
     {
         // Initialise variables.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
         $table = $this->getTable();
 
@@ -1379,14 +1379,14 @@ class ItemModel extends AdminModel
         }
 
         // Alter the title & alias for save2copy when required. Also, unset the home record.
-        if (Factory::getApplication()->input->get('task') === 'save2copy' && $data['id'] === 0) {
+        if (Factory::getApplication()->getInput()->get('task') === 'save2copy' && $data['id'] === 0) {
             $origTable = $this->getTable();
             $origTable->load($this->getState('item.id'));
 
             if ($table->title === $origTable->title) {
                 list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
-                $table->title = $title;
-                $table->alias = $alias;
+                $table->title        = $title;
+                $table->alias        = $alias;
             }
 
             if ($table->alias === $origTable->alias) {
@@ -1419,6 +1419,13 @@ class ItemModel extends AdminModel
 
         // Rebuild the tree path.
         if (!$table->rebuildPath($table->id)) {
+            $this->setError($table->getError());
+
+            return false;
+        }
+
+        // Rebuild the paths of the menu item's children:
+        if (!$table->rebuild($table->id, $table->lft, $table->level, $table->path)) {
             $this->setError($table->getError());
 
             return false;
@@ -1561,15 +1568,15 @@ class ItemModel extends AdminModel
         $this->cleanCache();
 
         if (isset($data['link'])) {
-            $base = Uri::base();
-            $juri = Uri::getInstance($base . $data['link']);
+            $base   = Uri::base();
+            $juri   = Uri::getInstance($base . $data['link']);
             $option = $juri->getVar('option');
 
             // Clean the cache
             parent::cleanCache($option);
         }
 
-        if (Factory::getApplication()->input->get('task') === 'editAssociations') {
+        if (Factory::getApplication()->getInput()->get('task') === 'editAssociations') {
             return $this->redirectToAssociations($data);
         }
 
@@ -1618,10 +1625,10 @@ class ItemModel extends AdminModel
     public function setHome(&$pks, $value = 1)
     {
         $table = $this->getTable();
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
 
         $languages = [];
-        $onehome = false;
+        $onehome   = false;
 
         // Remember that we can set a home page for different languages,
         // so we need to loop through the primary key array.
@@ -1744,7 +1751,8 @@ class ItemModel extends AdminModel
      * Custom clean the cache
      *
      * @param   string   $group     Cache group name.
-     * @param   integer  $clientId  @deprecated  5.0  No Longer Used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Fields\Administrator\Field">
 	<fieldset>
 		<field
@@ -246,6 +246,13 @@
 					<option value="">COM_FIELDS_FIELD_EDITABLE_IN_BOTH</option>
 				</field>
 
+				<field
+					name="showon"
+					type="text"
+					label="COM_FIELDS_FIELD_SHOWON_LABEL"
+					description="COM_FIELDS_FIELD_SHOWON_DESC"
+				/>
+
 			</fieldset>
 			<fieldset name="renderoptions" label="COM_FIELDS_FIELD_RENDEROPTIONS_HEADING">
 
@@ -263,6 +270,7 @@
 					label="COM_FIELDS_FIELD_VALUE_RENDER_CLASS_LABEL"
 					description="COM_FIELDS_FIELD_VALUE_RENDER_CLASS_DESC"
 					size="40"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -326,6 +334,20 @@
 					<option value="2">JGLOBAL_INHERIT</option>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+			<fieldset name="smartsearchoptions" label="COM_FIELDS_FIELD_SMARTSEARCHOPTIONS_HEADING">
+				<field
+					name="searchindex"
+					type="list"
+					label="COM_FIELDS_FIELD_SEARCHINDEX_LABEL"
+					default="0"
+					validate="options"
+					>
+					<option value="0">COM_FIELDS_FIELD_SEARCHINDEX_DONT</option>
+					<option value="1">COM_FIELDS_FIELD_SEARCHINDEX_SEARCHABLE</option>
+					<option value="2">COM_FIELDS_FIELD_SEARCHINDEX_TAXONOMY</option>
+					<option value="3">COM_FIELDS_FIELD_SEARCHINDEX_BOTH</option>
 				</field>
 			</fieldset>
 		</fieldset>

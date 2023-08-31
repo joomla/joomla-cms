@@ -46,6 +46,12 @@ use Joomla\CMS\Uri\Uri;
     <?php // Exit this template. ?>
     <?php return; ?>
 <?php endif; ?>
+<?php // Display the 'Sort By' drop-down. ?>
+<?php if ($this->params->get('show_sort_order', 0) && !empty($this->sortOrderFields) && !empty($this->results)) : ?>
+    <div id="search-sorting" class="com-finder__sorting">
+        <?php echo $this->loadTemplate('sorting'); ?>
+    </div>
+<?php endif; ?>
 <?php // Activate the highlighter if enabled. ?>
 <?php if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1)) : ?>
     <?php
@@ -60,7 +66,7 @@ use Joomla\CMS\Uri\Uri;
     ?>
 <?php endif; ?>
 <?php // Display a list of results ?>
-<ol id="search-result-list" class="js-highlight com-finder__results-list" start="<?php echo (int) $this->pagination->limitstart + 1; ?>">
+<ul id="search-result-list" class="js-highlight com-finder__results-list" start="<?php echo (int) $this->pagination->limitstart + 1; ?>">
     <?php $this->baseUrl = Uri::getInstance()->toString(['scheme', 'host', 'port']); ?>
     <?php foreach ($this->results as $i => $result) : ?>
         <?php $this->result = &$result; ?>
@@ -68,7 +74,7 @@ use Joomla\CMS\Uri\Uri;
         <?php $layout = $this->getLayoutFile($this->result->layout); ?>
         <?php echo $this->loadTemplate($layout); ?>
     <?php endforeach; ?>
-</ol>
+</ul>
 <?php // Display the pagination ?>
 <div class="com-finder__navigation search-pagination">
     <?php if ($this->params->get('show_pagination', 1) > 0) : ?>

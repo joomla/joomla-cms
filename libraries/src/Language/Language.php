@@ -10,10 +10,11 @@
 namespace Joomla\CMS\Language;
 
 use Joomla\CMS\Factory;
+use Joomla\Language\Language as BaseLanguage;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -21,7 +22,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.7.0
  */
-class Language
+class Language extends BaseLanguage
 {
     /**
      * Array of Language objects
@@ -32,70 +33,6 @@ class Language
     protected static $languages = [];
 
     /**
-     * Debug language, If true, highlights if string isn't found.
-     *
-     * @var    boolean
-     * @since  1.7.0
-     */
-    protected $debug = false;
-
-    /**
-     * The default language, used when a language file in the requested language does not exist.
-     *
-     * @var    string
-     * @since  1.7.0
-     */
-    protected $default = 'en-GB';
-
-    /**
-     * An array of orphaned text.
-     *
-     * @var    array
-     * @since  1.7.0
-     */
-    protected $orphans = [];
-
-    /**
-     * Array holding the language metadata.
-     *
-     * @var    array
-     * @since  1.7.0
-     */
-    protected $metadata = null;
-
-    /**
-     * Array holding the language locale or boolean null if none.
-     *
-     * @var    array|boolean
-     * @since  1.7.0
-     */
-    protected $locale = null;
-
-    /**
-     * The language to load.
-     *
-     * @var    string
-     * @since  1.7.0
-     */
-    protected $lang = null;
-
-    /**
-     * A nested array of language files that have been loaded
-     *
-     * @var    array
-     * @since  1.7.0
-     */
-    protected $paths = [];
-
-    /**
-     * List of language files that are in error state
-     *
-     * @var    array
-     * @since  1.7.0
-     */
-    protected $errorfiles = [];
-
-    /**
      * Translations
      *
      * @var    array
@@ -104,33 +41,9 @@ class Language
     protected $strings = [];
 
     /**
-     * An array of used text, used during debugging.
-     *
-     * @var    array
-     * @since  1.7.0
-     */
-    protected $used = [];
-
-    /**
-     * Counter for number of loads.
-     *
-     * @var    integer
-     * @since  1.7.0
-     */
-    protected $counter = 0;
-
-    /**
-     * An array used to store overrides.
-     *
-     * @var    array
-     * @since  1.7.0
-     */
-    protected $override = [];
-
-    /**
      * Name of the transliterator function for this language.
      *
-     * @var    string
+     * @var    callable
      * @since  1.7.0
      */
     protected $transliterator = null;
@@ -148,6 +61,8 @@ class Language
      *
      * @var    callable
      * @since  1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     protected $ignoredSearchWordsCallback = null;
 
@@ -156,6 +71,8 @@ class Language
      *
      * @var    callable
      * @since  1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     protected $lowerLimitSearchWordCallback = null;
 
@@ -164,6 +81,8 @@ class Language
      *
      * @var    callable
      * @since  1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     protected $upperLimitSearchWordCallback = null;
 
@@ -172,6 +91,8 @@ class Language
      *
      * @var    callable
      * @since  1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     protected $searchDisplayedCharactersNumberCallback = null;
 
@@ -191,7 +112,7 @@ class Language
             $lang = $this->default;
         }
 
-        $this->lang = $lang;
+        $this->lang     = $lang;
         $this->metadata = LanguageHelper::getMetadata($this->lang);
         $this->setDebug($debug);
 
@@ -282,7 +203,10 @@ class Language
      * @return  Language  The Language object.
      *
      * @since       1.7.0
-     * @deprecated  5.0 Use the language factory instead
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the language factory instead
+     *              Example: Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($lang, $debug);
      */
     public static function getInstance($lang, $debug = false)
     {
@@ -321,7 +245,7 @@ class Language
 
             // Store debug information
             if ($this->debug) {
-                $value = Factory::getApplication()->get('debug_lang_const', true) ? $string : $key;
+                $value  = Factory::getApplication()->get('debug_lang_const', true) ? $string : $key;
                 $string = '**' . $value . '**';
 
                 $caller = $this->getCallerInfo();
@@ -334,9 +258,9 @@ class Language
             }
         } else {
             if ($this->debug) {
-                $info = [];
-                $info['trace'] = $this->getTrace();
-                $info['key'] = $key;
+                $info           = [];
+                $info['trace']  = $this->getTrace();
+                $info['key']    = $key;
                 $info['string'] = $string;
 
                 if (!\array_key_exists($key, $this->orphans)) {
@@ -422,7 +346,7 @@ class Language
      */
     public function setTransliterator(callable $function)
     {
-        $previous = $this->transliterator;
+        $previous             = $this->transliterator;
         $this->transliterator = $function;
 
         return $previous;
@@ -469,7 +393,7 @@ class Language
      */
     public function setPluralSuffixesCallback(callable $function)
     {
-        $previous = $this->pluralSuffixesCallback;
+        $previous                     = $this->pluralSuffixesCallback;
         $this->pluralSuffixesCallback = $function;
 
         return $previous;
@@ -481,6 +405,8 @@ class Language
      * @return  array  The array of ignored search words.
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function getIgnoredSearchWords()
     {
@@ -497,6 +423,8 @@ class Language
      * @return  callable  Function name or the actual function.
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function getIgnoredSearchWordsCallback()
     {
@@ -511,10 +439,12 @@ class Language
      * @return  callable  The previous function.
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function setIgnoredSearchWordsCallback(callable $function)
     {
-        $previous = $this->ignoredSearchWordsCallback;
+        $previous                         = $this->ignoredSearchWordsCallback;
         $this->ignoredSearchWordsCallback = $function;
 
         return $previous;
@@ -526,6 +456,8 @@ class Language
      * @return  integer  The lower limit integer for length of search words (3 if no value was set for a specific language).
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function getLowerLimitSearchWord()
     {
@@ -542,6 +474,8 @@ class Language
      * @return  callable  Function name or the actual function.
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function getLowerLimitSearchWordCallback()
     {
@@ -556,10 +490,12 @@ class Language
      * @return  callable  The previous function.
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function setLowerLimitSearchWordCallback(callable $function)
     {
-        $previous = $this->lowerLimitSearchWordCallback;
+        $previous                           = $this->lowerLimitSearchWordCallback;
         $this->lowerLimitSearchWordCallback = $function;
 
         return $previous;
@@ -571,6 +507,8 @@ class Language
      * @return  integer  The upper limit integer for length of search words (200 if no value was set or if default value is < 200).
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function getUpperLimitSearchWord()
     {
@@ -587,6 +525,8 @@ class Language
      * @return  callable  Function name or the actual function.
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function getUpperLimitSearchWordCallback()
     {
@@ -601,10 +541,12 @@ class Language
      * @return  callable  The previous function.
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function setUpperLimitSearchWordCallback(callable $function)
     {
-        $previous = $this->upperLimitSearchWordCallback;
+        $previous                           = $this->upperLimitSearchWordCallback;
         $this->upperLimitSearchWordCallback = $function;
 
         return $previous;
@@ -616,6 +558,8 @@ class Language
      * @return  integer  The number of characters displayed (200 if no value was set for a specific language).
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function getSearchDisplayedCharactersNumber()
     {
@@ -632,6 +576,8 @@ class Language
      * @return  callable  Function name or the actual function.
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function getSearchDisplayedCharactersNumberCallback()
     {
@@ -646,10 +592,12 @@ class Language
      * @return  callable  The previous function.
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function setSearchDisplayedCharactersNumberCallback(callable $function)
     {
-        $previous = $this->searchDisplayedCharactersNumberCallback;
+        $previous                                      = $this->searchDisplayedCharactersNumberCallback;
         $this->searchDisplayedCharactersNumberCallback = $function;
 
         return $previous;
@@ -735,7 +683,7 @@ class Language
 
         if ($strings !== []) {
             $this->strings = array_replace($this->strings, $strings, $this->override);
-            $result = true;
+            $result        = true;
         }
 
         // Record the result of loading the extension's file.
@@ -779,7 +727,7 @@ class Language
      * @since   3.6.3
      * @throws  \InvalidArgumentException
      */
-    public function debugFile($filename)
+    public function debugFile(string $filename): int
     {
         // Make sure our file actually exists
         if (!is_file($filename)) {
@@ -790,9 +738,9 @@ class Language
 
         // Initialise variables for manually parsing the file for common errors.
         $reservedWord = ['YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE'];
-        $debug = $this->getDebug();
-        $this->debug = false;
-        $errors = [];
+        $debug        = $this->getDebug();
+        $this->debug  = false;
+        $errors       = [];
         $php_errormsg = null;
 
         // Open the file as a stream.
@@ -855,25 +803,6 @@ class Language
     }
 
     /**
-     * Get a metadata language property.
-     *
-     * @param   string  $property  The name of the property.
-     * @param   mixed   $default   The default value.
-     *
-     * @return  mixed  The value of the property.
-     *
-     * @since   1.7.0
-     */
-    public function get($property, $default = null)
-    {
-        if (isset($this->metadata[$property])) {
-            return $this->metadata[$property];
-        }
-
-        return $default;
-    }
-
-    /**
      * Get a back trace.
      *
      * @return array
@@ -883,59 +812,6 @@ class Language
     protected function getTrace()
     {
         return \function_exists('debug_backtrace') ? debug_backtrace() : [];
-    }
-
-    /**
-     * Determine who called Language or Text.
-     *
-     * @return  array  Caller information.
-     *
-     * @since   1.7.0
-     */
-    protected function getCallerInfo()
-    {
-        // Try to determine the source if none was provided
-        if (!\function_exists('debug_backtrace')) {
-            return;
-        }
-
-        $backtrace = debug_backtrace();
-        $info = [];
-
-        // Search through the backtrace to our caller
-        $continue = true;
-
-        while ($continue && next($backtrace)) {
-            $step = current($backtrace);
-            $class = @ $step['class'];
-
-            // We're looking for something outside of language.php
-            if ($class != self::class && $class != Text::class) {
-                $info['function'] = @ $step['function'];
-                $info['class'] = $class;
-                $info['step'] = prev($backtrace);
-
-                // Determine the file and name of the file
-                $info['file'] = @ $step['file'];
-                $info['line'] = @ $step['line'];
-
-                $continue = false;
-            }
-        }
-
-        return $info;
-    }
-
-    /**
-     * Getter for Name.
-     *
-     * @return  string  Official name element of the language.
-     *
-     * @since   1.7.0
-     */
-    public function getName()
-    {
-        return $this->metadata['name'];
     }
 
     /**
@@ -961,30 +837,6 @@ class Language
     }
 
     /**
-     * Get a list of language files that are in error state.
-     *
-     * @return  array
-     *
-     * @since   1.7.0
-     */
-    public function getErrorFiles()
-    {
-        return $this->errorfiles;
-    }
-
-    /**
-     * Getter for the language tag (as defined in RFC 3066)
-     *
-     * @return  string  The language tag.
-     *
-     * @since   1.7.0
-     */
-    public function getTag()
-    {
-        return $this->metadata['tag'];
-    }
-
-    /**
      * Getter for the calendar type
      *
      * @return  string  The calendar type.
@@ -998,102 +850,6 @@ class Language
         } else {
             return 'gregorian';
         }
-    }
-
-    /**
-     * Get the RTL property.
-     *
-     * @return  boolean  True is it an RTL language.
-     *
-     * @since   1.7.0
-     */
-    public function isRtl()
-    {
-        return (bool) $this->metadata['rtl'];
-    }
-
-    /**
-     * Set the Debug property.
-     *
-     * @param   boolean  $debug  The debug setting.
-     *
-     * @return  boolean  Previous value.
-     *
-     * @since   1.7.0
-     */
-    public function setDebug($debug)
-    {
-        $previous = $this->debug;
-        $this->debug = (bool) $debug;
-
-        return $previous;
-    }
-
-    /**
-     * Get the Debug property.
-     *
-     * @return  boolean  True is in debug mode.
-     *
-     * @since   1.7.0
-     */
-    public function getDebug()
-    {
-        return $this->debug;
-    }
-
-    /**
-     * Get the default language code.
-     *
-     * @return  string  Language code.
-     *
-     * @since   1.7.0
-     */
-    public function getDefault()
-    {
-        return $this->default;
-    }
-
-    /**
-     * Set the default language code.
-     *
-     * @param   string  $lang  The language code.
-     *
-     * @return  string  Previous value.
-     *
-     * @since   1.7.0
-     */
-    public function setDefault($lang)
-    {
-        $previous = $this->default;
-        $this->default = $lang;
-
-        return $previous;
-    }
-
-    /**
-     * Get the list of orphaned strings if being tracked.
-     *
-     * @return  array  Orphaned text.
-     *
-     * @since   1.7.0
-     */
-    public function getOrphans()
-    {
-        return $this->orphans;
-    }
-
-    /**
-     * Get the list of used strings.
-     *
-     * Used strings are those strings requested and found either as a string or a constant.
-     *
-     * @return  array  Used strings.
-     *
-     * @since   1.7.0
-     */
-    public function getUsed()
-    {
-        return $this->used;
     }
 
     /**
@@ -1112,51 +868,5 @@ class Language
         }
 
         return isset($this->strings[strtoupper($string)]);
-    }
-
-    /**
-     * Get the language locale based on current language.
-     *
-     * @return  array  The locale according to the language.
-     *
-     * @since   1.7.0
-     */
-    public function getLocale()
-    {
-        if (!isset($this->locale)) {
-            $locale = str_replace(' ', '', $this->metadata['locale'] ?? '');
-
-            if ($locale) {
-                $this->locale = explode(',', $locale);
-            } else {
-                $this->locale = false;
-            }
-        }
-
-        return $this->locale;
-    }
-
-    /**
-     * Get the first day of the week for this language.
-     *
-     * @return  integer  The first day of the week according to the language
-     *
-     * @since   1.7.0
-     */
-    public function getFirstDay()
-    {
-        return (int) ($this->metadata['firstDay'] ?? 0);
-    }
-
-    /**
-     * Get the weekends days for this language.
-     *
-     * @return  string  The weekend days of the week separated by a comma according to the language
-     *
-     * @since   3.2
-     */
-    public function getWeekEnd()
-    {
-        return $this->metadata['weekEnd'] ?? '0,6';
     }
 }

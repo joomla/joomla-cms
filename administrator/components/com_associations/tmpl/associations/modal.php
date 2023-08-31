@@ -29,10 +29,10 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('multiselect')
     ->useScript('com_associations.admin-associations-modal');
 
-$function         = $app->input->getCmd('function', 'jSelectAssociation');
+$function         = $app->getInput()->getCmd('function', 'jSelectAssociation');
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
-$canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
+$canManageCheckin = $this->getCurrentUser()->authorise('core.manage', 'com_checkin');
 
 $iconStates = [
     -2 => 'icon-trash',
@@ -163,8 +163,8 @@ $this->document->addScriptOptions('associations-modal', ['func' => $function]);
         <?php endif; ?>
 
         <input type="hidden" name="task" value="">
-        <input type="hidden" name="forcedItemType" value="<?php echo $app->input->get('forcedItemType', '', 'string'); ?>">
-        <input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'cmd'); ?>">
+        <input type="hidden" name="forcedItemType" value="<?php echo $app->getInput()->get('forcedItemType', '', 'string'); ?>">
+        <input type="hidden" name="forcedLanguage" value="<?php echo $app->getInput()->get('forcedLanguage', '', 'cmd'); ?>">
         <?php echo HTMLHelper::_('form.token'); ?>
     </form>
 </div>

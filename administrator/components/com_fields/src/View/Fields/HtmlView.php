@@ -11,7 +11,6 @@
 namespace Joomla\Component\Fields\Administrator\View\Fields;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -19,9 +18,11 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -63,7 +64,7 @@ class HtmlView extends BaseHtmlView
     protected $pagination;
 
     /**
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      *
      * @since  3.7.0
      */
@@ -126,9 +127,7 @@ class HtmlView extends BaseHtmlView
         $component = $this->state->get('filter.component');
         $section   = $this->state->get('filter.section');
         $canDo     = ContentHelper::getActions($component, 'field', $fieldId);
-
-        // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar   = Toolbar::getInstance();
 
         // Avoid nonsense situation.
         if ($component == 'com_fields') {
@@ -136,7 +135,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Load extension language file
-        $lang = Factory::getLanguage();
+        $lang = $this->getLanguage();
         $lang->load($component, JPATH_ADMINISTRATOR)
         || $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
@@ -150,8 +149,8 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($canDo->get('core.edit.state') || $this->getCurrentUser()->authorise('core.admin')) {
-            $dropdown = $toolbar->dropdownButton('status-group')
-                ->text('JTOOLBAR_CHANGE_STATUS')
+            /** @var DropdownButton $dropdown */
+            $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
                 ->icon('icon-ellipsis-h')
                 ->buttonClass('btn btn-action')
@@ -161,9 +160,7 @@ class HtmlView extends BaseHtmlView
 
             if ($canDo->get('core.edit.state')) {
                 $childBar->publish('fields.publish')->listCheck(true);
-
                 $childBar->unpublish('fields.unpublish')->listCheck(true);
-
                 $childBar->archive('fields.archive')->listCheck(true);
             }
 
@@ -177,16 +174,14 @@ class HtmlView extends BaseHtmlView
 
             // Add a batch button
             if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state')) {
-                $childBar->popupButton('batch')
-                    ->text('JTOOLBAR_BATCH')
+                $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
                     ->selector('collapseModal')
                     ->listCheck(true);
             }
         }
 
         if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete', $component)) {
-            $toolbar->delete('fields.delete')
-                ->text('JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('fields.delete', 'JTOOLBAR_EMPTY_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }
@@ -195,6 +190,6 @@ class HtmlView extends BaseHtmlView
             $toolbar->preferences($component);
         }
 
-        $toolbar->help('Component:_Fields');
+        $toolbar->help('Fields');
     }
 }

@@ -13,10 +13,10 @@ namespace Joomla\Component\Modules\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -115,7 +115,7 @@ class PositionsModel extends ListModel
                 $clientId = (int) $clientId;
 
                 // Get the database object and a new query object.
-                $db  = $this->getDatabase();
+                $db    = $this->getDatabase();
                 $query = $db->getQuery(true)
                     ->select('DISTINCT ' . $db->quoteName('position', 'value'))
                     ->from($db->quoteName('#__modules'))
@@ -161,8 +161,8 @@ class PositionsModel extends ListModel
                             $label = (string) $position;
 
                             if (!$value) {
-                                $value = $label;
-                                $label = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_' . $template->element . '_POSITION_' . $value);
+                                $value    = $label;
+                                $label    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_' . $template->element . '_POSITION_' . $value);
                                 $altlabel = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'COM_MODULES_POSITION_' . $value);
 
                                 if (!$lang->hasKey($label) && $lang->hasKey($altlabel)) {

@@ -11,10 +11,10 @@
 namespace Joomla\Component\Config\Site\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -41,7 +41,7 @@ class ModulesModel extends FormModel
         $app = Factory::getApplication();
 
         // Load the User state.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
 
         $this->setState('module.id', $pk);
     }
@@ -90,7 +90,7 @@ class ModulesModel extends FormModel
 
         // Load the core and/or local language file(s).
         $lang->load($module, $basePath)
-            ||   $lang->load($module, $basePath . '/modules/' . $module);
+            || $lang->load($module, $basePath . '/modules/' . $module);
 
         if (file_exists($formFile)) {
             // Get the module form.
@@ -125,7 +125,7 @@ class ModulesModel extends FormModel
         $templateName = Factory::getApplication()->getTemplate();
 
         // Load templateDetails.xml file
-        $path = Path::clean(JPATH_BASE . '/templates/' . $templateName . '/templateDetails.xml');
+        $path                     = Path::clean(JPATH_BASE . '/templates/' . $templateName . '/templateDetails.xml');
         $currentTemplatePositions = [];
 
         if (file_exists($path)) {
@@ -134,11 +134,11 @@ class ModulesModel extends FormModel
             if (isset($xml->positions[0])) {
                 // Load language files
                 $lang->load('tpl_' . $templateName . '.sys', JPATH_BASE)
-                ||  $lang->load('tpl_' . $templateName . '.sys', JPATH_BASE . '/templates/' . $templateName);
+                || $lang->load('tpl_' . $templateName . '.sys', JPATH_BASE . '/templates/' . $templateName);
 
                 foreach ($xml->positions[0] as $position) {
                     $value = (string) $position;
-                    $text = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_' . strtoupper($templateName) . '_POSITION_' . strtoupper($value));
+                    $text  = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_' . strtoupper($templateName) . '_POSITION_' . strtoupper($value));
 
                     // Construct list of positions
                     $currentTemplatePositions[] = self::createOption($value, Text::_($text) . ' [' . $value . ']');
@@ -149,7 +149,7 @@ class ModulesModel extends FormModel
         $templateGroups = [];
 
         // Add an empty value to be able to deselect a module position
-        $option = self::createOption();
+        $option             = self::createOption();
         $templateGroups[''] = self::createOptionGroup('', [$option]);
 
         $templateGroups[$templateName] = self::createOptionGroup($templateName, $currentTemplatePositions);
@@ -157,8 +157,8 @@ class ModulesModel extends FormModel
         // Add custom position to options
         $customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
 
-        $editPositions   = true;
-        $customPositions = self::getActivePositions(0, $editPositions);
+        $editPositions                    = true;
+        $customPositions                  = self::getActivePositions(0, $editPositions);
         $templateGroups[$customGroupText] = self::createOptionGroup($customGroupText, $customPositions);
 
         return $templateGroups;
@@ -176,7 +176,7 @@ class ModulesModel extends FormModel
      */
     public static function getActivePositions($clientId, $editPositions = false)
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select('DISTINCT position')
             ->from($db->quoteName('#__modules'))
@@ -224,7 +224,7 @@ class ModulesModel extends FormModel
             $text = $value;
         }
 
-        $option = new \stdClass();
+        $option        = new \stdClass();
         $option->value = $value;
         $option->text  = $text;
 
@@ -243,7 +243,7 @@ class ModulesModel extends FormModel
      */
     private static function createOptionGroup($label = '', $options = [])
     {
-        $group = [];
+        $group          = [];
         $group['value'] = $label;
         $group['text']  = $label;
         $group['items'] = $options;

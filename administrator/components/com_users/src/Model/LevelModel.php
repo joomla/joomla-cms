@@ -54,7 +54,7 @@ class LevelModel extends AdminModel
             throw new \RuntimeException('Invalid rules schema');
         }
 
-        $isAdmin = Factory::getUser()->authorise('core.admin');
+        $isAdmin = $this->getCurrentUser()->authorise('core.admin');
 
         // Check permissions
         foreach ($groups as $group) {
@@ -252,12 +252,12 @@ class LevelModel extends AdminModel
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
      * @see     \Joomla\CMS\Form\FormRule
-     * @see     \JFilterInput
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.8.8
      */
     public function validate($form, $data, $group = null)
     {
-        $isSuperAdmin = Factory::getUser()->authorise('core.admin');
+        $isSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
 
         // Non Super user should not be able to change the access levels of super user groups
         if (!$isSuperAdmin) {

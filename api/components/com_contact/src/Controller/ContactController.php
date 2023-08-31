@@ -23,7 +23,8 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\Inflector;
@@ -39,8 +40,10 @@ use Tobscure\JsonApi\Exception\InvalidParameterException;
  *
  * @since  4.0.0
  */
-class ContactController extends ApiController
+class ContactController extends ApiController implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * The content type of the item.
      *
@@ -188,21 +191,21 @@ class ContactController extends ApiController
     {
         $app = $this->app;
 
-        Factory::getLanguage()->load('com_contact', JPATH_SITE, $app->getLanguage()->getTag(), true);
+        $app->getLanguage()->load('com_contact', JPATH_SITE, $app->getLanguage()->getTag(), true);
 
         if ($contact->email_to == '' && $contact->user_id != 0) {
-            $contact_user      = User::getInstance($contact->user_id);
+            $contact_user      = $this->getUserFactory()->loadUserById($contact->user_id);
             $contact->email_to = $contact_user->get('email');
         }
 
         $templateData = [
-            'sitename' => $app->get('sitename'),
-            'name'     => $data['contact_name'],
-            'contactname' => $contact->name,
-            'email'    => PunycodeHelper::emailToPunycode($data['contact_email']),
-            'subject'  => $data['contact_subject'],
-            'body'     => stripslashes($data['contact_message']),
-            'url'      => Uri::base(),
+            'sitename'     => $app->get('sitename'),
+            'name'         => $data['contact_name'],
+            'contactname'  => $contact->name,
+            'email'        => PunycodeHelper::emailToPunycode($data['contact_email']),
+            'subject'      => $data['contact_subject'],
+            'body'         => stripslashes($data['contact_message']),
+            'url'          => Uri::base(),
             'customfields' => '',
         ];
 

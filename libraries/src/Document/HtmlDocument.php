@@ -12,19 +12,18 @@ namespace Joomla\CMS\Document;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
-use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Utility\Utility;
-use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-use UnexpectedValueException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -125,6 +124,14 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     private $html5 = true;
 
     /**
+     * List of type \Joomla\CMS\Toolbar\Toolbar
+     *
+     * @var    Toolbar[]
+     * @since  5.0.0
+     */
+    private $toolbars = [];
+
+    /**
      * Class constructor
      *
      * @param   array  $options  Associative array of options
@@ -151,7 +158,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      */
     public function getHeadData()
     {
-        $data = [];
+        $data                  = [];
         $data['title']         = $this->title;
         $data['description']   = $this->description;
         $data['link']          = $this->link;
@@ -163,7 +170,10 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
         $data['script']        = $this->_script;
         $data['custom']        = $this->_custom;
 
-        // @deprecated 5.0  This property is for backwards compatibility. Pass text through script options in the future
+        /**
+         * @deprecated  4.0 will be removed in 6.0
+         *              This property is for backwards compatibility. Pass text through script options in the future
+         */
         $data['scriptText']    = Text::getScriptStrings();
 
         $data['scriptOptions'] = $this->scriptOptions;
@@ -253,7 +263,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             case 'scripts':
             case 'script':
             case 'custom':
-                $realType = '_' . $type;
+                $realType          = '_' . $type;
                 $this->{$realType} = [];
                 break;
 
@@ -427,8 +437,8 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     public function addHeadLink($href, $relation, $relType = 'rel', $attribs = [])
     {
         $this->_links[$href]['relation'] = $relation;
-        $this->_links[$href]['relType'] = $relType;
-        $this->_links[$href]['attribs'] = $attribs;
+        $this->_links[$href]['relType']  = $relType;
+        $this->_links[$href]['attribs']  = $attribs;
 
         return $this;
     }
@@ -448,7 +458,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      *
      * @since   1.7.0
      */
-    public function addFavicon($href, $type = 'image/vnd.microsoft.icon', $relation = 'shortcut icon')
+    public function addFavicon($href, $type = 'image/vnd.microsoft.icon', $relation = 'icon')
     {
         $href = str_replace('\\', '/', $href);
         $this->addHeadLink($href, $relation, 'rel', ['type' => $type]);
@@ -530,7 +540,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             /** @var  \Joomla\CMS\Document\Renderer\Html\ModulesRenderer  $renderer */
             /** @var  \Joomla\CMS\Cache\Controller\OutputController  $cache */
             $cache  = $this->getCacheControllerFactory()->createCacheController('output', ['defaultgroup' => 'com_modules']);
-            $itemId = (int) CmsFactory::getApplication()->input->get('Itemid', 0, 'int');
+            $itemId = (int) CmsFactory::getApplication()->getInput()->get('Itemid', 0, 'int');
 
             $hash = md5(
                 serialize(
@@ -548,9 +558,9 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
                 return Cache::getWorkarounds($cbuffer[$hash], ['mergehead' => 1]);
             }
 
-            $options = [];
-            $options['nopathway'] = 1;
-            $options['nomodules'] = 1;
+            $options               = [];
+            $options['nopathway']  = 1;
+            $options['nomodules']  = 1;
             $options['modulemode'] = 1;
 
             $this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
@@ -582,14 +592,18 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     {
         // The following code is just for backward compatibility.
         if (\func_num_args() > 1 && !\is_array($options)) {
-            $args = \func_get_args();
-            $options = [];
-            $options['type'] = $args[1];
-            $options['name'] = $args[2] ?? null;
+            $args             = \func_get_args();
+            $options          = [];
+            $options['type']  = $args[1];
+            $options['name']  = $args[2] ?? null;
             $options['title'] = $args[3] ?? null;
         }
 
-        parent::$_buffer[$options['type']][$options['name']][$options['title']] = $content;
+        $type  = $options['type'] ?? '';
+        $name  = $options['name'] ?? '';
+        $title = $options['title'] ?? '';
+
+        parent::$_buffer[$type][$name][$title] = $content;
 
         return $this;
     }
@@ -681,35 +695,16 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * @return  integer  Number of child menu items
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0
+     *              Load the active menu item directly and count the children with the php count function
+     *              `$children = count($app->getMenu()->getActive()->getChildren())` beware getActive could be `null`
      */
     public function countMenuChildren()
     {
-        static $children;
+        $active = CmsFactory::getApplication()->getMenu()->getActive();
 
-        if (!isset($children)) {
-            $db = CmsFactory::getDbo();
-            $app = CmsFactory::getApplication();
-            $menu = $app->getMenu();
-            $active = $menu->getActive();
-            $children = 0;
-
-            if ($active) {
-                $query = $db->getQuery(true)
-                    ->select('COUNT(*)')
-                    ->from($db->quoteName('#__menu'))
-                    ->where(
-                        [
-                            $db->quoteName('parent_id') . ' = :id',
-                            $db->quoteName('published') . ' = 1',
-                        ]
-                    )
-                    ->bind(':id', $active->id, ParameterType::INTEGER);
-                $db->setQuery($query);
-                $children = $db->loadResult();
-            }
-        }
-
-        return $children;
+        return $active ? count($active->getChildren()) : 0;
     }
 
     /**
@@ -754,11 +749,11 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     {
         // Check
         $directory = $params['directory'] ?? 'templates';
-        $filter = InputFilter::getInstance();
-        $template = $filter->clean($params['template'], 'cmd');
-        $file = $filter->clean($params['file'], 'cmd');
-        $inherits = $params['templateInherits'] ?? '';
-        $baseDir = $directory . '/' . $template;
+        $filter    = InputFilter::getInstance();
+        $template  = $filter->clean($params['template'], 'cmd');
+        $file      = $filter->clean($params['file'], 'cmd');
+        $inherits  = $params['templateInherits'] ?? '';
+        $baseDir   = $directory . '/' . $template;
 
         if (!is_file($directory . '/' . $template . '/' . $file)) {
             if ($inherits !== '' && is_file($directory . '/' . $inherits . '/' . $file)) {
@@ -783,12 +778,64 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             || ($inherits !== '' && $lang->load('tpl_' . $inherits, $directory . '/' . $inherits));
 
         // Assign the variables
-        $this->baseurl = Uri::base(true);
-        $this->params = $params['params'] ?? new Registry();
+        $this->baseurl  = Uri::base(true);
+        $this->params   = $params['params'] ?? new Registry();
         $this->template = $template;
 
         // Load
         $this->_template = $this->_loadTemplate($baseDir, $file);
+
+        return $this;
+    }
+
+    /**
+     * Returns a toolbar object or null
+     *
+     * @param   string   $toolbar
+     * @param   boolean  $create
+     *
+     * @return  ?Toolbar
+     *
+     * @since   5.0.0
+     */
+    public function getToolbar(string $toolbar = 'toolbar', bool $create = true): ?Toolbar
+    {
+        if (empty($this->toolbars[$toolbar])) {
+            if (!$create) {
+                return null;
+            }
+
+            $this->toolbars[$toolbar] = CmsFactory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar($toolbar);
+        }
+
+        return $this->toolbars[$toolbar];
+    }
+
+    /**
+     * Returns the toolbar array
+     *
+     * @return  array
+     *
+     * @since   5.0.0
+     */
+    public function getToolbars(): array
+    {
+        return $this->toolbars;
+    }
+
+    /**
+     * Adds a new or replace an existing toolbar object
+     *
+     * @param   string   $name
+     * @param   Toolbar  $toolbar
+     *
+     * @return  $this
+     *
+     * @since   5.0.0
+     */
+    public function setToolbar(string $name, Toolbar $toolbar): self
+    {
+        $this->toolbars[$name] = $toolbar;
 
         return $this;
     }
@@ -805,15 +852,15 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
         $matches = [];
 
         if (preg_match_all('#<jdoc:include\ type="([^"]+)"(.*)\/>#iU', $this->_template, $matches)) {
-            $messages = [];
+            $messages            = [];
             $template_tags_first = [];
-            $template_tags_last = [];
+            $template_tags_last  = [];
 
             // Step through the jdocs in reverse order.
             for ($i = \count($matches[0]) - 1; $i >= 0; $i--) {
-                $type = $matches[1][$i];
+                $type    = $matches[1][$i];
                 $attribs = empty($matches[2][$i]) ? [] : Utility::parseAttributes($matches[2][$i]);
-                $name = $attribs['name'] ?? null;
+                $name    = $attribs['name'] ?? null;
 
                 // Separate buffers to be executed first and last
                 if ($type === 'module' || $type === 'modules') {
@@ -841,11 +888,11 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     protected function _renderTemplate()
     {
         $replace = [];
-        $with = [];
+        $with    = [];
 
         foreach ($this->_template_tags as $jdoc => $args) {
             $replace[] = $jdoc;
-            $with[] = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
+            $with[]    = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
         }
 
         return str_replace($replace, $with, $this->_template);

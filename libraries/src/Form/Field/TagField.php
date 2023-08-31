@@ -17,7 +17,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -117,7 +117,7 @@ class TagField extends ListField
     /**
      * Method to get a list of tags
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.1
      */
@@ -214,7 +214,7 @@ class TagField extends ListField
                 }
 
                 // Limit the main query to the missing amount of tags
-                $count = count($options);
+                $count        = count($options);
                 $prefillLimit = $prefillLimit - $count;
                 $query->setLimit($prefillLimit);
 
@@ -239,7 +239,7 @@ class TagField extends ListField
 
         // Block the possibility to set a tag as it own parent
         if ($this->form->getName() === 'com_tags.tag') {
-            $id   = (int) $this->form->getValue('id', 0);
+            $id   = (int) $this->form->getValue('id', null, 0);
 
             foreach ($options as $option) {
                 if ($option->value == $id) {
@@ -264,9 +264,9 @@ class TagField extends ListField
     /**
      * Add "-" before nested tags, depending on level
      *
-     * @param   array  &$options  Array of tags
+     * @param   object[]  &$options  Array of tags
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.1
      */
@@ -274,7 +274,7 @@ class TagField extends ListField
     {
         if ($options) {
             foreach ($options as &$option) {
-                $repeat = (isset($option->level) && $option->level - 1 >= 0) ? $option->level - 1 : 0;
+                $repeat       = (isset($option->level) && $option->level - 1 >= 0) ? $option->level - 1 : 0;
                 $option->text = str_repeat('- ', $repeat) . $option->text;
             }
         }
@@ -315,7 +315,7 @@ class TagField extends ListField
             return false;
         }
 
-        return Factory::getUser()->authorise('core.create', 'com_tags');
+        return $this->getCurrentUser()->authorise('core.create', 'com_tags');
     }
 
     /**

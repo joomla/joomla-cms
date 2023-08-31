@@ -62,22 +62,22 @@ class Query
 
         // Process the start date.
         if ($query->date1) {
-            $date = Factory::getDate($query->date1)->format(Text::_('DATE_FORMAT_LC'));
+            $date          = Factory::getDate($query->date1)->format(Text::_('DATE_FORMAT_LC'));
             $datecondition = Text::_('COM_FINDER_QUERY_DATE_CONDITION_' . strtoupper($query->when1));
-            $parts[] = '<span class="query-start-date">' . Text::sprintf('COM_FINDER_QUERY_START_DATE', $datecondition, $date) . '</span>';
+            $parts[]       = '<span class="query-start-date">' . Text::sprintf('COM_FINDER_QUERY_START_DATE', $datecondition, $date) . '</span>';
         }
 
         // Process the end date.
         if ($query->date2) {
-            $date = Factory::getDate($query->date2)->format(Text::_('DATE_FORMAT_LC'));
+            $date          = Factory::getDate($query->date2)->format(Text::_('DATE_FORMAT_LC'));
             $datecondition = Text::_('COM_FINDER_QUERY_DATE_CONDITION_' . strtoupper($query->when2));
-            $parts[] = '<span class="query-end-date">' . Text::sprintf('COM_FINDER_QUERY_END_DATE', $datecondition, $date) . '</span>';
+            $parts[]       = '<span class="query-end-date">' . Text::sprintf('COM_FINDER_QUERY_END_DATE', $datecondition, $date) . '</span>';
         }
 
         // Process the taxonomy filters.
         if (!empty($query->filters)) {
             // Get the filters in the request.
-            $t = Factory::getApplication()->input->request->get('t', [], 'array');
+            $t = Factory::getApplication()->getInput()->request->get('t', [], 'array');
 
             // Process the taxonomy branches.
             foreach ($query->filters as $branch => $nodes) {

@@ -19,7 +19,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -40,7 +40,7 @@ class MediaHelper
     public const EXECUTABLES = [
         'js', 'exe', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta',
         'ins', 'isp', 'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
-        'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm', 'msi'
+        'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm', 'msi',
     ];
 
     /**
@@ -113,6 +113,13 @@ class MediaHelper
             $mime = static::getMimeType($file, false);
         }
 
+        if (
+            ($mime === 'application/octet-stream' || $mime === 'image/svg' || $mime === 'image/svg+xml')
+            && !$isImage && strtolower(pathinfo($file, PATHINFO_EXTENSION)) === 'svg' && self::isValidSvg($file, false)
+        ) {
+            return 'image/svg+xml';
+        }
+
         // We have a mime here
         return $mime;
     }
@@ -139,7 +146,7 @@ class MediaHelper
             );
 
             // Get the mime type configuration
-            $allowedMime = array_map('trim', explode(',', $allowedMime));
+            $allowedMime = array_map('trim', explode(',', str_replace('\\', '', $allowedMime)));
 
             // Mime should be available and in the allowed list
             return !empty($mime) && \in_array($mime, $allowedMime);
@@ -189,9 +196,9 @@ class MediaHelper
     /**
      * Checks if the file can be uploaded
      *
-     * @param   array   $file                File information
-     * @param   string  $component           The option name for the component storing the parameters
-     * @param   string  $allowedExecutables  Array of executable file types that shall be whitelisted
+     * @param   array     $file                File information
+     * @param   string    $component           The option name for the component storing the parameters
+     * @param   string[]  $allowedExecutables  Array of executable file types that shall be whitelisted
      *
      * @return  boolean
      *
@@ -320,35 +327,7 @@ class MediaHelper
         }
 
         if ($filetype === 'svg') {
-            $sanitizer = new Sanitizer();
-
-            $isValid = $sanitizer->sanitize(file_get_contents($file['tmp_name']));
-
-            $svgErrors = $sanitizer->getXmlIssues();
-
-            /*
-            * We allow comments and temp fix for bugs in svg-santitizer
-            * https://github.com/darylldoyle/svg-sanitizer/issues/64
-            * https://github.com/darylldoyle/svg-sanitizer/issues/63
-            * https://github.com/darylldoyle/svg-sanitizer/pull/65
-            * https://github.com/darylldoyle/svg-sanitizer/issues/82
-            */
-            foreach ($svgErrors as $i => $error) {
-                if (
-                    ($error['message'] === 'Suspicious node \'#comment\'')
-                    || ($error['message'] === 'Suspicious attribute \'space\'')
-                    || ($error['message'] === 'Suspicious attribute \'enable-background\'')
-                    || ($error['message'] === 'Suspicious node \'svg\'')
-                ) {
-                    unset($svgErrors[$i]);
-                }
-            }
-
-            if ($isValid === false || count($svgErrors)) {
-                $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
-
-                return false;
-            }
+            return self::isValidSvg($file['tmp_name'], true);
         }
 
         return true;
@@ -497,5 +476,52 @@ class MediaHelper
         }
 
         return $value;
+    }
+
+    /**
+     * Check if a file is a valid SVG
+     *
+     * @param  string  $file
+     * @param  bool    $shouldLogErrors
+     *
+     * @return  boolean
+     *
+     * @since   4.3.0
+     */
+    private static function isValidSvg($file, $shouldLogErrors = true): bool
+    {
+        $sanitizer = new Sanitizer();
+
+        $isValid = $sanitizer->sanitize(file_get_contents($file));
+
+        $svgErrors = $sanitizer->getXmlIssues();
+
+        /**
+         * We allow comments and temp fix for bugs in svg-santitizer
+         * https://github.com/darylldoyle/svg-sanitizer/issues/64
+         * https://github.com/darylldoyle/svg-sanitizer/issues/63
+         * https://github.com/darylldoyle/svg-sanitizer/pull/65
+         * https://github.com/darylldoyle/svg-sanitizer/issues/82
+         */
+        foreach ($svgErrors as $i => $error) {
+            if (
+                ($error['message'] === 'Suspicious node \'#comment\'')
+                || ($error['message'] === 'Suspicious attribute \'space\'')
+                || ($error['message'] === 'Suspicious attribute \'enable-background\'')
+                || ($error['message'] === 'Suspicious node \'svg\'')
+            ) {
+                unset($svgErrors[$i]);
+            }
+        }
+
+        if ($isValid === false || count($svgErrors)) {
+            if ($shouldLogErrors) {
+                Factory::getApplication()->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
+            }
+
+            return false;
+        }
+
+        return true;
     }
 }

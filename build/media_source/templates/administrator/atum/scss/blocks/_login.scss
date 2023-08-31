@@ -163,6 +163,7 @@
     align-self: flex-end;
     width: 100%;
     font-size: ($font-size-base * .875);
+    --body-color: var(--template-text-light);
     color: var(--template-text-light);
     text-align: center;
 
@@ -254,18 +255,6 @@ label {
 
   .invalid .form-control-feedback {
     color: var(--danger);
-  }
-}
-
-// Detect IE 10+ and display alert
-.ie11 {
-  display: none;
-}
-
-@media all and (-ms-high-contrast: none),
-  (-ms-high-contrast: active) {
-  .ie11 {
-    display: block;
   }
 }
 

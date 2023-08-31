@@ -11,13 +11,13 @@
 namespace Joomla\Component\Finder\Administrator\Service\HTML;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Filter\OutputFilter;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -151,7 +151,7 @@ class Filter
                 if (trim($nv->parent_title, '*') === 'Language') {
                     $title = LanguageHelper::branchLanguageTitle($nv->title);
                 } else {
-                    $key = LanguageHelper::branchPlural($nv->title);
+                    $key   = LanguageHelper::branchPlural($nv->title);
                     $title = $lang->hasKey($key) ? Text::_($key) : $nv->title;
                 }
 
@@ -198,10 +198,10 @@ class Filter
     /**
      * Method to generate filters using select box dropdown controls.
      *
-     * @param   Query  $idxQuery  A Query object.
-     * @param   array  $options   An array of options.
+     * @param   Query     $idxQuery  A Query object.
+     * @param   Registry  $options   An array of options.
      *
-     * @return  mixed  A rendered HTML widget on success, null otherwise.
+     * @return  string|null  A rendered HTML widget on success, null otherwise.
      *
      * @since   2.5
      */
@@ -323,7 +323,7 @@ class Filter
                     if (trim($node->parent_title, '*') === 'Language') {
                         $title = LanguageHelper::branchLanguageTitle($node->title);
                     } else {
-                        $key = LanguageHelper::branchPlural($node->title);
+                        $key   = LanguageHelper::branchPlural($node->title);
                         $title = $language->hasKey($key) ? Text::_($key) : $node->title;
                     }
 
@@ -363,7 +363,7 @@ class Filter
             // Check if the branch is in the filter.
             if (array_key_exists($bv->title, $idxQuery->filters)) {
                 // Get the request filters.
-                $temp   = Factory::getApplication()->input->request->get('t', [], 'array');
+                $temp   = Factory::getApplication()->getInput()->request->get('t', [], 'array');
 
                 // Search for active nodes in the branch and get the active node.
                 $active = array_intersect($temp, $idxQuery->filters[$bv->title]);
@@ -400,10 +400,10 @@ class Filter
     /**
      * Method to generate fields for filtering dates
      *
-     * @param   Query  $idxQuery  A Query object.
-     * @param   array  $options   An array of options.
+     * @param   Query     $idxQuery  A Query object.
+     * @param   Registry  $options   An array of options.
      *
-     * @return  mixed  A rendered HTML widget on success, null otherwise.
+     * @return  string  A rendered HTML widget.
      *
      * @since   2.5
      */

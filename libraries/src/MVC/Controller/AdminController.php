@@ -20,7 +20,7 @@ use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -60,12 +60,12 @@ class AdminController extends BaseController
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     *                                         Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                         'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    The Input object for the request
+     * @param   array                 $config   An optional associative array of configuration settings.
+     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                          'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    The Input object for the request
      *
      * @since   3.0
      */
@@ -164,7 +164,7 @@ class AdminController extends BaseController
      * after the item has been deleted.
      *
      * @param   BaseDatabaseModel  $model  The data model object.
-     * @param   integer            $id     The validated data.
+     * @param   integer[]          $id     An array of deleted IDs.
      *
      * @return  void
      *
@@ -205,7 +205,7 @@ class AdminController extends BaseController
             try {
                 $model->publish($cid, $value);
                 $errors = $model->getErrors();
-                $ntext = null;
+                $ntext  = null;
 
                 if ($value === 1) {
                     if ($errors) {
@@ -256,7 +256,7 @@ class AdminController extends BaseController
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
 
-        $model = $this->getModel();
+        $model  = $this->getModel();
         $return = $model->reorder($ids, $inc);
 
         $redirect = Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false);
@@ -340,7 +340,7 @@ class AdminController extends BaseController
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
 
-        $model = $this->getModel();
+        $model  = $this->getModel();
         $return = $model->checkin($ids);
 
         if ($return === false) {

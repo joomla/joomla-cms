@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -36,7 +36,7 @@ class CaptchaField extends FormField
      * The plugin of the captcha field.
      *
      * @var    string
-     * @since  4.2.7
+     * @since  4.3.0
      */
     protected $plugin;
 
@@ -44,14 +44,14 @@ class CaptchaField extends FormField
      * The namespace of the captcha field.
      *
      * @var    string
-     * @since  4.2.7
+     * @since  4.3.0
      */
     protected $namespace;
 
     /**
      * The captcha base instance of our type.
      *
-     * @var Captcha
+     * @var ?Captcha
      */
     protected $_captcha;
 

@@ -13,7 +13,7 @@ namespace Joomla\Component\Menus\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
@@ -29,7 +29,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class MenuModel extends FormModel
+class MenuModel extends AdminModel
 {
     /**
      * The prefix to use with controller messages.
@@ -57,7 +57,7 @@ class MenuModel extends FormModel
      */
     protected function canDelete($record)
     {
-        return Factory::getUser()->authorise('core.delete', 'com_menus.menu.' . (int) $record->id);
+        return $this->getCurrentUser()->authorise('core.delete', 'com_menus.menu.' . (int) $record->id);
     }
 
     /**
@@ -71,7 +71,7 @@ class MenuModel extends FormModel
      */
     protected function canEditState($record)
     {
-        return Factory::getUser()->authorise('core.edit.state', 'com_menus.menu.' . (int) $record->id);
+        return $this->getCurrentUser()->authorise('core.edit.state', 'com_menus.menu.' . (int) $record->id);
     }
 
     /**
@@ -85,7 +85,7 @@ class MenuModel extends FormModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'MenuType', $prefix = '\JTable', $config = [])
+    public function getTable($type = 'MenuType', $prefix = '\\Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
@@ -104,7 +104,7 @@ class MenuModel extends FormModel
         $app = Factory::getApplication();
 
         // Load the User state.
-        $id = $app->input->getInt('id');
+        $id = $app->getInput()->getInt('id');
         $this->setState('menu.id', $id);
 
         // Load the parameters.
@@ -210,13 +210,13 @@ class MenuModel extends FormModel
      *
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
-     * @see     JFormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Form\FormRule
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.9.23
      */
     public function validate($form, $data, $group = null)
     {
-        if (!Factory::getUser()->authorise('core.admin', 'com_menus')) {
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_menus')) {
             if (isset($data['rules'])) {
                 unset($data['rules']);
             }
@@ -295,10 +295,10 @@ class MenuModel extends FormModel
      *
      * @since   1.6
      */
-    public function delete($itemIds)
+    public function delete(&$pks)
     {
         // Sanitize the ids.
-        $itemIds = ArrayHelper::toInteger((array) $itemIds);
+        $itemIds = ArrayHelper::toInteger((array) $pks);
 
         // Get a group row instance.
         $table = $this->getTable();
@@ -370,7 +370,7 @@ class MenuModel extends FormModel
                 $result[$menuType] = [];
             }
 
-            $result[$menuType][] = & $module;
+            $result[$menuType][] = &$module;
         }
 
         return $result;
@@ -403,7 +403,8 @@ class MenuModel extends FormModel
      * Custom clean the cache
      *
      * @param   string   $group     Cache group name.
-     * @param   integer  $clientId  @deprecated  5.0  No Longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *

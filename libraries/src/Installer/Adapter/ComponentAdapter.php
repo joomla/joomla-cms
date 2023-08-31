@@ -12,7 +12,6 @@ namespace Joomla\CMS\Installer\Adapter;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Text;
@@ -22,10 +21,11 @@ use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -216,6 +216,7 @@ class ComponentAdapter extends InstallerAdapter
 
         // If there is a manifest script, let's copy it.
         if ($this->manifest_script) {
+            $path         = [];
             $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_administrator') . '/' . $this->manifest_script;
 
@@ -431,7 +432,7 @@ class ComponentAdapter extends InstallerAdapter
             $asset->delete();
         }
 
-        $extensionName = $this->element;
+        $extensionName             = $this->element;
         $extensionNameWithWildcard = $extensionName . '.%';
 
         // Remove categories for this component
@@ -454,7 +455,7 @@ class ComponentAdapter extends InstallerAdapter
 
         // Clobber any possible pending updates
         $update = Table::getInstance('update');
-        $uid = $update->find(
+        $uid    = $update->find(
             [
                 'element'   => $this->extension->element,
                 'type'      => 'component',
@@ -638,21 +639,21 @@ class ComponentAdapter extends InstallerAdapter
     public function prepareDiscoverInstall()
     {
         // Need to find to find where the XML file is since we don't store this normally
-        $client = ApplicationHelper::getClientInfo($this->extension->client_id);
-        $short_element = str_replace('com_', '', $this->extension->element);
-        $manifestPath = $client->path . '/components/' . $this->extension->element . '/' . $short_element . '.xml';
+        $client                 = ApplicationHelper::getClientInfo($this->extension->client_id);
+        $short_element          = str_replace('com_', '', $this->extension->element);
+        $manifestPath           = $client->path . '/components/' . $this->extension->element . '/' . $short_element . '.xml';
         $this->parent->manifest = $this->parent->isManifest($manifestPath);
         $this->parent->setPath('manifest', $manifestPath);
         $this->parent->setPath('source', $client->path . '/components/' . $this->extension->element);
         $this->parent->setPath('extension_root', $this->parent->getPath('source'));
         $this->setManifest($this->parent->getManifest());
 
-        $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
+        $manifest_details                = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->extension->manifest_cache = json_encode($manifest_details);
-        $this->extension->state = 0;
-        $this->extension->name = $manifest_details['name'];
-        $this->extension->enabled = 1;
-        $this->extension->params = $this->parent->getParams();
+        $this->extension->state          = 0;
+        $this->extension->name           = $manifest_details['name'];
+        $this->extension->enabled        = 1;
+        $this->extension->params         = $this->parent->getParams();
 
         $stored = false;
 
@@ -660,8 +661,8 @@ class ComponentAdapter extends InstallerAdapter
             $this->extension->store();
             $stored = true;
         } catch (\RuntimeException $e) {
-            $name = $this->extension->name;
-            $type = $this->extension->type;
+            $name    = $this->extension->name;
+            $type    = $this->extension->type;
             $element = $this->extension->element;
 
             // Try to delete existing failed records before retrying
@@ -819,8 +820,8 @@ class ComponentAdapter extends InstallerAdapter
 
         if ($old_manifest) {
             $this->oldAdminFiles = $old_manifest->administration->files;
-            $this->oldApiFiles = $old_manifest->api->files;
-            $this->oldFiles = $old_manifest->files;
+            $this->oldApiFiles   = $old_manifest->api->files;
+            $this->oldFiles      = $old_manifest->files;
         }
     }
 
@@ -849,8 +850,8 @@ class ComponentAdapter extends InstallerAdapter
 
         // If we are told to delete existing extension entries then do so.
         if ($deleteExisting) {
-            $name = $this->extension->name;
-            $type = $this->extension->type;
+            $name    = $this->extension->name;
+            $type    = $this->extension->type;
             $element = $this->extension->element;
 
             // Try to delete existing failed records before retrying
@@ -1028,7 +1029,7 @@ class ComponentAdapter extends InstallerAdapter
 
         if ($params = $menuElement->params) {
             // Pass $params through Registry to convert to JSON.
-            $params = new Registry($params);
+            $params         = new Registry($params);
             $data['params'] = $params->toString();
         }
 
@@ -1043,7 +1044,7 @@ class ComponentAdapter extends InstallerAdapter
             $request[] = 'view=' . $menuElement->attributes()->view;
         }
 
-        $qstring = \count($request) ? '&' . implode('&', $request) : '';
+        $qstring      = \count($request) ? '&' . implode('&', $request) : '';
         $data['link'] = 'index.php?option=' . $option . $qstring;
 
         // Try to create the menu item in the database
@@ -1078,7 +1079,7 @@ class ComponentAdapter extends InstallerAdapter
 
             if ($params = $child->params) {
                 // Pass $params through Registry to convert to JSON.
-                $params = new Registry($params);
+                $params         = new Registry($params);
                 $data['params'] = $params->toString();
             }
 
@@ -1280,7 +1281,7 @@ class ComponentAdapter extends InstallerAdapter
         $results          = [];
         $site_components  = Folder::folders(JPATH_SITE . '/components');
         $admin_components = Folder::folders(JPATH_ADMINISTRATOR . '/components');
-        $api_components = Folder::folders(JPATH_API . '/components');
+        $api_components   = Folder::folders(JPATH_API . '/components');
 
         foreach ($site_components as $component) {
             if (file_exists(JPATH_SITE . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml')) {

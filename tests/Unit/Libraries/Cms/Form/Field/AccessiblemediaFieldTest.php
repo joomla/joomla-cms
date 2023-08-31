@@ -44,14 +44,13 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
     public function testGetWithDefaultValues()
     {
         $accessiblemediafield = $this->createAccessiblemediaField();
-        $properties = [
-            "type" => 'Accessiblemedia',
-            "directory" => null,
-            "preview" => null,
-            "previewWidth" => null,
+        $properties           = [
+            "type"          => 'Accessiblemedia',
+            "directory"     => null,
+            "preview"       => null,
+            "previewWidth"  => null,
             "previewHeight" => null,
-            "didnotexist" => null,
-            "layout" => null,
+            "layout"        => null,
         ];
 
         foreach ($properties as $property => $propertyvalue) {
@@ -70,38 +69,17 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
     public function testSetAndGetShouldBeEquals()
     {
         $accessiblemediafield = $this->createAccessiblemediaField();
-        $properties = [
-            "directory" => 'mydirectory',
-            "preview" => 'tooltip',
-            "previewWidth" => "300",
+        $properties           = [
+            "directory"     => 'mydirectory',
+            "preview"       => 'tooltip',
+            "previewWidth"  => "300",
             "previewHeight" => "300",
-            "layout" => 'joomla.form.field.media.accessiblemedia',
+            "layout"        => 'joomla.form.field.media.accessiblemedia',
         ];
 
         foreach ($properties as $property => $propertyvalue) {
             $accessiblemediafield->__set($property, $propertyvalue);
             $this->assertEquals($propertyvalue, $accessiblemediafield->__get($property));
-        }
-    }
-
-    /**
-     * Tests setting and getting a property.
-     * A property is used here that is not supported by the field.
-     *
-     * @return  void
-     *
-     * @since   4.0.0
-     */
-    public function testSetAndGetShouldNotBeEquals()
-    {
-        $accessiblemediafield = $this->createAccessiblemediaField();
-        $properties = [
-            "didnotexist" => "thisshouldbenull",
-        ];
-
-        foreach ($properties as $property => $propertyvalue) {
-            $accessiblemediafield->__set($property, $propertyvalue);
-            $this->assertNotEquals($propertyvalue, $accessiblemediafield->__get($property));
         }
     }
 
@@ -136,10 +114,10 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
     {
         $accessiblemediafield = $this->createAccessiblemediaField();
 
-        $element = new \SimpleXMLElement('<field name="testfield" />');
+        $element    = new \SimpleXMLElement('<field name="testfield" />');
         $fieldvalue = [
             "imagefile" => '/images/joomla_black.png',
-            "alt_text" => '',
+            "alt_text"  => '',
         ];
 
         $this->assertTrue($accessiblemediafield->setup($element, '/images/joomla_black.png', null));
@@ -159,10 +137,10 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
     {
         $accessiblemediafield = $this->createAccessiblemediaField();
 
-        $element = new \SimpleXMLElement('<field name="testfield" />');
+        $element    = new \SimpleXMLElement('<field name="testfield" />');
         $fieldvalue = [
             "imagefile" => 'pathtofile',
-            "alt_text" => 'alt text',
+            "alt_text"  => 'alt text',
         ];
 
         $this->assertTrue($accessiblemediafield->setup($element, '{"imagefile":"pathtofile","alt_text":"alt text"}', null));
@@ -201,9 +179,9 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
     {
         $accessiblemediafield = $this->createAccessiblemediaField();
 
-        $obj = new \stdClass();
+        $obj            = new \stdClass();
         $obj->imagefile = '/images/joomla_black.png';
-        $obj->alt_text = 'some alt text';
+        $obj->alt_text  = 'some alt text';
 
         $element = new \SimpleXMLElement('<field name="testfield" />');
 
@@ -229,7 +207,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
         $obj3 = new \stdClass();
 
         $obj1->imagefile = '/images/joomla_black.png';
-        $obj2->alt_text = 'some alt text';
+        $obj2->alt_text  = 'some alt text';
 
         $element = new \SimpleXMLElement('<field name="testfield" />');
 

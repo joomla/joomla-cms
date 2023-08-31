@@ -12,7 +12,7 @@ namespace Joomla\CMS\Feed;
 use Joomla\CMS\Date\Date;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -39,13 +39,13 @@ class FeedEntry
      * @since  3.1.4
      */
     protected $properties = [
-        'uri'  => '',
-        'title' => '',
-        'updatedDate' => '',
-        'content' => '',
-        'categories' => [],
+        'uri'          => '',
+        'title'        => '',
+        'updatedDate'  => '',
+        'content'      => '',
+        'categories'   => [],
         'contributors' => [],
-        'links' => [],
+        'links'        => [],
     ];
 
     /**

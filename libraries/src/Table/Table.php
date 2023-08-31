@@ -12,18 +12,20 @@ namespace Joomla\CMS\Table;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Filesystem\Path;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -34,9 +36,12 @@ use Joomla\String\StringHelper;
  * @since  1.7.0
  */
 #[\AllowDynamicProperties]
-abstract class Table extends CMSObject implements TableInterface, DispatcherAwareInterface
+abstract class Table implements TableInterface, DispatcherAwareInterface
 {
     use DispatcherAwareTrait;
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
 
     /**
      * Include paths for searching for Table classes.
@@ -164,8 +169,6 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      */
     public function __construct($table, $key, DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
-        parent::__construct();
-
         // Set internal variables.
         $this->_tbl = $table;
 
@@ -222,7 +225,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableObjectCreate',
             [
-                'subject'   => $this,
+                'subject' => $this,
             ]
         );
         $this->getDispatcher()->dispatch('onTableObjectCreate', $event);
@@ -269,25 +272,51 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * @return  Table|boolean   A Table object if found or boolean false on failure.
      *
      * @since       1.7.0
-     * @deprecated  5.0 Use the MvcFactory instead
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the MvcFactory instead
+     *              Example: Factory::getApplication()->bootComponent('...')->getMVCFactory()->createTable($name, $prefix, $config);
      */
     public static function getInstance($type, $prefix = 'JTable', $config = [])
     {
+        /**
+         * For B/C reasons we don't change the $prefix to \\Joomla\\CMS\\Table\\ since extensions which
+         * use JTable as table prefix instead of an own prefix and not adding 'JTable' as prefix will
+         * fail to load the table. We can't detect this situation.
+         * Example:
+         * class JTableMytable {}
+         * JTable::getInstance('Mytable');
+         * This will fail when we change the function default $prefix from JTable to \\Joomla\\CMS\\Table\\
+         *
+         * In case of $prefix is 'JTable' we make an additional check for '\\Joomla\\CMS\\Table\\' $type
+         *
+         */
+
         // Sanitize and prepare the table class name.
         $type       = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-        $tableClass = $prefix . ucfirst($type);
+
+        $tableClass       = $prefix . ucfirst($type);
+        $tableClassLegacy = $tableClass;
+
+        if ($prefix === 'JTable') {
+            $tableClass = '\\Joomla\\CMS\\Table\\' . ucfirst($type);
+        }
 
         // Only try to load the class if it doesn't already exist.
-        if (!class_exists($tableClass)) {
+        if (!class_exists($tableClass) && !class_exists($tableClassLegacy)) {
             // Search for the class file in the JTable include paths.
-            $paths = self::addIncludePath();
+            $paths     = self::addIncludePath();
             $pathIndex = 0;
 
-            while (!class_exists($tableClass) && $pathIndex < \count($paths)) {
+            while (!class_exists($tableClass) && !class_exists($tableClassLegacy) && $pathIndex < \count($paths)) {
                 if ($tryThis = Path::find($paths[$pathIndex++], strtolower($type) . '.php')) {
                     // Import the class file.
                     include_once $tryThis;
                 }
+            }
+
+            if (!class_exists($tableClass) && class_exists($tableClassLegacy)) {
+                $tableClass = $tableClassLegacy;
             }
 
             if (!class_exists($tableClass)) {
@@ -303,7 +332,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         }
 
         // If a database object was passed in the configuration array use it, otherwise get the global one from Factory.
-        $db = $config['dbo'] ?? Factory::getDbo();
+        $db = $config['dbo'] ?? Factory::getContainer()->get(DatabaseInterface::class);
 
         // Check for a possible service from the container otherwise manually instantiate the class
         if (Factory::getContainer()->has($tableClass)) {
@@ -322,7 +351,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * @return  array  An array of filesystem paths to find Table classes in.
      *
      * @since       1.7.0
-     * @deprecated  5.0 Should not be used anymore as tables are loaded through the MvcFactory
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Should not be used anymore as tables are loaded through the MvcFactory
      */
     public static function addIncludePath($path = null)
     {
@@ -404,7 +435,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     {
         // For simple cases, parent to the asset root.
         /** @var Asset $assets */
-        $assets = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
+        $assets = self::getInstance('Asset', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
         $rootId = $assets->getRootId();
 
         if (!empty($rootId)) {
@@ -566,7 +597,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeReset',
             [
-                'subject'   => $this,
+                'subject' => $this,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeReset', $event);
@@ -585,7 +616,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableAfterReset',
             [
-                'subject'   => $this,
+                'subject' => $this,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterReset', $event);
@@ -625,9 +656,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeBind',
             [
-                'subject'   => $this,
-                'src'       => $src,
-                'ignore'    => $ignore
+                'subject' => $this,
+                'src'     => $src,
+                'ignore'  => $ignore,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeBind', $event);
@@ -659,9 +690,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableAfterBind',
             [
-                'subject'   => $this,
-                'src'       => $src,
-                'ignore'    => $ignore
+                'subject' => $this,
+                'src'     => $src,
+                'ignore'  => $ignore,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterBind', $event);
@@ -689,9 +720,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeLoad',
             [
-                'subject'   => $this,
-                'keys'      => $keys,
-                'reset'     => $reset,
+                'subject' => $this,
+                'keys'    => $keys,
+                'reset'   => $reset,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeLoad', $event);
@@ -761,9 +792,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableAfterLoad',
             [
-                'subject'       => $this,
-                'result'        => &$result,
-                'row'           => $row,
+                'subject' => $this,
+                'result'  => &$result,
+                'row'     => $row,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterLoad', $event);
@@ -786,7 +817,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableCheck',
             [
-                'subject'       => $this,
+                'subject' => $this,
             ]
         );
         $this->getDispatcher()->dispatch('onTableCheck', $event);
@@ -816,9 +847,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeStore',
             [
-                'subject'       => $this,
-                'updateNulls'   => $updateNulls,
-                'k'             => $k,
+                'subject'     => $this,
+                'updateNulls' => $updateNulls,
+                'k'           => $k,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeStore', $event);
@@ -866,7 +897,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
             $title    = $this->_getAssetTitle();
 
             /** @var Asset $asset */
-            $asset = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
+            $asset = self::getInstance('Asset', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
             $asset->loadByName($name);
 
             // Re-inject the asset id.
@@ -920,8 +951,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableAfterStore',
             [
-                'subject'   => $this,
-                'result'    => &$result,
+                'subject' => $this,
+                'result'  => &$result,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterStore', $event);
@@ -1014,8 +1045,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeDelete',
             [
-                'subject'   => $this,
-                'pk'        => $pk,
+                'subject' => $this,
+                'pk'      => $pk,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeDelete', $event);
@@ -1051,8 +1082,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableAfterDelete',
             [
-                'subject'   => $this,
-                'pk'        => $pk,
+                'subject' => $this,
+                'pk'      => $pk,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterDelete', $event);
@@ -1081,9 +1112,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeCheckout',
             [
-                'subject'   => $this,
-                'userId'    => $userId,
-                'pk'        => $pk,
+                'subject' => $this,
+                'userId'  => $userId,
+                'pk'      => $pk,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeCheckout', $event);
@@ -1129,15 +1160,15 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
         // Set table values in the object.
         $this->$checkedOutField      = (int) $userId;
-        $this->$checkedOutTimeField = $time;
+        $this->$checkedOutTimeField  = $time;
 
         // Post-processing by observers
         $event = AbstractEvent::create(
             'onTableAfterCheckout',
             [
-                'subject'   => $this,
-                'userId'    => $userId,
-                'pk'        => $pk,
+                'subject' => $this,
+                'userId'  => $userId,
+                'pk'      => $pk,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterCheckout', $event);
@@ -1163,8 +1194,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeCheckin',
             [
-                'subject'   => $this,
-                'pk'        => $pk,
+                'subject' => $this,
+                'pk'      => $pk,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeCheckin', $event);
@@ -1218,8 +1249,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableAfterCheckin',
             [
-                'subject'   => $this,
-                'pk'        => $pk,
+                'subject' => $this,
+                'pk'      => $pk,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterCheckin', $event);
@@ -1279,8 +1310,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeHit',
             [
-                'subject'   => $this,
-                'pk'        => $pk,
+                'subject' => $this,
+                'pk'      => $pk,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeHit', $event);
@@ -1326,8 +1357,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableAfterHit',
             [
-                'subject'   => $this,
-                'pk'        => $pk,
+                'subject' => $this,
+                'pk'      => $pk,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterHit', $event);
@@ -1352,7 +1383,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         // Handle the non-static case.
         if (isset($this) && ($this instanceof Table) && \is_null($against)) {
             $checkedOutField = $this->getColumnAlias('checked_out');
-            $against = $this->get($checkedOutField);
+            $against         = $this->get($checkedOutField);
         }
 
         // The item is not checked out or is checked out by the same user.
@@ -1362,7 +1393,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
         // This last check can only be relied on if tracking session metadata
         if (Factory::getApplication()->get('session_metadata', true)) {
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select('COUNT(userid)')
                 ->from($db->quoteName('#__session'))
@@ -1438,7 +1469,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     /**
      * Method to compact the ordering values of rows in a group of rows defined by an SQL WHERE clause.
      *
-     * @param   string  $where  WHERE clause to use for limiting the selection of rows to compact the ordering values.
+     * @param   string|string[]  $where  WHERE clause to use for limiting the selection of rows to compact the ordering values.
      *
      * @return  mixed  Boolean  True on success.
      *
@@ -1488,9 +1519,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeReorder',
             [
-                'subject'   => $this,
-                'query'     => $query,
-                'where'     => $where,
+                'subject' => $this,
+                'query'   => $query,
+                'where'   => $where,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeReorder', $event);
@@ -1502,8 +1533,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableAfterReorder',
             [
-                'subject'   => $this,
-                'where'     => $where,
+                'subject' => $this,
+                'where'   => $where,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterReorder', $event);
@@ -1516,8 +1547,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      *
      * Negative numbers move the row up in the sequence and positive numbers move it down.
      *
-     * @param   integer  $delta  The direction and magnitude to move the row in the ordering sequence.
-     * @param   string   $where  WHERE clause to use for limiting the selection of rows to compact the ordering values.
+     * @param   integer          $delta  The direction and magnitude to move the row in the ordering sequence.
+     * @param   string|string[]  $where  WHERE clause to use for limiting the selection of rows to compact the ordering values.
      *
      * @return  boolean  True on success.
      *
@@ -1565,10 +1596,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeMove',
             [
-                'subject'   => $this,
-                'query'     => $query,
-                'delta'     => $delta,
-                'where'     => $where,
+                'subject' => $this,
+                'query'   => $query,
+                'delta'   => $delta,
+                'where'   => $where,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeMove', $event);
@@ -1612,10 +1643,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableAfterMove',
             [
-                'subject'   => $this,
-                'row'       => $row,
-                'delta'     => $delta,
-                'where'     => $where,
+                'subject' => $this,
+                'row'     => $row,
+                'delta'   => $delta,
+                'where'   => $where,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterMove', $event);
@@ -1646,10 +1677,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforePublish',
             [
-                'subject'   => $this,
-                'pks'       => $pks,
-                'state'     => $state,
-                'userId'    => $userId,
+                'subject' => $this,
+                'pks'     => $pks,
+                'state'   => $state,
+                'userId'  => $userId,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforePublish', $event);
@@ -1684,7 +1715,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
             $pks = [$pk];
         }
 
-        $publishedField = $this->getColumnAlias('published');
+        $publishedField  = $this->getColumnAlias('published');
         $checkedOutField = $this->getColumnAlias('checked_out');
 
         foreach ($pks as $pk) {
@@ -1706,7 +1737,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
                         . $this->_db->quoteName($checkedOutField) . ' = 0'
                         . ' OR ' . $this->_db->quoteName($checkedOutField) . ' = ' . (int) $userId
                         . ' OR ' . $this->_db->quoteName($checkedOutField) . ' IS NULL'
-                    . ')'
+                        . ')'
                 );
                 $checkin = true;
             } else {
@@ -1751,10 +1782,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableAfterPublish',
             [
-                'subject'   => $this,
-                'pks'       => $pks,
-                'state'     => $state,
-                'userId'    => $userId,
+                'subject' => $this,
+                'pks'     => $pks,
+                'state'   => $state,
+                'userId'  => $userId,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterPublish', $event);

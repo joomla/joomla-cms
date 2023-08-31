@@ -11,11 +11,11 @@
 namespace Joomla\Component\Languages\Administrator\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -96,13 +96,13 @@ class OverrideModel extends AdminModel
      */
     public function getItem($pk = null)
     {
-        $input    = Factory::getApplication()->input;
+        $input    = Factory::getApplication()->getInput();
         $pk       = !empty($pk) ? $pk : $input->get('id');
         $fileName = constant('JPATH_' . strtoupper($this->getState('filter.client')))
             . '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
         $strings  = LanguageHelper::parseIniFile($fileName);
 
-        $result = new \stdClass();
+        $result           = new \stdClass();
         $result->key      = '';
         $result->override = '';
 
@@ -114,7 +114,7 @@ class OverrideModel extends AdminModel
         $oppositeFileName = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site'))
             . '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
         $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFileName);
-        $result->both = isset($oppositeStrings[$pk]) && ($oppositeStrings[$pk] == $strings[$pk]);
+        $result->both     = isset($oppositeStrings[$pk]) && ($oppositeStrings[$pk] == $strings[$pk]);
 
         return $result;
     }

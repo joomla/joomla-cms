@@ -75,7 +75,7 @@ class JoomlaSerializer extends AbstractSerializer
         $event = new Events\OnGetApiAttributes('onGetApiAttributes', ['attributes' => $post, 'context' => $this->type]);
 
         /** @var Events\OnGetApiAttributes $eventResult */
-        $eventResult = Factory::getApplication()->getDispatcher()->dispatch('onGetApiAttributes', $event);
+        $eventResult  = Factory::getApplication()->getDispatcher()->dispatch('onGetApiAttributes', $event);
         $combinedData = array_merge($post, $eventResult->getAttributes());
 
         return \is_array($fields) ? array_intersect_key($combinedData, array_flip($fields)) : $combinedData;

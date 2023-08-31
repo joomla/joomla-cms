@@ -56,7 +56,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -96,7 +96,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $lang = Factory::getLanguage();
+        $lang                = $this->getLanguage();
         $this->items         = $this->get('Items');
         $this->pagination    = $this->get('Pagination');
         $this->total         = $this->get('Total');
@@ -184,7 +184,7 @@ class HtmlView extends BaseHtmlView
 
                                 // Load template language file
                                 $lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE)
-                                ||  $lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0]);
+                                || $lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0]);
                             } else {
                                 $base = $this->state->get('filter.client_id') == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
 
@@ -265,7 +265,7 @@ class HtmlView extends BaseHtmlView
             }
         } else {
             // In menu associations modal we need to remove language filter if forcing a language.
-            if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD')) {
+            if ($forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD')) {
                 // If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
                 $languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
                 $this->filterForm->setField($languageXml, 'filter', true);

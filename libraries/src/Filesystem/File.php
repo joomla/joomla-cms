@@ -17,13 +17,15 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * A File handling class
  *
  * @since  1.7.0
+ * @deprecated  4.4 will be removed in 6.0
+ *              Use Joomla\Filesystem\File instead.
  */
 class File
 {
@@ -69,6 +71,8 @@ class File
      * @return  string  The file name without the extension
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::stripExt() instead.
      */
     public static function stripExt($file)
     {
@@ -83,6 +87,8 @@ class File
      * @return  string  The sanitised string
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::makeSafe() instead.
      */
     public static function makeSafe($file)
     {
@@ -111,12 +117,15 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::copy() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function copy($src, $dest, $path = null, $useStreams = false)
     {
         // Prepend a base path if it exists
         if ($path) {
-            $src = Path::clean($path . '/' . $src);
+            $src  = Path::clean($path . '/' . $src);
             $dest = Path::clean($path . '/' . $dest);
         }
 
@@ -187,6 +196,8 @@ class File
      *                 FALSE from opcache_invalidate (like file not found).
      *
      * @since 4.0.1
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::invalidateFileCache() instead.
      */
     public static function invalidateFileCache($filepath, $force = true)
     {
@@ -210,6 +221,9 @@ class File
      * @return boolean TRUE if we can proceed to use opcache_invalidate to flush a file from the OPCache
      *
      * @since 4.0.1
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::invalidateFileCache() instead.
+     *              This method will be removed without replacement.
      */
     public static function canFlushFileCache()
     {
@@ -238,6 +252,9 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::delete() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function delete($file)
     {
@@ -270,8 +287,8 @@ class File
 
             /**
              * Invalidate the OPCache for the file before actually deleting it
-             * @see https://github.com/joomla/joomla-cms/pull/32915#issuecomment-812865635
-             * @see https://www.php.net/manual/en/function.opcache-invalidate.php#116372
+             * @link https://github.com/joomla/joomla-cms/pull/32915#issuecomment-812865635
+             * @link https://www.php.net/manual/en/function.opcache-invalidate.php#116372
              */
             self::invalidateFileCache($file);
 
@@ -311,11 +328,14 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::move() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function move($src, $dest, $path = '', $useStreams = false)
     {
         if ($path) {
-            $src = Path::clean($path . '/' . $src);
+            $src  = Path::clean($path . '/' . $src);
             $dest = Path::clean($path . '/' . $dest);
         }
 
@@ -349,7 +369,7 @@ class File
                 $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
 
                 // Translate path for the FTP account
-                $src = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
+                $src  = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
                 $dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
                 // Use FTP rename to simulate move
@@ -382,6 +402,8 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::write() instead.
      */
     public static function write($file, $buffer, $useStreams = false)
     {
@@ -418,10 +440,10 @@ class File
 
                 // Translate path for the FTP account and use FTP write buffer to file
                 $file = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
-                $ret = $ftp->write($file, $buffer);
+                $ret  = $ftp->write($file, $buffer);
             } else {
                 $file = Path::clean($file);
-                $ret = \is_int(file_put_contents($file, $buffer));
+                $ret  = \is_int(file_put_contents($file, $buffer));
             }
 
             self::invalidateFileCache($file);
@@ -440,6 +462,7 @@ class File
      * @return  boolean  True on success
      *
      * @since   3.6.0
+     *
      */
     public static function append($file, $buffer, $useStreams = false)
     {
@@ -475,10 +498,10 @@ class File
 
                 // Translate path for the FTP account and use FTP write buffer to file
                 $file = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
-                $ret = $ftp->append($file, $buffer);
+                $ret  = $ftp->append($file, $buffer);
             } else {
                 $file = Path::clean($file);
-                $ret = \is_int(file_put_contents($file, $buffer, FILE_APPEND));
+                $ret  = \is_int(file_put_contents($file, $buffer, FILE_APPEND));
             }
 
             self::invalidateFileCache($file);
@@ -499,6 +522,9 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::upload() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function upload($src, $dest, $useStreams = false, $allowUnsafe = false, $safeFileOptions = [])
     {
@@ -542,7 +568,7 @@ class File
             return true;
         } else {
             $FTPOptions = ClientHelper::getCredentials('ftp');
-            $ret = false;
+            $ret        = false;
 
             if ($FTPOptions['enabled'] == 1) {
                 // Connect the FTP client
@@ -588,6 +614,8 @@ class File
      * @return  boolean  True if path is a file
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use is_file() instead.
      */
     public static function exists($file)
     {

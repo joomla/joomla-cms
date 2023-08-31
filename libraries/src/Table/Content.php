@@ -15,6 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\Tag\TaggableTableTrait;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
@@ -22,7 +24,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -30,9 +32,10 @@ use Joomla\String\StringHelper;
  *
  * @since  1.5
  */
-class Content extends Table implements VersionableTableInterface, TaggableTableInterface
+class Content extends Table implements VersionableTableInterface, TaggableTableInterface, CurrentUserInterface
 {
     use TaggableTableTrait;
+    use CurrentUserTrait;
 
     /**
      * Indicates that columns fully support the NULL value in the database
@@ -145,23 +148,23 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
         // Search for the {readmore} tag and split the text up accordingly.
         if (isset($array['articletext'])) {
             $pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
-            $tagPos = preg_match($pattern, $array['articletext']);
+            $tagPos  = preg_match($pattern, $array['articletext']);
 
             if ($tagPos == 0) {
                 $this->introtext = $array['articletext'];
-                $this->fulltext = '';
+                $this->fulltext  = '';
             } else {
-                list ($this->introtext, $this->fulltext) = preg_split($pattern, $array['articletext'], 2);
+                list($this->introtext, $this->fulltext) = preg_split($pattern, $array['articletext'], 2);
             }
         }
 
         if (isset($array['attribs']) && \is_array($array['attribs'])) {
-            $registry = new Registry($array['attribs']);
+            $registry         = new Registry($array['attribs']);
             $array['attribs'] = (string) $registry;
         }
 
         if (isset($array['metadata']) && \is_array($array['metadata'])) {
-            $registry = new Registry($array['metadata']);
+            $registry          = new Registry($array['metadata']);
             $array['metadata'] = (string) $registry;
         }
 
@@ -261,8 +264,8 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
         // Check the publish down date is not earlier than publish up.
         if (!is_null($this->publish_up) && !is_null($this->publish_down) && $this->publish_down < $this->publish_up) {
             // Swap the dates.
-            $temp = $this->publish_up;
-            $this->publish_up = $this->publish_down;
+            $temp               = $this->publish_up;
+            $this->publish_up   = $this->publish_down;
             $this->publish_down = $temp;
         }
 
@@ -314,7 +317,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
     public function store($updateNulls = true)
     {
         $date = Factory::getDate()->toSql();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Set created date if not set.
         if (!(int) $this->created) {
@@ -343,7 +346,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
         }
 
         // Verify that the alias is unique
-        $table = Table::getInstance('Content', 'JTable', ['dbo' => $this->getDbo()]);
+        $table = Table::getInstance('Content', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
 
         if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
             // Is the existing article trashed?

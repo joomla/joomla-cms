@@ -26,7 +26,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -443,7 +443,7 @@ class LanguageAdapter extends InstallerAdapter
         // Clobber any possible pending updates
         /** @var Update $update */
         $update = Table::getInstance('update');
-        $uid = $update->find(['element' => $this->tag, 'type' => 'language', 'folder' => '']);
+        $uid    = $update->find(['element' => $this->tag, 'type' => 'language', 'folder' => '']);
 
         if ($uid) {
             $update->delete($uid);
@@ -522,8 +522,8 @@ class LanguageAdapter extends InstallerAdapter
 
         // Get the language name
         // Set the extensions name
-        $name = (string) $this->getManifest()->name;
-        $name = InputFilter::getInstance()->clean($name, 'string');
+        $name       = (string) $this->getManifest()->name;
+        $name       = InputFilter::getInstance()->clean($name, 'string');
         $this->name = $name;
 
         // Get the Language tag [ISO tag, eg. en-GB]
@@ -573,7 +573,7 @@ class LanguageAdapter extends InstallerAdapter
 
         // Clobber any possible pending updates
         $update = Table::getInstance('update');
-        $uid = $update->find(['element' => $this->tag, 'type' => 'language', 'client_id' => $clientId]);
+        $uid    = $update->find(['element' => $this->tag, 'type' => 'language', 'client_id' => $clientId]);
 
         if ($uid) {
             $update->delete($uid);
@@ -648,7 +648,7 @@ class LanguageAdapter extends InstallerAdapter
                 }
 
                 $manifest_details = Installer::parseXMLInstallFile($manifestfile);
-                $extension = Table::getInstance('extension');
+                $extension        = Table::getInstance('extension');
                 $extension->set('type', 'language');
                 $extension->set('client_id', $clientId);
                 $extension->set('element', $language);

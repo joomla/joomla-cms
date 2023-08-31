@@ -80,7 +80,7 @@ class DatabaseModel extends InstallerModel
                 'status',
                 'type', 'type_translated',
                 'folder', 'folder_translated',
-                'extension_id'
+                'extension_id',
             ];
         }
 
@@ -178,7 +178,7 @@ class DatabaseModel extends InstallerModel
 
                 if ($installationXML !== null) {
                     $folderTmp = (string) $installationXML->update->schemas->schemapath[0];
-                    $a = explode('/', $folderTmp);
+                    $a         = explode('/', $folderTmp);
                     array_pop($a);
                     $folderTmp = $basePath . '/' . implode('/', $a);
                 }
@@ -237,7 +237,7 @@ class DatabaseModel extends InstallerModel
                 'errorsCount'   => $errorCount,
                 'results'       => $changeSet->getStatus(),
                 'schema'        => $schema,
-                'extension'     => $result
+                'extension'     => $result,
             ];
         }
     }
@@ -283,7 +283,7 @@ class DatabaseModel extends InstallerModel
             // Load the database issues
             $this->fetchSchemaCache($cid);
 
-            $changeSet = $this->changeSetList[$cid];
+            $changeSet              = $this->changeSetList[$cid];
             $changeSet['changeset'] = new ChangeSet($db, $changeSet['folderTmp']);
             $changeSet['changeset']->fix();
 
@@ -294,16 +294,6 @@ class DatabaseModel extends InstallerModel
                 $installer = new \JoomlaInstallerScript();
                 $installer->deleteUnexistingFiles();
                 $this->fixDefaultTextFilters();
-
-                /*
-                 * Finally, if the schema updates succeeded, make sure the database table is
-                 * converted to utf8mb4 or, if not supported by the server, compatible to it.
-                 */
-                $statusArray = $changeSet['changeset']->getStatus();
-
-                if (count($statusArray['error']) == 0) {
-                    $installer->convertTablesToUtf8mb4(false);
-                }
             }
         }
     }
@@ -348,7 +338,7 @@ class DatabaseModel extends InstallerModel
                         'extensions.manifest_cache',
                         'extensions.name',
                         'extensions.type',
-                        'schemas.version_id'
+                        'schemas.version_id',
                     ]
                 )
             )
@@ -545,7 +535,7 @@ class DatabaseModel extends InstallerModel
      */
     private function getOtherInformationMessage($status)
     {
-        $problemsMessage = [];
+        $problemsMessage   = [];
         $problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($status['ok']));
         $problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', count($status['skipped']));
 
@@ -591,7 +581,7 @@ class DatabaseModel extends InstallerModel
     {
         $table = new Extension($this->getDatabase());
         $table->load($extensionId);
-        $cache = new Registry($table->manifest_cache);
+        $cache         = new Registry($table->manifest_cache);
         $updateVersion = $cache->get('version');
 
         if ($table->get('type') === 'file' && $table->get('element') === 'joomla') {

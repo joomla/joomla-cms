@@ -14,7 +14,7 @@ use Joomla\CMS\Component\Router\RouterView;
 use Joomla\CMS\Language\Multilanguage;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -186,7 +186,7 @@ class MenuRules implements RulesInterface
             $this->lookup[$language] = [];
 
             $component  = ComponentHelper::getComponent('com_' . $this->router->getName());
-            $views = $this->router->getViews();
+            $views      = $this->router->getViews();
 
             $attributes = ['component_id'];
             $values     = [(int) $component->id];
@@ -227,7 +227,7 @@ class MenuRules implements RulesInterface
                          */
                         if (!isset($this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]]) || $item->language !== '*') {
                             $this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]] = $item->id;
-                            $this->lookup[$language][$view][$item->query[$views[$view]->key]] = $item->id;
+                            $this->lookup[$language][$view][$item->query[$views[$view]->key]]           = $item->id;
                         }
                     } else {
                         /**

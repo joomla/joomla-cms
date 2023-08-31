@@ -19,7 +19,7 @@ use Joomla\Uri\UriInterface;
 use Laminas\Diactoros\Stream as StreamResponse;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -85,7 +85,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         }
 
         // Build the request payload.
-        $request = [];
+        $request   = [];
         $request[] = strtoupper($method) . ' ' . ((empty($path)) ? '/' : $path) . ' HTTP/1.1';
         $request[] = 'Host: ' . $uri->getHost();
 
@@ -194,7 +194,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
     protected function connect(UriInterface $uri, $timeout = null)
     {
         $errno = null;
-        $err = null;
+        $err   = null;
 
         // Get the host from the uri.
         $host = ($uri->isSsl()) ? 'ssl://' . $uri->getHost() : $uri->getHost();

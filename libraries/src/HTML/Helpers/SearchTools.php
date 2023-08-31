@@ -14,7 +14,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -110,9 +110,9 @@ abstract class SearchTools
         $icon = null,
         $formName = 'adminForm'
     ) {
-        $direction = strtolower($direction);
+        $direction  = strtolower($direction);
         $orderIcons = ['icon-caret-up', 'icon-caret-down'];
-        $index = (int) ($direction === 'desc');
+        $index      = (int) ($direction === 'desc');
 
         if ($order !== $selected) {
             $direction = $newDirection;

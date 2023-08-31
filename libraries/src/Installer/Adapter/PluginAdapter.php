@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Installer\Adapter;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
@@ -19,9 +18,10 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -35,7 +35,7 @@ class PluginAdapter extends InstallerAdapter
      * Group of the plugin
      *
      * @var    string
-     * @since  4.2.7
+     * @since  4.3.0
      */
     protected $group;
 
@@ -105,6 +105,7 @@ class PluginAdapter extends InstallerAdapter
 
         // If there is a manifest script, let's copy it.
         if ($this->manifest_script) {
+            $path         = [];
             $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
@@ -164,7 +165,7 @@ class PluginAdapter extends InstallerAdapter
         // Clobber any possible pending updates
         /** @var Update $update */
         $update = Table::getInstance('update');
-        $uid = $update->find(
+        $uid    = $update->find(
             [
                 'element' => $this->element,
                 'type'    => $this->type,
@@ -291,7 +292,7 @@ class PluginAdapter extends InstallerAdapter
 
         if ($element) {
             $group = strtolower((string) $this->getManifest()->attributes()->group);
-            $name = '';
+            $name  = '';
 
             if (\count($element->children())) {
                 foreach ($element->children() as $file) {
@@ -304,8 +305,8 @@ class PluginAdapter extends InstallerAdapter
 
             if ($name) {
                 $extension = "plg_{$group}_{$name}";
-                $source = $path ?: JPATH_PLUGINS . "/$group/$name";
-                $folder = (string) $element->attributes()->folder;
+                $source    = $path ?: JPATH_PLUGINS . "/$group/$name";
+                $folder    = (string) $element->attributes()->folder;
 
                 if ($folder && file_exists("$path/$folder")) {
                     $source = "$path/$folder";
@@ -527,7 +528,7 @@ class PluginAdapter extends InstallerAdapter
      */
     public function discover()
     {
-        $results = [];
+        $results     = [];
         $folder_list = Folder::folders(JPATH_SITE . '/plugins');
 
         foreach ($folder_list as $folder) {
@@ -535,7 +536,7 @@ class PluginAdapter extends InstallerAdapter
 
             foreach ($file_list as $file) {
                 $manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . '/plugins/' . $folder . '/' . $file);
-                $file = File::stripExt($file);
+                $file             = File::stripExt($file);
 
                 // Ignore example plugins
                 if ($file === 'example' || $manifest_details === false) {
@@ -605,12 +606,12 @@ class PluginAdapter extends InstallerAdapter
          * Similar to modules and templates, rather easy
          * If it's not in the extensions table we just add it
          */
-        $client = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
+        $client       = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
         $manifestPath = $client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element . '/'
             . $this->parent->extension->element . '.xml';
         $this->parent->manifest = $this->parent->isManifest($manifestPath);
         $this->parent->setPath('manifest', $manifestPath);
-        $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
+        $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
 
         $this->parent->extension->name = $manifest_details['name'];

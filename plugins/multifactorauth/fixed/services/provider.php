@@ -17,8 +17,7 @@ use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Multifactorauth\Fixed\Extension\Fixed;
 
-return new class implements ServiceProviderInterface
-{
+return new class () implements ServiceProviderInterface {
     /**
      * Registers the service provider with a DI container.
      *
@@ -33,10 +32,7 @@ return new class implements ServiceProviderInterface
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $config  = (array) PluginHelper::getPlugin('multifactorauth', 'fixed');
-                $subject = $container->get(DispatcherInterface::class);
-
-                return new Fixed($subject, $config);
+                return new Fixed($container->get(DispatcherInterface::class), (array) PluginHelper::getPlugin('multifactorauth', 'fixed'));
             }
         );
     }

@@ -11,12 +11,15 @@
 namespace Joomla\Component\Admin\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -140,7 +143,7 @@ class SysinfoModel extends BaseDatabaseModel
             'smtphost',
             'tmp_path',
             'open_basedir',
-        ]
+        ],
     ];
 
     /**
@@ -279,12 +282,12 @@ class SysinfoModel extends BaseDatabaseModel
             return $this->config;
         }
 
-        $registry = new Registry(new \JConfig());
+        $registry     = new Registry(new \JConfig());
         $this->config = $registry->toArray();
-        $hidden = [
+        $hidden       = [
             'host', 'user', 'password', 'ftp_user', 'ftp_pass',
             'smtpuser', 'smtppass', 'redis_server_auth', 'session_redis_server_auth',
-            'proxy_user', 'proxy_pass', 'secret'
+            'proxy_user', 'proxy_pass', 'secret',
         ];
 
         foreach ($hidden as $key) {
@@ -321,10 +324,25 @@ class SysinfoModel extends BaseDatabaseModel
             'server'                 => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
             'sapi_name'              => PHP_SAPI,
             'version'                => (new Version())->getLongVersion(),
+            'compatpluginenabled'    => PluginHelper::isEnabled('behaviour', 'compat'),
+            'compatpluginparameters' => $this->getCompatPluginParameters(),
             'useragent'              => $_SERVER['HTTP_USER_AGENT'] ?? '',
         ];
 
         return $this->info;
+    }
+
+    private function getCompatPluginParameters()
+    {
+        $record = ExtensionHelper::getExtensionRecord('compat', 'plugin', 0, 'behaviour');
+
+        if ($record) {
+            $params = new Registry($record->params);
+
+            return ArrayHelper::toString($params->toArray(), ':', ', ');
+        }
+
+        return '';
     }
 
     /**
@@ -336,7 +354,9 @@ class SysinfoModel extends BaseDatabaseModel
      */
     public function phpinfoEnabled(): bool
     {
-        return !\in_array('phpinfo', explode(',', ini_get('disable_functions')));
+        // remove any spaces from the ini value before exploding it
+        $disabledFunctions = str_replace(' ', '', ini_get('disable_functions'));
+        return !\in_array('phpinfo', explode(',', $disabledFunctions));
     }
 
     /**
@@ -393,13 +413,13 @@ class SysinfoModel extends BaseDatabaseModel
         $phpInfo = ob_get_contents();
         ob_end_clean();
         preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpInfo, $output);
-        $output = preg_replace('#<table[^>]*>#', '<table class="table">', $output[1][0]);
-        $output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
-        $output = preg_replace('#<hr />#', '', $output);
-        $output = str_replace('<div class="text-center">', '', $output);
-        $output = preg_replace('#<tr class="h">(.*)</tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', $output);
-        $output = str_replace('</table>', '</tbody></table>', $output);
-        $output = str_replace('</div>', '', $output);
+        $output         = preg_replace('#<table[^>]*>#', '<table class="table">', $output[1][0]);
+        $output         = preg_replace('#(\w),(\w)#', '\1, \2', $output);
+        $output         = preg_replace('#<hr />#', '', $output);
+        $output         = str_replace('<div class="text-center">', '', $output);
+        $output         = preg_replace('#<tr class="h">(.*)</tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', $output);
+        $output         = str_replace('</table>', '</tbody></table>', $output);
+        $output         = str_replace('</div>', '', $output);
         $this->php_info = $output;
 
         return $this->php_info;
@@ -436,8 +456,8 @@ class SysinfoModel extends BaseDatabaseModel
     public function getExtensions(): array
     {
         $installed = [];
-        $db = Factory::getContainer()->get('DatabaseDriver');
-        $query = $db->getQuery(true)
+        $db        = $this->getDatabase();
+        $query     = $db->getQuery(true)
             ->select('*')
             ->from($db->quoteName('#__extensions'));
         $db->setQuery($query);
@@ -482,7 +502,7 @@ class SysinfoModel extends BaseDatabaseModel
                 'author'       => $manifest->get('author', ''),
                 'version'      => $manifest->get('version', ''),
                 'creationDate' => $manifest->get('creationDate', ''),
-                'authorUrl'    => $manifest->get('authorUrl', '')
+                'authorUrl'    => $manifest->get('authorUrl', ''),
             ];
 
             $installed[$extension->name] = array_merge($installed[$extension->name], $extraData);
@@ -681,15 +701,15 @@ class SysinfoModel extends BaseDatabaseModel
      */
     protected function parsePhpInfo(string $html): array
     {
-        $html = strip_tags($html, '<h2><th><td>');
-        $html = preg_replace('/<th[^>]*>([^<]+)<\/th>/', '<info>\1</info>', $html);
-        $html = preg_replace('/<td[^>]*>([^<]+)<\/td>/', '<info>\1</info>', $html);
-        $t = preg_split('/(<h2[^>]*>[^<]+<\/h2>)/', $html, -1, PREG_SPLIT_DELIM_CAPTURE);
-        $r = [];
+        $html  = strip_tags($html, '<h2><th><td>');
+        $html  = preg_replace('/<th[^>]*>([^<]+)<\/th>/', '<info>\1</info>', $html);
+        $html  = preg_replace('/<td[^>]*>([^<]+)<\/td>/', '<info>\1</info>', $html);
+        $t     = preg_split('/(<h2[^>]*>[^<]+<\/h2>)/', $html, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $r     = [];
         $count = \count($t);
-        $p1 = '<info>([^<]+)<\/info>';
-        $p2 = '/' . $p1 . '\s*' . $p1 . '\s*' . $p1 . '/';
-        $p3 = '/' . $p1 . '\s*' . $p1 . '/';
+        $p1    = '<info>([^<]+)<\/info>';
+        $p2    = '/' . $p1 . '\s*' . $p1 . '\s*' . $p1 . '/';
+        $p3    = '/' . $p1 . '\s*' . $p1 . '/';
 
         for ($i = 1; $i < $count; $i++) {
             if (preg_match('/<h2[^>]*>([^<]+)<\/h2>/', $t[$i], $matches)) {

@@ -12,7 +12,7 @@ namespace Joomla\CMS\Association;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -118,7 +118,7 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
             'support' => $support,
             'tables'  => $tables,
             'joins'   => $joins,
-            'title'   => $title
+            'title'   => $title,
         ];
     }
 
@@ -259,7 +259,7 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
         return [
             'state'    => false,
             'acl'      => false,
-            'checkout' => false
+            'checkout' => false,
         ];
     }
 
@@ -273,19 +273,19 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
     protected function getFieldsTemplate()
     {
         return [
-            'id'                  => 'a.id',
-            'title'               => 'a.title',
-            'alias'               => 'a.alias',
-            'ordering'            => 'a.ordering',
-            'menutype'            => '',
-            'level'               => '',
-            'catid'               => 'a.catid',
-            'language'            => 'a.language',
-            'access'              => 'a.access',
-            'state'               => 'a.state',
-            'created_user_id'     => 'a.created_by',
-            'checked_out'         => 'a.checked_out',
-            'checked_out_time'    => 'a.checked_out_time'
+            'id'               => 'a.id',
+            'title'            => 'a.title',
+            'alias'            => 'a.alias',
+            'ordering'         => 'a.ordering',
+            'menutype'         => '',
+            'level'            => '',
+            'catid'            => 'a.catid',
+            'language'         => 'a.language',
+            'access'           => 'a.access',
+            'state'            => 'a.state',
+            'created_user_id'  => 'a.created_by',
+            'checked_out'      => 'a.checked_out',
+            'checked_out_time' => 'a.checked_out_time',
         ];
     }
 }

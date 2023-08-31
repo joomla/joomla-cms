@@ -46,15 +46,15 @@ class ExtensionDiscoverListCommandTest extends \PHPUnit\Framework\TestCase
 
         $state = -1;
 
-        $extensions0 = [];
+        $extensions0    = [];
         $extensions0[0] = ['state' => 0];
         $extensions0[1] = ['state' => 0];
 
-        $extensions1 = [];
+        $extensions1    = [];
         $extensions1[0] = ['state' => 0];
         $extensions1[1] = ['state' => -1];
 
-        $extensions2 = [];
+        $extensions2    = [];
         $extensions2[0] = ['state' => -1];
         $extensions2[1] = ['state' => -1];
 

@@ -12,7 +12,7 @@ namespace Joomla\CMS\Installer;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -26,7 +26,7 @@ abstract class Manifest
      * The error messages
      *
      * @var    array
-     * @since  4.2.9
+     * @since  4.3.0
      */
     public $_errors;
 

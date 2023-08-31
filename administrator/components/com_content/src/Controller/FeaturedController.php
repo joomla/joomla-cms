@@ -11,6 +11,7 @@
 namespace Joomla\Component\Content\Administrator\Controller;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Response\JsonResponse;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -97,5 +98,30 @@ class FeaturedController extends ArticlesController
     public function getModel($name = 'Feature', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
+    }
+
+    /**
+     * Method to get the number of published featured articles for quickicons
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
+    public function getQuickiconContent()
+    {
+        $model = $this->getModel('articles');
+
+        $model->setState('filter.published', 1);
+        $model->setState('filter.featured', 1);
+
+        $amount = (int) $model->getTotal();
+
+        $result = [];
+
+        $result['amount'] = $amount;
+        $result['sronly'] = Text::plural('COM_CONTENT_FEATURED_N_QUICKICON_SRONLY', $amount);
+        $result['name']   = Text::plural('COM_CONTENT_FEATURED_N_QUICKICON', $amount);
+
+        echo new JsonResponse($result);
     }
 }

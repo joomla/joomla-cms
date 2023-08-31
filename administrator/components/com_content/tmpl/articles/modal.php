@@ -31,8 +31,8 @@ $wa->useScript('core')
     ->useScript('multiselect')
     ->useScript('com_content.admin-articles-modal');
 
-$function  = $app->input->getCmd('function', 'jSelectArticle');
-$editor    = $app->input->getCmd('editor', '');
+$function  = $app->getInput()->getCmd('function', 'jSelectArticle');
+$editor    = $app->getInput()->getCmd('editor', '');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $onclick   = $this->escape($function);
@@ -162,7 +162,7 @@ if (!empty($editor)) {
 
         <input type="hidden" name="task" value="">
         <input type="hidden" name="boxchecked" value="0">
-        <input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'CMD'); ?>">
+        <input type="hidden" name="forcedLanguage" value="<?php echo $app->getInput()->get('forcedLanguage', '', 'CMD'); ?>">
         <?php echo HTMLHelper::_('form.token'); ?>
 
     </form>

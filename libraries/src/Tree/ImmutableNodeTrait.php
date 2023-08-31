@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Tree;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -68,7 +68,7 @@ trait ImmutableNodeTrait
 
             foreach ($this->_children as $child) {
                 $items[] = $child;
-                $items = array_merge($items, $child->getChildren(true));
+                $items   = array_merge($items, $child->getChildren(true));
             }
 
             return $items;

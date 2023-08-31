@@ -12,7 +12,10 @@ namespace Joomla\Component\Finder\Site\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\String\StringHelper;
 
@@ -44,6 +47,26 @@ class SearchModel extends ListModel
      * @since  2.5
      */
     protected $searchquery;
+
+    /**
+     * Maps each sorting field with a text label.
+     *
+     * @var string[]
+     *
+     * @since 4.3.0
+     */
+    protected $sortOrderFieldsLabels = [
+        'relevance.asc'   => 'COM_FINDER_SORT_BY_RELEVANCE_ASC',
+        'relevance.desc'  => 'COM_FINDER_SORT_BY_RELEVANCE_DESC',
+        'title.asc'       => 'JGLOBAL_TITLE_ASC',
+        'title.desc'      => 'JGLOBAL_TITLE_DESC',
+        'date.asc'        => 'JDATE_ASC',
+        'date.desc'       => 'JDATE_DESC',
+        'price.asc'       => 'COM_FINDER_SORT_BY_PRICE_ASC',
+        'price.desc'      => 'COM_FINDER_SORT_BY_PRICE_DESC',
+        'sale_price.asc'  => 'COM_FINDER_SORT_BY_SALES_PRICE_ASC',
+        'sale_price.desc' => 'COM_FINDER_SORT_BY_SALES_PRICE_DESC',
+    ];
 
     /**
      * An array of all excluded terms ids.
@@ -143,7 +166,7 @@ class SearchModel extends ListModel
 
         $query->from('#__finder_links AS l');
 
-        $user = Factory::getUser();
+        $user   = $this->getCurrentUser();
         $groups = $this->getState('user.groups', $user->getAuthorisedViewLevels());
         $query->whereIn($db->quoteName('l.access'), $groups)
             ->where('l.state = 1')
@@ -167,7 +190,7 @@ class SearchModel extends ListModel
          */
         if (!empty($this->searchquery->filters)) {
             // Convert the associative array to a numerically indexed array.
-            $groups = array_values($this->searchquery->filters);
+            $groups     = array_values($this->searchquery->filters);
             $taxonomies = call_user_func_array('array_merge', array_values($this->searchquery->filters));
 
             $query->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t ON t.link_id = l.link_id')
@@ -215,7 +238,7 @@ class SearchModel extends ListModel
         }
 
         // Get the result ordering and direction.
-        $ordering = $this->getState('list.ordering', 'm.weight');
+        $ordering  = $this->getState('list.ordering', 'm.weight');
         $direction = $this->getState('list.direction', 'DESC');
 
         /*
@@ -297,6 +320,99 @@ class SearchModel extends ListModel
     }
 
     /**
+     * Method to get the available sorting fields.
+     *
+     * @return  array   The sorting field objects.
+     *
+     * @throws  \Exception
+     *
+     * @since   4.3.0
+     */
+    public function getSortOrderFields()
+    {
+        $sortOrderFields      = [];
+        $directions           = ['asc', 'desc'];
+        $app                  = Factory::getApplication();
+        $params               = $app->getParams();
+        $sortOrderFieldValues = $params->get('shown_sort_order', [], 'array');
+
+        if ($params->get('show_sort_order', 0, 'uint') && !empty($sortOrderFieldValues)) {
+            $defaultSortFieldValue = $params->get('sort_order', '', 'cmd');
+            $queryUri              = Uri::getInstance($this->getQuery()->toUri());
+
+            // If the default field is not included in the shown sort fields, add it.
+            if (!in_array($defaultSortFieldValue, $sortOrderFieldValues)) {
+                array_unshift($sortOrderFieldValues, $defaultSortFieldValue);
+            }
+
+            foreach ($sortOrderFieldValues as $sortOrderFieldValue) {
+                foreach ($directions as $direction) {
+                    // The relevance has only descending direction. Except if ascending is set in the parameters.
+                    if ($sortOrderFieldValue === 'relevance' && $direction === 'asc' && $app->getParams()->get('sort_direction', 'desc') === 'desc') {
+                        continue;
+                    }
+
+                    $sortOrderFields[] = $this->getSortField($sortOrderFieldValue, $direction, $queryUri);
+                }
+            }
+        }
+
+        // Import Finder plugins
+        PluginHelper::importPlugin('finder');
+
+        // Trigger an event, in case a plugin wishes to change the order fields.
+        $app->triggerEvent('onFinderSortOrderFields', [&$sortOrderFields]);
+
+        return $sortOrderFields;
+    }
+
+    /**
+     * Method to generate and return a sorting field
+     *
+     * @param   string  $value      The value based on which the results will be sorted.
+     * @param   string  $direction  The sorting direction ('asc' or 'desc').
+     * @param   Uri     $queryUri   The uri of the search query.
+     *
+     * @return  \stdClass   The sorting field object.
+     *
+     * @throws  \Exception
+     *
+     * @since   4.3.0
+     */
+    protected function getSortField(string $value, string $direction, Uri $queryUri)
+    {
+        $sortField = new \stdClass();
+        $app       = Factory::getApplication();
+
+        // We have to clone the query uri. Otherwise the next elements will use the same.
+        $queryUri = clone $queryUri;
+        $queryUri->setVar('o', $value);
+        $currentOrderingDirection = $app->getInput()->getWord('od', $app->getParams()->get('sort_direction', 'desc'));
+
+        // Validate the sorting direction and add it only if it is different than the set in the params.
+        if (in_array($direction, ['asc', 'desc']) && $direction != $app->getParams()->get('sort_direction', 'desc')) {
+            $queryUri->setVar('od', StringHelper::strtolower($direction));
+        }
+
+        $label = '';
+
+        if (isset($this->sortOrderFieldsLabels[$value . '.' . $direction])) {
+            $label = Text::_($this->sortOrderFieldsLabels[$value . '.' . $direction]);
+        }
+
+        $sortField->label      = $label;
+        $sortField->url        = $queryUri->toString();
+        $currentSortOrderField = $app->getInput()->getWord('o', $app->getParams()->get('sort_order', 'relevance'));
+        $sortField->active     = false;
+
+        if ($value === StringHelper::strtolower($currentSortOrderField) && $direction === $currentOrderingDirection) {
+            $sortField->active = true;
+        }
+
+        return $sortField;
+    }
+
+    /**
      * Method to get a store id based on model the configuration state.
      *
      * This is necessary because the model is used by the component and
@@ -350,10 +466,10 @@ class SearchModel extends ListModel
     {
         // Get the configuration options.
         $app      = Factory::getApplication();
-        $input    = $app->input;
+        $input    = $app->getInput();
         $params   = $app->getParams();
-        $user     = Factory::getUser();
-        $language = Factory::getLanguage();
+        $user     = $this->getCurrentUser();
+        $language = $app->getLanguage();
 
         $this->setState('filter.language', Multilanguage::isEnabled());
 
@@ -416,6 +532,10 @@ class SearchModel extends ListModel
 
             case 'price':
                 $this->setState('list.ordering', 'l.list_price');
+                break;
+
+            case 'sale_price':
+                $this->setState('list.ordering', 'l.sale_price');
                 break;
 
             case ($order === 'relevance' && !empty($this->includedTerms)):
