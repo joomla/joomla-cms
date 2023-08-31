@@ -23,12 +23,13 @@ function readFile(file, callback) {
   reader.readAsDataURL(file);
 }
 
-/**
- * The plugin core functionality
- *
- * @param {*} editor the instance of the editor
- */
-function register(editor) {
+window.tinymce.PluginManager.add('jdragndrop', (editor) => {
+  const registerOption = editor.options.register;
+  registerOption('uploadUri', { processor: 'string' });
+  registerOption('comMediaAdapter', { processor: 'string' });
+  registerOption('parentUploadFolder', { processor: 'string' });
+  registerOption('csrfToken', { processor: 'string' });
+
   // Reset the drop area border
   const dragleaveCallback = (e) => {
     if (!e.dataTransfer.types.includes('Files')) return;
@@ -167,14 +168,4 @@ function register(editor) {
 
     editor.contentAreaContainer.style.borderWidth = '0';
   });
-}
-
-window.tinymce.PluginManager.add('jdragndrop', (editor) => {
-  const registerOption = editor.options.register;
-  registerOption('uploadUri', { processor: 'string' });
-  registerOption('comMediaAdapter', { processor: 'string' });
-  registerOption('parentUploadFolder', { processor: 'string' });
-  registerOption('csrfToken', { processor: 'string' });
-
-  register(editor);
 });
