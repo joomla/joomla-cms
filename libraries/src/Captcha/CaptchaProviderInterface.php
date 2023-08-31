@@ -14,7 +14,7 @@ use Joomla\CMS\Form\FormField;
 /**
  * Captcha Provider Interface
  *
- * @since   __DEPLOY_VERSION__
+ * @since   5.0.0
  */
 interface CaptchaProviderInterface
 {
@@ -22,7 +22,7 @@ interface CaptchaProviderInterface
      * Return Captcha name, CMD string.
      *
      * @return string
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getName(): string;
 
@@ -34,7 +34,7 @@ interface CaptchaProviderInterface
      *
      * @return  string  The HTML to be embedded in the form
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      *
      * @throws  \RuntimeException
      */
@@ -47,7 +47,7 @@ interface CaptchaProviderInterface
      *
      * @return  bool    If the answer is correct, false otherwise
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      *
      * @throws  \RuntimeException
      */
@@ -62,7 +62,7 @@ interface CaptchaProviderInterface
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      *
      * @throws  \RuntimeException
      */

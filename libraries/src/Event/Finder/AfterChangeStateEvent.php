@@ -20,7 +20,7 @@ use Joomla\CMS\Event\Model\ChangeStateEvent;
  * Example:
  *  new AfterChangeStateEvent('onEventName', ['context' => 'com_example.example', 'subject' => $primaryKeys, 'value' => $newState]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterChangeStateEvent extends ChangeStateEvent implements FinderEventInterface
 {

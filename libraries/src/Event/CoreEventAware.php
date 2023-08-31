@@ -100,6 +100,11 @@ trait CoreEventAware
         'onAjaxWebauthnInitcreate' => PlgSystemWebauthnAjaxInitCreate::class,
         'onAjaxWebauthnLogin'      => PlgSystemWebauthnAjaxLogin::class,
         'onAjaxWebauthnSavelabel'  => PlgSystemWebauthnAjaxSaveLabel::class,
+        // Plugin: System, Schemaorg
+        'onSchemaBeforeCompileHead' => Plugin\System\Schemaorg\BeforeCompileHeadEvent::class,
+        'onSchemaPrepareData'       => Plugin\System\Schemaorg\PrepareDataEvent::class,
+        'onSchemaPrepareForm'       => Plugin\System\Schemaorg\PrepareFormEvent::class,
+        'onSchemaPrepareSave'       => Plugin\System\Schemaorg\PrepareSaveEvent::class,
         // Extensions
         'onBeforeExtensionBoot' => BeforeExtensionBootEvent::class,
         'onAfterExtensionBoot'  => AfterExtensionBootEvent::class,
@@ -166,6 +171,10 @@ trait CoreEventAware
         'onFinderAfterSave'           => Finder\AfterSaveEvent::class,
         'onFinderResult'              => Finder\ResultEvent::class,
         'onPrepareFinderContent'      => Finder\PrepareContentEvent::class,
+        'onBeforeIndex'               => Finder\BeforeIndexEvent::class,
+        'onBuildIndex'                => Finder\BuildIndexEvent::class,
+        'onStartIndex'                => Finder\StartIndexEvent::class,
+        'onFinderGarbageCollection'   => Finder\GarbageCollectionEvent::class,
     ];
 
     /**

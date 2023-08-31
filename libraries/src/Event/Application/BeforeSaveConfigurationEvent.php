@@ -20,7 +20,7 @@ use Joomla\CMS\Event\Result\ResultTypeBooleanAware;
 /**
  * Class for Application Configuration events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforeSaveConfigurationEvent extends ApplicationConfigurationEvent implements ResultAwareInterface
 {

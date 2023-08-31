@@ -18,12 +18,12 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Buttons Registry class
- * @since   __DEPLOY_VERSION__
+ * @since   5.0.0
  */
 final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAwareInterface
 {
@@ -33,7 +33,7 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
      * List of registered elements
      *
      * @var    array
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected $registry = [];
 
@@ -41,7 +41,7 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
      * Internal flag of initialisation
      *
      * @var    boolean
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private $initialised = false;
 
@@ -51,7 +51,7 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
      * @param   ButtonInterface $instance  A button instance.
      *
      * @return  static
-     * @since    __DEPLOY_VERSION__
+     * @since    5.0.0
      */
     public function add(ButtonInterface $instance): ButtonsRegistryInterface
     {
@@ -64,7 +64,7 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
      * Return list of all registered elements.
      *
      * @return ButtonInterface[]
-     * @since    __DEPLOY_VERSION__
+     * @since    5.0.0
      */
     public function getAll(): array
     {
@@ -77,7 +77,7 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
      * @param array $options  Extra data with editor information.
      *
      * @return  ButtonsRegistryInterface
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function initRegistry(array $options = []): ButtonsRegistryInterface
     {

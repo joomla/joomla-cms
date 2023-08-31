@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\Model;
  * Example:
  *  new AfterDeleteEvent('onEventName', ['context' => 'com_example.example', 'subject' => $itemObjectToDelete]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterDeleteEvent extends DeleteEvent
 {

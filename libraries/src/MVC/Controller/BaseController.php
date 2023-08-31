@@ -1118,7 +1118,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      *
      * @return  DispatcherInterface
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
      */
     public function getDispatcher()

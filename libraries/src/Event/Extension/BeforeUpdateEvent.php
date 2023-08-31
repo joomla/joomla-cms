@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\Extension;
 /**
  * Class for Extension events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforeUpdateEvent extends AbstractExtensionEvent
 {
@@ -25,7 +25,7 @@ class BeforeUpdateEvent extends AbstractExtensionEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['type', 'manifest'];
@@ -38,7 +38,7 @@ class BeforeUpdateEvent extends AbstractExtensionEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -60,7 +60,7 @@ class BeforeUpdateEvent extends AbstractExtensionEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setType(string $value): string
     {
@@ -74,7 +74,7 @@ class BeforeUpdateEvent extends AbstractExtensionEvent
      *
      * @return  ?\SimpleXMLElement
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setManifest(?\SimpleXMLElement $value): ?\SimpleXMLElement
     {
@@ -86,7 +86,7 @@ class BeforeUpdateEvent extends AbstractExtensionEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getType(): string
     {
@@ -98,7 +98,7 @@ class BeforeUpdateEvent extends AbstractExtensionEvent
      *
      * @return  ?\SimpleXMLElement
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getManifest(): ?\SimpleXMLElement
     {

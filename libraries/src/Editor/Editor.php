@@ -47,7 +47,7 @@ class Editor implements DispatcherAwareInterface
      * Captcha Provider instance
      *
      * @var    EditorProviderInterface
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     private $provider;
 

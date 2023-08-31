@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\User;
  * Example:
  *  new LogoutFailureEvent('onEventName', ['subject' => $parameters, 'options' => $options]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class LogoutFailureEvent extends AbstractLogoutEvent
 {

@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\Model;
  * Example:
  *  new NormaliseRequestDataEvent('onEventName', ['context' => 'com_example.example', 'data' => $data, 'subject' => $form]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class NormaliseRequestDataEvent extends BeforeValidateDataEvent
 {
@@ -27,7 +27,7 @@ class NormaliseRequestDataEvent extends BeforeValidateDataEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['context', 'data', 'subject'];

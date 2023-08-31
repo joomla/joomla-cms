@@ -15,12 +15,12 @@ use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Captcha Registry class
- * @since   __DEPLOY_VERSION__
+ * @since   5.0.0
  */
 final class CaptchaRegistry implements DispatcherAwareInterface
 {
@@ -30,7 +30,7 @@ final class CaptchaRegistry implements DispatcherAwareInterface
      * List of registered elements
      *
      * @var    CaptchaProviderInterface[]
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private $registry = [];
 
@@ -38,7 +38,7 @@ final class CaptchaRegistry implements DispatcherAwareInterface
      * Internal flag of initialisation
      *
      * @var    boolean
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private $initialised = false;
 
@@ -46,7 +46,7 @@ final class CaptchaRegistry implements DispatcherAwareInterface
      * Return list of all registered elements
      *
      * @return CaptchaProviderInterface[]
-     * @since    __DEPLOY_VERSION__
+     * @since    5.0.0
      */
     public function getAll(): array
     {
@@ -59,7 +59,7 @@ final class CaptchaRegistry implements DispatcherAwareInterface
      * @param   string  $name  Element name
      *
      * @return  bool
-     * @since    __DEPLOY_VERSION__
+     * @since    5.0.0
      */
     public function has(string $name): bool
     {
@@ -73,7 +73,7 @@ final class CaptchaRegistry implements DispatcherAwareInterface
      *
      * @return  CaptchaProviderInterface
      * @throws  CaptchaNotFoundException
-     * @since    __DEPLOY_VERSION__
+     * @since    5.0.0
      */
     public function get(string $name): CaptchaProviderInterface
     {
@@ -90,7 +90,7 @@ final class CaptchaRegistry implements DispatcherAwareInterface
      * @param   CaptchaProviderInterface $instance
      *
      * @return  static
-     * @since    __DEPLOY_VERSION__
+     * @since    5.0.0
      */
     public function add(CaptchaProviderInterface $instance)
     {
@@ -103,7 +103,7 @@ final class CaptchaRegistry implements DispatcherAwareInterface
      * Trigger event to allow register the element through plugins.
      *
      * @return  static
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function initRegistry()
     {

@@ -16,7 +16,7 @@ namespace Joomla\CMS\Proxy;
 /**
  * Array proxy class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class ArrayProxy implements ProxyInterface, \Countable, \ArrayAccess, \Iterator
 {
@@ -25,7 +25,7 @@ class ArrayProxy implements ProxyInterface, \Countable, \ArrayAccess, \Iterator
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $data = [];
 
@@ -34,7 +34,7 @@ class ArrayProxy implements ProxyInterface, \Countable, \ArrayAccess, \Iterator
      *
      * @param  array  $data  The array for Proxy access
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function __construct(array &$data)
     {
@@ -48,7 +48,7 @@ class ArrayProxy implements ProxyInterface, \Countable, \ArrayAccess, \Iterator
      *
      * @return boolean
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function offsetExists(mixed $offset): bool
     {
@@ -62,7 +62,7 @@ class ArrayProxy implements ProxyInterface, \Countable, \ArrayAccess, \Iterator
      *
      * @return mixed
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function offsetGet(mixed $offset): mixed
     {
@@ -77,7 +77,7 @@ class ArrayProxy implements ProxyInterface, \Countable, \ArrayAccess, \Iterator
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
@@ -91,7 +91,7 @@ class ArrayProxy implements ProxyInterface, \Countable, \ArrayAccess, \Iterator
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function offsetUnset(mixed $offset): void
     {
@@ -103,7 +103,7 @@ class ArrayProxy implements ProxyInterface, \Countable, \ArrayAccess, \Iterator
      *
      * @return int
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function count(): int
     {
@@ -115,7 +115,7 @@ class ArrayProxy implements ProxyInterface, \Countable, \ArrayAccess, \Iterator
      *
      * @return mixed
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function current(): mixed
     {
@@ -129,7 +129,7 @@ class ArrayProxy implements ProxyInterface, \Countable, \ArrayAccess, \Iterator
      *
      * @return mixed
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function key(): mixed
     {
@@ -141,7 +141,7 @@ class ArrayProxy implements ProxyInterface, \Countable, \ArrayAccess, \Iterator
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function next(): void
     {
@@ -153,7 +153,7 @@ class ArrayProxy implements ProxyInterface, \Countable, \ArrayAccess, \Iterator
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function rewind(): void
     {
@@ -165,7 +165,7 @@ class ArrayProxy implements ProxyInterface, \Countable, \ArrayAccess, \Iterator
      *
      * @return boolean
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function valid(): bool
     {

@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\Finder;
  * Example:
  *  new AfterCategoryChangeStateEvent('onEventName', ['context' => $extension, 'subject' => $primaryKeys, 'value' => $newState]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterCategoryChangeStateEvent extends \Joomla\CMS\Event\Model\AfterCategoryChangeStateEvent implements FinderEventInterface
 {

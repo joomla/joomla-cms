@@ -20,7 +20,7 @@ use Joomla\CMS\Form\Form;
 /**
  * Class for Model Form event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 abstract class FormEvent extends AbstractImmutableEvent
 {
@@ -31,7 +31,7 @@ abstract class FormEvent extends AbstractImmutableEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject', 'data'];
@@ -44,7 +44,7 @@ abstract class FormEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -71,7 +71,7 @@ abstract class FormEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setContext(string $value): string
     {
@@ -83,7 +83,7 @@ abstract class FormEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getContext(): string
     {
@@ -97,7 +97,7 @@ abstract class FormEvent extends AbstractImmutableEvent
      *
      * @return  Form
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(Form $value): Form
     {
@@ -109,7 +109,7 @@ abstract class FormEvent extends AbstractImmutableEvent
      *
      * @return  Form
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getForm(): Form
     {
@@ -121,7 +121,7 @@ abstract class FormEvent extends AbstractImmutableEvent
      *
      * @return  object|array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getData()
     {

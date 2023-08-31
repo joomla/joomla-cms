@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\User;
  * Example:
  *  new AfterLoginEvent('onEventName', ['subject' => $authenticationResponseArray, 'options' => $options]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterLoginEvent extends AbstractLoginEvent
 {
@@ -27,7 +27,7 @@ class AfterLoginEvent extends AbstractLoginEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['options', 'subject'];

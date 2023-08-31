@@ -22,7 +22,7 @@ use Joomla\CMS\Event\Result\ResultTypeBooleanAware;
  * Example:
  *  new BeforeSaveEvent('onEventName', ['context' => 'com_example.example', 'subject' => $itemObjectToSave, 'isNew' => $isNew, 'data' => $submittedData]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforeSaveEvent extends SaveEvent implements ResultAwareInterface
 {

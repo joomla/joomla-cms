@@ -17,7 +17,7 @@ namespace Joomla\CMS\Proxy;
  * Array read-only proxy class.
  * The class provides read-only feature for Array, including its children.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class ArrayReadOnlyProxy extends ArrayProxy implements ReadOnlyProxyInterface
 {
@@ -28,7 +28,7 @@ class ArrayReadOnlyProxy extends ArrayProxy implements ReadOnlyProxyInterface
      *
      * @return mixed
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function offsetGet(mixed $offset): mixed
     {
@@ -56,7 +56,7 @@ class ArrayReadOnlyProxy extends ArrayProxy implements ReadOnlyProxyInterface
      *
      * @throws \RuntimeException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {

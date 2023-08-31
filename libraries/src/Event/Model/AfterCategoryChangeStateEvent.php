@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\Model;
  * Example:
  *  new AfterCategoryChangeStateEvent('onEventName', ['context' => $extension, 'subject' => $primaryKeys, 'value' => $newState]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterCategoryChangeStateEvent extends ChangeStateEvent
 {
@@ -27,7 +27,7 @@ class AfterCategoryChangeStateEvent extends ChangeStateEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getExtension(): string
     {

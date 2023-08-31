@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\Model;
  * Example:
  *  new PrepareDataEvent('onEventName', ['context' => 'com_example.example', 'subject' => $data]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class PrepareDataEvent extends ModelEvent
 {
@@ -27,7 +27,7 @@ class PrepareDataEvent extends ModelEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['context', 'subject'];
@@ -37,7 +37,7 @@ class PrepareDataEvent extends ModelEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getData()
     {
