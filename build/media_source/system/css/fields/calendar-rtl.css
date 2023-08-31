@@ -171,3 +171,8 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
   background-repeat: no-repeat;
   background-position: center;
 }
+/* Fix cursor on js-btn and time select */
+.calendar-container select,
+.calendar-container .js-btn {
+  cursor: pointer;
+}

@@ -29,8 +29,8 @@ class DisplayController extends BaseController
      * Method to display a view.
      *
      * @param   boolean        $cachable   If true, the view output will be cached
-     * @param   array|boolean  $urlparams  An array of safe URL parameters and their variable types,
-     *                                     for valid values see {@link \Joomla\CMS\Filter\InputFilter::clean()}.
+     * @param   array|boolean  $urlparams  An array of safe URL parameters and their variable types.
+     *                         @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  void
      *
@@ -124,7 +124,7 @@ class DisplayController extends BaseController
             }
 
             // Make sure we don't send a referer
-            if (in_array($vName, array('remind', 'reset'))) {
+            if (in_array($vName, ['remind', 'reset'])) {
                 $this->app->setHeader('Referrer-Policy', 'no-referrer', true);
             }
 

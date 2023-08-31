@@ -29,9 +29,11 @@
   .navbar-brand {
     position: relative;
     display: inline-block;
-    margin-inline-end: auto;
+    padding-top: .3125rem;
+    padding-bottom: .3125rem;
     font-size: 2rem;
     color: $white;
+    margin-inline-end: auto;
 
     a {
       color: $white;
@@ -174,11 +176,6 @@
       &.active > button.mm-toggler-link::before {
         right: 0;
         left: .5em;
-
-        [dir="rtl"] & {
-          right: .5em;
-          left: 0;
-        }
       }
     }
 

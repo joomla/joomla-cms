@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -84,7 +84,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
     private function configureIO(InputInterface $input, OutputInterface $output): void
     {
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
+        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 
     /**
@@ -126,7 +126,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
         $count = 0;
 
         if ($eid === -1) {
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->select($db->quoteName(['extension_id']))
                 ->from($db->quoteName('#__extensions'))

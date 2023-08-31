@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Fields\Administrator\Field">
 	<fieldset name="group">
 		<field
 			name="context"
 			type="fieldcontexts"
 			filtermode="selector"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 	</fieldset>
 	<fields name="filter">
@@ -22,7 +22,7 @@
 			name="state"
 			type="status"
 			label="JSTATUS"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
@@ -32,7 +32,7 @@
 			type="fieldgroups"
 			label="COM_FIELDS_FIELD_GROUP_LABEL"
 			state="0,1,2"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_FIELDS_VIEW_FIELDS_SELECT_GROUP</option>
 		</field>
@@ -41,7 +41,7 @@
 			name="assigned_cat_ids"
 			type="category"
 			label="JCATEGORY"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			>
 			<option value="">COM_FIELDS_VIEW_FIELDS_SELECT_CATEGORY</option>
@@ -51,7 +51,7 @@
 			name="access"
 			type="accesslevel"
 			label="JGRID_HEADING_ACCESS"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
@@ -60,7 +60,7 @@
 			name="language"
 			type="contentlanguage"
 			label="JGRID_HEADING_LANGUAGE"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 		</field>
@@ -69,13 +69,13 @@
 			name="only_use_in_subform"
 			type="list"
 			label="COM_FIELDS_FIELDS_FILTER_ONLY_USE_IN_SUBFORM_LABEL"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			default=""
 			validate="options"
 			>
 			<option value="">COM_FIELDS_ONLY_USE_IN_SUBFORM</option>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option value="0">COM_FIELDS_ONLY_USE_IN_SUBFORM_ANY</option>
+			<option value="1">COM_FIELDS_ONLY_USE_IN_SUBFORM_SUBFORM</option>
 		</field>
 	</fields>
 
@@ -85,7 +85,7 @@
 			type="list"
 			label="JGLOBAL_SORT_BY"
 			statuses="*,0,1,2,-2"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			default="a.ordering ASC"
 			validate="options"
 			>
@@ -113,7 +113,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 	</fields>
 </form>

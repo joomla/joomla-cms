@@ -19,24 +19,10 @@
       text-decoration: none;
 
       &::before {
-        margin-right: .5rem;
-        font-family: "Font Awesome 5 Free";
+        margin-inline-end: .5rem;
+        font-family: "Font Awesome 6 Free";
         font-weight: 900;
-        content: "\f054";
-
-        [dir="rtl"] & {
-          margin-right: 0;
-          content: none;
-        }
-      }
-
-      &::after {
-        [dir="rtl"] & {
-          margin-inline-end: .5rem;
-          font-family: "Font Awesome 5 Free";
-          font-weight: 900;
-          content: "\f053";
-        }
+        content: "\f054" #{"/*!rtl:\"\f053\"*/"};
       }
     }
 

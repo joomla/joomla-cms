@@ -11,7 +11,6 @@
 namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -41,9 +40,9 @@ class UpdateController extends BaseController
     {
         $this->checkToken();
 
-        $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
         $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
+        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
         $user = $this->app->getIdentity();
 
         try {
@@ -57,10 +56,10 @@ class UpdateController extends BaseController
         $result = $model->download();
         $file   = $result['basename'];
 
-        $message = null;
+        $message     = null;
         $messageType = null;
 
-        // The validation was not successful so abort.
+        // The validation was not successful so stop.
         if ($result['check'] === false) {
             $message     = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
             $messageType = 'error';
@@ -89,8 +88,8 @@ class UpdateController extends BaseController
             }
         } else {
             $this->app->setUserState('com_joomlaupdate.file', null);
-            $url = 'index.php?option=com_joomlaupdate';
-            $message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_DOWNLOADFAILED');
+            $url         = 'index.php?option=com_joomlaupdate';
+            $message     = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_DOWNLOADFAILED');
             $messageType = 'error';
         }
 
@@ -109,9 +108,9 @@ class UpdateController extends BaseController
         $this->checkToken('get');
         $this->app->setUserState('com_joomlaupdate.oldversion', JVERSION);
 
-        $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
         $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
+        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
 
         try {
             Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), Log::INFO, 'Update');
@@ -147,9 +146,9 @@ class UpdateController extends BaseController
             return;
         }
 
-        $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
         $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
+        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
 
         try {
             Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_FINALISE'), Log::INFO, 'Update');
@@ -185,9 +184,9 @@ class UpdateController extends BaseController
             return;
         }
 
-        $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
         $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
+        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
 
         try {
             Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_CLEANUP'), Log::INFO, 'Update');
@@ -259,7 +258,7 @@ class UpdateController extends BaseController
         }
 
         $token = Session::getFormToken();
-        $url = 'index.php?option=com_joomlaupdate&task=update.captive&' . $token . '=1';
+        $url   = 'index.php?option=com_joomlaupdate&task=update.captive&' . $token . '=1';
         $this->setRedirect($url);
     }
 
@@ -283,7 +282,7 @@ class UpdateController extends BaseController
         // Do I really have an update package?
         $tempFile = $this->app->getUserState('com_joomlaupdate.temp_file', null);
 
-        if (empty($tempFile) || !File::exists($tempFile)) {
+        if (empty($tempFile) || !is_file($tempFile)) {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
         }
 
@@ -322,11 +321,11 @@ class UpdateController extends BaseController
         }
 
         // Try to log in
-        $credentials = array(
+        $credentials = [
             'username'  => $this->input->post->get('username', '', 'username'),
             'password'  => $this->input->post->get('passwd', '', 'raw'),
             'secretkey' => $this->input->post->get('secretkey', '', 'raw'),
-        );
+        ];
 
         $result = $model->captiveLogin($credentials);
 
@@ -354,13 +353,14 @@ class UpdateController extends BaseController
      * Method to display a view.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static  This object to support chaining.
      *
      * @since   2.5.4
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         // Get the document object.
         $document = $this->app->getDocument();
@@ -410,11 +410,11 @@ class UpdateController extends BaseController
         $model = $this->getModel('Update');
 
         // Try to log in
-        $credentials = array(
+        $credentials = [
             'username'  => $this->input->post->get('username', '', 'username'),
             'password'  => $this->input->post->get('passwd', '', 'raw'),
             'secretkey' => $this->input->post->get('secretkey', '', 'raw'),
-        );
+        ];
 
         $result = $model->captiveLogin($credentials);
 
@@ -436,19 +436,22 @@ class UpdateController extends BaseController
      * Called from JS.
      *
      * @since       3.10.0
-     * @deprecated  5.0  Use batchextensioncompatibility instead.
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use batchextensioncompatibility instead.
+     *              Example: $updateController->batchextensioncompatibility();
      *
      * @return void
      */
     public function fetchExtensionCompatibility()
     {
-        $extensionID = $this->input->get('extension-id', '', 'DEFAULT');
-        $joomlaTargetVersion = $this->input->get('joomla-target-version', '', 'DEFAULT');
+        $extensionID          = $this->input->get('extension-id', '', 'DEFAULT');
+        $joomlaTargetVersion  = $this->input->get('joomla-target-version', '', 'DEFAULT');
         $joomlaCurrentVersion = $this->input->get('joomla-current-version', '', JVERSION);
-        $extensionVersion = $this->input->get('extension-version', '', 'DEFAULT');
+        $extensionVersion     = $this->input->get('extension-version', '', 'DEFAULT');
 
         /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
-        $model = $this->getModel('Update');
+        $model                      = $this->getModel('Update');
         $upgradeCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
         $currentCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaCurrentVersion);
         $upgradeUpdateVersion       = false;
@@ -500,22 +503,22 @@ class UpdateController extends BaseController
         }
 
         // Do we need to capture
-        $combinedCompatibilityStatus = array(
-            'upgradeCompatibilityStatus' => (object) array(
-                'state' => $upgradeCompatibilityStatus->state,
-                'compatibleVersion' => $upgradeUpdateVersion
-            ),
-            'currentCompatibilityStatus' => (object) array(
-                'state' => $currentCompatibilityStatus->state,
-                'compatibleVersion' => $currentUpdateVersion
-            ),
-            'resultGroup' => $resultGroup,
+        $combinedCompatibilityStatus = [
+            'upgradeCompatibilityStatus' => (object) [
+                'state'             => $upgradeCompatibilityStatus->state,
+                'compatibleVersion' => $upgradeUpdateVersion,
+            ],
+            'currentCompatibilityStatus' => (object) [
+                'state'             => $currentCompatibilityStatus->state,
+                'compatibleVersion' => $currentUpdateVersion,
+            ],
+            'resultGroup'    => $resultGroup,
             'upgradeWarning' => $upgradeWarning,
-        );
+        ];
 
-        $this->app = Factory::getApplication();
+        $this->app           = Factory::getApplication();
         $this->app->mimeType = 'application/json';
-        $this->app->charSet = 'utf-8';
+        $this->app->charSet  = 'utf-8';
         $this->app->setHeader('Content-Type', $this->app->mimeType . '; charset=' . $this->app->charSet);
         $this->app->sendHeaders();
 
@@ -539,7 +542,7 @@ class UpdateController extends BaseController
      */
     public function batchextensioncompatibility()
     {
-        $joomlaTargetVersion = $this->input->post->get('joomla-target-version', '', 'DEFAULT');
+        $joomlaTargetVersion  = $this->input->post->get('joomla-target-version', '', 'DEFAULT');
         $joomlaCurrentVersion = $this->input->post->get('joomla-current-version', JVERSION);
         $extensionInformation = $this->input->post->get('extensions', []);
 
@@ -547,8 +550,8 @@ class UpdateController extends BaseController
         $model = $this->getModel('Update');
 
         $extensionResults = [];
-        $leftover = [];
-        $startTime = microtime(true);
+        $leftover         = [];
+        $startTime        = microtime(true);
 
         foreach ($extensionInformation as $information) {
             // Only process an extension if we have spent less than 5 seconds already
@@ -617,19 +620,19 @@ class UpdateController extends BaseController
                 'id'                         => $extensionID,
                 'upgradeCompatibilityStatus' => (object) [
                     'state'             => $upgradeCompatibilityStatus->state,
-                    'compatibleVersion' => $upgradeUpdateVersion
+                    'compatibleVersion' => $upgradeUpdateVersion,
                 ],
                 'currentCompatibilityStatus' => (object) [
                     'state'             => $currentCompatibilityStatus->state,
-                    'compatibleVersion' => $currentUpdateVersion
+                    'compatibleVersion' => $currentUpdateVersion,
                 ],
-                'resultGroup'                => $resultGroup,
-                'upgradeWarning'             => $upgradeWarning,
+                'resultGroup'    => $resultGroup,
+                'upgradeWarning' => $upgradeWarning,
             ];
         }
 
         $this->app->mimeType = 'application/json';
-        $this->app->charSet = 'utf-8';
+        $this->app->charSet  = 'utf-8';
         $this->app->setHeader('Content-Type', $this->app->mimeType . '; charset=' . $this->app->charSet);
         $this->app->sendHeaders();
 
@@ -664,7 +667,7 @@ class UpdateController extends BaseController
         }
 
         /** @var UpdateModel $model */
-        $model = $this->getModel('Update');
+        $model      = $this->getModel('Update');
         $updateInfo = $model->getUpdateInformation();
 
         $update   = [];

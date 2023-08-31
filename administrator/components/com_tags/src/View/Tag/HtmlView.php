@@ -16,7 +16,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -47,7 +47,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -61,7 +61,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  4.0.0
      */
@@ -99,12 +99,13 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $user       = $this->getCurrentUser();
         $userId     = $user->get('id');
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $toolbar    = Toolbar::getInstance();
 
         $canDo = ContentHelper::getActions('com_tags');
 
@@ -112,51 +113,55 @@ class HtmlView extends BaseHtmlView
 
         // Build the actions for new and existing records.
         if ($isNew) {
-            ToolbarHelper::apply('tag.apply');
-            ToolbarHelper::saveGroup(
-                [
-                    ['save', 'tag.save'],
-                    ['save2new', 'tag.save2new']
-                ],
-                'btn-success'
+            $toolbar->apply('tag.apply');
+            $saveGroup = $toolbar->dropdownButton('save-group');
+
+            $saveGroup->configure(
+                function (Toolbar $childBar) {
+                    $childBar->save('tag.save');
+                    $childBar->save2new('tag.save2new');
+                }
             );
 
-            ToolbarHelper::cancel('tag.cancel');
+            $toolbar->cancel('tag.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId);
 
-            $toolbarButtons = [];
-
             // Can't save the record if it's checked out and editable
             if (!$checkedOut && $itemEditable) {
-                ToolbarHelper::apply('tag.apply');
-                $toolbarButtons[] = ['save', 'tag.save'];
+                $toolbar->apply('tag.apply');
+            }
 
-                // We can save this record, but check the create permission to see if we can return to make a new one.
-                if ($canDo->get('core.create')) {
-                    $toolbarButtons[] = ['save2new', 'tag.save2new'];
+            $saveGroup = $toolbar->dropdownButton('save-group');
+
+            $saveGroup->configure(
+                function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo) {
+                    // Can't save the record if it's checked out and editable
+                    if (!$checkedOut && $itemEditable) {
+                        $childBar->save('tag.save');
+
+                        // We can save this record, but check the create permission to see if we can return to make a new one.
+                        if ($canDo->get('core.create')) {
+                            $childBar->save2new('tag.save2new');
+                        }
+                    }
+
+                    // If checked out, we can still save
+                    if ($canDo->get('core.create')) {
+                        $childBar->save2copy('tag.save2copy');
+                    }
                 }
-            }
-
-            // If checked out, we can still save
-            if ($canDo->get('core.create')) {
-                $toolbarButtons[] = ['save2copy', 'tag.save2copy'];
-            }
-
-            ToolbarHelper::saveGroup(
-                $toolbarButtons,
-                'btn-success'
             );
 
-            ToolbarHelper::cancel('tag.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('tag.cancel');
 
             if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable) {
-                ToolbarHelper::versions('com_tags.tag', $this->item->id);
+                $toolbar->versions('com_tags.tag', $this->item->id);
             }
         }
 
-        ToolbarHelper::divider();
-        ToolbarHelper::help('Tags:_New_or_Edit');
+        $toolbar->divider();
+        $toolbar->help('Tags:_New_or_Edit');
     }
 }

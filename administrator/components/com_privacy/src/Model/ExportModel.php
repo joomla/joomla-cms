@@ -19,7 +19,8 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\Component\Privacy\Administrator\Export\Domain;
 use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
@@ -35,8 +36,10 @@ use PHPMailer\PHPMailer\Exception as phpmailerException;
  *
  * @since  3.9.0
  */
-class ExportModel extends BaseDatabaseModel
+class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Create the export document for an information request.
      *
@@ -89,7 +92,7 @@ class ExportModel extends BaseDatabaseModel
                 ->setLimit(1)
         )->loadResult();
 
-        $user = $userId ? User::getInstance($userId) : null;
+        $user = $userId ? $this->getUserFactory()->loadUserById($userId) : null;
 
         // Log the export
         $this->logExport($table);
@@ -180,7 +183,7 @@ class ExportModel extends BaseDatabaseModel
         )->loadResult();
 
         if ($userId) {
-            $receiver = User::getInstance($userId);
+            $receiver = $this->getUserFactory()->loadUserById($userId);
 
             /*
              * We don't know if the user has admin access, so we will check if they have an admin language in their parameters,
@@ -202,7 +205,7 @@ class ExportModel extends BaseDatabaseModel
 
         // The mailer can be set to either throw Exceptions or return boolean false, account for both
         try {
-            $app = Factory::getApplication();
+            $app    = Factory::getApplication();
             $mailer = new MailTemplate('com_privacy.userdataexport', $app->getLanguage()->getTag());
 
             $templateData = [
@@ -305,7 +308,7 @@ class ExportModel extends BaseDatabaseModel
     protected function populateState()
     {
         // Get the pk of the record from the request.
-        $this->setState($this->getName() . '.request_id', Factory::getApplication()->input->getUint('id'));
+        $this->setState($this->getName() . '.request_id', Factory::getApplication()->getInput()->getUint('id'));
 
         // Load the parameters.
         $this->setState('params', ComponentHelper::getParams('com_privacy'));

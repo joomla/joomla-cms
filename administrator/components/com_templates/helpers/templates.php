@@ -19,7 +19,8 @@
  *
  * @since       1.6
  *
- * @deprecated  5.0 Use \Joomla\Component\Templates\Administrator\Helper\TemplatesHelper instead
+ * @deprecated  4.3 will be removed in 6.0
+ *              Use \Joomla\Component\Templates\Administrator\Helper\TemplatesHelper instead
  */
 class TemplatesHelper extends \Joomla\Component\Templates\Administrator\Helper\TemplatesHelper
 {

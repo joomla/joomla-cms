@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
 $data = $displayData;
 
 // Receive overridable options
-$data['options'] = !empty($data['options']) ? $data['options'] : array();
+$data['options'] = !empty($data['options']) ? $data['options'] : [];
 
 if (is_array($data['options'])) {
     $data['options'] = new Registry($data['options']);

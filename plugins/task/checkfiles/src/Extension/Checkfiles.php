@@ -19,7 +19,6 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
-use LogicException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -100,8 +99,8 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
      * @return integer  The exit code
      *
      * @since 4.1.0
-     * @throws RuntimeException
-     * @throws LogicException
+     * @throws \RuntimeException
+     * @throws \LogicException
      */
     protected function checkImages(ExecuteTaskEvent $event): int
     {
@@ -144,7 +143,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
 
             try {
                 $image->resize($newWidth, $newHeight, false);
-            } catch (LogicException $e) {
+            } catch (\LogicException $e) {
                 $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_CHECK_FILES_LOG_RESIZE_FAIL'), 'error');
 
                 return TaskStatus::KNOCKOUT;

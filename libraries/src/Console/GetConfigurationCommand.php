@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -55,7 +55,7 @@ class GetConfigurationCommand extends AbstractCommand
      * @since 4.0.0
      */
     public const DB_GROUP = [
-        'name' => 'db',
+        'name'    => 'db',
         'options' => [
             'dbtype',
             'host',
@@ -68,8 +68,8 @@ class GetConfigurationCommand extends AbstractCommand
             'dbsslkey',
             'dbsslcert',
             'dbsslca',
-            'dbsslcipher'
-        ]
+            'dbsslcipher',
+        ],
     ];
 
     /**
@@ -78,12 +78,12 @@ class GetConfigurationCommand extends AbstractCommand
      * @since 4.0.0
      */
     public const SESSION_GROUP = [
-        'name' => 'session',
+        'name'    => 'session',
         'options' => [
             'session_handler',
             'shared_session',
-            'session_metadata'
-        ]
+            'session_metadata',
+        ],
     ];
 
     /**
@@ -92,7 +92,7 @@ class GetConfigurationCommand extends AbstractCommand
      * @since 4.0.0
      */
     public const MAIL_GROUP = [
-        'name' => 'mail',
+        'name'    => 'mail',
         'options' => [
             'mailonline',
             'mailer',
@@ -104,8 +104,8 @@ class GetConfigurationCommand extends AbstractCommand
             'smtppass',
             'smtphost',
             'smtpsecure',
-            'smtpport'
-        ]
+            'smtpport',
+        ],
     ];
 
     /**
@@ -146,7 +146,7 @@ class GetConfigurationCommand extends AbstractCommand
     private function configureIO(InputInterface $input, OutputInterface $output)
     {
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
+        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 
 
@@ -171,7 +171,7 @@ class GetConfigurationCommand extends AbstractCommand
         foreach ($groups as $key => $value) {
             if ($value['name'] === $group) {
                 $foundGroup = true;
-                $options = [];
+                $options    = [];
 
                 foreach ($value['options'] as $option) {
                     $options[] = [$option, $configs[$option]];
@@ -202,7 +202,7 @@ class GetConfigurationCommand extends AbstractCommand
         return [
             self::DB_GROUP,
             self::MAIL_GROUP,
-            self::SESSION_GROUP
+            self::SESSION_GROUP,
         ];
     }
 
