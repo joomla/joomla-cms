@@ -56,7 +56,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * @var    string
      * @since  1.7.0
      */
-    public $template = null;
+    public $template;
 
     /**
      * Base url
@@ -64,15 +64,15 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * @var    string
      * @since  1.7.0
      */
-    public $baseurl = null;
+    public $baseurl;
 
     /**
-     * Array of template parameters
+     * Registry of template parameters
      *
-     * @var    array
+     * @var    Registry
      * @since  1.7.0
      */
-    public $params = null;
+    public $params;
 
     /**
      * File name
@@ -80,7 +80,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * @var    array
      * @since  1.7.0
      */
-    public $_file = null;
+    public $_file;
 
     /**
      * Script nonce (string if set, null otherwise)
@@ -88,7 +88,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * @var    string|null
      * @since  4.0.0
      */
-    public $cspNonce = null;
+    public $cspNonce;
 
     /**
      * String holding parsed template
@@ -112,7 +112,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * @var    integer
      * @since  1.7.0
      */
-    protected $_caching = null;
+    protected $_caching;
 
     /**
      * Set to true when the document should be output as HTML5
