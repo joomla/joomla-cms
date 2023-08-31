@@ -1,5 +1,6 @@
 $atum-colors-dark: (
-  template-quickicon-color:        var(--template-bg-dark-5),
+  template-quickicon-color: var(--template-bg-dark-5),
+  focus-shadow:             var(--gray-800),
 ) !default;
 
 $link-hover-color-dark: lighten($light-blue, 20%);
