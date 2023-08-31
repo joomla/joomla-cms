@@ -11,6 +11,14 @@
     padding: 0 1rem;
     font-weight: $font-weight-bold;
     color: var(--template-text-dark);
-    background-color: $white;
+    background-color: var(--bg-color);
+  }
+
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      > legend {
+        color:var(--template-text-light);
+      }
+    }
   }
 }
