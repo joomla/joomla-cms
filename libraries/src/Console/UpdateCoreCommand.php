@@ -11,6 +11,7 @@ namespace Joomla\CMS\Console;
 
 use Joomla\Application\Cli\CliInput;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\InstallerHelper;
@@ -180,6 +181,19 @@ class UpdateCoreCommand extends AbstractCommand
         if (!$this->updateInfo['hasUpdate']) {
             $this->progressBar->finish();
             $this->ioStyle->note('You already have the latest Joomla! version. ' . $this->updateInfo['latest']);
+
+            return self::ERR_CHECKS_FAILED;
+        }
+
+        $this->progressBar->advance();
+        $this->progressBar->setMessage('Check Database Table Structure...');
+
+        $errors = $this->checkSchema();
+
+        if ($errors > 0) {
+            $this->ioStyle->error('Database Table Structure not Up to Date');
+            $this->progressBar->finish();
+            $this->ioStyle->info('There were ' . $errors . ' errors');
 
             return self::ERR_CHECKS_FAILED;
         }
@@ -410,5 +424,33 @@ class UpdateCoreCommand extends AbstractCommand
     public function copyFileTo($file, $dir): void
     {
         Folder::copy($file, $dir, '', true);
+    }
+
+    /**
+     * Check Database Table Structure
+     *
+     * @return  integer the number of errors
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function checkSchema(): int
+    {
+        $app = $this->getApplication();
+        $app->getLanguage()->load('com_installer', JPATH_ADMINISTRATOR);
+        $coreExtensionInfo = ExtensionHelper::getExtensionRecord('joomla', 'file');
+
+        $dbmodel = $app->bootComponent('com_installer')->getMVCFactory($app)->createModel('Database', 'Administrator');
+
+        // Ensure we only get information for core
+        $dbmodel->setState('filter.extension_id', $coreExtensionInfo->extension_id);
+
+        // We're filtering by a single extension which must always exist - so can safely access this through element 0 of the array
+        $changeInformation = $dbmodel->getItems()[0];
+
+        foreach ($changeInformation['errorsMessage'] as $msg) {
+            $this->ioStyle->info($msg);
+        }
+
+        return $changeInformation['errorsCount'];
     }
 }
