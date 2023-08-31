@@ -37,7 +37,7 @@ describe('Test in frontend that the privacy consent view', () => {
     cy.doFrontendLogin();
     cy.visit('/index.php');
     cy.get('#jform_privacyconsent_privacy1').click();
-    cy.get('.controls > .btn-primary').click();
+    cy.get('.controls > .btn-primary').click({ force: true });
     cy.get('.alert-message').should('include.text', "Profile could not be saved: Agreement to the site's Privacy Policy is required.");
     cy.get('#jform_privacyconsent_privacy0').click();
     cy.get('.controls > .btn-primary').click({ force: true });
