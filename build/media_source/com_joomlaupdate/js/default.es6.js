@@ -569,10 +569,15 @@ Joomla = window.Joomla || {};
         status = 'warning';
       }
 
-      if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0 && status === 'success') {
+      if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0 && status === 'success' && document.getElementById('preupdatecheckbox')) {
         document.getElementById('preupdatecheckbox').style.display = 'none';
-        document.getElementById('noncoreplugins').checked = true;
+      }
 
+      if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0 && status === 'success' && document.getElementById('noncoreplugins')) {
+        document.getElementById('noncoreplugins').checked = true;
+      }
+
+      if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0 && status === 'success') {
         [].slice.call(document.querySelectorAll('button.submitupdate')).forEach((el) => {
           el.classList.remove('disabled');
           el.removeAttribute('disabled');
