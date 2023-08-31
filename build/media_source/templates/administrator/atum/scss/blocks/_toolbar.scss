@@ -86,6 +86,14 @@
       --subhead-btn-accent: var(--template-bg-dark);
     }
 
+    @if $enable-dark-mode {
+      @include color-mode(dark) {
+        &.btn-info {
+          --subhead-btn-accent: var(--template-bg-light);
+        }
+      }
+    }
+
     &.btn-action {
       --subhead-btn-accent: var(--template-bg-dark);
       display: flex;
@@ -97,6 +105,14 @@
         font-weight: 900;
         content: "\f078";
         border: 0;
+      }
+    }
+
+    @if $enable-dark-mode {
+      @include color-mode(dark) {
+        &.btn-action {
+          --subhead-btn-accent: var(--template-bg-light);
+        }
       }
     }
 
