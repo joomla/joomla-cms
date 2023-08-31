@@ -164,34 +164,6 @@
       // eslint-disable-next-line no-undef
       const ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
 
-      if (options.uploadUri) {
-        ed.options.register('uploadUri', {
-          processor: 'string',
-          default: '',
-        });
-      }
-
-      if (options.comMediaAdapter) {
-        ed.options.register('comMediaAdapter', {
-          processor: 'string',
-          default: '',
-        });
-      }
-
-      if (options.parentUploadFolder) {
-        ed.options.register('parentUploadFolder', {
-          processor: 'string',
-          default: '',
-        });
-      }
-
-      if (options.csrfToken) {
-        ed.options.register('csrfToken', {
-          processor: 'string',
-          default: '',
-        });
-      }
-
       // Work around iframe behavior, when iframe element changes location in DOM and losing its content.
       // Re init editor when iframe is reloaded.
       if (!ed.inline) {
