@@ -16,7 +16,7 @@ use Joomla\CMS\Table\TableInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -182,7 +182,7 @@ class UCMContent extends UCMBase
      */
     protected function store($data, TableInterface $table = null, $primaryKey = null)
     {
-        $table = $table ?: Table::getInstance('Corecontent');
+        $table = $table ?: Table::getInstance('CoreContent');
 
         $typeId     = $this->getType()->type->type_id;
         $primaryKey = $primaryKey ?: $this->getPrimaryKey($typeId, $data['core_content_item_id']);

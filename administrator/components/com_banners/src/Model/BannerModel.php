@@ -75,7 +75,7 @@ class BannerModel extends AdminModel
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.2
      */
     protected function cleanupPostBatchCopy(TableInterface $table, $newId, $oldId)
     {
@@ -164,7 +164,7 @@ class BannerModel extends AdminModel
      * for alias and title to use the batch move and copy methods
      *
      * @param   integer  $categoryId  The target category id
-     * @param   Table    $table       The JTable within which move or copy is taking place
+     * @param   Table    $table       The \Joomla\CMS\Table\Table within which move or copy is taking place
      *
      * @return  void
      *

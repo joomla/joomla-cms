@@ -10,13 +10,14 @@
 namespace Joomla\CMS\Categories;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Tree\NodeInterface;
 use Joomla\CMS\Tree\NodeTrait;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -24,8 +25,11 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class CategoryNode extends CMSObject implements NodeInterface
+#[\AllowDynamicProperties]
+class CategoryNode implements NodeInterface
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
     use NodeTrait;
 
     /**
@@ -489,7 +493,7 @@ class CategoryNode extends CMSObject implements NodeInterface
     /**
      * Serialize the node.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.2
      */
     public function __serialize()
     {
@@ -508,7 +512,7 @@ class CategoryNode extends CMSObject implements NodeInterface
      *
      * @param   array  $data
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.2
      */
     public function __unserialize($data)
     {

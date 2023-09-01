@@ -236,7 +236,7 @@ abstract class FormModel extends BaseForm
      * @return  mixed  Array of filtered data if valid, false otherwise.
      *
      * @see     \Joomla\CMS\Form\FormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.2
      */
     public function validate($form, $data, $group = null)

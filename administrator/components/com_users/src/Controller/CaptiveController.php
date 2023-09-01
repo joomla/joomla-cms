@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Controller;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
@@ -25,7 +24,6 @@ use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\CaptiveModel;
 use Joomla\Input\Input;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -64,7 +62,7 @@ class CaptiveController extends BaseController implements UserFactoryAwareInterf
      * @param   boolean|array  $urlparams  Ignored. This page is never cached.
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public function display($cachable = false, $urlparams = false): void
@@ -73,7 +71,7 @@ class CaptiveController extends BaseController implements UserFactoryAwareInterf
 
         // Only allow logged in Users
         if ($user->guest) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         // Get the view object
@@ -109,7 +107,7 @@ class CaptiveController extends BaseController implements UserFactoryAwareInterf
         try {
             // Suppress all modules on the page except those explicitly allowed
             $model->suppressAllModules();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // If we can't kill the modules we can still survive.
         }
 
@@ -128,7 +126,7 @@ class CaptiveController extends BaseController implements UserFactoryAwareInterf
      * @param   array  $urlparameters    Ignored. This page is never cached.
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public function validate($cachable = false, $urlparameters = [])
@@ -150,7 +148,19 @@ class CaptiveController extends BaseController implements UserFactoryAwareInterf
             $event = new NotifyActionLog('onComUsersCaptiveValidateInvalidMethod');
             $this->app->getDispatcher()->dispatch($event->getName(), $event);
 
-            throw new RuntimeException(Text::_('COM_USERS_MFA_INVALID_METHOD'), 500);
+            throw new \RuntimeException(Text::_('COM_USERS_MFA_INVALID_METHOD'), 500);
+        }
+
+        if (!$model->checkTryLimit($record)) {
+            // The try limit is reached, show error and return
+            $captiveURL = Route::_('index.php?option=com_users&view=captive&task=select', false);
+            $message    = Text::_('COM_USERS_MFA_TRY_LIMIT_REACHED');
+            $this->setRedirect($captiveURL, $message, 'error');
+
+            $event = new NotifyActionLog('onComUsersCaptiveValidateTryLimitReached');
+            $this->app->getDispatcher()->dispatch($event->getName(), $event);
+
+            return;
         }
 
         // Validate the code
@@ -210,6 +220,8 @@ class CaptiveController extends BaseController implements UserFactoryAwareInterf
         $jNow = Date::getInstance();
 
         $record->last_used = $jNow->toSql();
+        $record->tries     = 0;
+        $record->last_try  = null;
         $record->store();
 
         // Flag the user as fully logged in

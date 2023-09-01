@@ -10,12 +10,12 @@
 namespace Joomla\CMS\Installation\Helper;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -36,7 +36,7 @@ abstract class DatabaseHelper
      * @var    string
      * @since  4.0.0
      */
-    protected static $dbMinimumMariaDb = '10.1';
+    protected static $dbMinimumMariaDb = '10.4';
 
     /**
      * The minimum database server version for MySQL databases as required by the CMS.
@@ -45,7 +45,7 @@ abstract class DatabaseHelper
      * @var    string
      * @since  4.0.0
      */
-    protected static $dbMinimumMySql = '5.6';
+    protected static $dbMinimumMySql = '8.0.13';
 
     /**
      * The minimum database server version for PostgreSQL databases as required by the CMS.
@@ -54,7 +54,7 @@ abstract class DatabaseHelper
      * @var    string
      * @since  4.0.0
      */
-    protected static $dbMinimumPostgreSql = '11.0';
+    protected static $dbMinimumPostgreSql = '12.0';
 
     /**
      * Method to get a database driver.

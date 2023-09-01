@@ -26,7 +26,7 @@ $wa->useScript('com_contact.contacts-list')
 
 $canDo   = ContactHelper::getActions('com_contact', 'category', $this->category->id);
 $canEdit = $canDo->get('core.edit');
-$userId  = Factory::getUser()->id;
+$userId  = $this->getCurrentUser()->id;
 
 $showEditColumn = false;
 if ($canEdit) {
@@ -88,7 +88,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                 <thead<?php echo $this->params->get('show_headings', '1') ? '' : ' class="visually-hidden"'; ?>>
                     <tr>
                         <th scope="col" id="categorylist_header_title">
-                            <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder, null, 'asc', '', 'adminForm'); ?>
+                            <?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_FIELD_NAME_LABEL', 'a.name', $listDirn, $listOrder, null, 'asc', '', 'adminForm'); ?>
                         </th>
                         <th scope="col">
                             <?php echo Text::_('COM_CONTACT_CONTACT_DETAILS'); ?>

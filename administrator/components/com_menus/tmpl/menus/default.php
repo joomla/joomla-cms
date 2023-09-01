@@ -10,11 +10,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -25,7 +25,7 @@ $wa->useScript('table.columns')
 
 $uri       = Uri::getInstance();
 $return    = base64_encode($uri);
-$user      = Factory::getUser();
+$user      = $this->getCurrentUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $modMenuId = (int) $this->get('ModMenuId');
@@ -35,6 +35,13 @@ foreach ($this->items as $item) {
     if ($user->authorise('core.edit', 'com_menus')) {
         $itemIds[] = $item->id;
     }
+}
+
+$saveOrder = $listOrder == 'a.ordering';
+
+if ($saveOrder) {
+    $saveOrderingUrl = 'index.php?option=com_menus&task=menus.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+    HTMLHelper::_('draggablelist.draggable');
 }
 
 $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
@@ -61,6 +68,9 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                 <td class="w-1 text-center">
                                     <?php echo HTMLHelper::_('grid.checkall'); ?>
                                 </td>
+                                <th scope="col" class="w-1 text-center d-none d-md-table-cell">
+                                    <?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
+                                </th>
                                 <th scope="col">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
                                 </th>
@@ -88,14 +98,34 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody <?php if ($saveOrder) :
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php
+                               endif; ?>>
                         <?php foreach ($this->items as $i => $item) :
+                            $ordering       = ($listOrder == 'a.ordering');
                             $canEdit        = $user->authorise('core.edit', 'com_menus.menu.' . (int) $item->id);
                             $canManageItems = $user->authorise('core.manage', 'com_menus.menu.' . (int) $item->id);
+                            $canChange      = $user->authorise('core.edit.state', 'com_menus.menu.' . (int) $item->id);
                             ?>
-                            <tr class="row<?php echo $i % 2; ?>">
+                            <tr class="row<?php echo $i % 2; ?>" data-draggable-group="0">
                                 <td class="text-center">
                                     <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
+                                </td>
+                                <td class="text-center d-none d-md-table-cell">
+                                    <?php
+                                    $iconClass = '';
+                                    if (!$canChange) {
+                                        $iconClass = ' inactive';
+                                    } elseif (!$saveOrder) {
+                                        $iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
+                                    }
+                                    ?>
+                                    <span class="sortable-handler<?php echo $iconClass; ?>">
+                                        <span class="icon-ellipsis-v" aria-hidden="true"></span>
+                                    </span>
+                                    <?php if ($canChange && $saveOrder) : ?>
+                                        <input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
+                                    <?php endif; ?>
                                 </td>
                                 <th scope="row">
                                     <div class="name break-word">

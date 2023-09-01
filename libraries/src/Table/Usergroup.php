@@ -15,7 +15,7 @@ use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -93,7 +93,7 @@ class Usergroup extends Table
 
         // We do not allow to move non public to root and public to non-root
         if (!empty($this->id)) {
-            $table = self::getInstance('Usergroup', 'JTable', ['dbo' => $this->getDbo()]);
+            $table = self::getInstance('Usergroup', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
 
             $table->load($this->id);
 
@@ -111,7 +111,7 @@ class Usergroup extends Table
 
         // The new parent_id has to be a valid group
         if ($this->parent_id) {
-            $table = self::getInstance('Usergroup', 'JTable', ['dbo' => $this->getDbo()]);
+            $table = self::getInstance('Usergroup', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
             $table->load($this->parent_id);
 
             if ($table->id != $this->parent_id) {
