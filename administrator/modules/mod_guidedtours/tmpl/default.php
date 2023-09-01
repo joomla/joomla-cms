@@ -111,7 +111,7 @@ endif;
                         </button>
                     </li>
                 <?php endforeach; ?>
-            </ol>
+            </ul>
             <hr class="dropdown-divider m-0" role="separator" />
         <?php endif; ?>
         <?php if (count($listTours) > 0) : ?>
