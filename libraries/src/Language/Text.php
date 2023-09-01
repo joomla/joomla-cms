@@ -28,6 +28,8 @@ class Text
      *
      * @var    array
      * @since  1.7.0
+     *
+     * @deprecated 4.0 will be removed in 6.0. Without replacement.
      */
     protected static $strings = [];
 
@@ -351,14 +353,21 @@ class Text
 
         // Add the string to the array if not null.
         if ($string !== null) {
+            $doc = Factory::getDocument();
+
+            // Get previously added strings
+            $strings = $doc->getScriptOptions('joomla.jtext');
+
             // Normalize the key and translate the string.
-            static::$strings[strtoupper($string)] = Factory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
+            $key                   = strtoupper($string);
+            $strings[$key]         = Factory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
+            static::$strings[$key] = $strings[$key];
 
             // Load core.js dependency
             HTMLHelper::_('behavior.core');
 
             // Update Joomla.Text script options
-            Factory::getDocument()->addScriptOptions('joomla.jtext', static::$strings, false);
+            $doc->addScriptOptions('joomla.jtext', $strings, false);
         }
 
         return static::getScriptStrings();
@@ -370,6 +379,9 @@ class Text
      * @return  array
      *
      * @since   3.7.0
+     *
+     * @deprecated 4.0 will be removed in 6.0.
+     *              Read script strings from scriptOptions.
      */
     public static function getScriptStrings()
     {
