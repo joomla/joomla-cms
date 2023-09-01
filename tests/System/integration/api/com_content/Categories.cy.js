@@ -32,10 +32,10 @@ describe('Test that content categories API endpoint', () => {
     cy.db_createCategory({ title: 'automated test content category', extension: 'com_content' })
       .then((id) => cy.api_patch(`/content/categories/${id}`, { title: 'updated automated test content category', description: 'automated test content category description' }))
       .then((response) => {
-	      cy.wrap(response).its('body').its('data').its('attributes')
+        cy.wrap(response).its('body').its('data').its('attributes')
           .its('title')
           .should('include', 'updated automated test content category');
-	      cy.wrap(response).its('body').its('data').its('attributes')
+        cy.wrap(response).its('body').its('data').its('attributes')
           .its('description')
           .should('include', 'automated test content category description');
       });
