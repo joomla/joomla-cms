@@ -28,32 +28,44 @@ $app->getDocument()
 $lang         = $app->getLanguage();
 $extension    = $app->getInput()->get('option');
 $contextTours = [];
+$starTours    = [];
 $listTours    = [];
 $allTours     = [];
+$contextCount = $params->get('contextcount', 7);
 $toursCount   = $params->get('tourscount', 7);
 
 foreach ($tours as $tour) :
     $uri = new Uri($tour->url);
-    if (count(array_intersect(['*', $extension], $tour->extensions))) :
-        // Special case for the categories page, where the context is complemented with the extension the categories apply to.
+
+    if (in_array('*', $tour->extensions)) :
+        $starTours[] = $tour;
+    elseif (in_array($extension, $tour->extensions)) :
         if ($extension === 'com_categories') :
+            // Special case for the categories page, where the context is complemented with the extension the categories apply to
             if ($uri->getVar('option', '') === 'com_categories') :
                 if ($uri->getVar('extension', '') === $app->getInput()->get('extension', '')) :
-                    $contextTours[] = $tour;
+                    if ($contextCount > 0) :
+                        $contextTours[] = $tour;
+                        $contextCount--;
+                    endif;
                 elseif ($toursCount > 0) :
                     $listTours[] = $tour;
                     $toursCount--;
                 endif;
             else :
                 if (in_array($app->getInput()->get('extension', ''), $tour->extensions)) :
-                    $contextTours[] = $tour;
+                    if ($contextCount > 0) :
+                        $contextTours[] = $tour;
+                        $contextCount--;
+                    endif;
                 elseif ($toursCount > 0) :
                     $listTours[] = $tour;
                     $toursCount--;
                 endif;
             endif;
-        else :
+        elseif ($contextCount > 0) :
             $contextTours[] = $tour;
+            $contextCount--;
         endif;
     elseif ($toursCount > 0) :
         $listTours[] = $tour;
@@ -73,6 +85,10 @@ foreach ($tours as $tour) :
     $allTours[$key][] = $tour;
 endforeach;
 
+if ($contextCount > 0) :
+    // The '*' tours have lower priority than contextual tours and are added after them, room permitting
+    $contextTours = array_slice(array_merge($contextTours, $starTours), 0, $params->get('contextcount', 7));
+endif;
 ?>
 <div class="header-item-content dropdown header-tours d-none d-sm-block">
     <button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button" title="<?php echo Text::_('MOD_GUIDEDTOURS_MENU'); ?>">
