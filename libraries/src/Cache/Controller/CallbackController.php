@@ -77,7 +77,7 @@ class CallbackController extends CacheController
             $data = unserialize(trim($data));
 
             if ($wrkarounds) {
-                echo Cache::getWorkarounds(
+                Cache::getWorkarounds(
                     $data['output'],
                     ['mergehead' => $woptions['mergehead'] ?? 0]
                 );
