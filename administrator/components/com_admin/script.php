@@ -2289,7 +2289,7 @@ class JoomlaInstallerScript
             return true;
         }
 
-        $params = json_decode($row->params, true);
+        $params = new Registry($row->params);
 
         // If consent expiration was disbled there is nothing to migrate
         if (!$params->get('enabled', 0)) {
