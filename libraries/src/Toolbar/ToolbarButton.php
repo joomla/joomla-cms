@@ -508,6 +508,8 @@ abstract class ToolbarButton
             'task',
             'icon',
             'attributes',
+            'alternativeGroup',
+            'alternativeKeys',
             'onclick',
             'buttonClass' => 'button_class',
             'listCheck',
