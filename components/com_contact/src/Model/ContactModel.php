@@ -331,7 +331,7 @@ class ContactModel extends FormModel
 
             // Filter per language if plugin published
             if (Multilanguage::isEnabled()) {
-                $language = [Factory::getLanguage()->getTag(), $db->quote('*')];
+                $language = [Factory::getLanguage()->getTag(), '*'];
                 $query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
             }
 
