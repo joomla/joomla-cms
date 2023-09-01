@@ -379,9 +379,6 @@ class Text
      * @return  array
      *
      * @since   3.7.0
-     *
-     * @deprecated 4.0 will be removed in 6.0.
-     *              Read script strings from scriptOptions.
      */
     public static function getScriptStrings()
     {
