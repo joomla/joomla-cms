@@ -30,10 +30,10 @@ describe('Test that newsfeed categories API endpoint', () => {
     cy.db_createCategory({ title: 'automated test feed category', extension: 'com_newsfeeds' })
       .then((id) => cy.api_patch(`/newsfeeds/categories/${id}`, { title: 'updated automated test feed category', description: 'automated test feed category description' }))
       .then((response) => {
-	      cy.wrap(response).its('body').its('data').its('attributes')
+        cy.wrap(response).its('body').its('data').its('attributes')
           .its('title')
           .should('include', 'updated automated test feed category');
-	      cy.wrap(response).its('body').its('data').its('attributes')
+        cy.wrap(response).its('body').its('data').its('attributes')
           .its('description')
           .should('include', 'automated test feed category description');
       });
