@@ -13,29 +13,29 @@ describe('Test that newsfeed categories API endpoint', () => {
         .its('title')
         .should('include', 'automated test feed category'));
   });
- 
+
   it('can create a category', () => {
-   cy.api_post('/newsfeeds/categories', { title: 'automated test feed category', description: 'automated test feed category description' })
-    .then((response) => {
-      cy.wrap(response).its('body').its('data').its('attributes')
-       .its('title')
-       .should('include', 'automated test feed category');
-      cy.wrap(response).its('body').its('data').its('attributes')
-       .its('description')
-       .should('include', 'automated test feed category description');
-    })
+    cy.api_post('/newsfeeds/categories', { title: 'automated test feed category', description: 'automated test feed category description' })
+      .then((response) => {
+        cy.wrap(response).its('body').its('data').its('attributes')
+          .its('title')
+          .should('include', 'automated test feed category');
+        cy.wrap(response).its('body').its('data').its('attributes')
+          .its('description')
+          .should('include', 'automated test feed category description');
+      });
   });
 
   it('can update a category', () => {
     cy.db_createCategory({ title: 'automated test feed category', extension: 'com_newsfeeds' })
       .then((id) => cy.api_patch(`/newsfeeds/categories/${id}`, { title: 'updated automated test feed category', description: 'automated test feed category description' }))
       .then((response) => {
-	    cy.wrap(response).its('body').its('data').its('attributes')
-         .its('title')
-         .should('include', 'updated automated test feed category');
-	    cy.wrap(response).its('body').its('data').its('attributes')
-         .its('description')
-         .should('include', 'automated test feed category description');
-      })
+	      cy.wrap(response).its('body').its('data').its('attributes')
+          .its('title')
+          .should('include', 'updated automated test feed category');
+	      cy.wrap(response).its('body').its('data').its('attributes')
+          .its('description')
+          .should('include', 'automated test feed category description');
+      });
   });
 });
