@@ -2306,9 +2306,10 @@ class JoomlaInstallerScript
             'title'           => 'PrivacyConsent',
             'type'            => 'privacy.consent',
             'execution_rules' => [
-                'rule-type'      => 'interval-hours',
-                'interval-hours' => $params->get('cachetimeout', 6),
-                'exec-time'      => gmdate("H:i", $params->get('lastrun', 0)),
+                'rule-type'     => 'interval-days',
+                'interval-days' => $params->get('cachetimeout', 30),
+                'exec-time'     => gmdate("H:i", $params->get('lastrun', 0)),
+                'exec-day'      => gmdate('d'),
             ],
             'state'  => 1,
             'params' => [
