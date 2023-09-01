@@ -541,7 +541,7 @@ Joomla = window.Joomla || {};
           const pluginTitleTableCell = tableRow.querySelector('.exname');
           pluginTitleTableCell.innerHTML = `${Joomla.sanitizeHtml(pluginTitleTableCell.innerHTML)}
               <div class="small">
-              ${document.querySelector(`td[data-extension-id="${plugin.extension_id}"]`) ? '' : ' - ' + plugin.name}
+              ${document.querySelector(`td[data-extension-id="${plugin.extension_id}"]`) ? '' : ` - ${plugin.name}`}
               <span class="badge bg-warning">
               <span class="icon-warning"></span>
               ${Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN')}
