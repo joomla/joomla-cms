@@ -880,7 +880,7 @@ CREATE TABLE IF NOT EXISTS "#__scheduler_tasks" (
   PRIMARY KEY ("id")
 );
 
-INSERT INTO "#__scheduler_tasks"("id", "asset_id", "title", "type", "execution_rules", "cron_rules", "state", "last_exit_code", "params", "created")
+INSERT INTO "#__scheduler_tasks" ("id", "asset_id", "title", "type", "execution_rules", "cron_rules", "state", "last_exit_code", "params", "created")
 VALUES (1, 97,'SessionGC','session.gc', CONCAT('{"rule-type":"interval-hours","interval-hours":"24","exec-day":"01","exec-time":"', TO_CHAR(CURRENT_TIMESTAMP, 'HH24:00'), '"}'), '{"type":"interval","exp":"PT24H"}', 1, 0, '{}', CURRENT_TIMESTAMP);
 
 SELECT setval('#__scheduler_tasks_id_seq', 2, false); 
