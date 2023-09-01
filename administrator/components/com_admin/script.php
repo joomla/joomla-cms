@@ -2285,8 +2285,9 @@ class JoomlaInstallerScript
 
             return false;
         }
-        // If disbled there is nothing to migrate
-        if (!$row->enabled) {
+
+        // If not existing or disbled there is nothing to migrate
+        if (!$row || !$row->enabled) {
             return true;
         }
 
