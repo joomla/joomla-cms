@@ -158,7 +158,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
                     // Custom HTML to display below the MFA form
                     'post_message' => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_POSTMESSAGE'),
                     // Override the autocomplete attribute for the HTML input box.
-                    'autocomplete' => 'off'
+                    'autocomplete' => 'off',
                 ]
             )
         );
