@@ -115,7 +115,7 @@ endif;
             <hr class="dropdown-divider m-0" role="separator" />
         <?php endif; ?>
         <?php if (count($listTours) > 0) : ?>
-            <ol class="list-unstyled m-0">
+            <ul class="list-unstyled m-0">
                 <?php foreach ($listTours as $tour) : ?>
                     <li>
                         <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id; ?>">
