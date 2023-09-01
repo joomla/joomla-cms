@@ -124,7 +124,7 @@ endif;
                         </button>
                     </li>
                 <?php endforeach; ?>
-            </ol>
+            </ul>
             <hr class="dropdown-divider m-0" role="separator" />
         <?php endif; ?>
         <button type="button" class="dropdown-item text-center" data-bs-toggle="modal" data-bs-target="#modGuidedTours-modal">
