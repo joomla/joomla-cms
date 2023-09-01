@@ -2293,7 +2293,7 @@ class JoomlaInstallerScript
 
         // If consent expiration was disbled there is nothing to migrate
         if (!$params->get('enabled', 0)) {
-            return;
+            return true;
         }
 
         /** @var SchedulerComponent $component */
