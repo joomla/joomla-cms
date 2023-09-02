@@ -30,16 +30,16 @@ $wa->useScript('keepalive')
 <form action="<?php echo Route::_('index.php?option=com_guidedtours&view=tour&layout=edit&id=' .
     (int) $this->item->id); ?>" method="post" name="adminForm" id="guidedtours-form" class="form-validate">
 
-	<div class="row title-alias form-vertical mb-3">
-		<div class="col-12 col-md-6">
+    <div class="row title-alias form-vertical mb-3">
+        <div class="col-12 col-md-6">
             <?php echo $this->form->renderField('title'); ?>
-		</div>
-		<div class="col-12 col-md-6">
+        </div>
+        <div class="col-12 col-md-6">
             <?php echo $this->form->renderField('uid'); ?>
-		</div>
-	</div>
+        </div>
+    </div>
 
-	<?php if ($this->item->id != 0 && strpos($this->item->title, 'GUIDEDTOUR') !== false) : ?>
+    <?php if ($this->item->id != 0 && strpos($this->item->title, 'GUIDEDTOUR') !== false) : ?>
         <div class="row title-alias form-vertical mb-3">
             <div class="col-12">
                 <?php $this->form->setFieldAttribute('title_translation', 'label', Text::sprintf('COM_GUIDEDTOURS_TITLE_TRANSLATION', $lang)); ?>
