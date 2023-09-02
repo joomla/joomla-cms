@@ -456,6 +456,12 @@ trait DisplayTrait
                 'a11y_advanced_options' => true,
                 'image_advtab'          => (bool) $levelParams->get('image_advtab', false),
                 'image_title'           => true,
+                'image_class_list'      => [
+                    ['title' => 'None', 'value' => 'float-none'],
+                    ['title' => 'Left', 'value' => 'float-start'],
+                    ['title' => 'Right', 'value' => 'float-end'],
+                    ['title' => 'Center', 'value' => 'mx-auto d-block'],
+                ],
 
                 // Drag and drop specific
                 'dndEnabled' => $dragdrop,
