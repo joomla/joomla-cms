@@ -104,7 +104,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      */
     public function startTour(Event $event)
     {
-        $tourId    = (int) $this->getApplication()->getInput()->getInt('id');
+        $tourId  = (int) $this->getApplication()->getInput()->getInt('id');
         $tourUid = $this->getApplication()->getInput()->getString('uid');
         $tourUid = $tourUid !== '' ? urldecode($tourUid) : '';
 
