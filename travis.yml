@@ -1,0 +1,28 @@
+language: php	
+php:
+  - 8.2.9
+services:
+  - mysql
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y libonig-dev
+  - mysql -e "USE mysql; UPDATE user SET authentication_string=PASSWORD('') WHERE User='root'; FLUSH PRIVILEGES;"
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS joomla;'
+install:
+  - composer self-update 2.5.8 --no-interaction
+  - composer require phpunit/phpunit:^8.0 --dev --no-interaction
+script:
+  - phpunit --version
+  - phpunit --configuration phpunit.xml
+branches:
+  all:
+    - '*'
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache
+notifications:
+  email: false
+matrix:
+  allow_failures:
+    - php: 8.2.9
