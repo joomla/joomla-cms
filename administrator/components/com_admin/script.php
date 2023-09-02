@@ -2376,7 +2376,7 @@ class JoomlaInstallerScript
         $model = Factory::getApplication()->bootComponent('com_guidedtours')->getMVCFactory()
                         ->createModel('Tours', 'Administrator', ['ignore_request' => true]);
 
-        $items      = $model->getItems();
+        $items = $model->getItems();
 
         foreach ($items as $item) {
             // Set uid for tours where it is empty
