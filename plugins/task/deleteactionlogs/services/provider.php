@@ -34,10 +34,8 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
-
                 $plugin = new DeleteActionLogs(
-                    $dispatcher,
+                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('task', 'deleteactionlogs')
                 );
                 $plugin->setApplication(Factory::getApplication());
