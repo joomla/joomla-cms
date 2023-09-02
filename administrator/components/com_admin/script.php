@@ -2393,9 +2393,8 @@ class JoomlaInstallerScript
                     if ($pos !== false) {
                         $uidTitle = substr($uidTitle, 0, $pos);
                     }
-                }
-                // Tour follows component naming pattern
-                elseif (preg_match('#COM_(\w+)_TOUR_#', $tourItem->title) && str_ends_with($tourItem->title, '_TITLE')) {
+                } elseif (preg_match('#COM_(\w+)_TOUR_#', $tourItem->title) && str_ends_with($tourItem->title, '_TITLE')) {
+                    // Tour follows component naming pattern
                     $uidTitle = preg_replace('#COM_(\w+)_TOUR_#', '$1.', $tourItem->title);
 
                     // Remove the last _TITLE part
@@ -2416,7 +2415,7 @@ class JoomlaInstallerScript
                 }
                 // ApplicationHelper::stringURLSafe will replace a period (.) separator so we split the construction into multiple parts
                 $uidTitleParts = explode('.', $uidTitle);
-                array_walk($uidTitleParts, function (& $value, $key, $tourLanguage) {
+                array_walk($uidTitleParts, function (&$value, $key, $tourLanguage) {
                     $value = ApplicationHelper::stringURLSafe($value, $tourLanguage);
                 }, $tourItem->lang);
                 $tourItem->uid = implode('.', $uidTitleParts);
