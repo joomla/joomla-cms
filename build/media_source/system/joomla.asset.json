@@ -140,6 +140,19 @@
       }
     },
     {
+      "name": "table.rows",
+      "type": "script",
+      "class": "TableRowsAssetItem",
+      "uri": "system/table-rows.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true,
+        "type": "module"
+      }
+    },
+    {
       "name": "form.validate",
       "type": "script",
       "class": "FormValidateAssetItem",
