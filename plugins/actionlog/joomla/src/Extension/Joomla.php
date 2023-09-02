@@ -940,13 +940,11 @@ final class Joomla extends ActionLogPlugin
      *
      * Method is called after user request to clean action log items.
      *
-     * @param   array  $group  Holds the group name.
-     *
      * @return  void
      *
      * @since   3.9.4
      */
-    public function onAfterLogPurge($group = '')
+    public function onAfterLogPurge()
     {
         $context = $this->getApplication()->getInput()->get('option');
         $user    = $this->getApplication()->getIdentity();
@@ -968,13 +966,11 @@ final class Joomla extends ActionLogPlugin
      *
      * Method is called after user request to export action log items.
      *
-     * @param   array  $group  Holds the group name.
-     *
      * @return  void
      *
      * @since   3.9.4
      */
-    public function onAfterLogExport($group = '')
+    public function onAfterLogExport()
     {
         $context = $this->getApplication()->getInput()->get('option');
         $user    = $this->getApplication()->getIdentity();

@@ -176,6 +176,16 @@ trait CoreEventAware
         'onBuildIndex'                => Finder\BuildIndexEvent::class,
         'onStartIndex'                => Finder\StartIndexEvent::class,
         'onFinderGarbageCollection'   => Finder\GarbageCollectionEvent::class,
+        // ActionLog
+        'onAfterLogPurge'  => ActionLog\AfterLogPurgeEvent::class,
+        'onAfterLogExport' => ActionLog\AfterLogExportEvent::class,
+        // Cache
+        'onAfterPurge' => Cache\AfterPurgeEvent::class,
+        // Contact
+        'onValidateContact' => Contact\ValidateContactEvent::class,
+        'onSubmitContact'   => Contact\SubmitContactEvent::class,
+        // Checkin
+        'onAfterCheckin' => Checkin\AfterCheckinEvent::class,
         // Custom Fields
         'onCustomFieldsGetTypes'           => CustomFields\GetTypesEvent::class,
         'onCustomFieldsPrepareDom'         => CustomFields\PrepareDomEvent::class,
