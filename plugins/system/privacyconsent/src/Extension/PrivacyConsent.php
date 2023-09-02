@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\PrivacyConsent\Extension;
 
+use Joomla\CMS\Event\Privacy\CheckPrivacyPolicyPublishedEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
@@ -302,14 +303,17 @@ final class PrivacyConsent extends CMSPlugin
     /**
      * Event to specify whether a privacy policy has been published.
      *
-     * @param   array  &$policy  The privacy policy status data, passed by reference, with keys "published", "editLink" and "articlePublished".
+     * @param   CheckPrivacyPolicyPublishedEvent  $event  The privacy policy status event.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onPrivacyCheckPrivacyPolicyPublished(&$policy)
+    public function onPrivacyCheckPrivacyPolicyPublished(CheckPrivacyPolicyPublishedEvent $event)
     {
+        // Data, with keys "published", "editLink" and "articlePublished".
+        $policy = $event->getPolicyInfo();
+
         // If another plugin has already indicated a policy is published, we won't change anything here
         if ($policy['published']) {
             return;
