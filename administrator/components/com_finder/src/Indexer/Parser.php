@@ -12,6 +12,7 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
+use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -80,26 +81,26 @@ abstract class Parser
     public function parse($input)
     {
         // If the input is less than 2KB we can parse it in one go.
-        if (strlen($input) <= 2048) {
+        if (StringHelper::strlen($input) <= 2048) {
             return $this->process($input);
         }
 
         // Input is longer than 2Kb so parse it in chunks of 2Kb or less.
         $start  = 0;
-        $end    = strlen($input);
+        $end    = StringHelper::strlen($input);
         $chunk  = 2048;
         $return = null;
 
         while ($start < $end) {
             // Setup the string.
-            $string = substr($input, $start, $chunk);
+            $string = StringHelper::substr($input, $start, $chunk);
 
             // Find the last space character if we aren't at the end.
-            $ls = (($start + $chunk) < $end ? strrpos($string, ' ') : false);
+            $ls = (($start + $chunk) < $end ? StringHelper::strrpos($string, ' ') : false);
 
             // Truncate to the last space character.
             if ($ls !== false) {
-                $string = substr($string, 0, $ls);
+                $string = StringHelper::substr($string, 0, $ls);
             }
 
             // Adjust the start position for the next iteration.
