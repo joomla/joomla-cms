@@ -17,6 +17,7 @@ use DebugBar\OpenHandler;
 use Joomla\Application\ApplicationEvents;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Document\HtmlDocument;
+use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger\InMemoryLogger;
@@ -364,13 +365,13 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     /**
      * AJAX handler
      *
-     * @param Joomla\Event\Event $event
+     * @param AjaxEvent $event
      *
      * @return  void
      *
      * @since  4.0.0
      */
-    public function onAjaxDebug($event)
+    public function onAjaxDebug(AjaxEvent $event)
     {
         // Do not render if debugging or language debug is not enabled.
         if (!JDEBUG && !$this->debugLang) {
@@ -384,11 +385,10 @@ final class Debug extends CMSPlugin implements SubscriberInterface
 
         switch ($this->getApplication()->getInput()->get('action')) {
             case 'openhandler':
-                $result  = $event['result'] ?: [];
                 $handler = new OpenHandler($this->debugBar);
+                $result  = $handler->handle($this->getApplication()->getInput()->request->getArray(), false, false);
 
-                $result[]        = $handler->handle($this->getApplication()->getInput()->request->getArray(), false, false);
-                $event['result'] = $result;
+                $event->addResult($result);
         }
     }
 
