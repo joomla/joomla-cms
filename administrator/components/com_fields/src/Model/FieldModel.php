@@ -13,8 +13,8 @@ namespace Joomla\Component\Fields\Administrator\Model;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\CustomFields\PrepareDomEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
@@ -27,6 +27,7 @@ use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -113,6 +114,15 @@ class FieldModel extends AdminModel
 
         if (isset($data['id']) && $data['id']) {
             $field = $this->getItem($data['id']);
+        }
+
+        if (
+            isset($data['params']['searchindex'])
+            && ((is_null($field) && $data['params']['searchindex'] > 0)
+                || ($field->params['searchindex'] != $data['params']['searchindex'])
+                || ($data['params']['searchindex'] > 0 && ($field->state != $data['state'] || $field->access != $data['access'])))
+        ) {
+            Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
         }
 
         if (!isset($data['label']) && isset($data['params']['label'])) {
@@ -289,7 +299,11 @@ class FieldModel extends AdminModel
         // Trigger the event to create the field dom node
         $form = new Form($data['context']);
         $form->setDatabase($this->getDatabase());
-        Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', [$obj, $node, $form]);
+        $this->getDispatcher()->dispatch('onCustomFieldsPrepareDom', new PrepareDomEvent('onCustomFieldsPrepareDom', [
+            'subject'  => $obj,
+            'fieldset' => $node,
+            'form'     => $form,
+        ]));
 
         // Check if a node is created
         if (!$node->firstChild) {
@@ -861,6 +875,31 @@ class FieldModel extends AdminModel
     }
 
     /**
+     * Method to change the published state of one or more records.
+     *
+     * @param   array    &$pks   A list of the primary keys to change.
+     * @param   integer  $value  The value of the published state.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   5.0.0
+     */
+    public function publish(&$pks, $value = 1)
+    {
+        foreach ($pks as $pk) {
+            $item = $this->getItem($pk);
+
+            if (isset($item->params['searchindex']) && $item->params['searchindex'] > 0) {
+                Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
+
+                break;
+            }
+        }
+
+        return parent::publish($pks, $value);
+    }
+
+    /**
      * A protected method to get a set of ordering conditions.
      *
      * @param   Table  $table  A Table object.
@@ -941,8 +980,8 @@ class FieldModel extends AdminModel
      *
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
-     * @see     JFormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Form\FormRule
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.9.23
      */
     public function validate($form, $data, $group = null)

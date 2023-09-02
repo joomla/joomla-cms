@@ -25,7 +25,7 @@ $wa->useScript('table.columns')
     ->useScript('multiselect');
 
 $app       = Factory::getApplication();
-$user      = Factory::getUser();
+$user      = $this->getCurrentUser();
 $userId    = $user->get('id');
 
 $component = '';
@@ -166,7 +166,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                     <?php // load the pagination. ?>
                     <?php echo $this->pagination->getListFooter(); ?>
 
-                    <?php //Load the batch processing form. ?>
+                    <?php // Load the batch processing form. ?>
                     <?php
                     if (
                         $user->authorise('core.create', $component)

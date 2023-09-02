@@ -10,13 +10,11 @@
 
 namespace Joomla\Component\Tags\Administrator\View\Tags;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -49,7 +47,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var   CMSObject
+     * @var   \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -79,6 +77,14 @@ class HtmlView extends BaseHtmlView
      * @since 4.0.0
      */
     private $isEmptyState = false;
+
+    /**
+     * The ordering list for the tags
+     *
+     * @var    array
+     * @since  4.4.0
+     */
+    protected $ordering = [];
 
     /**
      * Execute and display a template script.
@@ -133,7 +139,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         $canDo   = ContentHelper::getActions('com_tags');
-        $user    = Factory::getApplication()->getIdentity();
+        $user    = $this->getCurrentUser();
         $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_TAGS_MANAGER_TAGS'), 'tags');

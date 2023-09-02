@@ -9,8 +9,10 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\Form\FormFactoryInterface;
@@ -22,7 +24,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -133,7 +135,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
         // Guess the list view as the plural of the item view.
         if (empty($this->view_list)) {
-            $this->view_list = \Joomla\String\Inflector::getInstance()->toPlural($this->view_item);
+            $this->view_list = InflectorFactory::create()->build()->pluralize($this->view_item);
         }
 
         $this->setFormFactory($formFactory);
@@ -612,9 +614,13 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
         // Send an object which can be modified through the plugin event
         $objData = (object) $data;
-        $app->triggerEvent(
+        $this->getDispatcher()->dispatch(
             'onContentNormaliseRequestData',
-            [$this->option . '.' . $this->context, $objData, $form]
+            new Model\NormaliseRequestDataEvent('onContentNormaliseRequestData', [
+                'context' => $this->option . '.' . $this->context,
+                'data'    => $objData,
+                'subject' => $form,
+            ])
         );
         $data = (array) $objData;
 

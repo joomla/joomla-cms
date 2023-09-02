@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -18,7 +17,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -71,6 +69,7 @@ trait DisplayTrait
         $user            = $this->getApplication()->getIdentity();
         $language        = $this->getApplication()->getLanguage();
         $doc             = $this->getApplication()->getDocument();
+        $wa              = $doc->getWebAssetManager();
         $id              = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
         $nameGroup       = explode('[', preg_replace('/\[\]|\]/', '', $name));
         $fieldName       = end($nameGroup);
@@ -78,9 +77,10 @@ trait DisplayTrait
         $externalPlugins = [];
         $options         = $doc->getScriptOptions('plg_editor_tinymce');
         $theme           = 'silver';
+        $csrf            = Session::getFormToken();
 
         // Data object for the layout
-        $textarea           = new stdClass();
+        $textarea           = new \stdClass();
         $textarea->name     = $name;
         $textarea->id       = $id;
         $textarea->class    = 'mce_editable joomla-editor-tinymce';
@@ -136,8 +136,8 @@ trait DisplayTrait
 
         // Prepare the parameters
         $levelParams      = new Registry();
-        $extraOptions     = new stdClass();
-        $toolbarParams    = new stdClass();
+        $extraOptions     = new \stdClass();
+        $toolbarParams    = new \stdClass();
         $extraOptionsAll  = (array) $this->params->get('configuration.setoptions', []);
         $toolbarParamsAll = (array) $this->params->get('configuration.toolbars', []);
 
@@ -304,49 +304,12 @@ trait DisplayTrait
             }
         }
 
-        // Template
-        $templates = [];
-
-        if (!empty($allButtons['template'])) {
-            // Do we have a custom content_template_path
-            $template_path = $levelParams->get('content_template_path');
-            $template_path = $template_path ? '/templates/' . $template_path : '/media/vendor/tinymce/templates';
-
-            $filepaths = is_dir(JPATH_ROOT . $template_path)
-                ? Folder::files(JPATH_ROOT . $template_path, '\.(html|txt)$', false, true)
-                : [];
-
-            foreach ($filepaths as $filepath) {
-                $fileinfo      = pathinfo($filepath);
-                $filename      = $fileinfo['filename'];
-                $full_filename = $fileinfo['basename'];
-
-                if ($filename === 'index') {
-                    continue;
-                }
-
-                $title       = $filename;
-                $title_upper = strtoupper($filename);
-                $description = ' ';
-
-                if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE')) {
-                    $title = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE');
-                }
-
-                if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC')) {
-                    $description = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC');
-                }
-
-                $templates[] = [
-                    'title'       => $title,
-                    'description' => $description,
-                    'url'         => Uri::root(true) . $template_path . '/' . $full_filename,
-                ];
-            }
-        }
+        $jtemplates = !empty($allButtons['jtemplate'])
+            ? Uri::base(true) . '/index.php?option=com_ajax&plugin=tinymce&group=editors&format=json&format=json&template=' . $levelParams->get('content_template_path') . '&' . $csrf . '=1'
+            : false;
 
         // Check for extra plugins, from the setoptions form
-        foreach (['wordcount' => 1, 'advlist' => 1, 'autosave' => 1, 'textpattern' => 0] as $pName => $def) {
+        foreach (['wordcount' => 1, 'advlist' => 1, 'autosave' => 1] as $pName => $def) {
             if ($levelParams->get($pName, $def)) {
                 $plugins[] = $pName;
             }
@@ -354,7 +317,21 @@ trait DisplayTrait
 
         // Use CodeMirror in the code view instead of plain text to provide syntax highlighting
         if ($levelParams->get('sourcecode', 1)) {
-            $externalPlugins['highlightPlus'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/plugin-es5.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
+            // Check whether the plugin registered
+            if (!$wa->assetExists('script', 'plg_editors_tinymce_highlighter')) {
+                $wa->getRegistry()->addExtensionRegistryFile('plg_editors_codemirror');
+                $wa->registerScript(
+                    'plg_editors_tinymce_highlighter',
+                    'plg_editors_tinymce/plugins/joomla-highlighter/plugin.min.js',
+                    [],
+                    ['type' => 'module'],
+                    ['core', 'tinymce', 'codemirror']
+                );
+            }
+
+            // Enable joomla-highlighter plugin
+            $wa->useScript('plg_editors_tinymce_highlighter');
+            $plugins[] = 'joomlaHighlighter';
         }
 
         $dragdrop = $levelParams->get('drag_drop', 1);
@@ -372,7 +349,7 @@ trait DisplayTrait
             Text::script('PLG_TINY_DND_EMPTY_ALT');
 
             $scriptOptions['parentUploadFolder'] = $levelParams->get('path', '');
-            $scriptOptions['csrfToken']          = Session::getFormToken();
+            $scriptOptions['csrfToken']          = $csrf;
             $scriptOptions['uploadUri']          = $uploadUrl;
 
             // @TODO have a way to select the adapter, similar to $levelParams->get('path', '');
@@ -390,7 +367,9 @@ trait DisplayTrait
                     $ctemp[] = ['title' => $content_language['content_language_name'], 'code' => $content_language['content_language_code']];
                 }
             }
-            $scriptOptions['content_langs'] = array_merge($ctemp);
+            if (isset($ctemp)) {
+                $scriptOptions['content_langs'] = array_merge($ctemp);
+            }
         }
 
         // User custom plugins and buttons
@@ -401,17 +380,17 @@ trait DisplayTrait
             $plugins   = array_merge($plugins, explode(strpos($custom_plugin, ',') !== false ? ',' : ' ', $custom_plugin));
         }
 
-        // Version 6 unload removed plugins
-        $plugins = array_filter($plugins, function ($plugin) {
-            return !in_array($plugin, ['hr', 'paste', 'print']);
-        });
-
         if ($custom_button) {
             $toolbar1  = array_merge($toolbar1, explode(strpos($custom_button, ',') !== false ? ',' : ' ', $custom_button));
         }
 
         // Merge the two toolbars for backwards compatibility
         $toolbar = array_merge($toolbar1, $toolbar2);
+
+        // Should load the templates plugin?
+        if (in_array('jtemplate', $toolbar)) {
+            $externalPlugins['jtemplate'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/jtemplate/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
+        }
 
         // Build the final options set
         $scriptOptions   = array_merge(
@@ -466,7 +445,7 @@ trait DisplayTrait
                 'width'             => $this->params->get('html_width', ''),
                 'elementpath'       => (bool) $levelParams->get('element_path', true),
                 'resize'            => $resizing,
-                'templates'         => $templates,
+                'jtemplates'        => $jtemplates,
                 'external_plugins'  => empty($externalPlugins) ? null : $externalPlugins,
                 'contextmenu'       => (bool) $levelParams->get('contextmenu', true) ? null : false,
                 'toolbar_sticky'    => true,
@@ -483,20 +462,22 @@ trait DisplayTrait
                 // Disable TinyMCE Branding
                 'branding'  => false,
                 'promotion' => false,
+
+                // Specify the attributes to be used when previewing a style. This prevents white text on a white background making the preview invisible.
+                'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform background-color border border-radius outline text-shadow',
             ]
         );
 
         if ($levelParams->get('newlines')) {
             // Break
             $scriptOptions['force_br_newlines'] = true;
-            $scriptOptions['forced_root_block'] = '';
         } else {
             // Paragraph
             $scriptOptions['force_br_newlines'] = false;
             $scriptOptions['forced_root_block'] = 'p';
         }
 
-        $scriptOptions['rel_list'] = [
+        $scriptOptions['link_rel_list'] = [
             ['title' => 'None', 'value' => ''],
             ['title' => 'Alternate', 'value' => 'alternate'],
             ['title' => 'Author', 'value' => 'author'],

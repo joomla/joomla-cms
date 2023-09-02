@@ -12,6 +12,7 @@ namespace Joomla\Component\Menus\Administrator\Helper;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Menu\PreprocessMenuItemsEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Helper\ContentHelper;
@@ -19,6 +20,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AdministratorMenuItem;
+use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
@@ -445,7 +447,13 @@ class MenusHelper extends ContentHelper
             $components = array_column((array) $components, 'element', 'extension_id');
         }
 
-        Factory::getApplication()->triggerEvent('onPreprocessMenuItems', ['com_menus.administrator.import', &$items, null, true]);
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        $dispatcher->dispatch('onPreprocessMenuItems', new PreprocessMenuItemsEvent('onPreprocessMenuItems', [
+            'context' => 'com_menus.administrator.import',
+            'subject' => new ArrayProxy($items),
+            'params'  => null,
+            'enabled' => true,
+        ]));
 
         foreach ($items as $item) {
             /** @var \Joomla\CMS\Table\Menu $table */
