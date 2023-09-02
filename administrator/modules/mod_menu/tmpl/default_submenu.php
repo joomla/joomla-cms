@@ -145,7 +145,7 @@ if ($currentParams->get('menu-quicktask') && (int) $this->params->get('shownew',
 if (!empty($current->dashboard)) {
     $titleDashboard = Text::sprintf('MOD_MENU_DASHBOARD_LINK', Text::_($current->title));
 
-    // Prepare the Dashboard icon. We use an own icon, not Fontawesome
+    // Prepare the Dashboard icon. We use our own icon, not Fontawesome
     $pathDashboard = 'media/templates/administrator/atum/images/icons/dashboard.svg';
     $attrDashboard = [
         'loading'     => 'eager',
