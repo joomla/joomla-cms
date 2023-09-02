@@ -82,7 +82,6 @@ class GuidedtoursHelper
                 default:
                     $source = JPATH_ADMINISTRATOR . '/components/com_' . $extension;
                     break;
-
             }
 
             $lang->load($extension . '.' . str_replace('-', '_', $tourid), JPATH_ADMINISTRATOR)
