@@ -61,14 +61,14 @@ class AjaxController extends BaseController
             unset($associations[$excludeLang]);
 
             // Add the title to each of the associated records
-            $contentTable = Table::getInstance('Content', 'JTable');
+            $contentTable = Table::getInstance('Content', '\\Joomla\\CMS\\Table\\');
 
             foreach ($associations as $lang => $association) {
                 $contentTable->load($association->id);
                 $associations[$lang]->title = $contentTable->title;
             }
 
-            $countContentLanguages = count(LanguageHelper::getContentLanguages(array(0, 1), false));
+            $countContentLanguages = count(LanguageHelper::getContentLanguages([0, 1], false));
 
             if (count($associations) == 0) {
                 $message = Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_MESSAGE_NONE');

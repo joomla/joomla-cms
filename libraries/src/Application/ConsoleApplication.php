@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Application;
 
-use InvalidArgumentException;
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
@@ -36,7 +35,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -162,7 +161,11 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      * @return  mixed   A value if the property name is valid, null otherwise.
      *
      * @since       4.0.0
-     * @deprecated  5.0  This is a B/C proxy for deprecated read accesses
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              This is a B/C proxy for deprecated read accesses, use getInput() method instead
+     *              Example:
+     *              $app->getInput();
      */
     public function __get($name)
     {
@@ -249,8 +252,8 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
         $this->populateHttpHost();
 
         // Import CMS plugin groups to be able to subscribe to events
-        PluginHelper::importPlugin('system');
-        PluginHelper::importPlugin('console');
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        PluginHelper::importPlugin('console', null, true, $this->getDispatcher());
 
         parent::execute();
     }
@@ -393,7 +396,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      * @return  boolean
      *
      * @since       4.0.0
-     * @deprecated  5.0  Will be removed without replacements
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacement. CLI will be handled by the joomla/console package instead
      */
     public function isCli()
     {
@@ -470,12 +475,14 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      *
      * @throws     \InvalidArgumentException
      *
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     * @deprecated  4.3 will be removed in 6.0
+     *              Inject the router or load it from the dependency injection container
+     *              Example: Factory::getContainer()->get(ApiRouter::class);
      */
-    public static function getRouter($name = null, array $options = array())
+    public static function getRouter($name = null, array $options = [])
     {
         if (empty($name)) {
-            throw new InvalidArgumentException('A router name must be set in console application.');
+            throw new \InvalidArgumentException('A router name must be set in console application.');
         }
 
         $options['mode'] = Factory::getApplication()->get('sef');
@@ -498,7 +505,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      *
      * @return  void
      * @since   4.2.1
-     * @see     https://github.com/joomla/joomla-cms/issues/38518
+     * @link    https://github.com/joomla/joomla-cms/issues/38518
      */
     protected function populateHttpHost()
     {

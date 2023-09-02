@@ -14,7 +14,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -47,7 +47,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state.
      *
-     * @var   CMSObject
+     * @var   \Joomla\Registry\Registry
      * @since 1.6
      */
     protected $state;
@@ -102,24 +102,26 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo = ContentHelper::getActions('com_users');
+        $canDo   = ContentHelper::getActions('com_users');
+        $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_USERS_VIEW_LEVELS_TITLE'), 'user-lock levels');
 
         if ($canDo->get('core.create')) {
-            ToolbarHelper::addNew('level.add');
+            $toolbar->addNew('level.add');
         }
 
         if ($canDo->get('core.delete')) {
-            ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'level.delete', 'JTOOLBAR_DELETE');
-            ToolbarHelper::divider();
+            $toolbar->delete('level.delete')
+                ->message('JGLOBAL_CONFIRM_DELETE');
+            $toolbar->divider();
         }
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            ToolbarHelper::preferences('com_users');
-            ToolbarHelper::divider();
+            $toolbar->preferences('com_users');
+            $toolbar->divider();
         }
 
-        ToolbarHelper::help('Users:_Viewing_Access_Levels');
+        $toolbar->help('Users:_Viewing_Access_Levels');
     }
 }

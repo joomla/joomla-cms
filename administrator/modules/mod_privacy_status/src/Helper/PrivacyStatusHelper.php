@@ -11,9 +11,11 @@
 namespace Joomla\Module\PrivacyStatus\Administrator\Helper;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Privacy\CheckPrivacyPolicyPublishedEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\Router\Route;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -36,7 +38,8 @@ class PrivacyStatusHelper
      */
     public static function getPrivacyPolicyInfo()
     {
-        $policy = [
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        $policy     = [
             'published'        => false,
             'articlePublished' => false,
             'editLink'         => '',
@@ -46,10 +49,15 @@ class PrivacyStatusHelper
          * Prior to 3.9.0 it was common for a plugin such as the User - Profile plugin to define a privacy policy or
          * terms of service article, therefore we will also import the user plugin group to process this event.
          */
-        PluginHelper::importPlugin('privacy');
-        PluginHelper::importPlugin('user');
+        PluginHelper::importPlugin('privacy', null, true, $dispatcher);
+        PluginHelper::importPlugin('user', null, true, $dispatcher);
 
-        Factory::getApplication()->triggerEvent('onPrivacyCheckPrivacyPolicyPublished', [&$policy]);
+        $dispatcher->dispatch(
+            'onPrivacyCheckPrivacyPolicyPublished',
+            new CheckPrivacyPolicyPublishedEvent('onPrivacyCheckPrivacyPolicyPublished', [
+                'subject' => new ArrayProxy($policy),
+            ])
+        );
 
         return $policy;
     }
@@ -68,6 +76,7 @@ class PrivacyStatusHelper
             'published' => false,
             'link'      => '',
         ];
+        $lang = '';
 
         $db    = Factory::getDbo();
         $query = $db->getQuery(true)
@@ -102,8 +111,6 @@ class PrivacyStatusHelper
             // Add language to the url if the site is multilingual
             if (Multilanguage::isEnabled() && $menuItem->language && $menuItem->language !== '*') {
                 $lang = '&lang=' . $menuItem->language;
-            } else {
-                $lang = '';
             }
         }
 
@@ -112,7 +119,7 @@ class PrivacyStatusHelper
         if (!$menuItem) {
             if (Multilanguage::isEnabled()) {
                 // Find the Itemid of the home menu item tagged to the site default language
-                $params = ComponentHelper::getParams('com_languages');
+                $params              = ComponentHelper::getParams('com_languages');
                 $defaultSiteLanguage = $params->get('site');
 
                 $db    = Factory::getDbo();

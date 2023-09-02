@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,12 +9,14 @@
 
 namespace Joomla\CMS\Cache\Storage;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheStorage;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Factory;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Memcached cache storage handler
@@ -46,14 +49,13 @@ class MemcachedStorage extends CacheStorage
      *
      * @since   3.0.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         parent::__construct($options);
 
         $this->_compress = Factory::getApplication()->get('memcached_compress', false) ? \Memcached::OPT_COMPRESSION : 0;
 
-        if (static::$_db === null)
-        {
+        if (static::$_db === null) {
             $this->getConnection();
         }
     }
@@ -68,8 +70,7 @@ class MemcachedStorage extends CacheStorage
      */
     protected function getConnection()
     {
-        if (!static::isSupported())
-        {
+        if (!static::isSupported()) {
             throw new \RuntimeException('Memcached Extension is not available');
         }
 
@@ -80,25 +81,20 @@ class MemcachedStorage extends CacheStorage
 
 
         // Create the memcached connection
-        if ($app->get('memcached_persist', true))
-        {
+        if ($app->get('memcached_persist', true)) {
             static::$_db = new \Memcached($this->_hash);
-            $servers = static::$_db->getServerList();
+            $servers     = static::$_db->getServerList();
 
-            if ($servers && ($servers[0]['host'] != $host || $servers[0]['port'] != $port))
-            {
+            if ($servers && ($servers[0]['host'] != $host || $servers[0]['port'] != $port)) {
                 static::$_db->resetServerList();
-                $servers = array();
+                $servers = [];
             }
 
-            if (!$servers)
-            {
+            if (!$servers) {
                 static::$_db->addServer($host, $port);
             }
-        }
-        else
-        {
-            static::$_db = new \Memcached;
+        } else {
+            static::$_db = new \Memcached();
             static::$_db->addServer($host, $port);
         }
 
@@ -107,8 +103,7 @@ class MemcachedStorage extends CacheStorage
         $stats  = static::$_db->getStats();
         $result = !empty($stats["$host:$port"]) && $stats["$host:$port"]['pid'] > 0;
 
-        if (!$result)
-        {
+        if (!$result) {
             // Null out the connection to inform the constructor it will need to attempt to connect if this class is instantiated again
             static::$_db = null;
 
@@ -132,8 +127,7 @@ class MemcachedStorage extends CacheStorage
         $length   = \strlen($prefix);
         $cache_id = parent::_getCacheId($id, $group);
 
-        if ($length)
-        {
+        if ($length) {
             // Memcached use suffix instead of prefix
             $cache_id = substr($cache_id, $length) . strrev($prefix);
         }
@@ -186,29 +180,22 @@ class MemcachedStorage extends CacheStorage
         $keys   = static::$_db->get($this->_hash . '-index');
         $secret = $this->_hash;
 
-        $data = array();
+        $data = [];
 
-        if (\is_array($keys))
-        {
-            foreach ($keys as $key)
-            {
-                if (empty($key))
-                {
+        if (\is_array($keys)) {
+            foreach ($keys as $key) {
+                if (empty($key)) {
                     continue;
                 }
 
                 $namearr = explode('-', $key->name);
 
-                if ($namearr !== false && $namearr[0] == $secret && $namearr[1] === 'cache')
-                {
+                if ($namearr !== false && $namearr[0] == $secret && $namearr[1] === 'cache') {
                     $group = $namearr[2];
 
-                    if (!isset($data[$group]))
-                    {
+                    if (!isset($data[$group])) {
                         $item = new CacheStorageHelper($group);
-                    }
-                    else
-                    {
+                    } else {
                         $item = $data[$group];
                     }
 
@@ -237,19 +224,17 @@ class MemcachedStorage extends CacheStorage
     {
         $cache_id = $this->_getCacheId($id, $group);
 
-        if (!$this->lockindex())
-        {
+        if (!$this->lockindex()) {
             return false;
         }
 
         $index = static::$_db->get($this->_hash . '-index');
 
-        if (!\is_array($index))
-        {
-            $index = array();
+        if (!\is_array($index)) {
+            $index = [];
         }
 
-        $tmparr       = new \stdClass;
+        $tmparr       = new \stdClass();
         $tmparr->name = $cache_id;
         $tmparr->size = \strlen($data);
 
@@ -276,19 +261,15 @@ class MemcachedStorage extends CacheStorage
     {
         $cache_id = $this->_getCacheId($id, $group);
 
-        if (!$this->lockindex())
-        {
+        if (!$this->lockindex()) {
             return false;
         }
 
         $index = static::$_db->get($this->_hash . '-index');
 
-        if (\is_array($index))
-        {
-            foreach ($index as $key => $value)
-            {
-                if ($value->name == $cache_id)
-                {
+        if (\is_array($index)) {
+            foreach ($index as $key => $value) {
+                if ($value->name == $cache_id) {
                     unset($index[$key]);
                     static::$_db->set($this->_hash . '-index', $index, 0);
                     break;
@@ -316,21 +297,17 @@ class MemcachedStorage extends CacheStorage
      */
     public function clean($group, $mode = null)
     {
-        if (!$this->lockindex())
-        {
+        if (!$this->lockindex()) {
             return false;
         }
 
         $index = static::$_db->get($this->_hash . '-index');
 
-        if (\is_array($index))
-        {
+        if (\is_array($index)) {
             $prefix = $this->_hash . '-cache-' . $group . '-';
 
-            foreach ($index as $key => $value)
-            {
-                if (strpos($value->name, $prefix) === 0 xor $mode !== 'group')
-                {
+            foreach ($index as $key => $value) {
+                if (strpos($value->name, $prefix) === 0 xor $mode !== 'group') {
                     static::$_db->delete($value->name);
                     unset($index[$key]);
                 }
@@ -353,8 +330,7 @@ class MemcachedStorage extends CacheStorage
      */
     public function flush()
     {
-        if (!$this->lockindex())
-        {
+        if (!$this->lockindex()) {
             return false;
         }
 
@@ -390,7 +366,7 @@ class MemcachedStorage extends CacheStorage
      */
     public function lock($id, $group, $locktime)
     {
-        $returning = new \stdClass;
+        $returning             = new \stdClass();
         $returning->locklooped = false;
 
         $looptime = $locktime * 10;
@@ -399,16 +375,13 @@ class MemcachedStorage extends CacheStorage
 
         $data_lock = static::$_db->add($cache_id . '_lock', 1, $locktime);
 
-        if ($data_lock === false)
-        {
+        if ($data_lock === false) {
             $lock_counter = 0;
 
             // Loop until you find that the lock has been released.
             // That implies that data get from other thread has finished.
-            while ($data_lock === false)
-            {
-                if ($lock_counter > $looptime)
-                {
+            while ($data_lock === false) {
+                if ($lock_counter > $looptime) {
                     break;
                 }
 
@@ -453,15 +426,12 @@ class MemcachedStorage extends CacheStorage
         $looptime  = 300;
         $data_lock = static::$_db->add($this->_hash . '-index_lock', 1, 30);
 
-        if ($data_lock === false)
-        {
+        if ($data_lock === false) {
             $lock_counter = 0;
 
             // Loop until you find that the lock has been released.  that implies that data get from other thread has finished
-            while ($data_lock === false)
-            {
-                if ($lock_counter > $looptime)
-                {
+            while ($data_lock === false) {
+                if ($lock_counter > $looptime) {
                     return false;
                 }
 

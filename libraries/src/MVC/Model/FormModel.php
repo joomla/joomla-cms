@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\Model;
 
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
@@ -19,9 +20,10 @@ use Joomla\CMS\Form\FormRule;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Proxy\ArrayProxy;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -48,19 +50,19 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
     /**
      * Constructor
      *
-     * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface   $factory      The factory.
-     * @param   FormFactoryInterface  $formFactory  The form factory.
+     * @param   array                  $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface   $factory      The factory.
+     * @param   ?FormFactoryInterface  $formFactory  The form factory.
      *
      * @since   3.6
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
     {
-        $config['events_map'] = $config['events_map'] ?? array();
+        $config['events_map'] = $config['events_map'] ?? [];
 
         $this->events_map = array_merge(
-            array('validate' => 'content'),
+            ['validate' => 'content'],
             $config['events_map']
         );
 
@@ -192,10 +194,16 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
      */
     public function validate($form, $data, $group = null)
     {
-        // Include the plugins for the delete events.
-        PluginHelper::importPlugin($this->events_map['validate']);
+        $dispatcher = $this->getDispatcher();
 
-        $dispatcher = Factory::getContainer()->get('dispatcher');
+        // Include the plugins for the delete events.
+        PluginHelper::importPlugin($this->events_map['validate'], null, true, $dispatcher);
+
+        // When the data is an array wrap it in to an array-access object
+        $eventData = $data;
+        if (is_array($data)) {
+            $eventData = new ArrayProxy($data);
+        }
 
         if (!empty($dispatcher->getListeners('onUserBeforeDataValidation'))) {
             @trigger_error(
@@ -204,10 +212,16 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
                 E_USER_DEPRECATED
             );
 
-            Factory::getApplication()->triggerEvent('onUserBeforeDataValidation', array($form, &$data));
+            $dispatcher->dispatch('onUserBeforeDataValidation', new Model\BeforeValidateDataEvent('onUserBeforeDataValidation', [
+                'subject' => $form,
+                'data'    => $eventData,
+            ]));
         }
 
-        Factory::getApplication()->triggerEvent('onContentBeforeValidateData', array($form, &$data));
+        $dispatcher->dispatch('onContentBeforeValidateData', new Model\BeforeValidateDataEvent('onContentBeforeValidateData', [
+            'subject' => $form,
+            'data'    => $eventData,
+        ]));
 
         // Filter and validate the form data.
         $return = $form->process($data, $group);

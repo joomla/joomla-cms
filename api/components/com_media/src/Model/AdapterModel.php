@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.API
  * @subpackage  com_media
@@ -9,10 +10,12 @@
 
 namespace Joomla\Component\Media\Api\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Media web service model supporting a single adapter item.
@@ -34,8 +37,7 @@ class AdapterModel extends BaseModel
     {
         list($provider, $account) = array_pad(explode('-', $this->getState('id'), 2), 2, null);
 
-        if ($account === null)
-        {
+        if ($account === null) {
             throw new \Exception('Account was not set');
         }
 

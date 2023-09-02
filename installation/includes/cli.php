@@ -31,8 +31,8 @@ require_once __DIR__ . '/framework.php';
 if (is_writable(JPATH_ADMINISTRATOR . '/logs')) {
     \Joomla\CMS\Log\Log::addLogger(
         [
-            'format' => '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}',
-            'text_file' => 'error.php'
+            'format'    => '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}',
+            'text_file' => 'error.php',
         ],
         \Joomla\CMS\Log\Log::ALL,
         ['error']
@@ -59,5 +59,10 @@ $container->alias('session', 'session.cli')
     ->alias(\Joomla\Session\Session::class, 'session.cli')
     ->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
 
+/** @var \Joomla\CMS\Installation\Application\CliInstallationApplication $app */
+$app = $container->get(\Joomla\CMS\Installation\Application\CliInstallationApplication::class);
+
+\Joomla\CMS\Factory::$application = $app;
+
 // Instantiate and execute the application
-$container->get(\Joomla\CMS\Installation\Application\CliInstallationApplication::class)->execute();
+$app->execute();

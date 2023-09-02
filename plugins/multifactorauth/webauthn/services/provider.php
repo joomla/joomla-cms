@@ -13,13 +13,13 @@ defined('_JEXEC') || die;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Multifactorauth\Webauthn\Extension\Webauthn;
 
-return new class implements ServiceProviderInterface
-{
+return new class () implements ServiceProviderInterface {
     /**
      * Registers the service provider with a DI container.
      *
@@ -34,11 +34,9 @@ return new class implements ServiceProviderInterface
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $config  = (array) PluginHelper::getPlugin('multifactorauth', 'webauthn');
-                $subject = $container->get(DispatcherInterface::class);
-
-                $plugin = new Webauthn($subject, $config);
+                $plugin = new Webauthn($container->get(DispatcherInterface::class), (array) PluginHelper::getPlugin('multifactorauth', 'webauthn'));
                 $plugin->setApplication(Factory::getApplication());
+                $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
             }

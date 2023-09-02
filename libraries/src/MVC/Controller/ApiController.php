@@ -23,7 +23,7 @@ use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -86,20 +86,20 @@ class ApiController extends BaseController
     /**
      * The model state to inject
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $modelState;
 
     /**
      * Constructor.
      *
-     * @param   array                       $config   An optional associative array of configuration settings.
-     *                                                Recognized key values include 'name', 'default_task',
-     *                                                'model_path', and 'view_path' (this list is not meant to be
-     *                                                comprehensive).
-     * @param   MVCFactoryInterface         $factory  The factory.
-     * @param   CMSWebApplicationInterface  $app      The Application for the dispatcher
-     * @param   Input                       $input    Input
+     * @param   array                        $config   An optional associative array of configuration settings.
+     *                                                 Recognized key values include 'name', 'default_task',
+     *                                                 'model_path', and 'view_path' (this list is not meant to be
+     *                                                 comprehensive).
+     * @param   ?MVCFactoryInterface         $factory  The factory.
+     * @param   ?CMSWebApplicationInterface  $app      The Application for the dispatcher
+     * @param   ?Input                       $input    Input
      *
      * @throws  \Exception
      * @since   4.0.0
@@ -358,7 +358,7 @@ class ApiController extends BaseController
         $key = $table->getKeyName();
 
         // Access check.
-        if (!$this->allowEdit(array($key => $recordId), $key)) {
+        if (!$this->allowEdit([$key => $recordId], $key)) {
             throw new NotAllowed('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED', 403);
         }
 
@@ -453,7 +453,7 @@ class ApiController extends BaseController
         }
 
         if (!isset($validData['tags'])) {
-            $validData['tags'] = array();
+            $validData['tags'] = [];
         }
 
         // Attempt to save the data.
@@ -494,7 +494,7 @@ class ApiController extends BaseController
      *
      * @since   4.0.0
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         return $this->app->getIdentity()->authorise('core.edit', $this->option);
     }
@@ -510,7 +510,7 @@ class ApiController extends BaseController
      *
      * @since   4.0.0
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         $user = $this->app->getIdentity();
 

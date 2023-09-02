@@ -32,7 +32,7 @@ class JsonapiView extends BaseApiView
     protected $fieldsToRenderItem = [
         'id',
         'title',
-        'rules'
+        'rules',
     ];
 
     /**

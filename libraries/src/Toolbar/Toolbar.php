@@ -25,7 +25,7 @@ use Joomla\CMS\Toolbar\Button\SeparatorButton;
 use Joomla\CMS\Toolbar\Button\StandardButton;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -77,8 +77,12 @@ class Toolbar
      *
      * @var    Toolbar[]
      * @since  2.5
+     *
+     * @deprecated  5.0 will be removed in 7.0
+     *              Toolbars instances will be stored in the \Joomla\CMS\Document\HTMLDocument object
+     *              Request the instance from Factory::getApplication()->getDocument()->getToolbar('name');
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Factory for creating Toolbar API objects
@@ -129,17 +133,26 @@ class Toolbar
      * @return  Toolbar  The Toolbar object.
      *
      * @since       1.5
-     * @deprecated  5.0 Use the ToolbarFactoryInterface instead
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the ToolbarFactoryInterface instead
+     *              Example:
+     *              Factory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar($name)
+     *
+     * @todo Needs a proper replacement before removal as ToolbarFactoryInterface alone does not share the object everywhere
      *
      * @throws \Joomla\DI\Exception\KeyNotFoundException
      */
     public static function getInstance($name = 'toolbar')
     {
+        $toolbar = Factory::getApplication()->getDocument()->getToolbar($name);
+
+        // TODO b/c remove with Joomla 7.0 or removed in 6.0 with this function
         if (empty(self::$instances[$name])) {
-            self::$instances[$name] = Factory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar($name);
+            self::$instances[$name] = $toolbar;
         }
 
-        return self::$instances[$name];
+        return $toolbar;
     }
 
     /**
@@ -284,6 +297,10 @@ class Toolbar
      */
     public function render(array $options = [])
     {
+        if (!$this->_bar) {
+            return '';
+        }
+
         $html = [];
 
         $isChild = !empty($options['is_child']);
@@ -384,14 +401,16 @@ class Toolbar
      * @return  void
      *
      * @since       1.5
-     * @deprecated  5.0  ToolbarButton classes should be autoloaded
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              ToolbarButton classes should be autoloaded via namespaces
      */
     public function addButtonPath($path)
     {
         @trigger_error(
             sprintf(
                 'Registering lookup paths for toolbar buttons is deprecated and will be removed in Joomla 5.0.'
-                . ' %1$s objects should be autoloaded or a custom %2$s implementation supporting path lookups provided.',
+                    . ' %1$s objects should be autoloaded or a custom %2$s implementation supporting path lookups provided.',
                 ToolbarButton::class,
                 ToolbarFactoryInterface::class
             ),
@@ -420,7 +439,8 @@ class Toolbar
      * @return  array
      *
      * @since   4.0.0
-     * @deprecated  5.0  ToolbarButton classes should be autoloaded
+     * @deprecated  4.0 will be removed in 6.0
+     *              ToolbarButton buttons should be autoloaded via namespaces
      */
     public function getButtonPath(): array
     {

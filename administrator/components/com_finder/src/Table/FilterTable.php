@@ -14,6 +14,8 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 
@@ -26,8 +28,10 @@ use Joomla\Registry\Registry;
  *
  * @since  2.5
  */
-class FilterTable extends Table
+class FilterTable extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
@@ -42,7 +46,7 @@ class FilterTable extends Table
      * @var    array
      * @since  4.0.0
      */
-    protected $_jsonEncode = array('params');
+    protected $_jsonEncode = ['params'];
 
     /**
      * Constructor
@@ -59,7 +63,7 @@ class FilterTable extends Table
     }
 
     /**
-     * Method to perform sanity checks on the \JTable instance properties to ensure
+     * Method to perform sanity checks on the \Joomla\CMS\Table\Table instance properties to ensure
      * they are safe to store in the database.  Child classes should override this
      * method to make sure the data they are storing in the database is safe and
      * as expected before storage.
@@ -105,11 +109,11 @@ class FilterTable extends Table
     }
 
     /**
-     * Method to store a row in the database from the \JTable instance properties.
+     * Method to store a row in the database from the \Joomla\CMS\Table\Table instance properties.
      * If a primary key value is set the row with that primary key value will be
      * updated with the instance property values.  If no primary key value is set
      * a new row will be inserted into the database with the properties from the
-     * \JTable instance.
+     * \Joomla\CMS\Table\Table instance.
      *
      * @param   boolean  $updateNulls  True to update fields even if they are null. [optional]
      *
@@ -119,8 +123,8 @@ class FilterTable extends Table
      */
     public function store($updateNulls = true)
     {
-        $date = Factory::getDate()->toSql();
-        $userId = Factory::getUser()->id;
+        $date   = Factory::getDate()->toSql();
+        $userId = $this->getCurrentUser()->id;
 
         // Set created date if not set.
         if (!(int) $this->created) {
@@ -147,16 +151,16 @@ class FilterTable extends Table
 
         if (is_array($this->data)) {
             $this->map_count = count($this->data);
-            $this->data = implode(',', $this->data);
+            $this->data      = implode(',', $this->data);
         } else {
             $this->map_count = 0;
-            $this->data = implode(',', array());
+            $this->data      = implode(',', []);
         }
 
         // Verify that the alias is unique
         $table = new static($this->getDbo());
 
-        if ($table->load(array('alias' => $this->alias)) && ($table->filter_id != $this->filter_id || $this->filter_id == 0)) {
+        if ($table->load(['alias' => $this->alias]) && ($table->filter_id != $this->filter_id || $this->filter_id == 0)) {
             $this->setError(Text::_('COM_FINDER_FILTER_ERROR_UNIQUE_ALIAS'));
 
             return false;

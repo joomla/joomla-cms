@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Newsfeeds\Administrator\Field">
 
 	<fieldset>
@@ -79,7 +79,7 @@
 			label="JGLOBAL_DESCRIPTION"
 			buttons="true"
 			hide="pagebreak,readmore"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 		/>
 
 		<field

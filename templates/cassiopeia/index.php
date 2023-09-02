@@ -58,6 +58,18 @@ if ($paramsFontScheme) {
 			--cassiopeia-font-weight-normal: 400;
 			--cassiopeia-font-weight-headings: 700;';
         }
+    } elseif ($paramsFontScheme === 'system') {
+        $fontStylesBody    = $this->params->get('systemFontBody', '');
+        $fontStylesHeading = $this->params->get('systemFontHeading', '');
+
+        if ($fontStylesBody) {
+            $fontStyles = '--cassiopeia-font-family-body: ' . $fontStylesBody . ';
+            --cassiopeia-font-weight-normal: 400;';
+        }
+        if ($fontStylesHeading) {
+            $fontStyles .= '--cassiopeia-font-family-headings: ' . $fontStylesHeading . ';
+    		--cassiopeia-font-weight-headings: 700;';
+        }
     } else {
         $wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, ['version' => 'auto'], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'']);
         $this->getPreloadManager()->preload($wa->getAsset('style', 'fontscheme.current')->getUri() . '?' . $this->getMediaVersion(), ['as' => 'style']);
@@ -74,7 +86,7 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
 		--template-bg-light: #f0f4fb;
 		--template-text-dark: #495057;
 		--template-text-light: #ffffff;
-		--template-link-color: #2a69b8;
+		--template-link-color: var(--link-color);
 		--template-special-color: #001B4C;
 		$fontStyles
 	}");
@@ -84,11 +96,11 @@ $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($th
 
 // Logo file or site title param
 if ($this->params->get('logoFile')) {
-    $logo = '<img src="' . Uri::root(true) . '/' . htmlspecialchars($this->params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '">';
+    $logo = HTMLHelper::_('image', Uri::root(false) . htmlspecialchars($this->params->get('logoFile'), ENT_QUOTES), $sitename, ['loading' => 'eager', 'decoding' => 'async'], false, 0);
 } elseif ($this->params->get('siteTitle')) {
     $logo = '<span title="' . $sitename . '">' . htmlspecialchars($this->params->get('siteTitle'), ENT_COMPAT, 'UTF-8') . '</span>';
 } else {
-    $logo = HTMLHelper::_('image', 'logo.svg', $sitename, ['class' => 'logo d-inline-block'], true, 0);
+    $logo = HTMLHelper::_('image', 'logo.svg', $sitename, ['class' => 'logo d-inline-block', 'loading' => 'eager', 'decoding' => 'async'], true, 0);
 }
 
 $hasClass = '';
@@ -113,6 +125,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />
@@ -133,7 +146,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 
         <?php if ($this->countModules('topbar')) : ?>
             <div class="container-topbar">
-            <jdoc:include type="modules" name="topbar" style="none" />
+                <jdoc:include type="modules" name="topbar" style="none" />
             </div>
         <?php endif; ?>
 
@@ -178,21 +191,21 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
         <?php endif; ?>
 
         <?php if ($this->countModules('top-a', true)) : ?>
-        <div class="grid-child container-top-a">
-            <jdoc:include type="modules" name="top-a" style="card" />
-        </div>
+            <div class="grid-child container-top-a">
+                <jdoc:include type="modules" name="top-a" style="card" />
+            </div>
         <?php endif; ?>
 
         <?php if ($this->countModules('top-b', true)) : ?>
-        <div class="grid-child container-top-b">
-            <jdoc:include type="modules" name="top-b" style="card" />
-        </div>
+            <div class="grid-child container-top-b">
+                <jdoc:include type="modules" name="top-b" style="card" />
+            </div>
         <?php endif; ?>
 
         <?php if ($this->countModules('sidebar-left', true)) : ?>
-        <div class="grid-child container-sidebar-left">
-            <jdoc:include type="modules" name="sidebar-left" style="card" />
-        </div>
+            <div class="grid-child container-sidebar-left">
+                <jdoc:include type="modules" name="sidebar-left" style="card" />
+            </div>
         <?php endif; ?>
 
         <div class="grid-child container-component">
@@ -200,36 +213,36 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
             <jdoc:include type="modules" name="main-top" style="card" />
             <jdoc:include type="message" />
             <main>
-            <jdoc:include type="component" />
+                <jdoc:include type="component" />
             </main>
             <jdoc:include type="modules" name="main-bottom" style="card" />
         </div>
 
         <?php if ($this->countModules('sidebar-right', true)) : ?>
-        <div class="grid-child container-sidebar-right">
-            <jdoc:include type="modules" name="sidebar-right" style="card" />
-        </div>
+            <div class="grid-child container-sidebar-right">
+                <jdoc:include type="modules" name="sidebar-right" style="card" />
+            </div>
         <?php endif; ?>
 
         <?php if ($this->countModules('bottom-a', true)) : ?>
-        <div class="grid-child container-bottom-a">
-            <jdoc:include type="modules" name="bottom-a" style="card" />
-        </div>
+            <div class="grid-child container-bottom-a">
+                <jdoc:include type="modules" name="bottom-a" style="card" />
+            </div>
         <?php endif; ?>
 
         <?php if ($this->countModules('bottom-b', true)) : ?>
-        <div class="grid-child container-bottom-b">
-            <jdoc:include type="modules" name="bottom-b" style="card" />
-        </div>
+            <div class="grid-child container-bottom-b">
+                <jdoc:include type="modules" name="bottom-b" style="card" />
+            </div>
         <?php endif; ?>
     </div>
 
     <?php if ($this->countModules('footer', true)) : ?>
-    <footer class="container-footer footer full-width">
-        <div class="grid-child">
-            <jdoc:include type="modules" name="footer" style="none" />
-        </div>
-    </footer>
+        <footer class="container-footer footer full-width">
+            <div class="grid-child">
+                <jdoc:include type="modules" name="footer" style="none" />
+            </div>
+        </footer>
     <?php endif; ?>
 
     <?php if ($this->params->get('backTop') == 1) : ?>
@@ -240,4 +253,5 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 
     <jdoc:include type="modules" name="debug" style="none" />
 </body>
+
 </html>
