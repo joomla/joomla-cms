@@ -9,7 +9,6 @@
  */
 
 namespace Joomla\CMS\Installation\Application;
-
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\EventAware;
