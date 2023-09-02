@@ -238,7 +238,6 @@ class StepModel extends AdminModel
      */
     public function getItem($pk = null)
     {
-
         if ($result = parent::getItem($pk)) {
             $app = Factory::getApplication();
 
