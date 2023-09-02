@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Captcha\CaptchaRegistry;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Event\Captcha\CaptchaSetupEvent;
+use Joomla\CMS\Event\Privacy\CollectCapabilitiesEvent;
 use Joomla\CMS\Form\Field\CaptchaField;
 use Joomla\CMS\Language\Language;
 use Joomla\Event\Dispatcher;
@@ -281,8 +282,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $plugin = new InvisibleReCaptcha($dispatcher, ['name' => 'test', 'params' => []]);
         $plugin->setApplication($app);
 
-        // @TODO: The event should be changed to what the Privacy component provide.
-        $event = new \Joomla\Event\Event('onPrivacyCollectAdminCapabilities', ['result' => []]);
+        $event = new CollectCapabilitiesEvent('onPrivacyCollectAdminCapabilities');
         $plugin->onPrivacyCollectAdminCapabilities($event);
 
         $this->assertNotEmpty($event['result']);
