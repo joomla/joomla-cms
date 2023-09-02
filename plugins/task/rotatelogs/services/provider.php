@@ -34,10 +34,8 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
-
                 $plugin = new RotateLogs(
-                    $dispatcher,
+                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('task', 'rotatelogs')
                 );
                 $plugin->setApplication(Factory::getApplication());
