@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Checkin\Administrator\Model;
 
+use Joomla\CMS\Event\Checkin\AfterCheckinEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -128,7 +129,9 @@ class CheckinModel extends ListModel
 
             if ($db->execute()) {
                 $results = $results + $db->getAffectedRows();
-                $app->triggerEvent('onAfterCheckin', [$tn]);
+                $this->getDispatcher()->dispatch('onAfterCheckin', new AfterCheckinEvent('onAfterCheckin', [
+                    'subject' => $tn,
+                ]));
             }
         }
 
