@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -237,8 +238,6 @@ class StepModel extends AdminModel
      */
     public function getItem($pk = null)
     {
-        $lang = Factory::getLanguage();
-        $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
         if ($result = parent::getItem($pk)) {
             $app = Factory::getApplication();
@@ -251,10 +250,7 @@ class StepModel extends AdminModel
                 // Editing an existing step
                 $tour = $tourModel->getItem($result->tour_id);
 
-                if (!empty($tour->alias)) {
-                    $lang->load('com_guidedtours.' . str_replace('-', '_', $tour->alias), JPATH_ADMINISTRATOR);
-                    $lang->load('com_guidedtours.' . str_replace('-', '_', $tour->alias) . '_steps', JPATH_ADMINISTRATOR);
-                }
+                GuidedtoursHelper::loadTranslationFiles($tour->uid, true);
 
                 $result->title_translation       = Text::_($result->title);
                 $result->description_translation = Text::_($result->description);

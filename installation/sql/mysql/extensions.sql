@@ -949,7 +949,7 @@ CREATE TABLE IF NOT EXISTS `#__schemaorg` (
 CREATE TABLE IF NOT EXISTS `#__guidedtours` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT '' NOT NULL,
-  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `uid` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `description` text NOT NULL,
   `ordering` int NOT NULL DEFAULT 0,
   `extensions` text NOT NULL,
@@ -968,14 +968,14 @@ CREATE TABLE IF NOT EXISTS `#__guidedtours` (
   KEY `idx_access` (`access`),
   KEY `idx_state` (`published`),
   KEY `idx_language` (`language`),
-  KEY `idx_alias` (`alias`(191))
+  KEY `idx_uid` (`uid`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__guidedtours`
 --
 
-INSERT INTO `#__guidedtours` (`id`, `title`, `alias`, `description`, `ordering`, `extensions`, `url`, `created`, `created_by`, `modified`, `modified_by`, `checked_out_time`, `checked_out`, `published`, `language`, `access`) VALUES
+INSERT INTO `#__guidedtours` (`id`, `title`, `uid`, `description`, `ordering`, `extensions`, `url`, `created`, `created_by`, `modified`, `modified_by`, `checked_out_time`, `checked_out`, `published`, `language`, `access`) VALUES
 (1, 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURS_TITLE', 'joomla-guidedtours', 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURS_DESCRIPTION', 1, '["com_guidedtours"]', 'administrator/index.php?option=com_guidedtours&view=tours', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, NULL, 1, '*', 1),
 (2, 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURSTEPS_TITLE', 'joomla-guidedtoursteps', 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURSTEPS_DESCRIPTION', 2, '["com_guidedtours"]', 'administrator/index.php?option=com_guidedtours&view=tours', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, NULL, 1, '*', 1),
 (3, 'COM_GUIDEDTOURS_TOUR_ARTICLES_TITLE', 'joomla-articles', 'COM_GUIDEDTOURS_TOUR_ARTICLES_DESCRIPTION', 3, '["*"]', 'administrator/index.php?option=com_content&view=articles', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, NULL, 1, '*', 1),

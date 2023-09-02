@@ -10,18 +10,15 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Model;
 
-use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -81,28 +78,6 @@ class TourModel extends AdminModel
         $lang = $data['language'];
 
         $this->setStepsLanguage($id, $lang);
-
-        if (empty($data['alias'])) {
-            $app        = Factory::getApplication();
-            $uri        = Uri::getInstance();
-            $host       = $uri->toString(['host']);
-            $aliasTitle = $host . ' ' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $data['title']);
-            // Remove the last _TITLE part
-            if (str_ends_with($aliasTitle, '_TITLE')) {
-                $pos        = strrpos($aliasTitle, '_TITLE');
-                $aliasTitle = substr($aliasTitle, 0, $pos);
-            }
-            if ($app->get('unicodeslugs') == 1) {
-                $data['alias'] = OutputFilter::stringUrlUnicodeSlug($aliasTitle);
-            } else {
-                $data['alias'] = OutputFilter::stringURLSafe($aliasTitle);
-            }
-        } else {
-            $data['alias'] = ApplicationHelper::stringURLSafe($data['alias']);
-        }
-
-        // make sure the alias is unique
-        $data['alias'] = $this->generateNewAlias($data['alias'], $id);
 
         return parent::save($data);
     }
@@ -212,9 +187,9 @@ class TourModel extends AdminModel
     }
 
     /**
-     * Method to get a single record by id or alias
+     * Method to get a single record by id or uid
      *
-     * @param   integer|string  $pk  The id or alias of the tour.
+     * @param   integer|string  $pk  The id or uid of the tour.
      *
      * @return  CMSObject|boolean  Object on success, false on failure.
      *
@@ -228,8 +203,8 @@ class TourModel extends AdminModel
         if (is_integer($pk)) {
             $result = $table->load((int) $pk);
         } else {
-            // Attempt to load the row by alias.
-            $result = $table->load([ 'alias' => $pk ]);
+            // Attempt to load the row by uid.
+            $result = $table->load([ 'uid' => $pk ]);
         }
 
         // Check for a table object error.
@@ -253,33 +228,13 @@ class TourModel extends AdminModel
             $item->params = $registry->toArray();
         }
 
-        if (!empty($item->alias)) {
-            $lang = Factory::getLanguage();
-            $lang->load('com_guidedtours.' . str_replace('-', '_', $item->alias), JPATH_ADMINISTRATOR);
-            $lang->load('com_guidedtours.' . str_replace('-', '_', $item->alias) . '_steps', JPATH_ADMINISTRATOR);
+        if (!empty($item->uid)) {
+            GuidedtoursHelper::loadTranslationFiles($item->uid, true);
         }
 
         if (!empty($item->id)) {
             $item->title_translation       = Text::_($item->title);
             $item->description_translation = Text::_($item->description);
-        }
-
-        if (empty($item->alias) && (int) $item->id > 0) {
-            $app        = Factory::getApplication();
-            $uri        = Uri::getInstance();
-            $host       = $uri->toString(['host']);
-
-            $aliasTitle = $host . ' ' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $item->title);
-            // Remove the last _TITLE part
-            if (str_ends_with($item->title, '_TITLE')) {
-                $pos        = strrpos($aliasTitle, '_TITLE');
-                $aliasTitle = substr($aliasTitle, 0, $pos);
-            }
-            if ($app->get('unicodeslugs') == 1) {
-                $item->alias = OutputFilter::stringUrlUnicodeSlug($aliasTitle);
-            } else {
-                $item->alias = OutputFilter::stringURLSafe($aliasTitle);
-            }
         }
 
         return $item;
@@ -392,7 +347,6 @@ class TourModel extends AdminModel
                 $table->id = 0;
 
                 $table->published   = 0;
-                $table->alias       = $this->generateNewAlias($table->alias, 0);
 
                 if (!$table->check() || !$table->store()) {
                     throw new \Exception($table->getError());
@@ -542,33 +496,5 @@ class TourModel extends AdminModel
 
         return $db->setQuery($query)
             ->execute();
-    }
-
-    /**
-     * Method to change the alias when not unique.
-     *
-     * @param   string   $alias           The alias.
-     * @param   integer  $currentItemId   The id of the current tour.
-     *
-     * @return  string $alias  Contains the modified alias.
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function generateNewAlias($alias, $currentItemId)
-    {
-        $table  = $this->getTable();
-        $unique = false;
-        // Alter the title & alias
-        while (!$unique) {
-            // Attempt to load the row by alias.
-            $aliasItem = $table->load([ 'alias' => $alias ]);
-            if ($aliasItem && $table->id > 0 && $table->id != $currentItemId) {
-                $alias = StringHelper::increment($alias, 'dash');
-            } else {
-                $unique = true;
-            }
-        }
-
-        return $alias;
     }
 }

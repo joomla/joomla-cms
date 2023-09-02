@@ -427,15 +427,15 @@ function startTour(obj) {
 }
 
 function loadTour(tourId) {
-  const tourAlias = Number.parseInt(tourId, 10) > 0 ? '' : encodeURI(tourId);
+  const tourUid = Number.parseInt(tourId, 10) > 0 ? '' : encodeURI(tourId);
   const tourNumber = Number.parseInt(tourId, 10) > 0 ? Number.parseInt(tourId, 10) : 0;
 
-  if (tourNumber > 0 || tourAlias !== '') {
+  if (tourNumber > 0 || tourUid !== '') {
     let url = `${Joomla.getOptions('system.paths').rootFull}administrator/index.php?option=com_ajax&plugin=guidedtours&group=system&format=json`;
     if (tourNumber > 0) {
       url += `&id=${tourNumber}`;
     } else {
-      url += `&alias=${tourAlias}`;
+      url += `&uid=${tourUid}`;
     }
     fetch(url)
       .then((response) => response.json())
@@ -472,14 +472,14 @@ document.querySelector('body').addEventListener('click', (event) => {
   // Click button but missing data-id
   if (
     (!event.target.hasAttribute('data-id') || event.target.getAttribute('data-id') <= 0)
-  && (!event.target.hasAttribute('data-gt-alias') || event.target.getAttribute('data-gt-alias') === '')
+  && (!event.target.hasAttribute('data-gt-uid') || event.target.getAttribute('data-gt-uid') === '')
   ) {
     Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR')] });
     return;
   }
 
   sessionStorage.setItem('tourToken', String(Joomla.getOptions('com_guidedtours.token')));
-  loadTour(event.target.getAttribute('data-id') || event.target.getAttribute('data-gt-alias'));
+  loadTour(event.target.getAttribute('data-id') || event.target.getAttribute('data-gt-uid'));
 });
 
 // Start a given tour

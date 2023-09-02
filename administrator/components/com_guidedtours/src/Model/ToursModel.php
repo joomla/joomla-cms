@@ -13,6 +13,7 @@ namespace Joomla\Component\Guidedtours\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -248,17 +249,15 @@ class ToursModel extends ListModel
     {
         $items = parent::getItems();
 
-        $lang = Factory::getLanguage();
-        $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
-
-        foreach ($items as $item) {
-            if (!empty($item->alias)) {
-                $lang->load('com_guidedtours.' . str_replace('-', '_', $item->alias), JPATH_ADMINISTRATOR);
+        foreach ($items as & $item) {
+            if (!empty($item->uid)) {
+                GuidedtoursHelper::loadTranslationFiles($item->uid, false);
             }
             $item->title       = Text::_($item->title);
             $item->description = Text::_($item->description);
             $item->extensions  = (new Registry($item->extensions))->toArray();
         }
+        unset($item);
 
         return $items;
     }

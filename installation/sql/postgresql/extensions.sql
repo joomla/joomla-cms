@@ -913,7 +913,7 @@ CREATE TABLE IF NOT EXISTS "#__schemaorg" (
 CREATE TABLE IF NOT EXISTS "#__guidedtours" (
   "id" serial NOT NULL,
   "title" varchar(255) DEFAULT '' NOT NULL,
-  "alias" varchar(255) DEFAULT '' NOT NULL,
+  "uid" varchar(255) DEFAULT '' NOT NULL,
   "description" text NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
   "extensions" text NOT NULL,
@@ -934,7 +934,7 @@ CREATE TABLE IF NOT EXISTS "#__guidedtours" (
 CREATE INDEX "#__guidedtours_idx_access" ON "#__guidedtours" ("access");
 CREATE INDEX "#__guidedtours_idx_state" ON "#__guidedtours" ("published");
 CREATE INDEX "#__guidedtours_idx_language" ON "#__guidedtours" ("language");
-CREATE INDEX "#__guidedtours_idx_alias" ON "#__guidedtours" ("alias");
+CREATE INDEX "#__guidedtours_idx_uid" ON "#__guidedtours" ("uid");
 --
 -- Dumping data for table `#__guidedtours`
 --
