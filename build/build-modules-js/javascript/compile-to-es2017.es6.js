@@ -57,6 +57,8 @@ const collectExternals = () => {
     'cropper-module',
     'codemirror',
     'joomla.dialog',
+    'editor-api',
+    'editor-decorator',
   );
 
   // Codemirror modules
