@@ -297,6 +297,10 @@ class Toolbar
      */
     public function render(array $options = [])
     {
+        if (!$this->_bar) {
+            return '';
+        }
+
         $html = [];
 
         $isChild = !empty($options['is_child']);

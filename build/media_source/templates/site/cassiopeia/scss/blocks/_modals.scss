@@ -36,13 +36,18 @@
 // Styling for joomla-dialog element
 joomla-dialog {
   dialog {
-    width: 80vw;
+    width: 96vw;
     max-width: 1700px;
-    height: 80vh;
+    height: 96vh;
     padding: 0;
     border: 1px solid var(--border-color-translucent);
     border-radius: .3rem;
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+
+    @include media-breakpoint-up(xxl) {
+      width: 80vw;
+      height: 80vh;
+    }
   }
 
   &[type="image"] {
@@ -160,6 +165,7 @@ joomla-dialog {
   }
 }
 
+// Dialog alert and confirm
 .joomla-dialog-alert,
 .joomla-dialog-confirm {
   dialog {
@@ -170,5 +176,15 @@ joomla-dialog {
 
   .joomla-dialog-body {
     padding: 1rem;
+  }
+}
+
+// Dialog for content select field
+.joomla-dialog-content-select-field {
+  dialog {
+    @include media-breakpoint-up(xxl) {
+      width: 90vw;
+      height: 90vh;
+    }
   }
 }
