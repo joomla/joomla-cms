@@ -474,7 +474,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      * @param   string  $type  The path type (e.g. 'model', 'view').
      * @param   mixed   $path  The directory string  or stream array to search.
      *
-     * @return  static  A \JControllerLegacy object to support chaining.
+     * @return  static  A BaseController object to support chaining.
      *
      * @since   3.0
      */
@@ -894,6 +894,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      * @return  void
      *
      * @since   3.0
+     * @throws  \Exception
      */
     protected function holdEditId($context, $id)
     {
@@ -936,6 +937,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      * @return  boolean  False if no redirect exists.
      *
      * @since   3.0
+     * @throws  \Exception
      */
     public function redirect()
     {
@@ -1021,6 +1023,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      * @return  void
      *
      * @since   3.0
+     * @throws  \Exception
      */
     protected function releaseEditId($context, $id)
     {
@@ -1124,6 +1127,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      * @return  boolean  True if found and valid, otherwise return false or redirect to referrer page.
      *
      * @since   3.7.0
+     * @throws  \Exception
      * @see     Session::checkToken()
      */
     public function checkToken($method = 'post', $redirect = true)
