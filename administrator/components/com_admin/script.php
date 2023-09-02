@@ -275,7 +275,7 @@ class JoomlaInstallerScript
                 $installer->uninstall($extension['type'], $row->extension_id);
 
                 $db->transactionCommit();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $db->transactionRollback();
                 echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
                 throw $e;
