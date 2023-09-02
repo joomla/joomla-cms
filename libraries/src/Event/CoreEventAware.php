@@ -176,6 +176,10 @@ trait CoreEventAware
         'onBuildIndex'                => Finder\BuildIndexEvent::class,
         'onStartIndex'                => Finder\StartIndexEvent::class,
         'onFinderGarbageCollection'   => Finder\GarbageCollectionEvent::class,
+        // Menu
+        'onBeforeRenderMenuItems'   => Menu\BeforeRenderMenuItemsViewEvent::class,
+        'onAfterGetMenuTypeOptions' => Menu\AfterGetMenuTypeOptionsEvent::class,
+        'onPreprocessMenuItems'     => Menu\PreprocessMenuItemsEvent::class,
         // ActionLog
         'onAfterLogPurge'  => ActionLog\AfterLogPurgeEvent::class,
         'onAfterLogExport' => ActionLog\AfterLogExportEvent::class,
