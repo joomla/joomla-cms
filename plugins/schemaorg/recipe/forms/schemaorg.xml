@@ -19,6 +19,13 @@
 					/>
 
 					<field
+						name="noteBook"
+						type="note"
+						description="PLG_SCHEMAORG_RECIPE_DESCRIPTION_LABEL"
+						class="alert alert-info w-100"
+					/>
+
+					<field
 						name="image"
 						type="media"
 						label="PLG_SCHEMAORG_RECIPE_FIELD_IMAGE_LABEL"
@@ -57,7 +64,7 @@
 						filter="user_utc"
 						showtime="false"
 						todaybutton="true"
-						format="%Y-%m-%d"
+						translateformat="true"
 					/>
 
 					<field
