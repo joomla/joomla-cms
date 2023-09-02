@@ -140,7 +140,6 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                             <tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->parent_id; ?>"
                                 data-item-id="<?php echo $item->id; ?>" data-parents="<?php echo $parentsStr; ?>"
                                 data-level="<?php echo $item->level; ?>"
-                                data-level="<?php echo $item->level; ?>"
                                 data-lft="<?php echo $item->lft; ?>"
                                 data-rgt="<?php echo $item->rgt; ?>">
                                 <td class="text-center">

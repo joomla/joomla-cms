@@ -22,6 +22,7 @@ use Joomla\String\Inflector;
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
+    ->useScript('table.rows')
     ->useScript('multiselect');
 
 $app       = Factory::getApplication();
@@ -68,7 +69,7 @@ if ($saveOrder && !empty($this->items)) {
                 <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
             </div>
         <?php else : ?>
-            <table class="table" id="tagList">
+            <table class="table table--collapsable" id="tagList">
                 <caption class="visually-hidden">
                     <?php echo Text::_('COM_TAGS_TABLE_CAPTION'); ?>,
                             <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
@@ -79,6 +80,10 @@ if ($saveOrder && !empty($this->items)) {
                         <td class="w-1 text-center">
                             <?php echo HTMLHelper::_('grid.checkall'); ?>
                         </td>
+                        <?php if ($this->state->get('list.limit') === 0) : ?>
+                            <th class="w-1 text-center">
+                            </th>
+                        <?php endif; ?>
                         <th scope="col" class="w-1 d-none d-md-table-cell text-center">
                             <?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
                         </th>
@@ -159,10 +164,22 @@ if ($saveOrder && !empty($this->items)) {
                     ?>
                         <tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->parent_id; ?>"
                             data-item-id="<?php echo $item->id; ?>" data-parents="<?php echo $parentsStr; ?>"
-                            data-level="<?php echo $item->level; ?>">
+                            data-level="<?php echo $item->level; ?>"
+                            data-lft="<?php echo $item->lft; ?>"
+                            data-rgt="<?php echo $item->rgt; ?>">
                             <td class="text-center">
                                 <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
                             </td>
+                            <?php if ($this->state->get('list.limit') === 0) : ?>
+                                <td>
+                                    <?php if (($item->rgt - $item->lft) > 1) : ?>
+                                        <button class="btn btn-link tablerows__button " type="button">
+                                            <span class="tablerows__icon icon-arrow-down" aria-hidden="true"></span>
+                                            <span class="visually-hidden"><?php echo Text::_('JTOGGLE_TABLE_COLLAPSE_CHILD_ROWS'); ?></span>
+                                        </button>
+                                    <?php endif; ?>
+                                </td>
+                            <?php endif; ?>
                             <td class="text-center d-none d-md-table-cell">
                                 <?php
                                 $iconClass = '';
