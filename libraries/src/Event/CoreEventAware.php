@@ -127,6 +127,7 @@ trait CoreEventAware
         'onCategoryChangeState'         => Model\AfterCategoryChangeStateEvent::class,
         'onBeforeBatch'                 => Model\BeforeBatchEvent::class,
         // User
+        'onUserAuthenticate'         => User\AuthenticationEvent::class,
         'onUserAuthorisation'        => User\AuthorisationEvent::class,
         'onUserAuthorisationFailure' => User\AuthorisationFailureEvent::class,
         'onUserLogin'                => User\LoginEvent::class,
@@ -179,6 +180,28 @@ trait CoreEventAware
         'onBeforeRenderMenuItems'   => Menu\BeforeRenderMenuItemsViewEvent::class,
         'onAfterGetMenuTypeOptions' => Menu\AfterGetMenuTypeOptionsEvent::class,
         'onPreprocessMenuItems'     => Menu\PreprocessMenuItemsEvent::class,
+        // ActionLog
+        'onAfterLogPurge'  => ActionLog\AfterLogPurgeEvent::class,
+        'onAfterLogExport' => ActionLog\AfterLogExportEvent::class,
+        // Cache
+        'onAfterPurge' => Cache\AfterPurgeEvent::class,
+        // Contact
+        'onValidateContact' => Contact\ValidateContactEvent::class,
+        'onSubmitContact'   => Contact\SubmitContactEvent::class,
+        // Checkin
+        'onAfterCheckin' => Checkin\AfterCheckinEvent::class,
+        // Custom Fields
+        'onCustomFieldsGetTypes'           => CustomFields\GetTypesEvent::class,
+        'onCustomFieldsPrepareDom'         => CustomFields\PrepareDomEvent::class,
+        'onCustomFieldsBeforePrepareField' => CustomFields\BeforePrepareFieldEvent::class,
+        'onCustomFieldsPrepareField'       => CustomFields\PrepareFieldEvent::class,
+        'onCustomFieldsAfterPrepareField'  => CustomFields\AfterPrepareFieldEvent::class,
+        // Privacy
+        'onPrivacyCollectAdminCapabilities'    => Privacy\CollectCapabilitiesEvent::class,
+        'onPrivacyCheckPrivacyPolicyPublished' => Privacy\CheckPrivacyPolicyPublishedEvent::class,
+        'onPrivacyExportRequest'               => Privacy\ExportRequestEvent::class,
+        'onPrivacyCanRemoveData'               => Privacy\CanRemoveDataEvent::class,
+        'onPrivacyRemoveData'                  => Privacy\RemoveDataEvent::class,
     ];
 
     /**
