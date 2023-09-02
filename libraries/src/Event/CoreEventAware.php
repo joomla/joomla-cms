@@ -176,6 +176,12 @@ trait CoreEventAware
         'onBuildIndex'                => Finder\BuildIndexEvent::class,
         'onStartIndex'                => Finder\StartIndexEvent::class,
         'onFinderGarbageCollection'   => Finder\GarbageCollectionEvent::class,
+        // Privacy
+        'onPrivacyCollectAdminCapabilities'    => Privacy\CollectCapabilitiesEvent::class,
+        'onPrivacyCheckPrivacyPolicyPublished' => Privacy\CheckPrivacyPolicyPublishedEvent::class,
+        'onPrivacyExportRequest'               => Privacy\ExportRequestEvent::class,
+        'onPrivacyCanRemoveData'               => Privacy\CanRemoveDataEvent::class,
+        'onPrivacyRemoveData'                  => Privacy\RemoveDataEvent::class,
     ];
 
     /**
