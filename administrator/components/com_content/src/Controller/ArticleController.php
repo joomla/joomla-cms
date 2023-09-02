@@ -72,12 +72,8 @@ class ArticleController extends FormController
         // When editing in modal then redirect to modalreturn layout
         if ($result && $this->input->get('layout') === 'modal') {
             $id     = $this->input->get('id');
-            $tmpl   = $this->input->get('tmpl');
-            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . '&layout=modalreturn&from-task=cancel&id=' . $id;
-
-            if ($tmpl) {
-                $return .= '&tmpl=' . $tmpl;
-            }
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=cancel';
 
             $this->setRedirect(Route::_($return, false));
         }
@@ -122,12 +118,8 @@ class ArticleController extends FormController
         } elseif ($this->input->get('layout') === 'modal' && $this->task === 'save') {
             // When editing in modal then redirect to modalreturn layout
             $id     = $model->getState('article.id', '');
-            $tmpl   = $this->input->get('tmpl');
-            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . '&layout=modalreturn&from-task=save&id=' . $id;
-
-            if ($tmpl) {
-                $return .= '&tmpl=' . $tmpl;
-            }
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=save';
 
             $this->setRedirect(Route::_($return, false));
         }

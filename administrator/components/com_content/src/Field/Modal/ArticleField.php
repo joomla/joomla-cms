@@ -140,7 +140,6 @@ class ArticleField extends ModalSelectField
                 $db->setQuery($query);
 
                 $title = $db->loadResult();
-                $title = $title ? htmlspecialchars($title) : '';
             } catch (\Throwable $e) {
                 Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
             }
