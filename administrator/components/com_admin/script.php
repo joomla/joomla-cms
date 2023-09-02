@@ -323,15 +323,15 @@ class JoomlaInstallerScript
      */
     private function migrateLogRotationPlugin($data)
     {
+        if (!$data->enabled) {
+            return;
+        }
+
         /** @var SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
 
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
-
-        if (!$data->enabled) {
-            return;
-        }
 
         // Get the timeout, as configured in plg_system_logrotation
         $params       = new Registry($data->params);
