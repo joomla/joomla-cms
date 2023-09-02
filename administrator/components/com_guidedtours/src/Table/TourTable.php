@@ -132,9 +132,8 @@ class TourTable extends Table implements CurrentUserInterface
             if ($pos !== false) {
                 $uidTitle = substr($uidTitle, 0, $pos);
             }
-        }
-        // Tour follows component naming pattern
-        elseif (preg_match('#COM_(\w+)_TOUR_#', $this->title) && str_ends_with($this->title, '_TITLE')) {
+        } elseif (preg_match('#COM_(\w+)_TOUR_#', $this->title) && str_ends_with($this->title, '_TITLE')) {
+            // Tour follows component naming pattern
             $uidTitle = preg_replace('#COM_(\w+)_TOUR_#', '$1.', $this->title);
 
             // Remove the last _TITLE part
@@ -155,7 +154,7 @@ class TourTable extends Table implements CurrentUserInterface
         }
         // ApplicationHelper::stringURLSafe will replace a period (.) separator so we split the construction into multiple parts
         $uidTitleParts = explode('.', $uidTitle);
-        array_walk($uidTitleParts, function (& $value, $key, $tourLanguage) {
+        array_walk($uidTitleParts, function (&$value, $key, $tourLanguage) {
             $value = ApplicationHelper::stringURLSafe($value, $tourLanguage);
         }, $this->lang);
         $this->uid = implode('.', $uidTitleParts);
