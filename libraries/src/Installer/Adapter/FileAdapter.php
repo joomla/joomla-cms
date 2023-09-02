@@ -36,7 +36,7 @@ class FileAdapter extends InstallerAdapter
      * @var    object
      * @since  3.1
      */
-    protected $scriptElement = null;
+    protected $scriptElement;
 
     /**
      * Flag if the adapter supports discover installs
@@ -47,6 +47,22 @@ class FileAdapter extends InstallerAdapter
      * @since  3.4
      */
     protected $supportsDiscoverInstall = false;
+
+    /**
+     * List of processed folders
+     *
+     * @var    array
+     * @since  3.4
+     */
+    protected $folderList;
+
+    /**
+     * List of processed files
+     *
+     * @var    array
+     * @since  3.4
+     */
+    protected $fileList;
 
     /**
      * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
