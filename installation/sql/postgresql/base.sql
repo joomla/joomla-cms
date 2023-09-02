@@ -122,7 +122,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (96, 18, 130, 131, 2, 'com_modules.module.109', 'Guided Tours', '{}'),
 (97, 1, 177, 178, 1, 'com_scheduler.task.1', 'com_scheduler.task.1', '{}');
 
-SELECT setval('#__assets_id_seq', 97, false);
+SELECT setval('#__assets_id_seq', 98, false);
 
 --
 -- Table structure for table `#__extensions`
