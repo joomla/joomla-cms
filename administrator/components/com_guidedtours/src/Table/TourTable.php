@@ -125,7 +125,7 @@ class TourTable extends Table implements CurrentUserInterface
     {
         // Tour follows Joomla naming convention
         if (str_starts_with($this->title, 'COM_GUIDEDTOURS_TOUR_') && str_ends_with($this->title, '_TITLE')) {
-            $uidTitle = 'joomla_ ' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $this->title);
+            $uidTitle = 'joomla_' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $this->title);
 
             // Remove the last _TITLE part
             $pos = strrpos($uidTitle, "_TITLE");
@@ -145,6 +145,7 @@ class TourTable extends Table implements CurrentUserInterface
         } else {
             $uri      = Uri::getInstance();
             $host     = $uri->toString(['host']);
+            $host     = ApplicationHelper::stringURLSafe($host, $this->lang);
             $uidTitle = $host . ' ' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $this->title);
             // Remove the last _TITLE part
             if (str_ends_with($uidTitle, '_TITLE')) {
@@ -154,9 +155,9 @@ class TourTable extends Table implements CurrentUserInterface
         }
         // ApplicationHelper::stringURLSafe will replace a period (.) separator so we split the construction into multiple parts
         $uidTitleParts = explode('.', $uidTitle);
-        array_walk($uidTitleParts, function (& $value, $key) {
-            $value = ApplicationHelper::stringURLSafe($value, $this->lang);
-        });
+        array_walk($uidTitleParts, function (& $value, $key, $tourLanguage) {
+            $value = ApplicationHelper::stringURLSafe($value, $tourLanguage);
+        }, $this->lang);
         $this->uid = implode('.', $uidTitleParts);
 
         $this->store();
