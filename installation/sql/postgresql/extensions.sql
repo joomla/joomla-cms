@@ -890,7 +890,7 @@ CREATE INDEX "#__scheduler_tasks_idx_cli_exclusive" ON "#__scheduler_tasks" ("cl
 CREATE INDEX "#__scheduler_tasks_idx_checked_out" ON "#__scheduler_tasks" ("checked_out");
 
 INSERT INTO "#__scheduler_tasks" ("id", "asset_id", "title", "type", "execution_rules", "cron_rules", "state", "last_exit_code", "params", "created")
-VALUES (1, 97,'RotateLogs','rotation.logs', CONCAT('{"rule-type":"interval-days","interval-days":"30","exec-day":"01","exec-time":"', TO_CHAR(CURRENT_TIMESTAMP, 'HH24:00'), '"}'), '{"type":"interval","exp":"P30D"}', 1, 0, '{}', CURRENT_TIMESTAMP);
+VALUES (1, 97, 'RotateLogs', 'rotation.logs', CONCAT('{"rule-type":"interval-days","interval-days":"30","exec-day":"01","exec-time":"', TO_CHAR(CURRENT_TIMESTAMP, 'HH24:00'), '"}'), '{"type":"interval","exp":"P30D"}', 1, 0, '{}', CURRENT_TIMESTAMP);
 SELECT setval('#__scheduler_tasks_id_seq', 2, false);
 
 -- --------------------------------------------------------

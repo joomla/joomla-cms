@@ -926,7 +926,7 @@ CREATE TABLE IF NOT EXISTS `#__scheduler_tasks` (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
 
 INSERT INTO `#__scheduler_tasks` (`id`, `asset_id`, `title`, `type`, `execution_rules`, `cron_rules`, `state`, `last_exit_code`, `params`, `created`)
-VALUES (1, 97,'RotateLogs','rotation.logs', CONCAT('{"rule-type":"interval-days","interval-days":"30","exec-day":"01","exec-time":"', TIME_FORMAT(NOW(), '%H:00'), '"}'), '{"type":"interval","exp":"P30D"}', 1, 0, '{}', now());
+VALUES (1, 97, 'RotateLogs', 'rotation.logs', CONCAT('{"rule-type":"interval-days","interval-days":"30","exec-day":"01","exec-time":"', TIME_FORMAT(NOW(), '%H:00'), '"}'), '{"type":"interval","exp":"P30D"}', 1, 0, '{}', now());
 
 -- --------------------------------------------------------
 
