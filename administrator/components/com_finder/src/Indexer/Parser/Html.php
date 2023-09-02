@@ -11,6 +11,7 @@
 namespace Joomla\Component\Finder\Administrator\Indexer\Parser;
 
 use Joomla\Component\Finder\Administrator\Indexer\Parser;
+use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -117,11 +118,11 @@ class Html extends Parser
     {
         $return         = '';
         $offset         = 0;
-        $startTagLength = strlen($startTag);
-        $endTagLength   = strlen($endTag);
+        $startTagLength = StringHelper::strlen($startTag);
+        $endTagLength   = StringHelper::strlen($endTag);
 
         // Find the first start tag.
-        $start = stripos($input, $startTag);
+        $start = StringHelper::stripos($input, $startTag);
 
         // If no start tags were found, return the string unchanged.
         if ($start === false) {
@@ -131,10 +132,10 @@ class Html extends Parser
         // Look for all blocks defined by the start and end tags.
         while ($start !== false) {
             // Accumulate the substring up to the start tag.
-            $return .= substr($input, $offset, $start - $offset) . ' ';
+            $return .= StringHelper::substr($input, $offset, $start - $offset) . ' ';
 
             // Look for an end tag corresponding to the start tag.
-            $end = stripos($input, $endTag, $start + $startTagLength);
+            $end = StringHelper::stripos($input, $endTag, $start + $startTagLength);
 
             // If no corresponding end tag, leave the string alone.
             if ($end === false) {
@@ -147,11 +148,11 @@ class Html extends Parser
             $offset = $end + $endTagLength;
 
             // Look for the next start tag and loop.
-            $start = stripos($input, $startTag, $offset);
+            $start = StringHelper::stripos($input, $startTag, $offset);
         }
 
         // Add in the final substring after the last end tag.
-        $return .= substr($input, $offset);
+        $return .= StringHelper::substr($input, $offset);
 
         return $return;
     }
