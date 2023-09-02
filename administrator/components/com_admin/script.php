@@ -2389,7 +2389,7 @@ class JoomlaInstallerScript
                     $uidTitle = 'joomla_' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $tourItem->title);
 
                     // Remove the last _TITLE part
-                    $pos = strrpos($uidTitle, "_TITLE");
+                    $pos = strrpos($uidTitle, '_TITLE');
                     if ($pos !== false) {
                         $uidTitle = substr($uidTitle, 0, $pos);
                     }
