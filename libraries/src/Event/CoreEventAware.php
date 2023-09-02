@@ -154,7 +154,7 @@ trait CoreEventAware
         'onPrepareModuleList'    => Module\PrepareModuleListEvent::class,
         'onAfterModuleList'      => Module\AfterModuleListEvent::class,
         'onAfterCleanModuleList' => Module\AfterCleanModuleListEvent::class,
-        // Extension and Installer
+        // Extension
         'onExtensionBeforeInstall'   => Extension\BeforeInstallEvent::class,
         'onExtensionAfterInstall'    => Extension\AfterInstallEvent::class,
         'onExtensionBeforeUninstall' => Extension\BeforeUninstallEvent::class,
@@ -164,6 +164,12 @@ trait CoreEventAware
         'onExtensionBeforeSave'      => Model\BeforeSaveEvent::class,
         'onExtensionAfterSave'       => Model\AfterSaveEvent::class,
         'onExtensionAfterDelete'     => Model\AfterDeleteEvent::class,
+        // Installer
+        'onInstallerAddInstallationTab'    => Installer\AddInstallationTabEvent::class,
+        'onInstallerBeforeInstallation'    => Installer\BeforeInstallationEvent::class,
+        'onInstallerBeforeInstaller'       => Installer\BeforeInstallerEvent::class,
+        'onInstallerAfterInstaller'        => Installer\AfterInstallerEvent::class,
+        'onInstallerBeforePackageDownload' => Installer\BeforePackageDownloadEvent::class,
         // Finder
         'onFinderCategoryChangeState' => Finder\AfterCategoryChangeStateEvent::class,
         'onFinderChangeState'         => Finder\AfterChangeStateEvent::class,
