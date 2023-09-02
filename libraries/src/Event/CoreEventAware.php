@@ -176,6 +176,12 @@ trait CoreEventAware
         'onBuildIndex'                => Finder\BuildIndexEvent::class,
         'onStartIndex'                => Finder\StartIndexEvent::class,
         'onFinderGarbageCollection'   => Finder\GarbageCollectionEvent::class,
+        // Custom Fields
+        'onCustomFieldsGetTypes'           => CustomFields\GetTypesEvent::class,
+        'onCustomFieldsPrepareDom'         => CustomFields\PrepareDomEvent::class,
+        'onCustomFieldsBeforePrepareField' => CustomFields\BeforePrepareFieldEvent::class,
+        'onCustomFieldsPrepareField'       => CustomFields\PrepareFieldEvent::class,
+        'onCustomFieldsAfterPrepareField'  => CustomFields\AfterPrepareFieldEvent::class,
         // Privacy
         'onPrivacyCollectAdminCapabilities'    => Privacy\CollectCapabilitiesEvent::class,
         'onPrivacyCheckPrivacyPolicyPublished' => Privacy\CheckPrivacyPolicyPublishedEvent::class,
