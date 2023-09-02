@@ -346,7 +346,7 @@ class JoomlaInstallerScript
             'execution_rules' => [
                 'rule-type'      => 'interval-hours',
                 'interval-hours' => $cachetimeout,
-                'exec-time'      => gmdate("H:i", $lastrun),
+                'exec-time'      => gmdate('H:i', $lastrun),
                 'exec-day'       => gmdate('d'),
             ],
             'state'  => 1,
