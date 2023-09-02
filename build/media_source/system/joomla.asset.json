@@ -48,6 +48,34 @@
       ]
     },
     {
+      "name": "editor-decorator",
+      "type": "script",
+      "uri": "system/editors/editor-decorator.min.js",
+      "importmap": true
+    },
+    {
+      "name": "editor-api",
+      "type": "script",
+      "uri": "system/editors/editor-api.min.js",
+      "importmap": true,
+      "dependencies": [
+        "editor-decorator"
+      ]
+    },
+    {
+      "name": "editors",
+      "type": "script",
+      "uri": "system/editors/editors.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "core",
+        "editor-decorator",
+        "editor-api"
+      ]
+    },
+    {
       "name": "inlinehelp-legacy",
       "type": "script",
       "deprecated": true,
