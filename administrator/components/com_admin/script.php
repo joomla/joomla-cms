@@ -2385,7 +2385,7 @@ class JoomlaInstallerScript
 
                 // Tour follows Joomla naming convention
                 if (str_starts_with($tourItem->title, 'COM_GUIDEDTOURS_TOUR_') && str_ends_with($tourItem->title, '_TITLE')) {
-                    $uidTitle = 'joomla_ ' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $tourItem->title);
+                    $uidTitle = 'joomla_' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $tourItem->title);
 
                     // Remove the last _TITLE part
                     $pos = strrpos($uidTitle, "_TITLE");
@@ -2405,6 +2405,7 @@ class JoomlaInstallerScript
                 } else {
                     $uri      = Uri::getInstance();
                     $host     = $uri->toString(['host']);
+                    $host     = ApplicationHelper::stringURLSafe($host, $tourItem->lang);
                     $uidTitle = $host . ' ' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $tourItem->title);
                     // Remove the last _TITLE part
                     if (str_ends_with($uidTitle, '_TITLE')) {
@@ -2414,10 +2415,9 @@ class JoomlaInstallerScript
                 }
                 // ApplicationHelper::stringURLSafe will replace a period (.) separator so we split the construction into multiple parts
                 $uidTitleParts = explode('.', $uidTitle);
-                $tourLanguage  = $tourItem->lang;
                 array_walk($uidTitleParts, function (& $value, $key, $tourLanguage) {
                     $value = ApplicationHelper::stringURLSafe($value, $tourLanguage);
-                });
+                }, $tourItem->lang);
                 $tourItem->uid = implode('.', $uidTitleParts);
 
                 $tourItem->store();
