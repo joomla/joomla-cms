@@ -23,8 +23,8 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Fields\Administrator\Model\FieldsModel;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
+use Joomla\Component\Fields\Administrator\Model\FieldsModel;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 
