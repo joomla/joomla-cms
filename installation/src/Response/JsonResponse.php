@@ -122,6 +122,11 @@ class JsonResponse
         } else {
             // Prepare the response data.
             $this->error = false;
+
+            if (isset($data->error) && $data->error) {
+                $this->error = true;
+            }
+
             $this->data  = $data;
         }
     }
