@@ -335,7 +335,7 @@ class JoomlaInstallerScript
 
         // Get the timeout, as configured in plg_system_logrotation
         $params       = new Registry($data->params);
-        $cachetimeout = (int) $params->get('cachetimeout', 6);
+        $cachetimeout = (int) $params->get('cachetimeout', 30);
         $lastrun      = (int) $params->get('lastrun', 0);
 
         $task = [
