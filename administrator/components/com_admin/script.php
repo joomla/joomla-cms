@@ -17,7 +17,6 @@ use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -2269,29 +2268,61 @@ class JoomlaInstallerScript
      */
     private function migrateDeleteActionlogsConfiguration(): bool
     {
+        $db = Factory::getDbo();
+
+        try {
+            // Get the ActionLogs system plugin's parameters
+            $row = $db->setQuery(
+                $db->getQuery(true)
+                    ->select($db->quotename('enabled'), $db->quoteName('params'))
+                    ->from($db->quoteName('#__extensions'))
+                    ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+                    ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+                    ->where($db->quoteName('element') . ' = ' . $db->quote('actionlogs'))
+            )->loadObject();
+        } catch (Exception $e) {
+            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+            return false;
+        }
+
+        // If not existing or disbled there is nothing to migrate
+        if (!$row || !$row->enabled) {
+            return true;
+        }
+
+        $params = new Registry($row->params);
+
+        // If deletion of outdated logs was disbled there is nothing to migrate
+        if (!$params->get('logDeletePeriod', 0)) {
+            return true;
+        }
+
         /** @var SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
 
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+        $task  = [
+            'title'           => 'DeleteActionLogs',
+            'type'            => 'delete.actionlogs',
+            'execution_rules' => [
+                'rule-type'      => 'interval-hours',
+                'interval-hours' => 24,
+                'exec-time'      => gmdate('H:i', $params->get('lastrun', 0)),
+            ],
+            'state'  => 1,
+            'params' => [
+                'logDeletePeriod' => $params->get('logDeletePeriod', 0),
+            ],
+        ];
 
-        if ($plugin = PluginHelper::getPlugin('system', 'actionlogs')) {
-            $pluginParams = new Registry($plugin->params);
-            $lastrun      = (int) $pluginParams->get('lastrun', 0);
-            $task         = [
-                'title'           => 'DeleteActionLogs',
-                'type'            => 'delete.actionlogs',
-                'execution_rules' => [
-                    'rule-type'      => 'interval-hours',
-                    'interval-hours' => 24,
-                    'exec-time'      => gmdate('H:i', $lastrun),
-                ],
-                'state'  => 1,
-                'params' => [
-                    'logDeletePeriod' => $pluginParams->get('logDeletePeriod', 0),
-                ],
-            ];
+        try {
             $model->save($task);
+        } catch (Exception $e) {
+            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+            return false;
         }
 
         return true;
