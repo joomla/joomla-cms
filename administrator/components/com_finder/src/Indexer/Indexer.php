@@ -836,12 +836,12 @@ class Indexer
                  */
                 if (!feof($input)) {
                     // Find the last space character.
-                    $ls = strrpos($buffer, ' ');
+                    $ls = StringHelper::strrpos($buffer, ' ');
 
                     // Adjust string based on the last space character.
                     if ($ls) {
                         // Truncate the string to the last space character.
-                        $string = substr($buffer, 0, $ls);
+                        $string = StringHelper::substr($buffer, 0, $ls);
 
                         // Adjust the buffer based on the last space for the next iteration and trim.
                         $buffer = StringHelper::trim(substr($buffer, $ls));
