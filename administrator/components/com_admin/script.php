@@ -2427,8 +2427,6 @@ class JoomlaInstallerScript
 
         return true;
     }
-
-
     /**
      * Migrate privacyconsents system plugin configuration
      *
