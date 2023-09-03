@@ -79,9 +79,11 @@ joomla-tab {
 
       @if $enable-dark-mode {
         @include color-mode(dark) {
+          /* stylelint-disable max-nesting-depth */
           &[aria-expanded=true] {
-            background: var(--template-bg-dark-60);
+            /* stylelint-enable max-nesting-depth */
             color: var(--template-text-light);
+            background: var(--template-bg-dark-60);
           }
         }
       }

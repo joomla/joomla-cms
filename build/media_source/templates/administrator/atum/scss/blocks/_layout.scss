@@ -17,7 +17,7 @@
   @if $enable-dark-mode {
     @include color-mode(dark) {
       > legend {
-        color:var(--template-text-light);
+        color: var(--template-text-light);
       }
     }
   }

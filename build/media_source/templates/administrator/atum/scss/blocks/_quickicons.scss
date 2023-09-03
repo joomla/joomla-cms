@@ -99,7 +99,7 @@
 
   @if $enable-dark-mode {
     @include color-mode(dark) {
-      .quickicon{
+      .quickicon {
         --bg-color: var(--template-bg-dark-80);
         --bg-color-hvr: var(--template-bg-dark-65);
       }

@@ -83,7 +83,11 @@ $atum-colors: (
   template-bg-dark-70:             hsl(var(--hue), 40%, 30%),
   template-bg-dark-75:             hsl(var(--hue), 40%, 25%),
   template-bg-dark-80:             hsl(var(--hue), 40%, 20%),
-  template-bg-dark-90:             hsl(var(--hue), 40%, 10%)
+  template-bg-dark-90:             hsl(var(--hue), 40%, 10%),
+  media-manager-overlay-header-bg: var(--template-bg-dark-5),
+  media-manager-infobar-dt-color:  rgba(0, 0, 0, .54),
+  media-manager-content-bg:        var(--body-bg),
+  media-manager-overlay-bg:        var(--template-bg-dark-3),
 );
 
 $colors: (
