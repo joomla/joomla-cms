@@ -2374,7 +2374,7 @@ class JoomlaInstallerScript
             // Get the ActionLogs system plugin's parameters
             $row = $db->setQuery(
                 $db->getQuery(true)
-                    ->select($db->quotename('enabled'), $db->quoteName('params'))
+                    ->select([$db->quotename('enabled'), $db->quoteName('params')])
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
                     ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
@@ -2386,14 +2386,14 @@ class JoomlaInstallerScript
             return false;
         }
 
-        // If not existing or disbled there is nothing to migrate
-        if (!$row || !$row->enabled || $row->params === '{}') {
+        // If not existing or disabled there is nothing to migrate
+        if (!$row || !$row->enabled) {
             return true;
         }
 
         $params = new Registry($row->params);
 
-        // If deletion of outdated logs was disbled there is nothing to migrate
+        // If deletion of outdated logs was disabled there is nothing to migrate
         if (!$params->get('logDeletePeriod', 0)) {
             return true;
         }
@@ -2442,7 +2442,7 @@ class JoomlaInstallerScript
             // Get the PrivacyConsent system plugin's parameters
             $row = $db->setQuery(
                 $db->getQuery(true)
-                    ->select($db->quotename('enabled'), $db->quoteName('params'))
+                    ->select([$db->quotename('enabled'), $db->quoteName('params')])
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
                     ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
@@ -2454,14 +2454,14 @@ class JoomlaInstallerScript
             return false;
         }
 
-        // If not existing or disbled there is nothing to migrate
+        // If not existing or disabled there is nothing to migrate
         if (!$row || !$row->enabled) {
             return true;
         }
 
         $params = new Registry($row->params);
 
-        // If consent expiration was disbled there is nothing to migrate
+        // If consent expiration was disabled there is nothing to migrate
         if (!$params->get('enabled', 0)) {
             return true;
         }
