@@ -336,7 +336,7 @@ class JoomlaInstallerScript
         $paramsc      = $component->getParams();
         $cachetimeout = (int) $paramsc->get('cachetimeout', 6);
         $params       = new Registry($data->params);
-        $lastrun      = (int) $params->get('lastrun', 0);
+        $lastrun      = (int) $params->get('lastrun', time());
 
         /** @var SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
