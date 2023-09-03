@@ -1,6 +1,6 @@
 
 UPDATE "#__guidedtours" SET "extensions" = '["com_content","com_categories"]' WHERE "url" LIKE '%option=com_content%';
-UPDATE "#__guidedtours" SET "extensions" = '["com_content","com_categories"]' WHERE `url` LIKE '%option=com_categories%';
+UPDATE "#__guidedtours" SET "extensions" = '["com_content","com_categories"]' WHERE "url" LIKE '%option=com_categories%';
 UPDATE "#__guidedtours" SET "extensions" = '["com_menus"]' WHERE "url" LIKE '%com_menus%';
 UPDATE "#__guidedtours" SET "extensions" = '["com_tags"]' WHERE "url" LIKE '%com_tags%';
 UPDATE "#__guidedtours" SET "extensions" = '["com_banners"]' WHERE "url" LIKE '%com_banners%';
