@@ -93,8 +93,8 @@ final class Article extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;'
-            . Session::getFormToken() . '=1&amp;editor=' . $name;
+        $link = 'index.php?option=com_content&view=articles&layout=modal&tmpl=component&'
+            . Session::getFormToken() . '=1&editor=' . $name;
 
         $button = new Button(
             $this->_name,

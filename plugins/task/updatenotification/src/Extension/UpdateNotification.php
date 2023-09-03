@@ -2,19 +2,16 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.updatenotification
+ * @subpackage  Task.updatenotification
  *
- * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Plugin\System\UpdateNotification\Extension;
+namespace Joomla\Plugin\Task\UpdateNotification\Extension;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Cache\Cache;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -22,135 +19,101 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
+use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
+use Joomla\Component\Scheduler\Administrator\Task\Status;
+use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\SubscriberInterface;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
-// Uncomment the following line to enable debug mode (update notification email sent every single time)
-// define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG', 1);
-
 /**
- * Joomla! Update Notification plugin
+ * A task plugin. Offers 2 task routines Invalidate Expired Consents and Remind Expired Consents
+ * {@see ExecuteTaskEvent}.
  *
- * Sends out an email to all Super Users or a predefined list of email addresses of Super Users when a new
- * Joomla! version is available.
- *
- * This plugin is a direct adaptation of the corresponding plugin in Akeeba Ltd's Admin Tools. The author has
- * consented to relicensing their plugin's code under GPLv2 or later (the original version was licensed under
- * GPLv3 or later) to allow its inclusion in the Joomla! CMS.
- *
- * @since  3.5
+ * @since __DEPLOY_VERSION__
  */
-final class UpdateNotification extends CMSPlugin
+final class UpdateNotification extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
+    use TaskPluginTrait;
 
     /**
-     * Load plugin language files automatically
-     *
-     * @var    boolean
-     * @since  3.6.3
+     * @var string[]
+     * @since __DEPLOY_VERSION__
+     */
+    private const TASKS_MAP = [
+        'update.notification' => [
+            'langConstPrefix' => 'PLG_TASK_UPDATENOTIFICATION_SEND',
+            'method'          => 'sendNotification',
+            'form'            => 'sendForm',
+        ],
+    ];
+
+    /**
+     * @var boolean
+     * @since __DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
 
     /**
-     * The update check and notification email code is triggered after the page has fully rendered.
+     * @inheritDoc
      *
-     * @return  void
+     * @return string[]
      *
-     * @since   3.5
+     * @since __DEPLOY_VERSION__
      */
-    public function onAfterRender()
+    public static function getSubscribedEvents(): array
     {
-        // Get the timeout for Joomla! updates, as configured in com_installer's component parameters
-        $component = ComponentHelper::getComponent('com_installer');
+        return [
+            'onTaskOptionsList'    => 'advertiseRoutines',
+            'onExecuteTask'        => 'standardRoutineHandler',
+            'onContentPrepareForm' => 'enhanceTaskItemForm',
+        ];
+    }
 
-        /** @var \Joomla\Registry\Registry $params */
-        $params        = $component->getParams();
-        $cache_timeout = (int) $params->get('cachetimeout', 6);
-        $cache_timeout = 3600 * $cache_timeout;
-
-        // Do we need to run? Compare the last run timestamp stored in the plugin's options with the current
-        // timestamp. If the difference is greater than the cache timeout we shall not execute again.
-        $now  = time();
-        $last = (int) $this->params->get('lastrun', 0);
-
-        if (!defined('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG') && (abs($now - $last) < $cache_timeout)) {
-            return;
-        }
-
-        // Update last run status
-        // If I have the time of the last run, I can update, otherwise insert
-        $this->params->set('lastrun', $now);
-
-        $db         = $this->getDatabase();
-        $paramsJson = $this->params->toString('JSON');
-
-        $query = $db->getQuery(true)
-            ->update($db->quoteName('#__extensions'))
-            ->set($db->quoteName('params') . ' = :params')
-            ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-            ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
-            ->where($db->quoteName('element') . ' = ' . $db->quote('updatenotification'))
-            ->bind(':params', $paramsJson);
-
-        try {
-            // Lock the tables to prevent multiple plugin executions causing a race condition
-            $db->lockTable('#__extensions');
-        } catch (\Exception $e) {
-            // If we can't lock the tables it's too risky to continue execution
-            return;
-        }
-
-        try {
-            // Update the plugin parameters
-            $result = $db->setQuery($query)->execute();
-
-            $this->clearCacheGroups(['com_plugins']);
-        } catch (\Exception $exc) {
-            // If we failed to execute
-            $db->unlockTables();
-            $result = false;
-        }
-
-        try {
-            // Unlock the tables after writing
-            $db->unlockTables();
-        } catch (\Exception $e) {
-            // If we can't lock the tables assume we have somehow failed
-            $result = false;
-        }
-
-        // Stop on failure
-        if (!$result) {
-            return;
-        }
+    /**
+     * Method to send the update notification.
+     *
+     * @param   ExecuteTaskEvent  $event  The `onExecuteTask` event.
+     *
+     * @return integer  The routine exit code.
+     *
+     * @since  __DEPLOY_VERSION__
+     * @throws \Exception
+     */
+    private function sendNotification(ExecuteTaskEvent $event): int
+    {
+        // Load the parameters.
+        $specificEmail  = $event->getArgument('params')->email ?? '';
+        $forcedLanguage = $event->getArgument('params')->language_override ?? '';
 
         // This is the extension ID for Joomla! itself
         $eid = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
 
         // Get any available updates
         $updater = Updater::getInstance();
-        $results = $updater->findUpdates([$eid], $cache_timeout);
+        $results = $updater->findUpdates([$eid], 0);
 
         // If there are no updates our job is done. We need BOTH this check AND the one below.
         if (!$results) {
-            return;
+            return Status::OK;
         }
 
         // Get the update model and retrieve the Joomla! core updates
         $model = $this->getApplication()->bootComponent('com_installer')
             ->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
+
         $model->setState('filter.extension_id', $eid);
         $updates = $model->getItems();
 
         // If there are no updates we don't have to notify anyone about anything. This is NOT a duplicate check.
         if (empty($updates)) {
-            return;
+            return Status::OK;
         }
 
         // Get the available update
@@ -158,7 +121,7 @@ final class UpdateNotification extends CMSPlugin
 
         // Check the available version. If it's the same or less than the installed version we have no updates to notify about.
         if (version_compare($update->version, JVERSION, 'le')) {
-            return;
+            return Status::OK;
         }
 
         // If we're here, we have updates. First, get a link to the Joomla! Update component.
@@ -183,8 +146,7 @@ final class UpdateNotification extends CMSPlugin
         $this->getApplication()->triggerEvent('onBuildAdministratorLoginURL', [&$uri]);
 
         // Let's find out the email addresses to notify
-        $superUsers    = [];
-        $specificEmail = $this->params->get('email', '');
+        $superUsers = [];
 
         if (!empty($specificEmail)) {
             $superUsers = $this->getSuperUsers($specificEmail);
@@ -195,7 +157,7 @@ final class UpdateNotification extends CMSPlugin
         }
 
         if (empty($superUsers)) {
-            return;
+            return Status::KNOCKOUT;
         }
 
         /*
@@ -206,14 +168,12 @@ final class UpdateNotification extends CMSPlugin
          * solution!
          */
         $jLanguage = $this->getApplication()->getLanguage();
-        $jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, 'en-GB', true, true);
-        $jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, null, true, false);
+        $jLanguage->load('plg_task_updatenotification', JPATH_ADMINISTRATOR, 'en-GB', true, true);
+        $jLanguage->load('plg_task_updatenotification', JPATH_ADMINISTRATOR, null, true, false);
 
         // Then try loading the preferred (forced) language
-        $forcedLanguage = $this->params->get('language_override', '');
-
         if (!empty($forcedLanguage)) {
-            $jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, $forcedLanguage, true, false);
+            $jLanguage->load('plg_task_updatenotification', JPATH_ADMINISTRATOR, $forcedLanguage, true, false);
         }
 
         // Replace merge codes with their values
@@ -236,18 +196,22 @@ final class UpdateNotification extends CMSPlugin
         // Send the emails to the Super Users
         foreach ($superUsers as $superUser) {
             try {
-                $mailer = new MailTemplate('plg_system_updatenotification.mail', $jLanguage->getTag());
+                $mailer = new MailTemplate('plg_task_updatenotification.mail', $jLanguage->getTag());
                 $mailer->addRecipient($superUser->email);
                 $mailer->addTemplateData($substitutions);
                 $mailer->send();
             } catch (MailDisabledException | phpMailerException $exception) {
                 try {
-                    Log::add($this->getApplication()->getLanguage()->_($exception->getMessage()), Log::WARNING, 'jerror');
+                    $this->logTask($jLanguage->_($exception->getMessage()));
                 } catch (\RuntimeException $exception) {
-                    $this->getApplication()->enqueueMessage($this->getApplication()->getLanguage()->_($exception->errorMessage()), 'warning');
+                    return Status::KNOCKOUT;
                 }
             }
         }
+
+        $this->logTask('UpdateNotification end');
+
+        return Status::OK;
     }
 
     /**
@@ -341,31 +305,5 @@ final class UpdateNotification extends CMSPlugin
         }
 
         return $ret;
-    }
-
-    /**
-     * Clears cache groups. We use it to clear the plugins cache after we update the last run timestamp.
-     *
-     * @param   array  $clearGroups  The cache groups to clean
-     *
-     * @return  void
-     *
-     * @since   3.5
-     */
-    private function clearCacheGroups(array $clearGroups)
-    {
-        foreach ($clearGroups as $group) {
-            try {
-                $options = [
-                    'defaultgroup' => $group,
-                    'cachebase'    => $this->getApplication()->get('cache_path', JPATH_CACHE),
-                ];
-
-                $cache = Cache::getInstance('callback', $options);
-                $cache->clean();
-            } catch (\Exception $e) {
-                // Ignore it
-            }
-        }
     }
 }

@@ -5,6 +5,11 @@
 (() => {
   'use strict';
 
+  // Use a JoomlaExpectingPostMessage flag to be able to distinct legacy methods
+  if (window.parent.JoomlaExpectingPostMessage) {
+    return;
+  }
+
   /**
     * Javascript to insert the link
     * View element calls jSelectArticle when an article is clicked
