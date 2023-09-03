@@ -395,3 +395,16 @@ caption {
 .table > :not(:last-child) > :last-child > * {
   border-bottom-color: $table-border-color;
 }
+
+// Installation progress
+.progresslabel {width: 100%;}
+
+progress {
+  display: block;
+  width: 100%;
+  height: 25px;
+  margin: 1rem auto;
+  background: linear-gradient(#ccc 0%, #eee 50%, #eee 50%, #ccc 100%);
+  border: 0 none;
+  border-radius: 4px;
+}
