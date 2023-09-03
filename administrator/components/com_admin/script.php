@@ -11,6 +11,7 @@
  */
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -21,6 +22,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -234,6 +236,7 @@ class JoomlaInstallerScript
              ['type' => 'plugin', 'element' => 'demotasks', 'folder' => 'task', 'client_id' => 0, 'pre_function' => null],
              ['type' => 'plugin', 'element' => 'compat', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateCompatPlugin'],
              ['type' => 'plugin', 'element' => 'recaptcha', 'folder' => 'captcha', 'client_id' => 0, 'pre_function' => null],
+             ['type' => 'plugin', 'element' => 'updatenotification', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateUpdatenotificationPlugin'],
         ];
 
         $db = Factory::getDbo();
@@ -311,6 +314,51 @@ class JoomlaInstallerScript
                 ->bind(':enabled', $rowOld->enabled, ParameterType::INTEGER)
                 ->bind(':params', $rowOld->params)
         )->execute();
+    }
+
+    /**
+     * This method is for migration for old updatenotification system plugin migration to task.
+     *
+     * @param   \stdClass  $data  Object with the extension's record in the `#__extensions` table
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function migrateUpdatenotificationPlugin($data)
+    {
+        if (!$data->enabled) {
+            return;
+        }
+
+        // Get the timeout for Joomla! updates, as configured in com_installer's component parameters
+        $component    = ComponentHelper::getComponent('com_installer');
+        $paramsc      = $component->getParams();
+        $cachetimeout = (int) $paramsc->get('cachetimeout', 6);
+        $params       = new Registry($data->params);
+        $lastrun      = (int) $params->get('lastrun', time());
+
+        /** @var SchedulerComponent $component */
+        $component = Factory::getApplication()->bootComponent('com_scheduler');
+
+        /** @var TaskModel $model */
+        $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+        $task  = [
+            'title'           => 'UpdateNotification',
+            'type'            => 'update.notification',
+            'execution_rules' => [
+                'rule-type'      => 'interval-hours',
+                'interval-hours' => $cachetimeout,
+                'exec-time'      => gmdate('H:i', $lastrun),
+                'exec-day'       => gmdate('d'),
+            ],
+            'state'  => 1,
+            'params' => [
+                'email'             => $params->get('email', ''),
+                'language_override' => $params->get('language_override', ''),
+            ],
+        ];
+        $model->save($task);
     }
 
     /**
