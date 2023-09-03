@@ -2387,7 +2387,7 @@ class JoomlaInstallerScript
         }
 
         // If not existing or disbled there is nothing to migrate
-        if (!$row || !$row->enabled) {
+        if (!$row || !$row->enabled || $row->params === '{}') {
             return true;
         }
 
