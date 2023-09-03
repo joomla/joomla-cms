@@ -25,21 +25,8 @@ use Joomla\Registry\Registry;
 class PublicFolderGeneratorHelper
 {
     private $filesSymLink = [
-        // Site
-        '/includes/app.php',
-        '/includes/framework.php',
-        '/index.php',
-
         // Administrator
         '/administrator/components/com_joomlaupdate/extract.php',
-        '/administrator/includes/framework.php',
-        '/administrator/includes/app.php',
-        '/administrator/index.php',
-
-        // API
-        '/api/includes/framework.php',
-        '/api/includes/app.php',
-        '/api/index.php',
 
         // Media static assets
         '/media',
@@ -65,12 +52,7 @@ class PublicFolderGeneratorHelper
         }
 
         // Create the required folders
-        if (
-            !mkdir($destinationPath . '/administrator/components/com_joomlaupdate', 0755, true)
-            || !mkdir($destinationPath . '/administrator/includes', 0755, true)
-            || !mkdir($destinationPath . '/api/includes', 0755, true)
-            || !mkdir($destinationPath . '/includes', 0755)
-        ) {
+        if (!mkdir($destinationPath . '/administrator/components/com_joomlaupdate', 0755, true) || !mkdir($destinationPath . '/api', 0755, true)) {
             throw new \Exception('Unable to create the given folder, check the permissions');
         }
 
@@ -113,11 +95,11 @@ class PublicFolderGeneratorHelper
             $this->createFile($destinationPath . $file, file_get_contents(JPATH_ROOT . $file));
         }
 
-        $definesTemplate = <<<HTML
+        $indexTemplate = <<<HTML
 <?php
 
 /**
- * @package    Joomla.Site
+ * File automatically generated
  *
  * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
@@ -129,64 +111,67 @@ defined('_JEXEC') || die;
 define('JPATH_BASE', {{BASEFOLDER}});
 define('JPATH_ROOT', {{ROOTFOLDER}});
 define('JPATH_PUBLIC', {{PUBLICFOLDER}});
-define('JPATH_CONFIGURATION', JPATH_ROOT);
-define('JPATH_SITE', JPATH_ROOT);
-define('JPATH_ADMINISTRATOR', JPATH_ROOT . DIRECTORY_SEPARATOR . 'administrator');
-define('JPATH_LIBRARIES', JPATH_ROOT . DIRECTORY_SEPARATOR . 'libraries');
-define('JPATH_PLUGINS', JPATH_ROOT . DIRECTORY_SEPARATOR . 'plugins');
-define('JPATH_INSTALLATION', JPATH_ROOT . DIRECTORY_SEPARATOR . 'installation');
-define('JPATH_THEMES', JPATH_BASE . DIRECTORY_SEPARATOR . 'templates');
-define('JPATH_CACHE', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'cache');
-define('JPATH_MANIFESTS', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'manifests');
-define('JPATH_API', JPATH_ROOT . DIRECTORY_SEPARATOR . 'api');
-define('JPATH_CLI', JPATH_ROOT . DIRECTORY_SEPARATOR . 'cli');
-define('_JDEFINES', '1');
+
+// Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
+define('JOOMLA_MINIMUM_PHP', '8.1.0');
+
+if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
+    {{DIECONDITIONAL}}
+}
+
+/**
+ * Constant that is checked in included files to prevent direct access.
+ * define() is used rather than "const" to not error for PHP 5.2 and lower
+ */
+define('_JEXEC', 1);
+
+// Run the application - All executable code should be triggered through this file
+require_once JPATH_ROOT . '/includes/app.php';
 HTML;
 
-        // The defines files
-        $this->createFile(
-            $destinationPath . '/defines.php',
-            str_replace(['{{ROOTFOLDER}}', '{{BASEFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . JPATH_ROOT . '"', '"' . $destinationPath . '"'], $definesTemplate)
-        );
+        $search  = ['{{ROOTFOLDER}}', '{{PUBLICFOLDER}}', '{{BASEFOLDER}}', '{{DIECONDITIONAL}}'];
+        $replace = ['"' . JPATH_ROOT . '"', '"' . $destinationPath . '"'];
 
-        $this->createFile(
-            $destinationPath . '/administrator/defines.php',
-            str_replace(['{{ROOTFOLDER}}', '{{BASEFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . JPATH_ROOT . '/administrator"', '"' . $destinationPath . '"'], $definesTemplate)
-        );
+        // The root index.php
+        $replace[] = '"' . JPATH_ROOT . '"';
+        $replace[] = <<<PHP
+    die(
+        str_replace(
+            '{{phpversion}}',
+            JOOMLA_MINIMUM_PHP,
+            file_get_contents(JPATH_ROOT . '/includes/incompatible.html')
+        )
+    );
+PHP;
 
-        $this->createFile(
-            $destinationPath . '/api/defines.php',
-            str_replace(['{{ROOTFOLDER}}',  '{{BASEFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . JPATH_ROOT . '/api"', '"' . $destinationPath . '"'], $definesTemplate)
-        );
-    }
+        $this->createFile($destinationPath . '/index.php', str_replace($search, $replace, $indexTemplate));
 
-    /**
-     * Removes all known files/symlinks from the public folder
-     *
-     * @param  string  $destinationPath  The public folder path
-     * @param  string  $shouldBackup     Should create a backup copy?
-     *
-     * @return void
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public function cleanPublicFolder($destinationPath, $shouldBackup = true): void
-    {
-        // @todo add the removal logic
-    }
+        // The administrator root index.php
+        $replace[] = '"' . JPATH_ROOT . '/administrator"';
+        $replace[] = <<<PHP
+    die(
+        str_replace(
+            '{{phpversion}}',
+            JOOMLA_MINIMUM_PHP,
+            file_get_contents(JPATH_ROOT . '/administrator/includes/incompatible.html')
+        )
+    );
+PHP;
 
-    /**
-     * Remove the Public folder
-     *
-     * @param  string  $destinationPath  The source path
-     *
-     * @return void
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public function removePublicFolder($destinationPath): void
-    {
-        // @todo implement the removal logic
+        $this->createFile($destinationPath . '/administrator/index.php', str_replace($search, $replace, $indexTemplate));
+
+        // The root index.php
+        $replace[] = '"' . JPATH_ROOT . '/api"';
+        $replace[] = <<<PHP
+    header('HTTP/1.1 500 Internal Server Error');
+    echo json_encode(
+        ['error' => sprintf('Joomla requires PHP version %s to run', JOOMLA_MINIMUM_PHP)]
+    );
+
+    return;
+PHP;
+
+        $this->createFile($destinationPath . '/api/index.php', str_replace($search, $replace, $indexTemplate));
     }
 
     /**
