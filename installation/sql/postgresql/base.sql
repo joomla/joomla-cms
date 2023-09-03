@@ -31,7 +31,7 @@ COMMENT ON COLUMN "#__assets"."rules" IS 'JSON encoded access control.';
 --
 
 INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "title", "rules") VALUES
-(1, 0, 0, 179, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"8":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 0, 181, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"8":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -120,9 +120,10 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (94, 1, 173, 174, 1, 'com_workflow', 'com_workflow', '{}'),
 (95, 1, 175, 176, 1, 'com_guidedtours', 'com_guidedtours', '{}'),
 (96, 18, 130, 131, 2, 'com_modules.module.109', 'Guided Tours', '{}'),
-(97, 1, 177, 178, 1, 'com_scheduler.task.1', 'com_scheduler.task.1', '{}');
+(97, 1, 177, 178, 1, 'com_scheduler.task.1', 'com_scheduler.task.1', '{}'),
+(98, 1, 179, 180, 1, 'com_scheduler.task.2', 'com_scheduler.task.2', '{}');
 
-SELECT setval('#__assets_id_seq', 98, false);
+SELECT setval('#__assets_id_seq', 99, false);
 
 --
 -- Table structure for table `#__extensions`

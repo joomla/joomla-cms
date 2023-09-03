@@ -115,7 +115,7 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (95, 1, 175, 176, 1, 'com_guidedtours', 'com_guidedtours', '{}'),
 (96, 18, 130, 131, 2, 'com_modules.module.109', 'Guided Tours', '{}'),
 (97, 1, 177, 178, 1, 'com_scheduler.task.1', 'com_scheduler.task.1', '{}'),
-(97, 1, 179, 180, 1, 'com_scheduler.task.2', 'com_scheduler.task.2', '{}');
+(98, 1, 179, 180, 1, 'com_scheduler.task.2', 'com_scheduler.task.2', '{}');
 
 -- --------------------------------------------------------
 
