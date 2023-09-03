@@ -35,7 +35,6 @@ use Joomla\Utilities\ArrayHelper;
 final class PrivacyConsent extends CMSPlugin
 {
     use DatabaseAwareTrait;
-    use UserFactoryAwareTrait;
 
     /**
      * Load the language file on instantiation.
