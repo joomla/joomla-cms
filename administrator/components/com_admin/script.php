@@ -2370,7 +2370,7 @@ class JoomlaInstallerScript
      *
      * @since   __DEPLOY_VERSION__
      */
-    private function setGuidedToursUid(): bool
+    private function setGuidedToursUid()
     {
         /** @var \Joomla\Component\Cache\Administrator\Model\CacheModel $model */
         $model = Factory::getApplication()->bootComponent('com_guidedtours')->getMVCFactory()
