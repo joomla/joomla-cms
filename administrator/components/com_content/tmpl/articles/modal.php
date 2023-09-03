@@ -109,7 +109,7 @@ if (!empty($editor)) {
                     }
 
                     $link     = RouteHelper::getArticleRoute($item->id, $item->catid, $item->language);
-                    $itemHtml = '<a href="' . $link . '"' . ($lang ? ' hreflang="' . $lang . '"' : '') . '>' . $item->title . '</a>';
+                    $itemHtml = '<a href="' . $this->escape($link) . '"' . ($lang ? ' hreflang="' . $lang . '"' : '') . '>' . $item->title . '</a>';
                     ?>
                     <tr class="row<?php echo $i % 2; ?>">
                         <td class="text-center">

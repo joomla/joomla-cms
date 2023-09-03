@@ -11,6 +11,7 @@
  */
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -21,6 +22,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -233,7 +235,9 @@ class JoomlaInstallerScript
              */
              ['type' => 'plugin', 'element' => 'demotasks', 'folder' => 'task', 'client_id' => 0, 'pre_function' => null],
              ['type' => 'plugin', 'element' => 'compat', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateCompatPlugin'],
+             ['type' => 'plugin', 'element' => 'logrotation', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateLogRotationPlugin'],
              ['type' => 'plugin', 'element' => 'recaptcha', 'folder' => 'captcha', 'client_id' => 0, 'pre_function' => null],
+             ['type' => 'plugin', 'element' => 'updatenotification', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateUpdatenotificationPlugin'],
         ];
 
         $db = Factory::getDbo();
@@ -311,6 +315,94 @@ class JoomlaInstallerScript
                 ->bind(':enabled', $rowOld->enabled, ParameterType::INTEGER)
                 ->bind(':params', $rowOld->params)
         )->execute();
+    }
+
+    /**
+     * This method is for migration for old logrotation system plugin migration to task.
+     *
+     * @param   \stdClass  $data  Object with the extension's record in the `#__extensions` table
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function migrateLogRotationPlugin($data)
+    {
+        if (!$data->enabled) {
+            return;
+        }
+
+        /** @var SchedulerComponent $component */
+        $component = Factory::getApplication()->bootComponent('com_scheduler');
+
+        /** @var TaskModel $model */
+        $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+
+        // Get the timeout, as configured in plg_system_logrotation
+        $params       = new Registry($data->params);
+        $cachetimeout = (int) $params->get('cachetimeout', 30);
+        $lastrun      = (int) $params->get('lastrun', time());
+
+        $task = [
+            'title'           => 'RotateLogs',
+            'type'            => 'rotation.logs',
+            'execution_rules' => [
+                'rule-type'     => 'interval-days',
+                'interval-days' => $cachetimeout,
+                'exec-time'     => gmdate('H:i', $lastrun),
+                'exec-day'      => gmdate('d'),
+            ],
+            'state'  => 1,
+            'params' => [
+                'logstokeep' => $params->get('logstokeep', 1),
+            ],
+        ];
+        $model->save($task);
+    }
+
+    /**
+     * This method is for migration for old updatenotification system plugin migration to task.
+     *
+     * @param   \stdClass  $data  Object with the extension's record in the `#__extensions` table
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function migrateUpdatenotificationPlugin($data)
+    {
+        if (!$data->enabled) {
+            return;
+        }
+
+        // Get the timeout for Joomla! updates, as configured in com_installer's component parameters
+        $component    = ComponentHelper::getComponent('com_installer');
+        $paramsc      = $component->getParams();
+        $cachetimeout = (int) $paramsc->get('cachetimeout', 6);
+        $params       = new Registry($data->params);
+        $lastrun      = (int) $params->get('lastrun', time());
+
+        /** @var SchedulerComponent $component */
+        $component = Factory::getApplication()->bootComponent('com_scheduler');
+
+        /** @var TaskModel $model */
+        $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+        $task  = [
+            'title'           => 'UpdateNotification',
+            'type'            => 'update.notification',
+            'execution_rules' => [
+                'rule-type'      => 'interval-hours',
+                'interval-hours' => $cachetimeout,
+                'exec-time'      => gmdate('H:i', $lastrun),
+                'exec-day'       => gmdate('d'),
+            ],
+            'state'  => 1,
+            'params' => [
+                'email'             => $params->get('email', ''),
+                'language_override' => $params->get('language_override', ''),
+            ],
+        ];
+        $model->save($task);
     }
 
     /**
@@ -2254,7 +2346,155 @@ class JoomlaInstallerScript
             return false;
         }
 
+        if (!$this->migrateDeleteActionlogsConfiguration()) {
+            return false;
+        }
+
+        if (!$this->migratePrivacyconsentConfiguration()) {
+            return false;
+        }
+
         $this->setGuidedToursUid();
+
+        return true;
+    }
+
+    /**
+     * Migrate Deleteactionlogs plugin configuration
+     *
+     * @return  boolean  True on success
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function migrateDeleteActionlogsConfiguration(): bool
+    {
+        $db = Factory::getDbo();
+
+        try {
+            // Get the ActionLogs system plugin's parameters
+            $row = $db->setQuery(
+                $db->getQuery(true)
+                    ->select([$db->quotename('enabled'), $db->quoteName('params')])
+                    ->from($db->quoteName('#__extensions'))
+                    ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+                    ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+                    ->where($db->quoteName('element') . ' = ' . $db->quote('actionlogs'))
+            )->loadObject();
+        } catch (Exception $e) {
+            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+            return false;
+        }
+
+        // If not existing or disabled there is nothing to migrate
+        if (!$row || !$row->enabled) {
+            return true;
+        }
+
+        $params = new Registry($row->params);
+
+        // If deletion of outdated logs was disabled there is nothing to migrate
+        if (!$params->get('logDeletePeriod', 0)) {
+            return true;
+        }
+
+        /** @var SchedulerComponent $component */
+        $component = Factory::getApplication()->bootComponent('com_scheduler');
+
+        /** @var TaskModel $model */
+        $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+        $task  = [
+            'title'           => 'DeleteActionLogs',
+            'type'            => 'delete.actionlogs',
+            'execution_rules' => [
+                'rule-type'      => 'interval-hours',
+                'interval-hours' => 24,
+                'exec-time'      => gmdate('H:i', $params->get('lastrun', time())),
+                'exec-day'       => gmdate('d'),
+            ],
+            'state'  => 1,
+            'params' => [
+                'logDeletePeriod' => $params->get('logDeletePeriod', 0),
+            ],
+        ];
+
+        try {
+            $model->save($task);
+        } catch (Exception $e) {
+            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+            return false;
+        }
+
+        return true;
+    }
+    /**
+     * Migrate privacyconsents system plugin configuration
+     *
+     * @return  boolean  True on success
+     *
+     * @since   5.0.0
+     */
+    private function migratePrivacyconsentConfiguration(): bool
+    {
+        $db = Factory::getDbo();
+
+        try {
+            // Get the PrivacyConsent system plugin's parameters
+            $row = $db->setQuery(
+                $db->getQuery(true)
+                    ->select([$db->quotename('enabled'), $db->quoteName('params')])
+                    ->from($db->quoteName('#__extensions'))
+                    ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+                    ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+                    ->where($db->quoteName('element') . ' = ' . $db->quote('privacyconsent'))
+            )->loadObject();
+        } catch (Exception $e) {
+            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+            return false;
+        }
+
+        // If not existing or disabled there is nothing to migrate
+        if (!$row || !$row->enabled) {
+            return true;
+        }
+
+        $params = new Registry($row->params);
+
+        // If consent expiration was disabled there is nothing to migrate
+        if (!$params->get('enabled', 0)) {
+            return true;
+        }
+
+        /** @var SchedulerComponent $component */
+        $component = Factory::getApplication()->bootComponent('com_scheduler');
+
+        /** @var TaskModel $model */
+        $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+        $task  = [
+            'title'           => 'PrivacyConsent',
+            'type'            => 'privacy.consent',
+            'execution_rules' => [
+                'rule-type'     => 'interval-days',
+                'interval-days' => $params->get('cachetimeout', 30),
+                'exec-time'     => gmdate('H:i', $params->get('lastrun', time())),
+                'exec-day'      => gmdate('d'),
+            ],
+            'state'  => 1,
+            'params' => [
+                'consentexpiration' => $params->get('consentexpiration', 360),
+                'remind'            => $params->get('remind', 30),
+            ],
+        ];
+
+        try {
+            $model->save($task);
+        } catch (Exception $e) {
+            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+            return false;
+        }
 
         return true;
     }
