@@ -2405,7 +2405,7 @@ class JoomlaInstallerScript
                 } else {
                     $uri      = Uri::getInstance();
                     $host     = $uri->toString(['host']);
-                    $host     = ApplicationHelper::stringURLSafe($host, $tourItem->lang);
+                    $host     = ApplicationHelper::stringURLSafe($host, $tourItem->language);
                     $uidTitle = $host . ' ' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $tourItem->title);
                     // Remove the last _TITLE part
                     if (str_ends_with($uidTitle, '_TITLE')) {
@@ -2417,7 +2417,7 @@ class JoomlaInstallerScript
                 $uidTitleParts = explode('.', $uidTitle);
                 array_walk($uidTitleParts, function (&$value, $key, $tourLanguage) {
                     $value = ApplicationHelper::stringURLSafe($value, $tourLanguage);
-                }, $tourItem->lang);
+                }, $tourItem->language);
                 $tourItem->uid = implode('.', $uidTitleParts);
 
                 $tourItem->store();
