@@ -11,8 +11,8 @@
 	<description>PLG_SYSTEM_PRIVACYCONSENT_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\System\PrivacyConsent</namespace>
 	<files>
-		<filename plugin="privacyconsent">privacyconsent.php</filename>
 		<folder>forms</folder>
+		<folder plugin="privacyconsent">services</folder>
 		<folder>src</folder>
 	</files>
 	<languages>
@@ -76,65 +76,6 @@
 					rows="7"
 					cols="20"
 					filter="html"
-				/>
-			</fieldset>
-			<fieldset
-				name="expiration"
-				label="PLG_SYSTEM_PRIVACYCONSENT_EXPIRATION_FIELDSET_LABEL"
-			>
-				<field
-					name="enabled"
-					type="radio"
-					label="PLG_SYSTEM_PRIVACYCONSENT_FIELD_ENABLED_LABEL"
-					description="PLG_SYSTEM_PRIVACYCONSENT_FIELD_ENABLED_DESC"
-					layout="joomla.form.field.radio.switcher"
-					default="0"
-					filter="integer"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-				<field
-					name="cachetimeout"
-					type="integer"
-					label="PLG_SYSTEM_PRIVACYCONSENT_CACHETIMEOUT_LABEL"
-					description="PLG_SYSTEM_PRIVACYCONSENT_CACHETIMEOUT_DESC"
-					first="0"
-					last="120"
-					step="1"
-					default="30"
-					filter="int"
-					validate="number"
-				/>
-				<field
-					name="consentexpiration"
-					type="integer"
-					label="PLG_SYSTEM_PRIVACYCONSENT_CONSENTEXPIRATION_LABEL"
-					description="PLG_SYSTEM_PRIVACYCONSENT_CONSENTEXPIRATION_DESC"
-					first="180"
-					last="720"
-					step="30"
-					default="360"
-					filter="int"
-					validate="number"
-				/>
-				<field
-					name="remind"
-					type="integer"
-					label="PLG_SYSTEM_PRIVACYCONSENT_REMINDBEFORE_LABEL"
-					description="PLG_SYSTEM_PRIVACYCONSENT_REMINDBEFORE_DESC"
-					first="0"
-					last="120"
-					step="1"
-					default="30"
-					filter="int"
-					validate="number"
-				/>
-				<field
-					name="lastrun"
-					type="hidden"
-					default="0"
-					filter="integer"
 				/>
 			</fieldset>
 		</fields>

@@ -11,13 +11,13 @@
 namespace Joomla\Component\Finder\Administrator\Service\HTML;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Filter\OutputFilter;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -198,10 +198,10 @@ class Filter
     /**
      * Method to generate filters using select box dropdown controls.
      *
-     * @param   Query  $idxQuery  A Query object.
-     * @param   array  $options   An array of options.
+     * @param   Query     $idxQuery  A Query object.
+     * @param   Registry  $options   An array of options.
      *
-     * @return  mixed  A rendered HTML widget on success, null otherwise.
+     * @return  string|null  A rendered HTML widget on success, null otherwise.
      *
      * @since   2.5
      */
@@ -400,10 +400,10 @@ class Filter
     /**
      * Method to generate fields for filtering dates
      *
-     * @param   Query  $idxQuery  A Query object.
-     * @param   array  $options   An array of options.
+     * @param   Query     $idxQuery  A Query object.
+     * @param   Registry  $options   An array of options.
      *
-     * @return  mixed  A rendered HTML widget on success, null otherwise.
+     * @return  string  A rendered HTML widget.
      *
      * @since   2.5
      */
@@ -440,6 +440,9 @@ class Filter
             $html .= Text::_('COM_FINDER_FILTER_DATE1');
             $html .= '</label>';
             $html .= '<br>';
+            $html .= '<label for="finder-filter-w1" class="visually-hidden">';
+            $html .= Text::_('COM_FINDER_FILTER_DATE1_OPERATOR');
+            $html .= '</label>';
             $html .= HTMLHelper::_(
                 'select.genericlist',
                 $operators,
@@ -459,6 +462,9 @@ class Filter
             $html .= Text::_('COM_FINDER_FILTER_DATE2');
             $html .= '</label>';
             $html .= '<br>';
+            $html .= '<label for="finder-filter-w2" class="visually-hidden">';
+            $html .= Text::_('COM_FINDER_FILTER_DATE2_OPERATOR');
+            $html .= '</label>';
             $html .= HTMLHelper::_(
                 'select.genericlist',
                 $operators,

@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -287,8 +287,8 @@ class File
 
             /**
              * Invalidate the OPCache for the file before actually deleting it
-             * @see https://github.com/joomla/joomla-cms/pull/32915#issuecomment-812865635
-             * @see https://www.php.net/manual/en/function.opcache-invalidate.php#116372
+             * @link https://github.com/joomla/joomla-cms/pull/32915#issuecomment-812865635
+             * @link https://www.php.net/manual/en/function.opcache-invalidate.php#116372
              */
             self::invalidateFileCache($file);
 

@@ -16,7 +16,9 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -57,7 +59,7 @@ class TourModel extends AdminModel
      */
     public function save($data)
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Language keys must include GUIDEDTOUR to prevent save issues
         if (strpos($data['description'], 'GUIDEDTOUR') !== false) {
@@ -77,24 +79,7 @@ class TourModel extends AdminModel
 
         $this->setStepsLanguage($id, $lang);
 
-        $result = parent::save($data);
-
-        // Create default step for new tour
-        if ($result && $input->getCmd('task') !== 'save2copy' && $this->getState($this->getName() . '.new')) {
-            $tourId = (int) $this->getState($this->getName() . '.id');
-
-            $table = $this->getTable('Step');
-
-            $table->id          = 0;
-            $table->title       = 'COM_GUIDEDTOURS_BASIC_STEP';
-            $table->description = '';
-            $table->tour_id     = $tourId;
-            $table->published   = 1;
-
-            $table->store();
-        }
-
-        return $result;
+        return parent::save($data);
     }
 
     /**
@@ -202,48 +187,9 @@ class TourModel extends AdminModel
     }
 
     /**
-     * Method to test whether a record can be deleted.
+     * Method to get a single record by id or uid
      *
-     * @param   object  $record  A record object.
-     *
-     * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
-     *
-     * @since  4.3.0
-     */
-    protected function canDelete($record)
-    {
-        if (!empty($record->id)) {
-            return $this->getCurrentUser()->authorise('core.delete', 'com_guidedtours.tour.' . (int) $record->id);
-        }
-
-        return false;
-    }
-
-    /**
-     * Method to test whether a record can have its state changed.
-     *
-     * @param   object  $record  A record object.
-     *
-     * @return  boolean  True if allowed to change the state of the record.
-     * Defaults to the permission set in the component.
-     *
-     * @since   4.3.0
-     */
-    protected function canEditState($record)
-    {
-        // Check for existing tour.
-        if (!empty($record->id)) {
-            return $this->getCurrentUser()->authorise('core.edit.state', 'com_guidedtours.tour.' . (int) $record->id);
-        }
-
-        // Default to component settings if neither tour nor category known.
-        return parent::canEditState($record);
-    }
-
-    /**
-     * Method to get a single record.
-     *
-     * @param   integer  $pk  The id of the primary key.
+     * @param   integer|string  $pk  The id or uid of the tour.
      *
      * @return  CMSObject|boolean  Object on success, false on failure.
      *
@@ -251,16 +197,47 @@ class TourModel extends AdminModel
      */
     public function getItem($pk = null)
     {
-        Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
+        $pk    = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
 
-        $result = parent::getItem($pk);
-
-        if (!empty($result->id)) {
-            $result->title_translation       = Text::_($result->title);
-            $result->description_translation = Text::_($result->description);
+        $table = $this->getTable();
+        if (is_integer($pk)) {
+            $result = $table->load((int) $pk);
+        } else {
+            // Attempt to load the row by uid.
+            $result = $table->load([ 'uid' => $pk ]);
         }
 
-        return $result;
+        // Check for a table object error.
+        if ($result === false) {
+            // If there was no underlying error, then the false means there simply was not a row in the db for this $pk.
+            if (!$table->getError()) {
+                $this->setError(Text::_('JLIB_APPLICATION_ERROR_NOT_EXIST'));
+            } else {
+                $this->setError($table->getError());
+            }
+
+            return false;
+        }
+
+        // Convert to the CMSObject before adding other data.
+        $properties = $table->getProperties(1);
+        $item       = ArrayHelper::toObject($properties, CMSObject::class);
+
+        if (property_exists($item, 'params')) {
+            $registry     = new Registry($item->params);
+            $item->params = $registry->toArray();
+        }
+
+        if (!empty($item->uid)) {
+            GuidedtoursHelper::loadTranslationFiles($item->uid, true);
+        }
+
+        if (!empty($item->id)) {
+            $item->title_translation       = Text::_($item->title);
+            $item->description_translation = Text::_($item->description);
+        }
+
+        return $item;
     }
 
     /**
@@ -356,7 +333,7 @@ class TourModel extends AdminModel
         $db   = $this->getDatabase();
 
         // Access checks.
-        if (!$user->authorise('core.create', 'com_tours')) {
+        if (!$user->authorise('core.create', 'com_guidedtours')) {
             throw new \Exception(Text::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
         }
 
