@@ -350,7 +350,7 @@ class JoomlaInstallerScript
             ],
             'state'  => 1,
             'params' => [
-                'logstokeep' => $params->get('logstokeep', 0),
+                'logstokeep' => $params->get('logstokeep', 1),
             ],
         ];
         $model->save($task);
