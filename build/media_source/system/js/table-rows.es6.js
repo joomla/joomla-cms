@@ -60,7 +60,7 @@ class TableRows {
         return;
       }
 
-      (doCollapse) ? row.classList.add('d-none') : row.classList.remove('d-none');
+      doCollapse ? row.classList.add('d-none') : row.classList.remove('d-none');
 
       if (row.classList.contains('collapsed') && !doCollapse) {
         lft = row.getAttribute('data-rgt') + 1;
