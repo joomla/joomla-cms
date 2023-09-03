@@ -23,6 +23,7 @@
       "dependencies": [
         "core",
         "codemirror",
+        "editors",
         "wcpolyfill"
       ],
       "attributes": {

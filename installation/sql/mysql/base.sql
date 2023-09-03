@@ -165,7 +165,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'com_installer', 'component', 'com_installer', '', 1, 1, 1, 1, 1, '', '{"cachetimeout":"6","minimum_stability":"4"}', ''),
 (0, 'com_languages', 'component', 'com_languages', '', 1, 1, 1, 1, 1, '', '{"administrator":"en-GB","site":"en-GB"}', ''),
 (0, 'com_login', 'component', 'com_login', '', 1, 1, 1, 1, 1, '', '', ''),
-(0, 'com_media', 'component', 'com_media', '', 1, 1, 0, 1, 1, '', '{"upload_maxsize":"10","file_path":"images","image_path":"images","restrict_uploads":"1","allowed_media_usergroup":"3","restrict_uploads_extensions":"bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv","check_mime":"1","image_extensions":"bmp,gif,jpg,png,jpeg,webp","audio_extensions":"mp3,m4a,mp4a,ogg","video_extensions":"mp4,mp4v,mpeg,mov,webm","doc_extensions":"odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv","ignore_extensions":"","upload_mime":"image\\/jpeg,image\\/gif,image\\/png,image\\/bmp,image\\/webp,audio\\/ogg,audio\\/mpeg,audio\\/mp4,video\\/mp4,video\\/webm,video\\/mpeg,video\\/quicktime,application\\/msword,application\\/excel,application\\/pdf,application\\/powerpoint,text\\/plain,application\\/x-zip"}', ''),
+(0, 'com_media', 'component', 'com_media', '', 1, 1, 0, 1, 1, '', '{"upload_maxsize":"10","file_path":"images","image_path":"images","restrict_uploads":"1","allowed_media_usergroup":"3","restrict_uploads_extensions":"bmp,gif,jpg,jpeg,png,webp,avif,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv","check_mime":"1","image_extensions":"bmp,gif,jpg,png,jpeg,webp,avif","audio_extensions":"mp3,m4a,mp4a,ogg","video_extensions":"mp4,mp4v,mpeg,mov,webm","doc_extensions":"odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv","ignore_extensions":"","upload_mime":"image\\/jpeg,image\\/gif,image\\/png,image\\/bmp,image\\/webp,image\\/avif,audio\\/ogg,audio\\/mpeg,audio\\/mp4,video\\/mp4,video\\/webm,video\\/mpeg,video\\/quicktime,application\\/msword,application\\/excel,application\\/pdf,application\\/powerpoint,text\\/plain,application\\/x-zip"}', ''),
 (0, 'com_menus', 'component', 'com_menus', '', 1, 1, 1, 1, 1, '', '{"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":""}', ''),
 (0, 'com_messages', 'component', 'com_messages', '', 1, 1, 1, 1, 1, '', '', ''),
 (0, 'com_modules', 'component', 'com_modules', '', 1, 1, 1, 1, 1, '', '', ''),
@@ -261,8 +261,6 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_behaviour_compat', 'plugin', 'compat', 'behaviour', 0, 0, 1, 0, 1, '', '{"classes_aliases":"1","es5_assets":"1"}', '', 1, 0),
 (0, 'plg_behaviour_taggable', 'plugin', 'taggable', 'behaviour', 0, 1, 1, 0, 1, '', '{}', '', 2, 0),
 (0, 'plg_behaviour_versionable', 'plugin', 'versionable', 'behaviour', 0, 1, 1, 0, 1, '', '{}', '', 3, 0),
-(0, 'plg_captcha_recaptcha', 'plugin', 'recaptcha', 'captcha', 0, 0, 1, 0, 1, '', '{"public_key":"","private_key":"","theme":"clean"}', '', 1, 0),
-(0, 'plg_captcha_recaptcha_invisible', 'plugin', 'recaptcha_invisible', 'captcha', 0, 0, 1, 0, 1, '', '{"public_key":"","private_key":"","theme":"clean"}', '', 2, 0),
 (0, 'plg_content_confirmconsent', 'plugin', 'confirmconsent', 'content', 0, 0, 1, 0, 1, '', '{}', '', 1, 0),
 (0, 'plg_content_contact', 'plugin', 'contact', 'content', 0, 1, 1, 0, 1, '', '', '', 2, 0),
 (0, 'plg_content_emailcloak', 'plugin', 'emailcloak', 'content', 0, 1, 1, 0, 1, '', '{"mode":"1"}', '', 3, 0),
@@ -889,7 +887,7 @@ CREATE TABLE IF NOT EXISTS `#__update_sites` (
 
 INSERT INTO `#__update_sites` (`update_site_id`, `name`, `type`, `location`, `enabled`, `last_check_timestamp`) VALUES
 (1, 'Joomla! Core', 'collection', 'https://update.joomla.org/core/list.xml', 1, 0),
-(2, 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist_4.xml', 1, 0),
+(2, 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist_5.xml', 1, 0),
 (3, 'Joomla! Update Component', 'extension', 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0);
 
 -- --------------------------------------------------------

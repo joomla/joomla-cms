@@ -48,6 +48,34 @@
       ]
     },
     {
+      "name": "editor-decorator",
+      "type": "script",
+      "uri": "system/editors/editor-decorator.min.js",
+      "importmap": true
+    },
+    {
+      "name": "editor-api",
+      "type": "script",
+      "uri": "system/editors/editor-api.min.js",
+      "importmap": true,
+      "dependencies": [
+        "editor-decorator"
+      ]
+    },
+    {
+      "name": "editors",
+      "type": "script",
+      "uri": "system/editors/editors.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "core",
+        "editor-decorator",
+        "editor-api"
+      ]
+    },
+    {
       "name": "inlinehelp-legacy",
       "type": "script",
       "deprecated": true,
@@ -263,7 +291,9 @@
       ],
       "attributes": {
         "defer": true
-      }
+      },
+      "deprecated": true,
+      "deprecatedMsg": "Use [modal-content-select-field] asset instead. To be removed in Joomla 6."
     },
     {
       "name": "joomla.batch-copymove",
@@ -622,6 +652,29 @@
       "dependencies": [
         "core"
       ]
+    },
+    {
+      "type": "script",
+      "name": "modal-content-select",
+      "dependencies": [
+        "core"
+      ],
+      "uri": "system/modal-content-select.min.js",
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "type": "script",
+      "name": "modal-content-select-field",
+      "dependencies": [
+        "core",
+        "joomla.dialog"
+      ],
+      "uri": "system/fields/modal-content-select-field.min.js",
+      "attributes": {
+        "type": "module"
+      }
     }
   ]
 }
