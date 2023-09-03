@@ -16,7 +16,7 @@ COPY . .
 ENV PORT=8080
 
 # Expose a port (if your application listens on a specific port)
-EXPOSE 3000
+EXPOSE 8080
 
 # Define the command to start your application
 CMD ["node", "app.js"]
