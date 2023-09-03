@@ -13,6 +13,7 @@ namespace Joomla\Component\Guidedtours\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -228,9 +229,23 @@ class StepsModel extends ListModel
     {
         $items = parent::getItems();
 
-        Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
-
+        $tourLanguageLoaded = false;
         foreach ($items as $item) {
+            if (!$tourLanguageLoaded) {
+                $app    = Factory::getApplication();
+                $tourId = $item->tour_id;
+
+                /** @var \Joomla\Component\Guidedtours\Administrator\Model\TourModel $tourModel */
+                $tourModel = $app->bootComponent('com_guidedtours')
+                                 ->getMVCFactory()->createModel('Tour', 'Administrator', [ 'ignore_request' => true ]);
+
+                $tour = $tourModel->getItem($tourId);
+
+                GuidedtoursHelper::loadTranslationFiles($tour->uid, true);
+
+                $tourLanguageLoaded = true;
+            }
+
             $item->title       = Text::_($item->title);
             $item->description = Text::_($item->description);
         }
