@@ -14,7 +14,7 @@
 }
 
 #dragarea {
-  background-color: #fefefe;
+  background-color: var(--body-bg);
   border: 1px dashed #999;
   box-sizing: border-box;
   padding: 5% 0;
