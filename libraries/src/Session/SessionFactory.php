@@ -126,7 +126,7 @@ class SessionFactory implements ContainerAwareInterface
                 return new Handler\RedisHandler($redis, ['ttl' => $options['expire']]);
 
             case 'wincache':
-                // @TODO Remove WinCache with Joomla 5.0
+                // @TODO Remove WinCache with Joomla 6.0
                 if (!Handler\WincacheHandler::isSupported()) {
                     throw new \RuntimeException('Wincache is not supported on this system.');
                 }
