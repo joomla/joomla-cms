@@ -34,7 +34,7 @@ describe('Test that modules API endpoint', () => {
       access: '1',
       assigned: [
         '101',
-        '105'
+        '105',
       ],
       assignment: '0',
       client_id: '0',
@@ -60,7 +60,7 @@ describe('Test that modules API endpoint', () => {
       publish_up: '',
       published: '1',
       showtitle: '1',
-      title: 'automated test site module'
+      title: 'automated test site module',
     })
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('title')
