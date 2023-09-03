@@ -91,7 +91,7 @@ class RulesRule extends FormRule
         $actions = [];
 
         // Initialise some field attributes.
-        $section = $element['section'] ? (string) $element['section'] : '';
+        $section   = $element['section'] ? (string) $element['section'] : '';
         $component = $element['component'] ? (string) $element['component'] : '';
 
         // Get the asset actions for the element.

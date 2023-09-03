@@ -224,7 +224,7 @@ class User extends CMSObject
      * The access level id
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public $aid = null;
 
@@ -245,10 +245,10 @@ class User extends CMSObject
             $this->load($identifier);
         } else {
             // Initialise
-            $this->id = 0;
+            $this->id        = 0;
             $this->sendEmail = 0;
-            $this->aid = 0;
-            $this->guest = 1;
+            $this->aid       = 0;
+            $this->guest     = 1;
         }
     }
 
@@ -260,7 +260,9 @@ class User extends CMSObject
      * @return  User  The User object.
      *
      * @since       1.7.0
-     * @deprecated  5.0  Load the user service from the dependency injection container or via $app->getIdentity()
+     * @deprecated  4.3 will be removed in 6.0
+     *              Load the user service from the dependency injection container or via $app->getIdentity()
+     *              Example: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($id)
      */
     public static function getInstance($identifier = 0)
     {
@@ -412,7 +414,7 @@ class User extends CMSObject
             ->join('INNER', $db->quoteName('#__assets', 'a'), $db->quoteName('c.asset_id') . ' = ' . $db->quoteName('a.id'))
             ->bind(':component', $component);
         $db->setQuery($query);
-        $allCategories = $db->loadObjectList('id');
+        $allCategories     = $db->loadObjectList('id');
         $allowedCategories = [];
 
         foreach ($allCategories as $category) {
@@ -475,7 +477,7 @@ class User extends CMSObject
     {
         $this->_authLevels = null;
         $this->_authGroups = null;
-        $this->isRoot = null;
+        $this->isRoot      = null;
         Access::clearStatics();
     }
 
@@ -549,13 +551,13 @@ class User extends CMSObject
 
         // Set the default tabletype;
         if (!isset($tabletype)) {
-            $tabletype['name'] = 'user';
+            $tabletype['name']   = 'user';
             $tabletype['prefix'] = 'JTable';
         }
 
         // Set a custom table type is defined
         if (isset($type)) {
-            $tabletype['name'] = $type;
+            $tabletype['name']   = $type;
             $tabletype['prefix'] = $prefix;
         }
 
@@ -668,7 +670,7 @@ class User extends CMSObject
     public function save($updateOnly = false)
     {
         // Create the user table object
-        $table = $this->getTable();
+        $table        = $this->getTable();
         $this->params = (string) $this->_params;
         $table->bind($this->getProperties());
 
@@ -874,10 +876,10 @@ class User extends CMSObject
             self::$instances[$this->id] = $this;
         } else {
             // Initialise
-            $this->id = 0;
+            $this->id        = 0;
             $this->sendEmail = 0;
-            $this->aid = 0;
-            $this->guest = 1;
+            $this->aid       = 0;
+            $this->guest     = 1;
         }
     }
 }

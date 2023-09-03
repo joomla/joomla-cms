@@ -118,7 +118,7 @@ class MenuField extends FormField
             case 'allowNew':
             case 'allowEdit':
             case 'allowPropagate':
-                $value = (string) $value;
+                $value       = (string) $value;
                 $this->$name = !($value === 'false' || $value === 'off' || $value === '0');
                 break;
 
@@ -146,13 +146,13 @@ class MenuField extends FormField
         $return = parent::setup($element, $value, $group);
 
         if ($return) {
-            $this->allowSelect = ((string) $this->element['select']) !== 'false';
-            $this->allowClear = ((string) $this->element['clear']) !== 'false';
+            $this->allowSelect    = ((string) $this->element['select']) !== 'false';
+            $this->allowClear     = ((string) $this->element['clear']) !== 'false';
             $this->allowPropagate = ((string) $this->element['propagate']) === 'true';
 
             // Creating/editing menu items is not supported in frontend.
             $isAdministrator = Factory::getApplication()->isClient('administrator');
-            $this->allowNew = $isAdministrator ? ((string) $this->element['new']) === 'true' : false;
+            $this->allowNew  = $isAdministrator ? ((string) $this->element['new']) === 'true' : false;
             $this->allowEdit = $isAdministrator ? ((string) $this->element['edit']) === 'true' : false;
         }
 
@@ -217,8 +217,8 @@ class MenuField extends FormField
         $modalTitle = Text::_('COM_MENUS_SELECT_A_MENUITEM');
 
         if (isset($this->element['language'])) {
-            $linkItems  .= '&amp;forcedLanguage=' . $this->element['language'];
-            $linkItem   .= '&amp;forcedLanguage=' . $this->element['language'];
+            $linkItems .= '&amp;forcedLanguage=' . $this->element['language'];
+            $linkItem .= '&amp;forcedLanguage=' . $this->element['language'];
             $modalTitle .= ' &#8212; ' . $this->element['label'];
         }
 
@@ -313,7 +313,7 @@ class MenuField extends FormField
         // Propagate menu item button
         if ($this->allowPropagate && count($languages) > 2) {
             // Strip off language tag at the end
-            $tagLength = (int) strlen($this->element['language']);
+            $tagLength            = (int) strlen($this->element['language']);
             $callbackFunctionStem = substr("jSelectMenu_" . $this->id, 0, -$tagLength);
 
             $html .= '<button'
@@ -336,13 +336,13 @@ class MenuField extends FormField
                 'bootstrap.renderModal',
                 'ModalSelect' . $modalId,
                 [
-                    'title'       => $modalTitle,
-                    'url'         => $urlSelect,
-                    'height'      => '400px',
-                    'width'       => '800px',
-                    'bodyHeight'  => 70,
-                    'modalWidth'  => 80,
-                    'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+                    'title'      => $modalTitle,
+                    'url'        => $urlSelect,
+                    'height'     => '400px',
+                    'width'      => '800px',
+                    'bodyHeight' => 70,
+                    'modalWidth' => 80,
+                    'footer'     => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
                                         . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
                 ]
             );

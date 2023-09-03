@@ -21,6 +21,7 @@ $this->useCoreUI = true;
 
 Text::script('ERROR');
 Text::script('JGLOBAL_VALIDATION_FORM_FAILED');
+Text::script('JGLOBAL_ROOT_PARENT');
 
 $this->document->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
 
@@ -31,7 +32,7 @@ $wa->useScript('keepalive')
     ->useScript('com_menus.admin-item-edit');
 
 $assoc = Associations::isEnabled();
-$input = Factory::getApplication()->input;
+$input = Factory::getApplication()->getInput();
 
 // In case of modal
 $isModal  = $input->get('layout') === 'modal';

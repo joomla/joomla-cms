@@ -84,10 +84,10 @@ class ContactsModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        $forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
+        $forcedLanguage = $app->getInput()->get('forcedLanguage', '', 'cmd');
 
         // Adjust the context to support modal layouts.
-        if ($layout = $app->input->get('layout')) {
+        if ($layout = $app->getInput()->get('layout')) {
             $this->context .= '.' . $layout;
         }
 
@@ -142,9 +142,9 @@ class ContactsModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user = Factory::getUser();
+        $user  = $this->getCurrentUser();
 
         // Select the required fields from the table.
         $query->select(
@@ -166,7 +166,7 @@ class ContactsModel extends ListModel
         $query->select(
             [
                 $db->quoteName('ul.name', 'linked_user'),
-                $db->quoteName('ul.email')
+                $db->quoteName('ul.email'),
             ]
         )
             ->join(
@@ -314,7 +314,7 @@ class ContactsModel extends ListModel
 
         // Filter by categories and by level
         $categoryId = $this->getState('filter.category_id', []);
-        $level = $this->getState('filter.level');
+        $level      = $this->getState('filter.level');
 
         if (!is_array($categoryId)) {
             $categoryId = $categoryId ? [$categoryId] : [];
@@ -322,8 +322,8 @@ class ContactsModel extends ListModel
 
         // Case: Using both categories filter and by level filter
         if (count($categoryId)) {
-            $categoryId = ArrayHelper::toInteger($categoryId);
-            $categoryTable = Table::getInstance('Category', 'JTable');
+            $categoryId       = ArrayHelper::toInteger($categoryId);
+            $categoryTable    = Table::getInstance('Category', 'JTable');
             $subCatItemsWhere = [];
 
             // @todo: Convert to prepared statement
@@ -343,7 +343,7 @@ class ContactsModel extends ListModel
         }
 
         // Add the list ordering clause.
-        $orderCol = $this->state->get('list.ordering', 'a.name');
+        $orderCol  = $this->state->get('list.ordering', 'a.name');
         $orderDirn = $this->state->get('list.direction', 'asc');
 
         if ($orderCol == 'a.ordering' || $orderCol == 'category_title') {

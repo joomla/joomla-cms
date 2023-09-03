@@ -117,6 +117,7 @@ $doc = Factory::getDocument();
 $wam = $doc->getWebAssetManager();
 
 $wam->useScript('webcomponent.media-select');
+$doc->addScriptOptions('media-picker-api', ['apiBaseUrl' => Uri::base() . 'index.php?option=com_media&format=json']);
 
 Text::script('JFIELD_MEDIA_LAZY_LABEL');
 Text::script('JFIELD_MEDIA_ALT_LABEL');
@@ -168,21 +169,21 @@ if (count($doc->getScriptOptions('media-picker')) === 0) {
 }
 
 ?>
-<joomla-field-media class="field-media-wrapper" type="image" <?php // @TODO add this attribute to the field in order to use it for all media types ?> 
-    base-path="<?php echo Uri::root(); ?>" 
-    root-folder="<?php echo ComponentHelper::getParams('com_media')->get('file_path', 'images'); ?>" 
-    url="<?php echo $url; ?>" 
-    modal-container=".modal" 
-    modal-width="100%" 
-    modal-height="400px" 
-    input=".field-media-input" 
-    button-select=".button-select" 
-    button-clear=".button-clear" 
+<joomla-field-media class="field-media-wrapper" type="image" <?php // @TODO add this attribute to the field in order to use it for all media types ?>
+    base-path="<?php echo Uri::root(); ?>"
+    root-folder="<?php echo ComponentHelper::getParams('com_media')->get('file_path', 'images'); ?>"
+    url="<?php echo $url; ?>"
+    modal-container=".modal"
+    modal-width="100%"
+    modal-height="400px"
+    input=".field-media-input"
+    button-select=".button-select"
+    button-clear=".button-clear"
     button-save-selected=".button-save-selected"
-    preview="static" 
-    preview-container=".field-media-preview" 
-    preview-width="<?php echo $previewWidth; ?>" 
-    preview-height="<?php echo $previewHeight; ?>" 
+    preview="static"
+    preview-container=".field-media-preview"
+    preview-width="<?php echo $previewWidth; ?>"
+    preview-height="<?php echo $previewHeight; ?>"
     supported-extensions="<?php echo str_replace('"', '&quot;', json_encode(['images' => $imagesAllowedExt, 'audios' => $audiosAllowedExt, 'videos' => $videosAllowedExt, 'documents' => $documentsAllowedExt])); ?>
 ">
     <?php echo $modalHTML; ?>

@@ -173,9 +173,9 @@ abstract class Menu
                 }
 
                 // Start group:
-                $optGroup = new \stdClass();
-                $optGroup->value = '<OPTGROUP>';
-                $optGroup->text = $menu->text;
+                $optGroup              = new \stdClass();
+                $optGroup->value       = '<OPTGROUP>';
+                $optGroup->text        = $menu->text;
                 static::$items[$key][] = $optGroup;
 
                 // Special "Add to this Menu" option:
@@ -189,9 +189,9 @@ abstract class Menu
                 }
 
                 // Finish group:
-                $closeOptGroup = new \stdClass();
+                $closeOptGroup        = new \stdClass();
                 $closeOptGroup->value = '</OPTGROUP>';
-                $closeOptGroup->text = $menu->text;
+                $closeOptGroup->text  = $menu->text;
 
                 static::$items[$key][] = $closeOptGroup;
             }
@@ -244,7 +244,7 @@ abstract class Menu
     public static function ordering(&$row, $id)
     {
         if ($id) {
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select(
                     [
@@ -263,7 +263,7 @@ abstract class Menu
                 ->order($db->quoteName('ordering'))
                 ->bind(':menutype', $row->menutype)
                 ->bind(':parent', $row->parent_id, ParameterType::INTEGER);
-            $order = HTMLHelper::_('list.genericordering', $query);
+            $order    = HTMLHelper::_('list.genericordering', $query);
             $ordering = HTMLHelper::_(
                 'select.genericlist',
                 $order,

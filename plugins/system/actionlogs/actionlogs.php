@@ -1,13 +1,14 @@
 <?php
+
 /**
  * @package     Joomla.Plugins
  * @subpackage  System.actionlogs
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
 
-defined('_JEXEC') or die;
+ * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+ */
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
@@ -20,6 +21,10 @@ use Joomla\CMS\User\User;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Users Actions Logging Plugin.
@@ -92,8 +97,7 @@ class PlgSystemActionLogs extends CMSPlugin
             'com_users.user',
         ];
 
-        if (!in_array($formName, $allowedFormNames, true))
-        {
+        if (!in_array($formName, $allowedFormNames, true)) {
             return true;
         }
 
@@ -104,40 +108,34 @@ class PlgSystemActionLogs extends CMSPlugin
 
         $user = Factory::getUser();
 
-        if (!$user->authorise('core.admin'))
-        {
+        if (!$user->authorise('core.admin')) {
             return true;
         }
 
         // If we are on the save command, no data is passed to $data variable, we need to get it directly from request
-        $jformData = $this->app->input->get('jform', [], 'array');
+        $jformData = $this->app->getInput()->get('jform', [], 'array');
 
-        if ($jformData && !$data)
-        {
+        if ($jformData && !$data) {
             $data = $jformData;
         }
 
-        if (is_array($data))
-        {
+        if (is_array($data)) {
             $data = (object) $data;
         }
 
-        if (empty($data->id) || !User::getInstance($data->id)->authorise('core.admin'))
-        {
+        if (empty($data->id) || !User::getInstance($data->id)->authorise('core.admin')) {
             return true;
         }
 
         Form::addFormPath(__DIR__ . '/forms');
 
-        if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && (Factory::getApplication()->isClient('administrator')))
-        {
+        if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && (Factory::getApplication()->isClient('administrator'))) {
             $form->loadFile('information', false);
 
             return true;
         }
 
-        if (!PluginHelper::isEnabled('actionlog', 'joomla'))
-        {
+        if (!PluginHelper::isEnabled('actionlog', 'joomla')) {
             return true;
         }
 
@@ -158,18 +156,15 @@ class PlgSystemActionLogs extends CMSPlugin
      */
     public function onContentPrepareData($context, $data)
     {
-        if (!in_array($context, ['com_users.profile', 'com_users.user']))
-        {
+        if (!in_array($context, ['com_users.profile', 'com_users.user'])) {
             return true;
         }
 
-        if (is_array($data))
-        {
+        if (is_array($data)) {
             $data = (object) $data;
         }
 
-        if (!User::getInstance($data->id)->authorise('core.admin'))
-        {
+        if (!User::getInstance($data->id)->authorise('core.admin')) {
             return true;
         }
 
@@ -182,31 +177,25 @@ class PlgSystemActionLogs extends CMSPlugin
             ->where($db->quoteName('user_id') . ' = :userid')
             ->bind(':userid', $id, ParameterType::INTEGER);
 
-        try
-        {
+        try {
             $values = $db->setQuery($query)->loadObject();
-        }
-        catch (ExecutionFailureException $e)
-        {
+        } catch (ExecutionFailureException $e) {
             return false;
         }
 
-        if (!$values)
-        {
+        if (!$values) {
             return true;
         }
 
-        $data->actionlogs                       = new stdClass;
+        $data->actionlogs                       = new stdClass();
         $data->actionlogs->actionlogsNotify     = $values->notify;
         $data->actionlogs->actionlogsExtensions = $values->extensions;
 
-        if (!HTMLHelper::isRegistered('users.actionlogsNotify'))
-        {
+        if (!HTMLHelper::isRegistered('users.actionlogsNotify')) {
             HTMLHelper::register('users.actionlogsNotify', [__CLASS__, 'renderActionlogsNotify']);
         }
 
-        if (!HTMLHelper::isRegistered('users.actionlogsExtensions'))
-        {
+        if (!HTMLHelper::isRegistered('users.actionlogsExtensions')) {
             HTMLHelper::register('users.actionlogsExtensions', [__CLASS__, 'renderActionlogsExtensions']);
         }
 
@@ -224,8 +213,7 @@ class PlgSystemActionLogs extends CMSPlugin
     {
         $daysToDeleteAfter = (int) $this->params->get('logDeletePeriod', 0);
 
-        if ($daysToDeleteAfter <= 0)
-        {
+        if ($daysToDeleteAfter <= 0) {
             return;
         }
 
@@ -237,8 +225,7 @@ class PlgSystemActionLogs extends CMSPlugin
         $now  = time();
         $last = (int) $this->params->get('lastrun', 0);
 
-        if (abs($now - $last) < $deleteFrequency)
-        {
+        if (abs($now - $last) < $deleteFrequency) {
             return;
         }
 
@@ -255,53 +242,42 @@ class PlgSystemActionLogs extends CMSPlugin
             ->where($db->quoteName('element') . ' = ' . $db->quote('actionlogs'))
             ->bind(':params', $params);
 
-        try
-        {
+        try {
             // Lock the tables to prevent multiple plugin executions causing a race condition
             $db->lockTable('#__extensions');
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             // If we can't lock the tables it's too risky to continue execution
             return;
         }
 
-        try
-        {
+        try {
             // Update the plugin parameters
             $result = $db->setQuery($query)->execute();
 
             $this->clearCacheGroups(['com_plugins'], [0, 1]);
-        }
-        catch (Exception $exc)
-        {
+        } catch (Exception $exc) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
         }
 
-        try
-        {
+        try {
             // Unlock the tables after writing
             $db->unlockTables();
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }
 
-        // Abort on failure
-        if (!$result)
-        {
+        // Stop on failure
+        if (!$result) {
             return;
         }
 
         $daysToDeleteAfter = (int) $this->params->get('logDeletePeriod', 0);
         $now               = Factory::getDate()->toSql();
 
-        if ($daysToDeleteAfter > 0)
-        {
+        if ($daysToDeleteAfter > 0) {
             $days = -1 * $daysToDeleteAfter;
 
             $query->clear()
@@ -310,12 +286,9 @@ class PlgSystemActionLogs extends CMSPlugin
 
             $db->setQuery($query);
 
-            try
-            {
+            try {
                 $db->execute();
-            }
-            catch (RuntimeException $e)
-            {
+            } catch (RuntimeException $e) {
                 // Ignore it
                 return;
             }
@@ -334,12 +307,9 @@ class PlgSystemActionLogs extends CMSPlugin
      */
     private function clearCacheGroups(array $clearGroups, array $cacheClients = [0, 1])
     {
-        foreach ($clearGroups as $group)
-        {
-            foreach ($cacheClients as $clientId)
-            {
-                try
-                {
+        foreach ($clearGroups as $group) {
+            foreach ($cacheClients as $clientId) {
+                try {
                     $options = [
                         'defaultgroup' => $group,
                         'cachebase'    => $clientId ? JPATH_ADMINISTRATOR . '/cache' :
@@ -348,9 +318,7 @@ class PlgSystemActionLogs extends CMSPlugin
 
                     $cache = Cache::getInstance('callback', $options);
                     $cache->clean();
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     // Ignore it
                 }
             }
@@ -371,8 +339,7 @@ class PlgSystemActionLogs extends CMSPlugin
      */
     public function onUserAfterSave($user, $isNew, $success, $msg): void
     {
-        if (!$success)
-        {
+        if (!$success) {
             return;
         }
 
@@ -390,20 +357,16 @@ class PlgSystemActionLogs extends CMSPlugin
             ->where($db->quoteName('user_id') . ' = :userid')
             ->bind(':userid', $userid, ParameterType::INTEGER);
 
-        try
-        {
+        try {
             $exists = (bool) $db->setQuery($query)->loadResult();
-        }
-        catch (ExecutionFailureException $e)
-        {
+        } catch (ExecutionFailureException $e) {
             return;
         }
 
         $query->clear();
 
         // If preferences don't exist, insert.
-        if (!$exists && $authorised && isset($user['actionlogs']))
-        {
+        if (!$exists && $authorised && isset($user['actionlogs'])) {
             $notify  = (int) $user['actionlogs']['actionlogsNotify'];
             $values  = [':userid', ':notify'];
             $bind    = [$userid, $notify];
@@ -411,8 +374,7 @@ class PlgSystemActionLogs extends CMSPlugin
 
             $query->bind($values, $bind, ParameterType::INTEGER);
 
-            if (isset($user['actionlogs']['actionlogsExtensions']))
-            {
+            if (isset($user['actionlogs']['actionlogsExtensions'])) {
                 $values[]  = ':extension';
                 $columns[] = 'extensions';
                 $extension = json_encode($user['actionlogs']['actionlogsExtensions']);
@@ -422,18 +384,15 @@ class PlgSystemActionLogs extends CMSPlugin
             $query->insert($db->quoteName('#__action_logs_users'))
                 ->columns($db->quoteName($columns))
                 ->values(implode(',', $values));
-        }
-        elseif ($exists && $authorised && isset($user['actionlogs']))
-        {
+        } elseif ($exists && $authorised && isset($user['actionlogs'])) {
             // Update preferences.
             $notify = (int) $user['actionlogs']['actionlogsNotify'];
             $values = [$db->quoteName('notify') . ' = :notify'];
 
             $query->bind(':notify', $notify, ParameterType::INTEGER);
 
-            if (isset($user['actionlogs']['actionlogsExtensions']))
-            {
-                $values[] = $db->quoteName('extensions') . ' = :extension';
+            if (isset($user['actionlogs']['actionlogsExtensions'])) {
+                $values[]  = $db->quoteName('extensions') . ' = :extension';
                 $extension = json_encode($user['actionlogs']['actionlogsExtensions']);
                 $query->bind(':extension', $extension);
             }
@@ -442,25 +401,18 @@ class PlgSystemActionLogs extends CMSPlugin
                 ->set($values)
                 ->where($db->quoteName('user_id') . ' = :userid')
                 ->bind(':userid', $userid, ParameterType::INTEGER);
-        }
-        elseif ($exists && !$authorised)
-        {
+        } elseif ($exists && !$authorised) {
             // Remove preferences if user is not authorised.
             $query->delete($db->quoteName('#__action_logs_users'))
                 ->where($db->quoteName('user_id') . ' = :userid')
                 ->bind(':userid', $userid, ParameterType::INTEGER);
-        }
-        else
-        {
+        } else {
             return;
         }
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
-        }
-        catch (ExecutionFailureException $e)
-        {
+        } catch (ExecutionFailureException $e) {
             // Do nothing.
         }
     }
@@ -480,8 +432,7 @@ class PlgSystemActionLogs extends CMSPlugin
      */
     public function onUserAfterDelete($user, $success, $msg): void
     {
-        if (!$success)
-        {
+        if (!$success) {
             return;
         }
 
@@ -493,12 +444,9 @@ class PlgSystemActionLogs extends CMSPlugin
             ->where($db->quoteName('user_id') . ' = :userid')
             ->bind(':userid', $userid, ParameterType::INTEGER);
 
-        try
-        {
+        try {
             $db->setQuery($query)->execute();
-        }
-        catch (ExecutionFailureException $e)
-        {
+        } catch (ExecutionFailureException $e) {
             // Do nothing.
         }
     }
@@ -529,16 +477,14 @@ class PlgSystemActionLogs extends CMSPlugin
     public static function renderActionlogsExtensions($extensions)
     {
         // No extensions selected.
-        if (!$extensions)
-        {
+        if (!$extensions) {
             return Text::_('JNONE');
         }
 
         // Load the helper.
         JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
-        foreach ($extensions as &$extension)
-        {
+        foreach ($extensions as &$extension) {
             // Load extension language files and translate extension name.
             ActionlogsHelper::loadTranslationFiles($extension);
             $extension = Text::_($extension);

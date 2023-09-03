@@ -172,7 +172,7 @@ class EditorField extends TextareaField
                 break;
 
             case 'hide':
-                $value = (string) $value;
+                $value      = (string) $value;
                 $this->hide = $value ? explode(',', $value) : [];
                 break;
 

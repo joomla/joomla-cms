@@ -46,6 +46,14 @@ class TextField extends FormField
     protected $maxLength;
 
     /**
+     * Does this field support a character counter?
+     *
+     * @var    boolean
+     * @since  4.3.0
+     */
+    protected $charcounter = false;
+
+    /**
      * The mode of input associated with the field.
      *
      * @var    mixed
@@ -102,6 +110,7 @@ class TextField extends FormField
             case 'addonBefore':
             case 'addonAfter':
             case 'inputmode':
+            case 'charcounter':
                 return $this->$name;
         }
 
@@ -126,7 +135,7 @@ class TextField extends FormField
                 break;
 
             case 'dirname':
-                $value = (string) $value;
+                $value         = (string) $value;
                 $this->dirname = ($value == $name || $value === 'true' || $value === '1');
                 break;
 
@@ -140,6 +149,10 @@ class TextField extends FormField
 
             case 'addonAfter':
                 $this->addonAfter = (string) $value;
+                break;
+
+            case 'charcounter':
+                $this->charcounter = strtolower($value) === 'true';
                 break;
 
             default:
@@ -167,11 +180,11 @@ class TextField extends FormField
 
         if ($result == true) {
             $inputmode = (string) $this->element['inputmode'];
-            $dirname = (string) $this->element['dirname'];
+            $dirname   = (string) $this->element['dirname'];
 
             $this->inputmode = '';
-            $inputmode = preg_replace('/\s+/', ' ', trim($inputmode));
-            $inputmode = explode(' ', $inputmode);
+            $inputmode       = preg_replace('/\s+/', ' ', trim($inputmode));
+            $inputmode       = explode(' ', $inputmode);
 
             if (!empty($inputmode)) {
                 $defaultInputmode = \in_array('default', $inputmode) ? Text::_('JLIB_FORM_INPUTMODE') . ' ' : '';
@@ -184,10 +197,11 @@ class TextField extends FormField
             }
 
             // Set the dirname.
-            $dirname = ($dirname === 'dirname' || $dirname === 'true' || $dirname === '1');
+            $dirname       = ($dirname === 'dirname' || $dirname === 'true' || $dirname === '1');
             $this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
 
-            $this->maxLength = (int) $this->element['maxlength'];
+            $this->maxLength   = (int) $this->element['maxlength'];
+            $this->charcounter = isset($this->element['charcounter']) ? strtolower($this->element['charcounter']) === 'true' : false;
 
             $this->addonBefore = (string) $this->element['addonBefore'];
             $this->addonAfter  = (string) $this->element['addonAfter'];
@@ -206,7 +220,7 @@ class TextField extends FormField
     protected function getInput()
     {
         if ($this->element['useglobal']) {
-            $component = Factory::getApplication()->input->getCmd('option');
+            $component = Factory::getApplication()->getInput()->getCmd('option');
 
             // Get correct component for menu items
             if ($component === 'com_menus') {
@@ -224,7 +238,7 @@ class TextField extends FormField
             }
 
             // Try with menu configuration
-            if (\is_null($value) && Factory::getApplication()->input->getCmd('option') === 'com_menus') {
+            if (\is_null($value) && Factory::getApplication()->getInput()->getCmd('option') === 'com_menus') {
                 $value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
             }
 
@@ -295,6 +309,7 @@ class TextField extends FormField
             'addonBefore' => $this->addonBefore,
             'addonAfter'  => $this->addonAfter,
             'options'     => $options,
+            'charcounter' => $this->charcounter,
         ];
 
         return array_merge($data, $extraData);

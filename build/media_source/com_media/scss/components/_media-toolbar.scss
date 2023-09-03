@@ -24,6 +24,13 @@
     border: 0;
     border-inline-start: 1px solid $border-color;
     box-shadow: 1px 0 #fefefe inset;
+    &.active {
+      color: #fff;
+      background-color: var(--template-bg-dark-60);
+      &:hover {
+        background-color: var(--template-bg-dark-80);
+      }
+    }
     &:hover {
       background-color: $toolbar-icon-bg-hover;
       box-shadow: none;

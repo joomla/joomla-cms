@@ -186,7 +186,7 @@ class TableColumns {
 
 if (window.innerWidth > 992) {
   // Look for dataset name else page-title
-  [...document.querySelectorAll('table')].forEach(($table) => {
+  [...document.querySelectorAll('table:not(.columns-order-ignore)')].forEach(($table) => {
     const tableName = ($table.dataset.name ? $table.dataset.name : document.querySelector('.page-title')
       .textContent.trim()
       .replace(/[^a-z0-9]/gi, '-')

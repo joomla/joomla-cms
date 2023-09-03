@@ -89,7 +89,7 @@ class CalendarField extends FormField
      * The today button flag
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $todaybutton;
 
@@ -97,7 +97,7 @@ class CalendarField extends FormField
      * The week numbers flag
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $weeknumbers;
 
@@ -105,7 +105,7 @@ class CalendarField extends FormField
      * The show time flag
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $showtime;
 
@@ -113,7 +113,7 @@ class CalendarField extends FormField
      * The fill table flag
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $filltable;
 
@@ -121,7 +121,7 @@ class CalendarField extends FormField
      * The time format
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $timeformat;
 
@@ -129,7 +129,7 @@ class CalendarField extends FormField
      * The single header flag
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $singleheader;
 
@@ -316,7 +316,7 @@ class CalendarField extends FormField
             date_default_timezone_set('UTC');
 
             if ($this->filterFormat) {
-                $date = \DateTimeImmutable::createFromFormat('U', strtotime($this->value));
+                $date        = \DateTimeImmutable::createFromFormat('U', strtotime($this->value));
                 $this->value = $date->format($this->filterFormat);
             } else {
                 $this->value = strftime($this->format, strtotime($this->value));

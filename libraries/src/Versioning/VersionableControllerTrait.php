@@ -32,8 +32,8 @@ trait VersionableControllerTrait
      */
     public function loadhistory()
     {
-        $model = $this->getModel();
-        $table = $model->getTable();
+        $model     = $this->getModel();
+        $table     = $model->getTable();
         $historyId = $this->input->getInt('version_id', null);
 
         if (!$model->loadhistory($historyId, $table)) {

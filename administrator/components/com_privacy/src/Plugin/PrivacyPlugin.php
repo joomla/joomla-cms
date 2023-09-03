@@ -75,7 +75,7 @@ abstract class PrivacyPlugin extends CMSPlugin
      */
     protected function createItemFromArray(array $data, $itemId = null)
     {
-        $item = new Item();
+        $item     = new Item();
         $item->id = $itemId;
 
         foreach ($data as $key => $value) {

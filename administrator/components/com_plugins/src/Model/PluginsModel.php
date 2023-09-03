@@ -115,7 +115,7 @@ class PluginsModel extends ListModel
      */
     protected function _getList($query, $limitstart = 0, $limit = 0)
     {
-        $search = $this->getState('filter.search');
+        $search   = $this->getState('filter.search');
         $ordering = $this->getState('list.ordering', 'ordering');
 
         // If "Sort Table By:" is not set, set ordering to name
@@ -142,9 +142,9 @@ class PluginsModel extends ListModel
 
             $orderingDirection = strtolower($this->getState('list.direction'));
             $direction         = ($orderingDirection == 'desc') ? -1 : 1;
-            $result = ArrayHelper::sortObjects($result, $ordering, $direction, true, true);
+            $result            = ArrayHelper::sortObjects($result, $ordering, $direction, true, true);
 
-            $total = count($result);
+            $total                                      = count($result);
             $this->cache[$this->getStoreId('getTotal')] = $total;
 
             if ($total < $limitstart) {
@@ -185,7 +185,7 @@ class PluginsModel extends ListModel
         $lang = Factory::getLanguage();
 
         foreach ($items as &$item) {
-            $source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
+            $source    = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
             $extension = 'plg_' . $item->folder . '_' . $item->element;
             $lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
                 || $lang->load($extension . '.sys', $source);
@@ -201,7 +201,7 @@ class PluginsModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.
@@ -282,7 +282,7 @@ class PluginsModel extends ListModel
         $data = parent::loadFormData();
 
         // Set the selected filter values for pages that use the Layouts for filtering
-        $data->list['sortTable'] = $this->state->get('list.ordering');
+        $data->list['sortTable']      = $this->state->get('list.ordering');
         $data->list['directionTable'] = $this->state->get('list.direction');
 
         return $data;

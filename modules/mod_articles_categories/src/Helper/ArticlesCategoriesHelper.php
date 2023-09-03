@@ -26,16 +26,18 @@ abstract class ArticlesCategoriesHelper
     /**
      * Get list of articles
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
+     * @param   \Joomla\Registry\Registry  $params  module parameters
      *
      * @return  array
      *
      * @since   1.5
      */
-    public static function getList(&$params)
+    public static function getList($params)
     {
-        $options               = [];
-        $options['countItems'] = $params->get('numitems', 0);
+        $items   = [];
+        $options = [
+            'countItems' => $params->get('numitems', 0),
+        ];
 
         $categories = Categories::getInstance('Content', $options);
         $category   = $categories->get($params->get('parent', 'root'));
@@ -48,8 +50,8 @@ abstract class ArticlesCategoriesHelper
             if ($count > 0 && \count($items) > $count) {
                 $items = \array_slice($items, 0, $count);
             }
-
-            return $items;
         }
+
+        return $items;
     }
 }

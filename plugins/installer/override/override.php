@@ -148,7 +148,7 @@ class PlgInstallerOverride extends CMSPlugin
             for ($i = 0; $i < $size1; $i++) {
                 if ($after[$i]->coreFile !== $before[$i]->coreFile) {
                     $after[$i]->action = $action;
-                    $result[] = $after[$i];
+                    $result[]          = $after[$i];
                 }
             }
         }
@@ -341,7 +341,7 @@ class PlgInstallerOverride extends CMSPlugin
             ->columns($this->db->quoteName($columns));
 
         foreach ($pks as $pk) {
-            $date = new Date('now');
+            $date        = new Date('now');
             $createdDate = $date->toSql();
 
             if (empty($pk->coreFile)) {

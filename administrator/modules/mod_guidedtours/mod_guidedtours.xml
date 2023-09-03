@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="module" client="administrator" method="upgrade">
+	<name>mod_guidedtours</name>
+	<author>Joomla! Project</author>
+	<creationDate>2023-02</creationDate>
+	<copyright>(C) 2023 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.3.0</version>
+	<description>MOD_GUIDEDTOURS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\GuidedTours</namespace>
+	<files>
+		<folder module="mod_guidedtours">services</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/mod_guidedtours.ini</language>
+		<language tag="en-GB">language/en-GB/mod_guidedtours.sys.ini</language>
+	</languages>
+	<help key="Admin_Modules:_Tours_Menu" />
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="tourscount"
+					type="number"
+					label="MOD_GUIDEDTOURS_FIELD_TOUR_COUNT_LABEL"
+					description="MOD_GUIDEDTOURS_FIELD_TOUR_COUNT_DESC"
+					default="7"
+					filter="integer"
+					min="0"
+					validate="number"
+				/>
+			</fieldset>
+
+			<fieldset name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="form-select"
+					validate="moduleLayout"
+				/>
+
+				<field
+					name="moduleclass_sfx"
+					type="textarea"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					rows="3"
+					validate="CssIdentifier"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

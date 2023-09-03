@@ -129,14 +129,14 @@ class Uri extends \Joomla\Uri\Uri
     {
         // Get the base request path.
         if (empty(static::$base)) {
-            $config = Factory::getContainer()->get('config');
-            $uri = static::getInstance();
+            $config    = Factory::getContainer()->get('config');
+            $uri       = static::getInstance();
             $live_site = ($uri->isSsl()) ? str_replace('http://', 'https://', $config->get('live_site', '')) : $config->get('live_site', '');
 
             if (trim($live_site) != '') {
-                $uri = static::getInstance($live_site);
+                $uri                    = static::getInstance($live_site);
                 static::$base['prefix'] = $uri->toString(['scheme', 'host', 'port']);
-                static::$base['path'] = rtrim($uri->toString(['path']), '/\\');
+                static::$base['path']   = rtrim($uri->toString(['path']), '/\\');
 
                 if (\defined('JPATH_BASE') && \defined('JPATH_ADMINISTRATOR') && JPATH_BASE == JPATH_ADMINISTRATOR) {
                     static::$base['path'] .= '/administrator';
@@ -183,9 +183,9 @@ class Uri extends \Joomla\Uri\Uri
     {
         // Get the scheme
         if (empty(static::$root)) {
-            $uri = static::getInstance(static::base());
+            $uri                    = static::getInstance(static::base());
             static::$root['prefix'] = $uri->toString(['scheme', 'host', 'port']);
-            static::$root['path'] = rtrim($uri->toString(['path']), '/\\');
+            static::$root['path']   = rtrim($uri->toString(['path']), '/\\');
         }
 
         // Get the scheme
@@ -207,7 +207,7 @@ class Uri extends \Joomla\Uri\Uri
     {
         // Get the current URL.
         if (empty(static::$current)) {
-            $uri = static::getInstance();
+            $uri             = static::getInstance();
             static::$current = $uri->toString(['scheme', 'host', 'port', 'path']);
         }
 
@@ -224,9 +224,9 @@ class Uri extends \Joomla\Uri\Uri
     public static function reset()
     {
         static::$instances = [];
-        static::$base = [];
-        static::$root = [];
-        static::$current = '';
+        static::$base      = [];
+        static::$root      = [];
+        static::$current   = '';
     }
 
     /**
@@ -242,7 +242,7 @@ class Uri extends \Joomla\Uri\Uri
     {
         $url = str_replace('\\', '/', $url);
 
-        $uri = static::getInstance($url);
+        $uri  = static::getInstance($url);
         $base = $uri->toString(['scheme', 'host', 'port', 'path']);
         $host = $uri->toString(['scheme', 'host', 'port']);
 

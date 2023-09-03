@@ -107,7 +107,7 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
     public function initJooa11y()
     {
         // Check if we are in a preview modal or the plugin has enforced loading
-        $showJooa11y = $this->app->input->get('jooa11y', $this->params->get('showAlways', 0));
+        $showJooa11y = $this->app->getInput()->get('jooa11y', $this->params->get('showAlways', 0));
 
         // Load the checker if authorised
         if (!$showJooa11y || !$this->isAuthorisedDisplayChecker()) {

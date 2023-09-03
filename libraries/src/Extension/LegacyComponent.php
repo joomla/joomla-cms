@@ -225,7 +225,7 @@ class LegacyComponent implements
     public function createRouter(CMSApplicationInterface $application, AbstractMenu $menu): RouterInterface
     {
         $compname = ucfirst($this->component);
-        $class = $compname . 'Router';
+        $class    = $compname . 'Router';
 
         if (!class_exists($class)) {
             // Use the component routing handler if it exists

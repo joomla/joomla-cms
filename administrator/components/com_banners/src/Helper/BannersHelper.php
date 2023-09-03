@@ -84,7 +84,7 @@ class BannersHelper extends ContentHelper
             }
 
             if ($purchaseType < 0) {
-                $params = ComponentHelper::getParams('com_banners');
+                $params       = ComponentHelper::getParams('com_banners');
                 $purchaseType = $params->get('purchase_type');
             }
 
@@ -93,19 +93,19 @@ class BannersHelper extends ContentHelper
                     $reset = null;
                     break;
                 case 2:
-                    $date = Factory::getDate('+1 year ' . date('Y-m-d'));
+                    $date  = Factory::getDate('+1 year ' . date('Y-m-d'));
                     $reset = $date->toSql();
                     break;
                 case 3:
-                    $date = Factory::getDate('+1 month ' . date('Y-m-d'));
+                    $date  = Factory::getDate('+1 month ' . date('Y-m-d'));
                     $reset = $date->toSql();
                     break;
                 case 4:
-                    $date = Factory::getDate('+7 day ' . date('Y-m-d'));
+                    $date  = Factory::getDate('+7 day ' . date('Y-m-d'));
                     $reset = $date->toSql();
                     break;
                 case 5:
-                    $date = Factory::getDate('+1 day ' . date('Y-m-d'));
+                    $date  = Factory::getDate('+1 day ' . date('Y-m-d'));
                     $reset = $date->toSql();
                     break;
             }
@@ -147,7 +147,7 @@ class BannersHelper extends ContentHelper
     {
         $options = [];
 
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select(
                 [

@@ -108,7 +108,7 @@ class ModulepositionField extends TextField
                 $clientName = $this->element['client'];
 
                 if (isset($clientName)) {
-                    $client = ApplicationHelper::getClientInfo($clientName, true);
+                    $client   = ApplicationHelper::getClientInfo($clientName, true);
                     $clientId = $client->id;
                 }
             }
@@ -133,7 +133,7 @@ class ModulepositionField extends TextField
     protected function getInput()
     {
         // Build the script.
-        $script = [];
+        $script   = [];
         $script[] = '	function jSelectPosition_' . $this->id . '(name) {';
         $script[] = '		document.getElementById("' . $this->id . '").value = name;';
         $script[] = '		jModalClose();';
@@ -158,14 +158,14 @@ class ModulepositionField extends TextField
             'bootstrap.renderModal',
             'modulePositionModal',
             [
-                'url'    => $link,
-                'title'  => Text::_('COM_MODULES_CHANGE_POSITION_BUTTON'),
-                'height' => '100%',
-                'width'  => '100%',
-                'modalWidth'  => '800',
-                'bodyHeight'  => '450',
-                'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
-                    . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+                'url'        => $link,
+                'title'      => Text::_('COM_MODULES_CHANGE_POSITION_BUTTON'),
+                'height'     => '100%',
+                'width'      => '100%',
+                'modalWidth' => '800',
+                'bodyHeight' => '450',
+                'footer'     => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
+                    . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
             ]
         );
         $html[] = '</div>';

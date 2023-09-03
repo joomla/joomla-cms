@@ -1048,7 +1048,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, $method)) {
             switch ($method) {
-                // The preflight and postflight take the route as a param
+                    // The preflight and postflight take the route as a param
                 case 'preflight':
                 case 'postflight':
                     if ($this->parent->manifestClass->$method($this->route, $this) === false) {
@@ -1067,7 +1067,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
                     }
                     break;
 
-                // The install, uninstall, and update methods only pass this object as a param
+                    // The install, uninstall, and update methods only pass this object as a param
                 case 'install':
                 case 'uninstall':
                 case 'update':
@@ -1264,7 +1264,8 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      *
      * @since   4.2.0
      *
-     * @deprecated  5.0 Use getDatabase() instead of directly accessing db
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use getDatabase() instead of directly accessing _db
      */
     public function __get($name)
     {

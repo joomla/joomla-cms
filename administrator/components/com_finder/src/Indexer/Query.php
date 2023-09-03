@@ -190,6 +190,14 @@ class Query
     public $wordmode;
 
     /**
+     * The dates Registry.
+     *
+     * @var    Registry
+     * @since  4.3.0
+     */
+    public $dates;
+
+    /**
      * Method to instantiate the query object.
      *
      * @param   array  $options  An array of query options.
@@ -312,7 +320,7 @@ class Query
         }
 
         // Get the filters in the request.
-        $t = Factory::getApplication()->input->request->get('t', [], 'array');
+        $t = Factory::getApplication()->getInput()->request->get('t', [], 'array');
 
         // Add the dynamic taxonomy filters if present.
         if ((bool) $this->filters) {
@@ -515,7 +523,7 @@ class Query
 
         // Get a parameter object for the filter date options.
         $registry = new Registry($return->params);
-        $params = $registry;
+        $params   = $registry;
 
         // Set the dates if not already set.
         $this->dates->def('d1', $params->get('d1'));
@@ -546,7 +554,7 @@ class Query
         $query->clear()
             ->select('t1.id, t1.title, t2.title AS branch')
             ->from($db->quoteName('#__finder_taxonomy') . ' AS t1')
-            ->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id')
+            ->leftJoin($db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.lft < t1.lft AND t1.rgt < t2.rgt AND t2.level = 1')
             ->where('t1.state = 1')
             ->where('t1.access IN (' . $groups . ')')
             ->where('t1.id IN (' . implode(',', $filters) . ')')
@@ -610,7 +618,7 @@ class Query
          */
         $query->select('t1.id, t1.title, t2.title AS branch')
             ->from($db->quoteName('#__finder_taxonomy') . ' AS t1')
-            ->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id')
+            ->leftJoin($db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.lft < t1.lft AND t1.rgt < t2.rgt AND t2.level = 1')
             ->where('t1.state = 1')
             ->where('t1.access IN (' . $groups . ')')
             ->where('t1.id IN (' . implode(',', $filters) . ')')
@@ -875,7 +883,7 @@ class Query
                     $input = trim($input);
 
                     // Get the number of words in the phrase.
-                    $parts = explode(' ', $match);
+                    $parts      = explode(' ', $match);
                     $tuplecount = $params->get('tuplecount', 1);
 
                     // Check if the phrase is longer than our $tuplecount.
@@ -886,7 +894,7 @@ class Query
                         // If the chunk is not empty, add it as a phrase.
                         if (count($chunk)) {
                             $phrases[] = implode(' ', $chunk);
-                            $terms[] = implode(' ', $chunk);
+                            $terms[]   = implode(' ', $chunk);
                         }
 
                         /*
@@ -1245,8 +1253,8 @@ class Query
 
             $searchTerm = $token->term;
             $searchStem = $token->stem;
-            $term = $query->quoteName('t.term');
-            $stem = $query->quoteName('t.stem');
+            $term       = $db->quoteName('t.term');
+            $stem       = $db->quoteName('t.stem');
 
             if ($this->wordmode === 'begin') {
                 $searchTerm .= '%';

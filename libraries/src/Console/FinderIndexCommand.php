@@ -238,8 +238,8 @@ EOF;
     private function configureIO(InputInterface $input, OutputInterface $output): void
     {
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
-        $language = Factory::getLanguage();
+        $this->ioStyle  = new SymfonyStyle($input, $output);
+        $language       = Factory::getLanguage();
         $language->load('', JPATH_ADMINISTRATOR, null, false, false) ||
         $language->load('', JPATH_ADMINISTRATOR, null, true);
         $language->load('finder_cli', JPATH_SITE, null, false, false) ||
@@ -311,13 +311,13 @@ EOF;
         $this->ioStyle->text(Text::_('FINDER_CLI_INDEX_PURGE'));
 
         // Load the model.
-        $app = $this->getApplication();
+        $app   = $this->getApplication();
         $model = $app->bootComponent('com_finder')->getMVCFactory($app)->createModel('Index', 'Administrator');
 
         // Attempt to purge the index.
         $return = $model->purge();
 
-        // If unsuccessful then abort.
+        // If unsuccessful then stop.
         if (!$return) {
             $message = Text::_('FINDER_CLI_INDEX_PURGE_FAILED', $model->getError());
             $this->ioStyle->error($message);

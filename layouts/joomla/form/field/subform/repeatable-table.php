@@ -48,11 +48,11 @@ $class = $class ? ' ' . $class : '';
 $table_head = '';
 
 if (!empty($groupByFieldset)) {
-    foreach ($tmpl->getFieldsets() as $fieldset) {
+    foreach ($tmpl->getFieldsets() as $k => $fieldset) {
         $table_head .= '<th scope="col">' . Text::_($fieldset->label);
 
         if ($fieldset->description) {
-            $table_head .= '<span class="icon-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-' . $field->id . '">' . Text::_($field->description) . '</div>';
+            $table_head .= '<span class="icon-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-th-' . $fieldId . '-' . $k . '">' . Text::_($fieldset->description) . '</div>';
         }
 
         $table_head .= '</th>';

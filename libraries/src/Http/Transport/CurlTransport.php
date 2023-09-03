@@ -113,7 +113,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 
         // If an explicit timeout is given user it.
         if (isset($timeout)) {
-            $options[CURLOPT_TIMEOUT] = (int) $timeout;
+            $options[CURLOPT_TIMEOUT]        = (int) $timeout;
             $options[CURLOPT_CONNECTTIMEOUT] = (int) $timeout;
         }
 
@@ -158,7 +158,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 
         // Authentication, if needed
         if ($this->getOption('userauth') && $this->getOption('passwordauth')) {
-            $options[CURLOPT_USERPWD] = $this->getOption('userauth') . ':' . $this->getOption('passwordauth');
+            $options[CURLOPT_USERPWD]  = $this->getOption('userauth') . ':' . $this->getOption('passwordauth');
             $options[CURLOPT_HTTPAUTH] = CURLAUTH_BASIC;
         }
 

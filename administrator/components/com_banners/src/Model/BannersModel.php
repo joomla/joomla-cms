@@ -74,7 +74,7 @@ class BannersModel extends ListModel
     public function &getCategoryOrders()
     {
         if (!isset($this->cache['categoryorders'])) {
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->select(
                     [
@@ -100,7 +100,7 @@ class BannersModel extends ListModel
      */
     protected function getListQuery()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.

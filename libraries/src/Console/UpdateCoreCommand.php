@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Console;
 
 use Joomla\Application\Cli\CliInput;
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\InstallerHelper;
@@ -129,7 +130,7 @@ class UpdateCoreCommand extends AbstractCommand
         $this->progressBar->setFormat('custom');
 
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
+        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 
     /**
@@ -161,6 +162,19 @@ class UpdateCoreCommand extends AbstractCommand
         if (!$this->updateInfo['hasUpdate']) {
             $this->progressBar->finish();
             $this->ioStyle->note('You already have the latest Joomla! version. ' . $this->updateInfo['latest']);
+
+            return self::ERR_CHECKS_FAILED;
+        }
+
+        $this->progressBar->advance();
+        $this->progressBar->setMessage('Check Database Table Structure...');
+
+        $errors = $this->checkSchema();
+
+        if ($errors > 0) {
+            $this->ioStyle->error('Database Table Structure not Up to Date');
+            $this->progressBar->finish();
+            $this->ioStyle->info('There were ' . $errors . ' errors');
 
             return self::ERR_CHECKS_FAILED;
         }
@@ -224,6 +238,13 @@ class UpdateCoreCommand extends AbstractCommand
                 $this->progressBar->advance();
                 $this->progressBar->setMessage("Cleaning up ...");
 
+                // Remove the administrator/cache/autoload_psr4.php file
+                $autoloadFile = JPATH_CACHE . '/autoload_psr4.php';
+
+                if (File::exists($autoloadFile)) {
+                    File::delete($autoloadFile);
+                }
+
                 // Remove the xml
                 if (file_exists(JPATH_BASE . '/joomla.xml')) {
                     File::delete(JPATH_BASE . '/joomla.xml');
@@ -281,7 +302,7 @@ class UpdateCoreCommand extends AbstractCommand
      */
     public function setUpdateModel(): void
     {
-        $app = $this->getApplication();
+        $app         = $this->getApplication();
         $updatemodel = $app->bootComponent('com_joomlaupdate')->getMVCFactory($app)->createModel('Update', 'Administrator');
 
         if (is_bool($updatemodel)) {
@@ -315,7 +336,7 @@ class UpdateCoreCommand extends AbstractCommand
         $this->progressBar->setMessage("Downloading update package ...");
         $file = $this->downloadFile($updateInformation['object']->downloadurl->_data);
 
-        $tmpPath    = $this->getApplication()->get('tmp_path');
+        $tmpPath       = $this->getApplication()->get('tmp_path');
         $updatePackage = $tmpPath . '/' . $file;
 
         $this->progressBar->advance();
@@ -378,5 +399,33 @@ class UpdateCoreCommand extends AbstractCommand
     public function copyFileTo($file, $dir): void
     {
         Folder::copy($file, $dir, '', true);
+    }
+
+    /**
+     * Check Database Table Structure
+     *
+     * @return  integer the number of errors
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function checkSchema(): int
+    {
+        $app = $this->getApplication();
+        $app->getLanguage()->load('com_installer', JPATH_ADMINISTRATOR);
+        $coreExtensionInfo = ExtensionHelper::getExtensionRecord('joomla', 'file');
+
+        $dbmodel = $app->bootComponent('com_installer')->getMVCFactory($app)->createModel('Database', 'Administrator');
+
+        // Ensure we only get information for core
+        $dbmodel->setState('filter.extension_id', $coreExtensionInfo->extension_id);
+
+        // We're filtering by a single extension which must always exist - so can safely access this through element 0 of the array
+        $changeInformation = $dbmodel->getItems()[0];
+
+        foreach ($changeInformation['errorsMessage'] as $msg) {
+            $this->ioStyle->info($msg);
+        }
+
+        return $changeInformation['errorsCount'];
     }
 }

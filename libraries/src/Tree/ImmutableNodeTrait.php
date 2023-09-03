@@ -68,7 +68,7 @@ trait ImmutableNodeTrait
 
             foreach ($this->_children as $child) {
                 $items[] = $child;
-                $items = array_merge($items, $child->getChildren(true));
+                $items   = array_merge($items, $child->getChildren(true));
             }
 
             return $items;

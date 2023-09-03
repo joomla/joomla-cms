@@ -203,7 +203,7 @@ class ContentHelper
      */
     public static function getCurrentLanguage($detectBrowser = true)
     {
-        $app = Factory::getApplication();
+        $app      = Factory::getApplication();
         $langCode = null;
 
         // Get the languagefilter parameters
@@ -212,7 +212,7 @@ class ContentHelper
             $pluginParams = new Registry($plugin->params);
 
             if ((int) $pluginParams->get('lang_cookie', 1) === 1) {
-                $langCode = $app->input->cookie->getString(ApplicationHelper::getHash('language'));
+                $langCode = $app->getInput()->cookie->getString(ApplicationHelper::getHash('language'));
             } else {
                 $langCode = $app->getSession()->get('plg_system_languagefilter.language');
             }

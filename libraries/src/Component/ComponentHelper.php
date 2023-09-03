@@ -59,7 +59,7 @@ class ComponentHelper
             return $components[$option];
         }
 
-        $result = new ComponentRecord();
+        $result          = new ComponentRecord();
         $result->enabled = $strict ? false : true;
         $result->setParams(new Registry());
 
@@ -282,14 +282,14 @@ class ComponentHelper
      */
     public static function renderComponent($option, $params = [])
     {
-        $app = Factory::getApplication();
+        $app  = Factory::getApplication();
         $lang = Factory::getLanguage();
 
         if (!$app->isClient('api')) {
             // Load template language files.
             $template = $app->getTemplate(true)->template;
             $lang->load('tpl_' . $template, JPATH_BASE)
-            || $lang->load('tpl_' . $template, JPATH_THEMES . "/$template");
+                || $lang->load('tpl_' . $template, JPATH_THEMES . "/$template");
         }
 
         if (empty($option)) {
@@ -319,7 +319,9 @@ class ComponentHelper
              *
              * @var    string
              * @since  1.5
-             * @deprecated 5.0 without replacement
+             *
+             * @deprecated  4.3 will be removed in 6.0
+             *              Will be removed without replacement
              */
             \define('JPATH_COMPONENT', JPATH_BASE . '/components/' . $option);
         }
@@ -330,7 +332,9 @@ class ComponentHelper
              *
              * @var    string
              * @since  1.5
-             * @deprecated 5.0 without replacement
+             *
+             * @deprecated  4.3 will be removed in 6.0
+             *              Will be removed without replacement
              */
             \define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
         }
@@ -341,7 +345,9 @@ class ComponentHelper
              *
              * @var    string
              * @since  1.5
-             * @deprecated 5.0 without replacement
+             *
+             * @deprecated  4.3 will be removed in 6.0
+             *              Will be removed without replacement
              */
             \define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
         }
@@ -375,7 +381,7 @@ class ComponentHelper
     protected static function load()
     {
         $loader = function () {
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
                 ->from($db->quoteName('#__extensions'))

@@ -78,7 +78,7 @@ class PlgSystemLanguagecode extends CMSPlugin
 
                 if ($new_code) {
                     $patterns[] = chr(1) . '(<link.*\s+hreflang=")(' . $match . ')(".*\s+rel="alternate".*>)' . chr(1) . 'i';
-                    $replace[] = '${1}' . $new_code . '${3}';
+                    $replace[]  = '${1}' . $new_code . '${3}';
                 }
             }
 
@@ -89,7 +89,7 @@ class PlgSystemLanguagecode extends CMSPlugin
 
                 if ($new_code) {
                     $patterns[] = chr(1) . '(<link.*\s+rel="alternate".*\s+hreflang=")(' . $match . ')(".*>)' . chr(1) . 'i';
-                    $replace[] = '${1}' . $new_code . '${3}';
+                    $replace[]  = '${1}' . $new_code . '${3}';
                 }
             }
 
@@ -101,7 +101,7 @@ class PlgSystemLanguagecode extends CMSPlugin
 
                 if ($new_code) {
                     $patterns[] = chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")(' . $match . ')(".*>)' . chr(1) . 'i';
-                    $replace[] = '${1}' . $new_code . '${3}';
+                    $replace[]  = '${1}' . $new_code . '${3}';
                 }
             }
 

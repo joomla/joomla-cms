@@ -67,7 +67,7 @@ class UsersModel extends ListModel
                 'range',
                 'lastvisitrange',
                 'state',
-                'mfa'
+                'mfa',
             ];
         }
 
@@ -89,14 +89,15 @@ class UsersModel extends ListModel
      */
     protected function populateState($ordering = 'a.name', $direction = 'asc')
     {
-        $app = Factory::getApplication();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
         // Adjust the context to support modal layouts.
-        if ($layout = $app->input->get('layout', 'default', 'cmd')) {
+        if ($layout = $input->get('layout', 'default', 'cmd')) {
             $this->context .= '.' . $layout;
         }
 
-        $groups = json_decode(base64_decode($app->input->get('groups', '', 'BASE64')));
+        $groups = json_decode(base64_decode($input->get('groups', '', 'BASE64')));
 
         if (isset($groups)) {
             $groups = ArrayHelper::toInteger($groups);
@@ -104,7 +105,7 @@ class UsersModel extends ListModel
 
         $this->setState('filter.groups', $groups);
 
-        $excluded = json_decode(base64_decode($app->input->get('excluded', '', 'BASE64')));
+        $excluded = json_decode(base64_decode($input->get('excluded', '', 'BASE64')));
 
         if (isset($excluded)) {
             $excluded = ArrayHelper::toInteger($excluded);
@@ -190,7 +191,7 @@ class UsersModel extends ListModel
 
                 $item->group_count = 0;
                 $item->group_names = '';
-                $item->note_count = 0;
+                $item->note_count  = 0;
             }
 
             // Get the counts from the database only for the users in the list.
@@ -234,7 +235,7 @@ class UsersModel extends ListModel
                 return false;
             }
 
-            // Second pass: collect the group counts into the master items array.
+            // Second pass: collect the group counts into the main items array.
             foreach ($items as &$item) {
                 if (isset($userGroups[$item->id])) {
                     $item->group_count = $userGroups[$item->id]->group_count;
@@ -306,7 +307,7 @@ class UsersModel extends ListModel
                 ->select(
                     [
                         'MIN(' . $db->quoteName('user_id') . ') AS ' . $db->quoteName('uid'),
-                        'COUNT(*) AS ' . $db->quoteName('mfaRecords')
+                        'COUNT(*) AS ' . $db->quoteName('mfaRecords'),
                     ]
                 )
                 ->from($db->quoteName('#__user_mfa'))
@@ -383,7 +384,7 @@ class UsersModel extends ListModel
                             'a.resetCount',
                             'a.otpKey',
                             'a.otep',
-                            'a.requireReset'
+                            'a.requireReset',
                         ]
                     )
                 );
@@ -428,9 +429,9 @@ class UsersModel extends ListModel
 
         // Add filter for registration time ranges select list. UI Visitors get a range of predefined
         // values. API users can do a full range based on ISO8601
-        $range = $this->getState('filter.range');
+        $range             = $this->getState('filter.range');
         $registrationStart = $this->getState('filter.registrationDateStart');
-        $registrationEnd = $this->getState('filter.registrationDateEnd');
+        $registrationEnd   = $this->getState('filter.registrationDateEnd');
 
         // Apply the range filter.
         if ($range || ($registrationStart && $registrationEnd)) {
@@ -463,7 +464,7 @@ class UsersModel extends ListModel
         // values. API users can do a full range based on ISO8601
         $lastvisitrange = $this->getState('filter.lastvisitrange');
         $lastVisitStart = $this->getState('filter.lastVisitStart');
-        $lastVisitEnd = $this->getState('filter.lastVisitEnd');
+        $lastVisitEnd   = $this->getState('filter.lastVisitEnd');
 
         // Apply the range filter.
         if ($lastvisitrange || ($lastVisitStart && $lastVisitEnd)) {
@@ -568,7 +569,7 @@ class UsersModel extends ListModel
                 $dStart->setTimezone($tz);
                 break;
             case 'never':
-                $dNow = false;
+                $dNow   = false;
                 $dStart = false;
                 break;
         }

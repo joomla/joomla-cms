@@ -1,11 +1,12 @@
-// Variables
-@import "../../../build/media_source/templates/administrator/atum/scss/variables";
+// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
+$prefix: "";
+
 $jicon-css-prefix: icon;
 $fa-css-prefix: fa;
 $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 
 // Font Awesome
-@import "../../../build/media_source/templates/administrator/atum/scss/vendor/fontawesome-free/fontawesome";
+@import "../../../media/templates/administrator/atum/scss/vendor/fontawesome-free/fontawesome";
 
 // "Font Awesome 5 Free"
 @import "../../../media/vendor/fontawesome-free/scss/fontawesome";
@@ -22,17 +23,154 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 // Variables from the Atum template
 @import "../../../build/media_source/templates/administrator/atum/scss/variables";
 
-// Bootstrap with the root.scss overridden
-@import "../../../build/media_source/templates/administrator/atum/scss/vendor/bootstrap";
+@import "../../../media/vendor/bootstrap/scss/variables";
+@import "../../../media/vendor/bootstrap/scss/maps";
+@import "../../../media/vendor/bootstrap/scss/mixins";
+@import "../../../media/vendor/bootstrap/scss/utilities";
+@import "../../../media/vendor/bootstrap/scss/bootstrap";
 
 // Backend Template stuff
-@import "../../../build/media_source/templates/administrator/atum/scss/blocks/global";
-@import "../../../build/media_source/templates/administrator/atum/scss/blocks/header";
-@import "../../../build/media_source/templates/administrator/atum/scss/vendor/bootstrap/custom-forms";
-@import "../../../build/media_source/templates/administrator/atum/scss/vendor/joomla-custom-elements/joomla-alert";
+@import "../../../media/templates/administrator/atum/scss/blocks/global";
+@import "../../../media/templates/administrator/atum/scss/blocks/header";
+@import "../../../media/templates/administrator/atum/scss/vendor/bootstrap/custom-forms";
+@import "../../../media/templates/administrator/atum/scss/vendor/joomla-custom-elements/joomla-alert";
 
 // Safari fix
-@import "../../../build/media_source/templates/administrator/atum/scss/vendor/bootstrap/reboot";
+@import "../../../media/templates/administrator/atum/scss/vendor/bootstrap/reboot";
+
+// Custom Atum colors
+:root {
+
+  @each $color, $value in $atum-colors {
+    --#{$prefix}#{$color}: #{$value};
+  }
+
+  --primary: hsl(213, 63%, 44%);
+}
+
+.border-primary {
+  border-color: var(--primary) !important;
+}
+
+.border-secondary {
+  border-color: var(--secondary) !important;
+}
+
+.border-success {
+  border-color: var(--success) !important;
+}
+
+.border-info {
+  border-color: var(--info) !important;
+}
+
+.border-warning {
+  border-color: var(--warning) !important;
+}
+
+.border-danger {
+  border-color: var(--danger) !important;
+}
+
+.border-light {
+  border-color: var(--light) !important;
+}
+
+.border-dark {
+  border-color: var(--dark) !important;
+}
+
+.border-white {
+  border-color: var(--white) !important;
+}
+
+.text-primary {
+  color: var(--primary) !important;
+}
+
+.text-secondary {
+  color: var(--secondary) !important;
+}
+
+.text-success {
+  color: var(--success) !important;
+}
+
+.text-info {
+  color: var(--info) !important;
+}
+
+.text-warning {
+  color: var(--warning) !important;
+}
+
+.text-danger {
+  color: var(--danger) !important;
+}
+
+.text-light {
+  color: var(--light) !important;
+}
+
+.text-dark {
+  color: var(--dark) !important;
+}
+
+.text-black {
+  color: var(--black) !important;
+}
+
+.text-white {
+  color: var(--white) !important;
+}
+
+.text-body {
+  color: var(--body-color) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary) !important;
+}
+
+.bg-secondary {
+  background-color: var(--secondary) !important;
+}
+
+.bg-success {
+  background-color: var(--success) !important;
+}
+
+.bg-info {
+  background-color: var(--info) !important;
+}
+
+.bg-warning {
+  background-color: var(--warning) !important;
+}
+
+.bg-danger {
+  background-color: var(--danger) !important;
+}
+
+.bg-light {
+  background-color: var(--light) !important;
+}
+
+.bg-dark {
+  background-color: var(--dark) !important;
+}
+
+.bg-black {
+  background-color: var(--black) !important;
+}
+
+.bg-white {
+  background-color: var(--white) !important;
+}
+
+.bg-body {
+  background-color: var(--body-bg) !important;
+}
 
 body {
   background: var(--template-bg-light);

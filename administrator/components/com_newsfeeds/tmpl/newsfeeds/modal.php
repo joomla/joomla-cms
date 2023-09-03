@@ -18,11 +18,13 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
-HTMLHelper::_('behavior.core');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('core');
 
 $app = Factory::getApplication();
 
-$function  = $app->input->getCmd('function', 'jSelectNewsfeed');
+$function  = $app->getInput()->getCmd('function', 'jSelectNewsfeed');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $multilang = Multilanguage::isEnabled();
@@ -125,7 +127,7 @@ $multilang = Multilanguage::isEnabled();
 
         <input type="hidden" name="task" value="">
         <input type="hidden" name="boxchecked" value="0">
-        <input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'CMD'); ?>">
+        <input type="hidden" name="forcedLanguage" value="<?php echo $app->getInput()->get('forcedLanguage', '', 'CMD'); ?>">
         <?php echo HTMLHelper::_('form.token'); ?>
 
     </form>

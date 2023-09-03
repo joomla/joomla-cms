@@ -113,9 +113,9 @@ class ContentHistory extends Table
         $object = \is_object($jsonData) ? $jsonData : json_decode($jsonData);
 
         if (isset($typeTable->content_history_options) && \is_object(json_decode($typeTable->content_history_options))) {
-            $options = json_decode($typeTable->content_history_options);
+            $options             = json_decode($typeTable->content_history_options);
             $this->ignoreChanges = $options->ignoreChanges ?? $this->ignoreChanges;
-            $this->convertToInt = $options->convertToInt ?? $this->convertToInt;
+            $this->convertToInt  = $options->convertToInt ?? $this->convertToInt;
         }
 
         foreach ($this->ignoreChanges as $remove) {
@@ -192,7 +192,7 @@ class ContentHistory extends Table
 
         // Get the list of version_id values we want to save
         $db        = $this->_db;
-        $itemId = $this->get('item_id');
+        $itemId    = $this->get('item_id');
         $query     = $db->getQuery(true);
         $query->select($db->quoteName('version_id'))
             ->from($db->quoteName('#__history'))

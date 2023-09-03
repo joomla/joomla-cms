@@ -78,7 +78,7 @@ class TermsField extends RadioField
     {
         $data = parent::getLayoutData();
 
-        $article = false;
+        $article      = false;
         $termsArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
 
         if ($termsArticle && Factory::getApplication()->isClient('site')) {
@@ -104,7 +104,7 @@ class TermsField extends RadioField
                     $termsAssociated[$currentLang]->language
                 );
             } else {
-                $slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
+                $slug          = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
                 $article->link = RouteHelper::getArticleRoute($slug, $article->catid, $article->language);
             }
         }

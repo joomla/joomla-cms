@@ -19,7 +19,7 @@ use Joomla\CMS\Uri\Uri;
 /** @var \Joomla\CMS\Document\ErrorDocument $this */
 
 $app   = Factory::getApplication();
-$input = $app->input;
+$input = $app->getInput();
 $wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
@@ -48,6 +48,12 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
     ? ''
     : htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8');
 
+$loginLogo = $this->params->get('loginLogo')
+    ? Uri::root(false) . $this->params->get('loginLogo')
+    : Uri::root(false) . 'media/templates/administrator/atum/images/logos/login.svg';
+$loginLogoAlt = empty($this->params->get('loginLogoAlt')) && empty($this->params->get('emptyLoginLogoAlt'))
+    ? ''
+    : htmlspecialchars($this->params->get('loginLogoAlt', ''), ENT_COMPAT, 'UTF-8');
 
     // Get the hue value
 preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
@@ -112,7 +118,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
                     <div id="element-box" class="card">
                         <div class="card-body">
                             <div class="main-brand d-flex align-items-center justify-content-center">
-                                <img src="<?php echo $loginLogo; ?>" <?php echo $loginLogoAlt; ?>>
+                                <?php echo HTMLHelper::_('image', $loginLogo, $loginLogoAlt, ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                             </div>
                             <h1><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
                             <jdoc:include type="message" />

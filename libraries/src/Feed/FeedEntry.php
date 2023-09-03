@@ -39,13 +39,13 @@ class FeedEntry
      * @since  3.1.4
      */
     protected $properties = [
-        'uri'  => '',
-        'title' => '',
-        'updatedDate' => '',
-        'content' => '',
-        'categories' => [],
+        'uri'          => '',
+        'title'        => '',
+        'updatedDate'  => '',
+        'content'      => '',
+        'categories'   => [],
         'contributors' => [],
-        'links' => [],
+        'links'        => [],
     ];
 
     /**

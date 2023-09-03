@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,13 +9,15 @@
 
 namespace Joomla\CMS\Cache;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Session\Session;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Cache base object
@@ -63,16 +66,13 @@ class Cache
         ];
 
         // Overwrite default options with given options
-        foreach ($options as $option => $value)
-        {
-            if (isset($options[$option]) && $options[$option] !== '')
-            {
+        foreach ($options as $option => $value) {
+            if (isset($options[$option]) && $options[$option] !== '') {
                 $this->_options[$option] = $options[$option];
             }
         }
 
-        if (empty($this->_options['storage']))
-        {
+        if (empty($this->_options['storage'])) {
             $this->setCaching(false);
         }
     }
@@ -86,7 +86,10 @@ class Cache
      * @return  CacheController
      *
      * @since       1.7.0
-     * @deprecated  5.0 Use the cache controller factory instead
+     *
+     * @deprecated  4.2 will be removed in 6.0
+     *              Use the cache controller factory instead
+     *              Example: Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
      */
     public static function getInstance($type = 'output', $options = [])
     {
@@ -116,13 +119,11 @@ class Cache
         $iterator = new \DirectoryIterator(__DIR__ . '/Storage');
 
         /** @type  $file  \DirectoryIterator */
-        foreach ($iterator as $file)
-        {
+        foreach ($iterator as $file) {
             $fileName = $file->getFilename();
 
             // Only load for php files.
-            if (!$file->isFile() || $file->getExtension() !== 'php' || $fileName === 'CacheStorageHelper.php')
-            {
+            if (!$file->isFile() || $file->getExtension() !== 'php' || $fileName === 'CacheStorageHelper.php') {
                 continue;
             }
 
@@ -130,17 +131,15 @@ class Cache
             $class = str_ireplace('.php', '', __NAMESPACE__ . '\\Storage\\' . ucfirst(trim($fileName)));
 
             // If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
-            if (!class_exists($class))
-            {
+            if (!class_exists($class)) {
                 continue;
             }
 
             // Sweet!  Our class exists, so now we just need to know if it passes its test method.
-            if ($class::isSupported())
-            {
+            if ($class::isSupported()) {
                 // Connector names should not have file extensions.
-                $handler = str_ireplace('Storage.php', '', $fileName);
-                $handler = str_ireplace('.php', '', $handler);
+                $handler    = str_ireplace('Storage.php', '', $fileName);
+                $handler    = str_ireplace('.php', '', $handler);
                 $handlers[] = strtolower($handler);
             }
         }
@@ -177,7 +176,7 @@ class Cache
     /**
      * Set cache lifetime
      *
-     * @param   integer  $lt  Cache lifetime
+     * @param   integer  $lt  Cache lifetime in minutes
      *
      * @return  void
      *
@@ -200,8 +199,7 @@ class Cache
      */
     public function contains($id, $group = null)
     {
-        if (!$this->getCaching())
-        {
+        if (!$this->getCaching()) {
             return false;
         }
 
@@ -223,8 +221,7 @@ class Cache
      */
     public function get($id, $group = null)
     {
-        if (!$this->getCaching())
-        {
+        if (!$this->getCaching()) {
             return false;
         }
 
@@ -243,8 +240,7 @@ class Cache
      */
     public function getAll()
     {
-        if (!$this->getCaching())
-        {
+        if (!$this->getCaching()) {
             return false;
         }
 
@@ -264,8 +260,7 @@ class Cache
      */
     public function store($data, $id, $group = null)
     {
-        if (!$this->getCaching())
-        {
+        if (!$this->getCaching()) {
             return false;
         }
 
@@ -291,14 +286,10 @@ class Cache
         // Get the default group
         $group = $group ?: $this->_options['defaultgroup'];
 
-        try
-        {
+        try {
             return $this->_getStorage()->remove($id, $group);
-        }
-        catch (CacheExceptionInterface $e)
-        {
-            if (!$this->getCaching())
-            {
+        } catch (CacheExceptionInterface $e) {
+            if (!$this->getCaching()) {
                 return false;
             }
 
@@ -324,14 +315,10 @@ class Cache
         // Get the default group
         $group = $group ?: $this->_options['defaultgroup'];
 
-        try
-        {
+        try {
             return $this->_getStorage()->clean($group, $mode);
-        }
-        catch (CacheExceptionInterface $e)
-        {
-            if (!$this->getCaching())
-            {
+        } catch (CacheExceptionInterface $e) {
+            if (!$this->getCaching()) {
                 return false;
             }
 
@@ -348,14 +335,10 @@ class Cache
      */
     public function gc()
     {
-        try
-        {
+        try {
             return $this->_getStorage()->gc();
-        }
-        catch (CacheExceptionInterface $e)
-        {
-            if (!$this->getCaching())
-            {
+        } catch (CacheExceptionInterface $e) {
+            if (!$this->getCaching()) {
                 return false;
             }
 
@@ -376,11 +359,10 @@ class Cache
      */
     public function lock($id, $group = null, $locktime = null)
     {
-        $returning = new \stdClass;
+        $returning             = new \stdClass();
         $returning->locklooped = false;
 
-        if (!$this->getCaching())
-        {
+        if (!$this->getCaching()) {
             $returning->locked = false;
 
             return $returning;
@@ -398,12 +380,10 @@ class Cache
          */
         $handler = $this->_getStorage();
 
-        if ($this->_options['locking'] == true)
-        {
+        if ($this->_options['locking'] == true) {
             $locked = $handler->lock($id, $group, $locktime);
 
-            if ($locked !== false)
-            {
+            if ($locked !== false) {
                 return $locked;
             }
         }
@@ -417,26 +397,20 @@ class Cache
         $looptime = $locktime * 10;
         $id2      = $id . '_lock';
 
-        if ($this->_options['locking'] == true)
-        {
+        if ($this->_options['locking'] == true) {
             $data_lock = $handler->get($id2, $group, $this->_options['checkTime']);
-        }
-        else
-        {
+        } else {
             $data_lock         = false;
             $returning->locked = false;
         }
 
-        if ($data_lock !== false)
-        {
+        if ($data_lock !== false) {
             $lock_counter = 0;
 
             // Loop until you find that the lock has been released. That implies that data get from other thread has finished
-            while ($data_lock !== false)
-            {
-                if ($lock_counter > $looptime)
-                {
-                    $returning->locked = false;
+            while ($data_lock !== false) {
+                if ($lock_counter > $looptime) {
+                    $returning->locked     = false;
                     $returning->locklooped = true;
                     break;
                 }
@@ -447,8 +421,7 @@ class Cache
             }
         }
 
-        if ($this->_options['locking'] == true)
-        {
+        if ($this->_options['locking'] == true) {
             $returning->locked = $handler->store($id2, $group, 1);
         }
 
@@ -470,8 +443,7 @@ class Cache
      */
     public function unlock($id, $group = null)
     {
-        if (!$this->getCaching())
-        {
+        if (!$this->getCaching()) {
             return false;
         }
 
@@ -483,8 +455,7 @@ class Cache
 
         $unlocked = $handler->unlock($id, $group);
 
-        if ($unlocked !== false)
-        {
+        if ($unlocked !== false) {
             return $unlocked;
         }
 
@@ -503,8 +474,7 @@ class Cache
     {
         $hash = md5(serialize($this->_options));
 
-        if (isset(self::$_handler[$hash]))
-        {
+        if (isset(self::$_handler[$hash])) {
             return self::$_handler[$hash];
         }
 
@@ -530,52 +500,44 @@ class Cache
         $body     = null;
 
         // Get the document head out of the cache.
-        if (isset($options['mergehead']) && $options['mergehead'] == 1 && isset($data['head']) && !empty($data['head'])
-            && method_exists($document, 'mergeHeadData'))
-        {
+        if (
+            isset($options['mergehead']) && $options['mergehead'] == 1 && isset($data['head']) && !empty($data['head'])
+            && method_exists($document, 'mergeHeadData')
+        ) {
             $document->mergeHeadData($data['head']);
-        }
-        elseif (isset($data['head']) && method_exists($document, 'setHeadData'))
-        {
+        } elseif (isset($data['head']) && method_exists($document, 'setHeadData')) {
             $document->setHeadData($data['head']);
         }
 
         // Get the document MIME encoding out of the cache
-        if (isset($data['mime_encoding']))
-        {
+        if (isset($data['mime_encoding'])) {
             $document->setMimeEncoding($data['mime_encoding'], true);
         }
 
         // If the pathway buffer is set in the cache data, get it.
-        if (isset($data['pathway']) && \is_array($data['pathway']))
-        {
+        if (isset($data['pathway']) && \is_array($data['pathway'])) {
             // Push the pathway data into the pathway object.
             $app->getPathway()->setPathway($data['pathway']);
         }
 
         // @todo check if the following is needed, seems like it should be in page cache
         // If a module buffer is set in the cache data, get it.
-        if (isset($data['module']) && \is_array($data['module']))
-        {
+        if (isset($data['module']) && \is_array($data['module'])) {
             // Iterate through the module positions and push them into the document buffer.
-            foreach ($data['module'] as $name => $contents)
-            {
+            foreach ($data['module'] as $name => $contents) {
                 $document->setBuffer($contents, 'module', $name);
             }
         }
 
         // Set cached headers.
-        if (isset($data['headers']) && $data['headers'])
-        {
-            foreach ($data['headers'] as $header)
-            {
+        if (isset($data['headers']) && $data['headers']) {
+            foreach ($data['headers'] as $header) {
                 $app->setHeader($header['name'], $header['value']);
             }
         }
 
         // The following code searches for a token in the cached page and replaces it with the proper token.
-        if (isset($data['body']))
-        {
+        if (isset($data['body'])) {
             $token       = Session::getFormToken();
             $search      = '#<input type="hidden" name="[0-9a-f]{32}" value="1">#';
             $replacement = '<input type="hidden" name="' . $token . '" value="1">';
@@ -607,75 +569,61 @@ class Cache
             'modulemode' => 0,
         ];
 
-        if (isset($options['nopathway']))
-        {
+        if (isset($options['nopathway'])) {
             $loptions['nopathway'] = $options['nopathway'];
         }
 
-        if (isset($options['nohead']))
-        {
+        if (isset($options['nohead'])) {
             $loptions['nohead'] = $options['nohead'];
         }
 
-        if (isset($options['nomodules']))
-        {
+        if (isset($options['nomodules'])) {
             $loptions['nomodules'] = $options['nomodules'];
         }
 
-        if (isset($options['modulemode']))
-        {
+        if (isset($options['modulemode'])) {
             $loptions['modulemode'] = $options['modulemode'];
         }
 
         $app      = Factory::getApplication();
         $document = Factory::getDocument();
 
-        if ($loptions['nomodules'] != 1)
-        {
+        if ($loptions['nomodules'] != 1) {
             // Get the modules buffer before component execution.
             $buffer1 = $document->getBuffer();
 
-            if (!\is_array($buffer1))
-            {
+            if (!\is_array($buffer1)) {
                 $buffer1 = [];
             }
 
             // Make sure the module buffer is an array.
-            if (!isset($buffer1['module']) || !\is_array($buffer1['module']))
-            {
+            if (!isset($buffer1['module']) || !\is_array($buffer1['module'])) {
                 $buffer1['module'] = [];
             }
         }
 
         // View body data
-        $cached['body'] = $data;
+        $cached = ['body' => $data];
 
         // Document head data
-        if ($loptions['nohead'] != 1 && method_exists($document, 'getHeadData'))
-        {
-            if ($loptions['modulemode'] == 1)
-            {
+        if ($loptions['nohead'] != 1 && method_exists($document, 'getHeadData')) {
+            if ($loptions['modulemode'] == 1) {
                 $headNow = $document->getHeadData();
                 $unset   = ['title', 'description', 'link', 'links', 'metaTags'];
 
-                foreach ($unset as $key)
-                {
+                foreach ($unset as $key) {
                     unset($headNow[$key]);
                 }
 
                 // Sanitize empty data
-                foreach (\array_keys($headNow) as $key)
-                {
-                    if (!isset($headNow[$key]) || $headNow[$key] === [])
-                    {
+                foreach (\array_keys($headNow) as $key) {
+                    if (!isset($headNow[$key]) || $headNow[$key] === []) {
                         unset($headNow[$key]);
                     }
                 }
 
                 $cached['head'] = $headNow;
-            }
-            else
-            {
+            } else {
                 $cached['head'] = $document->getHeadData();
 
                 // Document MIME encoding
@@ -684,25 +632,21 @@ class Cache
         }
 
         // Pathway data
-        if ($app->isClient('site') && $loptions['nopathway'] != 1)
-        {
+        if ($app->isClient('site') && $loptions['nopathway'] != 1) {
             $cached['pathway'] = $data['pathway'] ?? $app->getPathway()->getPathway();
         }
 
-        if ($loptions['nomodules'] != 1)
-        {
+        if ($loptions['nomodules'] != 1) {
             // @todo Check if the following is needed, seems like it should be in page cache
             // Get the module buffer after component execution.
             $buffer2 = $document->getBuffer();
 
-            if (!\is_array($buffer2))
-            {
+            if (!\is_array($buffer2)) {
                 $buffer2 = [];
             }
 
             // Make sure the module buffer is an array.
-            if (!isset($buffer2['module']) || !\is_array($buffer2['module']))
-            {
+            if (!isset($buffer2['module']) || !\is_array($buffer2['module'])) {
                 $buffer2['module'] = [];
             }
 
@@ -711,8 +655,7 @@ class Cache
         }
 
         // Headers data
-        if (isset($options['headers']) && $options['headers'])
-        {
+        if (isset($options['headers']) && $options['headers']) {
             $cached['headers'] = $app->getHeaders();
         }
 
@@ -730,11 +673,10 @@ class Cache
     {
         $app = Factory::getApplication();
 
-        $registeredurlparams = new \stdClass;
+        $registeredurlparams = new \stdClass();
 
         // Get url parameters set by plugins
-        if (!empty($app->registeredurlparams))
-        {
+        if (!empty($app->registeredurlparams)) {
             $registeredurlparams = $app->registeredurlparams;
         }
 
@@ -749,19 +691,16 @@ class Cache
         ];
 
         // Use platform defaults if parameter doesn't already exist.
-        foreach ($defaulturlparams as $param => $type)
-        {
-            if (!property_exists($registeredurlparams, $param))
-            {
+        foreach ($defaulturlparams as $param => $type) {
+            if (!property_exists($registeredurlparams, $param)) {
                 $registeredurlparams->$param = $type;
             }
         }
 
-        $safeuriaddon = new \stdClass;
+        $safeuriaddon = new \stdClass();
 
-        foreach ($registeredurlparams as $key => $value)
-        {
-            $safeuriaddon->$key = $app->input->get($key, null, $value);
+        foreach ($registeredurlparams as $key => $value) {
+            $safeuriaddon->$key = $app->getInput()->get($key, null, $value);
         }
 
         return md5(serialize($safeuriaddon));
@@ -777,15 +716,13 @@ class Cache
     public static function getPlatformPrefix()
     {
         // No prefix when Global Config is set to no platform specific prefix
-        if (!Factory::getApplication()->get('cache_platformprefix', false))
-        {
+        if (!Factory::getApplication()->get('cache_platformprefix', false)) {
             return '';
         }
 
-        $webclient = new WebClient;
+        $webclient = new WebClient();
 
-        if ($webclient->mobile)
-        {
+        if ($webclient->mobile) {
             return 'M-';
         }
 
@@ -805,13 +742,11 @@ class Cache
     {
         static $paths;
 
-        if (!isset($paths))
-        {
+        if (!isset($paths)) {
             $paths = [];
         }
 
-        if (!empty($path) && !\in_array($path, $paths))
-        {
+        if (!empty($path) && !\in_array($path, $paths)) {
             array_unshift($paths, Path::clean($path));
         }
 
