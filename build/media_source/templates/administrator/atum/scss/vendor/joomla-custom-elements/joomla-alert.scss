@@ -1,5 +1,6 @@
 @import "../../variables";
 @import "../../../../../../../../media/vendor/joomla-custom-elements/css/joomla-alert";
+@import "../../../../../../../../media/vendor/bootstrap/scss/mixins/color-mode";
 
 // The following is a restyle for the system alerts
 
@@ -84,6 +85,12 @@
   &[type="notice"] {
     --alert-accent-color: #{$state-info-text};
     --alert-bg-color: #{$state-info-bg};
+
+    @include color-mode(dark) {
+      p {
+        color: var(--body-color);
+      }
+    }
   }
 
   &[type="warning"] {

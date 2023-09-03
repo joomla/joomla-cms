@@ -34,6 +34,9 @@ const setValues = (data, inputValue, inputTitle) => {
  * @returns {Promise}
  */
 const doSelect = (inputValue, inputTitle, dialogConfig) => {
+  // Use a JoomlaExpectingPostMessage flag to be able to distinct legacy methods
+  // @TODO: This should be removed after full transition to postMessage()
+  window.JoomlaExpectingPostMessage = true;
   // Create and show the dialog
   const dialog = new JoomlaDialog(dialogConfig);
   dialog.classList.add('joomla-dialog-content-select-field');
@@ -54,6 +57,7 @@ const doSelect = (inputValue, inputTitle, dialogConfig) => {
 
     // Clear all when dialog is closed
     dialog.addEventListener('joomla-dialog:close', () => {
+      delete window.JoomlaExpectingPostMessage;
       window.removeEventListener('message', msgListener);
       dialog.destroy();
       resolve();

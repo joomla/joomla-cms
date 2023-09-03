@@ -3,6 +3,7 @@
 
 // Atum Variables
 @import "variables";
+@import "variables-dark";
 
 @import "../../../../../../media/vendor/bootstrap/scss/variables";
 @import "../../../../../../media/vendor/bootstrap/scss/variables-dark";
@@ -79,6 +80,13 @@
   }
 }
 
+@if $enable-dark-mode {
+  @include color-mode(dark, true) {
+    @each $color, $value in $atum-colors-dark {
+      --#{$prefix}#{$color}: #{$value};
+    }
+  }
+}
 
 // Forcing reduced motion when set in the user OS
 @media (prefers-reduced-motion: reduce) {
