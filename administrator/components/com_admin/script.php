@@ -2390,6 +2390,10 @@ class JoomlaInstallerScript
             return false;
         }
 
+        if (!$this->migrateDeleteActionlogsConfiguration()) {
+            return false;
+        }
+
         if (!$this->migratePrivacyconsentConfiguration()) {
             return false;
         }
@@ -2399,6 +2403,75 @@ class JoomlaInstallerScript
         return true;
     }
 
+    /**
+     * Migrate Deleteactionlogs plugin configuration
+     *
+     * @return  boolean  True on success
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function migrateDeleteActionlogsConfiguration(): bool
+    {
+        $db = Factory::getDbo();
+
+        try {
+            // Get the ActionLogs system plugin's parameters
+            $row = $db->setQuery(
+                $db->getQuery(true)
+                    ->select([$db->quotename('enabled'), $db->quoteName('params')])
+                    ->from($db->quoteName('#__extensions'))
+                    ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+                    ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+                    ->where($db->quoteName('element') . ' = ' . $db->quote('actionlogs'))
+            )->loadObject();
+        } catch (Exception $e) {
+            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+            return false;
+        }
+
+        // If not existing or disabled there is nothing to migrate
+        if (!$row || !$row->enabled) {
+            return true;
+        }
+
+        $params = new Registry($row->params);
+
+        // If deletion of outdated logs was disabled there is nothing to migrate
+        if (!$params->get('logDeletePeriod', 0)) {
+            return true;
+        }
+
+        /** @var SchedulerComponent $component */
+        $component = Factory::getApplication()->bootComponent('com_scheduler');
+
+        /** @var TaskModel $model */
+        $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+        $task  = [
+            'title'           => 'DeleteActionLogs',
+            'type'            => 'delete.actionlogs',
+            'execution_rules' => [
+                'rule-type'      => 'interval-hours',
+                'interval-hours' => 24,
+                'exec-time'      => gmdate('H:i', $params->get('lastrun', time())),
+                'exec-day'       => gmdate('d'),
+            ],
+            'state'  => 1,
+            'params' => [
+                'logDeletePeriod' => $params->get('logDeletePeriod', 0),
+            ],
+        ];
+
+        try {
+            $model->save($task);
+        } catch (Exception $e) {
+            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+            return false;
+        }
+
+        return true;
+    }
     /**
      * Migrate privacyconsents system plugin configuration
      *
@@ -2414,7 +2487,7 @@ class JoomlaInstallerScript
             // Get the PrivacyConsent system plugin's parameters
             $row = $db->setQuery(
                 $db->getQuery(true)
-                    ->select($db->quotename('enabled'), $db->quoteName('params'))
+                    ->select([$db->quotename('enabled'), $db->quoteName('params')])
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
                     ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
@@ -2426,14 +2499,14 @@ class JoomlaInstallerScript
             return false;
         }
 
-        // If not existing or disbled there is nothing to migrate
+        // If not existing or disabled there is nothing to migrate
         if (!$row || !$row->enabled) {
             return true;
         }
 
         $params = new Registry($row->params);
 
-        // If consent expiration was disbled there is nothing to migrate
+        // If consent expiration was disabled there is nothing to migrate
         if (!$params->get('enabled', 0)) {
             return true;
         }
