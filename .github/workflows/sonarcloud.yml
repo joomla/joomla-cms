@@ -56,8 +56,8 @@ jobs:
           args:
             # Unique keys of your project and organization. You can find them in SonarCloud > Information (bottom-left menu)
             # mandatory
-            -Dsonar.projectKey=
-            -Dsonar.organization=
+            -Dsonar.projectKey=RxChin_joomla-cms
+            -Dsonar.organization=rxchin
             # Comma-separated paths to directories containing main source files.
             #-Dsonar.sources= # optional, default is project base directory
             # When you need the analysis to take place in a directory other than the one from which it was launched
