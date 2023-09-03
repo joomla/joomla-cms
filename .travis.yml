@@ -26,3 +26,22 @@ notifications:
 matrix:
   allow_failures:
     - php: 8.2.9
+
+ addons:
+   sonarcloud:
+     organization: "asus-aics"
+     token:
+       secure: $SONAR_TOKEN
+
+ jobs:
+   include:
+     - stage: "Unit Tests & SonarCloud Analysis"
+       script:
+         - gradle jacocoTestReport
+         - gradle sonarqube -Dsonar.login=$SONAR_TOKEN -Dsonar.projectKey=$SONAR_PROJECT_KEY
+ jobs:
+   include:
+     - stage: "Run Tests & SonarCloud Analysis"
+       script:
+         - npm test
+         - sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT_KEY
