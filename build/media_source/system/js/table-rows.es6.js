@@ -5,7 +5,7 @@ class TableRows {
   constructor($table, tableName) {
     this.$table = $table;
     this.tableName = tableName;
-    this.storageKey = `joomla-tablecolumns-${this.tableName}`;
+    this.storageKey = `joomla-tablerows-${this.tableName}`;
 
     this.listOfCollapsed = [];
 
@@ -69,14 +69,14 @@ class TableRows {
   }
 
   /**
-   * Save state, list of hidden columns
+   * Save state, list of hidden rows
    */
   saveState() {
     window.localStorage.setItem(this.storageKey, this.listOfCollapsed.join(','));
   }
 
   /**
-   * Load state, list of hidden columns
+   * Load state, list of hidden rows
    */
   loadState() {
     const stored = window.localStorage.getItem(this.storageKey);
@@ -87,7 +87,7 @@ class TableRows {
   }
 }
 
-[...document.querySelectorAll('table.table--collapsable')].forEach(($table) => {
+[...document.querySelectorAll('table.table--collapsible')].forEach(($table) => {
   const tableName = ($table.dataset.name ? $table.dataset.name : document.querySelector('.page-title')
     .textContent.trim()
     .replace(/[^a-z0-9]/gi, '-')

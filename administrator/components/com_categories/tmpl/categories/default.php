@@ -63,7 +63,7 @@ if ($saveOrder && !empty($this->items)) {
                         <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
-                    <table class="table table--collapsable" id="categoryList">
+                    <table class="table table--collapsible" id="categoryList">
                         <caption class="visually-hidden">
                             <?php echo Text::_('COM_CATEGORIES_TABLE_CAPTION'); ?>,
                             <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
@@ -75,8 +75,8 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php echo HTMLHelper::_('grid.checkall'); ?>
                                 </td>
                                 <?php if ($this->state->get('list.limit') === 0) : ?>
-                                    <th class="w-1 text-center">
-                                    </th>
+                                    <td class="w-1 text-center">
+                                    </td>
                                 <?php endif; ?>
                                 <th scope="col" class="w-1 text-center d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>

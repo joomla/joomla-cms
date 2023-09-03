@@ -50,7 +50,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
             <div id="j-main-container" class="j-main-container">
                 <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['selectorFieldName' => 'menutype']]); ?>
                 <?php if (!empty($this->items)) : ?>
-                    <table class="table table--collapsable" id="menuitemList">
+                    <table class="table table--collapsible" id="menuitemList">
                         <caption class="visually-hidden">
                             <?php echo Text::_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>,
                             <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
@@ -62,8 +62,8 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                 <?php echo HTMLHelper::_('grid.checkall'); ?>
                             </td>
                             <?php if ($this->state->get('list.limit') === 0) : ?>
-                                <th class="w-1 text-center">
-                                </th>
+                                <td class="w-1 text-center">
+                                </td>
                             <?php endif; ?>
                             <?php if ($menuType) : ?>
                                 <th scope="col" class="w-1 text-center d-none d-md-table-cell">
