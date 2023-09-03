@@ -10,6 +10,7 @@
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
@@ -19,6 +20,7 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -334,7 +336,7 @@ class JoomlaInstallerScript
         $paramsc      = $component->getParams();
         $cachetimeout = (int) $paramsc->get('cachetimeout', 6);
         $params       = new Registry($data->params);
-        $lastrun      = (int) $params->get('lastrun', 0);
+        $lastrun      = (int) $params->get('lastrun', time());
 
         /** @var SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
@@ -2300,6 +2302,8 @@ class JoomlaInstallerScript
             return false;
         }
 
+        $this->setGuidedToursUid();
+
         return true;
     }
 
@@ -2405,6 +2409,68 @@ class JoomlaInstallerScript
         }
 
         return true;
+    }
+
+    /**
+     * setup Guided Tours Unique Identifiers
+     *
+     * @return  boolean  True on success
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function setGuidedToursUid()
+    {
+        /** @var \Joomla\Component\Cache\Administrator\Model\CacheModel $model */
+        $model = Factory::getApplication()->bootComponent('com_guidedtours')->getMVCFactory()
+                        ->createModel('Tours', 'Administrator', ['ignore_request' => true]);
+
+        $items = $model->getItems();
+
+        foreach ($items as $item) {
+            // Set uid for tours where it is empty
+            if (empty($item->uid)) {
+                $tourItem = $model->getTable('Tour');
+                $tourItem->load($item->id);
+
+                // Tour follows Joomla naming convention
+                if (str_starts_with($tourItem->title, 'COM_GUIDEDTOURS_TOUR_') && str_ends_with($tourItem->title, '_TITLE')) {
+                    $uidTitle = 'joomla_' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $tourItem->title);
+
+                    // Remove the last _TITLE part
+                    $pos = strrpos($uidTitle, '_TITLE');
+                    if ($pos !== false) {
+                        $uidTitle = substr($uidTitle, 0, $pos);
+                    }
+                } elseif (preg_match('#COM_(\w+)_TOUR_#', $tourItem->title) && str_ends_with($tourItem->title, '_TITLE')) {
+                    // Tour follows component naming pattern
+                    $uidTitle = preg_replace('#COM_(\w+)_TOUR_#', '$1.', $tourItem->title);
+
+                    // Remove the last _TITLE part
+                    $pos = strrpos($uidTitle, "_TITLE");
+                    if ($pos !== false) {
+                        $uidTitle = substr($uidTitle, 0, $pos);
+                    }
+                } else {
+                    $uri      = Uri::getInstance();
+                    $host     = $uri->toString(['host']);
+                    $host     = ApplicationHelper::stringURLSafe($host, $tourItem->language);
+                    $uidTitle = $host . ' ' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $tourItem->title);
+                    // Remove the last _TITLE part
+                    if (str_ends_with($uidTitle, '_TITLE')) {
+                        $pos      = strrpos($uidTitle, '_TITLE');
+                        $uidTitle = substr($uidTitle, 0, $pos);
+                    }
+                }
+                // ApplicationHelper::stringURLSafe will replace a period (.) separator so we split the construction into multiple parts
+                $uidTitleParts = explode('.', $uidTitle);
+                array_walk($uidTitleParts, function (&$value, $key, $tourLanguage) {
+                    $value = ApplicationHelper::stringURLSafe($value, $tourLanguage);
+                }, $tourItem->language);
+                $tourItem->uid = implode('.', $uidTitleParts);
+
+                $tourItem->store();
+            }
+        }
     }
 
     /**
