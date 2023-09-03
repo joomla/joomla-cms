@@ -44,6 +44,25 @@ function createInsertQuery(table, values) {
 }
 
 /**
+ * Creates a privacy request in the database with the given data.
+ * The privacy request contains some default values when not all required fields are passed in the given data.
+ * The id of the inserted privacy request is returned
+ *
+ * @param {Object} privacyRequest The tag data to insert
+ *
+ * @returns integer
+ */
+Cypress.Commands.add('db_createPrivacyRequest', (privacyRequest) => {
+  const defaultPrivacyRequestOptions = {
+    email: 'test@example.com',
+    requested_at: '2023-01-01 20:00:00',
+    status: '0',
+  };
+
+  return cy.task('queryDB', createInsertQuery('privacy_requests', { ...defaultPrivacyRequestOptions, ...privacyRequest })).then(async (info) => info.insertId);
+});
+
+/**
  * Creates an article in the database with the given data. The article contains some default values when
  * not all required fields are passed in the given data. The id of the inserted article is returned.
  *
@@ -178,14 +197,21 @@ Cypress.Commands.add('db_createBanner', (bannerData) => {
  * @returns Object
  */
 Cypress.Commands.add('db_createBannerClient', (bannerClientData) => {
-  const defaultBannerOptions = {
+  const defaultBannerClientOptions = {
     name: 'test banner client',
     contact: 'test banner client',
     state: 0,
     extrainfo: '',
   };
 
-  return cy.task('queryDB', createInsertQuery('banner_clients', { ...defaultBannerOptions, ...bannerClientData })).then(async (info) => info.insertId);
+  const bannerclient = { ...defaultBannerClientOptions, ...bannerClientData };
+
+  return cy.task('queryDB', createInsertQuery('banner_clients', bannerclient))
+    .then(async (info) => {
+      bannerclient.id = info.insertId;
+
+      return bannerclient;
+    });
 });
 
 /**
