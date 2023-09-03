@@ -159,7 +159,6 @@ class SiteRouter extends Router
             }
         }
 
-
         // Set the route
         $uri->setPath(trim($path, '/'));
     }
