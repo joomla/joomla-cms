@@ -18,7 +18,6 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
@@ -36,7 +35,6 @@ use Joomla\Utilities\ArrayHelper;
 final class PrivacyConsent extends CMSPlugin
 {
     use DatabaseAwareTrait;
-    use UserFactoryAwareTrait;
 
     /**
      * Load the language file on instantiation.
