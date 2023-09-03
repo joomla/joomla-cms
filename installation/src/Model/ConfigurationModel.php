@@ -277,9 +277,10 @@ class ConfigurationModel extends BaseInstallationModel
 
         // Update all core tables created_by fields of the tables with the random user id.
         $updatesArray = [
-            '#__categories' => ['created_user_id', 'modified_user_id'],
-            '#__tags'       => ['created_user_id', 'modified_user_id'],
-            '#__workflows'  => ['created_by', 'modified_by'],
+            '#__categories'      => ['created_user_id', 'modified_user_id'],
+            '#__scheduler_tasks' => ['created_by'],
+            '#__tags'            => ['created_user_id', 'modified_user_id'],
+            '#__workflows'       => ['created_by', 'modified_by'],
         ];
 
         foreach ($updatesArray as $table => $fields) {

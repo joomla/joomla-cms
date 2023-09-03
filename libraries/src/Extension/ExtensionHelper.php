@@ -314,7 +314,6 @@ class ExtensionHelper
         ['plugin', 'skipto', 'system', 0],
         ['plugin', 'stats', 'system', 0],
         ['plugin', 'tasknotification', 'system', 0],
-        ['plugin', 'updatenotification', 'system', 0],
         ['plugin', 'webauthn', 'system', 0],
 
         // Core plugin extensions - task scheduler
@@ -323,6 +322,7 @@ class ExtensionHelper
         ['plugin', 'requests', 'task', 0],
         ['plugin', 'rotatelogs', 'task', 0],
         ['plugin', 'sitestatus', 'task', 0],
+        ['plugin', 'updatenotification', 'task', 0],
 
         // Core plugin extensions - user
         ['plugin', 'contactcreator', 'user', 0],
