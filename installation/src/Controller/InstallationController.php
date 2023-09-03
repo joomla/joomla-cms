@@ -65,7 +65,7 @@ class InstallationController extends JSONController
 
         /** @var \Joomla\CMS\Installation\Model\SetupModel $model */
         $model = $this->getModel('Setup');
-        $data  = $this->app->input->post->get('jform', [], 'array');
+        $data  = $this->app->getInput()->post->get('jform', [], 'array');
 
         if ($model->validate($data, 'setup') === false) {
             $this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
