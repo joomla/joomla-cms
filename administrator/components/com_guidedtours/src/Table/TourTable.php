@@ -144,7 +144,7 @@ class TourTable extends Table implements CurrentUserInterface
         } else {
             $uri      = Uri::getInstance();
             $host     = $uri->toString(['host']);
-            $host     = ApplicationHelper::stringURLSafe($host, $this->lang);
+            $host     = ApplicationHelper::stringURLSafe($host, $this->language);
             $uidTitle = $host . ' ' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $this->title);
             // Remove the last _TITLE part
             if (str_ends_with($uidTitle, '_TITLE')) {
@@ -156,7 +156,7 @@ class TourTable extends Table implements CurrentUserInterface
         $uidTitleParts = explode('.', $uidTitle);
         array_walk($uidTitleParts, function (&$value, $key, $tourLanguage) {
             $value = ApplicationHelper::stringURLSafe($value, $tourLanguage);
-        }, $this->lang);
+        }, $this->language);
         $this->uid = implode('.', $uidTitleParts);
 
         $this->store();
