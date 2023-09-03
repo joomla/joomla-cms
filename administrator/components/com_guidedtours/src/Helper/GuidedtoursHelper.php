@@ -97,7 +97,6 @@ class GuidedtoursHelper
             }
         }
 
-
         $cache[$uid] = true;
 
         return;
