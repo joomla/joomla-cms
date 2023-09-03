@@ -2410,6 +2410,7 @@ class JoomlaInstallerScript
                 'rule-type'      => 'interval-hours',
                 'interval-hours' => 24,
                 'exec-time'      => gmdate('H:i', $params->get('lastrun', time())),
+                'exec-day'       => gmdate('d'),
             ],
             'state'  => 1,
             'params' => [
