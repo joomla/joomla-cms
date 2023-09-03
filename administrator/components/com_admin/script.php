@@ -2364,7 +2364,7 @@ class JoomlaInstallerScript
      *
      * @return  boolean  True on success
      *
-     * @since   5.0.0
+     * @since   __DEPLOY_VERSION__
      */
     private function migrateDeleteActionlogsConfiguration(): bool
     {
