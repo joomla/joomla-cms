@@ -2423,7 +2423,6 @@ class JoomlaInstallerScript
                 $tourItem->store();
             }
         }
-        return true;
     }
 
     /**
