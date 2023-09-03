@@ -105,7 +105,7 @@ if (!empty($editor)) {
                         </span>
                     </td>
                     <th scope="row" class="has-context">
-                        <button type="button" class="js-module-insert btn btn-sm btn-success w-100" <?php echo $attrs1; ?>">
+                        <button type="button" class="js-module-insert btn btn-sm btn-success w-100" <?php echo $attrs1; ?>>
                             <?php echo $this->escape($item->title); ?>
                         </button>
                     </th>
