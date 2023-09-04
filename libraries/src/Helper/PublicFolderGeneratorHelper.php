@@ -112,20 +112,6 @@ PHP;
             $this->createSymlink(JPATH_ROOT . $localDirectory, $destinationPath . $localDirectory);
         }
 
-        // Create symlinks for all the local filesystem directories
-        if (PluginHelper::isEnabled('filesystem', 'local')) {
-            $local            = PluginHelper::getPlugin('filesystem', 'local');
-            $localDirectories = (new Registry($local->params))->get('directories', [(object) ['directory' => 'images']]);
-
-            foreach ($localDirectories as $localDirectory) {
-                if ($localDirectory->directory === 'media') {
-                    continue;
-                }
-
-                $this->createSymlink(JPATH_ROOT . '/' . $localDirectory->directory, $destinationPath . '/' . $localDirectory->directory);
-            }
-        }
-
         $filesHardCopies = [];
 
         // Copy the robots
@@ -157,6 +143,23 @@ PHP;
 
         // The API root index.php
         $this->createFile($destinationPath . '/api/index.php', str_replace('{{APPLICATIONPATH}}', '\'' . DIRECTORY_SEPARATOR . 'api\'', $this->indexTemplate));
+
+         if (is_dir(JPATH_ROOT . '/images')) {
+            $this->createSymlink(JPATH_ROOT . '/images', $destinationPath . '/images');
+        }
+
+        // Create symlinks for all the local filesystem directories
+        if (PluginHelper::isEnabled('filesystem', 'local')) {
+            $local            = PluginHelper::getPlugin('filesystem', 'local');
+            $localDirectories = (new Registry($local->params))->get('directories', [(object) ['directory' => 'images']]);
+
+            var_dump($localDirectories);
+            foreach ($localDirectories as $localDirectory) {
+                if (!is_link($destinationPath . '/' . $localDirectory->directory)) {
+                    $this->createSymlink(JPATH_ROOT . '/' . $localDirectory->directory, $destinationPath . '/' . $localDirectory->directory);
+                }
+            }
+        }
     }
 
     /**
