@@ -116,6 +116,7 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters = $this->get('ActiveFilters');
         $this->vote          = PluginHelper::isEnabled('content', 'vote');
         $this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1;
+        $isModal             = $this->getLayout() === 'modal';
 
         if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');
@@ -133,7 +134,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // We don't need toolbar in the modal window.
-        if ($this->getLayout() !== 'modal') {
+        if (!$isModal) {
             $this->addToolbar();
 
             // We do not need to filter by language when multilingual is disabled
