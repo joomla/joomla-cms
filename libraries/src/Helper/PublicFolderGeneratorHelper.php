@@ -89,7 +89,7 @@ PHP;
             throw new \Exception('Only CLI applications are allowed');
         }
 
-        if ((!is_dir($destinationPath) && !mkdir($destinationPath, 0755, true)) && !$allowOvewrite) {
+        if ((!is_dir($destinationPath) && !mkdir($destinationPath, 0755, true))) {
             throw new \Exception('Unable to create the given folder, check the permissions');
         }
 
