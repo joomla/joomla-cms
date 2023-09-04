@@ -86,7 +86,7 @@ PHP;
     /**
      * Creates a public folder
      *
-     * @param  string  $destinationPath The full path for the public folder
+     * @param string $destinationPath The full path for the public folder
      *
      * @return void
      *
@@ -94,18 +94,18 @@ PHP;
      */
     public function createPublicFolder(string $destinationPath): void
     {
-        $destinationPath = rtrim($destinationPath, '/\\') . '/';
+        $destinationPath     = rtrim($destinationPath, '/\\') . '/';
         $fullDestinationPath = $destinationPath;
-        $definePublic = '\'' . $destinationPath . '\'';
-        $root = JPATH_ROOT . '/';
-        $defineRoot = '\'' . JPATH_ROOT . '\'';
+        $definePublic        = '\'' . $destinationPath . '\'';
+        $root                = JPATH_ROOT . '/';
+        $defineRoot          = '\'' . JPATH_ROOT . '\'';
 
         if (substr($destinationPath, 0, 1) !== '/') {
             $fullDestinationPath = JPATH_ROOT . '/' . $destinationPath;
-            $root = '';
-            $dirsToRoot = substr_count($destinationPath, '/');
-            $defineRoot = str_repeat('dirname(', $dirsToRoot) . '__DIR__' . str_repeat(')', $dirsToRoot);
-            $definePublic = 'JPATH_ROOT . \'/' . rtrim($destinationPath, '/') .'\'';
+            $root                = '';
+            $dirsToRoot          = substr_count($destinationPath, '/');
+            $defineRoot          = str_repeat('dirname(', $dirsToRoot) . '__DIR__' . str_repeat(')', $dirsToRoot);
+            $definePublic        = 'JPATH_ROOT . \'/' . rtrim($destinationPath, '/') . '\'';
         }
 
         if (file_exists($fullDestinationPath . '/index.php')) {
@@ -168,7 +168,7 @@ PHP;
         // Create symlinks for all the local filesystem directories
         if (PluginHelper::isEnabled('filesystem', 'local')) {
             $local            = PluginHelper::getPlugin('filesystem', 'local');
-            $localDirectories = (new Registry($local->params))->get('directories', [(object) ['directory' => 'images']]);
+            $localDirectories = (new Registry($local->params))->get('directories', [(object)['directory' => 'images']]);
 
             foreach ($localDirectories as $localDirectory) {
                 if (!is_link($destinationPath . '/' . $localDirectory->directory)) {
@@ -181,8 +181,9 @@ PHP;
     /**
      * Creates a symlink
      *
-     * @param  string  $source  The source path
-     * @param  string  $dest    The destination path
+     * @param string $source The source path
+     * @param string $dest The destination path
+     * @param string $base The base path if relative
      *
      * @return void
      *
@@ -192,7 +193,7 @@ PHP;
     {
         if (substr($source, 0, 1) !== '/') {
             $source = str_repeat('../', substr_count($dest, '/')) . $source;
-            $dest = $base . $dest;
+            $dest   = $base . $dest;
         }
 
         if (!symlink($source, $dest)) {
@@ -203,8 +204,8 @@ PHP;
     /**
      * Writes the content to a given file
      *
-     * @param  string  $path     The destination path
-     * @param  string  $content  The contents of the file
+     * @param string $path The destination path
+     * @param string $content The contents of the file
      *
      * @return void
      *
