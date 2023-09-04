@@ -22,11 +22,27 @@ describe('Test that modules API endpoint', () => {
         .should('include', 'mod_breadcrumbs'));
   });
 
+  it('can deliver a single site module', () => {
+    cy.db_createModule({ title: 'automated test site module' })
+      .then((module) => cy.api_get(`/modules/site/${module}`))
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+        .its('title')
+        .should('include', 'automated test site module'));
+  });
+
   it('can deliver a list of administrator modules', () => {
     cy.api_get('/modules/administrator')
       .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
         .its('module')
         .should('include', 'mod_sampledata'));
+  });
+
+  it('can deliver a single administrator module', () => {
+    cy.db_createModule({ title: 'automated test administrator module', client_id: 1 })
+      .then((module) => cy.api_get(`/modules/administrator/${module}`))
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+        .its('title')
+        .should('include', 'automated test administrator module'));
   });
 
   it('can create a site module', () => {
@@ -76,7 +92,14 @@ describe('Test that modules API endpoint', () => {
         return cy.api_patch(`/modules/site/${id}`, updatedModuleData);
       })
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
-        .its('title')
-        .should('include', 'automated test site module'));
+        .its('published')
+        .should('equal', -2));
   });
+
+  it('can delete a site module', () => {
+    cy.db_createModule({ title: 'automated test site module', published: -2 })
+      .then((module) => cy.api_delete(`/modules/site/${module}`))
+      .then((response) => cy.wrap(response).its('status').should('equal', 204));
+  });
+
 });
