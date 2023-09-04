@@ -54,7 +54,7 @@ class PublicFolderGeneratorHelper
 
 define('JPATH_ROOT', {{ROOTFOLDER}});
 define('JPATH_PUBLIC', {{PUBLICFOLDER}});
-define('JPATH_BASE', JPATH_ROOT . $applicationPath);
+define('JPATH_BASE', JPATH_ROOT . \$applicationPath);
 
 PHP;
 
@@ -73,11 +73,11 @@ PHP;
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-$applicationPath = {{APPLICATIONPATH}};
+\$applicationPath = {{APPLICATIONPATH}};
 
 require_once JPATH_PUBLIC . '/defines.php';
 
-unset($applicationPath);
+unset(\$applicationPath);
 
 require_once JPATH_BASE . '/index.php';
 
@@ -150,13 +150,13 @@ PHP;
         $this->createFile($destinationPath . '/defines.php', str_replace(['{{ROOTFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . $destinationPath . '"'], $this->definesTemplate));
 
         // The root index.php
-        $this->createFile($destinationPath . '/index.php', str_replace('{{APPLICATIONPATH}}', '', $this->indexTemplate));
+        $this->createFile($destinationPath . '/index.php', str_replace('{{APPLICATIONPATH}}', '\'\'', $this->indexTemplate));
 
         // The Administrator root index.php
-        $this->createFile($destinationPath . '/administrator/index.php', str_replace('{{APPLICATIONPATH}}', DIRECTORY_SEPARATOR . 'administrator"', $this->indexTemplate));
+        $this->createFile($destinationPath . '/administrator/index.php', str_replace('{{APPLICATIONPATH}}', '\'' . DIRECTORY_SEPARATOR . 'administrator\'', $this->indexTemplate));
 
         // The API root index.php
-        $this->createFile($destinationPath . '/api/index.php', str_replace('{{APPLICATIONPATH}}', DIRECTORY_SEPARATOR . 'api"', $this->indexTemplate));
+        $this->createFile($destinationPath . '/api/index.php', str_replace('{{APPLICATIONPATH}}', '\'' . DIRECTORY_SEPARATOR . 'api\'', $this->indexTemplate));
     }
 
     /**
