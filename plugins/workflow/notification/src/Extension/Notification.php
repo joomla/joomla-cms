@@ -99,8 +99,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
      */
     public function onContentPrepareForm(EventInterface $event)
     {
-        $form = $event->getArgument('0');
-        $data = $event->getArgument('1');
+        [$form, $data] = array_values($event->getArguments());
 
         $context = $form->getName();
 
