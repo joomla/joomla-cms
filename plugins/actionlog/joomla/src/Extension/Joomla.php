@@ -1235,7 +1235,7 @@ final class Joomla extends ActionLogPlugin
         $session->set('block', null);
 
         if ($user['block'] !== (int) $new['block']) {
-            $blockunblock = $new['block'] === "1" ? 'block' : 'unblock';
+            $blockunblock = $new['block'] === '1' ? 'block' : 'unblock';
             $session->set('block', $blockunblock);
         }
 
