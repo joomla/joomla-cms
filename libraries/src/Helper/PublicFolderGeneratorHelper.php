@@ -24,6 +24,11 @@ use Joomla\Registry\Registry;
  */
 class PublicFolderGeneratorHelper
 {
+    /**
+     * Files and folders to be symlinked
+     *
+     * @var array
+     */
     private $filesSymLink = [
         // Administrator
         '/administrator/components/com_joomlaupdate/extract.php',
@@ -33,7 +38,7 @@ class PublicFolderGeneratorHelper
     ];
 
     /**
-     * Create a public folder
+     * Creates a public folder
      *
      * @param  string  $destinationPath The full path for the public folder
      *
@@ -41,7 +46,7 @@ class PublicFolderGeneratorHelper
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function createPublicFolder($destinationPath, $allowOvewrite = false): void
+    public function createPublicFolder(string $destinationPath): void
     {
         if (!(Factory::getApplication()->isClient('cli') || Factory::getApplication()->isClient('cli_installation'))) {
             throw new \Exception('Only CLI applications are allowed');
@@ -135,7 +140,7 @@ PHP;
      *
      * @since  __DEPLOY_VERSION__
      */
-    private function createSymlink($source, $dest): void
+    private function createSymlink(string $source, string $dest): void
     {
         if (!symlink($source, $dest)) {
             throw new \Exception('Unable to symlink the file: ' . str_replace(JPATH_ROOT, '', $source));
@@ -152,7 +157,7 @@ PHP;
      *
      * @since  __DEPLOY_VERSION__
      */
-    private function createFile($path, $content): void
+    private function createFile(string $path, string $content): void
     {
         if (!file_put_contents($path, $content)) {
             throw new \Exception('Unable to create the file: ' . $path);
