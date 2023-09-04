@@ -113,7 +113,7 @@ class SetupModel extends BaseInstallationModel
             $publicFolderXML = simplexml_load_string('<field
                 name="public_folder"
                 type="text"
-                label="Path to the public folder (will skip if empty)"
+                label="Absolute path to the public folder (skip if empty)"
                 filter="string"
             />');
 
