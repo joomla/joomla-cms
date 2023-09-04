@@ -75,7 +75,7 @@
 						filter="user_utc"
 						showtime="false"
 						todaybutton="true"
-						format="%Y-%m-%d"
+						translateformat="true"
 					/>
 
 					<field
@@ -86,7 +86,7 @@
 						filter="user_utc"
 						showtime="false"
 						todaybutton="true"
-						format="%Y-%m-%d"
+						translateformat="true"
 					/>
 
 					<field
@@ -143,7 +143,7 @@
 							<field
 								name="@type"
 								type="list"
-								label="Type"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBSTARTDATE_TYPE_LABEL"
 								default="text"
 								>
 								<option value="text">PLG_SCHEMAORG_JOBPOSTING_FIELD_TEXT_LABEL</option>
@@ -158,7 +158,7 @@
 								filter="user_utc"
 								showtime="false"
 								todaybutton="true"
-								format="%Y-%m-%d"
+								translateformat="true"
 								showon="@type:Date"
 							/>
 
@@ -167,7 +167,7 @@
 								type="text"
 								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBSTARTDATE_TEXT_LABEL"
 								filter="string"
-								hint="ASAP"
+								hint="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBSTARTDATE_TEXT_HINT"
 								showon="@type:text"
 							/>
 						</form>
@@ -182,7 +182,7 @@
 							<field
 								name="@type"
 								type="list"
-								label="Type"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_HIRINGORGANIZATION_TYPE_LABEL"
 								default="organization"
 								>
 								<option value="person">PLG_SCHEMAORG_JOBPOSTING_FIELD_PERSON_LABEL</option>
@@ -192,7 +192,7 @@
 							<field
 								name="name"
 								type="text"
-								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_NAME_LABEL"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_HIRINGORGANIZATION_NAME_LABEL"
 								filter="string"
 							/>
 
@@ -396,11 +396,11 @@
 										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_UNITTEXT_LABEL"
 										>
 										<option value=""></option>
-										<option value="HOUR">HOUR</option>
-										<option value="DAY">DAY</option>
-										<option value="WEEK">WEEK</option>
-										<option value="MONTH">MONTH</option>
-										<option value="YEAR">YEAR</option>
+										<option value="HOUR">PLG_SCHEMAORG_JOBPOSTING_FIELD_BASESALARY_UNIT_OPTION_HOUR</option>
+										<option value="DAY">PLG_SCHEMAORG_JOBPOSTING_FIELD_BASESALARY_UNIT_OPTION_DAY</option>
+										<option value="WEEK">PLG_SCHEMAORG_JOBPOSTING_FIELD_BASESALARY_UNIT_OPTION_WEEK</option>
+										<option value="MONTH">PLG_SCHEMAORG_JOBPOSTING_FIELD_BASESALARY_UNIT_OPTION_MONTH</option>
+										<option value="YEAR">PLG_SCHEMAORG_JOBPOSTING_FIELD_BASESALARY_UNIT_OPTION_YEAR</option>
 									</field>
 
 							</form>
@@ -412,7 +412,7 @@
 					<field
 						name="genericField"
 						type="subform"
-						label="PLG_SCHEMAORG_BOOK_FIELD_GENERIC_FIELD_LABEL"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_GENERIC_FIELD_LABEL"
 						multiple="true"
 					>
 						<form>
@@ -421,14 +421,14 @@
 								type="text"
 								filter="string"
 								size="30"
-								label="PLG_SCHEMAORG_BOOK_FIELD_GENERIC_TITLE_LABEL"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_GENERIC_TITLE_LABEL"
 							/>
 							<field
 								name="genericValue"
 								type="text"
 								filter="string"
 								size="30"
-								label="PLG_SCHEMAORG_BOOK_FIELD_GENERIC_VALUE_LABEL"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_GENERIC_VALUE_LABEL"
 							/>
 						</form>
 

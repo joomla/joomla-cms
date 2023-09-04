@@ -11,6 +11,7 @@ namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\Checkin\AfterCheckinEvent as GlobalAfterCheckinEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
@@ -1250,8 +1251,9 @@ abstract class Table implements TableInterface, DispatcherAwareInterface
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterCheckin', $event);
-
-        Factory::getApplication()->triggerEvent('onAfterCheckin', [$this->_tbl]);
+        $this->getDispatcher()->dispatch('onAfterCheckin', new GlobalAfterCheckinEvent('onAfterCheckin', [
+            'subject' => $this->_tbl,
+        ]));
 
         return true;
     }

@@ -70,6 +70,7 @@ trait DisplayTrait
         $user            = $this->getApplication()->getIdentity();
         $language        = $this->getApplication()->getLanguage();
         $doc             = $this->getApplication()->getDocument();
+        $wa              = $doc->getWebAssetManager();
         $id              = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
         $nameGroup       = explode('[', preg_replace('/\[\]|\]/', '', $name));
         $fieldName       = end($nameGroup);
@@ -317,7 +318,21 @@ trait DisplayTrait
 
         // Use CodeMirror in the code view instead of plain text to provide syntax highlighting
         if ($levelParams->get('sourcecode', 1)) {
-            $externalPlugins['highlightPlus'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
+            // Check whether the plugin registered
+            if (!$wa->assetExists('script', 'plg_editors_tinymce_highlighter')) {
+                $wa->getRegistry()->addExtensionRegistryFile('plg_editors_codemirror');
+                $wa->registerScript(
+                    'plg_editors_tinymce_highlighter',
+                    'plg_editors_tinymce/plugins/joomla-highlighter/plugin.min.js',
+                    [],
+                    ['type' => 'module'],
+                    ['core', 'tinymce', 'codemirror']
+                );
+            }
+
+            // Enable joomla-highlighter plugin
+            $wa->useScript('plg_editors_tinymce_highlighter');
+            $plugins[] = 'joomlaHighlighter';
         }
 
         $dragdrop = $levelParams->get('drag_drop', 1);
@@ -441,6 +456,12 @@ trait DisplayTrait
                 'a11y_advanced_options' => true,
                 'image_advtab'          => (bool) $levelParams->get('image_advtab', false),
                 'image_title'           => true,
+                'image_class_list'      => [
+                    ['title' => 'None', 'value' => 'float-none'],
+                    ['title' => 'Left', 'value' => 'float-start'],
+                    ['title' => 'Right', 'value' => 'float-end'],
+                    ['title' => 'Center', 'value' => 'mx-auto d-block'],
+                ],
 
                 // Drag and drop specific
                 'dndEnabled' => $dragdrop,

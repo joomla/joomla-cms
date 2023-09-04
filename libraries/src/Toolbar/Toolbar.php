@@ -77,6 +77,10 @@ class Toolbar
      *
      * @var    Toolbar[]
      * @since  2.5
+     *
+     * @deprecated  5.0 will be removed in 7.0
+     *              Toolbars instances will be stored in the \Joomla\CMS\Document\HTMLDocument object
+     *              Request the instance from Factory::getApplication()->getDocument()->getToolbar('name');
      */
     protected static $instances = [];
 
@@ -141,11 +145,14 @@ class Toolbar
      */
     public static function getInstance($name = 'toolbar')
     {
+        $toolbar = Factory::getApplication()->getDocument()->getToolbar($name);
+
+        // TODO b/c remove with Joomla 7.0 or removed in 6.0 with this function
         if (empty(self::$instances[$name])) {
-            self::$instances[$name] = Factory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar($name);
+            self::$instances[$name] = $toolbar;
         }
 
-        return self::$instances[$name];
+        return $toolbar;
     }
 
     /**
@@ -290,6 +297,10 @@ class Toolbar
      */
     public function render(array $options = [])
     {
+        if (!$this->_bar) {
+            return '';
+        }
+
         $html = [];
 
         $isChild = !empty($options['is_child']);

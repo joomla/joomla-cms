@@ -15,6 +15,8 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Application\AfterSaveConfigurationEvent;
+use Joomla\CMS\Event\Application\BeforeSaveConfigurationEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Http\HttpFactory;
@@ -744,7 +746,9 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         // Clear cache of com_config component.
         $this->cleanCache('_system');
 
-        $result = $app->triggerEvent('onApplicationBeforeSave', [$config]);
+        $dispatcher  = $this->getDispatcher();
+        $eventBefore = new BeforeSaveConfigurationEvent('onApplicationBeforeSave', ['subject' => $config]);
+        $result      = $dispatcher->dispatch('onApplicationBeforeSave', $eventBefore)->getArgument('result', []);
 
         // Store the data.
         if (in_array(false, $result, true)) {
@@ -755,7 +759,10 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $result = $this->writeConfigFile($config);
 
         // Trigger the after save event.
-        $app->triggerEvent('onApplicationAfterSave', [$config]);
+        $this->getDispatcher()->dispatch('onApplicationAfterSave', new AfterSaveConfigurationEvent(
+            'onApplicationAfterSave',
+            ['subject' => $config]
+        ));
 
         return $result;
     }
@@ -782,7 +789,9 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         unset($prev['root_user']);
         $config = new Registry($prev);
 
-        $result = $app->triggerEvent('onApplicationBeforeSave', [$config]);
+        $dispatcher  = $this->getDispatcher();
+        $eventBefore = new BeforeSaveConfigurationEvent('onApplicationBeforeSave', ['subject' => $config]);
+        $result      = $dispatcher->dispatch('onApplicationBeforeSave', $eventBefore)->getArgument('result', []);
 
         // Store the data.
         if (in_array(false, $result, true)) {
@@ -793,7 +802,10 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $result = $this->writeConfigFile($config);
 
         // Trigger the after save event.
-        $app->triggerEvent('onApplicationAfterSave', [$config]);
+        $this->getDispatcher()->dispatch('onApplicationAfterSave', new AfterSaveConfigurationEvent(
+            'onApplicationAfterSave',
+            ['subject' => $config]
+        ));
 
         return $result;
     }
@@ -1204,7 +1216,8 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $mailer = new MailTemplate('com_config.test_mail', $user->getParam('language', $app->get('language')), $mail);
         $mailer->addTemplateData(
             [
-                'sitename' => $app->get('sitename'),
+                // Replace the occurrences of "@" and "|" in the site name
+                'sitename' => str_replace(['@', '|'], '', $app->get('sitename')),
                 'method'   => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)),
             ]
         );
