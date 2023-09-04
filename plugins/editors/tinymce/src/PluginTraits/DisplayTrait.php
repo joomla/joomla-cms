@@ -256,7 +256,9 @@ trait DisplayTrait
             'lists',
             'importcss',
             'quickbars',
+            'jxtdbuttons',
         ];
+        $wa->useScript('plg_editors_tinymce.jxtdbuttons');
 
         // Allowed elements
         $elements = [
