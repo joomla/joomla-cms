@@ -621,14 +621,8 @@ final class Joomla extends ActionLogPlugin
 
         // Check if block / unblock comes from Actions on list
         if ($task === 'block' || $task === 'unblock') {
-            $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_UNBLOCK';
-            $action             = 'unblock';
-            if ($task === 'block') {
-                $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_BLOCK';
-                $action             = 'block';
-            }
-
-            $message['action'] = $action;
+            $messageLanguageKey = $task === 'block' ? 'PLG_ACTIONLOG_JOOMLA_USER_BLOCK' : 'PLG_ACTIONLOG_JOOMLA_USER_UNBLOCK';
+            $message['action']  = $task;
         }
 
         $this->addLog([$message], $messageLanguageKey, $context, $userId);
