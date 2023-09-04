@@ -237,6 +237,7 @@ class JoomlaInstallerScript
              ['type' => 'plugin', 'element' => 'compat', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateCompatPlugin'],
              ['type' => 'plugin', 'element' => 'logrotation', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateLogRotationPlugin'],
              ['type' => 'plugin', 'element' => 'recaptcha', 'folder' => 'captcha', 'client_id' => 0, 'pre_function' => null],
+             ['type' => 'plugin', 'element' => 'sessiongc', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateSessionGCPlugin'],
              ['type' => 'plugin', 'element' => 'updatenotification', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateUpdatenotificationPlugin'],
         ];
 
@@ -355,6 +356,49 @@ class JoomlaInstallerScript
             'state'  => 1,
             'params' => [
                 'logstokeep' => $params->get('logstokeep', 1),
+            ],
+        ];
+        $model->save($task);
+    }
+
+    /**
+     * This method is for migration for old updatenotification system plugin migration to task.
+     *
+     * @param   \stdClass  $data  Object with the extension's record in the `#__extensions` table
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function migrateSessionGCPlugin($data)
+    {
+        if (!$data->enabled) {
+            return;
+        }
+
+        // Get the plugin parameters
+        $params = new Registry($data->params);
+
+        /** @var SchedulerComponent $component */
+        $component = Factory::getApplication()->bootComponent('com_scheduler');
+
+        /** @var TaskModel $model */
+        $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+        $task  = [
+            'title'           => 'SessionGC',
+            'type'            => 'session.gc',
+            'execution_rules' => [
+                'rule-type'      => 'interval-hours',
+                'interval-hours' => 24,
+                'exec-time'      => gmdate('H:i'),
+                'exec-day'       => gmdate('d'),
+            ],
+            'state'  => 1,
+            'params' => [
+                'enable_session_gc'          => $params->get('enable_session_gc', 1),
+                'gc_probability'             => $params->get('gc_probability', 1),
+                'gc_divisor'                 => $params->get('gc_divisor', 100),
+                'enable_session_metadata_gc' => $params->get('enable_session_metadata_gc', 1),
             ],
         ];
         $model->save($task);
@@ -740,6 +784,7 @@ class JoomlaInstallerScript
             '/libraries/vendor/symfony/polyfill-php81/bootstrap.php',
             '/libraries/vendor/symfony/polyfill-php81/LICENSE',
             '/libraries/vendor/symfony/polyfill-php81/Php81.php',
+            '/libraries/vendor/symfony/polyfill-php81/Resources/stubs/CURLStringFile.php',
             '/libraries/vendor/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
             '/libraries/vendor/web-auth/cose-lib/src/Verifier.php',
             '/libraries/vendor/web-auth/metadata-service/src/AuthenticatorStatus.php',
