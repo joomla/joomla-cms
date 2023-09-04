@@ -31,9 +31,7 @@ class Dispatcher extends ComponentDispatcher
      */
     protected function checkAccess()
     {
-        $extension = empty($this->getApplication()->getInput()->getCmd('extension'))
-                    ? ''
-                    : $this->getApplication()->getInput()->getCmd('extension');
+        $extension = $this->getApplication()->getInput()->getCmd('extension');
 
         $parts = explode('.', $extension);
 

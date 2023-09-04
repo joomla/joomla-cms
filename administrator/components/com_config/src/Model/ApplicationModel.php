@@ -1216,8 +1216,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $mailer = new MailTemplate('com_config.test_mail', $user->getParam('language', $app->get('language')), $mail);
         $mailer->addTemplateData(
             [
-                // Replace the occurrences of "@" and "|" in the site name
-                'sitename' => str_replace(['@', '|'], '', $app->get('sitename')),
+                'sitename' => $app->get('sitename'),
                 'method'   => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)),
             ]
         );

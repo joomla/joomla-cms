@@ -232,7 +232,7 @@ class Mail extends PHPMailer implements MailerInterface
      */
     public function setSubject($subject)
     {
-        $this->Subject = MailHelper::cleanSubject($subject);
+        $this->Subject = MailHelper::cleanLine($subject);
 
         return $this;
     }

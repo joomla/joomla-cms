@@ -180,21 +180,10 @@ class ContactController extends FormController implements UserFactoryAwareInterf
             'data'    => $eventData,
         ]))->getArgument('result', []);
 
-        $passValidation = true;
-
         foreach ($results as $result) {
             if ($result instanceof \Exception) {
-                $passValidation = false;
-                $app->enqueueMessage($result->getMessage(), 'error');
+                return false;
             }
-        }
-
-        if (!$passValidation) {
-            $app->setUserState('com_contact.contact.data', $data);
-
-            $this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $id . '&catid=' . $contact->catid, false));
-
-            return false;
         }
 
         // Passed Validation: Process the contact plugins to integrate with other applications

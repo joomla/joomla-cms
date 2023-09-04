@@ -651,7 +651,7 @@ abstract class Adapter extends CMSPlugin
      *
      * @param   integer  $id  The plugin ID
      *
-     * @return  string|null  The plugin type
+     * @return  string  The plugin type
      *
      * @since   2.5
      */
@@ -661,7 +661,6 @@ abstract class Adapter extends CMSPlugin
         $query = $this->db->getQuery(true)
             ->select($this->db->quoteName('element'))
             ->from($this->db->quoteName('#__extensions'))
-            ->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('finder'))
             ->where($this->db->quoteName('extension_id') . ' = ' . (int) $id);
         $this->db->setQuery($query);
 
@@ -896,8 +895,6 @@ abstract class Adapter extends CMSPlugin
                 foreach ($items as $item) {
                     $this->remove($item);
                 }
-                // Stop processing plugins
-                break;
             }
         }
     }
