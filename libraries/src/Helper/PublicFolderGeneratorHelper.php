@@ -51,8 +51,6 @@ define('JPATH_ROOT', {{ROOTFOLDER}});
 define('JPATH_PUBLIC', {{PUBLICFOLDER}});
 define('JPATH_BASE', JPATH_ROOT . $applicationPath);
 
-unset($applicationPath);
-
 PHP;
 
 
@@ -69,6 +67,9 @@ PHP;
 $applicationPath = {{APPLICATIONPATH}};
 
 require_once dirname(__DIR__) . '/defines.php';
+
+unset($applicationPath);
+
 require_once JPATH_BASE . '/index.php';
 
 PHP;
