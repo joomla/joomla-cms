@@ -25,7 +25,7 @@ use Joomla\CMS\UCM\UCMType;
  *
  * @since  3.2
  */
-class CategoryFeedView extends HtmlView
+class CategoryFeedView extends AbstractView
 {
     /**
      * Execute and display a template script.
