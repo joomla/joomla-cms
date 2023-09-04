@@ -29,7 +29,6 @@ describe('Test in backend that the clients list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Publish').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('Client published.').should('exist');
     });
@@ -42,7 +41,6 @@ describe('Test in backend that the clients list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Unpublish').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('Client unpublished.').should('exist');
     });
@@ -55,7 +53,6 @@ describe('Test in backend that the clients list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Trash').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('Client trashed.').should('exist');
     });
@@ -68,7 +65,7 @@ describe('Test in backend that the clients list', () => {
       cy.searchForItem('test banner client');
       cy.checkAllResults();
       cy.clickToolbarButton('empty trash');
-      cy.on('window:confirm', () => true);
+      cy.clickDialogConfirm(true);
 
       cy.get('#system-message-container').contains('Client deleted.').should('exist');
     });

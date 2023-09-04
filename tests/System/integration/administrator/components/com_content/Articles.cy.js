@@ -29,7 +29,6 @@ describe('Test in backend that the articles list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Publish').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('Article published.').should('exist');
     });
@@ -42,7 +41,6 @@ describe('Test in backend that the articles list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Unpublish').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('Article unpublished.').should('exist');
     });
@@ -55,7 +53,6 @@ describe('Test in backend that the articles list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('.button-featured', 'Feature').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('Article featured.').should('exist');
     });
@@ -68,7 +65,6 @@ describe('Test in backend that the articles list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Unfeature').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('Article unfeatured.').should('exist');
     });
@@ -81,7 +77,6 @@ describe('Test in backend that the articles list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Trash').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('Article trashed.').should('exist');
     });
@@ -94,7 +89,7 @@ describe('Test in backend that the articles list', () => {
       cy.searchForItem('Test article');
       cy.checkAllResults();
       cy.clickToolbarButton('empty trash');
-      cy.on('window:confirm', () => true);
+      cy.clickDialogConfirm(true);
 
       cy.get('#system-message-container').contains('Article deleted.').should('exist');
     });

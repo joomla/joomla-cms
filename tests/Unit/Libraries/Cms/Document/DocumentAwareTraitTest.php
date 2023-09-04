@@ -10,8 +10,8 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Document;
 
-use Joomla\CMS\Document\DocumentAwareTrait;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Document\DocumentAwareTrait;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
