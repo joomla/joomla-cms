@@ -36,13 +36,6 @@ $tmpl = $input->getCmd('tmpl');
 
 $input->set('hidemainmenu', true);
 
-// Load the toolbar when we are in an iframe
-if ($tmpl == 'component') {
-    echo '<div class="subhead noshadow">';
-    echo Toolbar::getInstance('toolbar')->render();
-    echo '</div>';
-}
-
 $mediaTypes = $input->getString('mediatypes', '0');
 
 // Populate the media config

@@ -32,13 +32,6 @@ $this->loadTemplate('texts');
 
 $tmpl = $input->getCmd('tmpl');
 
-// Load the toolbar when we are in an iframe
-if ($tmpl === 'component') {
-    echo '<div class="subhead noshadow">';
-    echo Toolbar::getInstance('toolbar')->render();
-    echo '</div>';
-}
-
 $mediaTypes = '&mediatypes=' . $input->getString('mediatypes', '0,1,2,3');
 
 // Populate the media config
