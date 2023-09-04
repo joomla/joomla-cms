@@ -48,7 +48,7 @@ function createInsertQuery(table, values) {
  * The privacy consent contains some default values when not all required fields are passed in the given data.
  * The id of the inserted privacy consent is returned
  *
- * @param {Object} privacyRequest The consent data to insert
+ * @param {Object} privacyConsent The consent data to insert
  *
  * @returns integer
  */
