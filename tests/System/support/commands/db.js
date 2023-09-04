@@ -44,11 +44,31 @@ function createInsertQuery(table, values) {
 }
 
 /**
+ * Creates a privacy consent in the database with the given data.
+ * The privacy consent contains some default values when not all required fields are passed in the given data.
+ * The id of the inserted privacy consent is returned
+ *
+ * @param {Object} privacyConsent The consent data to insert
+ *
+ * @returns integer
+ */
+Cypress.Commands.add('db_createPrivacyConsent', (privacyConsent) => {
+  const defaultPrivacyConsentOptions = {
+    state: '0',
+    created: '2023-01-01 20:00:00',
+    subject: 'PLG_SYSTEM_PRIVACYCONSENT_SUBJECT',
+    body: '',
+  };
+
+  return cy.task('queryDB', createInsertQuery('privacy_consents', { ...defaultPrivacyConsentOptions, ...privacyConsent })).then(async (info) => info.insertId);
+});
+
+/**
  * Creates a privacy request in the database with the given data.
  * The privacy request contains some default values when not all required fields are passed in the given data.
  * The id of the inserted privacy request is returned
  *
- * @param {Object} privacyRequest The tag data to insert
+ * @param {Object} privacyRequest The request data to insert
  *
  * @returns integer
  */
@@ -495,6 +515,14 @@ Cypress.Commands.add('db_updateExtensionParameter', (key, value, extension) => c
   params[key] = value;
   return cy.task('queryDB', `UPDATE #__extensions SET params = '${JSON.stringify(params)}' WHERE name = '${extension}'`);
 }));
+
+/**
+ * Sets the enabled status for the given extension.
+ *
+ * @param {string} value The value
+ * @param {string} extension The extension
+ */
+Cypress.Commands.add('db_enableExtension', (value, extension) => cy.task('queryDB', `UPDATE #__extensions SET enabled ='${value}' WHERE name = '${extension}'`));
 
 /**
  * Returns the id of the currently logged in user.
