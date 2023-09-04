@@ -74,7 +74,7 @@ class Language extends Table
      */
     public function store($updateNulls = false)
     {
-        $table = new static($this->getDbo(), $this->getDispatcher());
+        $table = new self($this->getDbo(), $this->getDispatcher());
 
         // Verify that the language code is unique
         if ($table->load(['lang_code' => $this->lang_code]) && ($table->lang_id != $this->lang_id || $this->lang_id == 0)) {

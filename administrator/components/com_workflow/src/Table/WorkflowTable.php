@@ -181,7 +181,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
         $date = Factory::getDate();
         $user = $this->getCurrentUser();
 
-        $table = new static($this->getDbo(), $this->getDispatcher());
+        $table = new self($this->getDbo(), $this->getDispatcher());
 
         if ($this->id) {
             // Existing item

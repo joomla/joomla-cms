@@ -121,7 +121,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
         }
 
         // Verify that the alias is unique
-        $table = new static($this->getDbo(), $this->getDispatcher());
+        $table = new self($this->getDbo(), $this->getDispatcher());
 
         if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
             // Is the existing contact trashed?

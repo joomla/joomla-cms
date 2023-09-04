@@ -174,7 +174,7 @@ class Menu extends Nested
         $db = $this->getDbo();
 
         // Verify that the alias is unique
-        $table = new static($db, $this->getDispatcher());
+        $table = new self($db, $this->getDispatcher());
 
         $originalAlias = trim($this->alias);
         $this->alias   = !$originalAlias ? $this->title : $originalAlias;

@@ -95,7 +95,7 @@ class Usergroup extends Table
 
         // We do not allow to move non public to root and public to non-root
         if (!empty($this->id)) {
-            $table = new static($this->getDbo(), $this->getDispatcher());
+            $table = new self($this->getDbo(), $this->getDispatcher());
 
             $table->load($this->id);
 
@@ -113,7 +113,7 @@ class Usergroup extends Table
 
         // The new parent_id has to be a valid group
         if ($this->parent_id) {
-            $table = new static($this->getDbo(), $this->getDispatcher());
+            $table = new self($this->getDbo(), $this->getDispatcher());
             $table->load($this->parent_id);
 
             if ($table->id != $this->parent_id) {

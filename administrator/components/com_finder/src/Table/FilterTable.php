@@ -160,7 +160,7 @@ class FilterTable extends Table implements CurrentUserInterface
         }
 
         // Verify that the alias is unique
-        $table = new static($this->getDbo(), $this->getDispatcher());
+        $table = new self($this->getDbo(), $this->getDispatcher());
 
         if ($table->load(['alias' => $this->alias]) && ($table->filter_id != $this->filter_id || $this->filter_id == 0)) {
             $this->setError(Text::_('COM_FINDER_FILTER_ERROR_UNIQUE_ALIAS'));

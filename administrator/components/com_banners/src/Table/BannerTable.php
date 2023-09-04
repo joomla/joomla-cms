@@ -254,14 +254,14 @@ class BannerTable extends Table implements VersionableTableInterface
             parent::store($updateNulls);
         } else {
             // Get the old row
-            $oldrow = new static($db, $this->getDispatcher());
+            $oldrow = new self($db, $this->getDispatcher());
 
             if (!$oldrow->load($this->id) && $oldrow->getError()) {
                 $this->setError($oldrow->getError());
             }
 
             // Verify that the alias is unique
-            $table = new static($db, $this->getDispatcher());
+            $table = new self($db, $this->getDispatcher());
 
             if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
                 $this->setError(Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
@@ -317,7 +317,7 @@ class BannerTable extends Table implements VersionableTableInterface
         }
 
         // Get an instance of the table
-        $table = new static($this->getDbo(), $this->getDispatcher());
+        $table = new self($this->getDbo(), $this->getDispatcher());
 
         // For all keys
         foreach ($pks as $pk) {
