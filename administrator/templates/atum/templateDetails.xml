@@ -57,7 +57,7 @@
 					control="slider"
 					preview="true"
 					saveFormat="hsl"
-					default="hsl(214,63%,20%)"
+					default="hsl(178,63%,20%)"
 				/>
 				<field
 					name="bg-light"
