@@ -32,7 +32,6 @@ matrix:
      organization: "asus-aics"
      token:
        secure: $SONAR_TOKEN
-
  jobs:
    include:
      - stage: "Unit Tests & SonarCloud Analysis"
