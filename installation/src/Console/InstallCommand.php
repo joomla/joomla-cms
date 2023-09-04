@@ -104,7 +104,6 @@ class InstallCommand extends AbstractCommand
         $cfg['language']             = 'en-GB';
         $cfg['helpurl']              = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
         $this->ioStyle->writeln('OK');
-        // var_dump($cfg);die;
 
         /** @var SetupModel $setupModel */
         $setupModel = $app->getMVCFactory()->createModel('Setup', 'Installation');
