@@ -2758,12 +2758,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "8ed07eb4f0f6fdc5a733d48c7ee33b127d685c59"
+                "reference": "17ec0485bd84d84a982dff5dcd8d0a224664f027"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/8ed07eb4f0f6fdc5a733d48c7ee33b127d685c59",
-                "reference": "8ed07eb4f0f6fdc5a733d48c7ee33b127d685c59",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/17ec0485bd84d84a982dff5dcd8d0a224664f027",
+                "reference": "17ec0485bd84d84a982dff5dcd8d0a224664f027",
                 "shasum": ""
             },
             "require": {
@@ -2817,7 +2817,7 @@
                 "issues": "https://github.com/maximebf/php-debugbar/issues",
                 "source": "https://github.com/maximebf/php-debugbar/tree/master"
             },
-            "time": "2023-08-18T17:41:05+00:00"
+            "time": "2023-08-27T13:34:49+00:00"
         },
         {
             "name": "nyholm/psr7",
