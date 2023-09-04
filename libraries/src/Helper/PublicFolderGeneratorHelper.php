@@ -75,7 +75,7 @@ PHP;
 
 $applicationPath = {{APPLICATIONPATH}};
 
-require_once dirname(__DIR__) . '/defines.php';
+require_once JPATH_PUBLIC . '/defines.php';
 
 unset($applicationPath);
 
