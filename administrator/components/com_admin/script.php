@@ -1994,6 +1994,11 @@ class JoomlaInstallerScript
             '/media/plg_editors_tinymce/js/plugins/highlighter/source.min.js',
             '/media/plg_editors_tinymce/js/plugins/highlighter/source.min.js.gz',
             '/media/plg_system_compat/es5.asset.json',
+            // From 5.0.0-alpha4 to 5.0.0-beta1
+            '/administrator/language/en-GB/plg_twofactorauth_totp.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_totp.sys.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_yubikey.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_yubikey.sys.ini',
         ];
 
         $folders = [
@@ -2213,11 +2218,6 @@ class JoomlaInstallerScript
             '/templates/system/incompatible.html,',
             '/media/plg_system_compat',
             '/media/plg_editors_tinymce/js/plugins/highlighter',
-            // From 5.0.0-alpha4 to 5.0.0-beta1
-            '/administrator/language/en-GB/plg_twofactorauth_totp.ini',
-            '/administrator/language/en-GB/plg_twofactorauth_totp.sys.ini',
-            '/administrator/language/en-GB/plg_twofactorauth_yubikey.ini',
-            '/administrator/language/en-GB/plg_twofactorauth_yubikey.sys.ini',
         ];
 
         $status['files_checked']   = $files;
