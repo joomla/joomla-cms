@@ -2,6 +2,7 @@ INSERT INTO `#__extensions` (`name`, `type`, `element`, `folder`, `client_id`, `
 ('plg_task_deleteactionlogs', 'plugin', 'deleteactionlogs', 'task', 0, 1, 1, 0, 1, '', '{}', '', NULL, NULL, 0, 0),
 ('plg_task_privacyconsent', 'plugin', 'privacyconsent', 'task', 0, 1, 1, 0, 1, '', '{}', '', NULL, NULL, 0, 0),
 ('plg_task_rotatelogs', 'plugin', 'rotatelogs', 'task', 0, 1, 1, 0, 1, '', '{}', '', NULL, NULL, 0, 0),
+('plg_task_sessiongc', 'plugin', 'sessiongc', 'task', 0, 1, 1, 0, 1, '', '{}', '', NULL, NULL, 0, 0),
 ('plg_task_updatenotification', 'plugin', 'updatenotification', 'task', 0, 1, 1, 0, 1, '', '{}', '', NULL, NULL, 0, 0);
 
 INSERT INTO `#__mail_templates` (`template_id`, `extension`, `language`, `subject`, `body`, `htmlbody`, `attachments`, `params`) VALUES

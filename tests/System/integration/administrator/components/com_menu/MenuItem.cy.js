@@ -26,7 +26,6 @@ describe('Test in backend that the menu list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Trash').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('Menu item trashed.').should('exist');
     });
