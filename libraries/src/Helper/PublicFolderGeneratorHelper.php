@@ -120,19 +120,13 @@ PHP;
         $replace = ['"' . JPATH_ROOT . '"', '"' . $destinationPath . '"'];
 
         // The root index.php
-        $replace[] = '"' . JPATH_ROOT . '"';
-
-        $this->createFile($destinationPath . '/index.php', str_replace($search, $replace, $indexTemplate));
+        $this->createFile($destinationPath . '/index.php', str_replace($search, [...$replace, '"' . JPATH_ROOT . '"'], $indexTemplate));
 
         // The Administrator root index.php
-        $replace[] = '"' . JPATH_ROOT . '/administrator"';
-
-        $this->createFile($destinationPath . '/administrator/index.php', str_replace($search, $replace, $indexTemplate));
+        $this->createFile($destinationPath . '/administrator/index.php', str_replace($search, [...$replace, '"' . JPATH_ROOT . DIRECTORY_SEPARATOR . 'administrator"'], $indexTemplate));
 
         // The API root index.php
-        $replace[] = '"' . JPATH_ROOT . '/api"';
-
-        $this->createFile($destinationPath . '/api/index.php', str_replace($search, $replace, $indexTemplate));
+        $this->createFile($destinationPath . '/api/index.php', str_replace($search, [...$replace, '"' . JPATH_ROOT . DIRECTORY_SEPARATOR . 'api"'], $indexTemplate));
     }
 
     /**
