@@ -75,7 +75,7 @@ PHP;
 
 \$applicationPath = {{APPLICATIONPATH}};
 
-require_once JPATH_PUBLIC . '/defines.php';
+require_once '{{DEFINESPATH}}defines.php';
 
 unset(\$applicationPath);
 
@@ -136,13 +136,13 @@ PHP;
         $this->createFile($destinationPath . '/defines.php', str_replace(['{{ROOTFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . $destinationPath . '"'], $this->definesTemplate));
 
         // The root index.php
-        $this->createFile($destinationPath . '/index.php', str_replace('{{APPLICATIONPATH}}', '\'\'', $this->indexTemplate));
+        $this->createFile($destinationPath . '/index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ['\'\'', ''], $this->indexTemplate));
 
         // The Administrator root index.php
-        $this->createFile($destinationPath . '/administrator/index.php', str_replace('{{APPLICATIONPATH}}', '\'' . DIRECTORY_SEPARATOR . 'administrator\'', $this->indexTemplate));
+        $this->createFile($destinationPath . '/administrator/index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ['\'' . DIRECTORY_SEPARATOR . 'administrator\'', '../'], $this->indexTemplate));
 
         // The API root index.php
-        $this->createFile($destinationPath . '/api/index.php', str_replace('{{APPLICATIONPATH}}', '\'' . DIRECTORY_SEPARATOR . 'api\'', $this->indexTemplate));
+        $this->createFile($destinationPath . '/api/index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ['\'' . DIRECTORY_SEPARATOR . 'api\'', '../'], $this->indexTemplate));
 
         if (is_dir(JPATH_ROOT . '/images')) {
             $this->createSymlink(JPATH_ROOT . '/images', $destinationPath . '/images');
@@ -153,7 +153,6 @@ PHP;
             $local            = PluginHelper::getPlugin('filesystem', 'local');
             $localDirectories = (new Registry($local->params))->get('directories', [(object) ['directory' => 'images']]);
 
-            var_dump($localDirectories);
             foreach ($localDirectories as $localDirectory) {
                 if (!is_link($destinationPath . '/' . $localDirectory->directory)) {
                     $this->createSymlink(JPATH_ROOT . '/' . $localDirectory->directory, $destinationPath . '/' . $localDirectory->directory);
