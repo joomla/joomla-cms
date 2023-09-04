@@ -109,17 +109,9 @@ class SetupModel extends BaseInstallationModel
             return false;
         }
 
-        if (Factory::getApplication()->isClient('cli_installation')) {
-            $publicFolderXML = simplexml_load_string('<field
-                name="public_folder"
-                type="text"
-                label="Absolute path to the public folder (skip if empty)"
-                filter="string"
-                required="false"
-                default=""
-            />');
-
-            $form->setField($publicFolderXML);
+        /** @todo make this available in web installert too */
+        if (!Factory::getApplication()->isClient('cli_installation')) {
+            $form->removeField('public_folder');
         }
 
         // Check the session for previously entered form data.

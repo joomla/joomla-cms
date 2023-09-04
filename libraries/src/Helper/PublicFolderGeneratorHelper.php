@@ -31,10 +31,10 @@ class PublicFolderGeneratorHelper
      */
     private $filesSymLink = [
         // Administrator
-        '/administrator/components/com_joomlaupdate/extract.php',
+        'administrator/components/com_joomlaupdate/extract.php',
 
         // Media static assets
-        '/media',
+        'media',
     ];
 
     /**
@@ -94,18 +94,39 @@ PHP;
      */
     public function createPublicFolder(string $destinationPath): void
     {
-        if ((!is_dir($destinationPath) && !mkdir($destinationPath, 0755, true))) {
+        $destinationPath = rtrim($destinationPath, '/\\') . '/';
+        $fullDestinationPath = $destinationPath;
+        $definePublic = '\'' . $destinationPath . '\'';
+        $root = JPATH_ROOT . '/';
+        $defineRoot = '\'' . JPATH_ROOT . '\'';
+
+        if (substr($destinationPath, 0, 1) !== '/') {
+            $fullDestinationPath = JPATH_ROOT . '/' . $destinationPath;
+            $root = '';
+            $dirsToRoot = substr_count($destinationPath, '/');
+            $defineRoot = str_repeat('dirname(', $dirsToRoot) . '__DIR__' . str_repeat(')', $dirsToRoot);
+            $definePublic = 'JPATH_ROOT . \'/' . rtrim($destinationPath, '/') .'\'';
+        }
+
+        if (file_exists($fullDestinationPath . '/index.php')) {
+            throw new \Exception('Unable to create the given folder, index.php already exists.');
+        }
+
+        if ((!is_dir($fullDestinationPath) && !mkdir($fullDestinationPath, 0755, true))) {
             throw new \Exception('Unable to create the given folder, check the permissions');
         }
 
         // Create the required folders
-        if (!mkdir($destinationPath . '/administrator/components/com_joomlaupdate', 0755, true) || !mkdir($destinationPath . '/api', 0755, true)) {
+        if (
+            !mkdir($fullDestinationPath . '/administrator/components/com_joomlaupdate', 0755, true)
+            || !mkdir($fullDestinationPath . '/api', 0755, true)
+        ) {
             throw new \Exception('Unable to create the given folder, check the permissions');
         }
 
         // Create essential symlinks
         foreach ($this->filesSymLink as $localDirectory) {
-            $this->createSymlink(JPATH_ROOT . $localDirectory, $destinationPath . $localDirectory);
+            $this->createSymlink($root . $localDirectory, $destinationPath . $localDirectory, JPATH_ROOT . '/');
         }
 
         $filesHardCopies = [];
@@ -125,23 +146,23 @@ PHP;
         }
 
         foreach ($filesHardCopies as $file) {
-            $this->createFile($destinationPath . $file, file_get_contents(JPATH_ROOT . $file));
+            $this->createFile($fullDestinationPath . $file, file_get_contents(JPATH_ROOT . $file));
         }
 
         // Create the defines.php
-        $this->createFile($destinationPath . '/defines.php', str_replace(['{{ROOTFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . $destinationPath . '"'], $this->definesTemplate));
+        $this->createFile($fullDestinationPath . 'defines.php', str_replace(['{{ROOTFOLDER}}', '{{PUBLICFOLDER}}'], [$defineRoot, $definePublic], $this->definesTemplate));
 
         // The root index.php
-        $this->createFile($destinationPath . '/index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ['\'\'', '__DIR__'], $this->indexTemplate));
+        $this->createFile($fullDestinationPath . 'index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ['\'\'', '__DIR__'], $this->indexTemplate));
 
         // The Administrator root index.php
-        $this->createFile($destinationPath . '/administrator/index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ['\'' . DIRECTORY_SEPARATOR . 'administrator\'', 'dirname(__DIR__)'], $this->indexTemplate));
+        $this->createFile($fullDestinationPath . 'administrator/index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ['\'' . DIRECTORY_SEPARATOR . 'administrator\'', 'dirname(__DIR__)'], $this->indexTemplate));
 
         // The API root index.php
-        $this->createFile($destinationPath . '/api/index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ['\'' . DIRECTORY_SEPARATOR . 'api\'', 'dirname(__DIR__)'], $this->indexTemplate));
+        $this->createFile($fullDestinationPath . 'api/index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ['\'' . DIRECTORY_SEPARATOR . 'api\'', 'dirname(__DIR__)'], $this->indexTemplate));
 
         if (is_dir(JPATH_ROOT . '/images')) {
-            $this->createSymlink(JPATH_ROOT . '/images', $destinationPath . '/images');
+            $this->createSymlink($root . 'images', $destinationPath . 'images', JPATH_ROOT . '/');
         }
 
         // Create symlinks for all the local filesystem directories
@@ -151,7 +172,7 @@ PHP;
 
             foreach ($localDirectories as $localDirectory) {
                 if (!is_link($destinationPath . '/' . $localDirectory->directory)) {
-                    $this->createSymlink(JPATH_ROOT . '/' . $localDirectory->directory, $destinationPath . '/' . $localDirectory->directory);
+                    $this->createSymlink($root . $localDirectory->directory, $destinationPath . $localDirectory->directory, JPATH_ROOT . '/');
                 }
             }
         }
@@ -167,8 +188,13 @@ PHP;
      *
      * @since  __DEPLOY_VERSION__
      */
-    private function createSymlink(string $source, string $dest): void
+    private function createSymlink(string $source, string $dest, string $base): void
     {
+        if (substr($source, 0, 1) !== '/') {
+            $source = str_repeat('../', substr_count($dest, '/')) . $source;
+            $dest = $base . $dest;
+        }
+
         if (!symlink($source, $dest)) {
             throw new \Exception('Unable to symlink the file: ' . str_replace(JPATH_ROOT, '', $source));
         }

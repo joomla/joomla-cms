@@ -181,7 +181,7 @@ class InstallCommand extends AbstractCommand
             $this->ioStyle->writeln('OK');
         }
 
-        if (null !== $cfg['public_folder']) {
+        if (!empty($cfg['public_folder'])) {
             $this->ioStyle->write('Creating the public folder...');
 
             if (!(new PublicFolderGeneratorHelper())->createPublicFolder($cfg['public_folder'])) {
