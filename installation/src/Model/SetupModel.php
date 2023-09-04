@@ -115,6 +115,8 @@ class SetupModel extends BaseInstallationModel
                 type="text"
                 label="Absolute path to the public folder (skip if empty)"
                 filter="string"
+                required="false"
+                default=""
             />');
 
             $form->setField($publicFolderXML);
