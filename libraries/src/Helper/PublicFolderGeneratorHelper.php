@@ -75,7 +75,7 @@ PHP;
 
 \$applicationPath = {{APPLICATIONPATH}};
 
-require_once '{{DEFINESPATH}}defines.php';
+require_once {{DEFINESPATH}} . '/defines.php';
 
 unset(\$applicationPath);
 
@@ -136,13 +136,13 @@ PHP;
         $this->createFile($destinationPath . '/defines.php', str_replace(['{{ROOTFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . $destinationPath . '"'], $this->definesTemplate));
 
         // The root index.php
-        $this->createFile($destinationPath . '/index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ['\'\'', ''], $this->indexTemplate));
+        $this->createFile($destinationPath . '/index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ['\'\'', '__DIR__'], $this->indexTemplate));
 
         // The Administrator root index.php
-        $this->createFile($destinationPath . '/administrator/index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ['\'' . DIRECTORY_SEPARATOR . 'administrator\'', '../'], $this->indexTemplate));
+        $this->createFile($destinationPath . '/administrator/index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ['\'' . DIRECTORY_SEPARATOR . 'administrator\'', 'dirname(__DIR__)'], $this->indexTemplate));
 
         // The API root index.php
-        $this->createFile($destinationPath . '/api/index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ['\'' . DIRECTORY_SEPARATOR . 'api\'', '../'], $this->indexTemplate));
+        $this->createFile($destinationPath . '/api/index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ['\'' . DIRECTORY_SEPARATOR . 'api\'', 'dirname(__DIR__)'], $this->indexTemplate));
 
         if (is_dir(JPATH_ROOT . '/images')) {
             $this->createSymlink(JPATH_ROOT . '/images', $destinationPath . '/images');
