@@ -144,7 +144,7 @@ PHP;
         // The API root index.php
         $this->createFile($destinationPath . '/api/index.php', str_replace('{{APPLICATIONPATH}}', '\'' . DIRECTORY_SEPARATOR . 'api\'', $this->indexTemplate));
 
-         if (is_dir(JPATH_ROOT . '/images')) {
+        if (is_dir(JPATH_ROOT . '/images')) {
             $this->createSymlink(JPATH_ROOT . '/images', $destinationPath . '/images');
         }
 
