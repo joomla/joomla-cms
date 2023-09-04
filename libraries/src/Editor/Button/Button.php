@@ -19,7 +19,7 @@ final class Button implements ButtonInterface
      * Button name, CMD string.
      *
      * @return string
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected $name;
 
@@ -27,7 +27,7 @@ final class Button implements ButtonInterface
      * Button properties.
      *
      * @return array
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected $props = [];
 
@@ -35,7 +35,7 @@ final class Button implements ButtonInterface
      * Button options.
      *
      * @return array
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected $options = [];
 
@@ -46,7 +46,7 @@ final class Button implements ButtonInterface
      * @param array  $props   The button properties.
      * @param array  $options The button options.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct(string $name, array $props = [], array $options = [])
     {
@@ -59,7 +59,7 @@ final class Button implements ButtonInterface
      * Return Button name, CMD string.
      *
      * @return string
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getButtonName(): string
     {
@@ -72,7 +72,7 @@ final class Button implements ButtonInterface
      * @param string $name Property name
      *
      * @return mixed
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function get(string $name)
     {
@@ -95,7 +95,7 @@ final class Button implements ButtonInterface
      * @param mixed  $value Property value
      *
      * @return ButtonInterface
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function set(string $name, $value): ButtonInterface
     {
@@ -117,7 +117,7 @@ final class Button implements ButtonInterface
      * Return Button options.
      *
      * @return array
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getOptions(): array
     {
@@ -130,7 +130,7 @@ final class Button implements ButtonInterface
      * @param array  $options The button options.
      *
      * @return ButtonInterface
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function setOptions(array $options): ButtonInterface
     {
@@ -146,7 +146,7 @@ final class Button implements ButtonInterface
      *
      * @return string|null A value if the property name is valid, null otherwise.
      *
-     * @since       __DEPLOY_VERSION__
+     * @since       5.0.0
      * @deprecated  6.0  This is a B/C proxy for deprecated read accesses
      */
     public function __get($name)
@@ -164,7 +164,7 @@ final class Button implements ButtonInterface
      *
      * @return void
      *
-     * @since       __DEPLOY_VERSION__
+     * @since       5.0.0
      * @deprecated  6.0  This is a B/C proxy for deprecated write accesses
      */
     public function __set($name, $value)

@@ -22,7 +22,7 @@ use Joomla\Event\DispatcherInterface;
 /**
  * Service provider for the application's CaptchaRegistry dependency
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class CaptchaRegistry implements ServiceProviderInterface
 {
@@ -33,7 +33,7 @@ class CaptchaRegistry implements ServiceProviderInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function register(Container $container)
     {

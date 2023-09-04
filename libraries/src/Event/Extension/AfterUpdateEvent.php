@@ -18,7 +18,7 @@ use Joomla\CMS\Installer\Installer;
 /**
  * Class for Extension events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterUpdateEvent extends AbstractExtensionEvent
 {
@@ -27,7 +27,7 @@ class AfterUpdateEvent extends AbstractExtensionEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['installer', 'eid'];
@@ -40,7 +40,7 @@ class AfterUpdateEvent extends AbstractExtensionEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -62,7 +62,7 @@ class AfterUpdateEvent extends AbstractExtensionEvent
      *
      * @return  Installer
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setInstaller(Installer $value): Installer
     {
@@ -76,7 +76,7 @@ class AfterUpdateEvent extends AbstractExtensionEvent
      *
      * @return  int|bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setEid(int|bool $value): int|bool
     {
@@ -88,7 +88,7 @@ class AfterUpdateEvent extends AbstractExtensionEvent
      *
      * @return  Installer
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getInstaller(): Installer
     {
@@ -100,7 +100,7 @@ class AfterUpdateEvent extends AbstractExtensionEvent
      *
      * @return  int|bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getEid(): int|bool
     {

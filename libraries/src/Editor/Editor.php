@@ -47,7 +47,7 @@ class Editor implements DispatcherAwareInterface
      * Captcha Provider instance
      *
      * @var    EditorProviderInterface
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     private $provider;
 
@@ -226,6 +226,9 @@ class Editor implements DispatcherAwareInterface
 
             return '';
         }
+
+        // Make sure editors api is loaded
+        Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('editors');
 
         // Backwards compatibility. Width and height should be passed without a semicolon from now on.
         // If editor plugins need a unit like "px" for CSS styling, they need to take care of that

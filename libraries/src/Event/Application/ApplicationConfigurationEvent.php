@@ -19,7 +19,7 @@ use Joomla\Registry\Registry;
 /**
  * Class for Application Configuration events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 abstract class ApplicationConfigurationEvent extends AbstractImmutableEvent
 {
@@ -31,7 +31,7 @@ abstract class ApplicationConfigurationEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -49,7 +49,7 @@ abstract class ApplicationConfigurationEvent extends AbstractImmutableEvent
      *
      * @return  Registry
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(Registry $value): Registry
     {
@@ -61,7 +61,7 @@ abstract class ApplicationConfigurationEvent extends AbstractImmutableEvent
      *
      * @return  Registry
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getConfiguration(): Registry
     {

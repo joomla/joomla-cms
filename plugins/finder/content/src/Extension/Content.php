@@ -88,17 +88,17 @@ final class Content extends Adapter implements SubscriberInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public static function getSubscribedEvents(): array
     {
-        return [
+        return array_merge([
             'onFinderCategoryChangeState' => 'onFinderCategoryChangeState',
             'onFinderChangeState'         => 'onFinderChangeState',
             'onFinderAfterDelete'         => 'onFinderAfterDelete',
             'onFinderBeforeSave'          => 'onFinderBeforeSave',
             'onFinderAfterSave'           => 'onFinderAfterSave',
-        ];
+        ], parent::getSubscribedEvents());
     }
 
     /**

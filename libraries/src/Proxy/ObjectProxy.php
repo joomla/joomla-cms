@@ -16,7 +16,7 @@ namespace Joomla\CMS\Proxy;
 /**
  * Object proxy class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class ObjectProxy implements ProxyInterface, \Iterator
 {
@@ -25,7 +25,7 @@ class ObjectProxy implements ProxyInterface, \Iterator
      *
      * @var object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $data;
 
@@ -34,7 +34,7 @@ class ObjectProxy implements ProxyInterface, \Iterator
      *
      * @var \ArrayIterator
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $iterator;
 
@@ -43,7 +43,7 @@ class ObjectProxy implements ProxyInterface, \Iterator
      *
      * @param  object  $data  The object for Proxy access
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function __construct(object $data)
     {
@@ -57,7 +57,7 @@ class ObjectProxy implements ProxyInterface, \Iterator
      *
      * @return mixed
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function __get($key): mixed
     {
@@ -72,7 +72,7 @@ class ObjectProxy implements ProxyInterface, \Iterator
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function __set($key, $value): void
     {
@@ -84,7 +84,7 @@ class ObjectProxy implements ProxyInterface, \Iterator
      *
      * @return mixed
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function current(): mixed
     {
@@ -96,7 +96,7 @@ class ObjectProxy implements ProxyInterface, \Iterator
      *
      * @return mixed
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function key(): mixed
     {
@@ -108,7 +108,7 @@ class ObjectProxy implements ProxyInterface, \Iterator
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function next(): void
     {
@@ -120,7 +120,7 @@ class ObjectProxy implements ProxyInterface, \Iterator
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function rewind(): void
     {
@@ -132,7 +132,7 @@ class ObjectProxy implements ProxyInterface, \Iterator
      *
      * @return boolean
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function valid(): bool
     {

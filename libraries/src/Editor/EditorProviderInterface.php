@@ -14,7 +14,7 @@ use Joomla\CMS\Editor\Button\ButtonInterface;
 /**
  * Editor provider interface
  *
- * @since   __DEPLOY_VERSION__
+ * @since   5.0.0
  */
 interface EditorProviderInterface
 {
@@ -22,7 +22,7 @@ interface EditorProviderInterface
      * Return Editor name, CMD string.
      *
      * @return string
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getName(): string;
 
@@ -36,7 +36,7 @@ interface EditorProviderInterface
      *
      * @return  string  The HTML markup of the editor
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function display(string $name, string $content = '', array $attributes = [], array $params = []): string;
 
@@ -48,7 +48,7 @@ interface EditorProviderInterface
      *
      * @return  ButtonInterface[]
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getButtons($buttons, array $options = []): array;
 }

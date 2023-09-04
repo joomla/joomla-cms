@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\User;
  * Example:
  *  new AfterDeleteEvent('onEventName', ['subject' => $userArray, 'deletingResult' => $result, 'errorMessage' => $errorStr]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterDeleteEvent extends AbstractDeleteEvent
 {
@@ -27,10 +27,29 @@ class AfterDeleteEvent extends AbstractDeleteEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject', 'deletingResult', 'errorMessage'];
+
+    /**
+     * Constructor.
+     *
+     * @param   string  $name       The event name.
+     * @param   array   $arguments  The event arguments.
+     *
+     * @throws  \BadMethodCallException
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct($name, array $arguments = [])
+    {
+        parent::__construct($name, $arguments);
+
+        if (!\array_key_exists('deletingResult', $this->arguments)) {
+            throw new \BadMethodCallException("Argument 'deletingResult' of event {$name} is required but has not been provided");
+        }
+    }
 
     /**
      * Setter for the deletingResult argument.
@@ -39,7 +58,7 @@ class AfterDeleteEvent extends AbstractDeleteEvent
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setDeletingResult(bool $value): bool
     {
@@ -49,13 +68,13 @@ class AfterDeleteEvent extends AbstractDeleteEvent
     /**
      * Setter for the errorMessage argument.
      *
-     * @param   string  $value  The value to set
+     * @param   ?string  $value  The value to set
      *
-     * @return  string
+     * @return  ?string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
-    protected function setErrorMessage(string $value): string
+    protected function setErrorMessage(?string $value): ?string
     {
         return $value;
     }
@@ -65,7 +84,7 @@ class AfterDeleteEvent extends AbstractDeleteEvent
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getDeletingResult(): bool
     {
@@ -77,10 +96,10 @@ class AfterDeleteEvent extends AbstractDeleteEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getErrorMessage(): string
     {
-        return $this->arguments['errorMessage'];
+        return $this->arguments['errorMessage'] ?? '';
     }
 }

@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\User;
 /**
  * Base class for User save event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 abstract class AbstractSaveEvent extends UserEvent
 {
@@ -25,10 +25,29 @@ abstract class AbstractSaveEvent extends UserEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject', 'isNew'];
+
+    /**
+     * Constructor.
+     *
+     * @param   string  $name       The event name.
+     * @param   array   $arguments  The event arguments.
+     *
+     * @throws  \BadMethodCallException
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct($name, array $arguments = [])
+    {
+        parent::__construct($name, $arguments);
+
+        if (!\array_key_exists('isNew', $this->arguments)) {
+            throw new \BadMethodCallException("Argument 'isNew' of event {$name} is required but has not been provided");
+        }
+    }
 
     /**
      * Setter for the subject argument.
@@ -37,7 +56,7 @@ abstract class AbstractSaveEvent extends UserEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(array $value): array
     {
@@ -51,7 +70,7 @@ abstract class AbstractSaveEvent extends UserEvent
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setIsNew($value): bool
     {
@@ -63,7 +82,7 @@ abstract class AbstractSaveEvent extends UserEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getUser(): array
     {
@@ -75,7 +94,7 @@ abstract class AbstractSaveEvent extends UserEvent
      *
      * @return  boolean
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getIsNew(): bool
     {

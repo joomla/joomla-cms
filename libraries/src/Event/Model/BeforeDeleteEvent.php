@@ -22,7 +22,7 @@ use Joomla\CMS\Event\Result\ResultTypeBooleanAware;
  * Example:
  *  new BeforeDeleteEvent('onEventName', ['context' => 'com_example.example', 'subject' => $itemObjectToDelete]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforeDeleteEvent extends DeleteEvent implements ResultAwareInterface
 {

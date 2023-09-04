@@ -20,7 +20,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
  * Example:
  *  new PrepareDataEvent('onSchemaPrepareData', ['subject' => $data, 'context' => 'com_example.example']);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class PrepareDataEvent extends AbstractImmutableEvent
 {
@@ -32,7 +32,7 @@ class PrepareDataEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -54,7 +54,7 @@ class PrepareDataEvent extends AbstractImmutableEvent
      *
      * @return  object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function setSubject(object $value): object
     {
@@ -68,7 +68,7 @@ class PrepareDataEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function setContext(string $value): string
     {
@@ -80,7 +80,7 @@ class PrepareDataEvent extends AbstractImmutableEvent
      *
      * @return  object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getData(): object
     {
@@ -92,7 +92,7 @@ class PrepareDataEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getContext(): string
     {

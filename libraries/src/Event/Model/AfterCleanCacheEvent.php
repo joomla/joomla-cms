@@ -19,7 +19,7 @@ use Joomla\CMS\Event\ReshapeArgumentsAware;
 /**
  * Class for Clean cache events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterCleanCacheEvent extends AbstractImmutableEvent
 {
@@ -30,7 +30,7 @@ class AfterCleanCacheEvent extends AbstractImmutableEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['defaultgroup', 'cachebase', 'result'];
@@ -43,7 +43,7 @@ class AfterCleanCacheEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -74,7 +74,7 @@ class AfterCleanCacheEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setDefaultgroup(string $value): string
     {
@@ -88,7 +88,7 @@ class AfterCleanCacheEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setCachebase(string $value): string
     {
@@ -102,7 +102,7 @@ class AfterCleanCacheEvent extends AbstractImmutableEvent
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setResult(bool $value): bool
     {
@@ -114,7 +114,7 @@ class AfterCleanCacheEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getDefaultGroup(): string
     {
@@ -126,7 +126,7 @@ class AfterCleanCacheEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getCacheBase(): string
     {
@@ -138,7 +138,7 @@ class AfterCleanCacheEvent extends AbstractImmutableEvent
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getResult(): bool
     {

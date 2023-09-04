@@ -69,7 +69,7 @@ final class JobPosting extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function onSchemaBeforeCompileHead(BeforeCompileHeadEvent $event)
     {

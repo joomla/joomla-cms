@@ -19,7 +19,7 @@ use Joomla\CMS\Event\ReshapeArgumentsAware;
 /**
  * Base class for User events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 abstract class UserEvent extends AbstractImmutableEvent
 {
@@ -30,7 +30,7 @@ abstract class UserEvent extends AbstractImmutableEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = [];
@@ -43,7 +43,7 @@ abstract class UserEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -52,10 +52,10 @@ abstract class UserEvent extends AbstractImmutableEvent
             $arguments = $this->reshapeArguments($arguments, $this->legacyArgumentsOrder);
         }
 
-        if (!\array_key_exists('subject', $arguments)) {
+        parent::__construct($name, $arguments);
+
+        if (!\array_key_exists('subject', $this->arguments)) {
             throw new \BadMethodCallException("Argument 'subject' of event {$name} is required but has not been provided");
         }
-
-        parent::__construct($name, $arguments);
     }
 }

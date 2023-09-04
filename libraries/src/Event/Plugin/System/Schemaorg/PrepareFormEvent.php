@@ -21,7 +21,7 @@ use Joomla\CMS\Form\Form;
  * Example:
  *  new PrepareFormEvent('onSchemaPrepareForm', ['subject' => $form]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class PrepareFormEvent extends AbstractImmutableEvent
 {
@@ -33,7 +33,7 @@ class PrepareFormEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -51,7 +51,7 @@ class PrepareFormEvent extends AbstractImmutableEvent
      *
      * @return  Form
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function setSubject(Form $value): Form
     {
@@ -63,7 +63,7 @@ class PrepareFormEvent extends AbstractImmutableEvent
      *
      * @return  Form
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getForm(): Form
     {

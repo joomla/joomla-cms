@@ -16,7 +16,7 @@ namespace Joomla\CMS\Captcha\Exception;
 /**
  * Exception class defining a missing element
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class CaptchaNotFoundException extends \RuntimeException
 {

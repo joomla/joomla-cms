@@ -15,7 +15,7 @@ namespace Joomla\CMS\Editor\Button;
 
 /**
  * Buttons Registry class
- * @since   __DEPLOY_VERSION__
+ * @since   5.0.0
  */
 interface ButtonsRegistryInterface
 {
@@ -25,7 +25,7 @@ interface ButtonsRegistryInterface
      * @param   ButtonInterface $instance
      *
      * @return  static
-     * @since    __DEPLOY_VERSION__
+     * @since    5.0.0
      */
     public function add(ButtonInterface $instance): ButtonsRegistryInterface;
 
@@ -33,7 +33,7 @@ interface ButtonsRegistryInterface
      * Return list of all registered elements
      *
      * @return ButtonInterface[]
-     * @since    __DEPLOY_VERSION__
+     * @since    5.0.0
      */
     public function getAll(): array;
 
@@ -43,7 +43,7 @@ interface ButtonsRegistryInterface
      * @param array $options  Extra data with editor information.
      *
      * @return  ButtonsRegistryInterface
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function initRegistry(array $options = []): ButtonsRegistryInterface;
 }

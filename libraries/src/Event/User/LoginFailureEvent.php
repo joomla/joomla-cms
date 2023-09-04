@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\User;
  * Example:
  *  new LoginFailureEvent('onEventName', ['subject' => $authenticationResponseArray, 'options' => $options]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class LoginFailureEvent extends AbstractLoginEvent
 {

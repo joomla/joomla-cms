@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\Extension;
 /**
  * Class for Extension events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforeUninstallEvent extends AbstractExtensionEvent
 {
@@ -25,7 +25,7 @@ class BeforeUninstallEvent extends AbstractExtensionEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['eid'];
@@ -38,7 +38,7 @@ class BeforeUninstallEvent extends AbstractExtensionEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -56,7 +56,7 @@ class BeforeUninstallEvent extends AbstractExtensionEvent
      *
      * @return  integer
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setEid(int $value): int
     {
@@ -68,7 +68,7 @@ class BeforeUninstallEvent extends AbstractExtensionEvent
      *
      * @return  integer
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getEid(): int
     {

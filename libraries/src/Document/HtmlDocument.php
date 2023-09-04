@@ -127,7 +127,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * List of type \Joomla\CMS\Toolbar\Toolbar
      *
      * @var    Toolbar[]
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     private $toolbars = [];
 
@@ -796,7 +796,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      *
      * @return  ?Toolbar
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getToolbar(string $toolbar = 'toolbar', bool $create = true): ?Toolbar
     {
@@ -816,7 +816,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getToolbars(): array
     {
@@ -831,7 +831,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      *
      * @return  $this
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function setToolbar(string $name, Toolbar $toolbar): self
     {

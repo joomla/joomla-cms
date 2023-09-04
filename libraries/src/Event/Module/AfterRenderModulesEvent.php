@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\Module;
  * Example:
  *  new AfterRenderModulesEvent('onEventName', ['subject' => $content, 'attributes' => $attrs]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterRenderModulesEvent extends ModuleEvent
 {
@@ -27,7 +27,7 @@ class AfterRenderModulesEvent extends ModuleEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject', 'attributes'];
@@ -40,7 +40,7 @@ class AfterRenderModulesEvent extends ModuleEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -48,6 +48,15 @@ class AfterRenderModulesEvent extends ModuleEvent
 
         if (!\array_key_exists('attributes', $this->arguments)) {
             throw new \BadMethodCallException("Argument 'attributes' of event {$name} is required but has not been provided");
+        }
+
+        // For backward compatibility make sure the content is referenced
+        // TODO: Remove in Joomla 6
+        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
+        if (key($arguments) === 0) {
+            $this->arguments['subject'] = &$arguments[0];
+        } elseif (\array_key_exists('subject', $arguments)) {
+            $this->arguments['subject'] = &$arguments['subject'];
         }
     }
 
@@ -58,7 +67,7 @@ class AfterRenderModulesEvent extends ModuleEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(string $value): string
     {
@@ -72,7 +81,7 @@ class AfterRenderModulesEvent extends ModuleEvent
      *
      * @return  array|\ArrayAccess
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setAttributes(array|\ArrayAccess $value): array|\ArrayAccess
     {
@@ -84,7 +93,7 @@ class AfterRenderModulesEvent extends ModuleEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getContent(): string
     {
@@ -96,11 +105,11 @@ class AfterRenderModulesEvent extends ModuleEvent
      *
      * @param   string  $value  The value to set
      *
-     * @return  self
+     * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
-    public function setContent(string $value): self
+    public function updateContent(string $value): static
     {
         $this->arguments['subject'] = $value;
 
@@ -112,7 +121,7 @@ class AfterRenderModulesEvent extends ModuleEvent
      *
      * @return  array|\ArrayAccess
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getAttributes(): array|\ArrayAccess
     {

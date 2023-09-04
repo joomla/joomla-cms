@@ -22,7 +22,7 @@ use Joomla\CMS\Event\Result\ResultTypeBooleanAware;
  * Example:
  *  new BeforeChangeStateEvent('onEventName', ['context' => 'com_example.example', 'subject' => $primaryKeys, 'value' => $newState]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforeChangeStateEvent extends ChangeStateEvent implements ResultAwareInterface
 {

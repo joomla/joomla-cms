@@ -251,6 +251,7 @@
 					type="text"
 					label="COM_FIELDS_FIELD_SHOWON_LABEL"
 					description="COM_FIELDS_FIELD_SHOWON_DESC"
+					validate="ShowOn"
 				/>
 
 			</fieldset>

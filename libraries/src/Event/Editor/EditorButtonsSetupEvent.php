@@ -15,7 +15,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 /**
  * Editor setup event
  *
- * @since   __DEPLOY_VERSION__
+ * @since   5.0.0
  */
 final class EditorButtonsSetupEvent extends AbstractImmutableEvent
 {
@@ -27,7 +27,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -53,7 +53,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @return  ButtonsRegistryInterface
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(ButtonsRegistryInterface $value): ButtonsRegistryInterface
     {
@@ -65,7 +65,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @return  ButtonsRegistryInterface
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getButtonsRegistry(): ButtonsRegistryInterface
     {
@@ -79,7 +79,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setEditorType(string $value): string
     {
@@ -91,7 +91,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getEditorType(): string
     {
@@ -105,7 +105,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setDisabledButtons(array $value): array
     {
@@ -117,7 +117,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getDisabledButtons(): array
     {
@@ -131,7 +131,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setEditorId(string $value): string
     {
@@ -143,7 +143,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getEditorId(): string
     {
@@ -157,7 +157,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @return  int
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setAsset(int $value): int
     {
@@ -169,7 +169,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @return  int
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getAsset(): int
     {
@@ -183,7 +183,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @return  int
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setAuthor(int $value): int
     {
@@ -195,7 +195,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @return  int
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getAuthor(): int
     {

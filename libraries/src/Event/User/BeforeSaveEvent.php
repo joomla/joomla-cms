@@ -22,7 +22,7 @@ use Joomla\CMS\Event\Result\ResultTypeBooleanAware;
  * Example:
  *  new BeforeSaveEvent('onEventName', ['subject' => $oldUserArray, 'isNew' => $isNew, 'data' => $data]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforeSaveEvent extends AbstractSaveEvent implements ResultAwareInterface
 {
@@ -34,7 +34,7 @@ class BeforeSaveEvent extends AbstractSaveEvent implements ResultAwareInterface
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject', 'isNew', 'data'];
@@ -46,7 +46,7 @@ class BeforeSaveEvent extends AbstractSaveEvent implements ResultAwareInterface
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setData(array $value): array
     {
@@ -58,7 +58,7 @@ class BeforeSaveEvent extends AbstractSaveEvent implements ResultAwareInterface
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getData(): array
     {
