@@ -1022,20 +1022,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             ? ((string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false)
             : false;
 
-        // Check if the field has showon in nested option
-        $hasOptionShowOn = false;
-
-        if (!empty((array) $this->element->xpath('option'))) {
-            foreach ($this->element->xpath('option') as $option) {
-                if ((string) $option['showon']) {
-                    $hasOptionShowOn = true;
-
-                    break;
-                }
-            }
-        }
-
-        if ($this->showon || $hasOptionShowOn) {
+        if ($this->showon) {
             $options['rel']           = ' data-showon=\'' .
                 json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
             $options['showonEnabled'] = true;
@@ -1292,12 +1279,17 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      */
     protected function getLayoutData()
     {
-        $label       = !empty($this->element['label']) ? (string) $this->element['label'] : null;
-        $label       = $label && $this->translateLabel ? Text::_($label) : $label;
+        // Label preprocess
+        $label = !empty($this->element['label']) ? (string) $this->element['label'] : null;
+        $label = $label && $this->translateLabel ? Text::_($label) : $label;
+
+        // Description preprocess
         $description = !empty($this->description) ? $this->description : null;
         $description = !empty($description) && $this->translateDescription ? Text::_($description) : $description;
-        $alt         = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
-        $options     = [
+
+        $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
+
+        return [
             'autocomplete'   => $this->autocomplete,
             'autofocus'      => $this->autofocus,
             'class'          => $this->class,
@@ -1327,8 +1319,6 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             'dataAttributes' => $this->dataAttributes,
             'parentclass'    => $this->parentclass,
         ];
-
-        return $options;
     }
 
     /**

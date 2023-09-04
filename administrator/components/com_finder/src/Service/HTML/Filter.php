@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\ParameterType;
 use Joomla\Filter\OutputFilter;
 use Joomla\Registry\Registry;
 
@@ -293,19 +292,11 @@ class Filter
                 $query->clear()
                     ->select('t.*')
                     ->from($db->quoteName('#__finder_taxonomy') . ' AS t')
-                    ->where('t.lft > :lft')
-                    ->where('t.rgt < :rgt')
+                    ->where('t.lft > ' . (int) $bv->lft)
+                    ->where('t.rgt < ' . (int) $bv->rgt)
                     ->where('t.state = 1')
-                    ->whereIn('t.access', $user->getAuthorisedViewLevels())
-                    ->order('t.title')
-                    ->bind(':lft', $bv->lft, ParameterType::INTEGER)
-                    ->bind(':rgt', $bv->rgt, ParameterType::INTEGER);
-
-                // Apply multilanguage filter
-                if (Multilanguage::isEnabled()) {
-                    $language = [Factory::getLanguage()->getTag(), '*'];
-                    $query->whereIn($db->quoteName('t.language'), $language, ParameterType::STRING);
-                }
+                    ->where('t.access IN (' . $groups . ')')
+                    ->order('t.title');
 
                 // Self-join to get the parent title.
                 $query->select('e.title AS parent_title')
@@ -313,7 +304,7 @@ class Filter
 
                 // Limit the nodes to a predefined filter.
                 if (!empty($filter->data)) {
-                    $query->whereIn('t.id', explode(",", $filter->data));
+                    $query->where('t.id IN(' . $filter->data . ')');
                 }
 
                 // Load the branches.
