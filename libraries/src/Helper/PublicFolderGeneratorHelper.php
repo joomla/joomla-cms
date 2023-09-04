@@ -37,6 +37,42 @@ class PublicFolderGeneratorHelper
         '/media',
     ];
 
+    private $definesTemplate = <<<PHP
+<?php
+
+/**
+ * @package    Joomla.Site
+ *
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+define('JPATH_ROOT', {{ROOTFOLDER}});
+define('JPATH_PUBLIC', {{PUBLICFOLDER}});
+define('JPATH_BASE', JPATH_ROOT . $applicationPath);
+
+unset($applicationPath);
+
+PHP;
+
+
+    private $indexTemplate = <<<PHP
+<?php
+
+/**
+ * @package    Joomla.Site
+ *
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+$applicationPath = {{APPLICATIONPATH}};
+
+require_once dirname(__DIR__) . '/defines.php';
+require_once JPATH_BASE . '/index.php';
+
+PHP;
+
     /**
      * Creates a public folder
      *
@@ -100,34 +136,17 @@ class PublicFolderGeneratorHelper
             $this->createFile($destinationPath . $file, file_get_contents(JPATH_ROOT . $file));
         }
 
-        $indexTemplate = <<<PHP
-<?php
-
-/**
- * Joomla Application Entry file
- *
- * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
- */
-
-define('JPATH_ROOT', {{ROOTFOLDER}});
-define('JPATH_BASE', {{BASEFOLDER}});
-define('JPATH_PUBLIC', {{PUBLICFOLDER}});
-
-require_once JPATH_BASE . '/index.php';
-PHP;
-
-        $search  = ['{{ROOTFOLDER}}', '{{PUBLICFOLDER}}', '{{BASEFOLDER}}'];
-        $replace = ['"' . JPATH_ROOT . '"', '"' . $destinationPath . '"'];
+        // Create the defines.php
+        $this->createFile($destinationPath . '/defines.php', str_replace(['{{ROOTFOLDER}}', '{{PUBLICFOLDER}}'], ['"' . JPATH_ROOT . '"', '"' . $destinationPath . '"'], $this->definesTemplate));
 
         // The root index.php
-        $this->createFile($destinationPath . '/index.php', str_replace($search, [...$replace, '"' . JPATH_ROOT . '"'], $indexTemplate));
+        $this->createFile($destinationPath . '/index.php', str_replace('{{APPLICATIONPATH}}', '', $this->indexTemplate));
 
         // The Administrator root index.php
-        $this->createFile($destinationPath . '/administrator/index.php', str_replace($search, [...$replace, '"' . JPATH_ROOT . DIRECTORY_SEPARATOR . 'administrator"'], $indexTemplate));
+        $this->createFile($destinationPath . '/administrator/index.php', str_replace('{{APPLICATIONPATH}}', DIRECTORY_SEPARATOR . 'administrator"', $this->indexTemplate));
 
         // The API root index.php
-        $this->createFile($destinationPath . '/api/index.php', str_replace($search, [...$replace, '"' . JPATH_ROOT . DIRECTORY_SEPARATOR . 'api"'], $indexTemplate));
+        $this->createFile($destinationPath . '/api/index.php', str_replace('{{APPLICATIONPATH}}', DIRECTORY_SEPARATOR . 'api"', $this->indexTemplate));
     }
 
     /**
