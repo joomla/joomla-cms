@@ -112,10 +112,6 @@ define('JPATH_PUBLIC', {{PUBLICFOLDER}});
 require_once JPATH_BASE . '/index.php';
 PHP;
 
-        if (!$indexTemplate) {
-            throw new \Exception('Could\'t read the index template file.');
-        }
-
         $search  = ['{{ROOTFOLDER}}', '{{PUBLICFOLDER}}', '{{BASEFOLDER}}'];
         $replace = ['"' . JPATH_ROOT . '"', '"' . $destinationPath . '"'];
 
