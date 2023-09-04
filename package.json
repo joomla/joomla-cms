@@ -63,7 +63,7 @@
     "punycode": "^2.3.0",
     "qrcode-generator": "^1.4.4",
     "roboto-fontface": "^0.10.0",
-    "shepherd.js": "^11.1.1",
+    "shepherd.js": "^11.2.0",
     "short-and-sweet": "^1.0.4",
     "skipto": "^4.1.7",
     "tinymce": "^5.10.7",
