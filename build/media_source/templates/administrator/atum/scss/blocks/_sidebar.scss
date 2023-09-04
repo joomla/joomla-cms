@@ -6,6 +6,9 @@
   overflow: hidden;
   background-color: var(--template-sidebar-bg);
   box-shadow: 0 0 20px -10px var(--template-bg-dark-50);
+  background-image: url(../images/joomla-pattern-5.svg);
+  background-repeat: repeat;
+  background-size: 200px;
 
   .sidebar-sticky {
     position: sticky;
