@@ -95,35 +95,42 @@ class PublicFolderGeneratorHelper
             $this->createFile($destinationPath . $file, file_get_contents(JPATH_ROOT . $file));
         }
 
-        $indexTemplate = file_get_contents(__DIR__ . '/indexTemplate.php');
+        $indexTemplate = <<<PHP
+<?php
+
+/**
+ * Joomla Application Entry file
+ *
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+define('JPATH_ROOT', {{ROOTFOLDER}});
+define('JPATH_BASE', {{BASEFOLDER}});
+define('JPATH_PUBLIC', {{PUBLICFOLDER}});
+
+require_once JPATH_BASE . '/index.php';
+PHP;
 
         if (!$indexTemplate) {
             throw new \Exception('Could\'t read the index template file.');
         }
 
-        $search  = ['{{ROOTFOLDER}}', '{{PUBLICFOLDER}}', '{{BASEFOLDER}}', '{{DIECONDITIONAL}}'];
+        $search  = ['{{ROOTFOLDER}}', '{{PUBLICFOLDER}}', '{{BASEFOLDER}}'];
         $replace = ['"' . JPATH_ROOT . '"', '"' . $destinationPath . '"'];
 
         // The root index.php
         $replace[] = '"' . JPATH_ROOT . '"';
-        $replace[] = "die(str_replace('{{phpversion}}', JOOMLA_MINIMUM_PHP, file_get_contents(JPATH_ROOT . '/includes/incompatible.html')));";
 
         $this->createFile($destinationPath . '/index.php', str_replace($search, $replace, $indexTemplate));
 
-        // The administrator root index.php
+        // The Administrator root index.php
         $replace[] = '"' . JPATH_ROOT . '/administrator"';
-        $replace[] = "die(str_replace('{{phpversion}}', JOOMLA_MINIMUM_PHP, file_get_contents(JPATH_ROOT . '/administrator/includes/incompatible.html')));";
 
         $this->createFile($destinationPath . '/administrator/index.php', str_replace($search, $replace, $indexTemplate));
 
-        // The root index.php
+        // The API root index.php
         $replace[] = '"' . JPATH_ROOT . '/api"';
-        $replace[] = <<<PHP
-    header('HTTP/1.1 500 Internal Server Error');
-    echo json_encode(['error' => sprintf('Joomla requires PHP version %s to run', JOOMLA_MINIMUM_PHP)]);
-
-    return;
-PHP;
 
         $this->createFile($destinationPath . '/api/index.php', str_replace($search, $replace, $indexTemplate));
     }
