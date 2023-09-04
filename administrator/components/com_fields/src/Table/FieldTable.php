@@ -18,6 +18,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -45,13 +46,14 @@ class FieldTable extends Table implements CurrentUserInterface
     /**
      * Class constructor.
      *
-     * @param   DatabaseDriver  $db  DatabaseDriver object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.7.0
      */
-    public function __construct($db = null)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__fields', 'id', $db);
+        parent::__construct('#__fields', 'id', $db, $dispatcher);
 
         $this->setColumnAlias('published', 'state');
     }
@@ -150,7 +152,7 @@ class FieldTable extends Table implements CurrentUserInterface
         $this->name = str_replace(',', '-', $this->name);
 
         // Verify that the name is unique
-        $table = new static($this->_db);
+        $table = new self($this->_db, $this->getDispatcher());
 
         if ($table->load(['name' => $this->name]) && ($table->id != $this->id || $this->id == 0)) {
             $this->setError(Text::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
