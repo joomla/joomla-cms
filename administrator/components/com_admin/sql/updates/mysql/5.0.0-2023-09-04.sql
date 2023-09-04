@@ -1,5 +1,5 @@
 -- Reset default style in administrator
-UPDATE `#__template_styles` SET `home` = 0 WHERE `client_id` = '1';
+UPDATE `#__template_styles` SET `home` = '0' WHERE `client_id` = 1;
 
 -- Insert new style for Joomla! 5
 INSERT INTO `#__template_styles` (`template`, `client_id`, `home`, `title`, `inheritable`, `parent`, `params`) VALUES
