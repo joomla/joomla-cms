@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 
 $data = $displayData;
 $wa   = Factory::getDocument()->getWebAssetManager();
-
+$wa->getRegistry()->addExtensionRegistryFile('plg_editors_tinymce');
 $wa->useScript('tinymce')->useScript('plg_editors_tinymce');
 ?>
 <textarea
