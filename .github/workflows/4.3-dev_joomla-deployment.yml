@@ -33,7 +33,10 @@ jobs:
         with:
           name: ASP-app
           path: '/published/**'
+      - name: Restore .NET Core packages
+        run: dotnet restore
 
+  
   deploy:
     runs-on: windows-latest
     needs: build
