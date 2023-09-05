@@ -17,7 +17,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\SubscriberInterface;
-use Joomla\Plugin\Editors\CodeMirror\Provider\TinyMCEProvider;
+use Joomla\Plugin\Editors\TinyMCE\Provider\TinyMCEProvider;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -58,7 +58,7 @@ final class TinyMCE extends CMSPlugin implements SubscriberInterface
         $this->loadLanguage();
 
         $event->getEditorsRegistry()
-            ->add(new TinyMCEProvider($this->params, $this->getApplication(), $this->getDispatcher()));
+            ->add(new TinyMCEProvider($this->params, $this->getApplication(), $this->getDispatcher(), $this->getDatabase()));
     }
 
     /**
