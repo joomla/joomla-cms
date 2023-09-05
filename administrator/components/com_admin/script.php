@@ -784,6 +784,7 @@ class JoomlaInstallerScript
             '/libraries/vendor/symfony/polyfill-php81/bootstrap.php',
             '/libraries/vendor/symfony/polyfill-php81/LICENSE',
             '/libraries/vendor/symfony/polyfill-php81/Php81.php',
+            '/libraries/vendor/symfony/polyfill-php81/Resources/stubs/CURLStringFile.php',
             '/libraries/vendor/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
             '/libraries/vendor/web-auth/cose-lib/src/Verifier.php',
             '/libraries/vendor/web-auth/metadata-service/src/AuthenticatorStatus.php',
