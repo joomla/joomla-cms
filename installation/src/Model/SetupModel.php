@@ -109,7 +109,7 @@ class SetupModel extends BaseInstallationModel
             return false;
         }
 
-        /** @todo make this available in web installert too */
+        /** @todo make this available in web installer too */
         if (!Factory::getApplication()->isClient('cli_installation')) {
             $form->removeField('public_folder');
         }
