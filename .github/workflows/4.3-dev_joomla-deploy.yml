@@ -34,6 +34,13 @@ jobs:
           name: ASP-app
           path: '/published/**'
 
+      - script: |
+          echo "Current directory: $(pwd)"
+          ls -l
+          nuget restore
+        displayName: 'Debugging NuGet Restore'
+
+
   deploy:
     runs-on: windows-latest
     needs: build
