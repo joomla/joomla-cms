@@ -120,7 +120,7 @@ PHP;
             !mkdir($fullDestinationPath . '/administrator/components/com_joomlaupdate', 0755, true)
             || !mkdir($fullDestinationPath . '/api', 0755, true)
         ) {
-            throw new \Exception('Unable to create the given folder, check the permissions');
+            throw new \Exception('Unable to create the given folder, check the permissions.');
         }
 
         // Create essential symlinks
