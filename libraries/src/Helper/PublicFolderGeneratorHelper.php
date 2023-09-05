@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Helper;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 
