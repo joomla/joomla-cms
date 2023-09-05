@@ -56,7 +56,7 @@ $this->document->addScriptOptions('com_media', $config);
 
 $this->useCoreUI = true;
 ?>
-<?php if ($tmpl === 'component'): ?>
+<?php if ($tmpl === 'component') : ?>
 <div class="subhead noshadow mb-3">
     <?php echo $this->document->getToolbar('toolbar')->render(); ?>
 </div>
