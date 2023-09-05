@@ -325,7 +325,7 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function migrateLogRotationPlugin($data)
     {
@@ -368,7 +368,7 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function migrateSessionGCPlugin($data)
     {
@@ -411,7 +411,7 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function migrateUpdatenotificationPlugin($data)
     {
@@ -2415,7 +2415,7 @@ class JoomlaInstallerScript
      *
      * @return  boolean  True on success
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function migrateDeleteActionlogsConfiguration(): bool
     {
@@ -2659,7 +2659,7 @@ class JoomlaInstallerScript
      *
      * @return  boolean  True on success
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function setGuidedToursUid()
     {

@@ -32,7 +32,7 @@ final class ReadMore extends CMSPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -43,7 +43,7 @@ final class ReadMore extends CMSPlugin implements SubscriberInterface
      * @param  EditorButtonsSetupEvent $event
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function onEditorButtonsSetup(EditorButtonsSetupEvent $event)
     {

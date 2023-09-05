@@ -18,7 +18,7 @@ use Joomla\CMS\Form\FormField;
 /**
  * Provides a modal content selection
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class ModalSelectField extends FormField
 {
@@ -26,7 +26,7 @@ class ModalSelectField extends FormField
      * The form field type.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $type = 'ModalSelect';
 
@@ -34,7 +34,7 @@ class ModalSelectField extends FormField
      * Layout to render
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $layout = 'joomla.form.field.modal-select';
 
@@ -42,7 +42,7 @@ class ModalSelectField extends FormField
      * Enabled actions: select, clear, edit, new
      *
      * @var    boolean[]
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $canDo = [];
 
@@ -50,7 +50,7 @@ class ModalSelectField extends FormField
      * Urls for modal: select, edit, new
      *
      * @var    string[]
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $urls = [];
 
@@ -58,7 +58,7 @@ class ModalSelectField extends FormField
      * List of titles for each modal type: select, edit, new
      *
      * @var    string[]
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $modalTitles = [];
 
@@ -72,7 +72,7 @@ class ModalSelectField extends FormField
      * @return  boolean  True on success.
      *
      * @see     FormField::setup()
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
@@ -103,7 +103,7 @@ class ModalSelectField extends FormField
      *
      * @return  mixed  The property value or null.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __get($name)
     {
@@ -143,7 +143,7 @@ class ModalSelectField extends FormField
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __set($name, $value)
     {
@@ -191,7 +191,7 @@ class ModalSelectField extends FormField
      *
      * @return  string  The field input markup.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getInput()
     {
@@ -213,7 +213,7 @@ class ModalSelectField extends FormField
      *
      * @return string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getValueTitle()
     {
@@ -225,7 +225,7 @@ class ModalSelectField extends FormField
      *
      * @return  array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     protected function getLayoutData()
     {

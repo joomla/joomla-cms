@@ -20,7 +20,7 @@ use Joomla\CMS\MVC\Model\BaseModel;
 /**
  * Class for menu events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
 {
@@ -31,7 +31,7 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['items', 'subject'];
@@ -44,7 +44,7 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -71,7 +71,7 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
      *
      * @return  BaseModel
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(BaseModel $value): BaseModel
     {
@@ -85,7 +85,7 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
      *
      * @return  array|\ArrayAccess
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setItems(array|\ArrayAccess $value): array|\ArrayAccess
     {
@@ -97,7 +97,7 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
      *
      * @return  BaseModel
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getModel(): BaseModel
     {
@@ -109,7 +109,7 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
      *
      * @return  array|\ArrayAccess
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getItems(): array|\ArrayAccess
     {

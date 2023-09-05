@@ -48,7 +48,7 @@ class ArticleField extends ModalSelectField
      * @return  boolean  True on success.
      *
      * @see     FormField::setup()
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
@@ -122,7 +122,7 @@ class ArticleField extends ModalSelectField
      *
      * @return string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getValueTitle()
     {
@@ -153,7 +153,7 @@ class ArticleField extends ModalSelectField
      *
      * @return  array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     protected function getLayoutData()
     {
@@ -170,7 +170,7 @@ class ArticleField extends ModalSelectField
      *
      * @return  FileLayout
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getRenderer($layoutId = 'default')
     {

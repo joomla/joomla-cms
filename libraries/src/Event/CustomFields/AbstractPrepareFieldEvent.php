@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\CustomFields;
 /**
  * Class for CustomFields events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 abstract class AbstractPrepareFieldEvent extends CustomFieldsEvent
 {
@@ -25,7 +25,7 @@ abstract class AbstractPrepareFieldEvent extends CustomFieldsEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['context', 'item', 'subject'];
@@ -38,7 +38,7 @@ abstract class AbstractPrepareFieldEvent extends CustomFieldsEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -60,7 +60,7 @@ abstract class AbstractPrepareFieldEvent extends CustomFieldsEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setContext(string $value): string
     {
@@ -74,7 +74,7 @@ abstract class AbstractPrepareFieldEvent extends CustomFieldsEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setItem(object $value): object
     {
@@ -86,7 +86,7 @@ abstract class AbstractPrepareFieldEvent extends CustomFieldsEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getField(): object
     {
@@ -98,7 +98,7 @@ abstract class AbstractPrepareFieldEvent extends CustomFieldsEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getContext(): string
     {
@@ -110,7 +110,7 @@ abstract class AbstractPrepareFieldEvent extends CustomFieldsEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getItem(): object
     {
