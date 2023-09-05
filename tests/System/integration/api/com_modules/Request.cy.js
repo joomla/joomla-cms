@@ -101,5 +101,4 @@ describe('Test that modules API endpoint', () => {
       .then((module) => cy.api_delete(`/modules/site/${module}`))
       .then((response) => cy.wrap(response).its('status').should('equal', 204));
   });
-
 });
