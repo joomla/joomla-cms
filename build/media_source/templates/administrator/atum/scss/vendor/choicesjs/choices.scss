@@ -2,6 +2,7 @@
 
 // Atum Variables
 @import "../../variables";
+@import "../../variables-dark";
 
 @import "../../../../../../../../media/vendor/bootstrap/scss/variables";
 @import "../../../../../../../../media/vendor/bootstrap/scss/mixins";
@@ -123,6 +124,20 @@
     [dir="rtl"] & {
       background: url("../../../images/select-bg-rtl.svg") no-repeat 0/116rem;
       background-color: $form-select-bg;
+    }
+  }
+
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      .choices__inner {
+        background: url("../../../images/select-bg-dark.svg") no-repeat 100%/116rem;
+        background-color: $form-select-bg-dark;
+
+        [dir="rtl"] & {
+          background: url("../../../images/select-bg-rtl-dark.svg") no-repeat 0/116rem;
+          background-color: $form-select-bg-dark;
+        }
+      }
     }
   }
 }

@@ -127,6 +127,7 @@ trait CoreEventAware
         'onCategoryChangeState'         => Model\AfterCategoryChangeStateEvent::class,
         'onBeforeBatch'                 => Model\BeforeBatchEvent::class,
         // User
+        'onUserAuthenticate'         => User\AuthenticationEvent::class,
         'onUserAuthorisation'        => User\AuthorisationEvent::class,
         'onUserAuthorisationFailure' => User\AuthorisationFailureEvent::class,
         'onUserLogin'                => User\LoginEvent::class,
@@ -153,7 +154,7 @@ trait CoreEventAware
         'onPrepareModuleList'    => Module\PrepareModuleListEvent::class,
         'onAfterModuleList'      => Module\AfterModuleListEvent::class,
         'onAfterCleanModuleList' => Module\AfterCleanModuleListEvent::class,
-        // Extension and Installer
+        // Extension
         'onExtensionBeforeInstall'   => Extension\BeforeInstallEvent::class,
         'onExtensionAfterInstall'    => Extension\AfterInstallEvent::class,
         'onExtensionBeforeUninstall' => Extension\BeforeUninstallEvent::class,
@@ -163,6 +164,12 @@ trait CoreEventAware
         'onExtensionBeforeSave'      => Model\BeforeSaveEvent::class,
         'onExtensionAfterSave'       => Model\AfterSaveEvent::class,
         'onExtensionAfterDelete'     => Model\AfterDeleteEvent::class,
+        // Installer
+        'onInstallerAddInstallationTab'    => Installer\AddInstallationTabEvent::class,
+        'onInstallerBeforeInstallation'    => Installer\BeforeInstallationEvent::class,
+        'onInstallerBeforeInstaller'       => Installer\BeforeInstallerEvent::class,
+        'onInstallerAfterInstaller'        => Installer\AfterInstallerEvent::class,
+        'onInstallerBeforePackageDownload' => Installer\BeforePackageDownloadEvent::class,
         // Finder
         'onFinderCategoryChangeState' => Finder\AfterCategoryChangeStateEvent::class,
         'onFinderChangeState'         => Finder\AfterChangeStateEvent::class,
@@ -175,6 +182,32 @@ trait CoreEventAware
         'onBuildIndex'                => Finder\BuildIndexEvent::class,
         'onStartIndex'                => Finder\StartIndexEvent::class,
         'onFinderGarbageCollection'   => Finder\GarbageCollectionEvent::class,
+        // Menu
+        'onBeforeRenderMenuItems'   => Menu\BeforeRenderMenuItemsViewEvent::class,
+        'onAfterGetMenuTypeOptions' => Menu\AfterGetMenuTypeOptionsEvent::class,
+        'onPreprocessMenuItems'     => Menu\PreprocessMenuItemsEvent::class,
+        // ActionLog
+        'onAfterLogPurge'  => ActionLog\AfterLogPurgeEvent::class,
+        'onAfterLogExport' => ActionLog\AfterLogExportEvent::class,
+        // Cache
+        'onAfterPurge' => Cache\AfterPurgeEvent::class,
+        // Contact
+        'onValidateContact' => Contact\ValidateContactEvent::class,
+        'onSubmitContact'   => Contact\SubmitContactEvent::class,
+        // Checkin
+        'onAfterCheckin' => Checkin\AfterCheckinEvent::class,
+        // Custom Fields
+        'onCustomFieldsGetTypes'           => CustomFields\GetTypesEvent::class,
+        'onCustomFieldsPrepareDom'         => CustomFields\PrepareDomEvent::class,
+        'onCustomFieldsBeforePrepareField' => CustomFields\BeforePrepareFieldEvent::class,
+        'onCustomFieldsPrepareField'       => CustomFields\PrepareFieldEvent::class,
+        'onCustomFieldsAfterPrepareField'  => CustomFields\AfterPrepareFieldEvent::class,
+        // Privacy
+        'onPrivacyCollectAdminCapabilities'    => Privacy\CollectCapabilitiesEvent::class,
+        'onPrivacyCheckPrivacyPolicyPublished' => Privacy\CheckPrivacyPolicyPublishedEvent::class,
+        'onPrivacyExportRequest'               => Privacy\ExportRequestEvent::class,
+        'onPrivacyCanRemoveData'               => Privacy\CanRemoveDataEvent::class,
+        'onPrivacyRemoveData'                  => Privacy\RemoveDataEvent::class,
     ];
 
     /**

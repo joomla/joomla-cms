@@ -57,6 +57,31 @@ class ArticleController extends FormController
     }
 
     /**
+     * Method to cancel an edit.
+     *
+     * @param   string  $key  The name of the primary key of the URL variable.
+     *
+     * @return  boolean  True if access level checks pass, false otherwise.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function cancel($key = null)
+    {
+        $result = parent::cancel($key);
+
+        // When editing in modal then redirect to modalreturn layout
+        if ($result && $this->input->get('layout') === 'modal') {
+            $id     = $this->input->get('id');
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=cancel';
+
+            $this->setRedirect(Route::_($return, false));
+        }
+
+        return $result;
+    }
+
+    /**
      * Function that allows child controller access to model data
      * after the data has been saved.
      *
@@ -90,6 +115,13 @@ class ArticleController extends FormController
             ]);
 
             $this->setRedirect(Route::_('index.php?option=com_menus&view=item&client_id=0&menutype=mainmenu&layout=edit', false));
+        } elseif ($this->input->get('layout') === 'modal' && $this->task === 'save') {
+            // When editing in modal then redirect to modalreturn layout
+            $id     = $model->getState('article.id', '');
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=save';
+
+            $this->setRedirect(Route::_($return, false));
         }
     }
 

@@ -127,7 +127,7 @@
     z-index: 1;
     width: max-content;
     min-width: 100%;
-    background-color: var(--template-bg-dark-3);
+    background-color: var(--media-manager-overlay-bg, var(--template-bg-dark-3));
     border: 1px solid hsl(var(--hue), 35%, 95%);
     border-radius: .25rem;
     box-shadow: 0 2px 10px -8px var(--template-bg-dark-50);
