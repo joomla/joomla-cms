@@ -112,7 +112,7 @@ PHP;
         }
 
         if ((!is_dir($fullDestinationPath) && !mkdir($fullDestinationPath, 0755, true))) {
-            throw new \Exception('Unable to create the given folder, check the permissions');
+            throw new \Exception('Unable to create the given folder, check the permissions.');
         }
 
         // Create the required folders
