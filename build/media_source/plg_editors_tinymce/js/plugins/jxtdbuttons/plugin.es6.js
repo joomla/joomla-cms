@@ -5,20 +5,17 @@
 // eslint-disable-next-line import/no-unresolved
 import { JoomlaEditor, JoomlaEditorButton } from 'editor-api';
 
-window.tinymce.PluginManager.add('jxtdbuttons', (editor) => {
-  const pluginMeta = {
-    getMetadata: () => ({
-      name: 'Joomla EXD buttons plugin',
-      url: 'https://www.joomla.org/',
-    }),
-  };
+/**
+ * @param {Editor} editor
+ */
+const pluginSetUp = (editor) => {
   editor.options.register('joomlaExtButtons', { processor: 'object', default: { names: [] } });
 
   // Get buttons list
   const buttons = editor.options.get('joomlaExtButtons').names || [];
 
   if (!buttons) {
-    return pluginMeta;
+    return;
   }
 
   // Build menu
@@ -63,6 +60,14 @@ window.tinymce.PluginManager.add('jxtdbuttons', (editor) => {
     icon: 'joomla',
     fetch: (callback) => callback(subMenu),
   });
+};
 
-  return pluginMeta;
+window.tinymce.PluginManager.add('jxtdbuttons', (editor) => {
+  pluginSetUp(editor);
+  return {
+    getMetadata: () => ({
+      name: 'Editor XTD buttons (Joomla)',
+      url: 'https://www.joomla.org/',
+    }),
+  };
 });
