@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.sessiongc
+ * @subpackage  Task.sessionGC
  *
  * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -17,7 +17,7 @@ use Joomla\CMS\Session\MetadataManager;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\System\SessionGC\Extension\SessionGC;
+use Joomla\Plugin\Task\SessionGC\Extension\SessionGC;
 
 return new class () implements ServiceProviderInterface {
     /**
@@ -27,7 +27,7 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   4.4.0
+     * @since   __DEPLOY_VERSION__
      */
     public function register(Container $container): void
     {
@@ -36,7 +36,7 @@ return new class () implements ServiceProviderInterface {
             function (Container $container) {
                 $plugin = new SessionGC(
                     $container->get(DispatcherInterface::class),
-                    (array) PluginHelper::getPlugin('system', 'sessiongc'),
+                    (array) PluginHelper::getPlugin('task', 'sessiongc'),
                     $container->get(MetadataManager::class)
                 );
                 $plugin->setApplication(Factory::getApplication());

@@ -527,10 +527,8 @@ class Nested extends Table
 
         // If tracking assets, remove the asset first.
         if ($this->_trackAssets) {
-            $name = $this->_getAssetName();
-
-            /** @var Asset $asset */
-            $asset = Table::getInstance('Asset', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
+            $name  = $this->_getAssetName();
+            $asset = new Asset($this->getDbo(), $this->getDispatcher());
 
             if ($asset->loadByName($name)) {
                 // Delete the node in assets table.

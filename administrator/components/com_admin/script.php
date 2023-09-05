@@ -237,6 +237,7 @@ class JoomlaInstallerScript
              ['type' => 'plugin', 'element' => 'compat', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateCompatPlugin'],
              ['type' => 'plugin', 'element' => 'logrotation', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateLogRotationPlugin'],
              ['type' => 'plugin', 'element' => 'recaptcha', 'folder' => 'captcha', 'client_id' => 0, 'pre_function' => null],
+             ['type' => 'plugin', 'element' => 'sessiongc', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateSessionGCPlugin'],
              ['type' => 'plugin', 'element' => 'updatenotification', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateUpdatenotificationPlugin'],
         ];
 
@@ -355,6 +356,49 @@ class JoomlaInstallerScript
             'state'  => 1,
             'params' => [
                 'logstokeep' => $params->get('logstokeep', 1),
+            ],
+        ];
+        $model->save($task);
+    }
+
+    /**
+     * This method is for migration for old updatenotification system plugin migration to task.
+     *
+     * @param   \stdClass  $data  Object with the extension's record in the `#__extensions` table
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function migrateSessionGCPlugin($data)
+    {
+        if (!$data->enabled) {
+            return;
+        }
+
+        // Get the plugin parameters
+        $params = new Registry($data->params);
+
+        /** @var SchedulerComponent $component */
+        $component = Factory::getApplication()->bootComponent('com_scheduler');
+
+        /** @var TaskModel $model */
+        $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+        $task  = [
+            'title'           => 'SessionGC',
+            'type'            => 'session.gc',
+            'execution_rules' => [
+                'rule-type'      => 'interval-hours',
+                'interval-hours' => 24,
+                'exec-time'      => gmdate('H:i'),
+                'exec-day'       => gmdate('d'),
+            ],
+            'state'  => 1,
+            'params' => [
+                'enable_session_gc'          => $params->get('enable_session_gc', 1),
+                'gc_probability'             => $params->get('gc_probability', 1),
+                'gc_divisor'                 => $params->get('gc_divisor', 100),
+                'enable_session_metadata_gc' => $params->get('enable_session_metadata_gc', 1),
             ],
         ];
         $model->save($task);
@@ -740,6 +784,7 @@ class JoomlaInstallerScript
             '/libraries/vendor/symfony/polyfill-php81/bootstrap.php',
             '/libraries/vendor/symfony/polyfill-php81/LICENSE',
             '/libraries/vendor/symfony/polyfill-php81/Php81.php',
+            '/libraries/vendor/symfony/polyfill-php81/Resources/stubs/CURLStringFile.php',
             '/libraries/vendor/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
             '/libraries/vendor/web-auth/cose-lib/src/Verifier.php',
             '/libraries/vendor/web-auth/metadata-service/src/AuthenticatorStatus.php',
@@ -1995,10 +2040,15 @@ class JoomlaInstallerScript
             '/media/plg_editors_tinymce/js/plugins/highlighter/source.min.js.gz',
             '/media/plg_system_compat/es5.asset.json',
             // From 5.0.0-alpha4 to 5.0.0-beta1
+            '/administrator/components/com_categories/tmpl/categories/default_batch_footer.php',
+            '/administrator/components/com_content/tmpl/articles/default_batch_footer.php',
             '/administrator/language/en-GB/plg_twofactorauth_totp.ini',
             '/administrator/language/en-GB/plg_twofactorauth_totp.sys.ini',
             '/administrator/language/en-GB/plg_twofactorauth_yubikey.ini',
             '/administrator/language/en-GB/plg_twofactorauth_yubikey.sys.ini',
+            '/media/com_contenthistory/js/admin-history-versions.js',
+            '/media/com_contenthistory/js/admin-history-versions.min.js',
+            '/media/com_contenthistory/js/admin-history-versions.min.js.gz',
         ];
 
         $folders = [
@@ -2351,6 +2401,10 @@ class JoomlaInstallerScript
             return false;
         }
 
+        if (!$this->migrateDeleteActionlogsConfiguration()) {
+            return false;
+        }
+
         if (!$this->migratePrivacyconsentConfiguration()) {
             return false;
         }
@@ -2360,6 +2414,75 @@ class JoomlaInstallerScript
         return true;
     }
 
+    /**
+     * Migrate Deleteactionlogs plugin configuration
+     *
+     * @return  boolean  True on success
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function migrateDeleteActionlogsConfiguration(): bool
+    {
+        $db = Factory::getDbo();
+
+        try {
+            // Get the ActionLogs system plugin's parameters
+            $row = $db->setQuery(
+                $db->getQuery(true)
+                    ->select([$db->quotename('enabled'), $db->quoteName('params')])
+                    ->from($db->quoteName('#__extensions'))
+                    ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+                    ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+                    ->where($db->quoteName('element') . ' = ' . $db->quote('actionlogs'))
+            )->loadObject();
+        } catch (Exception $e) {
+            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+            return false;
+        }
+
+        // If not existing or disabled there is nothing to migrate
+        if (!$row || !$row->enabled) {
+            return true;
+        }
+
+        $params = new Registry($row->params);
+
+        // If deletion of outdated logs was disabled there is nothing to migrate
+        if (!$params->get('logDeletePeriod', 0)) {
+            return true;
+        }
+
+        /** @var SchedulerComponent $component */
+        $component = Factory::getApplication()->bootComponent('com_scheduler');
+
+        /** @var TaskModel $model */
+        $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+        $task  = [
+            'title'           => 'DeleteActionLogs',
+            'type'            => 'delete.actionlogs',
+            'execution_rules' => [
+                'rule-type'      => 'interval-hours',
+                'interval-hours' => 24,
+                'exec-time'      => gmdate('H:i', $params->get('lastrun', time())),
+                'exec-day'       => gmdate('d'),
+            ],
+            'state'  => 1,
+            'params' => [
+                'logDeletePeriod' => $params->get('logDeletePeriod', 0),
+            ],
+        ];
+
+        try {
+            $model->save($task);
+        } catch (Exception $e) {
+            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+            return false;
+        }
+
+        return true;
+    }
     /**
      * Migrate privacyconsents system plugin configuration
      *
@@ -2375,7 +2498,7 @@ class JoomlaInstallerScript
             // Get the PrivacyConsent system plugin's parameters
             $row = $db->setQuery(
                 $db->getQuery(true)
-                    ->select($db->quotename('enabled'), $db->quoteName('params'))
+                    ->select([$db->quotename('enabled'), $db->quoteName('params')])
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
                     ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
@@ -2387,14 +2510,14 @@ class JoomlaInstallerScript
             return false;
         }
 
-        // If not existing or disbled there is nothing to migrate
+        // If not existing or disabled there is nothing to migrate
         if (!$row || !$row->enabled) {
             return true;
         }
 
         $params = new Registry($row->params);
 
-        // If consent expiration was disbled there is nothing to migrate
+        // If consent expiration was disabled there is nothing to migrate
         if (!$params->get('enabled', 0)) {
             return true;
         }
