@@ -14,7 +14,7 @@ const pluginSetUp = (editor) => {
   // Get buttons list
   const buttons = editor.options.get('joomlaExtButtons').names || [];
 
-  if (!buttons) {
+  if (!buttons.length) {
     return;
   }
 
