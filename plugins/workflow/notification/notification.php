@@ -199,7 +199,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
             foreach ($userIds as $user_id) {
                 $receiver = $container->get(UserFactoryInterface::class)->loadUserById($user_id);
 
-                if ($receiver->authorise('core.manage', 'com_message')) {
+                if ($receiver->authorise('core.manage', 'com_messages')) {
                     // Load language for messaging
                     $lang = $container->get(LanguageFactoryInterface::class)
                         ->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
