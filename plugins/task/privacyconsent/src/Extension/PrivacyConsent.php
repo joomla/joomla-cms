@@ -127,7 +127,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
         $query->select($db->quoteName(['r.id', 'r.user_id', 'u.email']))
             ->from($db->quoteName('#__privacy_consents', 'r'))
             ->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('r.user_id'))
-            ->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_TASK_PRIVACYCONSENT_SUBJECT'))
+            ->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
             ->where($db->quoteName('remind') . ' = 0')
             ->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'));
 
@@ -215,7 +215,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
         $query->select($db->quoteName(['id', 'user_id']))
             ->from($db->quoteName('#__privacy_consents'))
             ->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'))
-            ->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_TASK_PRIVACYCONSENT_SUBJECT'))
+            ->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
             ->where($db->quoteName('state') . ' = 1');
 
         $db->setQuery($query);
