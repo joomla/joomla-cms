@@ -36,13 +36,6 @@ $tmpl = $input->getCmd('tmpl');
 
 $input->set('hidemainmenu', true);
 
-// Load the toolbar when we are in an iframe
-if ($tmpl == 'component') {
-    echo '<div class="subhead noshadow">';
-    echo Toolbar::getInstance('toolbar')->render();
-    echo '</div>';
-}
-
 $mediaTypes = $input->getString('mediatypes', '0');
 
 // Populate the media config
@@ -63,6 +56,11 @@ $this->document->addScriptOptions('com_media', $config);
 
 $this->useCoreUI = true;
 ?>
+<?php if ($tmpl === 'component'): ?>
+<div class="subhead noshadow mb-3">
+    <?php echo $this->document->getToolbar('toolbar')->render(); ?>
+</div>
+<?php endif; ?>
 <form action="#" method="post" name="adminForm" id="media-form" class="form-validate main-card media-form mt-3">
     <?php $fieldSets = $form->getFieldsets(); ?>
     <?php if ($fieldSets) : ?>
