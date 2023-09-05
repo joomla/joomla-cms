@@ -512,7 +512,6 @@ trait DisplayTrait
 
         $doc->addScriptOptions('plg_editor_tinymce', $options);
 
-
         return $editor;
     }
 }
