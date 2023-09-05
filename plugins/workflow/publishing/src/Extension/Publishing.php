@@ -87,8 +87,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      */
     public function onContentPrepareForm(EventInterface $event)
     {
-        $form = $event->getArgument('0');
-        $data = $event->getArgument('1');
+        [$form, $data] = array_values($event->getArguments());
 
         $context = $form->getName();
 
@@ -353,8 +352,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      */
     public function onContentBeforeChangeState(EventInterface $event)
     {
-        $context = $event->getArgument('0');
-        $pks     = $event->getArgument('1');
+        [$form, $pks] = array_values($event->getArguments());
 
         if (!$this->isSupported($context)) {
             return true;
@@ -380,12 +378,8 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      */
     public function onContentBeforeSave(EventInterface $event)
     {
-        $context = $event->getArgument('0');
-
         /** @var TableInterface $table */
-        $table = $event->getArgument('1');
-        $isNew = $event->getArgument('2');
-        $data  = $event->getArgument('3');
+        [$context, $table, $isNew, $data] = array_values($event->getArguments());
 
         if (!$this->isSupported($context)) {
             return true;

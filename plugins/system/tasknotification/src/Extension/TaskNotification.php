@@ -90,7 +90,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
     public function injectTaskNotificationFieldset(EventInterface $event): bool
     {
         /** @var Form $form */
-        $form = $event->getArgument('0');
+        [$form] = array_values($event->getArguments());
 
         if ($form->getName() !== 'com_scheduler.task') {
             return true;
