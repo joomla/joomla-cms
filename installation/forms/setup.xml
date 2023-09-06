@@ -182,7 +182,6 @@
 			name="public_folder"
 			type="text"
 			label="INSTL_PUBLIC_FOLDER_LABEL"
-			description="INSTL_PUBLIC_FOLDER_DESCRIPTION"
 			default=""
 			filter="string"
 		/>
