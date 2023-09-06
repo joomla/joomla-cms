@@ -134,7 +134,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
                 $item->linkText = Text::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
             }
 
-            if ($params->get('show_introtext', 1)) {
+            if ($params->get('show_introtext', 1) && $item->introtext != '') {
                 $item->introtext = HTMLHelper::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
             }
 
