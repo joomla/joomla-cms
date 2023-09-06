@@ -40,7 +40,7 @@ class AfterSaveEvent extends AbstractSaveEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {

@@ -19,7 +19,7 @@ use Joomla\CMS\Event\ReshapeArgumentsAware;
 /**
  * Class for CustomFields events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 abstract class CustomFieldsEvent extends AbstractImmutableEvent
 {
@@ -30,7 +30,7 @@ abstract class CustomFieldsEvent extends AbstractImmutableEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = [];
@@ -43,7 +43,7 @@ abstract class CustomFieldsEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -66,7 +66,7 @@ abstract class CustomFieldsEvent extends AbstractImmutableEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(object $value): object
     {

@@ -19,7 +19,7 @@ use Joomla\CMS\Factory;
 /**
  * Guidedtours component helper.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class GuidedtoursHelper
 {
@@ -31,7 +31,7 @@ class GuidedtoursHelper
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public static function loadTranslationFiles($uid, bool $steps = false)
     {

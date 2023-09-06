@@ -1217,7 +1217,7 @@ final class Joomla extends ActionLogPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function onUserBeforeSave($user, $isnew, $new): void
     {

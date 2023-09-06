@@ -19,7 +19,7 @@ use Joomla\Registry\Registry;
 /**
  * Admin Component Public Folder Generator Helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class PublicFolderGeneratorHelper
 {
@@ -89,7 +89,7 @@ PHP;
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function createPublicFolder(string $destinationPath): void
     {
@@ -186,7 +186,7 @@ PHP;
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     private function createSymlink(string $source, string $dest, string $base): void
     {
@@ -208,7 +208,7 @@ PHP;
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     private function createFile(string $path, string $content): void
     {
