@@ -279,7 +279,6 @@ JLoader::registerAlias('JCacheStorageHelper', '\\Joomla\\CMS\\Cache\\Storage\\Ca
 JLoader::registerAlias('JCacheStorageFile', '\\Joomla\\CMS\\Cache\\Storage\\FileStorage', '6.0');
 JLoader::registerAlias('JCacheStorageMemcached', '\\Joomla\\CMS\\Cache\\Storage\\MemcachedStorage', '6.0');
 JLoader::registerAlias('JCacheStorageRedis', '\\Joomla\\CMS\\Cache\\Storage\\RedisStorage', '6.0');
-JLoader::registerAlias('JCacheStorageWincache', '\\Joomla\\CMS\\Cache\\Storage\\WincacheStorage', '6.0');
 JLoader::registerAlias('JCacheException', '\\Joomla\\CMS\\Cache\\Exception\\CacheExceptionInterface', '6.0');
 JLoader::registerAlias('JCacheExceptionConnecting', '\\Joomla\\CMS\\Cache\\Exception\\CacheConnectingException', '6.0');
 JLoader::registerAlias('JCacheExceptionUnsupported', '\\Joomla\\CMS\\Cache\\Exception\\UnsupportedCacheException', '6.0');
