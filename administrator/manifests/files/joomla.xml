@@ -6,8 +6,8 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>4.4.0-alpha5-dev</version>
-	<creationDate>2023-08</creationDate>
+	<version>4.4.0-beta2-dev</version>
+	<creationDate>2023-09</creationDate>
 	<description>FILES_JOOMLA_XML_DESCRIPTION</description>
 
 	<scriptfile>administrator/components/com_admin/script.php</scriptfile>
