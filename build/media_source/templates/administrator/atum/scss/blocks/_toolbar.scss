@@ -46,6 +46,7 @@
     font-size: 1rem;
     line-height: $atum-toolbar-line-height;
     color: var(--template-text-dark);
+    background: var(--body-bg);
     border-color: hsl(var(--hue),20%,80%);
 
     > span {
@@ -154,10 +155,6 @@
   .dropdown-menu joomla-toolbar-button,
   .btn-group joomla-toolbar-button {
     margin-inline-start: 0;
-
-    button {
-      border-right-width: 0;
-    }
   }
 
   .contentpane & {
