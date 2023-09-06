@@ -50,7 +50,7 @@ joomla-tab {
       &[aria-expanded=true],
       &:focus,
       &:hover {
-        color: var(--primary);
+        color: var(--template-bg-dark-60);
         border: 0;
         border-radius: 0;
         box-shadow: none;
@@ -73,16 +73,22 @@ joomla-tab {
 
       &[aria-expanded=true] {
         font-weight: $font-weight-bold;
-        color: var(--primary);
         background: var(--template-bg-dark-3);
       }
 
       @if $enable-dark-mode {
         @include color-mode(dark) {
           /* stylelint-disable max-nesting-depth */
-          &[aria-expanded=true] {
+          &[aria-expanded=true],
+          &:focus,
+          &:hover {
             /* stylelint-enable max-nesting-depth */
             color: var(--template-text-light);
+          }
+
+          /* stylelint-disable max-nesting-depth */
+          &[aria-expanded=true] {
+            /* stylelint-enable max-nesting-depth */
             background: var(--template-bg-dark-60);
           }
         }
