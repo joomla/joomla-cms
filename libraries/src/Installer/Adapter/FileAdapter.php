@@ -200,7 +200,7 @@ class FileAdapter extends InstallerAdapter
     public function getElement($element = null)
     {
         if (!$element) {
-            $manifestPath = Path::clean($this->parent->getPath('manifest'));
+            $manifestPath = Path::clean($this->parent->getPath('manifest', ''));
             $element      = preg_replace('/\.xml/', '', basename($manifestPath));
         }
 
