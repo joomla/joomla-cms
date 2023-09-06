@@ -176,10 +176,6 @@ class ExtensionHelper
         ['plugin', 'taggable', 'behaviour', 0],
         ['plugin', 'versionable', 'behaviour', 0],
 
-        // Core plugin extensions - captcha
-        ['plugin', 'recaptcha', 'captcha', 0],
-        ['plugin', 'recaptcha_invisible', 'captcha', 0],
-
         // Core plugin extensions - content
         ['plugin', 'confirmconsent', 'content', 0],
         ['plugin', 'contact', 'content', 0],
@@ -309,7 +305,6 @@ class ExtensionHelper
         ['plugin', 'schedulerunner', 'system', 0],
         ['plugin', 'schemaorg', 'system', 0],
         ['plugin', 'sef', 'system', 0],
-        ['plugin', 'sessiongc', 'system', 0],
         ['plugin', 'shortcut', 'system', 0],
         ['plugin', 'skipto', 'system', 0],
         ['plugin', 'stats', 'system', 0],
@@ -323,6 +318,7 @@ class ExtensionHelper
         ['plugin', 'privacyconsent', 'task', 0],
         ['plugin', 'requests', 'task', 0],
         ['plugin', 'rotatelogs', 'task', 0],
+        ['plugin', 'sessiongc', 'task', 0],
         ['plugin', 'sitestatus', 'task', 0],
         ['plugin', 'updatenotification', 'task', 0],
 

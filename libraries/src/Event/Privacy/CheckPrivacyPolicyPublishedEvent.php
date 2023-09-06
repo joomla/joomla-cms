@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event\Privacy;
  * Example:
  *     new CheckPrivacyPolicyPublishedEvent('onEventName', ['subject' => $policyInfo]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class CheckPrivacyPolicyPublishedEvent extends PrivacyEvent
 {
@@ -27,7 +27,7 @@ class CheckPrivacyPolicyPublishedEvent extends PrivacyEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject'];
@@ -40,7 +40,7 @@ class CheckPrivacyPolicyPublishedEvent extends PrivacyEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -58,7 +58,7 @@ class CheckPrivacyPolicyPublishedEvent extends PrivacyEvent
      *
      * @return  array|\ArrayAccess
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(array|\ArrayAccess $value): array|\ArrayAccess
     {
@@ -70,7 +70,7 @@ class CheckPrivacyPolicyPublishedEvent extends PrivacyEvent
      *
      * @return  array|\ArrayAccess
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getPolicyInfo(): array|\ArrayAccess
     {

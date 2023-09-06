@@ -22,7 +22,7 @@ use Joomla\CMS\Event\Result\ResultTypeMixedAware;
 /**
  * Class for Contact events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class ValidateContactEvent extends AbstractImmutableEvent implements ResultAwareInterface
 {
@@ -35,7 +35,7 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject', 'data'];
@@ -48,7 +48,7 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -75,7 +75,7 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(object $value): object
     {
@@ -89,7 +89,7 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
      *
      * @return  array|\ArrayAccess
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setData(array|\ArrayAccess $value): array|\ArrayAccess
     {
@@ -101,7 +101,7 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getContact(): object
     {
@@ -113,7 +113,7 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
      *
      * @return  array|\ArrayAccess
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getData(): array|\ArrayAccess
     {

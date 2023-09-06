@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
 /**
  * Class for menu events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class PreprocessMenuItemsEvent extends AbstractImmutableEvent
 {
@@ -31,7 +31,7 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['context', 'subject', 'params', 'enabled'];
@@ -44,7 +44,7 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -71,7 +71,7 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setContext(string $value): string
     {
@@ -85,7 +85,7 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
      *
      * @return  array|\ArrayAccess
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(array|\ArrayAccess $value): array|\ArrayAccess
     {
@@ -99,7 +99,7 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
      *
      * @return  ?Registry
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setParams(?Registry $value): ?Registry
     {
@@ -113,7 +113,7 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
      *
      * @return  ?bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setEnabled(?bool $value): ?bool
     {
@@ -125,7 +125,7 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getContext(): string
     {
@@ -137,7 +137,7 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
      *
      * @return  array|\ArrayAccess
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getItems(): array|\ArrayAccess
     {
@@ -149,7 +149,7 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
      *
      * @return  ?Registry
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getParams(): ?Registry
     {
@@ -161,7 +161,7 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
      *
      * @return  ?bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getEnabled(): ?bool
     {

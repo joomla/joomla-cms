@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 
 class ShowOnRule extends FormRule
@@ -29,7 +29,7 @@ class ShowOnRule extends FormRule
      * The regular expression to use in testing a form field value.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $regex = '[A-Za-z0-9]+!?:[A-Za-z0-9]+';
 
@@ -37,7 +37,7 @@ class ShowOnRule extends FormRule
      * The regular expression modifiers to use when testing a form field value.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $modifiers = 'i';
 
@@ -55,7 +55,7 @@ class ShowOnRule extends FormRule
      * @return  boolean  True if the value is valid, false otherwise.
      *
      * @throws  \UnexpectedValueException if rule is invalid.
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
     {

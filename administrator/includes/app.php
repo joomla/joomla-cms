@@ -17,14 +17,7 @@ if (file_exists(dirname(__DIR__) . '/defines.php')) {
     include_once dirname(__DIR__) . '/defines.php';
 }
 
-if (!defined('_JDEFINES')) {
-    define('JPATH_BASE', dirname(__DIR__));
-    require_once JPATH_BASE . '/includes/defines.php';
-}
-
-if (!defined('JPATH_PUBLIC')) {
-    define('JPATH_PUBLIC', JPATH_ROOT);
-}
+require_once __DIR__ . '/defines.php';
 
 // Check for presence of vendor dependencies not included in the git repository
 if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_PUBLIC . '/media/vendor')) {

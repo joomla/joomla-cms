@@ -21,7 +21,7 @@ use Joomla\CMS\Authentication\AuthenticationResponse;
  * Example:
  *  new AuthenticationEvent('onEventName', ['credentials' => $credentials, 'options' => $options, 'subject' => $authenticationResponse]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AuthenticationEvent extends UserEvent
 {
@@ -30,7 +30,7 @@ class AuthenticationEvent extends UserEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['credentials', 'options', 'subject'];
@@ -43,7 +43,7 @@ class AuthenticationEvent extends UserEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -60,7 +60,7 @@ class AuthenticationEvent extends UserEvent
      *
      * @return  boolean  True if stopped, false otherwise.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function isStopped()
     {
@@ -84,7 +84,7 @@ class AuthenticationEvent extends UserEvent
      *
      * @return  AuthenticationResponse
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(AuthenticationResponse $value): AuthenticationResponse
     {
@@ -98,7 +98,7 @@ class AuthenticationEvent extends UserEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setCredentials(array $value): array
     {
@@ -112,7 +112,7 @@ class AuthenticationEvent extends UserEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setOptions(array $value): array
     {
@@ -124,7 +124,7 @@ class AuthenticationEvent extends UserEvent
      *
      * @return  AuthenticationResponse
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getAuthenticationResponse(): AuthenticationResponse
     {
@@ -136,7 +136,7 @@ class AuthenticationEvent extends UserEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getCredentials(): array
     {
@@ -148,7 +148,7 @@ class AuthenticationEvent extends UserEvent
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getOptions(): array
     {

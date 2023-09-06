@@ -18,7 +18,7 @@ use Joomla\CMS\Installer\Installer as ExtensionInstaller;
 /**
  * Class for Installer events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterInstallerEvent extends InstallerEvent
 {
@@ -27,7 +27,7 @@ class AfterInstallerEvent extends InstallerEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject', 'package', 'installer', 'installerResult', 'message'];
@@ -40,7 +40,7 @@ class AfterInstallerEvent extends InstallerEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -77,7 +77,7 @@ class AfterInstallerEvent extends InstallerEvent
      *
      * @return  ExtensionInstaller
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setInstaller(ExtensionInstaller $value): ExtensionInstaller
     {
@@ -91,7 +91,7 @@ class AfterInstallerEvent extends InstallerEvent
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setInstallerResult(bool $value): bool
     {
@@ -105,7 +105,7 @@ class AfterInstallerEvent extends InstallerEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setMessage(string $value): string
     {
@@ -117,7 +117,7 @@ class AfterInstallerEvent extends InstallerEvent
      *
      * @return  ExtensionInstaller
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getInstaller(): ExtensionInstaller
     {
@@ -129,7 +129,7 @@ class AfterInstallerEvent extends InstallerEvent
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getInstallerResult(): bool
     {
@@ -141,7 +141,7 @@ class AfterInstallerEvent extends InstallerEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getMessage(): string
     {
@@ -155,7 +155,7 @@ class AfterInstallerEvent extends InstallerEvent
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function updateInstallerResult(bool $value): static
     {
@@ -171,7 +171,7 @@ class AfterInstallerEvent extends InstallerEvent
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function updateMessage(string $value): static
     {

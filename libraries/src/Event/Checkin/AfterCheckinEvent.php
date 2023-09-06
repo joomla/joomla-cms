@@ -19,7 +19,7 @@ use Joomla\CMS\Event\ReshapeArgumentsAware;
 /**
  * Class for Checkin events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterCheckinEvent extends AbstractImmutableEvent
 {
@@ -30,7 +30,7 @@ class AfterCheckinEvent extends AbstractImmutableEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject'];
@@ -43,7 +43,7 @@ class AfterCheckinEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -62,7 +62,7 @@ class AfterCheckinEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(string $value): string
     {
@@ -74,7 +74,7 @@ class AfterCheckinEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getTableName(): string
     {
