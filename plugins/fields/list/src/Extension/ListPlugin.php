@@ -49,8 +49,8 @@ final class ListPlugin extends FieldsListPlugin
         }
 
         $options = $this->getOptionsFromField($field);
-        
-        //API
+
+        // API
         if (is_array($field->value)) {
             foreach ($field->value as $key => $value) {
                 $field->apivalue[$value] = $options[$value];
