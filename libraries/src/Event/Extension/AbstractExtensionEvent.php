@@ -48,7 +48,7 @@ abstract class AbstractExtensionEvent extends AbstractImmutableEvent
     public function __construct($name, array $arguments = [])
     {
         // Reshape the arguments array to preserve b/c with legacy listeners
-        if ($this->legacyArgumentsOrder && $arguments) {
+        if ($this->legacyArgumentsOrder) {
             $arguments = $this->reshapeArguments($arguments, $this->legacyArgumentsOrder);
         }
 
