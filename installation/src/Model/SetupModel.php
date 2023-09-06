@@ -109,6 +109,11 @@ class SetupModel extends BaseInstallationModel
             return false;
         }
 
+        /** @todo make this available in web installer too */
+        if (!Factory::getApplication()->isClient('cli_installation')) {
+            $form->removeField('public_folder');
+        }
+
         // Check the session for previously entered form data.
         $data = (array) $this->getOptions();
 

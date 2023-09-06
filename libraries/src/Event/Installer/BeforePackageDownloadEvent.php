@@ -19,7 +19,7 @@ use Joomla\CMS\Event\ReshapeArgumentsAware;
 /**
  * Class for Installer events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforePackageDownloadEvent extends AbstractImmutableEvent
 {
@@ -30,7 +30,7 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['url', 'headers'];
@@ -43,7 +43,7 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -80,7 +80,7 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setUrl(string $value): string
     {
@@ -94,7 +94,7 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
      *
      * @return  array|\ArrayAccess
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setHeaders(array|\ArrayAccess $value): array|\ArrayAccess
     {
@@ -106,7 +106,7 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getUrl(): string
     {
@@ -118,7 +118,7 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
      *
      * @return  array|\ArrayAccess
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getHeaders(): array|\ArrayAccess
     {
@@ -132,7 +132,7 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function updateUrl(string $value): static
     {

@@ -310,6 +310,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
                 new Console\DeleteUserCommand($this->getDatabase()),
                 new Console\ChangeUserPasswordCommand(),
                 new Console\ListUserCommand($this->getDatabase()),
+                new Console\SiteCreatePublicFolderCommand(),
             ]
         );
     }
@@ -592,7 +593,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      *
      * @return  mixed  The user state or null.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getUserState($key, $default = null)
     {
@@ -615,7 +616,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      *
      * @return  mixed  The request user state.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
     {
