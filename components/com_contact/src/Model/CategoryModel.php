@@ -177,7 +177,38 @@ class CategoryModel extends ListModel
             ->whereIn($db->quoteName('a.access'), $groups);
 
         // Filter by category.
-        if ($categoryId = $this->getState('category.id')) {
+        $categoryId = $this->getState('category.id');
+        $includeSubcategories = (int)$this->getState('filter.max_category_levels', 1) !== 0;
+
+        if ($includeSubcategories) {
+            $categoryId = (int) $categoryId;
+            $levels     = (int) $this->getState('filter.max_category_levels', 1);
+
+            // Create a subquery for the subcategory list
+            $subQuery = $db->getQuery(true)
+                ->select($db->quoteName('sub.id'))
+                ->from($db->quoteName('#__categories', 'sub'))
+                ->join(
+                    'INNER',
+                    $db->quoteName('#__categories', 'this'),
+                    $db->quoteName('sub.lft') . ' > ' . $db->quoteName('this.lft')
+                    . ' AND ' . $db->quoteName('sub.rgt') . ' < ' . $db->quoteName('this.rgt')
+                )
+                ->where($db->quoteName('this.id') . ' = :subCategoryId');
+
+            $query->bind(':subCategoryId', $categoryId, ParameterType::INTEGER);
+
+            if ($levels >= 0) {
+                $subQuery->where($db->quoteName('sub.level') . ' <= ' . $db->quoteName('this.level') . ' + :levels');
+                $query->bind(':levels', $levels, ParameterType::INTEGER);
+            }
+
+            // Add the subquery to the main query
+            $query->where(
+                '(' . $db->quoteName('a.catid') . ' = :categoryId OR ' . $db->quoteName('a.catid') . ' IN (' . $subQuery . '))'
+            );
+            $query->bind(':categoryId', $categoryId, ParameterType::INTEGER);
+        } else {
             $query->where($db->quoteName('a.catid') . ' = :acatid')
                 ->whereIn($db->quoteName('c.access'), $groups);
             $query->bind(':acatid', $categoryId, ParameterType::INTEGER);
@@ -302,6 +333,7 @@ class CategoryModel extends ListModel
 
         $id = $input->get('id', 0, 'int');
         $this->setState('category.id', $id);
+        $this->setState('filter.max_category_levels', $params->get('maxLevel', 1));
 
         $user = $this->getCurrentUser();
 
