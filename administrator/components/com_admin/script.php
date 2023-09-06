@@ -325,7 +325,7 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function migrateLogRotationPlugin($data)
     {
@@ -368,7 +368,7 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function migrateSessionGCPlugin($data)
     {
@@ -411,7 +411,7 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function migrateUpdatenotificationPlugin($data)
     {
@@ -2045,6 +2045,8 @@ class JoomlaInstallerScript
             '/media/com_contenthistory/js/admin-history-versions.js',
             '/media/com_contenthistory/js/admin-history-versions.min.js',
             '/media/com_contenthistory/js/admin-history-versions.min.js.gz',
+            // From 5.0.0-beta1 to 5.0.0-beta2
+            '/libraries/src/Cache/Storage/WincacheStorage.php',
         ];
 
         $folders = [
@@ -2415,7 +2417,7 @@ class JoomlaInstallerScript
      *
      * @return  boolean  True on success
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function migrateDeleteActionlogsConfiguration(): bool
     {
@@ -2659,7 +2661,7 @@ class JoomlaInstallerScript
      *
      * @return  boolean  True on success
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function setGuidedToursUid()
     {

@@ -121,7 +121,7 @@ class TourTable extends Table implements CurrentUserInterface
      *
      * @return  string $uid  Contains the non-empty uid.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function setTourUid()
     {
@@ -171,7 +171,7 @@ class TourTable extends Table implements CurrentUserInterface
      *
      * @return  string $uid  Contains the modified uid.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function ensureUniqueUid()
     {

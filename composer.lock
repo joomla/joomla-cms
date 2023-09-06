@@ -2241,7 +2241,6 @@
                 "ext-memcached": "To use a Memcached server as a session handler",
                 "ext-redis": "To use a Redis server as a session handler",
                 "ext-session": "To use the Joomla\\Session\\Storage\\NativeStorage storage class.",
-                "ext-wincache": "To use WinCache as a session handler",
                 "joomla/console": "Install joomla/console if you want to use the CreateSessionTableCommand class.",
                 "joomla/database": "Install joomla/database if you want to use a database connection managed with Joomla\\Database\\DatabaseDriver as a session handler.",
                 "joomla/event": "The joomla/event package is required to use Joomla\\Session\\Session.",

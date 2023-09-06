@@ -25,7 +25,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command for creating a public folder
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class SiteCreatePublicFolderCommand extends AbstractCommand
 {
@@ -33,21 +33,21 @@ class SiteCreatePublicFolderCommand extends AbstractCommand
      * The default command name
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected static $defaultName = 'site:create-public-folder';
 
     /**
      * SymfonyStyle Object
      * @var   object
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private $ioStyle;
 
     /**
      * Stores the Input Object
      * @var   object
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private $cliInput;
 
@@ -56,7 +56,7 @@ class SiteCreatePublicFolderCommand extends AbstractCommand
      *
      * @var    string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     private $publicFolder;
 
@@ -68,7 +68,7 @@ class SiteCreatePublicFolderCommand extends AbstractCommand
      *
      * @return  integer  The command exit code
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
@@ -99,7 +99,7 @@ class SiteCreatePublicFolderCommand extends AbstractCommand
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getStringFromOption($option, $question, $required = true): string
     {
@@ -124,7 +124,7 @@ class SiteCreatePublicFolderCommand extends AbstractCommand
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function configureIO(InputInterface $input, OutputInterface $output)
     {
@@ -137,7 +137,7 @@ class SiteCreatePublicFolderCommand extends AbstractCommand
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function configure(): void
     {

@@ -92,6 +92,7 @@ $atum-colors: (
 
 $colors: (
   card-bg:                         rgba(255, 255, 255, .7),
+  card-color:                      var(--template-bg-dark-60),
   bluegray:                        $bluegray,
   lightbluegray:                   #f6f9fc,
   toolbar-bg:                      $white,

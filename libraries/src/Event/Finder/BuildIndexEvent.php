@@ -20,7 +20,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
  * Example:
  *  new BuildIndexEvent('onEventName', []);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BuildIndexEvent extends AbstractImmutableEvent implements FinderEventInterface
 {
