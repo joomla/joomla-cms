@@ -171,7 +171,7 @@ window.tinymce.PluginManager.add('jdragndrop', (editor) => {
   return {
     getMetadata: () => ({
       name: 'Drag and Drop (Joomla)',
-      url: 'https://www.joomla.org/'
-    })
+      url: 'https://www.joomla.org/',
+    }),
   };
 });
