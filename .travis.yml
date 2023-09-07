@@ -44,3 +44,6 @@ matrix:
        script:
          - npm test
          - sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT_KEY
+
+      - name: Run tests
+        run: npm test
