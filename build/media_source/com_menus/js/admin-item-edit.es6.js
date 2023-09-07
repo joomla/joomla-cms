@@ -30,13 +30,11 @@ Joomla.submitbutton = (task, type) => {
     Joomla.submitform(task, document.getElementById('item-form'));
   } else {
     // special case for modal popups validation response
-    const list = [].slice.call(document.querySelectorAll('#item-form .modal-value.invalid'));
+    const list = document.querySelectorAll('#item-form .modal-value.invalid');
 
     list.forEach((field) => {
-      const idReversed = field.getAttribute('id').split('').reverse().join('');
-      const separatorLocation = idReversed.indexOf('_');
-      const nameId = `${idReversed.substr(separatorLocation).split('').reverse().join('')}name`;
-      document.getElementById(nameId).classList.add('invalid');
+      const textInput = field.parentElement.querySelector('.js-input-title, [type="text"]');
+      textInput.classList.add('invalid');
     });
   }
 };

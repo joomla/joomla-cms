@@ -76,7 +76,7 @@ class MenutypeField extends ModalSelectField
      */
     protected function getValueTitle()
     {
-        $title    = $this->value;
+        $title    = '';
         $clientId = (int) $this->element['clientid'] ?: 0;
 
         // Get a reverse lookup of the base link URL to Title
@@ -119,5 +119,29 @@ class MenutypeField extends ModalSelectField
         }
 
         return $title;
+    }
+
+    /**
+     * Method to get the field input markup.
+     *
+     * @return  string  The field input markup.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getInput()
+    {
+        // Get the layout data
+        $data = $this->getLayoutData();
+
+        // Load the content title here to avoid a double DB Query
+        $data['valueTitle'] = $this->getValueTitle();
+
+        // On new item creation the model forces the value to be 'component',
+        // However this is need to be empty in the input for correct validation and rendering.
+        if ($data['value'] === 'component' && !$data['valueTitle'] && !$this->form->getValue('link')) {
+            $data['value'] = '';
+        }
+
+        return $this->getRenderer($this->layout)->render($data);
     }
 }
