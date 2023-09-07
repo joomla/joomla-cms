@@ -55,4 +55,60 @@ class ConsoleApplicationTest extends UnitTestCase
 
         return $object;
     }
+
+
+    /**
+ * @testdox Test that the ConsoleApplication correctly processes command-line arguments
+ *
+ * @return void
+ * @since   4.0.0
+ */
+public function testCommandLineArguments()
+{
+    $app = $this->createApplication();
+
+    // Simulate passing command-line arguments as an array
+    $commandLineArguments = ['script_name.php', 'custom:command', '--option=value', 'argument1', 'argument2'];
+
+    // Set the input arguments of the application
+    $app->setCommandLineArguments($commandLineArguments);
+
+    // Get the input interface to retrieve command-line arguments
+    $input = $app->getInput();
+
+    // Assert that the script name is correctly set as the first argument
+    $this->assertEquals('script_name.php', $input->getArgument('script_name'));
+
+    // Assert that the custom command is correctly set as the second argument
+    $this->assertEquals('custom:command', $input->getArgument('command'));
+
+    // Assert that the option is correctly set as an option
+    $this->assertEquals('value', $input->getOption('option'));
+
+    // Assert that the arguments are correctly set
+    $this->assertEquals(['argument1', 'argument2'], $input->getArguments());
+}
+/**
+ * @testdox Test that the ConsoleApplication can set and retrieve the language
+ *
+ * @return void
+ * @since   4.0.0
+ */
+public function testSetAndGetLanguage()
+{
+    $app = $this->createApplication();
+
+    // Create a mock Language object
+    $language = $this->createMock(Language::class);
+
+    // Set the language for the application
+    $app->setLanguage($language);
+
+    // Get the language from the application
+    $retrievedLanguage = $app->getLanguage();
+
+    // Assert that the retrieved language is the same as the mock Language object
+    $this->assertSame($language, $retrievedLanguage);
+}
+
 }
