@@ -461,39 +461,42 @@ class AdministratorApplication extends CMSApplication
      *
      * @since   4.0.0
      */
-    public function findOption(): string
-    {
-        /** @var self $app */
-        $app    = Factory::getApplication();
-        $option = strtolower($app->getInput()->get('option', ''));
-        $user   = $app->getIdentity();
+public function findOption(): string
+{
+    /** @var self $app */
+    $app    = Factory::getApplication();
+    $option = strtolower($app->getInput()->get('option', ''));
+    $user   = $app->getIdentity();
 
-        /**
-         * Special handling for guest users and authenticated users without the Backend Login privilege.
-         *
-         * If the component they are trying to access is in the $this->allowedUnprivilegedOptions array we allow the
-         * request to go through. Otherwise we force com_login to be loaded, letting the user (re)try authenticating
-         * with a user account that has the Backend Login privilege.
-         */
-        if ($user->get('guest') || !$user->authorise('core.login.admin')) {
-            $option = in_array($option, $this->allowedUnprivilegedOptions) ? $option : 'com_login';
-        }
-
-        /**
-         * If no component is defined in the request we will try to load com_cpanel, the administrator Control Panel
-         * component. This allows the /administrator URL to display something meaningful after logging in instead of an
-         * error.
-         */
-        if (empty($option)) {
-            $option = 'com_cpanel';
-        }
-
-        /**
-         * Force the option to the input object. This is necessary because we might have force-changed the component in
-         * the two if-blocks above.
-         */
-        $app->getInput()->set('option', $option);
-
-        return $option;
+    /**
+     * Special handling for guest users and authenticated users without the Backend Login privilege.
+     *
+     * If the component they are trying to access is in the $this->allowedUnprivilegedOptions array we allow the
+     * request to go through. Otherwise, we force com_login to be loaded, letting the user (re)try authenticating
+     * with a user account that has the Backend Login privilege.
+     */
+    if ($user->get('guest') || !$user->authorise('core.login.admin')) {
+        $option = in_array($option, $this->allowedUnprivilegedOptions) ? $option : 'com_login';
     }
+
+    /**
+     * If no component is defined in the request, we will try to load com_cpanel, the administrator Control Panel
+     * component. This allows the /administrator URL to display something meaningful after logging in instead of an
+     * error.
+     */
+    if (empty($option)) {
+        $option = 'com_cpanel';
+    }
+
+    /**
+     * Force the option to the input object. This is necessary because we might have force-changed the component in
+     * the two if-blocks above.
+     */
+    $app->getInput()->set('option', $option);
+
+    // Echo the result to the console
+    echo "Result of findOption(): $option\n";
+
+    return $option;
+}
 }
