@@ -44,7 +44,7 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $checked         Is this field checked?
  * @var   array    $position        Position of input.
- * @var   array    $control         The forms control.
+ * @var   string   $control         The forms control.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
