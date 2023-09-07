@@ -62,7 +62,9 @@ class MenutypeField extends ModalSelectField
         $url = Route::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId, false);
 
         $this->urls['select']        = $url;
+        $this->canDo['clear']        = false;
         $this->modalTitles['select'] = Text::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL');
+        $this->buttonIcons['select'] = 'icon-list';
 
         return $result;
     }
