@@ -7,7 +7,7 @@ INSERT IGNORE INTO `#__guidedtour_steps` (`tour_id`, `title`, `published`, `desc
 
 ALTER TABLE `#__guidedtours` ADD COLUMN `autostart` int NOT NULL DEFAULT 0 /** CAN FAIL **/;
 
-INSERT IGNORE INTO `#__guidedtours` (`title`, `alias`, `description`, `ordering`, `extensions`, `url`, `created`, `created_by`, `modified`, `modified_by`, `published`, `language`, `access`, `autostart`) VALUES
+INSERT IGNORE INTO `#__guidedtours` (`title`, `uid`, `description`, `ordering`, `extensions`, `url`, `created`, `created_by`, `modified`, `modified_by`, `published`, `language`, `access`, `autostart`) VALUES
 ('COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_TITLE', 'joomla-welcome', 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_DESCRIPTION', 1, '["com_cpanel"]', 'administrator/index.php', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, 1, '*', 1, 0);
 
 UPDATE `#__guidedtour_steps` SET `tour_id` = LAST_INSERT_ID() WHERE `tour_id`=0;
