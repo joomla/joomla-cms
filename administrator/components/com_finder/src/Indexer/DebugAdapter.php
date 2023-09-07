@@ -157,6 +157,23 @@ abstract class DebugAdapter extends CMSPlugin
     }
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onBeforeIndex'             => 'onBeforeIndex',
+            'onBuildIndex'              => 'onBuildIndex',
+            'onFinderGarbageCollection' => 'onFinderGarbageCollection',
+            'onStartIndex'              => 'onStartIndex',
+        ];
+    }
+
+    /**
      * Method to get the adapter state and push it into the indexer.
      *
      * @return  void
