@@ -34,13 +34,6 @@ jobs:
           name: ASP-app
           path: '/published/**'
 
-      - script: |
-          echo "Current directory: $(pwd)"
-          ls -l
-          nuget restore
-        displayName: 'Debugging NuGet Restore'
-
-
   deploy:
     runs-on: windows-latest
     needs: build
@@ -59,6 +52,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'Joomla-Deploy'
-          slot-name: 'Production'
+          #slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_384A838872D34BF688DD82E709DA0410 }}
           package: .
