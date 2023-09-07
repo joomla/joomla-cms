@@ -105,6 +105,7 @@ class MenutypeField extends ModalSelectField
                 $link = $this->form->getValue('link');
 
                 if ($link !== null) {
+                    /** @var \Joomla\Component\Menus\Administrator\Model\MenutypesModel $model */
                     $model = Factory::getApplication()->bootComponent('com_menus')
                         ->getMVCFactory()->createModel('Menutypes', 'Administrator', ['ignore_request' => true]);
                     $model->setState('client_id', $clientId);
