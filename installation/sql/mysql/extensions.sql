@@ -969,6 +969,7 @@ CREATE TABLE IF NOT EXISTS `#__guidedtours` (
   `language` varchar(7) NOT NULL,
   `note` varchar(255) NOT NULL DEFAULT '',
   `access` int unsigned NOT NULL DEFAULT 0,
+  `autostart` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `idx_access` (`access`),
   KEY `idx_state` (`published`),
@@ -980,18 +981,19 @@ CREATE TABLE IF NOT EXISTS `#__guidedtours` (
 -- Dumping data for table `#__guidedtours`
 --
 
-INSERT INTO `#__guidedtours` (`id`, `title`, `uid`, `description`, `ordering`, `extensions`, `url`, `created`, `created_by`, `modified`, `modified_by`, `checked_out_time`, `checked_out`, `published`, `language`, `access`) VALUES
-(1, 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURS_TITLE', 'joomla-guidedtours', 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURS_DESCRIPTION', 1, '["com_guidedtours"]', 'administrator/index.php?option=com_guidedtours&view=tours', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1),
-(2, 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURSTEPS_TITLE', 'joomla-guidedtoursteps', 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURSTEPS_DESCRIPTION', 2, '["com_guidedtours"]', 'administrator/index.php?option=com_guidedtours&view=tours', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1),
-(3, 'COM_GUIDEDTOURS_TOUR_ARTICLES_TITLE', 'joomla-articles', 'COM_GUIDEDTOURS_TOUR_ARTICLES_DESCRIPTION', 3, '["com_content","com_categories"]', 'administrator/index.php?option=com_content&view=articles', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1),
-(4, 'COM_GUIDEDTOURS_TOUR_CATEGORIES_TITLE', 'joomla-categories', 'COM_GUIDEDTOURS_TOUR_CATEGORIES_DESCRIPTION', 4, '["com_content","com_categories"]', 'administrator/index.php?option=com_categories&view=categories&extension=com_content', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1),
-(5, 'COM_GUIDEDTOURS_TOUR_MENUS_TITLE', 'joomla-menus', 'COM_GUIDEDTOURS_TOUR_MENUS_DESCRIPTION', 5, '["com_menus"]', 'administrator/index.php?option=com_menus&view=menus', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1),
-(6, 'COM_GUIDEDTOURS_TOUR_TAGS_TITLE', 'joomla-tags', 'COM_GUIDEDTOURS_TOUR_TAGS_DESCRIPTION', 6, '["com_tags"]', 'administrator/index.php?option=com_tags&view=tags', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1),
-(7, 'COM_GUIDEDTOURS_TOUR_BANNERS_TITLE', 'joomla-banners', 'COM_GUIDEDTOURS_TOUR_BANNERS_DESCRIPTION', 7, '["com_banners"]', 'administrator/index.php?option=com_banners&view=banners', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1),
-(8, 'COM_GUIDEDTOURS_TOUR_CONTACTS_TITLE', 'joomla-contacts', 'COM_GUIDEDTOURS_TOUR_CONTACTS_DESCRIPTION', 8, '["com_contact"]', 'administrator/index.php?option=com_contact&view=contacts', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1),
-(9, 'COM_GUIDEDTOURS_TOUR_NEWSFEEDS_TITLE', 'joomla-newsfeeds', 'COM_GUIDEDTOURS_TOUR_NEWSFEEDS_DESCRIPTION', 9, '["com_newsfeeds"]', 'administrator/index.php?option=com_newsfeeds&view=newsfeeds', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1),
-(10, 'COM_GUIDEDTOURS_TOUR_SMARTSEARCH_TITLE', 'joomla-smartsearch', 'COM_GUIDEDTOURS_TOUR_SMARTSEARCH_DESCRIPTION', 10, '["com_finder"]', 'administrator/index.php?option=com_finder&view=filters', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1),
-(11, 'COM_GUIDEDTOURS_TOUR_USERS_TITLE', 'joomla-users', 'COM_GUIDEDTOURS_TOUR_USERS_DESCRIPTION', 11, '["com_users"]', 'administrator/index.php?option=com_users&view=users', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1);
+INSERT INTO `#__guidedtours` (`id`, `title`, `uid`, `description`, `ordering`, `extensions`, `url`, `created`, `created_by`, `modified`, `modified_by`, `checked_out_time`, `checked_out`, `published`, `language`, `access`, `autostart`) VALUES
+(1, 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURS_TITLE', 'joomla-guidedtours', 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURS_DESCRIPTION', 1, '["com_guidedtours"]', 'administrator/index.php?option=com_guidedtours&view=tours', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1, 0),
+(2, 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURSTEPS_TITLE', 'joomla-guidedtoursteps', 'COM_GUIDEDTOURS_TOUR_GUIDEDTOURSTEPS_DESCRIPTION', 2, '["com_guidedtours"]', 'administrator/index.php?option=com_guidedtours&view=tours', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1, 0),
+(3, 'COM_GUIDEDTOURS_TOUR_ARTICLES_TITLE', 'joomla-articles', 'COM_GUIDEDTOURS_TOUR_ARTICLES_DESCRIPTION', 3, '["com_content","com_categories"]', 'administrator/index.php?option=com_content&view=articles', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1, 0),
+(4, 'COM_GUIDEDTOURS_TOUR_CATEGORIES_TITLE', 'joomla-categories', 'COM_GUIDEDTOURS_TOUR_CATEGORIES_DESCRIPTION', 4, '["com_content","com_categories"]', 'administrator/index.php?option=com_categories&view=categories&extension=com_content', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1, 0),
+(5, 'COM_GUIDEDTOURS_TOUR_MENUS_TITLE', 'joomla-menus', 'COM_GUIDEDTOURS_TOUR_MENUS_DESCRIPTION', 5, '["com_menus"]', 'administrator/index.php?option=com_menus&view=menus', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1, 0),
+(6, 'COM_GUIDEDTOURS_TOUR_TAGS_TITLE', 'joomla-tags', 'COM_GUIDEDTOURS_TOUR_TAGS_DESCRIPTION', 6, '["com_tags"]', 'administrator/index.php?option=com_tags&view=tags', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1, 0),
+(7, 'COM_GUIDEDTOURS_TOUR_BANNERS_TITLE', 'joomla-banners', 'COM_GUIDEDTOURS_TOUR_BANNERS_DESCRIPTION', 7, '["com_banners"]', 'administrator/index.php?option=com_banners&view=banners', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1, 0),
+(8, 'COM_GUIDEDTOURS_TOUR_CONTACTS_TITLE', 'joomla-contacts', 'COM_GUIDEDTOURS_TOUR_CONTACTS_DESCRIPTION', 8, '["com_contact"]', 'administrator/index.php?option=com_contact&view=contacts', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1, 0),
+(9, 'COM_GUIDEDTOURS_TOUR_NEWSFEEDS_TITLE', 'joomla-newsfeeds', 'COM_GUIDEDTOURS_TOUR_NEWSFEEDS_DESCRIPTION', 9, '["com_newsfeeds"]', 'administrator/index.php?option=com_newsfeeds&view=newsfeeds', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1, 0),
+(10, 'COM_GUIDEDTOURS_TOUR_SMARTSEARCH_TITLE', 'joomla-smartsearch', 'COM_GUIDEDTOURS_TOUR_SMARTSEARCH_DESCRIPTION', 10, '["com_finder"]', 'administrator/index.php?option=com_finder&view=filters', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1, 0),
+(11, 'COM_GUIDEDTOURS_TOUR_USERS_TITLE', 'joomla-users', 'COM_GUIDEDTOURS_TOUR_USERS_DESCRIPTION', 11, '["com_users"]', 'administrator/index.php?option=com_users&view=users', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1, 0),
+(12, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_TITLE', 'joomla-welcome', 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_DESCRIPTION', 12, '["com_cpanel"]', 'administrator/index.php', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, NULL, 1, '*', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1150,4 +1152,10 @@ INSERT INTO `#__guidedtour_steps` (`id`, `tour_id`, `title`, `published`, `descr
 (108, 11, 'COM_GUIDEDTOURS_TOUR_USERS_STEP_STATUS_TITLE', 1, 'COM_GUIDEDTOURS_TOUR_USERS_STEP_STATUS_DESCRIPTION', 108, 'top', '#jform_block0', 2, 3, 'administrator/index.php?option=com_users&view=user&layout=edit', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, '*'),
 (109, 11, 'COM_GUIDEDTOURS_TOUR_USERS_STEP_PASSWORDRESET_TITLE', 1, 'COM_GUIDEDTOURS_TOUR_USERS_STEP_PASSWORDRESET_DESCRIPTION', 109, 'top', '#jform_requireReset0', 2, 3, 'administrator/index.php?option=com_users&view=user&layout=edit', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, '*'),
 (110, 11, 'COM_GUIDEDTOURS_TOUR_USERS_STEP_SAVECLOSE_TITLE', 1, 'COM_GUIDEDTOURS_TOUR_USERS_STEP_SAVECLOSE_DESCRIPTION', 110, 'bottom', '#save-group-children-save .button-save', 2, 1, 'administrator/index.php?option=com_users&view=user&layout=edit', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, '*'),
-(111, 11, 'COM_GUIDEDTOURS_TOUR_USERS_STEP_CONGRATULATIONS_TITLE', 1, 'COM_GUIDEDTOURS_TOUR_USERS_STEP_CONGRATULATIONS_DESCRIPTION', 111, 'bottom', '', 0, 1, 'administrator/index.php?option=com_users&view=user&layout=edit', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, '*');
+(111, 11, 'COM_GUIDEDTOURS_TOUR_USERS_STEP_CONGRATULATIONS_TITLE', 1, 'COM_GUIDEDTOURS_TOUR_USERS_STEP_CONGRATULATIONS_DESCRIPTION', 111, 'bottom', '', 0, 1, 'administrator/index.php?option=com_users&view=user&layout=edit', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, '*'),
+
+(112, 12, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_MENUS_TITLE', 1, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_MENUS_DESCRIPTION', 112, 'right', '#sidebarmenu', 0, 1, '', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, '*'),
+(113, 12, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_QUICKACCESS_TITLE', 1, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_QUICKACCESS_DESCRIPTION', 113, 'right', '#sidebarmenu', 0, 1, '', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, '*'),
+(114, 12, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_NOTIFICATIONS_TITLE', 1, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_NOTIFICATIONS_DESCRIPTION', 114, 'left', '.module-wrapper:has(#plg_quickicon_joomlaupdate),#plg_quickicon_joomlaupdate', 0, 1, '', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, '*'),
+(115, 12, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_TOPBAR_TITLE', 1, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_TOPBAR_DESCRIPTION', 115, 'bottom', '#header', 0, 1, '', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, '*'),
+(116, 12, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_FINALWORDS_TITLE', 1, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_FINALWORDS_DESCRIPTION', 116, 'center', '', 0, 1, '', CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, '*');
