@@ -126,7 +126,7 @@ class Changelog
      * @since  5.0.0
      */
     private $changelogs = [];
-    
+
     /**
      * List of node changelog
      *
@@ -134,7 +134,7 @@ class Changelog
      * @since  5.0.0
      */
     private $changelog = [];
-    
+
     /**
      * List of node item
      *
