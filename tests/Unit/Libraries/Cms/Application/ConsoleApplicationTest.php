@@ -88,5 +88,27 @@ public function testCommandLineArguments()
     // Assert that the arguments are correctly set
     $this->assertEquals(['argument1', 'argument2'], $input->getArguments());
 }
+/**
+ * @testdox Test that the ConsoleApplication can set and retrieve the language
+ *
+ * @return void
+ * @since   4.0.0
+ */
+public function testSetAndGetLanguage()
+{
+    $app = $this->createApplication();
+
+    // Create a mock Language object
+    $language = $this->createMock(Language::class);
+
+    // Set the language for the application
+    $app->setLanguage($language);
+
+    // Get the language from the application
+    $retrievedLanguage = $app->getLanguage();
+
+    // Assert that the retrieved language is the same as the mock Language object
+    $this->assertSame($language, $retrievedLanguage);
+}
 
 }
