@@ -26,7 +26,6 @@ use Joomla\Registry\Registry;
  *
  * @since  4.0.0
  */
-#[\AllowDynamicProperties]
 class Changelog
 {
     use LegacyErrorHandlingTrait;
@@ -119,6 +118,30 @@ class Changelog
      * @since  4.0.0
      */
     private $items = [];
+
+    /**
+     * List of node changelogs
+     *
+     * @var    array
+     * @since  5.0.0
+     */
+    private $changelogs = [];
+    
+    /**
+     * List of node changelog
+     *
+     * @var    array
+     * @since  5.0.0
+     */
+    private $changelog = [];
+    
+    /**
+     * List of node item
+     *
+     * @var    array
+     * @since  5.0.0
+     */
+    private $item = [];
 
     /**
      * Resource handle for the XML Parser
