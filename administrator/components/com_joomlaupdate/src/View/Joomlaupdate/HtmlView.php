@@ -279,9 +279,9 @@ class HtmlView extends BaseHtmlView
         }
 
         // Add toolbar buttons.
-        $currentUser = version_compare(JVERSION, '4.2.0', 'ge')
+        $currentUser = version_compare(JVERSION, '4.2.0', '>=')
             ? $this->getCurrentUser()
-            : $this->getCurrentUser();
+            : Factory::getUser();
 
         if ($currentUser->authorise('core.admin')) {
             ToolbarHelper::preferences('com_joomlaupdate');
