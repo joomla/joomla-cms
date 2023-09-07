@@ -39,7 +39,7 @@ $wa->useScript('com_menus.admin-item-modal')->useScript('modal-content-select');
                         . ' data-request="' . ($item->request ? $this->escape(json_encode($item->request)) : '') . '"'
                         . ' data-encoded="' . $this->escape($encoded) . '"'
                         . ' data-tmpl-view="' . $tmpl . '"';
-                ?>
+                    ?>
                     <button type="button" class="choose_type list-group-item list-group-item-action" <?php echo $attrs; ?>>
                         <div class="pe-2">
                             <?php echo $title; ?>
