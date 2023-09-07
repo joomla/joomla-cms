@@ -40,6 +40,96 @@ class MenuField extends ModalSelectField
     protected $type = 'Modal_Menu';
 
     /**
+     * Method to get certain otherwise inaccessible properties from the form field object.
+     *
+     * @param   string  $name  The property name for which to get the value.
+     *
+     * @return  mixed  The property value or null.
+     *
+     * @since   3.7.0
+     */
+    public function __get($name)
+    {
+        switch ($name) {
+            case 'allowSelect':
+            case 'allowClear':
+            case 'allowNew':
+            case 'allowEdit':
+            case 'allowPropagate':
+                // @TODO: The override only for backward compatibility. Remove in Joomla 6.
+                $map = [
+                    'allowSelect'    => 'select',
+                    'allowClear'     => 'clear',
+                    'allowNew'       => 'new',
+                    'allowEdit'      => 'edit',
+                    'allowPropagate' => 'propagate',
+                ];
+                $newName = $map[$name];
+
+                @trigger_error(
+                    sprintf(
+                        'MenuField::__get property "%s" is deprecated, and will not work in Joomla 6. Use "%s" property instead.',
+                        $name,
+                        $newName
+                    ),
+                    E_USER_DEPRECATED
+                );
+
+                return parent::__get($newName);
+        }
+
+        return parent::__get($name);
+    }
+
+    /**
+     * Method to set certain otherwise inaccessible properties of the form field object.
+     *
+     * @param   string  $name   The property name for which to set the value.
+     * @param   mixed   $value  The value of the property.
+     *
+     * @return  void
+     *
+     * @since   3.7.0
+     */
+    public function __set($name, $value)
+    {
+        switch ($name) {
+            case 'allowSelect':
+            case 'allowClear':
+            case 'allowNew':
+            case 'allowEdit':
+            case 'allowPropagate':
+                // @TODO: The override only for backward compatibility. Remove in Joomla 6.
+                $map = [
+                    'allowSelect'    => 'select',
+                    'allowClear'     => 'clear',
+                    'allowNew'       => 'new',
+                    'allowEdit'      => 'edit',
+                    'allowPropagate' => 'propagate',
+                ];
+                $newName = $map[$name];
+
+                @trigger_error(
+                    sprintf(
+                        'MenuField::__set property "%s" is deprecated, and will not work in Joomla 6. Use "%s" property instead.',
+                        $name,
+                        $newName
+                    ),
+                    E_USER_DEPRECATED
+                );
+
+                $value = (string) $value;
+                $value = !($value === 'false' || $value === 'off' || $value === '0');
+
+                parent::__set($newName, $value);
+                break;
+
+            default:
+                parent::__set($name, $value);
+        }
+    }
+
+    /**
      * Method to attach a JForm object to the field.
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
