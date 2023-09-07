@@ -26,6 +26,7 @@ use Joomla\Registry\Registry;
  *
  * @since  4.0.0
  */
+#[\AllowDynamicProperties]
 class Changelog
 {
     use LegacyErrorHandlingTrait;
