@@ -1,0 +1,15 @@
+INSERT IGNORE INTO "#__guidedtour_steps" ("tour_id", "title", "published", "description", "ordering", "position", "target", "type", "interactive_type", "url", "created", "created_by", "modified", "modified_by", "language") VALUES
+(0, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_MENUS_TITLE', 1, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_MENUS_DESCRIPTION', 1, 'right', '#sidebarmenu', 0, 1, '', CURRENT_TIMESTAMP, 0, CURRENT_TIMESTAMP, 0, '*'),
+(0, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_QUICKACCESS_TITLE', 1, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_QUICKACCESS_DESCRIPTION', 2, 'right', '#sidebarmenu', 0, 1, '', CURRENT_TIMESTAMP, 0, CURRENT_TIMESTAMP, 0, '*'),
+(0, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_NOTIFICATIONS_TITLE', 1, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_NOTIFICATIONS_DESCRIPTION', 3, 'left', '.module-wrapper:has(#plg_quickicon_joomlaupdate),#plg_quickicon_joomlaupdate', 0, 1, '', CURRENT_TIMESTAMP, 0, CURRENT_TIMESTAMP, 0, '*'),
+(0, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_TOPBAR_TITLE', 1, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_TOPBAR_DESCRIPTION', 4, 'bottom', '#header', 0, 1, '', CURRENT_TIMESTAMP, 0, CURRENT_TIMESTAMP, 0, '*'),
+(0, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_FINALWORDS_TITLE', 1, 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_STEP_FINALWORDS_DESCRIPTION', 5, 'center', '', 0, 1, '', CURRENT_TIMESTAMP, 0, CURRENT_TIMESTAMP, 0, '*')
+ON CONFLICT DO NOTHING;
+
+ALTER TABLE "#__guidedtours" ADD COLUMN "autostart" int NOT NULL DEFAULT 0 /** CAN FAIL **/;
+
+INSERT IGNORE INTO "#__guidedtours" ("title", "alias", "description", "ordering", "extensions", "url", "created", "created_by", "modified", "modified_by", "published", "language", "access", "autostart") VALUES
+('COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_TITLE', 'joomla-welcome', 'COM_GUIDEDTOURS_TOUR_WELCOMETOJOOMLA_DESCRIPTION', 1, '["com_cpanel"]', 'administrator/index.php', CURRENT_TIMESTAMP, 0, CURRENT_TIMESTAMP, 0, 1, '*', 1, 0)
+ON CONFLICT DO NOTHING;
+
+UPDATE "#__guidedtour_steps" SET "tour_id" = currval(pg_get_serial_sequence('#__guidedtours','id')) WHERE "tour_id"=0;
