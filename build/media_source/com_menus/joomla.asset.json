@@ -52,9 +52,7 @@
       ],
       "attributes": {
         "type": "module"
-      },
-      "deprecated": true,
-      "deprecatedMsg": "Replaced with [modal-content-select-field] asset. To be removed in Joomla 6."
+      }
     },
     {
       "name": "com_menus.admin-items-modal",
@@ -65,7 +63,9 @@
       ],
       "attributes": {
         "type": "module"
-      }
+      },
+      "deprecated": true,
+      "deprecatedMsg": "Replaced with [modal-content-select-field] asset. To be removed in Joomla 6."
     },
     {
       "name": "com_menus.admin-menus",
