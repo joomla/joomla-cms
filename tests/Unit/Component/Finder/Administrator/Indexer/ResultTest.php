@@ -73,4 +73,35 @@ class ResultTest extends UnitTestCase
     {
         return (new ReflectionClass($class))->newInstanceWithoutConstructor();
     }
+
+    /**
+ * @return void
+ *
+ * @throws \ReflectionException
+ *
+ * @covers Result::setElement
+ * @covers Result::getElement
+ *
+ * @since   4.1.3
+ */
+public function testSetAndGetElement(): void
+{
+    // Create a new Result object
+    $obj = $this->createNoConstructorMock();
+    
+    // Set an element
+    $obj->setElement('key1', 'value1');
+    
+    // Get the element and assert its value
+    $this->assertEquals('value1', $obj->getElement('key1'));
+    
+    // Set another element
+    $obj->setElement('key2', 'value2');
+    
+    // Get the second element and assert its value
+    $this->assertEquals('value2', $obj->getElement('key2'));
+    
+    // Attempt to get a non-existent element should return null
+    $this->assertNull($obj->getElement('non_existent_key'));
+}
 }
