@@ -104,4 +104,27 @@ public function testSetAndGetElement(): void
     // Attempt to get a non-existent element should return null
     $this->assertNull($obj->getElement('non_existent_key'));
 }
+public function testSetAndGetElementWithEmptyValue(): void
+{
+    // Create a new Result object
+    $obj = $this->createNoConstructorMock();
+    
+    // Set an element with an empty value
+    $obj->setElement('key1', '');
+    
+    // Get the element and assert its value
+    $this->assertEquals('', $obj->getElement('key1'));
+    
+    // Set another element with an empty value
+    $obj->setElement('key2', '');
+    
+    // Get the second element and assert its value
+    $this->assertEquals('', $obj->getElement('key2'));
+    
+    // Attempt to get a non-existent element should return null
+    $this->assertNull($obj->getElement('non_existent_key'));
+
+
 }
+}
+
