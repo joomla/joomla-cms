@@ -497,4 +497,27 @@ class TourModel extends AdminModel
         return $db->setQuery($query)
             ->execute();
     }
+
+    /**
+     * Sets a tour's autostart value
+     *
+     * @param   int  $id         Id of a tour
+     * @param   int  $autostart  The autostart value of a tour
+     *
+     * @since  5.0.0
+     */
+    public function setAutostart($id, $autostart)
+    {
+        $db = $this->getDatabase();
+
+        $query = $db->getQuery(true)
+            ->update($db->quoteName('#__guidedtours'))
+            ->set($db->quoteName('autostart') . ' = :autostart')
+            ->where($db->quoteName('id') . ' = :tourId')
+            ->bind(':autostart', $autostart, ParameterType::INTEGER)
+            ->bind(':tourId', $id, ParameterType::INTEGER);
+
+        $db->setQuery($query);
+        $db->execute();
+    }
 }
