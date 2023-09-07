@@ -152,7 +152,6 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
 
             // Temporary solution to auto-start the welcome tour
             if ($app->getInput()->getCmd('option', 'com_cpanel') === 'com_cpanel') {
-
                 $tour = $this->getTour('joomla-welcome');
 
                 if ($tour->autostart) {
