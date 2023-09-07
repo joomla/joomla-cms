@@ -33,7 +33,7 @@ $wa->useScript('com_menus.admin-item-modal')->useScript('modal-content-select');
                     $menutype = ['id' => $this->recordId, 'title' => $item->type ?? $item->title, 'request' => $item->request];
                     $encoded  = base64_encode(json_encode($menutype));
 
-                    $attrs = 'data-content-select data-content-type="com_menus.menutype"'
+                    $attrs = 'data-content-select data-content-type="com_menus.menutype" data-message-type="joomla:content-select-menutype"'
                         . ' data-item-id="' . (int) $this->recordId . '"'
                         . ' data-type="' . $this->escape($item->type ?? $item->title) . '"'
                         . ' data-request="' . ($item->request ? $this->escape(json_encode($item->request)) : '') . '"'
