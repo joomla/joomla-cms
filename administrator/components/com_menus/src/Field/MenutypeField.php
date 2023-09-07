@@ -11,7 +11,7 @@
 namespace Joomla\Component\Menus\Administrator\Field;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\Form\Field\ModalSelectField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -27,7 +27,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class MenutypeField extends ListField
+class MenutypeField extends ModalSelectField
 {
     /**
      * The form field type.
@@ -38,13 +38,97 @@ class MenutypeField extends ListField
     protected $type = 'menutype';
 
     /**
+     * Method to attach a Form object to the field.
+     *
+     * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+     * @param   mixed              $value    The form field value to validate.
+     * @param   string             $group    The field name group control value.
+     *
+     * @return  boolean  True on success.
+     *
+     * @see     FormField::setup()
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setup(\SimpleXMLElement $element, $value, $group = null)
+    {
+        $result = parent::setup($element, $value, $group);
+
+        if (!$result) {
+            return $result;
+        }
+
+        $recordId = (int) $this->form->getValue('id');
+        $clientId = (int) $this->element['clientid'] ?: 0;
+
+        $url = Route::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId, false);
+
+        $this->urls['select']        = $url;
+        $this->modalTitles['select'] = Text::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL');
+
+        return $result;
+    }
+
+    /**
+     * Method to retrieve the title of selected item.
+     *
+     * @return string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getValueTitle()
+    {
+        $title    = $this->value;
+        $clientId = (int) $this->element['clientid'] ?: 0;
+
+        // Get a reverse lookup of the base link URL to Title
+        switch ($this->value) {
+            case 'url':
+                $title = Text::_('COM_MENUS_TYPE_EXTERNAL_URL');
+                break;
+
+            case 'alias':
+                $title = Text::_('COM_MENUS_TYPE_ALIAS');
+                break;
+
+            case 'separator':
+                $title = Text::_('COM_MENUS_TYPE_SEPARATOR');
+                break;
+
+            case 'heading':
+                $title = Text::_('COM_MENUS_TYPE_HEADING');
+                break;
+
+            case 'container':
+                $title = Text::_('COM_MENUS_TYPE_CONTAINER');
+                break;
+
+            default:
+                $link = $this->form->getValue('link');
+
+                if ($link !== null) {
+                    $model = Factory::getApplication()->bootComponent('com_menus')
+                        ->getMVCFactory()->createModel('Menutypes', 'Administrator', ['ignore_request' => true]);
+                    $model->setState('client_id', $clientId);
+
+                    $rlu   = $model->getReverseLookup();
+
+                    // Clean the link back to the option, view and layout
+                    $title = Text::_(ArrayHelper::getValue($rlu, MenusHelper::getLinkKey($link)));
+                }
+                break;
+        }
+
+        return $title;
+    }
+
+    /**
      * Method to get the field input markup.
      *
      * @return  string  The field input markup.
      *
      * @since   1.6
      */
-    protected function getInput()
+    protected function getInput1()
     {
         $html     = [];
         $recordId = (int) $this->form->getValue('id');
