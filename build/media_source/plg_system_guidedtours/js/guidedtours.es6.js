@@ -483,7 +483,13 @@ document.querySelector('body').addEventListener('click', (event) => {
 });
 
 // Start a given tour
-const tourId = sessionStorage.getItem('tourId');
+let tourId = sessionStorage.getItem('tourId');
+
+// Autostart tours have priority
+if (Joomla.getOptions('com_guidedtours.autotour', '') !== '') {
+  sessionStorage.setItem('tourToken', String(Joomla.getOptions('com_guidedtours.token')));
+  tourId = Joomla.getOptions('com_guidedtours.autotour');
+}
 
 if ((Number.parseInt(tourId, 10) > 0 || tourId !== '') && sessionStorage.getItem('tourToken') === String(Joomla.getOptions('com_guidedtours.token'))) {
   loadTour(tourId);
