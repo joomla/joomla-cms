@@ -264,7 +264,7 @@ class ItemModel extends AdminModel
 
             // If we a copying children, the Old ID will turn up in the parents list
             // otherwise it's a new top level item
-            $table->parent_id = isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
+            $table->parent_id = $parents[$oldParentId] ?? $parentId;
             $table->menutype  = $menuType;
 
             // Set the new location in the tree for the node.
@@ -1092,11 +1092,7 @@ class ItemModel extends AdminModel
                 $view = $args['view'];
 
                 // Determine the layout to search for.
-                if (isset($args['layout'])) {
-                    $layout = $args['layout'];
-                } else {
-                    $layout = 'default';
-                }
+                $layout = $args['layout'] ?? 'default';
 
                 // Check for the layout XML file. Use standard xml file if it exists.
                 $tplFolders = [
@@ -1315,7 +1311,7 @@ class ItemModel extends AdminModel
      */
     public function save($data)
     {
-        $pk      = isset($data['id']) ? $data['id'] : (int) $this->getState('item.id');
+        $pk      = $data['id'] ?? (int)$this->getState('item.id');
         $isNew   = true;
         $db      = $this->getDatabase();
         $query   = $db->getQuery(true);
@@ -1460,7 +1456,7 @@ class ItemModel extends AdminModel
         // Load associated menu items, for now not supported for admin menu… may be later
         if ($table->get('client_id') == 0 && Associations::isEnabled()) {
             // Adding self to the association
-            $associations = isset($data['associations']) ? $data['associations'] : [];
+            $associations = $data['associations'] ?? [];
 
             // Unset any invalid associations
             $associations = ArrayHelper::toInteger($associations);

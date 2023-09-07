@@ -559,9 +559,9 @@ class DatabaseModel extends InstallerModel
             $key             = 'COM_INSTALLER_MSG_DATABASE_' . $error->queryType;
             $messages        = $error->msgElements;
             $file            = basename($error->file);
-            $message0        = isset($messages[0]) ? $messages[0] : ' ';
-            $message1        = isset($messages[1]) ? $messages[1] : ' ';
-            $message2        = isset($messages[2]) ? $messages[2] : ' ';
+            $message0        = $messages[0] ?? ' ';
+            $message1        = $messages[1] ?? ' ';
+            $message2        = $messages[2] ?? ' ';
             $errorMessages[] = Text::sprintf($key, $file, $message0, $message1, $message2);
         }
 

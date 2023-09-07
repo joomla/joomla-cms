@@ -485,11 +485,7 @@ final class SiteApplication extends CMSApplication
             $cache->store($templates, $cacheId);
         }
 
-        if (isset($templates[$id])) {
-            $template = $templates[$id];
-        } else {
-            $template = $templates[0];
-        }
+        $template = $templates[$id] ?? $templates[0];
 
         // Allows for overriding the active template from the request
         $template_override = $this->input->getCmd('template', '');

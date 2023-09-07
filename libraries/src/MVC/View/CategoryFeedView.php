@@ -98,7 +98,7 @@ class CategoryFeedView extends HtmlView
             // Strip HTML from feed item description text.
             $description   = $item->description;
             $author        = $item->created_by_alias ?: $item->author;
-            $categoryTitle = isset($item->category_title) ? $item->category_title : $category->title;
+            $categoryTitle = $item->category_title ?? $category->title;
 
             if ($createdField) {
                 $date = isset($item->$createdField) ? date('r', strtotime($item->$createdField)) : '';

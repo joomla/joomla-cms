@@ -1346,7 +1346,7 @@ ENDDATA;
 
             $this->translateExtensionName($extension);
             $extension->version
-                = isset($decode->version) ? $decode->version : Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
+                = $decode->version ?? Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
             unset($extension->manifest_cache);
             $extension->manifest_cache = $decode;
         }
