@@ -61,7 +61,7 @@ abstract class LoggedHelper
             $result->logoutLink = '';
 
             if ($user->authorise('core.manage', 'com_users')) {
-                $result->editLink        = Route::_('index.php?option=com_users&task=user.edit&id=' . $result->id);
+                $result->editLink   = Route::_('index.php?option=com_users&task=user.edit&id=' . $result->id);
                 $result->logoutLink = Route::_(
                     'index.php?option=com_login&task=logout&uid=' . $result->id . '&' . Session::getFormToken() . '=1'
                 );
