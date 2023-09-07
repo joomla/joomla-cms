@@ -152,8 +152,8 @@ class MenuField extends FormField
 
             // Creating/editing menu items is not supported in frontend.
             $isAdministrator = Factory::getApplication()->isClient('administrator');
-            $this->allowNew  = $isAdministrator ? ((string) $this->element['new']) === 'true' : false;
-            $this->allowEdit = $isAdministrator ? ((string) $this->element['edit']) === 'true' : false;
+            $this->allowNew  = $isAdministrator && ((string)$this->element['new']) === 'true';
+            $this->allowEdit = $isAdministrator && ((string)$this->element['edit']) === 'true';
         }
 
         return $return;
