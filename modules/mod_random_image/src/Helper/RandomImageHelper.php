@@ -43,7 +43,7 @@ class RandomImageHelper
             return null;
         }
 
-        $random = mt_rand(0, $i - 1);
+        $random = random_int(0, $i - 1);
         $image  = $images[$random];
         $size   = getimagesize(JPATH_BASE . '/' . $image->folder . '/' . $image->name);
 

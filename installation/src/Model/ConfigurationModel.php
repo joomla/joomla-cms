@@ -240,7 +240,7 @@ class ConfigurationModel extends BaseInstallationModel
 
         if (empty($randUserId)) {
             // Create the ID for the root user only once and store in session.
-            $randUserId = mt_rand(1, 1000);
+            $randUserId = random_int(1, 1000);
             $session->set('randUserId', $randUserId);
         }
 
