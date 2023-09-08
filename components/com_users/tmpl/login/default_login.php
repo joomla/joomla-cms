@@ -35,7 +35,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
     </div>
     <?php endif; ?>
 
-    <?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description', '')) != '') || $this->params->get('login_image') != '') : ?>
+    <?php if (($this->params->get('logindescription_show') == 1 && trim($this->params->get('login_description', ''))) || $this->params->get('login_image') != '') : ?>
     <div class="com-users-login__description login-description">
     <?php endif; ?>
 
@@ -47,7 +47,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
             <?php echo HTMLHelper::_('image', $this->params->get('login_image'), empty($this->params->get('login_image_alt')) && empty($this->params->get('login_image_alt_empty')) ? false : $this->params->get('login_image_alt'), ['class' => 'com-users-login__image login-image']); ?>
         <?php endif; ?>
 
-    <?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description', '')) != '') || $this->params->get('login_image') != '') : ?>
+    <?php if (($this->params->get('logindescription_show') == 1 && trim($this->params->get('login_description', ''))) || $this->params->get('login_image') != '') : ?>
     </div>
     <?php endif; ?>
 
