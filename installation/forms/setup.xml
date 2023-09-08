@@ -181,7 +181,7 @@
 		<field
 			name="public_folder"
 			type="text"
-			label="INSTL_PUBLIC_FOLDER_LABEL"
+			label="INSTL_PUBLIC_FOLDER_DESC"
 			default=""
 			filter="string"
 		/>
