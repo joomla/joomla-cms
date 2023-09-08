@@ -8,7 +8,6 @@
 
 // Tabs
 
-
 //
 // Base styles
 //
@@ -40,7 +39,7 @@ joomla-tab {
       display: block;
       padding: .6rem 1rem;
       text-decoration: none;
-      background-color: var(--white);
+      background-color: var(--body-bg);
       border: 0;
       box-shadow: none;
 
@@ -78,6 +77,17 @@ joomla-tab {
         background: var(--template-bg-dark-3);
       }
 
+      @if $enable-dark-mode {
+        @include color-mode(dark) {
+          /* stylelint-disable max-nesting-depth */
+          &[aria-expanded=true] {
+            /* stylelint-enable max-nesting-depth */
+            color: var(--template-text-light);
+            background: var(--template-bg-dark-60);
+          }
+        }
+      }
+
       .text-muted {
         color: var(--template-text-dark) !important;
       }
@@ -109,7 +119,7 @@ joomla-tab {
     --gutter-x: 2rem;
     display: none;
     padding: 30px 2vw;
-    background-color: $white;
+    background-color: var(--body-bg);
     border: 0;
     border-radius: .25rem;
     box-shadow: none;

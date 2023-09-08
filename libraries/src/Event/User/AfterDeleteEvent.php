@@ -33,6 +33,25 @@ class AfterDeleteEvent extends AbstractDeleteEvent
     protected $legacyArgumentsOrder = ['subject', 'deletingResult', 'errorMessage'];
 
     /**
+     * Constructor.
+     *
+     * @param   string  $name       The event name.
+     * @param   array   $arguments  The event arguments.
+     *
+     * @throws  \BadMethodCallException
+     *
+     * @since   5.0.0
+     */
+    public function __construct($name, array $arguments = [])
+    {
+        parent::__construct($name, $arguments);
+
+        if (!\array_key_exists('deletingResult', $this->arguments)) {
+            throw new \BadMethodCallException("Argument 'deletingResult' of event {$name} is required but has not been provided");
+        }
+    }
+
+    /**
      * Setter for the deletingResult argument.
      *
      * @param   bool  $value  The value to set
@@ -49,13 +68,13 @@ class AfterDeleteEvent extends AbstractDeleteEvent
     /**
      * Setter for the errorMessage argument.
      *
-     * @param   string  $value  The value to set
+     * @param   ?string  $value  The value to set
      *
-     * @return  string
+     * @return  ?string
      *
      * @since  5.0.0
      */
-    protected function setErrorMessage(string $value): string
+    protected function setErrorMessage(?string $value): ?string
     {
         return $value;
     }
@@ -81,6 +100,6 @@ class AfterDeleteEvent extends AbstractDeleteEvent
      */
     public function getErrorMessage(): string
     {
-        return $this->arguments['errorMessage'];
+        return $this->arguments['errorMessage'] ?? '';
     }
 }

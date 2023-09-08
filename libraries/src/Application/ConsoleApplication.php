@@ -310,6 +310,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
                 new Console\DeleteUserCommand($this->getDatabase()),
                 new Console\ChangeUserPasswordCommand(),
                 new Console\ListUserCommand($this->getDatabase()),
+                new Console\SiteCreatePublicFolderCommand(),
             ]
         );
     }
@@ -582,5 +583,53 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
                 ),
             ]
         );
+    }
+
+    /**
+     * Gets a user state.
+     *
+     * @param   string  $key      The path of the state.
+     * @param   mixed   $default  Optional default value, returned if the internal value is null.
+     *
+     * @return  mixed  The user state or null.
+     *
+     * @since   5.0.0
+     */
+    public function getUserState($key, $default = null)
+    {
+        $registry = $this->getSession()->get('registry');
+
+        if ($registry !== null) {
+            return $registry->get($key, $default);
+        }
+
+        return $default;
+    }
+
+    /**
+     * Gets the value of a user state variable.
+     *
+     * @param   string  $key      The key of the user state variable.
+     * @param   string  $request  The name of the variable passed in a request.
+     * @param   string  $default  The default value for the variable if not found. Optional.
+     * @param   string  $type     Filter for the variable, for valid values see {@link InputFilter::clean()}. Optional.
+     *
+     * @return  mixed  The request user state.
+     *
+     * @since   5.0.0
+     */
+    public function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
+    {
+        $cur_state = $this->getUserState($key, $default);
+        $new_state = $this->input->get($request, null, $type);
+
+        if ($new_state === null) {
+            return $cur_state;
+        }
+
+        // Save the new value only if it was set in this request.
+        $this->setUserState($key, $new_state);
+
+        return $new_state;
     }
 }
