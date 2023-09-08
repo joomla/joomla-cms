@@ -293,9 +293,9 @@ class MediaField extends FormField
             $this->folder = $adapter . ':' . $path;
         } elseif ($this->value && is_file(JPATH_ROOT . '/' . $this->value)) {
             /**
-             * Local image, for example images/sampledata/cassiopeia/nasa2-640.jpg . We need to validate and make sure
-             * the top level folder is one of the directory configured in filesystem local plugin to avoid error message
-             * displayed in manage when users click on Select button to select a new image
+             * Local image, for example images/sampledata/cassiopeia/nasa2-640.jpg. We need to validate and make sure
+             * the top level folder is one of the directories configured in the filesystem local plugin to avoid an error
+             * message being displayed when users click on Select button to select a new image.
              */
             $paths = explode('/', Path::clean($this->value, '/'));
 
@@ -310,8 +310,8 @@ class MediaField extends FormField
             /**
              * This is the case where a folder is configured in directory attribute of the form field. The directory needs
              * to be a relative folder of the folder configured in Path to Images Folder config option of Media component.
-             * Same with a already stored local image above, we need to validate and make sure top level folder is one of the directory
-             * configured in filesystem local plugin
+             * Same with an already stored local image above, we need to validate and make sure the top level folder is one of the
+             * directories configured in the filesystem local plugin.
              */
             $path  = ComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory;
             $paths = explode('/', Path::clean($path, '/'));

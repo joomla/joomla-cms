@@ -25,15 +25,18 @@ use PHPMailer\PHPMailer\PHPMailer;
  *
  * @since  1.7.0
  */
-class Mail extends PHPMailer
+class Mail extends PHPMailer implements MailerInterface
 {
     /**
      * Mail instances container.
      *
      * @var    Mail[]
      * @since  1.7.3
+     *
+     * @deprecated  4.4.0 will be removed in 6.0
+     *              See getInstance() for more details
      */
-    protected static $instances = [];
+    public static $instances = [];
 
     /**
      * Charset of the message.
@@ -100,12 +103,19 @@ class Mail extends PHPMailer
      *
      * @return  Mail  The global Mail object
      *
-     * @since   1.7.0
+     * @since   4.4.0
+     *
+     * @deprecated  4.4.0 will be removed in 6.0
+     *              Use the mailer service in the DI container and create a mailer from there
+     *              Example:
+     *              Factory::getContainer()->get(MailerFactoryInterface::class)->createMailer();
      */
     public static function getInstance($id = 'Joomla', $exceptions = true)
     {
         if (empty(static::$instances[$id])) {
-            static::$instances[$id] = new static($exceptions);
+            $config = clone Factory::getConfig();
+            $config->set('throw_exceptions', $exceptions);
+            static::$instances[$id] = Factory::getContainer()->get(MailerFactoryInterface::class)->createMailer($config);
         }
 
         return static::$instances[$id];
@@ -172,9 +182,10 @@ class Mail extends PHPMailer
     /**
      * Set the email sender
      *
-     * @param   mixed  $from  email address and Name of sender
-     *                        <code>array([0] => email Address, [1] => Name)</code>
-     *                        or as a string
+     * @param   mixed  $from   email address and Name of sender
+     *                         <code>array([0] => email Address, [1] => Name)</code>
+     *                         or as a string
+     * @param   mixed   $name  Either a string or array of strings [name(s)]
      *
      * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
      *
@@ -183,7 +194,7 @@ class Mail extends PHPMailer
      * @throws  \UnexpectedValueException  if the sender is not a valid address
      * @throws  phpmailerException          if setting the sender failed and exception throwing is enabled
      */
-    public function setSender($from)
+    public function setSender($from, $name = '')
     {
         if (\is_array($from)) {
             // If $from is an array we assume it has an address and a name
@@ -195,7 +206,7 @@ class Mail extends PHPMailer
             }
         } elseif (\is_string($from)) {
             // If it is a string we assume it is just the address
-            $result = $this->setFrom(MailHelper::cleanLine($from));
+            $result = $this->setFrom(MailHelper::cleanLine($from), $name);
         } else {
             // If it is neither, we log a message and throw an exception
             Log::add(Text::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from), Log::WARNING, 'jerror');
@@ -221,7 +232,7 @@ class Mail extends PHPMailer
      */
     public function setSubject($subject)
     {
-        $this->Subject = MailHelper::cleanLine($subject);
+        $this->Subject = MailHelper::cleanSubject($subject);
 
         return $this;
     }

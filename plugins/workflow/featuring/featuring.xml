@@ -9,9 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_WORKFLOW_FEATURING_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Workflow\Featuring</namespace>
 	<files>
-		<filename plugin="featuring">featuring.php</filename>
 		<folder>forms</folder>
+		<folder plugin="featuring">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_workflow_featuring.ini</language>

@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license        GNU General Public License version 2 or later; see LICENSE
+ * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Event\Result;
@@ -90,7 +90,7 @@ trait ResultAware
     protected function setResult(array $value)
     {
         if ($this->preventSetArgumentResult) {
-            throw new BadMethodCallException('You are not allowed to set the result argument directly. Use addResult() instead.');
+            throw new \BadMethodCallException('You are not allowed to set the result argument directly. Use addResult() instead.');
         }
 
         // Always assume that the last element of the array is the result the handler is trying to append.

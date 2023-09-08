@@ -4,12 +4,11 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Event\MultiFactor;
 
-use DomainException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\Result\ResultAware;
 use Joomla\CMS\User\User;
@@ -50,7 +49,7 @@ class BeforeDisplayMethods extends AbstractImmutableEvent
     public function setUser(User $value): User
     {
         if (empty($value) || ($value->id <= 0) || ($value->guest == 1)) {
-            throw new DomainException(sprintf('Argument \'user\' of event %s must be a non-guest User object.', $this->name));
+            throw new \DomainException(sprintf('Argument \'user\' of event %s must be a non-guest User object.', $this->name));
         }
 
         return $value;
