@@ -444,14 +444,12 @@ class ManageModel extends InstallerModel
             'note'     => [],
         ];
 
-        array_walk(
-            $entries,
-            function (&$value, $name) use ($changelog) {
-                if ($field = $changelog->get($name)) {
-                    $value = $changelog->get($name)->data;
-                }
+        foreach (array_keys($entries) as $name) {
+            $field = $changelog->get($name);
+            if ($field) {
+                $entries[$name] = $changelog->get($name)->data;
             }
-        );
+        }
 
         $layout = new FileLayout('joomla.installer.changelog');
         $output = $layout->render($entries);
