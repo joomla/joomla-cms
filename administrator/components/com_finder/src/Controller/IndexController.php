@@ -95,11 +95,11 @@ class IndexController extends AdminController
             $this->setRedirect('index.php?option=com_finder&view=index', $message);
 
             return false;
-        } else {
-            $message = Text::_('COM_FINDER_INDEX_PURGE_SUCCESS');
-            $this->setRedirect('index.php?option=com_finder&view=index', $message);
-
-            return true;
         }
+
+        $message = Text::_('COM_FINDER_INDEX_PURGE_SUCCESS');
+        $this->setRedirect('index.php?option=com_finder&view=index', $message);
+
+        return true;
     }
 }

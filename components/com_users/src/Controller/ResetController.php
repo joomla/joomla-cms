@@ -59,7 +59,9 @@ class ResetController extends BaseController
             $this->setRedirect(Route::_('index.php?option=com_users&view=reset', false), $message, 'error');
 
             return false;
-        } elseif ($return === false && JDEBUG) {
+        }
+
+        if ($return === false && JDEBUG) {
             // The request failed.
             // Go back to the request form.
             $message = Text::sprintf('COM_USERS_RESET_REQUEST_FAILED', $model->getError());
@@ -110,20 +112,22 @@ class ResetController extends BaseController
             $this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=confirm', false), $message, 'error');
 
             return false;
-        } elseif ($return === false) {
+        }
+
+        if ($return === false) {
             // Confirm failed.
             // Go back to the confirm form.
             $message = Text::sprintf('COM_USERS_RESET_CONFIRM_FAILED', $model->getError());
             $this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=confirm', false), $message, 'notice');
 
             return false;
-        } else {
-            // Confirm succeeded.
-            // Proceed to step three.
-            $this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=complete', false));
-
-            return true;
         }
+
+        // Confirm succeeded.
+        // Proceed to step three.
+        $this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=complete', false));
+
+        return true;
     }
 
     /**
@@ -160,7 +164,9 @@ class ResetController extends BaseController
             $this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=complete', false), $message, 'error');
 
             return false;
-        } elseif ($return === false) {
+        }
+
+        if ($return === false) {
             // Complete failed.
             // Go back to the complete form.
             $message = Text::sprintf('COM_USERS_RESET_COMPLETE_FAILED', $model->getError());

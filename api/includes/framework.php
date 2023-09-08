@@ -28,14 +28,14 @@ if (
         );
 
         exit();
-    } else {
-        header('HTTP/1.1 500 Internal Server Error');
-        echo json_encode(
-            ['error' => 'No configuration file found and no installation code available. Exiting...']
-        );
-
-        exit;
     }
+
+    header('HTTP/1.1 500 Internal Server Error');
+    echo json_encode(
+        ['error' => 'No configuration file found and no installation code available. Exiting...']
+    );
+
+    exit;
 }
 
 // Pre-Load configuration. Don't remove the Output Buffering due to BOM issues, see JCode 26026

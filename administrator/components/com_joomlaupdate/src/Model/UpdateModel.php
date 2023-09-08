@@ -323,11 +323,11 @@ class UpdateModel extends BaseDatabaseModel
             $this->_message = Text::_('COM_JOOMLAUPDATE_CHECKED_UPDATES');
 
             return true;
-        } else {
-            $this->_message = Text::_('COM_JOOMLAUPDATE_FAILED_TO_CHECK_UPDATES');
-
-            return false;
         }
+
+        $this->_message = Text::_('COM_JOOMLAUPDATE_FAILED_TO_CHECK_UPDATES');
+
+        return false;
     }
 
     /**

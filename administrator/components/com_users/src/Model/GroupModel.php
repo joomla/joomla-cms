@@ -258,7 +258,9 @@ class GroupModel extends AdminModel
                 Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_DELETE_ERROR_INVALID_GROUP'), 'error');
 
                 return false;
-            } elseif (!$table->load($pk)) {
+            }
+
+            if (!$table->load($pk)) {
                 // Item is not in the table.
                 $this->setError($table->getError());
 
@@ -283,10 +285,10 @@ class GroupModel extends AdminModel
                         $this->setError($table->getError());
 
                         return false;
-                    } else {
-                        // Trigger the after delete event.
-                        Factory::getApplication()->triggerEvent($this->event_after_delete, [$table->getProperties(), true, $this->getError()]);
                     }
+
+                    // Trigger the after delete event.
+                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$table->getProperties(), true, $this->getError()]);
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);

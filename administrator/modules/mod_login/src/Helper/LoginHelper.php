@@ -69,10 +69,10 @@ abstract class LoginHelper
         $uri    = Uri::getInstance();
         $return = 'index.php' . $uri->toString(['query']);
 
-        if ($return != 'index.php?option=com_login') {
+        if ($return !== 'index.php?option=com_login') {
             return base64_encode($return);
-        } else {
-            return base64_encode('index.php');
         }
+
+        return base64_encode('index.php');
     }
 }

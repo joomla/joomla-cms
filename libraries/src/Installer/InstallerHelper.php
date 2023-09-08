@@ -102,7 +102,9 @@ abstract class InstallerHelper
 
         if (302 == $response->code && !empty($headers['location'])) {
             return self::downloadPackage($headers['location']);
-        } elseif (200 != $response->code) {
+        }
+
+        if (200 != $response->code) {
             Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), Log::WARNING, 'jerror');
 
             return false;
@@ -230,9 +232,9 @@ abstract class InstallerHelper
 
         if ($alwaysReturnArray || $retval['type']) {
             return $retval;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

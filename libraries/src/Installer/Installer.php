@@ -933,9 +933,9 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
             if ($result !== false) {
                 return true;
-            } else {
-                return false;
             }
+
+            return false;
         }
 
         $this->abort(Text::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE_VALID'));
@@ -1781,7 +1781,9 @@ class Installer extends Adapter implements DatabaseAwareInterface
                     Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_NO_FILE', $filesource), Log::WARNING, 'jerror');
 
                     return false;
-                } elseif (($exists = file_exists($filedest)) && !$overwrite) {
+                }
+
+                if (($exists = file_exists($filedest)) && !$overwrite) {
                     // It's okay if the manifest already exists
                     if ($this->getPath('manifest') === $filesource) {
                         continue;
@@ -1792,38 +1794,38 @@ class Installer extends Adapter implements DatabaseAwareInterface
                     Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_EXISTS', $filedest), Log::WARNING, 'jerror');
 
                     return false;
+                }
+
+                // Copy the folder or file to the new location.
+                if ($filetype === 'folder') {
+                    if (!Folder::copy($filesource, $filedest, null, $overwrite)) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), Log::WARNING, 'jerror');
+
+                        return false;
+                    }
+
+                    $step = ['type' => 'folder', 'path' => $filedest];
                 } else {
-                    // Copy the folder or file to the new location.
-                    if ($filetype === 'folder') {
-                        if (!Folder::copy($filesource, $filedest, null, $overwrite)) {
-                            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), Log::WARNING, 'jerror');
+                    if (!File::copy($filesource, $filedest, null)) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), Log::WARNING, 'jerror');
 
-                            return false;
+                        // In 3.2, TinyMCE language handling changed.  Display a special notice in case an older language pack is installed.
+                        if (strpos($filedest, 'media/editors/tinymce/jscripts/tiny_mce/langs')) {
+                            Log::add(Text::_('JLIB_INSTALLER_NOT_ERROR'), Log::WARNING, 'jerror');
                         }
 
-                        $step = ['type' => 'folder', 'path' => $filedest];
-                    } else {
-                        if (!File::copy($filesource, $filedest, null)) {
-                            Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), Log::WARNING, 'jerror');
-
-                            // In 3.2, TinyMCE language handling changed.  Display a special notice in case an older language pack is installed.
-                            if (strpos($filedest, 'media/editors/tinymce/jscripts/tiny_mce/langs')) {
-                                Log::add(Text::_('JLIB_INSTALLER_NOT_ERROR'), Log::WARNING, 'jerror');
-                            }
-
-                            return false;
-                        }
-
-                        $step = ['type' => 'file', 'path' => $filedest];
+                        return false;
                     }
 
-                    /*
-                     * Since we copied a file/folder, we want to add it to the installation step stack so that
-                     * in case we have to roll back the installation we can remove the files copied.
-                     */
-                    if (!$exists) {
-                        $this->stepStack[] = $step;
-                    }
+                    $step = ['type' => 'file', 'path' => $filedest];
+                }
+
+                /*
+             * Since we copied a file/folder, we want to add it to the installation step stack so that
+             * in case we have to roll back the installation we can remove the files copied.
+             */
+                if (!$exists) {
+                    $this->stepStack[] = $step;
                 }
             }
         } else {
@@ -2044,12 +2046,12 @@ class Installer extends Adapter implements DatabaseAwareInterface
             Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), Log::WARNING, 'jerror');
 
             return false;
-        } else {
-            // No XML files were found in the install folder
-            Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), Log::WARNING, 'jerror');
-
-            return false;
         }
+
+        // No XML files were found in the install folder
+        Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), Log::WARNING, 'jerror');
+
+        return false;
     }
 
     /**

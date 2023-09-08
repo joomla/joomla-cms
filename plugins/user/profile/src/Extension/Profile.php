@@ -136,16 +136,16 @@ final class Profile extends CMSPlugin
     {
         if (empty($value)) {
             return HTMLHelper::_('users.value', $value);
-        } else {
-            // Convert website URL to utf8 for display
-            $value = PunycodeHelper::urlToUTF8(htmlspecialchars($value));
-
-            if (strpos($value, 'http') === 0) {
-                return '<a href="' . $value . '">' . $value . '</a>';
-            } else {
-                return '<a href="http://' . $value . '">' . $value . '</a>';
-            }
         }
+
+        // Convert website URL to utf8 for display
+        $value = PunycodeHelper::urlToUTF8(htmlspecialchars($value));
+
+        if (strpos($value, 'http') === 0) {
+            return '<a href="' . $value . '">' . $value . '</a>';
+        }
+
+        return '<a href="http://' . $value . '">' . $value . '</a>';
     }
 
     /**
@@ -159,9 +159,9 @@ final class Profile extends CMSPlugin
     {
         if (empty($value)) {
             return HTMLHelper::_('users.value', $value);
-        } else {
-            return HTMLHelper::_('date', $value, null, null);
         }
+
+        return HTMLHelper::_('date', $value, null, null);
     }
 
     /**
@@ -191,9 +191,9 @@ final class Profile extends CMSPlugin
     {
         if ($value) {
             return Text::_('JYES');
-        } else {
-            return Text::_('JNO');
         }
+
+        return Text::_('JNO');
     }
 
     /**

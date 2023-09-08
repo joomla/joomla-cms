@@ -375,9 +375,9 @@ class Pagination
 
         if ($this->total > $this->limit) {
             return $this->_list_render($list);
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     /**
@@ -558,9 +558,9 @@ class Pagination
     {
         if (($i > 0 || ($i + $this->limitstart > 0)) && $condition) {
             return HTMLHelper::_('jgrid.orderUp', $i, $task, '', $alt, $enabled, $checkbox);
-        } else {
-            return '&#160;';
         }
+
+        return '&#160;';
     }
 
     /**
@@ -582,9 +582,9 @@ class Pagination
     {
         if (($i < $n - 1 || $i + $this->limitstart < $this->total - 1) && $condition) {
             return HTMLHelper::_('jgrid.orderDown', $i, $task, '', $alt, $enabled, $checkbox);
-        } else {
-            return '&#160;';
         }
+
+        return '&#160;';
     }
 
     /**

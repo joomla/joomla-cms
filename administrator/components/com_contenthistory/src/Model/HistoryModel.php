@@ -156,15 +156,15 @@ class HistoryModel extends ListModel
                         }
 
                         return false;
-                    } else {
-                        try {
-                            Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                        } catch (\RuntimeException $exception) {
-                            Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
-                        }
-
-                        return false;
                     }
+
+                    try {
+                        Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+                    } catch (\RuntimeException $exception) {
+                        Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
+                    }
+
+                    return false;
                 }
             } else {
                 $this->setError($table->getError());
@@ -263,15 +263,15 @@ class HistoryModel extends ListModel
                         }
 
                         return false;
-                    } else {
-                        try {
-                            Log::add(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                        } catch (\RuntimeException $exception) {
-                            Factory::getApplication()->enqueueMessage(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), 'warning');
-                        }
-
-                        return false;
                     }
+
+                    try {
+                        Log::add(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), Log::WARNING, 'jerror');
+                    } catch (\RuntimeException $exception) {
+                        Factory::getApplication()->enqueueMessage(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), 'warning');
+                    }
+
+                    return false;
                 }
             } else {
                 $this->setError($table->getError());

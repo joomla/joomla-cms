@@ -135,46 +135,46 @@ trait GlobalFilters
         if ($unfiltered) {
             // Dont apply filtering.
             return false;
-        } else {
-            // Custom forbidden list precedes Default forbidden list.
-            if ($customList) {
-                $filter = InputFilter::getInstance([], [], 1, 1);
+        }
 
-                // Override filter's default forbidden tags and attributes
-                if ($customListTags) {
-                    $filter->blockedTags = $customListTags;
-                }
+// Custom forbidden list precedes Default forbidden list.
+        if ($customList) {
+            $filter = InputFilter::getInstance([], [], 1, 1);
 
-                if ($customListAttributes) {
-                    $filter->blockedAttributes = $customListAttributes;
-                }
-            } elseif ($forbiddenList) {
-                // Forbidden list takes second precedence.
-                // Remove the allowed tags and attributes from the forbidden list.
-                $forbiddenListTags       = array_diff($forbiddenListTags, $allowedListTags);
-                $forbiddenListAttributes = array_diff($forbiddenListAttributes, $allowedListAttributes);
-
-                $filter = InputFilter::getInstance($forbiddenListTags, $forbiddenListAttributes, 1, 1);
-
-                // Remove allowed tags from filter's default forbidden list
-                if ($allowedListTags) {
-                    $filter->blockedTags = array_diff($filter->blockedTags, $allowedListTags);
-                }
-
-                // Remove allowed attributes from filter's default forbidden list
-                if ($allowedListAttributes) {
-                    $filter->blockedAttributes = array_diff($filter->blockedAttributes, $allowedListAttributes);
-                }
-            } elseif ($allowedList) {
-                // Allowed list take third precedence.
-                // Turn off XSS auto clean
-                $filter = InputFilter::getInstance($allowedListTags, $allowedListAttributes, 0, 0, 0);
-            } else {
-                // No HTML takes last place.
-                $filter = InputFilter::getInstance();
+            // Override filter's default forbidden tags and attributes
+            if ($customListTags) {
+                $filter->blockedTags = $customListTags;
             }
 
-            return $filter;
+            if ($customListAttributes) {
+                $filter->blockedAttributes = $customListAttributes;
+            }
+        } elseif ($forbiddenList) {
+            // Forbidden list takes second precedence.
+            // Remove the allowed tags and attributes from the forbidden list.
+            $forbiddenListTags       = array_diff($forbiddenListTags, $allowedListTags);
+            $forbiddenListAttributes = array_diff($forbiddenListAttributes, $allowedListAttributes);
+
+            $filter = InputFilter::getInstance($forbiddenListTags, $forbiddenListAttributes, 1, 1);
+
+            // Remove allowed tags from filter's default forbidden list
+            if ($allowedListTags) {
+                $filter->blockedTags = array_diff($filter->blockedTags, $allowedListTags);
+            }
+
+            // Remove allowed attributes from filter's default forbidden list
+            if ($allowedListAttributes) {
+                $filter->blockedAttributes = array_diff($filter->blockedAttributes, $allowedListAttributes);
+            }
+        } elseif ($allowedList) {
+            // Allowed list take third precedence.
+            // Turn off XSS auto clean
+            $filter = InputFilter::getInstance($allowedListTags, $allowedListAttributes, 0, 0, 0);
+        } else {
+            // No HTML takes last place.
+            $filter = InputFilter::getInstance();
         }
+
+        return $filter;
     }
 }

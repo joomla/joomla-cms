@@ -37,7 +37,9 @@ class ObjectReadOnlyProxy extends ObjectProxy implements ReadOnlyProxyInterface
         // Ensure that the child also is a read-only
         if (\is_scalar($value) || $value === null) {
             return $value;
-        } elseif (\is_object($value)) {
+        }
+
+        if (\is_object($value)) {
             $value = new static($value);
         } elseif (\is_array($value)) {
             $value = new ArrayReadOnlyProxy($value);
@@ -77,7 +79,9 @@ class ObjectReadOnlyProxy extends ObjectProxy implements ReadOnlyProxyInterface
         // Ensure that the child also is a read-only
         if (\is_scalar($value) || $value === null) {
             return $value;
-        } elseif (\is_object($value)) {
+        }
+
+        if (\is_object($value)) {
             $value = new static($value);
         } elseif (\is_array($value)) {
             $value = new ArrayReadOnlyProxy($value);

@@ -502,10 +502,10 @@ abstract class Table implements TableInterface, DispatcherAwareInterface
             if ($multiple) {
                 // If we want multiple keys, return the raw array.
                 return $this->_tbl_keys;
-            } else {
-                // If we want the standard method, just return the first key.
-                return $this->_tbl_keys[0];
             }
+
+            // If we want the standard method, just return the first key.
+            return $this->_tbl_keys[0];
         }
 
         return '';
@@ -930,18 +930,18 @@ abstract class Table implements TableInterface, DispatcherAwareInterface
                     $this->setError($asset->getError());
 
                     return false;
-                } else {
-                    // Create an asset_id or heal one that is corrupted.
-                    if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id))) {
-                        // Update the asset_id field in this table.
-                        $this->asset_id = (int) $asset->id;
+                }
 
-                        $query = $this->_db->getQuery(true)
-                            ->update($this->_db->quoteName($this->_tbl))
-                            ->set('asset_id = ' . (int) $this->asset_id);
-                        $this->appendPrimaryKeys($query);
-                        $this->_db->setQuery($query)->execute();
-                    }
+                // Create an asset_id or heal one that is corrupted.
+                if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id))) {
+                    // Update the asset_id field in this table.
+                    $this->asset_id = (int) $asset->id;
+
+                    $query = $this->_db->getQuery(true)
+                        ->update($this->_db->quoteName($this->_tbl))
+                        ->set('asset_id = ' . (int) $this->asset_id);
+                    $this->appendPrimaryKeys($query);
+                    $this->_db->setQuery($query)->execute();
                 }
             }
         }

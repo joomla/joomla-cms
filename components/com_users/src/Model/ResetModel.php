@@ -103,9 +103,9 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
 
         if (empty($form)) {
             return false;
-        } else {
-            $form->setValue('token', '', Factory::getApplication()->getInput()->get('token'));
         }
+
+        $form->setValue('token', '', Factory::getApplication()->getInput()->get('token'));
 
         return $form;
     }
