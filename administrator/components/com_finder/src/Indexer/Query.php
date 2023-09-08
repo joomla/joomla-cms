@@ -784,7 +784,7 @@ class Query
             $matches = [];
 
             if ($debug) {
-                $pattern = substr($pattern, 2, -2);
+                $pattern = StringHelper::substr($pattern, 2, -2);
             }
 
             // Check if the filter pattern is in the input string.
@@ -871,7 +871,7 @@ class Query
 
                     // Add any terms that are before this phrase to the stack.
                     if (trim(StringHelper::substr($input, 0, $pos))) {
-                        $terms = array_merge($terms, explode(' ', trim(StringHelper::substr($input, 0, $pos))));
+                        $terms = array_merge($terms, explode(' ', StringHelper::trim(StringHelper::substr($input, 0, $pos))));
                     }
 
                     // Strip out everything up to and including the phrase.
