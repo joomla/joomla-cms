@@ -222,6 +222,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $tour = new \stdClass();
 
         $tour->id = $item->id;
+        $tour->autostart = $item->autostart;
 
         $stepsModel = $factory->createModel(
             'Steps',
