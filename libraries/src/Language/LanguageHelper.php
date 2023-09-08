@@ -411,9 +411,6 @@ class LanguageHelper
         if ($debug === true) {
             // See https://www.php.net/manual/en/reserved.variables.phperrormsg.php
             $php_errormsg = null;
-
-            $trackErrors = ini_get('track_errors');
-            ini_set('track_errors', true);
         }
 
         // This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
@@ -426,11 +423,6 @@ class LanguageHelper
             $strings  = @parse_ini_string($contents);
         } else {
             $strings = @parse_ini_file($fileName);
-        }
-
-        // Restore error tracking to what it was before.
-        if ($debug === true) {
-            ini_set('track_errors', $trackErrors);
         }
 
         return \is_array($strings) ? $strings : [];

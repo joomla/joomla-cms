@@ -70,10 +70,6 @@ abstract class InstallerHelper
      */
     public static function downloadPackage($url, $target = false)
     {
-        // Capture PHP errors
-        $track_errors = ini_get('track_errors');
-        ini_set('track_errors', true);
-
         // Set user agent
         $version = new Version();
         ini_set('user_agent', $version->getUserAgent('Installer'));
@@ -131,9 +127,6 @@ abstract class InstallerHelper
 
         // Write buffer to file
         File::write($target, $body);
-
-        // Restore error tracking to what it was before
-        ini_set('track_errors', $track_errors);
 
         // Bump the max execution time because not using built in php zip libs are slow
         @set_time_limit(ini_get('max_execution_time'));
