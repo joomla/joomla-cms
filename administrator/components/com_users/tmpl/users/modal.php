@@ -79,7 +79,7 @@ $userRequired    = (int) $input->get('required', 0, 'int');
                         . ' data-id="' . ((int) $item->id) . '"'
                         . ' data-name="' . $this->escape($item->name) . '"'
                         // @TODO: data-user-value, data-user-name, data-user-field is for backward compatibility, remove in Joomla 6
-                        . ' data-user-value="' .((int) $item->id) . '"'
+                        . ' data-user-value="' . ((int) $item->id) . '"'
                         . ' data-user-name="' . $this->escape($item->name) . '"'
                         . ' data-user-field="' . $this->escape($field) . '"';
                     ?>
