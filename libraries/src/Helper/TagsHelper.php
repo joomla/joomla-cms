@@ -109,7 +109,7 @@ class TagsHelper extends CMSHelper
 
         // Insert the new tag maps
         if (strpos(implode(',', $tags), '#') !== false) {
-            $tags = self::createTagsFromField($tags);
+            $tags = $this->createTagsFromField($tags);
         }
 
         // Prevent saving duplicate tags
