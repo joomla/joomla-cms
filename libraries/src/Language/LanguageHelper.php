@@ -407,12 +407,6 @@ class LanguageHelper
             return [];
         }
 
-        // Capture hidden PHP errors from the parsing.
-        if ($debug === true) {
-            // See https://www.php.net/manual/en/reserved.variables.phperrormsg.php
-            $php_errormsg = null;
-        }
-
         // This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
         // issue it is solving
         $disabledFunctions      = explode(',', ini_get('disable_functions'));

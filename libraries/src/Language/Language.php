@@ -741,7 +741,6 @@ class Language extends BaseLanguage
         $debug        = $this->getDebug();
         $this->debug  = false;
         $errors       = [];
-        $php_errormsg = null;
 
         // Open the file as a stream.
         $file = new \SplFileObject($filename);
@@ -792,9 +791,9 @@ class Language extends BaseLanguage
         // Check if we encountered any errors.
         if (\count($errors)) {
             $this->errorfiles[$filename] = $errors;
-        } elseif ($php_errormsg) {
+        } elseif ($error = \error_get_last()) {
             // We didn't find any errors but there's probably a parse notice.
-            $this->errorfiles['PHP' . $filename] = 'PHP parser errors :' . $php_errormsg;
+            $this->errorfiles['PHP' . $filename] = 'PHP parser errors :' . $error['message'];
         }
 
         $this->debug = $debug;
