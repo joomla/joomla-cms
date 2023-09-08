@@ -1494,7 +1494,7 @@ class TemplateModel extends FormModel
 
             try {
                 $image      = new Image($path);
-                $properties = $image->getImageFileProperties($path);
+                $properties = Image::getImageFileProperties($path);
 
                 switch ($properties->mime) {
                     case 'image/webp':
@@ -1539,7 +1539,7 @@ class TemplateModel extends FormModel
 
             try {
                 $image      = new Image($path);
-                $properties = $image->getImageFileProperties($path);
+                $properties = Image::getImageFileProperties($path);
 
                 switch ($properties->mime) {
                     case 'image/webp':

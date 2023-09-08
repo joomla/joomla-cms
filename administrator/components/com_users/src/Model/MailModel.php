@@ -103,7 +103,6 @@ class MailModel extends AdminModel
         $app      = Factory::getApplication();
         $data     = $app->getInput()->post->get('jform', [], 'array');
         $user     = $this->getCurrentUser();
-        $access   = new Access();
         $db       = $this->getDatabase();
         $language = Factory::getLanguage();
 
@@ -129,7 +128,7 @@ class MailModel extends AdminModel
         }
 
         // Get users in the group out of the ACL, if group is provided.
-        $to = $grp !== 0 ? $access->getUsersByGroup($grp, $recurse) : [];
+        $to = $grp !== 0 ? Access::getUsersByGroup($grp, $recurse) : [];
 
         // When group is provided but no users are found in the group.
         if ($grp !== 0 && !$to) {

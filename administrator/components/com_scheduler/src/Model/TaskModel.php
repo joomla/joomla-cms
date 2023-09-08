@@ -348,7 +348,7 @@ class TaskModel extends AdminModel
         $resolver = new OptionsResolver();
 
         try {
-            $this->configureTaskGetterOptions($resolver);
+            static::configureTaskGetterOptions($resolver);
         } catch (\Exception $e) {
         }
 
