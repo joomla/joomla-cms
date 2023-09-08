@@ -13,6 +13,7 @@ namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\User\User;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -133,11 +134,11 @@ trait GlobalFilters
 
         // Unfiltered assumes first priority.
         if ($unfiltered) {
-            // Dont apply filtering.
+            // Don't apply filtering.
             return false;
         }
 
-// Custom forbidden list precedes Default forbidden list.
+        // Custom forbidden list precedes Default forbidden list.
         if ($customList) {
             $filter = InputFilter::getInstance([], [], 1, 1);
 
