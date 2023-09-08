@@ -1,4 +1,4 @@
-describe('Test that modules API endpoint', () => {
+describe('Test that modules site API endpoint', () => {
   afterEach(() => cy.task('queryDB', "DELETE FROM #__modules WHERE title = 'automated test site module'"));
 
   it('can deliver a list of site modules', () => {
