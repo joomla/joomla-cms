@@ -1379,7 +1379,7 @@ abstract class Table implements TableInterface, DispatcherAwareInterface
     public function isCheckedOut($with = 0, $against = null)
     {
         // Handle the non-static case.
-        if (isset($this) && ($this instanceof Table) && \is_null($against)) {
+        if (isset($this) && ($this instanceof self) && \is_null($against)) {
             $checkedOutField = $this->getColumnAlias('checked_out');
             $against         = $this->get($checkedOutField);
         }

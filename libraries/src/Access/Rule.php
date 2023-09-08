@@ -71,7 +71,7 @@ class Rule
      */
     public function mergeIdentities($identities)
     {
-        if ($identities instanceof Rule) {
+        if ($identities instanceof self) {
             $identities = $identities->getData();
         }
 

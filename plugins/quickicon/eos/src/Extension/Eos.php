@@ -114,7 +114,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
             // Build the  message to be displayed in the cpanel
             $messageText = sprintf(
                 $app->getLanguage()->_($this->currentMessage['messageText']),
-                HTMLHelper::_('date', Eos::EOS_DATE, $app->getLanguage()->_('DATE_FORMAT_LC3')),
+                HTMLHelper::_('date', self::EOS_DATE, $app->getLanguage()->_('DATE_FORMAT_LC3')),
                 $this->currentMessage['messageLink']
             );
             if ($this->currentMessage['snoozable']) {
@@ -295,7 +295,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      */
     private function setMessage(): array
     {
-        $diff                      = Factory::getDate()->diff(Factory::getDate(Eos::EOS_DATE));
+        $diff                      = Factory::getDate()->diff(Factory::getDate(self::EOS_DATE));
         $message                   = $this->getMessageInfo(floor($diff->days / 30.417), $diff->invert);
         $this->currentMessage      = $message;
         $this->messagesInitialized = true;
