@@ -18,15 +18,3 @@ Joomla.setMenuType = (type, tmpl) => {
     window.location = `index.php?option=com_menus&view=item&task=item.setType&layout=edit&type=${type}`;
   }
 };
-
-// Bind the buttons
-document.addEventListener('click', (event) => {
-  const button = event.target.closest('[data-content-select]');
-  if (!button) return;
-  event.preventDefault();
-
-  // In non-modal view do redirect to the form with new type pre-selected
-  if (!button.dataset.tmplView) {
-    window.location = `index.php?option=com_menus&view=item&task=item.setType&layout=edit&type=${button.dataset.encoded}`;
-  }
-});

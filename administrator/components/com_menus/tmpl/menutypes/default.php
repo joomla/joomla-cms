@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 $input = Factory::getApplication()->getInput();
 
@@ -21,7 +22,11 @@ $tmpl = $input->getCmd('tmpl') ? '1' : '';
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_menus.admin-item-modal')->useScript('modal-content-select');
+$wa->useScript('com_menus.admin-item-modal');
+
+if ($tmpl) {
+    $wa->useScript('modal-content-select');
+}
 
 ?>
 <?php echo HTMLHelper::_('bootstrap.startAccordion', 'collapseTypes', ['active' => 'slide1']); ?>
@@ -33,21 +38,27 @@ $wa->useScript('com_menus.admin-item-modal')->useScript('modal-content-select');
                     $menutype = ['id' => $this->recordId, 'title' => $item->type ?? $item->title, 'request' => $item->request];
                     $encoded  = base64_encode(json_encode($menutype));
 
-                    $attrs = 'data-content-select data-content-type="com_menus.menutype" data-message-type="joomla:content-select-menutype"'
-                        . ' data-item-id="' . (int) $this->recordId . '"'
-                        . ' data-type="' . $this->escape($item->type ?? $item->title) . '"'
-                        . ' data-request="' . ($item->request ? $this->escape(json_encode($item->request)) : '') . '"'
-                        . ' data-encoded="' . $this->escape($encoded) . '"'
-                        . ' data-tmpl-view="' . $tmpl . '"';
+                    if ($tmpl) {
+                        $attrs = 'data-content-select data-content-type="com_menus.menutype" data-message-type="joomla:content-select-menutype"'
+                            . ' data-item-id="' . (int) $this->recordId . '"'
+                            . ' data-type="' . $this->escape($item->type ?? $item->title) . '"'
+                            . ' data-request="' . ($item->request ? $this->escape(json_encode($item->request)) : '') . '"'
+                            . ' data-encoded="' . $this->escape($encoded) . '"';
+
+                        $link = '#';
+                    } else {
+                        $attrs = '';
+                        $link  = $this->escape('index.php?option=com_menus&view=item&task=item.setType&layout=edit&type=' . $encoded . '&' . Session::getFormToken() . '=1');
+                    }
                     ?>
-                    <button type="button" class="choose_type list-group-item list-group-item-action" <?php echo $attrs; ?>>
+                    <a href="<?php echo $link; ?>" class="choose_type list-group-item list-group-item-action" <?php echo $attrs; ?>>
                         <div class="pe-2">
                             <?php echo $title; ?>
                         </div>
                         <small class="text-muted">
                             <?php echo Text::_($item->description); ?>
                         </small>
-                    </button>
+                    </a>
                 <?php endforeach; ?>
             </div>
         <?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
