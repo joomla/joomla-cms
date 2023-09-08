@@ -40,7 +40,7 @@ class CategoryFeedView extends HtmlView
     public function display($tpl = null)
     {
         $app      = Factory::getApplication();
-        $document = Factory::getDocument();
+        $document = $this->getDocument();
 
         $extension      = $app->getInput()->getString('option');
         $contentType    = $extension . '.' . $this->viewName;

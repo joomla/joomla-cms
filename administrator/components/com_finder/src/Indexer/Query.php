@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -203,7 +202,7 @@ class Query
      * @param   array  $options  An array of query options.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function __construct($options, DatabaseInterface $db = null)
     {
@@ -494,7 +493,7 @@ class Query
      * @return  boolean  True on success, false on failure.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function processStaticTaxonomy($filterId)
     {
@@ -554,7 +553,7 @@ class Query
         $query->clear()
             ->select('t1.id, t1.title, t2.title AS branch')
             ->from($db->quoteName('#__finder_taxonomy') . ' AS t1')
-            ->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id')
+            ->leftJoin($db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.lft < t1.lft AND t1.rgt < t2.rgt AND t2.level = 1')
             ->where('t1.state = 1')
             ->where('t1.access IN (' . $groups . ')')
             ->where('t1.id IN (' . implode(',', $filters) . ')')
@@ -585,7 +584,7 @@ class Query
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function processDynamicTaxonomy($filters)
     {
@@ -618,7 +617,7 @@ class Query
          */
         $query->select('t1.id, t1.title, t2.title AS branch')
             ->from($db->quoteName('#__finder_taxonomy') . ' AS t1')
-            ->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id')
+            ->leftJoin($db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.lft < t1.lft AND t1.rgt < t2.rgt AND t2.level = 1')
             ->where('t1.state = 1')
             ->where('t1.access IN (' . $groups . ')')
             ->where('t1.id IN (' . implode(',', $filters) . ')')
@@ -729,7 +728,7 @@ class Query
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function processString($input, $lang, $mode)
     {
@@ -1232,7 +1231,7 @@ class Query
      * @return  Token  A Token object.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function getTokenData($token)
     {

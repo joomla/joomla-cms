@@ -10,6 +10,8 @@
 
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
+use Joomla\Plugin\System\Debug\Extension\Debug;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -39,8 +41,13 @@ class RequestDataCollector extends \DebugBar\DataCollector\RequestDataCollector
 
                 $data = $GLOBALS[$var];
 
+                // Replace Joomla session data from session data, it will be collected by SessionCollector
+                if ($var === '_SESSION' && !empty($data['joomla'])) {
+                    $data['joomla'] = '***redacted***';
+                }
+
                 array_walk_recursive($data, static function (&$value, $key) {
-                    if (!preg_match(\PlgSystemDebug::PROTECTED_COLLECTOR_KEYS, $key)) {
+                    if (!preg_match(Debug::PROTECTED_COLLECTOR_KEYS, $key)) {
                         return;
                     }
 

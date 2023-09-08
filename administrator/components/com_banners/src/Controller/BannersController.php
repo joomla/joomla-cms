@@ -40,10 +40,10 @@ class BannersController extends AdminController
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    Input
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since   3.0
      */
@@ -117,7 +117,7 @@ class BannersController extends AdminController
     /**
      * Method to get the number of published banners for quickicons
      *
-     * @return  string  The JSON-encoded amount of published banners
+     * @return  void
      *
      * @since   4.3.0
      */

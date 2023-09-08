@@ -296,7 +296,9 @@
 
 		if (window.innerHeight < containerTmp.getBoundingClientRect().bottom + 20) {
 			containerTmp.style.marginTop = - (containerTmp.getBoundingClientRect().height + this.inputField.getBoundingClientRect().height) + "px";
-		}
+		} else {
+      containerTmp.style.marginTop = 'initial';
+    }
 
 		this.processCalendar();
 	};
