@@ -132,6 +132,14 @@ class PlgSystemFields extends CMSPlugin
 
         // Loop over the fields
         foreach ($fields as $field) {
+            // Empty fields that are hidden so that their values will be removed if they exist
+            $showOn = $field->params->get('showon', '');
+            if (!empty($showOn) && FieldsHelper::matchShowon($showOn, $fields)) {
+                // Remove value from database
+                $model->setFieldValue($field->id, $item->id, null);
+                continue;
+            }
+
             // Determine the value if it is (un)available from the data
             if (array_key_exists($field->name, $data['com_fields'])) {
                 $value = $data['com_fields'][$field->name] === false ? null : $data['com_fields'][$field->name];
