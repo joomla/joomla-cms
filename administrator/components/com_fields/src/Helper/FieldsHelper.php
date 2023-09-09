@@ -716,4 +716,125 @@ class FieldsHelper
         self::$fieldCache  = null;
         self::$fieldsCache = null;
     }
+
+    /**
+     * Checks the showon attribute and determines if any field matches the condition or not
+     *
+     * @param  string $showOn  the showon attribute value
+     * @param  array  $fields  the list of custom fields present in the form
+     *
+     * @return boolean
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function matchShowon($showOn, $fields)
+    {
+        $isAMatch = false;
+
+        // Separate the conditions if there is a [OR] value
+        $orConditions = explode('[OR]', $showOn);
+
+        foreach ($orConditions as $orCondition) {
+            // Separate all [AND] conditions
+            $andConditions = explode('[AND]', $orCondition);
+
+            // All AND conditions must be met for the field to show
+            $allAndConditionsAreMet = true;
+
+            foreach ($andConditions as $andCondition) {
+                $condition = explode(':', $andCondition);
+
+                // Prevent bad entries
+                if (count($condition) !== 2) {
+                    break;
+                }
+
+                $fieldName   = $condition[0];
+                $fieldValues = $condition[1];
+
+                // The field name can contain ! in the end, 'does not equal'
+                $notEqual = false;
+                if (strpos($fieldName, '!') !== false) {
+                    $fieldName = rtrim($fieldName, '!');
+                    $notEqual  = true;
+                }
+
+                // Check if a match can be found between values set and the showon condition
+                $foundMatch = self::matchFieldValues($fieldName, explode(',', $fieldValues), $fields);
+
+                if (!$notEqual) {
+                    // The possible values to have
+                    // field:3,7 => we can have a value of 3 or 7
+
+                    if (!$foundMatch) {
+                        // Did not find a value the field should, no need to continue looking in the [AND]
+                        $allAndConditionsAreMet = false;
+                        break;
+                    }
+                } else {
+                    // The possible values NOT to have
+                    // field!:3,7 => we cannot have a value of 3 nor a value of 7
+                    // field!:    => we cannot have an empty value
+
+                    if ($foundMatch) {
+                        // Found a value the field should not have, no need to continue looking in the [AND]
+                        $allAndConditionsAreMet = false;
+                        break;
+                    }
+                }
+            }
+
+            if ($allAndConditionsAreMet) {
+                // One condition is met, no need to continue looking in [OR]
+                $isAMatch = true;
+                break;
+            }
+        }
+
+        return $isAMatch;
+    }
+
+    /**
+     * Checks if any of a field's values match a certain set of values
+     *
+     * @param  string $fieldName     the field name
+     * @param  array  $valuesToMatch an array of values to match
+     * @param  array  $fields        a list of prepared custom fields
+     *
+     * @return boolean
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function matchFieldValues($fieldName, $valuesToMatch, $fields)
+    {
+        $foundMatch = false;
+
+        foreach ($valuesToMatch as $valueToMatch) {
+            foreach ($fields as $field) {
+                if ($field->name === $fieldName) {
+                    if (is_array($field->rawvalue)) {
+                        foreach ($field->rawvalue as $rawValue) {
+                            if ($rawValue === $valueToMatch) {
+                                $foundMatch = true;
+                                break;
+                            }
+                        }
+                    } else {
+                        if ($field->rawvalue === $valueToMatch) {
+                            $foundMatch = true;
+                        }
+                    }
+
+                    break;
+                }
+            }
+
+            if ($foundMatch) {
+                // Found a match, no need to keep going
+                break;
+            }
+        }
+
+        return $foundMatch;
+    }
 }
