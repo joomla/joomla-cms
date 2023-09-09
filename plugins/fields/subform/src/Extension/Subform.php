@@ -226,6 +226,21 @@ final class Subform extends FieldsPlugin
                 $row_subfields[$subfield->fieldname] = $subfield;
             }
 
+            // Check conditions on fields (through the showon attribute)
+            // Done here to make sure all fields have a raw value
+
+            foreach ($row_subfields as $key => $subfield) {
+                $showOn = $subfield->params->get('showon', '');
+
+                if (empty($showOn)) {
+                    continue;
+                }
+
+                if (!FieldsHelper::matchShowon($showOn, $row_subfields)) {
+                    unset($row_subfields[$key]);
+                }
+            }
+
             // Store all the sub fields of this row
             $subform_rows[] = $row_subfields;
         }
