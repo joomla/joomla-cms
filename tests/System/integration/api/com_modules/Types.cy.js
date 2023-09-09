@@ -13,3 +13,4 @@ describe('Test that modules types API endpoint', () => {
         .should('include', 'mod_articles_archive'));
   });
 });
+
