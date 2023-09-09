@@ -44,6 +44,50 @@ class JoomlaInstallerScript
     protected $fromVersion = null;
 
     /**
+     * Callback for collecting errors. Like function(string $context, \Throwable $error){};
+     *
+     * @var callable
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $errorCollector;
+
+    /**
+     * Set the callback for collecting errors.
+     *
+     * @param   callable  $callback  The callback Like function(string $context, \Throwable $error){};
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function setErrorCollector(callable $callback)
+    {
+        $this->errorCollector = $callback;
+    }
+
+    /**
+     * Collect errors.
+     *
+     * @param  string      $context  A context/place where error happened
+     * @param  \Throwable  $error    The error that occurred
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function collectError(string $context, \Throwable $error)
+    {
+        // The errorCollector are required
+        // However when someone already running the script manually the code may fail.
+        if ($this->errorCollector) {
+            call_user_func($this->errorCollector, $context, $error);
+        } else {
+            Log::add($error->getMessage(), Log::ERROR, 'Update');
+        }
+    }
+
+    /**
      * Function to act prior to installation process begins
      *
      * @param   string     $action     Which action is happening (install|uninstall|discover_install|update)
@@ -82,27 +126,37 @@ class JoomlaInstallerScript
      */
     public function update($installer)
     {
-        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-        $options['text_file'] = 'joomla_update.php';
-
-        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
-
+        // Uninstall extensions before removing their files and folders
         try {
-            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), Log::INFO, 'Update');
-        } catch (RuntimeException $exception) {
-            // Informational log only
+            $this->uninstallExtensions();
+        } catch (\Throwable $e) {
+            $this->collectError('uninstallExtensions', $e);
         }
 
-        // Uninstall extensions before removing their files and folders
-        $this->uninstallExtensions();
+        // Remove old files
+        try {
+            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), Log::INFO, 'Update');
+            $this->deleteUnexistingFiles();
+        } catch (\Throwable $e) {
+            $this->collectError('deleteUnexistingFiles', $e);
+        }
 
-        // This needs to stay for 2.5 update compatibility
-        $this->deleteUnexistingFiles();
-        $this->updateManifestCaches();
-        $this->updateDatabase();
-        $this->updateAssets($installer);
-        $this->clearStatsCache();
-        $this->cleanJoomlaCache();
+        // Further update
+        try {
+            $this->updateManifestCaches();
+            $this->updateDatabase();
+            $this->updateAssets($installer);
+            $this->clearStatsCache();
+        } catch (\Throwable $e) {
+            $this->collectError('Further update', $e);
+        }
+
+        // Clean cache
+        try {
+            $this->cleanJoomlaCache();
+        } catch (\Throwable $e) {
+            $this->collectError('cleanJoomlaCache', $e);
+        }
     }
 
     /**
@@ -127,7 +181,7 @@ class JoomlaInstallerScript
                     ->where($db->quoteName('element') . ' = ' . $db->quote('stats'))
             )->loadResult();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -151,7 +205,7 @@ class JoomlaInstallerScript
         try {
             $db->setQuery($query)->execute();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -183,7 +237,7 @@ class JoomlaInstallerScript
         try {
             $results = $db->loadObjectList();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -198,7 +252,7 @@ class JoomlaInstallerScript
             try {
                 $db->execute();
             } catch (Exception $e) {
-                echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+                $this->collectError(__METHOD__, $e);
 
                 return;
             }
@@ -479,7 +533,7 @@ class JoomlaInstallerScript
         try {
             $extensions = $db->loadObjectList();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -489,7 +543,10 @@ class JoomlaInstallerScript
 
         foreach ($extensions as $extension) {
             if (!$installer->refreshManifestCache($extension->extension_id)) {
-                echo Text::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id) . '<br>';
+                $this->collectError(
+                    __METHOD__,
+                    new \Exception(Text::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id))
+                );
             }
         }
     }
@@ -2343,6 +2400,8 @@ class JoomlaInstallerScript
             $asset->setLocation(1, 'last-child');
 
             if (!$asset->store()) {
+                $this->collectError(__METHOD__, new \Exception($asset->getError(true)));
+
                 // Install failed, roll back changes
                 $installer->abort(Text::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->getError(true)));
 
@@ -2354,6 +2413,151 @@ class JoomlaInstallerScript
     }
 
     /**
+<<<<<<< ours
+=======
+     * Converts the site's database tables to support UTF-8 Multibyte.
+     *
+     * @param   boolean  $doDbFixMsg  Flag if message to be shown to check db fix
+     *
+     * @return  void
+     *
+     * @since   3.5
+     */
+    public function convertTablesToUtf8mb4($doDbFixMsg = false)
+    {
+        $db = Factory::getDbo();
+
+        if ($db->getServerType() !== 'mysql') {
+            return;
+        }
+
+        // Check if the #__utf8_conversion table exists
+        $db->setQuery('SHOW TABLES LIKE ' . $db->quote($db->getPrefix() . 'utf8_conversion'));
+
+        try {
+            $rows = $db->loadRowList(0);
+        } catch (Exception $e) {
+            $this->collectError(__METHOD__, $e);
+
+            if ($doDbFixMsg) {
+                // Show an error message telling to check database problems
+                Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+            }
+
+            return;
+        }
+
+        // Nothing to do if the table doesn't exist because the CMS has never been updated from a pre-4.0 version
+        if (count($rows) === 0) {
+            return;
+        }
+
+        // Set required conversion status
+        $converted = 5;
+
+        // Check conversion status in database
+        $db->setQuery(
+            'SELECT ' . $db->quoteName('converted')
+            . ' FROM ' . $db->quoteName('#__utf8_conversion')
+        );
+
+        try {
+            $convertedDB = $db->loadResult();
+        } catch (Exception $e) {
+            $this->collectError(__METHOD__, $e);
+
+            if ($doDbFixMsg) {
+                // Show an error message telling to check database problems
+                Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+            }
+
+            return;
+        }
+
+        // If conversion status from DB is equal to required final status, try to drop the #__utf8_conversion table
+        if ($convertedDB === $converted) {
+            $this->dropUtf8ConversionTable();
+
+            return;
+        }
+
+        // Perform the required conversions of core tables if not done already in a previous step
+        if ($convertedDB !== 99) {
+            $fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion.sql';
+
+            if (is_file($fileName1)) {
+                $fileContents1 = @file_get_contents($fileName1);
+                $queries1      = $db->splitSql($fileContents1);
+
+                if (!empty($queries1)) {
+                    foreach ($queries1 as $query1) {
+                        try {
+                            $db->setQuery($query1)->execute();
+                        } catch (Exception $e) {
+                            $converted = $convertedDB;
+
+                            $this->collectError(__METHOD__, $e);
+                        }
+                    }
+                }
+            }
+        }
+
+        // If no error before, perform the optional conversions of tables which might or might not exist
+        if ($converted === 5) {
+            $fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion_optional.sql';
+
+            if (is_file($fileName2)) {
+                $fileContents2 = @file_get_contents($fileName2);
+                $queries2      = $db->splitSql($fileContents2);
+
+                if (!empty($queries2)) {
+                    foreach ($queries2 as $query2) {
+                        // Get table name from query
+                        if (preg_match('/^ALTER\s+TABLE\s+([^\s]+)\s+/i', $query2, $matches) === 1) {
+                            $tableName = str_replace('`', '', $matches[1]);
+                            $tableName = str_replace('#__', $db->getPrefix(), $tableName);
+
+                            // Check if the table exists and if yes, run the query
+                            try {
+                                $db->setQuery('SHOW TABLES LIKE ' . $db->quote($tableName));
+
+                                $rows = $db->loadRowList(0);
+
+                                if (count($rows) > 0) {
+                                    $db->setQuery($query2)->execute();
+                                }
+                            } catch (Exception $e) {
+                                $converted = 99;
+
+                                $this->collectError(__METHOD__, $e);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($doDbFixMsg && $converted !== 5) {
+            // Show an error message telling to check database problems
+            Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+        }
+
+        // If the conversion was successful try to drop the #__utf8_conversion table
+        if ($converted === 5 && $this->dropUtf8ConversionTable()) {
+            // Table successfully dropped
+            return;
+        }
+
+        // Set flag in database if the conversion status has changed.
+        if ($converted !== $convertedDB) {
+            $db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
+                . ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
+        }
+    }
+
+    /**
+>>>>>>> theirs
      * This method clean the Joomla Cache using the method `clean` from the com_cache model
      *
      * @return  void
@@ -2408,6 +2612,9 @@ class JoomlaInstallerScript
         }
 
         $this->setGuidedToursUid();
+
+        // Refresh versionable assets cache.
+        Factory::getApplication()->flushAssets();
 
         return true;
     }
