@@ -537,7 +537,6 @@ class ItemController extends FormController
         // Save the data in the session.
         $app->setUserState('com_menus.edit.item.data', $data);
 
-        $this->type = $type;
         $this->setRedirect(
             Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false)
         );
