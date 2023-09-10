@@ -39,7 +39,7 @@ final class PageNavigation extends CMSPlugin
      * @param   mixed    &$params  The article params
      * @param   integer  $page     The 'page' number
      *
-     * @return  mixed  void or true
+     * @return  void
      *
      * @since   1.6
      */
@@ -50,7 +50,7 @@ final class PageNavigation extends CMSPlugin
         $print = $app->getInput()->getBool('print');
 
         if ($print) {
-            return false;
+            return;
         }
 
         if ($context === 'com_content.article' && $view === 'article' && $params->get('show_item_navigation')) {

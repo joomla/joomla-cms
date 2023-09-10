@@ -10,8 +10,8 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Html;
 
-use Joomla\CMS\HTML\Helpers\Date as HtmlDate;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\HTML\Helpers\Date as HtmlDate;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**

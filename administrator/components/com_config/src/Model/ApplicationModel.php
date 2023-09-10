@@ -129,12 +129,6 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             $data = array_merge($temp, $data);
         }
 
-        // Correct error_reporting value, since we removed "development", the "maximum" should be set instead
-        // @TODO: This can be removed in 5.0
-        if (!empty($data['error_reporting']) && $data['error_reporting'] === 'development') {
-            $data['error_reporting'] = 'maximum';
-        }
-
         return $data;
     }
 
@@ -1216,7 +1210,8 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $mailer = new MailTemplate('com_config.test_mail', $user->getParam('language', $app->get('language')), $mail);
         $mailer->addTemplateData(
             [
-                'sitename' => $app->get('sitename'),
+                // Replace the occurrences of "@" and "|" in the site name
+                'sitename' => str_replace(['@', '|'], '', $app->get('sitename')),
                 'method'   => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)),
             ]
         );

@@ -12,9 +12,11 @@ namespace Joomla\Module\Menu\Administrator\Menu;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Menu\PreprocessMenuItemsEvent;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AdministratorMenuItem;
+use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
@@ -257,6 +259,7 @@ class CssMenu
     {
         $user       = $this->application->getIdentity();
         $language   = $this->application->getLanguage();
+        $dispatcher = $this->application->getDispatcher();
 
         $noSeparator = true;
         $children    = $parent->getChildren();
@@ -266,7 +269,12 @@ class CssMenu
          * $children is an array of AdministratorMenuItem objects. A plugin can traverse the whole tree,
          * but new nodes will only be run through this method if their parents have not been processed yet.
          */
-        $this->application->triggerEvent('onPreprocessMenuItems', ['com_menus.administrator.module', $children, $this->params, $this->enabled]);
+        $dispatcher->dispatch('onPreprocessMenuItems', new PreprocessMenuItemsEvent('onPreprocessMenuItems', [
+            'context' => 'com_menus.administrator.module',
+            'subject' => new ArrayProxy($children),
+            'params'  => $this->params,
+            'enabled' => $this->enabled,
+        ]));
 
         foreach ($children as $item) {
             $itemParams = $item->getParams();

@@ -18,6 +18,7 @@ use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -42,15 +43,16 @@ class WorkflowTable extends Table implements CurrentUserInterface
     protected $_supportNullValue = true;
 
     /**
-     * @param   DatabaseDriver  $db  Database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since  4.0.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = '{extension}.workflow';
 
-        parent::__construct('#__workflows', 'id', $db);
+        parent::__construct('#__workflows', 'id', $db, $dispatcher);
     }
 
     /**
@@ -179,7 +181,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
         $date = Factory::getDate();
         $user = $this->getCurrentUser();
 
-        $table = new WorkflowTable($this->getDbo());
+        $table = new self($this->getDbo(), $this->getDispatcher());
 
         if ($this->id) {
             // Existing item
