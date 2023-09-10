@@ -41,7 +41,7 @@
 	</fields>
 	<fields name="params">
 		<fieldset name="basic">
-			<fieldset name="formoptions">	
+			<fieldset name="formoptions">
 				<field
 					name="form_layout"
 					type="list"
