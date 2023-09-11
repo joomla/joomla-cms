@@ -54,7 +54,7 @@ foreach ($fields as $field) {
 
     // Check conditions on fields
     $showOn = $field->params->get('showon', '');
-    if (!empty($showOn) && !SYW\TmpFields\Fields::matchShowon($showOn, $fields)) {
+    if (!empty($showOn) && !FieldsHelper::matchShowon($showOn, $fields)) {
         continue;
     }
 
