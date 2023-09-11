@@ -48,7 +48,15 @@ class ModulesRenderer extends DocumentRenderer
         $frontediting = ($app->isClient('site') && $app->get('frontediting', 1) && !$user->guest);
         $menusEditing = ($app->get('frontediting', 1) == 2) && $user->authorise('core.edit', 'com_menus');
 
-        foreach (ModuleHelper::getModules($position) as $mod) {
+        $modules = ModuleHelper::getModules($position);
+
+        // Dispatch onPrepareModuleList event
+        $event = new Module\PrepareModuleListEvent('onPrepareModuleList', [
+            'subject' => new ArrayProxy($modules),
+        ]);
+        $app->getDispatcher()->dispatch('onPrepareModuleList', $event);
+
+        foreach ($modules as $mod) {
             $moduleHtml = $renderer->render($mod, $params, $content);
 
             if ($frontediting && trim($moduleHtml) != '' && $user->authorise('module.edit.frontend', 'com_modules.module.' . $mod->id)) {
