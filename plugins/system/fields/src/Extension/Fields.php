@@ -139,7 +139,7 @@ final class Fields extends CMSPlugin
         foreach ($fields as $field) {
             // Empty fields that are hidden so that their values will be removed if they exist
             $showOn = $field->params->get('showon', '');
-            if (!empty($showOn) && FieldsHelper::matchShowon($showOn, $fields)) {
+            if (!empty($showOn) && !FieldsHelper::matchShowon($showOn, $fields)) {
                 // Remove value from database
                 $model->setFieldValue($field->id, $item->id, null);
                 continue;
@@ -163,8 +163,11 @@ final class Fields extends CMSPlugin
                 $value = json_encode($value);
             }
 
+            $field->rawvalue = $value;
+            Factory::getApplication()->triggerEvent('onCustomFieldsBeforeSave', [&$field]);
+
             // Setting the value for the field and the item
-            $model->setFieldValue($field->id, $item->id, $value);
+            $model->setFieldValue($field->id, $item->id, $field->rawvalue);
         }
     }
 
