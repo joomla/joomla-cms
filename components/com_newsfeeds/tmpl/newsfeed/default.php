@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -22,7 +21,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 <?php if (!empty($this->msg)) : ?>
     <?php echo $this->msg; ?>
 <?php else : ?>
-    <?php $lang      = Factory::getLanguage(); ?>
+    <?php $lang      = $this->getLanguage(); ?>
     <?php $myrtl     = $this->item->rtl; ?>
     <?php $direction = ' '; ?>
     <?php $isRtl     = $lang->isRtl(); ?>

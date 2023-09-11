@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event\Table;
 
-use BadMethodCallException;
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -33,16 +31,16 @@ class BeforeLoadEvent extends AbstractEvent
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.
      *
-     * @throws  BadMethodCallException
+     * @throws  \BadMethodCallException
      */
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('keys', $arguments)) {
-            throw new BadMethodCallException("Argument 'keys' is required for event $name");
+            throw new \BadMethodCallException("Argument 'keys' is required for event $name");
         }
 
         if (!\array_key_exists('reset', $arguments)) {
-            throw new BadMethodCallException("Argument 'reset' is required for event $name");
+            throw new \BadMethodCallException("Argument 'reset' is required for event $name");
         }
 
         parent::__construct($name, $arguments);
