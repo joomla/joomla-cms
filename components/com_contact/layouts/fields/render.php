@@ -52,6 +52,12 @@ foreach ($fields as $field) {
         continue;
     }
 
+    // Check conditions on fields
+    $showOn = $field->params->get('showon', '');
+    if (!empty($showOn) && !SYW\TmpFields\Fields::matchShowon($showOn, $fields)) {
+        continue;
+    }
+
     $layout = $field->params->get('layout', 'render');
     echo FieldsHelper::render($context, 'field.' . $layout, ['field' => $field]);
 }
