@@ -362,14 +362,14 @@ final class Subform extends FieldsPlugin
 
                 $subform_rows[$key]['field' . $subfield->id] = $subfield->rawvalue;
 
-                if (empty($showOn)) {                    
+                if (empty($showOn)) {
                     continue;
                 }
 
                 if (!FieldsHelper::matchShowon($showOn, $row_subfields)) {
                     unset($subform_rows[$key]['field' . $subfield->id]);
                 }
-            }            
+            }
         }
 
         $field->rawvalue = json_encode($subform_rows);
