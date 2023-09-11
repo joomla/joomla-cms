@@ -249,7 +249,7 @@ if (file_exists($rootPath . $antJobFile)) {
 
 // Updates the version in the package.json file.
 if (file_exists($rootPath . $packageJsonFile)) {
-    $package = json_decode(file_get_contents($rootPath . $packageJsonFile));
+    $package          = json_decode(file_get_contents($rootPath . $packageJsonFile));
     $package->version = $version['release'];
     file_put_contents($rootPath . $packageJsonFile, json_encode($package, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 }
