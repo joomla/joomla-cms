@@ -99,8 +99,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
      */
     public function onContentPrepareForm(EventInterface $event)
     {
-        $form = $event->getArgument('0');
-        $data = $event->getArgument('1');
+        [$form, $data] = array_values($event->getArguments());
 
         $context = $form->getName();
 
@@ -209,7 +208,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
             foreach ($userIds as $user_id) {
                 $receiver = $this->getUserFactory()->loadUserById($user_id);
 
-                if ($receiver->authorise('core.manage', 'com_message')) {
+                if ($receiver->authorise('core.manage', 'com_messages')) {
                     // Load language for messaging
                     $lang = $this->languageFactory->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
                     $lang->load('plg_workflow_notification');

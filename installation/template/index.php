@@ -32,7 +32,7 @@ $this->getWebAssetManager()
 		--template-bg-light: #f0f4fb;
 		--template-text-dark: #495057;
 		--template-text-light: #ffffff;
-		--template-link-color: #2a69b8;
+		--link-color: #2a69b8;
 		--template-special-color: #001b4c;
 	}');
 
