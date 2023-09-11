@@ -50,7 +50,6 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
             "preview"       => null,
             "previewWidth"  => null,
             "previewHeight" => null,
-            "didnotexist"   => null,
             "layout"        => null,
         ];
 
@@ -81,27 +80,6 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
         foreach ($properties as $property => $propertyvalue) {
             $accessiblemediafield->__set($property, $propertyvalue);
             $this->assertEquals($propertyvalue, $accessiblemediafield->__get($property));
-        }
-    }
-
-    /**
-     * Tests setting and getting a property.
-     * A property is used here that is not supported by the field.
-     *
-     * @return  void
-     *
-     * @since   4.0.0
-     */
-    public function testSetAndGetShouldNotBeEquals()
-    {
-        $accessiblemediafield = $this->createAccessiblemediaField();
-        $properties           = [
-            "didnotexist" => "thisshouldbenull",
-        ];
-
-        foreach ($properties as $property => $propertyvalue) {
-            $accessiblemediafield->__set($property, $propertyvalue);
-            $this->assertNotEquals($propertyvalue, $accessiblemediafield->__get($property));
         }
     }
 

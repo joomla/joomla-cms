@@ -61,7 +61,7 @@ class HtmlView extends BaseHtmlView
      *
      * @param   string  $tpl  The template file to include
      *
-     * @return  mixed
+     * @return  void
      *
      * @since   1.5
      * @throws  \Exception
@@ -116,11 +116,11 @@ class HtmlView extends BaseHtmlView
         $this->setDocumentTitle($this->params->get('page_title', ''));
 
         if ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
     }
 }
