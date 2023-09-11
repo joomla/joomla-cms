@@ -767,7 +767,7 @@ class FieldsHelper
                     // field:3,7 => we can have a value of 3 or 7
 
                     if (!$foundMatch) {
-                        // Did not find a value the field should, no need to continue looking in the [AND]
+                        // Did not find a value the field should match, no need to continue looking in the [AND]
                         $allAndConditionsAreMet = false;
                         break;
                     }
