@@ -348,7 +348,7 @@ final class Subform extends FieldsPlugin
             foreach ($this->getSubfieldsFromField($field) as $subfield) {
                 foreach ($row as $fieldId => $rawValue) {
                     if ($subfield->id === (int)str_replace('field', '', $fieldId)) {
-                        $subfield->rawvalue = $rawValue;
+                        $subfield->rawvalue                  = $rawValue;
                         $row_subfields[$subfield->fieldname] = $subfield;
                     }
                 }
