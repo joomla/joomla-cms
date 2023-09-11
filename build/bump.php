@@ -251,7 +251,9 @@ if (file_exists($rootPath . $antJobFile)) {
 if (file_exists($rootPath . $packageJsonFile)) {
     $package          = json_decode(file_get_contents($rootPath . $packageJsonFile));
     $package->version = $version['release'];
-    file_put_contents($rootPath . $packageJsonFile, json_encode($package, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+    // @todo use a native formatter whenever https://github.com/php/php-src/issues/8864 is resolved
+    file_put_contents($rootPath . $packageJsonFile, str_replace('    ', '  ', json_encode($package, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)));
 }
 
 // Updates the version in readme files.
