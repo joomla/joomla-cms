@@ -452,7 +452,7 @@ class Document
         } elseif ($name === 'description') {
             $result = $this->getDescription();
         } else {
-            $result = isset($this->_metaTags[$attribute]) && isset($this->_metaTags[$attribute][$name]) ? $this->_metaTags[$attribute][$name] : '';
+            $result = $this->_metaTags[$attribute][$name] ?? '';
         }
 
         return $result;

@@ -788,9 +788,10 @@ INSERT INTO "#__action_logs_extensions" ("id", "extension") VALUES
 (16, 'com_templates'),
 (17, 'com_users'),
 (18, 'com_checkin'),
-(19, 'com_scheduler');
+(19, 'com_scheduler'),
+(20, 'com_fields');
 
-SELECT setval('#__action_logs_extensions_id_seq', 20, false);
+SELECT setval('#__action_logs_extensions_id_seq', 21, false);
 -- --------------------------------------------------------
 
 --
@@ -830,10 +831,11 @@ INSERT INTO "#__action_log_config" ("id", "type_title", "type_alias", "id_holder
 (17, 'access_level', 'com_users.level', 'id' , 'title', '#__viewlevels', 'PLG_ACTIONLOG_JOOMLA'),
 (18, 'banner_client', 'com_banners.client', 'id', 'name', '#__banner_clients', 'PLG_ACTIONLOG_JOOMLA'),
 (19, 'application_config', 'com_config.application', '', 'name', '', 'PLG_ACTIONLOG_JOOMLA'),
-(20, 'task', 'com_scheduler.task', 'id', 'title', '#__scheduler_tasks', 'PLG_ACTIONLOG_JOOMLA');
+(20, 'task', 'com_scheduler.task', 'id', 'title', '#__scheduler_tasks', 'PLG_ACTIONLOG_JOOMLA'),
+(21, 'field', 'com_fields.field', 'id', 'title', '#__fields', 'PLG_ACTIONLOG_JOOMLA');
 
 
-SELECT setval('#__action_log_config_id_seq', 21, false);
+SELECT setval('#__action_log_config_id_seq', 22, false);
 
 --
 -- Table structure for table `#__action_logs_users`
