@@ -2045,6 +2045,10 @@ class JoomlaInstallerScript
             '/media/com_contenthistory/js/admin-history-versions.min.js.gz',
             // From 5.0.0-beta1 to 5.0.0-beta2
             '/libraries/src/Cache/Storage/WincacheStorage.php',
+            '/administrator/language/en-GB/plg_twofactorauth_totp.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_totp.sys.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_yubikey.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_yubikey.sys.ini',
         ];
 
         $folders = [
