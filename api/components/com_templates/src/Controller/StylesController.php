@@ -88,7 +88,7 @@ class StylesController extends ApiController
         // If we are updating an item the template is a readonly property based on the ID
         if ($this->input->getMethod() === 'PATCH') {
             if (\array_key_exists('template', $data)) {
-                throw new InvalidParameterException('The template property cannot be modified for an existing style');
+                unset($data['template']);
             }
 
             $model            = $this->getModel(Inflector::singularize($this->contentType), '', ['ignore_request' => true]);
