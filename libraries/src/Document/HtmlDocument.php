@@ -729,8 +729,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             // Get the file content
             ob_start();
             require $directory . '/' . $filename;
-            $contents = ob_get_contents();
-            ob_end_clean();
+            $contents = ob_get_clean();
         }
 
         return $contents;
