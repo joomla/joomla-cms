@@ -219,6 +219,11 @@ class Changelog
             $this->$tag->data = '';
         }
 
+        // Skip technical elements
+        if ($name === 'CHANGELOGS' || $name === 'CHANGELOG' || $name === 'ITEM') {
+            return;
+        }
+
         $name = strtolower($name);
 
         if (!isset($this->currentChangelog->$name)) {

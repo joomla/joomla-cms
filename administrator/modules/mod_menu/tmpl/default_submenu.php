@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
@@ -143,9 +144,23 @@ if ($currentParams->get('menu-quicktask') && (int) $this->params->get('shownew',
 
 if (!empty($current->dashboard)) {
     $titleDashboard = Text::sprintf('MOD_MENU_DASHBOARD_LINK', Text::_($current->title));
+
+    // Prepare the Dashboard icon. We use our own icon, not Fontawesome
+    $pathDashboard = 'media/templates/administrator/atum/images/icons/dashboard.svg';
+    $attrDashboard = [
+        'loading'     => 'eager',
+        'decoding'    => 'async',
+        'aria-hidden' => 'true',
+        'class'       => 'atum-dashboard',
+        'height'      => '18',
+    ];
+
+    $iconDashboard = HTMLHelper::_('image', $pathDashboard, '', $attrDashboard, false, 0);
+
     echo '<span class="menu-dashboard"><a href="'
-        . Route::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard) . '">'
-        . '<span class="icon-th-large" title="' . $titleDashboard . '" aria-hidden="true"></span>'
+        . Route::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard) . '" '
+        . 'title="' . $titleDashboard . '">'
+        . '<span>' . $iconDashboard . '</span>'
         . '<span class="visually-hidden">' . $titleDashboard . '</span>'
         . '</a></span>';
 }

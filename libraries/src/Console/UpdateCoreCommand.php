@@ -431,7 +431,7 @@ class UpdateCoreCommand extends AbstractCommand
      *
      * @return  integer the number of errors
      *
-     * @since 5.0.0
+     * @since 4.4.0
      */
     public function checkSchema(): int
     {
