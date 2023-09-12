@@ -2052,6 +2052,7 @@ class JoomlaInstallerScript
             '/administrator/language/en-GB/plg_twofactorauth_totp.sys.ini',
             '/administrator/language/en-GB/plg_twofactorauth_yubikey.ini',
             '/administrator/language/en-GB/plg_twofactorauth_yubikey.sys.ini',
+            '/language/en-GB/lib_simplepie.sys.ini',
             '/libraries/src/Cache/Storage/WincacheStorage.php',
         ];
 
