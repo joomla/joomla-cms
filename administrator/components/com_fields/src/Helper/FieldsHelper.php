@@ -819,10 +819,8 @@ class FieldsHelper
                                 break;
                             }
                         }
-                    } else {
-                        if ($field->rawvalue === $valueToMatch) {
-                            $foundMatch = true;
-                        }
+                    } elseif ($field->rawvalue === $valueToMatch) {
+                        $foundMatch = true;
                     }
 
                     break;
