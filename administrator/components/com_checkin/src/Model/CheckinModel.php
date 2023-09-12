@@ -128,7 +128,7 @@ class CheckinModel extends ListModel
             $db->setQuery($query);
 
             if ($db->execute()) {
-                $results = $results + $db->getAffectedRows();
+                $results += $db->getAffectedRows();
                 $this->getDispatcher()->dispatch('onAfterCheckin', new AfterCheckinEvent('onAfterCheckin', [
                     'subject' => $tn,
                 ]));
