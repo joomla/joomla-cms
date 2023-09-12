@@ -345,7 +345,7 @@ class JoomlaInstallerScript
         $lastrun      = (int) $params->get('lastrun', time());
 
         $task = [
-            'title'           => 'RotateLogs',
+            'title'           => 'Rotate Logs',
             'type'            => 'rotation.logs',
             'execution_rules' => [
                 'rule-type'     => 'interval-days',
@@ -385,7 +385,7 @@ class JoomlaInstallerScript
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
-            'title'           => 'SessionGC',
+            'title'           => 'Session GC',
             'type'            => 'session.gc',
             'execution_rules' => [
                 'rule-type'      => 'interval-hours',
@@ -396,8 +396,6 @@ class JoomlaInstallerScript
             'state'  => 1,
             'params' => [
                 'enable_session_gc'          => $params->get('enable_session_gc', 1),
-                'gc_probability'             => $params->get('gc_probability', 1),
-                'gc_divisor'                 => $params->get('gc_divisor', 100),
                 'enable_session_metadata_gc' => $params->get('enable_session_metadata_gc', 1),
             ],
         ];
@@ -432,7 +430,7 @@ class JoomlaInstallerScript
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
-            'title'           => 'UpdateNotification',
+            'title'           => 'Update Notification',
             'type'            => 'update.notification',
             'execution_rules' => [
                 'rule-type'      => 'interval-hours',
@@ -2457,7 +2455,7 @@ class JoomlaInstallerScript
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
-            'title'           => 'DeleteActionLogs',
+            'title'           => 'Delete Action Logs',
             'type'            => 'delete.actionlogs',
             'execution_rules' => [
                 'rule-type'      => 'interval-hours',
@@ -2526,7 +2524,7 @@ class JoomlaInstallerScript
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
-            'title'           => 'PrivacyConsent',
+            'title'           => 'Privacy Consent',
             'type'            => 'privacy.consent',
             'execution_rules' => [
                 'rule-type'     => 'interval-days',
