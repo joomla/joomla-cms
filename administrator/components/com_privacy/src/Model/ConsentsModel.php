@@ -111,7 +111,7 @@ class ConsentsModel extends ListModel
             $query->where($db->quoteName('a.subject') . ' = :subject')
                 ->bind(':subject', $subject, ParameterType::STRING);
         }
-        
+
         // Handle the list ordering.
         $ordering  = $this->getState('list.ordering');
         $direction = $this->getState('list.direction');
