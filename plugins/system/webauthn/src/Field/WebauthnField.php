@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn\Field;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
@@ -42,7 +41,7 @@ class WebauthnField extends FormField
      * Returns the input field's HTML
      *
      * @return  string
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since   4.0.0
      */

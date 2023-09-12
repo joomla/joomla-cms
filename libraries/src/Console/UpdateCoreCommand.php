@@ -241,7 +241,7 @@ class UpdateCoreCommand extends AbstractCommand
                 // Remove the administrator/cache/autoload_psr4.php file
                 $autoloadFile = JPATH_CACHE . '/autoload_psr4.php';
 
-                if (File::exists($autoloadFile)) {
+                if (file_exists($autoloadFile)) {
                     File::delete($autoloadFile);
                 }
 
@@ -406,7 +406,7 @@ class UpdateCoreCommand extends AbstractCommand
      *
      * @return  integer the number of errors
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      */
     public function checkSchema(): int
     {
