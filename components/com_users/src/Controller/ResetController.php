@@ -173,13 +173,13 @@ class ResetController extends BaseController
             $this->setRedirect(Route::_('index.php?option=com_users&view=reset&layout=complete', false), $message, 'notice');
 
             return false;
-        } else {
-            // Complete succeeded.
-            // Proceed to the login form.
-            $message = Text::_('COM_USERS_RESET_COMPLETE_SUCCESS');
-            $this->setRedirect(Route::_('index.php?option=com_users&view=login', false), $message);
-
-            return true;
         }
+
+        // Complete succeeded.
+        // Proceed to the login form.
+        $message = Text::_('COM_USERS_RESET_COMPLETE_SUCCESS');
+        $this->setRedirect(Route::_('index.php?option=com_users&view=login', false), $message);
+
+        return true;
     }
 }

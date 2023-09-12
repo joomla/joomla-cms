@@ -68,12 +68,12 @@ class RequestController extends BaseController
             $this->setRedirect(Route::_('index.php?option=com_privacy&view=confirm', false), $message, 'notice');
 
             return false;
-        } else {
-            // Confirm succeeded.
-            $this->setRedirect(Route::_(Uri::root()), Text::_('COM_PRIVACY_CONFIRM_REQUEST_SUCCEEDED'), 'info');
-
-            return true;
         }
+
+        // Confirm succeeded.
+        $this->setRedirect(Route::_(Uri::root()), Text::_('COM_PRIVACY_CONFIRM_REQUEST_SUCCEEDED'), 'info');
+
+        return true;
     }
 
     /**

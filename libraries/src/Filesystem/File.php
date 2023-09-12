@@ -168,21 +168,17 @@ class File
                 // FTP connector throws an error
                 return false;
             }
-
-            $ret = true;
         } else {
             if (!@ copy($src, $dest)) {
                 Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_COPY_FAILED_ERR01', $src, $dest), Log::WARNING, 'jerror');
 
                 return false;
             }
-
-            $ret = true;
         }
 
         self::invalidateFileCache($dest);
 
-        return $ret;
+        return true;
     }
 
     /**
