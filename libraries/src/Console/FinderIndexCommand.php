@@ -155,7 +155,7 @@ The <info>%command.name%</info> Purges and rebuilds the index (search filters ar
 
   <info>php %command.full_name%</info>
 EOF;
-        $this->setDescription('Purges and rebuild the index');
+        $this->setDescription('Purge and rebuild the index');
         $this->setHelp($help);
     }
 
