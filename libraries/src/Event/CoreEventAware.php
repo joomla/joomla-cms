@@ -105,9 +105,6 @@ trait CoreEventAware
         'onSchemaPrepareData'       => Plugin\System\Schemaorg\PrepareDataEvent::class,
         'onSchemaPrepareForm'       => Plugin\System\Schemaorg\PrepareFormEvent::class,
         'onSchemaPrepareSave'       => Plugin\System\Schemaorg\PrepareSaveEvent::class,
-        // Extensions
-        'onBeforeExtensionBoot' => BeforeExtensionBootEvent::class,
-        'onAfterExtensionBoot'  => AfterExtensionBootEvent::class,
         // Content
         'onContentPrepare'       => Content\ContentPrepareEvent::class,
         'onContentAfterTitle'    => Content\AfterTitleEvent::class,
@@ -155,6 +152,8 @@ trait CoreEventAware
         'onAfterModuleList'      => Module\AfterModuleListEvent::class,
         'onAfterCleanModuleList' => Module\AfterCleanModuleListEvent::class,
         // Extension
+        'onBeforeExtensionBoot'      => BeforeExtensionBootEvent::class,
+        'onAfterExtensionBoot'       => AfterExtensionBootEvent::class,
         'onExtensionBeforeInstall'   => Extension\BeforeInstallEvent::class,
         'onExtensionAfterInstall'    => Extension\AfterInstallEvent::class,
         'onExtensionBeforeUninstall' => Extension\BeforeUninstallEvent::class,
@@ -164,6 +163,7 @@ trait CoreEventAware
         'onExtensionBeforeSave'      => Model\BeforeSaveEvent::class,
         'onExtensionAfterSave'       => Model\AfterSaveEvent::class,
         'onExtensionAfterDelete'     => Model\AfterDeleteEvent::class,
+        'onExtensionChangeState'     => Model\BeforeChangeStateEvent::class,
         // Installer
         'onInstallerAddInstallationTab'    => Installer\AddInstallationTabEvent::class,
         'onInstallerBeforeInstallation'    => Installer\BeforeInstallationEvent::class,

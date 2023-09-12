@@ -155,7 +155,7 @@ The <info>%command.name%</info> Purges and rebuilds the index (search filters ar
 
   <info>php %command.full_name%</info>
 EOF;
-        $this->setDescription('Purges and rebuild the index');
+        $this->setDescription('Purge and rebuild the index');
         $this->setHelp($help);
     }
 
@@ -366,7 +366,9 @@ EOF;
         $app->triggerEvent('onStartIndex');
 
         // Remove the script time limit.
-        @set_time_limit(0);
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(0);
+        }
 
         // Get the indexer state.
         $state = Indexer::getState();
