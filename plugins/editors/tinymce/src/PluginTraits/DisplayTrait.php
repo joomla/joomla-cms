@@ -31,9 +31,7 @@ use Joomla\Registry\Registry;
 trait DisplayTrait
 {
     use GlobalFilters;
-    use KnownButtons;
     use ResolveFiles;
-    use ToolbarPresets;
     use XTDButtons;
 
     /**
