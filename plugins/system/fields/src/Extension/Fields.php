@@ -12,6 +12,7 @@ namespace Joomla\Plugin\System\Fields\Extension;
 
 use Joomla\CMS\Event\Content;
 use Joomla\CMS\Event\Model;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
