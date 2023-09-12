@@ -19,7 +19,7 @@ use Joomla\CMS\User\User;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Ajax handler for akaction=savelabel
+ * Ajax handler for akaction=delete
  *
  * Deletes a security key
  *
