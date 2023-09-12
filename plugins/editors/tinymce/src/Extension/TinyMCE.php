@@ -17,8 +17,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\SubscriberInterface;
-use Joomla\Plugin\Editors\TinyMCE\PluginTraits\KnownButtons;
-use Joomla\Plugin\Editors\TinyMCE\PluginTraits\ToolbarPresets;
 use Joomla\Plugin\Editors\TinyMCE\Provider\TinyMCEProvider;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -33,8 +31,6 @@ use Joomla\Plugin\Editors\TinyMCE\Provider\TinyMCEProvider;
 final class TinyMCE extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
-    use KnownButtons;
-    use ToolbarPresets;
 
     /**
      * Returns an array of events this subscriber will listen to.
