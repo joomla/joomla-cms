@@ -366,7 +366,9 @@ EOF;
         $app->triggerEvent('onStartIndex');
 
         // Remove the script time limit.
-        @set_time_limit(0);
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(0);
+        }
 
         // Get the indexer state.
         $state = Indexer::getState();

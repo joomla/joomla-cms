@@ -1,16 +1,19 @@
 {
   "name": "joomla",
+<<<<<<< HEAD
   "version": "5.0.0",
+=======
+  "version": "4.4.0",
+>>>>>>> 4.4-dev
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "repository": {
     "type": "git",
     "url": "https://github.com/joomla/joomla-cms.git"
   },
-  "__engines_upgrades__": "Dockerfiles @ github.com/joomla-projects/docker-images need also upgrade",
   "engines": {
-    "node": ">=16",
-    "npm": ">=8.5.5"
+    "node": ">=18",
+    "npm": ">=9.6.7"
   },
   "scripts": {
     "build:js": "node build/build.js --compile-js",
