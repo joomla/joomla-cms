@@ -143,8 +143,11 @@
 				iframeDocument = this.contentDocument;
 
 				// Validate the child form and update parent form.
-				if (iframeDocument.getElementById(idFieldId) && iframeDocument.getElementById(idFieldId).value != '0')
-				{
+				if (
+					iframeDocument.getElementById(idFieldId)
+					&& iframeDocument.getElementById(idFieldId).value != '0'
+					&& [].slice.call(iframeDocument.querySelectorAll('joomla-alert[type="danger"]')).length == 0
+				) {
 					window.processModalParent(fieldPrefix, iframeDocument.getElementById(idFieldId).value, iframeDocument.getElementById(titleFieldId).value);
 
 					// If Save & Close (save task), submit the edit close action (so we don't have checked out items).

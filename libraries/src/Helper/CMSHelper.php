@@ -128,7 +128,7 @@ class CMSHelper
 
         foreach ($fields as $field) {
             $fieldName              = $field->Field;
-            $dataObject->$fieldName = $table->get($fieldName);
+            $dataObject->$fieldName = $table->$fieldName ?? null;
         }
 
         return $dataObject;

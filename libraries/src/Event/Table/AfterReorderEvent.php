@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event\Table;
 
-use BadMethodCallException;
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -33,12 +31,12 @@ class AfterReorderEvent extends AbstractEvent
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.
      *
-     * @throws  BadMethodCallException
+     * @throws  \BadMethodCallException
      */
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('where', $arguments)) {
-            throw new BadMethodCallException("Argument 'ignore' is required for event $name");
+            throw new \BadMethodCallException("Argument 'ignore' is required for event $name");
         }
 
         parent::__construct($name, $arguments);
@@ -51,12 +49,12 @@ class AfterReorderEvent extends AbstractEvent
      *
      * @return  mixed
      *
-     * @throws  BadMethodCallException  if the argument is not of the expected type
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
      */
     protected function setWhere($value)
     {
         if (!empty($value) && !\is_string($value) && !\is_array($value)) {
-            throw new BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string or array of strings");
+            throw new \BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string or array of strings");
         }
 
         return $value;
