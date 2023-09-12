@@ -909,40 +909,40 @@ abstract class Table implements TableInterface, DispatcherAwareInterface
                 $this->setError($error);
 
                 return false;
-            } else {
-                // Specify how a new or moved node asset is inserted into the tree.
-                if (empty($this->asset_id) || $asset->parent_id != $parentId) {
-                    $asset->setLocation($parentId, 'last-child');
-                }
+            }
 
-                // Prepare the asset to be stored.
-                $asset->parent_id = $parentId;
-                $asset->name      = $name;
+            // Specify how a new or moved node asset is inserted into the tree.
+            if (empty($this->asset_id) || $asset->parent_id != $parentId) {
+                $asset->setLocation($parentId, 'last-child');
+            }
 
-                // Respect the table field limits
-                $asset->title = StringHelper::substr($title, 0, 100);
+            // Prepare the asset to be stored.
+            $asset->parent_id = $parentId;
+            $asset->name      = $name;
 
-                if ($this->_rules instanceof Rules) {
-                    $asset->rules = (string) $this->_rules;
-                }
+            // Respect the table field limits
+            $asset->title = StringHelper::substr($title, 0, 100);
 
-                if (!$asset->check() || !$asset->store($updateNulls)) {
-                    $this->setError($asset->getError());
+            if ($this->_rules instanceof Rules) {
+                $asset->rules = (string) $this->_rules;
+            }
 
-                    return false;
-                }
+            if (!$asset->check() || !$asset->store($updateNulls)) {
+                $this->setError($asset->getError());
 
-                // Create an asset_id or heal one that is corrupted.
-                if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id))) {
-                    // Update the asset_id field in this table.
-                    $this->asset_id = (int) $asset->id;
+                return false;
+            }
 
-                    $query = $this->_db->getQuery(true)
-                        ->update($this->_db->quoteName($this->_tbl))
-                        ->set('asset_id = ' . (int) $this->asset_id);
-                    $this->appendPrimaryKeys($query);
-                    $this->_db->setQuery($query)->execute();
-                }
+            // Create an asset_id or heal one that is corrupted.
+            if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id))) {
+                // Update the asset_id field in this table.
+                $this->asset_id = (int) $asset->id;
+
+                $query = $this->_db->getQuery(true)
+                    ->update($this->_db->quoteName($this->_tbl))
+                    ->set('asset_id = ' . (int) $this->asset_id);
+                $this->appendPrimaryKeys($query);
+                $this->_db->setQuery($query)->execute();
             }
         }
 
