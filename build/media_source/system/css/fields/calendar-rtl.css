@@ -2,9 +2,11 @@
  * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
- .js-calendar {
+
+.js-calendar {
   box-shadow: 0 0 15px 4px rgba(0,0,0,.15) !important;
- }
+}
+
 .calendar-container {
   float: left;
   min-width: 160px;
@@ -14,13 +16,23 @@
   background-color: #ffffff !important;
   z-index: 1100 !important;
 }
+
+.calendar-container .nav {
+  display: table-cell;
+}
+
 .calendar-container table {
   table-layout: fixed;
-  max-width: 262px;
+  max-width: 268px;
   border-radius: 5px;
   background-color: #ffffff !important;
   z-index: 1100 !important;
+  margin-top: 2px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 3px;
 }
+
 /* The main calendar widget.  DIV containing a table. */
 div.calendar-container table th, .calendar-container table td {
   box-shadow: none;
@@ -100,6 +112,7 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
   width: auto;
   font-weight: bold;
 }
+
 .calendar-container table tbody td.today:after {
   position: absolute;
   bottom: 3px;
@@ -110,6 +123,7 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
   border-radius: 1.5px;
   background-color: #46a546;
 }
+
 .calendar-container table tbody td.today.selected:after {
   background-color: #fff;
 }
@@ -119,6 +133,7 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
   background: #3d8fd7;
   color: #fff;
 }
+
 .calendar-container table tbody td.day:hover:after {
   background-color: #fff;
 }
@@ -135,42 +150,78 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 .calendar-container table tbody .emptyrow { /* Empty row (some months need less than 6 rows) */
   display: none;
 }
+
 .calendar-container .calendar-head-row td {
   padding: 4px 0 !important;
   border-bottom: none;
 }
+
 .calendar-container .day-name {
+  padding-top: 0.5rem;
   font-size: 0.7rem;
   font-weight: bold;
+  border-bottom: none;
 }
+
 .calendar-container .time td {
-  padding: 8px 8px 8px 0;
+  padding: 15px 3px 10px 0;
+  border-bottom: none;
 }
+
+.calendar-container td.time-title {
+  display: block;
+  margin-top: 20px;
+}
+
+.calendar-container .time td select {
+  display: block;
+  width: 100%;
+  padding: 5px 9px 3px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #f0f4fb;
+  background-image: url("../../images/select-bg-rtl.svg");
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: max(100%, 58rem);
+  border: 1px solid #cdcdcd;
+  border-radius: 0.25rem;
+  appearance: none;
+}
+
 .buttons-wrapper {
-  padding: 5px 5px;
-  width:100%;
+  margin-bottom: 0 !important;
+  padding: 5px;
+  width: 100%;
 }
+
 .buttons-wrapper .btn {
   min-width: 60px;
   color: #495057;
   border: 1px solid #495057;
-  margin-left: .5rem;
+  margin-left: 0;
   padding: 0 16px;
   line-height: 2.375rem;
   box-shadow: 1px 0 1px 1px rgba(0,0,0,.25);
 }
+
 .buttons-wrapper .btn:hover {
   color: #fff;
   background: #1a466b;
 }
+
 .buttons-wrapper .btn:last-child {
   margin-left: 0;
 }
+
 .time .time-title {
-  background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg width='22' height='22' viewBox='0 0 1792 1792' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1024 544v448q0 14-9 23t-23 9h-320q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h224v-352q0-14 9-23t23-9h64q14 0 23 9t9 23zm416 352q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg width='24' height='24' viewBox='0 0 1792 1792' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1024 544v448q0 14-9 23t-23 9h-320q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h224v-352q0-14 9-23t23-9h64q14 0 23 9t9 23zm416 352q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: center;
 }
+
 /* Fix cursor on js-btn and time select */
 .calendar-container select,
 .calendar-container .js-btn {

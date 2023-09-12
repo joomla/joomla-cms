@@ -48,7 +48,7 @@ class AfterPurgeEvent extends AbstractImmutableEvent
     public function __construct($name, array $arguments = [])
     {
         // Reshape the arguments array to preserve b/c with legacy listeners
-        if ($this->legacyArgumentsOrder) {
+        if ($this->legacyArgumentsOrder && $arguments) {
             $arguments = $this->reshapeArguments($arguments, $this->legacyArgumentsOrder);
         }
 

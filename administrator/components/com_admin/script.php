@@ -396,8 +396,6 @@ class JoomlaInstallerScript
             'state'  => 1,
             'params' => [
                 'enable_session_gc'          => $params->get('enable_session_gc', 1),
-                'gc_probability'             => $params->get('gc_probability', 1),
-                'gc_divisor'                 => $params->get('gc_divisor', 100),
                 'enable_session_metadata_gc' => $params->get('enable_session_metadata_gc', 1),
             ],
         ];
@@ -2045,6 +2043,8 @@ class JoomlaInstallerScript
             '/media/com_contenthistory/js/admin-history-versions.js',
             '/media/com_contenthistory/js/admin-history-versions.min.js',
             '/media/com_contenthistory/js/admin-history-versions.min.js.gz',
+            // From 5.0.0-beta1 to 5.0.0-beta2
+            '/libraries/src/Cache/Storage/WincacheStorage.php',
         ];
 
         $folders = [
