@@ -28,6 +28,7 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
+use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\System\Debug\DataCollector\InfoCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageErrorsCollector;
@@ -146,11 +147,11 @@ final class Debug extends CMSPlugin implements SubscriberInterface
             'onBeforeRespond'     => 'onBeforeRespond',
             'onAfterRespond'      => [
                 'onAfterRespond',
-                PHP_INT_MIN,
+                Priority::MIN,
             ],
             ApplicationEvents::AFTER_RESPOND => [
                 'onAfterRespond',
-                PHP_INT_MIN,
+                Priority::MIN,
             ],
             'onAfterDisconnect' => 'onAfterDisconnect',
         ];
