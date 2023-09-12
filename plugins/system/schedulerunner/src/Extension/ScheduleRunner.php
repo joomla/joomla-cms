@@ -19,6 +19,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Scheduler\Administrator\Model\TasksModel;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Event\Event;
@@ -109,22 +110,13 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        // Check if any task is due to decrease the load
+        /** @var TasksModel $model */
         $model = $this->getApplication()->bootComponent('com_scheduler')
             ->getMVCFactory()->createModel('Tasks', 'Administrator', ['ignore_request' => true]);
 
-        $model->setState('filter.state', 1);
-        $model->setState('filter.due', 1);
+        $now = Factory::getDate('now', 'UTC');
 
-        $items = $model->getItems();
-
-        // See if we are running currently
-        $model->setState('filter.locked', 1);
-        $model->setState('filter.due', 0);
-
-        $items2 = $model->getItems();
-
-        if (empty($items) || !empty($items2)) {
+        if (!$model->hasDueTasks($now)) {
             return;
         }
 
@@ -262,7 +254,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             ]
         );
 
-        if (!is_null($task)) {
+        if ($task) {
             $task->run();
             $event->addArgument('result', $task->getContent());
         } else {
@@ -286,7 +278,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
      * @return ?Task
      *
      * @since 4.1.0
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     private function runScheduler(int $id = 0): ?Task
     {
@@ -301,7 +293,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
      * @return void
      *
      * @since 4.1.0
-     * @throws UnexpectedValueException|RuntimeException
+     * @throws \UnexpectedValueException|\RuntimeException
      *
      * @todo  Move to another plugin?
      */
