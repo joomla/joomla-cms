@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Menus\Administrator\View\Items;
 
+use Joomla\CMS\Event\Menu\BeforeRenderMenuItemsViewEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -56,7 +57,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -96,7 +97,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $lang                = Factory::getLanguage();
+        $lang                = $this->getLanguage();
         $this->items         = $this->get('Items');
         $this->pagination    = $this->get('Pagination');
         $this->total         = $this->get('Total');
@@ -276,7 +277,9 @@ class HtmlView extends BaseHtmlView
         }
 
         // Allow a system plugin to insert dynamic menu types to the list shown in menus:
-        Factory::getApplication()->triggerEvent('onBeforeRenderMenuItems', [$this]);
+        $this->getDispatcher()->dispatch('onBeforeRenderMenuItems', new BeforeRenderMenuItemsViewEvent('onBeforeRenderMenuItems', [
+            'subject' => $this,
+        ]));
 
         parent::display($tpl);
     }

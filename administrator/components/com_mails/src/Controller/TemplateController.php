@@ -11,7 +11,7 @@
 namespace Joomla\Component\Mails\Administrator\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -192,9 +192,13 @@ class TemplateController extends FormController
 
         // Send an object which can be modified through the plugin event
         $objData = (object) $data;
-        $this->app->triggerEvent(
+        $this->getDispatcher()->dispatch(
             'onContentNormaliseRequestData',
-            [$this->option . '.' . $this->context, $objData, $form]
+            new Model\NormaliseRequestDataEvent('onContentNormaliseRequestData', [
+                'context' => $this->option . '.' . $this->context,
+                'data'    => $objData,
+                'subject' => $form,
+            ])
         );
         $data = (array) $objData;
 
@@ -250,7 +254,7 @@ class TemplateController extends FormController
         }
 
         $langKey = $this->text_prefix . ($recordId === 0 && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS';
-        $prefix  = Factory::getLanguage()->hasKey($langKey) ? $this->text_prefix : 'COM_MAILS';
+        $prefix  = $this->app->getLanguage()->hasKey($langKey) ? $this->text_prefix : 'COM_MAILS';
 
         $this->setMessage(Text::_($prefix . ($recordId === 0 && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
 

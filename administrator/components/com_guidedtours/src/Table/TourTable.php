@@ -10,9 +10,15 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Table;
 
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
+use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,15 +29,16 @@ use Joomla\Database\DatabaseDriver;
  *
  * @since 4.3.0
  */
-class TourTable extends Table
+class TourTable extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
      * @var    boolean
      * @since  4.3.0
      */
-    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
     protected $_supportNullValue = true;
 
     /**
@@ -40,19 +47,19 @@ class TourTable extends Table
      * @var    array
      * @since  4.3.0
      */
-    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
     protected $_jsonEncode = ['extensions'];
 
     /**
      * Constructor
      *
-     * @param   DatabaseDriver $db Database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   4.3.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__guidedtours', 'id', $db);
+        parent::__construct('#__guidedtours', 'id', $db, $dispatcher);
     }
 
     /**
@@ -67,7 +74,7 @@ class TourTable extends Table
     public function store($updateNulls = true)
     {
         $date   = Factory::getDate()->toSql();
-        $userId = Factory::getUser()->id;
+        $userId = $this->getCurrentUser()->id;
 
         // Set created date if not set.
         if (!(int) $this->created) {
@@ -97,34 +104,90 @@ class TourTable extends Table
             $this->extensions = ["*"];
         }
 
+        // set missing Uid
+        if (empty($this->uid)) {
+            $this->setTourUid();
+        }
+
+        // make sure the uid is unique
+        $this->ensureUniqueUid();
+
         return parent::store($updateNulls);
     }
 
-    /**
-     * Returns the asset name of the entry as it appears in the {@see Asset} table.
-     *
-     * @return  string  The asset name.
-     *
-     * @since   4.3.0
-     */
-    // phpcs:ignore
-    protected function _getAssetName(): string
-    {
-        $k = $this->_tbl_key;
 
-        return 'com_guidedtours.tour.' . (int) $this->$k;
+    /**
+     * Method to set the uid when empty
+     *
+     * @return  string $uid  Contains the non-empty uid.
+     *
+     * @since   5.0.0
+     */
+    protected function setTourUid()
+    {
+        // Tour follows Joomla naming convention
+        if (str_starts_with($this->title, 'COM_GUIDEDTOURS_TOUR_') && str_ends_with($this->title, '_TITLE')) {
+            $uidTitle = 'joomla_' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $this->title);
+
+            // Remove the last _TITLE part
+            $pos = strrpos($uidTitle, "_TITLE");
+            if ($pos !== false) {
+                $uidTitle = substr($uidTitle, 0, $pos);
+            }
+        } elseif (preg_match('#COM_(\w+)_TOUR_#', $this->title) && str_ends_with($this->title, '_TITLE')) {
+            // Tour follows component naming pattern
+            $uidTitle = preg_replace('#COM_(\w+)_TOUR_#', '$1.', $this->title);
+
+            // Remove the last _TITLE part
+            $pos = strrpos($uidTitle, "_TITLE");
+            if ($pos !== false) {
+                $uidTitle = substr($uidTitle, 0, $pos);
+            }
+        } else {
+            $uri      = Uri::getInstance();
+            $host     = $uri->toString(['host']);
+            $host     = ApplicationHelper::stringURLSafe($host, $this->language);
+            $uidTitle = $host . ' ' . str_replace('COM_GUIDEDTOURS_TOUR_', '', $this->title);
+            // Remove the last _TITLE part
+            if (str_ends_with($uidTitle, '_TITLE')) {
+                $pos      = strrpos($uidTitle, '_TITLE');
+                $uidTitle = substr($uidTitle, 0, $pos);
+            }
+        }
+        // ApplicationHelper::stringURLSafe will replace a period (.) separator so we split the construction into multiple parts
+        $uidTitleParts = explode('.', $uidTitle);
+        array_walk($uidTitleParts, function (&$value, $key, $tourLanguage) {
+            $value = ApplicationHelper::stringURLSafe($value, $tourLanguage);
+        }, $this->language);
+        $this->uid = implode('.', $uidTitleParts);
+
+        $this->store();
+
+        return $this->uid;
     }
 
     /**
-     * Method to return the title to use for the asset table.
+     * Method to change the uid when not unique.
      *
-     * @return  string  The string to use as the title in the asset table.
+     * @return  string $uid  Contains the modified uid.
      *
-     * @since   4.3.0
+     * @since   5.0.0
      */
-    // phpcs:ignore
-    protected function _getAssetTitle()
+    protected function ensureUniqueUid()
     {
-        return $this->title;
+        $table  = new TourTable($this->_db);
+        $unique = false;
+        // Alter the title & uid
+        while (!$unique) {
+            // Attempt to load the row by uid.
+            $uidItem = $table->load([ 'uid' => $this->uid ]);
+            if ($uidItem && $table->id > 0 && $table->id != $this->id) {
+                $this->uid = StringHelper::increment($this->uid, 'dash');
+            } else {
+                $unique = true;
+            }
+        }
+
+        return $this->uid;
     }
 }

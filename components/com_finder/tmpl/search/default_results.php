@@ -66,7 +66,7 @@ use Joomla\CMS\Uri\Uri;
     ?>
 <?php endif; ?>
 <?php // Display a list of results ?>
-<ol id="search-result-list" class="js-highlight com-finder__results-list" start="<?php echo (int) $this->pagination->limitstart + 1; ?>">
+<ul id="search-result-list" class="js-highlight com-finder__results-list" start="<?php echo (int) $this->pagination->limitstart + 1; ?>">
     <?php $this->baseUrl = Uri::getInstance()->toString(['scheme', 'host', 'port']); ?>
     <?php foreach ($this->results as $i => $result) : ?>
         <?php $this->result = &$result; ?>
@@ -74,7 +74,7 @@ use Joomla\CMS\Uri\Uri;
         <?php $layout = $this->getLayoutFile($this->result->layout); ?>
         <?php echo $this->loadTemplate($layout); ?>
     <?php endforeach; ?>
-</ol>
+</ul>
 <?php // Display the pagination ?>
 <div class="com-finder__navigation search-pagination">
     <?php if ($this->params->get('show_pagination', 1) > 0) : ?>
@@ -88,7 +88,7 @@ use Joomla\CMS\Uri\Uri;
             <?php $start = (int) $this->pagination->limitstart + 1; ?>
             <?php $total = (int) $this->pagination->total; ?>
             <?php $limit = (int) $this->pagination->limit * $this->pagination->pagesCurrent; ?>
-            <?php $limit = (int) ($limit > $total ? $total : $limit); ?>
+            <?php $limit = (int) min($limit, $total); ?>
             <?php echo Text::sprintf('COM_FINDER_SEARCH_RESULTS_OF', $start, $limit, $total); ?>
         </div>
     <?php endif; ?>

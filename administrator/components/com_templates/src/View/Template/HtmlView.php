@@ -16,7 +16,6 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -37,7 +36,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The Model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -175,10 +174,10 @@ class HtmlView extends BaseHtmlView
         $this->stylesHTML  = '';
 
         $params       = ComponentHelper::getParams('com_templates');
-        $imageTypes   = explode(',', $params->get('image_formats'));
-        $sourceTypes  = explode(',', $params->get('source_formats'));
-        $fontTypes    = explode(',', $params->get('font_formats'));
-        $archiveTypes = explode(',', $params->get('compressed_formats'));
+        $imageTypes   = explode(',', $params->get('image_formats', 'gif,bmp,jpg,jpeg,png,webp'));
+        $sourceTypes  = explode(',', $params->get('source_formats', 'txt,less,ini,xml,js,php,css,scss,sass,json'));
+        $fontTypes    = explode(',', $params->get('font_formats', 'woff,woff2,ttf,otf'));
+        $archiveTypes = explode(',', $params->get('compressed_formats', 'zip'));
 
         if (in_array($ext, $sourceTypes)) {
             $this->form   = $this->get('Form');

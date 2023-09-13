@@ -166,7 +166,7 @@ class GroupModel extends AdminModel
         $parentSuperAdmin = Access::checkGroup($data['parent_id'], 'core.admin');
 
         // Get core.admin rules from the root asset
-        $rules = Access::getAssetRules('root.1')->getData('core.admin');
+        $rules = Access::getAssetRules('root.1')->getData();
 
         // Get the value for the current group (will be true (allowed), false (denied), or null (inherit)
         $groupSuperAdmin = $rules['core.admin']->allow($data['id']);

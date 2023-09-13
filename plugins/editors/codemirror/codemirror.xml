@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_codemirror</name>
-	<version>5.65.12</version>
+	<version>6.0.0</version>
 	<creationDate>28 March 2011</creationDate>
 	<author>Marijn Haverbeke</author>
 	<authorEmail>marijnh@gmail.com</authorEmail>
@@ -11,7 +11,6 @@
 	<description>PLG_CODEMIRROR_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Editors\CodeMirror</namespace>
 	<files>
-		<filename>fonts.json</filename>
 		<folder>layouts</folder>
 		<folder plugin="codemirror">services</folder>
 		<folder>src</folder>
@@ -41,18 +40,6 @@
 					name="codeFolding"
 					type="radio"
 					label="PLG_CODEMIRROR_FIELD_CODEFOLDING_LABEL"
-					layout="joomla.form.field.radio.switcher"
-					default="1"
-					filter="integer"
-					>
-					<option value="0">JOFF</option>
-					<option value="1">JON</option>
-				</field>
-
-				<field
-					name="markerGutter"
-					type="radio"
-					label="PLG_CODEMIRROR_FIELD_MARKERGUTTER_LABEL"
 					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
@@ -98,42 +85,6 @@
 				</field>
 
 				<field
-					name="matchTags"
-					type="radio"
-					layout="joomla.form.field.radio.switcher"
-					label="PLG_CODEMIRROR_FIELD_MATCHTAGS_LABEL"
-					default="1"
-					filter="integer"
-					>
-					<option value="0">JOFF</option>
-					<option value="1">JON</option>
-				</field>
-
-				<field
-					name="matchBrackets"
-					type="radio"
-					layout="joomla.form.field.radio.switcher"
-					label="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_LABEL"
-					default="1"
-					filter="integer"
-					>
-					<option value="0">JOFF</option>
-					<option value="1">JON</option>
-				</field>
-
-				<field
-					name="autoCloseTags"
-					type="radio"
-					layout="joomla.form.field.radio.switcher"
-					label="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_LABEL"
-					default="1"
-					filter="integer"
-					>
-					<option value="0">JOFF</option>
-					<option value="1">JON</option>
-				</field>
-
-				<field
 					name="autoCloseBrackets"
 					type="radio"
 					layout="joomla.form.field.radio.switcher"
@@ -155,8 +106,6 @@
 					>
 					<option value="">JDEFAULT</option>
 					<option value="emacs">PLG_CODEMIRROR_FIELD_KEYMAP_EMACS</option>
-					<option value="sublime">PLG_CODEMIRROR_FIELD_KEYMAP_SUBLIME</option>
-					<option value="vim">PLG_CODEMIRROR_FIELD_KEYMAP_VIM</option>
 				</field>
 
 				<field
@@ -191,138 +140,28 @@
 					<option value="Alt">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_ALT</option>
 				</field>
 			</fieldset>
-
-			<fieldset
-				name="appearance"
-				label="PLG_CODEMIRROR_FIELDSET_APPEARANCE_OPTIONS_LABEL"
-				addfieldprefix="Joomla\Plugin\Editors\CodeMirror\Field"
-			>
+			<fieldset name="advanced">
 				<field
-					name="theme"
-					type="filelist"
-					label="PLG_CODEMIRROR_FIELD_THEME_LABEL"
-					default=""
-					fileFilter="\.css$"
-					stripext="true"
-					hide_none="true"
-					hide_default="false"
-					directory="media/vendor/codemirror/theme"
-					validate="options"
-				/>
-
-				<field
-					name="activeLineColor"
-					type="color"
-					label="PLG_CODEMIRROR_FIELD_ACTIVELINE_COLOR_LABEL"
-					default="#a4c2eb"
-					filter="color"
-				/>
-
-				<field
-					name="highlightMatchColor"
-					type="color"
-					label="PLG_CODEMIRROR_FIELD_HIGHLIGHT_MATCH_COLOR_LABEL"
-					default="#fa542f"
-					filter="color"
-				/>
-
-				<field
-					name="fontFamily"
-					type="fonts"
-					label="PLG_CODEMIRROR_FIELD_FONT_FAMILY_LABEL"
-					default="0"
-					>
-					<option value="0">PLG_CODEMIRROR_FIELD_VALUE_FONT_FAMILY_DEFAULT</option>
+					name="customExtensions"
+					type="subform"
+					label="PLG_CODEMIRROR_FIELD_CUSTOM_EXTENSIONS_LABEL"
+					multiple="true"
+				>
+					<form>
+						<field
+							name="module"
+							type="text"
+							label="PLG_CODEMIRROR_FIELD_CUSTOM_EXTENSIONS_MODULE_LABEL"
+							description="PLG_CODEMIRROR_FIELD_CUSTOM_EXTENSIONS_MODULE_DESCR"
+						/>
+						<field
+							name="methods"
+							type="text"
+							label="PLG_CODEMIRROR_FIELD_CUSTOM_EXTENSIONS_METHOD_LABEL"
+							description="PLG_CODEMIRROR_FIELD_CUSTOM_EXTENSIONS_METHOD_DESCR"
+						/>
+					</form>
 				</field>
-
-				<field
-					name="fontSize"
-					type="integer"
-					label="PLG_CODEMIRROR_FIELD_FONT_SIZE_LABEL"
-					first="6"
-					last="16"
-					step="1"
-					default="13"
-					filter="integer"
-				/>
-
-				<field
-					name="lineHeight"
-					type="list"
-					label="PLG_CODEMIRROR_FIELD_LINE_HEIGHT_LABEL"
-					default="1.2"
-					filter="float"
-					validate="options"
-					>
-					<option value="1">1</option>
-					<option value="1.1">1.1</option>
-					<option value="1.2">1.2</option>
-					<option value="1.3">1.3</option>
-					<option value="1.4">1.4</option>
-					<option value="1.5">1.5</option>
-					<option value="1.6">1.6</option>
-					<option value="1.7">1.7</option>
-					<option value="1.8">1.8</option>
-					<option value="1.9">1.9</option>
-					<option value="2">2</option>
-				</field>
-
-				<field
-					name="scrollbarStyle"
-					type="list"
-					label="PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_LABEL"
-					default="native"
-					validate="options"
-					>
-					<option value="native">PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_DEFAULT</option>
-					<option value="simple">PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_SIMPLE</option>
-					<option value="overlay">PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_OVERLAY</option>
-				</field>
-
-				<field
-					name="preview"
-					type="editor"
-					label="PLG_CODEMIRROR_FIELD_PREVIEW_LABEL"
-					editor="codemirror"
-					filter="unset"
-					buttons="false"
-					>
-					<default>
-<![CDATA[
-<script type="text/javascript">
-	[].forEach.call(document.getElementsByClassName('hello'), function (el) {el.innerHtml = 'Hello World';});
-</script>
-
-<style type="text/css">
-	h1 {
-		background-clip: border-box;
-		background-color: #cacaff;
-		background-image: linear-gradient(45deg, transparent 0px, transparent 30px, #ababff 30px, #ababff 60px, transparent 60px);
-		background-repeat: repeat-x;
-		background-size: 90px 100%;
-		border: 1px solid #8989ff;
-		border-radius: 10px;
-		color: #333;
-		padding: 0 15px;
-	}
-</style>
-
-<div>
-	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a ornare lectus, quis semper urna. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus interdum metus id elit rutrum sollicitudin. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam in fermentum risus, id facilisis nulla. Phasellus gravida erat sed ullamcorper accumsan. Donec blandit sem eget sem congue, a varius sapien semper.</p>
-	<p>Integer euismod tempor convallis. Nullam porttitor et ex ac fringilla. Quisque facilisis est ac erat condimentum malesuada. Aenean commodo quam odio, tincidunt ultricies mauris suscipit et.</p>
-
-	<ul>
-		<li>Vivamus ultrices ligula a odio lacinia pellentesque.</li>
-		<li>Curabitur iaculis arcu pharetra, mollis turpis id, commodo erat.</li>
-		<li>Etiam consequat enim quis faucibus interdum.</li>
-		<li>Morbi in ipsum pulvinar, eleifend lorem sit amet, euismod magna.</li>
-		<li>Donec consectetur lacus vitae eros euismod porta.</li>
-	</ul>
-</div>
-]]>
-					</default>
-				</field>
-
 			</fieldset>
 		</fields>
 	</config>

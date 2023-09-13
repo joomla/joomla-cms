@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Contact\Site\Controller;
 
+use Joomla\CMS\Event\Contact\SubmitContactEvent;
+use Joomla\CMS\Event\Contact\ValidateContactEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -17,10 +19,12 @@ use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -35,8 +39,9 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  *
  * @since  1.5.19
  */
-class ContactController extends FormController
+class ContactController extends FormController implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
     use VersionableControllerTrait;
 
     /**
@@ -169,16 +174,34 @@ class ContactController extends FormController
         }
 
         // Validation succeeded, continue with custom handlers
-        $results = $this->app->triggerEvent('onValidateContact', [&$contact, &$data]);
+        $eventData = new ArrayProxy($data);
+        $results   = $this->getDispatcher()->dispatch('onValidateContact', new ValidateContactEvent('onValidateContact', [
+            'subject' => $contact,
+            'data'    => $eventData,
+        ]))->getArgument('result', []);
+
+        $passValidation = true;
 
         foreach ($results as $result) {
             if ($result instanceof \Exception) {
-                return false;
+                $passValidation = false;
+                $app->enqueueMessage($result->getMessage(), 'error');
             }
         }
 
+        if (!$passValidation) {
+            $app->setUserState('com_contact.contact.data', $data);
+
+            $this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $id . '&catid=' . $contact->catid, false));
+
+            return false;
+        }
+
         // Passed Validation: Process the contact plugins to integrate with other applications
-        $this->app->triggerEvent('onSubmitContact', [&$contact, &$data]);
+        $this->getDispatcher()->dispatch('onSubmitContact', new SubmitContactEvent('onSubmitContact', [
+            'subject' => $contact,
+            'data'    => $eventData,
+        ]));
 
         // Send the email
         $sent = false;
@@ -223,7 +246,7 @@ class ContactController extends FormController
         $app = $this->app;
 
         if ($contact->email_to == '' && $contact->user_id != 0) {
-            $contact_user      = User::getInstance($contact->user_id);
+            $contact_user      = $this->getUserFactory()->loadUserById($contact->user_id);
             $contact->email_to = $contact_user->get('email');
         }
 

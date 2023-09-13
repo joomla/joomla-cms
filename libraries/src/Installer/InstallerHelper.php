@@ -10,19 +10,21 @@
 namespace Joomla\CMS\Installer;
 
 use Joomla\Archive\Archive;
+use Joomla\CMS\Event\Installer\BeforePackageDownloadEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Version;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -77,9 +79,15 @@ abstract class InstallerHelper
         ini_set('user_agent', $version->getUserAgent('Installer'));
 
         // Load installer plugins, and allow URL and headers modification
-        $headers = [];
-        PluginHelper::importPlugin('installer');
-        Factory::getApplication()->triggerEvent('onInstallerBeforePackageDownload', [&$url, &$headers]);
+        $headers    = [];
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        PluginHelper::importPlugin('installer', null, true, $dispatcher);
+        $event = new BeforePackageDownloadEvent('onInstallerBeforePackageDownload', [
+            'url'     => &$url, // TODO: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
+            'headers' => new ArrayProxy($headers),
+        ]);
+        $dispatcher->dispatch('onInstallerBeforePackageDownload', $event);
+        $url = $event->getUrl();
 
         try {
             $response = HttpFactory::getHttp()->get($url, $headers);
@@ -118,14 +126,19 @@ abstract class InstallerHelper
             $target = $tmpPath . '/' . basename($target);
         }
 
+        // Fix Indirect Modification of Overloaded Property
+        $body = $response->body;
+
         // Write buffer to file
-        File::write($target, $response->body);
+        File::write($target, $body);
 
         // Restore error tracking to what it was before
         ini_set('track_errors', $track_errors);
 
         // Bump the max execution time because not using built in php zip libs are slow
-        @set_time_limit(ini_get('max_execution_time'));
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(ini_get('max_execution_time'));
+        }
 
         // Return the name of the downloaded package
         return basename($target);

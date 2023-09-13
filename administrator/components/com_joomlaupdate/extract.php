@@ -1080,7 +1080,6 @@ class ZIPExtraction
                 $this->setError($actualMessage);
 
                 return false;
-                break;
         }
 
         // Find hard-coded banned files
@@ -1197,13 +1196,11 @@ class ZIPExtraction
                 $this->debugMsg('Extracting entity of type Directory', self::LOG_DEBUG);
 
                 return $this->processTypeDir();
-                break;
 
             case 'link':
                 $this->debugMsg('Extracting entity of type Symbolic Link', self::LOG_DEBUG);
 
                 return $this->processTypeLink();
-                break;
 
             case 'file':
                 switch ($this->fileHeader->compression) {
@@ -1211,20 +1208,17 @@ class ZIPExtraction
                         $this->debugMsg('Extracting entity of type File (Stored)', self::LOG_DEBUG);
 
                         return $this->processTypeFileUncompressed();
-                        break;
 
                     case 'gzip':
                     case 'bzip2':
                         $this->debugMsg('Extracting entity of type File (Compressed)', self::LOG_DEBUG);
 
                         return $this->processTypeFileCompressed();
-                        break;
 
                     case 'default':
                         $this->setError(sprintf('Unknown compression type %s.', $this->fileHeader->compression));
 
                         return false;
-                        break;
                 }
                 break;
         }
@@ -1552,7 +1546,6 @@ class ZIPExtraction
                 $this->setError(sprintf('Unknown compression method %s', $this->fileHeader->compression));
 
                 return false;
-                break;
         }
 
         unset($zipData);
@@ -1714,7 +1707,7 @@ function clearFileInOPCache(string $file): bool
  * @return  boolean  True if the two strings are identical.
  * @since   4.0.4
  *
- * @see     http://blog.ircmaxell.com/2014/11/its-all-about-time.html
+ * @link    http://blog.ircmaxell.com/2014/11/its-all-about-time.html
  */
 function timingSafeEquals($known, $user)
 {
@@ -1879,7 +1872,6 @@ if ($enabled) {
     $engine->setFilename($sourceFile);
     $engine->setAddPath($destDir);
     $skipFiles = [
-        'administrator/components/com_joomlaupdate/restoration.php',
         'administrator/components/com_joomlaupdate/update.php',
     ];
 
@@ -1908,7 +1900,7 @@ if ($enabled) {
                 $retArray['files']    = $engine->filesProcessed;
                 $retArray['bytesIn']  = $engine->compressedTotal;
                 $retArray['bytesOut'] = $engine->uncompressedTotal;
-                $retArray['percent']  = 100;
+                $retArray['percent']  = 80;
                 $retArray['status']   = true;
                 $retArray['done']     = true;
 
@@ -1917,7 +1909,7 @@ if ($enabled) {
                 $retArray['files']    = $engine->filesProcessed;
                 $retArray['bytesIn']  = $engine->compressedTotal;
                 $retArray['bytesOut'] = $engine->uncompressedTotal;
-                $retArray['percent']  = ($engine->totalSize > 0) ? (100 * $engine->compressedTotal / $engine->totalSize) : 0;
+                $retArray['percent']  = ($engine->totalSize > 0) ? (80 * $engine->compressedTotal / $engine->totalSize) : 0;
                 $retArray['status']   = true;
                 $retArray['done']     = false;
                 $retArray['instance'] = ZIPExtraction::getSerialised();
