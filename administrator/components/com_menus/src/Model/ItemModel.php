@@ -1311,7 +1311,7 @@ class ItemModel extends AdminModel
      */
     public function save($data)
     {
-        $pk      = $data['id'] ?? (int)$this->getState('item.id');
+        $pk      = $data['id'] ?? (int) $this->getState('item.id');
         $isNew   = true;
         $db      = $this->getDatabase();
         $query   = $db->getQuery(true);
