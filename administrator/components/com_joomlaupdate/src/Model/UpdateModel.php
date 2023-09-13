@@ -670,8 +670,7 @@ ENDDATA;
         }
 
         // Create msg object; first use here.
-        $msg = ob_get_contents();
-        ob_end_clean();
+        $msg = ob_get_clean();
 
         // Get a database connector object.
         $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
@@ -782,8 +781,7 @@ ENDDATA;
         }
 
         // Append messages.
-        $msg .= ob_get_contents();
-        ob_end_clean();
+        $msg .= ob_get_clean();
 
         // Clobber any possible pending updates.
         $update = new \Joomla\CMS\Table\Update($db);
@@ -804,8 +802,7 @@ ENDDATA;
         }
 
         // Append messages.
-        $msg .= ob_get_contents();
-        ob_end_clean();
+        $msg .= ob_get_clean();
 
         if ($msg != '') {
             $installer->set('extension_message', $msg);

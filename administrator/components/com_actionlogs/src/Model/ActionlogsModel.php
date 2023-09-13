@@ -117,7 +117,7 @@ class ActionlogsModel extends ListModel
 
         // Apply filter by extension
         if (!empty($extension)) {
-            $extension = $extension . '%';
+            $extension .= '%';
             $query->where($db->quoteName('a.extension') . ' LIKE :extension')
                 ->bind(':extension', $extension);
         }

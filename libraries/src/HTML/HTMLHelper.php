@@ -90,7 +90,7 @@ abstract class HTMLHelper
 
         if (\count($parts) === 3) {
             @trigger_error(
-                'Support for a three segment service key is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+                'Support for a three segment service key is deprecated and will be removed in Joomla 6.0, use the service registry instead',
                 E_USER_DEPRECATED
             );
         }
@@ -200,7 +200,7 @@ abstract class HTMLHelper
     public static function register($key, callable $function)
     {
         @trigger_error(
-            'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+            'Support for registering functions is deprecated and will be removed in Joomla 6.0, use the service registry instead',
             E_USER_DEPRECATED
         );
 
@@ -225,7 +225,7 @@ abstract class HTMLHelper
     public static function unregister($key)
     {
         @trigger_error(
-            'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+            'Support for registering functions is deprecated and will be removed in Joomla 6.0, use the service registry instead',
             E_USER_DEPRECATED
         );
 
@@ -1148,7 +1148,7 @@ abstract class HTMLHelper
     public static function addIncludePath($path = '')
     {
         @trigger_error(
-            'Support for registering lookup paths is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+            'Support for registering lookup paths is deprecated and will be removed in Joomla 6.0, use the service registry instead',
             E_USER_DEPRECATED
         );
 
