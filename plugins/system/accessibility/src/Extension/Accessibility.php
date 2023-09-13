@@ -89,7 +89,7 @@ final class Accessibility extends CMSPlugin
                             'units' => 'px',
                         ],
                     ],
-                    'useEmojis' => $this->params->get('useEmojis') != 'false',
+                    'useEmojis' => $this->params->get('useEmojis') === 'true',
                 ],
                 'hotkeys' => [
                     'enabled'    => true,
