@@ -142,15 +142,15 @@ abstract class Bootstrap
         if ($selector !== '') {
             // Setup options object
             $opt = [
-                'interval' => (isset($params['interval']) ? (int) $params['interval'] : 5000),
-                'keyboard' => (isset($params['keyboard']) ? (bool) $params['keyboard'] : true),
+                'interval' => (int) ($params['interval'] ?? 5000),
+                'keyboard' => (bool) ($params['keyboard'] ?? true),
                 'pause'    => $params['pause'] ?? 'hover',
-                'slide'    => (isset($params['slide']) ? (bool) $params['slide'] : false),
-                'wrap'     => (isset($params['wrap']) ? (bool) $params['wrap'] : true),
-                'touch'    => (isset($params['touch']) ? (bool) $params['touch'] : true),
+                'slide'    => (bool) ($params['slide'] ?? false),
+                'wrap'     => (bool) ($params['wrap'] ?? true),
+                'touch'    => (bool) ($params['touch'] ?? true),
             ];
 
-            Factory::getDocument()->addScriptOptions('bootstrap.carousel', [$selector => (object) array_filter((array) $opt)]);
+            Factory::getDocument()->addScriptOptions('bootstrap.carousel', [$selector => (object) array_filter($opt)]);
         }
 
         // Include the Bootstrap component
@@ -190,9 +190,9 @@ abstract class Bootstrap
             // Setup options object
             $opt           = [];
             $opt['parent'] = $params['parent'] ?? false;
-            $opt['toggle'] = isset($params['toggle']) ? (bool) $params['toggle'] : true;
+            $opt['toggle'] = (bool) ($params['toggle'] ?? true);
 
-            Factory::getDocument()->addScriptOptions('bootstrap.collapse', [$selector => (object) array_filter((array) $opt)]);
+            Factory::getDocument()->addScriptOptions('bootstrap.collapse', [$selector => (object) array_filter($opt)]);
         }
 
         // Include the Bootstrap component
@@ -236,7 +236,7 @@ abstract class Bootstrap
             $opt['display']      = $params['display'] ?? 'dynamic';
             $opt['popperConfig'] = (bool) ($params['popperConfig'] ?? true);
 
-            Factory::getDocument()->addScriptOptions('bootstrap.dropdown', [$selector => (object) array_filter((array) $opt)]);
+            Factory::getDocument()->addScriptOptions('bootstrap.dropdown', [$selector => (object) array_filter($opt)]);
         }
 
         // Include the Bootstrap component
@@ -279,7 +279,7 @@ abstract class Bootstrap
                 'focus'    => (bool) ($options['focus'] ?? true),
             ];
 
-            Factory::getDocument()->addScriptOptions('bootstrap.modal', [$selector => (object) array_filter((array) $opt)]);
+            Factory::getDocument()->addScriptOptions('bootstrap.modal', [$selector => (object) array_filter($opt)]);
         }
 
         // Include the Bootstrap component
@@ -321,7 +321,7 @@ abstract class Bootstrap
                 'scroll'   => (bool) ($options['scroll'] ?? false),
             ];
 
-            Factory::getDocument()->addScriptOptions('bootstrap.offcanvas', [$selector => (object) array_filter((array) $opt)]);
+            Factory::getDocument()->addScriptOptions('bootstrap.offcanvas', [$selector => (object) array_filter($opt)]);
         }
 
         // Include the Bootstrap component
@@ -391,7 +391,7 @@ abstract class Bootstrap
                 'allowList'         => $options['allowList'] ?? null,
             ];
 
-            Factory::getDocument()->addScriptOptions('bootstrap.popover', [$selector => (object) array_filter((array) $opt)]);
+            Factory::getDocument()->addScriptOptions('bootstrap.popover', [$selector => (object) array_filter($opt)]);
         }
 
         // Include the Bootstrap component
@@ -433,7 +433,7 @@ abstract class Bootstrap
                 'target' => $options['target'] ?? null,
             ];
 
-            Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', [$selector => (object) array_filter((array) $opt)]);
+            Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', [$selector => (object) array_filter($opt)]);
         }
 
         // Include the Bootstrap component
@@ -533,7 +533,7 @@ abstract class Bootstrap
                 'allowList'         => $options['allowList'] ?? null,
             ];
 
-            Factory::getDocument()->addScriptOptions('bootstrap.tooltip', [$selector => (object) array_filter((array) $opt)]);
+            Factory::getDocument()->addScriptOptions('bootstrap.tooltip', [$selector => (object) array_filter($opt)]);
         }
 
         // Include the Bootstrap component
@@ -573,7 +573,7 @@ abstract class Bootstrap
                 'delay'     => (int) ($options['delay'] ?? 5000),
             ];
 
-            Factory::getDocument()->addScriptOptions('bootstrap.toast', [$selector => (object) array_filter((array) $opt)]);
+            Factory::getDocument()->addScriptOptions('bootstrap.toast', [$selector => (object) array_filter($opt)]);
         }
 
         // Include the Bootstrap component
@@ -672,7 +672,7 @@ abstract class Bootstrap
         // Initialise with the Joomla specifics
         $opt['isJoomla'] = true;
 
-        Factory::getDocument()->addScriptOptions('bootstrap.accordion', ['#' . preg_replace('/^[\.#]/', '', $selector) => (object) array_filter((array) $opt)]);
+        Factory::getDocument()->addScriptOptions('bootstrap.accordion', ['#' . preg_replace('/^[\.#]/', '', $selector) => (object) array_filter($opt)]);
 
         static::$loaded[__METHOD__][$selector] = $opt;
 
@@ -710,7 +710,7 @@ abstract class Bootstrap
         $parent    = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
             'data-bs-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
         $class        = (!empty($class)) ? ' ' . $class : '';
-        $ariaExpanded = $in === 'show' ? true : false;
+        $ariaExpanded = $in === 'show';
 
         return <<<HTMLSTR
 <div class="accordion-item $class">
@@ -818,6 +818,8 @@ HTMLSTR;
 
             return LayoutHelper::render('libraries.html.bootstrap.tab.starttabset', ['selector' => $selector]);
         }
+
+        return '';
     }
 
     /**
