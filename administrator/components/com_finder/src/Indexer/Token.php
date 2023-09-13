@@ -157,7 +157,7 @@ class Token
              * 1. Length of the token up to 30 and divide by 30, add 1.
              * 2. Round weight to 4 decimal points.
              */
-            $this->weight = (($this->length >= 30 ? 30 : $this->length) / 30) + 1;
+            $this->weight = (min($this->length, 30) / 30) + 1;
             $this->weight = round($this->weight, 4);
         } else {
             // Populate the token instance.
@@ -176,7 +176,7 @@ class Token
              * 3. If numeric, multiply weight by 1.5.
              * 4. Round weight to 4 decimal points.
              */
-            $this->weight = ($this->length >= 15 ? 15 : $this->length) / 15;
+            $this->weight = min($this->length, 15) / 15;
             $this->weight = $this->common === true ? $this->weight / 8 : $this->weight;
             $this->weight = $this->numeric === true ? $this->weight * 1.5 : $this->weight;
             $this->weight = round($this->weight, 4);

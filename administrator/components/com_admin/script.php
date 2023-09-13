@@ -128,6 +128,7 @@ class JoomlaInstallerScript
     {
         // Uninstall extensions before removing their files and folders
         try {
+            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_UNINSTALL_EXTENSIONS'), Log::INFO, 'Update');
             $this->uninstallExtensions();
         } catch (\Throwable $e) {
             $this->collectError('uninstallExtensions', $e);
@@ -287,12 +288,12 @@ class JoomlaInstallerScript
              * 'pre_function' => Name of an optional migration function to be called before
              *                   uninstalling, `null` if not used.
              */
-             ['type' => 'plugin', 'element' => 'demotasks', 'folder' => 'task', 'client_id' => 0, 'pre_function' => null],
-             ['type' => 'plugin', 'element' => 'compat', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateCompatPlugin'],
-             ['type' => 'plugin', 'element' => 'logrotation', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateLogRotationPlugin'],
-             ['type' => 'plugin', 'element' => 'recaptcha', 'folder' => 'captcha', 'client_id' => 0, 'pre_function' => null],
-             ['type' => 'plugin', 'element' => 'sessiongc', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateSessionGCPlugin'],
-             ['type' => 'plugin', 'element' => 'updatenotification', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateUpdatenotificationPlugin'],
+            ['type' => 'plugin', 'element' => 'demotasks', 'folder' => 'task', 'client_id' => 0, 'pre_function' => null],
+            ['type' => 'plugin', 'element' => 'compat', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateCompatPlugin'],
+            ['type' => 'plugin', 'element' => 'logrotation', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateLogRotationPlugin'],
+            ['type' => 'plugin', 'element' => 'recaptcha', 'folder' => 'captcha', 'client_id' => 0, 'pre_function' => null],
+            ['type' => 'plugin', 'element' => 'sessiongc', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateSessionGCPlugin'],
+            ['type' => 'plugin', 'element' => 'updatenotification', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateUpdatenotificationPlugin'],
         ];
 
         $db = Factory::getDbo();
@@ -2096,10 +2097,15 @@ class JoomlaInstallerScript
             // From 5.0.0-alpha4 to 5.0.0-beta1
             '/administrator/components/com_categories/tmpl/categories/default_batch_footer.php',
             '/administrator/components/com_content/tmpl/articles/default_batch_footer.php',
+            '/administrator/language/en-GB/plg_twofactorauth_totp.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_totp.sys.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_yubikey.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_yubikey.sys.ini',
             '/media/com_contenthistory/js/admin-history-versions.js',
             '/media/com_contenthistory/js/admin-history-versions.min.js',
             '/media/com_contenthistory/js/admin-history-versions.min.js.gz',
             // From 5.0.0-beta1 to 5.0.0-beta2
+            '/language/en-GB/lib_simplepie.sys.ini',
             '/libraries/src/Cache/Storage/WincacheStorage.php',
         ];
 
@@ -2608,6 +2614,9 @@ class JoomlaInstallerScript
             return false;
         }
 
+        // Refresh versionable assets cache.
+        Factory::getApplication()->flushAssets();
+
         return true;
     }
 
@@ -2726,7 +2735,7 @@ class JoomlaInstallerScript
     {
         /** @var \Joomla\Component\Cache\Administrator\Model\CacheModel $model */
         $model = Factory::getApplication()->bootComponent('com_guidedtours')->getMVCFactory()
-                        ->createModel('Tours', 'Administrator', ['ignore_request' => true]);
+            ->createModel('Tours', 'Administrator', ['ignore_request' => true]);
 
         $items = $model->getItems();
 

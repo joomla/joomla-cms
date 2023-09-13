@@ -4,11 +4,14 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
@@ -38,45 +41,43 @@ extract($displayData);
  * @var   boolean  $spellcheck      Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
- * @var   array    $checkedOptions  Options that will be set as checked.
- * @var   boolean  $hasValue        Has this field a value assigned?
- * @var   array    $options         Options available for this field.
- * @var   array    $inputType       Options available for this field.
- * @var   string   $accept          File types that are accepted.
- * @var   string   $animated        Is it animated.
- * @var   string   $active          Is it active.
- * @var   string   $max             The maximum value.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
+ * @var   string   $valueTitle
+ * @var   array    $canDo
+ * @var   string[] $urls
+ * @var   string[] $modalTitles
+ * @var   string   $language
  */
 
-// Initialize some field attributes.
-$class = 'progress-bar ' . $class;
-$class .= $animated ? ' progress-bar-striped progress-bar-animated' : '';
-$class .= $active ? ' active' : '';
-$class = 'class="' . $class . '"';
+// Do nothing when propagate is disabled
+if (empty($canDo['propagate'])) {
+    return;
+}
 
-$value = (float) $value;
-$value = max($value, $min);
-$value = min($value, $max);
+// Scripts for backward compatibility
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa->useScript('field.modal-fields');
+$wa->addInlineScript(
+    'window.jSelectMenu_' . $id . ' = function (id, title, object) {
+  window.processModalSelect("Item", "' . $id . '", id, title, "", object);
+}',
+    ['name' => 'inline.select_menu_' . $id],
+    ['type' => 'module']
+);
+Text::script('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED');
 
-$data = '';
-$data .= 'aria-valuemax="' . $max . '"';
-$data .= ' aria-valuemin="' . $min . '"';
-$data .= ' aria-valuenow="' . $value . '"';
+// Language propagate callback name
+// Strip off language tag at the end
+$tagLength            = strlen($language);
+$callbackFunctionStem = substr("jSelectMenu_" . $id, 0, -$tagLength);
 
-$attributes = [
-    $class,
-    !empty($width) ? ' style="width:' . $width . ';"' : '',
-    $data,
-    $dataAttribute,
-];
-
-$value = ((float) ($value - $min) * 100) / ($max - $min);
 ?>
-<div class="progress">
-    <div
-        role="progressbar"
-        <?php echo implode(' ', $attributes); ?>
-        style="width:<?php echo (string) $value; ?>%;<?php echo !empty($color) ? ' background-color:' . $color . ';' : ''; ?>"></div>
-</div>
+
+<button type="button" class="btn btn-primary" <?php echo $value ? '' : 'hidden'; ?>
+        title="<?php echo $this->escape(Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_TIP')); ?>"
+        data-show-when-value="1"
+        onclick="Joomla.propagateAssociation('<?php echo $id; ?>', '<?php echo $callbackFunctionStem; ?>')">
+    <span class="icon-sync" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON'); ?>
+</button>
