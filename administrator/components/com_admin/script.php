@@ -2040,10 +2040,15 @@ class JoomlaInstallerScript
             // From 5.0.0-alpha4 to 5.0.0-beta1
             '/administrator/components/com_categories/tmpl/categories/default_batch_footer.php',
             '/administrator/components/com_content/tmpl/articles/default_batch_footer.php',
+            '/administrator/language/en-GB/plg_twofactorauth_totp.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_totp.sys.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_yubikey.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_yubikey.sys.ini',
             '/media/com_contenthistory/js/admin-history-versions.js',
             '/media/com_contenthistory/js/admin-history-versions.min.js',
             '/media/com_contenthistory/js/admin-history-versions.min.js.gz',
             // From 5.0.0-beta1 to 5.0.0-beta2
+            '/language/en-GB/lib_simplepie.sys.ini',
             '/libraries/src/Cache/Storage/WincacheStorage.php',
         ];
 
