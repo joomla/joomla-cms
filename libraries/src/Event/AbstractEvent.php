@@ -123,7 +123,7 @@ abstract class AbstractEvent extends BaseEvent
 
     /**
      * Get an event argument value.
-     * It will use a pre-processing method if one exists. The method have the signature:
+     * It will use a pre-processing method if one exists. The method has the signature:
      *
      * onGet<ArgumentName>($value): mixed
      *
@@ -186,7 +186,7 @@ abstract class AbstractEvent extends BaseEvent
 
     /**
      * Add argument to event.
-     * It will use a pre-processing method if one exists. The method have the signature:
+     * It will use a pre-processing method if one exists. The method has the signature:
      *
      * onSet<ArgumentName>($value): mixed
      *
