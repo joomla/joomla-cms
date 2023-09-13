@@ -41,6 +41,50 @@ class JoomlaInstallerScript
     protected $fromVersion = null;
 
     /**
+     * Callback for collecting errors. Like function(string $context, \Throwable $error){};
+     *
+     * @var callable
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $errorCollector;
+
+    /**
+     * Set the callback for collecting errors.
+     *
+     * @param   callable  $callback  The callback Like function(string $context, \Throwable $error){};
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function setErrorCollector(callable $callback)
+    {
+        $this->errorCollector = $callback;
+    }
+
+    /**
+     * Collect errors.
+     *
+     * @param  string      $context  A context/place where error happened
+     * @param  \Throwable  $error    The error that occurred
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function collectError(string $context, \Throwable $error)
+    {
+        // The errorCollector are required
+        // However when someone already running the script manually the code may fail.
+        if ($this->errorCollector) {
+            call_user_func($this->errorCollector, $context, $error);
+        } else {
+            Log::add($error->getMessage(), Log::ERROR, 'Update');
+        }
+    }
+
+    /**
      * Function to act prior to installation process begins
      *
      * @param   string     $action     Which action is happening (install|uninstall|discover_install|update)
@@ -82,30 +126,45 @@ class JoomlaInstallerScript
      */
     public function update($installer)
     {
-        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-        $options['text_file'] = 'joomla_update.php';
-
-        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
-
+        // Uninstall plugins before removing their files and folders
         try {
-            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), Log::INFO, 'Update');
-        } catch (RuntimeException $exception) {
-            // Informational log only
+            $this->uninstallRepeatableFieldsPlugin();
+        } catch (\Throwable $e) {
+            $this->collectError('uninstallRepeatableFieldsPlugin', $e);
         }
 
-        // Uninstall plugins before removing their files and folders
-        $this->uninstallRepeatableFieldsPlugin();
-        $this->uninstallEosPlugin();
+        try {
+            $this->uninstallEosPlugin();
+        } catch (\Throwable $e) {
+            $this->collectError('uninstallEosPlugin', $e);
+        }
 
-        // This needs to stay for 2.5 update compatibility
-        $this->deleteUnexistingFiles();
-        $this->updateManifestCaches();
-        $this->updateDatabase();
-        $this->updateAssets($installer);
-        $this->clearStatsCache();
-        $this->convertTablesToUtf8mb4(true);
-        $this->addUserAuthProviderColumn();
-        $this->cleanJoomlaCache();
+        // Remove old files
+        try {
+            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), Log::INFO, 'Update');
+            $this->deleteUnexistingFiles();
+        } catch (\Throwable $e) {
+            $this->collectError('deleteUnexistingFiles', $e);
+        }
+
+        // Further update
+        try {
+            $this->updateManifestCaches();
+            $this->updateDatabase();
+            $this->updateAssets($installer);
+            $this->clearStatsCache();
+            $this->convertTablesToUtf8mb4(true);
+            $this->addUserAuthProviderColumn();
+        } catch (\Throwable $e) {
+            $this->collectError('Further update', $e);
+        }
+
+        // Clean cache
+        try {
+            $this->cleanJoomlaCache();
+        } catch (\Throwable $e) {
+            $this->collectError('cleanJoomlaCache', $e);
+        }
     }
 
     /**
@@ -130,7 +189,7 @@ class JoomlaInstallerScript
                     ->where($db->quoteName('element') . ' = ' . $db->quote('stats'))
             )->loadResult();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -154,7 +213,7 @@ class JoomlaInstallerScript
         try {
             $db->setQuery($query)->execute();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -186,7 +245,7 @@ class JoomlaInstallerScript
         try {
             $results = $db->loadObjectList();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -201,7 +260,7 @@ class JoomlaInstallerScript
             try {
                 $db->execute();
             } catch (Exception $e) {
-                echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+                $this->collectError(__METHOD__, $e);
 
                 return;
             }
@@ -563,7 +622,7 @@ class JoomlaInstallerScript
         try {
             $extensions = $db->loadObjectList();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -573,7 +632,10 @@ class JoomlaInstallerScript
 
         foreach ($extensions as $extension) {
             if (!$installer->refreshManifestCache($extension->extension_id)) {
-                echo Text::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id) . '<br>';
+                $this->collectError(
+                    __METHOD__,
+                    new \Exception(Text::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id))
+                );
             }
         }
     }
@@ -8018,6 +8080,8 @@ class JoomlaInstallerScript
             $asset->setLocation(1, 'last-child');
 
             if (!$asset->store()) {
+                $this->collectError(__METHOD__, new \Exception($asset->getError(true)));
+
                 // Install failed, roll back changes
                 $installer->abort(Text::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->getError(true)));
 
@@ -8051,8 +8115,7 @@ class JoomlaInstallerScript
         try {
             $rows = $db->loadRowList(0);
         } catch (Exception $e) {
-            // Render the error message from the Exception object
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+            $this->collectError(__METHOD__, $e);
 
             if ($doDbFixMsg) {
                 // Show an error message telling to check database problems
@@ -8079,8 +8142,7 @@ class JoomlaInstallerScript
         try {
             $convertedDB = $db->loadResult();
         } catch (Exception $e) {
-            // Render the error message from the Exception object
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+            $this->collectError(__METHOD__, $e);
 
             if ($doDbFixMsg) {
                 // Show an error message telling to check database problems
@@ -8112,8 +8174,7 @@ class JoomlaInstallerScript
                         } catch (Exception $e) {
                             $converted = $convertedDB;
 
-                            // Still render the error message from the Exception object
-                            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+                            $this->collectError(__METHOD__, $e);
                         }
                     }
                 }
@@ -8147,8 +8208,7 @@ class JoomlaInstallerScript
                             } catch (Exception $e) {
                                 $converted = 99;
 
-                                // Still render the error message from the Exception object
-                                Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+                                $this->collectError(__METHOD__, $e);
                             }
                         }
                     }
@@ -8286,6 +8346,9 @@ class JoomlaInstallerScript
                 return false;
             }
         }
+
+        // Refresh versionable assets cache.
+        Factory::getApplication()->flushAssets();
 
         return true;
     }
@@ -8756,25 +8819,20 @@ class JoomlaInstallerScript
     {
         $db = Factory::getContainer()->get('DatabaseDriver');
 
-        array_map(
-            function ($template) use ($db) {
-                $clientId = $template === 'atum' ? 1 : 0;
-                $query = $db->getQuery(true)
-                    ->update($db->quoteName('#__template_styles'))
-                    ->set($db->quoteName('inheritable') . ' = 1')
-                    ->where($db->quoteName('template') . ' = ' . $db->quote($template))
-                    ->where($db->quoteName('client_id') . ' = ' . $clientId);
+        foreach (['atum', 'cassiopeia'] as $template) {
+            $clientId = $template === 'atum' ? 1 : 0;
+            $query    = $db->getQuery(true)
+                ->update($db->quoteName('#__template_styles'))
+                ->set($db->quoteName('inheritable') . ' = 1')
+                ->where($db->quoteName('template') . ' = ' . $db->quote($template))
+                ->where($db->quoteName('client_id') . ' = ' . $clientId);
 
-                try {
-                    $db->setQuery($query)->execute();
-                } catch (Exception $e) {
-                    echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
-
-                    return;
-                }
-            },
-            ['atum', 'cassiopeia']
-        );
+            try {
+                $db->setQuery($query)->execute();
+            } catch (Exception $e) {
+                $this->collectError(__METHOD__, $e);
+            }
+        }
     }
 
     /**
@@ -8803,7 +8861,7 @@ class JoomlaInstallerScript
         try {
             $db->setQuery($query)->execute();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
