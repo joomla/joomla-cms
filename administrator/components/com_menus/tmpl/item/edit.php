@@ -37,7 +37,8 @@ $input = Factory::getApplication()->getInput();
 // In case of modal
 $isModal  = $input->get('layout') === 'modal';
 $layout   = $isModal ? 'modal' : 'edit';
-$tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+$tmpl     = $input->get('tmpl');
+$tmpl     = $tmpl ? '&tmpl=' . $tmpl : '';
 $clientId = $this->state->get('item.client_id', 0);
 $lang     = $this->getLanguage()->getTag();
 
