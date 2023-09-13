@@ -126,13 +126,6 @@ class JoomlaInstallerScript
      */
     public function update($installer)
     {
-        // Uninstall plugins before removing their files and folders
-        try {
-            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), Log::INFO, 'Update');
-        } catch (RuntimeException $exception) {
-            // Informational log only
-        }
-
         // Uninstall extensions before removing their files and folders
         try {
             Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_UNINSTALL_EXTENSIONS'), Log::INFO, 'Update');
@@ -347,7 +340,6 @@ class JoomlaInstallerScript
                 $db->transactionCommit();
             } catch (\Exception $e) {
                 $db->transactionRollback();
-                echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
                 throw $e;
             }
         }
@@ -2479,6 +2471,9 @@ class JoomlaInstallerScript
 
         $this->setGuidedToursUid();
 
+        // Refresh versionable assets cache.
+        Factory::getApplication()->flushAssets();
+
         return true;
     }
 
@@ -2504,7 +2499,7 @@ class JoomlaInstallerScript
                     ->where($db->quoteName('element') . ' = ' . $db->quote('actionlogs'))
             )->loadObject();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return false;
         }
@@ -2544,7 +2539,7 @@ class JoomlaInstallerScript
         try {
             $model->save($task);
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return false;
         }
@@ -2573,7 +2568,7 @@ class JoomlaInstallerScript
                     ->where($db->quoteName('element') . ' = ' . $db->quote('privacyconsent'))
             )->loadObject();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return false;
         }
@@ -2614,7 +2609,7 @@ class JoomlaInstallerScript
         try {
             $model->save($task);
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return false;
         }
@@ -2647,7 +2642,7 @@ class JoomlaInstallerScript
                     ->where($db->quoteName('element') . ' = ' . $db->quote('tinymce'))
             )->loadResult();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return false;
         }
@@ -2721,7 +2716,7 @@ class JoomlaInstallerScript
         try {
             $db->setQuery($query)->execute();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return false;
         }

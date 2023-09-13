@@ -10,8 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Event\AbstractEvent;
-use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -133,16 +131,9 @@ if (!$format) {
         $group      = $input->get('group', 'ajax');
         $eventName  = 'onAjax' . ucfirst($input->get('plugin', ''));
 
-        // @TODO: plugin plg_system_webauthn and all other plugins should use common AjaxEvent
-        $event = AbstractEvent::create($eventName, ['subject' => $app]);
-
-        if ($event instanceof GenericEvent) {
-            $event = new AjaxEvent($eventName, ['subject' => $app]);
-        }
-
         PluginHelper::importPlugin($group, null, true, $dispatcher);
 
-        $results = $dispatcher->dispatch($eventName, $event)->getArgument('result', []);
+        $results = $dispatcher->dispatch($eventName, new AjaxEvent($eventName, ['subject' => $app]))->getArgument('result', []);
     } catch (Throwable $e) {
         $results = $e;
     }
