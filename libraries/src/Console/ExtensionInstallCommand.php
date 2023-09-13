@@ -123,7 +123,7 @@ class ExtensionInstallCommand extends AbstractCommand
         }
 
         $tmpPath  = $this->getApplication()->get('tmp_path');
-        $tmpPath  = $tmpPath . '/' . basename($path);
+        $tmpPath .= '/' . basename($path);
         $package  = InstallerHelper::unpack($path, true);
 
         if ($package['type'] === false) {

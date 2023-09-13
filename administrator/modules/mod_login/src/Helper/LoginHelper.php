@@ -50,7 +50,7 @@ abstract class LoginHelper
         // Fix wrongly set parentheses in RTL languages
         if (Factory::getApplication()->getLanguage()->isRtl()) {
             foreach ($languages as &$language) {
-                $language['text'] = $language['text'] . '&#x200E;';
+                $language['text'] .= '&#x200E;';
             }
         }
 
