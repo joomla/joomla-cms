@@ -46,6 +46,7 @@ extract($displayData);
  * @var   array    $canDo
  * @var   string[] $urls
  * @var   string[] $modalTitles
+ * @var   string[] $buttonIcons
  */
 
 // Prepare options for each Modal
@@ -65,12 +66,15 @@ $modalEdit = [
     'textHeader' => $modalTitles['edit'] ?? Text::_('JACTION_EDIT'),
 ];
 
+// Decide when the select button always will be visible
+$isSelectAlways = !empty($canDo['select']) && empty($canDo['clear']);
+
 ?>
 <?php if ($modalSelect['src'] && $canDo['select'] ?? true) : ?>
-<button type="button" class="btn btn-primary" <?php echo $value ? 'hidden' : ''; ?>
-        data-button-action="select" data-show-when-value=""
+<button type="button" class="btn btn-primary" <?php echo $value && !$isSelectAlways ? 'hidden' : ''; ?>
+        data-button-action="select" <?php echo !$isSelectAlways ? 'data-show-when-value=""' : ''; ?>
         data-modal-config="<?php echo $this->escape(json_encode($modalSelect)); ?>">
-    <span class="icon-file" aria-hidden="true"></span> <?php echo Text::_('JSELECT'); ?>
+    <span class="<?php echo $buttonIcons['select'] ?? 'icon-file'; ?>" aria-hidden="true"></span> <?php echo Text::_('JSELECT'); ?>
 </button>
 <?php endif; ?>
 

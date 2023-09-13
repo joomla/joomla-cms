@@ -63,6 +63,14 @@ class ModalSelectField extends FormField
     protected $modalTitles = [];
 
     /**
+     * List of icons for each button type: select, edit, new
+     *
+     * @var    string[]
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $buttonIcons = [];
+
+    /**
      * Method to attach a Form object to the field.
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
@@ -89,7 +97,7 @@ class ModalSelectField extends FormField
         $this->__set('clear', (string) $this->element['clear'] != 'false');
 
         // Prepare Urls and titles
-        foreach (['urlSelect', 'urlNew', 'urlEdit', 'urlCheckin', 'titleSelect', 'titleNew', 'titleEdit'] as $attr) {
+        foreach (['urlSelect', 'urlNew', 'urlEdit', 'urlCheckin', 'titleSelect', 'titleNew', 'titleEdit', 'iconSelect'] as $attr) {
             $this->__set($attr, (string) $this->element[$attr]);
         }
 
@@ -130,6 +138,8 @@ class ModalSelectField extends FormField
                 return $this->modalTitles['new'] ?? '';
             case 'titleEdit':
                 return $this->modalTitles['edit'] ?? '';
+            case 'iconSelect':
+                return $this->buttonIcons['select'] ?? '';
             default:
                 return parent::__get($name);
         }
@@ -180,6 +190,9 @@ class ModalSelectField extends FormField
                 break;
             case 'titleEdit':
                 $this->modalTitles['edit'] = (string) $value;
+                break;
+            case 'iconSelect':
+                $this->buttonIcons['select'] = (string) $value;
                 break;
             default:
                 parent::__set($name, $value);
@@ -233,6 +246,7 @@ class ModalSelectField extends FormField
         $data['canDo']       = $this->canDo;
         $data['urls']        = $this->urls;
         $data['modalTitles'] = $this->modalTitles;
+        $data['buttonIcons'] = $this->buttonIcons;
 
         return $data;
     }
