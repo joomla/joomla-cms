@@ -165,7 +165,6 @@ class JoomlaInstallerScript
         } catch (\Throwable $e) {
             $this->collectError('cleanJoomlaCache', $e);
         }
-
     }
 
     /**
@@ -269,7 +268,6 @@ class JoomlaInstallerScript
             break;
         }
     }
-
 
     /**
      * Uninstall extensions and optionally migrate their parameters when
@@ -2627,7 +2625,6 @@ class JoomlaInstallerScript
         return true;
     }
 
-
     /**
      * Migrate TinyMCE editor plugin configuration
      *
@@ -2852,5 +2849,4 @@ class JoomlaInstallerScript
             }
         }
     }
-
 }
