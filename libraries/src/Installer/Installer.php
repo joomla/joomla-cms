@@ -1821,9 +1821,9 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 }
 
                 /*
-             * Since we copied a file/folder, we want to add it to the installation step stack so that
-             * in case we have to roll back the installation we can remove the files copied.
-             */
+                 * Since we copied a file/folder, we want to add it to the installation step stack so that
+                 * in case we have to roll back the installation we can remove the files copied.
+                 */
                 if (!$exists) {
                     $this->stepStack[] = $step;
                 }

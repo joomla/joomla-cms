@@ -40,9 +40,11 @@ class ObjectReadOnlyProxy extends ObjectProxy implements ReadOnlyProxyInterface
         }
 
         if (\is_object($value)) {
-            $value = new static($value);
-        } elseif (\is_array($value)) {
-            $value = new ArrayReadOnlyProxy($value);
+            return new static($value);
+        }
+
+        if (\is_array($value)) {
+            return new ArrayReadOnlyProxy($value);
         }
 
         return $value;
@@ -82,9 +84,11 @@ class ObjectReadOnlyProxy extends ObjectProxy implements ReadOnlyProxyInterface
         }
 
         if (\is_object($value)) {
-            $value = new static($value);
-        } elseif (\is_array($value)) {
-            $value = new ArrayReadOnlyProxy($value);
+            return new static($value);
+        }
+
+        if (\is_array($value)) {
+            return new ArrayReadOnlyProxy($value);
         }
 
         return $value;

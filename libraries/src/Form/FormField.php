@@ -901,7 +901,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         if ($fieldName) {
             return $fieldName;
         }
-      
+
         self::$count += 1;
 
         return self::$generated_fieldname . self::$count;
