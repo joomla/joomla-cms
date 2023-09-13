@@ -11,7 +11,7 @@
     padding: 0 1rem;
     font-weight: $font-weight-bold;
     color: var(--template-text-dark);
-    background-color: var(--bg-color);
+    background-color: var(--body-bg);
   }
 
   @if $enable-dark-mode {

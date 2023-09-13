@@ -128,7 +128,7 @@ window.tinymce.PluginManager.add('joomlaHighlighter', (editor) => {
 
   return {
     getMetadata: () => ({
-      name: 'Joomla highlighter plugin',
+      name: 'Source Code Editor (Joomla)',
       url: 'https://www.joomla.org/',
     }),
   };

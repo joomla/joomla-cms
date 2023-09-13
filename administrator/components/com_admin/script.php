@@ -345,7 +345,7 @@ class JoomlaInstallerScript
         $lastrun      = (int) $params->get('lastrun', time());
 
         $task = [
-            'title'           => 'RotateLogs',
+            'title'           => 'Rotate Logs',
             'type'            => 'rotation.logs',
             'execution_rules' => [
                 'rule-type'     => 'interval-days',
@@ -385,7 +385,7 @@ class JoomlaInstallerScript
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
-            'title'           => 'SessionGC',
+            'title'           => 'Session GC',
             'type'            => 'session.gc',
             'execution_rules' => [
                 'rule-type'      => 'interval-hours',
@@ -396,8 +396,6 @@ class JoomlaInstallerScript
             'state'  => 1,
             'params' => [
                 'enable_session_gc'          => $params->get('enable_session_gc', 1),
-                'gc_probability'             => $params->get('gc_probability', 1),
-                'gc_divisor'                 => $params->get('gc_divisor', 100),
                 'enable_session_metadata_gc' => $params->get('enable_session_metadata_gc', 1),
             ],
         ];
@@ -432,7 +430,7 @@ class JoomlaInstallerScript
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
-            'title'           => 'UpdateNotification',
+            'title'           => 'Update Notification',
             'type'            => 'update.notification',
             'execution_rules' => [
                 'rule-type'      => 'interval-hours',
@@ -2042,9 +2040,16 @@ class JoomlaInstallerScript
             // From 5.0.0-alpha4 to 5.0.0-beta1
             '/administrator/components/com_categories/tmpl/categories/default_batch_footer.php',
             '/administrator/components/com_content/tmpl/articles/default_batch_footer.php',
+            '/administrator/language/en-GB/plg_twofactorauth_totp.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_totp.sys.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_yubikey.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_yubikey.sys.ini',
             '/media/com_contenthistory/js/admin-history-versions.js',
             '/media/com_contenthistory/js/admin-history-versions.min.js',
             '/media/com_contenthistory/js/admin-history-versions.min.js.gz',
+            // From 5.0.0-beta1 to 5.0.0-beta2
+            '/language/en-GB/lib_simplepie.sys.ini',
+            '/libraries/src/Cache/Storage/WincacheStorage.php',
         ];
 
         $folders = [
@@ -2455,7 +2460,7 @@ class JoomlaInstallerScript
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
-            'title'           => 'DeleteActionLogs',
+            'title'           => 'Delete Action Logs',
             'type'            => 'delete.actionlogs',
             'execution_rules' => [
                 'rule-type'      => 'interval-hours',
@@ -2524,7 +2529,7 @@ class JoomlaInstallerScript
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
-            'title'           => 'PrivacyConsent',
+            'title'           => 'Privacy Consent',
             'type'            => 'privacy.consent',
             'execution_rules' => [
                 'rule-type'     => 'interval-days',

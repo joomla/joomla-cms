@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
@@ -23,7 +22,8 @@ if ($hideLinks || !$tours) {
 // Load the Bootstrap Dropdown
 $app->getDocument()
     ->getWebAssetManager()
-    ->useScript('bootstrap.dropdown');
+    ->useScript('bootstrap.dropdown')
+    ->useScript('joomla.dialog-autocreate');
 
 $lang         = $app->getLanguage();
 $extension    = $app->getInput()->get('option');
@@ -89,6 +89,16 @@ if ($contextCount > 0) :
     // The '*' tours have lower priority than contextual tours and are added after them, room permitting
     $contextTours = array_slice(array_merge($contextTours, $starTours), 0, $params->get('contextcount', 7));
 endif;
+
+$popupId      = 'guidedtours-popup-content' . $module->id;
+$popupOptions = json_encode([
+    'src'             => '#' . $popupId,
+    'width'           => '800px',
+    'height'          => 'fit-content',
+    'textHeader'      => Text::_('MOD_GUIDEDTOURS_START_TOUR'),
+    'preferredParent' => 'body',
+]);
+
 ?>
 <div class="header-item-content dropdown header-tours d-none d-sm-block">
     <button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button" title="<?php echo Text::_('MOD_GUIDEDTOURS_MENU'); ?>">
@@ -127,18 +137,12 @@ endif;
             </ul>
             <hr class="dropdown-divider m-0" role="separator" />
         <?php endif; ?>
-        <button type="button" class="dropdown-item text-center" data-bs-toggle="modal" data-bs-target="#modGuidedTours-modal">
+        <button type="button" class="dropdown-item text-center" data-joomla-dialog="<?php echo htmlspecialchars($popupOptions); ?>">
             <?php echo Text::_('MOD_GUIDEDTOURS_SHOW_ALL'); ?>
         </button>
     </div>
 </div>
 <?php
-
-$modalParams = [
-    'title'  => Text::_('MOD_GUIDEDTOURS_START_TOUR'),
-    'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
-        . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
-];
 
 $modalHtml = [];
 $modalHtml[] = '<div class="p-3">';
@@ -160,40 +164,5 @@ $modalHtml[] = '</div>';
 
 $modalBody = implode($modalHtml);
 
-$modalCode = HTMLHelper::_('bootstrap.renderModal', 'modGuidedTours-modal', $modalParams, $modalBody);
-
-// We have to attach the modal to the body, otherwise we have problems with the backdrop
-$app->getDocument()->getWebAssetManager()->addInlineScript("
-document.addEventListener('DOMContentLoaded', function() {
-    document.body.insertAdjacentHTML('beforeend', " . json_encode($modalCode) . ");
-    const modal = document.getElementById('modGuidedTours-modal');
-
-    // add all the elements inside modal which you want to make focusable
-    const focusableElements = 'button, [href]';
-    const firstFocusableElement = modal.querySelectorAll(focusableElements)[0]; // get first element to be focused inside modal
-    const focusableContent = modal.querySelectorAll(focusableElements);
-    const lastFocusableElement = focusableContent[focusableContent.length - 1]; // get last element to be focused inside modal
-
-    document.addEventListener('keydown', function(e) {
-      let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
-
-      if (!isTabPressed) {
-        return;
-      }
-
-      if (e.shiftKey) { // if shift key pressed for shift + tab combination
-        if (document.activeElement === firstFocusableElement) {
-          lastFocusableElement.focus(); // add focus for the last focusable element
-          e.preventDefault();
-        }
-      } else { // if tab key is pressed
-        if (document.activeElement === lastFocusableElement) { // if focused has reached to last focusable element then focus first focusable element after pressing tab
-          firstFocusableElement.focus(); // add focus for the first focusable element
-          e.preventDefault();
-        }
-      }
-    });
-
-    firstFocusableElement.focus();
-});
-");
+?>
+<template id="<?php echo $popupId; ?>"><?php echo $modalBody; ?></template>
