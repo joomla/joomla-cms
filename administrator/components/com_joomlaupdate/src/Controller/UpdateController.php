@@ -11,7 +11,6 @@
 namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
