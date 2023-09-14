@@ -1839,10 +1839,6 @@ ENDDATA;
             throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_VERSIONS_FOUND'), 500);
         }
 
-        if ($matches['major'] > Version::MAJOR_VERSION && Version::MINOR_VERSION < 4) {
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_MAJOR_UPGRADE'), 500);
-        }
-
         $versionPackage = $matches['major'] . '.' . $matches['minor'] . '.' . $matches['patch'] . ($matches['extra'] ? '-' . $matches['extra'] : '');
 
         if (version_compare($versionPackage, JVERSION, 'lt')) {
