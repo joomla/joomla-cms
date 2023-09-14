@@ -325,7 +325,7 @@ class MailTemplate
     protected function replaceTags($text, $tags)
     {
         foreach ($tags as $key => $value) {
-            // If the value is NULL, we want to replace with an empty string. NULL itself throws notices
+            // If the value is NULL, replace with an empty string. NULL itself throws notices
             if (is_null($value)) {
                 $value = '';
             }
