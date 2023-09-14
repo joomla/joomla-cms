@@ -220,10 +220,10 @@ joomla-dialog {
   }
 }
 // Dialog animation
-joomla-dialog dialog[open]{
+joomla-dialog dialog[open] {
   animation: dialog-show 0.4s ease normal;
 }
-@keyframes dialog-show{
+@keyframes dialog-show {
   0% {
     transform: translateY(-50px);
     opacity: 0;
