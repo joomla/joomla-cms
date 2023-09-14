@@ -65,6 +65,15 @@ class DisplayController extends BaseController
                 $view->setModel($warningsModel, false);
             }
 
+            // Check for update result
+            if ($lName === 'complete') {
+                $state = $model->getState();
+                $state->set('update_finished_with_error', $this->app->getUserState('com_joomlaupdate.update_finished_with_error'));
+                $state->set('update_errors', (array) $this->app->getUserState('com_joomlaupdate.update_errors', []));
+                $state->set('installer_message', $this->app->getUserState('com_joomlaupdate.installer_message'));
+                $state->set('log_file', $this->app->get('log_path') . '/joomla_update.php');
+            }
+
             // Perform update source preference check and refresh update information.
             $model->applyUpdateSite();
             $model->refreshUpdates();
