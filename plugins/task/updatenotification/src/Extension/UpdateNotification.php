@@ -55,6 +55,12 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
     ];
 
     /**
+     * @var boolean
+     * @since 5.0.0
+     */
+    protected $autoloadLanguage = true;
+
+    /**
      * @inheritDoc
      *
      * @return string[]
@@ -117,9 +123,6 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
         if (version_compare($update->version, JVERSION, 'le')) {
             return Status::OK;
         }
-
-        // Load plugin language files.
-        $this->loadLanguage();
 
         // If we're here, we have updates. First, get a link to the Joomla! Update component.
         $baseURL  = Uri::base();
