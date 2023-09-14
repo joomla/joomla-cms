@@ -86,6 +86,23 @@ joomla-dialog {
     }
   }
 }
+// Dialog animation
+joomla-dialog dialog[open]{
+  animation: dialog-show 0.6s ease normal;
+}
+@keyframes dialog-show{
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+// Dialog elements
 .joomla-dialog-container {
   position: relative;
   box-sizing: border-box;
