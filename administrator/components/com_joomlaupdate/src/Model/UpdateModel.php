@@ -1813,7 +1813,7 @@ ENDDATA;
      */
     private function checkPackageFile(string $filePath)
     {
-        $zipArchive = new ZipArchive();
+        $zipArchive = new \ZipArchive();
 
         if ($zipArchive->open($filePath) !== true) {
             throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
