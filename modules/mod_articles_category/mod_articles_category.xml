@@ -11,7 +11,7 @@
 	<description>MOD_ARTICLES_CATEGORY_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\ArticlesCategory</namespace>
 	<files>
-		<folder module="mod_articles_category">services</folder>
+		<filename module="mod_articles_category">mod_articles_category.php</filename>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
@@ -214,6 +214,14 @@
 					rows="3"
 				/>
 
+				<field
+					name="included_articles"
+					type="textarea"
+					label="MOD_ARTICLES_CATEGORY_FIELD_INCLUDEDARTICLES_LABEL"
+					cols="10"
+					rows="3"
+				/>
+				
 				<field
 					name="filteringspacer5"
 					type="spacer"
