@@ -215,6 +215,14 @@
 				/>
 
 				<field
+					name="included_articles"
+					type="textarea"
+					label="MOD_ARTICLES_CATEGORY_FIELD_INCLUDEDARTICLES_LABEL"
+					cols="10"
+					rows="3"
+				/>
+
+				<field
 					name="filteringspacer5"
 					type="spacer"
 					hr="true"
