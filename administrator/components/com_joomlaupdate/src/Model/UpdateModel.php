@@ -1807,7 +1807,7 @@ ENDDATA;
      * @param   string  $filePath  Full path to the update package to test
      *
      * @return  void
-     * @see     https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT
+     *
      * @since   __DEPLOY_VERSION__
      * @throws  \RuntimeException
      */
