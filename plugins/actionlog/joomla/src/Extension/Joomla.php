@@ -1228,7 +1228,5 @@ final class Joomla extends ActionLogPlugin
             $blockunblock = $new['block'] === '1' ? 'block' : 'unblock';
             $session->set('block', $blockunblock);
         }
-
-        return;
     }
 }

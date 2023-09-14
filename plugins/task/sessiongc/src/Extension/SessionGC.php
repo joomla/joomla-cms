@@ -106,27 +106,13 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
         $enableGC = (int) $event->getArgument('params')->enable_session_gc ?? 1;
 
         if ($enableGC) {
-            $probability = (int) $event->getArgument('params')->gc_probability ?? 1;
-            $divisor     = (int) $event->getArgument('params')->gc_divisor ?? 100;
-
-            $random = $divisor * lcg_value();
-
-            if ($probability > 0 && $random < $probability) {
-                $this->getApplication()->getSession()->gc();
-            }
+            $this->getApplication()->getSession()->gc();
         }
 
         $enableMetadata = (int) $event->getArgument('params')->enable_session_metadata_gc ?? 1;
 
         if ($this->getApplication()->get('session_handler', 'none') !== 'database' && $enableMetadata) {
-            $probability = (int) $event->getArgument('params')->gc_probability ?? 1;
-            $divisor     = (int) $event->getArgument('params')->gc_divisor ?? 100;
-
-            $random = $divisor * lcg_value();
-
-            if ($probability > 0 && $random < $probability) {
-                $this->metadataManager->deletePriorTo(time() - $this->getApplication()->getSession()->getExpire());
-            }
+            $this->metadataManager->deletePriorTo(time() - $this->getApplication()->getSession()->getExpire());
         }
 
         $this->logTask('SessionGC end');

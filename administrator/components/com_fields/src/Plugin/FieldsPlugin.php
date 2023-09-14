@@ -165,7 +165,7 @@ abstract class FieldsPlugin extends CMSPlugin
 
                 // Fix wrongly set parentheses in RTL languages
                 if ($this->app->getLanguage()->isRtl()) {
-                    $data['label'] = $data['label'] . '&#x200E;';
+                    $data['label'] .= '&#x200E;';
                 }
             } else {
                 $data['label'] = $key;
