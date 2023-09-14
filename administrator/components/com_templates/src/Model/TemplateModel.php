@@ -1949,7 +1949,7 @@ class TemplateModel extends FormModel
         $xml->name = $template->element . '_' . $newName;
 
         if (isset($xml->namespace)) {
-            $xml->namespace = $xml->namespace . '_' . ucfirst($newName);
+            $xml->namespace .= '_' . ucfirst($newName);
         }
 
         $xml->inheritable = 0;

@@ -19,7 +19,7 @@ use Joomla\CMS\Event\ReshapeArgumentsAware;
 /**
  * Class for Contact events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class SubmitContactEvent extends AbstractImmutableEvent
 {
@@ -30,7 +30,7 @@ class SubmitContactEvent extends AbstractImmutableEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject', 'data'];
@@ -43,7 +43,7 @@ class SubmitContactEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -70,7 +70,7 @@ class SubmitContactEvent extends AbstractImmutableEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(object $value): object
     {
@@ -84,7 +84,7 @@ class SubmitContactEvent extends AbstractImmutableEvent
      *
      * @return  array|\ArrayAccess
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setData(array|\ArrayAccess $value): array|\ArrayAccess
     {
@@ -96,7 +96,7 @@ class SubmitContactEvent extends AbstractImmutableEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getContact(): object
     {
@@ -108,7 +108,7 @@ class SubmitContactEvent extends AbstractImmutableEvent
      *
      * @return  array|\ArrayAccess
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getData(): array|\ArrayAccess
     {

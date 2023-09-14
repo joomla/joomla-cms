@@ -30,7 +30,8 @@
     {
       "name": "com_contenthistory.admin-history-versions",
       "type": "script",
-      "uri": "com_contenthistory/admin-history-versions.min.js",
+      "uri": "",
+      "deprecated": true,
       "dependencies": [
         "core"
       ],

@@ -1,129 +1,129 @@
 {
-    "name": "joomla/joomla-cms",
-    "type": "project",
-    "description": "Joomla CMS",
-    "keywords": [
-        "joomla",
-        "cms"
-    ],
-    "homepage": "https://github.com/joomla/joomla-cms",
-    "license": "GPL-2.0-or-later",
-    "config": {
-        "optimize-autoloader": true,
-        "platform": {
-            "php": "8.1.0"
-        },
-        "vendor-dir": "libraries/vendor",
-        "github-protocols": ["https"],
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
-        }
+  "name": "joomla/joomla-cms",
+  "type": "project",
+  "description": "Joomla CMS",
+  "keywords": [
+    "joomla",
+    "cms"
+  ],
+  "homepage": "https://github.com/joomla/joomla-cms",
+  "license": "GPL-2.0-or-later",
+  "config": {
+    "optimize-autoloader": true,
+    "platform": {
+      "php": "8.1.0"
     },
-    "support": {
-        "issues": "https://issues.joomla.org/",
-        "irc": "irc://chat.freenode.net/joomla/",
-        "forum": "https://forum.joomla.org/",
-        "docs": "https://docs.joomla.org/"
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/joomla-backports/json-api-php.git",
-            "no-api":  true
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Joomla\\CMS\\": "libraries/src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Joomla\\Tests\\": "tests"
-        }
-    },
-    "require": {
-        "php": "^8.1.0",
-        "joomla/application": "~3.0.x-dev",
-        "joomla/archive": "~3.0.x-dev",
-        "joomla/authentication": "~3.0.x-dev",
-        "joomla/console": "~3.0.x-dev",
-        "joomla/crypt": "~3.0.x-dev",
-        "joomla/data": "~3.0.x-dev",
-        "joomla/database": "~3.0.x-dev",
-        "joomla/di": "~3.0.x-dev",
-        "joomla/event": "~3.0.x-dev",
-        "joomla/filter": "~3.0.x-dev",
-        "joomla/filesystem": "~3.0.x-dev",
-        "joomla/http": "~3.0.x-dev",
-        "joomla/input": "~3.0.x-dev",
-        "joomla/language": "~3.0.x-dev",
-        "joomla/oauth1": "~3.0.x-dev",
-        "joomla/oauth2": "~3.0.x-dev",
-        "joomla/registry": "~3.0.x-dev",
-        "joomla/router": "~3.0.x-dev",
-        "joomla/session": "~3.0.x-dev",
-        "joomla/string": "~3.0.x-dev",
-        "joomla/uri": "~3.0.x-dev",
-        "joomla/utilities": "~3.0.x-dev",
-        "algo26-matthias/idna-convert": "^3.1.0",
-        "defuse/php-encryption": "^2.4.0",
-        "doctrine/inflector": "^1.4.4",
-        "fig/link-util": "^1.2.0",
-        "google/recaptcha": "^1.3.0",
-        "laminas/laminas-diactoros": "^2.25.2",
-        "paragonie/sodium_compat": "^1.20",
-        "phpmailer/phpmailer": "^6.8.0",
-        "psr/link": "~1.1.1",
-        "symfony/console": "^6.3.2",
-        "symfony/error-handler": "^6.3.2",
-        "symfony/ldap": "^6.3.0",
-        "symfony/options-resolver": "^6.3.0",
-        "symfony/polyfill-mbstring": "^1.27.0",
-        "symfony/web-link": "^6.3.0",
-        "symfony/yaml": "^6.3.3",
-        "typo3/phar-stream-wrapper": "^3.1.7",
-        "wamania/php-stemmer": "^3.0.1",
-        "maximebf/debugbar": "^1.18.2",
-        "tobscure/json-api": "dev-joomla-backports",
-        "willdurand/negotiation": "^3.1.0",
-        "ext-json": "*",
-        "ext-simplexml": "*",
-        "psr/log": "~3.0",
-        "ext-gd": "*",
-        "web-auth/webauthn-lib": "4.3.0",
-        "ext-dom": "*",
-        "composer/ca-bundle": "^1.3.6",
-        "dragonmantank/cron-expression": "^3.3.3",
-        "enshrined/svg-sanitize": "^0.15.4",
-        "lcobucci/jwt": "^4.3.0",
-        "web-token/signature-pack": "^3.2.7",
-        "phpseclib/bcmath_compat": "^2.0.1",
-        "jfcherng/php-diff": "^6.15.3",
-        "voku/portable-utf8": "^6.0.13"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^9.6.11",
-        "friendsofphp/php-cs-fixer": "~3.4.0",
-        "squizlabs/php_codesniffer": "~3.7.2",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
-        "joomla/mediawiki": "^3.0.x-dev",
-        "joomla/test": "~3.0.x-dev",
-        "phan/phan": "^5.4.2"
-    },
-    "replace": {
-        "paragonie/random_compat": "9.99.99",
-        "symfony/polyfill-php70": "*",
-        "symfony/polyfill-php71": "*",
-        "symfony/polyfill-php72": "*",
-        "symfony/polyfill-php73": "*",
-        "symfony/polyfill-php74": "*",
-        "symfony/polyfill-php80": "*",
-        "symfony/polyfill-php81": "*"
-    },
-    "scripts": {
-      "post-install-cmd": [
-        "php build/update_fido_cache.php"
-      ]
+    "vendor-dir": "libraries/vendor",
+    "github-protocols": ["https"],
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
     }
+  },
+  "support": {
+    "issues": "https://issues.joomla.org/",
+    "irc": "irc://chat.freenode.net/joomla/",
+    "forum": "https://forum.joomla.org/",
+    "docs": "https://docs.joomla.org/"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/joomla-backports/json-api-php.git",
+      "no-api":  true
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Joomla\\CMS\\": "libraries/src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Joomla\\Tests\\": "tests"
+    }
+  },
+  "require": {
+    "php": "^8.1.0",
+    "joomla/application": "~3.0.x-dev",
+    "joomla/archive": "~3.0.x-dev",
+    "joomla/authentication": "~3.0.x-dev",
+    "joomla/console": "~3.0.x-dev",
+    "joomla/crypt": "~3.0.x-dev",
+    "joomla/data": "~3.0.x-dev",
+    "joomla/database": "~3.0.x-dev",
+    "joomla/di": "~3.0.x-dev",
+    "joomla/event": "~3.0.x-dev",
+    "joomla/filter": "~3.0.x-dev",
+    "joomla/filesystem": "~3.0.x-dev",
+    "joomla/http": "~3.0.x-dev",
+    "joomla/input": "~3.0.x-dev",
+    "joomla/language": "~3.0.x-dev",
+    "joomla/oauth1": "~3.0.x-dev",
+    "joomla/oauth2": "~3.0.x-dev",
+    "joomla/registry": "~3.0.x-dev",
+    "joomla/router": "~3.0.x-dev",
+    "joomla/session": "~3.0.x-dev",
+    "joomla/string": "~3.0.x-dev",
+    "joomla/uri": "~3.0.x-dev",
+    "joomla/utilities": "~3.0.x-dev",
+    "algo26-matthias/idna-convert": "^3.1.0",
+    "defuse/php-encryption": "^2.4.0",
+    "doctrine/inflector": "^1.4.4",
+    "fig/link-util": "^1.2.0",
+    "google/recaptcha": "^1.3.0",
+    "laminas/laminas-diactoros": "^2.25.2",
+    "paragonie/sodium_compat": "^1.20",
+    "phpmailer/phpmailer": "^6.8.1",
+    "psr/link": "~1.1.1",
+    "symfony/console": "^6.3.4",
+    "symfony/error-handler": "^6.3.2",
+    "symfony/ldap": "^6.3.0",
+    "symfony/options-resolver": "^6.3.0",
+    "symfony/polyfill-mbstring": "^1.28.0",
+    "symfony/web-link": "^6.3.0",
+    "symfony/yaml": "^6.3.3",
+    "typo3/phar-stream-wrapper": "^3.1.7",
+    "wamania/php-stemmer": "^3.0.1",
+    "maximebf/debugbar": "^1.18.2",
+    "tobscure/json-api": "dev-joomla-backports",
+    "willdurand/negotiation": "^3.1.0",
+    "ext-json": "*",
+    "ext-simplexml": "*",
+    "psr/log": "~3.0",
+    "ext-gd": "*",
+    "web-auth/webauthn-lib": "4.3.0",
+    "ext-dom": "*",
+    "composer/ca-bundle": "^1.3.7",
+    "dragonmantank/cron-expression": "^3.3.3",
+    "enshrined/svg-sanitize": "^0.15.4",
+    "lcobucci/jwt": "^4.3.0",
+    "web-token/signature-pack": "^3.2.8",
+    "phpseclib/bcmath_compat": "^2.0.1",
+    "jfcherng/php-diff": "^6.15.3",
+    "voku/portable-utf8": "^6.0.13"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.6.11",
+    "friendsofphp/php-cs-fixer": "~3.4.0",
+    "squizlabs/php_codesniffer": "~3.7.2",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
+    "joomla/mediawiki": "^3.0.x-dev",
+    "joomla/test": "~3.0.x-dev",
+    "phan/phan": "^5.4.2"
+  },
+  "replace": {
+    "paragonie/random_compat": "9.99.99",
+    "symfony/polyfill-php70": "*",
+    "symfony/polyfill-php71": "*",
+    "symfony/polyfill-php72": "*",
+    "symfony/polyfill-php73": "*",
+    "symfony/polyfill-php74": "*",
+    "symfony/polyfill-php80": "*",
+    "symfony/polyfill-php81": "*"
+  },
+  "scripts": {
+    "post-install-cmd": [
+    "php build/update_fido_cache.php"
+    ]
+  }
 }

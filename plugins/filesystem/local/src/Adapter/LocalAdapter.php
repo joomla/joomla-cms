@@ -513,7 +513,7 @@ class LocalAdapter implements AdapterInterface
     {
         if (is_dir($destinationPath)) {
             // If the destination is a folder we create a file with the same name as the source
-            $destinationPath = $destinationPath . '/' . $this->getFileName($sourcePath);
+            $destinationPath .= '/' . $this->getFileName($sourcePath);
         }
 
         if (file_exists($destinationPath) && !$force) {
@@ -618,7 +618,7 @@ class LocalAdapter implements AdapterInterface
     {
         if (is_dir($destinationPath)) {
             // If the destination is a folder we create a file with the same name as the source
-            $destinationPath = $destinationPath . '/' . $this->getFileName($sourcePath);
+            $destinationPath .= '/' . $this->getFileName($sourcePath);
         }
 
         if (!MediaHelper::checkFileExtension(pathinfo($destinationPath, PATHINFO_EXTENSION))) {

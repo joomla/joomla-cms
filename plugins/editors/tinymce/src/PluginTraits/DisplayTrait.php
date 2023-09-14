@@ -36,48 +36,43 @@ trait DisplayTrait
     use XTDButtons;
 
     /**
-     * Display the editor area.
+     * Gets the editor HTML markup
      *
-     * @param   string   $name     The name of the editor area.
-     * @param   string   $content  The content of the field.
-     * @param   string   $width    The width of the editor area.
-     * @param   string   $height   The height of the editor area.
-     * @param   int      $col      The number of columns for the editor area.
-     * @param   int      $row      The number of rows for the editor area.
-     * @param   boolean  $buttons  True and the editor buttons will be displayed.
-     * @param   string   $id       An optional ID for the textarea. If not supplied the name is used.
-     * @param   string   $asset    The object asset
-     * @param   object   $author   The author.
-     * @param   array    $params   Associative array of editor parameters.
+     * @param   string  $name        Input name.
+     * @param   string  $content     The content of the field.
+     * @param   array   $attributes  Associative array of editor attributes.
+     * @param   array   $params      Associative array of editor parameters.
      *
-     * @return  string
+     * @return  string  The HTML markup of the editor
+     *
+     * @since   __DEPLOY_VERSION__
      */
-    public function onDisplay(
-        $name,
-        $content,
-        $width,
-        $height,
-        $col,
-        $row,
-        $buttons = true,
-        $id = null,
-        $asset = null,
-        $author = null,
-        $params = []
-    ) {
-        $id              = empty($id) ? $name : $id;
-        $user            = $this->getApplication()->getIdentity();
-        $language        = $this->getApplication()->getLanguage();
-        $doc             = $this->getApplication()->getDocument();
+    public function display(string $name, string $content = '', array $attributes = [], array $params = []): string
+    {
+        // General variables
+        $app             = $this->application;
+        $user            = $app->getIdentity();
+        $language        = $app->getLanguage();
+        $doc             = $app->getDocument();
         $wa              = $doc->getWebAssetManager();
+        $options         = $doc->getScriptOptions('plg_editor_tinymce');
+        $csrf            = Session::getFormToken();
+
+        // Editor variables
+        $col             = $attributes['col'] ?? '';
+        $row             = $attributes['row'] ?? '';
+        $width           = $attributes['width'] ?? '';
+        $height          = $attributes['height'] ?? '';
+        $id              = $attributes['id'] ?? $name;
         $id              = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
         $nameGroup       = explode('[', preg_replace('/\[\]|\]/', '', $name));
         $fieldName       = end($nameGroup);
+        $buttons         = $params['buttons'] ?? true;
+        $asset           = $params['asset'] ?? 0;
+        $author          = $params['author'] ?? 0;
         $scriptOptions   = [];
         $externalPlugins = [];
-        $options         = $doc->getScriptOptions('plg_editor_tinymce');
         $theme           = 'silver';
-        $csrf            = Session::getFormToken();
 
         // Data object for the layout
         $textarea           = new \stdClass();
@@ -94,7 +89,7 @@ trait DisplayTrait
         // Render Editor markup
         $editor = '<div class="js-editor-tinymce">';
         $editor .= LayoutHelper::render('joomla.tinymce.textarea', $textarea);
-        $editor .= !$this->getApplication()->client->mobile ? LayoutHelper::render('joomla.tinymce.togglebutton') : '';
+        $editor .= !$app->client->mobile ? LayoutHelper::render('joomla.tinymce.togglebutton') : '';
         $editor .= '</div>';
 
         // Prepare the instance specific options
@@ -118,15 +113,15 @@ trait DisplayTrait
 
         // The ext-buttons
         if (empty($options['tinyMCE'][$fieldName]['joomlaExtButtons'])) {
-            $btns = $this->tinyButtons($id, $buttons);
+            $tinyButtons = $this->tinyButtons($buttons, ['asset' => $asset, 'author' => $author, 'editorId' => $id]);
 
             $options['tinyMCE'][$fieldName]['joomlaMergeDefaults'] = true;
-            $options['tinyMCE'][$fieldName]['joomlaExtButtons']    = $btns;
+            $options['tinyMCE'][$fieldName]['joomlaExtButtons']    = $tinyButtons;
         }
 
         $doc->addScriptOptions('plg_editor_tinymce', $options, false);
-        // Setup Default (common) options for the Editor script
 
+        // Setup Default (common) options for all Editor instances
         // Check whether we already have them
         if (!empty($options['tinyMCE']['default'])) {
             return $editor;
@@ -141,7 +136,7 @@ trait DisplayTrait
         $extraOptionsAll  = (array) $this->params->get('configuration.setoptions', []);
         $toolbarParamsAll = (array) $this->params->get('configuration.toolbars', []);
 
-        // Sort the array in reverse, so the items with lowest access level goes first
+        // Sort the array in reverse, so the items with the lowest access level goes first
         krsort($extraOptionsAll);
 
         // Get configuration depend from User group
@@ -176,7 +171,7 @@ trait DisplayTrait
         $levelParams->loadObject($extraOptions);
 
         // Set the selected skin
-        $skin = $levelParams->get($this->getApplication()->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
+        $skin = $levelParams->get($app->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
 
         // Check that selected skin exists.
         $skin = is_dir(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
@@ -339,7 +334,7 @@ trait DisplayTrait
         if ($dragdrop && $user->authorise('core.create', 'com_media')) {
             $externalPlugins['jdragndrop'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dragdrop/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
             $uploadUrl                     = Uri::base(false) . 'index.php?option=com_media&format=json&url=1&task=api.files';
-            $uploadUrl                     = $this->getApplication()->isClient('site') ? htmlentities($uploadUrl, ENT_NOQUOTES, 'UTF-8', false) : $uploadUrl;
+            $uploadUrl                     = $app->isClient('site') ? htmlentities($uploadUrl, ENT_NOQUOTES, 'UTF-8', false) : $uploadUrl;
 
             Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
             Text::script('ERROR');
@@ -455,6 +450,12 @@ trait DisplayTrait
                 'a11y_advanced_options' => true,
                 'image_advtab'          => (bool) $levelParams->get('image_advtab', false),
                 'image_title'           => true,
+                'image_class_list'      => [
+                    ['title' => 'None', 'value' => 'float-none'],
+                    ['title' => 'Left', 'value' => 'float-start'],
+                    ['title' => 'Right', 'value' => 'float-end'],
+                    ['title' => 'Center', 'value' => 'mx-auto d-block'],
+                ],
 
                 // Drag and drop specific
                 'dndEnabled' => $dragdrop,

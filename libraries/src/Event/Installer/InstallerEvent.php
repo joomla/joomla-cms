@@ -20,7 +20,7 @@ use Joomla\CMS\MVC\Model\BaseModel;
 /**
  * Class for Installer events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 abstract class InstallerEvent extends AbstractImmutableEvent
 {
@@ -31,7 +31,7 @@ abstract class InstallerEvent extends AbstractImmutableEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject', 'package'];
@@ -44,7 +44,7 @@ abstract class InstallerEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -81,7 +81,7 @@ abstract class InstallerEvent extends AbstractImmutableEvent
      *
      * @return  BaseModel
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setSubject(BaseModel $value): BaseModel
     {
@@ -95,7 +95,7 @@ abstract class InstallerEvent extends AbstractImmutableEvent
      *
      * @return  array|\ArrayAccess|null
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setPackage(array|\ArrayAccess|null $value): array|\ArrayAccess|null
     {
@@ -107,7 +107,7 @@ abstract class InstallerEvent extends AbstractImmutableEvent
      *
      * @return  BaseModel
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getModel(): BaseModel
     {
@@ -119,7 +119,7 @@ abstract class InstallerEvent extends AbstractImmutableEvent
      *
      * @return  array|\ArrayAccess|null
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getPackage(): array|\ArrayAccess|null
     {
@@ -133,7 +133,7 @@ abstract class InstallerEvent extends AbstractImmutableEvent
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function updatePackage(array|\ArrayAccess|null $value): static
     {

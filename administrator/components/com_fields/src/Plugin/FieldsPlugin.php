@@ -53,7 +53,7 @@ abstract class FieldsPlugin extends CMSPlugin
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -70,7 +70,7 @@ abstract class FieldsPlugin extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getFieldTypes(GetTypesEvent $event)
     {
@@ -86,7 +86,7 @@ abstract class FieldsPlugin extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function prepareField(PrepareFieldEvent $event)
     {
@@ -102,7 +102,7 @@ abstract class FieldsPlugin extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function prepareDom(PrepareDomEvent $event)
     {
@@ -115,7 +115,7 @@ abstract class FieldsPlugin extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function prepareForm(PrepareFormEvent $event)
     {
@@ -165,7 +165,7 @@ abstract class FieldsPlugin extends CMSPlugin
 
                 // Fix wrongly set parentheses in RTL languages
                 if ($this->app->getLanguage()->isRtl()) {
-                    $data['label'] = $data['label'] . '&#x200E;';
+                    $data['label'] .= '&#x200E;';
                 }
             } else {
                 $data['label'] = $key;
