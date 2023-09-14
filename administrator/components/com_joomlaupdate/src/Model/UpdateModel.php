@@ -977,6 +977,9 @@ ENDDATA;
             throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
         }
 
+        // Check the uploaded file
+        $this->checkPackageFile($userfile['tmp_name']);
+
         // Build the appropriate paths.
         $tmp_dest = tempnam(Factory::getApplication()->get('tmp_path'), 'ju');
         $tmp_src  = $userfile['tmp_name'];
@@ -1795,6 +1798,55 @@ ENDDATA;
         if (JDEBUG) {
             $trace = $error->getFile() . ':' . $error->getLine() . PHP_EOL . $error->getTraceAsString();
             Log::add(sprintf('An error trace: %s.', $trace), Log::DEBUG, 'Update');
+        }
+    }
+
+    /**
+     * Check the update package
+     *
+     * @param   string  $filePath  Full path to the update package to test
+     *
+     * @return  void
+     * @see     https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT
+     * @since   __DEPLOY_VERSION__
+     * @throws  \RuntimeException
+     */
+    private function checkPackageFile(string $filePath)
+    {
+        $zipArchive = new ZipArchive();
+
+        if ($zipArchive->open($filePath) !== true) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
+        }
+
+        if ($zipArchive->locateName('installation/index.php') !== false) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_INSTALL_PACKAGE'), 500);
+        }
+
+        $versionFile = $zipArchive->getFromName('libraries/src/Version.php');
+
+        if ($versionFile === false) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_VERSION_FILE'), 500);
+        }
+
+        if (
+            !preg_match(
+                '/(?:\s+MAJOR_VERSION\s+=\s+)(?P<major>\d+)(?:;[\s\S]*?\s+MINOR_VERSION\s+=\s+)(?P<minor>\d+)(?:;[\s\S]*?\s+PATCH_VERSION\s+=\s+)(?P<patch>\d+)(?:;[\s\S]*?\s+EXTRA_VERSION\s+=\s+\')(?P<extra>\S*)(?:\';)/',
+                $versionFile,
+                $matches
+            )
+        ) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_VERSIONS_FOUND'), 500);
+        }
+
+        if ($matches['major'] > Version::MAJOR_VERSION && Version::MINOR_VERSION < 4) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_MAJOR_UPGRADE'), 500);
+        }
+
+        $versionPackage = $matches['major'] . '.' . $matches['minor'] . '.' . $matches['patch'] . ($matches['extra'] ? '-' . $matches['extra'] : '');
+
+        if (version_compare($versionPackage, JVERSION, 'lt')) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_DOWNGRADE'), 500);
         }
     }
 }
