@@ -14,6 +14,7 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\AfterCategoryChangeStateEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
@@ -365,8 +366,8 @@ class CategoryModel extends AdminModel
      *
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
-     * @see     JFormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Form\FormRule
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.9.23
      */
     public function validate($form, $data, $group = null)
@@ -740,10 +741,14 @@ class CategoryModel extends AdminModel
             $extension = Factory::getApplication()->getInput()->get('extension');
 
             // Include the content plugins for the change of category state event.
-            PluginHelper::importPlugin('content');
+            PluginHelper::importPlugin('content', null, true, $this->getDispatcher());
 
             // Trigger the onCategoryChangeState event.
-            Factory::getApplication()->triggerEvent('onCategoryChangeState', [$extension, $pks, $value]);
+            $this->getDispatcher()->dispatch('onCategoryChangeState', new AfterCategoryChangeStateEvent('onCategoryChangeState', [
+                'context' => $extension,
+                'subject' => $pks,
+                'value'   => $value,
+            ]));
 
             return true;
         }

@@ -627,7 +627,7 @@ class TemplateModel extends FormModel
                 $this->template->client_id = (int) $this->template->client_id;
 
                 if (!isset($this->template->xmldata)) {
-                    $this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($this->template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $this->template->name);
+                    $this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($this->template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $this->template->element);
                 }
             }
         }
@@ -1799,7 +1799,7 @@ class TemplateModel extends FormModel
         $template = $this->getTemplate();
 
         if (!isset($template->xmldata)) {
-            $template->xmldata = TemplatesHelper::parseXMLTemplateFile($template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $template->name);
+            $template->xmldata = TemplatesHelper::parseXMLTemplateFile($template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $template->element);
         }
 
         if (!isset($template->xmldata->inheritable) || (isset($template->xmldata->parent) && $template->xmldata->parent === '')) {
@@ -1949,7 +1949,7 @@ class TemplateModel extends FormModel
         $xml->name = $template->element . '_' . $newName;
 
         if (isset($xml->namespace)) {
-            $xml->namespace = $xml->namespace . '_' . ucfirst($newName);
+            $xml->namespace .= '_' . ucfirst($newName);
         }
 
         $xml->inheritable = 0;

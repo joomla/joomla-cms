@@ -410,8 +410,7 @@ class SysinfoModel extends BaseDatabaseModel
         ob_start();
         date_default_timezone_set('UTC');
         phpinfo(INFO_GENERAL | INFO_CONFIGURATION | INFO_MODULES);
-        $phpInfo = ob_get_contents();
-        ob_end_clean();
+        $phpInfo = ob_get_clean();
         preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpInfo, $output);
         $output         = preg_replace('#<table[^>]*>#', '<table class="table">', $output[1][0]);
         $output         = preg_replace('#(\w),(\w)#', '\1, \2', $output);

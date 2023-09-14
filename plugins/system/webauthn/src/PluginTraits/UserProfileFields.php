@@ -99,7 +99,7 @@ trait UserProfileFields
          * @var   Form  $form The form to be altered.
          * @var   mixed $data The associated data for the form.
          */
-        [$form, $data] = $event->getArguments();
+        [$form, $data] = array_values($event->getArguments());
 
         $name = $form->getName();
 
@@ -163,7 +163,7 @@ trait UserProfileFields
          * @var   string|null        $context  The context for the data
          * @var   array|object|null  $data     An object or array containing the data for the form.
          */
-        [$context, $data] = $event->getArguments();
+        [$context, $data] = array_values($event->getArguments());
 
         if (!\in_array($context, ['com_users.profile', 'com_users.user'])) {
             return;

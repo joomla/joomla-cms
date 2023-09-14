@@ -9,8 +9,10 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -46,6 +48,22 @@ class CategoriesView extends HtmlView
      * @since  3.2
      */
     protected $pageHeading;
+
+    /**
+     * The category parameters
+     *
+     * @var   Registry
+     * @since __DEPLOY_VERSION__
+     */
+    public $params;
+
+    /**
+     * The parent category
+     *
+     * @var   CategoryNode
+     * @since __DEPLOY_VERSION__
+     */
+    public $parent;
 
     /**
      * Execute and display a template script.

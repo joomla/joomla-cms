@@ -156,7 +156,7 @@ class Form implements CurrentUserInterface
      */
     protected function bindLevel($group, $data)
     {
-        // Ensure the input data is an array.
+        // Check the input data for specific types.
         if (\is_object($data)) {
             if ($data instanceof Registry) {
                 // Handle a Registry.
@@ -164,9 +164,6 @@ class Form implements CurrentUserInterface
             } elseif ($data instanceof CMSObject) {
                 // Handle a CMSObject.
                 $data = $data->getProperties();
-            } else {
-                // Handle other types of objects.
-                $data = (array) $data;
             }
         }
 

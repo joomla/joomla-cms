@@ -11,8 +11,8 @@ namespace Joomla\CMS\Application;
 
 use Joomla\CMS\Event\Application\AfterExecuteEvent;
 use Joomla\CMS\Event\Application\BeforeExecuteEvent;
-use Joomla\CMS\Event\Application\DeamonForkEvent;
-use Joomla\CMS\Event\Application\DeamonReceiveSignalEvent;
+use Joomla\CMS\Event\Application\DaemonForkEvent;
+use Joomla\CMS\Event\Application\DaemonReceiveSignalEvent;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Log\Log;
@@ -134,7 +134,9 @@ abstract class DaemonApplication extends CliApplication
         parent::__construct($input, $config, null, null, $dispatcher);
 
         // Set some system limits.
-        @set_time_limit($this->config->get('max_execution_time', 0));
+        if (\function_exists('set_time_limit')) {
+            set_time_limit($this->config->get('max_execution_time', 0));
+        }
 
         if ($this->config->get('max_memory_limit') !== null) {
             ini_set('memory_limit', $this->config->get('max_memory_limit', '256M'));
@@ -169,7 +171,7 @@ abstract class DaemonApplication extends CliApplication
         // Fire the onReceiveSignal event.
         static::$instance->getDispatcher()->dispatch(
             'onReceiveSignal',
-            new DeamonReceiveSignalEvent('onReceiveSignal', [
+            new DaemonReceiveSignalEvent('onReceiveSignal', [
                 'signal'  => $signal,
                 'subject' => static::$instance,
             ])
@@ -786,7 +788,7 @@ abstract class DaemonApplication extends CliApplication
         // Trigger the onFork event.
         $this->dispatchEvent(
             'onFork',
-            new DeamonForkEvent('onFork', ['subject' => $this])
+            new DaemonForkEvent('onFork', ['subject' => $this])
         );
     }
 

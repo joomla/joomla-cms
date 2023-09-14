@@ -13,6 +13,7 @@ namespace Joomla\Component\Fields\Administrator\Model;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\CustomFields\PrepareDomEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
@@ -298,7 +299,11 @@ class FieldModel extends AdminModel
         // Trigger the event to create the field dom node
         $form = new Form($data['context']);
         $form->setDatabase($this->getDatabase());
-        Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', [$obj, $node, $form]);
+        $this->getDispatcher()->dispatch('onCustomFieldsPrepareDom', new PrepareDomEvent('onCustomFieldsPrepareDom', [
+            'subject'  => $obj,
+            'fieldset' => $node,
+            'form'     => $form,
+        ]));
 
         // Check if a node is created
         if (!$node->firstChild) {
@@ -975,8 +980,8 @@ class FieldModel extends AdminModel
      *
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
-     * @see     JFormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Form\FormRule
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.9.23
      */
     public function validate($form, $data, $group = null)

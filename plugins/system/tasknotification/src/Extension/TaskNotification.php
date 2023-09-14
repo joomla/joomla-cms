@@ -10,8 +10,8 @@
 
 namespace Joomla\Plugin\System\TaskNotification\Extension;
 
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -20,7 +20,6 @@ use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\Event;
-use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\Path;
 use PHPMailer\PHPMailer\Exception as MailerException;
@@ -75,16 +74,15 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
     /**
      * Inject fields to support configuration of post-execution notifications into the task item form.
      *
-     * @param   EventInterface  $event  The onContentPrepareForm event.
+     * @param   Model\PrepareFormEvent  $event  The onContentPrepareForm event.
      *
      * @return boolean True if successful.
      *
      * @since 4.1.0
      */
-    public function injectTaskNotificationFieldset(EventInterface $event): bool
+    public function injectTaskNotificationFieldset(Model\PrepareFormEvent $event): bool
     {
-        /** @var Form $form */
-        $form = $event->getArgument('0');
+        $form = $event->getForm();
 
         if ($form->getName() !== 'com_scheduler.task') {
             return true;
