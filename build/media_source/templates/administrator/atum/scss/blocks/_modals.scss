@@ -221,18 +221,22 @@ joomla-dialog {
 }
 // Dialog animation
 joomla-dialog dialog[open] {
-  animation: dialog-show 0.4s ease normal;
+  animation: dialog-show .4s ease normal;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 }
 @keyframes dialog-show {
   0% {
-    transform: translateY(-50px);
     opacity: 0;
+    transform: translateY(-50px);
   }
   30% {
     opacity: 1;
   }
   100% {
-    transform: translateY(0px);
+    transform: translateY(0);
   }
 }
 // Dialog elements
