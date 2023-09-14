@@ -218,23 +218,23 @@ class CategoryView extends HtmlView
                 // For some plugins.
                 !empty($itemElement->description) ? $itemElement->text = $itemElement->description : $itemElement->text = '';
 
-                Factory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', &$itemElement, &$itemElement->params, 0]);
+                Factory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', $itemElement, $itemElement->params, 0]);
 
                 $results = Factory::getApplication()->triggerEvent(
                     'onContentAfterTitle',
-                    [$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
+                    [$this->extension . '.category', $itemElement, $itemElement->core_params ?? $itemElement->params, 0]
                 );
                 $itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
 
                 $results = Factory::getApplication()->triggerEvent(
                     'onContentBeforeDisplay',
-                    [$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
+                    [$this->extension . '.category', $itemElement, $itemElement->core_params ?? $itemElement->params, 0]
                 );
                 $itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
 
                 $results = Factory::getApplication()->triggerEvent(
                     'onContentAfterDisplay',
-                    [$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
+                    [$this->extension . '.category', $itemElement, $itemElement->core_params ?? $itemElement->params, 0]
                 );
                 $itemElement->event->afterDisplayContent = trim(implode("\n", $results));
 

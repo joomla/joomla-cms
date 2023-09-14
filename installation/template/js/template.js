@@ -154,17 +154,21 @@
    * @param tasks       An array of install tasks to execute
    */
   Joomla.install = function(tasks, form) {
+    const progress = document.getElementById('progressbar');
+    const progress_text = document.getElementById('progress-text');
     if (!form) {
       throw new Error('No form provided')
     }
     if (!tasks.length) {
-      Joomla.goToPage('remove');
+      if (progress_text) {
+        progress_text.innerText = Joomla.Text._('INSTL_FINISHED');
+      }
+      setTimeout(Joomla.goToPage, 2000, 'remove');
       return;
     }
 
     var task = tasks.shift();
     var data = Joomla.serialiseForm(form);
-    document.body.appendChild(document.createElement('joomla-core-loader'));
 
     Joomla.request({
       method: "POST",
@@ -172,12 +176,14 @@
       data: data,
       perform: true,
       onSuccess: function(response, xhr){
-        var spinnerElement = document.querySelector('joomla-core-loader');
-
         try {
           response = JSON.parse(response);
         } catch (e) {
-          spinnerElement.parentNode.removeChild(spinnerElement);
+          if (progress_text) {
+            progress_text.setAttribute('role', 'alert');
+            progress_text.classList.add('error');
+            progress_text.innerText = response;
+          }
           console.error('Error in ' + task + ' Endpoint');
           console.error(response);
           Joomla.renderMessages({'error': [Joomla.Text._('INSTL_DATABASE_RESPONSE_ERROR')]});
@@ -189,21 +195,30 @@
 
         if (response.error === true)
         {
-          spinnerElement.parentNode.removeChild(spinnerElement);
+          progress_text.setAttribute('role', 'alert');
+          progress_text.classList.add('error');
+          progress_text.innerText = response.message;
           Joomla.renderMessages({"error": [response.message]});
           return false;
         }
 
         if (response.messages) {
-          spinnerElement.parentNode.removeChild(spinnerElement);
           Joomla.renderMessages(response.messages);
           return false;
         }
 
-        spinnerElement.parentNode.removeChild(spinnerElement);
+        if (progress) {
+          progress.setAttribute('value', parseInt(progress.getAttribute('value')) + 1);
+          progress_text.innerText = Joomla.Text._('INSTL_IN_PROGRESS');
+        }
         Joomla.install(tasks, form);
       },
       onError: function(xhr){
+        if (progress_text) {
+          progress_text.setAttribute('role', 'alert');
+          progress_text.classList.add('error');
+          progress_text.innerText = xhr.responseText;
+        }
         Joomla.renderMessages([['', Joomla.Text._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
         Joomla.goToPage('remove');
 

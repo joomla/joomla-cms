@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\Workflow\Publishing\Extension;
 
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Table\BeforeStoreEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
@@ -81,15 +82,14 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
     /**
      * The form event.
      *
-     * @param   EventInterface  $event  The event
+     * @param   Model\PrepareFormEvent  $event  The event
      *
      * @since   4.0.0
      */
-    public function onContentPrepareForm(EventInterface $event)
+    public function onContentPrepareForm(Model\PrepareFormEvent $event)
     {
-        $form = $event->getArgument('0');
-        $data = $event->getArgument('1');
-
+        $form    = $event->getForm();
+        $data    = $event->getData();
         $context = $form->getName();
 
         // Extend the transition form
@@ -344,17 +344,17 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
     /**
      * Change State of an item. Used to disable state change
      *
-     * @param   EventInterface  $event
+     * @param   Model\BeforeChangeStateEvent  $event
      *
      * @return boolean
      *
      * @throws \Exception
      * @since   4.0.0
      */
-    public function onContentBeforeChangeState(EventInterface $event)
+    public function onContentBeforeChangeState(Model\BeforeChangeStateEvent $event)
     {
-        $context = $event->getArgument('0');
-        $pks     = $event->getArgument('1');
+        $context = $event->getContext();
+        $pks     = $event->getPks();
 
         if (!$this->isSupported($context)) {
             return true;
@@ -372,25 +372,23 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
     /**
      * The save event.
      *
-     * @param   EventInterface  $event
+     * @param   Model\BeforeSaveEvent  $event
      *
      * @return  boolean
      *
      * @since   4.0.0
      */
-    public function onContentBeforeSave(EventInterface $event)
+    public function onContentBeforeSave(Model\BeforeSaveEvent $event)
     {
-        $context = $event->getArgument('0');
-
-        /** @var TableInterface $table */
-        $table = $event->getArgument('1');
-        $isNew = $event->getArgument('2');
-        $data  = $event->getArgument('3');
+        $context = $event->getContext();
 
         if (!$this->isSupported($context)) {
             return true;
         }
 
+        /** @var TableInterface $table */
+        $table   = $event->getItem();
+        $data    = $event->getData();
         $keyName = $table->getColumnAlias('published');
 
         // Check for the old value

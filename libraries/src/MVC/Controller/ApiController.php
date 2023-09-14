@@ -10,7 +10,7 @@
 namespace Joomla\CMS\MVC\Controller;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -36,6 +36,14 @@ use Tobscure\JsonApi\Exception\InvalidParameterException;
  */
 class ApiController extends BaseController
 {
+    /**
+     * The Application. Redeclared to show this class requires a web application.
+     *
+     * @var    CMSWebApplicationInterface
+     * @since  5.0.0
+     */
+    protected $app;
+
     /**
      * The content type of the item.
      *
@@ -85,17 +93,18 @@ class ApiController extends BaseController
     /**
      * Constructor.
      *
-     * @param   array                 $config   An optional associative array of configuration settings.
-     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                          'view_path' (this list is not meant to be comprehensive).
-     * @param   ?MVCFactoryInterface  $factory  The factory.
-     * @param   ?CMSApplication       $app      The Application for the dispatcher
-     * @param   ?Input                $input    Input
+     * @param   array                        $config   An optional associative array of configuration settings.
+     *                                                 Recognized key values include 'name', 'default_task',
+     *                                                 'model_path', and 'view_path' (this list is not meant to be
+     *                                                 comprehensive).
+     * @param   ?MVCFactoryInterface         $factory  The factory.
+     * @param   ?CMSWebApplicationInterface  $app      The Application for the dispatcher
+     * @param   ?Input                       $input    Input
      *
-     * @since   4.0.0
      * @throws  \Exception
+     * @since   4.0.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, ?CMSWebApplicationInterface $app = null, ?Input $input = null)
     {
         $this->modelState = new CMSObject();
 

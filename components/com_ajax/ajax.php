@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -125,13 +126,15 @@ if (!$format) {
      * (i.e. index.php?option=com_ajax&plugin=foo)
      *
      */
-    $group      = $input->get('group', 'ajax');
-    PluginHelper::importPlugin($group);
-    $plugin     = ucfirst($input->get('plugin'));
-
     try {
-        $results = Factory::getApplication()->triggerEvent('onAjax' . $plugin);
-    } catch (Exception $e) {
+        $dispatcher = $app->getDispatcher();
+        $group      = $input->get('group', 'ajax');
+        $eventName  = 'onAjax' . ucfirst($input->get('plugin', ''));
+
+        PluginHelper::importPlugin($group, null, true, $dispatcher);
+
+        $results = $dispatcher->dispatch($eventName, new AjaxEvent($eventName, ['subject' => $app]))->getArgument('result', []);
+    } catch (Throwable $e) {
         $results = $e;
     }
 } elseif ($input->get('template')) {

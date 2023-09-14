@@ -901,7 +901,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         if ($fieldName) {
             return $fieldName;
         } else {
-            self::$count = self::$count + 1;
+            self::$count += 1;
 
             return self::$generated_fieldname . self::$count;
         }
@@ -1022,7 +1022,20 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             ? ((string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false)
             : false;
 
-        if ($this->showon) {
+        // Check if the field has showon in nested option
+        $hasOptionShowOn = false;
+
+        if (!empty((array) $this->element->xpath('option'))) {
+            foreach ($this->element->xpath('option') as $option) {
+                if ((string) $option['showon']) {
+                    $hasOptionShowOn = true;
+
+                    break;
+                }
+            }
+        }
+
+        if ($this->showon || $hasOptionShowOn) {
             $options['rel']           = ' data-showon=\'' .
                 json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
             $options['showonEnabled'] = true;
@@ -1070,8 +1083,24 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             }
 
             // Check for a callback filter
-            if (strpos($filter, '::') !== false && \is_callable(explode('::', $filter))) {
-                return \call_user_func(explode('::', $filter), $value);
+            if (strpos($filter, '::') !== false) {
+                if (\is_callable(explode('::', $filter))) {
+                    return \call_user_func(explode('::', $filter), $value);
+                }
+
+                /** @deprecated Can be removed with Joomla 6.0 since the class alias is deprecated since Joomla 4.0*/
+                [$class, $method] = explode('::', $filter);
+                if ($class === 'JComponentHelper') {
+                    throw new \UnexpectedValueException(
+                        sprintf(
+                            '%s::filter field `%s` calls a deprecated filter class %s, the class needs to be namespaced use %s instead or activate the backward compatible plugin.',
+                            \get_class($this),
+                            $this->element['name'],
+                            $class,
+                            '\\Joomla\\CMS\\Component\\ComponentHelper'
+                        )
+                    );
+                }
             }
 
             // Load the FormRule object for the field. FormRule objects take precedence over PHP functions
@@ -1263,17 +1292,12 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      */
     protected function getLayoutData()
     {
-        // Label preprocess
-        $label = !empty($this->element['label']) ? (string) $this->element['label'] : null;
-        $label = $label && $this->translateLabel ? Text::_($label) : $label;
-
-        // Description preprocess
+        $label       = !empty($this->element['label']) ? (string) $this->element['label'] : null;
+        $label       = $label && $this->translateLabel ? Text::_($label) : $label;
         $description = !empty($this->description) ? $this->description : null;
         $description = !empty($description) && $this->translateDescription ? Text::_($description) : $description;
-
-        $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
-
-        return [
+        $alt         = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
+        $options     = [
             'autocomplete'   => $this->autocomplete,
             'autofocus'      => $this->autofocus,
             'class'          => $this->class,
@@ -1303,6 +1327,8 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             'dataAttributes' => $this->dataAttributes,
             'parentclass'    => $this->parentclass,
         ];
+
+        return $options;
     }
 
     /**

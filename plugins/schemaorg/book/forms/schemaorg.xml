@@ -49,7 +49,7 @@
 						filter="user_utc"
 						showtime="false"
 						todaybutton="true"
-						format="%Y-%m-%d"
+						translateformat="true"
 					/>
 
 					<field
@@ -58,9 +58,9 @@
 						label="PLG_SCHEMAORG_BOOK_FIELD_ABRIDGED_LABEL"
 						default="0"
 						>
-						<option>None</option>
-						<option name="true">True</option>
-						<option name="false">False</option>
+						<option>JNONE</option>
+						<option value="true">JYES</option>
+						<option value="false">JNO</option>
 					</field>
 
 					<field
@@ -77,12 +77,12 @@
 						label="PLG_SCHEMAORG_BOOK_FIELD_BOOK_FORMAT_LABEL"
 						default="0"
 						>
-						<option>None</option>
-						<option name="AudiobookFormat">PLG_SCHEMAORG_BOOK_FIELD_AUDIOBOOK_LABEL</option>
-						<option name="EBook">PLG_SCHEMAORG_BOOK_FIELD_E_BOOK_LABEL</option>
-						<option name="GraphicNovel">PLG_SCHEMAORG_BOOK_FIELD_GRAPHIC_NOVEL</option>
-						<option name="Hardcover">PLG_SCHEMAORG_BOOK_FIELD_HARDCOVER_LABEL</option>
-						<option name="Paperback">PLG_SCHEMAORG_BOOK_FIELD_PAPERBACK_LABEL</option>
+						<option>JNONE</option>
+						<option value="AudiobookFormat">PLG_SCHEMAORG_BOOK_FIELD_AUDIOBOOK_LABEL</option>
+						<option value="EBook">PLG_SCHEMAORG_BOOK_FIELD_E_BOOK_LABEL</option>
+						<option value="GraphicNovel">PLG_SCHEMAORG_BOOK_FIELD_GRAPHIC_NOVEL</option>
+						<option value="Hardcover">PLG_SCHEMAORG_BOOK_FIELD_HARDCOVER_LABEL</option>
+						<option value="Paperback">PLG_SCHEMAORG_BOOK_FIELD_PAPERBACK_LABEL</option>
 					</field>
 
 					<field
@@ -101,7 +101,7 @@
 							<field
 								name="name"
 								type="text"
-								label="PLG_SCHEMAORG_BOOK_FIELD_NAME_LABEL"
+								label="PLG_SCHEMAORG_BOOK_FIELD_ILLUSTRATOR_NAME_LABEL"
 								filter="string"
 							/>
 

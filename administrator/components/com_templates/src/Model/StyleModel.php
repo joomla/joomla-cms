@@ -395,9 +395,12 @@ class StyleModel extends AdminModel
         $formFile = Path::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
 
         // Load the core and/or local language file(s).
+        // Default to using parent template language constants
+        $lang->load('tpl_' . $data->parent, $client->path)
+            || $lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent);
+
+        // Apply any, optional, overrides for child template language constants
         $lang->load('tpl_' . $template, $client->path)
-            || (!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path))
-            || (!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent))
             || $lang->load('tpl_' . $template, $client->path . '/templates/' . $template);
 
         if (file_exists($formFile)) {

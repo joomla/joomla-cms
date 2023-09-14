@@ -12,8 +12,8 @@ namespace Joomla\CMS\MVC\View;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -61,7 +61,7 @@ class FormView extends HtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $canDo;
 
@@ -105,7 +105,8 @@ class FormView extends HtmlView
         }
 
         // Set default value for $canDo to avoid fatal error if child class doesn't set value for this property
-        $this->canDo = new CMSObject();
+        // Return a CanDo object to prevent any BC break, will be changed in 7.0 to Registry
+        $this->canDo = new CanDo();
     }
 
     /**
@@ -230,6 +231,15 @@ class FormView extends HtmlView
         }
 
         ToolbarHelper::divider();
+
+        if ($this->form instanceof Form) {
+            $formConfig  = $this->form->getXml()->config->inlinehelp;
+            $targetClass = (string) $formConfig['targetclass'] ?: 'hide-aware-inline-help';
+
+            if ((string) $formConfig['button'] === 'show') {
+                ToolbarHelper::inlinehelp($targetClass);
+            }
+        }
 
         if ($this->helpLink) {
             ToolbarHelper::help($this->helpLink);

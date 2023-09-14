@@ -55,7 +55,7 @@ class CategoriesView extends HtmlView
      * @var   Registry
      * @since __DEPLOY_VERSION__
      */
-    protected $params;
+    public $params;
 
     /**
      * The parent category
@@ -63,7 +63,7 @@ class CategoriesView extends HtmlView
      * @var   CategoryNode
      * @since __DEPLOY_VERSION__
      */
-    protected $parent;
+    public $parent;
 
     /**
      * Execute and display a template script.

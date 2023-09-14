@@ -380,8 +380,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
 
             // Done with the requested template; get the buffer and
             // clear it.
-            $this->_output = ob_get_contents();
-            ob_end_clean();
+            $this->_output = ob_get_clean();
 
             return $this->_output;
         }
