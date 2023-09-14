@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\Installer\Web\Extension;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Event\Installer\AddInstallationTabEvent;
 use Joomla\CMS\Form\Rule\UrlRule;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -18,7 +19,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
-use SimpleXMLElement;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -29,7 +30,7 @@ use SimpleXMLElement;
  *
  * @since  3.2
  */
-final class WebInstaller extends CMSPlugin
+final class WebInstaller extends CMSPlugin implements SubscriberInterface
 {
     /**
      * The URL for the remote server.
@@ -65,13 +66,27 @@ final class WebInstaller extends CMSPlugin
     private $rtl = null;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.0.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return ['onInstallerAddInstallationTab' => 'onInstallerAddInstallationTab'];
+    }
+
+    /**
      * Event listener for the `onInstallerAddInstallationTab` event.
      *
-     * @return  array  Returns an array with the tab information
+     * @param   AddInstallationTabEvent  $event  The event instance
+     *
+     * @return  void
      *
      * @since   4.0.0
      */
-    public function onInstallerAddInstallationTab()
+    public function onInstallerAddInstallationTab(AddInstallationTabEvent $event)
     {
         // Load language files
         $this->loadLanguage();
@@ -126,7 +141,7 @@ final class WebInstaller extends CMSPlugin
         $tab['content'] = ob_get_clean();
         $tab['content'] = '<legend>' . $tab['label'] . '</legend>' . $tab['content'];
 
-        return $tab;
+        $event->addResult($tab);
     }
 
     /**
@@ -157,7 +172,7 @@ final class WebInstaller extends CMSPlugin
         if ($this->installfrom === null) {
             $installfrom = base64_decode($this->getApplication()->getInput()->getBase64('installfrom', ''));
 
-            $field = new SimpleXMLElement('<field></field>');
+            $field = new \SimpleXMLElement('<field></field>');
 
             if ((new UrlRule())->test($field, $installfrom) && preg_match('/\.xml\s*$/', $installfrom)) {
                 $update = new Update();

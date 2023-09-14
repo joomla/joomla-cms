@@ -60,5 +60,10 @@ $container->alias('session.web', 'session.web.installation')
     ->alias(\Joomla\Session\Session::class, 'session.web.installation')
     ->alias(\Joomla\Session\SessionInterface::class, 'session.web.installation');
 
+/** @var \Joomla\CMS\Installation\Application\InstallationApplication $app */
+$app = $container->get(\Joomla\CMS\Installation\Application\InstallationApplication::class);
+
+\Joomla\CMS\Factory::$application = $app;
+
 // Instantiate and execute the application
-$container->get(\Joomla\CMS\Installation\Application\InstallationApplication::class)->execute();
+$app->execute();

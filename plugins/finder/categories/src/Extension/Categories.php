@@ -111,7 +111,7 @@ final class Categories extends Adapter
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function onFinderDelete($context, $table)
     {
@@ -139,7 +139,7 @@ final class Categories extends Adapter
      * @return  void
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function onFinderAfterSave($context, $row, $isNew): void
     {
@@ -172,7 +172,7 @@ final class Categories extends Adapter
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function onFinderBeforeSave($context, $row, $isNew)
     {
@@ -251,7 +251,7 @@ final class Categories extends Adapter
      * @return  void
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function index(Result $item)
     {
@@ -335,11 +335,18 @@ final class Categories extends Adapter
         // Translate the state. Categories should only be published if the parent category is published.
         $item->state = $this->translateState($item->state);
 
+        // Get taxonomies to display
+        $taxonomies = $this->params->get('taxonomies', ['type', 'language']);
+
         // Add the type taxonomy data.
-        $item->addTaxonomy('Type', 'Category');
+        if (in_array('type', $taxonomies)) {
+            $item->addTaxonomy('Type', 'Category');
+        }
 
         // Add the language taxonomy data.
-        $item->addTaxonomy('Language', $item->language);
+        if (in_array('language', $taxonomies)) {
+            $item->addTaxonomy('Language', $item->language);
+        }
 
         // Get content extras.
         Helper::getContentExtras($item);

@@ -45,7 +45,7 @@ abstract class MediaHelper
         $uploadedPath = $mediaObject->get('path');
 
         if (!empty($adapter) && !empty($uploadedPath)) {
-            $link = $link . '&path=' . $adapter . ':' . $uploadedPath;
+            $link .= '&path=' . $adapter . ':' . $uploadedPath;
         }
 
         return $link;

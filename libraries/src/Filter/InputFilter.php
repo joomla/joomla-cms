@@ -13,7 +13,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Filter\InputFilter as BaseInputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -428,9 +428,9 @@ class InputFilter extends BaseInputFilter
      */
     protected function decode($source)
     {
-        static $ttr;
+        static $ttr = [];
 
-        if (!\is_array($ttr)) {
+        if (!\count($ttr)) {
             // Entity decode
             $trans_tbl = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT, 'ISO-8859-1');
 

@@ -14,13 +14,14 @@ use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\File as FileCMS;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\Http;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
@@ -28,6 +29,7 @@ use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -51,6 +53,28 @@ class UpdateModel extends BaseDatabaseModel
     private $updateInformation = null;
 
     /**
+     * Constructor
+     *
+     * @param   array                 $config   An array of configuration options.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception
+     */
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    {
+        parent::__construct($config, $factory);
+
+        // Register a logger for update process
+        $options = [
+            'format'    => '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}',
+            'text_file' => 'joomla_update.php',
+        ];
+
+        Log::addLogger($options, Log::ALL, ['Update', 'databasequery', 'jerror']);
+    }
+
+    /**
      * Detects if the Joomla! update site currently in use matches the one
      * configured in this component. If they don't match, it changes it.
      *
@@ -64,18 +88,18 @@ class UpdateModel extends BaseDatabaseModel
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
         switch ($params->get('updatesource', 'nochange')) {
-            // "Minor & Patch Release for Current version AND Next Major Release".
+                // "Minor & Patch Release for Current version AND Next Major Release".
             case 'next':
                 $updateURL = 'https://update.joomla.org/core/sts/list_sts.xml';
                 break;
 
-            // "Testing"
+                // "Testing"
             case 'testing':
                 $updateURL = 'https://update.joomla.org/core/test/list_test.xml';
                 break;
 
-            // "Custom"
-            // @todo: check if the customurl is valid and not just "not empty".
+                // "Custom"
+                // @todo: check if the customurl is valid and not just "not empty".
             case 'custom':
                 if (trim($params->get('customurl', '')) != '') {
                     $updateURL = trim($params->get('customurl', ''));
@@ -86,14 +110,14 @@ class UpdateModel extends BaseDatabaseModel
                 }
                 break;
 
-            /**
-             * "Minor & Patch Release for Current version (recommended and default)".
-             * The commented "case" below are for documenting where 'default' and legacy options falls
-             * case 'default':
-             * case 'lts':
-             * case 'sts': (It's shown as "Default" because that option does not exist any more)
-             * case 'nochange':
-             */
+                /**
+                 * "Minor & Patch Release for Current version (recommended and default)".
+                 * The commented "case" below are for documenting where 'default' and legacy options falls
+                 * case 'default':
+                 * case 'lts':
+                 * case 'sts': (It's shown as "Default" because that option does not exist any more)
+                 * case 'nochange':
+                 */
             default:
                 $updateURL = 'https://update.joomla.org/core/list.xml';
         }
@@ -478,7 +502,9 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Make sure the target does not exist.
-        File::delete($target);
+        if (is_file($target)) {
+            File::delete($target);
+        }
 
         // Download the package
         try {
@@ -491,8 +517,15 @@ class UpdateModel extends BaseDatabaseModel
             return false;
         }
 
+        // Fix Indirect Modification of Overloaded Property
+        $body = $result->body;
+
         // Write the file to disk
-        File::write($target, $result->body);
+        $result = File::write($target, $body);
+
+        if (!$result) {
+            return false;
+        }
 
         return basename($target);
     }
@@ -504,7 +537,10 @@ class UpdateModel extends BaseDatabaseModel
      *
      * @return  boolean
      * @since   2.5.1
-     * @deprecated 5.0
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use "createUpdateFile" instead
+     *              Example: $updateModel->createUpdateFile($basename);
      */
     public function createRestorationFile($basename = null): bool
     {
@@ -570,35 +606,24 @@ ENDDATA;
         $configpath = JPATH_COMPONENT_ADMINISTRATOR . '/update.php';
 
         if (is_file($configpath)) {
-            if (!File::delete($configpath)) {
-                File::invalidateFileCache($configpath);
-                @unlink($configpath);
-            }
+            File::delete($configpath);
         }
 
         // Write new file. First try with File.
         $result = File::write($configpath, $data);
 
-        // In case File used FTP but direct access could help.
+        // In case File failed but direct access could help.
         if (!$result) {
-            if (function_exists('file_put_contents')) {
-                $result = @file_put_contents($configpath, $data);
+            $fp = @fopen($configpath, 'wt');
+
+            if ($fp !== false) {
+                $result = @fwrite($fp, $data);
 
                 if ($result !== false) {
                     $result = true;
                 }
-            } else {
-                $fp = @fopen($configpath, 'wt');
 
-                if ($fp !== false) {
-                    $result = @fwrite($fp, $data);
-
-                    if ($result !== false) {
-                        $result = true;
-                    }
-
-                    @fclose($fp);
-                }
+                @fclose($fp);
             }
         }
 
@@ -621,6 +646,8 @@ ENDDATA;
      */
     public function finaliseUpgrade()
     {
+        Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_FINALISE'), Log::INFO, 'Update');
+
         $installer = Installer::getInstance();
 
         $manifest = $installer->isManifest(JPATH_MANIFESTS . '/files/joomla.xml');
@@ -649,27 +676,33 @@ ENDDATA;
         // Run the script file.
         \JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
+        $msg           = '';
         $manifestClass = new \JoomlaInstallerScript();
+        $manifestClass->setErrorCollector(function (string $context, \Throwable $error) {
+            $this->collectError($context, $error);
+        });
 
-        ob_start();
-        ob_implicit_flush(false);
+        // Run Installer preflight
+        try {
+            ob_start();
 
-        if ($manifestClass && method_exists($manifestClass, 'preflight')) {
             if ($manifestClass->preflight('update', $installer) === false) {
+                $this->collectError('JoomlaInstallerScript::preflight', new \Exception('Script::preflight finished with "false" result.'));
                 $installer->abort(
                     Text::sprintf(
                         'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
                         Text::_('JLIB_INSTALLER_INSTALL')
                     )
                 );
-
                 return false;
             }
-        }
 
-        // Create msg object; first use here.
-        $msg = ob_get_contents();
-        ob_end_clean();
+            // Append messages.
+            $msg .= ob_get_clean();
+        } catch (\Throwable $e) {
+            $this->collectError('JoomlaInstallerScript::preflight', $e);
+            return false;
+        }
 
         // Get a database connector object.
         $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
@@ -690,6 +723,7 @@ ENDDATA;
         try {
             $db->execute();
         } catch (\RuntimeException $e) {
+            $this->collectError('Extension check', $e);
             // Install failed, roll back changes.
             $installer->abort(
                 Text::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', Text::_('JLIB_INSTALLER_UPDATE'), $e->getMessage())
@@ -712,6 +746,7 @@ ENDDATA;
             $row->manifest_cache = $installer->generateManifestCache();
 
             if (!$row->store()) {
+                $this->collectError('Update the manifest_cache', new \Exception('Update the manifest_cache finished with "false" result.'));
                 // Install failed, roll back changes.
                 $installer->abort(
                     Text::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', Text::_('JLIB_INSTALLER_UPDATE'), $row->getError())
@@ -735,6 +770,7 @@ ENDDATA;
             $row->set('manifest_cache', $installer->generateManifestCache());
 
             if (!$row->store()) {
+                $this->collectError('Write the manifest_cache', new \Exception('Writing the manifest_cache finished with "false" result.'));
                 // Install failed, roll back changes.
                 $installer->abort(Text::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_ROLLBACK', $row->getError()));
 
@@ -752,6 +788,7 @@ ENDDATA;
         $result = $installer->parseSchemaUpdates($manifest->update->schemas, $row->extension_id);
 
         if ($result === false) {
+            $this->collectError('installer::parseSchemaUpdates', new \Exception('installer::parseSchemaUpdates finished with "false" result.'));
             // Install failed, rollback changes (message already logged by the installer).
             $installer->abort();
 
@@ -761,12 +798,12 @@ ENDDATA;
         // Reinitialise the installer's extensions table's properties.
         $installer->extension->getFields(true);
 
-        // Start Joomla! 1.6.
-        ob_start();
-        ob_implicit_flush(false);
+        try {
+            ob_start();
 
-        if ($manifestClass && method_exists($manifestClass, 'update')) {
             if ($manifestClass->update($installer) === false) {
+                $this->collectError('JoomlaInstallerScript::update', new \Exception('Script::update finished with "false" result.'));
+
                 // Install failed, rollback changes.
                 $installer->abort(
                     Text::sprintf(
@@ -777,11 +814,13 @@ ENDDATA;
 
                 return false;
             }
-        }
 
-        // Append messages.
-        $msg .= ob_get_contents();
-        ob_end_clean();
+            // Append messages.
+            $msg .= ob_get_clean();
+        } catch (\Throwable $e) {
+            $this->collectError('JoomlaInstallerScript::update', $e);
+            return false;
+        }
 
         // Clobber any possible pending updates.
         $update = new \Joomla\CMS\Table\Update($db);
@@ -794,23 +833,20 @@ ENDDATA;
         }
 
         // And now we run the postflight.
-        ob_start();
-        ob_implicit_flush(false);
-
-        if ($manifestClass && method_exists($manifestClass, 'postflight')) {
+        try {
+            ob_start();
             $manifestClass->postflight('update', $installer);
+
+            // Append messages.
+            $msg .= ob_get_clean();
+        } catch (\Throwable $e) {
+            $this->collectError('JoomlaInstallerScript::postflight', $e);
+            return false;
         }
 
-        // Append messages.
-        $msg .= ob_get_contents();
-        ob_end_clean();
-
-        if ($msg != '') {
+        if ($msg) {
             $installer->set('extension_message', $msg);
         }
-
-        // Refresh versionable assets cache.
-        Factory::getApplication()->flushAssets();
 
         return true;
     }
@@ -829,6 +865,12 @@ ENDDATA;
      */
     public function cleanUp()
     {
+        try {
+            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_CLEANUP'), Log::INFO, 'Update');
+        } catch (\RuntimeException $exception) {
+            // Informational log only
+        }
+
         // Load overrides plugin.
         PluginHelper::importPlugin('installer');
 
@@ -861,6 +903,12 @@ ENDDATA;
         // Trigger event after joomla update.
         $app->triggerEvent('onJoomlaAfterUpdate', [$oldVersion]);
         $app->setUserState('com_joomlaupdate.oldversion', null);
+
+        try {
+            Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', \JVERSION), Log::INFO, 'Update');
+        } catch (\RuntimeException $exception) {
+            // Informational log only
+        }
     }
 
     /**
@@ -897,7 +945,7 @@ ENDDATA;
         if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR)) {
             throw new \RuntimeException(
                 Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' .
-                Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
+                    Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
                 500
             );
         }
@@ -920,7 +968,7 @@ ENDDATA;
         $tmp_src  = $userfile['tmp_name'];
 
         // Move uploaded file.
-        $result = File::upload($tmp_src, $tmp_dest, false, true);
+        $result = FileCMS::upload($tmp_src, $tmp_dest, false, true);
 
         if (!$result) {
             throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
@@ -1361,20 +1409,20 @@ ENDDATA;
      *
      * @since   3.10.0
      */
-    public function getNonCorePlugins($folderFilter = ['system','user','authentication','actionlog','multifactorauth'])
+    public function getNonCorePlugins($folderFilter = ['system', 'user', 'authentication', 'actionlog', 'multifactorauth'])
     {
         $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->select(
             $db->quoteName('ex.name') . ', ' .
-            $db->quoteName('ex.extension_id') . ', ' .
-            $db->quoteName('ex.manifest_cache') . ', ' .
-            $db->quoteName('ex.type') . ', ' .
-            $db->quoteName('ex.folder') . ', ' .
-            $db->quoteName('ex.element') . ', ' .
-            $db->quoteName('ex.client_id') . ', ' .
-            $db->quoteName('ex.package_id')
+                $db->quoteName('ex.extension_id') . ', ' .
+                $db->quoteName('ex.manifest_cache') . ', ' .
+                $db->quoteName('ex.type') . ', ' .
+                $db->quoteName('ex.folder') . ', ' .
+                $db->quoteName('ex.element') . ', ' .
+                $db->quoteName('ex.client_id') . ', ' .
+                $db->quoteName('ex.package_id')
         )->from(
             $db->quoteName('#__extensions', 'ex')
         )->where(
@@ -1630,9 +1678,9 @@ ENDDATA;
         }
 
         $lang->load("$extension.sys", JPATH_ADMINISTRATOR)
-        || $lang->load("$extension.sys", $source);
+            || $lang->load("$extension.sys", $source);
         $lang->load($extension, JPATH_ADMINISTRATOR)
-        || $lang->load($extension, $source);
+            || $lang->load($extension, $source);
 
         // Translate the extension name if possible
         $item->name = strip_tags(Text::_($item->name));
@@ -1694,5 +1742,38 @@ ENDDATA;
         }
 
         return $home || $menu;
+    }
+
+    /**
+     * Collect errors that happened during update.
+     *
+     * @param  string      $context  A context/place where error happened
+     * @param  \Throwable  $error    The error that occurred
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function collectError(string $context, \Throwable $error)
+    {
+        // Store error for further processing by controller
+        $this->setError($error);
+
+        // Log it
+        Log::add(
+            sprintf(
+                'An error has occurred while running "%s". Code: %s. Message: %s.',
+                $context,
+                $error->getCode(),
+                $error->getMessage()
+            ),
+            Log::ERROR,
+            'Update'
+        );
+
+        if (JDEBUG) {
+            $trace = $error->getFile() . ':' . $error->getLine() . PHP_EOL . $error->getTraceAsString();
+            Log::add(sprintf('An error trace: %s.', $trace), Log::DEBUG, 'Update');
+        }
     }
 }

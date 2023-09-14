@@ -1,14 +1,14 @@
-describe('Test that the articles back end list', () => {
+describe('Test in backend that the articles list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
-    cy.visit('administrator/index.php?option=com_content&view=articles&filter=');
+    cy.visit('/administrator/index.php?option=com_content&view=articles&filter=');
   });
 
   it('has a title', () => {
     cy.get('h1.page-title').should('contain.text', 'Articles');
   });
 
-  it('can show a list of articles', () => {
+  it('can display a list of articles', () => {
     cy.db_createArticle({ title: 'Test article' }).then(() => {
       cy.reload();
 
@@ -29,7 +29,6 @@ describe('Test that the articles back end list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Publish').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('Article published.').should('exist');
     });
@@ -42,7 +41,6 @@ describe('Test that the articles back end list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Unpublish').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('Article unpublished.').should('exist');
     });
@@ -55,7 +53,6 @@ describe('Test that the articles back end list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('.button-featured', 'Feature').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('Article featured.').should('exist');
     });
@@ -68,7 +65,6 @@ describe('Test that the articles back end list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Unfeature').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('Article unfeatured.').should('exist');
     });
@@ -81,7 +77,6 @@ describe('Test that the articles back end list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Trash').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('Article trashed.').should('exist');
     });
@@ -94,7 +89,7 @@ describe('Test that the articles back end list', () => {
       cy.searchForItem('Test article');
       cy.checkAllResults();
       cy.clickToolbarButton('empty trash');
-      cy.on('window:confirm', () => true);
+      cy.clickDialogConfirm(true);
 
       cy.get('#system-message-container').contains('Article deleted.').should('exist');
     });
