@@ -67,14 +67,15 @@ final class Button implements ButtonInterface
     }
 
     /**
-     * Return Button property or null.
+     * Return Button property.
      *
-     * @param string $name Property name
+     * @param string $name    Property name
+     * @param string $default Default value
      *
      * @return mixed
      * @since   5.0.0
      */
-    public function get(string $name)
+    public function get(string $name, $default = null)
     {
         if ($name === 'options') {
             @trigger_error(
@@ -85,7 +86,7 @@ final class Button implements ButtonInterface
             return $this->getOptions();
         }
 
-        return array_key_exists($name, $this->props) ? $this->props[$name] : null;
+        return array_key_exists($name, $this->props) ? $this->props[$name] : $default;
     }
 
     /**

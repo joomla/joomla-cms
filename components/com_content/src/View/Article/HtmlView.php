@@ -350,7 +350,7 @@ class HtmlView extends BaseHtmlView
 
         // If there is a pagebreak heading or title, add it to the page title
         if (!empty($this->item->page_title)) {
-            $this->item->title = $this->item->title . ' - ' . $this->item->page_title;
+            $this->item->title .= ' - ' . $this->item->page_title;
             $this->setDocumentTitle(
                 $this->item->page_title . ' - ' . Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('list.offset') + 1)
             );
