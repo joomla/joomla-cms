@@ -1825,23 +1825,19 @@ ENDDATA;
             throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_INSTALL_PACKAGE'), 500);
         }
 
-        $versionFile = $zipArchive->getFromName('libraries/src/Version.php');
+        $manifestFile = $zipArchive->getFromName('administrator/manifests/files/joomla.xml');
 
-        if ($versionFile === false) {
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_VERSION_FILE'), 500);
+        if ($manifestFile === false) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE'), 500);
         }
 
-        if (
-            !preg_match(
-                '/(?:\s+MAJOR_VERSION\s+=\s+)(?P<major>\d+)(?:;[\s\S]*?\s+MINOR_VERSION\s+=\s+)(?P<minor>\d+)(?:;[\s\S]*?\s+PATCH_VERSION\s+=\s+)(?P<patch>\d+)(?:;[\s\S]*?\s+EXTRA_VERSION\s+=\s+\')(?P<extra>\S*)(?:\';)/',
-                $versionFile,
-                $matches
-            )
-        ) {
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_VERSIONS_FOUND'), 500);
-        }
+        $manifestXml = simplexml_load_string($manifestFile);
 
-        $versionPackage = $matches['major'] . '.' . $matches['minor'] . '.' . $matches['patch'] . ($matches['extra'] ? '-' . $matches['extra'] : '');
+        $versionPackage = (string) $manifestXml->version ?: '';
+
+        if (!$versionPackage) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_VERSION_FOUND'), 500);
+        }
 
         if (version_compare($versionPackage, JVERSION, 'lt')) {
             throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_DOWNGRADE'), 500);
