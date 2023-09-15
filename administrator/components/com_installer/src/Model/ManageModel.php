@@ -11,6 +11,7 @@
 namespace Joomla\Component\Installer\Administrator\Model;
 
 use Joomla\CMS\Changelog\Changelog;
+use Joomla\CMS\Event\Model\BeforeChangeStateEvent;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
@@ -129,7 +130,11 @@ class ManageModel extends InstallerModel
         }
 
         // Get a table object for the extension type
-        $table = new Extension($this->getDatabase());
+        $table      = new Extension($this->getDatabase());
+        $context    = $this->option . '.' . $this->name;
+        $dispatcher = $this->getDispatcher();
+
+        PluginHelper::importPlugin('extension', null, true, $dispatcher);
 
         // Enable the extension in the table and store it in the database
         foreach ($eid as $i => $id) {
@@ -159,10 +164,12 @@ class ManageModel extends InstallerModel
                 $table->enabled = $value;
             }
 
-            $context = $this->option . '.' . $this->name;
-
-            PluginHelper::importPlugin('extension');
-            Factory::getApplication()->triggerEvent('onExtensionChangeState', [$context, $eid, $value]);
+            // Trigger the before change state event.
+            $dispatcher->dispatch('onExtensionChangeState', new BeforeChangeStateEvent('onExtensionChangeState', [
+                'context' => $context,
+                'subject' => $eid,
+                'value'   => $value,
+            ]));
 
             if (!$table->store()) {
                 $this->setError($table->getError());
@@ -444,14 +451,12 @@ class ManageModel extends InstallerModel
             'note'     => [],
         ];
 
-        array_walk(
-            $entries,
-            function (&$value, $name) use ($changelog) {
-                if ($field = $changelog->get($name)) {
-                    $value = $changelog->get($name)->data;
-                }
+        foreach (array_keys($entries) as $name) {
+            $field = $changelog->get($name);
+            if ($field) {
+                $entries[$name] = $changelog->get($name)->data;
             }
-        );
+        }
 
         $layout = new FileLayout('joomla.installer.changelog');
         $output = $layout->render($entries);
