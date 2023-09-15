@@ -3,7 +3,7 @@ describe('Test that config API endpoint', () => {
     cy.api_get('/config/application')
       .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
         .its('id')
-        .should('equal', 228));
+        .should('equal', 229));
   });
 
   it('can modify a single application config', () => {
