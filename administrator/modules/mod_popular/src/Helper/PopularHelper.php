@@ -31,14 +31,14 @@ abstract class PopularHelper
     /**
      * Get a list of the most popular articles.
      *
-     * @param   Registry       &$params  The module parameters.
-     * @param   ArticlesModel  $model    The model.
+     * @param   Registry       $params  The module parameters.
+     * @param   ArticlesModel  $model   The model.
      *
      * @return  mixed  An array of articles, or false on error.
      *
      * @throws  \Exception
      */
-    public static function getList(Registry &$params, ArticlesModel $model)
+    public static function getList(Registry $params, ArticlesModel $model)
     {
         $user = Factory::getUser();
 

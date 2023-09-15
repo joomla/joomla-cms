@@ -239,7 +239,7 @@ class HtmlView extends BaseHtmlView
 
                 $childBar = $dropdown->getChildToolbar();
 
-                $childBar->standardButton('cog', 'COM_FINDER_INDEX_TOOLBAR_OPTIMISE', 'index.optimise', false);
+                $childBar->standardButton('cog', 'COM_FINDER_INDEX_TOOLBAR_OPTIMISE', 'index.optimise');
                 $childBar->confirmButton('index-purge', 'COM_FINDER_INDEX_TOOLBAR_PURGE', 'index.purge')
                     ->message('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT')
                     ->icon('icon-trash');
