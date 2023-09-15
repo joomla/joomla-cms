@@ -977,8 +977,10 @@ ENDDATA;
             throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
         }
 
-        // Check the uploaded file
-        $this->checkPackageFile($userfile['tmp_name']);
+        // Check the uploaded file (requires zip PHP extension, throws RuntimeException when a check failed)
+        if (\extension_loaded('zip')) {
+            $this->checkPackageFile($userfile['tmp_name']);
+        }
 
         // Build the appropriate paths.
         $tmp_dest = tempnam(Factory::getApplication()->get('tmp_path'), 'ju');
