@@ -11,6 +11,9 @@
 namespace Joomla\Component\Finder\Administrator\Controller;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Finder\BeforeIndexEvent;
+use Joomla\CMS\Event\Finder\BuildIndexEvent;
+use Joomla\CMS\Event\Finder\StartIndexEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -50,7 +53,8 @@ class IndexerController extends BaseController
             return;
         }
 
-        $params = ComponentHelper::getParams('com_finder');
+        $params     = ComponentHelper::getParams('com_finder');
+        $dispatcher = $this->getDispatcher();
 
         if ($params->get('enable_logging', '0')) {
             $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
@@ -75,7 +79,7 @@ class IndexerController extends BaseController
         Indexer::resetState();
 
         // Import the finder plugins.
-        PluginHelper::importPlugin('finder');
+        PluginHelper::importPlugin('finder', null, true, $dispatcher);
 
         // Add the indexer language to \JS
         Text::script('COM_FINDER_AN_ERROR_HAS_OCCURRED');
@@ -84,7 +88,7 @@ class IndexerController extends BaseController
         // Start the indexer.
         try {
             // Trigger the onStartIndex event.
-            $this->app->triggerEvent('onStartIndex');
+            $dispatcher->dispatch('onStartIndex', new StartIndexEvent('onStartIndex', []));
 
             // Get the indexer state.
             $state        = Indexer::getState();
@@ -120,7 +124,8 @@ class IndexerController extends BaseController
             return;
         }
 
-        $params = ComponentHelper::getParams('com_finder');
+        $params     = ComponentHelper::getParams('com_finder');
+        $dispatcher = $this->getDispatcher();
 
         if ($params->get('enable_logging', '0')) {
             $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
@@ -142,7 +147,9 @@ class IndexerController extends BaseController
         ob_start();
 
         // Remove the script time limit.
-        @set_time_limit(0);
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(0);
+        }
 
         // Get the indexer state.
         $state = Indexer::getState();
@@ -154,7 +161,7 @@ class IndexerController extends BaseController
         Indexer::setState($state);
 
         // Import the finder plugins.
-        PluginHelper::importPlugin('finder');
+        PluginHelper::importPlugin('finder', null, true, $dispatcher);
 
         /*
          * We are going to swap out the raw document object with an HTML document
@@ -175,10 +182,10 @@ class IndexerController extends BaseController
         // Start the indexer.
         try {
             // Trigger the onBeforeIndex event.
-            $this->app->triggerEvent('onBeforeIndex');
+            $dispatcher->dispatch('onBeforeIndex', new BeforeIndexEvent('onBeforeIndex', []));
 
             // Trigger the onBuildIndex event.
-            $this->app->triggerEvent('onBuildIndex');
+            $dispatcher->dispatch('onBuildIndex', new BuildIndexEvent('onBuildIndex', []));
 
             // Get the indexer state.
             $state           = Indexer::getState();
@@ -230,7 +237,7 @@ class IndexerController extends BaseController
         ob_start();
 
         // Import the finder plugins.
-        PluginHelper::importPlugin('finder');
+        PluginHelper::importPlugin('finder', null, true, $this->getDispatcher());
 
         try {
             // Optimize the index
@@ -344,9 +351,9 @@ class IndexerController extends BaseController
         try {
             // Import the finder plugins.
             class_alias(DebugAdapter::class, Adapter::class);
-            $plugin = Factory::getApplication()->bootPlugin($this->app->input->get('plugin'), 'finder');
+            $plugin = $this->app->bootPlugin($this->app->getInput()->get('plugin'), 'finder');
             $plugin->setIndexer(new DebugIndexer());
-            $plugin->debug($this->app->input->get('id'));
+            $plugin->debug($this->app->getInput()->get('id'));
 
             $output = '';
 

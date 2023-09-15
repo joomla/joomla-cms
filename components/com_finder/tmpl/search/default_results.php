@@ -88,7 +88,7 @@ use Joomla\CMS\Uri\Uri;
             <?php $start = (int) $this->pagination->limitstart + 1; ?>
             <?php $total = (int) $this->pagination->total; ?>
             <?php $limit = (int) $this->pagination->limit * $this->pagination->pagesCurrent; ?>
-            <?php $limit = (int) ($limit > $total ? $total : $limit); ?>
+            <?php $limit = (int) min($limit, $total); ?>
             <?php echo Text::sprintf('COM_FINDER_SEARCH_RESULTS_OF', $start, $limit, $total); ?>
         </div>
     <?php endif; ?>

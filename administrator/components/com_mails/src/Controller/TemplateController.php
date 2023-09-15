@@ -11,7 +11,7 @@
 namespace Joomla\Component\Mails\Administrator\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -192,9 +192,13 @@ class TemplateController extends FormController
 
         // Send an object which can be modified through the plugin event
         $objData = (object) $data;
-        $this->app->triggerEvent(
+        $this->getDispatcher()->dispatch(
             'onContentNormaliseRequestData',
-            [$this->option . '.' . $this->context, $objData, $form]
+            new Model\NormaliseRequestDataEvent('onContentNormaliseRequestData', [
+                'context' => $this->option . '.' . $this->context,
+                'data'    => $objData,
+                'subject' => $form,
+            ])
         );
         $data = (array) $objData;
 

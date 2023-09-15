@@ -452,7 +452,7 @@ class Document
         } elseif ($name === 'description') {
             $result = $this->getDescription();
         } else {
-            $result = isset($this->_metaTags[$attribute]) && isset($this->_metaTags[$attribute][$name]) ? $this->_metaTags[$attribute][$name] : '';
+            $result = $this->_metaTags[$attribute][$name] ?? '';
         }
 
         return $result;
@@ -640,6 +640,10 @@ class Document
      */
     public function addStyleDeclaration($content, $type = 'text/css')
     {
+        if ($content === null) {
+            return $this;
+        }
+
         $type = strtolower($type);
 
         if (empty($this->_style[$type])) {
@@ -977,7 +981,7 @@ class Document
                     'The $date parameter of %1$s must be a string or a %2$s instance, a %3$s was given.',
                     __METHOD__ . '()',
                     'Joomla\\CMS\\Date\\Date',
-                    \gettype($date) === 'object' ? (\get_class($date) . ' instance') : \gettype($date)
+                    \is_object($date) ? (\get_class($date) . ' instance') : \gettype($date)
                 )
             );
         }

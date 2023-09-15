@@ -9,12 +9,16 @@
 
 namespace Joomla\CMS\MVC\Model;
 
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -145,11 +149,26 @@ trait FormBehaviorTrait
      */
     protected function preprocessData($context, &$data, $group = 'content')
     {
+        if ($this instanceof DispatcherAwareInterface) {
+            $dispatcher = $this->getDispatcher();
+        } else {
+            $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+        }
+
         // Get the dispatcher and load the users plugins.
-        PluginHelper::importPlugin($group);
+        PluginHelper::importPlugin($group, null, true, $dispatcher);
+
+        // When the data is an array wrap it in to an array-access object
+        $eventData = $data;
+        if (is_array($data)) {
+            $eventData = new ArrayProxy($data);
+        }
 
         // Trigger the data preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareData', [$context, &$data]);
+        $dispatcher->dispatch(
+            'onContentPrepareData',
+            new Model\PrepareDataEvent('onContentPrepareData', ['context' => $context, 'subject' => $eventData])
+        );
     }
 
     /**
@@ -167,11 +186,20 @@ trait FormBehaviorTrait
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
+        if ($this instanceof DispatcherAwareInterface) {
+            $dispatcher = $this->getDispatcher();
+        } else {
+            $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+        }
+
         // Import the appropriate plugin group.
-        PluginHelper::importPlugin($group);
+        PluginHelper::importPlugin($group, null, true, $dispatcher);
 
         // Trigger the form preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareForm', [$form, $data]);
+        $dispatcher->dispatch(
+            'onContentPrepareForm',
+            new Model\PrepareFormEvent('onContentPrepareForm', ['subject' => $form, 'data' => $data])
+        );
     }
 
     /**
