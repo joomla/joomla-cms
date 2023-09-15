@@ -9,13 +9,6 @@
 
 namespace Joomla\CMS\Event;
 
-use Joomla\CMS\Event\Plugin\System\Webauthn\Ajax as PlgSystemWebauthnAjax;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxChallenge as PlgSystemWebauthnAjaxChallenge;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxCreate as PlgSystemWebauthnAjaxCreate;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxDelete as PlgSystemWebauthnAjaxDelete;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxInitCreate as PlgSystemWebauthnAjaxInitCreate;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxLogin as PlgSystemWebauthnAjaxLogin;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxSaveLabel as PlgSystemWebauthnAjaxSaveLabel;
 use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -92,14 +85,6 @@ trait CoreEventAware
         'onWorkflowFunctionalityUsed' => Workflow\WorkflowFunctionalityUsedEvent::class,
         'onWorkflowAfterTransition'   => Workflow\WorkflowTransitionEvent::class,
         'onWorkflowBeforeTransition'  => Workflow\WorkflowTransitionEvent::class,
-        // Plugin: System, WebAuthn
-        'onAjaxWebauthn'           => PlgSystemWebauthnAjax::class,
-        'onAjaxWebauthnChallenge'  => PlgSystemWebauthnAjaxChallenge::class,
-        'onAjaxWebauthnCreate'     => PlgSystemWebauthnAjaxCreate::class,
-        'onAjaxWebauthnDelete'     => PlgSystemWebauthnAjaxDelete::class,
-        'onAjaxWebauthnInitcreate' => PlgSystemWebauthnAjaxInitCreate::class,
-        'onAjaxWebauthnLogin'      => PlgSystemWebauthnAjaxLogin::class,
-        'onAjaxWebauthnSavelabel'  => PlgSystemWebauthnAjaxSaveLabel::class,
         // Plugin: System, Schemaorg
         'onSchemaBeforeCompileHead' => Plugin\System\Schemaorg\BeforeCompileHeadEvent::class,
         'onSchemaPrepareData'       => Plugin\System\Schemaorg\PrepareDataEvent::class,
