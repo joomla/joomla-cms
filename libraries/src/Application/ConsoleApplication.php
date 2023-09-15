@@ -593,7 +593,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      *
      * @return  mixed  The user state or null.
      *
-     * @since   5.0.0
+     * @since   4.4.0
      */
     public function getUserState($key, $default = null)
     {
@@ -616,7 +616,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      *
      * @return  mixed  The request user state.
      *
-     * @since   5.0.0
+     * @since   4.4.0
      */
     public function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
     {
