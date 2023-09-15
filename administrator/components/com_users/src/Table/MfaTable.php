@@ -79,8 +79,8 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
     /**
      * Table constructor
      *
-     * @param   DatabaseDriver            $db          Database driver object
-     * @param   DispatcherInterface|null  $dispatcher  Events dispatcher object
+     * @param   DatabaseDriver        $db          Database driver object
+     * @param   ?DispatcherInterface  $dispatcher  Events dispatcher object
      *
      * @since 4.2.0
      */
