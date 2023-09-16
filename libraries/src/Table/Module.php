@@ -150,13 +150,11 @@ class Module extends Table
             $this->publish_down = null;
         }
 
+        // Prevent to save too large content > 65535
         if ((!\is_null($this->content) && \strlen($this->content) > 65535) || (!\is_null($this->params) && \strlen($this->params) > 65535)) {
-
-            // Prevent to save too large content > 65535
             $this->setError(Text::_('COM_MODULES_FIELD_CONTENT_TOO_LARGE'));
 
             return false;
-            }
         }
 
         // Check the publish down date is not earlier than publish up.
