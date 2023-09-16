@@ -59,11 +59,11 @@ if ($clientId == 1) {
                     <select class="form-select" name="batch[menu_id]" id="batch-menu-id">
                         <option value=""><?php echo Text::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
                         <?php
-                        $opts = array(
+                        $opts = [
                             'published' => $this->state->get('filter.published'),
                             'checkacl'  => (int) $this->state->get('menutypeid'),
                             'clientid'  => (int) $clientId,
-                        );
+                        ];
                         echo HTMLHelper::_('select.options', HTMLHelper::_('menu.menuitems', $opts));
                         ?>
                     </select>

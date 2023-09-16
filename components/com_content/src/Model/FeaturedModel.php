@@ -51,7 +51,7 @@ class FeaturedModel extends ArticlesModel
         parent::populateState($ordering, $direction);
 
         $app   = Factory::getApplication();
-        $input = $app->input;
+        $input = $app->getInput();
         $user  = $app->getIdentity();
 
         // List state information
@@ -77,7 +77,7 @@ class FeaturedModel extends ArticlesModel
 
         $this->setState('filter.frontpage', true);
 
-        if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content'))) {
+        if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content'))) {
             // Filter on published for those who do not have edit or edit.state rights.
             $this->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
         } else {
@@ -116,7 +116,7 @@ class FeaturedModel extends ArticlesModel
     public function getItems()
     {
         $params = clone $this->getState('params');
-        $limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
+        $limit  = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
 
         if ($limit > 0) {
             $this->setState('list.limit', $limit);
@@ -124,7 +124,7 @@ class FeaturedModel extends ArticlesModel
             return parent::getItems();
         }
 
-        return array();
+        return [];
     }
 
     /**

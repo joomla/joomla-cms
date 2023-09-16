@@ -10,12 +10,16 @@
 
 namespace Joomla\Module\ArticlesArchive\Site\Helper;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -26,21 +30,23 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.5
  */
-class ArticlesArchiveHelper
+class ArticlesArchiveHelper implements DatabaseAwareInterface
 {
+    use DatabaseAwareTrait;
+
     /**
-     * Retrieve list of archived articles
+     * Retrieve a list of months with archived articles
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
+     * @param   Registry         $moduleParams  The module parameters.
+     * @param   SiteApplication  $app           The current application.
      *
-     * @return  array
+     * @return  \stdClass[]
      *
-     * @since   1.5
+     * @since   4.4.0
      */
-    public static function getList(&$params)
+    public function getArticlesByMonths(Registry $moduleParams, SiteApplication $app): array
     {
-        $app       = Factory::getApplication();
-        $db        = Factory::getDbo();
+        $db        = $this->getDatabase();
         $query     = $db->getQuery(true);
 
         $query->select($query->month($db->quoteName('created')) . ' AS created_month')
@@ -53,10 +59,10 @@ class ArticlesArchiveHelper
 
         // Filter by language
         if ($app->getLanguageFilter()) {
-            $query->whereIn($db->quoteName('language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
+            $query->whereIn($db->quoteName('language'), [$app->getLanguage()->getTag(), '*'], ParameterType::STRING);
         }
 
-        $query->setLimit((int) $params->get('count'));
+        $query->setLimit((int) $moduleParams->get('count'));
         $db->setQuery($query);
 
         try {
@@ -72,7 +78,7 @@ class ArticlesArchiveHelper
         $itemid = (isset($item) && !empty($item->id)) ? '&Itemid=' . $item->id : '';
 
         $i     = 0;
-        $lists = array();
+        $lists = [];
 
         foreach ($rows as $row) {
             $date = Factory::getDate($row->created);
@@ -92,5 +98,28 @@ class ArticlesArchiveHelper
         }
 
         return $lists;
+    }
+
+    /**
+     * Retrieve list of archived articles
+     *
+     * @param   Registry  &$params module parameters
+     *
+     * @return  \stdClass[]
+     *
+     * @since   1.5
+     *
+     * @deprecated  4.4.0  will be removed in 6.0
+     *              Use the non-static method getArticlesByMonths
+     *              Example: Factory::getApplication()->bootModule('mod_articles_archive', 'site')
+     *                           ->getHelper('ArticlesArchiveHelper')
+     *                           ->getArticlesByMonths($params, Factory::getApplication())
+     */
+    public static function getList(&$params)
+    {
+        /** @var SiteApplication $app */
+        $app = Factory::getApplication();
+
+        return (new self())->getArticlesByMonths($params, $app);
     }
 }

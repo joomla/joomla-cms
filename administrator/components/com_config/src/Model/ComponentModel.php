@@ -14,12 +14,12 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -43,7 +43,7 @@ class ComponentModel extends FormModel
      */
     protected function populateState()
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Set the component (option) we are dealing with.
         $component = $input->get('component');
@@ -68,9 +68,9 @@ class ComponentModel extends FormModel
      *
      * @since   3.2
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
-        $state = $this->getState();
+        $state  = $this->getState();
         $option = $state->get('component.option');
 
         if ($path = $state->get('component.path')) {
@@ -85,7 +85,7 @@ class ComponentModel extends FormModel
         $form = $this->loadForm(
             'com_config.component',
             'config',
-            array('control' => 'jform', 'load_data' => $loadData),
+            ['control' => 'jform', 'load_data' => $loadData],
             false,
             '/config'
         );
@@ -131,7 +131,7 @@ class ComponentModel extends FormModel
      */
     public function getComponent()
     {
-        $state = $this->getState();
+        $state  = $this->getState();
         $option = $state->get('component.option');
 
         // Load common and local language files.
@@ -162,7 +162,7 @@ class ComponentModel extends FormModel
 
         // Check super user group.
         if (isset($data['params']) && !$this->getCurrentUser()->authorise('core.admin')) {
-            $form = $this->getForm(array(), false);
+            $form = $this->getForm([], false);
 
             foreach ($form->getFieldsets() as $fieldset) {
                 foreach ($form->getFieldset($fieldset->name) as $field) {
@@ -178,7 +178,7 @@ class ComponentModel extends FormModel
         }
 
         // Save the rules.
-        if (isset($data['params']) && isset($data['params']['rules'])) {
+        if (isset($data['params']['rules'])) {
             if (!$this->getCurrentUser()->authorise('core.admin', $data['option'])) {
                 throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
             }
@@ -189,7 +189,7 @@ class ComponentModel extends FormModel
             if (!$asset->loadByName($data['option'])) {
                 $root = Table::getInstance('asset');
                 $root->loadByName('root.1');
-                $asset->name = $data['option'];
+                $asset->name  = $data['option'];
                 $asset->title = $data['option'];
                 $asset->setLocation($root->id, 'last-child');
             }
@@ -222,14 +222,14 @@ class ComponentModel extends FormModel
             throw new \RuntimeException($table->getError());
         }
 
-        $result = Factory::getApplication()->triggerEvent('onExtensionBeforeSave', array($context, $table, false));
+        $result = Factory::getApplication()->triggerEvent('onExtensionBeforeSave', [$context, $table, false]);
 
         // Store the data.
         if (in_array(false, $result, true) || !$table->store()) {
             throw new \RuntimeException($table->getError());
         }
 
-        Factory::getApplication()->triggerEvent('onExtensionAfterSave', array($context, $table, false));
+        Factory::getApplication()->triggerEvent('onExtensionAfterSave', [$context, $table, false]);
 
         // Clean the component cache.
         $this->cleanCache('_system');

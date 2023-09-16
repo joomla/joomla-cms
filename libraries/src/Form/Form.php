@@ -10,18 +10,20 @@
 namespace Joomla\CMS\Form;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\DatabaseNotFoundException;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -35,9 +37,10 @@ use Joomla\Utilities\ArrayHelper;
  * @link   https://html.spec.whatwg.org/multipage/forms.html
  * @since  1.7.0
  */
-class Form
+class Form implements CurrentUserInterface
 {
     use DatabaseAwareTrait;
+    use CurrentUserTrait;
 
     /**
      * The Registry data store for form fields during display.
@@ -50,7 +53,7 @@ class Form
     /**
      * The form object errors array.
      *
-     * @var    array
+     * @var    \Exception[]
      * @since  1.7.0
      */
     protected $errors = [];
@@ -153,7 +156,7 @@ class Form
      */
     protected function bindLevel($group, $data)
     {
-        // Ensure the input data is an array.
+        // Check the input data for specific types.
         if (\is_object($data)) {
             if ($data instanceof Registry) {
                 // Handle a Registry.
@@ -161,9 +164,6 @@ class Form
             } elseif ($data instanceof CMSObject) {
                 // Handle a CMSObject.
                 $data = $data->getProperties();
-            } else {
-                // Handle other types of objects.
-                $data = (array) $data;
             }
         }
 
@@ -184,7 +184,7 @@ class Form
     /**
      * Return all errors, if any.
      *
-     * @return  array  Array of error messages or RuntimeException objects.
+     * @return  \Exception[]  Array of error messages or RuntimeException objects.
      *
      * @since   1.7.0
      */
@@ -285,9 +285,9 @@ class Form
         // Build the result array from the found field elements.
         foreach ($elements as $element) {
             // Get the field groups for the element.
-            $attrs = $element->xpath('ancestor::fields[@name]/@name');
+            $attrs  = $element->xpath('ancestor::fields[@name]/@name');
             $groups = array_map('strval', $attrs ?: []);
-            $group = implode('.', $groups);
+            $group  = implode('.', $groups);
 
             // If the field is successfully loaded add it to the result array.
             if ($field = $this->loadField($element, $group)) {
@@ -303,14 +303,14 @@ class Form
      *
      * @param   string  $group  The dot-separated form group path on which to filter the fieldsets.
      *
-     * @return  array  The array of fieldset objects.
+     * @return  object[]  The array of fieldset objects.
      *
      * @since   1.7.0
      */
     public function getFieldsets($group = null)
     {
         $fieldsets = [];
-        $sets = [];
+        $sets      = [];
 
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
@@ -348,7 +348,7 @@ class Form
                 // Only create it if it doesn't already exist.
                 if (empty($fieldsets[(string) $set['name']])) {
                     // Build the fieldset object.
-                    $fieldset = (object) array('name' => '', 'label' => '', 'description' => '');
+                    $fieldset = (object) ['name' => '', 'label' => '', 'description' => ''];
 
                     foreach ($set->attributes() as $name => $value) {
                         $fieldset->$name = (string) $value;
@@ -366,10 +366,10 @@ class Form
 
                     // If no element was found, build a very simple fieldset object.
                     if (empty($tmp)) {
-                        $fieldset = (object) array('name' => (string) $set, 'label' => '', 'description' => '');
+                        $fieldset = (object) ['name' => (string) $set, 'label' => '', 'description' => ''];
                     } else {
                         // Build the fieldset object from the element.
-                        $fieldset = (object) array('name' => '', 'label' => '', 'description' => '');
+                        $fieldset = (object) ['name' => '', 'label' => '', 'description' => ''];
 
                         foreach ($tmp[0]->attributes() as $name => $value) {
                             $fieldset->$name = (string) $value;
@@ -552,7 +552,7 @@ class Form
     public function renderFieldset($name, $options = [])
     {
         $fields = $this->getFieldset($name);
-        $html = [];
+        $html   = [];
 
         foreach ($fields as $field) {
             $html[] = $field->renderField($options);
@@ -570,10 +570,10 @@ class Form
      * field being loaded.  If it is false, then the new field being loaded will be ignored and the
      * method will move on to the next field to load.
      *
-     * @param   string   $data     The name of an XML string or object.
-     * @param   boolean  $replace  Flag to toggle whether form fields should be replaced if a field
-     *                             already exists with the same group/name.
-     * @param   string   $xpath    An optional xpath to search for the fields.
+     * @param   string|\SimpleXMLElement   $data     The name of an XML string or object.
+     * @param   boolean                    $replace  Flag to toggle whether form fields should be replaced if a field
+     *                                               already exists with the same group/name.
+     * @param   string                     $xpath    An optional xpath to search for the fields.
      *
      * @return  boolean  True on success, false otherwise.
      *
@@ -582,7 +582,7 @@ class Form
     public function load($data, $replace = true, $xpath = null)
     {
         // If the data to load isn't already an XML element or string return false.
-        if ((!($data instanceof \SimpleXMLElement)) && (!\is_string($data))) {
+        if (!($data instanceof \SimpleXMLElement) && !\is_string($data)) {
             return false;
         }
 
@@ -632,16 +632,16 @@ class Form
 
             foreach ($fields as $field) {
                 // Get the group names as strings for ancestor fields elements.
-                $attrs = $field->xpath('ancestor::fields[@name]/@name');
+                $attrs  = $field->xpath('ancestor::fields[@name]/@name');
                 $groups = array_map('strval', $attrs ?: []);
 
                 // Check to see if the field exists in the current form.
                 if ($current = $this->findField((string) $field['name'], implode('.', $groups))) {
                     // If set to replace found fields, replace the data and remove the field so we don't add it twice.
                     if ($replace) {
-                        $olddom = dom_import_simplexml($current);
+                        $olddom    = dom_import_simplexml($current);
                         $loadeddom = dom_import_simplexml($field);
-                        $addeddom = $olddom->ownerDocument->importNode($loadeddom, true);
+                        $addeddom  = $olddom->ownerDocument->importNode($loadeddom, true);
                         $olddom->parentNode->replaceChild($addeddom, $olddom);
                         $loadeddom->parentNode->removeChild($loadeddom);
                     } else {
@@ -908,10 +908,10 @@ class Form
      * the fields will be set whether they already exists or not.  If it isn't set, then the fields
      * will not be replaced if they already exist.
      *
-     * @param   array    &$elements  The array of XML element object representations of the form fields.
-     * @param   string   $group      The optional dot-separated form group path on which to set the fields.
-     * @param   boolean  $replace    True to replace existing fields if they already exist.
-     * @param   string   $fieldset   The name of the fieldset we are adding the field to.
+     * @param   \SimpleXMLElement[]    &$elements  The array of XML element object representations of the form fields.
+     * @param   string                 $group      The optional dot-separated form group path on which to set the fields.
+     * @param   boolean                $replace    True to replace existing fields if they already exist.
+     * @param   string                 $fieldset   The name of the fieldset we are adding the field to.
      *
      * @return  boolean  True on success.
      *
@@ -1016,7 +1016,7 @@ class Form
             throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
         }
 
-        $input = new Registry($data);
+        $input  = new Registry($data);
         $output = new Registry();
 
         // Get the fields for which to filter the data.
@@ -1032,8 +1032,8 @@ class Form
             $name = (string) $field['name'];
 
             // Get the field groups for the element.
-            $attrs = $field->xpath('ancestor::fields[@name]/@name');
-            $groups = array_map('strval', $attrs ?: []);
+            $attrs     = $field->xpath('ancestor::fields[@name]/@name');
+            $groups    = array_map('strval', $attrs ?: []);
             $attrGroup = implode('.', $groups);
 
             $key = $attrGroup ? $attrGroup . '.' . $name : $name;
@@ -1114,8 +1114,8 @@ class Form
             }
 
             // Get the field groups for the element.
-            $attrs = $field->xpath('ancestor::fields[@name]/@name');
-            $groups = array_map('strval', $attrs ?: []);
+            $attrs     = $field->xpath('ancestor::fields[@name]/@name');
+            $groups    = array_map('strval', $attrs ?: []);
             $attrGroup = implode('.', $groups);
 
             $key = $attrGroup ? $attrGroup . '.' . $name : $name;
@@ -1130,7 +1130,7 @@ class Form
                     $this->errors[] = $valid;
                     $return         = false;
                 }
-            } elseif (!$fieldObj && $input->exists($key)) {
+            } elseif ($input->exists($key)) {
                 // The field returned false from setup and shouldn't be included in the page body - yet we received
                 // a value for it. This is probably some sort of injection attack and should be rejected
                 $this->errors[] = new \RuntimeException(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $key));
@@ -1158,7 +1158,7 @@ class Form
             throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
         }
 
-        $input = new Registry($data);
+        $input  = new Registry($data);
         $output = new Registry();
 
         // Get the fields for which to postProcess the data.
@@ -1174,8 +1174,8 @@ class Form
             $name = (string) $field['name'];
 
             // Get the field groups for the element.
-            $attrs = $field->xpath('ancestor::fields[@name]/@name');
-            $groups = array_map('strval', $attrs ?: []);
+            $attrs     = $field->xpath('ancestor::fields[@name]/@name');
+            $groups    = array_map('strval', $attrs ?: []);
             $attrGroup = implode('.', $groups);
 
             $key = $attrGroup ? $attrGroup . '.' . $name : $name;
@@ -1203,7 +1203,7 @@ class Form
     protected function findField($name, $group = null)
     {
         $element = false;
-        $fields = [];
+        $fields  = [];
 
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
@@ -1338,7 +1338,7 @@ class Form
 
                             // If the field is in the specific group then add it to the return list.
                             if ($names == (array) $groupNames) {
-                                $fields = array_merge($fields, array($field));
+                                $fields = array_merge($fields, [$field]);
                             }
                         }
                     }
@@ -1367,7 +1367,7 @@ class Form
     protected function &findGroup($group)
     {
         $groups = [];
-        $tmp = [];
+        $tmp    = [];
 
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
@@ -1377,7 +1377,7 @@ class Form
         // Make sure there is actually a group to find.
         $group = explode('.', $group);
 
-        if (!empty($group)) {
+        if (count($group)) {
             // Get any fields elements with the correct group name.
             $elements = $this->xml->xpath('//fields[@name="' . (string) $group[0] . '" and not(ancestor::field/form/*)]');
 
@@ -1392,8 +1392,8 @@ class Form
             for ($i = 1, $n = \count($group); $i < $n; $i++) {
                 // Initialise some loop variables.
                 $validNames = \array_slice($group, 0, $i + 1);
-                $current = $tmp;
-                $tmp = [];
+                $current    = $tmp;
+                $tmp        = [];
 
                 // Check to make sure that there are no parent groups for each element.
                 foreach ($current as $element) {
@@ -1429,9 +1429,9 @@ class Form
     /**
      * Method to load, setup and return a FormField object based on field data.
      *
-     * @param   string  $element  The XML element object representation of the form field.
-     * @param   string  $group    The optional dot-separated form group path on which to find the field.
-     * @param   mixed   $value    The optional value to use as the default for the field.
+     * @param   string|\SimpleXMLElement  $element  The XML element object representation of the form field.
+     * @param   string                    $group    The optional dot-separated form group path on which to find the field.
+     * @param   mixed                     $value    The optional value to use as the default for the field.
      *
      * @return  FormField|boolean  The FormField object for the field or boolean false on error.
      *
@@ -1459,6 +1459,10 @@ class Form
             }
         }
 
+        if ($field instanceof CurrentUserInterface) {
+            $field->setCurrentUser($this->getCurrentUser());
+        }
+
         // If the object could not be loaded, get a text field object.
         if ($field === false) {
             $field = FormHelper::loadFieldType('text');
@@ -1477,7 +1481,7 @@ class Form
                 $lang = Factory::getLanguage();
 
                 if ($lang->hasKey($default)) {
-                    $debug = $lang->setDebug(false);
+                    $debug   = $lang->setDebug(false);
                     $default = Text::_($default);
                     $lang->setDebug($debug);
                 } else {
@@ -1595,9 +1599,9 @@ class Form
     /**
      * Proxy for {@link FormHelper::addFieldPath()}.
      *
-     * @param   mixed  $new  A path or array of paths to add.
+     * @param   string|string[]  $new  A path or array of paths to add.
      *
-     * @return  array  The list of paths that have been added.
+     * @return  string[]  The list of paths that have been added.
      *
      * @since   1.7.0
      */
@@ -1609,9 +1613,9 @@ class Form
     /**
      * Proxy for FormHelper::addFormPath().
      *
-     * @param   mixed  $new  A path or array of paths to add.
+     * @param   string|string[]  $new  A path or array of paths to add.
      *
-     * @return  array  The list of paths that have been added.
+     * @return  string[]  The list of paths that have been added.
      *
      * @see     FormHelper::addFormPath()
      * @since   1.7.0
@@ -1624,9 +1628,9 @@ class Form
     /**
      * Proxy for FormHelper::addRulePath().
      *
-     * @param   mixed  $new  A path or array of paths to add.
+     * @param   string|string[]  $new  A path or array of paths to add.
      *
-     * @return  array  The list of paths that have been added.
+     * @return  string[]  The list of paths that have been added.
      *
      * @see     FormHelper::addRulePath()
      * @since   1.7.0
@@ -1639,9 +1643,9 @@ class Form
     /**
      * Proxy for FormHelper::addFilterPath().
      *
-     * @param   mixed  $new  A path or array of paths to add.
+     * @param   string|string[]  $new  A path or array of paths to add.
      *
-     * @return  array  The list of paths that have been added.
+     * @return  string[]  The list of paths that have been added.
      *
      * @see     FormHelper::addFilterPath()
      * @since   4.0.0
@@ -1664,7 +1668,11 @@ class Form
      * @return  Form  Form instance.
      *
      * @since   1.7.0
-     * @deprecated  5.0 Use the FormFactory service from the container
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the FormFactory service from the container
+     *              Example: Factory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
+     *
      * @throws  \InvalidArgumentException if no data provided.
      * @throws  \RuntimeException if the form could not be loaded.
      */

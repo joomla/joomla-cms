@@ -28,16 +28,16 @@ class DisplayController extends BaseController
      * Method to display a view.
      *
      * @param   boolean  $cachable   If true, the view output will be cached. [optional]
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types,
-     *                               for valid values see {@link \JFilterInput::clean()}. [optional]
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types. Optional.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static  This object is to support chaining.
      *
      * @since   2.5
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
-        $input = $this->app->input;
+        $input    = $this->app->getInput();
         $cachable = true;
 
         // Load plugin language files.
@@ -52,10 +52,10 @@ class DisplayController extends BaseController
             $cachable = false;
         }
 
-        $safeurlparams = array(
+        $safeurlparams = [
             'f'    => 'INT',
-            'lang' => 'CMD'
-        );
+            'lang' => 'CMD',
+        ];
 
         return parent::display($cachable, $safeurlparams);
     }

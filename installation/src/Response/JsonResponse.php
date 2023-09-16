@@ -26,6 +26,62 @@ use Joomla\CMS\Session\Session;
 class JsonResponse
 {
     /**
+     * The security token.
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $token;
+
+    /**
+     * The language tag
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $lang;
+
+    /**
+     * The message
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $message;
+
+    /**
+     * The messages array
+     *
+     * @var    array
+     * @since  4.3.0
+     */
+    public $messages;
+
+    /**
+     * The error message
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $error;
+
+    /**
+     * The header
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $header;
+
+    /**
+     * The data
+     *
+     * @var    mixed
+     * @since  4.3.0
+     */
+    public $data;
+
+    /**
      * Constructor for the JSON response
      *
      * @param   mixed  $data  Exception if there is an error, otherwise, the session data
@@ -66,6 +122,11 @@ class JsonResponse
         } else {
             // Prepare the response data.
             $this->error = false;
+
+            if (isset($data->error) && $data->error) {
+                $this->error = true;
+            }
+
             $this->data  = $data;
         }
     }

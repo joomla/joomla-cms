@@ -135,12 +135,7 @@ class JoomlaFieldMedia extends HTMLElement {
 
     this.inputElement.removeAttribute('readonly');
     this.inputElement.addEventListener('change', this.validateValue);
-
-    // Force input revalidation
-    (async () => {
-      await this.validateValue({ target: this.inputElement });
-      this.updatePreview();
-    })();
+    this.updatePreview();
   }
 
   disconnectedCallback() {
@@ -307,7 +302,7 @@ class JoomlaFieldMedia extends HTMLElement {
         let type;
         this.buttonClearEl.style.display = '';
         this.previewElement.innerHTML = '';
-        const ext = getExtension(value);
+        const ext = getExtension(value).toLowerCase();
 
         if (supportedExtensions.images.includes(ext)) type = 'images';
         if (supportedExtensions.audios.includes(ext)) type = 'audios';

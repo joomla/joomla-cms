@@ -37,9 +37,9 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
      *
      * @since   3.0.1
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
-        $this->input = Factory::getApplication()->input;
+        $this->input = Factory::getApplication()->getInput();
 
         // Article frontpage Editor pagebreak proxying:
         if ($this->input->get('view') === 'article' && $this->input->get('layout') === 'pagebreak') {
@@ -56,7 +56,8 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
      * Method to display a view.
      *
      * @param   boolean  $cachable   If true, the view output will be cached.
-     * @param   boolean  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+     * @param   boolean  $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  DisplayController  This object to support chaining.
      *
@@ -80,28 +81,28 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
         if (
             $user->get('id')
             || ($this->input->getMethod() === 'POST'
-            && (($vName === 'category' && $this->input->get('layout') !== 'blog') || $vName === 'archive' ))
+            && (($vName === 'category' && $this->input->get('layout') !== 'blog') || $vName === 'archive'))
         ) {
             $cachable = false;
         }
 
-        $safeurlparams = array(
-            'catid' => 'INT',
-            'id' => 'INT',
-            'cid' => 'ARRAY',
-            'year' => 'INT',
-            'month' => 'INT',
-            'limit' => 'UINT',
-            'limitstart' => 'UINT',
-            'showall' => 'INT',
-            'return' => 'BASE64',
-            'filter' => 'STRING',
-            'filter_order' => 'CMD',
+        $safeurlparams = [
+            'catid'            => 'INT',
+            'id'               => 'INT',
+            'cid'              => 'ARRAY',
+            'year'             => 'INT',
+            'month'            => 'INT',
+            'limit'            => 'UINT',
+            'limitstart'       => 'UINT',
+            'showall'          => 'INT',
+            'return'           => 'BASE64',
+            'filter'           => 'STRING',
+            'filter_order'     => 'CMD',
             'filter_order_Dir' => 'CMD',
-            'filter-search' => 'STRING',
-            'print' => 'BOOLEAN',
-            'lang' => 'CMD',
-            'Itemid' => 'INT');
+            'filter-search'    => 'STRING',
+            'print'            => 'BOOLEAN',
+            'lang'             => 'CMD',
+            'Itemid'           => 'INT', ];
 
         // Check for edit form.
         if ($vName === 'form' && !$this->checkEditId('com_content.edit.article', $id)) {

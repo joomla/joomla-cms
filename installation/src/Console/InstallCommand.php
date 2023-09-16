@@ -12,11 +12,11 @@ namespace Joomla\CMS\Installation\Console;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Helper\PublicFolderGeneratorHelper;
 use Joomla\CMS\Installation\Model\ChecksModel;
 use Joomla\CMS\Installation\Model\CleanupModel;
 use Joomla\CMS\Installation\Model\DatabaseModel;
 use Joomla\CMS\Installation\Model\SetupModel;
-use Joomla\CMS\Installation\Application\CliInstallationApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Version;
 use Joomla\Console\Command\AbstractCommand;
@@ -29,7 +29,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command for installing Joomla
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.3.0
  */
 class InstallCommand extends AbstractCommand
 {
@@ -37,19 +37,19 @@ class InstallCommand extends AbstractCommand
      * The default command name
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected static $defaultName = 'install';
 
     /**
      * @var  SymfonyStyle
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $ioStyle;
 
     /**
      * @var  InputInterface
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $cliInput;
 
@@ -61,7 +61,7 @@ class InstallCommand extends AbstractCommand
      *
      * @return  integer  The command exit code
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
@@ -112,8 +112,7 @@ class InstallCommand extends AbstractCommand
         $this->ioStyle->write('Validating DB connection...');
 
         try {
-            $setupModel->storeOptions($cfg);
-            $setupModel->validateDbConnection();
+            $setupModel->validateDbConnection($cfg);
         } catch (\Exception $e) {
             $this->ioStyle->error($e->getMessage());
 
@@ -126,8 +125,8 @@ class InstallCommand extends AbstractCommand
 
         // Create and populate database
         $this->ioStyle->write('Creating and populating the database...');
-        $databaseModel->createDatabase();
-        $db = $databaseModel->initialise();
+        $databaseModel->createDatabase($cfg);
+        $db = $databaseModel->initialise($cfg);
 
         // Set the character set to UTF-8 for pre-existing databases.
         try {
@@ -152,11 +151,11 @@ class InstallCommand extends AbstractCommand
         foreach ($files as $step => $schema) {
             $serverType = $db->getServerType();
 
-            if (\in_array($step, ['custom1', 'custom2']) && !is_file('sql/' . $serverType . '/' . $schema . '.sql')) {
+            if (\in_array($step, ['custom1', 'custom2']) && !is_file(JPATH_INSTALLATION . '/sql/' . $serverType . '/' . $schema . '.sql')) {
                 continue;
             }
 
-            $databaseModel->createTables($schema);
+            $databaseModel->createTables($schema, $cfg);
         }
 
         $this->ioStyle->writeln('OK');
@@ -182,6 +181,16 @@ class InstallCommand extends AbstractCommand
             $this->ioStyle->writeln('OK');
         }
 
+        if (!empty($cfg['public_folder'])) {
+            $this->ioStyle->write('Creating the public folder...');
+
+            if (!(new PublicFolderGeneratorHelper())->createPublicFolder($cfg['public_folder'])) {
+                return Command::FAILURE;
+            }
+
+            $this->ioStyle->writeln('OK');
+        }
+
         $this->ioStyle->success('Joomla has been installed');
 
         return Command::SUCCESS;
@@ -194,7 +203,7 @@ class InstallCommand extends AbstractCommand
      * @return  array  Array of configuration options
      *
      * @throws  \Exception
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected function getCLIOptions()
     {
@@ -261,7 +270,7 @@ class InstallCommand extends AbstractCommand
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected function configure(): void
     {
@@ -305,7 +314,7 @@ class InstallCommand extends AbstractCommand
                 }
 
                 // Add in the underscore.
-                $prefix  .= '_';
+                $prefix .= '_';
                 $default = $prefix;
             }
 
@@ -331,7 +340,7 @@ class InstallCommand extends AbstractCommand
      * @return  string
      *
      * @throws  \Exception
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected function getStringFromOption($option, $question, FormField $field): string
     {
@@ -359,12 +368,12 @@ class InstallCommand extends AbstractCommand
                 throw new \Exception('Value for ' . $option . ' is wrong: ' . $valid->getMessage());
             }
 
-            return (string) $answer;
+            return $answer;
         }
 
         // We don't have a CLI option and now interactively get that from the user.
         while (\is_null($answer) || $answer === false) {
-            if (in_array($option, ['admin-password', 'db-pass'])) {
+            if (in_array($option, ['admin-password', 'db-pass', 'public_folder'])) {
                 $answer = $this->ioStyle->askHidden($question);
             } else {
                 $answer = $this->ioStyle->ask(
@@ -380,7 +389,7 @@ class InstallCommand extends AbstractCommand
                 $answer = false;
             }
 
-            if ($option == 'db-pass' && $valid && $answer == null) {
+            if (($option == 'db-pass' || $option == 'public_folder') && $valid && $answer == null) {
                 return '';
             }
         }

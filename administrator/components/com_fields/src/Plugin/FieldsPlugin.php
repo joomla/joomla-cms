@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Fields\Administrator\Plugin;
 
+use Joomla\CMS\Event\CustomFields\GetTypesEvent;
+use Joomla\CMS\Event\CustomFields\PrepareDomEvent;
+use Joomla\CMS\Event\CustomFields\PrepareFieldEvent;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -45,6 +49,80 @@ abstract class FieldsPlugin extends CMSPlugin
     protected $app;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.0.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onCustomFieldsGetTypes'     => 'getFieldTypes',
+            'onCustomFieldsPrepareField' => 'prepareField',
+            'onCustomFieldsPrepareDom'   => 'prepareDom',
+            'onContentPrepareForm'       => 'prepareForm',
+        ];
+    }
+
+    /**
+     * Returns the custom fields types.
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    public function getFieldTypes(GetTypesEvent $event)
+    {
+        $result = $this->onCustomFieldsGetTypes();
+
+        if ($result) {
+            $event->addResult($result);
+        }
+    }
+
+    /**
+     * Prepares the field value.
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    public function prepareField(PrepareFieldEvent $event)
+    {
+        $result = $this->onCustomFieldsPrepareField($event->getContext(), $event->getItem(), $event->getField());
+
+        if ($result) {
+            $event->addResult($result);
+        }
+    }
+
+    /**
+     * Transforms the field into a DOM XML element and appends it as a child on the given parent.
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    public function prepareDom(PrepareDomEvent $event)
+    {
+        $this->onCustomFieldsPrepareDom($event->getField(), $event->getFieldset(), $event->getForm());
+    }
+
+    /**
+     * The form event. Load additional parameters when available into the field form.
+     * Only when the type of the form is of interest.
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    public function prepareForm(PrepareFormEvent $event)
+    {
+        $this->onContentPrepareForm($event->getForm(), $event->getData());
+    }
+
+    /**
      * Returns the custom fields types.
      *
      * @return  string[][]
@@ -54,13 +132,13 @@ abstract class FieldsPlugin extends CMSPlugin
     public function onCustomFieldsGetTypes()
     {
         // Cache filesystem access / checks
-        static $types_cache = array();
+        static $types_cache = [];
 
         if (isset($types_cache[$this->_type . $this->_name])) {
             return $types_cache[$this->_type . $this->_name];
         }
 
-        $types = array();
+        $types = [];
 
         // The root of the plugin
         $root = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name;
@@ -70,7 +148,7 @@ abstract class FieldsPlugin extends CMSPlugin
             $layout = str_replace('.php', '', $layout);
 
             // The data array
-            $data = array();
+            $data = [];
 
             // The language key
             $key = strtoupper($layout);
@@ -87,7 +165,7 @@ abstract class FieldsPlugin extends CMSPlugin
 
                 // Fix wrongly set parentheses in RTL languages
                 if ($this->app->getLanguage()->isRtl()) {
-                    $data['label'] = $data['label'] . '&#x200E;';
+                    $data['label'] .= '&#x200E;';
                 }
             } else {
                 $data['label'] = $key;
@@ -131,7 +209,7 @@ abstract class FieldsPlugin extends CMSPlugin
     {
         // Check if the field should be processed by us
         if (!$this->isTypeSupported($field->type)) {
-            return;
+            return '';
         }
 
         // Merge the params from the plugin and field which has precedence
@@ -185,6 +263,11 @@ abstract class FieldsPlugin extends CMSPlugin
         $node->setAttribute('class', $field->params->get('class', ''));
         $node->setAttribute('hint', $field->params->get('hint', ''));
         $node->setAttribute('required', $field->required ? 'true' : 'false');
+
+        $showon_attribute = $field->params->get('showon', '');
+        if ($showon_attribute) {
+            $node->setAttribute('showon', $showon_attribute);
+        }
 
         if ($layout = $field->params->get('form_layout')) {
             $node->setAttribute('layout', $layout);

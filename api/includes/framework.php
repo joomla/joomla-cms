@@ -24,14 +24,14 @@ if (
     if (file_exists(JPATH_INSTALLATION . '/index.php')) {
         header('HTTP/1.1 500 Internal Server Error');
         echo json_encode(
-            array('error' => 'You must install Joomla to use the API')
+            ['error' => 'You must install Joomla to use the API']
         );
 
         exit();
     } else {
         header('HTTP/1.1 500 Internal Server Error');
         echo json_encode(
-            array('error' => 'No configuration file found and no installation code available. Exiting...')
+            ['error' => 'No configuration file found and no installation code available. Exiting...']
         );
 
         exit;
@@ -65,7 +65,6 @@ switch ($config->error_reporting) {
         break;
 
     case 'maximum':
-    case 'development': // <= Stays for backward compatibility, @TODO: can be removed in 5.0
         error_reporting(E_ALL);
         ini_set('display_errors', 1);
 

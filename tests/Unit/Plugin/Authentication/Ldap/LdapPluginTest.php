@@ -4,18 +4,26 @@
  * @package     Joomla.UnitTest
  * @subpackage  Authentication
  *
- * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Tests\Unit\Plugin\Authentication\Ldap;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Authentication\AuthenticationResponse;
-use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Language;
 use Joomla\Event\Dispatcher;
+use Joomla\Plugin\Authentication\Ldap\Extension\Ldap;
+use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactoryInterface;
 use Joomla\Tests\Unit\UnitTestCase;
-use Symfony\Component\Ldap\Ldap;
+use Symfony\Component\Ldap\Adapter\CollectionInterface;
+use Symfony\Component\Ldap\Adapter\EntryManagerInterface;
+use Symfony\Component\Ldap\Adapter\QueryInterface;
+use Symfony\Component\Ldap\Entry;
+use Symfony\Component\Ldap\Exception\LdapException;
+use Symfony\Component\Ldap\LdapInterface;
 
 /**
  * Test class for Ldap plugin
@@ -25,234 +33,431 @@ use Symfony\Component\Ldap\Ldap;
  *
  * @testdox     The Ldap plugin
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.3.0
  */
 class LdapPluginTest extends UnitTestCase
 {
-    public const LDAPPORT = "1389";
-    public const SSLPORT = "1636";
-
-    private function getPlugin($options): CMSPlugin
-    {
-        $type = "authentication";
-        $plugin = "ldap";
-
-        // based on loadPluginFromFilesystem in ExtensionManagerTrait
-        $path = JPATH_PLUGINS . '/' . $type . '/' . $plugin . '/' . $plugin . '.php';
-        require_once $path;
-
-        $dispatcher = new Dispatcher();
-
-        // plugin object: result from DB using PluginHelper::getPlugin
-        $pluginobject = [
-            'name' => $plugin,
-            'params' => json_encode($options),
-            'type' => $type
-        ];
-
-        return new \PlgAuthenticationLdap($dispatcher, $pluginobject);
-    }
-
-    private function acceptCertificates(): void
-    {
-        ldap_set_option(null, LDAP_OPT_X_TLS_CACERTDIR, JPATH_ROOT . '/tests/Codeception/_data/certs');
-        ldap_set_option(null, LDAP_OPT_X_TLS_CACERTFILE, JPATH_ROOT . '/tests/Codeception/_data/certs/CA.crt');
-    }
-
-    private function getAdminConnection(array $options): Ldap
-    {
-        $admin_options = [
-            'host' => $options['host'],
-            'port' => (int) $options['port'],
-            'version' => $options['use_ldapV3'] == '1' ? 3 : 2,
-            'referrals'  => (bool) $options['no_referrals'],
-            'encryption' => $options['encryption'],
-            'debug' => (bool) $options['ldap_debug'],
-        ];
-        $ldap = Ldap::create(
-            'ext_ldap',
-            $admin_options
-        );
-        $ldap->bind("cn=admin,cn=config", "configpassword");
-        return $ldap;
-    }
-
-    private function requireEncryption($encryption, $options): void
-    {
-        $ldap = $this->getAdminConnection($options);
-        //TODO configure openldap to require the requested encryption
-    }
-
     /**
-     * Setup
+     * @testdox  when no host is set
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
-    public function setUp(): void
+    public function testNoHost()
     {
-        // tests are executed in parallel as root
-        // setUp is executed before every test
-        $this->default_options = [
-            'host' => "openldap",
-            'port' => self::LDAPPORT,
-            'use_ldapV3' => 1,
-            'encryption' => "none",
-            'no_referrals' => 0,
-            'auth_method' => "bind",
-            'base_dn' => "dc=example,dc=org",
-            'search_string' => "uid=[search]",
-            'users_dn' => "cn=[username],ou=users,dc=example,dc=org",
-            'username' => "",
-            'password' => "",
-            'ldap_fullname' => "cn",
-            'ldap_email' => "mail",
-            'ldap_uid' => "uid",
-            'ldap_debug' => 0
-        ];
-
-        $this->default_credentials = [
-            'username' => "customuser",
-            'password' => "custompassword",
-            'secretkey' => null
-        ];
-    }
-
-    /**
-     * Cleanup
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function tearDown(): void
-    {
-    }
-
-    /**
-     * @testdox  can perform an authentication using anynomous search
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function testOnUserAuthenticateAnonymousSearch()
-    {
-        $options = $this->default_options;
-        $options["auth_method"] = "search";
-        $options["users_dn"] = "";
-        $plugin = $this->getPlugin($options);
+        $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => []]);
+        $plugin->setApplication($this->createStub(CMSApplicationInterface::class));
 
         $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate($this->default_credentials, [], $response);
-        $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
-    }
+        $result   = $plugin->onUserAuthenticate([], [], $response);
 
-    /**
-     * @testdox  can perform an authentication using direct bind
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function testOnUserAuthenticateDirect()
-    {
-        $this->markTestSkipped("Fix provided in PR #37959");
-
-        $plugin = $this->getPlugin($this->default_options);
-
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate($this->default_credentials, [], $response);
-        $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
-    }
-
-    /**
-     * @testdox  can perform an authentication using direct bind with bad credentials
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function testInvalidOnUserAuthenticateDirect()
-    {
-        $plugin = $this->getPlugin($this->default_options);
-        $credentials = $this->default_credentials;
-        $credentials['password'] = "wrongpassword";
-
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate($credentials, [], $response);
+        $this->assertFalse($result);
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }
 
     /**
-     * @testdox  can perform an authentication using anynomous search
+     * @testdox  when no credentials are set
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
-    public function testOnUserAuthenticateAnonymousSearchTLS()
+    public function testNoCredentials()
     {
-        $options = $this->default_options;
-        $options["auth_method"] = "search";
-        $options["users_dn"] = "";
-        $options["encryption"] = "tls";
-        $plugin = $this->getPlugin($options);
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
 
-        $this->acceptCertificates();
-        $this->requireEncryption("tls", $options);
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+
+        $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['host' => 'test']]);
+        $plugin->setApplication($app);
 
         $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate($this->default_credentials, [], $response);
+        $result   = $plugin->onUserAuthenticate(['password' => ''], [], $response);
+
+        $this->assertFalse($result);
+        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+    }
+
+    /**
+     * @testdox  can perform no authentication
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
+    public function testNoAuthenticationMethod()
+    {
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+
+        $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['host' => 'test']]);
+        $plugin->setApplication($app);
+
+        $response = new AuthenticationResponse();
+        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+
+        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+    }
+
+    /**
+     * @testdox  can perform an authentication using search
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
+    public function testSearchAuthenticationMethod()
+    {
+        $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
+
+        $response = new AuthenticationResponse();
+        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+
         $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
     }
 
     /**
-     * @testdox  can perform an authentication using anynomous search
+     * @testdox  can perform an authentication using search when no entry is found
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
-    public function testOnUserAuthenticateAnonymousSearchSSL()
+    public function testSearchAuthenticationMethodNoEntry()
     {
-        $this->markTestSkipped("Fix provided in PR #37962");
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
 
-        $options = $this->default_options;
-        $options["auth_method"] = "search";
-        $options["users_dn"] = "";
-        $options["encryption"] = "ssl";
-        $options["port"] = self::SSLPORT;
-        $plugin = $this->getPlugin($options);
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
 
-        $this->acceptCertificates();
-        $this->requireEncryption("ssl", $options);
+        $plugin = new Ldap($this->createFactory(false, false, false), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
+        $plugin->setApplication($app);
 
         $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate($this->default_credentials, [], $response);
+        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+
+        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+    }
+
+    /**
+     * @testdox  can not perform an authentication using search when bind fails
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
+    public function testSearchAuthenticationMethodWithBindException()
+    {
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+
+        $plugin = new Ldap($this->createFactory(true, false), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
+        $plugin->setApplication($app);
+
+        $response = new AuthenticationResponse();
+        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+
+        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+    }
+
+    /**
+     * @testdox  can not perform an authentication using search when query fails
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
+    public function testSearchAuthenticationMethodWithQueryException()
+    {
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+
+        $plugin = new Ldap($this->createFactory(false, true), new Dispatcher(), ['params' => ['auth_method' => 'search', 'host' => 'test']]);
+        $plugin->setApplication($app);
+
+        $response = new AuthenticationResponse();
+        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+
+        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+    }
+
+    /**
+     * @testdox  can perform an authentication using bind
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
+    public function testBindAuthenticationMethod()
+    {
+        $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
+
+        $response = new AuthenticationResponse();
+        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+
         $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
     }
 
     /**
-     * @testdox  does log ldap client calls and errors
-     * can only be tested if phpunit stderr is redirected/duplicated/configured to a file
-     * then, we can check if ldap_ calls are present in that file
+     * @testdox  can perform an authentication using bind when no entry is found
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
-    /*
-    public function testOnUserAuthenticateWithDebug()
+    public function testBindAuthenticationMethodNoEntry()
     {
-        $options = $this->default_options;
-        $options["ldap_debug"] = 1;
-        $plugin = $this->getPlugin($options);
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+
+        $plugin = new Ldap($this->createFactory(false, false, false), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
+        $plugin->setApplication($app);
 
         $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate($this->default_credentials, [], $response);
+        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+
+        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+    }
+
+    /**
+     * @testdox  can perform an authentication using bind with a DN
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
+    public function testBindAuthenticationMethodWithDN()
+    {
+        $plugin = new Ldap($this->createFactory(), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'users_dn' => 'test', 'host' => 'test']]);
+
+        $response = new AuthenticationResponse();
+        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+
         $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
     }
-    */
+
+    /**
+     * @testdox  can not perform an authentication using bind when bind fails
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
+    public function testBindAuthenticationMethodWithBindException()
+    {
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+
+        $plugin = new Ldap($this->createFactory(true, false), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
+        $plugin->setApplication($app);
+
+        $response = new AuthenticationResponse();
+        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+
+        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+    }
+
+    /**
+     * @testdox  can not perform an authentication using bind when query fails
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
+    public function testBindAuthenticationMethodWithQueryException()
+    {
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+
+        $plugin = new Ldap($this->createFactory(false, true), new Dispatcher(), ['params' => ['auth_method' => 'bind', 'host' => 'test']]);
+        $plugin->setApplication($app);
+
+        $response = new AuthenticationResponse();
+        $plugin->onUserAuthenticate(['username' => 'unit', 'password' => 'test'], [], $response);
+
+        $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
+    }
+
+    /**
+     * Creates a dummy Ldap factory.
+     *
+     * @return  LdapFactoryInterface
+     *
+     * @since   4.3.0
+     */
+    private function createFactory(bool $failBind = false, bool $failQuery = false, bool $hasEntry = true): LdapFactoryInterface
+    {
+        return new class ($failBind, $failQuery, $hasEntry) implements LdapFactoryInterface {
+            private $failBind  = false;
+            private $failQuery = false;
+            private $hasEntry  = false;
+
+            public function __construct(bool $failBind, bool $failQuery, bool $hasEntry)
+            {
+                $this->failBind  = $failBind;
+                $this->failQuery = $failQuery;
+                $this->hasEntry  = $hasEntry;
+            }
+
+            public function createLdap(array $config): LdapInterface
+            {
+                return new class ($this->failBind, $this->failQuery, $this->hasEntry) implements LdapInterface {
+                    private $failBind  = false;
+                    private $failQuery = false;
+                    private $hasEntry  = false;
+
+                    public function __construct(bool $failBind, bool $failQuery, bool $hasEntry)
+                    {
+                        $this->failBind  = $failBind;
+                        $this->failQuery = $failQuery;
+                        $this->hasEntry  = $hasEntry;
+                    }
+
+                    public function bind(string $dn = null, string $password = null)
+                    {
+                        if ($this->failBind) {
+                            throw new LdapException();
+                        }
+                    }
+
+                    public function query(string $dn, string $query, array $options = []): QueryInterface
+                    {
+                        if ($this->failQuery) {
+                            throw new LdapException();
+                        }
+
+                        return new class ($this->hasEntry) implements QueryInterface {
+                            private $hasEntry = false;
+
+                            public function __construct(bool $hasEntry)
+                            {
+                                $this->hasEntry = $hasEntry;
+                            }
+
+                            public function execute(): CollectionInterface
+                            {
+                                if (!$this->hasEntry) {
+                                    return new class () implements CollectionInterface {
+                                        public function toArray(): array
+                                        {
+                                            return [];
+                                        }
+
+                                        public function getIterator(): \Traversable
+                                        {
+                                            return null;
+                                        }
+
+                                        public function offsetExists(mixed $offset): bool
+                                        {
+                                            return false;
+                                        }
+
+                                        public function offsetGet(mixed $offset): mixed
+                                        {
+                                            return null;
+                                        }
+
+                                        public function offsetSet(mixed $offset, mixed $value): void
+                                        {
+                                            return;
+                                        }
+
+                                        public function offsetUnset(mixed $offset): void
+                                        {
+                                            return;
+                                        }
+
+                                        public function count(): int
+                                        {
+                                            return 0;
+                                        }
+                                    };
+                                }
+
+                                return new class () implements CollectionInterface {
+                                    public $entry;
+
+                                    public function __construct()
+                                    {
+                                        $this->entry = new Entry('');
+                                    }
+
+                                    public function toArray(): array
+                                    {
+                                        return [$this->entry];
+                                    }
+
+                                    public function getIterator(): \Traversable
+                                    {
+                                        yield $this->entry;
+                                    }
+
+                                    public function offsetExists(mixed $offset): bool
+                                    {
+                                        return false;
+                                    }
+
+                                    public function offsetGet(mixed $offset): mixed
+                                    {
+                                        if ($offset === 0) {
+                                            return $this->entry;
+                                        }
+
+                                        return null;
+                                    }
+
+                                    public function offsetSet(mixed $offset, mixed $value): void
+                                    {
+                                        return;
+                                    }
+
+                                    public function offsetUnset(mixed $offset): void
+                                    {
+                                        return;
+                                    }
+
+                                    public function count(): int
+                                    {
+                                        return 1;
+                                    }
+                                };
+                            }
+                        };
+                    }
+
+                    public function getEntryManager(): EntryManagerInterface
+                    {
+                    }
+
+                    public function escape(string $subject, string $ignore = '', int $flags = 0): string
+                    {
+                        return $subject;
+                    }
+                };
+            }
+        };
+    }
 }

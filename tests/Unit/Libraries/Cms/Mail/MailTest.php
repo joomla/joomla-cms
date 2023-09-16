@@ -73,15 +73,15 @@ class MailTest extends UnitTestCase
             // Single emails and name
             ['test@example.com', 'test_name',
                 [
-                    ['test@example.com', 'test_name']
-                ]
+                    ['test@example.com', 'test_name'],
+                ],
             ],
             // Multiple emails with same name
             [
                 ['test_1@example.com', 'test_2@example.com'], 'test_name',
                 [
-                    ['test_1@example.com', 'test_name'], ['test_2@example.com', 'test_name']
-                ]
+                    ['test_1@example.com', 'test_name'], ['test_2@example.com', 'test_name'],
+                ],
             ],
             // Multiple emails with individual names
             [
@@ -89,9 +89,9 @@ class MailTest extends UnitTestCase
                 ['test_name1', 'test_name2'],
                 [
                     ['test_1@example.com', 'test_name1'],
-                    ['test_2@example.com', 'test_name2']
-                ]
-            ]
+                    ['test_2@example.com', 'test_name2'],
+                ],
+            ],
         ];
     }
 
@@ -173,15 +173,15 @@ class MailTest extends UnitTestCase
         return [
             // Single emails and name
             ['test@example.com', 'test_name',
-                ['test@example.com' => ['test@example.com', 'test_name']]
+                ['test@example.com' => ['test@example.com', 'test_name']],
             ],
             // Multiple emails with same name
             [
                 ['test_1@example.com', 'test_2@example.com'], 'test_name',
                 [
                     'test_1@example.com' => ['test_1@example.com', 'test_name'],
-                    'test_2@example.com' => ['test_2@example.com', 'test_name']
-                ]
+                    'test_2@example.com' => ['test_2@example.com', 'test_name'],
+                ],
             ],
             // Multiple emails with individual names
             [
@@ -189,9 +189,9 @@ class MailTest extends UnitTestCase
                 ['test_name1', 'test_name2'],
                 [
                     'test_1@example.com' => ['test_1@example.com', 'test_name1'],
-                    'test_2@example.com' => ['test_2@example.com', 'test_name2']
-                ]
-            ]
+                    'test_2@example.com' => ['test_2@example.com', 'test_name2'],
+                ],
+            ],
         ];
     }
 
@@ -290,9 +290,9 @@ class MailTest extends UnitTestCase
                 null,
                 [
                     'called' => 'IsSMTP',
-                    'return' => true
-                ]
-            ]
+                    'return' => true,
+                ],
+            ],
         ];
     }
 
@@ -315,7 +315,7 @@ class MailTest extends UnitTestCase
      */
     public function testUseSmtp($auth, $host, $user, $pass, $secure, $port, $expected)
     {
-        // Build an partial mock object.
+        // Build a partial mock object.
         $mailMock = $this->getMockBuilder(Mail::class)
             ->setMethods(['SetLanguage', 'IsSMTP', 'IsMail'])
             ->getMock();

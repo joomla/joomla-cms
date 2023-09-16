@@ -57,20 +57,20 @@ $class .= $active ? ' active' : '';
 $class = 'class="' . $class . '"';
 
 $value = (float) $value;
-$value = $value < $min ? $min : $value;
-$value = $value > $max ? $max : $value;
+$value = max($value, $min);
+$value = min($value, $max);
 
 $data = '';
 $data .= 'aria-valuemax="' . $max . '"';
 $data .= ' aria-valuemin="' . $min . '"';
 $data .= ' aria-valuenow="' . $value . '"';
 
-$attributes = array(
+$attributes = [
     $class,
     !empty($width) ? ' style="width:' . $width . ';"' : '',
     $data,
     $dataAttribute,
-);
+];
 
 $value = ((float) ($value - $min) * 100) / ($max - $min);
 ?>

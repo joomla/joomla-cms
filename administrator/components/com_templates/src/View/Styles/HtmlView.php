@@ -15,6 +15,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -45,7 +46,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -118,9 +119,12 @@ class HtmlView extends BaseHtmlView
     {
         $canDo    = ContentHelper::getActions('com_templates');
         $clientId = (int) $this->get('State')->get('client_id');
+        $toolbar  = Toolbar::getInstance();
 
         // Add a shortcut to the templates list view.
-        ToolbarHelper::link('index.php?option=com_templates&view=templates&client_id=' . $clientId, 'COM_TEMPLATES_MANAGER_TEMPLATES', 'icon-code thememanager');
+        $toolbar->linkButton('templates', 'COM_TEMPLATES_MANAGER_TEMPLATES')
+            ->url('index.php?option=com_templates&view=templates&client_id=' . $clientId)
+            ->icon('icon-code thememanager');
 
         // Set the title.
         if ($clientId === 1) {
@@ -130,25 +134,29 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($canDo->get('core.edit.state')) {
-            ToolbarHelper::makeDefault('styles.setDefault', 'COM_TEMPLATES_TOOLBAR_SET_HOME');
-            ToolbarHelper::divider();
+            $toolbar->makeDefault('styles.setDefault', 'COM_TEMPLATES_TOOLBAR_SET_HOME');
+            $toolbar->divider();
         }
 
         if ($canDo->get('core.create')) {
-            ToolbarHelper::custom('styles.duplicate', 'copy', '', 'JTOOLBAR_DUPLICATE', true);
-            ToolbarHelper::divider();
+            $toolbar->standardButton('duplicate', 'JTOOLBAR_DUPLICATE', 'styles.duplicate')
+                ->listCheck(true)
+                ->icon('icon-copy');
+            $toolbar->divider();
         }
 
         if ($canDo->get('core.delete')) {
-            ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'styles.delete', 'JTOOLBAR_DELETE');
-            ToolbarHelper::divider();
+            $toolbar->delete('styles.delete')
+                ->message('JGLOBAL_CONFIRM_DELETE')
+                ->listCheck(true);
+            $toolbar->divider();
         }
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            ToolbarHelper::preferences('com_templates');
-            ToolbarHelper::divider();
+            $toolbar->preferences('com_templates');
+            $toolbar->divider();
         }
 
-        ToolbarHelper::help('Templates:_Styles');
+        $toolbar->help('Templates:_Styles');
     }
 }

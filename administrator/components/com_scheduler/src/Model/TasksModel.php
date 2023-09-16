@@ -11,6 +11,7 @@
 namespace Joomla\Component\Scheduler\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -102,7 +103,7 @@ class TasksModel extends ListModel
     /**
      * Method to create a query for a list of items.
      *
-     * @return QueryInterface
+     * @return  DatabaseQuery
      *
      * @since  4.1.0
      * @throws \Exception
@@ -169,7 +170,7 @@ class TasksModel extends ListModel
         ) use (
             $query,
             &$filterCount
-) {
+        ) {
             if ($filterCount++) {
                 $query->extendWhere($outerGlue, $conditions, $innerGlue);
             } else {
@@ -181,12 +182,12 @@ class TasksModel extends ListModel
         if (is_numeric($id = $this->getState('filter.id'))) {
             $filterCount++;
             $id = (int) $id;
-            $query->where($db->qn('a.id') . ' = :id')
+            $query->where($db->quoteName('a.id') . ' = :id')
                 ->bind(':id', $id, ParameterType::INTEGER);
         } elseif ($title = $this->getState('filter.title')) {
             $filterCount++;
             $match = "%$title%";
-            $query->where($db->qn('a.title') . ' LIKE :match')
+            $query->where($db->quoteName('a.title') . ' LIKE :match')
                 ->bind(':match', $match);
         }
 
@@ -254,7 +255,7 @@ class TasksModel extends ListModel
             $now      = Factory::getDate('now', 'GMT')->toSql();
             $operator = $due == 1 ? ' <= ' : ' > ';
             $filterCount++;
-            $query->where($db->qn('a.next_execution') . $operator . ':now')
+            $query->where($db->quoteName('a.next_execution') . $operator . ':now')
                 ->bind(':now', $now);
         }
 
@@ -276,24 +277,24 @@ class TasksModel extends ListModel
 
             switch ($locked) {
                 case -2:
-                    $query->where($db->qn('a.locked') . 'IS NULL');
+                    $query->where($db->quoteName('a.locked') . 'IS NULL');
                     break;
                 case -1:
                     $extendWhereIfFiltered(
                         'AND',
                         [
-                            $db->qn('a.locked') . ' IS NULL',
-                            $db->qn('a.locked') . ' < :threshold',
+                            $db->quoteName('a.locked') . ' IS NULL',
+                            $db->quoteName('a.locked') . ' < :threshold',
                         ],
                         'OR'
                     );
                     $query->bind(':threshold', $timeoutThreshold);
                     break;
                 case 1:
-                    $query->where($db->qn('a.locked') . ' IS NOT NULL');
+                    $query->where($db->quoteName('a.locked') . ' IS NOT NULL');
                     break;
                 case 2:
-                    $query->where($db->qn('a.locked') . ' < :threshold')
+                    $query->where($db->quoteName('a.locked') . ' < :threshold')
                         ->bind(':threshold', $timeoutThreshold);
             }
         }
@@ -366,7 +367,7 @@ class TasksModel extends ListModel
     {
         // Get stuff from the model state
         $listOrder      = $this->getState('list.ordering', 'a.title');
-        $listDirectionN = strtolower($this->getState('list.direction', 'asc')) == 'desc' ? -1 : 1;
+        $listDirectionN = strtolower($this->getState('list.direction', 'asc')) === 'desc' ? -1 : 1;
 
         // Set limit parameters and get object list
         $query->setLimit($limit, $limitstart);
@@ -395,7 +396,7 @@ class TasksModel extends ListModel
         $this->attachTaskOptions($responseList);
 
         // If ordering by non-db fields, we need to sort here in code
-        if ($listOrder == 'j.type_title') {
+        if ($listOrder === 'j.type_title') {
             $responseList = ArrayHelper::sortObjects($responseList, 'safeTypeTitle', $listDirectionN, true, false);
         }
 
@@ -436,5 +437,35 @@ class TasksModel extends ListModel
     {
         // Call the parent method
         parent::populateState($ordering, $direction);
+    }
+
+    /**
+     * Check if we have any enabled due tasks and no locked tasks.
+     *
+     * @param   Date  $time  The next execution time to check against
+     *
+     * @return boolean
+     * @since  __DEPLOY_VERSION__
+     */
+    public function hasDueTasks(Date $time): bool
+    {
+        $db  = $this->getDatabase();
+        $now = $time->toSql();
+
+        $query = $db->getQuery(true)
+            // Count due tasks
+            ->select('SUM(CASE WHEN ' . $db->quoteName('a.next_execution') . ' <= :now THEN 1 ELSE 0 END) AS due_count')
+            // Count locked tasks
+            ->select('SUM(CASE WHEN ' . $db->quoteName('a.locked') . ' IS NULL THEN 0 ELSE 1 END) AS locked_count')
+            ->from($db->quoteName('#__scheduler_tasks', 'a'))
+            ->where($db->quoteName('a.state') . ' = 1')
+            ->bind(':now', $now);
+
+        $db->setQuery($query);
+
+        $taskDetails = $db->loadObject();
+
+        // False if we don't have due tasks, or we have locked tasks
+        return $taskDetails && $taskDetails->due_count && !$taskDetails->locked_count;
     }
 }

@@ -90,16 +90,16 @@ class CategoryModel extends ListModel
      * @see    \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
                 'numarticles', 'a.numarticles',
                 'link', 'a.link',
                 'ordering', 'a.ordering',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -125,7 +125,7 @@ class CategoryModel extends ListModel
 
             // Some contexts may not use tags data at all, so we allow callers to disable loading tag data
             if ($this->getState('load_tags', true)) {
-                $item->tags = new TagsHelper();
+                $item->tags             = new TagsHelper();
                 $taggedItems[$item->id] = $item;
             }
         }
@@ -133,7 +133,7 @@ class CategoryModel extends ListModel
         // Load tags of all items.
         if ($taggedItems) {
             $tagsHelper = new TagsHelper();
-            $itemIds = \array_keys($taggedItems);
+            $itemIds    = \array_keys($taggedItems);
 
             foreach ($tagsHelper->getMultipleItemTags('com_newsfeeds.newsfeed', $itemIds) as $id => $tags) {
                 $taggedItems[$id]->tags->itemTags = $tags;
@@ -242,7 +242,8 @@ class CategoryModel extends ListModel
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $app = Factory::getApplication();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
         $params = $app->getParams();
         $this->setState('params', $params);
@@ -251,13 +252,13 @@ class CategoryModel extends ListModel
         $limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
         $this->setState('list.limit', $limit);
 
-        $limitstart = $app->input->get('limitstart', 0, 'uint');
+        $limitstart = $input->get('limitstart', 0, 'uint');
         $this->setState('list.start', $limitstart);
 
         // Optional filter text
-        $this->setState('list.filter', $app->input->getString('filter-search'));
+        $this->setState('list.filter', $input->getString('filter-search'));
 
-        $orderCol = $app->input->get('filter_order', 'ordering');
+        $orderCol = $input->get('filter_order', 'ordering');
 
         if (!in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'ordering';
@@ -265,15 +266,15 @@ class CategoryModel extends ListModel
 
         $this->setState('list.ordering', $orderCol);
 
-        $listOrder = $app->input->get('filter_order_Dir', 'ASC');
+        $listOrder = $input->get('filter_order_Dir', 'ASC');
 
-        if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+        if (!in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
         $this->setState('list.direction', $listOrder);
 
-        $id = $app->input->get('id', 0, 'int');
+        $id = $input->get('id', 0, 'int');
         $this->setState('category.id', $id);
 
         $user = $this->getCurrentUser();
@@ -299,8 +300,8 @@ class CategoryModel extends ListModel
     public function getCategory()
     {
         if (!is_object($this->_item)) {
-            $app = Factory::getApplication();
-            $menu = $app->getMenu();
+            $app    = Factory::getApplication();
+            $menu   = $app->getMenu();
             $active = $menu->getActive();
 
             if ($active) {
@@ -309,24 +310,24 @@ class CategoryModel extends ListModel
                 $params = new Registry();
             }
 
-            $options = array();
+            $options               = [];
             $options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
-            $categories = Categories::getInstance('Newsfeeds', $options);
-            $this->_item = $categories->get($this->getState('category.id', 'root'));
+            $categories            = Categories::getInstance('Newsfeeds', $options);
+            $this->_item           = $categories->get($this->getState('category.id', 'root'));
 
             if (is_object($this->_item)) {
                 $this->_children = $this->_item->getChildren();
-                $this->_parent = false;
+                $this->_parent   = false;
 
                 if ($this->_item->getParent()) {
                     $this->_parent = $this->_item->getParent();
                 }
 
                 $this->_rightsibling = $this->_item->getSibling();
-                $this->_leftsibling = $this->_item->getSibling(false);
+                $this->_leftsibling  = $this->_item->getSibling(false);
             } else {
                 $this->_children = false;
-                $this->_parent = false;
+                $this->_parent   = false;
             }
         }
 
@@ -398,12 +399,12 @@ class CategoryModel extends ListModel
      */
     public function hit($pk = 0)
     {
-        $input    = Factory::getApplication()->input;
+        $input    = Factory::getApplication()->getInput();
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {
             $pk    = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
-            $table = Table::getInstance('Category', 'JTable');
+            $table = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
             $table->hit($pk);
         }
 

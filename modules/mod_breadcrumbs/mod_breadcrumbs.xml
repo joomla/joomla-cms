@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="site" method="upgrade">
 	<name>mod_breadcrumbs</name>
 	<author>Joomla! Project</author>
@@ -11,7 +11,7 @@
 	<description>MOD_BREADCRUMBS_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Breadcrumbs</namespace>
 	<files>
-		<filename module="mod_breadcrumbs">mod_breadcrumbs.php</filename>
+		<folder module="mod_breadcrumbs">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

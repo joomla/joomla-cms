@@ -4,18 +4,17 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Session\Storage;
 
-use Joomla\CMS\Factory;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\Storage\NativeStorage;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -40,6 +39,22 @@ class JoomlaStorage extends NativeStorage
      * @since  4.0.0
      */
     private $forceSSL = false;
+
+    /**
+     * The domain to set in the session cookie
+     *
+     * @var    string
+     * @since  5.0.0
+     */
+    private $cookieDomain = '';
+
+    /**
+     * The path to set in the session cookie
+     *
+     * @var    string
+     * @since  5.0.0
+     */
+    private $cookiePath = '/';
 
     /**
      * Input object
@@ -74,7 +89,7 @@ class JoomlaStorage extends NativeStorage
         $this->setHandler($handler);
         $this->setCookieParams();
 
-        $this->data = new Registry();
+        $this->data  = new Registry();
         $this->input = $input;
 
         // Register our function as shutdown method, so we can manipulate it
@@ -110,11 +125,8 @@ class JoomlaStorage extends NativeStorage
          * then the session cookie must be deleted.
          */
         if (isset($_COOKIE[$session_name])) {
-            $app           = Factory::getApplication();
-            $cookie_domain = $app->get('cookie_domain', '');
-            $cookie_path   = $app->get('cookie_path', '/');
             $cookie = session_get_cookie_params();
-            setcookie($session_name, '', time() - 42000, $cookie_path, $cookie_domain, $cookie['secure'], true);
+            setcookie($session_name, '', time() - 42000, $this->cookiePath, $this->cookieDomain, $cookie['secure'], true);
         }
 
         $this->data = new Registry();
@@ -237,14 +249,12 @@ class JoomlaStorage extends NativeStorage
             $cookie['secure'] = true;
         }
 
-        $app = Factory::getApplication();
-
-        if ($app->get('cookie_domain', '') != '') {
-            $cookie['domain'] = $app->get('cookie_domain');
+        if ($this->cookieDomain !== '') {
+            $cookie['domain'] = $this->cookieDomain;
         }
 
-        if ($app->get('cookie_path', '') != '') {
-            $cookie['path'] = $app->get('cookie_path');
+        if ($this->cookiePath !== '') {
+            $cookie['path'] = $this->cookiePath;
         }
 
         session_set_cookie_params($cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], true);
@@ -257,11 +267,19 @@ class JoomlaStorage extends NativeStorage
      *
      * @return  $this
      *
-     * @see     http://php.net/session.configuration
+     * @link    http://php.net/session.configuration
      * @since   4.0.0
      */
     public function setOptions(array $options): NativeStorage
     {
+        if (isset($options['cookie_domain'])) {
+            $this->cookieDomain = $options['cookie_domain'];
+        }
+
+        if (isset($options['cookie_path'])) {
+            $this->cookiePath = $options['cookie_path'];
+        }
+
         if (isset($options['force_ssl'])) {
             $this->forceSSL = (bool) $options['force_ssl'];
         }
