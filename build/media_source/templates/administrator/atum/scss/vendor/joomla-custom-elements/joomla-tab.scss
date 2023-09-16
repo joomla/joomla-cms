@@ -106,7 +106,7 @@ joomla-tab {
     color: var(--template-text-light);
     text-align: start;
     background-color: var(--template-link-color);
-    border: 1px solid var(--template-text-light);
+    border: 1px solid var(--template-bg-dark-3);
     border-top: 0;
 
     &[aria-expanded=true],
@@ -118,6 +118,14 @@ joomla-tab {
 
     .text-muted {
       color: var(--template-text-light) !important;
+    }
+  }
+
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      > button[role=region] {
+        border-color: var(--template-bg-dark-70);
+      }
     }
   }
 
@@ -274,7 +282,7 @@ joomla-tab[view=accordion] {
 
   [active],
   [aria-expanded=true] {
-    background-color: $white;
+    background-color: var(--body-bg);
   }
 
   .col-md-6,

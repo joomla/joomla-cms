@@ -119,8 +119,6 @@ class HtmlView extends BaseHtmlView
             'bookmark banners-clients'
         );
 
-        $toolbarButtons = [];
-
         // If not checked out, can save the item.
         if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create'))) {
             $toolbar->apply('client.apply');
