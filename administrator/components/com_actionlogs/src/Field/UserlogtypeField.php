@@ -52,13 +52,17 @@ class UserlogtypeField extends ListField
             ->bind(':userid', $user->id, ParameterType::INTEGER);
 
         $extensions = $db->setQuery($query)->loadColumn();
+        $userExt    = [];
         $params     = ComponentHelper::getParams('com_actionlogs');
         $globalExt  = $params->get('loggable_extensions', []);
-        $userExt    = substr($extensions[0], 2);
-        $userExt    = substr($userExt, 0, -2);
-        $userExt    = explode('","', $userExt);
-        $common     = array_merge($globalExt, array_intersect($globalExt, $userExt));
 
+        if (!empty($extensions)) {
+            $userExt = substr($extensions[0], 2);
+            $userExt = substr($userExt, 0, -2);
+            $userExt = explode('","', $userExt);
+        }
+
+        $common = array_merge($globalExt, array_intersect($globalExt, $userExt));
         $options = [];
 
         foreach ($common as $extension) {
