@@ -148,8 +148,6 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 
                     $return[$itemId][$language->lang_code] = ['item' => $itemAssociations[$language->lang_code], 'language' => $language];
                 }
-
-                $return[$language->lang_code] = ['item' => $associations[$language->lang_code], 'language' => $language];
             }
         }
 
