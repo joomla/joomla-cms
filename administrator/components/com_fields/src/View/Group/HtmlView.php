@@ -140,8 +140,6 @@ class HtmlView extends BaseHtmlView
             ($isNew ? 'add' : 'edit')
         );
 
-        $toolbarButtons = [];
-
         // For new records, check the create permission.
         if ($isNew) {
             $toolbar->apply('group.apply');
