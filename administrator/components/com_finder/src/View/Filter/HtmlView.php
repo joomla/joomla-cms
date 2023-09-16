@@ -60,7 +60,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  3.6.2
      */
@@ -140,7 +140,7 @@ class HtmlView extends BaseHtmlView
                 );
             }
 
-            $toolbar->cancel('filter.cancel');
+            $toolbar->cancel('filter.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // Can't save the record if it's checked out.
             // Since it's an existing record, check the edit permission.

@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Application;
 
-use InvalidArgumentException;
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
@@ -36,7 +35,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -253,8 +252,8 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
         $this->populateHttpHost();
 
         // Import CMS plugin groups to be able to subscribe to events
-        PluginHelper::importPlugin('system');
-        PluginHelper::importPlugin('console');
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        PluginHelper::importPlugin('console', null, true, $this->getDispatcher());
 
         parent::execute();
     }
@@ -311,6 +310,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
                 new Console\DeleteUserCommand($this->getDatabase()),
                 new Console\ChangeUserPasswordCommand(),
                 new Console\ListUserCommand($this->getDatabase()),
+                new Console\SiteCreatePublicFolderCommand(),
             ]
         );
     }
@@ -483,7 +483,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
     public static function getRouter($name = null, array $options = [])
     {
         if (empty($name)) {
-            throw new InvalidArgumentException('A router name must be set in console application.');
+            throw new \InvalidArgumentException('A router name must be set in console application.');
         }
 
         $options['mode'] = Factory::getApplication()->get('sef');
@@ -506,7 +506,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      *
      * @return  void
      * @since   4.2.1
-     * @see     https://github.com/joomla/joomla-cms/issues/38518
+     * @link    https://github.com/joomla/joomla-cms/issues/38518
      */
     protected function populateHttpHost()
     {
@@ -583,5 +583,53 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
                 ),
             ]
         );
+    }
+
+    /**
+     * Gets a user state.
+     *
+     * @param   string  $key      The path of the state.
+     * @param   mixed   $default  Optional default value, returned if the internal value is null.
+     *
+     * @return  mixed  The user state or null.
+     *
+     * @since   4.4.0
+     */
+    public function getUserState($key, $default = null)
+    {
+        $registry = $this->getSession()->get('registry');
+
+        if ($registry !== null) {
+            return $registry->get($key, $default);
+        }
+
+        return $default;
+    }
+
+    /**
+     * Gets the value of a user state variable.
+     *
+     * @param   string  $key      The key of the user state variable.
+     * @param   string  $request  The name of the variable passed in a request.
+     * @param   string  $default  The default value for the variable if not found. Optional.
+     * @param   string  $type     Filter for the variable, for valid values see {@link InputFilter::clean()}. Optional.
+     *
+     * @return  mixed  The request user state.
+     *
+     * @since   4.4.0
+     */
+    public function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
+    {
+        $cur_state = $this->getUserState($key, $default);
+        $new_state = $this->input->get($request, null, $type);
+
+        if ($new_state === null) {
+            return $cur_state;
+        }
+
+        // Save the new value only if it was set in this request.
+        $this->setUserState($key, $new_state);
+
+        return $new_state;
     }
 }

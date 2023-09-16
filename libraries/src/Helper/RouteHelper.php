@@ -16,7 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -155,7 +155,7 @@ class RouteHelper
             $items = $menus->getItems($attributes, $values);
 
             foreach ($items as $item) {
-                if (isset($item->query) && isset($item->query['view'])) {
+                if (isset($item->query['view'])) {
                     $view = $item->query['view'];
 
                     if (!isset(static::$lookup[$language][$view])) {

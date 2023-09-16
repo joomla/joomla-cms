@@ -66,18 +66,18 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor
      *
-     * @param   DispatcherInterface  $subject  The object to observe
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   boolean              $enabled  An internal flag whether plugin should listen any event.
+     * @param   DispatcherInterface  $dispatcher  The object to observe
+     * @param   array                $config      An optional associative array of configuration settings.
+     * @param   boolean              $enabled     An internal flag whether plugin should listen any event.
      *
      * @since   4.3.0
      */
-    public function __construct($subject, array $config = [], bool $enabled = false)
+    public function __construct(DispatcherInterface $dispatcher, array $config = [], bool $enabled = false)
     {
         $this->autoloadLanguage = $enabled;
         self::$enabled          = $enabled;
 
-        parent::__construct($subject, $config);
+        parent::__construct($dispatcher, $config);
     }
 
     /**
@@ -104,17 +104,16 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      */
     public function startTour(Event $event)
     {
-        $tourId = (int) $this->getApplication()->getInput()->getInt('id');
+        $tourId  = (int) $this->getApplication()->getInput()->getInt('id');
+        $tourUid = $this->getApplication()->getInput()->getString('uid', '');
+        $tourUid = $tourUid !== '' ? urldecode($tourUid) : '';
 
-        $activeTourId = null;
-        $tour         = null;
+        $tour = null;
 
         if ($tourId > 0) {
             $tour = $this->getTour($tourId);
-
-            if (!empty($tour->id)) {
-                $activeTourId = $tour->id;
-            }
+        } elseif ($tourUid !== '') {
+            $tour = $this->getTour($tourUid);
         }
 
         $event->setArgument('result', $tour ?? new \stdClass());
@@ -156,17 +155,15 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     /**
      * Get a tour and its steps or null if not found
      *
-     * @param   integer  $tourId  The ID of the tour to load
+     * @param   integer|string  $tourId  The ID or Uid of the tour to load
      *
      * @return null|object
      *
      * @since   4.3.0
      */
-    private function getTour(int $tourId)
+    private function getTour($tourId)
     {
         $app = $this->getApplication();
-
-        $user = $app->getIdentity();
 
         $factory = $app->bootComponent('com_guidedtours')->getMVCFactory();
 
@@ -177,6 +174,25 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         );
 
         $item = $tourModel->getItem($tourId);
+
+        return $this->processTour($item);
+    }
+
+    /**
+     * Return a tour and its steps or null if not found
+     *
+     * @param   TourTable  $item  The tour to load
+     *
+     * @return null|object
+     *
+     * @since   5.0.0
+     */
+    private function processTour($item)
+    {
+        $app = $this->getApplication();
+
+        $user    = $app->getIdentity();
+        $factory = $app->bootComponent('com_guidedtours')->getMVCFactory();
 
         if (empty($item->id) || $item->published < 1 || !in_array($item->access, $user->getAuthorisedViewLevels())) {
             return null;
@@ -205,8 +221,8 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $temp = new \stdClass();
 
         $temp->id          = 0;
-        $temp->title       = Text::_($item->title);
-        $temp->description = Text::_($item->description);
+        $temp->title       = $this->getApplication()->getLanguage()->_($item->title);
+        $temp->description = $this->getApplication()->getLanguage()->_($item->description);
         $temp->url         = $item->url;
 
         // Replace 'images/' to '../images/' when using an image from /images in backend.
@@ -218,13 +234,15 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
             $temp = new \stdClass();
 
             $temp->id               = $i + 1;
-            $temp->title            = Text::_($step->title);
-            $temp->description      = Text::_($step->description);
+            $temp->title            = $this->getApplication()->getLanguage()->_($step->title);
+            $temp->description      = $this->getApplication()->getLanguage()->_($step->description);
             $temp->position         = $step->position;
             $temp->target           = $step->target;
             $temp->type             = $this->stepType[$step->type];
             $temp->interactive_type = $this->stepInteractiveType[$step->interactive_type];
             $temp->url              = $step->url;
+            $temp->tour_id          = $step->tour_id;
+            $temp->step_id          = $step->id;
 
             // Replace 'images/' to '../images/' when using an image from /images in backend.
             $temp->description = preg_replace('*src\=\"(?!administrator\/)images/*', 'src="../images/', $temp->description);

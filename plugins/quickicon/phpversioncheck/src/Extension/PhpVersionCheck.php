@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Quickicon\PhpVersionCheck\Extension;
 
-use DateInterval;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -197,7 +196,7 @@ final class PhpVersionCheck extends CMSPlugin implements SubscriberInterface
 
             // If the version is still supported, check if it has reached eol minus 3 month
             $securityWarningDate = clone $phpEndOfSupport;
-            $securityWarningDate->sub(new DateInterval('P3M'));
+            $securityWarningDate->sub(new \DateInterval('P3M'));
 
             if (!$phpNotSupported && $today > $securityWarningDate) {
                 $supportStatus['status']  = self::PHP_SECURITY_ONLY;

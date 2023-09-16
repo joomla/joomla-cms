@@ -16,13 +16,14 @@ use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Utility\Utility;
-use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -121,6 +122,14 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * @since  4.0.0
      */
     private $html5 = true;
+
+    /**
+     * List of type \Joomla\CMS\Toolbar\Toolbar
+     *
+     * @var    Toolbar[]
+     * @since  5.0.0
+     */
+    private $toolbars = [];
 
     /**
      * Class constructor
@@ -449,7 +458,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      *
      * @since   1.7.0
      */
-    public function addFavicon($href, $type = 'image/vnd.microsoft.icon', $relation = 'shortcut icon')
+    public function addFavicon($href, $type = 'image/vnd.microsoft.icon', $relation = 'icon')
     {
         $href = str_replace('\\', '/', $href);
         $this->addHeadLink($href, $relation, 'rel', ['type' => $type]);
@@ -590,7 +599,11 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             $options['title'] = $args[3] ?? null;
         }
 
-        parent::$_buffer[$options['type']][$options['name']][$options['title']] = $content;
+        $type  = $options['type'] ?? '';
+        $name  = $options['name'] ?? '';
+        $title = $options['title'] ?? '';
+
+        parent::$_buffer[$type][$name][$title] = $content;
 
         return $this;
     }
@@ -682,35 +695,16 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * @return  integer  Number of child menu items
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0
+     *              Load the active menu item directly and count the children with the php count function
+     *              `$children = count($app->getMenu()->getActive()->getChildren())` beware getActive could be `null`
      */
     public function countMenuChildren()
     {
-        static $children;
+        $active = CmsFactory::getApplication()->getMenu()->getActive();
 
-        if (!isset($children)) {
-            $db       = CmsFactory::getDbo();
-            $app      = CmsFactory::getApplication();
-            $menu     = $app->getMenu();
-            $active   = $menu->getActive();
-            $children = 0;
-
-            if ($active) {
-                $query = $db->getQuery(true)
-                    ->select('COUNT(*)')
-                    ->from($db->quoteName('#__menu'))
-                    ->where(
-                        [
-                            $db->quoteName('parent_id') . ' = :id',
-                            $db->quoteName('published') . ' = 1',
-                        ]
-                    )
-                    ->bind(':id', $active->id, ParameterType::INTEGER);
-                $db->setQuery($query);
-                $children = $db->loadResult();
-            }
-        }
-
-        return $children;
+        return $active ? count($active->getChildren()) : 0;
     }
 
     /**
@@ -735,8 +729,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             // Get the file content
             ob_start();
             require $directory . '/' . $filename;
-            $contents = ob_get_contents();
-            ob_end_clean();
+            $contents = ob_get_clean();
         }
 
         return $contents;
@@ -790,6 +783,58 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
 
         // Load
         $this->_template = $this->_loadTemplate($baseDir, $file);
+
+        return $this;
+    }
+
+    /**
+     * Returns a toolbar object or null
+     *
+     * @param   string   $toolbar
+     * @param   boolean  $create
+     *
+     * @return  ?Toolbar
+     *
+     * @since   5.0.0
+     */
+    public function getToolbar(string $toolbar = 'toolbar', bool $create = true): ?Toolbar
+    {
+        if (empty($this->toolbars[$toolbar])) {
+            if (!$create) {
+                return null;
+            }
+
+            $this->toolbars[$toolbar] = CmsFactory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar($toolbar);
+        }
+
+        return $this->toolbars[$toolbar];
+    }
+
+    /**
+     * Returns the toolbar array
+     *
+     * @return  array
+     *
+     * @since   5.0.0
+     */
+    public function getToolbars(): array
+    {
+        return $this->toolbars;
+    }
+
+    /**
+     * Adds a new or replace an existing toolbar object
+     *
+     * @param   string   $name
+     * @param   Toolbar  $toolbar
+     *
+     * @return  $this
+     *
+     * @since   5.0.0
+     */
+    public function setToolbar(string $name, Toolbar $toolbar): self
+    {
+        $this->toolbars[$name] = $toolbar;
 
         return $this;
     }

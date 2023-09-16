@@ -13,12 +13,15 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -26,8 +29,10 @@ use Joomla\String\StringHelper;
  *
  * @since  3.1
  */
-class CoreContent extends Table
+class CoreContent extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
@@ -47,13 +52,14 @@ class CoreContent extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  A database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.1
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__ucm_content', 'core_content_id', $db);
+        parent::__construct('#__ucm_content', 'core_content_id', $db, $dispatcher);
 
         $this->setColumnAlias('published', 'core_state');
         $this->setColumnAlias('checked_out', 'core_checked_out_user_id');
@@ -149,7 +155,7 @@ class CoreContent extends Table
     }
 
     /**
-     * Override JTable delete method to include deleting corresponding row from #__ucm_base.
+     * Override \Joomla\CMS\Table\Table delete method to include deleting corresponding row from #__ucm_base.
      *
      * @param   integer  $pk  primary key value to delete. Must be set or throws an exception.
      *
@@ -160,7 +166,7 @@ class CoreContent extends Table
      */
     public function delete($pk = null)
     {
-        $baseTable = Table::getInstance('Ucm', 'JTable', ['dbo' => $this->getDbo()]);
+        $baseTable = new Ucm($this->getDbo(), $this->getDispatcher());
 
         return parent::delete($pk) && $baseTable->delete($pk);
     }
@@ -222,7 +228,7 @@ class CoreContent extends Table
     public function store($updateNulls = true)
     {
         $date = Factory::getDate();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if ($this->core_content_id) {
             // Existing item

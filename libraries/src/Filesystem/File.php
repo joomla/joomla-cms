@@ -17,13 +17,15 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * A File handling class
  *
  * @since  1.7.0
+ * @deprecated  4.4 will be removed in 6.0
+ *              Use Joomla\Filesystem\File instead.
  */
 class File
 {
@@ -69,6 +71,8 @@ class File
      * @return  string  The file name without the extension
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::stripExt() instead.
      */
     public static function stripExt($file)
     {
@@ -83,6 +87,8 @@ class File
      * @return  string  The sanitised string
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::makeSafe() instead.
      */
     public static function makeSafe($file)
     {
@@ -111,6 +117,9 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::copy() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function copy($src, $dest, $path = null, $useStreams = false)
     {
@@ -187,6 +196,8 @@ class File
      *                 FALSE from opcache_invalidate (like file not found).
      *
      * @since 4.0.1
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::invalidateFileCache() instead.
      */
     public static function invalidateFileCache($filepath, $force = true)
     {
@@ -210,6 +221,9 @@ class File
      * @return boolean TRUE if we can proceed to use opcache_invalidate to flush a file from the OPCache
      *
      * @since 4.0.1
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::invalidateFileCache() instead.
+     *              This method will be removed without replacement.
      */
     public static function canFlushFileCache()
     {
@@ -238,6 +252,9 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::delete() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function delete($file)
     {
@@ -270,8 +287,8 @@ class File
 
             /**
              * Invalidate the OPCache for the file before actually deleting it
-             * @see https://github.com/joomla/joomla-cms/pull/32915#issuecomment-812865635
-             * @see https://www.php.net/manual/en/function.opcache-invalidate.php#116372
+             * @link https://github.com/joomla/joomla-cms/pull/32915#issuecomment-812865635
+             * @link https://www.php.net/manual/en/function.opcache-invalidate.php#116372
              */
             self::invalidateFileCache($file);
 
@@ -311,6 +328,9 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::move() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function move($src, $dest, $path = '', $useStreams = false)
     {
@@ -382,10 +402,14 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::write() instead.
      */
     public static function write($file, $buffer, $useStreams = false)
     {
-        @set_time_limit(ini_get('max_execution_time'));
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(ini_get('max_execution_time'));
+        }
 
         // If the destination directory doesn't exist we need to create it
         if (!file_exists(\dirname($file))) {
@@ -440,10 +464,13 @@ class File
      * @return  boolean  True on success
      *
      * @since   3.6.0
+     *
      */
     public static function append($file, $buffer, $useStreams = false)
     {
-        @set_time_limit(ini_get('max_execution_time'));
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(ini_get('max_execution_time'));
+        }
 
         // If the file doesn't exist, just write instead of append
         if (!file_exists($file)) {
@@ -499,6 +526,9 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::upload() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function upload($src, $dest, $useStreams = false, $allowUnsafe = false, $safeFileOptions = [])
     {
@@ -588,6 +618,8 @@ class File
      * @return  boolean  True if path is a file
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use is_file() instead.
      */
     public static function exists($file)
     {

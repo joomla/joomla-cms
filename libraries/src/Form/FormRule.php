@@ -12,7 +12,7 @@
 
 namespace Joomla\CMS\Form;
 
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
@@ -21,7 +21,7 @@ if (!\defined('JCOMPAT_UNICODE_PROPERTIES')) {
     /**
      * Flag indicating UTF-8 and PCRE support is present
      *
-     * @var    boolean
+     * @const  boolean
      * @since  1.6
      *
      * @deprecated  4.0 will be removed in 6.0
@@ -61,8 +61,8 @@ class FormRule
      * @param   string             $group    The field name group control value. This acts as as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
-     * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
-     * @param   Form               $form     The form object for which the field is being tested.
+     * @param   ?Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
+     * @param   ?Form              $form     The form object for which the field is being tested.
      *
      * @return  boolean  True if the value is valid, false otherwise.
      *
