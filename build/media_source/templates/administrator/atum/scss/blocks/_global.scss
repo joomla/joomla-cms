@@ -256,6 +256,14 @@ details {
   }
 }
 
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    details {
+      background: var(--template-bg-dark-90);
+    }
+  }
+}
+
 // meter element
 meter {
   width: 100%;
