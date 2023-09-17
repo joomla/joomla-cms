@@ -16,7 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
