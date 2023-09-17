@@ -36,15 +36,6 @@ final class Profile extends CMSPlugin
     use DatabaseAwareTrait;
 
     /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     *
-     * @since  3.1
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Date of birth.
      *
      * @var    string
@@ -69,6 +60,9 @@ final class Profile extends CMSPlugin
         if (!in_array($context, ['com_users.profile', 'com_users.user', 'com_users.registration'])) {
             return true;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         if (is_object($data)) {
             $userId = $data->id ?? 0;
@@ -215,6 +209,9 @@ final class Profile extends CMSPlugin
             return true;
         }
 
+        // Load plugin language files
+        $this->loadLanguage();
+
         // Add the registration fields to the form.
         FormHelper::addFieldPrefix('Joomla\\Plugin\\User\\Profile\\Field');
         FormHelper::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
@@ -303,6 +300,9 @@ final class Profile extends CMSPlugin
      */
     public function onUserBeforeSave($user, $isnew, $data)
     {
+        // Load plugin language files
+        $this->loadLanguage();
+
         // Check that the date is valid.
         if (!empty($data['profile']['dob'])) {
             try {
