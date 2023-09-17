@@ -1960,13 +1960,6 @@ ENDDATA;
                 $manifestFile = gzinflate($manifestFileCompressed);
                 break;
 
-            case 12:
-                // BZIP2
-                if (\extension_loaded('bz2')) {
-                    $manifestFile = bzdecompress($manifestFileCompressed);
-                }
-                break;
-
             default:
                 // Unsupported
                 break;
