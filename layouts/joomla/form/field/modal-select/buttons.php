@@ -74,7 +74,7 @@ $isSelectAlways = !empty($canDo['select']) && empty($canDo['clear']);
 <button type="button" class="btn btn-primary" <?php echo $value && !$isSelectAlways ? 'hidden' : ''; ?>
         data-button-action="select" <?php echo !$isSelectAlways ? 'data-show-when-value=""' : ''; ?>
         data-modal-config="<?php echo $this->escape(json_encode($modalSelect)); ?>">
-    <span class="<?php echo $buttonIcons['select'] ?? 'icon-file'; ?>" aria-hidden="true"></span> <?php echo Text::_('JSELECT'); ?>
+    <span class="<?php echo !empty($buttonIcons['select']) ? $buttonIcons['select'] : 'icon-file'; ?>" aria-hidden="true"></span> <?php echo Text::_('JSELECT'); ?>
 </button>
 <?php endif; ?>
 

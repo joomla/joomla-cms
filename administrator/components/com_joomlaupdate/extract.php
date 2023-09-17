@@ -725,7 +725,7 @@ class ZIPExtraction
             }
         }
 
-        $error = $this->getError() ?? null;
+        $error = $this->getError();
 
         if (!empty($error)) {
             $this->debugMsg(sprintf('Step failed with error: %s', $error), self::LOG_ERROR);
