@@ -261,9 +261,9 @@ class MenusHelper extends ContentHelper
             }
 
             return $menuTypes;
-        } else {
-            return $links;
         }
+
+        return $links;
     }
 
     /**

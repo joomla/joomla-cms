@@ -91,9 +91,9 @@ class TelRule extends FormRule
 
             if (preg_match($regex, $cleanvalue) == true) {
                 return true;
-            } else {
-                return false;
             }
+
+            return false;
         }
 
         return true;
