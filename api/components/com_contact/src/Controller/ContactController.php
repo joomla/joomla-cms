@@ -22,7 +22,6 @@ use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Controller\Exception\SendEmail;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
@@ -152,10 +151,9 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
         }
 
         // Validation succeeded, continue with custom handlers
-        $eventData = new ArrayProxy($data);
-        $results   = $this->getDispatcher()->dispatch('onValidateContact', new ValidateContactEvent('onValidateContact', [
+        $results = $this->getDispatcher()->dispatch('onValidateContact', new ValidateContactEvent('onValidateContact', [
             'subject' => $contact,
-            'data'    => $eventData,
+            'data'    => &$data, // TODO: Remove reference in Joomla 6, @deprecated: Data modification onValidateContact is not allowed, use onSubmitContact instead
         ]))->getArgument('result', []);
 
         foreach ($results as $result) {
@@ -165,10 +163,12 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
         }
 
         // Passed Validation: Process the contact plugins to integrate with other applications
-        $this->getDispatcher()->dispatch('onSubmitContact', new SubmitContactEvent('onSubmitContact', [
+        $event = $this->getDispatcher()->dispatch('onSubmitContact', new SubmitContactEvent('onSubmitContact', [
             'subject' => $contact,
-            'data'    => $eventData,
+            'data'    => &$data, // TODO: Remove reference in Joomla 6, see SubmitContactEvent::__constructor()
         ]));
+        // Get the final data
+        $data = $event->getArgument('data', $data);
 
         // Send the email
         $sent = false;
