@@ -34,7 +34,7 @@
 
       @if $enable-dark-mode {
         @include color-mode(dark) {
-          --heading-color: var(--body-color)
+          --heading-color: var(--body-color);
         }
       }
     }
