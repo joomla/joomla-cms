@@ -151,7 +151,7 @@ class Module extends Table
         }
 
         // Prevent to save too large content > 65535
-        if ((\strlen($this->content) > 65535) || (\strlen($this->params) > 65535)) {
+        if ((!empty($this->content) && \strlen($this->content) > 65535) || (!empty($this->params) && \strlen($this->params) > 65535)) {
             $this->setError(Text::_('COM_MODULES_FIELD_CONTENT_TOO_LARGE'));
 
             return false;
