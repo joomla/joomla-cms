@@ -977,9 +977,11 @@ ENDDATA;
             throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
         }
 
-        // Check the uploaded file (requires zip PHP extension, throws RuntimeException when a check failed)
+        // Check the uploaded file (throws RuntimeException when a check failed)
         if (\extension_loaded('zip')) {
-            $this->checkPackageFile($userfile['tmp_name']);
+            $this->checkPackageFileZip($userfile['tmp_name']);
+        } else {
+            $this->checkPackageFileNoZip($userfile['tmp_name']);
         }
 
         // Build the appropriate paths.
@@ -1804,7 +1806,7 @@ ENDDATA;
     }
 
     /**
-     * Check the update package
+     * Check the update package with ZipArchive classs from zip PHP extension
      *
      * @param   string  $filePath  Full path to the update package to test
      *
@@ -1813,7 +1815,7 @@ ENDDATA;
      * @since   __DEPLOY_VERSION__
      * @throws  \RuntimeException
      */
-    private function checkPackageFile(string $filePath)
+    private function checkPackageFileZip(string $filePath)
     {
         $zipArchive = new \ZipArchive();
 
@@ -1828,6 +1830,149 @@ ENDDATA;
         $manifestFile = $zipArchive->getFromName('administrator/manifests/files/joomla.xml');
 
         if ($manifestFile === false) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE'), 500);
+        }
+
+        $manifestXml = simplexml_load_string($manifestFile);
+
+        $versionPackage = (string) $manifestXml->version ?: '';
+
+        if (!$versionPackage) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_VERSION_FOUND'), 500);
+        }
+
+        if (version_compare($versionPackage, JVERSION, 'lt')) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_DOWNGRADE'), 500);
+        }
+    }
+
+    /**
+     * Check the update package without using the ZipArchive classs from zip PHP extension
+     *
+     * @param   string  $filePath  Full path to the update package to test
+     *
+     * @return  void
+     *
+     * @see     https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT
+     * @since   __DEPLOY_VERSION__
+     * @throws  \RuntimeException
+     */
+    private function checkPackageFileNoZip(string $filePath)
+    {
+        // The file must exist and be readable
+        if (!file_exists($filePath) || !is_readable($filePath)) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
+        }
+
+        // The file must be at least 1KiB (anything less is not even a real file!)
+        $filesize = filesize($filePath);
+
+        if ($filesize < 1024) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
+        }
+
+        // Open the file
+        $fp = fopen($filePath, 'r');
+
+        if ($fp === false) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
+        }
+
+        // Find its last 4 Megabyte
+        if ($filesize > 4194304) {
+            fseek($fp, 0, SEEK_END);
+            fseek($fp, -4194304, SEEK_CUR);
+        }
+
+        // Read the last part of the file (up to 4MiB in size)
+        $last4MiB = fread($fp, min(4194304, $filesize));
+
+        // Signature of a file header inside a ZIP central directory header
+        $headerSignature = pack('V', 0x02014b50);
+
+        // Make sure it's a zip file
+        if ($last4MiB === false || strpos($last4MiB, $headerSignature) === false) {
+            @fclose($fp);
+
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
+        }
+
+        $sizeSignature = pack('v', 0x0016);
+        $offset        = 0;
+
+        // Look for installation/index.php
+        while (($pos = strpos($last4MiB, 'installation/index.php', $offset)) !== false) {
+            // Check if entry is a central directory file header and the file name is exactly 22 bytes long
+            if (substr($last4MiB, $pos - 46, 4) == $headerSignature && substr($last4MiB, $pos - 18, 2) == $sizeSignature) {
+                @fclose($fp);
+
+                throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_INSTALL_PACKAGE'), 500);
+            }
+
+            $offset = $pos + 22;
+        }
+
+        $sizeSignature = pack('v', 0x0028);
+        $offset        = 0;
+        $headerInfo    = false;
+
+        // Look for administrator/manifests/files/joomla.xml
+        while (($pos = strpos($last4MiB, 'administrator/manifests/files/joomla.xml', $offset)) !== false) {
+            // Check if entry is inside a ZIP central directory header and  the file name is exactly 40 bytes long
+            if (substr($last4MiB, $pos - 46, 4) == $headerSignature && substr($last4MiB, $pos - 18, 2) == $sizeSignature) {
+                $headerInfo = unpack('VOffset', substr($last4MiB, $pos - 4, 4));
+
+                break;
+            }
+
+            $offset = $pos + 40;
+        }
+
+        if ($headerInfo === false) {
+            @fclose($fp);
+
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE'), 500);
+        }
+
+        // Read the local file header
+        fseek($fp, $headerInfo['Offset']);
+        $localHeader = fread($fp, 30);
+
+        $localHeaderInfo = unpack('VSig/vVersion/vBitFlag/vMethod/VTime/VCRC32/VCompressed/VUncompressed/vNameLength/vExtraLength', $localHeader);
+
+        // Read the compressed file content
+        fseek($fp, $localHeaderInfo['NameLength'] + $localHeaderInfo['ExtraLength'], SEEK_CUR);
+        $manifestFileCompressed = fread($fp, $localHeaderInfo['Compressed']);
+
+        // Close file
+        @fclose($fp);
+
+        $manifestFile = '';
+
+        switch ($localHeaderInfo['Method']) {
+            case 0:
+                // Uncompressed
+                $manifestFile = $manifestFileCompressed;
+                break;
+
+            case 8:
+                // Deflated
+                $manifestFile = gzinflate($manifestFileCompressed);
+                break;
+
+            case 12:
+                // BZIP2
+                if (\extension_loaded('bz2')) {
+                    $manifestFile = bzdecompress($manifestFileCompressed);
+                }
+                break;
+
+            default:
+                // Unsupported
+                break;
+        }
+
+        if (!$manifestFile) {
             throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE'), 500);
         }
 
