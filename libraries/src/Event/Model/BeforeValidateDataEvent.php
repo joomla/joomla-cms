@@ -22,4 +22,43 @@ namespace Joomla\CMS\Event\Model;
  */
 class BeforeValidateDataEvent extends FormEvent
 {
+    /**
+     * Constructor.
+     *
+     * @param   string  $name       The event name.
+     * @param   array   $arguments  The event arguments.
+     *
+     * @throws  \BadMethodCallException
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct($name, array $arguments = [])
+    {
+        parent::__construct($name, $arguments);
+
+        // For backward compatibility make sure the content is referenced
+        // TODO: Remove in Joomla 6
+        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
+        if (key($arguments) === 0) {
+            $this->arguments['data'] = &$arguments[1];
+        } elseif (\array_key_exists('data', $arguments)) {
+            $this->arguments['data'] = &$arguments['data'];
+        }
+    }
+
+    /**
+     * Update the data.
+     *
+     * @param   object|array  $value  The value to set
+     *
+     * @return  static
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function updateData(object|array $value): static
+    {
+        $this->arguments['data'] = $this->setData($value);
+
+        return $this;
+    }
 }

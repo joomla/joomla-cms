@@ -17,7 +17,6 @@ use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Version;
 use Joomla\Filesystem\File;
@@ -84,10 +83,11 @@ abstract class InstallerHelper
         PluginHelper::importPlugin('installer', null, true, $dispatcher);
         $event = new BeforePackageDownloadEvent('onInstallerBeforePackageDownload', [
             'url'     => &$url, // TODO: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
-            'headers' => new ArrayProxy($headers),
+            'headers' => &$headers, // TODO: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
         ]);
         $dispatcher->dispatch('onInstallerBeforePackageDownload', $event);
-        $url = $event->getUrl();
+        $url     = $event->getArgument('url', $url);
+        $headers = $event->getArgument('headers', $headers);
 
         try {
             $response = HttpFactory::getHttp()->get($url, $headers);
