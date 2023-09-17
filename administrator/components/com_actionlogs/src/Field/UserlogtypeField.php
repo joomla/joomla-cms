@@ -62,12 +62,12 @@ class UserlogtypeField extends ListField
             $userExt = explode('","', $userExt);
         }
 
-        $common = array_merge($globalExt, array_intersect($globalExt, $userExt));
+        $common  = array_merge($globalExt, array_intersect($globalExt, $userExt));
         $options = [];
 
         foreach ($common as $extension) {
             ActionlogsHelper::loadTranslationFiles($extension);
-            $extensionName = Text::_($extension);
+            $extensionName                                                                = Text::_($extension);
             $options[ApplicationHelper::stringURLSafe($extensionName) . '_' . $extension] = HTMLHelper::_('select.option', $extension, $extensionName);
         }
 
