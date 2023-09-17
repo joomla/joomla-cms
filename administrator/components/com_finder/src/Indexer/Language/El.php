@@ -610,7 +610,7 @@ class El extends Language
             preg_match($re, $token, $match);
             $token   = $match[1];
             $test1   = false;
-            $exept12 = '/^(ΑΛ|ΑΡ|ΕΚΤΕΛ|Ζ|Μ|Ξ|ΠΑΡΑΚΑΛ|ΑΡ|ΠΡΟ|ΝΙΣ)$/';
+            $exept12 = '/^(ΑΛ|ΑΡ|ΕΚΤΕΛ|Ζ|Μ|Ξ|ΠΑΡΑΚΑΛ|ΠΡΟ|ΝΙΣ)$/';
 
             if (preg_match($exept12, $token)) {
                 $token .= "ΕΣΤ";
