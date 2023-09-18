@@ -328,7 +328,16 @@ final class Subform extends FieldsPlugin
      */
     public function onCustomFieldsBeforeSave($field)
     {
+        // Check if the field should be processed by us
+        if (!$this->isTypeSupported($field->type)) {
+            return;
+        }
+
         if (empty($field->rawvalue)) {
+            return;
+        }
+
+        if (is_array($field->rawvalue)) {
             return;
         }
 
