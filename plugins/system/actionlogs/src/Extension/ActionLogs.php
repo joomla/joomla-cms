@@ -395,7 +395,7 @@ final class ActionLogs extends CMSPlugin
             $user    = explode('","', $userExt);
             $common  = array_intersect($globalExt, $user);
 
-            $extension = '["' . implode('","', $common) . '"]';
+            $extension = json_encode(array_values($common));
 
             $query->clear()
                 ->update($db->quoteName('#__action_logs_users'))
