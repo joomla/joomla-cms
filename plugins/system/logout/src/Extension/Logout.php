@@ -27,15 +27,6 @@ use Joomla\Event\DispatcherInterface;
 final class Logout extends CMSPlugin
 {
     /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     *
-     * @since  3.1
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * @param   DispatcherInterface      $dispatcher  The object to observe -- event dispatcher.
      * @param   array                    $config      An optional associative array of configuration settings.
      * @param   CMSApplicationInterface  $app         The object to observe -- event dispatcher.

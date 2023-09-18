@@ -942,9 +942,10 @@ final class Joomla extends CMSPlugin
             }
 
             return $count;
-        } else { // If we didn't have any categories to check, return 0
-            return 0;
         }
+
+        // If we didn't have any categories to check, return 0
+        return 0;
     }
 
     /**

@@ -16,7 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\MenuItem;
-use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -54,12 +53,12 @@ abstract class Menu
          * $children is an array of MenuItem objects. A plugin can traverse the whole tree,
          * but new nodes will only be run through this method if their parents have not been processed yet.
          */
-        $dispatcher->dispatch('onPreprocessMenuItems', new PreprocessMenuItemsEvent('onPreprocessMenuItems', [
+        $children = $dispatcher->dispatch('onPreprocessMenuItems', new PreprocessMenuItemsEvent('onPreprocessMenuItems', [
             'context' => 'administrator.module.mod_submenu',
-            'subject' => new ArrayProxy($children),
+            'subject' => &$children, // TODO: Remove reference in Joomla 6, see PreprocessMenuItemsEvent::__constructor()
             'params'  => null,
             'enabled' => true,
-        ]));
+        ]))->getArgument('subject', $children);
 
         foreach ($children as $item) {
             if (substr($item->link, 0, 8) === 'special:') {

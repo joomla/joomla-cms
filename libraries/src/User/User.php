@@ -309,9 +309,9 @@ class User
         // Find the user id
         if (!is_numeric($identifier)) {
             return Factory::getContainer()->get(UserFactoryInterface::class)->loadUserByUsername($identifier);
-        } else {
-            $id = $identifier;
         }
+
+        $id = $identifier;
 
         // If the $id is zero, just return an empty User.
         // Note: don't cache this user because it'll have a new ID on save!
