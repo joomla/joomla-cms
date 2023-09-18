@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Console;
 
 use Joomla\Application\Cli\CliInput;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
