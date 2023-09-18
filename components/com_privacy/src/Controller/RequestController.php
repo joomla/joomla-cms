@@ -59,19 +59,21 @@ class RequestController extends BaseController
             $this->setRedirect(Route::_('index.php?option=com_privacy&view=confirm', false), $message, 'error');
 
             return false;
-        } elseif ($return === false) {
+        }
+
+        if ($return === false) {
             // Confirm failed.
             // Go back to the confirm form.
             $message = Text::sprintf('COM_PRIVACY_ERROR_CONFIRMING_REQUEST_FAILED', $model->getError());
             $this->setRedirect(Route::_('index.php?option=com_privacy&view=confirm', false), $message, 'notice');
 
             return false;
-        } else {
-            // Confirm succeeded.
-            $this->setRedirect(Route::_(Uri::root()), Text::_('COM_PRIVACY_CONFIRM_REQUEST_SUCCEEDED'), 'info');
-
-            return true;
         }
+
+        // Confirm succeeded.
+        $this->setRedirect(Route::_(Uri::root()), Text::_('COM_PRIVACY_CONFIRM_REQUEST_SUCCEEDED'), 'info');
+
+        return true;
     }
 
     /**
@@ -105,19 +107,21 @@ class RequestController extends BaseController
             $this->setRedirect(Route::_('index.php?option=com_privacy&view=request', false), $message, 'error');
 
             return false;
-        } elseif ($return === false) {
+        }
+
+        if ($return === false) {
             // Confirm failed.
             // Go back to the confirm form.
             $message = Text::sprintf('COM_PRIVACY_ERROR_CREATING_REQUEST_FAILED', $model->getError());
             $this->setRedirect(Route::_('index.php?option=com_privacy&view=request', false), $message, 'notice');
 
             return false;
-        } else {
-            // Confirm succeeded.
-            $this->setRedirect(Route::_(Uri::root()), Text::_('COM_PRIVACY_CREATE_REQUEST_SUCCEEDED'), 'info');
-
-            return true;
         }
+
+        // Confirm succeeded.
+        $this->setRedirect(Route::_(Uri::root()), Text::_('COM_PRIVACY_CREATE_REQUEST_SUCCEEDED'), 'info');
+
+        return true;
     }
 
     /**
@@ -151,18 +155,20 @@ class RequestController extends BaseController
             $this->setRedirect(Route::_('index.php?option=com_privacy&view=remind', false), $message, 'error');
 
             return false;
-        } elseif ($return === false) {
+        }
+
+        if ($return === false) {
             // Confirm failed.
             // Go back to the confirm form.
             $message = Text::sprintf('COM_PRIVACY_ERROR_CONFIRMING_REMIND_FAILED', $model->getError());
             $this->setRedirect(Route::_('index.php?option=com_privacy&view=remind', false), $message, 'notice');
 
             return false;
-        } else {
-            // Confirm succeeded.
-            $this->setRedirect(Route::_(Uri::root()), Text::_('COM_PRIVACY_CONFIRM_REMIND_SUCCEEDED'), 'info');
-
-            return true;
         }
+
+        // Confirm succeeded.
+        $this->setRedirect(Route::_(Uri::root()), Text::_('COM_PRIVACY_CONFIRM_REMIND_SUCCEEDED'), 'info');
+
+        return true;
     }
 }

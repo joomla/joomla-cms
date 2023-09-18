@@ -594,8 +594,8 @@ class SiteRouter extends Router
             $this->componentRouters[$component] = $router;
 
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 }

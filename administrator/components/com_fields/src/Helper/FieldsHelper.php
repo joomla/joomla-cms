@@ -554,7 +554,9 @@ class FieldsHelper
         // Detect if the field should be shown at all
         if ($field->params->get('show_on') == 1 && $app->isClient('administrator')) {
             return false;
-        } elseif ($field->params->get('show_on') == 2 && $app->isClient('site')) {
+        }
+
+        if ($field->params->get('show_on') == 2 && $app->isClient('site')) {
             return false;
         }
 

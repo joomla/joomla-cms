@@ -285,7 +285,9 @@ class ContentComponent extends MVCComponent implements
 
         if ($modelname === 'article' && Factory::getApplication()->isClient('site')) {
             return 'Form';
-        } elseif ($modelname === 'featured' && Factory::getApplication()->isClient('administrator')) {
+        }
+
+        if ($modelname === 'featured' && Factory::getApplication()->isClient('administrator')) {
             return 'Article';
         }
 

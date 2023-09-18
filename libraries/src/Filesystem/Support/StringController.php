@@ -73,8 +73,8 @@ class StringController
 
         if (isset($ref[$reference])) {
             return $ref[$reference];
-        } else {
-            return false;
         }
+
+        return false;
     }
 }

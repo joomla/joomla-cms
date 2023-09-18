@@ -28,15 +28,6 @@ use Joomla\Utilities\ArrayHelper;
 final class Terms extends CMSPlugin
 {
     /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     *
-     * @since  3.9.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Adds additional fields to the user registration form
      *
      * @param   Form   $form  The form to be altered.
@@ -54,6 +45,9 @@ final class Terms extends CMSPlugin
         if (!in_array($name, ['com_users.registration'])) {
             return true;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         // Add the terms and conditions fields to the form.
         FormHelper::addFieldPrefix('Joomla\\Plugin\\User\\Terms\\Field');
@@ -93,6 +87,9 @@ final class Terms extends CMSPlugin
         if ($userId > 0) {
             return true;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         // Check that the terms is checked if required ie only in registration from frontend.
         $input  = $this->getApplication()->getInput();

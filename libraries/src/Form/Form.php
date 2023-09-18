@@ -249,10 +249,10 @@ class Form implements CurrentUserInterface
         // If the element exists and the attribute exists for the field return the attribute value.
         if (($element instanceof \SimpleXMLElement) && \strlen((string) $element[$attribute])) {
             return (string) $element[$attribute];
-        } else {
-            // Otherwise return the given default value.
-            return $default;
         }
+
+        // Otherwise return the given default value.
+        return $default;
     }
 
     /**
@@ -605,10 +605,10 @@ class Form implements CurrentUserInterface
                 $this->syncPaths();
 
                 return true;
-            } else {
-                // Create a root element for the form.
-                $this->xml = new \SimpleXMLElement('<form></form>');
             }
+
+            // Create a root element for the form.
+            $this->xml = new \SimpleXMLElement('<form></form>');
         }
 
         // Get the XML elements to load.
@@ -892,15 +892,15 @@ class Form implements CurrentUserInterface
         // If the element doesn't exist return false.
         if (!($element instanceof \SimpleXMLElement)) {
             return false;
-        } else {
-            // Otherwise set the attribute and return true.
-            $element[$attribute] = $value;
-
-            // Synchronize any paths found in the load.
-            $this->syncPaths();
-
-            return true;
         }
+
+        // Otherwise set the attribute and return true.
+        $element[$attribute] = $value;
+
+        // Synchronize any paths found in the load.
+        $this->syncPaths();
+
+        return true;
     }
 
     /**
@@ -1256,11 +1256,11 @@ class Form implements CurrentUserInterface
                 // If we find an ancestor fields element with a group name then it isn't what we want.
                 if ($field->xpath('ancestor::fields[@name]')) {
                     continue;
-                } else {
-                    // Found it!
-                    $element = &$field;
-                    break;
                 }
+
+                // Found it!
+                $element = &$field;
+                break;
             }
         }
 
@@ -1497,9 +1497,9 @@ class Form implements CurrentUserInterface
 
         if ($field->setup($element, $value, $group)) {
             return $field;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

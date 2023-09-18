@@ -47,6 +47,15 @@ abstract class RenderModuleEvent extends ModuleEvent
         if (!\array_key_exists('attributes', $this->arguments)) {
             throw new \BadMethodCallException("Argument 'attributes' of event {$name} is required but has not been provided");
         }
+
+        // For backward compatibility make sure the content is referenced
+        // TODO: Remove in Joomla 6
+        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
+        if (key($arguments) === 0) {
+            $this->arguments['attributes'] = &$arguments[1];
+        } elseif (\array_key_exists('attributes', $arguments)) {
+            $this->arguments['attributes'] = &$arguments['attributes'];
+        }
     }
 
     /**
@@ -66,13 +75,13 @@ abstract class RenderModuleEvent extends ModuleEvent
     /**
      * Setter for the attributes argument.
      *
-     * @param   array|\ArrayAccess  $value  The value to set
+     * @param   array  $value  The value to set
      *
-     * @return  array|\ArrayAccess
+     * @return  array
      *
      * @since  5.0.0
      */
-    protected function setAttributes(array|\ArrayAccess $value): array|\ArrayAccess
+    protected function setAttributes(array $value): array
     {
         return $value;
     }
@@ -92,12 +101,28 @@ abstract class RenderModuleEvent extends ModuleEvent
     /**
      * Getter for the attributes argument.
      *
-     * @return  array|\ArrayAccess
+     * @return  array
      *
      * @since  5.0.0
      */
-    public function getAttributes(): array|\ArrayAccess
+    public function getAttributes(): array
     {
         return $this->arguments['attributes'];
+    }
+
+    /**
+     * Update the attributes.
+     *
+     * @param   array  $value  The value to set
+     *
+     * @return  static
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function updateData(array $value): static
+    {
+        $this->arguments['attributes'] = $this->setAttributes($value);
+
+        return $this;
     }
 }
