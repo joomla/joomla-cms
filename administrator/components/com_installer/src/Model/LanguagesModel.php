@@ -187,9 +187,9 @@ class LanguagesModel extends ListModel
 
                 if (strtolower($that->getState('list.direction')) === 'asc') {
                     return StringHelper::strcmp($a->$ordering, $b->$ordering);
-                } else {
-                    return StringHelper::strcmp($b->$ordering, $a->$ordering);
                 }
+
+                return StringHelper::strcmp($b->$ordering, $a->$ordering);
             }
         );
 

@@ -33,7 +33,7 @@ ul.media-tree {
 .media-disk-name {
   padding: 4px 1px;
   font-size: 1rem;
-  color: var(--template-bg-dark);
+  color: var(--media-manager-disk-name-color, var(--template-bg-dark));
 
   &:empty {
     display: none;

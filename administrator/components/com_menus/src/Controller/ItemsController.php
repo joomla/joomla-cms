@@ -110,12 +110,12 @@ class ItemsController extends AdminController
             $this->setMessage(Text::_('COM_MENUS_ITEMS_REBUILD_SUCCESS'));
 
             return true;
-        } else {
-            // Rebuild failed.
-            $this->setMessage(Text::sprintf('COM_MENUS_ITEMS_REBUILD_FAILED'), 'error');
-
-            return false;
         }
+
+        // Rebuild failed.
+        $this->setMessage(Text::sprintf('COM_MENUS_ITEMS_REBUILD_FAILED'), 'error');
+
+        return false;
     }
 
     /**

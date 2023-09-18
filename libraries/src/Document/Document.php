@@ -586,9 +586,9 @@ class Document
     {
         if ($key) {
             return (empty($this->scriptOptions[$key])) ? [] : $this->scriptOptions[$key];
-        } else {
-            return $this->scriptOptions;
         }
+
+        return $this->scriptOptions;
     }
 
     /**

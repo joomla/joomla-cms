@@ -50,10 +50,10 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
     {
         // Reshape the arguments array to preserve b/c with legacy listeners
         if ($this->legacyArgumentsOrder) {
-            $arguments = $this->reshapeArguments($arguments, $this->legacyArgumentsOrder);
+            parent::__construct($name, $this->reshapeArguments($arguments, $this->legacyArgumentsOrder));
+        } else {
+            parent::__construct($name, $arguments);
         }
-
-        parent::__construct($name, $arguments);
 
         if (!\array_key_exists('items', $this->arguments)) {
             throw new \BadMethodCallException("Argument 'items' of event {$name} is required but has not been provided");
@@ -61,6 +61,15 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
 
         if (!\array_key_exists('subject', $this->arguments)) {
             throw new \BadMethodCallException("Argument 'subject' of event {$name} is required but has not been provided");
+        }
+
+        // For backward compatibility make sure the content is referenced
+        // TODO: Remove in Joomla 6
+        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
+        if (key($arguments) === 0) {
+            $this->arguments['items'] = &$arguments[0];
+        } elseif (\array_key_exists('items', $arguments)) {
+            $this->arguments['items'] = &$arguments['items'];
         }
     }
 
@@ -81,13 +90,13 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
     /**
      * Setter for the items argument.
      *
-     * @param   array|\ArrayAccess  $value  The value to set
+     * @param   array  $value  The value to set
      *
-     * @return  array|\ArrayAccess
+     * @return  array
      *
      * @since  5.0.0
      */
-    protected function setItems(array|\ArrayAccess $value): array|\ArrayAccess
+    protected function setItems(array $value): array
     {
         return $value;
     }
@@ -107,12 +116,28 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
     /**
      * Getter for the items.
      *
-     * @return  array|\ArrayAccess
+     * @return  array
      *
      * @since  5.0.0
      */
-    public function getItems(): array|\ArrayAccess
+    public function getItems(): array
     {
         return $this->arguments['items'];
+    }
+
+    /**
+     * Update the items.
+     *
+     * @param   array  $value  The value to set
+     *
+     * @return  static
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function updateItems(array $value): static
+    {
+        $this->arguments['items'] = $this->setItems($value);
+
+        return $this;
     }
 }
