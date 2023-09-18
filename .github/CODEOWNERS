@@ -14,10 +14,10 @@ plugins/content/finder/*  @hackwar
 plugins/finder/*  @hackwar
 
 # Release Tools
-build.xml  @wilsonge
-build/build.php  @rdeutz @wilsonge
-build/bump.php  @rdeutz @wilsonge
-build/deleted_file_check.php  @rdeutz @wilsonge
+build.xml  @fancyFranci
+build/build.php  @rdeutz
+build/bump.php  @rdeutz
+build/deleted_file_check.php  @rdeutz
 
 # Core/Extension Install/Update Tools
 administrator/components/com_joomlaupdate/*  @rdeutz @zero-24
