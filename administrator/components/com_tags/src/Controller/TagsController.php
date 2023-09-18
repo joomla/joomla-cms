@@ -63,12 +63,12 @@ class TagsController extends AdminController
             $this->setMessage(Text::_('COM_TAGS_REBUILD_SUCCESS'));
 
             return true;
-        } else {
-            // Rebuild failed.
-            $this->setMessage(Text::_('COM_TAGS_REBUILD_FAILURE'));
-
-            return false;
         }
+
+        // Rebuild failed.
+        $this->setMessage(Text::_('COM_TAGS_REBUILD_FAILURE'));
+
+        return false;
     }
 
     /**

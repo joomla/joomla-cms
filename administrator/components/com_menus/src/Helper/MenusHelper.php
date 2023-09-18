@@ -20,7 +20,6 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AdministratorMenuItem;
-use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
@@ -262,9 +261,9 @@ class MenusHelper extends ContentHelper
             }
 
             return $menuTypes;
-        } else {
-            return $links;
         }
+
+        return $links;
     }
 
     /**
@@ -448,12 +447,12 @@ class MenusHelper extends ContentHelper
         }
 
         $dispatcher = Factory::getApplication()->getDispatcher();
-        $dispatcher->dispatch('onPreprocessMenuItems', new PreprocessMenuItemsEvent('onPreprocessMenuItems', [
+        $items      = $dispatcher->dispatch('onPreprocessMenuItems', new PreprocessMenuItemsEvent('onPreprocessMenuItems', [
             'context' => 'com_menus.administrator.import',
-            'subject' => new ArrayProxy($items),
+            'subject' => &$items, // TODO: Remove reference in Joomla 6, see PreprocessMenuItemsEvent::__constructor()
             'params'  => null,
             'enabled' => true,
-        ]));
+        ]))->getArgument('subject', $items);
 
         foreach ($items as $item) {
             /** @var \Joomla\CMS\Table\Menu $table */

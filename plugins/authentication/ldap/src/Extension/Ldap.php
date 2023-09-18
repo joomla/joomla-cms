@@ -176,9 +176,9 @@ final class Ldap extends CMSPlugin
                     Log::add($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_USER_NOT_FOUND'), Log::ERROR, $logcategory);
 
                     return;
-                } else {
-                    Log::add(sprintf('LDAP entry found at "%s"', $entry->getDn()), Log::DEBUG, $logcategory);
                 }
+
+                Log::add(sprintf('LDAP entry found at "%s"', $entry->getDn()), Log::DEBUG, $logcategory);
 
                 try {
                     // Verify Users Credentials

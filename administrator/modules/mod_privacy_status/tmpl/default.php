@@ -15,6 +15,9 @@ use Joomla\CMS\Router\Route;
 
 ?>
 <table class="table">
+    <caption class="visually-hidden">
+        <?php echo Text::_('MOD_PRIVACY_STATUS'); ?>
+    </caption>
     <thead>
         <tr>
             <th scope="col" class="w-20"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_STATUS'); ?></th>

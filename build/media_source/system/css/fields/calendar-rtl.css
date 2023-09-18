@@ -13,7 +13,7 @@
   padding: 0;
   list-style: none;
   border-radius: 5px;
-  background-color: #ffffff !important;
+  background-color: var(--calendar-bg, #fff);
   z-index: 1100 !important;
 }
 
@@ -25,7 +25,7 @@
   table-layout: fixed;
   max-width: 268px;
   border-radius: 5px;
-  background-color: #ffffff !important;
+  background-color: var(--calendar-bg, #fff);
   z-index: 1100 !important;
   margin-top: 2px;
   margin-left: auto;
@@ -97,7 +97,7 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 
 .calendar-container table tbody td.day.wn {
   text-align: center;
-  background-color: #f4f4f4;
+  background-color: var(--calendar-week-bg, #f4f4f4);
 }
 
 .calendar-container table tbody td.day.selected { /* Cell showing today date */
@@ -180,9 +180,9 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
   font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
-  color: #212529;
-  background-color: #f0f4fb;
-  background-image: url("../../images/select-bg-rtl.svg");
+  color: var(--calendar-select-color, #212529);
+  background-color: var(--calendar-select-bg-color, #f0f4fb);
+  background-image: var(--calendar-select-bg-url-rtl, url("../../images/select-bg-rtl.svg"));
   background-repeat: no-repeat;
   background-position: left center;
   background-size: max(100%, 58rem);
@@ -199,8 +199,8 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 
 .buttons-wrapper .btn {
   min-width: 60px;
-  color: #495057;
-  border: 1px solid #495057;
+  color: var(--calendar-buttons-color, #495057);
+  border: 1px solid var(--calendar-buttons-color, #495057);
   margin-left: 0;
   padding: 0 16px;
   line-height: 2.375rem;

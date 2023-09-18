@@ -17,7 +17,6 @@ use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Version;
 use Joomla\Filesystem\File;
@@ -84,10 +83,11 @@ abstract class InstallerHelper
         PluginHelper::importPlugin('installer', null, true, $dispatcher);
         $event = new BeforePackageDownloadEvent('onInstallerBeforePackageDownload', [
             'url'     => &$url, // TODO: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
-            'headers' => new ArrayProxy($headers),
+            'headers' => &$headers, // TODO: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
         ]);
         $dispatcher->dispatch('onInstallerBeforePackageDownload', $event);
-        $url = $event->getUrl();
+        $url     = $event->getArgument('url', $url);
+        $headers = $event->getArgument('headers', $headers);
 
         try {
             $response = HttpFactory::getHttp()->get($url, $headers);
@@ -102,7 +102,9 @@ abstract class InstallerHelper
 
         if (302 == $response->code && !empty($headers['location'])) {
             return self::downloadPackage($headers['location']);
-        } elseif (200 != $response->code) {
+        }
+
+        if (200 != $response->code) {
             Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), Log::WARNING, 'jerror');
 
             return false;
@@ -232,9 +234,9 @@ abstract class InstallerHelper
 
         if ($alwaysReturnArray || $retval['type']) {
             return $retval;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
