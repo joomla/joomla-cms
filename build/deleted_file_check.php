@@ -59,20 +59,24 @@ if (empty($options['to'])) {
     exit(1);
 }
 
-// Directories and files to skip for the check (needs to include anything from J3 we want to keep)
+// Directories to skip for the check (needs to include anything from J3 we want to keep)
 $previousReleaseExclude = [
     $options['from'] . '/administrator/components/com_search',
-    $options['from'] . '/administrator/language/en-GB/plg_task_demotasks.ini',
-    $options['from'] . '/administrator/language/en-GB/plg_task_demotasks.sys.ini',
     $options['from'] . '/components/com_search',
     $options['from'] . '/images/sampledata',
     $options['from'] . '/installation',
     $options['from'] . '/media/plg_quickicon_eos310',
     $options['from'] . '/media/system/images',
     $options['from'] . '/modules/mod_search',
+    $options['from'] . '/plugins/captcha/recaptcha',
+    $options['from'] . '/plugins/captcha/recaptcha_invisible',
     $options['from'] . '/plugins/fields/repeatable',
     $options['from'] . '/plugins/quickicon/eos310',
     $options['from'] . '/plugins/search',
+    $options['from'] . '/plugins/system/compat',
+    $options['from'] . '/plugins/system/logrotation',
+    $options['from'] . '/plugins/system/sessiongc',
+    $options['from'] . '/plugins/system/updatenotification',
     $options['from'] . '/plugins/task/demotasks',
 ];
 
@@ -173,6 +177,20 @@ $filesToKeep = [
     "'/administrator/language/en-GB/en-GB.plg_search_weblinks.sys.ini',",
     "'/administrator/language/en-GB/en-GB.plg_system_weblinks.ini',",
     "'/administrator/language/en-GB/en-GB.plg_system_weblinks.sys.ini',",
+    "'/administrator/language/en-GB/plg_captcha_recaptcha.ini',",
+    "'/administrator/language/en-GB/plg_captcha_recaptcha.sys.ini',",
+    "'/administrator/language/en-GB/plg_captcha_recaptcha_invisible.ini',",
+    "'/administrator/language/en-GB/plg_captcha_recaptcha_invisible.sys.ini',",
+    "'/administrator/language/en-GB/plg_system_compat.ini',",
+    "'/administrator/language/en-GB/plg_system_compat.sys.ini',",
+    "'/administrator/language/en-GB/plg_system_logrotation.ini',",
+    "'/administrator/language/en-GB/plg_system_logrotation.sys.ini',",
+    "'/administrator/language/en-GB/plg_system_sessiongc.ini',",
+    "'/administrator/language/en-GB/plg_system_sessiongc.sys.ini',",
+    "'/administrator/language/en-GB/plg_system_updatenotification.ini',",
+    "'/administrator/language/en-GB/plg_system_updatenotification.sys.ini',",
+    "'/administrator/language/en-GB/plg_task_demotasks.ini',",
+    "'/administrator/language/en-GB/plg_task_demotasks.sys.ini',",
     "'/language/en-GB/en-GB.com_search.ini',",
     "'/language/en-GB/en-GB.mod_search.ini',",
     "'/language/en-GB/en-GB.mod_search.sys.ini',",

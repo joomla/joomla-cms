@@ -15,7 +15,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -76,7 +75,7 @@ class HtmlView extends BaseHtmlView
     /**
      * An ACL object to verify user rights.
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  3.6.3
      */
     protected $canDo;
@@ -150,8 +149,8 @@ class HtmlView extends BaseHtmlView
 
             $childBar = $dropdown->getChildToolbar();
 
-            $childBar->publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
-            $childBar->unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
+            $childBar->publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE');
+            $childBar->unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK');
             $childBar->standardButton('unblock', 'COM_USERS_TOOLBAR_UNBLOCK', 'users.unblock')
                 ->listCheck(true);
 

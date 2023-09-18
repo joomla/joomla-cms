@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Contact\Site\Controller;
 
+use Joomla\CMS\Event\Contact\SubmitContactEvent;
+use Joomla\CMS\Event\Contact\ValidateContactEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -171,16 +173,35 @@ class ContactController extends FormController implements UserFactoryAwareInterf
         }
 
         // Validation succeeded, continue with custom handlers
-        $results = $this->app->triggerEvent('onValidateContact', [&$contact, &$data]);
+        $results = $this->getDispatcher()->dispatch('onValidateContact', new ValidateContactEvent('onValidateContact', [
+            'subject' => $contact,
+            'data'    => &$data, // TODO: Remove reference in Joomla 6, @deprecated: Data modification onValidateContact is not allowed, use onSubmitContact instead
+        ]))->getArgument('result', []);
+
+        $passValidation = true;
 
         foreach ($results as $result) {
             if ($result instanceof \Exception) {
-                return false;
+                $passValidation = false;
+                $app->enqueueMessage($result->getMessage(), 'error');
             }
         }
 
+        if (!$passValidation) {
+            $app->setUserState('com_contact.contact.data', $data);
+
+            $this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $id . '&catid=' . $contact->catid, false));
+
+            return false;
+        }
+
         // Passed Validation: Process the contact plugins to integrate with other applications
-        $this->app->triggerEvent('onSubmitContact', [&$contact, &$data]);
+        $event = $this->getDispatcher()->dispatch('onSubmitContact', new SubmitContactEvent('onSubmitContact', [
+            'subject' => $contact,
+            'data'    => &$data, // TODO: Remove reference in Joomla 6, see SubmitContactEvent::__constructor()
+        ]));
+        // Get the final data
+        $data = $event->getArgument('data', $data);
 
         // Send the email
         $sent = false;

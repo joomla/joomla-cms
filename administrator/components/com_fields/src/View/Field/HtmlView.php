@@ -11,7 +11,6 @@
 namespace Joomla\Component\Fields\Administrator\View\Field;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -19,6 +18,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -46,7 +46,7 @@ class HtmlView extends BaseHtmlView
     protected $item;
 
     /**
-     * @var     CMSObject
+     * @var     \Joomla\Registry\Registry
      *
      * @since   3.7.0
      */
@@ -130,7 +130,7 @@ class HtmlView extends BaseHtmlView
                     $childBar->save2new('field.save2new');
                 }
             );
-            $toolbar->cancel('field.cancel');
+            $toolbar->cancel('field.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);

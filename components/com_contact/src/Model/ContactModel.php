@@ -272,10 +272,10 @@ class ContactModel extends FormModel
                 if ($e->getCode() == 404) {
                     // Need to go through the error handler to allow Redirect to work.
                     throw $e;
-                } else {
-                    $this->setError($e);
-                    $this->_item[$pk] = false;
                 }
+
+                $this->setError($e);
+                $this->_item[$pk] = false;
             }
         }
 
@@ -331,7 +331,7 @@ class ContactModel extends FormModel
 
             // Filter per language if plugin published
             if (Multilanguage::isEnabled()) {
-                $language = [Factory::getLanguage()->getTag(), $db->quote('*')];
+                $language = [Factory::getLanguage()->getTag(), '*'];
                 $query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
             }
 

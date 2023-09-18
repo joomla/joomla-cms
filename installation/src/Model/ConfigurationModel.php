@@ -141,8 +141,10 @@ class ConfigurationModel extends BaseInstallationModel
         }
 
         // This is needed because the installer loads the extension table in constructor, needs to be refactored in 5.0
-        Factory::$database = $db;
-        $installer         = Installer::getInstance();
+        // It doesn't honor the DatabaseAware interface
+        Factory::getContainer()->set('\Joomla\CMS\Table\Extension', new \Joomla\CMS\Table\Extension($db));
+
+        $installer = Installer::getInstance();
 
         foreach ($extensions as $extension) {
             if (!$installer->refreshManifestCache($extension->extension_id)) {
@@ -275,9 +277,12 @@ class ConfigurationModel extends BaseInstallationModel
 
         // Update all core tables created_by fields of the tables with the random user id.
         $updatesArray = [
-            '#__categories' => ['created_user_id', 'modified_user_id'],
-            '#__tags'       => ['created_user_id', 'modified_user_id'],
-            '#__workflows'  => ['created_by', 'modified_by'],
+            '#__categories'       => ['created_user_id', 'modified_user_id'],
+            '#__guidedtours'      => ['created_by', 'modified_by'],
+            '#__guidedtour_steps' => ['created_by', 'modified_by'],
+            '#__scheduler_tasks'  => ['created_by'],
+            '#__tags'             => ['created_user_id', 'modified_user_id'],
+            '#__workflows'        => ['created_by', 'modified_by'],
         ];
 
         foreach ($updatesArray as $table => $fields) {

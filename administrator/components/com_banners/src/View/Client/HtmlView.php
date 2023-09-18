@@ -60,7 +60,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Object containing permissions for the item
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  1.5
      */
     protected $canDo;
@@ -118,8 +118,6 @@ class HtmlView extends BaseHtmlView
             $isNew ? Text::_('COM_BANNERS_MANAGER_CLIENT_NEW') : Text::_('COM_BANNERS_MANAGER_CLIENT_EDIT'),
             'bookmark banners-clients'
         );
-
-        $toolbarButtons = [];
 
         // If not checked out, can save the item.
         if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create'))) {

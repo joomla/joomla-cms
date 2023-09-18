@@ -16,7 +16,6 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
@@ -26,6 +25,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -627,7 +627,7 @@ class TemplateModel extends FormModel
                 $this->template->client_id = (int) $this->template->client_id;
 
                 if (!isset($this->template->xmldata)) {
-                    $this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($this->template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $this->template->name);
+                    $this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($this->template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $this->template->element);
                 }
             }
         }
@@ -733,11 +733,11 @@ class TemplateModel extends FormModel
             }
 
             return true;
-        } else {
-            $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
-
-            return false;
         }
+
+        $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
+
+        return false;
     }
 
     /**
@@ -959,7 +959,7 @@ class TemplateModel extends FormModel
         $data['source'] = str_replace(["\r\n", "\r"], "\n", $data['source']);
 
         // If the asset file for the template ensure we have valid template so we don't instantly destroy it
-        if ($fileName === '/joomla.asset.json' && json_decode($data['source']) === null) {
+        if (str_ends_with($fileName, '/joomla.asset.json') && json_decode($data['source']) === null) {
             $this->setError(Text::_('COM_TEMPLATES_ERROR_ASSET_FILE_INVALID_JSON'));
 
             return false;
@@ -1138,12 +1138,10 @@ class TemplateModel extends FormModel
             }
 
             // Check Html folder, create if not exist
-            if (!Folder::exists($htmlPath)) {
-                if (!Folder::create($htmlPath)) {
-                    $app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
+            if (!Folder::exists($htmlPath) && !Folder::create($htmlPath)) {
+                $app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
 
-                    return false;
-                }
+                return false;
             }
 
             if (stristr($name, 'mod_') != false) {
@@ -1167,12 +1165,12 @@ class TemplateModel extends FormModel
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_OVERRIDE_CREATED') . str_replace(JPATH_ROOT, '', $htmlPath));
 
                 return true;
-            } else {
-                $app->enqueueMessage(Text::_('COM_TEMPLATES_OVERRIDE_FAILED'), 'error');
-
-                return false;
             }
+
+            $app->enqueueMessage(Text::_('COM_TEMPLATES_OVERRIDE_FAILED'), 'error');
         }
+
+        return false;
     }
 
     /**
@@ -1670,10 +1668,10 @@ class TemplateModel extends FormModel
                 $app->enqueueMessage(Text::sprintf('COM_TEMPLATES_FILE_COPY_SUCCESS', $newName . '.' . $ext));
 
                 return true;
-            } else {
-                return false;
             }
         }
+
+        return false;
     }
 
     /**
@@ -1748,17 +1746,15 @@ class TemplateModel extends FormModel
                     $zip->extractTo($path);
 
                     return true;
-                } else {
-                    $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
-
-                    return false;
                 }
+
+                $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
             } else {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_NOT_FOUND'), 'error');
-
-                return false;
             }
         }
+
+        return false;
     }
 
     /**
@@ -1799,7 +1795,7 @@ class TemplateModel extends FormModel
         $template = $this->getTemplate();
 
         if (!isset($template->xmldata)) {
-            $template->xmldata = TemplatesHelper::parseXMLTemplateFile($template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $template->name);
+            $template->xmldata = TemplatesHelper::parseXMLTemplateFile($template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $template->element);
         }
 
         if (!isset($template->xmldata->inheritable) || (isset($template->xmldata->parent) && $template->xmldata->parent === '')) {
@@ -1949,7 +1945,7 @@ class TemplateModel extends FormModel
         $xml->name = $template->element . '_' . $newName;
 
         if (isset($xml->namespace)) {
-            $xml->namespace = $xml->namespace . '_' . ucfirst($newName);
+            $xml->namespace .= '_' . ucfirst($newName);
         }
 
         $xml->inheritable = 0;

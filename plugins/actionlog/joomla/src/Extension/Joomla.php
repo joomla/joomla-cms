@@ -95,7 +95,7 @@ final class Joomla extends ActionLogPlugin
      * Method is called right after the content is saved
      *
      * @param   string   $context  The context of the content passed to the plugin
-     * @param   object   $article  A JTableContent object
+     * @param   object   $article  A \Joomla\CMS\Table\Table object
      * @param   boolean  $isNew    If the content is just about to be created
      *
      * @return  void
@@ -153,7 +153,7 @@ final class Joomla extends ActionLogPlugin
      * Method is called right after the content is deleted
      *
      * @param   string  $context  The context of the content passed to the plugin
-     * @param   object  $article  A JTableContent object
+     * @param   object  $article  A \Joomla\CMS\Table\Table object
      *
      * @return  void
      *
@@ -619,7 +619,31 @@ final class Joomla extends ActionLogPlugin
             'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
         ];
 
+        // Check if block / unblock comes from Actions on list
+        if ($task === 'block' || $task === 'unblock') {
+            $messageLanguageKey = $task === 'block' ? 'PLG_ACTIONLOG_JOOMLA_USER_BLOCK' : 'PLG_ACTIONLOG_JOOMLA_USER_UNBLOCK';
+            $message['action']  = $task;
+        }
+
         $this->addLog([$message], $messageLanguageKey, $context, $userId);
+
+        // Check if on save a block / unblock has changed
+        if ($action === 'update') {
+            $session = $this->getApplication()->getSession();
+            $data    = $session->get('block', null);
+
+            if ($data !== null) {
+                $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_UNBLOCK';
+                $action             = 'unblock';
+                if ($data === 'block') {
+                    $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_BLOCK';
+                    $action             = 'block';
+                }
+
+                $message['action'] = $action;
+                $this->addLog([$message], $messageLanguageKey, $context, $userId);
+            }
+        }
     }
 
     /**
@@ -940,13 +964,11 @@ final class Joomla extends ActionLogPlugin
      *
      * Method is called after user request to clean action log items.
      *
-     * @param   array  $group  Holds the group name.
-     *
      * @return  void
      *
      * @since   3.9.4
      */
-    public function onAfterLogPurge($group = '')
+    public function onAfterLogPurge()
     {
         $context = $this->getApplication()->getInput()->get('option');
         $user    = $this->getApplication()->getIdentity();
@@ -968,13 +990,11 @@ final class Joomla extends ActionLogPlugin
      *
      * Method is called after user request to export action log items.
      *
-     * @param   array  $group  Holds the group name.
-     *
      * @return  void
      *
      * @since   3.9.4
      */
-    public function onAfterLogExport($group = '')
+    public function onAfterLogExport()
     {
         $context = $this->getApplication()->getInput()->get('option');
         $user    = $this->getApplication()->getIdentity();
@@ -1135,7 +1155,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onUserAfterResetRequest($user)
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -1168,7 +1188,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onUserAfterResetComplete($user)
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -1186,5 +1206,27 @@ final class Joomla extends ActionLogPlugin
         ];
 
         $this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_USER_RESET_COMPLETE', $context, $user->id);
+    }
+
+    /**
+     * Method is called before user data is stored in the database
+     *
+     * @param   array    $user   Holds the old user data.
+     * @param   boolean  $isNew  True if a new user is stored.
+     * @param   array    $data   Holds the new user data.
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    public function onUserBeforeSave($user, $isnew, $new): void
+    {
+        $session = $this->getApplication()->getSession();
+        $session->set('block', null);
+
+        if ($user['block'] !== (int) $new['block']) {
+            $blockunblock = $new['block'] === '1' ? 'block' : 'unblock';
+            $session->set('block', $blockunblock);
+        }
     }
 }

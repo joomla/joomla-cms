@@ -270,17 +270,25 @@ class GetConfigurationCommand extends AbstractCommand
     {
         if ($value === false) {
             return 'false';
-        } elseif ($value === true) {
-            return 'true';
-        } elseif ($value === null) {
-            return 'Not Set';
-        } elseif (\is_array($value)) {
-            return \json_encode($value);
-        } elseif (\is_object($value)) {
-            return \json_encode(\get_object_vars($value));
-        } else {
-            return $value;
         }
+
+        if ($value === true) {
+            return 'true';
+        }
+
+        if ($value === null) {
+            return 'Not Set';
+        }
+
+        if (\is_array($value)) {
+            return \json_encode($value);
+        }
+
+        if (\is_object($value)) {
+            return \json_encode(\get_object_vars($value));
+        }
+
+        return $value;
     }
 
     /**

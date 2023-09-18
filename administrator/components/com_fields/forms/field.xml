@@ -251,6 +251,7 @@
 					type="text"
 					label="COM_FIELDS_FIELD_SHOWON_LABEL"
 					description="COM_FIELDS_FIELD_SHOWON_DESC"
+					validate="ShowOn"
 				/>
 
 			</fieldset>
@@ -270,6 +271,7 @@
 					label="COM_FIELDS_FIELD_VALUE_RENDER_CLASS_LABEL"
 					description="COM_FIELDS_FIELD_VALUE_RENDER_CLASS_DESC"
 					size="40"
+					validate="CssIdentifier"
 				/>
 
 				<field

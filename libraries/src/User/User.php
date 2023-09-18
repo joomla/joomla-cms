@@ -10,6 +10,10 @@
 namespace Joomla\CMS\User;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Event\User\AfterDeleteEvent;
+use Joomla\CMS\Event\User\AfterSaveEvent;
+use Joomla\CMS\Event\User\BeforeDeleteEvent;
+use Joomla\CMS\Event\User\BeforeSaveEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
@@ -28,6 +32,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.7.0
  */
+#[\AllowDynamicProperties]
 class User
 {
     use LegacyErrorHandlingTrait;
@@ -256,16 +261,6 @@ class User
     protected static $instances = [];
 
     /**
-     * The access level id
-     *
-     * @var    integer
-     * @since  4.3.0
-     *
-     * @deprecated 4.4.0 will be removed in 6.0 as this property is not used anymore
-     */
-    public $aid = null;
-
-    /**
      * Constructor activating the default information of the language
      *
      * @param   integer  $identifier  The primary key of the user to load (optional).
@@ -284,7 +279,6 @@ class User
             // Initialise
             $this->id        = 0;
             $this->sendEmail = 0;
-            $this->aid       = 0;
             $this->guest     = 1;
         }
     }
@@ -315,9 +309,9 @@ class User
         // Find the user id
         if (!is_numeric($identifier)) {
             return Factory::getContainer()->get(UserFactoryInterface::class)->loadUserByUsername($identifier);
-        } else {
-            $id = $identifier;
         }
+
+        $id = $identifier;
 
         // If the $id is zero, just return an empty User.
         // Note: don't cache this user because it'll have a new ID on save!
@@ -582,14 +576,14 @@ class User
      * @note    At 4.0 this method will no longer be static
      * @since   1.7.0
      */
-    public static function getTable($type = null, $prefix = 'JTable')
+    public static function getTable($type = null, $prefix = '\\Joomla\\CMS\\Table\\')
     {
         static $tabletype;
 
         // Set the default tabletype;
         if (!isset($tabletype)) {
             $tabletype['name']   = 'user';
-            $tabletype['prefix'] = 'JTable';
+            $tabletype['prefix'] = '\\Joomla\\CMS\\Table\\';
         }
 
         // Set a custom table type is defined
@@ -776,9 +770,16 @@ class User
             }
 
             // Fire the onUserBeforeSave event.
-            PluginHelper::importPlugin('user');
+            $dispatcher = Factory::getApplication()->getDispatcher();
+            PluginHelper::importPlugin('user', null, true, $dispatcher);
 
-            $result = Factory::getApplication()->triggerEvent('onUserBeforeSave', [$oldUser->getProperties(), $isNew, $this->getProperties()]);
+            $saveEvent = new BeforeSaveEvent('onUserBeforeSave', [
+                'subject' => $oldUser->getProperties(),
+                'isNew'   => $isNew,
+                'data'    => $this->getProperties(),
+            ]);
+            $dispatcher->dispatch('onUserBeforeSave', $saveEvent);
+            $result = $saveEvent['result'] ?? [];
 
             if (\in_array(false, $result, true)) {
                 // Plugin will have to raise its own error or throw an exception.
@@ -799,7 +800,12 @@ class User
             }
 
             // Fire the onUserAfterSave event
-            Factory::getApplication()->triggerEvent('onUserAfterSave', [$this->getProperties(), $isNew, $result, $this->getError()]);
+            $dispatcher->dispatch('onUserAfterSave', new AfterSaveEvent('onUserAfterSave', [
+                'subject'      => $this->getProperties(),
+                'isNew'        => $isNew,
+                'savingResult' => $result,
+                'errorMessage' => $this->getError() ?? '',
+            ]));
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
 
@@ -818,10 +824,13 @@ class User
      */
     public function delete()
     {
-        PluginHelper::importPlugin('user');
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        PluginHelper::importPlugin('user', null, true, $dispatcher);
 
         // Trigger the onUserBeforeDelete event
-        Factory::getApplication()->triggerEvent('onUserBeforeDelete', [$this->getProperties()]);
+        $dispatcher->dispatch('onUserBeforeDelete', new BeforeDeleteEvent('onUserBeforeDelete', [
+            'subject' => $this->getProperties(),
+        ]));
 
         // Create the user table object
         $table = $this->getTable();
@@ -831,7 +840,11 @@ class User
         }
 
         // Trigger the onUserAfterDelete event
-        Factory::getApplication()->triggerEvent('onUserAfterDelete', [$this->getProperties(), $result, $this->getError()]);
+        $dispatcher->dispatch('onUserAfterDelete', new AfterDeleteEvent('onUserAfterDelete', [
+            'subject'        => $this->getProperties(),
+            'deletingResult' => $result,
+            'errorMessage'   => $this->getError() ?? '',
+        ]));
 
         return $result;
     }
@@ -913,7 +926,6 @@ class User
             // Initialise
             $this->id        = 0;
             $this->sendEmail = 0;
-            $this->aid       = 0;
             $this->guest     = 1;
         }
     }

@@ -24,6 +24,8 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper as LibraryContentHelper;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
+use Joomla\CMS\Schemaorg\SchemaorgServiceTrait;
 use Joomla\CMS\Tag\TagServiceInterface;
 use Joomla\CMS\Tag\TagServiceTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
@@ -47,6 +49,7 @@ class ContentComponent extends MVCComponent implements
     CategoryServiceInterface,
     FieldsServiceInterface,
     AssociationServiceInterface,
+    SchemaorgServiceInterface,
     WorkflowServiceInterface,
     RouterServiceInterface,
     TagServiceInterface
@@ -55,6 +58,7 @@ class ContentComponent extends MVCComponent implements
     use RouterServiceTrait;
     use HTMLRegistryAwareTrait;
     use WorkflowServiceTrait;
+    use SchemaorgServiceTrait;
     use CategoryServiceTrait, TagServiceTrait {
         CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
         CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
@@ -181,6 +185,24 @@ class ContentComponent extends MVCComponent implements
     }
 
     /**
+     * Returns valid contexts for schemaorg
+     *
+     * @return  array
+     *
+     * @since  5.0.0
+     */
+    public function getSchemaorgContexts(): array
+    {
+        Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+
+        $contexts = [
+            'com_content.article' => Text::_('COM_CONTENT'),
+        ];
+
+        return $contexts;
+    }
+
+    /**
      * Returns valid contexts
      *
      * @return  array
@@ -263,7 +285,9 @@ class ContentComponent extends MVCComponent implements
 
         if ($modelname === 'article' && Factory::getApplication()->isClient('site')) {
             return 'Form';
-        } elseif ($modelname === 'featured' && Factory::getApplication()->isClient('administrator')) {
+        }
+
+        if ($modelname === 'featured' && Factory::getApplication()->isClient('administrator')) {
             return 'Article';
         }
 

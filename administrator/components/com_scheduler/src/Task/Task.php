@@ -534,7 +534,7 @@ class Task implements LoggerAwareInterface
         }
 
         // Takes care of interpreting as float/int
-        $state = $state + 0;
+        $state += 0;
 
         return ArrayHelper::getValue(self::STATE_MAP, $state) !== null;
     }

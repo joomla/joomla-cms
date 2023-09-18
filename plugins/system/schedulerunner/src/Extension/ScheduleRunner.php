@@ -11,14 +11,15 @@
 namespace Joomla\Plugin\System\ScheduleRunner\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Scheduler\Administrator\Model\TasksModel;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Event\Event;
@@ -109,22 +110,13 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        // Check if any task is due to decrease the load
+        /** @var TasksModel $model */
         $model = $this->getApplication()->bootComponent('com_scheduler')
             ->getMVCFactory()->createModel('Tasks', 'Administrator', ['ignore_request' => true]);
 
-        $model->setState('filter.state', 1);
-        $model->setState('filter.due', 1);
+        $now = Factory::getDate('now', 'UTC');
 
-        $items = $model->getItems();
-
-        // See if we are running currently
-        $model->setState('filter.locked', 1);
-        $model->setState('filter.due', 0);
-
-        $items2 = $model->getItems();
-
-        if (empty($items) || !empty($items2)) {
+        if (!$model->hasDueTasks($now)) {
             return;
         }
 
@@ -262,7 +254,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
             ]
         );
 
-        if (!is_null($task)) {
+        if ($task) {
             $task->run();
             $event->addArgument('result', $task->getContent());
         } else {
@@ -286,7 +278,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
      * @return ?Task
      *
      * @since 4.1.0
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     private function runScheduler(int $id = 0): ?Task
     {
@@ -296,20 +288,19 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
     /**
      * Enhance the scheduler config form by dynamically populating or removing display fields.
      *
-     * @param   EventInterface  $event  The onContentPrepareForm event.
+     * @param   Model\PrepareFormEvent  $event  The onContentPrepareForm event.
      *
      * @return void
      *
      * @since 4.1.0
-     * @throws UnexpectedValueException|RuntimeException
+     * @throws \UnexpectedValueException|\RuntimeException
      *
      * @todo  Move to another plugin?
      */
-    public function enhanceSchedulerConfig(EventInterface $event): void
+    public function enhanceSchedulerConfig(Model\PrepareFormEvent $event): void
     {
-        /** @var Form $form */
-        $form = $event->getArgument('0');
-        $data = $event->getArgument('1');
+        $form = $event->getForm();
+        $data = $event->getData();
 
         if (
             $form->getName() !== 'com_config.component'
@@ -344,7 +335,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
     public function generateWebcronKey(EventInterface $event): void
     {
         /** @var Extension $table */
-        [$context, $table] = $event->getArguments();
+        [$context, $table] = array_values($event->getArguments());
 
         if ($context !== 'com_config.component' || $table->name !== 'com_scheduler') {
             return;

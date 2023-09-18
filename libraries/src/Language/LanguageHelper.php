@@ -14,6 +14,7 @@ use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Log\Log;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -85,7 +86,9 @@ class LanguageHelper
                     if (\strlen($Jinstall_lang) < 6) {
                         if (strtolower($browserLang) == strtolower(substr($systemLang->lang_code, 0, \strlen($browserLang)))) {
                             return $systemLang->lang_code;
-                        } elseif ($primary_browserLang == substr($systemLang->lang_code, 0, 2)) {
+                        }
+
+                        if ($primary_browserLang == substr($systemLang->lang_code, 0, 2)) {
                             $primaryDetectedLang = $systemLang->lang_code;
                         }
                     }
@@ -161,12 +164,13 @@ class LanguageHelper
     /**
      * Get a list of installed languages.
      *
-     * @param   integer  $clientId         The client app id.
-     * @param   boolean  $processMetaData  Fetch Language metadata.
-     * @param   boolean  $processManifest  Fetch Language manifest.
-     * @param   string   $pivot            The pivot of the returning array.
-     * @param   string   $orderField       Field to order the results.
-     * @param   string   $orderDirection   Direction to order the results.
+     * @param   integer            $clientId         The client app id.
+     * @param   boolean            $processMetaData  Fetch Language metadata.
+     * @param   boolean            $processManifest  Fetch Language manifest.
+     * @param   string             $pivot            The pivot of the returning array.
+     * @param   string             $orderField       Field to order the results.
+     * @param   string             $orderDirection   Direction to order the results.
+     * @param   DatabaseInterface  $db               Database object to use database queries
      *
      * @return  array  Array with the installed languages.
      *
@@ -178,7 +182,8 @@ class LanguageHelper
         $processManifest = false,
         $pivot = 'element',
         $orderField = null,
-        $orderDirection = null
+        $orderDirection = null,
+        DatabaseInterface $db = null
     ) {
         static $installedLanguages = null;
 
@@ -190,7 +195,7 @@ class LanguageHelper
             if ($cache->contains('installedlanguages')) {
                 $installedLanguages = $cache->get('installedlanguages');
             } else {
-                $db = Factory::getDbo();
+                $db = $db ?? Factory::getContainer()->get(DatabaseInterface::class);
 
                 $query = $db->getQuery(true)
                     ->select(

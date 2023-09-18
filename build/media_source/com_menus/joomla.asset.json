@@ -6,19 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_menus.admin-item-edit.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_menus.admin-item-edit",
       "type": "script",
       "uri": "com_menus/admin-item-edit.min.js",
@@ -35,19 +22,6 @@
       "uri": "com_menus/admin-item-edit_container.min.css"
     },
     {
-      "name": "com_menus.admin-item-edit-container.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_menus.admin-item-edit-container",
       "type": "script",
       "uri": "com_menus/admin-item-edit_container.min.js",
@@ -56,19 +30,6 @@
       ],
       "attributes": {
         "type": "module"
-      }
-    },
-    {
-      "name": "com_menus.admin-item-edit-modules.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
       }
     },
     {
@@ -83,19 +44,6 @@
       }
     },
     {
-      "name": "com_menus.admin-item-modal.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_menus.admin-item-modal",
       "type": "script",
       "uri": "com_menus/admin-item-modal.min.js",
@@ -104,20 +52,9 @@
       ],
       "attributes": {
         "type": "module"
-      }
-    },
-    {
-      "name": "com_menus.admin-items-modal.es5",
-      "type": "script",
+      },
       "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
+      "deprecatedMsg": "Replaced with [modal-content-select-field] asset. To be removed in Joomla 6."
     },
     {
       "name": "com_menus.admin-items-modal",
@@ -128,20 +65,9 @@
       ],
       "attributes": {
         "type": "module"
-      }
-    },
-    {
-      "name": "com_menus.admin-menus.es5",
-      "type": "script",
+      },
       "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
+      "deprecatedMsg": "Replaced with [modal-content-select-field] asset. To be removed in Joomla 6."
     },
     {
       "name": "com_menus.admin-menus",
@@ -152,19 +78,6 @@
       ],
       "attributes": {
         "type": "module"
-      }
-    },
-    {
-      "name": "com_menus.batch-body.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
       }
     },
     {

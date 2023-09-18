@@ -11,6 +11,8 @@
 namespace Joomla\Component\Contact\Api\Controller;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Contact\SubmitContactEvent;
+use Joomla\CMS\Event\Contact\ValidateContactEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -149,7 +151,10 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
         }
 
         // Validation succeeded, continue with custom handlers
-        $results = $this->app->triggerEvent('onValidateContact', [&$contact, &$data]);
+        $results = $this->getDispatcher()->dispatch('onValidateContact', new ValidateContactEvent('onValidateContact', [
+            'subject' => $contact,
+            'data'    => &$data, // TODO: Remove reference in Joomla 6, @deprecated: Data modification onValidateContact is not allowed, use onSubmitContact instead
+        ]))->getArgument('result', []);
 
         foreach ($results as $result) {
             if ($result instanceof \Exception) {
@@ -158,7 +163,12 @@ class ContactController extends ApiController implements UserFactoryAwareInterfa
         }
 
         // Passed Validation: Process the contact plugins to integrate with other applications
-        $this->app->triggerEvent('onSubmitContact', [&$contact, &$data]);
+        $event = $this->getDispatcher()->dispatch('onSubmitContact', new SubmitContactEvent('onSubmitContact', [
+            'subject' => $contact,
+            'data'    => &$data, // TODO: Remove reference in Joomla 6, see SubmitContactEvent::__constructor()
+        ]));
+        // Get the final data
+        $data = $event->getArgument('data', $data);
 
         // Send the email
         $sent = false;

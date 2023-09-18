@@ -6,19 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_modules.admin-module-edit.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_modules.admin-module-edit",
       "type": "script",
       "uri": "com_modules/admin-module-edit.min.js",
@@ -27,19 +14,6 @@
       ],
       "attributes": {
         "type": "module"
-      }
-    },
-    {
-      "name": "com_modules.admin-module-edit-assignment.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
       }
     },
     {
@@ -54,19 +28,6 @@
       }
     },
     {
-      "name": "com_modules.admin-module-search.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_modules.admin-module-search",
       "type": "script",
       "uri": "com_modules/admin-module-search.min.js",
@@ -78,19 +39,6 @@
       }
     },
     {
-      "name": "com_modules.admin-modules-modal.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_modules.admin-modules-modal",
       "type": "script",
       "uri": "com_modules/admin-modules-modal.min.js",
@@ -99,20 +47,9 @@
       ],
       "attributes": {
         "type": "module"
-      }
-    },
-    {
-      "name": "com_modules.admin-select-modal.es5",
-      "type": "script",
+      },
       "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
+      "deprecatedMsg": "Use postMessage() directly or with help of [modal-content-select] asset. To post the modal selection."
     },
     {
       "name": "com_modules.admin-select-modal",

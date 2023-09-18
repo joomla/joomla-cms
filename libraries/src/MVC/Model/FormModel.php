@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
@@ -192,22 +192,28 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
      */
     public function validate($form, $data, $group = null)
     {
-        // Include the plugins for the delete events.
-        PluginHelper::importPlugin($this->events_map['validate']);
+        $dispatcher = $this->getDispatcher();
 
-        $dispatcher = Factory::getContainer()->get('dispatcher');
+        // Include the plugins for the delete events.
+        PluginHelper::importPlugin($this->events_map['validate'], null, true, $dispatcher);
 
         if (!empty($dispatcher->getListeners('onUserBeforeDataValidation'))) {
             @trigger_error(
-                'The `onUserBeforeDataValidation` event is deprecated and will be removed in 5.0.'
+                'The `onUserBeforeDataValidation` event is deprecated and will be removed in 6.0.'
                 . 'Use the `onContentValidateData` event instead.',
                 E_USER_DEPRECATED
             );
 
-            Factory::getApplication()->triggerEvent('onUserBeforeDataValidation', [$form, &$data]);
+            $data = $dispatcher->dispatch('onUserBeforeDataValidation', new Model\BeforeValidateDataEvent('onUserBeforeDataValidation', [
+                'subject' => $form,
+                'data'    => &$data, // TODO: Remove reference in Joomla 6, see BeforeValidateDataEvent::__constructor()
+            ]))->getArgument('data', $data);
         }
 
-        Factory::getApplication()->triggerEvent('onContentBeforeValidateData', [$form, &$data]);
+        $data = $dispatcher->dispatch('onContentBeforeValidateData', new Model\BeforeValidateDataEvent('onContentBeforeValidateData', [
+            'subject' => $form,
+            'data'    => &$data, // TODO: Remove reference in Joomla 6, see AfterRenderModulesEvent::__constructor()
+        ]))->getArgument('data', $data);
 
         // Filter and validate the form data.
         $return = $form->process($data, $group);

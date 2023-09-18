@@ -13,6 +13,7 @@ namespace Joomla\Plugin\Fields\User\Extension;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,7 +24,7 @@ use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
  *
  * @since  3.7.0
  */
-final class User extends FieldsPlugin
+final class User extends FieldsPlugin implements SubscriberInterface
 {
     use UserFactoryAwareTrait;
 

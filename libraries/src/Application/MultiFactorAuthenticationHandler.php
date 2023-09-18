@@ -59,7 +59,7 @@ trait MultiFactorAuthenticationHandler
     {
         // Multi-factor Authentication checks take place only for logged in users.
         try {
-            $user = $this->getIdentity() ?? null;
+            $user = $this->getIdentity();
         } catch (\Exception $e) {
             return false;
         }
@@ -484,7 +484,7 @@ trait MultiFactorAuthenticationHandler
      *
      * @return  string  Decrypted, but JSON-encoded, information
      *
-     * @see     https://github.com/joomla/joomla-cms/pull/12497
+     * @link    https://github.com/joomla/joomla-cms/pull/12497
      * @since   4.2.0
      */
     private function decryptLegacyTFAString(string $secret, string $stringToDecrypt): string

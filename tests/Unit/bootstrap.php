@@ -35,10 +35,6 @@ if (!defined('JPATH_ROOT')) {
     define('JPATH_ROOT', JPATH_BASE);
 }
 
-if (!defined('JPATH_PUBLIC')) {
-    define('JPATH_PUBLIC', JPATH_ROOT);
-}
-
 /**
  * @deprecated 4.4.0 will be removed in 6.0
  **/
@@ -114,9 +110,6 @@ $loader->unregister();
 
 // Decorate Composer autoloader
 spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
-
-// Register the class aliases for Framework classes that have replaced their Platform equivalents
-require_once JPATH_LIBRARIES . '/classmap.php';
 
 // Load extension classes
 require_once JPATH_LIBRARIES . '/namespacemap.php';

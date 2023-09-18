@@ -215,7 +215,7 @@ class TagField extends ListField
 
                 // Limit the main query to the missing amount of tags
                 $count        = count($options);
-                $prefillLimit = $prefillLimit - $count;
+                $prefillLimit -= $count;
                 $query->setLimit($prefillLimit);
 
                 // Exclude the already loaded tags from the main query

@@ -84,7 +84,9 @@ class HtmlView extends BaseHtmlView
             $this->form->setFieldAttribute('tags', 'language', '*,' . $forcedLanguage);
         }
 
-        $this->addToolbar();
+        if ($this->getLayout() !== 'modal') {
+            $this->addToolbar();
+        }
 
         parent::display($tpl);
     }
@@ -132,7 +134,7 @@ class HtmlView extends BaseHtmlView
                 );
             }
 
-            $toolbar->cancel('contact.cancel');
+            $toolbar->cancel('contact.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);

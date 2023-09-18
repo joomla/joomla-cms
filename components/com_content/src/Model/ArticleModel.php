@@ -269,10 +269,10 @@ class ArticleModel extends ItemModel
                 if ($e->getCode() == 404) {
                     // Need to go through the error handler to allow Redirect to work.
                     throw $e;
-                } else {
-                    $this->setError($e);
-                    $this->_item[$pk] = false;
                 }
+
+                $this->setError($e);
+                $this->_item[$pk] = false;
             }
         }
 
@@ -294,7 +294,7 @@ class ArticleModel extends ItemModel
         if ($hitcount) {
             $pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
-            $table = Table::getInstance('Content', 'JTable');
+            $table = Table::getInstance('Content', '\\Joomla\\CMS\\Table\\');
             $table->hit($pk);
         }
 

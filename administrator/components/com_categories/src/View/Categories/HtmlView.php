@@ -12,7 +12,6 @@ namespace Joomla\Component\Categories\Administrator\View\Categories;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -22,6 +21,7 @@ use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -167,7 +167,7 @@ class HtmlView extends BaseHtmlView
         $component  = $this->state->get('filter.component');
         $section    = $this->state->get('filter.section');
         $canDo      = ContentHelper::getActions($component, 'category', $categoryId);
-        $user       = Factory::getApplication()->getIdentity();
+        $user       = $this->getCurrentUser();
         $toolbar    = Toolbar::getInstance();
 
         // Avoid nonsense situation.
@@ -241,7 +241,11 @@ class HtmlView extends BaseHtmlView
                 && $canDo->get('core.edit.state')
             ) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
-                    ->selector('collapseModal')
+                    ->popupType('inline')
+                    ->textHeader(Text::_('COM_CATEGORIES_BATCH_OPTIONS'))
+                    ->url('#joomla-dialog-batch')
+                    ->modalWidth('800px')
+                    ->modalHeight('fit-content')
                     ->listCheck(true);
             }
         }
