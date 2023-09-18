@@ -167,12 +167,10 @@ class PasswordField extends FormField
      */
     public function __set($name, $value)
     {
-        $value = (string) $value;
-
         switch ($name) {
             case 'maxLength':
             case 'threshold':
-                $this->$name = $value;
+                $this->$name = (int) $value;
                 break;
 
             case 'lock':

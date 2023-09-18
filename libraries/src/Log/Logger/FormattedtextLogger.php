@@ -259,7 +259,7 @@ class FormattedtextLogger extends Logger
     protected function initFile()
     {
         // We only need to make sure the file exists
-        if (File::exists($this->path)) {
+        if (is_file($this->path)) {
             return;
         }
 

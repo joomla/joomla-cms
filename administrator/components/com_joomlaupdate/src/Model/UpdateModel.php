@@ -14,7 +14,7 @@ use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\File as FileCMS;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\Http;
 use Joomla\CMS\Http\HttpFactory;
@@ -29,6 +29,7 @@ use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -411,7 +412,7 @@ class UpdateModel extends BaseDatabaseModel
         $response = [];
 
         // Do we have a cached file?
-        $exists = File::exists($target);
+        $exists = is_file($target);
 
         if (!$exists) {
             // Not there, let's fetch it.
@@ -501,7 +502,9 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Make sure the target does not exist.
-        File::delete($target);
+        if (is_file($target)) {
+            File::delete($target);
+        }
 
         // Download the package
         try {
@@ -514,8 +517,11 @@ class UpdateModel extends BaseDatabaseModel
             return false;
         }
 
+        // Fix Indirect Modification of Overloaded Property
+        $body = $result->body;
+
         // Write the file to disk
-        File::write($target, $result->body);
+        File::write($target, $body);
 
         return basename($target);
     }
@@ -595,7 +601,7 @@ ENDDATA;
         // Remove the old file, if it's there...
         $configpath = JPATH_COMPONENT_ADMINISTRATOR . '/update.php';
 
-        if (File::exists($configpath)) {
+        if (is_file($configpath)) {
             if (!File::delete($configpath)) {
                 File::invalidateFileCache($configpath);
                 @unlink($configpath);
@@ -890,22 +896,22 @@ ENDDATA;
         File::delete($tempdir . '/' . $file);
 
         // Remove the update.php file used in Joomla 4.0.3 and later.
-        if (File::exists(JPATH_COMPONENT_ADMINISTRATOR . '/update.php')) {
+        if (is_file(JPATH_COMPONENT_ADMINISTRATOR . '/update.php')) {
             File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/update.php');
         }
 
         // Remove the legacy restoration.php file (when updating from Joomla 4.0.2 and earlier).
-        if (File::exists(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php')) {
+        if (is_file(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php')) {
             File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php');
         }
 
         // Remove the legacy restore_finalisation.php file used in Joomla 4.0.2 and earlier.
-        if (File::exists(JPATH_COMPONENT_ADMINISTRATOR . '/restore_finalisation.php')) {
+        if (is_file(JPATH_COMPONENT_ADMINISTRATOR . '/restore_finalisation.php')) {
             File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restore_finalisation.php');
         }
 
         // Remove joomla.xml from the site's root.
-        if (File::exists(JPATH_ROOT . '/joomla.xml')) {
+        if (is_file(JPATH_ROOT . '/joomla.xml')) {
             File::delete(JPATH_ROOT . '/joomla.xml');
         }
 
@@ -982,7 +988,7 @@ ENDDATA;
         $tmp_src  = $userfile['tmp_name'];
 
         // Move uploaded file.
-        $result = File::upload($tmp_src, $tmp_dest, false, true);
+        $result = FileCMS::upload($tmp_src, $tmp_dest, false, true);
 
         if (!$result) {
             throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
@@ -1037,7 +1043,7 @@ ENDDATA;
     {
         $file = Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
 
-        if (empty($file) || !File::exists($file)) {
+        if (empty($file) || !is_file($file)) {
             return false;
         }
 
@@ -1059,7 +1065,7 @@ ENDDATA;
         ];
 
         foreach ($files as $file) {
-            if ($file !== null && File::exists($file)) {
+            if ($file !== null && is_file($file)) {
                 File::delete($file);
             }
         }

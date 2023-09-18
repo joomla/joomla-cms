@@ -10,8 +10,12 @@
 namespace Joomla\CMS\Plugin;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Event\AbstractImmutableEvent;
+use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageAwareInterface;
+use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -29,9 +33,10 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
+abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, LanguageAwareInterface
 {
     use DispatcherAwareTrait;
+    use LanguageAwareTrait;
 
     /**
      * A Registry object holding the parameters for the plugin
@@ -288,9 +293,13 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
                     return;
                 }
 
-                // Restore the old results and add the new result from our method call
-                $allResults[]    = $result;
-                $event['result'] = $allResults;
+                if ($event instanceof ResultAwareInterface) {
+                    $event->addResult($result);
+                } elseif (!$event instanceof AbstractImmutableEvent) {
+                    // Restore the old results and add the new result from our method call
+                    $allResults[]    = $result;
+                    $event['result'] = $allResults;
+                }
             }
         );
     }
@@ -376,5 +385,9 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
     public function setApplication(CMSApplicationInterface $application): void
     {
         $this->application = $application;
+
+        if ($application->getLanguage()) {
+            $this->setLanguage($application->getLanguage());
+        }
     }
 }

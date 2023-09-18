@@ -16,7 +16,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\UCM\UCMContent;
 use Joomla\CMS\UCM\UCMType;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -108,7 +108,7 @@ class TagsHelper extends CMSHelper
         $typeId = $ucm->getTypeId();
 
         // Insert the new tag maps
-        if (strpos('#', implode(',', $tags)) === false) {
+        if (strpos(implode(',', $tags), '#') !== false) {
             $tags = self::createTagsFromField($tags);
         }
 
@@ -407,8 +407,8 @@ class TagsHelper extends CMSHelper
 
         $ids = array_map('intval', $ids);
 
-        /** @var DatabaseDriver $db */
-        $db = Factory::getContainer()->get('DatabaseDriver');
+        /** @var DatabaseInterface $db */
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $query = $db->getQuery(true)
             ->select($db->quoteName(['m.tag_id', 'm.content_item_id']))
@@ -1044,7 +1044,7 @@ class TagsHelper extends CMSHelper
      */
     public function tagItem($ucmId, TableInterface $table, $tags = [], $replace = true)
     {
-        $key     = $table->get('_tbl_key');
+        $key     = $table->getKeyName();
         $oldTags = $this->getTagIds((int) $table->$key, $this->typeAlias);
         $oldTags = explode(',', $oldTags);
         $result  = $this->unTagItem($ucmId, $table);
