@@ -347,6 +347,8 @@ final class PrivacyConsent extends CMSPlugin
 
         $policy['published'] = true;
         $policy['editLink']  = Route::_('index.php?option=com_content&task=article.edit&id=' . $articleId);
+
+        $event->updatePolicyInfo($policy);
     }
 
     /**
