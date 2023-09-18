@@ -119,7 +119,7 @@ abstract class RenderModuleEvent extends ModuleEvent
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function updateData(array $value): static
+    public function updateAttributes(array $value): static
     {
         $this->arguments['attributes'] = $this->setAttributes($value);
 
