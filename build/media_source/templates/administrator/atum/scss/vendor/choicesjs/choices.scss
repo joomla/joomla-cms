@@ -46,6 +46,14 @@
     color: $gray-700;
     opacity: 1;
   }
+
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      &::placeholder {
+        color: var(--gray-200);
+      }
+    }
+  }
 }
 
 .choices__list--dropdown {
@@ -71,12 +79,24 @@
 }
 
 .choices .choices__list--dropdown {
+  background-color: var(--body-bg);
+
   .choices__item {
     padding-inline-end: 10px;
   }
 
-  .choices__item--selectable::after {
-    display: none;
+  .choices__item--selectable {
+    &::after {
+      display: none;
+    }
+
+    @if $enable-dark-mode {
+      @include color-mode(dark) {
+        &.is-highlighted {
+          background-color: var(--gray-800);
+        }
+      }
+    }
   }
 }
 
