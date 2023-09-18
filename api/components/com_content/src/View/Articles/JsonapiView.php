@@ -216,9 +216,12 @@ class JsonapiView extends BaseApiView
 
         if (!empty($item->tags->tags)) {
             $tagsIds   = explode(',', $item->tags->tags);
-            $tagsNames = $item->tagsHelper->getTagNames($tagsIds);
 
-            $item->tags = array_combine($tagsIds, $tagsNames);
+            foreach ($tagsIds as $tagid) {
+                $vect[$tagid] = implode('', $item->tagsHelper->getTagNames([$tagid]));
+            }
+
+            $item->tags = $vect;
         } else {
             $item->tags = [];
             $tags       = new TagsHelper();
@@ -226,8 +229,12 @@ class JsonapiView extends BaseApiView
 
             if (!empty($tagsIds)) {
                 $tagsIds    = explode(',', $tagsIds);
-                $tagsNames  = $tags->getTagNames($tagsIds);
-                $item->tags = array_combine($tagsIds, $tagsNames);
+
+                foreach ($tagsIds as $tagid) {
+                    $vect[$tagid] = implode('', $tags->getTagNames([$tagid]));
+                }
+
+                $item->tags = $vect;
             }
         }
 

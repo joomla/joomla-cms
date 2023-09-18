@@ -716,7 +716,7 @@ class TagsHelper extends CMSHelper
                 ->select($db->quoteName('title'))
                 ->from($db->quoteName('#__tags'))
                 ->whereIn($db->quoteName('id'), $tagIds)
-                ->order($db->quoteName('id'));
+                ->order($db->quoteName('title'));
 
             $db->setQuery($query);
             $tagNames = $db->loadColumn();
