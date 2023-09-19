@@ -44,8 +44,8 @@ final class ListPlugin extends FieldsListPlugin
             return;
         }
 
-        $field->apivalue = [];
         $options         = $this->getOptionsFromField($field);
+        $field->apivalue = [];
 
         if (is_array($field->value)) {
             foreach ($field->value as $value) {
