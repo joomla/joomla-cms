@@ -24,7 +24,9 @@
 
       &#sorted {
         font-weight: $medium-weight;
-        color: $gray-800;
+
+        // This is the same as the bootstrap line because when it's sorted we want to undo the style
+        color: var(--table-color-state, var(--table-color-type,var(--table-color)));
       }
     }
 
