@@ -1132,7 +1132,7 @@ class TagsHelper extends CMSHelper
                 ->order($db->quoteName('title'));
 
             $db->setQuery($query);
-            $tagNames = $db->loadAssocList('id', 'title');;
+            $tagNames = $db->loadAssocList('id', 'title');
         }
 
         return $tagNames;
