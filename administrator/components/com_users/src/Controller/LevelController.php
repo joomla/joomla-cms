@@ -106,7 +106,9 @@ class LevelController extends FormController
 
         if (!$this->app->getIdentity()->authorise('core.admin', $this->option)) {
             throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
-        } elseif (empty($ids)) {
+        }
+
+        if (empty($ids)) {
             $this->setMessage(Text::_('COM_USERS_NO_LEVELS_SELECTED'), 'warning');
         } else {
             // Get the model.

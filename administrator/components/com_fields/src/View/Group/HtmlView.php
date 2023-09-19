@@ -140,8 +140,6 @@ class HtmlView extends BaseHtmlView
             ($isNew ? 'add' : 'edit')
         );
 
-        $toolbarButtons = [];
-
         // For new records, check the create permission.
         if ($isNew) {
             $toolbar->apply('group.apply');
@@ -154,7 +152,7 @@ class HtmlView extends BaseHtmlView
                 }
             );
 
-            $toolbar->cancel('group.cancel');
+            $toolbar->cancel('group.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);

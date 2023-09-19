@@ -127,7 +127,7 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
                 foreach ($legacyButton as $item) {
                     if ($item instanceof CMSObject) {
                         $props   = $item->getProperties();
-                        $options = $props['options'] ?? [];
+                        $options = !empty($props['options']) ? $props['options'] : [];
                         unset($props['options']);
 
                         $button = new Button($plugin->name, $props, $options);
@@ -136,7 +136,7 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
                 }
             } elseif ($legacyButton instanceof CMSObject) {
                 $props   = $legacyButton->getProperties();
-                $options = $props['options'] ?? [];
+                $options = !empty($props['options']) ? $props['options'] : [];
                 unset($props['options']);
 
                 $button = new Button($plugin->name, $props, $options);

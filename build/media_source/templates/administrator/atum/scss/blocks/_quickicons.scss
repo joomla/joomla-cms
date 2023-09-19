@@ -128,6 +128,16 @@
         color: var(--template-quickicon-color);
       }
 
+      @if $enable-dark-mode {
+        @include color-mode(dark) {
+          /* stylelint-disable max-nesting-depth */
+          > * {
+            /* stylelint-enable max-nesting-depth */
+            color: var(--template-bg-dark-80);
+          }
+        }
+      }
+
       &:hover,
       &:focus,
       &:active {

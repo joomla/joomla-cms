@@ -144,7 +144,7 @@ class ChecksModel extends BaseInstallationModel
             }
         }
 
-        return isset($result) ? false : true;
+        return !isset($result);
     }
 
     /**

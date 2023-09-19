@@ -88,6 +88,7 @@ PHP;
      * @param string $destinationPath The full path for the public folder
      *
      * @return void
+     * @throws \Exception
      *
      * @since  5.0.0
      */

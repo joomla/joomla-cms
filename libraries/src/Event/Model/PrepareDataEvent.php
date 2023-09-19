@@ -30,17 +30,78 @@ class PrepareDataEvent extends ModelEvent
      * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
-    protected $legacyArgumentsOrder = ['context', 'subject'];
+    protected $legacyArgumentsOrder = ['context', 'data', 'subject'];
+
+    /**
+     * Constructor.
+     *
+     * @param   string  $name       The event name.
+     * @param   array   $arguments  The event arguments.
+     *
+     * @throws  \BadMethodCallException
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct($name, array $arguments = [])
+    {
+        // This event has a dummy subject for now
+        $this->arguments['subject'] = $this->arguments['subject'] ?? new \stdClass();
+
+        parent::__construct($name, $arguments);
+
+        if (!\array_key_exists('data', $this->arguments)) {
+            throw new \BadMethodCallException("Argument 'data' of event {$name} is required but has not been provided");
+        }
+
+        // For backward compatibility make sure the content is referenced
+        // TODO: Remove in Joomla 6
+        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
+        if (key($arguments) === 0) {
+            $this->arguments['data'] = &$arguments[1];
+        } elseif (\array_key_exists('data', $arguments)) {
+            $this->arguments['data'] = &$arguments['data'];
+        }
+    }
+
+    /**
+     * Setter for the data argument.
+     *
+     * @param   object|array  $value  The value to set
+     *
+     * @return  object|array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function setData(object|array $value): object|array
+    {
+        return $value;
+    }
 
     /**
      * Getter for the data.
      *
-     * @return  object
+     * @return  object|array
      *
      * @since  5.0.0
      */
-    public function getData()
+    public function getData(): object|array
     {
-        return $this->arguments['subject'];
+        return $this->arguments['data'];
+    }
+
+    /**
+     * Update the data.
+     *
+     * @param   object|array  $value  The value to set
+     *
+     * @return  static
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function updateData(object|array $value): static
+    {
+        $this->arguments['data'] = $this->setData($value);
+
+        return $this;
     }
 }
