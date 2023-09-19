@@ -538,7 +538,8 @@
         "type": "module"
       },
       "dependencies": [
-        "webcomponent.field-user-legacy"
+        "webcomponent.field-user-legacy",
+        "joomla.dialog"
       ]
     },
     {

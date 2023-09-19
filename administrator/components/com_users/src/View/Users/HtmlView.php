@@ -149,8 +149,8 @@ class HtmlView extends BaseHtmlView
 
             $childBar = $dropdown->getChildToolbar();
 
-            $childBar->publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
-            $childBar->unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
+            $childBar->publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE');
+            $childBar->unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK');
             $childBar->standardButton('unblock', 'COM_USERS_TOOLBAR_UNBLOCK', 'users.unblock')
                 ->listCheck(true);
 

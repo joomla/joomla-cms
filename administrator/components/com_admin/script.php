@@ -44,6 +44,50 @@ class JoomlaInstallerScript
     protected $fromVersion = null;
 
     /**
+     * Callback for collecting errors. Like function(string $context, \Throwable $error){};
+     *
+     * @var callable
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $errorCollector;
+
+    /**
+     * Set the callback for collecting errors.
+     *
+     * @param   callable  $callback  The callback Like function(string $context, \Throwable $error){};
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function setErrorCollector(callable $callback)
+    {
+        $this->errorCollector = $callback;
+    }
+
+    /**
+     * Collect errors.
+     *
+     * @param  string      $context  A context/place where error happened
+     * @param  \Throwable  $error    The error that occurred
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function collectError(string $context, \Throwable $error)
+    {
+        // The errorCollector are required
+        // However when someone already running the script manually the code may fail.
+        if ($this->errorCollector) {
+            call_user_func($this->errorCollector, $context, $error);
+        } else {
+            Log::add($error->getMessage(), Log::ERROR, 'Update');
+        }
+    }
+
+    /**
      * Function to act prior to installation process begins
      *
      * @param   string     $action     Which action is happening (install|uninstall|discover_install|update)
@@ -82,27 +126,38 @@ class JoomlaInstallerScript
      */
     public function update($installer)
     {
-        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-        $options['text_file'] = 'joomla_update.php';
-
-        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
-
+        // Uninstall extensions before removing their files and folders
         try {
-            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), Log::INFO, 'Update');
-        } catch (RuntimeException $exception) {
-            // Informational log only
+            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_UNINSTALL_EXTENSIONS'), Log::INFO, 'Update');
+            $this->uninstallExtensions();
+        } catch (\Throwable $e) {
+            $this->collectError('uninstallExtensions', $e);
         }
 
-        // Uninstall extensions before removing their files and folders
-        $this->uninstallExtensions();
+        // Remove old files
+        try {
+            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), Log::INFO, 'Update');
+            $this->deleteUnexistingFiles();
+        } catch (\Throwable $e) {
+            $this->collectError('deleteUnexistingFiles', $e);
+        }
 
-        // This needs to stay for 2.5 update compatibility
-        $this->deleteUnexistingFiles();
-        $this->updateManifestCaches();
-        $this->updateDatabase();
-        $this->updateAssets($installer);
-        $this->clearStatsCache();
-        $this->cleanJoomlaCache();
+        // Further update
+        try {
+            $this->updateManifestCaches();
+            $this->updateDatabase();
+            $this->updateAssets($installer);
+            $this->clearStatsCache();
+        } catch (\Throwable $e) {
+            $this->collectError('Further update', $e);
+        }
+
+        // Clean cache
+        try {
+            $this->cleanJoomlaCache();
+        } catch (\Throwable $e) {
+            $this->collectError('cleanJoomlaCache', $e);
+        }
     }
 
     /**
@@ -127,7 +182,7 @@ class JoomlaInstallerScript
                     ->where($db->quoteName('element') . ' = ' . $db->quote('stats'))
             )->loadResult();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -151,7 +206,7 @@ class JoomlaInstallerScript
         try {
             $db->setQuery($query)->execute();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -183,7 +238,7 @@ class JoomlaInstallerScript
         try {
             $results = $db->loadObjectList();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -198,7 +253,7 @@ class JoomlaInstallerScript
             try {
                 $db->execute();
             } catch (Exception $e) {
-                echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+                $this->collectError(__METHOD__, $e);
 
                 return;
             }
@@ -233,12 +288,12 @@ class JoomlaInstallerScript
              * 'pre_function' => Name of an optional migration function to be called before
              *                   uninstalling, `null` if not used.
              */
-             ['type' => 'plugin', 'element' => 'demotasks', 'folder' => 'task', 'client_id' => 0, 'pre_function' => null],
-             ['type' => 'plugin', 'element' => 'compat', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateCompatPlugin'],
-             ['type' => 'plugin', 'element' => 'logrotation', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateLogRotationPlugin'],
-             ['type' => 'plugin', 'element' => 'recaptcha', 'folder' => 'captcha', 'client_id' => 0, 'pre_function' => null],
-             ['type' => 'plugin', 'element' => 'sessiongc', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateSessionGCPlugin'],
-             ['type' => 'plugin', 'element' => 'updatenotification', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateUpdatenotificationPlugin'],
+            ['type' => 'plugin', 'element' => 'demotasks', 'folder' => 'task', 'client_id' => 0, 'pre_function' => null],
+            ['type' => 'plugin', 'element' => 'compat', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateCompatPlugin'],
+            ['type' => 'plugin', 'element' => 'logrotation', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateLogRotationPlugin'],
+            ['type' => 'plugin', 'element' => 'recaptcha', 'folder' => 'captcha', 'client_id' => 0, 'pre_function' => null],
+            ['type' => 'plugin', 'element' => 'sessiongc', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateSessionGCPlugin'],
+            ['type' => 'plugin', 'element' => 'updatenotification', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateUpdatenotificationPlugin'],
         ];
 
         $db = Factory::getDbo();
@@ -285,7 +340,6 @@ class JoomlaInstallerScript
                 $db->transactionCommit();
             } catch (\Exception $e) {
                 $db->transactionRollback();
-                echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
                 throw $e;
             }
         }
@@ -345,7 +399,7 @@ class JoomlaInstallerScript
         $lastrun      = (int) $params->get('lastrun', time());
 
         $task = [
-            'title'           => 'RotateLogs',
+            'title'           => 'Rotate Logs',
             'type'            => 'rotation.logs',
             'execution_rules' => [
                 'rule-type'     => 'interval-days',
@@ -385,7 +439,7 @@ class JoomlaInstallerScript
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
-            'title'           => 'SessionGC',
+            'title'           => 'Session GC',
             'type'            => 'session.gc',
             'execution_rules' => [
                 'rule-type'      => 'interval-hours',
@@ -396,8 +450,6 @@ class JoomlaInstallerScript
             'state'  => 1,
             'params' => [
                 'enable_session_gc'          => $params->get('enable_session_gc', 1),
-                'gc_probability'             => $params->get('gc_probability', 1),
-                'gc_divisor'                 => $params->get('gc_divisor', 100),
                 'enable_session_metadata_gc' => $params->get('enable_session_metadata_gc', 1),
             ],
         ];
@@ -432,7 +484,7 @@ class JoomlaInstallerScript
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
-            'title'           => 'UpdateNotification',
+            'title'           => 'Update Notification',
             'type'            => 'update.notification',
             'execution_rules' => [
                 'rule-type'      => 'interval-hours',
@@ -479,7 +531,7 @@ class JoomlaInstallerScript
         try {
             $extensions = $db->loadObjectList();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -489,7 +541,16 @@ class JoomlaInstallerScript
 
         foreach ($extensions as $extension) {
             if (!$installer->refreshManifestCache($extension->extension_id)) {
-                echo Text::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id) . '<br>';
+                $this->collectError(
+                    __METHOD__,
+                    new \Exception(sprintf(
+                        'Error on updating manifest cache: (type, element, folder, client) = (%s, %s, %s, %s)',
+                        $extension->type,
+                        $extension->element,
+                        $extension->name,
+                        $extension->client_id
+                    ))
+                );
             }
         }
     }
@@ -2042,10 +2103,15 @@ class JoomlaInstallerScript
             // From 5.0.0-alpha4 to 5.0.0-beta1
             '/administrator/components/com_categories/tmpl/categories/default_batch_footer.php',
             '/administrator/components/com_content/tmpl/articles/default_batch_footer.php',
+            '/administrator/language/en-GB/plg_twofactorauth_totp.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_totp.sys.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_yubikey.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_yubikey.sys.ini',
             '/media/com_contenthistory/js/admin-history-versions.js',
             '/media/com_contenthistory/js/admin-history-versions.min.js',
             '/media/com_contenthistory/js/admin-history-versions.min.js.gz',
             // From 5.0.0-beta1 to 5.0.0-beta2
+            '/language/en-GB/lib_simplepie.sys.ini',
             '/libraries/src/Cache/Storage/WincacheStorage.php',
         ];
 
@@ -2279,7 +2345,7 @@ class JoomlaInstallerScript
                     if (File::delete(JPATH_ROOT . $file)) {
                         $status['files_deleted'][] = $file;
                     } else {
-                        $status['files_errors'][] = Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file);
+                        $status['files_errors'][] = sprintf('Error on deleting file or folder %s', $file);
                     }
                 }
             }
@@ -2293,7 +2359,7 @@ class JoomlaInstallerScript
                     if (Folder::delete(JPATH_ROOT . $folder)) {
                         $status['folders_deleted'][] = $folder;
                     } else {
-                        $status['folders_errors'][] = Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder);
+                        $status['folders_errors'][] = sprintf('Error on deleting file or folder %s', $folder);
                     }
                 }
             }
@@ -2343,6 +2409,8 @@ class JoomlaInstallerScript
             $asset->setLocation(1, 'last-child');
 
             if (!$asset->store()) {
+                $this->collectError(__METHOD__, new \Exception($asset->getError(true)));
+
                 // Install failed, roll back changes
                 $installer->abort(Text::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->getError(true)));
 
@@ -2409,6 +2477,9 @@ class JoomlaInstallerScript
 
         $this->setGuidedToursUid();
 
+        // Refresh versionable assets cache.
+        Factory::getApplication()->flushAssets();
+
         return true;
     }
 
@@ -2434,7 +2505,7 @@ class JoomlaInstallerScript
                     ->where($db->quoteName('element') . ' = ' . $db->quote('actionlogs'))
             )->loadObject();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return false;
         }
@@ -2457,7 +2528,7 @@ class JoomlaInstallerScript
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
-            'title'           => 'DeleteActionLogs',
+            'title'           => 'Delete Action Logs',
             'type'            => 'delete.actionlogs',
             'execution_rules' => [
                 'rule-type'      => 'interval-hours',
@@ -2474,7 +2545,7 @@ class JoomlaInstallerScript
         try {
             $model->save($task);
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return false;
         }
@@ -2503,7 +2574,7 @@ class JoomlaInstallerScript
                     ->where($db->quoteName('element') . ' = ' . $db->quote('privacyconsent'))
             )->loadObject();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return false;
         }
@@ -2526,7 +2597,7 @@ class JoomlaInstallerScript
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
-            'title'           => 'PrivacyConsent',
+            'title'           => 'Privacy Consent',
             'type'            => 'privacy.consent',
             'execution_rules' => [
                 'rule-type'     => 'interval-days',
@@ -2544,10 +2615,13 @@ class JoomlaInstallerScript
         try {
             $model->save($task);
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return false;
         }
+
+        // Refresh versionable assets cache.
+        Factory::getApplication()->flushAssets();
 
         return true;
     }
@@ -2574,7 +2648,7 @@ class JoomlaInstallerScript
                     ->where($db->quoteName('element') . ' = ' . $db->quote('tinymce'))
             )->loadResult();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return false;
         }
@@ -2648,7 +2722,7 @@ class JoomlaInstallerScript
         try {
             $db->setQuery($query)->execute();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return false;
         }
@@ -2667,7 +2741,7 @@ class JoomlaInstallerScript
     {
         /** @var \Joomla\Component\Cache\Administrator\Model\CacheModel $model */
         $model = Factory::getApplication()->bootComponent('com_guidedtours')->getMVCFactory()
-                        ->createModel('Tours', 'Administrator', ['ignore_request' => true]);
+            ->createModel('Tours', 'Administrator', ['ignore_request' => true]);
 
         $items = $model->getItems();
 

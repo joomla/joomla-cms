@@ -55,12 +55,13 @@ use Joomla\CMS\Uri\Uri;
 <?php // Activate the highlighter if enabled. ?>
 <?php if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1)) : ?>
     <?php
+        // Allow a maximum of 10 tokens to be highlighted. Otherwise the URL can get too long.
         $this->document->getWebAssetManager()->useScript('highlight');
         $this->document->addScriptOptions(
             'highlight',
             [[
                     'class'      => 'js-highlight',
-                    'highLight'  => $this->query->highlight,
+                    'highLight'  => array_slice($this->query->highlight, 0, 10),
             ]]
         );
     ?>
@@ -88,7 +89,7 @@ use Joomla\CMS\Uri\Uri;
             <?php $start = (int) $this->pagination->limitstart + 1; ?>
             <?php $total = (int) $this->pagination->total; ?>
             <?php $limit = (int) $this->pagination->limit * $this->pagination->pagesCurrent; ?>
-            <?php $limit = (int) ($limit > $total ? $total : $limit); ?>
+            <?php $limit = (int) min($limit, $total); ?>
             <?php echo Text::sprintf('COM_FINDER_SEARCH_RESULTS_OF', $start, $limit, $total); ?>
         </div>
     <?php endif; ?>

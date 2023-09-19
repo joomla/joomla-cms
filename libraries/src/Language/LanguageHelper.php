@@ -86,7 +86,9 @@ class LanguageHelper
                     if (\strlen($Jinstall_lang) < 6) {
                         if (strtolower($browserLang) == strtolower(substr($systemLang->lang_code, 0, \strlen($browserLang)))) {
                             return $systemLang->lang_code;
-                        } elseif ($primary_browserLang == substr($systemLang->lang_code, 0, 2)) {
+                        }
+
+                        if ($primary_browserLang == substr($systemLang->lang_code, 0, 2)) {
                             $primaryDetectedLang = $systemLang->lang_code;
                         }
                     }

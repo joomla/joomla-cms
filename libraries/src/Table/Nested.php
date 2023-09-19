@@ -285,9 +285,9 @@ class Nested extends Table
 
         if ($referenceId) {
             return $this->moveByReference($referenceId, $position, $pk);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -1387,9 +1387,9 @@ class Nested extends Table
                 }
 
                 return $this->rebuild();
-            } else {
-                return false;
             }
+
+            return false;
         } catch (\Exception $e) {
             $this->_unlock();
             throw $e;

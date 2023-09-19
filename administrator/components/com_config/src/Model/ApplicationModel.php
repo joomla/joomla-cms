@@ -129,12 +129,6 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             $data = array_merge($temp, $data);
         }
 
-        // Correct error_reporting value, since we removed "development", the "maximum" should be set instead
-        // @TODO: This can be removed in 5.0
-        if (!empty($data['error_reporting']) && $data['error_reporting'] === 'development') {
-            $data['error_reporting'] = 'maximum';
-        }
-
         return $data;
     }
 
@@ -899,7 +893,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $isSuperUserGroupBefore = Access::checkGroup($permission['rule'], 'core.admin');
 
         // Check if current user belongs to changed group.
-        $currentUserBelongsToGroup = in_array((int) $permission['rule'], $user->groups) ? true : false;
+        $currentUserBelongsToGroup = in_array((int) $permission['rule'], $user->groups);
 
         // Get current user groups tree.
         $currentUserGroupsTree = Access::getGroupsByUser($user->id, true);

@@ -70,7 +70,7 @@ final class PageBreak extends CMSPlugin
         $link = 'index.php?option=com_content&amp;view=article&amp;layout=pagebreak&amp;tmpl=component&amp;e_name=' . $name;
 
         $button          = new CMSObject();
-        $button->modal   = true;
+        $button->action  = 'modal';
         $button->link    = $link;
         $button->text    = $app->getLanguage()->_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK');
         $button->name    = $this->_type . '_' . $this->_name;
@@ -78,12 +78,6 @@ final class PageBreak extends CMSPlugin
         $button->iconSVG = '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M26 8h-6v-2l-6-6h-14v24h12v8h20v-18l-6-6zM26 10.828l3.172 3'
                             . '.172h-3.172v-3.172zM14 2.828l3.172 3.172h-3.172v-3.172zM2 2h10v6h6v14h-16v-20zM30 30h-16v-6h6v-14h4v6h6v14z"></pa'
                             . 'th></svg>';
-        $button->options = [
-            'height'     => '200px',
-            'width'      => '400px',
-            'bodyHeight' => '70',
-            'modalWidth' => '80',
-        ];
 
         return $button;
     }

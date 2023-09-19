@@ -116,8 +116,6 @@ class DisplayController extends BaseController
 
                     return $controller->execute($task);
 
-                    break;
-
                 default:
                     $model = $this->getModel('Login');
                     break;

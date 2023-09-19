@@ -217,7 +217,7 @@ class Query
         $this->input = $options['input'] ?? '';
 
         // Get the empty query setting.
-        $this->empty = isset($options['empty']) ? (bool) $options['empty'] : false;
+        $this->empty = !empty($options['empty']);
 
         // Get the input language.
         $this->language = !empty($options['language']) ? $options['language'] : Helper::getDefaultLanguage();

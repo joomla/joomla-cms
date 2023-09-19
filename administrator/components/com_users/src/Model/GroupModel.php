@@ -166,7 +166,7 @@ class GroupModel extends AdminModel
         $parentSuperAdmin = Access::checkGroup($data['parent_id'], 'core.admin');
 
         // Get core.admin rules from the root asset
-        $rules = Access::getAssetRules('root.1')->getData('core.admin');
+        $rules = Access::getAssetRules('root.1')->getData();
 
         // Get the value for the current group (will be true (allowed), false (denied), or null (inherit)
         $groupSuperAdmin = $rules['core.admin']->allow($data['id']);
@@ -258,7 +258,9 @@ class GroupModel extends AdminModel
                 Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_DELETE_ERROR_INVALID_GROUP'), 'error');
 
                 return false;
-            } elseif (!$table->load($pk)) {
+            }
+
+            if (!$table->load($pk)) {
                 // Item is not in the table.
                 $this->setError($table->getError());
 
@@ -283,10 +285,10 @@ class GroupModel extends AdminModel
                         $this->setError($table->getError());
 
                         return false;
-                    } else {
-                        // Trigger the after delete event.
-                        Factory::getApplication()->triggerEvent($this->event_after_delete, [$table->getProperties(), true, $this->getError()]);
                     }
+
+                    // Trigger the after delete event.
+                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$table->getProperties(), true, $this->getError()]);
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);

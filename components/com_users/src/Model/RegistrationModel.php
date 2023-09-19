@@ -643,10 +643,12 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
 
         if ($useractivation == 1) {
             return 'useractivate';
-        } elseif ($useractivation == 2) {
-            return 'adminactivate';
-        } else {
-            return $user->id;
         }
+
+        if ($useractivation == 2) {
+            return 'adminactivate';
+        }
+
+        return $user->id;
     }
 }

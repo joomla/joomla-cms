@@ -48,14 +48,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
     use UserFactoryAwareTrait;
 
     /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     * @since  5.0.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Returns an array of events this subscriber will listen to.
      *
      * @return  array
@@ -147,6 +139,9 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         if (!$app->isClient('administrator') || !$this->isSupported($context)) {
             return;
         }
+
+        // Load plugin language files.
+        $this->loadLanguage();
 
         // Load the form fields
         $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/schemaorg.xml');

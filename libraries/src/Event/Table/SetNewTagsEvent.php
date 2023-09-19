@@ -57,6 +57,6 @@ class SetNewTagsEvent extends AbstractEvent
      */
     protected function setReplaceTags($value)
     {
-        return $value ? true : false;
+        return (bool) $value;
     }
 }
