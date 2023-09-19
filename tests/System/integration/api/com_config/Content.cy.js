@@ -10,7 +10,12 @@ describe('Test that config of com_content API endpoint', () => {
     const updatedConfig = {
       show_title: '0',
     };
+    const revertConfig = {
+      show_title: '1',
+    };
     cy.api_patch('/config/com_content', updatedConfig)
+      .then((response) => cy.wrap(response).its('status').should('equal', 200));
+    cy.api_patch('/config/com_content', revertConfig)
       .then((response) => cy.wrap(response).its('status').should('equal', 200));
   });
 });
