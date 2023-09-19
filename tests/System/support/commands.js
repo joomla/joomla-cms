@@ -5,9 +5,8 @@
  * https://github.com/cypress-io/cypress/issues/6575
  */
 
-import './commands/api';
-import './commands/config';
 import './commands/db';
+import './commands/api';
 
 const { registerCommands } = require('../../../node_modules/joomla-cypress/src/index.js');
 

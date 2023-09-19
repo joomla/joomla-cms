@@ -2,7 +2,7 @@
 <extension type="plugin" group="behaviour" method="upgrade">
 	<name>plg_behaviour_compat</name>
 	<author>Joomla! Project</author>
-	<creationDate>2023-09</creationDate>
+	<creationDate>2023-03</creationDate>
 	<copyright>(C) 2023 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
