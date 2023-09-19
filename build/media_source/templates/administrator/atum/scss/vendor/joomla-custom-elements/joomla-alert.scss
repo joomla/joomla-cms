@@ -1,4 +1,5 @@
 @import "../../variables";
+@import "../../variables-dark";
 @import "../../../../../../../../media/vendor/joomla-custom-elements/css/joomla-alert";
 @import "../../../../../../../../media/vendor/bootstrap/scss/mixins/color-mode";
 
@@ -91,6 +92,13 @@
       p {
         color: var(--body-color);
       }
+    }
+  }
+
+  @include color-mode(dark) {
+    &[type="info"],
+    &[type="notice"] {
+      --alert-accent-color: #{$state-info-text-dark};
     }
   }
 
