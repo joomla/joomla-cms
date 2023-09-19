@@ -117,7 +117,7 @@ abstract class RenderModuleEvent extends ModuleEvent
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function updateAttributes(array $value): static
     {

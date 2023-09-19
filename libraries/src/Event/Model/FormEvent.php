@@ -111,7 +111,7 @@ abstract class FormEvent extends AbstractImmutableEvent
      *
      * @return  object|array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setData(object|array $value): object|array
     {

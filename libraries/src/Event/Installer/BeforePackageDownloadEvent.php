@@ -150,7 +150,7 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function updateHeaders(array $value): static
     {

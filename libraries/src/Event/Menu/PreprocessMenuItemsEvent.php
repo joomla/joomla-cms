@@ -194,7 +194,7 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function updateItems(array $value): static
     {

@@ -131,7 +131,7 @@ class SubmitContactEvent extends AbstractImmutableEvent
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function updateData(array $value): static
     {

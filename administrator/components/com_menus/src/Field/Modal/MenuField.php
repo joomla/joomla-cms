@@ -225,7 +225,7 @@ class MenuField extends ModalSelectField
      *
      * @return string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getValueTitle()
     {
@@ -256,7 +256,7 @@ class MenuField extends ModalSelectField
      *
      * @return  array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     protected function getLayoutData()
     {
@@ -273,7 +273,7 @@ class MenuField extends ModalSelectField
      *
      * @return  FileLayout
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getRenderer($layoutId = 'default')
     {

@@ -74,7 +74,7 @@ class AfterRenderModulesEvent extends ModuleEvent
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setContent(string $value): string
     {

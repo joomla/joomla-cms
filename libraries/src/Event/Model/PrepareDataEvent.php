@@ -40,7 +40,7 @@ class PrepareDataEvent extends ModelEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -70,7 +70,7 @@ class PrepareDataEvent extends ModelEvent
      *
      * @return  object|array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function setData(object|array $value): object|array
     {
@@ -96,7 +96,7 @@ class PrepareDataEvent extends ModelEvent
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function updateData(object|array $value): static
     {
