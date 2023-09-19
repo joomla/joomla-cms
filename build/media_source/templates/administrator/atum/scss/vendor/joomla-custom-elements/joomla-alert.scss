@@ -127,10 +127,10 @@
     font-size: 2rem;
     line-height: 1rem;
     color: var(--alert-accent-color);
+    text-shadow: none;
     background: none;
     border: 0;
     opacity: 1;
-    text-shadow: none;
 
     &:hover,
     &:focus {
