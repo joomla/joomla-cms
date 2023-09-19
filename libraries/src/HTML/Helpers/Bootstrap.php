@@ -710,7 +710,7 @@ abstract class Bootstrap
         $parent    = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
             'data-bs-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
         $class        = (!empty($class)) ? ' ' . $class : '';
-        $ariaExpanded = $in === 'show' ? true : false;
+        $ariaExpanded = $in === 'show';
 
         return <<<HTMLSTR
 <div class="accordion-item $class">

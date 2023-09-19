@@ -121,7 +121,7 @@ class HtmlView extends BaseHtmlView
         );
 
         if ($isNew) {
-            $toolbar->cancel('language.cancel');
+            $toolbar->cancel('language.cancel', 'JTOOLBAR_CANCEL');
         } else {
             $toolbar->cancel('language.cancel');
         }

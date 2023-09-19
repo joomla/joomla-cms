@@ -438,11 +438,11 @@ abstract class AdminModel extends FormModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Not fatal error
-                    $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-                    continue;
                 }
+
+                // Not fatal error
+                $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
             }
 
             // Check for asset_id
@@ -644,11 +644,11 @@ abstract class AdminModel extends FormModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Not fatal error
-                    $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-                    continue;
                 }
+
+                // Not fatal error
+                $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
             }
 
             // Set the new category ID
@@ -921,11 +921,11 @@ abstract class AdminModel extends FormModel
                         Log::add($error, Log::WARNING, 'jerror');
 
                         return false;
-                    } else {
-                        Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-
-                        return false;
                     }
+
+                    Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+
+                    return false;
                 }
             } else {
                 $this->setError($table->getError());
@@ -1523,11 +1523,11 @@ abstract class AdminModel extends FormModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
-
-                    return false;
                 }
+
+                $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+
+                return false;
             }
         }
 

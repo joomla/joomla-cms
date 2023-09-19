@@ -288,7 +288,9 @@ class TemplateController extends BaseController
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'error');
 
             return;
-        } elseif ($data['extension_id'] != $model->getState('extension.id')) {
+        }
+
+        if ($data['extension_id'] != $model->getState('extension.id')) {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'error');
 
             return;

@@ -32,14 +32,6 @@ final class Fields extends CMSPlugin
     use UserFactoryAwareTrait;
 
     /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     * @since  3.7.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Normalizes the request data.
      *
      * @param   Model\NormaliseRequestDataEvent  $event  The event object

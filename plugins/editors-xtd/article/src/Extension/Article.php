@@ -99,7 +99,7 @@ final class Article extends CMSPlugin implements SubscriberInterface
         $button = new Button(
             $this->_name,
             [
-                'modal'   => true,
+                'action'  => 'modal',
                 'link'    => $link,
                 'text'    => Text::_('PLG_ARTICLE_BUTTON_ARTICLE'),
                 'icon'    => 'file-add',
@@ -107,12 +107,6 @@ final class Article extends CMSPlugin implements SubscriberInterface
                     . '8h-20v32h18v-2h-16z"></path></svg>',
                 // This is whole Plugin name, it is needed for keeping backward compatibility
                 'name' => $this->_type . '_' . $this->_name,
-            ],
-            [
-                'height'     => '300px',
-                'width'      => '800px',
-                'bodyHeight' => '70',
-                'modalWidth' => '80',
             ]
         );
 

@@ -663,7 +663,9 @@ class StyleModel extends AdminModel
 
         if (!is_numeric($style->client_id)) {
             throw new \Exception(Text::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
-        } elseif ($style->home == '1') {
+        }
+
+        if ($style->home == '1') {
             throw new \Exception(Text::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
         }
 

@@ -272,7 +272,7 @@ class InstallerHelper
 
         $downloadKey = [
             'supported' => true,
-            'valid'     => $value ? true : false,
+            'valid'     => (bool) $value,
             'prefix'    => $prefix,
             'suffix'    => $suffix,
             'value'     => $value,
