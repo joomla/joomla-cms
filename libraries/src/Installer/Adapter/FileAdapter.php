@@ -49,22 +49,6 @@ class FileAdapter extends InstallerAdapter
     protected $supportsDiscoverInstall = false;
 
     /**
-     * List of processed folders
-     *
-     * @var    array
-     * @since  3.4
-     */
-    protected $folderList;
-
-    /**
-     * List of processed files
-     *
-     * @var    array
-     * @since  3.4
-     */
-    protected $fileList;
-
-    /**
      * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
      *
      * @return  void
