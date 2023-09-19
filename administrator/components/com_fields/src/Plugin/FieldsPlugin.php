@@ -278,7 +278,7 @@ abstract class FieldsPlugin extends CMSPlugin
         $params = clone $this->params;
         $params->merge($field->fieldparams);
 
-        $layout = $params->get('form_layout');
+        $layout = $field->params->get('form_layout', $this->params->get('form_layout', ''));
 
         if ($layout) {
             $node->setAttribute('layout', $layout);
