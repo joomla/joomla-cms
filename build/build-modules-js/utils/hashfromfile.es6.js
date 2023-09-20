@@ -2,7 +2,7 @@ const { createHash } = require('crypto');
 const { createReadStream } = require('fs');
 
 /**
- * Get a SHA1 hash for a given file
+ * Get a hash (MD5) for a given file
  * @param filePath
  * @returns {Promise<unknown>}
  */
