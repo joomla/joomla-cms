@@ -23,7 +23,6 @@ use Joomla\Component\Scheduler\Administrator\View\Select\HtmlView;
 $app = $this->app;
 
 $wa = $this->document->getWebAssetManager();
-$wa->useStyle('com_scheduler.admin-view-select-task-css');
 $wa->useScript('com_scheduler.admin-view-select-task-search');
 
 ?>
