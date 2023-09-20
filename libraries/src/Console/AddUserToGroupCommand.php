@@ -298,7 +298,7 @@ class AddUserToGroupCommand extends AbstractCommand
     protected function configure(): void
     {
         $help = "<info>%command.name%</info> adds a user to a group
-		\nUsage: <info>php %command.full_name%</info>";
+        \nUsage: <info>php %command.full_name%</info>";
 
         $this->setDescription('Add a user to a group');
         $this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');

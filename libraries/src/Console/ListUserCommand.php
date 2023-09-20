@@ -134,7 +134,7 @@ class ListUserCommand extends AbstractCommand
     protected function configure(): void
     {
         $help = "<info>%command.name%</info> will list all users
-		\nUsage: <info>php %command.full_name%</info>";
+        \nUsage: <info>php %command.full_name%</info>";
 
         $this->setDescription('List all users');
         $this->setHelp($help);

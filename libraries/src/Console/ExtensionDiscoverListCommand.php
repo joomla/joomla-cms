@@ -43,8 +43,8 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
     protected function configure(): void
     {
         $help = "<info>%command.name%</info> is used to list all extensions that could be installed via discoverinstall
-		\nUsage:
-		\n  <info>php %command.full_name%</info>";
+        \nUsage:
+        \n  <info>php %command.full_name%</info>";
 
         $this->setDescription('List discovered extensions');
         $this->setHelp($help);

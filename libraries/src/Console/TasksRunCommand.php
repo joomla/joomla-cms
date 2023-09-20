@@ -145,7 +145,7 @@ class TasksRunCommand extends AbstractCommand
         $this->addOption('all', '', InputOption::VALUE_NONE, 'Run all due tasks. Note that this is overridden if --id is used.');
 
         $help = "<info>%command.name%</info> run scheduled tasks.
-		\nUsage: <info>php %command.full_name% [flags]</info>";
+        \nUsage: <info>php %command.full_name% [flags]</info>";
 
         $this->setDescription('Run one or more scheduled tasks');
         $this->setHelp($help);

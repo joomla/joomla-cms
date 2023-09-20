@@ -144,7 +144,7 @@ class SiteCreatePublicFolderCommand extends AbstractCommand
     protected function configure(): void
     {
         $help = "<info>%command.name%</info> will create a public folder
-		\nUsage: <info>php %command.full_name%</info>";
+        \nUsage: <info>php %command.full_name%</info>";
 
         $this->addOption('public-folder', null, InputOption::VALUE_REQUIRED, 'public folder absolute path');
         $this->setDescription('Create a public folder');

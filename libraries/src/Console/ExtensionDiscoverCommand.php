@@ -80,8 +80,8 @@ class ExtensionDiscoverCommand extends AbstractCommand
     protected function configure(): void
     {
         $help = "<info>%command.name%</info> is used to discover extensions
-		\nUsage:
-		\n  <info>php %command.full_name%</info>";
+        \nUsage:
+        \n  <info>php %command.full_name%</info>";
 
         $this->setDescription('Discover extensions');
         $this->setHelp($help);

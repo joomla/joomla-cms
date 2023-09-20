@@ -79,7 +79,7 @@ class SiteUpCommand extends AbstractCommand
     protected function configure(): void
     {
         $help = "<info>%command.name%</info> puts the site into online mode
-				\nUsage: <info>php %command.full_name%</info>";
+		        \nUsage: <info>php %command.full_name%</info>";
 
         $this->setDescription('Put the site into online mode');
         $this->setHelp($help);

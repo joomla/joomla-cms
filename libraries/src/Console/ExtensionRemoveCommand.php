@@ -148,9 +148,9 @@ class ExtensionRemoveCommand extends AbstractCommand
         );
 
         $help = "<info>%command.name%</info> is used to uninstall extensions.
-		\nThe command requires one argument, the ID of the extension to uninstall.
-		\nYou may find this ID by running the <info>extension:list</info> command.
-		\nUsage: <info>php %command.full_name% <extension_id></info>";
+        \nThe command requires one argument, the ID of the extension to uninstall.
+        \nYou may find this ID by running the <info>extension:list</info> command.
+        \nUsage: <info>php %command.full_name% <extension_id></info>";
 
         $this->setDescription('Remove an extension');
         $this->setHelp($help);

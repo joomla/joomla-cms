@@ -99,11 +99,11 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
         $this->addOption('eid', null, InputOption::VALUE_REQUIRED, 'The ID of the extension to discover');
 
         $help = "<info>%command.name%</info> is used to discover extensions
-		\nYou can provide the following option to the command:
-		\n  --eid: The ID of the extension
-		\n  If you do not provide a ID all discovered extensions are installed.
-		\nUsage:
-		\n  <info>php %command.full_name% --eid=<id_of_the_extension></info>";
+        \nYou can provide the following option to the command:
+        \n  --eid: The ID of the extension
+        \n  If you do not provide a ID all discovered extensions are installed.
+        \nUsage:
+        \n  <info>php %command.full_name% --eid=<id_of_the_extension></info>";
 
         $this->setDescription('Install discovered extensions');
         $this->setHelp($help);

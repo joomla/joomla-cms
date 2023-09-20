@@ -84,10 +84,10 @@ class SessionGcCommand extends AbstractCommand implements ContainerAwareInterfac
     protected function configure(): void
     {
         $help = "<info>%command.name%</info> runs PHP's garbage collection operation for session data
-		\nUsage: <info>php %command.full_name%</info>
-		\nThis command defaults to performing garbage collection for the frontend (site) application.
-		\nTo run garbage collection for another application, you can specify it with the <info>--application</info> option.
-		\nUsage: <info>php %command.full_name% --application=[APPLICATION]</info>";
+        \nUsage: <info>php %command.full_name%</info>
+        \nThis command defaults to performing garbage collection for the frontend (site) application.
+        \nTo run garbage collection for another application, you can specify it with the <info>--application</info> option.
+        \nUsage: <info>php %command.full_name% --application=[APPLICATION]</info>";
 
         $this->setDescription('Perform session garbage collection');
         $this->addOption('application', 'app', InputOption::VALUE_OPTIONAL, 'The application to perform garbage collection for.', 'site');

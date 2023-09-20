@@ -186,7 +186,7 @@ class TasksStateCommand extends AbstractCommand
         $this->addOption('state', 's', InputOption::VALUE_REQUIRED, 'The new state of the task, can be 1/enable, 0/disable, or -2/trash.');
 
         $help = "<info>%command.name%</info> changes the state of a task.
-		\nUsage: <info>php %command.full_name%</info>";
+        \nUsage: <info>php %command.full_name%</info>";
 
         $this->setDescription('Enable, disable or trash a scheduled task');
         $this->setHelp($help);

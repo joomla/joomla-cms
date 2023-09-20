@@ -306,7 +306,7 @@ class AddUserCommand extends AbstractCommand
     protected function configure(): void
     {
         $help = "<info>%command.name%</info> will add a user
-		\nUsage: <info>php %command.full_name%</info>";
+        \nUsage: <info>php %command.full_name%</info>";
 
         $this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
         $this->addOption('name', null, InputOption::VALUE_OPTIONAL, 'full name of user');

@@ -92,12 +92,12 @@ class ExtensionInstallCommand extends AbstractCommand
         $this->addOption('url', null, InputOption::VALUE_REQUIRED, 'The url to the extension');
 
         $help = "<info>%command.name%</info> is used to install extensions
-		\nYou must provide one of the following options to the command:
-		\n  --path: The path on your local filesystem to the install package
-		\n  --url: The URL from where the install package should be downloaded
-		\nUsage:
-		\n  <info>php %command.full_name% --path=<path_to_file></info>
-		\n  <info>php %command.full_name% --url=<url_to_file></info>";
+        \nYou must provide one of the following options to the command:
+        \n  --path: The path on your local filesystem to the install package
+        \n  --url: The URL from where the install package should be downloaded
+        \nUsage:
+        \n  <info>php %command.full_name% --path=<path_to_file></info>
+        \n  <info>php %command.full_name% --url=<url_to_file></info>";
 
         $this->setDescription('Install an extension from a URL or from a path');
         $this->setHelp($help);

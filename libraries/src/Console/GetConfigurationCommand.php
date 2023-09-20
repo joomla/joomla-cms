@@ -312,9 +312,9 @@ class GetConfigurationCommand extends AbstractCommand
         $this->addOption('group', 'g', InputOption::VALUE_REQUIRED, 'Name of the option');
 
         $help = "<info>%command.name%</info> displays the current value of a configuration option
-				\nUsage: <info>php %command.full_name%</info> <option>
-				\nGroup usage: <info>php %command.full_name%</info> --group <groupname>
-				\nAvailable group names: $groupNames";
+		        \nUsage: <info>php %command.full_name%</info> <option>
+		        \nGroup usage: <info>php %command.full_name%</info> --group <groupname>
+		        \nAvailable group names: $groupNames";
 
         $this->setDescription('Display the current value of a configuration option');
         $this->setHelp($help);

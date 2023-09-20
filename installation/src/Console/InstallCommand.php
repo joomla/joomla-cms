@@ -279,7 +279,7 @@ class InstallCommand extends AbstractCommand
 
         $app->getLanguage()->load('joomla.cli');
         $help = "<info>%command.name%</info> will install Joomla
-		\nUsage: <info>php %command.full_name%</info>";
+        \nUsage: <info>php %command.full_name%</info>";
 
         /* @var SetupModel $setupmodel */
         $setupmodel = $app->getMVCFactory()->createModel('Setup', 'Installation');
