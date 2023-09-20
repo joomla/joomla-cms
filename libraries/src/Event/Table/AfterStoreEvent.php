@@ -49,9 +49,28 @@ class AfterStoreEvent extends AbstractEvent
      * @return  boolean
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setResult($value)
     {
         return $value ? true : false;
+    }
+
+    /**
+     * Setter for the result argument
+     *
+     * @param   boolean  $value  The value to set
+     *
+     * @return  boolean
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function onSetResult($value)
+    {
+        return $this->setResult($value);
     }
 }

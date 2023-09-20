@@ -61,6 +61,9 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
      * @since  4.0.0
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setSubject($value)
     {
@@ -69,6 +72,22 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
         }
 
         return $value;
+    }
+
+    /**
+     * Setter for the subject argument
+     *
+     * @param   WebAssetRegistryInterface  $value  The value to set
+     *
+     * @return  WebAssetRegistryInterface
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function onSetSubject($value)
+    {
+        return $this->setSubject($value);
     }
 
     /**
