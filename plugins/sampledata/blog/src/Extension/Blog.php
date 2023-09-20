@@ -805,8 +805,8 @@ final class Blog extends CMSPlugin
                 'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_DESCRIPTION'),
             ];
 
-            // Calculate menutype. The number of characters allowed is 24.
-            $type = HTMLHelper::_('string.truncate', $menu['title'], 23, true, false);
+            // Calculate menutype. The number of characters allowed is 48.
+            $type = HTMLHelper::_('string.truncate', $menu['title'], 47, true, false);
 
             $menu['menutype'] = $i . $type;
 
