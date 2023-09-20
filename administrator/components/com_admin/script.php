@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -45,7 +46,7 @@ class JoomlaInstallerScript
      *
      * @var callable
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.0
      */
     protected $errorCollector;
 
@@ -56,7 +57,7 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.0
      */
     public function setErrorCollector(callable $callback)
     {
@@ -71,7 +72,7 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.0
      */
     protected function collectError(string $context, \Throwable $error)
     {
@@ -597,7 +598,7 @@ class JoomlaInstallerScript
         $extensions = ExtensionHelper::getCoreExtensions();
 
         // If we have the search package around, it may not have a manifest cache entry after upgrades from 3.x, so add it to the list
-        if (File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml')) {
+        if (is_file(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml')) {
             $extensions[] = ['package', 'pkg_search', '', 0];
         }
 
@@ -6614,6 +6615,87 @@ class JoomlaInstallerScript
             '/libraries/vendor/voku/portable-ascii/build/docs/base.md',
             '/libraries/vendor/voku/portable-ascii/build/generate_docs.php',
             '/libraries/vendor/voku/portable-ascii/build/generate_max_key_length.php',
+            // From 4.3.x to 4.4.0-alpha1
+            '/modules/mod_articles_archive/mod_articles_archive.php',
+            '/modules/mod_articles_categories/mod_articles_categories.php',
+            '/modules/mod_articles_category/mod_articles_category.php',
+            '/modules/mod_breadcrumbs/mod_breadcrumbs.php',
+            '/modules/mod_custom/mod_custom.php',
+            '/modules/mod_footer/mod_footer.php',
+            '/modules/mod_related_items/mod_related_items.php',
+            '/modules/mod_users_latest/mod_users_latest.php',
+            '/plugins/content/finder/finder.php',
+            '/plugins/content/joomla/joomla.php',
+            '/plugins/content/loadmodule/loadmodule.php',
+            '/plugins/content/pagebreak/pagebreak.php',
+            '/plugins/content/pagenavigation/pagenavigation.php',
+            '/plugins/content/vote/vote.php',
+            '/plugins/installer/folderinstaller/folderinstaller.php',
+            '/plugins/installer/override/override.php',
+            '/plugins/installer/packageinstaller/packageinstaller.php',
+            '/plugins/installer/urlinstaller/urlinstaller.php',
+            '/plugins/installer/webinstaller/webinstaller.php',
+            '/plugins/media-action/crop/crop.php',
+            '/plugins/media-action/resize/resize.php',
+            '/plugins/media-action/rotate/rotate.php',
+            '/plugins/privacy/actionlogs/actionlogs.php',
+            '/plugins/privacy/consents/consents.php',
+            '/plugins/privacy/contact/contact.php',
+            '/plugins/privacy/content/content.php',
+            '/plugins/privacy/message/message.php',
+            '/plugins/privacy/user/user.php',
+            '/plugins/sampledata/blog/blog.php',
+            '/plugins/sampledata/multilang/multilang.php',
+            '/plugins/system/accessibility/accessibility.php',
+            '/plugins/system/actionlogs/actionlogs.php',
+            '/plugins/system/debug/debug.php',
+            '/plugins/system/fields/fields.php',
+            '/plugins/system/highlight/highlight.php',
+            '/plugins/system/httpheaders/httpheaders.php',
+            '/plugins/system/jooa11y/jooa11y.php',
+            '/plugins/system/languagecode/languagecode.php',
+            '/plugins/system/languagefilter/languagefilter.php',
+            '/plugins/system/log/log.php',
+            '/plugins/system/logout/logout.php',
+            '/plugins/system/logrotation/logrotation.php',
+            '/plugins/system/privacyconsent/privacyconsent.php',
+            '/plugins/system/redirect/redirect.php',
+            '/plugins/system/remember/remember.php',
+            '/plugins/system/schedulerunner/schedulerunner.php',
+            '/plugins/system/sef/sef.php',
+            '/plugins/system/sessiongc/sessiongc.php',
+            '/plugins/system/skipto/skipto.php',
+            '/plugins/system/stats/stats.php',
+            '/plugins/system/tasknotification/tasknotification.php',
+            '/plugins/system/updatenotification/updatenotification.php',
+            '/plugins/user/contactcreator/contactcreator.php',
+            '/plugins/user/joomla/joomla.php',
+            '/plugins/user/profile/profile.php',
+            '/plugins/user/terms/terms.php',
+            '/plugins/user/token/token.php',
+            '/plugins/webservices/banners/banners.php',
+            '/plugins/webservices/config/config.php',
+            '/plugins/webservices/contact/contact.php',
+            '/plugins/webservices/content/content.php',
+            '/plugins/webservices/installer/installer.php',
+            '/plugins/webservices/languages/languages.php',
+            '/plugins/webservices/media/media.php',
+            '/plugins/webservices/menus/menus.php',
+            '/plugins/webservices/messages/messages.php',
+            '/plugins/webservices/modules/modules.php',
+            '/plugins/webservices/newsfeeds/newsfeeds.php',
+            '/plugins/webservices/plugins/plugins.php',
+            '/plugins/webservices/privacy/privacy.php',
+            '/plugins/webservices/redirect/redirect.php',
+            '/plugins/webservices/tags/tags.php',
+            '/plugins/webservices/templates/templates.php',
+            '/plugins/webservices/users/users.php',
+            '/plugins/workflow/featuring/featuring.php',
+            '/plugins/workflow/notification/notification.php',
+            '/plugins/workflow/publishing/publishing.php',
+            // From 4.4.0-alpha1 to 4.4.0-alpha2
+            '/libraries/vendor/jfcherng/php-diff/src/languages/readme.txt',
+            '/plugins/editors-xtd/pagebreak/pagebreak.php',
         ];
 
         $folders = [
@@ -8000,7 +8082,7 @@ class JoomlaInstallerScript
         $status['folders_checked'] = $folders;
 
         foreach ($files as $file) {
-            if ($fileExists = File::exists(JPATH_ROOT . $file)) {
+            if ($fileExists = is_file(JPATH_ROOT . $file)) {
                 $status['files_exist'][] = $file;
 
                 if ($dryRun === false) {
@@ -8038,8 +8120,8 @@ class JoomlaInstallerScript
          * but an update has put the files back. In that case it exists even if they don't believe in it!
          */
         if (
-            !File::exists(JPATH_ROOT . '/administrator/components/com_search/search.php')
-            && File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml')
+            !is_file(JPATH_ROOT . '/administrator/components/com_search/search.php')
+            && is_file(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml')
         ) {
             File::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml');
         }
@@ -8823,7 +8905,7 @@ class JoomlaInstallerScript
      */
     protected function fixTemplateMode(): void
     {
-        $db = Factory::getContainer()->get('DatabaseDriver');
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         foreach (['atum', 'cassiopeia'] as $template) {
             $clientId = $template === 'atum' ? 1 : 0;
@@ -8850,7 +8932,7 @@ class JoomlaInstallerScript
      */
     protected function addUserAuthProviderColumn(): void
     {
-        $db = Factory::getContainer()->get('DatabaseDriver');
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Check if the column already exists
         $fields = $db->getTableColumns('#__users');
