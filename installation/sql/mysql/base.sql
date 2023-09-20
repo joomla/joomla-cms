@@ -456,7 +456,7 @@ INSERT INTO `#__languages` (`lang_id`, `lang_code`, `title`, `title_native`, `se
 
 CREATE TABLE IF NOT EXISTS `#__menu` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to #__menu_types.menutype',
+  `menutype` varchar(48) NOT NULL COMMENT 'The type of menu this item belongs to. FK to #__menu_types.menutype',
   `title` varchar(255) NOT NULL COMMENT 'The display title of the menu item.',
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'The SEF alias of the menu item.',
   `note` varchar(255) NOT NULL DEFAULT '',
@@ -549,7 +549,7 @@ SELECT 101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_conten
 CREATE TABLE IF NOT EXISTS `#__menu_types` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `asset_id` int unsigned NOT NULL DEFAULT 0,
-  `menutype` varchar(24) NOT NULL,
+  `menutype` varchar(48) NOT NULL,
   `title` varchar(48) NOT NULL,
   `description` varchar(255) NOT NULL DEFAULT '',
   `client_id` int NOT NULL DEFAULT 0,
