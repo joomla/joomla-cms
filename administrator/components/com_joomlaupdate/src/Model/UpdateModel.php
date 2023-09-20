@@ -58,7 +58,7 @@ class UpdateModel extends BaseDatabaseModel
      * @param   array                 $config   An array of configuration options.
      * @param   ?MVCFactoryInterface  $factory  The factory.
      *
-     * @since   5.0.0
+     * @since   4.4.0
      * @throws  \Exception
      */
     public function __construct($config = [], MVCFactoryInterface $factory = null)
@@ -1752,7 +1752,7 @@ ENDDATA;
      *
      * @return  void
      *
-     * @since  5.0.0
+     * @since  4.4.0
      */
     public function collectError(string $context, \Throwable $error)
     {

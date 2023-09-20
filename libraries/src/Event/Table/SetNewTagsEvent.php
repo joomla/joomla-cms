@@ -54,9 +54,26 @@ class SetNewTagsEvent extends AbstractEvent
      * @param   mixed  $value  The value to set
      *
      * @return  boolean  Normalised value
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setReplaceTags($value)
     {
         return (bool) $value;
+    }
+
+    /**
+     * Setter for the replaceTags attribute
+     *
+     * @param   mixed  $value  The value to set
+     *
+     * @return  boolean  Normalised value
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function onSetReplaceTags($value)
+    {
+        return $this->setReplaceTags($value);
     }
 }

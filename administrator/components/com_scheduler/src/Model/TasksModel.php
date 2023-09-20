@@ -445,7 +445,7 @@ class TasksModel extends ListModel
      * @param   Date  $time  The next execution time to check against
      *
      * @return boolean
-     * @since  5.0.0
+     * @since  4.4.0
      */
     public function hasDueTasks(Date $time): bool
     {

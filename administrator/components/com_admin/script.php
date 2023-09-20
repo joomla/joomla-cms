@@ -48,7 +48,7 @@ class JoomlaInstallerScript
      *
      * @var callable
      *
-     * @since  5.0.0
+     * @since  4.4.0
      */
     protected $errorCollector;
 
@@ -59,7 +59,7 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since  5.0.0
+     * @since  4.4.0
      */
     public function setErrorCollector(callable $callback)
     {
@@ -74,7 +74,7 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since  5.0.0
+     * @since  4.4.0
      */
     protected function collectError(string $context, \Throwable $error)
     {
