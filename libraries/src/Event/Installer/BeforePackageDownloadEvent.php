@@ -84,7 +84,7 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setUrl(string $value): string
+    protected function onSetUrl(string $value): string
     {
         return $value;
     }
@@ -98,7 +98,7 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setHeaders(array $value): array
+    protected function onSetHeaders(array $value): array
     {
         return $value;
     }
@@ -138,7 +138,7 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
      */
     public function updateUrl(string $value): static
     {
-        $this->arguments['url'] = $this->setUrl($value);
+        $this->arguments['url'] = $this->onSetUrl($value);
 
         return $this;
     }
@@ -154,7 +154,7 @@ class BeforePackageDownloadEvent extends AbstractImmutableEvent
      */
     public function updateHeaders(array $value): static
     {
-        $this->arguments['headers'] = $this->setHeaders($value);
+        $this->arguments['headers'] = $this->onSetHeaders($value);
 
         return $this;
     }

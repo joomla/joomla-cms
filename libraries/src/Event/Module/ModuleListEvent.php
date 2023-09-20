@@ -70,7 +70,7 @@ abstract class ModuleListEvent extends ModuleEvent
      *
      * @since  5.0.0
      */
-    protected function setModules(array $value): array
+    protected function onSetModules(array $value): array
     {
         // Filter out Module elements. Non empty result means invalid data
         $valid = !array_filter($value, function ($item) {
@@ -107,7 +107,7 @@ abstract class ModuleListEvent extends ModuleEvent
      */
     public function updateModules(array $value): static
     {
-        $this->arguments['modules'] = $this->setModules($value);
+        $this->arguments['modules'] = $this->onSetModules($value);
 
         return $this;
     }

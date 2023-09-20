@@ -86,7 +86,7 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
      *
      * @since  5.0.0
      */
-    protected function setSubject(object $value): object
+    protected function onSetSubject(object $value): object
     {
         return $value;
     }
@@ -100,7 +100,7 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
      *
      * @since  5.0.0
      */
-    protected function setData(array $value): array
+    protected function onSetData(array $value): array
     {
         return $value;
     }

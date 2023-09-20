@@ -82,7 +82,7 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(BaseModel $value): BaseModel
+    protected function onSetSubject(BaseModel $value): BaseModel
     {
         return $value;
     }
@@ -96,7 +96,7 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setItems(array $value): array
+    protected function onSetItems(array $value): array
     {
         return $value;
     }
