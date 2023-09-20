@@ -7,6 +7,6 @@ const { createReadStream } = require('fs');
  * @returns {Promise<unknown>}
  */
 module.exports.createHashFromFile = (filePath) => new Promise((res) => {
-  const hash = createHash('sha1');
+  const hash = createHash('md5');
   createReadStream(filePath).on('data', (data) => hash.update(data)).on('end', () => res(hash.digest('hex')));
 });
