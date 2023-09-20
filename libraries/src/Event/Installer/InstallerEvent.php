@@ -91,13 +91,13 @@ abstract class InstallerEvent extends AbstractImmutableEvent
     /**
      * Setter for the package argument.
      *
-     * @param   array|\ArrayAccess|null  $value  The value to set
+     * @param   ?array  $value  The value to set
      *
-     * @return  array|\ArrayAccess|null
+     * @return  ?array
      *
      * @since  5.0.0
      */
-    protected function setPackage(array|\ArrayAccess|null $value): array|\ArrayAccess|null
+    protected function setPackage(?array $value): ?array
     {
         return $value;
     }
@@ -117,11 +117,11 @@ abstract class InstallerEvent extends AbstractImmutableEvent
     /**
      * Getter for the package.
      *
-     * @return  array|\ArrayAccess|null
+     * @return  ?array
      *
      * @since  5.0.0
      */
-    public function getPackage(): array|\ArrayAccess|null
+    public function getPackage(): ?array
     {
         return $this->arguments['package'] ?? null;
     }
@@ -129,13 +129,13 @@ abstract class InstallerEvent extends AbstractImmutableEvent
     /**
      * Update the package.
      *
-     * @param   array|\ArrayAccess|null  $value  The value to set
+     * @param   ?array  $value  The value to set
      *
      * @return  static
      *
      * @since  5.0.0
      */
-    public function updatePackage(array|\ArrayAccess|null $value): static
+    public function updatePackage(?array $value): static
     {
         $this->arguments['package'] = $value;
 

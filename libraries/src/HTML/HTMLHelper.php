@@ -162,7 +162,18 @@ abstract class HTMLHelper
             \JLoader::register($className, $path);
 
             if (!class_exists($className)) {
-                throw new \InvalidArgumentException(sprintf('%s not found.', $className), 500);
+                if ($prefix !== 'Joomla\\CMS\\HTML\\HTMLHelper') {
+                    throw new \InvalidArgumentException(sprintf('%s not found.', $className), 500);
+                }
+
+                // @deprecated with 5.0 remove with 6.0 or 7.0 (depends of other relevant code)
+                $className = 'JHtml' . ucfirst($file);
+
+                \JLoader::register($className, $path);
+
+                if (!class_exists($className)) {
+                    throw new \InvalidArgumentException(sprintf('%s not found.', $className), 500);
+                }
             }
         }
 
@@ -433,19 +444,39 @@ abstract class HTMLHelper
                             $includes[] = $found;
 
                             break;
-                        } else {
-                            // If the file contains any /: it can be in a media extension subfolder
+                        }
+
+                        // If the file contains any /: it can be in a media extension subfolder
+                        if (strpos($file, '/')) {
+                            // Divide the file extracting the extension as the first part before /
+                            list($extension, $file) = explode('/', $file, 2);
+
+                            // If the file yet contains any /: it can be a plugin
                             if (strpos($file, '/')) {
-                                // Divide the file extracting the extension as the first part before /
-                                list($extension, $file) = explode('/', $file, 2);
+                                // Divide the file extracting the element as the first part before /
+                                list($element, $file) = explode('/', $file, 2);
 
-                                // If the file yet contains any /: it can be a plugin
-                                if (strpos($file, '/')) {
-                                    // Divide the file extracting the element as the first part before /
-                                    list($element, $file) = explode('/', $file, 2);
+                                // Try to deal with plugins group in the media folder
+                                $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/$extension/$element/$folder/$file", $ext, $debugMode);
 
-                                    // Try to deal with plugins group in the media folder
-                                    $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/$extension/$element/$folder/$file", $ext, $debugMode);
+                                if (!empty($found)) {
+                                    $includes[] = $found;
+
+                                    break;
+                                }
+
+                                // Try to deal with classical file in a media subfolder called element
+                                $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/$extension/$folder/$element/$file", $ext, $debugMode);
+
+                                if (!empty($found)) {
+                                    $includes[] = $found;
+
+                                    break;
+                                }
+
+                                // Try to deal with system files in the template folder
+                                if (!empty($template->parent)) {
+                                    $found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$element/$file", $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
@@ -453,82 +484,16 @@ abstract class HTMLHelper
                                         break;
                                     }
 
-                                    // Try to deal with classical file in a media subfolder called element
-                                    $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/$extension/$folder/$element/$file", $ext, $debugMode);
+                                    $found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$element/$file", $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
 
                                         break;
-                                    }
-
-                                    // Try to deal with system files in the template folder
-                                    if (!empty($template->parent)) {
-                                        $found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$element/$file", $ext, $debugMode);
-
-                                        if (!empty($found)) {
-                                            $includes[] = $found;
-
-                                            break;
-                                        }
-
-                                        $found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$element/$file", $ext, $debugMode);
-
-                                        if (!empty($found)) {
-                                            $includes[] = $found;
-
-                                            break;
-                                        }
-                                    } else {
-                                        // Try to deal with system files in the media folder
-                                        $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/system/$folder/$element/$file", $ext, $debugMode);
-
-                                        if (!empty($found)) {
-                                            $includes[] = $found;
-
-                                            break;
-                                        }
                                     }
                                 } else {
-                                    // Try to deal with files in the extension's media folder
-                                    $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/$extension/$folder/$file", $ext, $debugMode);
-
-                                    if (!empty($found)) {
-                                        $includes[] = $found;
-
-                                        break;
-                                    }
-
-                                    // Try to deal with system files in the template folder
-                                    if (!empty($template->parent)) {
-                                        $found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
-
-                                        if (!empty($found)) {
-                                            $includes[] = $found;
-
-                                            break;
-                                        }
-
-                                        $found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$file", $ext, $debugMode);
-
-                                        if (!empty($found)) {
-                                            $includes[] = $found;
-
-                                            break;
-                                        }
-                                    } else {
-                                        // Try to deal with system files in the template folder
-                                        $found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
-
-                                        if (!empty($found)) {
-                                            $includes[] = $found;
-
-                                            break;
-                                        }
-                                    }
-
                                     // Try to deal with system files in the media folder
-                                    $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/system/$folder/$file", $ext, $debugMode);
+                                    $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/system/$folder/$element/$file", $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
@@ -537,6 +502,43 @@ abstract class HTMLHelper
                                     }
                                 }
                             } else {
+                                // Try to deal with files in the extension's media folder
+                                $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/$extension/$folder/$file", $ext, $debugMode);
+
+                                if (!empty($found)) {
+                                    $includes[] = $found;
+
+                                    break;
+                                }
+
+                                // Try to deal with system files in the template folder
+                                if (!empty($template->parent)) {
+                                    $found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
+
+                                    if (!empty($found)) {
+                                        $includes[] = $found;
+
+                                        break;
+                                    }
+
+                                    $found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$file", $ext, $debugMode);
+
+                                    if (!empty($found)) {
+                                        $includes[] = $found;
+
+                                        break;
+                                    }
+                                } else {
+                                    // Try to deal with system files in the template folder
+                                    $found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
+
+                                    if (!empty($found)) {
+                                        $includes[] = $found;
+
+                                        break;
+                                    }
+                                }
+
                                 // Try to deal with system files in the media folder
                                 $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/system/$folder/$file", $ext, $debugMode);
 
@@ -545,6 +547,15 @@ abstract class HTMLHelper
 
                                     break;
                                 }
+                            }
+                        } else {
+                            // Try to deal with system files in the media folder
+                            $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/system/$folder/$file", $ext, $debugMode);
+
+                            if (!empty($found)) {
+                                $includes[] = $found;
+
+                                break;
                             }
                         }
                     }

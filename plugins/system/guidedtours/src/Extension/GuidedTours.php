@@ -74,8 +74,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      */
     public function __construct(DispatcherInterface $dispatcher, array $config = [], bool $enabled = false)
     {
-        $this->autoloadLanguage = $enabled;
-        self::$enabled          = $enabled;
+        self::$enabled = $enabled;
 
         parent::__construct($dispatcher, $config);
     }
@@ -110,6 +109,9 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
 
         $tour = null;
 
+        // Load plugin language files
+        $this->loadLanguage();
+
         if ($tourId > 0) {
             $tour = $this->getTour($tourId);
         } elseif ($tourUid !== '') {
@@ -135,6 +137,9 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $user = $app->getIdentity();
 
         if ($user != null && $user->id > 0) {
+            // Load plugin language files
+            $this->loadLanguage();
+
             Text::script('JCANCEL');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_BACK');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_COMPLETE');

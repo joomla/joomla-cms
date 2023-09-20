@@ -893,7 +893,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
         $isSuperUserGroupBefore = Access::checkGroup($permission['rule'], 'core.admin');
 
         // Check if current user belongs to changed group.
-        $currentUserBelongsToGroup = in_array((int) $permission['rule'], $user->groups) ? true : false;
+        $currentUserBelongsToGroup = in_array((int) $permission['rule'], $user->groups);
 
         // Get current user groups tree.
         $currentUserGroupsTree = Access::getGroupsByUser($user->id, true);

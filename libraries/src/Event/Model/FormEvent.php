@@ -105,6 +105,20 @@ abstract class FormEvent extends AbstractImmutableEvent
     }
 
     /**
+     * Setter for the data argument.
+     *
+     * @param   object|array  $value  The value to set
+     *
+     * @return  object|array
+     *
+     * @since  5.0.0
+     */
+    protected function setData(object|array $value): object|array
+    {
+        return $value;
+    }
+
+    /**
      * Getter for the form.
      *
      * @return  Form
@@ -123,7 +137,7 @@ abstract class FormEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    public function getData()
+    public function getData(): object|array
     {
         return $this->arguments['data'];
     }

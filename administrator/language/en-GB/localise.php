@@ -35,11 +35,13 @@ abstract class En_GBLocalise
     {
         if ($count == 0) {
             return ['0'];
-        } elseif ($count == 1) {
-            return ['ONE', '1'];
-        } else {
-            return ['OTHER', 'MORE'];
         }
+
+        if ($count == 1) {
+            return ['ONE', '1'];
+        }
+
+        return ['OTHER', 'MORE'];
     }
 
     /**
