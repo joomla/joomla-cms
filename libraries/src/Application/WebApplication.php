@@ -50,6 +50,8 @@ abstract class WebApplication extends AbstractWebApplication
      *
      * @var    integer
      * @since  4.3.0
+     *
+     * @deprecated 4.4.0 will be removed in 6.0 as this property is not used anymore
      */
     public $item_associations;
 
