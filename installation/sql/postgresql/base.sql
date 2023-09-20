@@ -461,7 +461,7 @@ SELECT setval('#__languages_lang_id_seq', 2, false);
 
 CREATE TABLE IF NOT EXISTS "#__menu" (
   "id" serial NOT NULL,
-  "menutype" varchar(24) NOT NULL,
+  "menutype" varchar(48) NOT NULL,
   "title" varchar(255) NOT NULL,
   "alias" varchar(255) NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
@@ -573,7 +573,7 @@ SELECT setval('#__menu_id_seq', 102, false);
 CREATE TABLE IF NOT EXISTS "#__menu_types" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
-  "menutype" varchar(24) NOT NULL,
+  "menutype" varchar(48) NOT NULL,
   "title" varchar(48) NOT NULL,
   "description" varchar(255) DEFAULT '' NOT NULL,
   "client_id" int DEFAULT 0 NOT NULL,
