@@ -238,7 +238,7 @@ final class Version
      */
     public function generateMediaVersion(): string
     {
-        return substr(md5($this->getLongVersion() . Factory::getApplication()->get('secret') . (new Date())->toSql()), 0, 4);
+        return substr(md5($this->getLongVersion() . Factory::getApplication()->get('secret') . (new Date())->toSql()), 0, 6);
     }
 
     /**
