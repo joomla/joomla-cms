@@ -57,7 +57,7 @@ class BeforeValidateDataEvent extends FormEvent
      */
     public function updateData(object|array $value): static
     {
-        $this->arguments['data'] = $this->setData($value);
+        $this->arguments['data'] = $this->onSetData($value);
 
         return $this;
     }

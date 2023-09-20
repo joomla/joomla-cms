@@ -136,7 +136,7 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
      */
     public function updateItems(array $value): static
     {
-        $this->arguments['items'] = $this->setItems($value);
+        $this->arguments['items'] = $this->onSetItems($value);
 
         return $this;
     }
