@@ -14,7 +14,7 @@ use Cron\CronExpression;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -128,7 +128,7 @@ class ExecRuleHelper
     private function dateTimeToSql(\DateTime $dateTime): string
     {
         static $db;
-        $db = $db ?? Factory::getContainer()->get(DatabaseDriver::class);
+        $db = $db ?? Factory::getContainer()->get(DatabaseInterface::class);
 
         return $dateTime->format($db->getDateFormat());
     }

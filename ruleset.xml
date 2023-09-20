@@ -234,10 +234,6 @@
         <exclude-pattern type="relative">libraries/src/Updater/Update\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Updater/UpdateAdapter\.php</exclude-pattern>
         <exclude-pattern type="relative">modules/mod_articles_category/src/Helper/ArticlesCategoryHelper\.php</exclude-pattern>
-        <exclude-pattern type="relative">plugins/content/joomla/joomla\.php</exclude-pattern>
-        <exclude-pattern type="relative">plugins/content/loadmodule/loadmodule\.php</exclude-pattern>
-        <exclude-pattern type="relative">plugins/content/pagebreak/pagebreak\.php</exclude-pattern>
-        <exclude-pattern type="relative">plugins/user/joomla/joomla\.php</exclude-pattern>
         <exclude-pattern type="relative">tests/</exclude-pattern>
     </rule>
 

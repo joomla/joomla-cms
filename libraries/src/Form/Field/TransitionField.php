@@ -87,15 +87,12 @@ class TransitionField extends GroupedlistField
     /**
      * Method to get a list of options for a list input.
      *
-     * @return  array  An array of HTMLHelper options.
+     * @return  array[]  An array of HTMLHelper options.
      *
      * @since  4.0.0
      */
     protected function getGroups()
     {
-        // Let's get the id for the current item, either category or content item.
-        $jinput = Factory::getApplication()->getInput();
-
         // Initialise variable.
         $db            = $this->getDatabase();
         $extension     = $this->extension;

@@ -43,8 +43,8 @@ class QuickIconHelper
      * This method returns the array by reference so it can be
      * used to add custom buttons or remove default ones.
      *
-     * @param   Registry        $params       The module parameters
-     * @param   CMSApplication  $application  The application
+     * @param   Registry         $params       The module parameters
+     * @param   ?CMSApplication  $application  The application
      *
      * @return  array  An array of buttons
      *
@@ -299,7 +299,7 @@ class QuickIconHelper
                 $this->buttons[$key][] = $tmp;
             }
 
-            if (ComponentHelper::isEnabled('com_contacts') && $params->get('show_contact')) {
+            if (ComponentHelper::isEnabled('com_contact') && $params->get('show_contact')) {
                 $tmp = [
                     'image'   => 'icon-address-book contact',
                     'link'    => Route::_('index.php?option=com_contact&view=contacts'),

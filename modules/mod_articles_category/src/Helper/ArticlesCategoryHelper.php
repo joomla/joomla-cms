@@ -11,6 +11,7 @@
 namespace Joomla\Module\ArticlesCategory\Site\Helper;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
@@ -19,6 +20,9 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -30,20 +34,22 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-abstract class ArticlesCategoryHelper
+class ArticlesCategoryHelper implements DatabaseAwareInterface
 {
+    use DatabaseAwareTrait;
+
     /**
-     * Get a list of articles from a specific category
+     * Retrieve a list of article
      *
-     * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
+     * @param   Registry         $params  The module parameters.
+     * @param   SiteApplication  $app           The current application.
      *
-     * @return  mixed
+     * @return  object[]
      *
-     * @since  1.6
+     * @since   4.4.0
      */
-    public static function getList(&$params)
+    public function getArticles(Registry $params, SiteApplication $app)
     {
-        $app     = Factory::getApplication();
         $factory = $app->bootComponent('com_content')->getMVCFactory();
 
         // Get an instance of the generic articles model
@@ -63,7 +69,7 @@ abstract class ArticlesCategoryHelper
 
         // Access filter
         $access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
-        $authorised = Access::getAuthorisedViewLevels(Factory::getUser()->get('id'));
+        $authorised = Access::getAuthorisedViewLevels($app->getIdentity()->get('id'));
         $articles->setState('filter.access', $access);
 
         // Prep for Normal or Dynamic Modes
@@ -159,7 +165,7 @@ abstract class ArticlesCategoryHelper
 
         switch ($ordering) {
             case 'random':
-                $articles->setState('list.ordering', Factory::getDbo()->getQuery(true)->rand());
+                $articles->setState('list.ordering', $this->getDatabase()->getQuery(true)->rand());
                 break;
 
             case 'rating_count':
@@ -280,7 +286,57 @@ abstract class ArticlesCategoryHelper
             $item->displayReadmore  = $item->alternative_readmore;
         }
 
+        // Check if items need be grouped
+        $article_grouping           = $params->get('article_grouping', 'none');
+        $article_grouping_direction = $params->get('article_grouping_direction', 'ksort');
+        $grouped                    = $article_grouping !== 'none';
+
+        if ($items && $grouped) {
+            switch ($article_grouping) {
+                case 'year':
+                case 'month_year':
+                    $items = ArticlesCategoryHelper::groupByDate(
+                        $items,
+                        $article_grouping_direction,
+                        $article_grouping,
+                        $params->get('month_year_format', 'F Y'),
+                        $params->get('date_grouping_field', 'created')
+                    );
+                    break;
+                case 'author':
+                case 'category_title':
+                    $items = ArticlesCategoryHelper::groupBy($items, $article_grouping, $article_grouping_direction);
+                    break;
+                case 'tags':
+                    $items = ArticlesCategoryHelper::groupByTags($items, $article_grouping_direction);
+                    break;
+            }
+        }
+
         return $items;
+    }
+
+    /**
+     * Get a list of articles from a specific category
+     *
+     * @param   Registry  &$params  object holding the models parameters
+     *
+     * @return  array  The array of users
+     *
+     * @since   1.6
+     *
+     * @deprecated  4.4.0  will be removed in 6.0
+     *              Use the non-static method getArticles
+     *              Example: Factory::getApplication()->bootModule('mod_articles_category', 'site')
+     *                           ->getHelper('ArticlesCategoryHelper')
+     *                           ->getArticles($params, Factory::getApplication())
+     */
+    public static function getList(&$params)
+    {
+        /* @var SiteApplication $app */
+        $app = Factory::getApplication();
+
+        return (new self())->getArticles($params, $app);
     }
 
     /**
@@ -288,17 +344,16 @@ abstract class ArticlesCategoryHelper
      *
      * @param   string  $introtext  introtext to sanitize
      *
-     * @return mixed|string
+     * @return  string
      *
-     * @since  1.6
+     * @since   1.6
      */
     public static function _cleanIntrotext($introtext)
     {
         $introtext = str_replace(['<p>', '</p>'], ' ', $introtext);
         $introtext = strip_tags($introtext, '<a><em><strong><joomla-hidden-mail>');
-        $introtext = trim($introtext);
 
-        return $introtext;
+        return trim($introtext);
     }
 
     /**
@@ -307,8 +362,8 @@ abstract class ArticlesCategoryHelper
      * The goal is to get the proper length plain text string with as much of
      * the html intact as possible with all tags properly closed.
      *
-     * @param   string   $html       The content of the introtext to be truncated
-     * @param   integer  $maxLength  The maximum number of characters to render
+     * @param   string  $html       The content of the introtext to be truncated
+     * @param   int     $maxLength  The maximum number of characters to render
      *
      * @return  string  The truncated string
      *
@@ -319,14 +374,14 @@ abstract class ArticlesCategoryHelper
         $baseLength = \strlen($html);
 
         // First get the plain text string. This is the rendered text we want to end up with.
-        $ptString = HTMLHelper::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = false);
+        $ptString = HTMLHelper::_('string.truncate', $html, $maxLength, true, false);
 
         for ($maxLength; $maxLength < $baseLength;) {
             // Now get the string if we allow html.
-            $htmlString = HTMLHelper::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = true);
+            $htmlString = HTMLHelper::_('string.truncate', $html, $maxLength, true, true);
 
             // Now get the plain text from the html string.
-            $htmlStringToPtString = HTMLHelper::_('string.truncate', $htmlString, $maxLength, $noSplit = true, $allowHtml = false);
+            $htmlStringToPtString = HTMLHelper::_('string.truncate', $htmlString, $maxLength, true, false);
 
             // If the new plain text string matches the original plain text string we are done.
             if ($ptString === $htmlStringToPtString) {
@@ -344,7 +399,7 @@ abstract class ArticlesCategoryHelper
             }
         }
 
-        return $html;
+        return $ptString;
     }
 
     /**
