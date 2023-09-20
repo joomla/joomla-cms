@@ -130,7 +130,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
      * The time spent in onAfterDisconnect()
      *
      * @var   float
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      */
     protected $timeInOnAfterDisconnect = 0;
 

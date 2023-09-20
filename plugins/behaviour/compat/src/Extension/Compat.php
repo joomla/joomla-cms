@@ -20,7 +20,7 @@ use Joomla\Event\SubscriberInterface;
 /**
  * Joomla! Compat Plugin.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.4.0
  */
 final class Compat extends CMSPlugin implements SubscriberInterface
 {
@@ -29,7 +29,7 @@ final class Compat extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.0
      */
     public static function getSubscribedEvents(): array
     {
