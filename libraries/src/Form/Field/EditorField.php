@@ -91,7 +91,7 @@ class EditorField extends TextareaField
     /**
      * The hide of the editor.
      *
-     * @var    array
+     * @var    string[]
      * @since  3.2
      */
     protected $hide;
@@ -99,7 +99,7 @@ class EditorField extends TextareaField
     /**
      * The editorType of the editor.
      *
-     * @var    array
+     * @var    string[]
      * @since  3.2
      */
     protected $editorType;

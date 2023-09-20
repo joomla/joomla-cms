@@ -538,7 +538,7 @@ abstract class JLoader
      *
      * @param   string  $class  The fully qualified class name to autoload.
      *
-     * @return  boolean  True on success, false otherwise.
+     * @return  void
      *
      * @since   3.2
      */
