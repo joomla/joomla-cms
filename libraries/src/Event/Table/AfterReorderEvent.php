@@ -50,6 +50,9 @@ class AfterReorderEvent extends AbstractEvent
      * @return  mixed
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setWhere($value)
     {
@@ -58,5 +61,21 @@ class AfterReorderEvent extends AbstractEvent
         }
 
         return $value;
+    }
+
+    /**
+     * Setter for the where argument
+     *
+     * @param   array|string|null  $value  A string or array of where conditions.
+     *
+     * @return  mixed
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function onSetWhere($value)
+    {
+        return $this->setWhere($value);
     }
 }

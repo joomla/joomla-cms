@@ -245,7 +245,7 @@ class ProfileCollector extends AbstractDataCollector
      *
      * @return $this
      *
-     * @since  5.0.0
+     * @since  4.4.0
      */
     public function setRequestEndTime($time): self
     {
