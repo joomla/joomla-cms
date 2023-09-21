@@ -801,14 +801,12 @@ final class Blog extends CMSPlugin
         for ($i = 0; $i <= 2; $i++) {
             $menu = [
                 'id'          => 0,
-                'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_TITLE') . $langSuffix,
+                'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_TITLE'),
                 'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_DESCRIPTION'),
             ];
 
             // Calculate menutype. The number of characters allowed is 24.
-            $type = HTMLHelper::_('string.truncate', $menu['title'], 16, true, false);
-
-            $menu['menutype'] = $i . $type;
+            $menu['menutype'] = $i . HTMLHelper::_('string.truncate', $menu['title'], 16, true, false)  . $langSuffix;
 
             try {
                 $menuTable->load();
