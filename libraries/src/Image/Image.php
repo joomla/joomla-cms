@@ -125,14 +125,8 @@ class Image
             static::$formats[IMAGETYPE_WEBP] = $info['WebP Support'];
         }
 
-        /**
-         * If the source input is a resource, set it as the image handle.
-         * @todo: Remove check for resource when we only support PHP 8
-         */
-        if (
-            $source && (\is_object($source) && get_class($source) == 'GdImage')
-            || (\is_resource($source) && get_resource_type($source) == 'gd')
-        ) {
+        // If the source input is a resource, set it as the image handle.
+        if (\is_resource($source) && get_resource_type($source) == 'gd') {
             $this->handle = $source;
         } elseif (!empty($source) && \is_string($source)) {
             // If the source input is not empty, assume it is a path and populate the image handle.
