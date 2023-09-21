@@ -76,7 +76,7 @@ class AfterRenderModulesEvent extends ModuleEvent
      *
      * @since  5.0.0
      */
-    protected function setContent(string $value): string
+    protected function onSetContent(string $value): string
     {
         return $value;
     }
@@ -90,7 +90,7 @@ class AfterRenderModulesEvent extends ModuleEvent
      *
      * @since  5.0.0
      */
-    protected function setAttributes(array $value): array
+    protected function onSetAttributes(array $value): array
     {
         return $value;
     }
@@ -118,7 +118,7 @@ class AfterRenderModulesEvent extends ModuleEvent
      */
     public function updateContent(string $value): static
     {
-        $this->arguments['content'] = $this->setContent($value);
+        $this->arguments['content'] = $this->onSetContent($value);
 
         return $this;
     }

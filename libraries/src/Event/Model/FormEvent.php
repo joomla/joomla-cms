@@ -73,7 +73,7 @@ abstract class FormEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setContext(string $value): string
+    protected function onSetContext(string $value): string
     {
         return $value;
     }
@@ -99,7 +99,7 @@ abstract class FormEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(Form $value): Form
+    protected function onSetSubject(Form $value): Form
     {
         return $value;
     }
@@ -113,7 +113,7 @@ abstract class FormEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setData(object|array $value): object|array
+    protected function onSetData(object|array $value): object|array
     {
         return $value;
     }

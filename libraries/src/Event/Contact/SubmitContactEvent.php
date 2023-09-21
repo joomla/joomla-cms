@@ -81,7 +81,7 @@ class SubmitContactEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(object $value): object
+    protected function onSetSubject(object $value): object
     {
         return $value;
     }
@@ -95,7 +95,7 @@ class SubmitContactEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setData(array $value): array
+    protected function onSetData(array $value): array
     {
         return $value;
     }
@@ -135,7 +135,7 @@ class SubmitContactEvent extends AbstractImmutableEvent
      */
     public function updateData(array $value): static
     {
-        $this->arguments['data'] = $this->setData($value);
+        $this->arguments['data'] = $this->onSetData($value);
 
         return $this;
     }

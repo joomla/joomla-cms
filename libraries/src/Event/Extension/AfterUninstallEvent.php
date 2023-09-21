@@ -68,7 +68,7 @@ class AfterUninstallEvent extends AbstractExtensionEvent
      *
      * @since  5.0.0
      */
-    protected function setInstaller(Installer $value): Installer
+    protected function onSetInstaller(Installer $value): Installer
     {
         return $value;
     }
@@ -82,7 +82,7 @@ class AfterUninstallEvent extends AbstractExtensionEvent
      *
      * @since  5.0.0
      */
-    protected function setEid(int $value): int
+    protected function onSetEid(int $value): int
     {
         return $value;
     }
@@ -96,7 +96,7 @@ class AfterUninstallEvent extends AbstractExtensionEvent
      *
      * @since  5.0.0
      */
-    protected function setRemoved(bool $value): bool
+    protected function onSetRemoved(bool $value): bool
     {
         return $value;
     }

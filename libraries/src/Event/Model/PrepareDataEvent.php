@@ -72,7 +72,7 @@ class PrepareDataEvent extends ModelEvent
      *
      * @since  5.0.0
      */
-    protected function setData(object|array $value): object|array
+    protected function onSetData(object|array $value): object|array
     {
         return $value;
     }
@@ -100,7 +100,7 @@ class PrepareDataEvent extends ModelEvent
      */
     public function updateData(object|array $value): static
     {
-        $this->arguments['data'] = $this->setData($value);
+        $this->arguments['data'] = $this->onSetData($value);
 
         return $this;
     }

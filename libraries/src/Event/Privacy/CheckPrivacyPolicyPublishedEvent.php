@@ -69,7 +69,7 @@ class CheckPrivacyPolicyPublishedEvent extends PrivacyEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(array $value): array
+    protected function onSetSubject(array $value): array
     {
         if (!\array_key_exists('published', $value) || !\array_key_exists('articlePublished', $value) || !\array_key_exists('editLink', $value)) {
             throw new \UnexpectedValueException("Argument 'subject' of event {$this->name} is not of the expected type");
@@ -101,7 +101,7 @@ class CheckPrivacyPolicyPublishedEvent extends PrivacyEvent
      */
     public function updatePolicyInfo(array $value): static
     {
-        $this->arguments['subject'] = $this->setSubject($value);
+        $this->arguments['subject'] = $this->onSetSubject($value);
 
         return $this;
     }
