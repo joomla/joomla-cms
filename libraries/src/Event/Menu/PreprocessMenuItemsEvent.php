@@ -83,7 +83,7 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setContext(string $value): string
+    protected function onSetContext(string $value): string
     {
         return $value;
     }
@@ -97,7 +97,7 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(array $value): array
+    protected function onSetSubject(array $value): array
     {
         // Filter out MenuItem elements. Non empty result means invalid data
         $valid = !array_filter($value, function ($item) {
@@ -120,7 +120,7 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setParams(?Registry $value): ?Registry
+    protected function onSetParams(?Registry $value): ?Registry
     {
         return $value;
     }
@@ -134,7 +134,7 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setEnabled(?bool $value): ?bool
+    protected function onSetEnabled(?bool $value): ?bool
     {
         return $value;
     }
@@ -194,11 +194,11 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function updateItems(array $value): static
     {
-        $this->arguments['subject'] = $this->setSubject($value);
+        $this->arguments['subject'] = $this->onSetSubject($value);
 
         return $this;
     }

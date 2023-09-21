@@ -50,7 +50,7 @@ abstract class ApplicationDocumentEvent extends ApplicationEvent
      *
      * @since  5.0.0
      */
-    protected function setDocument(Document $value): Document
+    protected function onSetDocument(Document $value): Document
     {
         return $value;
     }

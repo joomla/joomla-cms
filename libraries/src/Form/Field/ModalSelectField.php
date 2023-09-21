@@ -66,7 +66,7 @@ class ModalSelectField extends FormField
      * List of icons for each button type: select, edit, new
      *
      * @var    string[]
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $buttonIcons = [];
 
