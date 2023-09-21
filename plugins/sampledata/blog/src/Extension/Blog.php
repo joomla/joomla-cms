@@ -806,7 +806,7 @@ final class Blog extends CMSPlugin
             ];
 
             // Calculate menutype. The number of characters allowed is 24.
-            $menu['menutype'] = $i . HTMLHelper::_('string.truncate', $menu['title'], 16, true, false)  . $langSuffix;
+            $menu['menutype'] = $i . HTMLHelper::_('string.truncate', $menu['title'], 16, true, false) . $langSuffix;
 
             try {
                 $menuTable->load();
