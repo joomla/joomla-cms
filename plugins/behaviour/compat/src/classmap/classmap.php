@@ -73,7 +73,6 @@ JLoader::registerAlias('JTableModule', '\\Joomla\\CMS\\Table\\Module', '6.0');
 // Special cases for renamed PascalCase table names which could not be autodetected by the new Table::getInstance function
 JLoader::registerAlias('\\Joomla\\CMS\\Table\\Updatesite', '\\Joomla\\CMS\\Table\\UpdateSite', '6.0');
 JLoader::registerAlias('\\Joomla\\CMS\\Table\\Viewlevel', '\\Joomla\\CMS\\Table\\ViewLevel', '6.0');
-JLoader::registerAlias('\\Joomla\\CMS\\Table\\Contenthistory', '\\Joomla\\CMS\\Table\\ContentHistory', '6.0');
 JLoader::registerAlias('\\Joomla\\CMS\\Table\\Contenttype', '\\Joomla\\CMS\\Table\\ContentType', '6.0');
 JLoader::registerAlias('\\Joomla\\CMS\\Table\\Corecontent', '\\Joomla\\CMS\\Table\\CoreContent', '6.0');
 
