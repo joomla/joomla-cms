@@ -21,7 +21,7 @@
     "watch:com_media": "node build/build.js --watch-com-media",
     "lint:js": "eslint --config build/.eslintrc --ignore-pattern '/media/' --ext .es6.js,.es6,.vue .",
     "lint:testjs": "eslint --config build/.eslintrc --ext .js tests/System",
-    "lint:css": "stylelint --config build/.stylelintrc.json \"administrator/components/com_media/resources/**/*.scss\" \"administrator/templates/**/*.scss\" \"build/media_source/**/*.scss\" \"templates/**/*.scss\" \"installation/template/**/*.scss\"",
+    "lint:css": "stylelint --config build/.stylelintrc.json \"administrator/components/com_media/resources/**/*.scss\" \"administrator/templates/**/*.scss\" \"build/media_source/**/*.scss\" \"build/media_source/**/*.css\" \"templates/**/*.scss\" \"installation/template/**/*.scss\"",
     "install": "node build/build.js --prepare",
     "update": "node build/build.js --copy-assets && node build/build.js --build-pages && node build/build.js --compile-js && node build/build.js --compile-css && node build/build.js --compile-bs && set NODE_ENV=PRODUCTION && node build/build.js --com-media",
     "gzip": "node build/build.js --gzip",
