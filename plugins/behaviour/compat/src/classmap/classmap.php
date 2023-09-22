@@ -70,12 +70,6 @@ JLoader::registerAlias('JTableMenu', '\\Joomla\\CMS\\Table\\Menu', '6.0');
 JLoader::registerAlias('JTableMenuType', '\\Joomla\\CMS\\Table\\MenuType', '6.0');
 JLoader::registerAlias('JTableModule', '\\Joomla\\CMS\\Table\\Module', '6.0');
 
-// Special cases for renamed PascalCase table names which could not be autodetected by the new Table::getInstance function
-JLoader::registerAlias('\\Joomla\\CMS\\Table\\Updatesite', '\\Joomla\\CMS\\Table\\UpdateSite', '6.0');
-JLoader::registerAlias('\\Joomla\\CMS\\Table\\Viewlevel', '\\Joomla\\CMS\\Table\\ViewLevel', '6.0');
-JLoader::registerAlias('\\Joomla\\CMS\\Table\\Contenttype', '\\Joomla\\CMS\\Table\\ContentType', '6.0');
-JLoader::registerAlias('\\Joomla\\CMS\\Table\\Corecontent', '\\Joomla\\CMS\\Table\\CoreContent', '6.0');
-
 JLoader::registerAlias('JAccess', '\\Joomla\\CMS\\Access\\Access', '6.0');
 JLoader::registerAlias('JAccessRule', '\\Joomla\\CMS\\Access\\Rule', '6.0');
 JLoader::registerAlias('JAccessRules', '\\Joomla\\CMS\\Access\\Rules', '6.0');
