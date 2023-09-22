@@ -102,7 +102,6 @@
     "jfcherng/php-diff": "^6.15.3",
     "voku/portable-utf8": "^6.0.13"
   },
-  "__comment": "Stick to version 3.4.0 till https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is solved",
   "require-dev": {
     "phpunit/phpunit": "^9.6.11",
     "friendsofphp/php-cs-fixer": "3.4.0",
