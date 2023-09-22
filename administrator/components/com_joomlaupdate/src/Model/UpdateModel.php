@@ -1878,7 +1878,7 @@ ENDDATA;
         }
 
         // Open the file
-        $fp = @fopen($filePath, 'r');
+        $fp = @fopen($filePath, 'rb');
 
         if ($fp === false) {
             throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
