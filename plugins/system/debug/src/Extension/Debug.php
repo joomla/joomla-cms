@@ -306,7 +306,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
 
             if ($this->params->get('queries', 1)) {
                 // Close session to collect possible session-related queries.
-                $this->getApplication()->getSession()->close();
+              //  $this->getApplication()->getSession()->close();
 
                 // Call $db->disconnect() here to trigger the onAfterDisconnect() method here in this class!
                 $this->getDatabase()->disconnect();
