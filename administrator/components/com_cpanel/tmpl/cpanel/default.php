@@ -59,7 +59,7 @@ echo HTMLHelper::_(
                 echo ModuleHelper::renderModule($iconmodule, [
                    'style' => 'well',
                    'class' => 'quickicons-for-' . $modParams->get('context', ''),
-               ]);
+                ]);
             }
         endif;
         foreach ($this->modules as $module) {
