@@ -33,6 +33,11 @@ if ($headerClass !== 'card-title') :
     $headerAttribs['class'] = 'card-header ' . $headerClass;
 endif;
 
+// Add class from attributes if any
+if (!empty($attribs['class'])) {
+    $moduleAttribs['class'] .= ' ' . $attribs['class'];
+}
+
 // Only add aria if the moduleTag is not a div
 if ($moduleTag !== 'div') {
     if ($module->showtitle) :
