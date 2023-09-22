@@ -38,7 +38,7 @@ if ($headerClass !== '') {
 
 // Add class from attributes if any
 if (!empty($attribs['class'])) {
-    $moduleAttribs['class'] .= ' ' . $attribs['class'];
+    $moduleAttribs['class'] .= ' ' . htmlspecialchars($attribs['class'], ENT_QUOTES, 'UTF-8');
 }
 
 // Only add aria if the moduleTag is not a div

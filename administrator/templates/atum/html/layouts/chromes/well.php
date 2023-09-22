@@ -38,7 +38,7 @@ $moduleClassSfx = $params->get('moduleclass_sfx', '');
 
 // Add class from attributes if any
 if (!empty($attribs['class'])) {
-    $moduleClass .= ' ' . $attribs['class'];
+    $moduleClass .= ' ' . htmlspecialchars($attribs['class'], ENT_QUOTES, 'UTF-8');
 }
 
 // Temporarily store header class in variable
