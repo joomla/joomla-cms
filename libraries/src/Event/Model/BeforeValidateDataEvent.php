@@ -30,7 +30,7 @@ class BeforeValidateDataEvent extends FormEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -53,11 +53,11 @@ class BeforeValidateDataEvent extends FormEvent
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function updateData(object|array $value): static
     {
-        $this->arguments['data'] = $this->setData($value);
+        $this->arguments['data'] = $this->onSetData($value);
 
         return $this;
     }

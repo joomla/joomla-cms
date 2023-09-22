@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
 /**
  * Editor provider class
  *
- * @since   __DEPLOY_VERSION__
+ * @since   5.0.0
  */
 final class TinyMCEProvider extends AbstractEditorProvider
 {
@@ -31,7 +31,7 @@ final class TinyMCEProvider extends AbstractEditorProvider
      * A Registry object holding the parameters for the plugin
      *
      * @var    Registry
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $params;
 
@@ -40,7 +40,7 @@ final class TinyMCEProvider extends AbstractEditorProvider
      *
      * @var    CMSApplicationInterface
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $application;
 
@@ -51,7 +51,7 @@ final class TinyMCEProvider extends AbstractEditorProvider
      * @param   CMSApplicationInterface  $application
      * @param   DispatcherInterface      $dispatcher
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function __construct(
         Registry $params,
@@ -70,7 +70,7 @@ final class TinyMCEProvider extends AbstractEditorProvider
      * Return Editor name, CMD string.
      *
      * @return string
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getName(): string
     {

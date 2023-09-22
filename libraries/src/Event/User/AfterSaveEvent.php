@@ -60,7 +60,7 @@ class AfterSaveEvent extends AbstractSaveEvent
      *
      * @since  5.0.0
      */
-    protected function setSavingResult(bool $value): bool
+    protected function onSetSavingResult(bool $value): bool
     {
         return $value;
     }
@@ -74,7 +74,7 @@ class AfterSaveEvent extends AbstractSaveEvent
      *
      * @since  5.0.0
      */
-    protected function setErrorMessage(?string $value): ?string
+    protected function onSetErrorMessage(?string $value): ?string
     {
         return $value;
     }

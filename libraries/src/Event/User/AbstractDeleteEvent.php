@@ -39,7 +39,7 @@ abstract class AbstractDeleteEvent extends UserEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(array $value): array
+    protected function onSetSubject(array $value): array
     {
         return $value;
     }

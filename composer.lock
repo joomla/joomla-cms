@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "714614fe50332d95ad09eb4dcc42784a",
+    "content-hash": "0e67017f11ee2998ba0426eb2d563b40",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -2241,6 +2241,7 @@
                 "ext-memcached": "To use a Memcached server as a session handler",
                 "ext-redis": "To use a Redis server as a session handler",
                 "ext-session": "To use the Joomla\\Session\\Storage\\NativeStorage storage class.",
+                "ext-wincache": "To use WinCache as a session handler",
                 "joomla/console": "Install joomla/console if you want to use the CreateSessionTableCommand class.",
                 "joomla/database": "Install joomla/database if you want to use a database connection managed with Joomla\\Database\\DatabaseDriver as a session handler.",
                 "joomla/event": "The joomla/event package is required to use Joomla\\Session\\Session.",
@@ -10138,5 +10139,5 @@
     "platform-overrides": {
         "php": "8.1.0"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

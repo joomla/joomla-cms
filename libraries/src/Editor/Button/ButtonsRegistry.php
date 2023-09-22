@@ -16,6 +16,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -106,7 +107,7 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
         foreach ($plugins as $plugin) {
             $pluginInst = Factory::getApplication()->bootPlugin($plugin->name, 'editors-xtd');
 
-            if (!$pluginInst || $pluginInst instanceof SubscriberInterface) {
+            if ($pluginInst instanceof SubscriberInterface) {
                 continue;
             }
 
@@ -123,24 +124,29 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
             @trigger_error('6.0 Button "' . $plugin->name . '" instance should be set up onEditorButtonsSetup event.', \E_USER_DEPRECATED);
 
             // Transform Legacy buttons to Button object
+            if ($legacyButton instanceof CMSObject || $legacyButton instanceof Registry) {
+                $legacyButton = [$legacyButton];
+            }
+
             if (\is_array($legacyButton)) {
                 foreach ($legacyButton as $item) {
+                    // Extract button properties
                     if ($item instanceof CMSObject) {
-                        $props   = $item->getProperties();
-                        $options = !empty($props['options']) ? $props['options'] : [];
-                        unset($props['options']);
-
-                        $button = new Button($plugin->name, $props, $options);
-                        $this->add($button);
+                        $props = $item->getProperties();
+                    } elseif ($item instanceof Registry) {
+                        $props = $item->toArray();
+                    } else {
+                        continue;
                     }
-                }
-            } elseif ($legacyButton instanceof CMSObject) {
-                $props   = $legacyButton->getProperties();
-                $options = !empty($props['options']) ? $props['options'] : [];
-                unset($props['options']);
 
-                $button = new Button($plugin->name, $props, $options);
-                $this->add($button);
+                    $options = !empty($props['options']) ? $props['options'] : [];
+                    // Some very old buttons use string for options, but this does not work since Joomla 3, so we reset it here
+                    $options = \is_array($options) ? $options : [];
+                    unset($props['options']);
+
+                    $button = new Button($plugin->name, $props, $options);
+                    $this->add($button);
+                }
             }
         }
 

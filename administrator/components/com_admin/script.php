@@ -48,7 +48,7 @@ class JoomlaInstallerScript
      *
      * @var callable
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.0
      */
     protected $errorCollector;
 
@@ -59,7 +59,7 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.0
      */
     public function setErrorCollector(callable $callback)
     {
@@ -74,7 +74,7 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.0
      */
     protected function collectError(string $context, \Throwable $error)
     {
@@ -643,6 +643,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/mysql/4.3.2-2023-05-03.sql',
             '/administrator/components/com_admin/sql/updates/mysql/4.3.2-2023-05-20.sql',
             '/administrator/components/com_admin/sql/updates/mysql/4.4.0-2023-05-08.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/4.4.0-2023-09-13.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-03-05.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-05-15.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-07-19.sql',
@@ -706,6 +707,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-05-03.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-05-20.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.4.0-2023-05-08.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/4.4.0-2023-09-13.sql',
             '/libraries/src/Schema/ChangeItem/SqlsrvChangeItem.php',
             '/libraries/vendor/beberlei/assert/lib/Assert/Assert.php',
             '/libraries/vendor/beberlei/assert/lib/Assert/Assertion.php',
