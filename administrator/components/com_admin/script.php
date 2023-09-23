@@ -2115,6 +2115,18 @@ class JoomlaInstallerScript
             // From 5.0.0-beta1 to 5.0.0-beta2
             '/language/en-GB/lib_simplepie.sys.ini',
             '/libraries/src/Cache/Storage/WincacheStorage.php',
+            '/media/system/css/calendar-jos.css',
+            '/media/system/css/calendar-jos.min.css',
+            '/media/system/css/debug.css',
+            '/media/system/css/debug.min.css',
+            '/media/system/css/frontediting.css',
+            '/media/system/css/frontediting.min.css',
+            '/media/system/css/mootree.css',
+            '/media/system/css/mootree.min.css',
+            '/media/system/css/mootree_rtl.css',
+            '/media/system/css/mootree_rtl,min.css',
+            '/media/system/css/sortablelist.css',
+            '/media/system/css/sortablelist.min.css',
         ];
 
         $folders = [
