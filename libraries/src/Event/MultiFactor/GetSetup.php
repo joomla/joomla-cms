@@ -54,6 +54,9 @@ class GetSetup extends AbstractImmutableEvent implements ResultAwareInterface
      *
      * @return  MfaTable
      * @since   4.2.0
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     public function setRecord(MfaTable $value): MfaTable
     {
@@ -62,5 +65,18 @@ class GetSetup extends AbstractImmutableEvent implements ResultAwareInterface
         }
 
         return $value;
+    }
+
+    /**
+     * Validate the value of the 'record' named parameter
+     *
+     * @param   MfaTable  $value  The value to validate
+     *
+     * @return  MfaTable
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function onSetRecord(MfaTable $value): MfaTable
+    {
+        return $this->setRecord($value);
     }
 }
