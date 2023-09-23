@@ -1839,24 +1839,7 @@ ENDDATA;
             throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE'), 500);
         }
 
-        $manifestXml = simplexml_load_string($manifestFile);
-
-        $versionPackage = (string) $manifestXml->version ?: '';
-
-        if (!$versionPackage) {
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_VERSION_FOUND'), 500);
-        }
-
-        $currentVersion = JVERSION;
-
-        // Remove special version suffix for pull request patched packages
-        if (($pos = strpos($currentVersion, '+pr.')) !== false) {
-            $currentVersion = substr($currentVersion, 0, $pos);
-        }
-
-        if (version_compare($versionPackage, $currentVersion, 'lt')) {
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_DOWNGRADE'), 500);
-        }
+        checkPackageVersion($manifestFile);
     }
 
     /**
@@ -1982,7 +1965,22 @@ ENDDATA;
             throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE'), 500);
         }
 
-        $manifestXml = simplexml_load_string($manifestFile);
+        checkPackageVersion($manifestFile);
+    }
+
+    /**
+     * Check Joomla version of update package
+     *
+     * @param   string  $manifest  Content of the manifest XML file
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \RuntimeException
+     */
+    private function checkPackageVersion(string $manifest)
+    {
+        $manifestXml = simplexml_load_string($manifest);
 
         $versionPackage = (string) $manifestXml->version ?: '';
 
@@ -1990,7 +1988,14 @@ ENDDATA;
             throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_VERSION_FOUND'), 500);
         }
 
-        if (version_compare($versionPackage, JVERSION, 'lt')) {
+        $currentVersion = JVERSION;
+
+        // Remove special version suffix for pull request patched packages
+        if (($pos = strpos($currentVersion, '+pr.')) !== false) {
+            $currentVersion = substr($currentVersion, 0, $pos);
+        }
+
+        if (version_compare($versionPackage, $currentVersion, 'lt')) {
             throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_DOWNGRADE'), 500);
         }
     }
