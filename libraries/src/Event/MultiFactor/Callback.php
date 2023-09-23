@@ -42,6 +42,9 @@ class Callback extends AbstractImmutableEvent
      * @return  string
      * @throws  \DomainException
      * @since   4.2.0
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     public function setMethod(string $value): string
     {
@@ -50,5 +53,19 @@ class Callback extends AbstractImmutableEvent
         }
 
         return $value;
+    }
+
+    /**
+     * Validate the value of the 'method' named parameter
+     *
+     * @param   string|null  $value  The value to validate
+     *
+     * @return  string
+     * @throws  \DomainException
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function onSetMethod(string $value): string
+    {
+        return $this->setMethod($value);
     }
 }
