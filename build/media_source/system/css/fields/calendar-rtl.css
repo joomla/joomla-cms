@@ -31,6 +31,7 @@
   table-layout: fixed;
   background-color: var(--calendar-bg, #fff);
   border-radius: 5px;
+  border-collapse: separate;
 }
 
 /* The main calendar widget.  DIV containing a table. */
@@ -43,10 +44,6 @@ div.calendar-container table th, .calendar-container table td {
 
 div.calendar-container table body td {
   line-height: 2em;
-}
-
-.calendar-container table {
-  border-collapse: separate;
 }
 
 div.calendar-container table td.title { /* This holds the current "month, year" */
