@@ -277,7 +277,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  integer
      *
-     * @since   _5.0.0
+     * @since   5.0.0
      */
     public function onFinderGarbageCollection()
     {
