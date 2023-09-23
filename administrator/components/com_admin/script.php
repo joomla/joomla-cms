@@ -2115,6 +2115,7 @@ class JoomlaInstallerScript
             // From 5.0.0-beta1 to 5.0.0-beta2
             '/language/en-GB/lib_simplepie.sys.ini',
             '/libraries/src/Cache/Storage/WincacheStorage.php',
+            // From 5.0.0-beta2 to 5.0.0-beta3
             '/media/com_scheduler/css/admin-view-select-task.css',
             '/media/com_scheduler/css/admin-view-select-task.min.css',
             '/media/system/css/calendar-jos.css',
