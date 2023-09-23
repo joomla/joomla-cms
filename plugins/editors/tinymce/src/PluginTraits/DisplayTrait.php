@@ -45,7 +45,7 @@ trait DisplayTrait
      *
      * @return  string  The HTML markup of the editor
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function display(string $name, string $content = '', array $attributes = [], array $params = []): string
     {

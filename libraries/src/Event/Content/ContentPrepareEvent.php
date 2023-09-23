@@ -43,7 +43,7 @@ class ContentPrepareEvent extends ContentEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(object $value): object
+    protected function onSetSubject(object $value): object
     {
         return $value;
     }
@@ -57,7 +57,7 @@ class ContentPrepareEvent extends ContentEvent
      *
      * @since  5.0.0
      */
-    protected function setParams($value): Registry
+    protected function onSetParams($value): Registry
     {
         // This is for b/c compatibility, because some extensions pass a mixed types
         if (!$value instanceof Registry) {
@@ -82,7 +82,7 @@ class ContentPrepareEvent extends ContentEvent
      *
      * @since  5.0.0
      */
-    protected function setPage(?int $value): ?int
+    protected function onSetPage(?int $value): ?int
     {
         return $value;
     }

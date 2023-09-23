@@ -163,6 +163,18 @@
 }
 
 .choices[data-type*="select-one"] {
+  .choices__input {
+    background-color: var(--body-bg);
+  }
+
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      .choices__input {
+        border-color: var(--gray-600);
+      }
+    }
+  }
+
   .choices__item {
     display: flex;
     justify-content: space-between;

@@ -72,7 +72,8 @@
       "dependencies": [
         "core",
         "editor-decorator",
-        "editor-api"
+        "editor-api",
+        "joomla.dialog"
       ]
     },
     {

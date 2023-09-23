@@ -22,6 +22,10 @@
   }
 
   &.view-user, &.view-methods {
+    #com-users-methods-reset-container {
+      @extend .bg-light;
+    }
+
     .com-users-methods-list-method {
       @extend .card;
       @extend .mx-1;

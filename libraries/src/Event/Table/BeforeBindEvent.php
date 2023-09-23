@@ -54,6 +54,9 @@ class BeforeBindEvent extends AbstractEvent
      * @return  mixed
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setSrc($value)
     {
@@ -72,6 +75,9 @@ class BeforeBindEvent extends AbstractEvent
      * @return  mixed
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setIgnore($value)
     {
@@ -80,5 +86,37 @@ class BeforeBindEvent extends AbstractEvent
         }
 
         return $value;
+    }
+
+    /**
+     * Setter for the src argument
+     *
+     * @param   mixed  $value  The value to set
+     *
+     * @return  mixed
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function onSetSrc($value)
+    {
+        return $this->setSrc($value);
+    }
+
+    /**
+     * Setter for the ignore argument
+     *
+     * @param   mixed  $value  The value to set
+     *
+     * @return  mixed
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function onSetIgnore($value)
+    {
+        return $this->setIgnore($value);
     }
 }
