@@ -475,7 +475,6 @@ class UpdateModel extends ListModel
         // Quick change
         $this->type = $package['type'];
 
-        // @todo: Reconfigure this code when you have more battery life left
         $this->setState('name', $installer->get('name'));
         $this->setState('result', $result);
         $app->setUserState('com_installer.message', $installer->message);
