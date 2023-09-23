@@ -168,7 +168,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        // Since `navigator.sendBeacon()` may time out, allow execution after disconnect if possible.
+        // Since the the request from the frontend may time out, try allowing execution after disconnect.
         if (function_exists('ignore_user_abort')) {
             ignore_user_abort(true);
         }

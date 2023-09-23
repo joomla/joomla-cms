@@ -126,11 +126,11 @@
 
 		// Evaluate the min year
 		if (btn.dataset.minYear) {
-			self.params.minYear = parseInt(btn.dataset.minYear, 10);
+			self.params.minYear = getBoundary(parseInt(btn.dataset.minYear, 10), self.params.dateType);
 		}
 		// Evaluate the max year
 		if (btn.dataset.maxYear) {
-			self.params.maxYear = parseInt(btn.dataset.maxYear, 10);
+			self.params.maxYear = getBoundary(parseInt(btn.dataset.maxYear, 10), self.params.dateType);
 		}
 		// Evaluate the weekend days
 		if (btn.dataset.weekend) {
@@ -296,7 +296,9 @@
 
 		if (window.innerHeight < containerTmp.getBoundingClientRect().bottom + 20) {
 			containerTmp.style.marginTop = - (containerTmp.getBoundingClientRect().height + this.inputField.getBoundingClientRect().height) + "px";
-		}
+		} else {
+      containerTmp.style.marginTop = 'initial';
+    }
 
 		this.processCalendar();
 	};

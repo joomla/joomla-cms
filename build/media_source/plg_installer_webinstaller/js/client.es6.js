@@ -404,7 +404,7 @@ customElements.whenDefined('joomla-tab').then(() => {
   const installerTabs = document.getElementById('myTab');
   const link = installerTabs.querySelector('button[aria-controls=web]');
 
-  // Abort if the IFW tab cannot be found
+  // Stop if the IFW tab cannot be found
   if (!link) {
     return;
   }

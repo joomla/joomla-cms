@@ -20,7 +20,7 @@ use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Banners master display controller.
+ * Banners display controller.
  *
  * @since  1.6
  */
