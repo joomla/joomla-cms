@@ -53,9 +53,11 @@
 
 /* Default transition (.3s) is too slow, progress will not run to 100% */
 .upload-progress .progress .bar {
+  /* stylelint-disable */
   -webkit-transition: width .1s;
   -moz-transition: width .1s;
   -o-transition: width .1s;
+  /* stylelint-enable */
   transition: width .1s;
 }
 

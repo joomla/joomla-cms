@@ -29,9 +29,9 @@
   margin-right: auto;
   margin-left: auto;
   table-layout: fixed;
+  border-collapse: separate;
   background-color: var(--calendar-bg, #fff);
   border-radius: 5px;
-  border-collapse: separate;
 }
 
 /* The main calendar widget.  DIV containing a table. */

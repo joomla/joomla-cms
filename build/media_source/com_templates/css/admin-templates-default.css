@@ -115,7 +115,9 @@
 .diff-wrapper.diff th {
   font-weight: 700;
   cursor: default;
+  /* stylelint-disable */
   -webkit-user-select: none;
+  /* stylelint-enable */
   user-select: none;
 }
 .diff-wrapper.diff td {

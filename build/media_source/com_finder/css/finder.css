@@ -121,7 +121,9 @@
   content: "";
   background: hsla(60, 100%, 50%, .5);
   border-radius: 3px;
+  /* stylelint-disable */
   -webkit-transform: translate(-50%, -50%);
+  /* stylelint-enable */
   transform: translate(-50%, -50%);
 }
 
