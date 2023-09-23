@@ -12,16 +12,16 @@ namespace Joomla\CMS\Layout;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Version;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Base class for rendering a display layout
- * loaded from from a layout file
+ * loaded from a layout file
  *
  * @link   https://docs.joomla.org/Special:MyLanguage/Sharing_layouts_across_views_or_extensions_with_JLayout
  * @since  3.0
@@ -126,8 +126,7 @@ class FileLayout extends BaseLayout
 
         ob_start();
         include $path;
-        $layoutOutput .= ob_get_contents();
-        ob_end_clean();
+        $layoutOutput .= ob_get_clean();
 
         return $layoutOutput;
     }
@@ -421,11 +420,11 @@ class FileLayout extends BaseLayout
     }
 
     /**
-     * Method to change the component where search for layouts
+     * Change the component for the search paths for layouts
      *
      * @param   string  $option  URL Option of the component. Example: com_content
      *
-     * @return  mixed  Component option string | null for none
+     * @return  void
      *
      * @since   3.2
      */

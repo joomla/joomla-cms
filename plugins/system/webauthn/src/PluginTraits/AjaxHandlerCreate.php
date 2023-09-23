@@ -10,14 +10,11 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Exception;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxCreate;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\User\UserFactoryInterface;
-use Joomla\Event\Event;
-use RuntimeException;
 use Webauthn\PublicKeyCredentialSource;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -40,11 +37,14 @@ trait AjaxHandlerCreate
      *
      * @return  void
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.0.0
      */
     public function onAjaxWebauthnCreate(AjaxCreate $event): void
     {
+        // Load plugin language files
+        $this->loadLanguage();
+
         /**
          * Fundamental sanity check: this callback is only allowed after a Public Key has been created server-side and
          * the user it was created for matches the current user.
@@ -67,7 +67,7 @@ trait AjaxHandlerCreate
             $session->set('plg_system_webauthn.publicKeyCredentialCreationOptions', null);
 
             // Politely tell the presumed hacker trying to abuse this callback to go away.
-            throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_USER'));
+            throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_USER'));
         }
 
         // Get the credentials repository object. It's outside the try-catch because I also need it to display the GUI.
@@ -83,11 +83,11 @@ trait AjaxHandlerCreate
             $publicKeyCredentialSource = $this->authenticationHelper->validateAttestationResponse($data);
 
             if (!\is_object($publicKeyCredentialSource) || !($publicKeyCredentialSource instanceof PublicKeyCredentialSource)) {
-                throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_ATTESTED_DATA'));
+                throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_ATTESTED_DATA'));
             }
 
             $credentialRepository->saveCredentialSource($publicKeyCredentialSource);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error                     = $e->getMessage();
             $publicKeyCredentialSource = null;
         }

@@ -107,9 +107,9 @@ class ArticleController extends FormController
         if ($allow === null) {
             // In the absence of better information, revert to the component permissions.
             return parent::allowAdd();
-        } else {
-            return $allow;
         }
+
+        return $allow;
     }
 
     /**
@@ -323,9 +323,9 @@ class ArticleController extends FormController
 
         if (empty($return) || !Uri::isInternal(base64_decode($return))) {
             return Uri::base();
-        } else {
-            return base64_decode($return);
         }
+
+        return base64_decode($return);
     }
 
     /**

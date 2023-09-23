@@ -15,7 +15,7 @@ use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -232,9 +232,9 @@ class WebAssetManager implements WebAssetManagerInterface
                 $name = $arguments[0] instanceof WebAssetItemInterface ? $arguments[0]->getName() : $arguments[0];
 
                 return $this->registerAsset($type, ...$arguments)->useAsset($type, $name);
-            } else {
-                return $this->registerAsset($type, ...$arguments);
             }
+
+            return $this->registerAsset($type, ...$arguments);
         }
 
         throw new \BadMethodCallException(sprintf('Undefined method %s in class %s', $method, get_class($this)));

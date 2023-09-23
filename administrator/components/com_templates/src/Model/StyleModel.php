@@ -13,7 +13,6 @@ namespace Joomla\Component\Templates\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -23,10 +22,10 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -396,10 +395,13 @@ class StyleModel extends AdminModel
         $formFile = Path::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
 
         // Load the core and/or local language file(s).
+        // Default to using parent template language constants
+        $lang->load('tpl_' . $data->parent, $client->path)
+            || $lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent);
+
+        // Apply any, optional, overrides for child template language constants
         $lang->load('tpl_' . $template, $client->path)
-        || (!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path))
-        || (!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent))
-        || $lang->load('tpl_' . $template, $client->path . '/templates/' . $template);
+            || $lang->load('tpl_' . $template, $client->path . '/templates/' . $template);
 
         if (file_exists($formFile)) {
             // Get the template form.
@@ -661,7 +663,9 @@ class StyleModel extends AdminModel
 
         if (!is_numeric($style->client_id)) {
             throw new \Exception(Text::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
-        } elseif ($style->home == '1') {
+        }
+
+        if ($style->home == '1') {
             throw new \Exception(Text::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
         }
 
@@ -697,11 +701,11 @@ class StyleModel extends AdminModel
      *
      * @param   int  $styleId  The style id
      *
-     * @return  stdClass
+     * @return  \stdClass
      *
      * @since   4.2.0
      */
-    public function getAdminTemplate(int $styleId): stdClass
+    public function getAdminTemplate(int $styleId): \stdClass
     {
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)
@@ -775,7 +779,8 @@ class StyleModel extends AdminModel
      * Custom clean cache method
      *
      * @param   string   $group     The cache group
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *

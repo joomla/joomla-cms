@@ -15,7 +15,7 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -224,15 +224,15 @@ class UCMType implements UCM
     {
         if (!empty($this->type->field_mappings)) {
             return $this->fieldmap = json_decode($this->type->field_mappings, $assoc);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
-     * Magic method to get the name of the field mapped to a ucm field (core_something).
+     * Magic method to get the name of the field mapped to an ucm field (core_something).
      *
-     * @param   string  $ucmField  The name of the field in JTableCorecontent
+     * @param   string  $ucmField  The name of the field in \Joomla\CMS\Table\CoreContent
      *
      * @return  string  The name mapped to the $ucmField for a given content type
      *

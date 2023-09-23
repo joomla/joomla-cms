@@ -140,7 +140,7 @@ class TagsModel extends ListModel
     /**
      * Method to create a query for a list of items.
      *
-     * @return  string
+     * @return  DatabaseQuery
      *
      * @since  3.1
      */

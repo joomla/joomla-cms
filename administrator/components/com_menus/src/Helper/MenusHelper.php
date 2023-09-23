@@ -12,8 +12,8 @@ namespace Joomla\Component\Menus\Administrator\Helper;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Menu\PreprocessMenuItemsEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
@@ -23,6 +23,7 @@ use Joomla\CMS\Menu\AdministratorMenuItem;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -260,9 +261,9 @@ class MenusHelper extends ContentHelper
             }
 
             return $menuTypes;
-        } else {
-            return $links;
         }
+
+        return $links;
     }
 
     /**
@@ -445,7 +446,13 @@ class MenusHelper extends ContentHelper
             $components = array_column((array) $components, 'element', 'extension_id');
         }
 
-        Factory::getApplication()->triggerEvent('onPreprocessMenuItems', ['com_menus.administrator.import', &$items, null, true]);
+        $dispatcher = Factory::getApplication()->getDispatcher();
+        $items      = $dispatcher->dispatch('onPreprocessMenuItems', new PreprocessMenuItemsEvent('onPreprocessMenuItems', [
+            'context' => 'com_menus.administrator.import',
+            'subject' => &$items, // @todo: Remove reference in Joomla 6, see PreprocessMenuItemsEvent::__constructor()
+            'params'  => null,
+            'enabled' => true,
+        ]))->getArgument('subject', $items);
 
         foreach ($items as $item) {
             /** @var \Joomla\CMS\Table\Menu $table */

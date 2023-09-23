@@ -12,7 +12,7 @@ namespace Joomla\CMS\Installer;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -127,11 +127,11 @@ abstract class Manifest
             $this->_errors[] = Text::sprintf('JLIB_INSTALLER_ERROR_LOAD_XML', $xmlfile);
 
             return false;
-        } else {
-            $this->loadManifestFromData($xml);
-
-            return true;
         }
+
+        $this->loadManifestFromData($xml);
+
+        return true;
     }
 
     /**

@@ -42,8 +42,8 @@ class JoomlaSerializer extends AbstractSerializer
     /**
      * Get the attributes array.
      *
-     * @param   array|\stdClass|CMSObject  $post    The data container
-     * @param   array|null                 $fields  The requested fields to be rendered
+     * @param   array|object  $post    The data container
+     * @param   array|null    $fields  The requested fields to be rendered
      *
      * @return  array
      *
@@ -51,25 +51,29 @@ class JoomlaSerializer extends AbstractSerializer
      */
     public function getAttributes($post, array $fields = null)
     {
-        if (!($post instanceof \stdClass) && !(\is_array($post)) && !($post instanceof CMSObject)) {
+        if (!\is_array($post) && !\is_object($post)) {
             $message = sprintf(
-                'Invalid argument for %s. Expected array or %s. Got %s',
+                'Invalid argument for %s. Expected array or object. Got %s',
                 static::class,
-                CMSObject::class,
                 \gettype($post)
             );
 
             throw new \InvalidArgumentException($message);
         }
 
-        // The response from a standard ListModel query
-        if ($post instanceof \stdClass) {
-            $post = (array) $post;
-        }
-
-        // The response from a standard AdminModel query also works for Table which extends CMSObject
+        // The response from a standard AdminModel query also works for legacy objects which extends CMSObject
         if ($post instanceof CMSObject) {
             $post = $post->getProperties();
+        }
+
+        // The object response, from a standard ListModel query
+        if (\is_object($post)) {
+            $source = $post;
+            $post   = [];
+
+            foreach ($source as $p => $v) {
+                $post[$p] = $v;
+            }
         }
 
         $event = new Events\OnGetApiAttributes('onGetApiAttributes', ['attributes' => $post, 'context' => $this->type]);
@@ -87,7 +91,7 @@ class JoomlaSerializer extends AbstractSerializer
      * @param   mixed   $model  The model of the entity being rendered
      * @param   string  $name   The name of the relationship to return
      *
-     * @return \Tobscure\JsonApi\Relationship|void
+     * @return \Tobscure\JsonApi\Relationship|null
      *
      * @since   4.0.0
      */
@@ -111,5 +115,7 @@ class JoomlaSerializer extends AbstractSerializer
         if ($relationship instanceof Relationship) {
             return $relationship;
         }
+
+        return null;
     }
 }

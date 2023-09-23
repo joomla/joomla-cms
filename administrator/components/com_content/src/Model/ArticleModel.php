@@ -14,7 +14,6 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
@@ -35,6 +34,7 @@ use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Filter\OutputFilter;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -229,11 +229,11 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Not fatal error
-                    $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-                    continue;
                 }
+
+                // Not fatal error
+                $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
             }
 
             $fields = FieldsHelper::getFields('com_content.article', $this->table, true);
@@ -619,7 +619,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
      * @see     \Joomla\CMS\Form\FormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.7.0
      */
     public function validate($form, $data, $group = null)
@@ -1038,7 +1038,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      * Custom clean the cache of com_content and content modules
      *
      * @param   string   $group     The cache group
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *
@@ -1081,7 +1082,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     /**
      * Delete #__content_frontpage items if the deleted articles was featured
      *
-     * @param   object  $pks  The primary key related to the contents that was deleted.
+     * @param   array  $pks  The primary key related to the contents that was deleted.
      *
      * @return  boolean
      *

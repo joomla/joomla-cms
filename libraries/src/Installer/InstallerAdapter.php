@@ -21,6 +21,7 @@ use Joomla\CMS\Table\TableInterface;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
@@ -28,7 +29,7 @@ use Joomla\DI\Exception\ContainerNotFoundException;
 use Joomla\DI\ServiceProviderInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -996,6 +997,11 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // Create a new instance
         $this->parent->manifestClass = $container->get(InstallerScriptInterface::class);
 
+        // Set the database
+        if ($this->parent->manifestClass instanceof DatabaseAwareInterface) {
+            $this->parent->manifestClass->setDatabase($container->get(DatabaseInterface::class));
+        }
+
         // And set this so we can copy it later
         $this->manifest_script = $manifestScript;
     }
@@ -1048,7 +1054,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, $method)) {
             switch ($method) {
-                // The preflight and postflight take the route as a param
+                    // The preflight and postflight take the route as a param
                 case 'preflight':
                 case 'postflight':
                     if ($this->parent->manifestClass->$method($this->route, $this) === false) {
@@ -1067,7 +1073,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
                     }
                     break;
 
-                // The install, uninstall, and update methods only pass this object as a param
+                    // The install, uninstall, and update methods only pass this object as a param
                 case 'install':
                 case 'uninstall':
                 case 'update':
@@ -1122,7 +1128,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
             Log::add(Text::_('JLIB_INSTALLER_ERROR_UNINSTALL_LOCKED_EXTENSION'), Log::WARNING, 'jerror');
 
             return false;
-        } elseif (!isset($this->extension->locked) && $this->extension->protected) {
+        }
+
+        if (!isset($this->extension->locked) && $this->extension->protected) {
             // Joomla 3 ('locked' property does not exist yet): Protected extensions cannot be removed.
             Log::add(Text::_('JLIB_INSTALLER_ERROR_UNINSTALL_PROTECTED_EXTENSION'), Log::WARNING, 'jerror');
 
@@ -1264,7 +1272,8 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      *
      * @since   4.2.0
      *
-     * @deprecated  5.0 Use getDatabase() instead of directly accessing db
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use getDatabase() instead of directly accessing _db
      */
     public function __get($name)
     {

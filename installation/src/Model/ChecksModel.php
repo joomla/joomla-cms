@@ -98,13 +98,6 @@ class ChecksModel extends BaseInstallationModel
             $option->state  = (strtolower(ini_get('mbstring.language')) == 'neutral');
             $option->notice = $option->state ? null : Text::_('INSTL_NOTICE_MBLANG_NOTDEFAULT');
             $options[]      = $option;
-
-            // Check for MB function overload.
-            $option         = new \stdClass();
-            $option->label  = Text::_('INSTL_MB_STRING_OVERLOAD_OFF');
-            $option->state  = (ini_get('mbstring.func_overload') == 0);
-            $option->notice = $option->state ? null : Text::_('INSTL_NOTICE_MBSTRING_OVERLOAD_OFF');
-            $options[]      = $option;
         }
 
         // Check for a missing native parse_ini_file implementation.
@@ -151,7 +144,7 @@ class ChecksModel extends BaseInstallationModel
             }
         }
 
-        return isset($result) ? false : true;
+        return !isset($result);
     }
 
     /**

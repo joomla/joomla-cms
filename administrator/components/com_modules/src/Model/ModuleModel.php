@@ -14,7 +14,6 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
@@ -25,6 +24,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -347,20 +347,20 @@ class ModuleModel extends AdminModel
 
                 if (in_array(false, $result, true) || !$table->delete($pk)) {
                     throw new \Exception($table->getError());
-                } else {
-                    // Delete the menu assignments
-                    $pk    = (int) $pk;
-                    $db    = $this->getDatabase();
-                    $query = $db->getQuery(true)
-                        ->delete($db->quoteName('#__modules_menu'))
-                        ->where($db->quoteName('moduleid') . ' = :moduleid')
-                        ->bind(':moduleid', $pk, ParameterType::INTEGER);
-                    $db->setQuery($query);
-                    $db->execute();
-
-                    // Trigger the after delete event.
-                    $app->triggerEvent($this->event_after_delete, [$context, $table]);
                 }
+
+                // Delete the menu assignments
+                $pk    = (int) $pk;
+                $db    = $this->getDatabase();
+                $query = $db->getQuery(true)
+                    ->delete($db->quoteName('#__modules_menu'))
+                    ->where($db->quoteName('moduleid') . ' = :moduleid')
+                    ->bind(':moduleid', $pk, ParameterType::INTEGER);
+                $db->setQuery($query);
+                $db->execute();
+
+                // Trigger the after delete event.
+                $app->triggerEvent($this->event_after_delete, [$context, $table]);
 
                 // Clear module cache
                 parent::cleanCache($table->module);
@@ -751,7 +751,7 @@ class ModuleModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'Module', $prefix = 'JTable', $config = [])
+    public function getTable($type = 'Module', $prefix = '\\Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
@@ -794,7 +794,7 @@ class ModuleModel extends AdminModel
 
         // Load the core and/or local language file(s).
         $lang->load($module, $client->path)
-        || $lang->load($module, $client->path . '/modules/' . $module);
+            || $lang->load($module, $client->path . '/modules/' . $module);
 
         if (file_exists($formFile)) {
             // Get the module form.
@@ -1036,7 +1036,7 @@ class ModuleModel extends AdminModel
             ->join(
                 'LEFT',
                 $db->quoteName('#__modules', 'm') . ' ON ' . $db->quoteName('e.client_id') . ' = ' . (int) $table->client_id .
-                ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('m.module')
+                    ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('m.module')
             )
             ->where($db->quoteName('m.id') . ' = :id')
             ->bind(':id', $table->id, ParameterType::INTEGER);
@@ -1085,7 +1085,8 @@ class ModuleModel extends AdminModel
      * Custom clean cache method for different clients
      *
      * @param   string   $group     The name of the plugin group to import (defaults to null).
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *

@@ -12,14 +12,14 @@ namespace Joomla\CMS\HTML;
 use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -47,7 +47,7 @@ abstract class HTMLHelper
      *
      * @var    string[]
      * @since  1.5
-     * @deprecated  5.0
+     * @deprecated  4.0 will be removed in 6.0
      */
     protected static $includePaths = [];
 
@@ -56,7 +56,7 @@ abstract class HTMLHelper
      *
      * @var    callable[]
      * @since  1.6
-     * @deprecated  5.0
+     * @deprecated  4.0 will be removed in 6.0
      */
     protected static $registry = [];
 
@@ -77,7 +77,9 @@ abstract class HTMLHelper
      * @return  array  Contains lowercase key, prefix, file, function.
      *
      * @since       1.6
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the service registry instead
+     *              HTMLHelper::getServiceRegistry()->getService($file);
      */
     protected static function extract($key)
     {
@@ -88,14 +90,18 @@ abstract class HTMLHelper
 
         if (\count($parts) === 3) {
             @trigger_error(
-                'Support for a three segment service key is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+                'Support for a three segment service key is deprecated and will be removed in Joomla 6.0, use the service registry instead',
                 E_USER_DEPRECATED
             );
         }
 
-        $prefix = \count($parts) === 3 ? array_shift($parts) : 'JHtml';
+        $prefix = \count($parts) === 3 ? array_shift($parts) : 'Joomla\\CMS\\HTML\\HTMLHelper';
         $file   = \count($parts) === 2 ? array_shift($parts) : '';
         $func   = array_shift($parts);
+
+        if (strtolower($prefix) === 'jhtml') {
+            $prefix = 'Joomla\\CMS\\HTML\\HTMLHelper';
+        }
 
         return [strtolower($prefix . '.' . $file . '.' . $func), $prefix, $file, $func];
     }
@@ -130,7 +136,7 @@ abstract class HTMLHelper
          * Support fetching services from the registry if a custom class prefix was not given (a three segment key),
          * the service comes from a class other than this one, and a service has been registered for the file.
          */
-        if ($prefix === 'JHtml' && $file !== '' && static::getServiceRegistry()->hasService($file)) {
+        if ($prefix === 'Joomla\\CMS\\HTML\\HTMLHelper' && $file !== '' && static::getServiceRegistry()->hasService($file)) {
             $service = static::getServiceRegistry()->getService($file);
 
             $toCall = [$service, $func];
@@ -156,7 +162,18 @@ abstract class HTMLHelper
             \JLoader::register($className, $path);
 
             if (!class_exists($className)) {
-                throw new \InvalidArgumentException(sprintf('%s not found.', $className), 500);
+                if ($prefix !== 'Joomla\\CMS\\HTML\\HTMLHelper') {
+                    throw new \InvalidArgumentException(sprintf('%s not found.', $className), 500);
+                }
+
+                // @deprecated with 5.0 remove with 6.0 or 7.0 (depends on other relevant code)
+                $className = 'JHtml' . ucfirst($file);
+
+                \JLoader::register($className, $path);
+
+                if (!class_exists($className)) {
+                    throw new \InvalidArgumentException(sprintf('%s not found.', $className), 500);
+                }
             }
         }
 
@@ -187,12 +204,14 @@ abstract class HTMLHelper
      * @return  boolean  True if the function is callable
      *
      * @since       1.6
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the service registry instead
+     *              HTMLHelper::getServiceRegistry()->register($key, $function);
      */
     public static function register($key, callable $function)
     {
         @trigger_error(
-            'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+            'Support for registering functions is deprecated and will be removed in Joomla 6.0, use the service registry instead',
             E_USER_DEPRECATED
         );
 
@@ -211,12 +230,13 @@ abstract class HTMLHelper
      * @return  boolean  True if a set key is unset
      *
      * @since       1.6
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the service registry instead
      */
     public static function unregister($key)
     {
         @trigger_error(
-            'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+            'Support for registering functions is deprecated and will be removed in Joomla 6.0, use the service registry instead',
             E_USER_DEPRECATED
         );
 
@@ -396,7 +416,7 @@ abstract class HTMLHelper
 
                 if ($template->inheritable || !empty($template->parent)) {
                     $client     = $app->isClient('administrator') === true ? 'administrator' : 'site';
-                    $templaPath = JPATH_ROOT . "/media/templates/$client";
+                    $templaPath = JPATH_PUBLIC . "/media/templates/$client";
                 }
 
                 // For each potential files
@@ -424,19 +444,39 @@ abstract class HTMLHelper
                             $includes[] = $found;
 
                             break;
-                        } else {
-                            // If the file contains any /: it can be in a media extension subfolder
+                        }
+
+                        // If the file contains any /: it can be in a media extension subfolder
+                        if (strpos($file, '/')) {
+                            // Divide the file extracting the extension as the first part before /
+                            list($extension, $file) = explode('/', $file, 2);
+
+                            // If the file yet contains any /: it can be a plugin
                             if (strpos($file, '/')) {
-                                // Divide the file extracting the extension as the first part before /
-                                list($extension, $file) = explode('/', $file, 2);
+                                // Divide the file extracting the element as the first part before /
+                                list($element, $file) = explode('/', $file, 2);
 
-                                // If the file yet contains any /: it can be a plugin
-                                if (strpos($file, '/')) {
-                                    // Divide the file extracting the element as the first part before /
-                                    list($element, $file) = explode('/', $file, 2);
+                                // Try to deal with plugins group in the media folder
+                                $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/$extension/$element/$folder/$file", $ext, $debugMode);
 
-                                    // Try to deal with plugins group in the media folder
-                                    $found = static::addFileToBuffer(JPATH_ROOT . "/media/$extension/$element/$folder/$file", $ext, $debugMode);
+                                if (!empty($found)) {
+                                    $includes[] = $found;
+
+                                    break;
+                                }
+
+                                // Try to deal with classical file in a media subfolder called element
+                                $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/$extension/$folder/$element/$file", $ext, $debugMode);
+
+                                if (!empty($found)) {
+                                    $includes[] = $found;
+
+                                    break;
+                                }
+
+                                // Try to deal with system files in the template folder
+                                if (!empty($template->parent)) {
+                                    $found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$element/$file", $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
@@ -444,82 +484,16 @@ abstract class HTMLHelper
                                         break;
                                     }
 
-                                    // Try to deal with classical file in a media subfolder called element
-                                    $found = static::addFileToBuffer(JPATH_ROOT . "/media/$extension/$folder/$element/$file", $ext, $debugMode);
+                                    $found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$element/$file", $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
 
                                         break;
-                                    }
-
-                                    // Try to deal with system files in the template folder
-                                    if (!empty($template->parent)) {
-                                        $found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$element/$file", $ext, $debugMode);
-
-                                        if (!empty($found)) {
-                                            $includes[] = $found;
-
-                                            break;
-                                        }
-
-                                        $found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$element/$file", $ext, $debugMode);
-
-                                        if (!empty($found)) {
-                                            $includes[] = $found;
-
-                                            break;
-                                        }
-                                    } else {
-                                        // Try to deal with system files in the media folder
-                                        $found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$element/$file", $ext, $debugMode);
-
-                                        if (!empty($found)) {
-                                            $includes[] = $found;
-
-                                            break;
-                                        }
                                     }
                                 } else {
-                                    // Try to deal with files in the extension's media folder
-                                    $found = static::addFileToBuffer(JPATH_ROOT . "/media/$extension/$folder/$file", $ext, $debugMode);
-
-                                    if (!empty($found)) {
-                                        $includes[] = $found;
-
-                                        break;
-                                    }
-
-                                    // Try to deal with system files in the template folder
-                                    if (!empty($template->parent)) {
-                                        $found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
-
-                                        if (!empty($found)) {
-                                            $includes[] = $found;
-
-                                            break;
-                                        }
-
-                                        $found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$file", $ext, $debugMode);
-
-                                        if (!empty($found)) {
-                                            $includes[] = $found;
-
-                                            break;
-                                        }
-                                    } else {
-                                        // Try to deal with system files in the template folder
-                                        $found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
-
-                                        if (!empty($found)) {
-                                            $includes[] = $found;
-
-                                            break;
-                                        }
-                                    }
-
                                     // Try to deal with system files in the media folder
-                                    $found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$file", $ext, $debugMode);
+                                    $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/system/$folder/$element/$file", $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
@@ -528,14 +502,60 @@ abstract class HTMLHelper
                                     }
                                 }
                             } else {
-                                // Try to deal with system files in the media folder
-                                $found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$file", $ext, $debugMode);
+                                // Try to deal with files in the extension's media folder
+                                $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/$extension/$folder/$file", $ext, $debugMode);
 
                                 if (!empty($found)) {
                                     $includes[] = $found;
 
                                     break;
                                 }
+
+                                // Try to deal with system files in the template folder
+                                if (!empty($template->parent)) {
+                                    $found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
+
+                                    if (!empty($found)) {
+                                        $includes[] = $found;
+
+                                        break;
+                                    }
+
+                                    $found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$file", $ext, $debugMode);
+
+                                    if (!empty($found)) {
+                                        $includes[] = $found;
+
+                                        break;
+                                    }
+                                } else {
+                                    // Try to deal with system files in the template folder
+                                    $found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
+
+                                    if (!empty($found)) {
+                                        $includes[] = $found;
+
+                                        break;
+                                    }
+                                }
+
+                                // Try to deal with system files in the media folder
+                                $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/system/$folder/$file", $ext, $debugMode);
+
+                                if (!empty($found)) {
+                                    $includes[] = $found;
+
+                                    break;
+                                }
+                            }
+                        } else {
+                            // Try to deal with system files in the media folder
+                            $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/system/$folder/$file", $ext, $debugMode);
+
+                            if (!empty($found)) {
+                                $includes[] = $found;
+
+                                break;
                             }
                         }
                     }
@@ -553,7 +573,7 @@ abstract class HTMLHelper
                      * This MD5SUM file must represent the signature of the folder content
                      */
                     foreach ($files as $file) {
-                        $path = JPATH_ROOT . "/$file";
+                        $path = JPATH_PUBLIC . '/' . $file;
 
                         $found = static::addFileToBuffer($path, $ext, $debugMode);
 
@@ -1073,17 +1093,31 @@ abstract class HTMLHelper
         if ($value && $value !== Factory::getDbo()->getNullDate() && strtotime($value) !== false) {
             $tz = date_default_timezone_get();
             date_default_timezone_set('UTC');
-            $inputvalue = strftime($format, strtotime($value));
+
+            /**
+             * Try to convert strftime format to date format, if success, use DateTimeImmutable to format
+             * the passed datetime to avoid deprecated warnings on PHP 8.1. We only support converting most
+             * common used format here.
+             */
+            $dateFormat = self::strftimeFormatToDateFormat($format);
+
+            if ($dateFormat !== false) {
+                $date       = \DateTimeImmutable::createFromFormat('U', strtotime($value));
+                $inputValue = $date->format($dateFormat);
+            } else {
+                $inputValue = strftime($format, strtotime($value));
+            }
+
             date_default_timezone_set($tz);
         } else {
-            $inputvalue = '';
+            $inputValue = '';
         }
 
         $data = [
             'id'             => $id,
             'name'           => $name,
             'class'          => $class,
-            'value'          => $inputvalue,
+            'value'          => $inputValue,
             'format'         => $format,
             'filter'         => $filter,
             'required'       => $required,
@@ -1123,12 +1157,13 @@ abstract class HTMLHelper
      * @return  array  An array with directory elements
      *
      * @since       1.5
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the service registry instead
      */
     public static function addIncludePath($path = '')
     {
         @trigger_error(
-            'Support for registering lookup paths is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+            'Support for registering lookup paths is deprecated and will be removed in Joomla 6.0, use the service registry instead',
             E_USER_DEPRECATED
         );
 
@@ -1189,7 +1224,7 @@ abstract class HTMLHelper
      */
     protected static function convertToRelativePath($path)
     {
-        $relativeFilePath = Uri::root(true) . str_replace(JPATH_ROOT, '', $path);
+        $relativeFilePath = Uri::root(true) . str_replace(JPATH_PUBLIC, '', $path);
 
         // On windows devices we need to replace "\" with "/" otherwise some browsers will not load the asset
         return str_replace(DIRECTORY_SEPARATOR, '/', $relativeFilePath);
@@ -1216,5 +1251,48 @@ abstract class HTMLHelper
         }
 
         return '';
+    }
+
+    /**
+     * Convert most popular strftime format to php date format as strftime is deprecated and we have
+     * to be able to provide same backward compatibility with existing format strings.
+     *
+     * @param   $strftimeformat   string The format compatible with strftime.
+     *
+     * @return  mixed The format compatible with PHP's Date functions if success, false otherwise
+     *
+     * @since   4.2.9
+     */
+    public static function strftimeFormatToDateFormat(string $strftimeformat)
+    {
+        $format = str_replace(
+            [
+                '%Y',
+                '%m',
+                '%d',
+                '%H',
+                '%M',
+                '%S',
+            ],
+            [
+                'Y',
+                'm',
+                'd',
+                'H',
+                'i',
+                's',
+            ],
+            $strftimeformat
+        );
+
+        /**
+         * If there is % character left after replacing, that mean one of unsupported format is used
+         * the conversion false
+         */
+        if (strpos($format, '%') !== false) {
+            return false;
+        }
+
+        return $format;
     }
 }

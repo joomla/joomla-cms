@@ -27,6 +27,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\ParameterType;
 
@@ -39,8 +41,10 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class RegistrationModel extends FormModel
+class RegistrationModel extends FormModel implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * @var    object  The user registration data.
      * @since  1.6
@@ -127,7 +131,7 @@ class RegistrationModel extends FormModel
         PluginHelper::importPlugin('user');
 
         // Activate the user.
-        $user = Factory::getUser($userId);
+        $user = $this->getUserFactory()->loadUserById($userId);
 
         // Admin activation is on and user is verifying their email
         if (($userParams->get('useractivation') == 2) && !$user->getParam('activate', 0)) {
@@ -171,7 +175,7 @@ class RegistrationModel extends FormModel
 
             // Send mail to all users with users creating permissions and receiving system emails
             foreach ($rows as $row) {
-                $usercreator = Factory::getUser($row->id);
+                $usercreator = $this->getUserFactory()->loadUserById($row->id);
 
                 if ($usercreator->authorise('core.create', 'com_users') && $usercreator->authorise('core.manage', 'com_users')) {
                     try {
@@ -544,7 +548,7 @@ class RegistrationModel extends FormModel
 
             // Send mail to all superadministrators id
             foreach ($rows as $row) {
-                $usercreator = Factory::getUser($row->id);
+                $usercreator = $this->getUserFactory()->loadUserById($row->id);
 
                 if (!$usercreator->authorise('core.create', 'com_users') || !$usercreator->authorise('core.manage', 'com_users')) {
                     continue;
@@ -639,10 +643,12 @@ class RegistrationModel extends FormModel
 
         if ($useractivation == 1) {
             return 'useractivate';
-        } elseif ($useractivation == 2) {
-            return 'adminactivate';
-        } else {
-            return $user->id;
         }
+
+        if ($useractivation == 2) {
+            return 'adminactivate';
+        }
+
+        return $user->id;
     }
 }
