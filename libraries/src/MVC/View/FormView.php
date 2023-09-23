@@ -243,7 +243,7 @@ class FormView extends HtmlView
             $formConfig  = $this->form->getXml()->config->inlinehelp;
             $targetClass = $formConfig && !empty($formConfig['targetclass']) ? (string) $formConfig['targetclass'] : 'hide-aware-inline-help';
 
-            if ((string) $formConfig['button'] === 'show') {
+            if ($formConfig && (string) $formConfig['button'] === 'show') {
                 ToolbarHelper::inlinehelp($targetClass);
             }
         }
