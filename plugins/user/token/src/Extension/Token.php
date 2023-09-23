@@ -34,14 +34,6 @@ final class Token extends CMSPlugin
     use UserFactoryAwareTrait;
 
     /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     * @since  4.0.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Joomla XML form contexts where we should inject our token management user interface.
      *
      * @var     array
@@ -112,6 +104,9 @@ final class Token extends CMSPlugin
         if (!$this->isInAllowedUserGroup($userId)) {
             return true;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         $data->{$this->profileKeyPrefix} = [];
 
@@ -211,6 +206,9 @@ final class Token extends CMSPlugin
         if (!empty($userId) && !$this->isInAllowedUserGroup($userId)) {
             return true;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         // Add the registration fields to the form.
         Form::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');

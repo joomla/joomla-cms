@@ -421,11 +421,11 @@ class ModuleAdapter extends InstallerAdapter
 
         if ($this->parent->extension->store()) {
             return true;
-        } else {
-            Log::add(Text::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
-
-            return false;
         }
+
+        Log::add(Text::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
+
+        return false;
     }
 
     /**

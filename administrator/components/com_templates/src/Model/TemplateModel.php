@@ -733,11 +733,11 @@ class TemplateModel extends FormModel
             }
 
             return true;
-        } else {
-            $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
-
-            return false;
         }
+
+        $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
+
+        return false;
     }
 
     /**
@@ -1138,12 +1138,10 @@ class TemplateModel extends FormModel
             }
 
             // Check Html folder, create if not exist
-            if (!Folder::exists($htmlPath)) {
-                if (!Folder::create($htmlPath)) {
-                    $app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
+            if (!Folder::exists($htmlPath) && !Folder::create($htmlPath)) {
+                $app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
 
-                    return false;
-                }
+                return false;
             }
 
             if (stristr($name, 'mod_') != false) {
@@ -1167,12 +1165,12 @@ class TemplateModel extends FormModel
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_OVERRIDE_CREATED') . str_replace(JPATH_ROOT, '', $htmlPath));
 
                 return true;
-            } else {
-                $app->enqueueMessage(Text::_('COM_TEMPLATES_OVERRIDE_FAILED'), 'error');
-
-                return false;
             }
+
+            $app->enqueueMessage(Text::_('COM_TEMPLATES_OVERRIDE_FAILED'), 'error');
         }
+
+        return false;
     }
 
     /**
@@ -1670,10 +1668,10 @@ class TemplateModel extends FormModel
                 $app->enqueueMessage(Text::sprintf('COM_TEMPLATES_FILE_COPY_SUCCESS', $newName . '.' . $ext));
 
                 return true;
-            } else {
-                return false;
             }
         }
+
+        return false;
     }
 
     /**
@@ -1748,17 +1746,15 @@ class TemplateModel extends FormModel
                     $zip->extractTo($path);
 
                     return true;
-                } else {
-                    $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
-
-                    return false;
                 }
+
+                $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
             } else {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_NOT_FOUND'), 'error');
-
-                return false;
             }
         }
+
+        return false;
     }
 
     /**

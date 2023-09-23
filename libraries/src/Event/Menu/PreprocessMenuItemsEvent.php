@@ -11,6 +11,7 @@ namespace Joomla\CMS\Event\Menu;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\ReshapeArgumentsAware;
+use Joomla\CMS\Menu\MenuItem;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -50,10 +51,10 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
     {
         // Reshape the arguments array to preserve b/c with legacy listeners
         if ($this->legacyArgumentsOrder) {
-            $arguments = $this->reshapeArguments($arguments, $this->legacyArgumentsOrder);
+            parent::__construct($name, $this->reshapeArguments($arguments, $this->legacyArgumentsOrder));
+        } else {
+            parent::__construct($name, $arguments);
         }
-
-        parent::__construct($name, $arguments);
 
         if (!\array_key_exists('context', $this->arguments)) {
             throw new \BadMethodCallException("Argument 'context' of event {$name} is required but has not been provided");
@@ -61,6 +62,15 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
 
         if (!\array_key_exists('subject', $this->arguments)) {
             throw new \BadMethodCallException("Argument 'subject' of event {$name} is required but has not been provided");
+        }
+
+        // For backward compatibility make sure the content is referenced
+        // TODO: Remove in Joomla 6
+        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
+        if (key($arguments) === 0) {
+            $this->arguments['subject'] = &$arguments[1];
+        } elseif (\array_key_exists('subject', $arguments)) {
+            $this->arguments['subject'] = &$arguments['subject'];
         }
     }
 
@@ -73,7 +83,7 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setContext(string $value): string
+    protected function onSetContext(string $value): string
     {
         return $value;
     }
@@ -81,14 +91,23 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
     /**
      * Setter for the subject argument.
      *
-     * @param   array|\ArrayAccess  $value  The value to set
+     * @param   MenuItem[]  $value  The value to set
      *
-     * @return  array|\ArrayAccess
+     * @return  MenuItem[]
      *
      * @since  5.0.0
      */
-    protected function setSubject(array|\ArrayAccess $value): array|\ArrayAccess
+    protected function onSetSubject(array $value): array
     {
+        // Filter out MenuItem elements. Non empty result means invalid data
+        $valid = !array_filter($value, function ($item) {
+            return !$item instanceof MenuItem;
+        });
+
+        if (!$valid) {
+            throw new \UnexpectedValueException("Argument 'subject' of event {$this->name} is not of the expected type");
+        }
+
         return $value;
     }
 
@@ -101,7 +120,7 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setParams(?Registry $value): ?Registry
+    protected function onSetParams(?Registry $value): ?Registry
     {
         return $value;
     }
@@ -115,7 +134,7 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setEnabled(?bool $value): ?bool
+    protected function onSetEnabled(?bool $value): ?bool
     {
         return $value;
     }
@@ -135,11 +154,11 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
     /**
      * Getter for the items.
      *
-     * @return  array|\ArrayAccess
+     * @return  MenuItem[]
      *
      * @since  5.0.0
      */
-    public function getItems(): array|\ArrayAccess
+    public function getItems(): array
     {
         return $this->arguments['subject'];
     }
@@ -166,5 +185,21 @@ class PreprocessMenuItemsEvent extends AbstractImmutableEvent
     public function getEnabled(): ?bool
     {
         return $this->arguments['enabled'] ?? null;
+    }
+
+    /**
+     * Update the items.
+     *
+     * @param   MenuItem[]  $value  The value to set
+     *
+     * @return  static
+     *
+     * @since  5.0.0
+     */
+    public function updateItems(array $value): static
+    {
+        $this->arguments['subject'] = $this->onSetSubject($value);
+
+        return $this;
     }
 }

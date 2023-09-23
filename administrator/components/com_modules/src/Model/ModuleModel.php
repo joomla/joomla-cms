@@ -347,20 +347,20 @@ class ModuleModel extends AdminModel
 
                 if (in_array(false, $result, true) || !$table->delete($pk)) {
                     throw new \Exception($table->getError());
-                } else {
-                    // Delete the menu assignments
-                    $pk    = (int) $pk;
-                    $db    = $this->getDatabase();
-                    $query = $db->getQuery(true)
-                        ->delete($db->quoteName('#__modules_menu'))
-                        ->where($db->quoteName('moduleid') . ' = :moduleid')
-                        ->bind(':moduleid', $pk, ParameterType::INTEGER);
-                    $db->setQuery($query);
-                    $db->execute();
-
-                    // Trigger the after delete event.
-                    $app->triggerEvent($this->event_after_delete, [$context, $table]);
                 }
+
+                // Delete the menu assignments
+                $pk    = (int) $pk;
+                $db    = $this->getDatabase();
+                $query = $db->getQuery(true)
+                    ->delete($db->quoteName('#__modules_menu'))
+                    ->where($db->quoteName('moduleid') . ' = :moduleid')
+                    ->bind(':moduleid', $pk, ParameterType::INTEGER);
+                $db->setQuery($query);
+                $db->execute();
+
+                // Trigger the after delete event.
+                $app->triggerEvent($this->event_after_delete, [$context, $table]);
 
                 // Clear module cache
                 parent::cleanCache($table->module);

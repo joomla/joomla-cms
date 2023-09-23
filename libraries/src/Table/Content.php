@@ -128,9 +128,9 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
         // Return the asset id.
         if ($assetId) {
             return $assetId;
-        } else {
-            return parent::_getAssetParentId($table, $id);
         }
+
+        return parent::_getAssetParentId($table, $id);
     }
 
     /**

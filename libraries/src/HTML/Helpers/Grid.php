@@ -148,13 +148,13 @@ abstract class Grid
 
         if ($result) {
             return static::_checkedOut($row);
-        } else {
-            if ($identifier === 'id') {
-                return HTMLHelper::_('grid.id', $i, $row->$identifier);
-            } else {
-                return HTMLHelper::_('grid.id', $i, $row->$identifier, $result, $identifier);
-            }
         }
+
+        if ($identifier === 'id') {
+            return HTMLHelper::_('grid.id', $i, $row->$identifier);
+        }
+
+        return HTMLHelper::_('grid.id', $i, $row->$identifier, $result, $identifier);
     }
 
     /**

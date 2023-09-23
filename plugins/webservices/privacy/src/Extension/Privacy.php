@@ -26,14 +26,6 @@ use Joomla\Router\Route;
 final class Privacy extends CMSPlugin
 {
     /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     * @since  4.0.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Registers com_privacy's API's routes in the application
      *
      * @param   ApiRouter  &$router  The API Routing object

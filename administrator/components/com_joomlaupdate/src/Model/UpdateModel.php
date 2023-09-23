@@ -58,7 +58,7 @@ class UpdateModel extends BaseDatabaseModel
      * @param   array                 $config   An array of configuration options.
      * @param   ?MVCFactoryInterface  $factory  The factory.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      * @throws  \Exception
      */
     public function __construct($config = [], MVCFactoryInterface $factory = null)
@@ -346,11 +346,11 @@ class UpdateModel extends BaseDatabaseModel
             $this->_message = Text::_('COM_JOOMLAUPDATE_CHECKED_UPDATES');
 
             return true;
-        } else {
-            $this->_message = Text::_('COM_JOOMLAUPDATE_FAILED_TO_CHECK_UPDATES');
-
-            return false;
         }
+
+        $this->_message = Text::_('COM_JOOMLAUPDATE_FAILED_TO_CHECK_UPDATES');
+
+        return false;
     }
 
     /**
@@ -883,7 +883,10 @@ ENDDATA;
         $tempdir = $app->get('tmp_path');
 
         $file = $app->getUserState('com_joomlaupdate.file', null);
-        File::delete($tempdir . '/' . $file);
+
+        if (is_file($tempdir . '/' . $file)) {
+            File::delete($tempdir . '/' . $file);
+        }
 
         // Remove the update.php file used in Joomla 4.0.3 and later.
         if (is_file(JPATH_COMPONENT_ADMINISTRATOR . '/update.php')) {
@@ -1752,7 +1755,7 @@ ENDDATA;
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.0
      */
     public function collectError(string $context, \Throwable $error)
     {

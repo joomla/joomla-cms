@@ -64,7 +64,7 @@ class PrepareDomEvent extends CustomFieldsEvent
      *
      * @since  5.0.0
      */
-    protected function setFieldset(\DOMElement $value): \DOMElement
+    protected function onSetFieldset(\DOMElement $value): \DOMElement
     {
         return $value;
     }
@@ -78,7 +78,7 @@ class PrepareDomEvent extends CustomFieldsEvent
      *
      * @since  5.0.0
      */
-    protected function setForm(Form $value): Form
+    protected function onSetForm(Form $value): Form
     {
         return $value;
     }

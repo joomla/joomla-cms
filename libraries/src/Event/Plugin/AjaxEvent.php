@@ -55,7 +55,7 @@ class AjaxEvent extends AbstractImmutableEvent implements ResultAwareInterface
      *
      * @since  5.0.0
      */
-    protected function setSubject(AbstractApplication $value): AbstractApplication
+    protected function onSetSubject(AbstractApplication $value): AbstractApplication
     {
         return $value;
     }

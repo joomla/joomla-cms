@@ -88,6 +88,7 @@ $atum-colors: (
   media-manager-infobar-dt-color:  rgba(0, 0, 0, .54),
   media-manager-content-bg:        var(--body-bg),
   media-manager-overlay-bg:        var(--template-bg-dark-3),
+  media-manager-disk-name-color:   var(--template-text-dark),
 );
 
 $colors: (
@@ -186,7 +187,6 @@ $state-success-border:             hsl(var(--hue),50%,93%);
 
 $state-info-text:                  var(--template-bg-dark-70);
 $state-info-bg:                    var(--body-bg);
-$state-info-border:                var(--template-bg-dark-70);
 
 $state-warning-text:               darken($warning, 24%);
 $state-warning-bg:                 lighten($warning, 44%);

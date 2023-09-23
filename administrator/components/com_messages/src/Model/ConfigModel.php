@@ -178,10 +178,10 @@ class ConfigModel extends FormModel
             }
 
             return true;
-        } else {
-            $this->setError('COM_MESSAGES_ERR_INVALID_USER');
-
-            return false;
         }
+
+        $this->setError('COM_MESSAGES_ERR_INVALID_USER');
+
+        return false;
     }
 }

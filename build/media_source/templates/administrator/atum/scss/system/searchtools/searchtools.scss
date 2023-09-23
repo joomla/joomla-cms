@@ -45,7 +45,7 @@
     grid-gap: 8px;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     padding: 10px;
-    background-color: $white;
+    background-color: var(--body-bg);
   }
 }
 

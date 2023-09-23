@@ -47,6 +47,9 @@ trait AjaxHandlerLogin
      */
     public function onAjaxWebauthnLogin(AjaxLogin $event): void
     {
+        // Load plugin language files
+        $this->loadLanguage();
+
         $session   = $this->getApplication()->getSession();
         $returnUrl = $session->get('plg_system_webauthn.returnUrl', Uri::base());
         $userId    = $session->get('plg_system_webauthn.userId', 0);
