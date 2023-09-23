@@ -215,9 +215,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
             )
         );
 
-        $event->getArgument('used', false);
-
-        echo $event->getArgument('source');
+        echo $event->getArgument('source', $result);
     }
 
     /**
