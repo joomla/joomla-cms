@@ -1508,7 +1508,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function parseLanguages(\SimpleXMLElement $element, $cid = 0)
     {
-        // TODO: work out why the below line triggers 'node no longer exists' errors with files
+        // @todo: work out why the below line triggers 'node no longer exists' errors with files
         if (!$element || !\count($element->children())) {
             // Either the tag does not exist or has no children therefore we return zero files processed.
             return 0;
@@ -2387,7 +2387,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         if (\count($custom) >= 1) {
             foreach ($custom as $adapter) {
                 // Setup the class name
-                // TODO - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
+                // @todo - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
                 $class = $this->_classprefix . ucfirst(trim($adapter));
 
                 // If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
