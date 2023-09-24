@@ -1874,59 +1874,82 @@ ENDDATA;
             throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
         }
 
-        // Find its last 4 Megabyte
-        if ($filesize > 4194304) {
-            fseek($fp, 0, SEEK_END);
-            fseek($fp, -4194304, SEEK_CUR);
-        }
-
-        // Read the last part of the file (up to 4MiB in size)
-        $last4MiB = fread($fp, min(4194304, $filesize));
+        // Read chunks of max. 1MiB size
+        $readsize = min($filesize, 1048576);
 
         // Signature of a file header inside a ZIP central directory header
         $headerSignature = pack('V', 0x02014b50);
 
-        // Make sure it's a zip file
-        if ($last4MiB === false || strpos($last4MiB, $headerSignature) === false) {
-            @fclose($fp);
+        // File name size signature of the 'installation/index.php' file
+        $sizeSignatureIndexPhp = pack('v', 0x0016);
 
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
-        }
+        // File name size signature of the 'administrator/manifests/files/joomla.xml' file
+        $sizeSignatureJoomlaXml = pack('v', 0x0028);
 
-        $sizeSignature = pack('v', 0x0016);
-        $offset        = 0;
+        $headerFound = false;
+        $headerInfo  = false;
+        $readStart   = $filesize - $readsize;
 
-        // Look for installation/index.php
-        while (($pos = strpos($last4MiB, 'installation/index.php', $offset)) !== false) {
-            // Check if entry is a central directory file header and the file name is exactly 22 bytes long
-            if (substr($last4MiB, $pos - 46, 4) == $headerSignature && substr($last4MiB, $pos - 18, 2) == $sizeSignature) {
-                @fclose($fp);
+        while ($readStart >= 0) {
+            fseek($fp, $readStart);
+            $fileChunk = fread($fp, $readsize);
 
-                throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_INSTALL_PACKAGE'), 500);
-            }
-
-            $offset = $pos + 22;
-        }
-
-        $sizeSignature = pack('v', 0x0028);
-        $offset        = 0;
-        $headerInfo    = false;
-
-        // Look for administrator/manifests/files/joomla.xml
-        while (($pos = strpos($last4MiB, 'administrator/manifests/files/joomla.xml', $offset)) !== false) {
-            // Check if entry is inside a ZIP central directory header and  the file name is exactly 40 bytes long
-            if (substr($last4MiB, $pos - 46, 4) == $headerSignature && substr($last4MiB, $pos - 18, 2) == $sizeSignature) {
-                $headerInfo = unpack('VOffset', substr($last4MiB, $pos - 4, 4));
-
+            if ($fileChunk === false || strlen($fileChunk) !== $readsize) {
                 break;
             }
 
-            $offset = $pos + 40;
+            $posFirstHeader = strpos($fileChunk, $headerSignature);
+
+            if ($posFirstHeader === false) {
+                break;
+            }
+
+            $headerFound = true;
+
+            $offset = 0;
+
+            // Look for installation/index.php
+            while (($pos = strpos($fileChunk, 'installation/index.php', $offset)) !== false) {
+                // Check if entry is a central directory file header and the file name is exactly 22 bytes long
+                if (substr($fileChunk, $pos - 46, 4) == $headerSignature && substr($fileChunk, $pos - 18, 2) == $sizeSignatureIndexPhp) {
+                    echo PHP_EOL;
+                    echo 'The file is a full installation package.' . PHP_EOL;
+                    @fclose($fp);
+
+                    exit(1);
+                }
+
+                $offset = $pos + 22;
+            }
+
+            $offset = 0;
+
+            // Look for administrator/manifests/files/joomla.xml if not found yet
+            while ($headerInfo === false && ($pos = strpos($fileChunk, 'administrator/manifests/files/joomla.xml', $offset)) !== false) {
+                // Check if entry is inside a ZIP central directory header and  the file name is exactly 40 bytes long
+                if (substr($fileChunk, $pos - 46, 4) == $headerSignature && substr($fileChunk, $pos - 18, 2) == $sizeSignatureJoomlaXml) {
+                    $headerInfo = unpack('VOffset', substr($fileChunk, $pos - 4, 4));
+
+                    break;
+                }
+
+                $offset = $pos + 40;
+            }
+
+            if ($readStart === 0) {
+                break;
+            }
+
+            $readEnd   = $readStart + $posFirstHeader;
+            $readStart = max($readEnd - $readsize, 0);
+            $readsize  = $readEnd - $readStart;
         }
 
-        if ($headerInfo === false) {
-            @fclose($fp);
+        if (!$headerFound) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
+        }
 
+        if (!$headerInfo) {
             throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE'), 500);
         }
 
