@@ -1999,7 +1999,7 @@ ENDDATA;
     }
 
     /**
-     * Check Joomla version of update package
+     * Check content of manifest XML file in update package
      *
      * @param   string  $manifest  Content of the manifest XML file
      *
