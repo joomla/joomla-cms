@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\CMS\Installation\Form\Field" addruleprefix="Joomla\CMS\Installation\Form\Rule">
 	<fieldset name="site">
 		<field
@@ -175,5 +175,15 @@
 			showon="db_type:mysql,mysqli[AND]db_encryption:2"
 		/>
 
+	</fieldset>
+
+	<fieldset name="expert">
+		<field
+			name="public_folder"
+			type="text"
+			label="INSTL_PUBLIC_FOLDER_DESC"
+			default=""
+			filter="string"
+		/>
 	</fieldset>
 </form>

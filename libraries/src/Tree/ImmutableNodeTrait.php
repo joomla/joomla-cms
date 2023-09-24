@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Tree;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -34,7 +34,7 @@ trait ImmutableNodeTrait
      * @var    NodeInterface[]
      * @since  1.6
      */
-    protected $_children = array();
+    protected $_children = [];
 
     /**
      * Node left of this one
@@ -64,11 +64,11 @@ trait ImmutableNodeTrait
     public function &getChildren($recursive = false)
     {
         if ($recursive) {
-            $items = array();
+            $items = [];
 
             foreach ($this->_children as $child) {
                 $items[] = $child;
-                $items = array_merge($items, $child->getChildren(true));
+                $items   = array_merge($items, $child->getChildren(true));
             }
 
             return $items;
@@ -148,8 +148,8 @@ trait ImmutableNodeTrait
     {
         if ($right) {
             return $this->_rightSibling;
-        } else {
-            return $this->_leftSibling;
         }
+
+        return $this->_leftSibling;
     }
 }

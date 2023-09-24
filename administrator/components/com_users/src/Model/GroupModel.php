@@ -42,16 +42,16 @@ class GroupModel extends AdminModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         $config = array_merge(
-            array(
+            [
                 'event_after_delete'  => 'onUserAfterDeleteGroup',
                 'event_after_save'    => 'onUserAfterSaveGroup',
                 'event_before_delete' => 'onUserBeforeDeleteGroup',
                 'event_before_save'   => 'onUserBeforeSaveGroup',
-                'events_map'          => array('delete' => 'user', 'save' => 'user')
-            ),
+                'events_map'          => ['delete' => 'user', 'save' => 'user'],
+            ],
             $config
         );
 
@@ -69,7 +69,7 @@ class GroupModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'Usergroup', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
+    public function getTable($type = 'Usergroup', $prefix = 'Joomla\\CMS\\Table\\', $config = [])
     {
         $return = Table::getInstance($type, $prefix, $config);
 
@@ -86,10 +86,10 @@ class GroupModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.group', 'group', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_users.group', 'group', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -109,7 +109,7 @@ class GroupModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_users.edit.group.data', array());
+        $data = Factory::getApplication()->getUserState('com_users.edit.group.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -166,7 +166,7 @@ class GroupModel extends AdminModel
         $parentSuperAdmin = Access::checkGroup($data['parent_id'], 'core.admin');
 
         // Get core.admin rules from the root asset
-        $rules = Access::getAssetRules('root.1')->getData('core.admin');
+        $rules = Access::getAssetRules('root.1')->getData();
 
         // Get the value for the current group (will be true (allowed), false (denied), or null (inherit)
         $groupSuperAdmin = $rules['core.admin']->allow($data['id']);
@@ -199,7 +199,7 @@ class GroupModel extends AdminModel
 
             if (in_array($data['id'], $myGroups)) {
                 // Now, would we have super admin permissions without the current group?
-                $otherGroups = array_diff($myGroups, array($data['id']));
+                $otherGroups     = array_diff($myGroups, [$data['id']]);
                 $otherSuperAdmin = false;
 
                 foreach ($otherGroups as $otherGroup) {
@@ -258,7 +258,9 @@ class GroupModel extends AdminModel
                 Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_DELETE_ERROR_INVALID_GROUP'), 'error');
 
                 return false;
-            } elseif (!$table->load($pk)) {
+            }
+
+            if (!$table->load($pk)) {
                 // Item is not in the table.
                 $this->setError($table->getError());
 
@@ -277,16 +279,16 @@ class GroupModel extends AdminModel
 
                 if ($allow) {
                     // Fire the before delete event.
-                    Factory::getApplication()->triggerEvent($this->event_before_delete, array($table->getProperties()));
+                    Factory::getApplication()->triggerEvent($this->event_before_delete, [$table->getProperties()]);
 
                     if (!$table->delete($pk)) {
                         $this->setError($table->getError());
 
                         return false;
-                    } else {
-                        // Trigger the after delete event.
-                        Factory::getApplication()->triggerEvent($this->event_after_delete, array($table->getProperties(), true, $this->getError()));
                     }
+
+                    // Trigger the after delete event.
+                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$table->getProperties(), true, $this->getError()]);
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
@@ -313,7 +315,7 @@ class GroupModel extends AdminModel
         // Alter the title & alias
         $table = $this->getTable();
 
-        while ($table->load(array('title' => $title, 'parent_id' => $parentId))) {
+        while ($table->load(['title' => $title, 'parent_id' => $parentId])) {
             if ($title == $table->title) {
                 $title = StringHelper::increment($title);
             }

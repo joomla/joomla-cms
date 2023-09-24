@@ -12,6 +12,12 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Event\Application\AfterExecuteEvent;
+use Joomla\CMS\Event\Application\AfterRenderEvent;
+use Joomla\CMS\Event\Application\AfterRespondEvent;
+use Joomla\CMS\Event\Application\BeforeExecuteEvent;
+use Joomla\CMS\Event\Application\BeforeRenderEvent;
+use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
@@ -19,12 +25,13 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Version;
+use Joomla\Filter\OutputFilter;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 use Psr\Http\Message\ResponseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -36,6 +43,24 @@ abstract class WebApplication extends AbstractWebApplication
 {
     use EventAware;
     use IdentityAware;
+
+    /**
+     * The application component title.
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $JComponentTitle;
+
+    /**
+     * The item associations
+     *
+     * @var    integer
+     * @since  4.3.0
+     *
+     * @deprecated 4.4.0 will be removed in 6.0 as this property is not used anymore
+     */
+    public $item_associations;
 
     /**
      * The application document object.
@@ -64,19 +89,19 @@ abstract class WebApplication extends AbstractWebApplication
     /**
      * Class constructor.
      *
-     * @param   Input              $input     An optional argument to provide dependency injection for the application's
-     *                                        input object.  If the argument is a JInput object that object will become
-     *                                        the application's input object, otherwise a default input object is created.
-     * @param   Registry           $config    An optional argument to provide dependency injection for the application's
-     *                                        config object.  If the argument is a Registry object that object will become
-     *                                        the application's config object, otherwise a default config object is created.
-     * @param   WebClient          $client    An optional argument to provide dependency injection for the application's
-     *                                        client object.  If the argument is a WebClient object that object will become
-     *                                        the application's client object, otherwise a default client object is created.
-     * @param   ResponseInterface  $response  An optional argument to provide dependency injection for the application's
-     *                                        response object.  If the argument is a ResponseInterface object that object
-     *                                        will become the application's response object, otherwise a default response
-     *                                        object is created.
+     * @param   ?Input              $input     An optional argument to provide dependency injection for the application's
+     *                                         input object.  If the argument is a JInput object that object will become
+     *                                         the application's input object, otherwise a default input object is created.
+     * @param   ?Registry           $config    An optional argument to provide dependency injection for the application's
+     *                                         config object.  If the argument is a Registry object that object will become
+     *                                         the application's config object, otherwise a default config object is created.
+     * @param   ?WebClient          $client    An optional argument to provide dependency injection for the application's
+     *                                         client object.  If the argument is a WebClient object that object will become
+     *                                         the application's client object, otherwise a default client object is created.
+     * @param   ?ResponseInterface  $response  An optional argument to provide dependency injection for the application's
+     *                                         response object.  If the argument is a ResponseInterface object that object
+     *                                         will become the application's response object, otherwise a default response
+     *                                         object is created.
      *
      * @since   1.7.3
      */
@@ -106,7 +131,10 @@ abstract class WebApplication extends AbstractWebApplication
      *
      * @since       1.7.3
      * @throws      \RuntimeException
-     * @deprecated  5.0 Use \Joomla\CMS\Factory::getContainer()->get($name) instead
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the application service in the DI container instead
+     *              Example: \Joomla\CMS\Factory::getContainer()->get($name)
      */
     public static function getInstance($name = null)
     {
@@ -132,24 +160,36 @@ abstract class WebApplication extends AbstractWebApplication
     public function execute()
     {
         // Trigger the onBeforeExecute event.
-        $this->triggerEvent('onBeforeExecute');
+        $this->dispatchEvent(
+            'onBeforeExecute',
+            new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this])
+        );
 
         // Perform application routines.
         $this->doExecute();
 
         // Trigger the onAfterExecute event.
-        $this->triggerEvent('onAfterExecute');
+        $this->dispatchEvent(
+            'onAfterExecute',
+            new AfterExecuteEvent('onAfterExecute', ['subject' => $this])
+        );
 
         // If we have an application document object, render it.
         if ($this->document instanceof Document) {
             // Trigger the onBeforeRender event.
-            $this->triggerEvent('onBeforeRender');
+            $this->dispatchEvent(
+                'onBeforeRender',
+                new BeforeRenderEvent('onBeforeRender', ['subject' => $this])
+            );
 
             // Render the application output.
             $this->render();
 
             // Trigger the onAfterRender event.
-            $this->triggerEvent('onAfterRender');
+            $this->dispatchEvent(
+                'onAfterRender',
+                new AfterRenderEvent('onAfterRender', ['subject' => $this])
+            );
         }
 
         // If gzip compression is enabled in configuration and the server is compliant, compress the output.
@@ -158,13 +198,19 @@ abstract class WebApplication extends AbstractWebApplication
         }
 
         // Trigger the onBeforeRespond event.
-        $this->triggerEvent('onBeforeRespond');
+        $this->dispatchEvent(
+            'onBeforeRespond',
+            new BeforeRespondEvent('onBeforeRespond', ['subject' => $this])
+        );
 
         // Send the application response.
         $this->respond();
 
         // Trigger the onAfterRespond event.
-        $this->triggerEvent('onAfterRespond');
+        $this->dispatchEvent(
+            'onAfterRespond',
+            new AfterRespondEvent('onAfterRespond', ['subject' => $this])
+        );
     }
 
     /**
@@ -179,12 +225,12 @@ abstract class WebApplication extends AbstractWebApplication
     protected function render()
     {
         // Setup the document options.
-        $options = array(
+        $options = [
             'template'         => $this->get('theme'),
             'file'             => $this->get('themeFile', 'index.php'),
             'params'           => $this->get('themeParams'),
             'templateInherits' => $this->get('themeInherits'),
-        );
+        ];
 
         if ($this->get('themes.base')) {
             $options['directory'] = $this->get('themes.base');
@@ -246,7 +292,7 @@ abstract class WebApplication extends AbstractWebApplication
      * but for many applications it will make sense to override this method and create a document,
      * if required, based on more specific needs.
      *
-     * @param   Document  $document  An optional document object. If omitted, the factory document is created.
+     * @param   ?Document  $document  An optional document object. If omitted, the factory document is created.
      *
      * @return  WebApplication This method is chainable.
      *
@@ -266,7 +312,7 @@ abstract class WebApplication extends AbstractWebApplication
      * but for many applications it will make sense to override this method and create a language,
      * if required, based on more specific needs.
      *
-     * @param   Language  $language  An optional language object. If omitted, the factory language is created.
+     * @param   ?Language  $language  An optional language object. If omitted, the factory language is created.
      *
      * @return  WebApplication This method is chainable.
      *
@@ -275,6 +321,7 @@ abstract class WebApplication extends AbstractWebApplication
     public function loadLanguage(Language $language = null)
     {
         $this->language = $language ?? Factory::getLanguage();
+        OutputFilter::setLanguage($this->language);
 
         return $this;
     }
@@ -286,16 +333,18 @@ abstract class WebApplication extends AbstractWebApplication
      * but for many applications it will make sense to override this method and create a session,
      * if required, based on more specific needs.
      *
-     * @param   Session  $session  An optional session object. If omitted, the session is created.
+     * @param   ?Session  $session  An optional session object. If omitted, the session is created.
      *
      * @return  WebApplication This method is chainable.
      *
      * @since   1.7.3
-     * @deprecated  5.0  The session should be injected as a service.
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              The session should be injected as a service.
      */
     public function loadSession(Session $session = null)
     {
-        $this->getLogger()->warning(__METHOD__ . '() is deprecated.  Inject the session as a service instead.', array('category' => 'deprecated'));
+        $this->getLogger()->warning(__METHOD__ . '() is deprecated.  Inject the session as a service instead.', ['category' => 'deprecated']);
 
         return $this;
     }
@@ -347,8 +396,8 @@ abstract class WebApplication extends AbstractWebApplication
         $siteUri = trim($this->get('site_uri', ''));
 
         if ($siteUri !== '') {
-            $uri = Uri::getInstance($siteUri);
-            $path = $uri->toString(array('path'));
+            $uri  = Uri::getInstance($siteUri);
+            $path = $uri->toString(['path']);
         } else {
             // No explicit base URI was set so we need to detect it.
             // Start with the requested URI.
@@ -364,7 +413,7 @@ abstract class WebApplication extends AbstractWebApplication
             }
         }
 
-        $host = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+        $host = $uri->toString(['scheme', 'user', 'pass', 'host', 'port']);
 
         // Check if the path includes "index.php".
         if (strpos($path, 'index.php') !== false) {

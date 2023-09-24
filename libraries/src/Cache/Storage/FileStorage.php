@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,12 +9,14 @@
 
 namespace Joomla\CMS\Cache\Storage;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Cache\CacheStorage;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\Filesystem\File;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * File cache storage handler
@@ -38,7 +41,7 @@ class FileStorage extends CacheStorage
      * @since  3.7.0
      *
      */
-    protected $_locked_files = array();
+    protected $_locked_files = [];
 
     /**
      * Constructor
@@ -47,7 +50,7 @@ class FileStorage extends CacheStorage
      *
      * @since   1.7.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         parent::__construct($options);
         $this->_root = $options['cachebase'];
@@ -56,19 +59,15 @@ class FileStorage extends CacheStorage
         $locked_files = &$this->_locked_files;
 
         // Remove empty locked files at script shutdown.
-        $clearAtShutdown = function () use (&$locked_files)
-        {
-            foreach ($locked_files as $path => $handle)
-            {
-                if (\is_resource($handle))
-                {
+        $clearAtShutdown = function () use (&$locked_files) {
+            foreach ($locked_files as $path => $handle) {
+                if (\is_resource($handle)) {
                     @flock($handle, LOCK_UN);
                     @fclose($handle);
                 }
 
                 // Delete only the existing file if it is empty.
-                if (@filesize($path) === 0)
-                {
+                if (@filesize($path) === 0) {
                     File::invalidateFileCache($path);
                     @unlink($path);
                 }
@@ -111,34 +110,26 @@ class FileStorage extends CacheStorage
         $path  = $this->_getFilePath($id, $group);
         $close = false;
 
-        if ($checkTime == false || ($checkTime == true && $this->_checkExpire($id, $group) === true))
-        {
-            if (file_exists($path))
-            {
-                if (isset($this->_locked_files[$path]))
-                {
+        if ($checkTime == false || ($checkTime == true && $this->_checkExpire($id, $group) === true)) {
+            if (file_exists($path)) {
+                if (isset($this->_locked_files[$path])) {
                     $_fileopen = $this->_locked_files[$path];
-                }
-                else
-                {
+                } else {
                     $_fileopen = @fopen($path, 'rb');
 
                     // There is no lock, we have to close file after store data
                     $close = true;
                 }
 
-                if ($_fileopen)
-                {
+                if ($_fileopen) {
                     // On Windows system we can not use file_get_contents on the file locked by yourself
                     $data = stream_get_contents($_fileopen);
 
-                    if ($close)
-                    {
+                    if ($close) {
                         @fclose($_fileopen);
                     }
 
-                    if ($data !== false)
-                    {
+                    if ($data !== false) {
                         // Remove the initial die() statement
                         return str_replace('<?php die("Access Denied"); ?>#x#', '', $data);
                     }
@@ -160,15 +151,13 @@ class FileStorage extends CacheStorage
     {
         $path    = $this->_root;
         $folders = $this->_folders($path);
-        $data    = array();
+        $data    = [];
 
-        foreach ($folders as $folder)
-        {
+        foreach ($folders as $folder) {
             $files = $this->_filesInFolder($path . '/' . $folder);
             $item  = new CacheStorageHelper($folder);
 
-            foreach ($files as $file)
-            {
+            foreach ($files as $file) {
                 $item->updateSize(filesize($path . '/' . $folder . '/' . $file));
             }
 
@@ -197,28 +186,23 @@ class FileStorage extends CacheStorage
         // Prepend a die string
         $data = '<?php die("Access Denied"); ?>#x#' . $data;
 
-        if (isset($this->_locked_files[$path]))
-        {
+        if (isset($this->_locked_files[$path])) {
             $_fileopen = $this->_locked_files[$path];
 
             // Because lock method uses flag c+b we have to truncate it manually
             @ftruncate($_fileopen, 0);
-        }
-        else
-        {
+        } else {
             $_fileopen = @fopen($path, 'wb');
 
             // There is no lock, we have to close file after store data
             $close = true;
         }
 
-        if ($_fileopen)
-        {
+        if ($_fileopen) {
             $length = \strlen($data);
             $result = @fwrite($_fileopen, $data, $length);
 
-            if ($close)
-            {
+            if ($close) {
                 @fclose($_fileopen);
             }
 
@@ -243,8 +227,7 @@ class FileStorage extends CacheStorage
         $path = $this->_getFilePath($id, $group);
 
         File::invalidateFileCache($path);
-        if (!@unlink($path))
-        {
+        if (!@unlink($path)) {
             return false;
         }
 
@@ -269,30 +252,25 @@ class FileStorage extends CacheStorage
         $return = true;
         $folder = $group;
 
-        if (trim($folder) == '')
-        {
+        if (trim($folder) == '') {
             $mode = 'notgroup';
         }
 
-        switch ($mode)
-        {
-            case 'notgroup' :
+        switch ($mode) {
+            case 'notgroup':
                 $folders = $this->_folders($this->_root);
 
-                for ($i = 0, $n = \count($folders); $i < $n; $i++)
-                {
-                    if ($folders[$i] != $folder)
-                    {
+                for ($i = 0, $n = \count($folders); $i < $n; $i++) {
+                    if ($folders[$i] != $folder) {
                         $return |= $this->_deleteFolder($this->_root . '/' . $folders[$i]);
                     }
                 }
 
                 break;
 
-            case 'group' :
-            default :
-                if (is_dir($this->_root . '/' . $folder))
-                {
+            case 'group':
+            default:
+                if (is_dir($this->_root . '/' . $folder)) {
                     $return = $this->_deleteFolder($this->_root . '/' . $folder);
                 }
 
@@ -314,14 +292,12 @@ class FileStorage extends CacheStorage
         $result = true;
 
         // Files older than lifeTime get deleted from cache
-        $files = $this->_filesInFolder($this->_root, '', true, true, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'index.html'));
+        $files = $this->_filesInFolder($this->_root, '', true, true, ['.svn', 'CVS', '.DS_Store', '__MACOSX', 'index.html']);
 
-        foreach ($files as $file)
-        {
+        foreach ($files as $file) {
             $time = @filemtime($file);
 
-            if (($time + $this->_lifetime) < $this->_now || empty($time))
-            {
+            if (($time + $this->_lifetime) < $this->_now || empty($time)) {
                 File::invalidateFileCache($file);
                 $result |= @unlink($file);
             }
@@ -343,45 +319,40 @@ class FileStorage extends CacheStorage
      */
     public function lock($id, $group, $locktime)
     {
-        $returning             = new \stdClass;
+        $returning             = new \stdClass();
         $returning->locklooped = false;
 
         $looptime  = $locktime * 10;
         $path      = $this->_getFilePath($id, $group);
         $_fileopen = @fopen($path, 'c+b');
 
-        if (!$_fileopen)
-        {
+        if (!$_fileopen) {
             $returning->locked = false;
 
             return $returning;
         }
 
-        $data_lock = (bool) @flock($_fileopen, LOCK_EX|LOCK_NB);
+        $data_lock = (bool) @flock($_fileopen, LOCK_EX | LOCK_NB);
 
-        if ($data_lock === false)
-        {
+        if ($data_lock === false) {
             $lock_counter = 0;
 
             // Loop until you find that the lock has been released.
             // That implies that data get from other thread has finished
-            while ($data_lock === false)
-            {
-                if ($lock_counter > $looptime)
-                {
+            while ($data_lock === false) {
+                if ($lock_counter > $looptime) {
                     break;
                 }
 
                 usleep(100);
-                $data_lock = (bool) @flock($_fileopen, LOCK_EX|LOCK_NB);
+                $data_lock = (bool) @flock($_fileopen, LOCK_EX | LOCK_NB);
                 $lock_counter++;
             }
 
             $returning->locklooped = true;
         }
 
-        if ($data_lock === true)
-        {
+        if ($data_lock === true) {
             // Remember resource, flock release lock if you unset/close resource
             $this->_locked_files[$path] = $_fileopen;
         }
@@ -405,8 +376,7 @@ class FileStorage extends CacheStorage
     {
         $path = $this->_getFilePath($id, $group);
 
-        if (isset($this->_locked_files[$path]))
-        {
+        if (isset($this->_locked_files[$path])) {
             $ret = (bool) @flock($this->_locked_files[$path], LOCK_UN);
             @fclose($this->_locked_files[$path]);
             unset($this->_locked_files[$path]);
@@ -435,12 +405,10 @@ class FileStorage extends CacheStorage
         $path = $this->_getFilePath($id, $group);
 
         // Check prune period
-        if (file_exists($path))
-        {
+        if (file_exists($path)) {
             $time = @filemtime($path);
 
-            if (($time + $this->_lifetime) < $this->_now || empty($time))
-            {
+            if (($time + $this->_lifetime) < $this->_now || empty($time)) {
                 File::invalidateFileCache($path);
                 @unlink($path);
 
@@ -448,8 +416,7 @@ class FileStorage extends CacheStorage
             }
 
             // If, right now, the file does not exist then return false
-            if (@filesize($path) == 0)
-            {
+            if (@filesize($path) == 0) {
                 return false;
             }
 
@@ -475,16 +442,14 @@ class FileStorage extends CacheStorage
         $dir  = $this->_root . '/' . $group;
 
         // If the folder doesn't exist try to create it
-        if (!is_dir($dir))
-        {
+        if (!is_dir($dir)) {
             // Make sure the index file is there
             $indexFile = $dir . '/index.html';
             @mkdir($dir) && file_put_contents($indexFile, '<!DOCTYPE html><title></title>');
         }
 
         // Make sure the folder exists
-        if (!is_dir($dir))
-        {
+        if (!is_dir($dir)) {
             return false;
         }
 
@@ -503,8 +468,7 @@ class FileStorage extends CacheStorage
     protected function _deleteFolder($path)
     {
         // Sanity check
-        if (!$path || !is_dir($path) || empty($this->_root))
-        {
+        if (!$path || !is_dir($path) || empty($this->_root)) {
             // Bad programmer! Bad, bad programmer!
             Log::add(__METHOD__ . ' ' . Text::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'), Log::WARNING, 'jerror');
 
@@ -516,35 +480,28 @@ class FileStorage extends CacheStorage
         // Check to make sure path is inside cache folder, we do not want to delete Joomla root!
         $pos = strpos($path, $this->_cleanPath($this->_root));
 
-        if ($pos === false || $pos > 0)
-        {
+        if ($pos === false || $pos > 0) {
             Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', __METHOD__, $path), Log::WARNING, 'jerror');
 
             return false;
         }
 
         // Remove all the files in folder if they exist; disable all filtering
-        $files = $this->_filesInFolder($path, '.', false, true, array(), array());
+        $files = $this->_filesInFolder($path, '.', false, true, [], []);
 
-        if (!empty($files) && !\is_array($files))
-        {
+        if (!empty($files) && !\is_array($files)) {
             File::invalidateFileCache($files);
-            if (@unlink($files) !== true)
-            {
+            if (@unlink($files) !== true) {
                 return false;
             }
-        }
-        elseif (!empty($files) && \is_array($files))
-        {
-            foreach ($files as $file)
-            {
+        } elseif (!empty($files) && \is_array($files)) {
+            foreach ($files as $file) {
                 $file = $this->_cleanPath($file);
 
                 // In case of restricted permissions we delete it one way or the other as long as the owner is either the webserver or the ftp
                 File::invalidateFileCache($file);
 
-                if (@unlink($file) !== true)
-                {
+                if (@unlink($file) !== true) {
                     Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', basename($file)), Log::WARNING, 'jerror');
 
                     return false;
@@ -553,27 +510,21 @@ class FileStorage extends CacheStorage
         }
 
         // Remove sub-folders of folder; disable all filtering
-        $folders = $this->_folders($path, '.', false, true, array(), array());
+        $folders = $this->_folders($path, '.', false, true, [], []);
 
-        foreach ($folders as $folder)
-        {
-            if (is_link($folder))
-            {
+        foreach ($folders as $folder) {
+            if (is_link($folder)) {
                 // Don't descend into linked directories, just delete the link.
-                if (@unlink($folder) !== true)
-                {
+                if (@unlink($folder) !== true) {
                     return false;
                 }
-            }
-            elseif ($this->_deleteFolder($folder) !== true)
-            {
+            } elseif ($this->_deleteFolder($folder) !== true) {
                 return false;
             }
         }
 
         // In case of restricted permissions we zap it one way or the other as long as the owner is either the webserver or the ftp
-        if (@rmdir($path))
-        {
+        if (@rmdir($path)) {
             return true;
         }
 
@@ -596,8 +547,7 @@ class FileStorage extends CacheStorage
     {
         $path = trim($path);
 
-        if (empty($path))
-        {
+        if (empty($path)) {
             return $this->_root;
         }
 
@@ -621,70 +571,57 @@ class FileStorage extends CacheStorage
      *
      * @since   1.7.0
      */
-    protected function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false,
-        $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*', '.*~'))
-    {
-        $arr = array();
+    protected function _filesInFolder(
+        $path,
+        $filter = '.',
+        $recurse = false,
+        $fullpath = false,
+        $exclude = ['.svn', 'CVS', '.DS_Store', '__MACOSX'],
+        $excludefilter = ['^\..*', '.*~']
+    ) {
+        $arr = [];
 
         // Check to make sure the path valid and clean
         $path = $this->_cleanPath($path);
 
         // Is the path a folder?
-        if (!is_dir($path))
-        {
+        if (!is_dir($path)) {
             Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', __METHOD__, $path), Log::WARNING, 'jerror');
 
             return false;
         }
 
         // Read the source directory.
-        if (!($handle = @opendir($path)))
-        {
+        if (!($handle = @opendir($path))) {
             return $arr;
         }
 
-        if (\count($excludefilter))
-        {
+        if (\count($excludefilter)) {
             $excludefilter = '/(' . implode('|', $excludefilter) . ')/';
-        }
-        else
-        {
+        } else {
             $excludefilter = '';
         }
 
-        while (($file = readdir($handle)) !== false)
-        {
-            if (($file != '.') && ($file != '..') && (!\in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file)))
-            {
+        while (($file = readdir($handle)) !== false) {
+            if (($file != '.') && ($file != '..') && (!\in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file))) {
                 $dir   = $path . '/' . $file;
                 $isDir = is_dir($dir);
 
-                if ($isDir)
-                {
-                    if ($recurse)
-                    {
-                        if (\is_int($recurse))
-                        {
+                if ($isDir) {
+                    if ($recurse) {
+                        if (\is_int($recurse)) {
                             $arr2 = $this->_filesInFolder($dir, $filter, $recurse - 1, $fullpath);
-                        }
-                        else
-                        {
+                        } else {
                             $arr2 = $this->_filesInFolder($dir, $filter, $recurse, $fullpath);
                         }
 
                         $arr = array_merge($arr, $arr2);
                     }
-                }
-                else
-                {
-                    if (preg_match("/$filter/", $file))
-                    {
-                        if ($fullpath)
-                        {
+                } else {
+                    if (preg_match("/$filter/", $file)) {
+                        if ($fullpath) {
                             $arr[] = $path . '/' . $file;
-                        }
-                        else
-                        {
+                        } else {
                             $arr[] = $file;
                         }
                     }
@@ -711,69 +648,60 @@ class FileStorage extends CacheStorage
      *
      * @since   1.7.0
      */
-    protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
-        $excludefilter = array('^\..*'))
-    {
-        $arr = array();
+    protected function _folders(
+        $path,
+        $filter = '.',
+        $recurse = false,
+        $fullpath = false,
+        $exclude = ['.svn', 'CVS', '.DS_Store', '__MACOSX'],
+        $excludefilter = ['^\..*']
+    ) {
+        $arr = [];
 
         // Check to make sure the path valid and clean
         $path = $this->_cleanPath($path);
 
         // Is the path a folder?
-        if (!is_dir($path))
-        {
+        if (!is_dir($path)) {
             Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', __METHOD__, $path), Log::WARNING, 'jerror');
 
             return false;
         }
 
         // Read the source directory
-        if (!($handle = @opendir($path)))
-        {
+        if (!($handle = @opendir($path))) {
             return $arr;
         }
 
-        if (\count($excludefilter))
-        {
+        if (\count($excludefilter)) {
             $excludefilter_string = '/(' . implode('|', $excludefilter) . ')/';
-        }
-        else
-        {
+        } else {
             $excludefilter_string = '';
         }
 
-        while (($file = readdir($handle)) !== false)
-        {
-            if (($file != '.') && ($file != '..')
+        while (($file = readdir($handle)) !== false) {
+            if (
+                ($file != '.') && ($file != '..')
                 && (!\in_array($file, $exclude))
-                && (empty($excludefilter_string) || !preg_match($excludefilter_string, $file)))
-            {
+                && (empty($excludefilter_string) || !preg_match($excludefilter_string, $file))
+            ) {
                 $dir   = $path . '/' . $file;
                 $isDir = is_dir($dir);
 
-                if ($isDir)
-                {
+                if ($isDir) {
                     // Removes filtered directories
-                    if (preg_match("/$filter/", $file))
-                    {
-                        if ($fullpath)
-                        {
+                    if (preg_match("/$filter/", $file)) {
+                        if ($fullpath) {
                             $arr[] = $dir;
-                        }
-                        else
-                        {
+                        } else {
                             $arr[] = $file;
                         }
                     }
 
-                    if ($recurse)
-                    {
-                        if (\is_int($recurse))
-                        {
+                    if ($recurse) {
+                        if (\is_int($recurse)) {
                             $arr2 = $this->_folders($dir, $filter, $recurse - 1, $fullpath, $exclude, $excludefilter);
-                        }
-                        else
-                        {
+                        } else {
                             $arr2 = $this->_folders($dir, $filter, $recurse, $fullpath, $exclude, $excludefilter);
                         }
 

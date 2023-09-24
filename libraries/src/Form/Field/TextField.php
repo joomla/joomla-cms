@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -135,7 +135,7 @@ class TextField extends FormField
                 break;
 
             case 'dirname':
-                $value = (string) $value;
+                $value         = (string) $value;
                 $this->dirname = ($value == $name || $value === 'true' || $value === '1');
                 break;
 
@@ -180,28 +180,26 @@ class TextField extends FormField
 
         if ($result == true) {
             $inputmode = (string) $this->element['inputmode'];
-            $dirname = (string) $this->element['dirname'];
+            $dirname   = (string) $this->element['dirname'];
 
             $this->inputmode = '';
-            $inputmode = preg_replace('/\s+/', ' ', trim($inputmode));
-            $inputmode = explode(' ', $inputmode);
+            $inputmode       = preg_replace('/\s+/', ' ', trim($inputmode));
+            $inputmode       = explode(' ', $inputmode);
 
-            if (!empty($inputmode)) {
-                $defaultInputmode = \in_array('default', $inputmode) ? Text::_('JLIB_FORM_INPUTMODE') . ' ' : '';
+            $defaultInputmode = \in_array('default', $inputmode) ? Text::_('JLIB_FORM_INPUTMODE') . ' ' : '';
 
-                foreach (array_keys($inputmode, 'default') as $key) {
-                    unset($inputmode[$key]);
-                }
-
-                $this->inputmode = $defaultInputmode . implode(' ', $inputmode);
+            foreach (array_keys($inputmode, 'default') as $key) {
+                unset($inputmode[$key]);
             }
 
+            $this->inputmode = $defaultInputmode . implode(' ', $inputmode);
+
             // Set the dirname.
-            $dirname = ($dirname === 'dirname' || $dirname === 'true' || $dirname === '1');
+            $dirname       = ($dirname === 'dirname' || $dirname === 'true' || $dirname === '1');
             $this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
 
-            $this->maxLength = (int) $this->element['maxlength'];
-            $this->charcounter = isset($this->element['charcounter']) ? strtolower($this->element['charcounter']) === 'true' : false;
+            $this->maxLength   = (int) $this->element['maxlength'];
+            $this->charcounter = isset($this->element['charcounter']) && strtolower($this->element['charcounter']) === 'true';
 
             $this->addonBefore = (string) $this->element['addonBefore'];
             $this->addonAfter  = (string) $this->element['addonAfter'];
@@ -255,13 +253,13 @@ class TextField extends FormField
     /**
      * Method to get the field options.
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.4
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         foreach ($this->element->children() as $option) {
             // Only add <option /> elements.
@@ -301,7 +299,7 @@ class TextField extends FormField
         // Get the field options for the datalist.
         $options  = (array) $this->getOptions();
 
-        $extraData = array(
+        $extraData = [
             'maxLength'   => $maxLength,
             'pattern'     => $this->pattern,
             'inputmode'   => $inputmode,
@@ -310,7 +308,7 @@ class TextField extends FormField
             'addonAfter'  => $this->addonAfter,
             'options'     => $options,
             'charcounter' => $this->charcounter,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

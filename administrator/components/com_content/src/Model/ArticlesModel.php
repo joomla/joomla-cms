@@ -41,10 +41,10 @@ class ArticlesModel extends ListModel
      * @since   1.6
      * @see     \Joomla\CMS\MVC\Controller\BaseController
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'alias', 'a.alias',
@@ -72,8 +72,8 @@ class ArticlesModel extends ListModel
                 'tag',
                 'rating_count', 'rating',
                 'stage', 'wa.stage_id',
-                'ws.title'
-            );
+                'ws.title',
+            ];
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
@@ -93,7 +93,7 @@ class ArticlesModel extends ListModel
      *
      * @since   3.2
      */
-    public function getFilterForm($data = array(), $loadData = true)
+    public function getFilterForm($data = [], $loadData = true)
     {
         $form = parent::getFilterForm($data, $loadData);
 
@@ -384,18 +384,18 @@ class ArticlesModel extends ListModel
         }
 
         // Filter by categories and by level
-        $categoryId = $this->getState('filter.category_id', array());
+        $categoryId = $this->getState('filter.category_id', []);
         $level      = (int) $this->getState('filter.level');
 
         if (!is_array($categoryId)) {
-            $categoryId = $categoryId ? array($categoryId) : array();
+            $categoryId = $categoryId ? [$categoryId] : [];
         }
 
         // Case: Using both categories filter and by level filter
         if (count($categoryId)) {
-            $categoryId = ArrayHelper::toInteger($categoryId);
-            $categoryTable = Table::getInstance('Category', 'JTable');
-            $subCatItemsWhere = array();
+            $categoryId       = ArrayHelper::toInteger($categoryId);
+            $categoryTable    = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
+            $subCatItemsWhere = [];
 
             foreach ($categoryId as $key => $filter_catid) {
                 $categoryTable->load($filter_catid);
@@ -431,13 +431,13 @@ class ArticlesModel extends ListModel
 
         if (is_numeric($authorId)) {
             $authorId = (int) $authorId;
-            $type = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
+            $type     = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
             $query->where($db->quoteName('a.created_by') . $type . ':authorId')
                 ->bind(':authorId', $authorId, ParameterType::INTEGER);
         } elseif (is_array($authorId)) {
             // Check to see if by_me is in the array
             if (\in_array('by_me', $authorId)) {
-            // Replace by_me with the current user id in the array
+                // Replace by_me with the current user id in the array
                 $authorId['by_me'] = $user->id;
             }
 
@@ -570,7 +570,7 @@ class ArticlesModel extends ListModel
         $workflow_ids = ArrayHelper::toInteger($workflow_ids);
         $workflow_ids = array_values(array_unique(array_filter($workflow_ids)));
 
-        $this->cache[$store] = array();
+        $this->cache[$store] = [];
 
         try {
             if (count($stage_ids) || count($workflow_ids)) {
@@ -651,7 +651,7 @@ class ArticlesModel extends ListModel
             $item->typeAlias = 'com_content.article';
 
             if (isset($item->metadata)) {
-                $registry = new Registry($item->metadata);
+                $registry       = new Registry($item->metadata);
                 $item->metadata = $registry->toArray();
             }
         }

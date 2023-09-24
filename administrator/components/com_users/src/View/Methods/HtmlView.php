@@ -14,7 +14,7 @@ use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
@@ -130,7 +130,7 @@ class HtmlView extends BaseHtmlView
                 continue;
             }
 
-            $activeRecords   += $methodActiveRecords;
+            $activeRecords += $methodActiveRecords;
             $this->mfaActive = true;
 
             foreach ($method['active'] as $record) {
@@ -165,7 +165,7 @@ class HtmlView extends BaseHtmlView
                             'canDisable' => false,
                             'active'     => [$backupCodesRecord],
                         ]
-                    )
+                    ),
                 ],
                 $this->methods
             );
@@ -177,8 +177,11 @@ class HtmlView extends BaseHtmlView
         if ($this->isAdmin) {
             ToolbarHelper::title(Text::_('COM_USERS_MFA_LIST_PAGE_HEAD'), 'users user-lock');
 
-            if (Factory::getApplication()->getIdentity()->authorise('core.manage', 'com_users')) {
-                ToolbarHelper::back('JTOOLBAR_BACK', Route::_('index.php?option=com_users'));
+            if ($this->getCurrentUser()->authorise('core.manage', 'com_users')) {
+                $toolbar = Toolbar::getInstance();
+                $arrow   = Factory::getApplication()->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+                $toolbar->link('JTOOLBAR_BACK', 'index.php?option=com_users')
+                    ->icon('icon-' . $arrow);
             }
         }
 

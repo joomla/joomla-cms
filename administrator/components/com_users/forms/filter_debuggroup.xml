@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Users\Administrator\Field">
 	<fields name="filter">
 		<field
@@ -14,7 +14,7 @@
 			name="component"
 			type="Components"
 			label="COM_USERS_OPTION_LABEL_COMPONENT"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_COMPONENT</option>
 		</field>
@@ -23,7 +23,7 @@
 			name="level_start"
 			type="Levels"
 			label="COM_USERS_OPTION_LABEL_LEVEL_START"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_LEVEL_START</option>
 		</field>
@@ -32,7 +32,7 @@
 			name="level_end"
 			type="Levels"
 			label="COM_USERS_OPTION_LABEL_LEVEL_END"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_LEVEL_END</option>
 		</field>
@@ -43,7 +43,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			default="a.lft ASC"
 			validate="options"
 			>
@@ -63,7 +63,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 	</fields>
 </form>

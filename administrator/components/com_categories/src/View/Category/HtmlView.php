@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
@@ -50,7 +50,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -64,7 +64,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $canDo;
 
@@ -85,10 +85,10 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->form = $this->get('Form');
-        $this->item = $this->get('Item');
+        $this->form  = $this->get('Form');
+        $this->item  = $this->get('Item');
         $this->state = $this->get('State');
-        $section = $this->state->get('category.section') ? $this->state->get('category.section') . '.' : '';
+        $section     = $this->state->get('category.section') ? $this->state->get('category.section') . '.' : '';
         $this->canDo = ContentHelper::getActions($this->state->get('category.component'), $section . 'category', $this->item->id);
         $this->assoc = $this->get('Assoc');
 
@@ -98,7 +98,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check if we have a content type for this alias
-        if (!empty(TagsHelper::getTypes('objectList', array($this->state->get('category.extension') . '.category'), true))) {
+        if (!empty(TagsHelper::getTypes('objectList', [$this->state->get('category.extension') . '.category'], true))) {
             $this->checkTags = true;
         }
 
@@ -117,7 +117,9 @@ class HtmlView extends BaseHtmlView
             $this->form->setFieldAttribute('tags', 'language', '*,' . $forcedLanguage);
         }
 
-        $this->addToolbar();
+        if ($this->getLayout() !== 'modal') {
+            $this->addToolbar();
+        }
 
         parent::display($tpl);
     }
@@ -132,10 +134,11 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         $extension = Factory::getApplication()->getInput()->get('extension');
-        $user = $this->getCurrentUser();
-        $userId = $user->id;
+        $user      = $this->getCurrentUser();
+        $userId    = $user->id;
+        $toolbar   = Toolbar::getInstance();
 
-        $isNew = ($this->item->id == 0);
+        $isNew      = ($this->item->id == 0);
         $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
         // Avoid nonsense situation.
@@ -144,15 +147,15 @@ class HtmlView extends BaseHtmlView
         }
 
         // The extension can be in the form com_foo.section
-        $parts = explode('.', $extension);
-        $component = $parts[0];
-        $section = (count($parts) > 1) ? $parts[1] : null;
+        $parts           = explode('.', $extension);
+        $component       = $parts[0];
+        $section         = (count($parts) > 1) ? $parts[1] : null;
         $componentParams = ComponentHelper::getParams($component);
 
         // Need to load the menu language file as mod_menu hasn't been loaded yet.
-        $lang = Factory::getLanguage();
+        $lang = $this->getLanguage();
         $lang->load($component, JPATH_BASE)
-        || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+            || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
 
         // Get the results for each action.
         $canDo = $this->canDo;
@@ -171,7 +174,7 @@ class HtmlView extends BaseHtmlView
 
         // Load specific css component
         /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-        $wa = $this->document->getWebAssetManager();
+        $wa = $this->getDocument()->getWebAssetManager();
         $wa->getRegistry()->addExtensionRegistryFile($component);
 
         if ($wa->assetExists('style', $component . '.admin-categories')) {
@@ -187,51 +190,53 @@ class HtmlView extends BaseHtmlView
                 . ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-category-' . ($isNew ? 'add' : 'edit')
         );
 
-        // For new records, check the create permission.
-        if ($isNew && (count($user->getAuthorisedCategories($component, 'core.create')) > 0)) {
-            ToolbarHelper::apply('category.apply');
-            ToolbarHelper::saveGroup(
-                [
-                    ['save', 'category.save'],
-                    ['save2new', 'category.save2new']
-                ],
-                'btn-success'
+        if ($isNew) {
+            $toolbar->apply('category.apply');
+            $saveGroup = $toolbar->dropdownButton('save-group');
+
+            $saveGroup->configure(
+                function (Toolbar $childBar) {
+                    $childBar->save('category.save');
+                    $childBar->save2new('category.save2new');
+                }
             );
 
-            ToolbarHelper::cancel('category.cancel');
+            $toolbar->cancel('category.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // If not checked out, can save the item.
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId);
 
-            $toolbarButtons = [];
-
             // Can't save the record if it's checked out and editable
             if (!$checkedOut && $itemEditable) {
-                ToolbarHelper::apply('category.apply');
+                $toolbar->apply('category.apply');
+            }
 
-                $toolbarButtons[] = ['save', 'category.save'];
+            $saveGroup = $toolbar->dropdownButton('save-group');
 
-                if ($canDo->get('core.create')) {
-                    $toolbarButtons[] = ['save2new', 'category.save2new'];
+            $saveGroup->configure(
+                function (Toolbar $childBar) use ($checkedOut, $canDo, $itemEditable) {
+                    // Can't save the record if it's checked out and editable
+                    if (!$checkedOut && $itemEditable) {
+                        $childBar->save('category.save');
+
+                        if ($canDo->get('core.create')) {
+                            $childBar->save2new('category.save2new');
+                        }
+                    }
+
+                    // If an existing item, can save to a copy.
+                    if ($canDo->get('core.create')) {
+                        $childBar->save2copy('category.save2copy');
+                    }
                 }
-            }
-
-            // If an existing item, can save to a copy.
-            if ($canDo->get('core.create')) {
-                $toolbarButtons[] = ['save2copy', 'category.save2copy'];
-            }
-
-            ToolbarHelper::saveGroup(
-                $toolbarButtons,
-                'btn-success'
             );
 
-            ToolbarHelper::cancel('category.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('category.cancel');
 
             if (ComponentHelper::isEnabled('com_contenthistory') && $componentParams->get('save_history', 0) && $itemEditable) {
                 $typeAlias = $extension . '.category';
-                ToolbarHelper::versions($typeAlias, $this->item->id);
+                $toolbar->versions($typeAlias, $this->item->id);
             }
 
             if (
@@ -239,11 +244,13 @@ class HtmlView extends BaseHtmlView
                 ComponentHelper::isEnabled('com_associations') &&
                 AssociationsHelper::hasSupport($component)
             ) {
-                ToolbarHelper::custom('category.editAssociations', 'contract', '', 'JTOOLBAR_ASSOCIATIONS', false, false);
+                $toolbar->standardButton('contract', 'JTOOLBAR_ASSOCIATIONS', 'category.editAssociations')
+                    ->icon('icon-contract')
+                    ->listCheck(false);
             }
         }
 
-        ToolbarHelper::divider();
+        $toolbar->divider();
 
         // Look first in form for help key
         $ref_key = (string) $this->form->getXml()->help['key'];
@@ -278,11 +285,11 @@ class HtmlView extends BaseHtmlView
         if (!$url) {
             if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL')) {
                 $debug = $lang->setDebug(false);
-                $url = Text::_($lang_help_url);
+                $url   = Text::_($lang_help_url);
                 $lang->setDebug($debug);
             }
         }
 
-        ToolbarHelper::help($ref_key, $componentParams->exists('helpURL'), $url, $component);
+        $toolbar->help($ref_key, $componentParams->exists('helpURL'), $url, $component);
     }
 }

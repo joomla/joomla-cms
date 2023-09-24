@@ -27,13 +27,14 @@ class DisplayController extends BaseController
      * View method
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static  Supports chaining.
      *
      * @since   3.9
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         $viewName = $this->input->get('view', $this->default_view);
         $format   = $this->input->get('format', 'html');

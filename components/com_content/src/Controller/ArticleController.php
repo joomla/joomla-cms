@@ -93,7 +93,7 @@ class ArticleController extends FormController
      *
      * @since   1.6
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         $user       = $this->app->getIdentity();
         $categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
@@ -107,9 +107,9 @@ class ArticleController extends FormController
         if ($allow === null) {
             // In the absence of better information, revert to the component permissions.
             return parent::allowAdd();
-        } else {
-            return $allow;
         }
+
+        return $allow;
     }
 
     /**
@@ -122,10 +122,10 @@ class ArticleController extends FormController
      *
      * @since   1.6
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-        $user = $this->app->getIdentity();
+        $user     = $this->app->getIdentity();
 
         // Zero record (id:0), return component edit permission by calling parent controller method
         if (!$recordId) {
@@ -248,7 +248,7 @@ class ArticleController extends FormController
      *
      * @since   1.5
      */
-    public function getModel($name = 'Form', $prefix = 'Site', $config = array('ignore_request' => true))
+    public function getModel($name = 'Form', $prefix = 'Site', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -323,9 +323,9 @@ class ArticleController extends FormController
 
         if (empty($return) || !Uri::isInternal(base64_decode($return))) {
             return Uri::base();
-        } else {
-            return base64_decode($return);
         }
+
+        return base64_decode($return);
     }
 
     /**
@@ -408,10 +408,10 @@ class ArticleController extends FormController
         $user_rating = $this->input->getInt('user_rating', -1);
 
         if ($user_rating > -1) {
-            $url = $this->input->getString('url', '');
-            $id = $this->input->getInt('id', 0);
+            $url      = $this->input->getString('url', '');
+            $id       = $this->input->getInt('id', 0);
             $viewName = $this->input->getString('view', $this->default_view);
-            $model = $this->getModel($viewName);
+            $model    = $this->getModel($viewName);
 
             // Don't redirect to an external URL.
             if (!Uri::isInternal($url)) {

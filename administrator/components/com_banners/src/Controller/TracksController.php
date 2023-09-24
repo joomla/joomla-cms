@@ -44,7 +44,7 @@ class TracksController extends BaseController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Tracks', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Tracks', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -92,14 +92,15 @@ class TracksController extends BaseController
      * Display method for the raw track data.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static  This object to support chaining.
      *
      * @since   1.5
      * @todo    This should be done as a view, not here!
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         // Get the document object.
         $vName = 'tracks';
@@ -124,7 +125,7 @@ class TracksController extends BaseController
             $model->setState('list.limit', 0);
             $model->setState('list.start', 0);
 
-            $form = $this->input->get('jform', array(), 'array');
+            $form = $this->input->get('jform', [], 'array');
 
             $model->setState('basename', $form['basename']);
             $model->setState('compressed', $form['compressed']);
@@ -138,21 +139,25 @@ class TracksController extends BaseController
             $this->input->cookie->set(
                 ApplicationHelper::getHash($this->context . '.basename'),
                 $form['basename'],
-                $cookieLifeTime,
-                $cookiePath,
-                $cookieDomain,
-                $isHttpsForced,
-                true
+                [
+                    'expires'  => $cookieLifeTime,
+                    'path'     => $cookiePath,
+                    'domain'   => $cookieDomain,
+                    'secure'   => $isHttpsForced,
+                    'httponly' => true,
+                ]
             );
 
             $this->input->cookie->set(
                 ApplicationHelper::getHash($this->context . '.compressed'),
                 $form['compressed'],
-                $cookieLifeTime,
-                $cookiePath,
-                $cookieDomain,
-                $isHttpsForced,
-                true
+                [
+                    'expires'  => $cookieLifeTime,
+                    'path'     => $cookiePath,
+                    'domain'   => $cookieDomain,
+                    'secure'   => $isHttpsForced,
+                    'httponly' => true,
+                ]
             );
 
             // Push the model into the view (as default).

@@ -87,18 +87,15 @@ class TransitionField extends GroupedlistField
     /**
      * Method to get a list of options for a list input.
      *
-     * @return  array  An array of HTMLHelper options.
+     * @return  array[]  An array of HTMLHelper options.
      *
      * @since  4.0.0
      */
     protected function getGroups()
     {
-        // Let's get the id for the current item, either category or content item.
-        $jinput = Factory::getApplication()->getInput();
-
         // Initialise variable.
-        $db = $this->getDatabase();
-        $extension = $this->extension;
+        $db            = $this->getDatabase();
+        $extension     = $this->extension;
         $workflowStage = (int) $this->workflowStage;
 
         $query = $db->getQuery(true)
@@ -138,7 +135,7 @@ class TransitionField extends GroupedlistField
         $component = reset($parts);
 
         if (\count($items)) {
-            $user = Factory::getUser();
+            $user = $this->getCurrentUser();
 
             $items = array_filter(
                 $items,
@@ -161,8 +158,7 @@ class TransitionField extends GroupedlistField
 
         $workflowName = $db->setQuery($query)->loadResult();
 
-        $default = [[
-            HTMLHelper::_('select.option', '', Text::_($workflowName))]];
+        $default = [[HTMLHelper::_('select.option', '', Text::_($workflowName))]];
 
         $groups = parent::getGroups();
 

@@ -91,14 +91,14 @@ final class Fields extends CMSPlugin
 
         $parts = FieldsHelper::extract($context);
 
-        if (count($parts) < 2) {
+        if (!$parts || count($parts) < 2) {
             return $string;
         }
 
         $context    = $parts[0] . '.' . $parts[1];
         $fields     = FieldsHelper::getFields($context, $item, true);
-        $fieldsById = array();
-        $groups     = array();
+        $fieldsById = [];
+        $groups     = [];
 
         // Rearranging fields in arrays for easier lookup later.
         foreach ($fields as $field) {
@@ -118,11 +118,11 @@ final class Fields extends CMSPlugin
                     $output = FieldsHelper::render(
                         $context,
                         'field.' . $layout,
-                        array(
+                        [
                             'item'    => $item,
                             'context' => $context,
                             'field'   => $fieldsById[$id],
-                        )
+                        ]
                     );
                 }
             } else {
@@ -138,11 +138,11 @@ final class Fields extends CMSPlugin
                     $output = FieldsHelper::render(
                         $context,
                         'fields.' . $layout,
-                        array(
+                        [
                             'item'    => $item,
                             'context' => $context,
                             'fields'  => $renderFields,
-                        )
+                        ]
                     );
                 }
             }

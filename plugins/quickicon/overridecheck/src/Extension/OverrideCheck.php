@@ -70,17 +70,17 @@ final class OverrideCheck extends CMSPlugin implements SubscriberInterface
 
         if (
             $context !== $this->params->get('context', 'update_quickicon')
-            || !$this->getApplication()->getIdentity()->authorise('core.manage', 'com_installer')
+            || !$this->getApplication()->getIdentity()->authorise('core.manage', 'com_templates')
         ) {
             return;
         }
 
         $token    = Session::getFormToken() . '=1';
-        $options  = array(
+        $options  = [
             'url'      => Uri::base() . 'index.php?option=com_templates&view=templates',
             'ajaxUrl'  => Uri::base() . 'index.php?option=com_templates&view=templates&task=template.ajax&' . $token,
             'pluginId' => $this->getOverridePluginId(),
-        );
+        ];
 
         $this->getApplication()->getDocument()->addScriptOptions('js-override-check', $options);
 

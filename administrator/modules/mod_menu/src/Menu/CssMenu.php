@@ -12,6 +12,7 @@ namespace Joomla\Module\Menu\Administrator\Menu;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Menu\PreprocessMenuItemsEvent;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AdministratorMenuItem;
@@ -71,7 +72,7 @@ class CssMenu
     /**
      * The application
      *
-     * @var    boolean
+     * @var    CMSApplication
      *
      * @since  4.0.0
      */
@@ -96,7 +97,7 @@ class CssMenu
     public function __construct(CMSApplication $application)
     {
         $this->application = $application;
-        $this->root = new AdministratorMenuItem();
+        $this->root        = new AdministratorMenuItem();
     }
 
     /**
@@ -116,7 +117,7 @@ class CssMenu
         $menutype      = $this->params->get('menutype', '*');
 
         if ($menutype === '*') {
-            $name   = $this->params->get('preset', 'default');
+            $name       = $this->params->get('preset', 'default');
             $this->root = MenusHelper::loadPreset($name);
         } else {
             $this->root = MenusHelper::getMenuItems($menutype, true);
@@ -131,7 +132,7 @@ class CssMenu
 
                 // In recovery mode, load the preset inside a special root node.
                 $this->root = new AdministratorMenuItem(['level' => 0]);
-                $heading = new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading']);
+                $heading    = new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading']);
                 $this->root->addChild($heading);
 
                 MenusHelper::loadPreset('default', true, $heading);
@@ -213,7 +214,7 @@ class CssMenu
                 return true;
             }
 
-            $missing = array();
+            $missing = [];
 
             if ($rMenu) {
                 $missing[] = Text::_('MOD_MENU_IMPORTANT_ITEM_MENU_MANAGER');
@@ -233,7 +234,7 @@ class CssMenu
             $table    = Table::getInstance('MenuType');
             $menutype = $params->get('menutype');
 
-            $table->load(array('menutype' => $menutype));
+            $table->load(['menutype' => $menutype]);
 
             $menutype = $table->get('title', $menutype);
             $message  = Text::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', $menutype, implode(', ', $missing), $uri);
@@ -249,7 +250,7 @@ class CssMenu
      *
      * @param   AdministratorMenuItem  $parent  A menu item to process
      *
-     * @return  array
+     * @return  void
      *
      * @since   3.8.0
      */
@@ -257,16 +258,22 @@ class CssMenu
     {
         $user       = $this->application->getIdentity();
         $language   = $this->application->getLanguage();
+        $dispatcher = $this->application->getDispatcher();
 
         $noSeparator = true;
-        $children = $parent->getChildren();
+        $children    = $parent->getChildren();
 
         /**
          * Trigger onPreprocessMenuItems for the current level of backend menu items.
          * $children is an array of AdministratorMenuItem objects. A plugin can traverse the whole tree,
          * but new nodes will only be run through this method if their parents have not been processed yet.
          */
-        $this->application->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.module', $children, $this->params, $this->enabled));
+        $children = $dispatcher->dispatch('onPreprocessMenuItems', new PreprocessMenuItemsEvent('onPreprocessMenuItems', [
+            'context' => 'com_menus.administrator.module',
+            'subject' => &$children, // @todo: Remove reference in Joomla 6, see PreprocessMenuItemsEvent::__constructor()
+            'params'  => $this->params,
+            'enabled' => $this->enabled,
+        ]))->getArgument('subject', $children);
 
         foreach ($children as $item) {
             $itemParams = $item->getParams();
@@ -348,7 +355,7 @@ class CssMenu
                     continue;
                 }
 
-                list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
+                list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : ['com_fields'];
             } elseif ($item->element === 'com_cpanel' && $item->link === 'index.php') {
                 continue;
             } elseif (
@@ -377,8 +384,8 @@ class CssMenu
                     continue;
                 }
 
-                list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
-            } elseif (\in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin')) {
+                list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : ['com_workflow'];
+            } elseif (\in_array($item->element, ['com_config', 'com_privacy', 'com_actionlogs'], true) && !$user->authorise('core.admin')) {
                 // Special case for components which only allow super user access
                 $parent->removeChild($item);
                 continue;
@@ -406,7 +413,7 @@ class CssMenu
             }
 
             // Exclude if link is invalid
-            if (is_null($item->link) || !\in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === '') {
+            if (is_null($item->link) || !\in_array($item->type, ['separator', 'heading', 'container']) && trim($item->link) === '') {
                 $parent->removeChild($item);
                 continue;
             }
@@ -418,7 +425,7 @@ class CssMenu
 
             // Populate automatic children for container items
             if ($item->type === 'container') {
-                $exclude    = (array) $itemParams->get('hideitems') ?: array();
+                $exclude    = (array) $itemParams->get('hideitems') ?: [];
                 $components = MenusHelper::getMenuItems('main', false, $exclude);
 
                 // We are adding the nodes first to preprocess them, then sort them and add them again.
@@ -435,7 +442,7 @@ class CssMenu
             }
 
             // Exclude if there are no child items under heading or container
-            if (\in_array($item->type, array('heading', 'container')) && !$item->hasChildren() && empty($item->components)) {
+            if (\in_array($item->type, ['heading', 'container']) && !$item->hasChildren() && empty($item->components)) {
                 $parent->removeChild($item);
                 continue;
             }

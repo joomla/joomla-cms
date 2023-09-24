@@ -18,8 +18,7 @@ use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Content\EmailCloak\Extension\EmailCloak;
 
-return new class implements ServiceProviderInterface
-{
+return new class () implements ServiceProviderInterface {
     /**
      * Registers the service provider with a DI container.
      *
@@ -34,9 +33,8 @@ return new class implements ServiceProviderInterface
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
                 $plugin     = new EmailCloak(
-                    $dispatcher,
+                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('content', 'emailcloak')
                 );
                 $plugin->setApplication(Factory::getApplication());

@@ -40,10 +40,10 @@ class ItemsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'menutype', 'a.menutype', 'menutype_title',
                 'title', 'a.title',
@@ -62,8 +62,9 @@ class ItemsModel extends ListModel
                 'parent_id', 'a.parent_id',
                 'publish_up', 'a.publish_up',
                 'publish_down', 'a.publish_down',
-                'a.ordering'
-            );
+                'e.element', 'componentName',
+                'a.ordering',
+            ];
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
@@ -437,7 +438,7 @@ class ItemsModel extends ListModel
             $menuTypes = $db->setQuery($query2)->loadObjectList();
 
             if ($menuTypes) {
-                $types = array();
+                $types = [];
 
                 foreach ($menuTypes as $type) {
                     if ($user->authorise('core.manage', 'com_menus.menu.' . (int) $type->id)) {
@@ -477,6 +478,12 @@ class ItemsModel extends ListModel
         if ($language = $this->getState('filter.language')) {
             $query->where($db->quoteName('a.language') . ' = :language')
                 ->bind(':language', $language);
+        }
+
+        // Filter on componentName
+        if ($componentName = $this->getState('filter.componentName')) {
+            $query->where($db->quoteName('e.element') . ' = :component')
+                ->bind(':component', $componentName);
         }
 
         // Add the list ordering clause.
@@ -540,7 +547,9 @@ class ItemsModel extends ListModel
                 Log::add(Text::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'), Log::ERROR, 'jerror');
 
                 return false;
-            } elseif (!$this->getCurrentUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id)) {
+            }
+
+            if (!$this->getCurrentUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id)) {
                 // Check if menu type is valid against ACL.
                 Log::add(Text::_('JERROR_ALERTNOAUTHOR'), Log::ERROR, 'jerror');
 

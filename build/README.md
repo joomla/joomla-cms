@@ -17,12 +17,12 @@ For some of these operations, conventions were established to simplify and speed
 There are three options here:
 - Modern Javascript files must have an extension `.es6.js`.
   This allows ESLint to check the code style, Joomla is using the Airbnb preset https://github.com/airbnb/javascript.
-  It also instructs Rollup to do the transforms for ES2017 and then transpile to ES5. This step creates both normal and minified files.
-  Production code WILL NOT have the `.es6` part for ES2017+ files but WILL HAVE a `-es5.js` for the ES5 ones.
+  It also instructs Rollup to do the transforms for ES2017. This step creates both normal and minified files.
+  Production code WILL NOT have the `.es6` part for ES2017+ files.
 
 - Web Component Javascript files must have an extension `.w-c.es6.js`.
-  This allows ESLint to check the code style and instructs Rollup to do the transforms for ES2017 and then transpile to ES5. This step creates normal and minified files. The difference with the `.es6` files is that the tools will automate the minification of the CSS (assuming that the appropriate SCSS file exists), which is then injected into the JS file in place of the placeholder `{{CSS_CONTENTS_PLACEHOLDER}}` (ie: `build/media_source/system/js/joomla-core-loader.w-c.es6.js`)
-  Production code WILL NOT have the `.w-c.es6` part for ES2017+ files but WILL HAVE a `-es5.js` for the ES5 ones.
+  This allows ESLint to check the code style and instructs Rollup to do the transforms for ES2017. This step creates normal and minified files. The difference with the `.es6` files is that the tools will automate the minification of the CSS (assuming that the appropriate SCSS file exists), which is then injected into the JS file in place of the placeholder `{{CSS_CONTENTS_PLACEHOLDER}}` (ie: `build/media_source/system/js/joomla-core-loader.w-c.es6.js`)
+  Production code WILL NOT have the `.w-c.es6` part for ES2017+.
 
 - Legacy Javascript files must have an extension `.es5.js`.
   This instructs ESLint to skip checking this file.
@@ -46,6 +46,7 @@ There are three options here:
 - `npm run build:css -- templates/cassiopeia`: compiles ALL the SCSS ONLY in the folder `templates/cassiopeia`.
 - `npm run build:bs5`: Builds the Bootstrap Javascript components.
 - `npm run build:com_media`: Builds the Media Manager Vue Application.
+- `npm run build:com_media:dev`: Builds the Media Manager Vue Application but in DEV mode, (no minification, no es5 and all flags for the vue devtools)
 - `npm run lint:js`: Checks the code style for all the Javascript/Vue files.
 - `npm run lint:js -- --fix`: Checks and fixes the code style for all the Javascript/Vue files (might not fix everything).
 - `npm run lint:css`: Checks the code style for all SCSS files.

@@ -15,7 +15,7 @@ use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Date\Date;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -39,7 +39,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MAJOR_VERSION = 4;
+    public const MAJOR_VERSION = 5;
 
     /**
      * Minor release version.
@@ -47,7 +47,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MINOR_VERSION = 3;
+    public const MINOR_VERSION = 0;
 
     /**
      * Patch release version.
@@ -66,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'alpha3-dev';
+    public const EXTRA_VERSION = 'beta3-dev';
 
     /**
      * Development status.
@@ -82,7 +82,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const CODENAME = 'Bora';
+    public const CODENAME = 'Kuboresha';
 
     /**
      * Release date.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '27-December-2022';
+    public const RELDATE = '19-September-2023';
 
     /**
      * Release time.
@@ -98,7 +98,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTIME = '16:01';
+    public const RELTIME = '15:43';
 
     /**
      * Release timezone.
@@ -238,7 +238,7 @@ final class Version
      */
     public function generateMediaVersion(): string
     {
-        return md5($this->getLongVersion() . Factory::getApplication()->get('secret') . (new Date())->toSql());
+        return substr(md5($this->getLongVersion() . Factory::getApplication()->get('secret') . (new Date())->toSql()), 0, 6);
     }
 
     /**
@@ -310,7 +310,11 @@ final class Version
         $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
             ->createCacheController('callback', ['defaultgroup' => '_media_version', 'caching' => true]);
 
-        $cache->setLifeTime(315576000);
+        /**
+         * Media version cache never expire (this is the highest integer value for 32 bit systems once multiplied by 60
+         * in the cache controller.
+         */
+        $cache->setLifeTime(5259600);
 
         // Disable cache when Debug is enabled
         if (JDEBUG) {
