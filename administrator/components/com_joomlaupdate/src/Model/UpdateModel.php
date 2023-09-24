@@ -1895,7 +1895,7 @@ ENDDATA;
             $fileChunk = fread($fp, $readsize);
 
             if ($fileChunk === false || strlen($fileChunk) !== $readsize) {
-                break;
+                throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
             }
 
             $posFirstHeader = strpos($fileChunk, $headerSignature);
@@ -1912,11 +1912,7 @@ ENDDATA;
             while (($pos = strpos($fileChunk, 'installation/index.php', $offset)) !== false) {
                 // Check if entry is a central directory file header and the file name is exactly 22 bytes long
                 if (substr($fileChunk, $pos - 46, 4) == $headerSignature && substr($fileChunk, $pos - 18, 2) == $sizeSignatureIndexPhp) {
-                    echo PHP_EOL;
-                    echo 'The file is a full installation package.' . PHP_EOL;
-                    @fclose($fp);
-
-                    exit(1);
+                    throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_INSTALL_PACKAGE'), 500);
                 }
 
                 $offset = $pos + 22;
