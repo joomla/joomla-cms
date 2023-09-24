@@ -799,7 +799,6 @@ final class Blog extends CMSPlugin
         $menuTypes = [];
 
         for ($i = 0; $i <= 2; $i++) {
-
             $title = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_TITLE');
 
             $menu = [
