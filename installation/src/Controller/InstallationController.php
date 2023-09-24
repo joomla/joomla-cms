@@ -82,7 +82,6 @@ class InstallationController extends JSONController
         if ($data === false) {
             $this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
             $r->validated = false;
-            $r->error     = true;
             $this->sendJsonResponse($r);
 
             return;
@@ -90,12 +89,7 @@ class InstallationController extends JSONController
 
         $data = $model->storeOptions($data);
 
-        if (!$model->validateDbConnection($data)) {
-            $r->validated = false;
-            $r->error     = true;
-        } else {
-            $r->validated = true;
-        }
+        $r->validated = $model->validateDbConnection($data);
 
         $this->sendJsonResponse($r);
     }
@@ -127,12 +121,10 @@ class InstallationController extends JSONController
         }
 
         if (!$dbCreated) {
-            $r->view  = 'setup';
-            $r->error = true;
+            $r->view = 'setup';
         } else {
             if (!$databaseModel->handleOldDatabase($options)) {
-                $r->view  = 'setup';
-                $r->error = true;
+                $r->view = 'setup';
             }
         }
 
@@ -176,14 +168,12 @@ class InstallationController extends JSONController
         if (!isset($files[$step])) {
             $r->view = 'setup';
             $this->app->enqueueMessage(Text::_('INSTL_SAMPLE_DATA_NOT_FOUND'), 'error');
-            $r->error = true;
             $this->sendJsonResponse($r);
         }
 
         // Attempt to populate the database with the given file.
         if (!$model->createTables($schema, $options)) {
-            $r->view  = 'setup';
-            $r->error = true;
+            $r->view = 'setup';
         }
 
         $this->sendJsonResponse($r);
@@ -214,8 +204,7 @@ class InstallationController extends JSONController
 
         // Attempt to setup the configuration.
         if (!$configurationModel->setup($options)) {
-            $r->view  = 'setup';
-            $r->error = true;
+            $r->view = 'setup';
         }
 
         $this->sendJsonResponse($r);
