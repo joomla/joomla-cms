@@ -5,8 +5,9 @@
  * https://github.com/cypress-io/cypress/issues/6575
  */
 
-import './commands/db';
 import './commands/api';
+import './commands/config';
+import './commands/db';
 
 const { registerCommands } = require('../../../node_modules/joomla-cypress/src/index.js');
 
@@ -62,4 +63,15 @@ Cypress.Commands.overwrite('doAdministratorLogout', (originalFn) => {
 
   // Clear the session data
   Cypress.session.clearAllSavedSessions();
+});
+
+// Click Joomla Dialog Confirm, isOkay: true = push "ok" button, false = push "cancel" button
+Cypress.Commands.add('clickDialogConfirm', (isOkay) => {
+  let selector = '.joomla-dialog-confirm';
+  if (isOkay) {
+    selector += ' button[data-button-ok]';
+  } else {
+    selector += ' button[data-button-cancel]';
+  }
+  return cy.get(selector, { timeout: 1000 }).click();
 });

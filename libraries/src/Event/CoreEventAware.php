@@ -9,13 +9,6 @@
 
 namespace Joomla\CMS\Event;
 
-use Joomla\CMS\Event\Plugin\System\Webauthn\Ajax as PlgSystemWebauthnAjax;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxChallenge as PlgSystemWebauthnAjaxChallenge;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxCreate as PlgSystemWebauthnAjaxCreate;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxDelete as PlgSystemWebauthnAjaxDelete;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxInitCreate as PlgSystemWebauthnAjaxInitCreate;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxLogin as PlgSystemWebauthnAjaxLogin;
-use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxSaveLabel as PlgSystemWebauthnAjaxSaveLabel;
 use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -92,22 +85,11 @@ trait CoreEventAware
         'onWorkflowFunctionalityUsed' => Workflow\WorkflowFunctionalityUsedEvent::class,
         'onWorkflowAfterTransition'   => Workflow\WorkflowTransitionEvent::class,
         'onWorkflowBeforeTransition'  => Workflow\WorkflowTransitionEvent::class,
-        // Plugin: System, WebAuthn
-        'onAjaxWebauthn'           => PlgSystemWebauthnAjax::class,
-        'onAjaxWebauthnChallenge'  => PlgSystemWebauthnAjaxChallenge::class,
-        'onAjaxWebauthnCreate'     => PlgSystemWebauthnAjaxCreate::class,
-        'onAjaxWebauthnDelete'     => PlgSystemWebauthnAjaxDelete::class,
-        'onAjaxWebauthnInitcreate' => PlgSystemWebauthnAjaxInitCreate::class,
-        'onAjaxWebauthnLogin'      => PlgSystemWebauthnAjaxLogin::class,
-        'onAjaxWebauthnSavelabel'  => PlgSystemWebauthnAjaxSaveLabel::class,
         // Plugin: System, Schemaorg
         'onSchemaBeforeCompileHead' => Plugin\System\Schemaorg\BeforeCompileHeadEvent::class,
         'onSchemaPrepareData'       => Plugin\System\Schemaorg\PrepareDataEvent::class,
         'onSchemaPrepareForm'       => Plugin\System\Schemaorg\PrepareFormEvent::class,
         'onSchemaPrepareSave'       => Plugin\System\Schemaorg\PrepareSaveEvent::class,
-        // Extensions
-        'onBeforeExtensionBoot' => BeforeExtensionBootEvent::class,
-        'onAfterExtensionBoot'  => AfterExtensionBootEvent::class,
         // Content
         'onContentPrepare'       => Content\ContentPrepareEvent::class,
         'onContentAfterTitle'    => Content\AfterTitleEvent::class,
@@ -127,6 +109,7 @@ trait CoreEventAware
         'onCategoryChangeState'         => Model\AfterCategoryChangeStateEvent::class,
         'onBeforeBatch'                 => Model\BeforeBatchEvent::class,
         // User
+        'onUserAuthenticate'         => User\AuthenticationEvent::class,
         'onUserAuthorisation'        => User\AuthorisationEvent::class,
         'onUserAuthorisationFailure' => User\AuthorisationFailureEvent::class,
         'onUserLogin'                => User\LoginEvent::class,
@@ -153,7 +136,9 @@ trait CoreEventAware
         'onPrepareModuleList'    => Module\PrepareModuleListEvent::class,
         'onAfterModuleList'      => Module\AfterModuleListEvent::class,
         'onAfterCleanModuleList' => Module\AfterCleanModuleListEvent::class,
-        // Extension and Installer
+        // Extension
+        'onBeforeExtensionBoot'      => BeforeExtensionBootEvent::class,
+        'onAfterExtensionBoot'       => AfterExtensionBootEvent::class,
         'onExtensionBeforeInstall'   => Extension\BeforeInstallEvent::class,
         'onExtensionAfterInstall'    => Extension\AfterInstallEvent::class,
         'onExtensionBeforeUninstall' => Extension\BeforeUninstallEvent::class,
@@ -163,6 +148,13 @@ trait CoreEventAware
         'onExtensionBeforeSave'      => Model\BeforeSaveEvent::class,
         'onExtensionAfterSave'       => Model\AfterSaveEvent::class,
         'onExtensionAfterDelete'     => Model\AfterDeleteEvent::class,
+        'onExtensionChangeState'     => Model\BeforeChangeStateEvent::class,
+        // Installer
+        'onInstallerAddInstallationTab'    => Installer\AddInstallationTabEvent::class,
+        'onInstallerBeforeInstallation'    => Installer\BeforeInstallationEvent::class,
+        'onInstallerBeforeInstaller'       => Installer\BeforeInstallerEvent::class,
+        'onInstallerAfterInstaller'        => Installer\AfterInstallerEvent::class,
+        'onInstallerBeforePackageDownload' => Installer\BeforePackageDownloadEvent::class,
         // Finder
         'onFinderCategoryChangeState' => Finder\AfterCategoryChangeStateEvent::class,
         'onFinderChangeState'         => Finder\AfterChangeStateEvent::class,
@@ -171,6 +163,36 @@ trait CoreEventAware
         'onFinderAfterSave'           => Finder\AfterSaveEvent::class,
         'onFinderResult'              => Finder\ResultEvent::class,
         'onPrepareFinderContent'      => Finder\PrepareContentEvent::class,
+        'onBeforeIndex'               => Finder\BeforeIndexEvent::class,
+        'onBuildIndex'                => Finder\BuildIndexEvent::class,
+        'onStartIndex'                => Finder\StartIndexEvent::class,
+        'onFinderGarbageCollection'   => Finder\GarbageCollectionEvent::class,
+        // Menu
+        'onBeforeRenderMenuItems'   => Menu\BeforeRenderMenuItemsViewEvent::class,
+        'onAfterGetMenuTypeOptions' => Menu\AfterGetMenuTypeOptionsEvent::class,
+        'onPreprocessMenuItems'     => Menu\PreprocessMenuItemsEvent::class,
+        // ActionLog
+        'onAfterLogPurge'  => ActionLog\AfterLogPurgeEvent::class,
+        'onAfterLogExport' => ActionLog\AfterLogExportEvent::class,
+        // Cache
+        'onAfterPurge' => Cache\AfterPurgeEvent::class,
+        // Contact
+        'onValidateContact' => Contact\ValidateContactEvent::class,
+        'onSubmitContact'   => Contact\SubmitContactEvent::class,
+        // Checkin
+        'onAfterCheckin' => Checkin\AfterCheckinEvent::class,
+        // Custom Fields
+        'onCustomFieldsGetTypes'           => CustomFields\GetTypesEvent::class,
+        'onCustomFieldsPrepareDom'         => CustomFields\PrepareDomEvent::class,
+        'onCustomFieldsBeforePrepareField' => CustomFields\BeforePrepareFieldEvent::class,
+        'onCustomFieldsPrepareField'       => CustomFields\PrepareFieldEvent::class,
+        'onCustomFieldsAfterPrepareField'  => CustomFields\AfterPrepareFieldEvent::class,
+        // Privacy
+        'onPrivacyCollectAdminCapabilities'    => Privacy\CollectCapabilitiesEvent::class,
+        'onPrivacyCheckPrivacyPolicyPublished' => Privacy\CheckPrivacyPolicyPublishedEvent::class,
+        'onPrivacyExportRequest'               => Privacy\ExportRequestEvent::class,
+        'onPrivacyCanRemoveData'               => Privacy\CanRemoveDataEvent::class,
+        'onPrivacyRemoveData'                  => Privacy\RemoveDataEvent::class,
     ];
 
     /**

@@ -59,7 +59,7 @@ trait MultiFactorAuthenticationHandler
     {
         // Multi-factor Authentication checks take place only for logged in users.
         try {
-            $user = $this->getIdentity() ?? null;
+            $user = $this->getIdentity();
         } catch (\Exception $e) {
             return false;
         }

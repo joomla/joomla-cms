@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\View;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -237,6 +238,15 @@ class FormView extends HtmlView
         }
 
         ToolbarHelper::divider();
+
+        if ($this->form instanceof Form) {
+            $formConfig  = $this->form->getXml()->config->inlinehelp;
+
+            if ($formConfig && (string) $formConfig['button'] === 'show') {
+                $targetClass = (string) $formConfig['targetclass'] ?: 'hide-aware-inline-help';
+                ToolbarHelper::inlinehelp($targetClass);
+            }
+        }
 
         if ($this->helpLink) {
             ToolbarHelper::help($this->helpLink);

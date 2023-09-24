@@ -117,7 +117,9 @@ class HtmlView extends BaseHtmlView
             $this->form->setFieldAttribute('tags', 'language', '*,' . $forcedLanguage);
         }
 
-        $this->addToolbar();
+        if ($this->getLayout() !== 'modal') {
+            $this->addToolbar();
+        }
 
         parent::display($tpl);
     }
@@ -199,7 +201,7 @@ class HtmlView extends BaseHtmlView
                 }
             );
 
-            $toolbar->cancel('category.cancel');
+            $toolbar->cancel('category.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // If not checked out, can save the item.
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.

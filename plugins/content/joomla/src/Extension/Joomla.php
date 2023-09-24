@@ -942,9 +942,10 @@ final class Joomla extends CMSPlugin
             }
 
             return $count;
-        } else { // If we didn't have any categories to check, return 0
-            return 0;
         }
+
+        // If we didn't have any categories to check, return 0
+        return 0;
     }
 
     /**
@@ -1010,7 +1011,7 @@ final class Joomla extends CMSPlugin
         // Display error if catid is not set when enable_category is enabled
         $params = json_decode($table->params, true);
 
-        if ($params['enable_category'] == 1 && empty($params['catid'])) {
+        if (isset($params['enable_category']) && $params['enable_category'] == 1 && empty($params['catid'])) {
             $table->setError($this->getApplication()->getLanguage()->_('COM_CONTENT_CREATE_ARTICLE_ERROR'));
 
             return false;

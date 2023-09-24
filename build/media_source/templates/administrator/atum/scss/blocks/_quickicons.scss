@@ -1,7 +1,7 @@
 // Quick Icons
 
 .quick-icons {
-  background-color: $white;
+  background-color: var(--body-bg);
 
   .nav {
     display: grid;
@@ -18,9 +18,9 @@
   }
 
   .quickicon {
-    --text-color: hsl(var(--hue), 30%, 40%);
+    --text-color: var(--template-quickicon-color);
     --bg-color: hsl(var(--hue), 60%, 97%);
-    --icon-color: hsl(var(--hue), 30%, 40%);
+    --icon-color: var(--template-quickicon-color);
     --bg-color-hvr: var(--template-bg-dark);
 
     display: flex;
@@ -97,6 +97,16 @@
     }
   }
 
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      .quickicon {
+        --bg-color: var(--template-bg-dark-80);
+        --bg-color-hvr: var(--template-bg-dark-65);
+      }
+    }
+  }
+
+
   .quickicon-info {
     display: flex;
     align-items: flex-end;
@@ -115,7 +125,17 @@
 
       > * {
         margin-bottom: 10px;
-        color: hsl(var(--hue), 30%, 40%);
+        color: var(--template-quickicon-color);
+      }
+
+      @if $enable-dark-mode {
+        @include color-mode(dark) {
+          /* stylelint-disable max-nesting-depth */
+          > * {
+            /* stylelint-enable max-nesting-depth */
+            color: var(--template-bg-dark-80);
+          }
+        }
       }
 
       &:hover,

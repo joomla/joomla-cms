@@ -176,4 +176,14 @@
 		/>
 
 	</fieldset>
+
+	<fieldset name="expert">
+		<field
+			name="public_folder"
+			type="text"
+			label="INSTL_PUBLIC_FOLDER_DESC"
+			default=""
+			filter="string"
+		/>
+	</fieldset>
 </form>

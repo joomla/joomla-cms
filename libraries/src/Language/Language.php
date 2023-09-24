@@ -365,9 +365,9 @@ class Language extends BaseLanguage
     {
         if ($this->pluralSuffixesCallback !== null) {
             return \call_user_func($this->pluralSuffixesCallback, $count);
-        } else {
-            return [(string) $count];
         }
+
+        return [(string) $count];
     }
 
     /**
@@ -412,9 +412,9 @@ class Language extends BaseLanguage
     {
         if ($this->ignoredSearchWordsCallback !== null) {
             return \call_user_func($this->ignoredSearchWordsCallback);
-        } else {
-            return [];
         }
+
+        return [];
     }
 
     /**
@@ -463,9 +463,9 @@ class Language extends BaseLanguage
     {
         if ($this->lowerLimitSearchWordCallback !== null) {
             return \call_user_func($this->lowerLimitSearchWordCallback);
-        } else {
-            return 3;
         }
+
+        return 3;
     }
 
     /**
@@ -565,9 +565,9 @@ class Language extends BaseLanguage
     {
         if ($this->searchDisplayedCharactersNumberCallback !== null) {
             return \call_user_func($this->searchDisplayedCharactersNumberCallback);
-        } else {
-            return 200;
         }
+
+        return 200;
     }
 
     /**
@@ -845,11 +845,7 @@ class Language extends BaseLanguage
      */
     public function getCalendar()
     {
-        if (isset($this->metadata['calendar'])) {
-            return $this->metadata['calendar'];
-        } else {
-            return 'gregorian';
-        }
+        return $this->metadata['calendar'] ?? 'gregorian';
     }
 
     /**

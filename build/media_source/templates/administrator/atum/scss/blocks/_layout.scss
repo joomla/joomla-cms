@@ -11,6 +11,23 @@
     padding: 0 1rem;
     font-weight: $font-weight-bold;
     color: var(--template-text-dark);
-    background-color: $white;
+    background-color: var(--body-bg);
+  }
+
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      > legend {
+        color: var(--template-text-light);
+      }
+    }
   }
 }
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .options-form {
+      color: var(--template-text-light);
+    }
+  }
+}
+

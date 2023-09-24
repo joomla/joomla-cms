@@ -77,7 +77,7 @@ class HtmlView extends BaseHtmlView
      * Ordering of the items
      *
      * @var    array
-     * @since  __DEPLOY_SINCE__
+     * @since  5.0.0
      */
     protected $ordering;
 

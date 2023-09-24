@@ -350,6 +350,7 @@ class CaptiveModel extends BaseDatabaseModel
         }
 
         $this->filterModules($modules);
+        $event->updateModules($modules);
     }
 
     /**

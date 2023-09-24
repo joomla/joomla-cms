@@ -229,14 +229,14 @@ class UpdateModel extends ListModel
             }
 
             return array_slice($result, $limitstart, $limit ?: null);
-        } else {
-            $query->order($db->quoteName($listOrder) . ' ' . $db->escape($listDirn));
-
-            $result = parent::_getList($query, $limitstart, $limit);
-            $this->translate($result);
-
-            return $result;
         }
+
+        $query->order($db->quoteName($listOrder) . ' ' . $db->escape($listDirn));
+
+        $result = parent::_getList($query, $limitstart, $limit);
+        $this->translate($result);
+
+        return $result;
     }
 
     /**
@@ -475,7 +475,6 @@ class UpdateModel extends ListModel
         // Quick change
         $this->type = $package['type'];
 
-        // @todo: Reconfigure this code when you have more battery life left
         $this->setState('name', $installer->get('name'));
         $this->setState('result', $result);
         $app->setUserState('com_installer.message', $installer->message);

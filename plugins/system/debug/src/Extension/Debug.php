@@ -10,13 +10,13 @@
 
 namespace Joomla\Plugin\System\Debug\Extension;
 
-use DebugBar\DataCollector\MemoryCollector;
 use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
 use Joomla\Application\ApplicationEvents;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Document\HtmlDocument;
+use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger\InMemoryLogger;
@@ -28,11 +28,14 @@ use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Event;
+use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\System\Debug\DataCollector\InfoCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageErrorsCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageFilesCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageStringsCollector;
+use Joomla\Plugin\System\Debug\DataCollector\MemoryCollector;
 use Joomla\Plugin\System\Debug\DataCollector\ProfileCollector;
 use Joomla\Plugin\System\Debug\DataCollector\QueryCollector;
 use Joomla\Plugin\System\Debug\DataCollector\RequestDataCollector;
@@ -68,7 +71,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
      * @var    boolean
      * @since  3.0
      */
-    private $debugLang = false;
+    private $debugLang;
 
     /**
      * Holds log entries handled by the plugin.
@@ -77,14 +80,6 @@ final class Debug extends CMSPlugin implements SubscriberInterface
      * @since  3.1
      */
     private $logEntries = [];
-
-    /**
-     * Holds SHOW PROFILES of queries.
-     *
-     * @var    array
-     * @since  3.1.2
-     */
-    private $sqlShowProfiles = [];
 
     /**
      * Holds all SHOW PROFILE FOR QUERY n, indexed by n-1.
@@ -101,14 +96,6 @@ final class Debug extends CMSPlugin implements SubscriberInterface
      * @since  3.1.2
      */
     private $explains = [];
-
-    /**
-     * Holds total amount of executed queries.
-     *
-     * @var    int
-     * @since  3.2
-     */
-    private $totalQueries = 0;
 
     /**
      * @var DebugBar
@@ -133,7 +120,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     protected $isAjax = false;
 
     /**
-     * Whether displaing a logs is enabled
+     * Whether displaying a logs is enabled
      *
      * @var   bool
      * @since 4.0.0
@@ -141,8 +128,14 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     protected $showLogs = false;
 
     /**
-     * Returns an array of events this subscriber will listen to.
+     * The time spent in onAfterDisconnect()
      *
+     * @var   float
+     * @since 4.4.0
+     */
+    protected $timeInOnAfterDisconnect = 0;
+
+    /**
      * @return  array
      *
      * @since   4.1.3
@@ -150,12 +143,18 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onBeforeCompileHead'            => 'onBeforeCompileHead',
-            'onAjaxDebug'                    => 'onAjaxDebug',
-            'onBeforeRespond'                => 'onBeforeRespond',
-            'onAfterRespond'                 => 'onAfterRespond',
-            ApplicationEvents::AFTER_RESPOND => 'onAfterRespond',
-            'onAfterDisconnect'              => 'onAfterDisconnect',
+            'onBeforeCompileHead' => 'onBeforeCompileHead',
+            'onAjaxDebug'         => 'onAjaxDebug',
+            'onBeforeRespond'     => 'onBeforeRespond',
+            'onAfterRespond'      => [
+                'onAfterRespond',
+                Priority::MIN,
+            ],
+            ApplicationEvents::AFTER_RESPOND => [
+                'onAfterRespond',
+                Priority::MIN,
+            ],
+            'onAfterDisconnect' => 'onAfterDisconnect',
         ];
     }
 
@@ -181,7 +180,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $this->getApplication()->getConfig()->set('gzip', false);
+        $this->getApplication()->set('gzip', false);
         ob_start();
         ob_implicit_flush(false);
 
@@ -269,8 +268,11 @@ final class Debug extends CMSPlugin implements SubscriberInterface
      */
     public function onAfterRespond()
     {
+        $endTime    = microtime(true) - $this->timeInOnAfterDisconnect;
+        $endMemory  = memory_get_peak_usage(false);
+
         // Do not collect data if debugging or language debug is not enabled.
-        if (!JDEBUG && !$this->debugLang || $this->isAjax) {
+        if ((!JDEBUG && !$this->debugLang) || $this->isAjax) {
             return;
         }
 
@@ -287,7 +289,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
 
         if (JDEBUG) {
             if ($this->params->get('memory', 1)) {
-                $this->debugBar->addCollector(new MemoryCollector());
+                $this->debugBar->addCollector(new MemoryCollector($this->params, $endMemory));
             }
 
             if ($this->params->get('request', 1)) {
@@ -299,10 +301,13 @@ final class Debug extends CMSPlugin implements SubscriberInterface
             }
 
             if ($this->params->get('profile', 1)) {
-                $this->debugBar->addCollector(new ProfileCollector($this->params));
+                $this->debugBar->addCollector((new ProfileCollector($this->params))->setRequestEndTime($endTime));
             }
 
             if ($this->params->get('queries', 1)) {
+                // Close session to collect possible session-related queries.
+                $this->getApplication()->getSession()->close();
+
                 // Call $db->disconnect() here to trigger the onAfterDisconnect() method here in this class!
                 $this->getDatabase()->disconnect();
                 $this->debugBar->addCollector(new QueryCollector($this->params, $this->queryMonitor, $this->sqlShowProfileEach, $this->explains));
@@ -364,13 +369,13 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     /**
      * AJAX handler
      *
-     * @param Joomla\Event\Event $event
+     * @param AjaxEvent $event
      *
      * @return  void
      *
      * @since  4.0.0
      */
-    public function onAjaxDebug($event)
+    public function onAjaxDebug(AjaxEvent $event)
     {
         // Do not render if debugging or language debug is not enabled.
         if (!JDEBUG && !$this->debugLang) {
@@ -384,11 +389,10 @@ final class Debug extends CMSPlugin implements SubscriberInterface
 
         switch ($this->getApplication()->getInput()->get('action')) {
             case 'openhandler':
-                $result  = $event['result'] ?: [];
                 $handler = new OpenHandler($this->debugBar);
+                $result  = $handler->handle($this->getApplication()->getInput()->request->getArray(), false, false);
 
-                $result[]        = $handler->handle($this->getApplication()->getInput()->request->getArray(), false, false);
-                $event['result'] = $result;
+                $event->addResult($result);
         }
     }
 
@@ -401,7 +405,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
      */
     private function isAuthorisedDisplayDebug(): bool
     {
-        static $result = null;
+        static $result;
 
         if ($result !== null) {
             return $result;
@@ -440,12 +444,12 @@ final class Debug extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        $startTime = microtime(true);
+
         $db = $event->getDriver();
 
         // Remove the monitor to avoid monitoring the following queries
         $db->setMonitor(null);
-
-        $this->totalQueries = $db->getCount();
 
         if ($this->params->get('query_profiles') && $db->getServerType() === 'mysql') {
             try {
@@ -456,13 +460,13 @@ final class Debug extends CMSPlugin implements SubscriberInterface
                 if ($hasProfiling) {
                     // Run a SHOW PROFILE query.
                     $db->setQuery('SHOW PROFILES');
-                    $this->sqlShowProfiles = $db->loadAssocList();
+                    $sqlShowProfiles = $db->loadAssocList();
 
-                    if ($this->sqlShowProfiles) {
-                        foreach ($this->sqlShowProfiles as $qn) {
+                    if ($sqlShowProfiles) {
+                        foreach ($sqlShowProfiles as $qn) {
                             // Run SHOW PROFILE FOR QUERY for each query where a profile is available (max 100).
                             $db->setQuery('SHOW PROFILE FOR QUERY ' . (int) $qn['Query_ID']);
-                            $this->sqlShowProfileEach[(int) ($qn['Query_ID'] - 1)] = $db->loadAssocList();
+                            $this->sqlShowProfileEach[$qn['Query_ID'] - 1] = $db->loadAssocList();
                         }
                     }
                 } else {
@@ -503,6 +507,8 @@ final class Debug extends CMSPlugin implements SubscriberInterface
                 }
             }
         }
+
+        $this->timeInOnAfterDisconnect = microtime(true) - $startTime;
     }
 
     /**
@@ -530,18 +536,18 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     /**
      * Collect log messages.
      *
-     * @return $this
+     * @return void
      *
      * @since 4.0.0
      */
-    private function collectLogs(): self
+    private function collectLogs()
     {
         $loggerOptions = ['group' => 'default'];
         $logger        = new InMemoryLogger($loggerOptions);
         $logEntries    = $logger->getCollectedEntries();
 
         if (!$this->logEntries && !$logEntries) {
-            return $this;
+            return;
         }
 
         if ($this->logEntries) {
@@ -569,6 +575,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
                         $this->debugBar[$entry->category]->addMessage($entry->message);
                     }
                     break;
+
                 case 'deprecated':
                     if (!$logDeprecated && !$logDeprecatedCore) {
                         break;
@@ -643,8 +650,6 @@ final class Debug extends CMSPlugin implements SubscriberInterface
                     break;
             }
         }
-
-        return $this;
     }
 
     /**

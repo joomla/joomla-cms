@@ -47,6 +47,9 @@ trait AjaxHandlerLogin
      */
     public function onAjaxWebauthnLogin(AjaxLogin $event): void
     {
+        // Load plugin language files
+        $this->loadLanguage();
+
         $session   = $this->getApplication()->getSession();
         $returnUrl = $session->get('plg_system_webauthn.returnUrl', Uri::base());
         $userId    = $session->get('plg_system_webauthn.userId', 0);
@@ -113,7 +116,7 @@ trait AjaxHandlerLogin
             Log::add(sprintf("Received login failure. Message: %s", $e->getMessage()), Log::ERROR, 'webauthn.system');
 
             // This also enqueues the login failure message for display after redirection. Look for JLog in that method.
-            $this->processLoginFailure($response, null, 'system');
+            $this->processLoginFailure($response);
         } finally {
             /**
              * This code needs to run no matter if the login succeeded or failed. It prevents replay attacks and takes

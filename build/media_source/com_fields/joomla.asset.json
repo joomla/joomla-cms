@@ -58,7 +58,9 @@
       ],
       "attributes": {
         "type": "module"
-      }
+      },
+      "deprecated": true,
+      "deprecatedMsg": "Use postMessage() directly or with help of [modal-content-select] asset. To post the modal selection."
     }
   ]
 }
