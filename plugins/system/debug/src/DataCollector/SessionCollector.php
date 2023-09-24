@@ -45,7 +45,8 @@ class SessionCollector extends AbstractDataCollector
     /**
      * Constructor.
      *
-     * @param   Registry  $params  Parameters.
+     * @param   Registry  $params   Parameters.
+     * @param   bool      $collect  Collect the session data.
      *
      * @since __DEPLOY_VERSION__
      */
@@ -61,9 +62,11 @@ class SessionCollector extends AbstractDataCollector
     /**
      * Called by the DebugBar when data needs to be collected
      *
-     * @since  4.0.0
+     * @param   bool  $overwrite  Overwrite the previously collected session data.
      *
      * @return array Collected data
+     *
+     * @since  4.0.0
      */
     public function collect($overwrite = false)
     {
