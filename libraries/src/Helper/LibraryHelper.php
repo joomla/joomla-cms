@@ -19,7 +19,7 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -58,9 +58,9 @@ class LibraryHelper
                 $result->params = new Registry($result->params);
             }
         } else {
-            $result = new \stdClass();
-            $result->enabled = $strict ? false : true;
-            $result->params = new Registry();
+            $result          = new \stdClass();
+            $result->enabled = !$strict;
+            $result->params  = new Registry();
         }
 
         return $result;
@@ -147,7 +147,7 @@ class LibraryHelper
     protected static function loadLibrary($element)
     {
         $loader = function ($element) {
-            $db = Factory::getContainer()->get(DatabaseInterface::class);
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
                 ->from($db->quoteName('#__extensions'))

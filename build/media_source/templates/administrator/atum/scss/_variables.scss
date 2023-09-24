@@ -1,5 +1,10 @@
-// Variables
+// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
+$prefix: "";
 
+// Use dark mode conditionally based on media queries from the browser to match the desktop theme
+$color-mode-type: media-query;
+
+// Variables
 $white:                            #fff;
 $whiteoffset:                      #fefefe;
 $gray-100:                         #f8f9fa;
@@ -13,13 +18,11 @@ $gray-800:                         #343a40;
 $gray-900:                         #212529; //used for tree header
 $bluegray:                         #b2bfcd; // used for borders
 $black:                            #000;    //used for shadows
-$focuscolor:                       #39f;    //used for focus color
 $dark-blue:                        #001b4c; //is the atum-special-color
 $light-blue:                       #2a69b8; //is the template-link-color
-$focusshadow:                      0 0 0 .2rem #eaeaea;
 
 // BS Colours
-$blue:                             hsl(213, 63%, 44%); // base color for calculation, Primary-color
+$blue:                             #2a69b7; // Same as hsl(213, 63%, 44%); // base color for calculation, Primary-color
 $indigo:                           #0377be; //used in bootstrap
 $purple:                           #6f42c1; //used in bootstrap
 $pink:                             #971250; //used in bootstrap
@@ -40,31 +43,31 @@ $danger:                           $red;
 $info:                             $light-blue;
 $warning:                          $yellow;
 
-$theme-colors: ();
-$theme-colors: map-merge((
-  primary:                         $base-color, //used only in bootstrap, please use $atum-bg-dark
-  secondary:                       $gray-700, //used for btn-secondary
-  success:                         $success,
-  info:                            $light-blue,
-  warning:                         $yellow,
-  danger:                          $danger,
-  light:                           $gray-100, //used in bootstrap
-  dark:                            $gray-900,  //used in bootstrap and for table-border
-  action:                          $base-color,
-  error:                           $red-dark,
-  alert-success:                   $green-dark
-), $theme-colors);
+$theme-colors: (
+  "primary":                         $darkblue,
+  "secondary":                       $gray-700,
+  "success":                         $success,
+  "info":                            $light-blue,
+  "warning":                         $yellow,
+  "danger":                          $danger,
+  "light":                           $gray-100,
+  "dark":                            $gray-900,
+  "action":                          $base-color,
+  "error":                           $red-dark) !default;
+
+$template-background-light: #f0f4fb; //light background color, frontend dashboard background and installer body background
 
 $atum-colors: (
   template-sidebar-bg:             var(--template-bg-dark-80),
   template-sidebar-font-color:     $white,
   template-sidebar-link-color:     $white,
-  template-bg-light:               #f0f4fb, //light background color, frontend dashboard background
+  template-bg-light:               $template-background-light,
+  template-link-color:             var(--link-color),
   template-text-light:             $white,
+  template-text-dark:              $atum-text-dark,
   template-special-color:          $dark-blue,
-  template-link-color:             $light-blue,
-  template-link-hover-color:       darken($light-blue, 20%),
   template-contrast:               $light-blue,
+  template-quickicon-color:        hsl(var(--hue), 30%, 40%),
   template-bg-dark:                hsl(var(--hue), 40%, 20%),
   template-bg-dark-3:              hsl(var(--hue), 40%, 97%),
   template-bg-dark-5:              hsl(var(--hue), 40%, 95%),
@@ -80,11 +83,17 @@ $atum-colors: (
   template-bg-dark-70:             hsl(var(--hue), 40%, 30%),
   template-bg-dark-75:             hsl(var(--hue), 40%, 25%),
   template-bg-dark-80:             hsl(var(--hue), 40%, 20%),
-  template-bg-dark-90:             hsl(var(--hue), 40%, 10%)
+  template-bg-dark-90:             hsl(var(--hue), 40%, 10%),
+  media-manager-overlay-header-bg: var(--template-bg-dark-5),
+  media-manager-infobar-dt-color:  rgba(0, 0, 0, .54),
+  media-manager-content-bg:        var(--body-bg),
+  media-manager-overlay-bg:        var(--template-bg-dark-3),
+  media-manager-disk-name-color:   var(--template-text-dark),
 );
 
 $colors: (
   card-bg:                         rgba(255, 255, 255, .7),
+  card-color:                      var(--template-bg-dark-60),
   bluegray:                        $bluegray,
   lightbluegray:                   #f6f9fc,
   toolbar-bg:                      $white,
@@ -96,8 +105,8 @@ $colors: (
   border:                          $gray-400,
   "white":                         $white, // the key here must be in quotes to avoid scss compilation warnings.
   white-offset:                    $whiteoffset,
-  focus:                           $focuscolor,
-  focus-shadow:                    $focusshadow,
+  focus:                           #39f,
+  focus-shadow:                    #eaeaea,
   toggle-color:                    $white, //used in sidebar
 );
 
@@ -107,15 +116,7 @@ $alert-color-level:                0;
 
 // Global
 $atum-box-shadow:                  0 2px 10px -8px var(--template-bg-dark-50);
-$enable-rounded:                   true;
-$input-box-shadow:                 inset 0 0 0 .1rem #e9e9e9;
-$input-btn-padding-y:              .5rem;
-$input-btn-padding-x:              1rem;
-$input-max-width:                  100%;
 $btn-disabled-opacity:             .4;
-
-// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
-$variable-prefix:                  "";
 
 // Toolbar
 $atum-toolbar-line-height:         2.45rem;
@@ -160,7 +161,6 @@ $extrabold-weight:                 800;
 $black-weight:                     900;
 
 // Tables
-$table-bg:                         var(--white);
 $table-cell-padding-y:             .75rem;
 $table-cell-padding-x:             1rem;
 $table-cell-padding-y-sm:          .3rem;
@@ -186,8 +186,7 @@ $state-success-bg:                 lighten($success, 58%);
 $state-success-border:             hsl(var(--hue),50%,93%);
 
 $state-info-text:                  var(--template-bg-dark-70);
-$state-info-bg:                    var(--white);
-$state-info-border:                var(--template-bg-dark-70);
+$state-info-bg:                    var(--body-bg);
 
 $state-warning-text:               darken($warning, 24%);
 $state-warning-bg:                 lighten($warning, 44%);
@@ -228,8 +227,7 @@ $treeselect-line-height:           2.2rem;
 $treeselect-indent:                40px;
 
 // List
-$list-group-bg:                    var(--white-offset);
-$list-group-border-color:          hsl(var(--hue),40%,85%);
+$list-group-border-color:          var(--template-bg-dark-15);
 $list-group-item-padding-y:        .75rem;
 
 // Buttons
@@ -245,16 +243,23 @@ $form-select-indicator:            url("../images/select-bg.svg");
 $form-select-indicator-rtl:        url("../images/select-bg-rtl.svg");
 $form-select-indicator-active:     url("../../../images/select-bg.svg");
 $form-select-indicator-active-rtl: url("../../../images/select-bg-rtl.svg");
-$form-select-background:           $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
-$form-select-background-rtl:       $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$form-select-background:           $form-select-bg $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$form-select-background-rtl:       $form-select-bg $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 $form-select-box-shadow:           $atum-box-shadow;
 $form-select-bg-size-sm:           75rem;
 $form-select-multiple-padding-y:   .3rem;
 $form-file-button-color:           var(--white);
 
-//input
+// Input
 $input-padding:                    .5rem 1rem;
-$input-border:                     solid 1px var(--template-bg-dark-20);
+$input-border-color:               var(--template-bg-dark-20);
+$input-focus-border-color:         var(--focus);
+$input-box-shadow:                 $atum-box-shadow;
+$input-max-width:                  100%;
+$input-btn-focus-width:            .2rem;
+$input-btn-focus-color:            var(--focus-shadow);
+$input-btn-padding-y:              .5rem;
+$input-btn-padding-x:              1rem;
 
 // Modals
 $modal-header-height:              2.875rem;
@@ -275,8 +280,8 @@ $grid-gutter-width-s:              15px;
 $breadcrumb-bg:                    var(--white);
 
 // Links
-$link-color:                       var(--template-link-color);
-$link-hover-color:                 var(--template-link-hover-color);
+$link-color:                       $light-blue;
+$link-hover-color:                 darken($light-blue, 20%);
 $link-decoration:                  none;
 
 // Z-Index list
@@ -293,3 +298,12 @@ $zindex-tooltip:                   1070;
 $zindex-mobile-bottom:             8000;
 $zindex-mobile-toggle:             9999;
 $zindex-mobile-menu:               9000;
+
+// scss-docs-start border-radius-variables
+$btn-border-radius: .25rem !default;
+$border-radius: .25rem !default;
+$border-radius-sm: .2rem !default;
+$border-radius-lg: .3rem !default;
+$border-radius-xl: .3rem !default;
+$border-radius-2xl: .3rem !default;
+// scss-docs-end border-radius-variables

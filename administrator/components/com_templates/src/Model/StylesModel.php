@@ -120,7 +120,7 @@ class StylesModel extends ListModel
         $clientId = (int) $this->getState('client_id');
 
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.
@@ -204,7 +204,7 @@ class StylesModel extends ListModel
             } else {
                 // If user selected the templates styles assigned to particular pages.
                 // Subquery to get the language of the selected menu item.
-                $menuItemId = (int) $menuItemId;
+                $menuItemId               = (int) $menuItemId;
                 $menuItemLanguageSubQuery = $db->getQuery(true);
                 $menuItemLanguageSubQuery->select($db->quoteName('language'))
                     ->from($db->quoteName('#__menu'))

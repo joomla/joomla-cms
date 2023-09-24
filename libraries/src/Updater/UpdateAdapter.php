@@ -19,7 +19,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -145,13 +145,13 @@ abstract class UpdateAdapter extends AdapterInstance
     protected function toggleUpdateSite($updateSiteId, $enabled = true)
     {
         $updateSiteId = (int) $updateSiteId;
-        $enabled = (bool) $enabled ? 1 : 0;
+        $enabled      = (bool) $enabled ? 1 : 0;
 
         if (empty($updateSiteId)) {
             return;
         }
 
-        $db = $this->parent->getDbo();
+        $db    = $this->parent->getDbo();
         $query = $db->getQuery(true)
             ->update($db->quoteName('#__update_sites'))
             ->set($db->quoteName('enabled') . ' = :enabled')
@@ -182,7 +182,7 @@ abstract class UpdateAdapter extends AdapterInstance
             return '';
         }
 
-        $db = $this->parent->getDbo();
+        $db    = $this->parent->getDbo();
         $query = $db->getQuery(true)
             ->select($db->quoteName('name'))
             ->from($db->quoteName('#__update_sites'))
@@ -212,8 +212,8 @@ abstract class UpdateAdapter extends AdapterInstance
      */
     protected function getUpdateSiteResponse($options = [])
     {
-        $url = trim($options['location']);
-        $this->_url = &$url;
+        $url                = trim($options['location']);
+        $this->_url         = &$url;
         $this->updateSiteId = $options['update_site_id'];
 
         if (!isset($options['update_site_name'])) {
@@ -247,7 +247,7 @@ abstract class UpdateAdapter extends AdapterInstance
 
         // JHttp transport throws an exception when there's no response.
         try {
-            $http = HttpFactory::getHttp($httpOption);
+            $http     = HttpFactory::getHttp($httpOption);
             $response = $http->get($url, [], 20);
         } catch (\RuntimeException $e) {
             $response = null;

@@ -12,13 +12,13 @@ namespace Joomla\CMS\Changelog;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -26,8 +26,11 @@ use RuntimeException;
  *
  * @since  4.0.0
  */
-class Changelog extends CMSObject
+class Changelog
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
     /**
      * Update manifest `<element>` element
      *
@@ -216,6 +219,11 @@ class Changelog extends CMSObject
             $this->$tag->data = '';
         }
 
+        // Skip technical elements
+        if ($name === 'CHANGELOGS' || $name === 'CHANGELOG' || $name === 'ITEM') {
+            return;
+        }
+
         $name = strtolower($name);
 
         if (!isset($this->currentChangelog->$name)) {
@@ -253,9 +261,9 @@ class Changelog extends CMSObject
             case 'CHANGE':
             case 'REMOVE':
             case 'NOTE':
-                $name = strtolower($name);
+                $name                                = strtolower($name);
                 $this->currentChangelog->$name->data = $this->items;
-                $this->items = [];
+                $this->items                         = [];
                 break;
             case 'CHANGELOG':
                 if (version_compare($this->currentChangelog->version->data, $this->matchVersion, '==') === true) {
@@ -338,7 +346,7 @@ class Changelog extends CMSObject
         try {
             $http     = HttpFactory::getHttp($httpOption);
             $response = $http->get($url);
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             $response = null;
         }
 

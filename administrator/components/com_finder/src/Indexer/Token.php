@@ -120,7 +120,7 @@ class Token
      * The token required flag
      *
      * @var    boolean
-     * @since  4.2.7
+     * @since  4.3.0
      */
     public $required;
 
@@ -144,12 +144,12 @@ class Token
         // Tokens can be a single word or an array of words representing a phrase.
         if (is_array($term)) {
             // Populate the token instance.
-            $this->term = implode($spacer, $term);
-            $this->stem = implode($spacer, array_map([Helper::class, 'stem'], $term, [$lang]));
+            $this->term    = implode($spacer, $term);
+            $this->stem    = implode($spacer, array_map([Helper::class, 'stem'], $term, [$lang]));
             $this->numeric = false;
-            $this->common = false;
-            $this->phrase = true;
-            $this->length = StringHelper::strlen($this->term);
+            $this->common  = false;
+            $this->phrase  = true;
+            $this->length  = StringHelper::strlen($this->term);
 
             /*
              * Calculate the weight of the token.
@@ -157,16 +157,16 @@ class Token
              * 1. Length of the token up to 30 and divide by 30, add 1.
              * 2. Round weight to 4 decimal points.
              */
-            $this->weight = (($this->length >= 30 ? 30 : $this->length) / 30) + 1;
+            $this->weight = (min($this->length, 30) / 30) + 1;
             $this->weight = round($this->weight, 4);
         } else {
             // Populate the token instance.
-            $this->term = $term;
-            $this->stem = Helper::stem($this->term, $lang);
+            $this->term    = $term;
+            $this->stem    = Helper::stem($this->term, $lang);
             $this->numeric = (is_numeric($this->term) || (bool) preg_match('#^[0-9,.\-\+]+$#', $this->term));
-            $this->common = $this->numeric ? false : Helper::isCommon($this->term, $lang);
-            $this->phrase = false;
-            $this->length = StringHelper::strlen($this->term);
+            $this->common  = $this->numeric ? false : Helper::isCommon($this->term, $lang);
+            $this->phrase  = false;
+            $this->length  = StringHelper::strlen($this->term);
 
             /*
              * Calculate the weight of the token.
@@ -176,7 +176,7 @@ class Token
              * 3. If numeric, multiply weight by 1.5.
              * 4. Round weight to 4 decimal points.
              */
-            $this->weight = ($this->length >= 15 ? 15 : $this->length) / 15;
+            $this->weight = min($this->length, 15) / 15;
             $this->weight = $this->common === true ? $this->weight / 8 : $this->weight;
             $this->weight = $this->numeric === true ? $this->weight * 1.5 : $this->weight;
             $this->weight = round($this->weight, 4);

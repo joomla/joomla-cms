@@ -12,7 +12,6 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
@@ -206,13 +205,13 @@ class UpdateModel extends ListModel
      * @param   int            $limitstart  Offset
      * @param   int            $limit       The number of records
      *
-     * @return  array
+     * @return  object[]
      *
      * @since   3.5
      */
     protected function _getList($query, $limitstart = 0, $limit = 0)
     {
-        $db = $this->getDatabase();
+        $db        = $this->getDatabase();
         $listOrder = $this->getState('list.ordering', 'u.name');
         $listDirn  = $this->getState('list.direction', 'asc');
 
@@ -222,7 +221,7 @@ class UpdateModel extends ListModel
             $result = $db->loadObjectList();
             $this->translate($result);
             $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
-            $total = count($result);
+            $total  = count($result);
 
             if ($total < $limitstart) {
                 $limitstart = 0;
@@ -230,14 +229,14 @@ class UpdateModel extends ListModel
             }
 
             return array_slice($result, $limitstart, $limit ?: null);
-        } else {
-            $query->order($db->quoteName($listOrder) . ' ' . $db->escape($listDirn));
-
-            $result = parent::_getList($query, $limitstart, $limit);
-            $this->translate($result);
-
-            return $result;
         }
+
+        $query->order($db->quoteName($listOrder) . ' ' . $db->escape($listDirn));
+
+        $result = parent::_getList($query, $limitstart, $limit);
+        $this->translate($result);
+
+        return $result;
     }
 
     /**
@@ -330,7 +329,7 @@ class UpdateModel extends ListModel
         $result = true;
 
         foreach ($uids as $uid) {
-            $update = new Update();
+            $update   = new Update();
             $instance = new \Joomla\CMS\Table\Update($this->getDatabase());
 
             if (!$instance->load($uid)) {
@@ -476,7 +475,6 @@ class UpdateModel extends ListModel
         // Quick change
         $this->type = $package['type'];
 
-        // @todo: Reconfigure this code when you have more battery life left
         $this->setState('name', $installer->get('name'));
         $this->setState('result', $result);
         $app->setUserState('com_installer.message', $installer->message);
@@ -563,7 +561,7 @@ class UpdateModel extends ListModel
 
                 $path = JPATH_ADMINISTRATOR . '/components/' . $table->element . '/helpers/' . $fname;
 
-                if (File::exists($path)) {
+                if (is_file($path)) {
                     require_once $path;
 
                     if (class_exists($cname) && is_callable([$cname, 'prepareUpdate'])) {
@@ -576,9 +574,9 @@ class UpdateModel extends ListModel
             // Modules could have a helper which adds additional data
             case 'module':
                 $cname = str_replace('_', '', $table->element) . 'Helper';
-                $path = ($table->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $table->element . '/helper.php';
+                $path  = ($table->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $table->element . '/helper.php';
 
-                if (File::exists($path)) {
+                if (is_file($path)) {
                     require_once $path;
 
                     if (class_exists($cname) && is_callable([$cname, 'prepareUpdate'])) {

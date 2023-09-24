@@ -76,8 +76,8 @@ class CategoriesHelper
     {
         $categoryTable = Table::getInstance('CategoryTable', '\\Joomla\\Component\\Categories\\Administrator\\Table\\');
 
-        $data = [];
-        $data['id'] = $catid;
+        $data              = [];
+        $data['id']        = $catid;
         $data['extension'] = $extension;
 
         if (!$categoryTable->load($data)) {

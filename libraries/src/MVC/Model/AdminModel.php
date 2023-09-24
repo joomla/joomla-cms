@@ -10,7 +10,7 @@
 namespace Joomla\CMS\MVC\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\Model\BeforeBatchEvent;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Associations;
@@ -31,7 +31,7 @@ use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -130,8 +130,8 @@ abstract class AdminModel extends FormModel
      */
     protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
-        'language_id' => 'batchLanguage',
-        'tag' => 'batchTag'
+        'language_id'   => 'batchLanguage',
+        'tag'           => 'batchTag',
     ];
 
     /**
@@ -145,7 +145,7 @@ abstract class AdminModel extends FormModel
     /**
      * A flag to indicate if member variables for batch actions (and saveorder) have been initialized
      *
-     * @var     object
+     * @var     ?bool
      * @since   3.8.2
      */
     protected $batchSet = null;
@@ -159,7 +159,7 @@ abstract class AdminModel extends FormModel
     protected $user = null;
 
     /**
-     * A JTable instance (of appropriate type) to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
+     * A \Joomla\CMS\Table\Table instance (of appropriate type) to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
      *
      * @var     Table
      * @since   3.8.2
@@ -167,7 +167,7 @@ abstract class AdminModel extends FormModel
     protected $table = null;
 
     /**
-     * The class name of the JTable instance managing the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
+     * The class name of the \Joomla\CMS\Table\Table instance managing the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
      *
      * @var     string
      * @since   3.8.2
@@ -193,9 +193,9 @@ abstract class AdminModel extends FormModel
     /**
      * Constructor.
      *
-     * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface   $factory      The factory.
-     * @param   FormFactoryInterface  $formFactory  The form factory.
+     * @param   array                  $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface   $factory      The factory.
+     * @param   ?FormFactoryInterface  $formFactory  The form factory.
      *
      * @since   1.6
      * @throws  \Exception
@@ -359,17 +359,19 @@ abstract class AdminModel extends FormModel
         // Initialize re-usable member properties, and re-usable local variables
         $this->initBatch();
 
+        $dispatcher = $this->getDispatcher();
+
         foreach ($pks as $pk) {
             if ($this->user->authorise('core.edit', $contexts[$pk])) {
                 $this->table->reset();
                 $this->table->load($pk);
                 $this->table->access = (int) $value;
 
-                $event = new BeforeBatchEvent(
+                $event = new Model\BeforeBatchEvent(
                     $this->event_before_batch,
                     ['src' => $this->table, 'type' => 'access']
                 );
-                $this->dispatchEvent($event);
+                $dispatcher->dispatch($event->getName(), $event);
 
                 // Check the row.
                 if (!$this->table->check()) {
@@ -418,8 +420,9 @@ abstract class AdminModel extends FormModel
             return false;
         }
 
-        $newIds = [];
-        $db     = $this->getDbo();
+        $newIds     = [];
+        $db         = $this->getDatabase();
+        $dispatcher = $this->getDispatcher();
 
         // Parent exists so let's proceed
         while (!empty($pks)) {
@@ -435,11 +438,11 @@ abstract class AdminModel extends FormModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Not fatal error
-                    $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-                    continue;
                 }
+
+                // Not fatal error
+                $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
             }
 
             // Check for asset_id
@@ -468,11 +471,11 @@ abstract class AdminModel extends FormModel
             // New category ID
             $this->table->catid = $categoryId;
 
-            $event = new BeforeBatchEvent(
+            $event = new Model\BeforeBatchEvent(
                 $this->event_before_batch,
                 ['src' => $this->table, 'type' => 'copy']
             );
-            $this->dispatchEvent($event);
+            $dispatcher->dispatch($event->getName(), $event);
 
             // @todo: Deal with ordering?
             // $this->table->ordering = 1;
@@ -563,17 +566,19 @@ abstract class AdminModel extends FormModel
         // Initialize re-usable member properties, and re-usable local variables
         $this->initBatch();
 
+        $dispatcher = $this->getDispatcher();
+
         foreach ($pks as $pk) {
             if ($this->user->authorise('core.edit', $contexts[$pk])) {
                 $this->table->reset();
                 $this->table->load($pk);
                 $this->table->language = $value;
 
-                $event = new BeforeBatchEvent(
+                $event = new Model\BeforeBatchEvent(
                     $this->event_before_batch,
                     ['src' => $this->table, 'type' => 'language']
                 );
-                $this->dispatchEvent($event);
+                $dispatcher->dispatch($event->getName(), $event);
 
                 // Check the row.
                 if (!$this->table->check()) {
@@ -622,6 +627,8 @@ abstract class AdminModel extends FormModel
             return false;
         }
 
+        $dispatcher = $this->getDispatcher();
+
         // Parent exists so we proceed
         foreach ($pks as $pk) {
             if (!$this->user->authorise('core.edit', $contexts[$pk])) {
@@ -637,21 +644,21 @@ abstract class AdminModel extends FormModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Not fatal error
-                    $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-                    continue;
                 }
+
+                // Not fatal error
+                $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
             }
 
             // Set the new category ID
             $this->table->catid = $categoryId;
 
-            $event = new BeforeBatchEvent(
+            $event = new Model\BeforeBatchEvent(
                 $this->event_before_batch,
                 ['src' => $this->table, 'type' => 'move']
             );
-            $this->dispatchEvent($event);
+            $dispatcher->dispatch($event->getName(), $event);
 
             // Check the row.
             if (!$this->table->check()) {
@@ -736,7 +743,7 @@ abstract class AdminModel extends FormModel
      */
     protected function canDelete($record)
     {
-        return Factory::getUser()->authorise('core.delete', $this->option);
+        return $this->getCurrentUser()->authorise('core.delete', $this->option);
     }
 
     /**
@@ -750,7 +757,7 @@ abstract class AdminModel extends FormModel
      */
     protected function canEditState($record)
     {
-        return Factory::getUser()->authorise('core.edit.state', $this->option);
+        return $this->getCurrentUser()->authorise('core.edit.state', $this->option);
     }
 
     /**
@@ -764,7 +771,7 @@ abstract class AdminModel extends FormModel
      */
     public function checkin($pks = [])
     {
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
         $table = $this->getTable();
         $count = 0;
 
@@ -821,11 +828,12 @@ abstract class AdminModel extends FormModel
      */
     public function delete(&$pks)
     {
-        $pks   = ArrayHelper::toInteger((array) $pks);
-        $table = $this->getTable();
+        $pks        = ArrayHelper::toInteger((array) $pks);
+        $table      = $this->getTable();
+        $dispatcher = $this->getDispatcher();
 
         // Include the plugins for the delete events.
-        PluginHelper::importPlugin($this->events_map['delete']);
+        PluginHelper::importPlugin($this->events_map['delete'], null, true, $dispatcher);
 
         // Iterate the items to delete each one.
         foreach ($pks as $i => $pk) {
@@ -834,7 +842,11 @@ abstract class AdminModel extends FormModel
                     $context = $this->option . '.' . $this->name;
 
                     // Trigger the before delete event.
-                    $result = Factory::getApplication()->triggerEvent($this->event_before_delete, [$context, $table]);
+                    $beforeDeleteEvent = new Model\BeforeDeleteEvent($this->event_before_delete, [
+                        'context' => $context,
+                        'subject' => $table,
+                    ]);
+                    $result = $dispatcher->dispatch($this->event_before_delete, $beforeDeleteEvent)->getArgument('result', []);
 
                     if (\in_array(false, $result, true)) {
                         $this->setError($table->getError());
@@ -844,7 +856,7 @@ abstract class AdminModel extends FormModel
 
                     // Multilanguage: if associated, delete the item in the _associations table
                     if ($this->associationsContext && Associations::isEnabled()) {
-                        $db = $this->getDbo();
+                        $db    = $this->getDatabase();
                         $query = $db->getQuery(true)
                             ->select(
                                 [
@@ -896,7 +908,10 @@ abstract class AdminModel extends FormModel
                     }
 
                     // Trigger the after event.
-                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$context, $table]);
+                    $dispatcher->dispatch($this->event_after_delete, new Model\AfterDeleteEvent($this->event_after_delete, [
+                        'context' => $context,
+                        'subject' => $table,
+                    ]));
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
@@ -906,11 +921,11 @@ abstract class AdminModel extends FormModel
                         Log::add($error, Log::WARNING, 'jerror');
 
                         return false;
-                    } else {
-                        Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-
-                        return false;
                     }
+
+                    Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+
+                    return false;
                 }
             } else {
                 $this->setError($table->getError());
@@ -966,7 +981,7 @@ abstract class AdminModel extends FormModel
      */
     public function getItem($pk = null)
     {
-        $pk = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
+        $pk    = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
         $table = $this->getTable();
 
         if ($pk > 0) {
@@ -988,10 +1003,10 @@ abstract class AdminModel extends FormModel
 
         // Convert to the CMSObject before adding other data.
         $properties = $table->getProperties(1);
-        $item = ArrayHelper::toObject($properties, CMSObject::class);
+        $item       = ArrayHelper::toObject($properties, CMSObject::class);
 
         if (property_exists($item, 'params')) {
-            $registry = new Registry($item->params);
+            $registry     = new Registry($item->params);
             $item->params = $registry->toArray();
         }
 
@@ -1003,7 +1018,7 @@ abstract class AdminModel extends FormModel
      *
      * @param   Table  $table  A Table object.
      *
-     * @return  array  An array of conditions to add to ordering queries.
+     * @return  string[]  An array of conditions to add to ordering queries.
      *
      * @since   1.6
      */
@@ -1022,10 +1037,10 @@ abstract class AdminModel extends FormModel
     protected function populateState()
     {
         $table = $this->getTable();
-        $key = $table->getKeyName();
+        $key   = $table->getKeyName();
 
         // Get the pk of the record from the request.
-        $pk = Factory::getApplication()->input->getInt($key);
+        $pk = Factory::getApplication()->getInput()->getInt($key);
         $this->setState($this->getName() . '.id', $pk);
 
         // Load the parameters.
@@ -1059,14 +1074,15 @@ abstract class AdminModel extends FormModel
      */
     public function publish(&$pks, $value = 1)
     {
-        $user = Factory::getUser();
+        $user  = $this->getCurrentUser();
         $table = $this->getTable();
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
 
-        $context = $this->option . '.' . $this->name;
+        $context    = $this->option . '.' . $this->name;
+        $dispatcher = $this->getDispatcher();
 
         // Include the plugins for the change of state event.
-        PluginHelper::importPlugin($this->events_map['change_state']);
+        PluginHelper::importPlugin($this->events_map['change_state'], null, true, $dispatcher);
 
         // Access checks.
         foreach ($pks as $i => $pk) {
@@ -1110,7 +1126,12 @@ abstract class AdminModel extends FormModel
         }
 
         // Trigger the before change state event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_change_state, [$context, $pks, $value]);
+        $beforeChngEvent = new Model\BeforeChangeStateEvent($this->event_before_change_state, [
+            'context' => $context,
+            'subject' => $pks,
+            'value'   => $value,
+        ]);
+        $result = $dispatcher->dispatch($this->event_before_change_state, $beforeChngEvent)->getArgument('result', []);
 
         if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
@@ -1126,7 +1147,12 @@ abstract class AdminModel extends FormModel
         }
 
         // Trigger the change state event.
-        $result = Factory::getApplication()->triggerEvent($this->event_change_state, [$context, $pks, $value]);
+        $afterChngEvent = new Model\AfterChangeStateEvent($this->event_change_state, [
+            'context' => $context,
+            'subject' => $pks,
+            'value'   => $value,
+        ]);
+        $result = $dispatcher->dispatch($this->event_change_state, $afterChngEvent)->getArgument('result', []);
 
         if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
@@ -1155,8 +1181,8 @@ abstract class AdminModel extends FormModel
      */
     public function reorder($pks, $delta = 0)
     {
-        $table = $this->getTable();
-        $pks = (array) $pks;
+        $table  = $this->getTable();
+        $pks    = (array) $pks;
         $result = true;
 
         $allowed = true;
@@ -1217,17 +1243,18 @@ abstract class AdminModel extends FormModel
         $table      = $this->getTable();
         $context    = $this->option . '.' . $this->name;
         $app        = Factory::getApplication();
+        $dispatcher = $this->getDispatcher();
 
         if (\array_key_exists('tags', $data) && \is_array($data['tags'])) {
             $table->newTags = $data['tags'];
         }
 
-        $key = $table->getKeyName();
-        $pk = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+        $key   = $table->getKeyName();
+        $pk    = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
         $isNew = true;
 
         // Include the plugins for the save events.
-        PluginHelper::importPlugin($this->events_map['save']);
+        PluginHelper::importPlugin($this->events_map['save'], null, true, $dispatcher);
 
         // Allow an exception to be thrown.
         try {
@@ -1255,7 +1282,13 @@ abstract class AdminModel extends FormModel
             }
 
             // Trigger the before save event.
-            $result = $app->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
+            $beforeSaveEvent = new Model\BeforeSaveEvent($this->event_before_save, [
+                'context' => $context,
+                'subject' => $table,
+                'isNew'   => $isNew,
+                'data'    => $data,
+            ]);
+            $result = $dispatcher->dispatch($this->event_before_save, $beforeSaveEvent)->getArgument('result', []);
 
             if (\in_array(false, $result, true)) {
                 $this->setError($table->getError());
@@ -1274,7 +1307,12 @@ abstract class AdminModel extends FormModel
             $this->cleanCache();
 
             // Trigger the after save event.
-            $app->triggerEvent($this->event_after_save, [$context, $table, $isNew, $data]);
+            $dispatcher->dispatch($this->event_after_save, new Model\AfterSaveEvent($this->event_after_save, [
+                'context' => $context,
+                'subject' => $table,
+                'isNew'   => $isNew,
+                'data'    => $data,
+            ]));
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
 
@@ -1309,7 +1347,7 @@ abstract class AdminModel extends FormModel
             }
 
             // Get associationskey for edited item
-            $db    = $this->getDbo();
+            $db    = $this->getDatabase();
             $id    = (int) $table->$key;
             $query = $db->getQuery(true)
                 ->select($db->quoteName('key'))
@@ -1379,7 +1417,7 @@ abstract class AdminModel extends FormModel
             }
         }
 
-        if ($app->input->get('task') == 'editAssociations') {
+        if ($app->getInput()->get('task') == 'editAssociations') {
             return $this->redirectToAssociations($data);
         }
 
@@ -1436,7 +1474,7 @@ abstract class AdminModel extends FormModel
 
                 // Remember to reorder within position and client_id
                 $condition = $this->getReorderConditions($this->table);
-                $found = false;
+                $found     = false;
 
                 foreach ($conditions as $cond) {
                     if ($cond[1] == $condition) {
@@ -1446,7 +1484,7 @@ abstract class AdminModel extends FormModel
                 }
 
                 if (!$found) {
-                    $key = $this->table->getKeyName();
+                    $key          = $this->table->getKeyName();
                     $conditions[] = [$this->table->$key, $condition];
                 }
             }
@@ -1485,11 +1523,11 @@ abstract class AdminModel extends FormModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
-
-                    return false;
                 }
+
+                $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+
+                return false;
             }
         }
 
@@ -1500,8 +1538,8 @@ abstract class AdminModel extends FormModel
         }
 
         // Check that the user has create permission for the component
-        $extension = Factory::getApplication()->input->get('option', '');
-        $user = Factory::getUser();
+        $extension = Factory::getApplication()->getInput()->get('option', '');
+        $user      = $this->getCurrentUser();
 
         if (!$user->authorise('core.create', $extension . '.category.' . $categoryId)) {
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
@@ -1546,18 +1584,18 @@ abstract class AdminModel extends FormModel
             $this->batchSet = true;
 
             // Get current user
-            $this->user = Factory::getUser();
+            $this->user = $this->getCurrentUser();
 
             // Get table
             $this->table = $this->getTable();
 
             // Get table class name
-            $tc = explode('\\', \get_class($this->table));
+            $tc                   = explode('\\', \get_class($this->table));
             $this->tableClassName = end($tc);
 
             // Get UCM Type data
             $this->contentType = new UCMType();
-            $this->type = $this->contentType->getTypeByTable($this->tableClassName)
+            $this->type        = $this->contentType->getTypeByTable($this->tableClassName)
                 ?: $this->contentType->getTypeByAlias($this->typeAlias);
         }
     }
@@ -1571,7 +1609,8 @@ abstract class AdminModel extends FormModel
      *
      * @since   3.9.0
      *
-     * @deprecated 5.0  It is handled by regular save method now.
+     * @deprecated  4.3 will be removed in 6.0
+     *              It is handled by regular save method now.
      */
     public function editAssociations($data)
     {
@@ -1596,7 +1635,7 @@ abstract class AdminModel extends FormModel
 
         // Deal with categories associations
         if ($this->text_prefix === 'COM_CATEGORIES') {
-            $extension       = $app->input->get('extension', 'com_content');
+            $extension       = $app->getInput()->get('extension', 'com_content');
             $this->typeAlias = $extension . '.category';
             $component       = strtolower($this->text_prefix);
             $view            = 'category';
@@ -1637,6 +1676,8 @@ abstract class AdminModel extends FormModel
          * otherwise select already the target language
          */
         if (count($languages) === 2) {
+            $lang_code = [];
+
             foreach ($languages as $language) {
                 $lang_code[] = $language->lang_code;
             }
@@ -1656,7 +1697,7 @@ abstract class AdminModel extends FormModel
         $app->redirect(
             Route::_(
                 'index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
-                . '&task=association.edit&id=' . $id . $target,
+                    . '&task=association.edit&id=' . $id . $target,
                 false
             )
         );

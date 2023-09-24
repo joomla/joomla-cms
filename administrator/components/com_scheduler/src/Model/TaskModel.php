@@ -539,7 +539,7 @@ class TaskModel extends AdminModel
 
         // If a new entry, we'll have to put in place a pseudo-last_execution
         if ($isNew) {
-            $basisDayOfMonth = $data['execution_rules']['exec-day'];
+            $basisDayOfMonth           = $data['execution_rules']['exec-day'];
             [$basisHour, $basisMinute] = explode(':', $data['execution_rules']['exec-time']);
 
             $data['last_execution'] = Factory::getDate('now', 'GMT')->format('Y-m')
@@ -664,7 +664,7 @@ class TaskModel extends AdminModel
         /** @var TaskTable $table */
         $table = $this->getTable();
 
-        $user = Factory::getApplication()->getIdentity();
+        $user = $this->getCurrentUser();
 
         $context = $this->option . '.' . $this->name;
 

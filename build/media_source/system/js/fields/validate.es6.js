@@ -249,10 +249,15 @@ class JFormValidator {
     let valid = true;
     let message;
     let error;
+    let fields;
     const invalid = [];
 
     // Validate form fields
-    const fields = [].slice.call(form.elements);
+    if (form.nodeName === 'FORM') {
+      fields = [].slice.call(form.elements);
+    } else {
+      fields = [].slice.call(form.querySelectorAll('input, textarea, select, button, fieldset'));
+    }
     fields.forEach((field) => {
       if (this.validate(field) === false) {
         valid = false;
@@ -284,7 +289,13 @@ class JFormValidator {
 
   attachToForm(form) {
     const inputFields = [];
-    const elements = [].slice.call(form.elements);
+    let elements;
+
+    if (form.nodeName === 'FORM') {
+      elements = [].slice.call(form.elements);
+    } else {
+      elements = [].slice.call(form.querySelectorAll('input, textarea, select, button, fieldset'));
+    }
 
     // Iterate through the form object and attach the validate method to all input fields.
     elements.forEach((element) => {

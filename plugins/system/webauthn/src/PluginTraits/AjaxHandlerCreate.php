@@ -10,14 +10,11 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Exception;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxCreate;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\User\UserFactoryInterface;
-use Joomla\Event\Event;
-use RuntimeException;
 use Webauthn\PublicKeyCredentialSource;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -40,11 +37,14 @@ trait AjaxHandlerCreate
      *
      * @return  void
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.0.0
      */
     public function onAjaxWebauthnCreate(AjaxCreate $event): void
     {
+        // Load plugin language files
+        $this->loadLanguage();
+
         /**
          * Fundamental sanity check: this callback is only allowed after a Public Key has been created server-side and
          * the user it was created for matches the current user.
@@ -54,7 +54,7 @@ trait AjaxHandlerCreate
          * someone else's Webauthn configuration thus mitigating a major privacy and security risk. So, please, DO NOT
          * remove this sanity check!
          */
-        $session = $this->getApplication()->getSession();
+        $session      = $this->getApplication()->getSession();
         $storedUserId = $session->get('plg_system_webauthn.registration_user_id', 0);
         $thatUser     = empty($storedUserId) ?
             Factory::getApplication()->getIdentity() :
@@ -67,7 +67,7 @@ trait AjaxHandlerCreate
             $session->set('plg_system_webauthn.publicKeyCredentialCreationOptions', null);
 
             // Politely tell the presumed hacker trying to abuse this callback to go away.
-            throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_USER'));
+            throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_USER'));
         }
 
         // Get the credentials repository object. It's outside the try-catch because I also need it to display the GUI.
@@ -75,7 +75,7 @@ trait AjaxHandlerCreate
 
         // Try to validate the browser data. If there's an error I won't save anything and pass the message to the GUI.
         try {
-            $input = $this->getApplication()->input;
+            $input = $this->getApplication()->getInput();
 
             // Retrieve the data sent by the device
             $data = $input->get('data', '', 'raw');
@@ -83,12 +83,12 @@ trait AjaxHandlerCreate
             $publicKeyCredentialSource = $this->authenticationHelper->validateAttestationResponse($data);
 
             if (!\is_object($publicKeyCredentialSource) || !($publicKeyCredentialSource instanceof PublicKeyCredentialSource)) {
-                throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_ATTESTED_DATA'));
+                throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_ATTESTED_DATA'));
             }
 
             $credentialRepository->saveCredentialSource($publicKeyCredentialSource);
-        } catch (Exception $e) {
-            $error                  = $e->getMessage();
+        } catch (\Exception $e) {
+            $error                     = $e->getMessage();
             $publicKeyCredentialSource = null;
         }
 

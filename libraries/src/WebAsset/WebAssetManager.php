@@ -15,7 +15,7 @@ use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -165,7 +165,7 @@ class WebAssetManager implements WebAssetManagerInterface
             throw new InvalidActionException('WebAssetManager is locked');
         }
 
-        $this->activeAssets = [];
+        $this->activeAssets         = [];
         $this->dependenciesIsActual = false;
 
         return $this;
@@ -232,9 +232,9 @@ class WebAssetManager implements WebAssetManagerInterface
                 $name = $arguments[0] instanceof WebAssetItemInterface ? $arguments[0]->getName() : $arguments[0];
 
                 return $this->registerAsset($type, ...$arguments)->useAsset($type, $name);
-            } else {
-                return $this->registerAsset($type, ...$arguments);
             }
+
+            return $this->registerAsset($type, ...$arguments);
         }
 
         throw new \BadMethodCallException(sprintf('Undefined method %s in class %s', $method, get_class($this)));
@@ -504,7 +504,7 @@ class WebAssetManager implements WebAssetManagerInterface
             $this->registry->add($type, $asset);
         } elseif (is_string($asset)) {
             $options['type'] = $type;
-            $assetInstance = $this->registry->createAsset($asset, $uri, $options, $attributes, $dependencies);
+            $assetInstance   = $this->registry->createAsset($asset, $uri, $options, $attributes, $dependencies);
             $this->registry->add($type, $assetInstance);
         } else {
             throw new \InvalidArgumentException(
@@ -598,9 +598,6 @@ class WebAssetManager implements WebAssetManagerInterface
                 continue;
             }
 
-            // Add to list of inline assets
-            $inlineAssets[$asset->getName()] = $asset;
-
             // Check whether position are requested with dependencies
             $position = $asset->getOption('position');
             $position = $position === 'before' || $position === 'after' ? $position : null;
@@ -608,7 +605,7 @@ class WebAssetManager implements WebAssetManagerInterface
 
             if ($position && $deps) {
                 // If inline asset have a multiple dependencies, then use last one from the list for positioning
-                $handle = end($deps);
+                $handle                                                = end($deps);
                 $inlineRelation[$handle][$position][$asset->getName()] = $asset;
             }
         }
@@ -820,7 +817,7 @@ class WebAssetManager implements WebAssetManagerInterface
         // Loop through, and sort the graph
         while ($emptyIncoming) {
             // Add the node without incoming connection to the result
-            $item = array_shift($emptyIncoming);
+            $item         = array_shift($emptyIncoming);
             $graphOrder[] = $item;
 
             // Check of each neighbor of the node

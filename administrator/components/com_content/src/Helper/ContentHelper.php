@@ -159,11 +159,15 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
                     $workflow_id = $cat->params->get('workflow_id');
 
-                    if ($workflow_id == 'inherit') {
+                    if ($workflow_id === 'inherit') {
                         continue;
-                    } elseif ($workflow_id == 'use_default') {
+                    }
+
+                    if ($workflow_id === 'use_default') {
                         break;
-                    } elseif ($workflow_id = (int) $workflow_id) {
+                    }
+
+                    if ($workflow_id = (int) $workflow_id) {
                         $title = $db->loadResult();
 
                         if (!is_null($title)) {

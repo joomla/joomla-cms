@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -51,7 +52,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -71,6 +72,14 @@ class HtmlView extends BaseHtmlView
      * @since  4.0.0
      */
     public $activeFilters;
+
+    /**
+     * Ordering of the items
+     *
+     * @var    array
+     * @since  5.0.0
+     */
+    protected $ordering;
 
     /**
      * Display the view
@@ -112,29 +121,33 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo = ContentHelper::getActions('com_menus');
+        $canDo   = ContentHelper::getActions('com_menus');
+        $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_MENUS_VIEW_MENUS_TITLE'), 'list menumgr');
 
         if ($canDo->get('core.create')) {
-            ToolbarHelper::addNew('menu.add');
+            $toolbar->addNew('menu.add');
         }
 
         if ($canDo->get('core.delete')) {
-            ToolbarHelper::divider();
-            ToolbarHelper::deleteList('COM_MENUS_MENU_CONFIRM_DELETE', 'menus.delete', 'JTOOLBAR_DELETE');
+            $toolbar->divider();
+            $toolbar->delete('menus.delete')
+                ->message('COM_MENUS_MENU_CONFIRM_DELETE');
         }
 
         if ($canDo->get('core.admin') && $this->state->get('client_id') == 1) {
-            ToolbarHelper::custom('menu.exportXml', 'download', '', 'COM_MENUS_MENU_EXPORT_BUTTON', true);
+            $toolbar->standardButton('download', 'COM_MENUS_MENU_EXPORT_BUTTON', 'menu.exportXml')
+                ->icon('icon-download')
+                ->listCheck(true);
         }
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            ToolbarHelper::divider();
-            ToolbarHelper::preferences('com_menus');
+            $toolbar->divider();
+            $toolbar->preferences('com_menus');
         }
 
-        ToolbarHelper::divider();
-        ToolbarHelper::help('Menus');
+        $toolbar->divider();
+        $toolbar->help('Menus');
     }
 }

@@ -46,7 +46,7 @@
     font-size: 1rem;
     line-height: $atum-toolbar-line-height;
     color: var(--template-text-dark);
-    background: $white;
+    background: var(--body-bg);
     border-color: hsl(var(--hue),20%,80%);
 
     > span {
@@ -86,6 +86,14 @@
       --subhead-btn-accent: var(--template-bg-dark);
     }
 
+    @if $enable-dark-mode {
+      @include color-mode(dark) {
+        &.btn-info {
+          --subhead-btn-accent: var(--template-bg-light);
+        }
+      }
+    }
+
     &.btn-action {
       --subhead-btn-accent: var(--template-bg-dark);
       display: flex;
@@ -93,10 +101,18 @@
 
       &::after {
         width: 2.375rem;
-        font-family: "Font Awesome 5 Free";
+        font-family: "Font Awesome 6 Free";
         font-weight: 900;
         content: "\f078";
         border: 0;
+      }
+    }
+
+    @if $enable-dark-mode {
+      @include color-mode(dark) {
+        &.btn-action {
+          --subhead-btn-accent: var(--template-bg-light);
+        }
       }
     }
 
@@ -114,6 +130,16 @@
     }
   }
 
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      .btn {
+        --subhead-btn-accent: var(--template-text-light);
+        color: var(--template-text-light);
+      }
+    }
+  }
+
+
   .dropdown-toggle {
     &.btn {
       padding-inline-end: 0;
@@ -123,14 +149,7 @@
   .btn-group:not(:last-child) > .dropdown-toggle-split {
     order: 1;
     margin-inline-start: -$border-radius;
-
-    [dir="ltr"] & {
-      border-radius: 0 $border-radius $border-radius 0;
-    }
-
-    [dir="rtl"] & {
-      border-radius: $border-radius 0 0 $border-radius;
-    }
+    border-radius: 0 $border-radius $border-radius 0;
   }
 
   .dropdown-menu joomla-toolbar-button,
@@ -142,6 +161,15 @@
     margin: -15px -15px 0;
     background-image: none;
     border-bottom: 1px solid var(--template-bg-dark-7);
+  }
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .subhead {
+      background-color: var(--body-bg);
+      background-image: linear-gradient(var(--body-bg), var(--dark-bg));
+    }
   }
 }
 
@@ -170,7 +198,7 @@
     border-radius: 30px;
 
     .toggler-toolbar-icon::before {
-      font: normal normal 900 28px/1 "Font Awesome 5 Free";
+      font: normal normal 900 28px/1 "Font Awesome 6 Free";
       color: var(--toggle-color);
       content: "\f00d";
     }

@@ -53,7 +53,7 @@ abstract class FormModel extends BaseForm
     {
         // Only attempt to check the row in if it exists.
         if ($pk) {
-            $user = Factory::getUser();
+            $user = $this->getCurrentUser();
 
             // Get an instance of the row to checkin.
             $table = $this->getTable();
@@ -89,7 +89,7 @@ abstract class FormModel extends BaseForm
     {
         // Only attempt to check the row in if it exists.
         if ($pk) {
-            $user = Factory::getUser();
+            $user = $this->getCurrentUser();
 
             // Get an instance of the row to checkout.
             $table = $this->getTable();
@@ -236,7 +236,7 @@ abstract class FormModel extends BaseForm
      * @return  mixed  Array of filtered data if valid, false otherwise.
      *
      * @see     \Joomla\CMS\Form\FormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.2
      */
     public function validate($form, $data, $group = null)

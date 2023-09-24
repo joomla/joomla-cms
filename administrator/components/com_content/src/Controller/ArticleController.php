@@ -57,6 +57,31 @@ class ArticleController extends FormController
     }
 
     /**
+     * Method to cancel an edit.
+     *
+     * @param   string  $key  The name of the primary key of the URL variable.
+     *
+     * @return  boolean  True if access level checks pass, false otherwise.
+     *
+     * @since   5.0.0
+     */
+    public function cancel($key = null)
+    {
+        $result = parent::cancel($key);
+
+        // When editing in modal then redirect to modalreturn layout
+        if ($result && $this->input->get('layout') === 'modal') {
+            $id     = $this->input->get('id');
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=cancel';
+
+            $this->setRedirect(Route::_($return, false));
+        }
+
+        return $result;
+    }
+
+    /**
      * Function that allows child controller access to model data
      * after the data has been saved.
      *
@@ -77,18 +102,26 @@ class ArticleController extends FormController
             $link = 'index.php?option=com_content&view=article';
             $type = 'component';
 
-            $editState['id'] = $id;
-            $editState['link']  = $link;
-            $editState['title'] = $model->getItem($id)->title;
-            $editState['type']  = $type;
+            $editState['id']            = $id;
+            $editState['link']          = $link;
+            $editState['title']         = $model->getItem($id)->title;
+            $editState['type']          = $type;
             $editState['request']['id'] = $id;
 
             $this->app->setUserState('com_menus.edit.item', [
                 'data' => $editState,
                 'type' => $type,
-                'link' => $link]);
+                'link' => $link,
+            ]);
 
             $this->setRedirect(Route::_('index.php?option=com_menus&view=item&client_id=0&menutype=mainmenu&layout=edit', false));
+        } elseif ($this->input->get('layout') === 'modal' && $this->task === 'save') {
+            // When editing in modal then redirect to modalreturn layout
+            $id     = $model->getState('article.id', '');
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=save';
+
+            $this->setRedirect(Route::_($return, false));
         }
     }
 
@@ -127,7 +160,7 @@ class ArticleController extends FormController
     protected function allowEdit($data = [], $key = 'id')
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-        $user = $this->app->getIdentity();
+        $user     = $this->app->getIdentity();
 
         // Zero record (id:0), return component edit permission by calling parent controller method
         if (!$recordId) {

@@ -15,6 +15,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Plugin\Editors\TinyMCE\Provider\TinyMCEProvider;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -74,9 +75,6 @@ class TinymcebuilderField extends FormField
             $data['value'] = [];
         }
 
-        // Get the plugin
-        require_once JPATH_PLUGINS . '/editors/tinymce/tinymce.php';
-
         $menus = [
             'edit'   => ['label' => 'Edit'],
             'insert' => ['label' => 'Insert'],
@@ -89,9 +87,9 @@ class TinymcebuilderField extends FormField
 
         $data['menus']         = $menus;
         $data['menubarSource'] = array_keys($menus);
-        $data['buttons']       = \PlgEditorTinymce::getKnownButtons();
+        $data['buttons']       = TinyMCEProvider::getKnownButtons();
         $data['buttonsSource'] = array_keys($data['buttons']);
-        $data['toolbarPreset'] = \PlgEditorTinymce::getToolbarPreset();
+        $data['toolbarPreset'] = TinyMCEProvider::getToolbarPreset();
         $data['setsAmount']    = $setsAmount;
 
         // Get array of sets names

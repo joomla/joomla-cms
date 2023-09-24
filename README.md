@@ -1,18 +1,21 @@
 Joomla! CMS™
 ====================
 
+The Joomla! 5.0 branch is under heavy development and not all links in this document are available yet
+------------------------------------------------------------------------------------------------------
+
 Build Status
 ---------------------
-| Drone-CI      | AppVeyor      | PHP           |  Node         | npm           |
-| ------------- | ------------- | ------------- | ------------- | ------------- |
-| [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg?branch=4.2-dev)](https://ci.joomla.org/joomla/joomla-cms) | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/4.2-dev?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V7.2.5-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V16.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v8.6.0-green)](https://nodejs.org/en/) |
+| Drone-CI                                                                                                                                 | AppVeyor                                                                                                                                                           | PHP                                                                           | Node                                                                                 | npm                                                                             |
+|------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg?branch=5.0-dev)](https://ci.joomla.org/joomla/joomla-cms) | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/5.0-dev?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V8.1.0-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V18.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v9.6.7-green)](https://nodejs.org/en/) |
 
 Overview
 ---------------------
-* This is the source of Joomla! 4.x.
+* This is the source of Joomla! 5.x.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 4.2 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_4.2_version_history).
-* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/4.2-dev).
+* Joomla! 5.0 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_5.0_version_history).
+* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/5.0-dev).
 
 What is Joomla?
 ---------------------
@@ -28,7 +31,7 @@ Joomla is not installable out of the box from this repository, please use:
 
 How to get a working installation from the source
 ---------------------
-For detailed instructions please visit https://docs.joomla.org/Special:MyLanguage/J4.x:Setting_Up_Your_Local_Environment
+For detailed instructions please visit https://docs.joomla.org/Special:MyLanguage/J5.x:Setting_Up_Your_Local_Environment
 
 You will need:
 - PHP - basically the same as you need for running a Joomla Site, but you need the cli (command line interface) Version (see https://docs.joomla.org/Special:MyLanguage/Configuring_a_LAMPP_server_for_PHP_development)
@@ -45,9 +48,9 @@ git clone https://github.com/joomla/joomla-cms.git
 ```bash
 cd joomla-cms
 ```
-- Go to the 4.2-dev branch:
+- Go to the 5.0-dev branch:
 ```bash
-git checkout 4.2-dev
+git checkout 5.0-dev
 ```
 - Install all the needed composer packages:
 ```bash

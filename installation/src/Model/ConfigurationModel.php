@@ -111,7 +111,7 @@ class ConfigurationModel extends BaseInstallationModel
             ->columns(
                 [
                     $db->quoteName('extension_id'),
-                    $db->quoteName('version_id')
+                    $db->quoteName('version_id'),
                 ]
             )
             ->values($eid . ', ' . $db->quote($version));
@@ -141,7 +141,9 @@ class ConfigurationModel extends BaseInstallationModel
         }
 
         // This is needed because the installer loads the extension table in constructor, needs to be refactored in 5.0
-        Factory::$database = $db;
+        // It doesn't honor the DatabaseAware interface
+        Factory::getContainer()->set('\Joomla\CMS\Table\Extension', new \Joomla\CMS\Table\Extension($db));
+
         $installer = Installer::getInstance();
 
         foreach ($extensions as $extension) {
@@ -275,9 +277,12 @@ class ConfigurationModel extends BaseInstallationModel
 
         // Update all core tables created_by fields of the tables with the random user id.
         $updatesArray = [
-            '#__categories'      => ['created_user_id', 'modified_user_id'],
-            '#__tags'            => ['created_user_id', 'modified_user_id'],
-            '#__workflows'       => ['created_by', 'modified_by'],
+            '#__categories'       => ['created_user_id', 'modified_user_id'],
+            '#__guidedtours'      => ['created_by', 'modified_by'],
+            '#__guidedtour_steps' => ['created_by', 'modified_by'],
+            '#__scheduler_tasks'  => ['created_by'],
+            '#__tags'             => ['created_user_id', 'modified_user_id'],
+            '#__workflows'        => ['created_by', 'modified_by'],
         ];
 
         foreach ($updatesArray as $table => $fields) {
@@ -312,22 +317,22 @@ class ConfigurationModel extends BaseInstallationModel
     {
         $version = new Version();
 
-        if (!$version->isInDevelopmentState() || !is_file(JPATH_PLUGINS . '/sampledata/testing/testing.php')) {
+        if (!$version->isInDevelopmentState() || !is_file(JPATH_PLUGINS . '/sampledata/testing/testing.xml')) {
             return;
         }
 
-        $testingPlugin = new \stdClass();
-        $testingPlugin->extension_id = null;
-        $testingPlugin->name = 'plg_sampledata_testing';
-        $testingPlugin->type = 'plugin';
-        $testingPlugin->element = 'testing';
-        $testingPlugin->folder = 'sampledata';
-        $testingPlugin->client_id = 0;
-        $testingPlugin->enabled = 1;
-        $testingPlugin->access = 1;
+        $testingPlugin                 = new \stdClass();
+        $testingPlugin->extension_id   = null;
+        $testingPlugin->name           = 'plg_sampledata_testing';
+        $testingPlugin->type           = 'plugin';
+        $testingPlugin->element        = 'testing';
+        $testingPlugin->folder         = 'sampledata';
+        $testingPlugin->client_id      = 0;
+        $testingPlugin->enabled        = 1;
+        $testingPlugin->access         = 1;
         $testingPlugin->manifest_cache = '';
-        $testingPlugin->params = '{}';
-        $testingPlugin->custom_data = '';
+        $testingPlugin->params         = '{}';
+        $testingPlugin->custom_data    = '';
 
         $db->insertObject('#__extensions', $testingPlugin, 'extension_id');
 
@@ -538,7 +543,7 @@ class ConfigurationModel extends BaseInstallationModel
                 $db->quoteName('registerDate'),
                 $db->quoteName('lastvisitDate'),
                 $db->quoteName('activation'),
-                $db->quoteName('params')
+                $db->quoteName('params'),
             ];
             $query->clear()
                 ->insert('#__users', true)

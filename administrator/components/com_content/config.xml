@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<help key="Articles:_Options"/>
 	<inlinehelp button="show"/>
@@ -261,6 +261,8 @@
 			type="number"
 			label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
 			filter="integer"
+			validate="number"
+			min="0"
 			default="100"
 			showon="show_readmore:1[AND]show_readmore_title:1"
 		/>
@@ -416,6 +418,8 @@
 			type="number"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			filter="integer"
+			validate="number"
+			min="0"
 			default="10"
 			showon="save_history:1"
 		/>
@@ -505,6 +509,7 @@
 			name="float_intro"
 			type="text"
 			label="COM_CONTENT_IMAGE_INTRO_CLASS_LABEL"
+			validate="CssIdentifier"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		/>
 
@@ -512,6 +517,7 @@
 			name="float_fulltext"
 			type="text"
 			label="COM_CONTENT_IMAGE_FULLTEXT_CLASS_LABEL"
+			validate="CssIdentifier"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		/>
 	</fieldset>
@@ -723,6 +729,8 @@
 			type="number"
 			label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
 			filter="integer"
+			validate="number"
+			min="0"
 			default="1"
 		/>
 
@@ -738,6 +746,8 @@
 			type="number"
 			label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
 			filter="integer"
+			validate="number"
+			min="0"
 			default="4"
 		/>
 
@@ -754,6 +764,8 @@
 			type="number"
 			label="JGLOBAL_NUM_COLUMNS_LABEL"
 			filter="integer"
+			validate="number"
+			min="0"
 			default="1"
 		/>
 
@@ -773,6 +785,8 @@
 			type="number"
 			label="JGLOBAL_NUM_LINKS_LABEL"
 			filter="integer"
+			validate="number"
+			min="0"
 			default="4"
 		/>
 

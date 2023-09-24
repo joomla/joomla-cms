@@ -13,7 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -32,8 +32,8 @@ trait VersionableControllerTrait
      */
     public function loadhistory()
     {
-        $model = $this->getModel();
-        $table = $model->getTable();
+        $model     = $this->getModel();
+        $table     = $model->getTable();
         $historyId = $this->input->getInt('version_id', null);
 
         if (!$model->loadhistory($historyId, $table)) {

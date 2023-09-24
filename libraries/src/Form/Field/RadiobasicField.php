@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Form\Field;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -62,7 +62,7 @@ class RadiobasicField extends ListField
 
         $extraData = [
             'options' => $this->getOptions(),
-            'value'   => (string) $this->value
+            'value'   => (string) $this->value,
         ];
 
         return array_merge($data, $extraData);

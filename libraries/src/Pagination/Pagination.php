@@ -17,7 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -124,18 +124,18 @@ class Pagination
     public function __construct($total, $limitstart, $limit, $prefix = '', CMSApplication $app = null)
     {
         // Value/type checking.
-        $this->total = (int) $total;
+        $this->total      = (int) $total;
         $this->limitstart = (int) max($limitstart, 0);
-        $this->limit = (int) max($limit, 0);
-        $this->prefix = $prefix;
-        $this->app = $app ?: Factory::getApplication();
+        $this->limit      = (int) max($limit, 0);
+        $this->prefix     = $prefix;
+        $this->app        = $app ?: Factory::getApplication();
 
         if ($this->limit > $this->total) {
             $this->limitstart = 0;
         }
 
         if (!$this->limit) {
-            $this->limit = $total;
+            $this->limit      = $total;
             $this->limitstart = 0;
         }
 
@@ -149,12 +149,12 @@ class Pagination
 
         // Set the total pages and current page values.
         if ($this->limit > 0) {
-            $this->pagesTotal = (int) ceil($this->total / $this->limit);
+            $this->pagesTotal   = (int) ceil($this->total / $this->limit);
             $this->pagesCurrent = (int) ceil(($this->limitstart + 1) / $this->limit);
         }
 
         // Set the pagination iteration loop values.
-        $displayedPages = 10;
+        $displayedPages   = 10;
         $this->pagesStart = $this->pagesCurrent - ($displayedPages / 2);
 
         if ($this->pagesStart < 1) {
@@ -277,7 +277,7 @@ class Pagination
      */
     public function getResultsCounter()
     {
-        $html = null;
+        $html       = null;
         $fromResult = $this->limitstart + 1;
 
         // If the limit is reached before the end of the list.
@@ -375,9 +375,9 @@ class Pagination
 
         if ($this->total > $this->limit) {
             return $this->_list_render($list);
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     /**
@@ -558,9 +558,9 @@ class Pagination
     {
         if (($i > 0 || ($i + $this->limitstart > 0)) && $condition) {
             return HTMLHelper::_('jgrid.orderUp', $i, $task, '', $alt, $enabled, $checkbox);
-        } else {
-            return '&#160;';
         }
+
+        return '&#160;';
     }
 
     /**
@@ -582,9 +582,9 @@ class Pagination
     {
         if (($i < $n - 1 || $i + $this->limitstart < $this->total - 1) && $condition) {
             return HTMLHelper::_('jgrid.orderDown', $i, $task, '', $alt, $enabled, $checkbox);
-        } else {
-            return '&#160;';
         }
+
+        return '&#160;';
     }
 
     /**

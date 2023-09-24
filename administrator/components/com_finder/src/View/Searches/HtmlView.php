@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Uri\Uri;
 
@@ -55,7 +56,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -80,7 +81,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  4.0.0
      */
@@ -148,22 +149,25 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo = $this->canDo;
+        $canDo   = $this->canDo;
+        $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_FINDER_MANAGER_SEARCHES'), 'search');
 
         if (!$this->isEmptyState) {
             if ($canDo->get('core.edit.state')) {
-                ToolbarHelper::custom('searches.reset', 'refresh', '', 'JSEARCH_RESET', false);
+                $toolbar->standardButton('reset', 'JSEARCH_RESET', 'searches.reset')
+                    ->icon('icon-refresh')
+                    ->listCheck(false);
             }
 
-            ToolbarHelper::divider();
+            $toolbar->divider();
         }
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            ToolbarHelper::preferences('com_finder');
+            $toolbar->preferences('com_finder');
         }
 
-        ToolbarHelper::help('Smart_Search:_Search_Term_Analysis');
+        $toolbar->help('Smart_Search:_Search_Term_Analysis');
     }
 }

@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -114,7 +114,7 @@ class DeleteUserCommand extends AbstractCommand
         }
 
         $groups = UserHelper::getUserGroups($userId);
-        $user = User::getInstance($userId);
+        $user   = User::getInstance($userId);
 
         if ($user->block == 0) {
             foreach ($groups as $groupId) {
@@ -191,7 +191,7 @@ class DeleteUserCommand extends AbstractCommand
     private function configureIO(InputInterface $input, OutputInterface $output)
     {
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
+        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 
     /**

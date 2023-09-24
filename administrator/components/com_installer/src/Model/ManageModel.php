@@ -11,6 +11,7 @@
 namespace Joomla\Component\Installer\Administrator\Model;
 
 use Joomla\CMS\Changelog\Changelog;
+use Joomla\CMS\Event\Model\BeforeChangeStateEvent;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
@@ -56,6 +57,7 @@ class ManageModel extends InstallerModel
                 'package_id',
                 'extension_id',
                 'creationDate',
+                'core',
             ];
         }
 
@@ -111,7 +113,7 @@ class ManageModel extends InstallerModel
      */
     public function publish(&$eid = [], $value = 1)
     {
-        if (!Factory::getUser()->authorise('core.edit.state', 'com_installer')) {
+        if (!$this->getCurrentUser()->authorise('core.edit.state', 'com_installer')) {
             Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 
             return false;
@@ -128,7 +130,11 @@ class ManageModel extends InstallerModel
         }
 
         // Get a table object for the extension type
-        $table = new Extension($this->getDatabase());
+        $table      = new Extension($this->getDatabase());
+        $context    = $this->option . '.' . $this->name;
+        $dispatcher = $this->getDispatcher();
+
+        PluginHelper::importPlugin('extension', null, true, $dispatcher);
 
         // Enable the extension in the table and store it in the database
         foreach ($eid as $i => $id) {
@@ -158,10 +164,12 @@ class ManageModel extends InstallerModel
                 $table->enabled = $value;
             }
 
-            $context = $this->option . '.' . $this->name;
-
-            PluginHelper::importPlugin('extension');
-            Factory::getApplication()->triggerEvent('onExtensionChangeState', [$context, $eid, $value]);
+            // Trigger the before change state event.
+            $dispatcher->dispatch('onExtensionChangeState', new BeforeChangeStateEvent('onExtensionChangeState', [
+                'context' => $context,
+                'subject' => $eid,
+                'value'   => $value,
+            ]));
 
             if (!$table->store()) {
                 $this->setError($table->getError());
@@ -217,7 +225,7 @@ class ManageModel extends InstallerModel
      */
     public function remove($eid = [])
     {
-        if (!Factory::getUser()->authorise('core.delete', 'com_installer')) {
+        if (!$this->getCurrentUser()->authorise('core.delete', 'com_installer')) {
             Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 
             return false;
@@ -306,7 +314,7 @@ class ManageModel extends InstallerModel
      */
     protected function getListQuery()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('*')
             ->select('2*protected+(1-protected)*enabled AS status')
@@ -363,7 +371,7 @@ class ManageModel extends InstallerModel
         // Filter by core extensions.
         if ($core === '1' || $core === '0') {
             $coreExtensionIds = ExtensionHelper::getCoreExtensionIds();
-            $method = $core === '1' ? 'whereIn' : 'whereNotIn';
+            $method           = $core === '1' ? 'whereIn' : 'whereNotIn';
             $query->$method($db->quoteName('extension_id'), $coreExtensionIds);
         }
 
@@ -394,7 +402,7 @@ class ManageModel extends InstallerModel
     public function loadChangelog($eid, $source)
     {
         // Get the changelog URL
-        $eid = (int) $eid;
+        $eid   = (int) $eid;
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select(
@@ -405,7 +413,7 @@ class ManageModel extends InstallerModel
                         'extensions.folder',
                         'extensions.changelogurl',
                         'extensions.manifest_cache',
-                        'extensions.client_id'
+                        'extensions.client_id',
                     ]
                 )
             )
@@ -440,17 +448,15 @@ class ManageModel extends InstallerModel
             'change'   => [],
             'remove'   => [],
             'language' => [],
-            'note'     => []
+            'note'     => [],
         ];
 
-        array_walk(
-            $entries,
-            function (&$value, $name) use ($changelog) {
-                if ($field = $changelog->get($name)) {
-                    $value = $changelog->get($name)->data;
-                }
+        foreach (array_keys($entries) as $name) {
+            $field = $changelog->get($name);
+            if ($field) {
+                $entries[$name] = $changelog->get($name)->data;
             }
-        );
+        }
 
         $layout = new FileLayout('joomla.installer.changelog');
         $output = $layout->render($entries);

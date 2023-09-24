@@ -11,7 +11,6 @@ namespace Joomla\CMS\Installer\Adapter;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
@@ -25,9 +24,10 @@ use Joomla\CMS\Table\Update;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Event\Event;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -144,8 +144,8 @@ class PackageAdapter extends InstallerAdapter
 
             if (is_dir($file)) {
                 // If it's actually a directory then fill it up
-                $package = [];
-                $package['dir'] = $file;
+                $package         = [];
+                $package['dir']  = $file;
                 $package['type'] = InstallerHelper::detectType($file);
             } else {
                 // If it's an archive
@@ -202,10 +202,10 @@ class PackageAdapter extends InstallerAdapter
         // Clobber any possible pending updates
         /** @var Update $update */
         $update = Table::getInstance('update');
-        $uid = $update->find(
+        $uid    = $update->find(
             [
                 'element' => $this->element,
-                'type' => $this->type,
+                'type'    => $this->type,
             ]
         );
 
@@ -215,7 +215,7 @@ class PackageAdapter extends InstallerAdapter
 
         // Set the package ID for each of the installed extensions to track the relationship
         if (!empty($this->installedIds)) {
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->update($db->quoteName('#__extensions'))
                 ->set($db->quoteName('package_id') . ' = :id')
@@ -230,8 +230,8 @@ class PackageAdapter extends InstallerAdapter
         }
 
         // Lastly, we will copy the manifest file to its appropriate place.
-        $manifest = [];
-        $manifest['src'] = $this->parent->getPath('manifest');
+        $manifest         = [];
+        $manifest['src']  = $this->parent->getPath('manifest');
         $manifest['dest'] = JPATH_MANIFESTS . '/packages/' . basename($this->parent->getPath('manifest'));
 
         if (!$this->parent->copyFiles([$manifest], true)) {
@@ -272,7 +272,8 @@ class PackageAdapter extends InstallerAdapter
                 );
             }
 
-            $path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
+            $path         = [];
+            $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
             if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
@@ -410,7 +411,7 @@ class PackageAdapter extends InstallerAdapter
     protected function removeExtensionFiles()
     {
         $manifest = new PackageManifest(JPATH_MANIFESTS . '/packages/' . $this->extension->element . '.xml');
-        $error = false;
+        $error    = false;
 
         foreach ($manifest->filelist as $extension) {
             $tmpInstaller = new Installer();
@@ -472,7 +473,7 @@ class PackageAdapter extends InstallerAdapter
     protected function setupUninstall()
     {
         $manifestFile = JPATH_MANIFESTS . '/packages/' . $this->extension->element . '.xml';
-        $manifest = new PackageManifest($manifestFile);
+        $manifest     = new PackageManifest($manifestFile);
 
         // Set the package root path
         $this->parent->setPath('extension_root', JPATH_MANIFESTS . '/packages/' . $manifest->packagename);
@@ -699,13 +700,13 @@ class PackageAdapter extends InstallerAdapter
     public function refreshManifestCache()
     {
         // Need to find to find where the XML file is since we don't store this normally
-        $manifestPath = JPATH_MANIFESTS . '/packages/' . $this->parent->extension->element . '.xml';
+        $manifestPath           = JPATH_MANIFESTS . '/packages/' . $this->parent->extension->element . '.xml';
         $this->parent->manifest = $this->parent->isManifest($manifestPath);
         $this->parent->setPath('manifest', $manifestPath);
 
-        $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
+        $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
-        $this->parent->extension->name = $manifest_details['name'];
+        $this->parent->extension->name           = $manifest_details['name'];
 
         try {
             return $this->parent->extension->store();

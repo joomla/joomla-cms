@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Form\Field;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -63,8 +63,8 @@ class RangeField extends NumberField
 
         // Initialize some field attributes.
         $extraData = [
-            'max' => $this->max,
-            'min' => $this->min,
+            'max'  => $this->max,
+            'min'  => $this->min,
             'step' => $this->step,
         ];
 

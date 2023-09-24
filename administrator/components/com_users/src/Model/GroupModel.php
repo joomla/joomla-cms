@@ -50,7 +50,7 @@ class GroupModel extends AdminModel
                 'event_after_save'    => 'onUserAfterSaveGroup',
                 'event_before_delete' => 'onUserBeforeDeleteGroup',
                 'event_before_save'   => 'onUserBeforeSaveGroup',
-                'events_map'          => ['delete' => 'user', 'save' => 'user']
+                'events_map'          => ['delete' => 'user', 'save' => 'user'],
             ],
             $config
         );
@@ -166,7 +166,7 @@ class GroupModel extends AdminModel
         $parentSuperAdmin = Access::checkGroup($data['parent_id'], 'core.admin');
 
         // Get core.admin rules from the root asset
-        $rules = Access::getAssetRules('root.1')->getData('core.admin');
+        $rules = Access::getAssetRules('root.1')->getData();
 
         // Get the value for the current group (will be true (allowed), false (denied), or null (inherit)
         $groupSuperAdmin = $rules['core.admin']->allow($data['id']);
@@ -181,7 +181,7 @@ class GroupModel extends AdminModel
         }
 
         // Check for non-super admin trying to save with super admin group
-        $iAmSuperAdmin = Factory::getUser()->authorise('core.admin');
+        $iAmSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
 
         if (!$iAmSuperAdmin && $groupSuperAdmin) {
             $this->setError(Text::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
@@ -195,11 +195,11 @@ class GroupModel extends AdminModel
          */
         if ($iAmSuperAdmin) {
             // Next, are we a member of the current group?
-            $myGroups = Access::getGroupsByUser(Factory::getUser()->get('id'), false);
+            $myGroups = Access::getGroupsByUser($this->getCurrentUser()->get('id'), false);
 
             if (in_array($data['id'], $myGroups)) {
                 // Now, would we have super admin permissions without the current group?
-                $otherGroups = array_diff($myGroups, [$data['id']]);
+                $otherGroups     = array_diff($myGroups, [$data['id']]);
                 $otherSuperAdmin = false;
 
                 foreach ($otherGroups as $otherGroup) {
@@ -218,7 +218,7 @@ class GroupModel extends AdminModel
             }
         }
 
-        if (Factory::getApplication()->input->get('task') == 'save2copy') {
+        if (Factory::getApplication()->getInput()->get('task') == 'save2copy') {
             $data['title'] = $this->generateGroupTitle($data['parent_id'], $data['title']);
         }
 
@@ -240,7 +240,7 @@ class GroupModel extends AdminModel
     {
         // Typecast variable.
         $pks    = (array) $pks;
-        $user   = Factory::getUser();
+        $user   = $this->getCurrentUser();
         $groups = Access::getGroupsByUser($user->get('id'));
 
         // Get a row instance.
@@ -258,7 +258,9 @@ class GroupModel extends AdminModel
                 Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_DELETE_ERROR_INVALID_GROUP'), 'error');
 
                 return false;
-            } elseif (!$table->load($pk)) {
+            }
+
+            if (!$table->load($pk)) {
                 // Item is not in the table.
                 $this->setError($table->getError());
 
@@ -283,10 +285,10 @@ class GroupModel extends AdminModel
                         $this->setError($table->getError());
 
                         return false;
-                    } else {
-                        // Trigger the after delete event.
-                        Factory::getApplication()->triggerEvent($this->event_after_delete, [$table->getProperties(), true, $this->getError()]);
                     }
+
+                    // Trigger the after delete event.
+                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$table->getProperties(), true, $this->getError()]);
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);

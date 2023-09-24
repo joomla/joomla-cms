@@ -12,14 +12,15 @@ namespace Joomla\CMS\Language;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Log\Log;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -103,11 +104,11 @@ class LanguageHelper
     {
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             $browserLangs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-            $systemLangs = self::getLanguages();
+            $systemLangs  = self::getLanguages();
 
             foreach ($browserLangs as $browserLang) {
                 // Slice out the part before ; on first step, the part before - on second, place into array
-                $browserLang = substr($browserLang, 0, strcspn($browserLang, ';'));
+                $browserLang         = substr($browserLang, 0, strcspn($browserLang, ';'));
                 $primary_browserLang = substr($browserLang, 0, 2);
 
                 foreach ($systemLangs as $systemLang) {
@@ -117,7 +118,9 @@ class LanguageHelper
                     if (\strlen($Jinstall_lang) < 6) {
                         if (strtolower($browserLang) == strtolower(substr($systemLang->lang_code, 0, \strlen($browserLang)))) {
                             return $systemLang->lang_code;
-                        } elseif ($primary_browserLang == substr($systemLang->lang_code, 0, 2)) {
+                        }
+
+                        if ($primary_browserLang == substr($systemLang->lang_code, 0, 2)) {
                             $primaryDetectedLang = $systemLang->lang_code;
                         }
                     }
@@ -141,18 +144,18 @@ class LanguageHelper
      */
     public static function getLanguages($key = 'default')
     {
-        static $languages;
+        static $languages = [];
 
-        if (empty($languages)) {
+        if (!count($languages)) {
             // Installation uses available languages
             if (Factory::getApplication()->isClient('installation')) {
                 $languages[$key] = [];
-                $knownLangs = self::getKnownLanguages(JPATH_BASE);
+                $knownLangs      = self::getKnownLanguages(JPATH_BASE);
 
                 foreach ($knownLangs as $metadata) {
                     // Take off 3 letters iso code languages as they can't match browsers' languages and default them to en
-                    $obj = new \stdClass();
-                    $obj->lang_code = $metadata['tag'];
+                    $obj               = new \stdClass();
+                    $obj->lang_code    = $metadata['tag'];
                     $languages[$key][] = $obj;
                 }
             } else {
@@ -163,7 +166,7 @@ class LanguageHelper
                 if ($cache->contains('languages')) {
                     $languages = $cache->get('languages');
                 } else {
-                    $db = Factory::getDbo();
+                    $db    = Factory::getDbo();
                     $query = $db->getQuery(true)
                         ->select('*')
                         ->from($db->quoteName('#__languages'))
@@ -171,13 +174,13 @@ class LanguageHelper
                         ->order($db->quoteName('ordering') . ' ASC');
                     $db->setQuery($query);
 
-                    $languages['default'] = $db->loadObjectList();
-                    $languages['sef'] = [];
+                    $languages['default']   = $db->loadObjectList();
+                    $languages['sef']       = [];
                     $languages['lang_code'] = [];
 
                     if (isset($languages['default'][0])) {
                         foreach ($languages['default'] as $lang) {
-                            $languages['sef'][$lang->sef] = $lang;
+                            $languages['sef'][$lang->sef]             = $lang;
                             $languages['lang_code'][$lang->lang_code] = $lang;
                         }
                     }
@@ -193,12 +196,13 @@ class LanguageHelper
     /**
      * Get a list of installed languages.
      *
-     * @param   integer  $clientId         The client app id.
-     * @param   boolean  $processMetaData  Fetch Language metadata.
-     * @param   boolean  $processManifest  Fetch Language manifest.
-     * @param   string   $pivot            The pivot of the returning array.
-     * @param   string   $orderField       Field to order the results.
-     * @param   string   $orderDirection   Direction to order the results.
+     * @param   integer            $clientId         The client app id.
+     * @param   boolean            $processMetaData  Fetch Language metadata.
+     * @param   boolean            $processManifest  Fetch Language manifest.
+     * @param   string             $pivot            The pivot of the returning array.
+     * @param   string             $orderField       Field to order the results.
+     * @param   string             $orderDirection   Direction to order the results.
+     * @param   DatabaseInterface  $db               Database object to use database queries
      *
      * @return  array  Array with the installed languages.
      *
@@ -210,7 +214,8 @@ class LanguageHelper
         $processManifest = false,
         $pivot = 'element',
         $orderField = null,
-        $orderDirection = null
+        $orderDirection = null,
+        DatabaseInterface $db = null
     ) {
         static $installedLanguages = null;
 
@@ -222,7 +227,7 @@ class LanguageHelper
             if ($cache->contains('installedlanguages')) {
                 $installedLanguages = $cache->get('installedlanguages');
             } else {
-                $db = Factory::getDbo();
+                $db = $db ?? Factory::getContainer()->get(DatabaseInterface::class);
 
                 $query = $db->getQuery(true)
                     ->select(
@@ -447,12 +452,12 @@ class LanguageHelper
 
         // This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
         // issue it is solving
-        $disabledFunctions = explode(',', ini_get('disable_functions'));
+        $disabledFunctions      = explode(',', ini_get('disable_functions'));
         $isParseIniFileDisabled = \in_array('parse_ini_file', array_map('trim', $disabledFunctions));
 
         if (!\function_exists('parse_ini_file') || $isParseIniFileDisabled) {
             $contents = file_get_contents($fileName);
-            $strings = @parse_ini_string($contents);
+            $strings  = @parse_ini_string($contents);
         } else {
             $strings = @parse_ini_file($fileName);
         }

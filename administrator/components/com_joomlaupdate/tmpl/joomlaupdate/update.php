@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -58,7 +57,7 @@ $displayData['content'] .= '<div class="form-check d-flex justify-content-center
 		</label>
 	</div>';
 
-if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_joomlaupdate')) :
+if ($this->getCurrentUser()->authorise('core.admin', 'com_joomlaupdate')) :
     $displayData['formAppend'] = '<div class="text-center"><a href="' . $uploadLink . '" class="btn btn-sm btn-outline-secondary">' . Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND') . '</a></div>';
 endif;
 

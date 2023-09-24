@@ -10,10 +10,9 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Event\Event;
 use Joomla\Utilities\ArrayHelper;
 
@@ -46,7 +45,7 @@ trait UserDeletion
          * @var   bool        $success True if user was successfully stored in the database
          * @var   string|null $msg     Message
          */
-        [$user, $success, $msg] = $event->getArguments();
+        [$user, $success, $msg] = array_values($event->getArguments());
 
         if (!$success) {
             $this->returnFromEvent($event, true);
@@ -57,17 +56,17 @@ trait UserDeletion
         if ($userId) {
             Log::add("Removing WebAuthn Passwordless Login information for deleted user #{$userId}", Log::DEBUG, 'webauthn.system');
 
-            /** @var DatabaseDriver $db */
-            $db = Factory::getContainer()->get('DatabaseDriver');
+            /** @var DatabaseInterface $db */
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
 
             $query = $db->getQuery(true)
-                ->delete($db->qn('#__webauthn_credentials'))
-                ->where($db->qn('user_id') . ' = :userId')
+                ->delete($db->quoteName('#__webauthn_credentials'))
+                ->where($db->quoteName('user_id') . ' = :userId')
                 ->bind(':userId', $userId);
 
             try {
                 $db->setQuery($query)->execute();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // Don't worry if this fails
             }
 

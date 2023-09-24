@@ -11,6 +11,7 @@
 namespace Joomla\Component\Menus\Administrator\Model;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Event\Menu\AfterGetMenuTypeOptionsEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -51,7 +52,7 @@ class MenutypesModel extends BaseDatabaseModel
     {
         parent::populateState();
 
-        $clientId = Factory::getApplication()->input->get('client_id', 0);
+        $clientId = Factory::getApplication()->getInput()->get('client_id', 0);
 
         $this->state->set('client_id', $clientId);
     }
@@ -126,9 +127,10 @@ class MenutypesModel extends BaseDatabaseModel
         }
 
         // Allow a system plugin to insert dynamic menu types to the list shown in menus:
-        Factory::getApplication()->triggerEvent('onAfterGetMenuTypeOptions', [&$list, $this]);
-
-        return $list;
+        return $this->getDispatcher()->dispatch('onAfterGetMenuTypeOptions', new AfterGetMenuTypeOptionsEvent('onAfterGetMenuTypeOptions', [
+            'items'   => &$list, // @todo: Remove reference in Joomla 6, see AfterGetMenuTypeOptionsEvent::__constructor()
+            'subject' => $this,
+        ]))->getArgument('items', $list);
     }
 
     /**
@@ -198,14 +200,14 @@ class MenutypesModel extends BaseDatabaseModel
         // Look for the first menu node off of the root node.
         if (!$menu = $xml->xpath('menu[1]')) {
             return false;
-        } else {
-            $menu = $menu[0];
         }
+
+        $menu = $menu[0];
 
         // If we have no options to parse, just add the base component to the list of options.
         if (!empty($menu['options']) && $menu['options'] == 'none') {
             // Create the menu option for the component.
-            $o = new CMSObject();
+            $o              = new CMSObject();
             $o->title       = (string) $menu['name'];
             $o->description = (string) $menu['msg'];
             $o->request     = ['option' => $component];
@@ -218,9 +220,9 @@ class MenutypesModel extends BaseDatabaseModel
         // Look for the first options node off of the menu node.
         if (!$optionsNode = $menu->xpath('options[1]')) {
             return false;
-        } else {
-            $optionsNode = $optionsNode[0];
         }
+
+        $optionsNode = $optionsNode[0];
 
         // Make sure the options node has children.
         if (!$children = $optionsNode->children()) {
@@ -231,7 +233,7 @@ class MenutypesModel extends BaseDatabaseModel
         foreach ($children as $child) {
             if ($child->getName() == 'option') {
                 // Create the menu option for the component.
-                $o = new CMSObject();
+                $o              = new CMSObject();
                 $o->title       = (string) $child['name'];
                 $o->description = (string) $child['msg'];
                 $o->request     = ['option' => $component, (string) $optionsNode['var'] => (string) $child['value']];
@@ -239,7 +241,7 @@ class MenutypesModel extends BaseDatabaseModel
                 $options[] = $o;
             } elseif ($child->getName() == 'default') {
                 // Create the menu option for the component.
-                $o = new CMSObject();
+                $o              = new CMSObject();
                 $o->title       = (string) $child['name'];
                 $o->description = (string) $child['msg'];
                 $o->request     = ['option' => $component];
@@ -305,7 +307,7 @@ class MenutypesModel extends BaseDatabaseModel
                                     foreach ($children as $child) {
                                         if ($child->getName() == 'option') {
                                             // Create the menu option for the component.
-                                            $o = new CMSObject();
+                                            $o              = new CMSObject();
                                             $o->title       = (string) $child['name'];
                                             $o->description = (string) $child['msg'];
                                             $o->request     = ['option' => $component, 'view' => $view, (string) $optionsNode['var'] => (string) $child['value']];
@@ -313,7 +315,7 @@ class MenutypesModel extends BaseDatabaseModel
                                             $options[] = $o;
                                         } elseif ($child->getName() == 'default') {
                                             // Create the menu option for the component.
-                                            $o = new CMSObject();
+                                            $o              = new CMSObject();
                                             $o->title       = (string) $child['name'];
                                             $o->description = (string) $child['msg'];
                                             $o->request     = ['option' => $component, 'view' => $view];
@@ -376,7 +378,7 @@ class MenutypesModel extends BaseDatabaseModel
         }
 
         // Create the root menu option.
-        $ro = new \stdClass();
+        $ro              = new \stdClass();
         $ro->title       = (string) trim($rootMenu);
         $ro->description = '';
         $ro->request     = ['option' => $component];
@@ -391,7 +393,7 @@ class MenutypesModel extends BaseDatabaseModel
         foreach ($submenu->menu as $child) {
             $attributes = $child->attributes();
 
-            $o = new \stdClass();
+            $o              = new \stdClass();
             $o->title       = (string) trim($child);
             $o->description = '';
 
@@ -507,7 +509,7 @@ class MenutypesModel extends BaseDatabaseModel
                 $layout = basename($layout, '.xml');
 
                 // Create the menu option for the layout.
-                $o = new CMSObject();
+                $o              = new CMSObject();
                 $o->title       = ucfirst($layout);
                 $o->description = '';
                 $o->request     = ['option' => $component, 'view' => $view];

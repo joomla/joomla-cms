@@ -89,14 +89,16 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
             $model->setState('filter.featured', 'hide');
         }
 
+        $input = $app->getInput();
+
         // Filter by id in case it should be excluded
         if (
             $params->get('exclude_current', true)
-            && $app->input->get('option') === 'com_content'
-            && $app->input->get('view') === 'article'
+            && $input->get('option') === 'com_content'
+            && $input->get('view') === 'article'
         ) {
             // Exclude the current article from displaying in this module
-            $model->setState('filter.article_id', $app->input->get('id', 0, 'UINT'));
+            $model->setState('filter.article_id', $input->get('id', 0, 'UINT'));
             $model->setState('filter.article_id.include', false);
         }
 
@@ -141,9 +143,9 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
 
             // Show the Intro/Full image field of the article
             if ($params->get('img_intro_full') !== 'none') {
-                $images = json_decode($item->images);
-                $item->imageSrc = '';
-                $item->imageAlt = '';
+                $images             = json_decode($item->images);
+                $item->imageSrc     = '';
+                $item->imageAlt     = '';
                 $item->imageCaption = '';
 
                 if ($params->get('img_intro_full') === 'intro' && !empty($images->image_intro)) {
@@ -194,7 +196,11 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
      *
      * @since 1.6
      *
-     * @deprecated 5.0 Use the none static function getArticles
+     * @deprecated 4.3 will be removed in 6.0
+     *             Use the non-static method getArticles
+     *             Example: Factory::getApplication()->bootModule('mod_articles_news', 'site')
+     *                          ->getHelper('ArticlesNewsHelper')
+     *                          ->getArticles($params, Factory::getApplication())
      */
     public static function getList(&$params)
     {

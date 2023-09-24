@@ -10,8 +10,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
@@ -19,7 +19,7 @@ use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
 use Joomla\String\StringHelper;
 
-$user             = Factory::getApplication()->getIdentity();
+$user             = $this->getCurrentUser();
 $show_description = $this->params->get('show_description', 1);
 
 if ($show_description) {
@@ -105,6 +105,9 @@ if ($this->params->get('show_url', 1)) {
     <?php if (count($taxonomies) && $this->params->get('show_taxonomy', 1)) : ?>
         <ul class="result__taxonomy">
             <?php foreach ($taxonomies as $type => $taxonomy) : ?>
+                <?php if ($type == 'Language' && (!Multilanguage::isEnabled() || (isset($taxonomy[0]) && $taxonomy[0]->title == '*'))) : ?>
+                    <?php continue; ?>
+                <?php endif; ?>
                 <?php $branch = Taxonomy::getBranch($type); ?>
                 <?php if ($branch->state == 1 && in_array($branch->access, $user->getAuthorisedViewLevels())) : ?>
                     <?php $taxonomy_text = []; ?>

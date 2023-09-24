@@ -84,7 +84,7 @@ class ItemsController extends AdminController
 
         $result['amount'] = $amount;
         $result['sronly'] = Text::plural('COM_MENUS_ITEMS_N_QUICKICON_SRONLY', $amount);
-        $result['name'] = Text::plural('COM_MENUS_ITEMS_N_QUICKICON', $amount);
+        $result['name']   = Text::plural('COM_MENUS_ITEMS_N_QUICKICON', $amount);
 
         echo new JsonResponse($result);
     }
@@ -110,12 +110,12 @@ class ItemsController extends AdminController
             $this->setMessage(Text::_('COM_MENUS_ITEMS_REBUILD_SUCCESS'));
 
             return true;
-        } else {
-            // Rebuild failed.
-            $this->setMessage(Text::sprintf('COM_MENUS_ITEMS_REBUILD_FAILED'), 'error');
-
-            return false;
         }
+
+        // Rebuild failed.
+        $this->setMessage(Text::sprintf('COM_MENUS_ITEMS_REBUILD_FAILED'), 'error');
+
+        return false;
     }
 
     /**
@@ -183,9 +183,9 @@ class ItemsController extends AdminController
         $this->checkToken();
 
         // Get items to publish from the request.
-        $cid = (array) $this->input->get('cid', [], 'int');
-        $data = ['publish' => 1, 'unpublish' => 0, 'trash' => -2, 'report' => -3];
-        $task = $this->getTask();
+        $cid   = (array) $this->input->get('cid', [], 'int');
+        $data  = ['publish' => 1, 'unpublish' => 0, 'trash' => -2, 'report' => -3];
+        $task  = $this->getTask();
         $value = ArrayHelper::getValue($data, $task, 0, 'int');
 
         // Remove zero values resulting from input filter

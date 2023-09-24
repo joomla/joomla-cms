@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,10 +9,12 @@
 
 namespace Joomla\CMS\Cache;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
+use Joomla\Filesystem\Path;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Public cache handler
@@ -46,14 +49,12 @@ class CacheController
      */
     public function __construct($options)
     {
-        $this->cache = new Cache($options);
-        $this->options = & $this->cache->_options;
+        $this->cache   = new Cache($options);
+        $this->options = &$this->cache->_options;
 
         // Overwrite default options with given options
-        foreach ($options as $option => $value)
-        {
-            if (isset($options[$option]))
-            {
+        foreach ($options as $option => $value) {
+            if (isset($options[$option])) {
                 $this->options[$option] = $options[$option];
             }
         }
@@ -84,7 +85,10 @@ class CacheController
      *
      * @since       1.7.0
      * @throws      \RuntimeException
-     * @deprecated  5.0 Use the cache controller factory instead
+     *
+     * @deprecated  4.2 will be removed in 6.0
+     *              Use the cache controller factory instead
+     *              Example: Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
      */
     public static function getInstance($type = 'output', $options = [])
     {
@@ -96,35 +100,29 @@ class CacheController
             E_USER_DEPRECATED
         );
 
-        try
-        {
+        try {
             return Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
-        }
-        catch (\RuntimeException $e)
-        {
+        } catch (\RuntimeException $e) {
             $type  = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
             $class = 'JCacheController' . ucfirst($type);
 
-            if (!class_exists($class))
-            {
+            if (!class_exists($class)) {
                 // Search for the class file in the Cache include paths.
                 $path = Path::find(self::addIncludePath(), strtolower($type) . '.php');
 
-                if ($path !== false)
-                {
+                if ($path !== false) {
                     \JLoader::register($class, $path);
                 }
 
                 // The class should now be loaded
-                if (!class_exists($class))
-                {
+                if (!class_exists($class)) {
                     throw new \RuntimeException('Unable to load Cache Controller: ' . $type, 500);
                 }
 
                 // Only trigger a deprecation notice if the file and class are found
                 @trigger_error(
                     'Support for including cache controllers using path lookup is deprecated and will be removed in 5.0.'
-                    . ' Use a custom cache controller factory instead.',
+                        . ' Use a custom cache controller factory instead.',
                     E_USER_DEPRECATED
                 );
             }
@@ -141,23 +139,24 @@ class CacheController
      * @return  array  An array with directory elements
      *
      * @since       1.7.0
-     * @deprecated  5.0 Use the cache controller factory instead
+     *
+     * @deprecated  4.2 will be removed in 6.0
+     *              Use the cache controller factory instead
+     *              Example: Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
      */
     public static function addIncludePath($path = '')
     {
         static $paths;
 
-        if (!isset($paths))
-        {
+        if (!isset($paths)) {
             $paths = [];
         }
 
-        if (!empty($path) && !\in_array($path, $paths))
-        {
+        if (!empty($path) && !\in_array($path, $paths)) {
             // Only trigger a deprecation notice when adding a lookup path
             @trigger_error(
                 'Support for including cache controllers using path lookup is deprecated and will be removed in 5.0.'
-                . ' Use a custom cache controller factory instead.',
+                    . ' Use a custom cache controller factory instead.',
                 E_USER_DEPRECATED
             );
 

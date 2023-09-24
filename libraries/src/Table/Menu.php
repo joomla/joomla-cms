@@ -17,10 +17,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -41,13 +42,14 @@ class Menu extends Nested
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  Database driver object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.5
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__menu', 'id', $db);
+        parent::__construct('#__menu', 'id', $db, $dispatcher);
 
         // Set the default access level.
         $this->access = (int) Factory::getApplication()->get('access');
@@ -88,7 +90,7 @@ class Menu extends Nested
         }
 
         if (isset($array['params']) && \is_array($array['params'])) {
-            $registry = new Registry($array['params']);
+            $registry        = new Registry($array['params']);
             $array['params'] = (string) $registry;
         }
 
@@ -172,7 +174,7 @@ class Menu extends Nested
         $db = $this->getDbo();
 
         // Verify that the alias is unique
-        $table = Table::getInstance('Menu', 'JTable', ['dbo' => $db]);
+        $table = new self($db, $this->getDispatcher());
 
         $originalAlias = trim($this->alias);
         $this->alias   = !$originalAlias ? $this->title : $originalAlias;
@@ -240,7 +242,7 @@ class Menu extends Nested
 
             // The alias already exists. Enqueue an error message.
             if ($error) {
-                $menuTypeTable = Table::getInstance('MenuType', 'JTable', ['dbo' => $db]);
+                $menuTypeTable = new MenuType($this->getDbo(), $this->getDispatcher());
                 $menuTypeTable->load(['menutype' => $table->menutype]);
                 $url = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $table->id);
 
@@ -280,8 +282,8 @@ class Menu extends Nested
                     return false;
                 }
 
-                $table->home = 0;
-                $table->checked_out = null;
+                $table->home             = 0;
+                $table->checked_out      = null;
                 $table->checked_out_time = null;
                 $table->store();
             }
@@ -293,7 +295,7 @@ class Menu extends Nested
 
         // Get the new path in case the node was moved
         $pathNodes = $this->getPath();
-        $segments = [];
+        $segments  = [];
 
         foreach ($pathNodes as $node) {
             // Don't include root in path

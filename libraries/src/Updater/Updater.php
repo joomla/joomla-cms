@@ -15,7 +15,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -154,7 +154,7 @@ class Updater extends Adapter
             }
 
             // Make sure there is no update left over in the database.
-            $db = $this->getDbo();
+            $db    = $this->getDbo();
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__updates'))
                 ->where($db->quoteName('update_site_id') . ' = :id')
@@ -329,7 +329,7 @@ class Updater extends Adapter
 
                             if (version_compare($current_update->version, $data['version'], $operator) == 1) {
                                 $current_update->extension_id = $eid;
-                                $retVal[] = $current_update;
+                                $retVal[]                     = $current_update;
                             }
                         } else {
                             // A potentially new extension to be installed

@@ -12,6 +12,7 @@ namespace Joomla\Module\Menu\Administrator\Menu;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Menu\PreprocessMenuItemsEvent;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AdministratorMenuItem;
@@ -71,7 +72,7 @@ class CssMenu
     /**
      * The application
      *
-     * @var    boolean
+     * @var    CMSApplication
      *
      * @since  4.0.0
      */
@@ -96,7 +97,7 @@ class CssMenu
     public function __construct(CMSApplication $application)
     {
         $this->application = $application;
-        $this->root = new AdministratorMenuItem();
+        $this->root        = new AdministratorMenuItem();
     }
 
     /**
@@ -116,7 +117,7 @@ class CssMenu
         $menutype      = $this->params->get('menutype', '*');
 
         if ($menutype === '*') {
-            $name   = $this->params->get('preset', 'default');
+            $name       = $this->params->get('preset', 'default');
             $this->root = MenusHelper::loadPreset($name);
         } else {
             $this->root = MenusHelper::getMenuItems($menutype, true);
@@ -131,7 +132,7 @@ class CssMenu
 
                 // In recovery mode, load the preset inside a special root node.
                 $this->root = new AdministratorMenuItem(['level' => 0]);
-                $heading = new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading']);
+                $heading    = new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading']);
                 $this->root->addChild($heading);
 
                 MenusHelper::loadPreset('default', true, $heading);
@@ -249,7 +250,7 @@ class CssMenu
      *
      * @param   AdministratorMenuItem  $parent  A menu item to process
      *
-     * @return  array
+     * @return  void
      *
      * @since   3.8.0
      */
@@ -257,16 +258,22 @@ class CssMenu
     {
         $user       = $this->application->getIdentity();
         $language   = $this->application->getLanguage();
+        $dispatcher = $this->application->getDispatcher();
 
         $noSeparator = true;
-        $children = $parent->getChildren();
+        $children    = $parent->getChildren();
 
         /**
          * Trigger onPreprocessMenuItems for the current level of backend menu items.
          * $children is an array of AdministratorMenuItem objects. A plugin can traverse the whole tree,
          * but new nodes will only be run through this method if their parents have not been processed yet.
          */
-        $this->application->triggerEvent('onPreprocessMenuItems', ['com_menus.administrator.module', $children, $this->params, $this->enabled]);
+        $children = $dispatcher->dispatch('onPreprocessMenuItems', new PreprocessMenuItemsEvent('onPreprocessMenuItems', [
+            'context' => 'com_menus.administrator.module',
+            'subject' => &$children, // @todo: Remove reference in Joomla 6, see PreprocessMenuItemsEvent::__constructor()
+            'params'  => $this->params,
+            'enabled' => $this->enabled,
+        ]))->getArgument('subject', $children);
 
         foreach ($children as $item) {
             $itemParams = $item->getParams();

@@ -11,16 +11,16 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -87,7 +87,7 @@ class ModulelayoutField extends FormField
                 || $lang->load($module . '.sys', $client->path . '/modules/' . $module);
 
             // Get the database object and a new query object.
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true);
 
             // Build the query.
@@ -134,15 +134,15 @@ class ModulelayoutField extends FormField
             // Add the layout options from the module path.
             if (is_dir($module_path) && ($module_layouts = Folder::files($module_path, '^[^_]*\.php$'))) {
                 // Create the group for the module
-                $groups['_'] = [];
-                $groups['_']['id'] = $this->id . '__';
-                $groups['_']['text'] = Text::sprintf('JOPTION_FROM_MODULE');
+                $groups['_']          = [];
+                $groups['_']['id']    = $this->id . '__';
+                $groups['_']['text']  = Text::sprintf('JOPTION_FROM_MODULE');
                 $groups['_']['items'] = [];
 
                 foreach ($module_layouts as $file) {
                     // Add an option to the module group
-                    $value = basename($file, '.php');
-                    $text = $lang->hasKey($key = strtoupper($module . '_LAYOUT_' . $value)) ? Text::_($key) : $value;
+                    $value                  = basename($file, '.php');
+                    $text                   = $lang->hasKey($key = strtoupper($module . '_LAYOUT_' . $value)) ? Text::_($key) : $value;
                     $groups['_']['items'][] = HTMLHelper::_('select.option', '_:' . $value, $text);
                 }
             }
@@ -167,15 +167,15 @@ class ModulelayoutField extends FormField
 
                         if (\count($files)) {
                             // Create the group for the template
-                            $groups[$template->element] = [];
-                            $groups[$template->element]['id'] = $this->id . '_' . $template->element;
-                            $groups[$template->element]['text'] = Text::sprintf('JOPTION_FROM_TEMPLATE', $template->name);
+                            $groups[$template->element]          = [];
+                            $groups[$template->element]['id']    = $this->id . '_' . $template->element;
+                            $groups[$template->element]['text']  = Text::sprintf('JOPTION_FROM_TEMPLATE', $template->name);
                             $groups[$template->element]['items'] = [];
 
                             foreach ($files as $file) {
                                 // Add an option to the template group
                                 $value = basename($file, '.php');
-                                $text = $lang->hasKey($key = strtoupper('TPL_' . $template->element . '_' . $module . '_LAYOUT_' . $value))
+                                $text  = $lang->hasKey($key = strtoupper('TPL_' . $template->element . '_' . $module . '_LAYOUT_' . $value))
                                     ? Text::_($key) : $value;
                                 $groups[$template->element]['items'][] = HTMLHelper::_('select.option', $template->element . ':' . $value, $text);
                             }
@@ -203,8 +203,8 @@ class ModulelayoutField extends FormField
             );
 
             return implode($html);
-        } else {
-            return '';
         }
+
+        return '';
     }
 }

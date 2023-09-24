@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 
 $app       = Factory::getApplication();
 $form      = $displayData->getForm();
-$input     = $app->input;
+$input     = $app->getInput();
 $component = $input->getCmd('option', 'com_content');
 
 if ($component === 'com_categories') {

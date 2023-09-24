@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -34,7 +35,7 @@ $app->allowCache(false);
 $app->setHeader('X-Robots-Tag', 'noindex, nofollow');
 
 // JInput object
-$input = $app->input;
+$input = $app->getInput();
 
 // Requested format passed via URL
 $format = strtolower($input->getWord('format', ''));
@@ -96,7 +97,7 @@ if (!$format) {
                 $basePath = JPATH_BASE;
                 $lang     = Factory::getLanguage();
                 $lang->load('mod_' . $module, $basePath)
-                ||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module);
+                || $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module);
 
                 try {
                     $results = call_user_func($class . '::' . $method . 'Ajax');
@@ -125,13 +126,15 @@ if (!$format) {
      * (i.e. index.php?option=com_ajax&plugin=foo)
      *
      */
-    $group      = $input->get('group', 'ajax');
-    PluginHelper::importPlugin($group);
-    $plugin     = ucfirst($input->get('plugin'));
-
     try {
-        $results = Factory::getApplication()->triggerEvent('onAjax' . $plugin);
-    } catch (Exception $e) {
+        $dispatcher = $app->getDispatcher();
+        $group      = $input->get('group', 'ajax');
+        $eventName  = 'onAjax' . ucfirst($input->get('plugin', ''));
+
+        PluginHelper::importPlugin($group, null, true, $dispatcher);
+
+        $results = $dispatcher->dispatch($eventName, new AjaxEvent($eventName, ['subject' => $app]))->getArgument('result', []);
+    } catch (Throwable $e) {
         $results = $e;
     }
 } elseif ($input->get('template')) {
@@ -178,7 +181,7 @@ if (!$format) {
                 // Load language file for template
                 $lang = Factory::getLanguage();
                 $lang->load('tpl_' . $template, $basePath)
-                ||  $lang->load('tpl_' . $template, $basePath . '/templates/' . $template);
+                || $lang->load('tpl_' . $template, $basePath . '/templates/' . $template);
 
                 try {
                     $results = call_user_func($class . '::' . $method . 'Ajax');

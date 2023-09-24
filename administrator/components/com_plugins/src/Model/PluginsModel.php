@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -32,8 +33,8 @@ class PluginsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
@@ -107,15 +108,15 @@ class PluginsModel extends ListModel
     /**
      * Returns an object list.
      *
-     * @param   \Joomla\Database\DatabaseQuery  $query       A database query object.
-     * @param   integer                         $limitstart  Offset.
-     * @param   integer                         $limit       The number of records.
+     * @param   DatabaseQuery|string  $query       A database query object.
+     * @param   integer               $limitstart  Offset.
+     * @param   integer               $limit       The number of records.
      *
-     * @return  array
+     * @return  object[]
      */
     protected function _getList($query, $limitstart = 0, $limit = 0)
     {
-        $search = $this->getState('filter.search');
+        $search   = $this->getState('filter.search');
         $ordering = $this->getState('list.ordering', 'ordering');
 
         // If "Sort Table By:" is not set, set ordering to name
@@ -142,9 +143,9 @@ class PluginsModel extends ListModel
 
             $orderingDirection = strtolower($this->getState('list.direction'));
             $direction         = ($orderingDirection == 'desc') ? -1 : 1;
-            $result = ArrayHelper::sortObjects($result, $ordering, $direction, true, true);
+            $result            = ArrayHelper::sortObjects($result, $ordering, $direction, true, true);
 
-            $total = count($result);
+            $total                                      = count($result);
             $this->cache[$this->getStoreId('getTotal')] = $total;
 
             if ($total < $limitstart) {
@@ -154,38 +155,38 @@ class PluginsModel extends ListModel
             $this->cache[$this->getStoreId('getStart')] = $limitstart;
 
             return array_slice($result, $limitstart, $limit ?: null);
-        } else {
-            if ($ordering == 'ordering') {
-                $query->order('a.folder ASC');
-                $ordering = 'a.ordering';
-            }
-
-            $query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
-
-            if ($ordering == 'folder') {
-                $query->order('a.ordering ASC');
-            }
-
-            $result = parent::_getList($query, $limitstart, $limit);
-            $this->translate($result);
-
-            return $result;
         }
+
+        if ($ordering === 'ordering') {
+            $query->order('a.folder ASC');
+            $ordering = 'a.ordering';
+        }
+
+        $query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
+
+        if ($ordering === 'folder') {
+            $query->order('a.ordering ASC');
+        }
+
+        $result = parent::_getList($query, $limitstart, $limit);
+        $this->translate($result);
+
+        return $result;
     }
 
     /**
      * Translate a list of objects.
      *
-     * @param   array  &$items  The array of objects.
+     * @param   object[]  &$items  The array of objects.
      *
-     * @return  array The array of translated objects.
+     * @return  void
      */
     protected function translate(&$items)
     {
         $lang = Factory::getLanguage();
 
         foreach ($items as &$item) {
-            $source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
+            $source    = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
             $extension = 'plg_' . $item->folder . '_' . $item->element;
             $lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
                 || $lang->load($extension . '.sys', $source);
@@ -196,12 +197,12 @@ class PluginsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  DatabaseQuery
      */
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.
@@ -282,7 +283,7 @@ class PluginsModel extends ListModel
         $data = parent::loadFormData();
 
         // Set the selected filter values for pages that use the Layouts for filtering
-        $data->list['sortTable'] = $this->state->get('list.ordering');
+        $data->list['sortTable']      = $this->state->get('list.ordering');
         $data->list['directionTable'] = $this->state->get('list.direction');
 
         return $data;

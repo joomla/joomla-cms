@@ -47,15 +47,6 @@ class SessionManagerTest extends UnitTestCase
      */
     protected function setUp(): void
     {
-        // @todo remove this after upgrading phpunit to 9+ see https://github.com/sebastianbergmann/phpunit/issues/4879
-        if (version_compare(phpversion(), '8.1.0', '>=')) {
-            /**
-             * See https://github.com/sebastianbergmann/phpunit/issues/4879 - we'll need a higher phpunit version for 8.1 and
-             * higher for this to work
-             */
-            $this->markTestSkipped('PHPUnit 8 cannot mock SessionHandlerInterface in PHP 8.1 and higher');
-        }
-
         $this->sessionHandler = $this->createMock(\SessionHandlerInterface::class);
 
         $this->manager = new SessionManager($this->sessionHandler);

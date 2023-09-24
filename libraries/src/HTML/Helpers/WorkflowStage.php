@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -70,9 +70,9 @@ abstract class WorkflowStage
             $workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $stage->workflow_stage_id, Text::_($stage->workflow_stage_title));
         }
 
-        $prefix[] = [
-            HTMLHelper::_('select.option', '', $options['title'])
-        ];
+        $prefix = [[
+            HTMLHelper::_('select.option', '', $options['title']),
+        ]];
 
         return array_merge($prefix, $workflowStages);
     }

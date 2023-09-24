@@ -31,12 +31,12 @@ abstract class LatestHelper
     /**
      * Get a list of articles.
      *
-     * @param   Registry       &$params  The module parameters.
-     * @param   ArticlesModel  $model    The model.
+     * @param   Registry       $params  The module parameters.
+     * @param   ArticlesModel  $model   The model.
      *
      * @return  mixed  An array of articles, or false on error.
      */
-    public static function getList(Registry &$params, ArticlesModel $model)
+    public static function getList(Registry $params, ArticlesModel $model)
     {
         $user = Factory::getUser();
 

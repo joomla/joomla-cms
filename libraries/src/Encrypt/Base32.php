@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Encrypt;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -100,12 +100,12 @@ class Base32
 
         // We need a string divisible by 5
         $length = \strlen($str);
-        $rbits = $length & 7;
+        $rbits  = $length & 7;
 
         if ($rbits > 0) {
             // Excessive bits need to be padded
             $ebits = substr($str, $length - $rbits);
-            $str = substr($str, 0, $length - $rbits);
+            $str   = substr($str, 0, $length - $rbits);
             $str .= "000$ebits" . str_repeat('0', 5 - \strlen($ebits));
         }
 
@@ -140,7 +140,7 @@ class Base32
 
         // Unpad if necessary
         $length = \strlen($str);
-        $rbits = $length & 7;
+        $rbits  = $length & 7;
 
         if ($rbits > 0) {
             $str = substr($str, 0, $length - $rbits);
