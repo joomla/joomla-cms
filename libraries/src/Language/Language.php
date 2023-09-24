@@ -699,19 +699,26 @@ class Language extends BaseLanguage
     /**
      * Parses a language file.
      *
-     * @param   string  $fileName  The name of the file.
+     * @param   string  $filename  The name of the file.
      *
      * @return  array  The array of parsed strings.
      *
      * @since   1.7.0
      */
-    protected function parse($fileName)
+    protected function parse($filename)
     {
-        $strings = LanguageHelper::parseIniFile($fileName, $this->debug);
+        try {
+            $strings = LanguageHelper::parseIniFile($filename, $this->debug);
+        } catch (\RuntimeException $e) {
+            $strings = [];
 
-        // Debug the ini file if needed.
-        if ($this->debug === true && is_file($fileName)) {
-            $this->debugFile($fileName);
+            // Debug the ini file if needed.
+            if ($this->debug && is_file($filename)) {
+                if (!$this->debugFile($filename)) {
+                    // We didn't find any errors but there's a parser warning.
+                    $this->errorfiles[$filename] = 'PHP parser errors :' . $e->getMessage();
+                }
+            }
         }
 
         return $strings;
@@ -738,10 +745,7 @@ class Language extends BaseLanguage
 
         // Initialise variables for manually parsing the file for common errors.
         $reservedWord = ['YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE'];
-        $debug        = $this->getDebug();
-        $this->debug  = false;
         $errors       = [];
-        $php_errormsg = null;
 
         // Open the file as a stream.
         $file = new \SplFileObject($filename);
@@ -755,7 +759,7 @@ class Language extends BaseLanguage
             $line = trim($line);
 
             // Ignore comment lines.
-            if (!\strlen($line) || $line['0'] == ';') {
+            if (!\strlen($line) || $line[0] == ';') {
                 continue;
             }
 
@@ -792,12 +796,7 @@ class Language extends BaseLanguage
         // Check if we encountered any errors.
         if (\count($errors)) {
             $this->errorfiles[$filename] = $errors;
-        } elseif ($php_errormsg) {
-            // We didn't find any errors but there's probably a parse notice.
-            $this->errorfiles['PHP' . $filename] = 'PHP parser errors :' . $php_errormsg;
         }
-
-        $this->debug = $debug;
 
         return \count($errors);
     }
