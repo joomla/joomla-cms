@@ -1888,7 +1888,9 @@ ENDDATA;
 
         $headerFound = false;
         $headerInfo  = false;
-        $readStart   = $filesize - $readsize;
+
+        // Read chunks from the end to the start of the file
+        $readStart = $filesize - $readsize;
 
         while ($readStart >= 0) {
             fseek($fp, $readStart);
@@ -1936,32 +1938,36 @@ ENDDATA;
                 break;
             }
 
+            // Calculate read start and read size for previous chunk in the file
             $readEnd   = $readStart + $posFirstHeader;
             $readStart = max($readEnd - $readsize, 0);
             $readsize  = $readEnd - $readStart;
         }
 
+        // If no central directory file header found at all it's not a valid ZIP file
         if (!$headerFound) {
             throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
         }
 
+        // If no central directory file header found for the manifest XML file it's not a valid Joomla package
         if (!$headerInfo) {
             throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE'), 500);
         }
 
-        // Read the local file header
+        // Read the local file header of the manifest XML file
         fseek($fp, $headerInfo['Offset']);
         $localHeader = fread($fp, 30);
 
         $localHeaderInfo = unpack('VSig/vVersion/vBitFlag/vMethod/VTime/VCRC32/VCompressed/VUncompressed/vNameLength/vExtraLength', $localHeader);
 
-        // Read the compressed file content
+        // Read the compressed manifest XML file content
         fseek($fp, $localHeaderInfo['NameLength'] + $localHeaderInfo['ExtraLength'], SEEK_CUR);
         $manifestFileCompressed = fread($fp, $localHeaderInfo['Compressed']);
 
-        // Close file
+        // Close package file
         @fclose($fp);
 
+        // Uncompress the manifest XML file content
         $manifestFile = '';
 
         switch ($localHeaderInfo['Method']) {
