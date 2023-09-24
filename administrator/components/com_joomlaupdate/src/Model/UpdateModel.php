@@ -1839,7 +1839,7 @@ ENDDATA;
             throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE'), 500);
         }
 
-        checkPackageVersion($manifestFile);
+        $this->checkManifestXML($manifestFile);
     }
 
     /**
@@ -1988,7 +1988,7 @@ ENDDATA;
             throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE'), 500);
         }
 
-        checkPackageVersion($manifestFile);
+        $this->checkManifestXML($manifestFile);
     }
 
     /**
@@ -2001,7 +2001,7 @@ ENDDATA;
      * @since   __DEPLOY_VERSION__
      * @throws  \RuntimeException
      */
-    private function checkPackageVersion(string $manifest)
+    private function checkManifestXML(string $manifest)
     {
         $manifestXml = simplexml_load_string($manifest);
 
