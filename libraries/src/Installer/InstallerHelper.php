@@ -82,8 +82,8 @@ abstract class InstallerHelper
         $dispatcher = Factory::getApplication()->getDispatcher();
         PluginHelper::importPlugin('installer', null, true, $dispatcher);
         $event = new BeforePackageDownloadEvent('onInstallerBeforePackageDownload', [
-            'url'     => &$url, // TODO: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
-            'headers' => &$headers, // TODO: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
+            'url'     => &$url, // @todo: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
+            'headers' => &$headers, // @todo: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
         ]);
         $dispatcher->dispatch('onInstallerBeforePackageDownload', $event);
         $url     = $event->getArgument('url', $url);
