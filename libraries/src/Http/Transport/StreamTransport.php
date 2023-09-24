@@ -144,7 +144,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 
         // Capture PHP errors
         // PHP sends a warning if the uri does not exist; we silence it and throw an exception instead.
-        set_error_handler(static function($errno, $err) {
+        set_error_handler(static function ($errno, $err) {
             throw new \Exception($err);
         }, \E_WARNING);
 

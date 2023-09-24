@@ -416,7 +416,7 @@ class LanguageHelper
         $isParseIniFileDisabled = \in_array('parse_ini_file', array_map('trim', $disabledFunctions));
 
         // Capture hidden PHP errors from the parsing.
-        set_error_handler(static function($errno, $err) {
+        set_error_handler(static function ($errno, $err) {
             throw new \Exception($err);
         }, \E_WARNING);
 
@@ -429,7 +429,7 @@ class LanguageHelper
             }
         } catch (\Exception $e) {
             if ($debug) {
-               throw new \RuntimeException($e->getMessage());
+                throw new \RuntimeException($e->getMessage());
             }
 
             return [];
