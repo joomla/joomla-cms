@@ -1896,6 +1896,8 @@ ENDDATA;
             $fileChunk = fread($fp, $readsize);
 
             if ($fileChunk === false || strlen($fileChunk) !== $readsize) {
+                @fclose($fp);
+
                 throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
             }
 
@@ -1913,6 +1915,8 @@ ENDDATA;
             while (($pos = strpos($fileChunk, 'installation/index.php', $offset)) !== false) {
                 // Check if entry is a central directory file header and the file name is exactly 22 bytes long
                 if (substr($fileChunk, $pos - 46, 4) == $headerSignature && substr($fileChunk, $pos - 18, 2) == $sizeSignatureIndexPhp) {
+                    @fclose($fp);
+
                     throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_INSTALL_PACKAGE'), 500);
                 }
 
@@ -1946,11 +1950,15 @@ ENDDATA;
 
         // If no central directory file header found at all it's not a valid ZIP file
         if (!$headerFound) {
+            @fclose($fp);
+
             throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
         }
 
         // If no central directory file header found for the manifest XML file it's not a valid Joomla package
         if (!$headerInfo) {
+            @fclose($fp);
+
             throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE'), 500);
         }
 
@@ -1962,6 +1970,8 @@ ENDDATA;
 
         // Check for empy manifest file
         if (!$localHeaderInfo['Compressed']) {
+            @fclose($fp);
+
             throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE'), 500);
         }
 
