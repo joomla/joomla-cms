@@ -409,7 +409,7 @@ class ModulesModel extends ListModel
                 // Search by ID without the prefix ID:, used numbers from the search.
                 $ids        = array_filter(array_map(function ($number) {
                     $number = trim($number);
-                    return is_numeric($number) && $number > 0 ? (int) $number : 0;
+                    return is_numeric($number) && $number >= 0 ? (string) $number : false;
                 }, explode(',', $search)));
 
                 if ($ids) {
