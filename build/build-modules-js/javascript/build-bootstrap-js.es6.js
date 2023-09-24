@@ -57,12 +57,6 @@ const build = async () => {
         ],
       }),
     ],
-    external: [
-      './base-component.js',
-      ...domImports.map((file) => `./dom/${file}`),
-      ...domImports.map((file) => `./${file}`),
-      ...utilImports.map((file) => `./util/${file}`),
-    ],
     manualChunks: {
       alert: ['build/media_source/vendor/bootstrap/js/alert.es6.js'],
       button: ['build/media_source/vendor/bootstrap/js/button.es6.js'],

@@ -22,7 +22,7 @@
     }
 
     a {
-      color: var(--template-link-color);
+      color: var(--#{$prefix}link-color);
     }
 
     h2 {
@@ -49,7 +49,7 @@
     }
 
     a {
-      color: var(--template-link-color);
+      color: var(--#{$prefix}link-color);
     }
 
     h2 {
@@ -187,11 +187,11 @@
         display: block;
         padding: .5rem;
         color: rgba(255, 255, 255, .9);
-        background: var(--template-link-color);
+        background: var(--#{$prefix}link-color);
         box-shadow: $atum-box-shadow;
 
         &:hover {
-          background: var(--template-link-hover-color);
+          background: var(--#{$prefix}link-hover-color);
         }
       }
     }
