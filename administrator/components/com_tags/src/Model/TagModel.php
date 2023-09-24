@@ -449,11 +449,10 @@ class TagModel extends AdminModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Non-fatal error
-                    $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
-                    $parentId = 0;
                 }
+                // Non-fatal error
+                $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+                $parentId = 0;
             }
         }
 
@@ -503,11 +502,10 @@ class TagModel extends AdminModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Not fatal error
-                    $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-                    continue;
                 }
+                // Non-fatal error
+                $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
             }
 
             // Copy is a bit tricky, because we also need to copy the children
@@ -630,11 +628,10 @@ class TagModel extends AdminModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Non-fatal error
-                    $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
-                    $parentId = 0;
                 }
+                // Non-fatal error
+                $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+                $parentId = 0;
             }
         }
 
@@ -657,11 +654,10 @@ class TagModel extends AdminModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Not fatal error
-                    $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-                    continue;
                 }
+                // Non-fatal error
+                $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
             }
 
             // Set the new location in the tree for the node.
