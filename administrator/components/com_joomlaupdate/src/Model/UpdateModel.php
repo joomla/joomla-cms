@@ -1892,7 +1892,7 @@ ENDDATA;
         // Read chunks from the end to the start of the file
         $readStart = $filesize - $readsize;
 
-        while (fseek($fp, $readStart) === 0) {
+        while ($readsize > 0 && fseek($fp, $readStart) === 0) {
             $fileChunk = fread($fp, $readsize);
 
             if ($fileChunk === false || strlen($fileChunk) !== $readsize) {
@@ -1933,6 +1933,7 @@ ENDDATA;
                 $offset = $pos + 40;
             }
 
+            // Done as all file content has been read
             if ($readStart === 0) {
                 break;
             }
@@ -1958,6 +1959,11 @@ ENDDATA;
         $localHeader = fread($fp, 30);
 
         $localHeaderInfo = unpack('VSig/vVersion/vBitFlag/vMethod/VTime/VCRC32/VCompressed/VUncompressed/vNameLength/vExtraLength', $localHeader);
+
+        // Check for empy manifest file
+        if (!$localHeaderInfo['Compressed']) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE'), 500);
+        }
 
         // Read the compressed manifest XML file content
         fseek($fp, $localHeaderInfo['NameLength'] + $localHeaderInfo['ExtraLength'], SEEK_CUR);
