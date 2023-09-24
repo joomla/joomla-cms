@@ -2006,6 +2006,10 @@ ENDDATA;
     {
         $manifestXml = simplexml_load_string($manifest);
 
+        if (!$manifestXml) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_VERSION_FOUND'), 500);
+        }
+
         $versionPackage = (string) $manifestXml->version ?: '';
 
         if (!$versionPackage) {
