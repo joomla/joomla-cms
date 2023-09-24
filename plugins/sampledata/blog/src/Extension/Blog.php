@@ -804,7 +804,7 @@ final class Blog extends CMSPlugin
 
             $menu = [
                 'id'          => 0,
-                'title'       => $title . ' ' .  $langSuffix,
+                'title'       => $title . ' ' . $langSuffix,
                 'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_DESCRIPTION'),
             ];
 
