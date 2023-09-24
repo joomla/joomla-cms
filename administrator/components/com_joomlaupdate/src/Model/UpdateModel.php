@@ -1892,8 +1892,7 @@ ENDDATA;
         // Read chunks from the end to the start of the file
         $readStart = $filesize - $readsize;
 
-        while ($readStart >= 0) {
-            fseek($fp, $readStart);
+        while (fseek($fp, $readStart) === 0) {
             $fileChunk = fread($fp, $readsize);
 
             if ($fileChunk === false || strlen($fileChunk) !== $readsize) {
