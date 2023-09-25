@@ -413,7 +413,7 @@ class UsersModel extends ListModel
                 $query->where($db->quoteName('a.username') . ' LIKE :username');
                 $query->bind(':username', $search);
             } else {
-                $search = '%' . trim($search) . '%';
+                $searchLike = '%' . trim($search) . '%';
 
                 // Add the clauses to the query.
                 $query->where(
@@ -421,9 +421,19 @@ class UsersModel extends ListModel
                     . ' OR ' . $db->quoteName('a.username') . ' LIKE :username'
                     . ' OR ' . $db->quoteName('a.email') . ' LIKE :email)'
                 )
-                    ->bind(':name', $search)
-                    ->bind(':username', $search)
-                    ->bind(':email', $search);
+                    ->bind(':name', $searchLike)
+                    ->bind(':username', $searchLike)
+                    ->bind(':email', $searchLike);
+
+                // Search by ID without the prefix ID:, used numbers from the search.
+                $ids        = array_filter(array_map(function ($number) {
+                    $number = trim($number);
+                    return is_numeric($number) && $number >= 0 ? (string) $number : false;
+                }, explode(',', $search)));
+    
+                if ($ids) {
+                    $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
             }
         }
 

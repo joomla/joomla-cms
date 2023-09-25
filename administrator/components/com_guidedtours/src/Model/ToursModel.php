@@ -219,13 +219,23 @@ class ToursModel extends ListModel
                 $query->where('(' . $db->quoteName('a.description') . ' LIKE :search1)')
                     ->bind([':search1'], $search);
             } else {
-                $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+                $searchLike = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->where(
                     '(' . $db->quoteName('a.title') . ' LIKE :search1'
                     . ' OR ' . $db->quoteName('a.description') . ' LIKE :search2'
                     . ' OR ' . $db->quoteName('a.note') . ' LIKE :search3)'
                 )
-                    ->bind([':search1', ':search2', ':search3'], $search);
+                    ->bind([':search1', ':search2', ':search3'], $searchLike);
+
+                // Search by ID without the prefix ID:, used numbers from the search.
+                $ids        = array_filter(array_map(function ($number) {
+                    $number = trim($number);
+                    return is_numeric($number) && $number >= 0 ? (string) $number : false;
+                }, explode(',', $search)));
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('s.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
             }
         }
 

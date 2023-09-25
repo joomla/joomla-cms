@@ -166,9 +166,19 @@ class TracksModel extends ListModel
 
         // Filter by search in banner name or client name.
         if ($search = $this->getState('filter.search')) {
-            $search = '%' . StringHelper::strtolower($search) . '%';
+            $searchLike = '%' . StringHelper::strtolower($search) . '%';
             $query->where('(LOWER(' . $db->quoteName('b.name') . ') LIKE :search1 OR LOWER(' . $db->quoteName('cl.name') . ') LIKE :search2)')
-                ->bind([':search1', ':search2'], $search);
+                ->bind([':search1', ':search2'], $searchLike);
+
+            // Search by ID without the prefix ID:, used numbers from the search.
+            $ids        = array_filter(array_map(function ($number) {
+                $number = trim($number);
+                return is_numeric($number) && $number >= 0 ? (string) $number : false;
+            }, explode(',', $search)));
+
+            if ($ids) {
+                $query->orWhere($db->quoteName('b.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+            }
         }
 
         // Add the list ordering clause.

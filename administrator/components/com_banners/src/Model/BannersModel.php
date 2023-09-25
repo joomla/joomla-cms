@@ -180,9 +180,19 @@ class BannersModel extends ListModel
                 $query->where($db->quoteName('a.id') . ' = :search')
                     ->bind(':search', $search, ParameterType::INTEGER);
             } else {
-                $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+                $searchLike = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->where('(' . $db->quoteName('a.name') . ' LIKE :search1 OR ' . $db->quoteName('a.alias') . ' LIKE :search2)')
-                    ->bind([':search1', ':search2'], $search);
+                    ->bind([':search1', ':search2'], $searchLike);
+
+                // Search by ID without the prefix ID:, used numbers from the search.
+                $ids        = array_filter(array_map(function ($number) {
+                    $number = trim($number);
+                    return is_numeric($number) && $number >= 0 ? (string) $number : false;
+                }, explode(',', $search)));
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
             }
         }
 

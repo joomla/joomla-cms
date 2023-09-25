@@ -136,14 +136,24 @@ class TemplatesModel extends ListModel
                 $query->where($db->quoteName('a.template_id') . ' = :search')
                     ->bind(':search', $search);
             } else {
-                $search = '%' . str_replace(' ', '%', $search) . '%';
+                $searchLike = '%' . str_replace(' ', '%', $search) . '%';
                 $query->where(
                     '(' . $db->quoteName('a.template_id') . ' LIKE :search1'
                     . ' OR ' . $db->quoteName('a.subject') . ' LIKE :search2'
                     . ' OR ' . $db->quoteName('a.body') . ' LIKE :search3'
                     . ' OR ' . $db->quoteName('a.htmlbody') . ' LIKE :search4)'
                 )
-                    ->bind([':search1', ':search2', ':search3', ':search4'], $search);
+                    ->bind([':search1', ':search2', ':search3', ':search4'], $searchLike);
+
+                // Search by ID without the prefix ID:, used numbers from the search.
+                $ids        = array_filter(array_map(function ($number) {
+                    $number = trim($number);
+                    return is_numeric($number) && $number >= 0 ? (string) $number : false;
+                }, explode(',', $search)));
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('a.template_id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
             }
         }
 

@@ -149,7 +149,7 @@ class TemplatesModel extends ListModel
                 $query->where($db->quoteName('a.id') . ' = :id');
                 $query->bind(':id', $ids, ParameterType::INTEGER);
             } else {
-                $search = '%' . StringHelper::strtolower($search) . '%';
+                $searchLike = '%' . StringHelper::strtolower($search) . '%';
                 $query->extendWhere(
                     'AND',
                     [
@@ -158,8 +158,18 @@ class TemplatesModel extends ListModel
                     ],
                     'OR'
                 )
-                    ->bind(':element', $search)
-                    ->bind(':name', $search);
+                    ->bind(':element', $searchLike)
+                    ->bind(':name', $searchLike);
+
+                // Search by ID without the prefix ID:, used numbers from the search.
+                $ids        = array_filter(array_map(function ($number) {
+                    $number = trim($number);
+                    return is_numeric($number) && $number >= 0 ? (string) $number : false;
+                }, explode(',', $search)));
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('a.extension_id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
             }
         }
 

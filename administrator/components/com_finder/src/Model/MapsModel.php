@@ -209,8 +209,18 @@ class MapsModel extends ListModel
 
         // Filter the maps over the search string if set.
         if ($search = $this->getState('filter.search')) {
-            $search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-            $query->where('a.title LIKE ' . $search);
+            $searchLike = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+            $query->where('a.title LIKE ' . $searchLike);
+
+            // Search by ID without the prefix ID:, used numbers from the search.
+            $ids        = array_filter(array_map(function ($number) {
+                $number = trim($number);
+                return is_numeric($number) && $number >= 0 ? (string) $number : false;
+            }, explode(',', $search)));
+
+            if ($ids) {
+                $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+            }
         }
 
         // Add the list ordering clause.

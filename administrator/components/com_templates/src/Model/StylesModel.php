@@ -236,7 +236,7 @@ class StylesModel extends ListModel
                 $query->where($db->quoteName('a.id') . ' = :id');
                 $query->bind(':id', $ids, ParameterType::INTEGER);
             } else {
-                $search = '%' . StringHelper::strtolower($search) . '%';
+                $searchLike = '%' . StringHelper::strtolower($search) . '%';
                 $query->extendWhere(
                     'AND',
                     [
@@ -245,8 +245,18 @@ class StylesModel extends ListModel
                     ],
                     'OR'
                 )
-                    ->bind(':template', $search)
-                    ->bind(':title', $search);
+                    ->bind(':template', $searchLike)
+                    ->bind(':title', $searchLike);
+
+                // Search by ID without the prefix ID:, used numbers from the search.
+                $ids        = array_filter(array_map(function ($number) {
+                    $number = trim($number);
+                    return is_numeric($number) && $number >= 0 ? (string) $number : false;
+                }, explode(',', $search)));
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
             }
         }
 

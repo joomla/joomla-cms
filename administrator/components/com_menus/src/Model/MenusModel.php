@@ -181,7 +181,7 @@ class MenusModel extends ListModel
 
         // Filter by search in title or menutype
         if ($search = trim($this->getState('filter.search', ''))) {
-            $search = '%' . str_replace(' ', '%', $search) . '%';
+            $searchLike = '%' . str_replace(' ', '%', $search) . '%';
             $query->extendWhere(
                 'AND',
                 [
@@ -190,7 +190,17 @@ class MenusModel extends ListModel
                 ],
                 'OR'
             )
-                ->bind([':search1', ':search2'], $search);
+                ->bind([':search1', ':search2'], $searchLike);
+            
+            // Search by ID without the prefix ID:, used numbers from the search.
+            $ids        = array_filter(array_map(function ($number) {
+                $number = trim($number);
+                return is_numeric($number) && $number >= 0 ? (string) $number : false;
+            }, explode(',', $search)));
+
+            if ($ids) {
+                $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+            }
         }
 
         // Add the list ordering clause.

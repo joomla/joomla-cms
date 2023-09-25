@@ -173,17 +173,27 @@ class LinksModel extends ListModel
                 $query->where($db->quoteName('a.id') . ' = :id');
                 $query->bind(':id', $ids, ParameterType::INTEGER);
             } else {
-                $search = '%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%');
+                $searchLike = '%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%');
                 $query->where(
                     '(' . $db->quoteName('old_url') . ' LIKE :oldurl'
                     . ' OR ' . $db->quoteName('new_url') . ' LIKE :newurl'
                     . ' OR ' . $db->quoteName('comment') . ' LIKE :comment'
                     . ' OR ' . $db->quoteName('referer') . ' LIKE :referer)'
                 )
-                    ->bind(':oldurl', $search)
-                    ->bind(':newurl', $search)
-                    ->bind(':comment', $search)
-                    ->bind(':referer', $search);
+                    ->bind(':oldurl', $searchLike)
+                    ->bind(':newurl', $searchLike)
+                    ->bind(':comment', $searchLike)
+                    ->bind(':referer', $searchLike);
+                
+                // Search by ID without the prefix ID:, used numbers from the search.
+                $ids        = array_filter(array_map(function ($number) {
+                    $number = trim($number);
+                    return is_numeric($number) && $number >= 0 ? (string) $number : false;
+                }, explode(',', $search)));
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }   
             }
         }
 

@@ -362,7 +362,7 @@ class ItemsModel extends ListModel
                         ->bind(':search', $search);
                 }
             } else {
-                $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+                $searchLike = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->extendWhere(
                     'AND',
                     [
@@ -372,7 +372,17 @@ class ItemsModel extends ListModel
                     ],
                     'OR'
                 )
-                    ->bind([':search1', ':search2', ':search3'], $search);
+                    ->bind([':search1', ':search2', ':search3'], $searchLike);
+
+                // Search by ID without the prefix ID:, used numbers from the search.
+                $ids        = array_filter(array_map(function ($number) {
+                    $number = trim($number);
+                    return is_numeric($number) && $number >= 0 ? (string) $number : false;
+                }, explode(',', $search)));
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
             }
         }
 

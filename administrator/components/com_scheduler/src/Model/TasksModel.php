@@ -311,16 +311,26 @@ class TasksModel extends ListModel
                     ->bind(':id', $id, ParameterType::INTEGER);
             } elseif (stripos($searchStr, 'type:') !== 0) {
                 // Search by type is handled exceptionally in _getList() [@todo: remove refs]
-                $searchStr = "%$searchStr%";
+                $searchLike = "%$searchStr%";
 
                 // Bind keys to query
-                $query->bind(':title', $searchStr)
-                    ->bind(':note', $searchStr);
+                $query->bind(':title', $searchLike)
+                    ->bind(':note', $searchLike);
                 $conditions = [
                     $db->quoteName('a.title') . ' LIKE :title',
                     $db->quoteName('a.note') . ' LIKE :note',
                 ];
                 $extendWhereIfFiltered('AND', $conditions, 'OR');
+
+                // Search by ID without the prefix ID:, used numbers from the search.
+                $ids        = array_filter(array_map(function ($number) {
+                    $number = trim($number);
+                    return is_numeric($number) && $number >= 0 ? (string) $number : false;
+                }, explode(',', $searchStr)));
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
             }
         }
 

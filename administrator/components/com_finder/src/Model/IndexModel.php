@@ -222,15 +222,25 @@ class IndexModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            $search      = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-            $orSearchSql = $db->quoteName('l.title') . ' LIKE ' . $search . ' OR ' . $db->quoteName('l.url') . ' LIKE ' . $search;
+            $searchLike      = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+            $orSearchSql = $db->quoteName('l.title') . ' LIKE ' . $searchLike . ' OR ' . $db->quoteName('l.url') . ' LIKE ' . $searchLike;
 
             // Filter by indexdate only if $search doesn't contains non-ascii characters
-            if (!preg_match('/[^\x00-\x7F]/', $search)) {
-                $orSearchSql .= ' OR ' . $query->castAsChar($db->quoteName('l.indexdate')) . ' LIKE ' . $search;
+            if (!preg_match('/[^\x00-\x7F]/', $searchLike)) {
+                $orSearchSql .= ' OR ' . $query->castAsChar($db->quoteName('l.indexdate')) . ' LIKE ' . $searchLike;
             }
 
             $query->where('(' . $orSearchSql . ')');
+
+            // Search by ID without the prefix ID:, used numbers from the search.
+            $ids        = array_filter(array_map(function ($number) {
+                $number = trim($number);
+                return is_numeric($number) && $number >= 0 ? (string) $number : false;
+            }, explode(',', $search)));
+
+            if ($ids) {
+                $query->orWhere($db->quoteName('l.link_id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+            }
         }
 
         // Handle the list ordering.

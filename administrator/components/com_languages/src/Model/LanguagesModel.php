@@ -152,9 +152,19 @@ class LanguagesModel extends ListModel
 
         // Filter by search in title.
         if ($search = $this->getState('filter.search')) {
-            $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+            $searchLike = '%' . str_replace(' ', '%', trim($search)) . '%';
             $query->where($db->quoteName('a.title') . ' LIKE :search')
-                ->bind(':search', $search);
+                ->bind(':search', $searchLike);
+            
+            // Search by ID without the prefix ID:, used numbers from the search.
+            $ids        = array_filter(array_map(function ($number) {
+                $number = trim($number);
+                return is_numeric($number) && $number >= 0 ? (string) $number : false;
+            }, explode(',', $search)));
+
+            if ($ids) {
+                $query->orWhere($db->quoteName('a.lang_id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+            }
         }
 
         // Filter by access level.

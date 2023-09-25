@@ -378,10 +378,22 @@ class ManageModel extends InstallerModel
         // Process search filter (extension id).
         $search = $this->getState('filter.search');
 
-        if (!empty($search) && stripos($search, 'id:') === 0) {
-            $ids = (int) substr($search, 3);
-            $query->where($db->quoteName('extension_id') . ' = :eid')
+        if (!empty($search)) {
+            if (stripos($search, 'id:') === 0) {
+                $ids = (int) substr($search, 3);
+                $query->where($db->quoteName('extension_id') . ' = :eid')
                 ->bind(':eid', $ids, ParameterType::INTEGER);
+            } else {
+                // Search by ID without the prefix ID:, used numbers from the search.
+                $ids        = array_filter(array_map(function ($number) {
+                    $number = trim($number);
+                    return is_numeric($number) && $number >= 0 ? (string) $number : false;
+                }, explode(',', $search)));
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('extension_id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
+            }
         }
 
         // Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in extension.php).
