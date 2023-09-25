@@ -91,7 +91,7 @@
     "ext-simplexml": "*",
     "psr/log": "~3.0",
     "ext-gd": "*",
-    "web-auth/webauthn-lib": "4.7.1",
+    "web-auth/webauthn-lib": "4.5.2",
     "ext-dom": "*",
     "composer/ca-bundle": "^1.3.7",
     "dragonmantank/cron-expression": "^3.3.3",
