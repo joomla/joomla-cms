@@ -305,8 +305,8 @@ class GroupModel extends AdminModel
                     // Trigger the after delete event.
                     $dispatcher->dispatch($this->event_after_delete, new AfterDeleteEvent($this->event_after_delete, [
                         'data'           => $table->getProperties(), // @TODO: Remove data argument in Joomla 6, see AfterDeleteEvent::__constructor()
-                        'deletingResult' => true, // @TODO: Remove data argument in Joomla 6, see AfterDeleteEvent::__constructor()
-                        'errorMessage'   => $this->getError(), // @TODO: Remove data argument in Joomla 6, see AfterDeleteEvent::__constructor()
+                        'deletingResult' => true, // @TODO: Remove deletingResult argument in Joomla 6, see AfterDeleteEvent::__constructor()
+                        'errorMessage'   => $this->getError(), // @TODO: Remove errorMessage argument in Joomla 6, see AfterDeleteEvent::__constructor()
                         'context'        => $context,
                         'subject'        => $table,
                     ]));
