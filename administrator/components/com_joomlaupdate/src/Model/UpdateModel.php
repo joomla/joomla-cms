@@ -1968,7 +1968,7 @@ ENDDATA;
 
         $localHeaderInfo = unpack('VSig/vVersion/vBitFlag/vMethod/VTime/VCRC32/VCompressed/VUncompressed/vNameLength/vExtraLength', $localHeader);
 
-        // Check for empy manifest file
+        // Check for empty manifest file
         if (!$localHeaderInfo['Compressed']) {
             @fclose($fp);
 
