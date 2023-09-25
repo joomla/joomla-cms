@@ -134,7 +134,7 @@ class LevelsModel extends ListModel
                     $number = trim($number);
                     return is_numeric($number) && $number >= 0 ? (string) $number : false;
                 }, explode(',', $search)));
-    
+
                 if ($ids) {
                     $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
                 }

@@ -184,7 +184,7 @@ class LinksModel extends ListModel
                     ->bind(':newurl', $searchLike)
                     ->bind(':comment', $searchLike)
                     ->bind(':referer', $searchLike);
-                
+
                 // Search by ID without the prefix ID:, used numbers from the search.
                 $ids        = array_filter(array_map(function ($number) {
                     $number = trim($number);
@@ -193,7 +193,7 @@ class LinksModel extends ListModel
 
                 if ($ids) {
                     $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
-                }   
+                }
             }
         }
 

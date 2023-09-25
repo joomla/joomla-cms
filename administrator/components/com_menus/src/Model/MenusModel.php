@@ -191,7 +191,7 @@ class MenusModel extends ListModel
                 'OR'
             )
                 ->bind([':search1', ':search2'], $searchLike);
-            
+
             // Search by ID without the prefix ID:, used numbers from the search.
             $ids        = array_filter(array_map(function ($number) {
                 $number = trim($number);

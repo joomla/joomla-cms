@@ -155,7 +155,7 @@ class LanguagesModel extends ListModel
             $searchLike = '%' . str_replace(' ', '%', trim($search)) . '%';
             $query->where($db->quoteName('a.title') . ' LIKE :search')
                 ->bind(':search', $searchLike);
-            
+
             // Search by ID without the prefix ID:, used numbers from the search.
             $ids        = array_filter(array_map(function ($number) {
                 $number = trim($number);

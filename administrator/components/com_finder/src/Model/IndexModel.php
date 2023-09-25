@@ -223,7 +223,7 @@ class IndexModel extends ListModel
 
         if (!empty($search)) {
             $searchLike      = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-            $orSearchSql = $db->quoteName('l.title') . ' LIKE ' . $searchLike . ' OR ' . $db->quoteName('l.url') . ' LIKE ' . $searchLike;
+            $orSearchSql     = $db->quoteName('l.title') . ' LIKE ' . $searchLike . ' OR ' . $db->quoteName('l.url') . ' LIKE ' . $searchLike;
 
             // Filter by indexdate only if $search doesn't contains non-ascii characters
             if (!preg_match('/[^\x00-\x7F]/', $searchLike)) {
