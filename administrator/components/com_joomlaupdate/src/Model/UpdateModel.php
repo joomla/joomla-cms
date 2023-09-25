@@ -1927,7 +1927,7 @@ ENDDATA;
 
             // Look for administrator/manifests/files/joomla.xml if not found yet
             while ($headerInfo === false && ($pos = strpos($fileChunk, 'administrator/manifests/files/joomla.xml', $offset)) !== false) {
-                // Check if entry is inside a ZIP central directory header and  the file name is exactly 40 bytes long
+                // Check if entry is inside a ZIP central directory header and the file name is exactly 40 bytes long
                 if (substr($fileChunk, $pos - 46, 4) == $headerSignature && substr($fileChunk, $pos - 18, 2) == $sizeSignatureJoomlaXml) {
                     $headerInfo = unpack('VOffset', substr($fileChunk, $pos - 4, 4));
 
