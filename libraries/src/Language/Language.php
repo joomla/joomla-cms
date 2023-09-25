@@ -845,11 +845,7 @@ class Language extends BaseLanguage
      */
     public function getCalendar()
     {
-        if (isset($this->metadata['calendar'])) {
-            return $this->metadata['calendar'];
-        }
-
-        return 'gregorian';
+        return $this->metadata['calendar'] ?? 'gregorian';
     }
 
     /**
