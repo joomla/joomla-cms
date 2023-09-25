@@ -11,8 +11,8 @@
 namespace Joomla\Component\Users\Administrator\Model;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Event\Model\AfterDeleteEvent;
-use Joomla\CMS\Event\Model\BeforeDeleteEvent;
+use Joomla\CMS\Event\User\UserGroupAfterDeleteEvent;
+use Joomla\CMS\Event\User\UserGroupBeforeDeleteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -283,8 +283,8 @@ class GroupModel extends AdminModel
 
                 if ($allow) {
                     // Fire the before delete event.
-                    $beforeDeleteEvent = new BeforeDeleteEvent($this->event_before_delete, [
-                        'data'    => $table->getProperties(), // @TODO: Remove data argument in Joomla 6, see BeforeDeleteEvent::__constructor()
+                    $beforeDeleteEvent = new UserGroupBeforeDeleteEvent($this->event_before_delete, [
+                        'data'    => $table->getProperties(), // @TODO: Remove data argument in Joomla 6, see UserGroupBeforeDeleteEvent
                         'context' => $context,
                         'subject' => $table,
                     ]);
@@ -303,10 +303,10 @@ class GroupModel extends AdminModel
                     }
 
                     // Trigger the after delete event.
-                    $dispatcher->dispatch($this->event_after_delete, new AfterDeleteEvent($this->event_after_delete, [
-                        'data'           => $table->getProperties(), // @TODO: Remove data argument in Joomla 6, see AfterDeleteEvent::__constructor()
-                        'deletingResult' => true, // @TODO: Remove deletingResult argument in Joomla 6, see AfterDeleteEvent::__constructor()
-                        'errorMessage'   => $this->getError(), // @TODO: Remove errorMessage argument in Joomla 6, see AfterDeleteEvent::__constructor()
+                    $dispatcher->dispatch($this->event_after_delete, new UserGroupAfterDeleteEvent($this->event_after_delete, [
+                        'data'           => $table->getProperties(), // @TODO: Remove data argument in Joomla 6, see UserGroupAfterDeleteEvent
+                        'deletingResult' => true, // @TODO: Remove deletingResult argument in Joomla 6, see UserGroupAfterDeleteEvent
+                        'errorMessage'   => $this->getError(), // @TODO: Remove errorMessage argument in Joomla 6, see UserGroupAfterDeleteEvent
                         'context'        => $context,
                         'subject'        => $table,
                     ]));

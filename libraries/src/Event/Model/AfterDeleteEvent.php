@@ -22,24 +22,4 @@ namespace Joomla\CMS\Event\Model;
  */
 class AfterDeleteEvent extends DeleteEvent
 {
-    /**
-     * Constructor.
-     *
-     * @param   string  $name       The event name.
-     * @param   array   $arguments  The event arguments.
-     *
-     * @throws  \BadMethodCallException
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function __construct($name, array $arguments = [])
-    {
-        // A backward compatibility check for onUserAfterDeleteGroup
-        if ($name === 'onUserAfterDeleteGroup') {
-            // @TODO: In Joomla 6 the event should use 'context', 'subject' only
-            $this->legacyArgumentsOrder = ['data', 'deletingResult', 'errorMessage', 'context', 'subject'];
-        }
-
-        parent::__construct($name, $arguments);
-    }
 }
