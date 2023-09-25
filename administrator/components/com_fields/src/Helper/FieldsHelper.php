@@ -742,10 +742,10 @@ class FieldsHelper
             $allAndConditionsAreMet = true;
 
             foreach ($andConditions as $andCondition) {
-                $condition = explode(':', $andCondition);
+                $condition = explode(':', $andCondition, 2);
 
-                // Prevent bad entries
-                if (count($condition) !== 2) {
+                // Prevent bad entries (values such as field:1:3 are allowed)
+                if (count($condition) < 2) {
                     break;
                 }
 
