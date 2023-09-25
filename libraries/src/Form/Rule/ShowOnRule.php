@@ -31,7 +31,7 @@ class ShowOnRule extends FormRule
      * @var    string
      * @since  5.0.0
      */
-    protected $regex = '^[A-Za-z0-9-]+((:[A-Za-z0-9,]+)|(!:[A-Za-z0-9,]*))$';
+    protected $regex = '^[A-Za-z0-9-]+((:.+)|(!:.*))$';
 
     /**
      * Method to test the value.
