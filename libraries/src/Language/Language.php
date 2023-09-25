@@ -699,24 +699,24 @@ class Language extends BaseLanguage
     /**
      * Parses a language file.
      *
-     * @param   string  $filename  The name of the file.
+     * @param   string  $fileName  The name of the file.
      *
      * @return  array  The array of parsed strings.
      *
      * @since   1.7.0
      */
-    protected function parse($filename)
+    protected function parse($fileName)
     {
         try {
-            $strings = LanguageHelper::parseIniFile($filename, $this->debug);
+            $strings = LanguageHelper::parseIniFile($fileName, $this->debug);
         } catch (\RuntimeException $e) {
             $strings = [];
 
             // Debug the ini file if needed.
-            if ($this->debug && is_file($filename)) {
-                if (!$this->debugFile($filename)) {
+            if ($this->debug && is_file($fileName)) {
+                if (!$this->debugFile($fileName)) {
                     // We didn't find any errors but there's a parser warning.
-                    $this->errorfiles[$filename] = 'PHP parser errors :' . $e->getMessage();
+                    $this->errorfiles[$fileName] = 'PHP parser errors :' . $e->getMessage();
                 }
             }
         }
@@ -759,7 +759,7 @@ class Language extends BaseLanguage
             $line = trim($line);
 
             // Ignore comment lines.
-            if (!\strlen($line) || $line[0] == ';') {
+            if (!\strlen($line) || $line['0'] == ';') {
                 continue;
             }
 
