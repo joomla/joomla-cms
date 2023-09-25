@@ -296,7 +296,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
             }
 
             if ($this->params->get('session', 1)) {
-                $this->debugBar->addCollector(new SessionCollector($this->params));
+                $this->debugBar->addCollector(new SessionCollector($this->params, true));
             }
 
             if ($this->params->get('profile', 1)) {
@@ -304,6 +304,9 @@ final class Debug extends CMSPlugin implements SubscriberInterface
             }
 
             if ($this->params->get('queries', 1)) {
+                // Remember session form token for possible future usage.
+                $formToken = Session::getFormToken();
+
                 // Close session to collect possible session-related queries.
                 $this->getApplication()->getSession()->close();
 
@@ -332,7 +335,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
 
         $debugBarRenderer = new JavascriptRenderer($this->debugBar, Uri::root(true) . '/media/vendor/debugbar/');
         $openHandlerUrl   = Uri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
-        $openHandlerUrl .= '&' . Session::getFormToken() . '=1';
+        $openHandlerUrl .= '&' . ($formToken ?? Session::getFormToken()) . '=1';
 
         $debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
 
