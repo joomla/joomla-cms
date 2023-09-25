@@ -34,14 +34,6 @@ class ShowOnRule extends FormRule
     protected $regex = '^[A-Za-z0-9]+((:[A-Za-z0-9,]+)|(!:[A-Za-z0-9,]*))$';
 
     /**
-     * The regular expression modifiers to use when testing a form field value.
-     *
-     * @var    string
-     * @since  5.0.0
-     */
-    protected $modifiers = 'i';
-
-    /**
      * Method to test the value.
      *
      * @param \SimpleXMLElement $element The SimpleXMLElement object representing the `<field>` tag for the form field object.
