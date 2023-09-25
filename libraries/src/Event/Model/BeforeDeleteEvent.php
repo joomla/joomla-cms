@@ -28,4 +28,25 @@ class BeforeDeleteEvent extends DeleteEvent implements ResultAwareInterface
 {
     use ResultAware;
     use ResultTypeBooleanAware;
+
+    /**
+     * Constructor.
+     *
+     * @param   string  $name       The event name.
+     * @param   array   $arguments  The event arguments.
+     *
+     * @throws  \BadMethodCallException
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct($name, array $arguments = [])
+    {
+        // A backward compatibility check for onUserBeforeDeleteGroup
+        if ($name === 'onUserBeforeDeleteGroup') {
+            // @TODO: In Joomla 6 the event should use 'context', 'subject' only
+            $this->legacyArgumentsOrder = ['data', 'context', 'subject'];
+        }
+
+        parent::__construct($name, $arguments);
+    }
 }
