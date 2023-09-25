@@ -22,7 +22,7 @@ use Joomla\CMS\Event\Model\AfterDeleteEvent as ModelAfterDeleteEvent;
  *
  * @since  __DEPLOY_VERSION__
  */
-class UserGroupAfterDeleteEvent extends ModelAfterDeleteEvent
+final class UserGroupAfterDeleteEvent extends ModelAfterDeleteEvent
 {
     /**
      * The argument names, in order expected by legacy plugins.

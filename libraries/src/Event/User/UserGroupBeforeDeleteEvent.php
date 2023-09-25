@@ -22,7 +22,7 @@ use Joomla\CMS\Event\Model\BeforeDeleteEvent as ModelBeforeDeleteEvent;
  *
  * @since  __DEPLOY_VERSION__
  */
-class UserGroupBeforeDeleteEvent extends ModelBeforeDeleteEvent
+final class UserGroupBeforeDeleteEvent extends ModelBeforeDeleteEvent
 {
     /**
      * The argument names, in order expected by legacy plugins.
