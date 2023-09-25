@@ -52,9 +52,26 @@ class BeforeLoadEvent extends AbstractEvent
      * @param   mixed  $value  The value to set
      *
      * @return  boolean  Normalised value
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setReset($value)
     {
         return $value ? true : false;
+    }
+
+    /**
+     * Setter for the reset attribute
+     *
+     * @param   mixed  $value  The value to set
+     *
+     * @return  boolean  Normalised value
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function onSetReset($value)
+    {
+        return $this->setReset($value);
     }
 }
