@@ -7,7 +7,7 @@
   display: none !important;
 }
 .checkbox-toggle[disabled] ~ .btn-hide {
-  opacity: 0.5;
+  opacity: .5;
 }
 .checkbox-toggle ~ .btn-show {
   display: inline;
