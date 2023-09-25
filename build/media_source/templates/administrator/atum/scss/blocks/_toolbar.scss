@@ -90,6 +90,12 @@
       @include color-mode(dark) {
         &.btn-info {
           --subhead-btn-accent: var(--template-bg-light);
+
+          /* stylelint-disable max-nesting-depth */
+          &:hover {
+            /* stylelint-enable max-nesting-depth */
+            --subhead-btn-accent: var(--template-bg-dark-60);
+          }
         }
       }
     }
