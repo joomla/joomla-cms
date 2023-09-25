@@ -92,7 +92,7 @@
           --subhead-btn-accent: var(--template-bg-light);
 
           /* stylelint-disable max-nesting-depth */
-          &:hover {
+          &:hover, &:focus, &:active {
             /* stylelint-enable max-nesting-depth */
             --subhead-btn-accent: var(--template-bg-dark-60);
           }
@@ -120,7 +120,7 @@
           --subhead-btn-accent: var(--template-bg-light);
 
           /* stylelint-disable max-nesting-depth */
-          &:hover {
+          &:hover, &:focus, &:active {
             /* stylelint-enable max-nesting-depth */
             --subhead-btn-accent: var(--template-bg-dark-60);
           }
