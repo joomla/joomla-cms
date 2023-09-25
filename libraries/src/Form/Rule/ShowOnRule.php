@@ -68,9 +68,9 @@ class ShowOnRule extends FormRule
 
         // Make sure we allow multiple showon rules to be added
         $rules    = [];
-        $andRules = explode('&', $value);
+        $andRules = explode('[AND]', $value);
         foreach ($andRules as $andRule) {
-            $orRules = explode('|', $andRule);
+            $orRules = explode('[OR]', $andRule);
             foreach ($orRules as $orRule) {
                 $rules[] = $orRule;
             }
