@@ -52,13 +52,20 @@ class ShowOnRuleTest extends UnitTestCase
             [true, $xml, 'box:value1[AND]square!:value1,value2'],
             [true, $xml, 'box:value1[AND]square!:value1,value2[OR]square!:value1'],
             [true, $xml, 'box:value1,value2[AND]square:value1'],
+            [true, $xml, 'box-test-1:value1'],
+            [true, $xml, 'box-test-1!:value1'],
+            [true, $xml, 'box-test-1!:'],
+            [true, $xml, 'box:value1[OR]square-test-1:value1'],
+            [true, $xml, 'box:value1[OR]square-test-1!:value1'],
             [false, $xml, 'box'],
             [false, $xml, 'box::'],
             [false, $xml, 'box:!'],
             [false, $xml, 'box:3:21'],
+            [false, $xml, 'box-test-1:3:21'],
             [false, $xml, '[AND]box:value3[OR]square:2:3'],
             [false, $xml, '[AND][OR]'],
             [false, $xml, 'box:value1[AND]square!:value1:value2'],
+            [false, $xml, 'box:value1[AND]square-test-1!:value1:value2'],
         ];
     }
 
