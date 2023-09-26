@@ -51,7 +51,7 @@ class CheckPrivacyPolicyPublishedEvent extends PrivacyEvent
         }
 
         // For backward compatibility make sure the content is referenced
-        // @todo: Remove in Joomla 6
+        // TODO: Remove in Joomla 6
         // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
         if (key($arguments) === 0) {
             $this->arguments['subject'] = &$arguments[0];

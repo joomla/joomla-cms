@@ -38,9 +38,6 @@ $input = Factory::getApplication()->getInput();
         <div class="row mt-2">
             <div class="col-md-12">
                 <table class="table">
-                    <caption class="visually-hidden">
-                        <?php echo Text::_('COM_TEMPLATES_OVERRIDE_UPDATED_FILES_CAPTION'); ?>
-                    </caption>
                     <thead>
                         <tr>
                             <td class="w-5 text-center">

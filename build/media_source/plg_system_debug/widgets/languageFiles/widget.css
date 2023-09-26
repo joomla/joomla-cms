@@ -1,17 +1,17 @@
 table.phpdebugbar-widgets-languageFiles {
-  margin-top: 5px;
-  margin-left: 5px;
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  line-height: 1.3em;
+    margin-left: 5px;
+    margin-top: 5px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    line-height: 1.3em;
 }
 
 table.phpdebugbar-widgets-languageFiles tr {
-  border-bottom: 1px solid #c0c0c0;
+    border-bottom: 1px solid silver;
 }
 
 table.phpdebugbar-widgets-languageFiles th {
-  padding: 5px;
-  font-weight: bold;
+    font-weight: bold;
+    padding: 5px;
 }
 
 .phpdebugbar-widgets-languageFiles .alert-success,

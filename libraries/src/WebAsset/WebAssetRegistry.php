@@ -10,7 +10,6 @@
 namespace Joomla\CMS\WebAsset;
 
 use Joomla\CMS\Event\AbstractEvent;
-use Joomla\CMS\Event\WebAsset\WebAssetRegistryAssetChanged;
 use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\Event\Dispatcher as EventDispatcher;
 use Joomla\Event\DispatcherAwareInterface;
@@ -433,7 +432,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
         $event = AbstractEvent::create(
             'onWebAssetRegistryChangedAsset' . ucfirst($change),
             [
-                'eventClass' => WebAssetRegistryAssetChanged::class,
+                'eventClass' => 'Joomla\\CMS\\Event\\WebAsset\\WebAssetRegistryAssetChanged',
                 'subject'    => $this,
                 'assetType'  => $type,
                 'asset'      => $asset,

@@ -147,7 +147,7 @@ class Toolbar
     {
         $toolbar = Factory::getApplication()->getDocument()->getToolbar($name);
 
-        // @todo b/c remove with Joomla 7.0 or removed in 6.0 with this function
+        // TODO b/c remove with Joomla 7.0 or removed in 6.0 with this function
         if (empty(self::$instances[$name])) {
             self::$instances[$name] = $toolbar;
         }

@@ -10,7 +10,7 @@ if (!Joomla) {
 const getCookie = () => document.cookie.length && document.cookie
   .split('; ')
   .find((row) => row.startsWith('atumSidebarState='))
-  ?.split('=')[1];
+  .split('=')[1];
 
 const mobile = window.matchMedia('(max-width: 992px)');
 const small = window.matchMedia('(max-width: 575.98px)');

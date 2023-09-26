@@ -56,7 +56,7 @@ abstract class UiTab
             static::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
         }
 
-        $orientation = $params['orientation'] ?? 'horizontal';
+        $orientation = isset($params['orientation']) ? $params['orientation'] : 'horizontal';
         $recall      = isset($params['recall']) ? 'recall' : '';
         $breakpoint  = isset($params['breakpoint']) ? 'breakpoint="' . $params['breakpoint'] . '"' : '';
 

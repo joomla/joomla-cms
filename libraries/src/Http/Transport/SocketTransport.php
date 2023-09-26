@@ -230,28 +230,28 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         }
 
         // Capture PHP errors
-        // PHP sends a warning if the uri does not exist; we silence it and throw an exception instead.
-        set_error_handler(static function ($errno, $err) {
-            throw new \Exception($err);
-        }, \E_WARNING);
+        $php_errormsg = '';
+        $track_errors = ini_get('track_errors');
+        ini_set('track_errors', true);
 
-        try {
-            // Attempt to connect to the server
-            $connection = fsockopen($host, $port, $errno, $err, $timeout);
+        // PHP sends a warning if the uri does not exists; we silence it and throw an exception instead.
+        // Attempt to connect to the server
+        $connection = @fsockopen($host, $port, $errno, $err, $timeout);
 
-            if (!$connection) {
+        if (!$connection) {
+            if (!$php_errormsg) {
                 // Error but nothing from php? Create our own
-                if (!$err) {
-                    $err = sprintf('Could not connect to host: %s:%s', $host, $port);
-                }
-
-                throw new \Exception($err);
+                $php_errormsg = sprintf('Could not connect to resource %s: %s (error code %d)', $uri, $err, $errno);
             }
-        } catch (\Exception $e) {
-            throw new \RuntimeException($e->getMessage());
-        } finally {
-            restore_error_handler();
+
+            // Restore error tracking to give control to the exception handler
+            ini_set('track_errors', $track_errors);
+
+            throw new \RuntimeException($php_errormsg);
         }
+
+        // Restore error tracking to what it was before.
+        ini_set('track_errors', $track_errors);
 
         // Since the connection was successful let's store it in case we need to use it later.
         $this->connections[$key] = $connection;

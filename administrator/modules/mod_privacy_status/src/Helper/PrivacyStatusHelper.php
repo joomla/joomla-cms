@@ -54,7 +54,7 @@ class PrivacyStatusHelper
         return $dispatcher->dispatch(
             'onPrivacyCheckPrivacyPolicyPublished',
             new CheckPrivacyPolicyPublishedEvent('onPrivacyCheckPrivacyPolicyPublished', [
-                'subject' => &$policy, // @todo: Remove reference in Joomla 6, see CheckPrivacyPolicyPublishedEvent::__constructor()
+                'subject' => &$policy, // TODO: Remove reference in Joomla 6, see CheckPrivacyPolicyPublishedEvent::__constructor()
             ])
         )->getArgument('subject', $policy);
     }

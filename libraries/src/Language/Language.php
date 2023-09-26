@@ -707,18 +707,11 @@ class Language extends BaseLanguage
      */
     protected function parse($fileName)
     {
-        try {
-            $strings = LanguageHelper::parseIniFile($fileName, $this->debug);
-        } catch (\RuntimeException $e) {
-            $strings = [];
+        $strings = LanguageHelper::parseIniFile($fileName, $this->debug);
 
-            // Debug the ini file if needed.
-            if ($this->debug && is_file($fileName)) {
-                if (!$this->debugFile($fileName)) {
-                    // We didn't find any errors but there's a parser warning.
-                    $this->errorfiles[$fileName] = 'PHP parser errors :' . $e->getMessage();
-                }
-            }
+        // Debug the ini file if needed.
+        if ($this->debug === true && is_file($fileName)) {
+            $this->debugFile($fileName);
         }
 
         return $strings;
@@ -745,7 +738,10 @@ class Language extends BaseLanguage
 
         // Initialise variables for manually parsing the file for common errors.
         $reservedWord = ['YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE'];
+        $debug        = $this->getDebug();
+        $this->debug  = false;
         $errors       = [];
+        $php_errormsg = null;
 
         // Open the file as a stream.
         $file = new \SplFileObject($filename);
@@ -796,7 +792,12 @@ class Language extends BaseLanguage
         // Check if we encountered any errors.
         if (\count($errors)) {
             $this->errorfiles[$filename] = $errors;
+        } elseif ($php_errormsg) {
+            // We didn't find any errors but there's probably a parse notice.
+            $this->errorfiles['PHP' . $filename] = 'PHP parser errors :' . $php_errormsg;
         }
+
+        $this->debug = $debug;
 
         return \count($errors);
     }
@@ -844,7 +845,11 @@ class Language extends BaseLanguage
      */
     public function getCalendar()
     {
-        return $this->metadata['calendar'] ?? 'gregorian';
+        if (isset($this->metadata['calendar'])) {
+            return $this->metadata['calendar'];
+        }
+
+        return 'gregorian';
     }
 
     /**

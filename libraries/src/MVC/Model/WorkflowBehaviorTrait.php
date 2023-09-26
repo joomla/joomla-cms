@@ -347,7 +347,7 @@ trait WorkflowBehaviorTrait
 
         $key = $table->getKeyName();
 
-        $id = $data->$key ?? $form->getValue($key);
+        $id = isset($data->$key) ? $data->$key : $form->getValue($key);
 
         if ($id) {
             // Transition field
@@ -394,7 +394,7 @@ trait WorkflowBehaviorTrait
             return false;
         }
 
-        $catId = ((object) $data)->$catKey ?? $form->getValue($catKey);
+        $catId = isset(((object) $data)->$catKey) ? ((object) $data)->$catKey : $form->getValue($catKey);
 
         // Try to get the category from the html code of the field
         if (empty($catId)) {

@@ -62,7 +62,7 @@ class ContentHelper
         $db = Factory::getDbo();
 
         // Allow custom state / condition values and custom column names to support custom components
-        $counter_names = $config->counter_names ?? [
+        $counter_names = isset($config->counter_names) ? $config->counter_names : [
             '-2' => 'count_trashed',
             '0'  => 'count_unpublished',
             '1'  => 'count_published',

@@ -84,7 +84,7 @@ $compatibilityTypes = [
 ];
 
 $latestJoomlaVersion = $this->updateInfo['latest'];
-$currentJoomlaVersion = $this->updateInfo['installed'] ?? JVERSION;
+$currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInfo['installed'] : JVERSION;
 
 $updatePossible = true;
 

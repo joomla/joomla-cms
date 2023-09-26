@@ -32,7 +32,7 @@ $wa->useScript('core')
     ->useScript('modal-content-select')
     ->useScript('com_content.admin-articles-modal');
 
-// @todo: Use of Function and Editor is deprecated and should be removed in 6.0. It stays only for backward compatibility.
+// TODO: Use of Function and Editor is deprecated and should be removed in 6.0. It stays only for backward compatibility.
 $function  = $app->getInput()->getCmd('function', 'jSelectArticle');
 $editor    = $app->getInput()->getCmd('editor', '');
 $listOrder = $this->escape($this->state->get('list.ordering'));

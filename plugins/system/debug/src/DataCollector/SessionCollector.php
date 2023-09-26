@@ -13,7 +13,6 @@ namespace Joomla\Plugin\System\Debug\DataCollector;
 use Joomla\CMS\Factory;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 use Joomla\Plugin\System\Debug\Extension\Debug;
-use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -35,60 +34,31 @@ class SessionCollector extends AbstractDataCollector
     private $name = 'session';
 
     /**
-     * Collected data.
-     *
-     * @var   array
-     * @since __DEPLOY_VERSION__
-     */
-    protected $sessionData;
-
-    /**
-     * Constructor.
-     *
-     * @param   Registry  $params   Parameters.
-     * @param   bool      $collect  Collect the session data.
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    public function __construct($params, $collect = false)
-    {
-        parent::__construct($params);
-
-        if ($collect) {
-            $this->collect();
-        }
-    }
-
-    /**
      * Called by the DebugBar when data needs to be collected
      *
-     * @param   bool  $overwrite  Overwrite the previously collected session data.
+     * @since  4.0.0
      *
      * @return array Collected data
-     *
-     * @since  4.0.0
      */
-    public function collect($overwrite = false)
+    public function collect()
     {
-        if ($this->sessionData === null || $overwrite) {
-            $this->sessionData  = [];
-            $data               = Factory::getApplication()->getSession()->all();
+        $returnData  = [];
+        $sessionData = Factory::getApplication()->getSession()->all();
 
-            // redact value of potentially secret keys
-            array_walk_recursive($data, static function (&$value, $key) {
-                if (!preg_match(Debug::PROTECTED_COLLECTOR_KEYS, $key)) {
-                    return;
-                }
-
-                $value = '***redacted***';
-            });
-
-            foreach ($data as $key => $value) {
-                $this->sessionData[$key] = $this->getDataFormatter()->formatVar($value);
+        // redact value of potentially secret keys
+        array_walk_recursive($sessionData, static function (&$value, $key) {
+            if (!preg_match(Debug::PROTECTED_COLLECTOR_KEYS, $key)) {
+                return;
             }
+
+            $value = '***redacted***';
+        });
+
+        foreach ($sessionData as $key => $value) {
+            $returnData[$key] = $this->getDataFormatter()->formatVar($value);
         }
 
-        return ['data' => $this->sessionData];
+        return ['data' => $returnData];
     }
 
     /**

@@ -31,7 +31,15 @@ class ShowOnRule extends FormRule
      * @var    string
      * @since  5.0.0
      */
-    protected $regex = '^[A-Za-z0-9-]+((:.+)|(!:.*))$';
+    protected $regex = '[A-Za-z0-9]+!?:[A-Za-z0-9]+';
+
+    /**
+     * The regular expression modifiers to use when testing a form field value.
+     *
+     * @var    string
+     * @since  5.0.0
+     */
+    protected $modifiers = 'i';
 
     /**
      * Method to test the value.
@@ -60,9 +68,9 @@ class ShowOnRule extends FormRule
 
         // Make sure we allow multiple showon rules to be added
         $rules    = [];
-        $andRules = explode('[AND]', $value);
+        $andRules = explode('&', $value);
         foreach ($andRules as $andRule) {
-            $orRules = explode('[OR]', $andRule);
+            $orRules = explode('|', $andRule);
             foreach ($orRules as $orRule) {
                 $rules[] = $orRule;
             }

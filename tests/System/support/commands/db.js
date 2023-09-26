@@ -504,54 +504,6 @@ Cypress.Commands.add('db_createUser', (userData) => {
 });
 
 /**
- * Creates an user group in the database with the given data. The group contains some default values when
- * not all required fields are passed in the given data. The data of the inserted group is returned.
- *
- * @param {Object} groupData The user group data to insert
- *
- * @returns Object
- */
-Cypress.Commands.add('db_createUserGroup', (groupData) => {
-  const defaultGroupOptions = {
-    title: 'test group',
-    parent_id: 1,
-    lft: 1,
-    rgt: 1,
-  };
-  const group = { ...defaultGroupOptions, ...groupData };
-
-  return cy.task('queryDB', createInsertQuery('usergroups', group))
-    .then(async (info) => {
-      group.id = info.insertId;
-
-      return group;
-    });
-});
-
-/**
- * Creates an user access level in the database with the given data. The level contains some default values when
- * not all required fields are passed in the given data. The data of the inserted level is returned.
- *
- * @param {Object} levelData The user access level data to insert
- *
- * @returns Object
- */
-Cypress.Commands.add('db_createUserLevel', (levelData) => {
-  const defaultLevelOptions = {
-    title: 'test level',
-    rules: '[1]',
-  };
-  const level = { ...defaultLevelOptions, ...levelData };
-
-  return cy.task('queryDB', createInsertQuery('viewlevels', level))
-    .then(async (info) => {
-      level.id = info.insertId;
-
-      return level;
-    });
-});
-
-/**
  * Sets the parameter for the given extension.
  *
  * @param {string} key The key

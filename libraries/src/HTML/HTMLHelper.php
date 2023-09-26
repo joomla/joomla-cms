@@ -945,7 +945,11 @@ abstract class HTMLHelper
                 }
             }
 
-            $title = $title['title'] ?? '';
+            if (isset($title['title'])) {
+                $title = $title['title'];
+            } else {
+                $title = '';
+            }
         }
 
         if (!$text) {

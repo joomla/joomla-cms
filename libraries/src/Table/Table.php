@@ -1821,7 +1821,11 @@ abstract class Table implements TableInterface, DispatcherAwareInterface
     public function getColumnAlias($column)
     {
         // Get the column data if set
-        $return = $this->_columnAlias[$column] ?? $column;
+        if (isset($this->_columnAlias[$column])) {
+            $return = $this->_columnAlias[$column];
+        } else {
+            $return = $column;
+        }
 
         // Sanitize the name
         $return = preg_replace('#[^A-Z0-9_]#i', '', $return);

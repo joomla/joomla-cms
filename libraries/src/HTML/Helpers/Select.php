@@ -644,7 +644,7 @@ abstract class Select
 
             $k  = $obj->$optKey;
             $t  = $translate ? Text::_($obj->$optText) : $obj->$optText;
-            $id = $obj->id ?? null;
+            $id = (isset($obj->id) ? $obj->id : null);
 
             $extra = '';
             $id    = $id ? $obj->id : $id_text . $k;

@@ -136,7 +136,7 @@ class StatsAdminHelper
                     $rows[$i]->title = $row['title'];
                     $rows[$i]->icon  = $row['icon'] ?? 'info';
                     $rows[$i]->data  = $row['data'];
-                    $rows[$i]->link  = $row['link'] ?? null;
+                    $rows[$i]->link  = isset($row['link']) ? $row['link'] : null;
                     $i++;
                 }
             }

@@ -11,7 +11,6 @@ namespace Joomla\CMS\Workflow;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\AbstractEvent;
-use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -401,7 +400,7 @@ class Workflow
                 AbstractEvent::create(
                     'onWorkflowAfterTransition',
                     [
-                        'eventClass' => WorkflowTransitionEvent::class,
+                        'eventClass' => 'Joomla\CMS\Event\Workflow\WorkflowTransitionEvent',
                         'subject'    => $this,
                         'extension'  => $this->extension,
                         'pks'        => $pks,

@@ -89,7 +89,7 @@ class Router extends RouterBase
         }
 
         // Get query language
-        $lang = $query['lang'] ?? '*';
+        $lang = isset($query['lang']) ? $query['lang'] : '*';
 
         // Set the language to the current one when multilang is enabled and item is tagged to ALL
         if (Multilanguage::isEnabled() && $lang === '*') {
@@ -298,7 +298,7 @@ class Router extends RouterBase
             }
 
             if ($item->query['view'] == 'tags') {
-                $id                                         = (int) ($item->query['parent_id'] ?? 0);
+                $id                                         = (int) (isset($item->query['parent_id']) ? $item->query['parent_id'] : 0);
                 $this->lookup[$item->language]['tags'][$id] = $item->id;
             }
         }

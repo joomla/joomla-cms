@@ -55,7 +55,7 @@ abstract class Menu
          */
         $children = $dispatcher->dispatch('onPreprocessMenuItems', new PreprocessMenuItemsEvent('onPreprocessMenuItems', [
             'context' => 'administrator.module.mod_submenu',
-            'subject' => &$children, // @todo: Remove reference in Joomla 6, see PreprocessMenuItemsEvent::__constructor()
+            'subject' => &$children, // TODO: Remove reference in Joomla 6, see PreprocessMenuItemsEvent::__constructor()
             'params'  => null,
             'enabled' => true,
         ]))->getArgument('subject', $children);

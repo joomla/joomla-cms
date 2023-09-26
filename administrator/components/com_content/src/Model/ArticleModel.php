@@ -32,7 +32,6 @@ use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
-use Joomla\Component\Content\Administrator\Event\Model\FeatureEvent;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Filter\OutputFilter;
@@ -846,7 +845,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             AbstractEvent::create(
                 $this->event_before_change_featured,
                 [
-                    'eventClass' => FeatureEvent::class,
+                    'eventClass' => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',
                     'subject'    => $this,
                     'extension'  => $context,
                     'pks'        => $pks,
@@ -951,7 +950,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             AbstractEvent::create(
                 $this->event_after_change_featured,
                 [
-                    'eventClass' => FeatureEvent::class,
+                    'eventClass' => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',
                     'subject'    => $this,
                     'extension'  => $context,
                     'pks'        => $pks,

@@ -1,6 +1,10 @@
 $atum-colors-dark: (
   template-quickicon-color:        var(--template-bg-dark-5),
   focus-shadow:                    var(--gray-800),
+  media-manager-overlay-bg:        var(--template-bg-dark-90),
+  media-manager-infobar-dt-color:  rgba(255, 255, 255, .54),
+  media-manager-overlay-header-bg: var(--template-bg-dark-80),
+  media-manager-disk-name-color:   var(--template-text-light),
 ) !default;
 
 $link-hover-color-dark: lighten($light-blue, 20%);
