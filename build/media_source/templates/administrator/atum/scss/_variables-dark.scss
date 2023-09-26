@@ -16,7 +16,6 @@ $atum-colors-dark: (
   main-bg:                         hsl(var(--hue), 75%, 6.5%),
   template-quickicon-bg:           hsl(var(--hue), 62.33%, 15.09%),
   template-quickicon-bg-hvr:       hsl(var(--hue), 66.11%, 44.12%),
-  table-bg:                        var(template-sidebar-bg),
   //not clean, but there are too much elements using it...
   template-bg-dark-60:             hsl(var(--hue), 62.33%, 15.09%),
   template-bg-dark-65:             var(--sidebar-accent-bg),
