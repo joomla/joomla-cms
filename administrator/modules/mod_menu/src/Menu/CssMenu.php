@@ -270,7 +270,7 @@ class CssMenu
          */
         $children = $dispatcher->dispatch('onPreprocessMenuItems', new PreprocessMenuItemsEvent('onPreprocessMenuItems', [
             'context' => 'com_menus.administrator.module',
-            'subject' => &$children, // TODO: Remove reference in Joomla 6, see PreprocessMenuItemsEvent::__constructor()
+            'subject' => &$children, // @todo: Remove reference in Joomla 6, see PreprocessMenuItemsEvent::__constructor()
             'params'  => $this->params,
             'enabled' => $this->enabled,
         ]))->getArgument('subject', $children);
