@@ -1,10 +1,9 @@
 describe('Test that config API endpoint', () => {
-
   it('can deliver a list of application config', () => {
     cy.api_get('/config/application')
       .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
         .its('id')
-        .should('equal', 229));
+        .should('equal', 237));
   });
 
   it('can modify a single application config', () => {
