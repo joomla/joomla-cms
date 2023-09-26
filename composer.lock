@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "0e67017f11ee2998ba0426eb2d563b40",
+=======
+    "content-hash": "186d1c75ba657af1ae5b59e4bfdafe01",
+>>>>>>> 4.4-dev
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -2665,8 +2669,13 @@
             "time": "2022-12-19T14:38:11+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "lcobucci/jwt",
             "version": "4.3.0",
+=======
+            "name": "maximebf/debugbar",
+            "version": "v1.19.0",
+>>>>>>> 4.4-dev
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/jwt.git",
@@ -10100,6 +10109,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+<<<<<<< HEAD
         "joomla/application": 20,
         "joomla/archive": 20,
         "joomla/authentication": 20,
@@ -10125,6 +10135,9 @@
         "tobscure/json-api": 20,
         "joomla/mediawiki": 20,
         "joomla/test": 20
+=======
+        "tobscure/json-api": 20
+>>>>>>> 4.4-dev
     },
     "prefer-stable": false,
     "prefer-lowest": false,
