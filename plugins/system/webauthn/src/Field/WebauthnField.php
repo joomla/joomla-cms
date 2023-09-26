@@ -59,6 +59,7 @@ class WebauthnField extends FormField
         Text::script('PLG_SYSTEM_WEBAUTHN_MSG_SAVED_LABEL', true);
         Text::script('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED', true);
         Text::script('PLG_SYSTEM_WEBAUTHN_ERR_XHR_INITCREATE', true);
+        Text::script('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED', true);
 
         $app                  = Factory::getApplication();
         /** @var Webauthn $plugin */
