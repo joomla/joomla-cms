@@ -1115,7 +1115,7 @@ class TagsHelper extends CMSHelper
      *
      * @return  array  An array of tag id and name.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function getTags($tagIds)
     {
