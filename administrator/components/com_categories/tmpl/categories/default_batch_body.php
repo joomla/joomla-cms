@@ -18,6 +18,9 @@ use Joomla\CMS\Layout\LayoutHelper;
 $published = (int) $this->state->get('filter.published');
 $extension = $this->escape($this->state->get('filter.extension'));
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('joomla.batch-copymove');
 ?>
 
 <div class="p-3">

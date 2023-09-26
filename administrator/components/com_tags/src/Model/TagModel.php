@@ -13,9 +13,11 @@ namespace Joomla\Component\Tags\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Versioning\VersionableModelTrait;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -45,6 +47,15 @@ class TagModel extends AdminModel
     public $typeAlias = 'com_tags.tag';
 
     /**
+     * Batch copy/move command. If set to false,
+     * the batch copy/move command is not supported
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $batch_copymove = 'tag_id';
+
+    /**
      * Allowed batch commands
      *
      * @var    array
@@ -71,6 +82,22 @@ class TagModel extends AdminModel
         }
 
         return parent::canDelete($record);
+    }
+
+    /**
+     * Method to get a table object, load it if necessary.
+     *
+     * @param   string  $type    The table name. Optional.
+     * @param   string  $prefix  The class prefix. Optional.
+     * @param   array   $config  Configuration array for model. Optional.
+     *
+     * @return  \Joomla\Cms\Table\Table|\Joomla\Cms\Table\Nested  A Table object
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getTable($type = 'Tag', $prefix = 'Administrator', $config = [])
+    {
+        return parent::getTable($type, $prefix, $config);
     }
 
     /**
@@ -403,11 +430,287 @@ class TagModel extends AdminModel
 
         $table = $this->getTable();
 
-        while ($table->load(['alias' => $alias, 'parent_id' => $parentId])) {
+        while ($table->load(['alias' => $alias])) {
             $title = ($table->title != $title) ? $title : StringHelper::increment($title);
             $alias = StringHelper::increment($alias, 'dash');
         }
 
         return [$title, $alias];
+    }
+
+    /**
+     * Batch copy tags to a new tag or parent.
+     *
+     * @param   integer  $value     The new tag or sub-item.
+     * @param   array    $pks       An array of row IDs.
+     * @param   array    $contexts  An array of item contexts.
+     *
+     * @return  mixed  An array of new IDs on success, boolean false on failure.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function batchCopy($value, $pks, $contexts)
+    {
+        $parentId  = (int) $value;
+        $table     = $this->getTable();
+        $db        = $this->getDatabase();
+        $query     = $db->getQuery(true);
+        $newIds    = [];
+
+        // Check that the parent exists
+        if ($parentId) {
+            if (!$table->load($parentId)) {
+                if ($error = $table->getError()) {
+                    // Fatal error
+                    $this->setError($error);
+
+                    return false;
+                }
+                // Non-fatal error
+                $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+                $parentId = 0;
+            }
+        }
+
+        // If the parent is 0, set it to the ID of the root item in the tree
+        if (empty($parentId)) {
+            if (!$parentId = $table->getRootId()) {
+                $this->setError($table->getError());
+
+                return false;
+            }
+        }
+
+        // Check that user has create permission for tags
+        if (!$this->getCurrentUser()->authorise('core.create', 'com_tags')) {
+            $this->setError(Text::_('COM_TAGS_BATCH_COPY_MOVE_CANNOT_CREATE'));
+
+            return false;
+        }
+
+        // We need to log the parent ID
+        $parents = [];
+
+        // Calculate the emergency stop count as a precaution against a runaway loop bug
+        $query->select('COUNT(' . $db->quoteName('id') . ')')
+            ->from($db->quoteName('#__tags'));
+        $db->setQuery($query);
+
+        try {
+            $count = $db->loadResult();
+        } catch (\RuntimeException $e) {
+            $this->setError($e->getMessage());
+
+            return false;
+        }
+
+        // Parent exists so let's proceed
+        while (!empty($pks) && $count > 0) {
+            // Pop the first id off the stack
+            $pk = array_shift($pks);
+
+            $table->reset();
+
+            // Check that the row actually exists
+            if (!$table->load($pk)) {
+                if ($error = $table->getError()) {
+                    // Fatal error
+                    $this->setError($error);
+
+                    return false;
+                }
+                // Non-fatal error
+                $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
+            }
+
+            // Copy is a bit tricky, because we also need to copy the children
+            $query = $db->getQuery(true)
+                ->select($db->quoteName('id'))
+                ->from($db->quoteName('#__tags'))
+                ->where(
+                    [
+                        $db->quoteName('lft') . ' > :lft',
+                        $db->quoteName('rgt') . ' < :rgt',
+                    ]
+                )
+                ->bind(':lft', $table->lft, ParameterType::INTEGER)
+                ->bind(':rgt', $table->rgt, ParameterType::INTEGER);
+            $db->setQuery($query);
+            $childIds = $db->loadColumn();
+
+            // Add child IDs to the array only if they aren't already there.
+            foreach ($childIds as $childId) {
+                if (!in_array($childId, $pks)) {
+                    $pks[] = $childId;
+                }
+            }
+
+            // Make a copy of the old ID and Parent ID
+            $oldId       = $table->id;
+            $oldParentId = $table->parent_id;
+
+            // Reset the id because we are making a copy.
+            $table->id = 0;
+
+            // If we are copying children, the Old ID will turn up in the parents list
+            // otherwise it's a new top level item
+            $table->parent_id = $parents[$oldParentId] ?? $parentId;
+
+            // Set the new location in the tree for the node.
+            $table->setLocation($table->parent_id, 'last-child');
+
+            // @todo: Deal with ordering?
+            // $table->ordering = 1;
+            $table->level = null;
+            $table->lft   = null;
+            $table->rgt   = null;
+
+            // Alter the title & alias
+            [$title, $alias] = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
+            $table->title    = $title;
+            $table->alias    = $alias;
+
+            // Unpublish because we are making a copy
+            $this->table->published = 0;
+
+            // Check the row.
+            if (!$table->check()) {
+                $this->setError($table->getError());
+
+                return false;
+            }
+
+            // Store the row.
+            if (!$table->store()) {
+                $this->setError($table->getError());
+
+                return false;
+            }
+
+            // Get the new item ID
+            $newId = $table->get('id');
+
+            // Add the new ID to the array
+            $newIds[$pk] = $newId;
+
+            // Now we log the old 'parent' to the new 'parent'
+            $parents[$oldId] = $table->id;
+            $count--;
+        }
+
+        // Rebuild the hierarchy.
+        if (!$table->rebuild()) {
+            $this->setError($table->getError());
+
+            return false;
+        }
+
+        // Rebuild the tree path.
+        if (!$table->rebuildPath($table->id)) {
+            $this->setError($table->getError());
+
+            return false;
+        }
+
+        // Clean the cache
+        $this->cleanCache();
+
+        return $newIds;
+    }
+
+    /**
+     * Batch move tags to a new tag or parent.
+     *
+     * @param   integer  $value     The new tag or sub-item.
+     * @param   array    $pks       An array of row IDs.
+     * @param   array    $contexts  An array of item contexts.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function batchMove($value, $pks, $contexts)
+    {
+        $parentId  = (int) $value;
+        $table     = $this->getTable();
+
+        // Check that the parent exists.
+        if ($parentId) {
+            if (!$table->load($parentId)) {
+                if ($error = $table->getError()) {
+                    // Fatal error
+                    $this->setError($error);
+
+                    return false;
+                }
+                // Non-fatal error
+                $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+                $parentId = 0;
+            }
+        }
+
+        // Check that user has create and edit permission for tags
+        $user = $this->getCurrentUser();
+
+        if (!$user->authorise('core.create', 'com_tags')) {
+            $this->setError(Text::_('COM_TAGS_BATCH_COPY_MOVE_CANNOT_CREATE'));
+
+            return false;
+        }
+
+        if (!$user->authorise('core.edit', 'com_tags')) {
+            $this->setError(Text::_('COM_TAGS_BATCH_COPY_MOVE_CANNOT_EDIT'));
+
+            return false;
+        }
+
+        // Parent exists so let's proceed
+        foreach ($pks as $pk) {
+            // Check that the row actually exists
+            if (!$table->load($pk)) {
+                if ($error = $table->getError()) {
+                    // Fatal error
+                    $this->setError($error);
+
+                    return false;
+                }
+                // Non-fatal error
+                $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
+            }
+
+            // Set the new location in the tree for the node.
+            $table->setLocation($parentId, 'last-child');
+
+            // Set the new Parent Id
+            $table->parent_id = $parentId;
+
+            // Check the row.
+            if (!$table->check()) {
+                $this->setError($table->getError());
+
+                return false;
+            }
+
+            // Store the row.
+            if (!$table->store()) {
+                $this->setError($table->getError());
+
+                return false;
+            }
+
+            // Rebuild the tree path.
+            if (!$table->rebuildPath()) {
+                $this->setError($table->getError());
+
+                return false;
+            }
+        }
+
+        // Clean the cache
+        $this->cleanCache();
+
+        return true;
     }
 }

@@ -24,11 +24,12 @@ $published = (int) $this->state->get('filter.published');
 $clientId  = (int) $this->state->get('filter.client_id');
 $menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype', '');
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('joomla.batch-copymove');
+
 if ($clientId == 1) {
-    /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-    $wa = $this->document->getWebAssetManager();
     $wa->useScript('com_menus.batch-body');
-    $wa->useScript('joomla.batch-copymove');
 }
 ?>
 <div class="p-3">
