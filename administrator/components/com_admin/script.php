@@ -2118,16 +2118,23 @@ class JoomlaInstallerScript
             // From 5.0.0-beta2 to 5.0.0-beta3
             '/media/system/css/calendar-jos.css',
             '/media/system/css/calendar-jos.min.css',
+            '/media/system/css/calendar-jos.min.css.gz',
             '/media/system/css/debug.css',
             '/media/system/css/debug.min.css',
+            '/media/system/css/debug.min.css.gz',
             '/media/system/css/frontediting.css',
             '/media/system/css/frontediting.min.css',
+            '/media/system/css/frontediting.min.css.gz',
             '/media/system/css/mootree.css',
             '/media/system/css/mootree.min.css',
-            '/media/system/css/mootree_rtl.css',
+            '/media/system/css/mootree.min.css.gz',
             '/media/system/css/mootree_rtl,min.css',
+            '/media/system/css/mootree_rtl.css',
+            '/media/system/css/mootree_rtl.min.css',
+            '/media/system/css/mootree_rtl.min.css.gz',
             '/media/system/css/sortablelist.css',
             '/media/system/css/sortablelist.min.css',
+            '/media/system/css/sortablelist.min.css.gz',
         ];
 
         $folders = [
