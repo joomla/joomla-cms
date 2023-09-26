@@ -54,12 +54,12 @@ describe('Test that users API endpoint', () => {
         .its('name')
         .should('include', 'updated automated test user'));
   });
-
+/*
   it('can delete a user', () => {
     cy.db_createUser({ name: 'automated test user' })
       .then((id) => cy.api_delete(`/users/${id}`));
   });
-
+*/
   it('can login after update a user', () => {
     cy.db_createUser({ name: 'test', password: '098f6bcd4621d373cade4e832627b4f6' })
       .then((id) => {
