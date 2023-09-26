@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cf71c76df03c81ddf88794c6aee62cdc",
+    "content-hash": "186d1c75ba657af1ae5b59e4bfdafe01",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -2754,7 +2754,7 @@
         },
         {
             "name": "maximebf/debugbar",
-            "version": "dev-master",
+            "version": "v1.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maximebf/php-debugbar.git",
@@ -2780,7 +2780,6 @@
                 "monolog/monolog": "Log using Monolog",
                 "predis/predis": "Redis storage"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -9908,7 +9907,6 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "maximebf/debugbar": 20,
         "tobscure/json-api": 20
     },
     "prefer-stable": false,
