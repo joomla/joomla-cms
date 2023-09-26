@@ -1,6 +1,28 @@
 $atum-colors-dark: (
   template-quickicon-color:        var(--template-bg-dark-5),
   focus-shadow:                    var(--gray-800),
+  media-manager-overlay-bg:        var(--template-bg-dark-90),
+  media-manager-infobar-dt-color:  rgba(255, 255, 255, .54),
+  media-manager-overlay-header-bg: var(--template-bg-dark-80),
+  media-manager-disk-name-color:   var(--template-text-light),
+  success:                         #467d53,
+  danger:                          #c62a25,
+  warning:                         #996808,
+  sidebar-bg:                      hsl(var(--hue), 55.3%, 10.8%),
+  template-sidebar-bg:             hsl(var(--hue), 55.3%, 10.8%),
+  body-bg:                         hsl(var(--hue), 75%, 6.5%),
+  sidebar-accent-bg:               hsl(var(--hue), 66.11%, 44.12%),
+  template-bg-dark:                hsl(var(--hue), 55.3%, 10.8%),
+  main-bg:                         hsl(var(--hue), 75%, 6.5%),
+  template-quickicon-bg:           hsl(var(--hue), 62.33%, 15.09%),
+  template-quickicon-bg-hvr:       hsl(var(--hue), 66.11%, 44.12%),
+  table-bg:                        var(template-sidebar-bg),
+  //not clean, but there are too much elements using it...
+  template-bg-dark-60:             hsl(var(--hue), 62.33%, 15.09%),
+  template-bg-dark-65:             var(--sidebar-accent-bg),
+  template-bg-dark-70:             var(--sidebar-bg),
+  //turn off shadow in dark mode
+  atum-box-shadow:                 none,
 ) !default;
 
 $link-hover-color-dark: lighten($light-blue, 20%);

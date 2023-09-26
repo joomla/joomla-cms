@@ -4,6 +4,9 @@ $prefix: "";
 // Use dark mode conditionally based on media queries from the browser to match the desktop theme
 $color-mode-type: media-query;
 
+// Enable dark mode in J5.0
+$enable-dark-mode: true;
+
 // Variables
 $white:                            #fff;
 $whiteoffset:                      #fefefe;
@@ -84,6 +87,7 @@ $atum-colors: (
   template-bg-dark-75:             hsl(var(--hue), 40%, 25%),
   template-bg-dark-80:             hsl(var(--hue), 40%, 20%),
   template-bg-dark-90:             hsl(var(--hue), 40%, 10%),
+  atum-box-shadow:                 0 2px 10px -8px var(--template-bg-dark-50),
 );
 
 $colors: (
@@ -110,7 +114,7 @@ $alert-border-level:               0;
 $alert-color-level:                0;
 
 // Global
-$atum-box-shadow:                  0 2px 10px -8px var(--template-bg-dark-50);
+$atum-box-shadow:                  var(--atum-box-shadow);
 $btn-disabled-opacity:             .4;
 
 // Toolbar

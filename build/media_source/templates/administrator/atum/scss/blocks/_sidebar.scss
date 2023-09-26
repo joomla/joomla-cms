@@ -5,7 +5,7 @@
   min-height: calc(100vh - 66px);
   overflow: hidden;
   background-color: var(--template-sidebar-bg);
-  box-shadow: 0 0 20px -10px var(--template-bg-dark-50);
+  box-shadow: $atum-box-shadow;
 
   .sidebar-sticky {
     position: sticky;

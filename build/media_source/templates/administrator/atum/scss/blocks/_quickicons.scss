@@ -19,9 +19,9 @@
 
   .quickicon {
     --text-color: var(--template-quickicon-color);
-    --bg-color: hsl(var(--hue), 60%, 97%);
+    --bg-color: var(--template-quickicon-bg);
     --icon-color: var(--template-quickicon-color);
-    --bg-color-hvr: var(--template-bg-dark);
+    --bg-color-hvr: var(--template-quickcon-bg-hvr);
 
     display: flex;
     flex-grow: 1;
@@ -80,18 +80,24 @@
         }
       }
 
-      &.warning,
+      &.warning {
+        --text-color: var(--warning);
+        --bg-color: #f4f0f0;
+        --icon-color:var(--warning);
+        --bg-color-hvr: var(--warning);
+      }
+
       &.danger {
         --text-color: var(--danger);
         --bg-color: #f4f0f0;
-        --icon-color: #ce8484;
+        --icon-color: var(--danger);
         --bg-color-hvr: var(--danger);
       }
 
       &.success {
         --text-color: var(--success);
         --bg-color: #f3f9f3;
-        --icon-color: #55a258;
+        --icon-color: var(--success);
         --bg-color-hvr: var(--success);
       }
     }
@@ -100,8 +106,11 @@
   @if $enable-dark-mode {
     @include color-mode(dark) {
       .quickicon {
-        --bg-color: var(--template-bg-dark-80);
-        --bg-color-hvr: var(--template-bg-dark-65);
+        --bg-color: var(--template-quickicon-bg);
+        --bg-color-hvr: var(--template-quickicon-bg-hvr);
+      }
+      .quickicon a .quickicon-icon > * {
+        color: unset;
       }
     }
   }
