@@ -98,5 +98,16 @@ final class Compat extends CMSPlugin implements SubscriberInterface
                 ->getRegistry()
                 ->addRegistryFile('media/plg_behaviour_compat/es5.asset.json');
         }
+        /**
+         * Load the removed assets stubs, they are needed if an extension
+         * directly uses a core asset from Joomla 4 which is not present in Joomla 5+
+         * and only provides an empty asset to not throw an exception
+         */
+        if ($this->params->get('removed_asset', '1')) {
+            $event->getDocument()
+                ->getWebAssetManager()
+                ->getRegistry()
+                ->addRegistryFile('media/plg_behaviour_compat/removed.asset.json');
+        }
     }
 }
