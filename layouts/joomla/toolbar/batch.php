@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
 $wa = \Joomla\CMS\Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->useScript('core');
 
-$id    = isset($displayData['id']) ? $displayData['id'] : '';
+$id    = $displayData['id'] ?? '';
 $title = $displayData['title'];
 Text::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 Text::script('ERROR');

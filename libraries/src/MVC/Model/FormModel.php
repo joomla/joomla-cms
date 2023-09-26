@@ -206,13 +206,13 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 
             $data = $dispatcher->dispatch('onUserBeforeDataValidation', new Model\BeforeValidateDataEvent('onUserBeforeDataValidation', [
                 'subject' => $form,
-                'data'    => &$data, // TODO: Remove reference in Joomla 6, see BeforeValidateDataEvent::__constructor()
+                'data'    => &$data, // @todo: Remove reference in Joomla 6, see BeforeValidateDataEvent::__constructor()
             ]))->getArgument('data', $data);
         }
 
         $data = $dispatcher->dispatch('onContentBeforeValidateData', new Model\BeforeValidateDataEvent('onContentBeforeValidateData', [
             'subject' => $form,
-            'data'    => &$data, // TODO: Remove reference in Joomla 6, see AfterRenderModulesEvent::__constructor()
+            'data'    => &$data, // @todo: Remove reference in Joomla 6, see AfterRenderModulesEvent::__constructor()
         ]))->getArgument('data', $data);
 
         // Filter and validate the form data.
