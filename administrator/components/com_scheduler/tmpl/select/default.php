@@ -74,7 +74,7 @@ $wa->useScript('com_scheduler.admin-view-select-task-search');
                    aria-label="<?php echo Text::sprintf('COM_SCHEDULER_SELECT_TASK_TYPE', $name); ?>">
                     <div class="new-task-details">
                         <h3 class="new-task-title"><?php echo $name; ?></h3>
-                        <p class="new-task-caption p-0">
+                        <p class="card-body new-task-caption p-0">
                             <?php echo $desc; ?>
                         </p>
                     </div>
