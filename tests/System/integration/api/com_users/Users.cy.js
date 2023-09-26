@@ -54,9 +54,36 @@ describe('Test that users API endpoint', () => {
         .its('name')
         .should('include', 'updated automated test user'));
   });
-
+  /*
   it('can delete a user', () => {
     cy.db_createUser({ name: 'automated test user' })
       .then((id) => cy.api_delete(`/users/${id}`));
+  });
+  */
+  it('can login after update a user', () => {
+    cy.db_createUser({ name: 'test', password: '098f6bcd4621d373cade4e832627b4f6' })
+      .then((id) => {
+        const updatedUserData = {
+          name: 'test',
+          groups: [
+            '2',
+          ],
+        };
+        return cy.api_patch(`/users/${id}`, updatedUserData);
+      })
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+        .its('name')
+        .should('include', 'test'))
+      .then(() => {
+        // This here is an exception, we should not mix UI tests with API tests
+        // Passwords can only be tested through the web interface
+        cy.visit('/index.php?option=com_users&view=login');
+        cy.get('#username').type('test');
+        cy.get('#password').type('test');
+        cy.get('#remember').check();
+        cy.get('.controls > .btn').click();
+        cy.visit('/index.php?option=com_users&view=login');
+        cy.get('.com-users-logout').should('contain.text', 'Log out');
+      });
   });
 });
