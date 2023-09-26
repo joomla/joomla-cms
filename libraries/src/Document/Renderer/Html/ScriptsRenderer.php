@@ -172,7 +172,7 @@ class ScriptsRenderer extends DocumentRenderer
             }
         } else {
             $attribs     = $item;
-            $version     = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
+            $version     = $attribs['options']['version'] ?? '';
             $conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
         }
 

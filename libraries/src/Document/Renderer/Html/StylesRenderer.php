@@ -161,7 +161,7 @@ class StylesRenderer extends DocumentRenderer
             }
         } else {
             $attribs     = $item;
-            $version     = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
+            $version     = $attribs['options']['version'] ?? '';
             $conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
         }
 
@@ -185,7 +185,7 @@ class StylesRenderer extends DocumentRenderer
             $buffer .= '<!--[if ' . $conditional . ']>';
         }
 
-        $relation = isset($attribs['rel']) ? $attribs['rel'] : 'stylesheet';
+        $relation = $attribs['rel'] ?? 'stylesheet';
 
         if (isset($attribs['rel'])) {
             unset($attribs['rel']);

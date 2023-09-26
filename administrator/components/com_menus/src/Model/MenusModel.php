@@ -284,11 +284,7 @@ class MenusModel extends ListModel
         $langCodes = [];
 
         foreach ($languages as $language) {
-            if (isset($language->metadata['nativeName'])) {
-                $languageName = $language->metadata['nativeName'];
-            } else {
-                $languageName = $language->metadata['name'];
-            }
+            $languageName = $language->metadata['nativeName'] ?? $language->metadata['name'];
 
             $langCodes[$language->metadata['tag']] = $languageName;
         }
