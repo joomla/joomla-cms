@@ -2128,7 +2128,6 @@ class JoomlaInstallerScript
             '/media/system/css/mootree.css',
             '/media/system/css/mootree.min.css',
             '/media/system/css/mootree.min.css.gz',
-            '/media/system/css/mootree_rtl,min.css',
             '/media/system/css/mootree_rtl.css',
             '/media/system/css/mootree_rtl.min.css',
             '/media/system/css/mootree_rtl.min.css.gz',
