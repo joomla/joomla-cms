@@ -302,4 +302,18 @@ abstract class PluginHelper
 
         return static::$plugins;
     }
+
+    /**
+     * Reloads the published plugins.
+     * Can be useful if a plugin has just been enabled.
+     *
+     * @return  array  An array of published plugins
+     *
+     * @since   4.3
+     */
+    public static function reload() {
+        static::$plugins = null;
+
+        return static::load();
+    }
 }
