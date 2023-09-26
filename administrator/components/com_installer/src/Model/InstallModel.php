@@ -136,6 +136,11 @@ class InstallModel extends BaseDatabaseModel
             }
         }
 
+        // No one of installType was able to resolve $package. Nothing to Install.
+        if (!$package) {
+            return false;
+        }
+
         // This event allows a custom installation of the package or a customization of the package:
         $eventBeforeInst = new BeforeInstallerEvent('onInstallerBeforeInstaller', [
             'subject' => $this,
