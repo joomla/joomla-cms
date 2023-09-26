@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0e67017f11ee2998ba0426eb2d563b40",
+    "content-hash": "7832a24f3afbe5ae42cc2f56700e7e5f",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -2740,16 +2740,16 @@
         },
         {
             "name": "maximebf/debugbar",
-            "version": "v1.18.2",
+            "version": "v1.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "17dcf3f6ed112bb85a37cf13538fd8de49f5c274"
+                "reference": "30f65f18f7ac086255a77a079f8e0dcdd35e828e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/17dcf3f6ed112bb85a37cf13538fd8de49f5c274",
-                "reference": "17dcf3f6ed112bb85a37cf13538fd8de49f5c274",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/30f65f18f7ac086255a77a079f8e0dcdd35e828e",
+                "reference": "30f65f18f7ac086255a77a079f8e0dcdd35e828e",
                 "shasum": ""
             },
             "require": {
@@ -2800,9 +2800,9 @@
             ],
             "support": {
                 "issues": "https://github.com/maximebf/php-debugbar/issues",
-                "source": "https://github.com/maximebf/php-debugbar/tree/v1.18.2"
+                "source": "https://github.com/maximebf/php-debugbar/tree/v1.19.0"
             },
-            "time": "2023-02-04T15:27:00+00:00"
+            "time": "2023-09-19T19:53:10+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",

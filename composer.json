@@ -84,7 +84,7 @@
     "symfony/yaml": "^6.3.3",
     "typo3/phar-stream-wrapper": "^3.1.7",
     "wamania/php-stemmer": "^3.0.1",
-    "maximebf/debugbar": "^1.18.2",
+    "maximebf/debugbar": "^1.19.0",
     "tobscure/json-api": "dev-joomla-backports",
     "willdurand/negotiation": "^3.1.0",
     "ext-json": "*",
