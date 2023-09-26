@@ -75,6 +75,8 @@ describe('Test that users API endpoint', () => {
         .its('name')
         .should('include', 'test'))
       .then(() => {
+				// This here is an exception, we should not mix UI tests with API tests
+				// Passwords can only be tested through the web interface
         cy.visit('/index.php?option=com_users&view=login');
         cy.get('#username').type('test');
         cy.get('#password').type('test');
