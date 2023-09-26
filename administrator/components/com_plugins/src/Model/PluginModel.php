@@ -355,6 +355,7 @@ class PluginModel extends AdminModel
 
                 if (!empty($data['enabled'])) {
                     // Plugin was previously disabled
+                    PluginHelper::reload();
                     $plugin = Factory::getApplication()->bootPlugin($data['element'], $data['folder']);
 
                     $onAfterSaveEventHandler = 'onExtensionAfterSave';
