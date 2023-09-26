@@ -357,13 +357,23 @@ class PluginModel extends AdminModel
                     // Plugin was previously disabled
                     $plugin = Factory::getApplication()->bootPlugin($data['element'], $data['folder']);
 
+                    $onAfterSaveEventHandler = 'onExtensionAfterSave';
+                    
+                    if (method_exists($plugin, 'getSubscribedEvents')) {
+                        $subscribedEvents = $plugin::getSubscribedEvents();
+                        
+                        if (!empty($subscribedEvents[$onAfterSaveEventHandler])) {
+                            $onAfterSaveEventHandler = $subscribedEvents[$onAfterSaveEventHandler];
+                        }
+                    }
+
                     // Execute onExtensionAfterSave(), if it exists, for this plugin ONLY.
-	                if (method_exists($plugin, 'onExtensionAfterSave'))
-	                {
-						$table = null;
-						$isNew = false;
-		                $plugin->onExtensionAfterSave('com_plugins.plugin', $table, $isNew, $data);
-	                }
+                    if (method_exists($plugin, $onAfterSaveEventHandler))
+                    {
+                        $table = null;
+                        $isNew = false;
+                        $plugin->$onAfterSaveEventHandler('com_plugins.plugin', $table, $isNew, $data);
+                    }
                 }
             }
             else {
