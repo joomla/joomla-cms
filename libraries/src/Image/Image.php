@@ -125,9 +125,7 @@ class Image
             static::$formats[IMAGETYPE_WEBP] = $info['WebP Support'];
         }
 
-        /**
-         * If the source input is a resource, set it as the image handle.
-         */
+        // If the source input is a resource, set it as the image handle.
         if ($source && (\is_object($source) && get_class($source) == 'GdImage')) {
             $this->handle = $source;
         } elseif (!empty($source) && \is_string($source)) {
