@@ -61,7 +61,9 @@
 
       @if $enable-dark-mode {
         @include color-mode(dark) {
+          /* stylelint-disable max-nesting-depth */
           &:not(.com-users-methods-list-method-active) .com-users-methods-list-method-header {
+            /* stylelint-enable max-nesting-depth */
             background-color: var(--dark-bg-subtle);
           }
         }
@@ -86,7 +88,9 @@
 
       @if $enable-dark-mode {
         @include color-mode(dark) {
+          /* stylelint-disable max-nesting-depth */
           .com-users-methods-list-method-image {
+            /* stylelint-enable max-nesting-depth */
             background-color: var(--dark-bg-subtle);
           }
         }
