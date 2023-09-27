@@ -2040,7 +2040,7 @@ ENDDATA;
         }
 
         if (version_compare($versionPackage, $currentVersion, 'lt')) {
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_DOWNGRADE'), 500);
+            throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_DOWNGRADE', $versionPackage, $currentVersion), 500);
         }
     }
 }
