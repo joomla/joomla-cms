@@ -58,7 +58,7 @@ class BeforeUninstallEvent extends AbstractExtensionEvent
      *
      * @since  5.0.0
      */
-    protected function setEid(int $value): int
+    protected function onSetEid(int $value): int
     {
         return $value;
     }

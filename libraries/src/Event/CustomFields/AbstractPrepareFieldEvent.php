@@ -62,7 +62,7 @@ abstract class AbstractPrepareFieldEvent extends CustomFieldsEvent
      *
      * @since  5.0.0
      */
-    protected function setContext(string $value): string
+    protected function onSetContext(string $value): string
     {
         return $value;
     }
@@ -76,7 +76,7 @@ abstract class AbstractPrepareFieldEvent extends CustomFieldsEvent
      *
      * @since  5.0.0
      */
-    protected function setItem(object $value): object
+    protected function onSetItem(object $value): object
     {
         return $value;
     }

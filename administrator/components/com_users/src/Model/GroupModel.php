@@ -11,6 +11,8 @@
 namespace Joomla\Component\Users\Administrator\Model;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Event\User\UserGroupAfterDeleteEvent;
+use Joomla\CMS\Event\User\UserGroupBeforeDeleteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -239,15 +241,17 @@ class GroupModel extends AdminModel
     public function delete(&$pks)
     {
         // Typecast variable.
-        $pks    = (array) $pks;
-        $user   = $this->getCurrentUser();
-        $groups = Access::getGroupsByUser($user->get('id'));
+        $pks        = (array) $pks;
+        $user       = $this->getCurrentUser();
+        $groups     = Access::getGroupsByUser($user->get('id'));
+        $context    = $this->option . '.' . $this->name;
+        $dispatcher = $this->getDispatcher();
 
         // Get a row instance.
         $table = $this->getTable();
 
         // Load plugins.
-        PluginHelper::importPlugin($this->events_map['delete']);
+        PluginHelper::importPlugin($this->events_map['delete'], null, true, $dispatcher);
 
         // Check if I am a Super Admin
         $iAmSuperAdmin = $user->authorise('core.admin');
@@ -258,7 +262,9 @@ class GroupModel extends AdminModel
                 Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_DELETE_ERROR_INVALID_GROUP'), 'error');
 
                 return false;
-            } elseif (!$table->load($pk)) {
+            }
+
+            if (!$table->load($pk)) {
                 // Item is not in the table.
                 $this->setError($table->getError());
 
@@ -277,16 +283,33 @@ class GroupModel extends AdminModel
 
                 if ($allow) {
                     // Fire the before delete event.
-                    Factory::getApplication()->triggerEvent($this->event_before_delete, [$table->getProperties()]);
+                    $beforeDeleteEvent = new UserGroupBeforeDeleteEvent($this->event_before_delete, [
+                        'data'    => $table->getProperties(), // @TODO: Remove data argument in Joomla 6, see UserGroupBeforeDeleteEvent
+                        'context' => $context,
+                        'subject' => $table,
+                    ]);
+                    $result = $dispatcher->dispatch($this->event_before_delete, $beforeDeleteEvent)->getArgument('result', []);
+
+                    if (\in_array(false, $result, true)) {
+                        $this->setError($table->getError());
+
+                        return false;
+                    }
 
                     if (!$table->delete($pk)) {
                         $this->setError($table->getError());
 
                         return false;
-                    } else {
-                        // Trigger the after delete event.
-                        Factory::getApplication()->triggerEvent($this->event_after_delete, [$table->getProperties(), true, $this->getError()]);
                     }
+
+                    // Trigger the after delete event.
+                    $dispatcher->dispatch($this->event_after_delete, new UserGroupAfterDeleteEvent($this->event_after_delete, [
+                        'data'           => $table->getProperties(), // @TODO: Remove data argument in Joomla 6, see UserGroupAfterDeleteEvent
+                        'deletingResult' => true, // @TODO: Remove deletingResult argument in Joomla 6, see UserGroupAfterDeleteEvent
+                        'errorMessage'   => $this->getError(), // @TODO: Remove errorMessage argument in Joomla 6, see UserGroupAfterDeleteEvent
+                        'context'        => $context,
+                        'subject'        => $table,
+                    ]));
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);

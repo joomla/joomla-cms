@@ -130,7 +130,7 @@ class HtmlView extends BaseHtmlView
                     $childBar->save2new('field.save2new');
                 }
             );
-            $toolbar->cancel('field.cancel');
+            $toolbar->cancel('field.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);

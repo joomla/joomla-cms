@@ -61,6 +61,9 @@ class BeforeMoveEvent extends AbstractEvent
      * @return  mixed
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 5.0.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setQuery($value)
     {
@@ -79,6 +82,9 @@ class BeforeMoveEvent extends AbstractEvent
      * @return  integer
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 5.0.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setDelta($value)
     {
@@ -97,6 +103,9 @@ class BeforeMoveEvent extends AbstractEvent
      * @return  mixed
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 5.0.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setWhere($value)
     {
@@ -105,5 +114,53 @@ class BeforeMoveEvent extends AbstractEvent
         }
 
         return $value;
+    }
+
+    /**
+     * Setter for the query argument
+     *
+     * @param   DatabaseQuery  $value  The value to set
+     *
+     * @return  mixed
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  5.0.0
+     */
+    protected function onSetQuery($value)
+    {
+        return $this->setQuery($value);
+    }
+
+    /**
+     * Setter for the delta argument
+     *
+     * @param   int  $value  The value to set
+     *
+     * @return  integer
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  5.0.0
+     */
+    protected function onSetDelta($value)
+    {
+        return $this->setDelta($value);
+    }
+
+    /**
+     * Setter for the where argument
+     *
+     * @param   string|null  $value  The value to set
+     *
+     * @return  mixed
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  5.0.0
+     */
+    protected function onSetWhere($value)
+    {
+        return $this->setWhere($value);
     }
 }

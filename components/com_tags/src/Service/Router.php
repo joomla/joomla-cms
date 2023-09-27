@@ -89,7 +89,7 @@ class Router extends RouterBase
         }
 
         // Get query language
-        $lang = isset($query['lang']) ? $query['lang'] : '*';
+        $lang = $query['lang'] ?? '*';
 
         // Set the language to the current one when multilang is enabled and item is tagged to ALL
         if (Multilanguage::isEnabled() && $lang === '*') {
@@ -97,15 +97,17 @@ class Router extends RouterBase
         }
 
         foreach (array_unique([$lang, '*']) as $language) {
-            if (isset($query['view']) && $query['view'] == 'tags') {
+            if (isset($query['view']) && $query['view'] === 'tags') {
                 if (isset($query['parent_id']) && isset($this->lookup[$language]['tags'][$query['parent_id']])) {
                     $query['Itemid'] = $this->lookup[$language]['tags'][$query['parent_id']];
                     break;
-                } elseif (isset($this->lookup[$language]['tags'][0])) {
+                }
+
+                if (isset($this->lookup[$language]['tags'][0])) {
                     $query['Itemid'] = $this->lookup[$language]['tags'][0];
                     break;
                 }
-            } elseif (isset($query['view']) && $query['view'] == 'tag') {
+            } elseif (isset($query['view']) && $query['view'] === 'tag') {
                 if (isset($query['id'])) {
                     if (!is_array($query['id'])) {
                         $query['id'] = [$query['id']];
@@ -117,12 +119,12 @@ class Router extends RouterBase
                     if (isset($this->lookup[$language]['tag'][implode(',', $id)])) {
                         $query['Itemid'] = $this->lookup[$language]['tag'][implode(',', $id)];
                         break;
-                    } else {
-                        foreach ($id as $i) {
-                            if (isset($this->lookup[$language]['tag'][$i])) {
-                                $query['Itemid'] = $this->lookup[$language]['tag'][$i];
-                                break 2;
-                            }
+                    }
+
+                    foreach ($id as $i) {
+                        if (isset($this->lookup[$language]['tag'][$i])) {
+                            $query['Itemid'] = $this->lookup[$language]['tag'][$i];
+                            break 2;
                         }
                     }
 
@@ -296,7 +298,7 @@ class Router extends RouterBase
             }
 
             if ($item->query['view'] == 'tags') {
-                $id                                         = (int) (isset($item->query['parent_id']) ? $item->query['parent_id'] : 0);
+                $id                                         = (int) ($item->query['parent_id'] ?? 0);
                 $this->lookup[$item->language]['tags'][$id] = $item->id;
             }
         }

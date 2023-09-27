@@ -53,19 +53,6 @@ final class ActionLogs extends CMSPlugin
     }
 
     /**
-     * Listener for the `onAfterInitialise` event
-     *
-     * @return  void
-     *
-     * @since   4.0.0
-     */
-    public function onAfterInitialise()
-    {
-        // Load plugin language files.
-        $this->loadLanguage();
-    }
-
-    /**
      * Adds additional fields to the user editing form for logs e-mail notifications
      *
      * @param   Form   $form  The form to be altered.
@@ -99,6 +86,9 @@ final class ActionLogs extends CMSPlugin
         if (!$user || !$user->authorise('core.admin')) {
             return true;
         }
+
+        // Load plugin language files.
+        $this->loadLanguage();
 
         // If we are on the save command, no data is passed to $data variable, we need to get it directly from request
         $jformData = $this->getApplication()->getInput()->get('jform', [], 'array');
@@ -174,6 +164,9 @@ final class ActionLogs extends CMSPlugin
         if (!$values) {
             return true;
         }
+
+        // Load plugin language files.
+        $this->loadLanguage();
 
         $data->actionlogs                       = new \stdClass();
         $data->actionlogs->actionlogsNotify     = $values->notify;

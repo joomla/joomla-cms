@@ -76,7 +76,7 @@ class AfterCleanCacheEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setDefaultgroup(string $value): string
+    protected function onSetDefaultgroup(string $value): string
     {
         return $value;
     }
@@ -90,7 +90,7 @@ class AfterCleanCacheEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setCachebase(string $value): string
+    protected function onSetCachebase(string $value): string
     {
         return $value;
     }
@@ -104,7 +104,7 @@ class AfterCleanCacheEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setResult(bool $value): bool
+    protected function onSetResult(bool $value): bool
     {
         return $value;
     }

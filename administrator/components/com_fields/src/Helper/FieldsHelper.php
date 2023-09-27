@@ -238,7 +238,7 @@ class FieldsHelper
                         'context' => $context,
                         'item'    => $item,
                         'subject' => $field,
-                        'value'   => &$value, // TODO: Remove reference in Joomla 6, see AfterPrepareFieldEvent::__constructor()
+                        'value'   => &$value, // @todo: Remove reference in Joomla 6, see AfterPrepareFieldEvent::__constructor()
                     ]);
                     $dispatcher->dispatch('onCustomFieldsAfterPrepareField', $eventAfter);
                     $value = $eventAfter->getValue();
@@ -554,7 +554,9 @@ class FieldsHelper
         // Detect if the field should be shown at all
         if ($field->params->get('show_on') == 1 && $app->isClient('administrator')) {
             return false;
-        } elseif ($field->params->get('show_on') == 2 && $app->isClient('site')) {
+        }
+
+        if ($field->params->get('show_on') == 2 && $app->isClient('site')) {
             return false;
         }
 

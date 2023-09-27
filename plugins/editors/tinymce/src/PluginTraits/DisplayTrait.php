@@ -12,7 +12,6 @@ namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
@@ -46,7 +45,7 @@ trait DisplayTrait
      *
      * @return  string  The HTML markup of the editor
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function display(string $name, string $content = '', array $attributes = [], array $params = []): string
     {
@@ -74,6 +73,9 @@ trait DisplayTrait
         $scriptOptions   = [];
         $externalPlugins = [];
         $theme           = 'silver';
+
+        // Register assets
+        $wa->getRegistry()->addExtensionRegistryFile('plg_editors_tinymce');
 
         // Data object for the layout
         $textarea           = new \stdClass();
@@ -248,7 +250,9 @@ trait DisplayTrait
             'lists',
             'importcss',
             'quickbars',
+            'jxtdbuttons',
         ];
+        $wa->useScript('plg_editors_tinymce.jxtdbuttons');
 
         // Allowed elements
         $elements = [
@@ -300,10 +304,6 @@ trait DisplayTrait
             }
         }
 
-        $jtemplates = !empty($allButtons['jtemplate'])
-            ? Uri::base(true) . '/index.php?option=com_ajax&plugin=tinymce&group=editors&format=json&format=json&template=' . $levelParams->get('content_template_path') . '&' . $csrf . '=1'
-            : false;
-
         // Check for extra plugins, from the setoptions form
         foreach (['wordcount' => 1, 'advlist' => 1, 'autosave' => 1] as $pName => $def) {
             if ($levelParams->get($pName, $def)) {
@@ -313,29 +313,18 @@ trait DisplayTrait
 
         // Use CodeMirror in the code view instead of plain text to provide syntax highlighting
         if ($levelParams->get('sourcecode', 1)) {
-            // Check whether the plugin registered
-            if (!$wa->assetExists('script', 'plg_editors_tinymce_highlighter')) {
-                $wa->getRegistry()->addExtensionRegistryFile('plg_editors_codemirror');
-                $wa->registerScript(
-                    'plg_editors_tinymce_highlighter',
-                    'plg_editors_tinymce/plugins/joomla-highlighter/plugin.min.js',
-                    [],
-                    ['type' => 'module'],
-                    ['core', 'tinymce', 'codemirror']
-                );
-            }
-
             // Enable joomla-highlighter plugin
-            $wa->useScript('plg_editors_tinymce_highlighter');
+            $wa->getRegistry()->addExtensionRegistryFile('plg_editors_codemirror');
+            $wa->useScript('plg_editors_tinymce.highlighter');
             $plugins[] = 'joomlaHighlighter';
         }
 
         $dragdrop = $levelParams->get('drag_drop', 1);
 
         if ($dragdrop && $user->authorise('core.create', 'com_media')) {
-            $externalPlugins['jdragndrop'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dragdrop/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
-            $uploadUrl                     = Uri::base(false) . 'index.php?option=com_media&format=json&url=1&task=api.files';
-            $uploadUrl                     = $app->isClient('site') ? htmlentities($uploadUrl, ENT_NOQUOTES, 'UTF-8', false) : $uploadUrl;
+            $wa->useScript('plg_editors_tinymce.jdragndrop');
+            $plugins[] = 'jdragndrop';
+            $uploadUrl = Uri::base(true) . '/index.php?option=com_media&format=json&url=1&task=api.files';
 
             Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
             Text::script('ERROR');
@@ -368,6 +357,15 @@ trait DisplayTrait
             }
         }
 
+        // Should load the template plugin?
+        if (!empty($allButtons['jtemplate'])) {
+            $wa->useScript('plg_editors_tinymce.jtemplate');
+            $plugins[] = 'jtemplate';
+
+            $scriptOptions['jtemplates'] = Uri::base(true) . '/index.php?option=com_ajax&plugin=tinymce&group=editors&format=json&format=json&template='
+                . $levelParams->get('content_template_path') . '&' . $csrf . '=1';
+        }
+
         // User custom plugins and buttons
         $custom_plugin = trim($levelParams->get('custom_plugin', ''));
         $custom_button = trim($levelParams->get('custom_button', ''));
@@ -382,11 +380,6 @@ trait DisplayTrait
 
         // Merge the two toolbars for backwards compatibility
         $toolbar = array_merge($toolbar1, $toolbar2);
-
-        // Should load the templates plugin?
-        if (in_array('jtemplate', $toolbar)) {
-            $externalPlugins['jtemplate'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/jtemplate/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
-        }
 
         // Build the final options set
         $scriptOptions   = array_merge(
@@ -441,7 +434,6 @@ trait DisplayTrait
                 'width'             => $this->params->get('html_width', ''),
                 'elementpath'       => (bool) $levelParams->get('element_path', true),
                 'resize'            => $resizing,
-                'jtemplates'        => $jtemplates,
                 'external_plugins'  => empty($externalPlugins) ? null : $externalPlugins,
                 'contextmenu'       => (bool) $levelParams->get('contextmenu', true) ? null : false,
                 'toolbar_sticky'    => true,

@@ -12,6 +12,7 @@ namespace Joomla\CMS\MVC\View;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
@@ -172,7 +173,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
         $beforeDisplayEvent = AbstractEvent::create(
             'onBeforeDisplay',
             [
-                'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
+                'eventClass' => DisplayEvent::class,
                 'subject'    => $this,
                 'extension'  => $context
             ]
@@ -184,7 +185,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
         $afterDisplayEvent = AbstractEvent::create(
             'onAfterDisplay',
             [
-                'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
+                'eventClass' => DisplayEvent::class,
                 'subject'    => $this,
                 'extension'  => $context,
                 'source'     => $result
@@ -346,8 +347,8 @@ class HtmlView extends AbstractView implements CurrentUserInterface
         // Change the template folder if alternative layout is in different template
         if (isset($layoutTemplate) && $layoutTemplate !== '_' && $layoutTemplate != $template->template) {
             $this->_path['template'] = str_replace(
-                JPATH_THEMES . DIRECTORY_SEPARATOR . $template->template,
-                JPATH_THEMES . DIRECTORY_SEPARATOR . $layoutTemplate,
+                JPATH_THEMES . DIRECTORY_SEPARATOR . $template->template . DIRECTORY_SEPARATOR,
+                JPATH_THEMES . DIRECTORY_SEPARATOR . $layoutTemplate . DIRECTORY_SEPARATOR,
                 $this->_path['template']
             );
         }

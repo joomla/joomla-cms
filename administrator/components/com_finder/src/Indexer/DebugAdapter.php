@@ -161,7 +161,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -277,7 +277,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  integer
      *
-     * @since   _5.0.0
+     * @since   5.0.0
      */
     public function onFinderGarbageCollection()
     {
