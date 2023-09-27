@@ -18,7 +18,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       __DEPLOY_VERSION__
+ * @since       5.0.0
  */
 class ShowOnRuleTest extends UnitTestCase
 {
@@ -27,7 +27,7 @@ class ShowOnRuleTest extends UnitTestCase
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function dataTest(): array
     {
@@ -82,7 +82,7 @@ class ShowOnRuleTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @dataProvider dataTest
      */
     public function testRule(bool $expected, \SimpleXMLElement $element, string $value): void
