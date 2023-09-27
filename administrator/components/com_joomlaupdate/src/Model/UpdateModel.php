@@ -1794,7 +1794,7 @@ ENDDATA;
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  \RuntimeException
      */
     private function checkPackageFileZip(string $filePath)
@@ -1826,7 +1826,7 @@ ENDDATA;
      * @return  void
      *
      * @see     https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  \RuntimeException
      */
     private function checkPackageFileNoZip(string $filePath)
@@ -1991,7 +1991,7 @@ ENDDATA;
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  \RuntimeException
      */
     private function checkManifestXML(string $manifest)
