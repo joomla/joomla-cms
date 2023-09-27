@@ -4,6 +4,7 @@ describe('Test that config API endpoint', () => {
       .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
         .its('id')
         .should('equal', 237));
+    /* it's the extension_id of the "files_joomla" */
   });
 
   it('can modify a single application config', () => {
