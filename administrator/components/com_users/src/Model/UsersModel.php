@@ -312,7 +312,7 @@ class UsersModel extends ListModel
                 )
                 ->from($db->quoteName('#__user_mfa'))
                 ->group($db->quoteName('user_id'));
-            $query->select($db->quoteName('mfa.mfaRecords'))
+            $query->select('MAX(' . $db->quoteName('mfa.mfaRecords') . ') AS ' . $db->quoteName('mfaRecords'))
                 ->join(
                     'left',
                     '(' . $subQuery . ') AS ' . $db->quoteName('mfa'),
