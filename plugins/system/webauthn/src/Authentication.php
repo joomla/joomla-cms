@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn;
 
-use Exception;
 use Joomla\Application\ApplicationInterface;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\HTML\HTMLHelper;

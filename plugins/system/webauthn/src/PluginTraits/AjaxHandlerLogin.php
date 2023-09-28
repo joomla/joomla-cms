@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Exception;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Authentication\AuthenticationResponse;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxLogin;

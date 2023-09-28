@@ -10,12 +10,10 @@
 
 namespace Joomla\Plugin\Task\SessionGC\Extension;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
-use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;

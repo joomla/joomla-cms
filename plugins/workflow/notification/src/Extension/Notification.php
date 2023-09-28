@@ -13,7 +13,6 @@ namespace Joomla\Plugin\Workflow\Notification\Extension;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;

@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Helper;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Document\HtmlDocument;
