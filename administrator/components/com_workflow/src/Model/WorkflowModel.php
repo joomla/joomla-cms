@@ -296,15 +296,17 @@ class WorkflowModel extends AdminModel
                     ]
                 )
             ) {
-                $table->default  = 0;
-                $table->modified = $date;
+                $table->default     = 0;
+                $table->modified    = $date;
+                $table->modified_by = $this->getCurrentUser()->id;
                 $table->store();
             }
         }
 
         if ($table->load($pk)) {
-            $table->modified = $date;
-            $table->default  = $value;
+            $table->default     = $value;
+            $table->modified    = $date;
+            $table->modified_by = $this->getCurrentUser()->id;
             $table->store();
         }
 
@@ -389,10 +391,18 @@ class WorkflowModel extends AdminModel
             return true;
         }
 
-        $table->load($pk);
-        $table->modified = $date;
-        $table->store();
+        $result = parent::publish($pks, $value);
 
-        return parent::publish($pks, $value);
+        if ($result) {
+            foreach ($pks as $pk) {
+                if ($table->load($pk)) {
+                    $table->modified    = $date;
+                    $table->modified_by = $this->getCurrentUser()->id;
+                    $table->store();
+                }
+            }
+        }
+
+        return $result;
     }
 }
