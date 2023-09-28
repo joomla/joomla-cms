@@ -12,6 +12,8 @@ namespace Joomla\Plugin\System\Jooa11y\Extension;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\Event;
+use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -32,11 +34,11 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
      *
      * @since 4.1.0
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public static function getSubscribedEvents(): array
     {
-        return ['onBeforeCompileHead' => 'initJooa11y'];
+        return ['onAfterRoute' => ['initJooa11y', Priority::HIGH]];
     }
 
     /**
@@ -73,7 +75,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Add the checker.
+     * Init the checker.
      *
      * @return  void
      *
@@ -93,10 +95,34 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        // Disable page cache
+        $this->getDispatcher()->addListener(
+            'onPageCacheSetCaching',
+            static function (Event $event) {
+                $results         = $event['result'] ?: [];
+                $results[]       = false;
+                $event['result'] = $results;
+            }
+        );
+
+        // Register own event to add the checker later, once a document is created
+        $this->getDispatcher()->addListener('onBeforeCompileHead', [$this, 'addJooa11y']);
+    }
+
+    /**
+     * Add the checker.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function addJooa11y()
+    {
         // Load translations
         $this->loadLanguage();
 
         // Get the document object.
+        /** @var \Joomla\CMS\Document\HtmlDocument $document */
         $document = $this->getApplication()->getDocument();
 
         // Add plugin settings from the xml
@@ -246,14 +272,11 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
             Text::script($constant);
         }
 
-        /** @var Joomla\CMS\WebAsset\WebAssetManager $wa*/
         $wa = $document->getWebAssetManager();
 
         $wa->getRegistry()->addRegistryFile('media/plg_system_jooa11y/joomla.asset.json');
 
         $wa->useScript('plg_system_jooa11y.jooa11y')
             ->useStyle('plg_system_jooa11y.jooa11y');
-
-        return true;
     }
 }
