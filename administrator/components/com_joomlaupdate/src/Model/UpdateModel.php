@@ -1788,13 +1788,13 @@ ENDDATA;
     }
 
     /**
-     * Check the update package with ZipArchive classs from zip PHP extension
+     * Check the update package with ZipArchive class from zip PHP extension
      *
      * @param   string  $filePath  Full path to the update package to test
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  \RuntimeException
      */
     private function checkPackageFileZip(string $filePath)
@@ -1819,14 +1819,14 @@ ENDDATA;
     }
 
     /**
-     * Check the update package without using the ZipArchive classs from zip PHP extension
+     * Check the update package without using the ZipArchive class from zip PHP extension
      *
      * @param   string  $filePath  Full path to the update package to test
      *
      * @return  void
      *
      * @see     https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  \RuntimeException
      */
     private function checkPackageFileNoZip(string $filePath)
@@ -1991,7 +1991,7 @@ ENDDATA;
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  \RuntimeException
      */
     private function checkManifestXML(string $manifest)

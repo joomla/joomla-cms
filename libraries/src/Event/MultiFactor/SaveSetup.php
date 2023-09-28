@@ -59,7 +59,7 @@ class SaveSetup extends AbstractImmutableEvent implements ResultAwareInterface
      * @return  MfaTable
      * @since   4.2.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 5.0.0 will be removed in 6.0
      *                Use counterpart with onSet prefix
      */
     public function setRecord(MfaTable $value): MfaTable
@@ -79,7 +79,7 @@ class SaveSetup extends AbstractImmutableEvent implements ResultAwareInterface
      * @return  Input
      * @since   4.2.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 5.0.0 will be removed in 6.0
      *                Use counterpart with onSet prefix
      */
     public function setInput(Input $value): Input
@@ -97,7 +97,7 @@ class SaveSetup extends AbstractImmutableEvent implements ResultAwareInterface
      * @param   MfaTable  $value  The value to validate
      *
      * @return  MfaTable
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function onSetRecord(MfaTable $value): MfaTable
     {
@@ -110,7 +110,7 @@ class SaveSetup extends AbstractImmutableEvent implements ResultAwareInterface
      * @param   Input  $value  The value to validate
      *
      * @return  Input
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function onSetInput(Input $value): Input
     {
