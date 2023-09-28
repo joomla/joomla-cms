@@ -166,7 +166,7 @@ abstract class HTMLHelper
                     throw new \InvalidArgumentException(sprintf('%s not found.', $className), 500);
                 }
 
-                // @deprecated with 5.0 remove with 6.0 or 7.0 (depends of other relevant code)
+                // @deprecated with 5.0 remove with 6.0 or 7.0 (depends on other relevant code)
                 $className = 'JHtml' . ucfirst($file);
 
                 \JLoader::register($className, $path);
@@ -945,11 +945,7 @@ abstract class HTMLHelper
                 }
             }
 
-            if (isset($title['title'])) {
-                $title = $title['title'];
-            } else {
-                $title = '';
-            }
+            $title = $title['title'] ?? '';
         }
 
         if (!$text) {

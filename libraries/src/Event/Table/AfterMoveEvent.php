@@ -62,7 +62,7 @@ class AfterMoveEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 5.0.0 will be removed in 6.0
      *                Use counterpart with onSet prefix
      */
     protected function setRow($value)
@@ -83,7 +83,7 @@ class AfterMoveEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 5.0.0 will be removed in 6.0
      *                Use counterpart with onSet prefix
      */
     protected function setDelta($value)
@@ -104,7 +104,7 @@ class AfterMoveEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 5.0.0 will be removed in 6.0
      *                Use counterpart with onSet prefix
      */
     protected function setWhere($value)
@@ -125,7 +125,7 @@ class AfterMoveEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function onSetRow($value)
     {
@@ -141,7 +141,7 @@ class AfterMoveEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function onSetDelta($value)
     {
@@ -157,7 +157,7 @@ class AfterMoveEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function onSetWhere($value)
     {

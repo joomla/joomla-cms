@@ -1107,4 +1107,34 @@ class TagsHelper extends CMSHelper
 
         return (bool) $db->execute();
     }
+
+    /**
+     * Function that converts tag ids to their tag id and tag names
+     *
+     * @param   array  $tagIds  Array of integer tag ids.
+     *
+     * @return  array  An array of tag id and name.
+     *
+     * @since   5.0.0
+     */
+    public function getTags($tagIds)
+    {
+        $tagNames = [];
+
+        if (\is_array($tagIds) && \count($tagIds) > 0) {
+            $tagIds = ArrayHelper::toInteger($tagIds);
+
+            $db    = Factory::getDbo();
+            $query = $db->getQuery(true)
+                ->select([$db->quoteName('id'), $db->quoteName('title')])
+                ->from($db->quoteName('#__tags'))
+                ->whereIn($db->quoteName('id'), $tagIds)
+                ->order($db->quoteName('title'));
+
+            $db->setQuery($query);
+            $tagNames = $db->loadAssocList('id', 'title');
+        }
+
+        return $tagNames;
+    }
 }

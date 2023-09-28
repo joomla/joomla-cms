@@ -55,7 +55,7 @@ class BeforeBindEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 5.0.0 will be removed in 6.0
      *                Use counterpart with onSet prefix
      */
     protected function setSrc($value)
@@ -76,7 +76,7 @@ class BeforeBindEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 5.0.0 will be removed in 6.0
      *                Use counterpart with onSet prefix
      */
     protected function setIgnore($value)
@@ -97,7 +97,7 @@ class BeforeBindEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function onSetSrc($value)
     {
@@ -113,7 +113,7 @@ class BeforeBindEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function onSetIgnore($value)
     {
