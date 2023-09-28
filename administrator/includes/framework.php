@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Version;
 use Joomla\Utilities\IpHelper;
 
@@ -85,7 +86,7 @@ if (empty($config->log_deprecated)) {
     set_error_handler(null, E_USER_DEPRECATED);
 } else {
     // Make sure handler for E_USER_DEPRECATED is registered
-    set_error_handler(['Joomla\CMS\Exception\ExceptionHandler', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
+    set_error_handler([ExceptionHandler::class, 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
 }
 
 if (JDEBUG || $config->error_reporting === 'maximum') {

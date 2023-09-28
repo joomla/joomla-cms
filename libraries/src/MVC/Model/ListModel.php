@@ -415,7 +415,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
     {
         // Try to locate the filter form automatically. Example: ContentModelArticles => "filter_articles"
         if (empty($this->filterFormName)) {
-            $classNameParts = explode('Model', \get_called_class());
+            $classNameParts = explode('Model', static::class);
 
             if (\count($classNameParts) >= 2) {
                 $this->filterFormName = 'filter_' . str_replace('\\', '', strtolower($classNameParts[1]));

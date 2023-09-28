@@ -12,6 +12,7 @@ namespace Joomla\CMS\Table;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Event\DispatcherInterface;
+use Joomla\CMS\Table\TableInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -146,7 +147,7 @@ class ContentType extends Table
             if (\is_object($tableInfo->special) && isset($tableInfo->special->type) && isset($tableInfo->special->prefix)) {
                 $class = $tableInfo->special->class ?? 'Joomla\\CMS\\Table\\Table';
 
-                if (!class_implements($class, 'Joomla\\CMS\\Table\\TableInterface')) {
+                if (!class_implements($class, TableInterface::class)) {
                     // This isn't an instance of TableInterface. Stop.
                     throw new \RuntimeException('Class must be an instance of Joomla\\CMS\\Table\\TableInterface');
                 }

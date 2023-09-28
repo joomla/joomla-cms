@@ -24,6 +24,7 @@ use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Registry\Registry;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Component\ComponentHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -417,7 +418,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 
         // Detect the field type if not set
         if (!isset($this->type)) {
-            $parts = Normalise::fromCamelCase(\get_called_class(), true);
+            $parts = Normalise::fromCamelCase(static::class, true);
 
             if ($parts[0] === 'J') {
                 $this->type = StringHelper::ucfirst($parts[\count($parts) - 1], '_');
@@ -1097,7 +1098,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                             \get_class($this),
                             $this->element['name'],
                             $class,
-                            '\\Joomla\\CMS\\Component\\ComponentHelper'
+                            ComponentHelper::class
                         )
                     );
                 }

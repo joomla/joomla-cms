@@ -17,6 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -95,12 +96,12 @@ abstract class HTMLHelper
             );
         }
 
-        $prefix = \count($parts) === 3 ? array_shift($parts) : 'Joomla\\CMS\\HTML\\HTMLHelper';
+        $prefix = \count($parts) === 3 ? array_shift($parts) : HTMLHelper::class;
         $file   = \count($parts) === 2 ? array_shift($parts) : '';
         $func   = array_shift($parts);
 
         if (strtolower($prefix) === 'jhtml') {
-            $prefix = 'Joomla\\CMS\\HTML\\HTMLHelper';
+            $prefix = HTMLHelper::class;
         }
 
         return [strtolower($prefix . '.' . $file . '.' . $func), $prefix, $file, $func];

@@ -11,10 +11,11 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Module\TagsSimilar\Site\Helper\TagsSimilarHelper;
 
 $cacheparams               = new \stdClass();
 $cacheparams->cachemode    = 'safeuri';
-$cacheparams->class        = 'Joomla\Module\TagsSimilar\Site\Helper\TagsSimilarHelper';
+$cacheparams->class        = TagsSimilarHelper::class;
 $cacheparams->method       = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams   = ['id' => 'array', 'Itemid' => 'int'];
