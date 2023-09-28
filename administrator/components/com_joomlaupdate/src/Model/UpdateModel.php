@@ -1812,7 +1812,7 @@ ENDDATA;
     }
 
     /**
-     * Check the update package with ZipArchive classs from zip PHP extension
+     * Check the update package with ZipArchive class from zip PHP extension
      *
      * @param   string  $filePath  Full path to the update package to test
      *
@@ -1843,7 +1843,7 @@ ENDDATA;
     }
 
     /**
-     * Check the update package without using the ZipArchive classs from zip PHP extension
+     * Check the update package without using the ZipArchive class from zip PHP extension
      *
      * @param   string  $filePath  Full path to the update package to test
      *
