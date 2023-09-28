@@ -107,11 +107,11 @@ abstract class StringHelper
                     $openedTags = array_reverse($openedTags);
 
                     // Close tags
-                    for ($i = 0; $i < $numOpened; $i++) {
-                        if (!in_array($openedTags[$i], $closedTags)) {
-                            $tmp .= '</' . $openedTags[$i] . '>';
+                    foreach ($openedTags as $openedTag) {
+                        if (!in_array($openedTag, $closedTags)) {
+                            $tmp .= '</' . $openedTag . '>';
                         } else {
-                            unset($closedTags[array_search($openedTags[$i], $closedTags)]);
+                            unset($closedTags[array_search($openedTag, $closedTags)]);
                         }
                     }
                 }

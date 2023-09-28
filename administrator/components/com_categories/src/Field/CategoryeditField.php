@@ -242,23 +242,23 @@ class CategoryeditField extends ListField
         }
 
         // Pad the option text with spaces using depth level as a multiplier.
-        for ($i = 0, $n = \count($options); $i < $n; $i++) {
+        foreach ($options as $option) {
             // Translate ROOT
             if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories') {
-                if ($options[$i]->level == 0) {
-                    $options[$i]->text = Text::_('JGLOBAL_ROOT_PARENT');
+                if ($option->level == 0) {
+                    $option->text = Text::_('JGLOBAL_ROOT_PARENT');
                 }
             }
 
-            if ($options[$i]->published == 1) {
-                $options[$i]->text = str_repeat('- ', !$options[$i]->level ? 0 : $options[$i]->level - 1) . $options[$i]->text;
+            if ($option->published == 1) {
+                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . $option->text;
             } else {
-                $options[$i]->text = str_repeat('- ', !$options[$i]->level ? 0 : $options[$i]->level - 1) . '[' . $options[$i]->text . ']';
+                $option->text = str_repeat('- ', !$option->level ? 0 : $option->level - 1) . '[' . $option->text . ']';
             }
 
             // Displays language code if not set to All
-            if ($options[$i]->language !== '*') {
-                $options[$i]->text .= ' (' . $options[$i]->language . ')';
+            if ($option->language !== '*') {
+                $option->text .= ' (' . $option->language . ')';
             }
         }
 

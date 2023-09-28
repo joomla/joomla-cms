@@ -391,8 +391,8 @@ class Query
         $results = [];
 
         // Iterate through the excluded tokens and compile the matching terms.
-        for ($i = 0, $c = count($this->excluded); $i < $c; $i++) {
-            foreach ($this->excluded[$i]->matches as $match) {
+        foreach ($this->excluded as $item) {
+            foreach ($item->matches as $match) {
                 $results = array_merge($results, $match);
             }
         }
@@ -415,14 +415,14 @@ class Query
         $results = [];
 
         // Iterate through the included tokens and compile the matching terms.
-        for ($i = 0, $c = count($this->included); $i < $c; $i++) {
+        foreach ($this->included as $item) {
             // Check if we have any terms.
-            if (empty($this->included[$i]->matches)) {
+            if (empty($item->matches)) {
                 continue;
             }
 
             // Get the term.
-            $term = $this->included[$i]->term;
+            $term = $item->term;
 
             // Prepare the container for the term if necessary.
             if (!array_key_exists($term, $results)) {
@@ -430,7 +430,7 @@ class Query
             }
 
             // Add the matches to the stack.
-            foreach ($this->included[$i]->matches as $match) {
+            foreach ($item->matches as $match) {
                 $results[$term] = array_merge($results[$term], $match);
             }
         }
@@ -456,11 +456,11 @@ class Query
         $results = [];
 
         // Iterate through the included tokens and compile the matching terms.
-        for ($i = 0, $c = count($this->included); $i < $c; $i++) {
+        foreach ($this->included as $item) {
             // Check if the token is required.
-            if ($this->included[$i]->required) {
+            if ($item->required) {
                 // Get the term.
-                $term = $this->included[$i]->term;
+                $term = $item->term;
 
                 // Prepare the container for the term if necessary.
                 if (!array_key_exists($term, $results)) {
@@ -468,7 +468,7 @@ class Query
                 }
 
                 // Add the matches to the stack.
-                foreach ($this->included[$i]->matches as $match) {
+                foreach ($item->matches as $match) {
                     $results[$term] = array_merge($results[$term], $match);
                 }
             }
@@ -1281,12 +1281,12 @@ class Query
         // Check the matching terms.
         if ((bool) $matches) {
             // Add the matches to the token.
-            for ($i = 0, $c = count($matches); $i < $c; $i++) {
-                if (!isset($token->matches[$matches[$i]->term])) {
-                    $token->matches[$matches[$i]->term] = [];
+            foreach ($matches as $item) {
+                if (!isset($token->matches[$item->term])) {
+                    $token->matches[$item->term] = [];
                 }
 
-                $token->matches[$matches[$i]->term][] = (int) $matches[$i]->term_id;
+                $token->matches[$item->term][] = (int) $item->term_id;
             }
         }
 

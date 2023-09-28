@@ -427,12 +427,12 @@ final class Blog extends CMSPlugin
             ];
 
             // Create Transitions.
-            for ($i = 0; $i < count($fromTo); $i++) {
+            foreach ($fromTo as $i => $item) {
                 $trTable = new \Joomla\Component\Workflow\Administrator\Table\TransitionTable($this->getDatabase());
 
-                $trTable->from_stage_id = $fromTo[$i]['from_stage_id'];
-                $trTable->to_stage_id   = $fromTo[$i]['to_stage_id'];
-                $trTable->options       = $fromTo[$i]['options'];
+                $trTable->from_stage_id = $item['from_stage_id'];
+                $trTable->to_stage_id   = $item['to_stage_id'];
+                $trTable->options       = $item['options'];
 
                 // Set values from language strings.
                 $trTable->title       = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_TRANSITION' . ($i + 1) . '_TITLE');
