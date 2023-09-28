@@ -433,7 +433,7 @@ final class PrivacyConsent extends CMSPlugin
 
         if ($itemId > 0 && Associations::isEnabled()) {
             $privacyAssociated = Associations::getAssociations('com_menus', '#__menu', 'com_menus.item', $itemId, 'id', '', '');
-            $currentLang       = $this->getApplication()->getTag();
+            $currentLang       = $this->getApplication()->getLanguage()->getTag();
 
             if (isset($privacyAssociated[$currentLang])) {
                 $itemId = $privacyAssociated[$currentLang]->id;
