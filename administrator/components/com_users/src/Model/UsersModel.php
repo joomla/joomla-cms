@@ -382,13 +382,14 @@ class UsersModel extends ListModel
                             'a.otpKey',
                             'a.otep',
                             'a.requireReset',
-                        ];
+            ];
+
             if (PluginHelper::isEnabled('multifactorauth')) {
                 $group_by[] = 'mfa.mfaRecords';
             }
 
             $query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id')
-                  ->group($db->quoteName($group_by));
+                ->group($db->quoteName($group_by));
 
             if ($groupId) {
                 $groupId = (int) $groupId;
