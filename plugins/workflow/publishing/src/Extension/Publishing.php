@@ -194,7 +194,9 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
     /**
      * Manipulate the generic list view
      *
-     * @param   DisplayEvent    $event
+     * @param   DisplayEvent  $event
+     *
+     * @return  void
      *
      * @since   4.0.0
      */
@@ -211,7 +213,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
         $singularsection = Inflector::singularize($section);
 
         if (!$this->isSupported($component . '.' . $singularsection)) {
-            return true;
+            return;
         }
 
         // That's the hard coded list from the AdminController publish method => change, when it's make dynamic in the future
@@ -246,8 +248,6 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
 		";
 
         $this->getApplication()->getDocument()->addScriptDeclaration($js);
-
-        return true;
     }
 
     /**

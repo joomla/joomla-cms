@@ -180,6 +180,8 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @param   DisplayEvent  $event
      *
+     * @return  void
+     *
      * @since   4.0.0
      */
     public function onAfterDisplay(DisplayEvent $event)
@@ -195,7 +197,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
         $singularsection = Inflector::singularize($section);
 
         if (!$this->isSupported($component . '.' . $singularsection)) {
-            return true;
+            return;
         }
 
         // List of related batch functions we need to hide
@@ -227,8 +229,6 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
 		";
 
         $this->getApplication()->getDocument()->addScriptDeclaration($js);
-
-        return true;
     }
 
     /**
