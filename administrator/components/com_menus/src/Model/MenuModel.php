@@ -125,7 +125,7 @@ class MenuModel extends AdminModel
      *
      * @since   1.6
      */
-    public function &getItem($itemId = null)
+    public function getItem($itemId = null)
     {
         $itemId = (!empty($itemId)) ? $itemId : (int) $this->getState('menu.id');
 

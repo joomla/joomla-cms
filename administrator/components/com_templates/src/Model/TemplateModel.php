@@ -592,7 +592,7 @@ class TemplateModel extends FormModel
      *
      * @since   1.6
      */
-    public function &getTemplate()
+    public function getTemplate()
     {
         if (empty($this->template)) {
             $pk  = (int) $this->getState('extension.id');

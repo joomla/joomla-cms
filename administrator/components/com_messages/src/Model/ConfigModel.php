@@ -57,7 +57,7 @@ class ConfigModel extends FormModel
      *
      * @since   1.6
      */
-    public function &getItem()
+    public function getItem()
     {
         $item   = new CMSObject();
         $userid = (int) $this->getState('user.id');
