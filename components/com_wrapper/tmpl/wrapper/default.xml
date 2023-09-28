@@ -18,8 +18,6 @@
 				type="url"
 				label="COM_WRAPPER_FIELD_URL_LABEL"
 				required="true"
-				filter="url"
-				validate="url"
 			/>
 		</fieldset>
 		<!-- Add fields to the parameters object for the layout. -->

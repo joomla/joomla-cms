@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Event\MultiFactor;
 
-use DomainException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\Result\ResultAware;
 use Joomla\CMS\User\User;
@@ -46,13 +45,29 @@ class BeforeDisplayMethods extends AbstractImmutableEvent
      *
      * @return  User
      * @since   4.2.0
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *               Use counterpart with onSet prefix
      */
     public function setUser(User $value): User
     {
         if (empty($value) || ($value->id <= 0) || ($value->guest == 1)) {
-            throw new DomainException(sprintf('Argument \'user\' of event %s must be a non-guest User object.', $this->name));
+            throw new \DomainException(sprintf('Argument \'user\' of event %s must be a non-guest User object.', $this->name));
         }
 
         return $value;
+    }
+
+    /**
+     * Validate the value of the 'user' named parameter
+     *
+     * @param   User  $value  The value to validate
+     *
+     * @return  User
+     * @since   4.4.0
+     */
+    protected function onSetUser(User $value): User
+    {
+        return $this->setUser($value);
     }
 }
