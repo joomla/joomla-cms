@@ -162,7 +162,9 @@ abstract class AbstractEvent extends Event
 
         if (method_exists($this, $methodName1)) {
             return $this->{$methodName1}($value);
-        } elseif (method_exists($this, $methodName2)) {
+        }
+
+        if (method_exists($this, $methodName2)) {
             @trigger_error(
                 sprintf(
                     'Use method "%s" for value pre-processing is deprecated, and will not work in Joomla 6. Use "%s" instead. Event %s',

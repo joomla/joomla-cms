@@ -470,7 +470,9 @@ class TemplateModel extends FormModel
             $coreFile = Path::find($htmlPath, $fileName);
 
             return $coreFile;
-        } elseif (stristr($type, 'com_') !== false) {
+        }
+
+        if (stristr($type, 'com_') !== false) {
             // For components
             $folder    = $explodeArray['2'];
             $subFolder = $explodeArray['3'];
@@ -488,7 +490,9 @@ class TemplateModel extends FormModel
             }
 
             return $coreFile;
-        } elseif (stristr($type, 'layouts') !== false) {
+        }
+
+        if (stristr($type, 'layouts') !== false) {
             // For Layouts
             $subtype = $explodeArray['3'];
 
@@ -501,7 +505,9 @@ class TemplateModel extends FormModel
                 $coreFile  = Path::find($htmlPath, $fileName);
 
                 return $coreFile;
-            } elseif (stristr($subtype, 'joomla') || stristr($subtype, 'libraries') || stristr($subtype, 'plugins')) {
+            }
+
+            if (stristr($subtype, 'joomla') || stristr($subtype, 'libraries') || stristr($subtype, 'plugins')) {
                 $subFolder = array_slice($explodeArray, 3, -1);
                 $subFolder = implode(DIRECTORY_SEPARATOR, $subFolder);
                 $htmlPath  = Path::clean($layoutPath . $subFolder);
