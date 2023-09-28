@@ -85,20 +85,6 @@ class DropdownButton extends AbstractGroupButton
     }
 
     /**
-     * Render button HTML.
-     *
-     * @param   array  $options  The button options.
-     *
-     * @return  string  The button HTML.
-     *
-     * @since  4.0.0
-     */
-    protected function renderButton(array &$options): string
-    {
-        return parent::renderButton($options);
-    }
-
-    /**
      * Get the button CSS Id.
      *
      * @return  string  Button CSS Id
