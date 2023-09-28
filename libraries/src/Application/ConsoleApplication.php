@@ -21,8 +21,6 @@ use Joomla\Console\Application;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
-use Joomla\Event\DispatcherAwareInterface;
-use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
@@ -43,9 +41,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @since  4.0.0
  */
-class ConsoleApplication extends Application implements DispatcherAwareInterface, CMSApplicationInterface
+class ConsoleApplication extends Application implements CMSApplicationInterface
 {
-    use DispatcherAwareTrait;
     use EventAware;
     use IdentityAware;
     use ContainerAwareTrait;
