@@ -1296,7 +1296,7 @@ class ZIPExtraction
         $directory = rtrim(dirname($path), '/\\');
 
         // Is this an unwritable directory?
-        if (($directory != $rootDir) && !is_writeable($directory)) {
+        if (($directory != $rootDir) && !is_writable($directory)) {
             @chmod($directory, 0755);
         }
 
@@ -1637,7 +1637,7 @@ class ZIPExtraction
                 break;
         }
 
-        fputs(self::$logFP, sprintf('%s | %7s | %s' . "\r\n", gmdate('Y-m-d H:i:s'), $priorityString, $message));
+        fwrite(self::$logFP, sprintf('%s | %7s | %s' . "\r\n", gmdate('Y-m-d H:i:s'), $priorityString, $message));
     }
 
     /**

@@ -525,7 +525,7 @@ class FormHelper
                         $field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
                     } else {
                         $groupParts = explode('.', $showOnPartBlocks[0]);
-                        $field      = array_shift($groupParts) . '[' . join('][', $groupParts) . ']';
+                        $field      = array_shift($groupParts) . '[' . implode('][', $groupParts) . ']';
                     }
                 }
             }
