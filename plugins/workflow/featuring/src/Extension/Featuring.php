@@ -340,7 +340,7 @@ final class Featuring extends CMSPlugin implements SubscriberInterface
      *
      * @return   boolean
      *
-     * @throws   Exception
+     * @throws   \Exception
      * @since   4.0.0
      */
     public function onContentBeforeChangeFeatured(FeatureEvent $event)
