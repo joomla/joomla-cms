@@ -1112,7 +1112,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             }
 
             if (\function_exists($filter)) {
-                return \call_user_func($filter, $value);
+                return $filter($value);
             }
 
             if ($this instanceof SubformField) {
