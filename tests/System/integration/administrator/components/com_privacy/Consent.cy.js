@@ -28,6 +28,8 @@ describe('Test in backend that privacy consent component', () => {
     cy.get('tbody > tr > :nth-child(4)').should('contain', 'test user');
     cy.get('#cb0').click();
     cy.get('.button-trash').click();
+    cy.clickDialogConfirm(true);
+
     cy.get('.alert-message').should('contain', 'The consent was invalidated.');
   });
 
@@ -42,6 +44,7 @@ describe('Test in backend that privacy consent component', () => {
 
     cy.get('.w-1.text-center > .form-check-input').click();
     cy.get('#toolbar-trash').click();
+    cy.clickDialogConfirm(true);
 
     cy.get('.alert-message').should('contain', '2 consents were invalidated');
   });
