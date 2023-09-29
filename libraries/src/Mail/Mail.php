@@ -221,7 +221,7 @@ class Mail extends PHPMailer
      */
     public function setSubject($subject)
     {
-        $this->Subject = MailHelper::cleanLine($subject);
+        $this->Subject = MailHelper::cleanSubject($subject);
 
         return $this;
     }
