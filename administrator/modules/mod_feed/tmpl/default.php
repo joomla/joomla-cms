@@ -24,7 +24,6 @@ endif;
 
 // Display feed
 if ($feed !== false) : ?>
-<?php print_r($feed); ?>
     <div dir="<?php echo $rssrtl ? 'rtl' : 'ltr'; ?>" class="px-3">
         <?php // Feed title ?>
         <?php if ($feed->title !== null && $params->get('rsstitle', 1)) : ?>
