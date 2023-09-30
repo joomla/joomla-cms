@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 
@@ -86,7 +87,7 @@ class PlgSystemFields extends CMSPlugin
      * @param   string                   $context  The context
      * @param   \Joomla\CMS\Table\Table  $item     The table
      * @param   boolean                  $isNew    Is new item
-     * @param   array                    $data     The validated data
+     * @param   array                    $data     The validated item data
      *
      * @return  void
      *
@@ -242,7 +243,7 @@ class PlgSystemFields extends CMSPlugin
      * The form event.
      *
      * @param   Form      $form  The form
-     * @param   stdClass  $data  The data
+     * @param   stdClass  $data  The item data
      *
      * @return  boolean
      *
@@ -347,7 +348,7 @@ class PlgSystemFields extends CMSPlugin
      *
      * @param   string    $context      The context
      * @param   stdClass  $item         The item
-     * @param   Registry  $params       The params
+     * @param   Registry  $params       The params component
      * @param   integer   $displayType  The type
      *
      * @return  string
@@ -381,7 +382,7 @@ class PlgSystemFields extends CMSPlugin
             $params = new Registry($params);
         }
 
-        $fields = FieldsHelper::getFields($context, $item, $displayType);
+        $fields = $item->jcfields;
 
         if ($fields) {
             $app = Factory::getApplication();
@@ -399,11 +400,18 @@ class PlgSystemFields extends CMSPlugin
             }
         }
 
+        PluginHelper::importPlugin('fields');
+
         if ($fields) {
             foreach ($fields as $key => $field) {
                 $fieldDisplayType = $field->params->get('display', '2');
 
                 if ($fieldDisplayType == $displayType) {
+                    /*
+                    * Event allow plugins to modify the output of the field before it is display
+                    */
+                    Factory::getApplication()->triggerEvent('onCustomFieldsBeforeDisplay', [$context, $item, &$field, $displayType, &$params]);
+
                     continue;
                 }
 
@@ -469,6 +477,13 @@ class PlgSystemFields extends CMSPlugin
         foreach ($fields as $key => $field) {
             $item->jcfields[$field->id] = $field;
         }
+
+        PluginHelper::importPlugin('fields');
+
+        /*
+        * Event allow plugins to modify the the fields it is with content prepare
+        */
+        Factory::getApplication()->triggerEvent('onCustomFieldsContentPrepare', [$context, $item, &$item->jcfields]);
     }
 
     /**
