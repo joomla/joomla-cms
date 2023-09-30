@@ -76,18 +76,18 @@ class LanguageHelper
      */
     public static function createLanguageListInstall($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
     {
-        $list      = array();
+        $list      = [];
         $clientId  = $basePath === JPATH_ADMINISTRATOR ? 1 : 0;
         $languages = $installed ? static::getInstalledLanguages($clientId, true) : self::getKnownLanguages($basePath);
 
         foreach ($languages as $languageCode => $language) {
             $metadata = $installed ? $language->metadata : $language;
 
-            $list[] = array(
+            $list[] = [
                 'text'     => $metadata['name'] . " | " . $metadata['nativeName'] ?? $metadata['name'],
                 'value'    => $languageCode,
                 'selected' => $languageCode === $actualLanguage ? 'selected="selected"' : null,
-            );
+            ];
         }
 
         return $list;
