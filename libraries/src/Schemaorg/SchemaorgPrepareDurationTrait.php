@@ -31,7 +31,7 @@ trait SchemaorgPrepareDurationTrait
      */
     protected function prepareDuration($duration)
     {
-        if (!is_array($duration)) {
+        if (!\is_array($duration)) {
             return null;
         }
 

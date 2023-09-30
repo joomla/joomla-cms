@@ -273,7 +273,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $invalidInputVariables = array_filter(
             ['option', 'view', 'format', 'lang', 'Itemid', 'template', 'templateStyle', 'task'],
             function ($systemVariable) use ($input) {
-                return $input->exists($systemVariable) && is_array($input->getRaw($systemVariable));
+                return $input->exists($systemVariable) && \is_array($input->getRaw($systemVariable));
             }
         );
 
@@ -531,7 +531,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $options['app'] = $this;
         }
 
-        if (array_key_exists($name, $this->menus)) {
+        if (\array_key_exists($name, $this->menus)) {
             return $this->menus[$name];
         }
 
@@ -1329,8 +1329,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             foreach ($this->get('log_priorities', ['all']) as $p) {
                 $const = '\\Joomla\\CMS\\Log\\Log::' . strtoupper($p);
 
-                if (defined($const)) {
-                    $priority |= constant($const);
+                if (\defined($const)) {
+                    $priority |= \constant($const);
                 }
             }
 

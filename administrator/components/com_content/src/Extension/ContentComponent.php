@@ -275,7 +275,7 @@ class ContentComponent extends MVCComponent implements
     {
         $parts = explode('.', $context);
 
-        if (count($parts) < 2) {
+        if (\count($parts) < 2) {
             return '';
         }
 
@@ -347,7 +347,7 @@ class ContentComponent extends MVCComponent implements
     public function countTagItems(array $items, string $extension)
     {
         $parts   = explode('.', $extension);
-        $section = count($parts) > 1 ? $parts[1] : null;
+        $section = \count($parts) > 1 ? $parts[1] : null;
 
         $config = (object) [
             'related_tbl'   => ($section === 'category' ? 'categories' : 'content'),

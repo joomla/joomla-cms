@@ -73,7 +73,7 @@ trait ResultTypeObjectAware
             return;
         }
 
-        if (!is_object($data)) {
+        if (!\is_object($data)) {
             throw new \InvalidArgumentException(sprintf('Event %s only accepts object results.', $this->getName()));
         }
 

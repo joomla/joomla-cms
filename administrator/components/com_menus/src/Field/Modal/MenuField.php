@@ -160,7 +160,7 @@ class MenuField extends ModalSelectField
         $clientId  = (int) $this->element['clientid'];
 
         // Prepare enabled actions
-        $this->canDo['propagate']  = ((string) $this->element['propagate'] === 'true') && count($languages) > 2;
+        $this->canDo['propagate']  = ((string) $this->element['propagate'] === 'true') && \count($languages) > 2;
 
         // Creating/editing menu items is not supported in frontend.
         if (!$app->isClient('administrator')) {

@@ -345,7 +345,7 @@ class ModuleModel extends AdminModel
                 // Trigger the before delete event.
                 $result = $app->triggerEvent($this->event_before_delete, [$context, $table]);
 
-                if (in_array(false, $result, true) || !$table->delete($pk)) {
+                if (\in_array(false, $result, true) || !$table->delete($pk)) {
                     throw new \Exception($table->getError());
                 }
 
@@ -606,7 +606,7 @@ class ModuleModel extends AdminModel
                 // This allows us to inject parameter settings into a new module.
                 $params = $app->getUserState('com_modules.add.module.params');
 
-                if (is_array($params)) {
+                if (\is_array($params)) {
                     $data->set('params', $params);
                 }
             }
@@ -942,7 +942,7 @@ class ModuleModel extends AdminModel
         // Trigger the before save event.
         $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew]);
 
-        if (in_array(false, $result, true)) {
+        if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
 
             return false;

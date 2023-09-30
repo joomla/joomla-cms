@@ -176,7 +176,7 @@ class UpdateModel extends BaseDatabaseModel
         $minimumStability      = Updater::STABILITY_STABLE;
         $comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
 
-        if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), ['testing', 'custom'])) {
+        if (\in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), ['testing', 'custom'])) {
             $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
         }
 
@@ -184,7 +184,7 @@ class UpdateModel extends BaseDatabaseModel
         $reflectionMethod = $reflection->getMethod('findUpdates');
         $methodParameters = $reflectionMethod->getParameters();
 
-        if (count($methodParameters) >= 4) {
+        if (\count($methodParameters) >= 4) {
             // Reinstall support is available in Updater
             $updater->findUpdates(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id, $cache_timeout, $minimumStability, true);
         } else {
@@ -281,7 +281,7 @@ class UpdateModel extends BaseDatabaseModel
         $db->setQuery($query);
         $updateObject = $db->loadObject();
 
-        if (is_null($updateObject)) {
+        if (\is_null($updateObject)) {
             // We have not found any update in the database - we seem to be running the latest version.
             $this->updateInformation['latest'] = \JVERSION;
 
@@ -299,7 +299,7 @@ class UpdateModel extends BaseDatabaseModel
         $minimumStability      = Updater::STABILITY_STABLE;
         $comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
 
-        if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), ['testing', 'custom'])) {
+        if (\in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), ['testing', 'custom'])) {
             $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
         }
 
@@ -935,12 +935,12 @@ ENDDATA;
         }
 
         // Make sure that zlib is loaded so that the package can be unpacked.
-        if (!extension_loaded('zlib')) {
+        if (!\extension_loaded('zlib')) {
             throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 500);
         }
 
         // If there is no uploaded file, we have a problem...
-        if (!is_array($userfile)) {
+        if (!\is_array($userfile)) {
             throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'), 500);
         }
 
@@ -1087,19 +1087,19 @@ ENDDATA;
         // Check for zlib support.
         $option         = new \stdClass();
         $option->label  = Text::_('INSTL_ZLIB_COMPRESSION_SUPPORT');
-        $option->state  = extension_loaded('zlib');
+        $option->state  = \extension_loaded('zlib');
         $option->notice = null;
         $options[]      = $option;
 
         // Check for XML support.
         $option         = new \stdClass();
         $option->label  = Text::_('INSTL_XML_SUPPORT');
-        $option->state  = extension_loaded('xml');
+        $option->state  = \extension_loaded('xml');
         $option->notice = null;
         $options[]      = $option;
 
         // Check for mbstring options.
-        if (extension_loaded('mbstring')) {
+        if (\extension_loaded('mbstring')) {
             // Check for default MB language.
             $option         = new \stdClass();
             $option->label  = Text::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
@@ -1118,7 +1118,7 @@ ENDDATA;
         // Check for missing native json_encode / json_decode support.
         $option            = new \stdClass();
         $option->label     = Text::_('INSTL_JSON_SUPPORT_AVAILABLE');
-        $option->state     = function_exists('json_encode') && function_exists('json_decode');
+        $option->state     = \function_exists('json_encode') && \function_exists('json_decode');
         $option->notice    = null;
         $options[]         = $option;
         $updateInformation = $this->getUpdateInformation();
@@ -1187,28 +1187,28 @@ ENDDATA;
         // Check for native ZIP support.
         $setting              = new \stdClass();
         $setting->label       = Text::_('INSTL_ZIP_SUPPORT_AVAILABLE');
-        $setting->state       = function_exists('zip_open') && function_exists('zip_read');
+        $setting->state       = \function_exists('zip_open') && \function_exists('zip_read');
         $setting->recommended = true;
         $settings[]           = $setting;
 
         // Check for GD support
         $setting              = new \stdClass();
         $setting->label       = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'GD');
-        $setting->state       = extension_loaded('gd');
+        $setting->state       = \extension_loaded('gd');
         $setting->recommended = true;
         $settings[]           = $setting;
 
         // Check for iconv support
         $setting              = new \stdClass();
         $setting->label       = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'iconv');
-        $setting->state       = function_exists('iconv');
+        $setting->state       = \function_exists('iconv');
         $setting->recommended = true;
         $settings[]           = $setting;
 
         // Check for intl support
         $setting              = new \stdClass();
         $setting->label       = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'intl');
-        $setting->state       = function_exists('transliterator_transliterate');
+        $setting->state       = \function_exists('transliterator_transliterate');
         $setting->recommended = true;
         $settings[]           = $setting;
 
@@ -1245,7 +1245,7 @@ ENDDATA;
             $unsupportedDatabaseTypes = ['sqlsrv', 'sqlazure'];
             $currentDatabaseType      = $this->getConfiguredDatabaseType();
 
-            return !in_array($currentDatabaseType, $unsupportedDatabaseTypes);
+            return !\in_array($currentDatabaseType, $unsupportedDatabaseTypes);
         }
 
         return true;
@@ -1296,16 +1296,16 @@ ENDDATA;
         if (!empty($disabledFunctions)) {
             // Attempt to detect them in the PHP INI disable_functions variable.
             $disabledFunctions         = explode(',', trim($disabledFunctions));
-            $numberOfDisabledFunctions = count($disabledFunctions);
+            $numberOfDisabledFunctions = \count($disabledFunctions);
 
             for ($i = 0; $i < $numberOfDisabledFunctions; $i++) {
                 $disabledFunctions[$i] = trim($disabledFunctions[$i]);
             }
 
-            $result = !in_array('parse_ini_string', $disabledFunctions);
+            $result = !\in_array('parse_ini_string', $disabledFunctions);
         } else {
             // Attempt to detect their existence; even pure PHP implementations of them will trigger a positive response, though.
-            $result = function_exists('parse_ini_string');
+            $result = \function_exists('parse_ini_string');
         }
 
         return $result;
@@ -1444,7 +1444,7 @@ ENDDATA;
             ExtensionHelper::getCoreExtensionIds()
         );
 
-        if (count($folderFilter) > 0) {
+        if (\count($folderFilter) > 0) {
             $folderFilter = array_map([$db, 'quote'], $folderFilter);
 
             $query->where($db->quoteName('folder') . ' IN (' . implode(',', $folderFilter) . ')');
@@ -1552,7 +1552,7 @@ ENDDATA;
 
         $result = $db->loadAssocList();
 
-        if (!is_array($result)) {
+        if (!\is_array($result)) {
             return [];
         }
 
@@ -1736,7 +1736,7 @@ ENDDATA;
 
         $menu = false;
 
-        if (count($ids)) {
+        if (\count($ids)) {
             $query = $db->getQuery(true);
 
             $query->select(
@@ -1873,7 +1873,7 @@ ENDDATA;
         while ($readsize > 0 && fseek($fp, $readStart) === 0) {
             $fileChunk = fread($fp, $readsize);
 
-            if ($fileChunk === false || strlen($fileChunk) !== $readsize) {
+            if ($fileChunk === false || \strlen($fileChunk) !== $readsize) {
                 @fclose($fp);
 
                 throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN', $packageName), 500);

@@ -107,7 +107,7 @@ class HtmlView extends BaseHtmlView
 
         // Check for errors.
         // @TODO: Maybe this could go into ComponentHelper::raiseErrors($this->get('Errors'))
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -163,7 +163,7 @@ class HtmlView extends BaseHtmlView
         // Check the access to the newsfeed
         $levels = $user->getAuthorisedViewLevels();
 
-        if (!in_array($item->access, $levels) || (in_array($item->access, $levels) && (!in_array($item->category_access, $levels)))) {
+        if (!\in_array($item->access, $levels) || (\in_array($item->access, $levels) && (!\in_array($item->category_access, $levels)))) {
             $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
             $app->setHeader('status', 403, true);
 
