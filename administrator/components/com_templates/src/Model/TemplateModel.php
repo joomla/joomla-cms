@@ -1096,9 +1096,7 @@ class TemplateModel extends FormModel
             }
         }
 
-        if (!empty($result)) {
-            return $result;
-        }
+        return $result;
     }
 
     /**
