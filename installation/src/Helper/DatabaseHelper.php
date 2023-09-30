@@ -156,7 +156,7 @@ abstract class DatabaseHelper
         $minDbVersionRequired = $db->getMinimum();
 
         // Get minimum database version required by the CMS
-        if (in_array($options->db_type, ['mysql', 'mysqli'])) {
+        if (\in_array($options->db_type, ['mysql', 'mysqli'])) {
             if ($db->isMariaDb()) {
                 $minDbVersionCms = self::$dbMinimumMariaDb;
             } else {
@@ -202,7 +202,7 @@ abstract class DatabaseHelper
         }
 
         // Validate length of database name.
-        if (strlen($options->db_name) > 64) {
+        if (\strlen($options->db_name) > 64) {
             return Text::_('INSTL_DATABASE_NAME_TOO_LONG');
         }
 
@@ -212,21 +212,21 @@ abstract class DatabaseHelper
         }
 
         // Validate length of database table prefix.
-        if (strlen($options->db_prefix) > 15) {
+        if (\strlen($options->db_prefix) > 15) {
             return Text::_('INSTL_DATABASE_FIX_TOO_LONG');
         }
 
         // Validate database name.
-        if (in_array($options->db_type, ['pgsql', 'postgresql']) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name)) {
+        if (\in_array($options->db_type, ['pgsql', 'postgresql']) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name)) {
             return Text::_('INSTL_DATABASE_NAME_MSG_POSTGRES');
         }
 
-        if (in_array($options->db_type, ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options->db_name)) {
+        if (\in_array($options->db_type, ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options->db_name)) {
             return Text::_('INSTL_DATABASE_NAME_MSG_MYSQL');
         }
 
         // Workaround for UPPERCASE table prefix for postgresql
-        if (in_array($options->db_type, ['pgsql', 'postgresql'])) {
+        if (\in_array($options->db_type, ['pgsql', 'postgresql'])) {
             if (strtolower($options->db_prefix) != $options->db_prefix) {
                 return Text::_('INSTL_DATABASE_FIX_LOWERCASE');
             }
@@ -337,7 +337,7 @@ abstract class DatabaseHelper
     {
         // Security check for remote db hosts: Check env var if disabled. Also disable in CLI.
         $shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1'
-            && !defined('_JCLI_INSTALLATION');
+            && !\defined('_JCLI_INSTALLATION');
 
         // Per default allowed DB hosts: localhost / 127.0.0.1 / ::1 (optionally with port)
         $localhost = '/^(((localhost|127\.0\.0\.1|\[\:\:1\])(\:[1-9]{1}[0-9]{0,4})?)|(\:\:1))$/';
@@ -469,7 +469,7 @@ abstract class DatabaseHelper
 
         // Check minimum database version
         if (version_compare($dbVersion, $minDbVersionRequired) < 0) {
-            if (in_array($options->db_type, ['mysql', 'mysqli']) && $db->isMariaDb()) {
+            if (\in_array($options->db_type, ['mysql', 'mysqli']) && $db->isMariaDb()) {
                 $errorMessage = Text::sprintf(
                     'INSTL_DATABASE_INVALID_MARIADB_VERSION',
                     $minDbVersionRequired,

@@ -270,7 +270,7 @@ class CssMenu
          */
         $children = $dispatcher->dispatch('onPreprocessMenuItems', new PreprocessMenuItemsEvent('onPreprocessMenuItems', [
             'context' => 'com_menus.administrator.module',
-            'subject' => &$children, // TODO: Remove reference in Joomla 6, see PreprocessMenuItemsEvent::__constructor()
+            'subject' => &$children, // @todo: Remove reference in Joomla 6, see PreprocessMenuItemsEvent::__constructor()
             'params'  => $this->params,
             'enabled' => $this->enabled,
         ]))->getArgument('subject', $children);
@@ -413,7 +413,7 @@ class CssMenu
             }
 
             // Exclude if link is invalid
-            if (is_null($item->link) || !\in_array($item->type, ['separator', 'heading', 'container']) && trim($item->link) === '') {
+            if (\is_null($item->link) || !\in_array($item->type, ['separator', 'heading', 'container']) && trim($item->link) === '') {
                 $parent->removeChild($item);
                 continue;
             }

@@ -1,72 +1,5 @@
 // com_cpanel
 
-.cpanel-add-module-icon,
-.com-cpanel {
-  &-help,
-  &-system {
-
-    .list-group-item {
-      padding: 0;
-
-      a {
-        display: block;
-        padding: $list-group-item-padding-y $list-group-item-padding-x;
-      }
-    }
-  }
-
-  &-help {
-
-    &__header {
-      color: var(--template-special-color);
-    }
-
-    a {
-      color: var(--#{$prefix}link-color);
-    }
-
-    h2 {
-      font-size: $h4-font-size;
-    }
-
-  }
-
-  &-system {
-    column-count: 4;
-
-    &__category {
-      margin-bottom: 1.5em;
-      page-break-inside: avoid;
-      break-inside: avoid;
-    }
-
-    &__header {
-      color: var(--template-special-color);
-
-      span {
-        margin-right: 5px;
-      }
-    }
-
-    a {
-      color: var(--#{$prefix}link-color);
-    }
-
-    h2 {
-      font-size: $h4-font-size;
-    }
-
-
-    @include media-breakpoint-down(lg) {
-      column-count: 2;
-    }
-
-    @include media-breakpoint-down(md) {
-      column-count: 1;
-    }
-  }
-}
-
 .com_cpanel {
 
   .content {
@@ -200,8 +133,7 @@
       padding: 0;
       margin: 0 .85rem;
       font-size: .9rem;
-      color: rgba(1, 1, 1, 1);
-      background: var(--white-offset);
+      color: var(--body-color);
       box-shadow: none;
       transform: scale(1.2);
     }

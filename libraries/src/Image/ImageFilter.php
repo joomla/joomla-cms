@@ -43,7 +43,7 @@ abstract class ImageFilter
         }
 
         // Make sure the file handle is valid.
-        if (!(\is_object($handle) && get_class($handle) == 'GdImage')) {
+        if (!(\is_object($handle) && \get_class($handle) == 'GdImage')) {
             throw new \InvalidArgumentException('The image handle is invalid for the image filter.');
         }
 

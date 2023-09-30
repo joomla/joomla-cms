@@ -68,7 +68,7 @@ class FieldsHelper
 
         $parts = explode('.', $contextString, 2);
 
-        if (count($parts) < 2) {
+        if (\count($parts) < 2) {
             return null;
         }
 
@@ -131,7 +131,7 @@ class FieldsHelper
             self::$fieldsCache->setState('filter.only_use_in_subform', 0);
         }
 
-        if (is_array($item)) {
+        if (\is_array($item)) {
             $item = (object) $item;
         }
 
@@ -149,7 +149,7 @@ class FieldsHelper
         if ($item && (isset($item->catid) || isset($item->fieldscatid))) {
             $assignedCatIds = $item->catid ?? $item->fieldscatid;
 
-            if (!is_array($assignedCatIds)) {
+            if (!\is_array($assignedCatIds)) {
                 $assignedCatIds = explode(',', $assignedCatIds);
             }
 
@@ -193,11 +193,11 @@ class FieldsHelper
                  */
                 $field = clone $original;
 
-                if ($valuesToOverride && array_key_exists($field->name, $valuesToOverride)) {
+                if ($valuesToOverride && \array_key_exists($field->name, $valuesToOverride)) {
                     $field->value = $valuesToOverride[$field->name];
-                } elseif ($valuesToOverride && array_key_exists($field->id, $valuesToOverride)) {
+                } elseif ($valuesToOverride && \array_key_exists($field->id, $valuesToOverride)) {
                     $field->value = $valuesToOverride[$field->id];
-                } elseif (array_key_exists($field->id, $fieldValues)) {
+                } elseif (\array_key_exists($field->id, $fieldValues)) {
                     $field->value = $fieldValues[$field->id];
                 }
 
@@ -208,7 +208,7 @@ class FieldsHelper
                 $field->rawvalue = $field->value;
 
                 // If boolean prepare, if int, it is the event type: 1 - After Title, 2 - Before Display Content, 3 - After Display Content, 0 - Do not prepare
-                if ($prepareValue && (is_bool($prepareValue) || $prepareValue === (int) $field->params->get('display', '2'))) {
+                if ($prepareValue && (\is_bool($prepareValue) || $prepareValue === (int) $field->params->get('display', '2'))) {
                     /*
                      * On before field prepare
                      * Event allow plugins to modify the output of the field before it is prepared
@@ -226,7 +226,7 @@ class FieldsHelper
                         'subject' => $field,
                     ]))->getArgument('result', []);
 
-                    if (is_array($value)) {
+                    if (\is_array($value)) {
                         $value = implode(' ', $value);
                     }
 
@@ -238,7 +238,7 @@ class FieldsHelper
                         'context' => $context,
                         'item'    => $item,
                         'subject' => $field,
-                        'value'   => &$value, // TODO: Remove reference in Joomla 6, see AfterPrepareFieldEvent::__constructor()
+                        'value'   => &$value, // @todo: Remove reference in Joomla 6, see AfterPrepareFieldEvent::__constructor()
                     ]);
                     $dispatcher->dispatch('onCustomFieldsAfterPrepareField', $eventAfter);
                     $value = $eventAfter->getValue();
@@ -327,7 +327,7 @@ class FieldsHelper
         $assignedCatids = $data->catid ?? $data->fieldscatid ?? $form->getValue('catid');
 
         // Account for case that a submitted form has a multi-value category id field (e.g. a filtering form), just use the first category
-        $assignedCatids = is_array($assignedCatids)
+        $assignedCatids = \is_array($assignedCatids)
             ? (int) reset($assignedCatids)
             : (int) $assignedCatids;
 
@@ -377,12 +377,12 @@ class FieldsHelper
         $fieldsPerGroup = [0 => []];
 
         foreach ($fields as $field) {
-            if (!array_key_exists($field->type, $fieldTypes)) {
+            if (!\array_key_exists($field->type, $fieldTypes)) {
                 // Field type is not available
                 continue;
             }
 
-            if (!array_key_exists($field->group_id, $fieldsPerGroup)) {
+            if (!\array_key_exists($field->group_id, $fieldsPerGroup)) {
                 $fieldsPerGroup[$field->group_id] = [];
             }
 
@@ -506,7 +506,7 @@ class FieldsHelper
                 continue;
             }
 
-            if (!is_array($value) && $value !== '') {
+            if (!\is_array($value) && $value !== '') {
                 // Function getField doesn't cache the fields, so we try to do it only when necessary
                 $formField = $form->getField($field->name, 'com_fields');
 
@@ -691,11 +691,11 @@ class FieldsHelper
 
         foreach ($eventData as $fields) {
             foreach ($fields as $fieldDescription) {
-                if (!array_key_exists('path', $fieldDescription)) {
+                if (!\array_key_exists('path', $fieldDescription)) {
                     $fieldDescription['path'] = null;
                 }
 
-                if (!array_key_exists('rules', $fieldDescription)) {
+                if (!\array_key_exists('rules', $fieldDescription)) {
                     $fieldDescription['rules'] = null;
                 }
 

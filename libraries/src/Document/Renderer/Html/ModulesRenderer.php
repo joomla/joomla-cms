@@ -60,7 +60,7 @@ class ModulesRenderer extends DocumentRenderer
 
         // Dispatch onAfterRenderModules event
         $event = new Module\AfterRenderModulesEvent('onAfterRenderModules', [
-            'content'    => &$buffer, // TODO: Remove reference in Joomla 6, see AfterRenderModulesEvent::__constructor()
+            'content'    => &$buffer, // @todo: Remove reference in Joomla 6, see AfterRenderModulesEvent::__constructor()
             'attributes' => $params,
         ]);
         $app->getDispatcher()->dispatch('onAfterRenderModules', $event);

@@ -59,7 +59,7 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
      * @return  MfaTable
      * @since   4.2.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 6.0
      *                Use counterpart with onSet prefix
      */
     public function setRecord(MfaTable $value): MfaTable
@@ -79,7 +79,7 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
      * @return  User
      * @since   4.2.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 6.0
      *                Use counterpart with onSet prefix
      */
     public function setUser(User $value): User
@@ -99,7 +99,7 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
      * @return  string|null
      * @since   4.2.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 6.0
      *                Use counterpart with onSet prefix
      */
     public function setCode(?string $value): ?string
@@ -114,7 +114,7 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
      * @param   MfaTable  $value  The value to validate
      *
      * @return  MfaTable
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     protected function onSetRecord(MfaTable $value): MfaTable
     {
@@ -127,7 +127,7 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
      * @param   User  $value  The value to validate
      *
      * @return  User
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     protected function onSetUser(User $value): User
     {
@@ -140,7 +140,7 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
      * @param   string|null  $value  The value to validate
      *
      * @return  string|null
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     protected function onSetCode(?string $value): ?string
     {

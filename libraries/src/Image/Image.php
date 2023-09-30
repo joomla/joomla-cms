@@ -126,7 +126,7 @@ class Image
         }
 
         // If the source input is a resource, set it as the image handle.
-        if ($source && (\is_object($source) && get_class($source) == 'GdImage')) {
+        if ($source && (\is_object($source) && \get_class($source) == 'GdImage')) {
             $this->handle = $source;
         } elseif (!empty($source) && \is_string($source)) {
             // If the source input is not empty, assume it is a path and populate the image handle.
@@ -537,7 +537,7 @@ class Image
     public function isLoaded()
     {
         // Make sure the resource handle is valid.
-        if (!(\is_object($this->handle) && get_class($this->handle) == 'GdImage')) {
+        if (!(\is_object($this->handle) && \get_class($this->handle) == 'GdImage')) {
             return false;
         }
 

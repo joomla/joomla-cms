@@ -6,7 +6,7 @@
  *
  * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
+ *
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
@@ -81,7 +81,7 @@ class JoomlaInstallerScript
         // The errorCollector are required
         // However when someone already running the script manually the code may fail.
         if ($this->errorCollector) {
-            call_user_func($this->errorCollector, $context, $error);
+            \call_user_func($this->errorCollector, $context, $error);
         } else {
             Log::add($error->getMessage(), Log::ERROR, 'Update');
         }
@@ -104,7 +104,7 @@ class JoomlaInstallerScript
             if (!empty($installer->extension->manifest_cache)) {
                 $manifestValues = json_decode($installer->extension->manifest_cache, true);
 
-                if (array_key_exists('version', $manifestValues)) {
+                if (\array_key_exists('version', $manifestValues)) {
                     $this->fromVersion = $manifestValues['version'];
 
                     return true;
@@ -2115,6 +2115,85 @@ class JoomlaInstallerScript
             // From 5.0.0-beta1 to 5.0.0-beta2
             '/language/en-GB/lib_simplepie.sys.ini',
             '/libraries/src/Cache/Storage/WincacheStorage.php',
+            // From 5.0.0-beta2 to 5.0.0-beta3
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/AbstractString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/AbstractTime.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/ASNObject.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Base128.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Composite/AttributeTypeAndValue.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Composite/RDNString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Composite/RelativeDistinguishedName.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Construct.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Exception/NotImplementedException.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Exception/ParserException.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/ExplicitlyTaggedObject.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Identifier.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/OID.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Parsable.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/TemplateParser.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/BitString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/BMPString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/Boolean.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/CharacterString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/Enumerated.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/GeneralizedTime.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/GeneralString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/GraphicString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/IA5String.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/Integer.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/NullObject.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/NumericString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/ObjectDescriptor.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/ObjectIdentifier.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/OctetString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/PrintableString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/RelativeObjectIdentifier.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/Sequence.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/Set.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/T61String.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/UniversalString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/UTCTime.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/UTF8String.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/VisibleString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/UnknownConstructedObject.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/UnknownObject.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/Utility/BigInteger.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/Utility/BigIntegerBcmath.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/Utility/BigIntegerGmp.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/AlgorithmIdentifier.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/CertificateExtensions.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/CertificateSubject.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/CSR/Attributes.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/CSR/CSR.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/PrivateKey.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/PublicKey.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/SAN/DNSName.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/SAN/IPAddress.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/SAN/SubjectAlternativeNames.php',
+            '/libraries/vendor/fgrosse/phpasn1/LICENSE',
+            '/libraries/vendor/stella-maris/clock/LICENSE.md',
+            '/libraries/vendor/stella-maris/clock/src/ClockInterface.php',
+            '/media/com_scheduler/css/admin-view-select-task.css',
+            '/media/com_scheduler/css/admin-view-select-task.min.css',
+            '/media/com_scheduler/css/admin-view-select-task.min.css.gz',
+            '/media/system/css/calendar-jos.css',
+            '/media/system/css/calendar-jos.min.css',
+            '/media/system/css/calendar-jos.min.css.gz',
+            '/media/system/css/debug.css',
+            '/media/system/css/debug.min.css',
+            '/media/system/css/debug.min.css.gz',
+            '/media/system/css/frontediting.css',
+            '/media/system/css/frontediting.min.css',
+            '/media/system/css/frontediting.min.css.gz',
+            '/media/system/css/mootree.css',
+            '/media/system/css/mootree.min.css',
+            '/media/system/css/mootree.min.css.gz',
+            '/media/system/css/mootree_rtl.css',
+            '/media/system/css/mootree_rtl.min.css',
+            '/media/system/css/mootree_rtl.min.css.gz',
+            '/media/system/css/sortablelist.css',
+            '/media/system/css/sortablelist.min.css',
+            '/media/system/css/sortablelist.min.css.gz',
         ];
 
         $folders = [
@@ -2334,6 +2413,21 @@ class JoomlaInstallerScript
             '/templates/system/incompatible.html,',
             '/media/plg_system_compat',
             '/media/plg_editors_tinymce/js/plugins/highlighter',
+            // From 5.0.0-beta2 to 5.0.0-beta3
+            '/libraries/vendor/stella-maris/clock/src',
+            '/libraries/vendor/stella-maris/clock',
+            '/libraries/vendor/stella-maris',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/SAN',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/CSR',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509',
+            '/libraries/vendor/fgrosse/phpasn1/lib/Utility',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Exception',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Composite',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1',
+            '/libraries/vendor/fgrosse/phpasn1/lib',
+            '/libraries/vendor/fgrosse/phpasn1',
+            '/libraries/vendor/fgrosse',
         ];
 
         $status['files_checked']   = $files;
@@ -2369,11 +2463,11 @@ class JoomlaInstallerScript
 
         $this->fixFilenameCasing();
 
-        if ($suppressOutput === false && count($status['folders_errors'])) {
+        if ($suppressOutput === false && \count($status['folders_errors'])) {
             echo implode('<br>', $status['folders_errors']);
         }
 
-        if ($suppressOutput === false && count($status['files_errors'])) {
+        if ($suppressOutput === false && \count($status['files_errors'])) {
             echo implode('<br>', $status['files_errors']);
         }
 
@@ -2678,7 +2772,7 @@ class JoomlaInstallerScript
                 $replace = ['blocks', 'fontfamily', 'fontsize', 'styles'];
 
                 // Don't redo the template
-                if (!in_array('jtemplate', $params['configuration']['toolbars'][$setIdx]['menu'])) {
+                if (!\in_array('jtemplate', $params['configuration']['toolbars'][$setIdx]['menu'])) {
                     $search[]  = 'template';
                     $replace[] = 'jtemplate';
                 }
@@ -2702,7 +2796,7 @@ class JoomlaInstallerScript
                     $replace = ['fontfamily', 'fontsize', 'blocks', 'styles'];
 
                     // Don't redo the template
-                    if (!in_array('jtemplate', $params['configuration']['toolbars'][$setIdx][$toolbarIdx])) {
+                    if (!\in_array('jtemplate', $params['configuration']['toolbars'][$setIdx][$toolbarIdx])) {
                         $search[]  = 'template';
                         $replace[] = 'jtemplate';
                     }
@@ -2838,7 +2932,7 @@ class JoomlaInstallerScript
                 // Check if case-insensitive file system, eg on OSX.
                 if (fileinode($oldRealpath) === fileinode($newRealpath)) {
                     // Check deeper because even realpath or glob might not return the actual case.
-                    if (!in_array($expectedBasename, scandir(dirname($newRealpath)))) {
+                    if (!\in_array($expectedBasename, scandir(\dirname($newRealpath)))) {
                         // Rename the file.
                         File::move(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
                         File::move(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
