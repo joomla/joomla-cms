@@ -2,20 +2,11 @@
 
 .form-control {
   max-width: $input-max-width;
-
+  background: $form-control-bg;
   &:disabled,
   &[readonly] {
-    background-color: var(--gray-200);
+    background-color: $form-control-bg-disabled;
     opacity: 1;
-  }
-
-  @if $enable-dark-mode {
-    @include color-mode(dark) {
-      &:disabled,
-      &[readonly] {
-        background-color: var(--gray-800);
-      }
-    }
   }
 
   &:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
