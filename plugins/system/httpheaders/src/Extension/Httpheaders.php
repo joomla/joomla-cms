@@ -160,6 +160,8 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
     /**
      * The `applyHashesToCspRule` method makes sure the csp hashes are added to the csp header when enabled
      *
+     * @param   Event  $event
+     *
      * @return  void
      *
      * @since   4.0.0
@@ -234,6 +236,8 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
 
     /**
      * The `setHttpHeaders` method handle the setting of the configured HTTP Headers
+     *
+     * @param   Event  $event
      *
      * @return  void
      *

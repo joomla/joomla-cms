@@ -1012,6 +1012,8 @@ class TemplateModel extends FormModel
      */
     public function getOverridesList()
     {
+        $result = [];
+
         if ($template = $this->getTemplate()) {
             $client        = ApplicationHelper::getClientInfo($template->client_id);
             $componentPath = Path::clean($client->path . '/components/');
@@ -1094,9 +1096,7 @@ class TemplateModel extends FormModel
             }
         }
 
-        if (!empty($result)) {
-            return $result;
-        }
+        return $result;
     }
 
     /**

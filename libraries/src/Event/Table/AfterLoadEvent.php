@@ -55,7 +55,7 @@ class AfterLoadEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 5.0.0 will be removed in 6.0
      *                Use counterpart with onSet prefix
      */
     protected function setResult($value)
@@ -72,7 +72,7 @@ class AfterLoadEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 5.0.0 will be removed in 6.0
      *                Use counterpart with onSet prefix
      */
     protected function setRow($value)
@@ -93,7 +93,7 @@ class AfterLoadEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function onSetResult($value)
     {
@@ -109,7 +109,7 @@ class AfterLoadEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected function onSetRow($value)
     {
