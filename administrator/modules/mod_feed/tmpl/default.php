@@ -14,105 +14,76 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Filter\OutputFilter;
 
-// Check if feed URL has been set
-if (empty($rssurl)) {
-    echo '<div>' . Text::_('MOD_FEED_ERR_NO_URL') . '</div>';
+
+// Check if feed exists
+if (!empty($feed) && is_string($feed)) :
+    echo $feed;
 
     return;
-}
+endif;
 
-if (!empty($feed) && is_string($feed)) {
-    echo $feed;
-} else {
-    $lang      = $app->getLanguage();
-    $myrtl     = $params->get('rssrtl', 0);
-    $direction = ' ';
-
-    if ($lang->isRtl() && $myrtl == 0) {
-        $direction = ' redirect-rtl';
-    } elseif ($lang->isRtl() && $myrtl == 1) {
-        // Feed description
-        $direction = ' redirect-ltr';
-    } elseif ($lang->isRtl() && $myrtl == 2) {
-        $direction = ' redirect-rtl';
-    } elseif ($myrtl == 0) {
-        $direction = ' redirect-ltr';
-    } elseif ($myrtl == 1) {
-        $direction = ' redirect-ltr';
-    } elseif ($myrtl == 2) {
-        $direction = ' redirect-rtl';
-    }
-
-    if ($feed != false) :
-        ?>
-        <div style="direction: <?php echo $rssrtl ? 'rtl' : 'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' : 'left'; ?> !important" class="feed">
-        <?php
-
-        // Feed title
-        if (!is_null($feed->title) && $params->get('rsstitle', 1)) : ?>
-            <h2 class="<?php echo $direction; ?>">
-                <a href="<?php echo str_replace('&', '&amp;', $rssurl); ?>" target="_blank" rel="noopener noreferrer">
-                <?php echo $feed->title; ?></a>
-            </h2>
-        <?php endif;
-        // Feed date
-        if ($params->get('rssdate', 1)) : ?>
+// Display feed
+if ($feed !== false) : ?>
+<?php print_r($feed); ?>
+    <div dir="<?php echo $rssrtl ? 'rtl' : 'ltr'; ?>" class="px-3">
+        <?php // Feed title ?>
+        <?php if ($feed->title !== null && $params->get('rsstitle', 1)) : ?>
             <h3>
-            <?php echo HTMLHelper::_('date', $feed->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
+                <a href="<?php echo htmlspecialchars($rssurl, ENT_COMPAT, 'UTF-8'); ?>" target="_blank" rel="noreferrer noopener">
+                <?php echo $feed->title; ?></a>
             </h3>
         <?php endif; ?>
-
+        <?php // Feed date ?>
+        <?php if ($params->get('rssdate', 1)) : ?>
+            <h4>
+                <?php echo HTMLHelper::_('date', $feed->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
+            </h4>
+        <?php endif; ?>
         <?php // Feed description ?>
         <?php if ($params->get('rssdesc', 1)) : ?>
             <?php echo $feed->description; ?>
         <?php endif; ?>
-
         <?php // Feed image ?>
-        <?php if ($params->get('rssimage', 1) && $feed->image) : ?>
-            <img class="w-100" src="<?php echo $feed->image->uri; ?>" alt="<?php echo $feed->image->title; ?>"/>
+        <?php if ($feed->image && $params->get('rssimage', 1)) : ?>
+            <?php echo HTMLHelper::_('image', $feed->image->uri, $feed->image->title); ?>
         <?php endif; ?>
-
-
         <?php // Show items ?>
         <?php if (!empty($feed)) : ?>
-        <ul class="newsfeed list-group">
-            <?php for ($i = 0; $i < $params->get('rssitems', 3); $i++) :
-                if (!$feed->offsetExists($i)) :
-                    break;
-                endif;
-                $uri  = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
-                $uri  = !$uri || stripos($uri, 'http') !== 0 ? $rssurl : $uri;
-                $text = $feed[$i]->content !== '' ? trim($feed[$i]->content) : '';
-                ?>
-                <li class="list-group-item mb-2">
-                    <?php if (!empty($uri)) : ?>
-                        <h5 class="feed-link">
-                        <a href="<?php echo $uri; ?>" target="_blank">
-                        <?php echo trim($feed[$i]->title); ?></a></h5>
-                    <?php else : ?>
-                        <h5 class="feed-link"><?php echo trim($feed[$i]->title); ?></h5>
-                    <?php endif; ?>
+            <ul class="newsfeed">
+                <?php for ($i = 0, $max = min(count($feed), $params->get('rssitems', 3)); $i < $max; $i++) { ?>
+                    <?php
+                        $uri  = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
+                        $uri  = !$uri || stripos($uri, 'http') !== 0 ? $rssurl : $uri;
+                        $text = $feed[$i]->content !== '' ? trim($feed[$i]->content) : '';
+                    ?>
+                    <li class="list-group-item mb-2">
+                        <?php if (!empty($uri)) : ?>
+                            <span class="feed-link">
+                            <a href="<?php echo htmlspecialchars($uri, ENT_COMPAT, 'UTF-8'); ?>" target="_blank" rel="noopener noreferrer">
+                            <?php echo trim($feed[$i]->title); ?></a></span>
+                        <?php else : ?>
+                            <span class="feed-link"><?php echo trim($feed[$i]->title); ?></span>
+                        <?php endif; ?>
 
-                    <?php if ($params->get('rssitemdate', 0)) : ?>
-                        <div class="feed-item-date">
-                            <?php echo HTMLHelper::_('date', $feed[$i]->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
-                        </div>
-                    <?php endif; ?>
+                        <?php if ($params->get('rssitemdate', 0)) : ?>
+                            <div class="feed-item-date">
+                                <?php echo HTMLHelper::_('date', $feed[$i]->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
+                            </div>
+                        <?php endif; ?>
 
-                    <?php if ($params->get('rssitemdesc', 1) && $text !== '') : ?>
-                        <div class="feed-item-description">
-                        <?php
-                            // Strip the images.
-                            $text = OutputFilter::stripImages($text);
-                            $text = HTMLHelper::_('string.truncate', $text, $params->get('word_count', 0), true, false);
-                            echo str_replace('&apos;', "'", $text);
-                        ?>
-                        </div>
-                    <?php endif; ?>
-                </li>
-            <?php endfor; ?>
-        </ul>
+                        <?php if ($params->get('rssitemdesc', 1) && $text !== '') : ?>
+                            <div class="feed-item-description">
+                            <?php
+                                // Strip the images.
+                                $text = OutputFilter::stripImages($text);
+                                $text = HTMLHelper::_('string.truncate', $text, $params->get('word_count', 0));
+                                echo str_replace('&apos;', "'", $text);
+                            ?>
+                            </div>
+                        <?php endif; ?>
+                    </li>
+                <?php } ?>
+            </ul>
         <?php endif; ?>
     </div>
-    <?php endif;
-}
+<?php endif;
