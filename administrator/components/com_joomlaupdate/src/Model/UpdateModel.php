@@ -985,9 +985,9 @@ ENDDATA;
 
         // Check the uploaded file (throws RuntimeException when a check failed)
         if (\extension_loaded('zip')) {
-            $this->checkPackageFileZip($userfile['tmp_name']);
+            $this->checkPackageFileZip($userfile['tmp_name'], $userfile['name']);
         } else {
-            $this->checkPackageFileNoZip($userfile['tmp_name']);
+            $this->checkPackageFileNoZip($userfile['tmp_name'], $userfile['name']);
         }
 
         // Build the appropriate paths.
@@ -1814,38 +1814,40 @@ ENDDATA;
     /**
      * Check the update package with ZipArchive class from zip PHP extension
      *
-     * @param   string  $filePath  Full path to the update package to test
+     * @param   string  $filePath     Full path to the uploaded update package (temporary file) to test
+     * @param   string  $packageName  Name of the selected update package
      *
      * @return  void
      *
      * @since   4.4.0
      * @throws  \RuntimeException
      */
-    private function checkPackageFileZip(string $filePath)
+    private function checkPackageFileZip(string $filePath, $packageName)
     {
         $zipArchive = new \ZipArchive();
 
         if ($zipArchive->open($filePath) !== true) {
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
+            throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN', $packageName), 500);
         }
 
         if ($zipArchive->locateName('installation/index.php') !== false) {
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_INSTALL_PACKAGE'), 500);
+            throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_INSTALL_PACKAGE', $packageName), 500);
         }
 
         $manifestFile = $zipArchive->getFromName('administrator/manifests/files/joomla.xml');
 
         if ($manifestFile === false) {
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE'), 500);
+            throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE', $packageName), 500);
         }
 
-        $this->checkManifestXML($manifestFile);
+        $this->checkManifestXML($manifestFile, $packageName);
     }
 
     /**
      * Check the update package without using the ZipArchive class from zip PHP extension
      *
-     * @param   string  $filePath  Full path to the update package to test
+     * @param   string  $filePath  Full path to the uploaded update package (temporary file) to test
+     * @param   string  $packageName  Name of the selected update package
      *
      * @return  void
      *
@@ -1853,25 +1855,25 @@ ENDDATA;
      * @since   4.4.0
      * @throws  \RuntimeException
      */
-    private function checkPackageFileNoZip(string $filePath)
+    private function checkPackageFileNoZip(string $filePath, $packageName)
     {
         // The file must exist and be readable
         if (!file_exists($filePath) || !is_readable($filePath)) {
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
+            throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN', $packageName), 500);
         }
 
         // The file must be at least 1KiB (anything less is not even a real file!)
         $filesize = filesize($filePath);
 
         if ($filesize < 1024) {
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
+            throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN', $packageName), 500);
         }
 
         // Open the file
         $fp = @fopen($filePath, 'rb');
 
         if ($fp === false) {
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
+            throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN', $packageName), 500);
         }
 
         // Read chunks of max. 1MiB size
@@ -1898,7 +1900,7 @@ ENDDATA;
             if ($fileChunk === false || strlen($fileChunk) !== $readsize) {
                 @fclose($fp);
 
-                throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
+                throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN', $packageName), 500);
             }
 
             $posFirstHeader = strpos($fileChunk, $headerSignature);
@@ -1917,7 +1919,7 @@ ENDDATA;
                 if (substr($fileChunk, $pos - 46, 4) == $headerSignature && substr($fileChunk, $pos - 18, 2) == $sizeSignatureIndexPhp) {
                     @fclose($fp);
 
-                    throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_INSTALL_PACKAGE'), 500);
+                    throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_INSTALL_PACKAGE', $packageName), 500);
                 }
 
                 $offset = $pos + 22;
@@ -1952,14 +1954,14 @@ ENDDATA;
         if (!$headerFound) {
             @fclose($fp);
 
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN'), 500);
+            throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_PACKAGE_OPEN', $packageName), 500);
         }
 
         // If no central directory file header found for the manifest XML file it's not a valid Joomla package
         if (!$headerInfo) {
             @fclose($fp);
 
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE'), 500);
+            throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE', $packageName), 500);
         }
 
         // Read the local file header of the manifest XML file
@@ -1972,7 +1974,7 @@ ENDDATA;
         if (!$localHeaderInfo['Compressed']) {
             @fclose($fp);
 
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE'), 500);
+            throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE', $packageName), 500);
         }
 
         // Read the compressed manifest XML file content
@@ -2002,34 +2004,35 @@ ENDDATA;
         }
 
         if (!$manifestFile) {
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE'), 500);
+            throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_MANIFEST_FILE', $packageName), 500);
         }
 
-        $this->checkManifestXML($manifestFile);
+        $this->checkManifestXML($manifestFile, $packageName);
     }
 
     /**
      * Check content of manifest XML file in update package
      *
-     * @param   string  $manifest  Content of the manifest XML file
+     * @param   string  $manifest     Content of the manifest XML file
+     * @param   string  $packageName  Name of the selected update package
      *
      * @return  void
      *
      * @since   4.4.0
      * @throws  \RuntimeException
      */
-    private function checkManifestXML(string $manifest)
+    private function checkManifestXML(string $manifest, $packageName)
     {
         $manifestXml = simplexml_load_string($manifest);
 
         if (!$manifestXml) {
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_VERSION_FOUND'), 500);
+            throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_VERSION_FOUND', $packageName), 500);
         }
 
         $versionPackage = (string) $manifestXml->version ?: '';
 
         if (!$versionPackage) {
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_VERSION_FOUND'), 500);
+            throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NO_VERSION_FOUND', $packageName), 500);
         }
 
         $currentVersion = JVERSION;
@@ -2040,7 +2043,7 @@ ENDDATA;
         }
 
         if (version_compare($versionPackage, $currentVersion, 'lt')) {
-            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_DOWNGRADE'), 500);
+            throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_DOWNGRADE', $packageName, $versionPackage, $currentVersion), 500);
         }
     }
 }
