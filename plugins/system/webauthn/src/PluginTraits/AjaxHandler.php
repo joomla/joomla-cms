@@ -13,7 +13,7 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\GenericEvent;
-use Joomla\CMS\Event\Plugin\System\Webauthn\Ajax;
+use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Event\Plugin\System\Webauthn\Ajax as PlgSystemWebauthnAjax;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxChallenge as PlgSystemWebauthnAjaxChallenge;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxCreate as PlgSystemWebauthnAjaxCreate;
@@ -25,7 +25,6 @@ use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -46,20 +45,23 @@ trait AjaxHandler
      * through the special onAfterInitialize handler we have created to work around com_ajax usage
      * limitations in the backend.
      *
-     * @param   Event  $event  The event we are handling
+     * @param   AjaxEvent  $event  The event we are handling
      *
      * @return  void
      *
      * @throws  \Exception
      * @since   4.0.0
      */
-    public function onAjaxWebauthn(Ajax $event): void
+    public function onAjaxWebauthn(AjaxEvent $event): void
     {
         $input = $this->getApplication()->getInput();
 
         // Get the return URL from the session
         $returnURL = $this->getApplication()->getSession()->get('plg_system_webauthn.returnUrl', Uri::base());
         $result    = null;
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         try {
             Log::add("Received AJAX callback.", Log::DEBUG, 'webauthn.system');

@@ -19,7 +19,7 @@ use Joomla\CMS\Event\ReshapeArgumentsAware;
 /**
  * Class for Cache events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterPurgeEvent extends AbstractImmutableEvent
 {
@@ -30,7 +30,7 @@ class AfterPurgeEvent extends AbstractImmutableEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject'];
@@ -43,12 +43,12 @@ class AfterPurgeEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
         // Reshape the arguments array to preserve b/c with legacy listeners
-        if ($this->legacyArgumentsOrder) {
+        if ($this->legacyArgumentsOrder && $arguments) {
             $arguments = $this->reshapeArguments($arguments, $this->legacyArgumentsOrder);
         }
 
@@ -62,9 +62,9 @@ class AfterPurgeEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
-    protected function setSubject(string $value): string
+    protected function onSetSubject(string $value): string
     {
         return $value;
     }
@@ -74,7 +74,7 @@ class AfterPurgeEvent extends AbstractImmutableEvent
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getGroup(): string
     {

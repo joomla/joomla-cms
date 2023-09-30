@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Form\Field;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Form\FormField;
@@ -18,7 +18,7 @@ use Joomla\CMS\Form\FormField;
 /**
  * Provides a modal content selection
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class ModalSelectField extends FormField
 {
@@ -26,7 +26,7 @@ class ModalSelectField extends FormField
      * The form field type.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $type = 'ModalSelect';
 
@@ -34,7 +34,7 @@ class ModalSelectField extends FormField
      * Layout to render
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $layout = 'joomla.form.field.modal-select';
 
@@ -42,7 +42,7 @@ class ModalSelectField extends FormField
      * Enabled actions: select, clear, edit, new
      *
      * @var    boolean[]
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $canDo = [];
 
@@ -50,7 +50,7 @@ class ModalSelectField extends FormField
      * Urls for modal: select, edit, new
      *
      * @var    string[]
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $urls = [];
 
@@ -58,9 +58,17 @@ class ModalSelectField extends FormField
      * List of titles for each modal type: select, edit, new
      *
      * @var    string[]
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $modalTitles = [];
+
+    /**
+     * List of icons for each button type: select, edit, new
+     *
+     * @var    string[]
+     * @since  5.0.0
+     */
+    protected $buttonIcons = [];
 
     /**
      * Method to attach a Form object to the field.
@@ -72,7 +80,7 @@ class ModalSelectField extends FormField
      * @return  boolean  True on success.
      *
      * @see     FormField::setup()
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
@@ -89,7 +97,7 @@ class ModalSelectField extends FormField
         $this->__set('clear', (string) $this->element['clear'] != 'false');
 
         // Prepare Urls and titles
-        foreach (['urlSelect', 'urlNew', 'urlEdit', 'urlCheckin', 'titleSelect', 'titleNew', 'titleEdit'] as $attr) {
+        foreach (['urlSelect', 'urlNew', 'urlEdit', 'urlCheckin', 'titleSelect', 'titleNew', 'titleEdit', 'iconSelect'] as $attr) {
             $this->__set($attr, (string) $this->element[$attr]);
         }
 
@@ -103,7 +111,7 @@ class ModalSelectField extends FormField
      *
      * @return  mixed  The property value or null.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __get($name)
     {
@@ -130,6 +138,8 @@ class ModalSelectField extends FormField
                 return $this->modalTitles['new'] ?? '';
             case 'titleEdit':
                 return $this->modalTitles['edit'] ?? '';
+            case 'iconSelect':
+                return $this->buttonIcons['select'] ?? '';
             default:
                 return parent::__get($name);
         }
@@ -143,7 +153,7 @@ class ModalSelectField extends FormField
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __set($name, $value)
     {
@@ -181,6 +191,9 @@ class ModalSelectField extends FormField
             case 'titleEdit':
                 $this->modalTitles['edit'] = (string) $value;
                 break;
+            case 'iconSelect':
+                $this->buttonIcons['select'] = (string) $value;
+                break;
             default:
                 parent::__set($name, $value);
         }
@@ -191,7 +204,7 @@ class ModalSelectField extends FormField
      *
      * @return  string  The field input markup.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getInput()
     {
@@ -213,7 +226,7 @@ class ModalSelectField extends FormField
      *
      * @return string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getValueTitle()
     {
@@ -225,7 +238,7 @@ class ModalSelectField extends FormField
      *
      * @return  array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     protected function getLayoutData()
     {
@@ -233,6 +246,7 @@ class ModalSelectField extends FormField
         $data['canDo']       = $this->canDo;
         $data['urls']        = $this->urls;
         $data['modalTitles'] = $this->modalTitles;
+        $data['buttonIcons'] = $this->buttonIcons;
 
         return $data;
     }

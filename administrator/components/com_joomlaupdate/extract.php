@@ -6,7 +6,7 @@
  *
  * @copyright       (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license         GNU General Public License version 2 or later; see LICENSE.txt
-
+ *
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
@@ -725,7 +725,7 @@ class ZIPExtraction
             }
         }
 
-        $error = $this->getError() ?? null;
+        $error = $this->getError();
 
         if (!empty($error)) {
             $this->debugMsg(sprintf('Step failed with error: %s', $error), self::LOG_ERROR);
@@ -1080,7 +1080,6 @@ class ZIPExtraction
                 $this->setError($actualMessage);
 
                 return false;
-                break;
         }
 
         // Find hard-coded banned files
@@ -1197,13 +1196,11 @@ class ZIPExtraction
                 $this->debugMsg('Extracting entity of type Directory', self::LOG_DEBUG);
 
                 return $this->processTypeDir();
-                break;
 
             case 'link':
                 $this->debugMsg('Extracting entity of type Symbolic Link', self::LOG_DEBUG);
 
                 return $this->processTypeLink();
-                break;
 
             case 'file':
                 switch ($this->fileHeader->compression) {
@@ -1211,20 +1208,17 @@ class ZIPExtraction
                         $this->debugMsg('Extracting entity of type File (Stored)', self::LOG_DEBUG);
 
                         return $this->processTypeFileUncompressed();
-                        break;
 
                     case 'gzip':
                     case 'bzip2':
                         $this->debugMsg('Extracting entity of type File (Compressed)', self::LOG_DEBUG);
 
                         return $this->processTypeFileCompressed();
-                        break;
 
                     case 'default':
                         $this->setError(sprintf('Unknown compression type %s.', $this->fileHeader->compression));
 
                         return false;
-                        break;
                 }
                 break;
         }
@@ -1552,7 +1546,6 @@ class ZIPExtraction
                 $this->setError(sprintf('Unknown compression method %s', $this->fileHeader->compression));
 
                 return false;
-                break;
         }
 
         unset($zipData);

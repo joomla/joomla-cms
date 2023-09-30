@@ -35,15 +35,6 @@ use Joomla\Utilities\ArrayHelper;
 final class PrivacyConsent extends CMSPlugin
 {
     use DatabaseAwareTrait;
-    use UserFactoryAwareTrait;
-
-    /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     * @since  3.9.0
-     */
-    protected $autoloadLanguage = true;
 
     /**
      * Adds additional fields to the user editing form
@@ -63,6 +54,9 @@ final class PrivacyConsent extends CMSPlugin
         if (!in_array($name, ['com_users.profile', 'com_users.registration'])) {
             return true;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         // We only display this if user has not consented before
         if (is_object($data)) {
@@ -107,6 +101,9 @@ final class PrivacyConsent extends CMSPlugin
         }
 
         $userId = ArrayHelper::getValue($user, 'id', 0, 'int');
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         // User already consented before, no need to check it further
         if ($userId > 0 && $this->isUserConsented($userId)) {
@@ -257,6 +254,9 @@ final class PrivacyConsent extends CMSPlugin
 
         // Check to see whether user already consented, if not, redirect to user profile page
         if ($userId > 0) {
+            // Load plugin language files
+            $this->loadLanguage();
+
             // If user consented before, no need to check it further
             if ($this->isUserConsented($userId)) {
                 return;
@@ -347,6 +347,8 @@ final class PrivacyConsent extends CMSPlugin
 
         $policy['published'] = true;
         $policy['editLink']  = Route::_('index.php?option=com_content&task=article.edit&id=' . $articleId);
+
+        $event->updatePolicyInfo($policy);
     }
 
     /**

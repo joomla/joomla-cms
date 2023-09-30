@@ -224,9 +224,9 @@ class UCMType implements UCM
     {
         if (!empty($this->type->field_mappings)) {
             return $this->fieldmap = json_decode($this->type->field_mappings, $assoc);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

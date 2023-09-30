@@ -29,7 +29,7 @@ use Joomla\Filesystem\Path;
  * A task plugin. Offers 1 task routines Rotate Logs
  * {@see ExecuteTaskEvent}.
  *
- * @since __DEPLOY_VERSION__
+ * @since 5.0.0
  */
 final class RotateLogs extends CMSPlugin implements SubscriberInterface
 {
@@ -38,7 +38,7 @@ final class RotateLogs extends CMSPlugin implements SubscriberInterface
 
     /**
      * @var string[]
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private const TASKS_MAP = [
         'rotation.logs' => [
@@ -50,7 +50,7 @@ final class RotateLogs extends CMSPlugin implements SubscriberInterface
 
     /**
      * @var boolean
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     protected $autoloadLanguage = true;
 
@@ -59,7 +59,7 @@ final class RotateLogs extends CMSPlugin implements SubscriberInterface
      *
      * @return string[]
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -77,7 +77,7 @@ final class RotateLogs extends CMSPlugin implements SubscriberInterface
      *
      * @return integer  The routine exit code.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @throws \Exception
      */
     private function rotateLogs(ExecuteTaskEvent $event): int
@@ -123,7 +123,7 @@ final class RotateLogs extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function rotate($path, $filename, $currentVersion)
     {
@@ -151,7 +151,7 @@ final class RotateLogs extends CMSPlugin implements SubscriberInterface
      *
      * @return  array   The log files in the given path grouped by version number (not rotated files have number 0)
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function getLogFiles($path)
     {

@@ -27,7 +27,9 @@
   margin: 0;
   overflow: hidden;
   font-size: .875rem;
+  /* stylelint-disable */
   box-orient: vertical;
+  /* stylelint-enable */
   -webkit-line-clamp: 3;
 }
 

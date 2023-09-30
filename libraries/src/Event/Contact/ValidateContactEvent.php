@@ -22,7 +22,7 @@ use Joomla\CMS\Event\Result\ResultTypeMixedAware;
 /**
  * Class for Contact events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class ValidateContactEvent extends AbstractImmutableEvent implements ResultAwareInterface
 {
@@ -35,7 +35,7 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject', 'data'];
@@ -48,16 +48,16 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
         // Reshape the arguments array to preserve b/c with legacy listeners
         if ($this->legacyArgumentsOrder) {
-            $arguments = $this->reshapeArguments($arguments, $this->legacyArgumentsOrder);
+            parent::__construct($name, $this->reshapeArguments($arguments, $this->legacyArgumentsOrder));
+        } else {
+            parent::__construct($name, $arguments);
         }
-
-        parent::__construct($name, $arguments);
 
         if (!\array_key_exists('subject', $this->arguments)) {
             throw new \BadMethodCallException("Argument 'subject' of event {$name} is required but has not been provided");
@@ -65,6 +65,15 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
 
         if (!\array_key_exists('data', $this->arguments)) {
             throw new \BadMethodCallException("Argument 'data' of event {$name} is required but has not been provided");
+        }
+
+        // For backward compatibility make sure the content is referenced
+        // @todo: Remove in Joomla 6
+        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
+        if (key($arguments) === 0) {
+            $this->arguments['data'] = &$arguments[1];
+        } elseif (\array_key_exists('data', $arguments)) {
+            $this->arguments['data'] = &$arguments['data'];
         }
     }
 
@@ -75,9 +84,9 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
-    protected function setSubject(object $value): object
+    protected function onSetSubject(object $value): object
     {
         return $value;
     }
@@ -85,13 +94,13 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
     /**
      * Setter for the data argument.
      *
-     * @param   array|\ArrayAccess  $value  The value to set
+     * @param   array  $value  The value to set
      *
-     * @return  array|\ArrayAccess
+     * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
-    protected function setData(array|\ArrayAccess $value): array|\ArrayAccess
+    protected function onSetData(array $value): array
     {
         return $value;
     }
@@ -101,7 +110,7 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getContact(): object
     {
@@ -111,11 +120,11 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
     /**
      * Getter for the data.
      *
-     * @return  array|\ArrayAccess
+     * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
-    public function getData(): array|\ArrayAccess
+    public function getData(): array
     {
         return $this->arguments['data'];
     }

@@ -1,6 +1,6 @@
 ul.phpdebugbar-widgets-languageErrors {
-    margin-left: 5px;
-    margin-top: 5px;
-    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-    line-height: 1.3em;
+  margin-top: 5px;
+  margin-left: 5px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  line-height: 1.3em;
 }

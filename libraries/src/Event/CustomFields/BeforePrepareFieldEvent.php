@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\CustomFields;
 /**
  * Class for CustomFields events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class BeforePrepareFieldEvent extends AbstractPrepareFieldEvent
 {

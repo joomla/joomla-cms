@@ -47,7 +47,7 @@ final class EditorSetupEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(EditorsRegistryInterface $value): EditorsRegistryInterface
+    protected function onSetSubject(EditorsRegistryInterface $value): EditorsRegistryInterface
     {
         return $value;
     }

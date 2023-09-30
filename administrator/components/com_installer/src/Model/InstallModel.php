@@ -97,7 +97,7 @@ class InstallModel extends BaseDatabaseModel
         // (e.g. from a \JSON description).
         $eventBefore = new BeforeInstallationEvent('onInstallerBeforeInstallation', [
             'subject' => $this,
-            'package' => &$package, // TODO: Remove reference in Joomla 6, see InstallerEvent::__constructor()
+            'package' => &$package, // @todo: Remove reference in Joomla 6, see InstallerEvent::__constructor()
         ]);
         $results = $dispatcher->dispatch('onInstallerBeforeInstallation', $eventBefore)->getArgument('result', []);
         $package = $eventBefore->getPackage();
@@ -136,10 +136,15 @@ class InstallModel extends BaseDatabaseModel
             }
         }
 
+        // No one of installType was able to resolve $package. Nothing to Install.
+        if (!$package) {
+            return false;
+        }
+
         // This event allows a custom installation of the package or a customization of the package:
         $eventBeforeInst = new BeforeInstallerEvent('onInstallerBeforeInstaller', [
             'subject' => $this,
-            'package' => &$package, // TODO: Remove reference in Joomla 6, see InstallerEvent::__constructor()
+            'package' => &$package, // @todo: Remove reference in Joomla 6, see InstallerEvent::__constructor()
         ]);
         $results = $dispatcher->dispatch('onInstallerBeforeInstaller', $eventBeforeInst)->getArgument('result', []);
         $package = $eventBeforeInst->getPackage();
@@ -221,10 +226,10 @@ class InstallModel extends BaseDatabaseModel
         // This event allows a custom a post-flight:
         $eventAfterInst = new AfterInstallerEvent('onInstallerAfterInstaller', [
             'subject'         => $this,
-            'package'         => &$package, // TODO: Remove reference in Joomla 6, see InstallerEvent::__constructor()
+            'package'         => &$package, // @todo: Remove reference in Joomla 6, see InstallerEvent::__constructor()
             'installer'       => $installer,
-            'installerResult' => &$result, // TODO: Remove reference in Joomla 6, see AfterInstallerEvent::__constructor()
-            'message'         => &$msg, // TODO: Remove reference in Joomla 6, see AfterInstallerEvent::__constructor()
+            'installerResult' => &$result, // @todo: Remove reference in Joomla 6, see AfterInstallerEvent::__constructor()
+            'message'         => &$msg, // @todo: Remove reference in Joomla 6, see AfterInstallerEvent::__constructor()
         ]);
         $dispatcher->dispatch('onInstallerAfterInstaller', $eventAfterInst);
         $package = $eventAfterInst->getPackage();

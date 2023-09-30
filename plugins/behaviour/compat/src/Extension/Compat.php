@@ -24,7 +24,7 @@ use Joomla\Event\SubscriberInterface;
 /**
  * Joomla! Compat Plugin.
  *
- * @since  5.0.0
+ * @since  4.4.0
  */
 final class Compat extends CMSPlugin implements SubscriberInterface
 {
@@ -33,7 +33,7 @@ final class Compat extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since  5.0.0
+     * @since  4.4.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -72,7 +72,7 @@ final class Compat extends CMSPlugin implements SubscriberInterface
          * Load class names which are deprecated in joomla 4.0 and which will
          * likely be removed in Joomla 6.0
          */
-        if ($this->params->get('classes_aliases')) {
+        if ($this->params->get('classes_aliases', '1')) {
             require_once dirname(__DIR__) . '/classmap/classmap.php';
         }
     }
@@ -92,7 +92,7 @@ final class Compat extends CMSPlugin implements SubscriberInterface
          * directly uses a core es5 asset which has no function in Joomla 5+
          * and only provides an empty asset to not throw an exception
          */
-        if ($this->params->get('es5_assets')) {
+        if ($this->params->get('es5_assets', '1')) {
             $event->getDocument()
                 ->getWebAssetManager()
                 ->getRegistry()

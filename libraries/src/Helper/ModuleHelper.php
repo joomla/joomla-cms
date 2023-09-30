@@ -20,7 +20,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Profiler\Profiler;
-use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
@@ -209,11 +208,12 @@ abstract class ModuleHelper
         $module->style = $attribs['style'];
 
         // If the $module is nulled it will return an empty content, otherwise it will render the module normally.
-        $attrProxy = new ArrayProxy($attribs);
-        $dispatcher->dispatch('onRenderModule', new Module\BeforeRenderModuleEvent('onRenderModule', [
+        $brEvent = $dispatcher->dispatch('onRenderModule', new Module\BeforeRenderModuleEvent('onRenderModule', [
             'subject'    => $module,
-            'attributes' => $attrProxy,
+            'attributes' => &$attribs, // @todo: Remove reference in Joomla 6, see BeforeRenderModuleEvent::__constructor()
         ]));
+        // Get final attributes
+        $attribs = $brEvent->getArgument('attributes', $attribs);
 
         if (!isset($module->content)) {
             return '';
@@ -241,7 +241,7 @@ abstract class ModuleHelper
 
         $dispatcher->dispatch('onAfterRenderModule', new Module\AfterRenderModuleEvent('onAfterRenderModule', [
             'subject'    => $module,
-            'attributes' => $attrProxy,
+            'attributes' => $attribs,
         ]));
 
         if (JDEBUG) {
@@ -375,24 +375,24 @@ abstract class ModuleHelper
         $dispatcher = Factory::getApplication()->getDispatcher();
         $modules    = [];
 
-        $dispatcher->dispatch('onPrepareModuleList', new Module\PrepareModuleListEvent('onPrepareModuleList', [
-            'subject' => new ArrayProxy($modules),
-        ]));
+        $modules = $dispatcher->dispatch('onPrepareModuleList', new Module\PrepareModuleListEvent('onPrepareModuleList', [
+            'modules' => &$modules, // @todo: Remove reference in Joomla 6, see PrepareModuleListEvent::__constructor()
+        ]))->getArgument('modules', $modules);
 
         // If the onPrepareModuleList event returns an array of modules, then ignore the default module list creation
         if (!$modules) {
             $modules = static::getModuleList();
         }
 
-        $dispatcher->dispatch('onAfterModuleList', new Module\AfterModuleListEvent('onAfterModuleList', [
-            'subject' => new ArrayProxy($modules),
-        ]));
+        $modules = $dispatcher->dispatch('onAfterModuleList', new Module\AfterModuleListEvent('onAfterModuleList', [
+            'modules' => &$modules, // @todo: Remove reference in Joomla 6, see AfterModuleListEvent::__constructor()
+        ]))->getArgument('modules', $modules);
 
         $modules = static::cleanModuleList($modules);
 
-        $dispatcher->dispatch('onAfterCleanModuleList', new Module\AfterCleanModuleListEvent('onAfterCleanModuleList', [
-            'subject' => new ArrayProxy($modules),
-        ]));
+        $modules = $dispatcher->dispatch('onAfterCleanModuleList', new Module\AfterCleanModuleListEvent('onAfterCleanModuleList', [
+            'modules' => &$modules, // @todo: Remove reference in Joomla 6, see AfterCleanModuleListEvent::__constructor()
+        ]))->getArgument('modules', $modules);
 
         return $modules;
     }

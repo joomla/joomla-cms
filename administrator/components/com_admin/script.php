@@ -6,7 +6,7 @@
  *
  * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
+ *
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
@@ -42,6 +42,50 @@ class JoomlaInstallerScript
      * @since  3.7
      */
     protected $fromVersion = null;
+
+    /**
+     * Callback for collecting errors. Like function(string $context, \Throwable $error){};
+     *
+     * @var callable
+     *
+     * @since  4.4.0
+     */
+    protected $errorCollector;
+
+    /**
+     * Set the callback for collecting errors.
+     *
+     * @param   callable  $callback  The callback Like function(string $context, \Throwable $error){};
+     *
+     * @return  void
+     *
+     * @since  4.4.0
+     */
+    public function setErrorCollector(callable $callback)
+    {
+        $this->errorCollector = $callback;
+    }
+
+    /**
+     * Collect errors.
+     *
+     * @param  string      $context  A context/place where error happened
+     * @param  \Throwable  $error    The error that occurred
+     *
+     * @return  void
+     *
+     * @since  4.4.0
+     */
+    protected function collectError(string $context, \Throwable $error)
+    {
+        // The errorCollector are required
+        // However when someone already running the script manually the code may fail.
+        if ($this->errorCollector) {
+            call_user_func($this->errorCollector, $context, $error);
+        } else {
+            Log::add($error->getMessage(), Log::ERROR, 'Update');
+        }
+    }
 
     /**
      * Function to act prior to installation process begins
@@ -82,27 +126,38 @@ class JoomlaInstallerScript
      */
     public function update($installer)
     {
-        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-        $options['text_file'] = 'joomla_update.php';
-
-        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
-
+        // Uninstall extensions before removing their files and folders
         try {
-            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), Log::INFO, 'Update');
-        } catch (RuntimeException $exception) {
-            // Informational log only
+            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_UNINSTALL_EXTENSIONS'), Log::INFO, 'Update');
+            $this->uninstallExtensions();
+        } catch (\Throwable $e) {
+            $this->collectError('uninstallExtensions', $e);
         }
 
-        // Uninstall extensions before removing their files and folders
-        $this->uninstallExtensions();
+        // Remove old files
+        try {
+            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), Log::INFO, 'Update');
+            $this->deleteUnexistingFiles();
+        } catch (\Throwable $e) {
+            $this->collectError('deleteUnexistingFiles', $e);
+        }
 
-        // This needs to stay for 2.5 update compatibility
-        $this->deleteUnexistingFiles();
-        $this->updateManifestCaches();
-        $this->updateDatabase();
-        $this->updateAssets($installer);
-        $this->clearStatsCache();
-        $this->cleanJoomlaCache();
+        // Further update
+        try {
+            $this->updateManifestCaches();
+            $this->updateDatabase();
+            $this->updateAssets($installer);
+            $this->clearStatsCache();
+        } catch (\Throwable $e) {
+            $this->collectError('Further update', $e);
+        }
+
+        // Clean cache
+        try {
+            $this->cleanJoomlaCache();
+        } catch (\Throwable $e) {
+            $this->collectError('cleanJoomlaCache', $e);
+        }
     }
 
     /**
@@ -127,7 +182,7 @@ class JoomlaInstallerScript
                     ->where($db->quoteName('element') . ' = ' . $db->quote('stats'))
             )->loadResult();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -151,7 +206,7 @@ class JoomlaInstallerScript
         try {
             $db->setQuery($query)->execute();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -183,7 +238,7 @@ class JoomlaInstallerScript
         try {
             $results = $db->loadObjectList();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -198,7 +253,7 @@ class JoomlaInstallerScript
             try {
                 $db->execute();
             } catch (Exception $e) {
-                echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+                $this->collectError(__METHOD__, $e);
 
                 return;
             }
@@ -233,11 +288,12 @@ class JoomlaInstallerScript
              * 'pre_function' => Name of an optional migration function to be called before
              *                   uninstalling, `null` if not used.
              */
-             ['type' => 'plugin', 'element' => 'demotasks', 'folder' => 'task', 'client_id' => 0, 'pre_function' => null],
-             ['type' => 'plugin', 'element' => 'compat', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateCompatPlugin'],
-             ['type' => 'plugin', 'element' => 'logrotation', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateLogRotationPlugin'],
-             ['type' => 'plugin', 'element' => 'recaptcha', 'folder' => 'captcha', 'client_id' => 0, 'pre_function' => null],
-             ['type' => 'plugin', 'element' => 'updatenotification', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateUpdatenotificationPlugin'],
+            ['type' => 'plugin', 'element' => 'demotasks', 'folder' => 'task', 'client_id' => 0, 'pre_function' => null],
+            ['type' => 'plugin', 'element' => 'compat', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateCompatPlugin'],
+            ['type' => 'plugin', 'element' => 'logrotation', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateLogRotationPlugin'],
+            ['type' => 'plugin', 'element' => 'recaptcha', 'folder' => 'captcha', 'client_id' => 0, 'pre_function' => null],
+            ['type' => 'plugin', 'element' => 'sessiongc', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateSessionGCPlugin'],
+            ['type' => 'plugin', 'element' => 'updatenotification', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateUpdatenotificationPlugin'],
         ];
 
         $db = Factory::getDbo();
@@ -284,7 +340,6 @@ class JoomlaInstallerScript
                 $db->transactionCommit();
             } catch (\Exception $e) {
                 $db->transactionRollback();
-                echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
                 throw $e;
             }
         }
@@ -324,7 +379,7 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function migrateLogRotationPlugin($data)
     {
@@ -344,7 +399,7 @@ class JoomlaInstallerScript
         $lastrun      = (int) $params->get('lastrun', time());
 
         $task = [
-            'title'           => 'RotateLogs',
+            'title'           => 'Rotate Logs',
             'type'            => 'rotation.logs',
             'execution_rules' => [
                 'rule-type'     => 'interval-days',
@@ -367,7 +422,48 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
+     */
+    private function migrateSessionGCPlugin($data)
+    {
+        if (!$data->enabled) {
+            return;
+        }
+
+        // Get the plugin parameters
+        $params = new Registry($data->params);
+
+        /** @var SchedulerComponent $component */
+        $component = Factory::getApplication()->bootComponent('com_scheduler');
+
+        /** @var TaskModel $model */
+        $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+        $task  = [
+            'title'           => 'Session GC',
+            'type'            => 'session.gc',
+            'execution_rules' => [
+                'rule-type'      => 'interval-hours',
+                'interval-hours' => 24,
+                'exec-time'      => gmdate('H:i'),
+                'exec-day'       => gmdate('d'),
+            ],
+            'state'  => 1,
+            'params' => [
+                'enable_session_gc'          => $params->get('enable_session_gc', 1),
+                'enable_session_metadata_gc' => $params->get('enable_session_metadata_gc', 1),
+            ],
+        ];
+        $model->save($task);
+    }
+
+    /**
+     * This method is for migration for old updatenotification system plugin migration to task.
+     *
+     * @param   \stdClass  $data  Object with the extension's record in the `#__extensions` table
+     *
+     * @return  void
+     *
+     * @since   5.0.0
      */
     private function migrateUpdatenotificationPlugin($data)
     {
@@ -388,7 +484,7 @@ class JoomlaInstallerScript
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
-            'title'           => 'UpdateNotification',
+            'title'           => 'Update Notification',
             'type'            => 'update.notification',
             'execution_rules' => [
                 'rule-type'      => 'interval-hours',
@@ -435,7 +531,7 @@ class JoomlaInstallerScript
         try {
             $extensions = $db->loadObjectList();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -445,7 +541,16 @@ class JoomlaInstallerScript
 
         foreach ($extensions as $extension) {
             if (!$installer->refreshManifestCache($extension->extension_id)) {
-                echo Text::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id) . '<br>';
+                $this->collectError(
+                    __METHOD__,
+                    new \Exception(sprintf(
+                        'Error on updating manifest cache: (type, element, folder, client) = (%s, %s, %s, %s)',
+                        $extension->type,
+                        $extension->element,
+                        $extension->name,
+                        $extension->client_id
+                    ))
+                );
             }
         }
     }
@@ -538,6 +643,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/mysql/4.3.2-2023-05-03.sql',
             '/administrator/components/com_admin/sql/updates/mysql/4.3.2-2023-05-20.sql',
             '/administrator/components/com_admin/sql/updates/mysql/4.4.0-2023-05-08.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/4.4.0-2023-09-13.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-03-05.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-05-15.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-07-19.sql',
@@ -601,6 +707,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-05-03.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-05-20.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.4.0-2023-05-08.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/4.4.0-2023-09-13.sql',
             '/libraries/src/Schema/ChangeItem/SqlsrvChangeItem.php',
             '/libraries/vendor/beberlei/assert/lib/Assert/Assert.php',
             '/libraries/vendor/beberlei/assert/lib/Assert/Assertion.php',
@@ -740,6 +847,7 @@ class JoomlaInstallerScript
             '/libraries/vendor/symfony/polyfill-php81/bootstrap.php',
             '/libraries/vendor/symfony/polyfill-php81/LICENSE',
             '/libraries/vendor/symfony/polyfill-php81/Php81.php',
+            '/libraries/vendor/symfony/polyfill-php81/Resources/stubs/CURLStringFile.php',
             '/libraries/vendor/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
             '/libraries/vendor/web-auth/cose-lib/src/Verifier.php',
             '/libraries/vendor/web-auth/metadata-service/src/AuthenticatorStatus.php',
@@ -1994,6 +2102,95 @@ class JoomlaInstallerScript
             '/media/plg_editors_tinymce/js/plugins/highlighter/source.min.js',
             '/media/plg_editors_tinymce/js/plugins/highlighter/source.min.js.gz',
             '/media/plg_system_compat/es5.asset.json',
+            // From 5.0.0-alpha4 to 5.0.0-beta1
+            '/administrator/components/com_categories/tmpl/categories/default_batch_footer.php',
+            '/administrator/components/com_content/tmpl/articles/default_batch_footer.php',
+            '/administrator/language/en-GB/plg_twofactorauth_totp.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_totp.sys.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_yubikey.ini',
+            '/administrator/language/en-GB/plg_twofactorauth_yubikey.sys.ini',
+            '/media/com_contenthistory/js/admin-history-versions.js',
+            '/media/com_contenthistory/js/admin-history-versions.min.js',
+            '/media/com_contenthistory/js/admin-history-versions.min.js.gz',
+            // From 5.0.0-beta1 to 5.0.0-beta2
+            '/language/en-GB/lib_simplepie.sys.ini',
+            '/libraries/src/Cache/Storage/WincacheStorage.php',
+            // From 5.0.0-beta2 to 5.0.0-beta3
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/AbstractString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/AbstractTime.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/ASNObject.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Base128.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Composite/AttributeTypeAndValue.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Composite/RDNString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Composite/RelativeDistinguishedName.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Construct.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Exception/NotImplementedException.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Exception/ParserException.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/ExplicitlyTaggedObject.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Identifier.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/OID.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Parsable.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/TemplateParser.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/BitString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/BMPString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/Boolean.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/CharacterString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/Enumerated.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/GeneralizedTime.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/GeneralString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/GraphicString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/IA5String.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/Integer.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/NullObject.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/NumericString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/ObjectDescriptor.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/ObjectIdentifier.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/OctetString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/PrintableString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/RelativeObjectIdentifier.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/Sequence.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/Set.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/T61String.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/UniversalString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/UTCTime.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/UTF8String.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal/VisibleString.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/UnknownConstructedObject.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/UnknownObject.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/Utility/BigInteger.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/Utility/BigIntegerBcmath.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/Utility/BigIntegerGmp.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/AlgorithmIdentifier.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/CertificateExtensions.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/CertificateSubject.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/CSR/Attributes.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/CSR/CSR.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/PrivateKey.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/PublicKey.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/SAN/DNSName.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/SAN/IPAddress.php',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/SAN/SubjectAlternativeNames.php',
+            '/libraries/vendor/fgrosse/phpasn1/LICENSE',
+            '/libraries/vendor/stella-maris/clock/LICENSE.md',
+            '/libraries/vendor/stella-maris/clock/src/ClockInterface.php',
+            '/media/system/css/calendar-jos.css',
+            '/media/system/css/calendar-jos.min.css',
+            '/media/system/css/calendar-jos.min.css.gz',
+            '/media/system/css/debug.css',
+            '/media/system/css/debug.min.css',
+            '/media/system/css/debug.min.css.gz',
+            '/media/system/css/frontediting.css',
+            '/media/system/css/frontediting.min.css',
+            '/media/system/css/frontediting.min.css.gz',
+            '/media/system/css/mootree.css',
+            '/media/system/css/mootree.min.css',
+            '/media/system/css/mootree.min.css.gz',
+            '/media/system/css/mootree_rtl.css',
+            '/media/system/css/mootree_rtl.min.css',
+            '/media/system/css/mootree_rtl.min.css.gz',
+            '/media/system/css/sortablelist.css',
+            '/media/system/css/sortablelist.min.css',
+            '/media/system/css/sortablelist.min.css.gz',
         ];
 
         $folders = [
@@ -2213,6 +2410,21 @@ class JoomlaInstallerScript
             '/templates/system/incompatible.html,',
             '/media/plg_system_compat',
             '/media/plg_editors_tinymce/js/plugins/highlighter',
+            // From 5.0.0-beta2 to 5.0.0-beta3
+            '/libraries/vendor/stella-maris/clock/src',
+            '/libraries/vendor/stella-maris/clock',
+            '/libraries/vendor/stella-maris',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/SAN',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509/CSR',
+            '/libraries/vendor/fgrosse/phpasn1/lib/X509',
+            '/libraries/vendor/fgrosse/phpasn1/lib/Utility',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Universal',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Exception',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1/Composite',
+            '/libraries/vendor/fgrosse/phpasn1/lib/ASN1',
+            '/libraries/vendor/fgrosse/phpasn1/lib',
+            '/libraries/vendor/fgrosse/phpasn1',
+            '/libraries/vendor/fgrosse',
         ];
 
         $status['files_checked']   = $files;
@@ -2226,7 +2438,7 @@ class JoomlaInstallerScript
                     if (File::delete(JPATH_ROOT . $file)) {
                         $status['files_deleted'][] = $file;
                     } else {
-                        $status['files_errors'][] = Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file);
+                        $status['files_errors'][] = sprintf('Error on deleting file or folder %s', $file);
                     }
                 }
             }
@@ -2240,7 +2452,7 @@ class JoomlaInstallerScript
                     if (Folder::delete(JPATH_ROOT . $folder)) {
                         $status['folders_deleted'][] = $folder;
                     } else {
-                        $status['folders_errors'][] = Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder);
+                        $status['folders_errors'][] = sprintf('Error on deleting file or folder %s', $folder);
                     }
                 }
             }
@@ -2290,6 +2502,8 @@ class JoomlaInstallerScript
             $asset->setLocation(1, 'last-child');
 
             if (!$asset->store()) {
+                $this->collectError(__METHOD__, new \Exception($asset->getError(true)));
+
                 // Install failed, roll back changes
                 $installer->abort(Text::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->getError(true)));
 
@@ -2346,15 +2560,91 @@ class JoomlaInstallerScript
             return false;
         }
 
+        if (!$this->migrateDeleteActionlogsConfiguration()) {
+            return false;
+        }
+
         if (!$this->migratePrivacyconsentConfiguration()) {
             return false;
         }
 
         $this->setGuidedToursUid();
 
+        // Refresh versionable assets cache.
+        Factory::getApplication()->flushAssets();
+
         return true;
     }
 
+    /**
+     * Migrate Deleteactionlogs plugin configuration
+     *
+     * @return  boolean  True on success
+     *
+     * @since   5.0.0
+     */
+    private function migrateDeleteActionlogsConfiguration(): bool
+    {
+        $db = Factory::getDbo();
+
+        try {
+            // Get the ActionLogs system plugin's parameters
+            $row = $db->setQuery(
+                $db->getQuery(true)
+                    ->select([$db->quotename('enabled'), $db->quoteName('params')])
+                    ->from($db->quoteName('#__extensions'))
+                    ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+                    ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+                    ->where($db->quoteName('element') . ' = ' . $db->quote('actionlogs'))
+            )->loadObject();
+        } catch (Exception $e) {
+            $this->collectError(__METHOD__, $e);
+
+            return false;
+        }
+
+        // If not existing or disabled there is nothing to migrate
+        if (!$row || !$row->enabled) {
+            return true;
+        }
+
+        $params = new Registry($row->params);
+
+        // If deletion of outdated logs was disabled there is nothing to migrate
+        if (!$params->get('logDeletePeriod', 0)) {
+            return true;
+        }
+
+        /** @var SchedulerComponent $component */
+        $component = Factory::getApplication()->bootComponent('com_scheduler');
+
+        /** @var TaskModel $model */
+        $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+        $task  = [
+            'title'           => 'Delete Action Logs',
+            'type'            => 'delete.actionlogs',
+            'execution_rules' => [
+                'rule-type'      => 'interval-hours',
+                'interval-hours' => 24,
+                'exec-time'      => gmdate('H:i', $params->get('lastrun', time())),
+                'exec-day'       => gmdate('d'),
+            ],
+            'state'  => 1,
+            'params' => [
+                'logDeletePeriod' => $params->get('logDeletePeriod', 0),
+            ],
+        ];
+
+        try {
+            $model->save($task);
+        } catch (Exception $e) {
+            $this->collectError(__METHOD__, $e);
+
+            return false;
+        }
+
+        return true;
+    }
     /**
      * Migrate privacyconsents system plugin configuration
      *
@@ -2370,26 +2660,26 @@ class JoomlaInstallerScript
             // Get the PrivacyConsent system plugin's parameters
             $row = $db->setQuery(
                 $db->getQuery(true)
-                    ->select($db->quotename('enabled'), $db->quoteName('params'))
+                    ->select([$db->quotename('enabled'), $db->quoteName('params')])
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
                     ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
                     ->where($db->quoteName('element') . ' = ' . $db->quote('privacyconsent'))
             )->loadObject();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return false;
         }
 
-        // If not existing or disbled there is nothing to migrate
+        // If not existing or disabled there is nothing to migrate
         if (!$row || !$row->enabled) {
             return true;
         }
 
         $params = new Registry($row->params);
 
-        // If consent expiration was disbled there is nothing to migrate
+        // If consent expiration was disabled there is nothing to migrate
         if (!$params->get('enabled', 0)) {
             return true;
         }
@@ -2400,7 +2690,7 @@ class JoomlaInstallerScript
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
-            'title'           => 'PrivacyConsent',
+            'title'           => 'Privacy Consent',
             'type'            => 'privacy.consent',
             'execution_rules' => [
                 'rule-type'     => 'interval-days',
@@ -2418,10 +2708,13 @@ class JoomlaInstallerScript
         try {
             $model->save($task);
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return false;
         }
+
+        // Refresh versionable assets cache.
+        Factory::getApplication()->flushAssets();
 
         return true;
     }
@@ -2448,7 +2741,7 @@ class JoomlaInstallerScript
                     ->where($db->quoteName('element') . ' = ' . $db->quote('tinymce'))
             )->loadResult();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return false;
         }
@@ -2522,7 +2815,7 @@ class JoomlaInstallerScript
         try {
             $db->setQuery($query)->execute();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return false;
         }
@@ -2535,13 +2828,13 @@ class JoomlaInstallerScript
      *
      * @return  boolean  True on success
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function setGuidedToursUid()
     {
         /** @var \Joomla\Component\Cache\Administrator\Model\CacheModel $model */
         $model = Factory::getApplication()->bootComponent('com_guidedtours')->getMVCFactory()
-                        ->createModel('Tours', 'Administrator', ['ignore_request' => true]);
+            ->createModel('Tours', 'Administrator', ['ignore_request' => true]);
 
         $items = $model->getItems();
 

@@ -84,14 +84,11 @@ $atum-colors: (
   template-bg-dark-75:             hsl(var(--hue), 40%, 25%),
   template-bg-dark-80:             hsl(var(--hue), 40%, 20%),
   template-bg-dark-90:             hsl(var(--hue), 40%, 10%),
-  media-manager-overlay-header-bg: var(--template-bg-dark-5),
-  media-manager-infobar-dt-color:  rgba(0, 0, 0, .54),
-  media-manager-content-bg:        var(--body-bg),
-  media-manager-overlay-bg:        var(--template-bg-dark-3),
 );
 
 $colors: (
   card-bg:                         rgba(255, 255, 255, .7),
+  card-color:                      var(--template-bg-dark-60),
   bluegray:                        $bluegray,
   lightbluegray:                   #f6f9fc,
   toolbar-bg:                      $white,
@@ -185,7 +182,6 @@ $state-success-border:             hsl(var(--hue),50%,93%);
 
 $state-info-text:                  var(--template-bg-dark-70);
 $state-info-bg:                    var(--body-bg);
-$state-info-border:                var(--template-bg-dark-70);
 
 $state-warning-text:               darken($warning, 24%);
 $state-warning-bg:                 lighten($warning, 44%);
@@ -242,8 +238,8 @@ $form-select-indicator:            url("../images/select-bg.svg");
 $form-select-indicator-rtl:        url("../images/select-bg-rtl.svg");
 $form-select-indicator-active:     url("../../../images/select-bg.svg");
 $form-select-indicator-active-rtl: url("../../../images/select-bg-rtl.svg");
-$form-select-background:           $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
-$form-select-background-rtl:       $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$form-select-background:           $form-select-bg $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$form-select-background-rtl:       $form-select-bg $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 $form-select-box-shadow:           $atum-box-shadow;
 $form-select-bg-size-sm:           75rem;
 $form-select-multiple-padding-y:   .3rem;

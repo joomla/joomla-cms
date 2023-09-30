@@ -2,9 +2,9 @@
 
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_actionlogs
+ * @subpackage  com_guidedtours
  *
- * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ use Joomla\CMS\Factory;
 /**
  * Guidedtours component helper.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class GuidedtoursHelper
 {
@@ -31,7 +31,7 @@ class GuidedtoursHelper
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public static function loadTranslationFiles($uid, bool $steps = false)
     {
@@ -88,7 +88,7 @@ class GuidedtoursHelper
                 || $lang->load($extension . '.' . str_replace('-', '_', $tourid), $source);
             if ($steps) {
                 $lang->load($extension . '.' . str_replace('-', '_', $tourid) . '_steps', JPATH_ADMINISTRATOR)
-                    || $lang->load($extension . '.' . str_replace('-', '_', $tourid) . '_steps', JPATH_ADMINISTRATOR);
+                    || $lang->load($extension . '.' . str_replace('-', '_', $tourid) . '_steps', $source);
             }
         } else {
             $lang->load('guidedtours.' . str_replace('-', '_', $uid), JPATH_ADMINISTRATOR);
@@ -98,7 +98,5 @@ class GuidedtoursHelper
         }
 
         $cache[$uid] = true;
-
-        return;
     }
 }

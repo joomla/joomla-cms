@@ -40,7 +40,7 @@ class ApiController extends BaseController
      * The Application. Redeclared to show this class requires a web application.
      *
      * @var    CMSWebApplicationInterface
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $app;
 

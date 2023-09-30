@@ -13,8 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Profiler\Profiler;
-use Joomla\CMS\Router\SiteRouter;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
@@ -27,7 +25,7 @@ return new class () implements ServiceProviderInterface {
      * @param   Container  $container  The DI container.
      *
      * @return  void
-     * @since   5.0.0
+     * @since   4.4.0
      */
     public function register(Container $container)
     {
@@ -36,10 +34,8 @@ return new class () implements ServiceProviderInterface {
             function (Container $container) {
                 $plugin     = PluginHelper::getPlugin('behaviour', 'compat');
                 $dispatcher = $container->get(DispatcherInterface::class);
-                $profiler   = (defined('JDEBUG') && JDEBUG) ? Profiler::getInstance('Application') : null;
-                $router     = $container->has(SiteRouter::class) ? $container->get(SiteRouter::class) : null;
 
-                $plugin = new Compat($dispatcher, (array) $plugin, $profiler, $router);
+                $plugin = new Compat($dispatcher, (array) $plugin);
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;

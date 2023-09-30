@@ -1,4 +1,5 @@
 @import "../../variables";
+@import "../../variables-dark";
 @import "../../../../../../../../media/vendor/joomla-custom-elements/css/joomla-alert";
 @import "../../../../../../../../media/vendor/bootstrap/scss/mixins/color-mode";
 
@@ -22,6 +23,7 @@
     flex-direction: column;
     justify-content: center;
     padding: .8rem;
+    line-height: normal;
     color: var(--white);
     background: var(--alert-accent-color, var(--template-bg-dark));
     align-content: center;
@@ -93,6 +95,13 @@
     }
   }
 
+  @include color-mode(dark) {
+    &[type="info"],
+    &[type="notice"] {
+      --alert-accent-color: #{$state-info-text-dark};
+    }
+  }
+
   &[type="warning"] {
     .joomla-alert--close {
       color: #{$state-warning-text};
@@ -118,6 +127,7 @@
     font-size: 2rem;
     line-height: 1rem;
     color: var(--alert-accent-color);
+    text-shadow: none;
     background: none;
     border: 0;
     opacity: 1;

@@ -173,14 +173,19 @@ class ItemController extends FormController
             $this->app->setUserState($context . '.type', null);
             $this->app->setUserState($context . '.link', null);
 
+
+            // When editing in modal then redirect to modalreturn layout
+            if ($this->input->get('layout') === 'modal') {
+                $id     = $this->input->get('id');
+                $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                    . '&layout=modalreturn&from-task=cancel';
+            } else {
+                $return = 'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
+                    . '&menutype=' . $this->app->getUserState('com_menus.items.menutype');
+            }
+
             // Redirect to the list screen.
-            $this->setRedirect(
-                Route::_(
-                    'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
-                    . '&menutype=' . $this->app->getUserState('com_menus.items.menutype'),
-                    false
-                )
-            );
+            $this->setRedirect(Route::_($return, false));
         }
 
         return $result;
@@ -463,14 +468,18 @@ class ItemController extends FormController
                 $app->setUserState('com_menus.edit.item.type', null);
                 $app->setUserState('com_menus.edit.item.link', null);
 
-                // Redirect to the list screen.
-                $this->setRedirect(
-                    Route::_(
-                        'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
-                        . '&menutype=' . $app->getUserState('com_menus.items.menutype'),
-                        false
-                    )
-                );
+                // When editing in modal then redirect to modalreturn layout
+                if ($this->input->get('layout') === 'modal') {
+                    $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId)
+                        . '&layout=modalreturn&from-task=save';
+                } else {
+                    // Redirect to the list screen.
+                    $return = 'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
+                        . '&menutype=' . $app->getUserState('com_menus.items.menutype');
+                }
+
+
+                $this->setRedirect(Route::_($return, false));
                 break;
         }
 
@@ -537,7 +546,6 @@ class ItemController extends FormController
         // Save the data in the session.
         $app->setUserState('com_menus.edit.item.data', $data);
 
-        $this->type = $type;
         $this->setRedirect(
             Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false)
         );

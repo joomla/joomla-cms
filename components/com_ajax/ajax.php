@@ -130,11 +130,10 @@ if (!$format) {
         $dispatcher = $app->getDispatcher();
         $group      = $input->get('group', 'ajax');
         $eventName  = 'onAjax' . ucfirst($input->get('plugin', ''));
+
         PluginHelper::importPlugin($group, null, true, $dispatcher);
 
-        $results = $dispatcher->dispatch($eventName, new AjaxEvent($eventName, [
-            'subject' => $app,
-        ]))->getArgument('result', []);
+        $results = $dispatcher->dispatch($eventName, new AjaxEvent($eventName, ['subject' => $app]))->getArgument('result', []);
     } catch (Throwable $e) {
         $results = $e;
     }

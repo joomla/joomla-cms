@@ -1296,11 +1296,11 @@ class Stream
         if (is_uploaded_file($src)) {
             // Make sure it's an uploaded file
             return $this->copy($src, $dest, $context, $usePrefix, $relative);
-        } else {
-            $this->setError(Text::_('JLIB_FILESYSTEM_ERROR_STREAMS_NOT_UPLOADED_FILE'));
-
-            return false;
         }
+
+        $this->setError(Text::_('JLIB_FILESYSTEM_ERROR_STREAMS_NOT_UPLOADED_FILE'));
+
+        return false;
     }
 
     /**

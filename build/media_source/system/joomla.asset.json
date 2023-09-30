@@ -72,7 +72,8 @@
       "dependencies": [
         "core",
         "editor-decorator",
-        "editor-api"
+        "editor-api",
+        "joomla.dialog"
       ]
     },
     {
@@ -546,7 +547,8 @@
         "type": "module"
       },
       "dependencies": [
-        "webcomponent.field-user-legacy"
+        "webcomponent.field-user-legacy",
+        "joomla.dialog"
       ]
     },
     {
@@ -618,7 +620,8 @@
         "type": "module"
       },
       "dependencies": [
-        "webcomponent.toolbar-button-legacy"
+        "webcomponent.toolbar-button-legacy",
+        "joomla.dialog"
       ]
     },
     {
