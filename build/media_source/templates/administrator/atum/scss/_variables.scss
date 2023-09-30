@@ -87,7 +87,49 @@ $atum-colors: (
   template-bg-dark-75:             hsl(var(--hue), 40%, 25%),
   template-bg-dark-80:             hsl(var(--hue), 40%, 20%),
   template-bg-dark-90:             hsl(var(--hue), 40%, 10%),
+  form-control-bg:                 unset,
+  form-control-bg-disabled:        var(--gray-200),
+
+  // quickicons
+  quickicons-bg:                   var(--white),
+  quickicon-border:                1px solid hsl(var(--hue),50%,93%),
+  quickicon-border-radius:         4px,
+  quickicon-linkadd-bg:            rgba(255, 255, 255, 0.15),
+  quickicon-linkadd-color:         var(--template-quickicon-color),
+  // modules
+  new-modules-color:               var(--template-quickicon-color),
+  new-modules-bg:                  hsl(var(--hue), 60%, 97%),
+  new-modules-bg-hvr:              var(--template-bg-dark),
+  new-modules-icon-color:          var(--template-quickicon-color),
+  new-modules-icon-color-hvr:      hsl(var(--hue), 50%, 93%),
+  new-module-color:                var(--text-color),
+  new-module-bg:                   var(--bg-color),
+  new-module-border:               1px solid hsl(var(--hue), 50%, 93%),
+  new-module-link-bg:              hsl(var(--hue), 50%, 93%),
+  new-module-link-span:            var(--icon-color),
+  new-module-link-hvr:             var(--bg-color-hvr),
+  new-module-link-span-hvr:        var(--icon-color-hvr),
+
+  // box-shadow:
   atum-box-shadow:                 0 2px 10px -8px var(--template-bg-dark-50),
+  dropdown-box-shadow:             0 1px 1px rgba($black, .15),
+  quickicon-box-shadow-success:    0 0 3px 0 var(--success),
+  quickicon-box-shadow-danger:     0 0 3px 0 var(--danger),
+  quickicon-box-shadow-warning:    0 0 3px 0 var(--warning),
+  login-box-shadow:                0 4px 20px -10px var(--template-bg-dark-50),
+  login-focus-box-shadow:          inset 0 0 1px 1px var(--template-contrast),
+  modal-btn-box-shadow:            1px 1px 1px 0 rgba(0, 0, 0, .25),
+  modal-joomla-dialog-box-shadow:  0 .5rem 1rem rgba(0, 0, 0, .15),
+  form-aria-grabbed-box-shadow:    0 0 2px 1px var(--template-bg-dark),
+  choices__button_joomla-focus-box-shadow: 0 0 0 2px #00bcd4,
+  joomla-tab-accordion-box-shadow: (0 1px $white inset, 0 0 3px rgba(0, 0, 0, .04)),
+  admin-background:                var(--body-bg),
+  options-form-color:              var(--template-text-dark),
+  options-form-bg:                 unset,
+  options-form-border:             1px solid var(--template-bg-dark-20),
+  options-form-legend-color:       var(--template-text-dark),
+  options-form-legend-bg:          var(--admin-background),
+
 );
 
 $colors: (
@@ -116,6 +158,11 @@ $alert-color-level:                0;
 // Global
 $atum-box-shadow:                  var(--atum-box-shadow);
 $btn-disabled-opacity:             .4;
+$admin-background:                 var(--admin-background);
+
+// Login
+$login-box-shadow:                 var(--login-box-shadow);
+$login-focus-box-shadow:           var(--login-focus-box-shadow);
 
 // Toolbar
 $atum-toolbar-line-height:         2.45rem;
@@ -168,7 +215,7 @@ $table-group-separator-color:      $gray-300;
 
 // Dropdowns
 $dropdown-padding-y:               0;
-$dropdown-box-shadow:              0 1px 1px rgba($black, .15);
+$dropdown-box-shadow:              var(--dropdown-box-shadow);
 $dropdown-link-hover-color:        var(--template-text-dark);
 $dropdown-border-width:            1px;
 $dropdown-item-padding-y:          .5rem;
@@ -249,6 +296,16 @@ $form-select-bg-size-sm:           75rem;
 $form-select-multiple-padding-y:   .3rem;
 $form-file-button-color:           var(--white);
 
+//Forms
+$form-aria-grabbed-box-shadow:     var(--form-aria-grabbed-box-shadow);
+$options-form-color:               var(--options-form-color);
+$options-form-bg:                  var(--options-form-bg);
+$options-form-border:              var(--options-form-border);
+$options-form-legend-color:        var(--options-form-legend-color);
+$options-form-legend-bg:           var(--options-form-legend-bg);
+$form-control-bg:                  var(--form-control-bg);
+$form-control-bg-disabled:         var(--form-control-bg-disabled);
+
 // Input
 $input-padding:                    .5rem 1rem;
 $input-border-color:               var(--template-bg-dark-20);
@@ -262,14 +319,40 @@ $input-btn-padding-x:              1rem;
 
 // Modals
 $modal-header-height:              2.875rem;
+$modal-btn-box-shadow:             var(--modal-btn-box-shadow);
+$modal-joomla-dialog-box-shadow:   var(--modal-joomla-dialog-box-shadow);
+
+// Choices
+$choices__button_joomla-focus-box-shadow:  var(--choices__button_joomla-focus-box-shadow);
+
+// Joomla-Tab
+$joomla-tab-accordion-box-shadow:  var(--joomla-tab-accordion-box-shadow);
 
 // Quickicons
-$quickicon-bg:                     var(--white);
-$quickicon-box-shadow-success:     0 0 3px 0 var(--success);
-$quickicon-box-shadow-danger:      0 0 3px 0 var(--danger);
-$quickicon-box-shadow-warning:     0 0 3px 0 var(--warning);
+$quickicon-bg:                     var(--quickicon-bg);
+$quickicon-box-shadow-success:     var(--quickicon-box-shadow-success);
+$quickicon-box-shadow-danger:      var(--quickicon-box-shadow-danger);
+$quickicon-box-shadow-warning:     var(--quickicon-box-shadow-warning);
 $quickicon-icon-size:              2rem;
 $quickicon-icon-size-sm:           1.3rem;
+$quickicon-border:                var(--quickicon-border);
+$quickicon-border-radius:         var(--quickicon-border-radius);
+$quickicon-color:                 var(--quickicon-color);
+$quickicon-linkadd:               var(--quickicon-linkadd);
+
+// Modules
+$new-modules-color:               var(--new-modules-color);
+$new-modules-bg:                  var(--new-modules-bg);
+$new-modules-bg-hvr:              var(--new-modules-bg-hvr);
+$new-modules-icon-color:          var(--new-modules-icon-color);
+$new-modules-icon-color-hvr:      var(--new-modules-icon-color-hvr);
+$new-module-color:                var(--new-module-color);
+$new-module-bg:                   var(--new-module-bg);
+$new-module-border:               var(--new-module-border);
+$new-module-link-bg:              var(--new-module-link-bg);
+$new-module-link-span:            var(--new-module-link-span);
+$new-module-link-hvr:             var(--new-module-link-hvr);
+$new-module-link-span-hvr:        var(--new-module-link-span-hvr);
 
 // Gutter
 $grid-gutter-width:                2rem;

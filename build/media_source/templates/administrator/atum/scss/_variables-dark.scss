@@ -10,18 +10,63 @@ $atum-colors-dark: (
   warning:                         #996808,
   sidebar-bg:                      hsl(var(--hue), 55.3%, 10.8%),
   template-sidebar-bg:             hsl(var(--hue), 55.3%, 10.8%),
-  body-bg:                         hsl(var(--hue), 75%, 6.5%),
+  // assuming hue 214
+  body-bg:                         hsl(var(--hue), 17%, 13.3%),
+  main-bg:                         var(--body-bg),
   sidebar-accent-bg:               hsl(var(--hue), 66.11%, 44.12%),
   template-bg-dark:                hsl(var(--hue), 55.3%, 10.8%),
-  main-bg:                         hsl(var(--hue), 75%, 6.5%),
   template-quickicon-bg:           hsl(var(--hue), 62.33%, 15.09%),
   template-quickicon-bg-hvr:       hsl(var(--hue), 66.11%, 44.12%),
-  //not clean, but there are too much elements using it...
+  // not clean, but there are too many elements using it...
   template-bg-dark-60:             hsl(var(--hue), 62.33%, 15.09%),
   template-bg-dark-65:             var(--sidebar-accent-bg),
   template-bg-dark-70:             var(--sidebar-bg),
+  //admin
+  admin-background:                var(--body-bg),
+  options-form-color:              var(--template-text-light),
+  options-form-bg:                 rgba(255, 255, 255, 0.15),
+  options-form-border:             1px solid var(--template-bg-dark-80),
+  options-form-legend-color:       var(--template-text-light),
+  options-form-legend-bg:          var(--admin-background),
+
+  form-control-bg:                 var(--admin-background),
+  form-control-bg-disabled:        var(--gray-800),
+
+  // quickicons
+  quickicons-bg:                   transparent,
+  quickicon-border:                none,
+  quickicon-border-radius:         unset,
+  quickicon-linkadd-bg:            rgba(255, 255, 255, 0.15),
+  quickicon-linkadd-color:         var(--template-bg-dark-80),
+
+  // modules
+  new-modules-color:               var(--template-quickicon-color),
+  new-modules-bg:                  var(--template-bg-dark-65),
+  new-modules-bg-hvr:              var(--template-bg-dark),
+  new-modules-icon-color:          var(--template-bg-dark-80),
+  new-modules-icon-color-hvr:      var(--template-quickicon-color),
+  new-module-color:                #f7f7f7,
+  new-module-bg:                   var(--bg-color),
+  new-module-border:               none,
+  new-module-link-bg:              rgba(255, 255, 255, 0.05),
+  new-module-link-span:            var(--icon-color),
+  new-module-link-hvr:             var(--bg-color-hvr),
+  new-module-link-span-hvr:        var(--icon-color-hvr),
+
+
   //turn off shadow in dark mode
   atum-box-shadow:                 none,
+  dropdown-box-shadow:             none,
+  quickicon-box-shadow-success:    none,
+  quickicon-box-shadow-danger:     none,
+  quickicon-box-shadow-warning:    none,
+  login-box-shadow:                none,
+  login-focus-box-shadow:          none,
+  modal-btn-box-shadow:            none,
+  modal-joomla-dialog-box-shadow:  none,
+  form-aria-grabbed-box-shadow:    none,
+  choices__button_joomla-focus-box-shadow: none,
+  joomla-tab-accordion-box-shadow: none,
 ) !default;
 
 $link-hover-color-dark: lighten($light-blue, 20%);
