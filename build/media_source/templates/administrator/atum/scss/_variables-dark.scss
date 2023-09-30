@@ -8,8 +8,10 @@ $atum-colors-dark: (
   success:                         #467d53,
   danger:                          #c62a25,
   warning:                         #996808,
-  sidebar-bg:                      hsl(var(--hue), 55.3%, 10.8%),
-  template-sidebar-bg:             hsl(var(--hue), 55.3%, 10.8%),
+  dark-mode-text-light:            #f7f7f7,
+  sidebar-bg:                      hsl(var(--hue), 37.8%, 8.63%),
+  template-sidebar-bg:             hsl(var(--hue), 37.8%, 8.63%),
+
   // assuming hue 214
   body-bg:                         hsl(var(--hue), 17%, 13.3%),
   main-bg:                         var(--body-bg),
@@ -17,10 +19,12 @@ $atum-colors-dark: (
   template-bg-dark:                hsl(var(--hue), 55.3%, 10.8%),
   template-quickicon-bg:           hsl(var(--hue), 62.33%, 15.09%),
   template-quickicon-bg-hvr:       hsl(var(--hue), 66.11%, 44.12%),
+
   // not clean, but there are too many elements using it...
-  template-bg-dark-60:             hsl(var(--hue), 62.33%, 15.09%),
-  template-bg-dark-65:             var(--sidebar-accent-bg),
-  template-bg-dark-70:             var(--sidebar-bg),
+  //template-bg-dark-60:             hsl(var(--hue), 62.33%, 15.09%),
+  //template-bg-dark-65:             var(--sidebar-accent-bg),
+  //template-bg-dark-70:             var(--sidebar-bg),
+
   //admin
   admin-background:                var(--body-bg),
   options-form-color:              var(--template-text-light),
@@ -45,13 +49,31 @@ $atum-colors-dark: (
   new-modules-bg-hvr:              var(--template-bg-dark),
   new-modules-icon-color:          var(--template-bg-dark-80),
   new-modules-icon-color-hvr:      var(--template-quickicon-color),
-  new-module-color:                #f7f7f7,
+  new-module-color:                var(--dark-mode-text-light),
   new-module-bg:                   var(--bg-color),
   new-module-border:               none,
   new-module-link-bg:              rgba(255, 255, 255, 0.05),
   new-module-link-span:            var(--icon-color),
   new-module-link-hvr:             var(--bg-color-hvr),
   new-module-link-span-hvr:        var(--icon-color-hvr),
+
+  // sidebar wrapper
+  sidebarwrapper-bg:               var(--template-sidebar-bg),
+
+  // header-content
+  header-item-content-bg:             hsl(var(--hue), 59.05%, 44.12%),
+  header-item-content-bg-hvr:         hsl(var(--hue), 43.4%, 50.19%),
+  header-item-content-border-radius:  4px,
+  header-item-content-jversion-color: var(--dark-mode-text-light),
+  header-item-content-jversion-bg:    transparent,
+
+  // table:
+  table-border-top-nfc:            1px solid #969696,
+  table-thead-a-color:             hsl(214, 94.9%, 55.29%),
+
+  // card-header
+  content-card-header-color:       var(--template-bg-dark),
+  content-card-header-bg:          rgba(255, 255, 255, 0.05),
 
 
   //turn off shadow in dark mode
