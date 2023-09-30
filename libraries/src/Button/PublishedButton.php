@@ -98,7 +98,7 @@ class PublishedButton extends ActionButton
                     $default['icon']      = 'expired';
                 }
 
-                if (array_key_exists('category_published', $options)) {
+                if (\array_key_exists('category_published', $options)) {
                     $categoryPublished = $options['category_published'];
 
                     if ($categoryPublished === 0) {

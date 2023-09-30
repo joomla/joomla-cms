@@ -72,7 +72,7 @@ class MethodModel extends BaseDatabaseModel
      */
     public function methodExists(string $method): bool
     {
-        if (!is_array($this->mfaMethods)) {
+        if (!\is_array($this->mfaMethods)) {
             $this->populateMfaMethods();
         }
 
@@ -89,7 +89,7 @@ class MethodModel extends BaseDatabaseModel
      */
     public function getRenderOptions(?User $user = null): SetupRenderOptions
     {
-        if (is_null($user)) {
+        if (\is_null($user)) {
             $user = $this->getCurrentUser();
         }
 
@@ -128,7 +128,7 @@ class MethodModel extends BaseDatabaseModel
      */
     public function getRecord(User $user = null): MfaTable
     {
-        if (is_null($user)) {
+        if (\is_null($user)) {
             $user = $this->getCurrentUser();
         }
 
@@ -193,14 +193,14 @@ class MethodModel extends BaseDatabaseModel
      */
     protected function getDefaultRecord(?User $user = null): MfaTable
     {
-        if (is_null($user)) {
+        if (\is_null($user)) {
             $user = $this->getCurrentUser();
         }
 
         $method = $this->getState('method');
         $title  = '';
 
-        if (is_null($this->mfaMethods)) {
+        if (\is_null($this->mfaMethods)) {
             $this->populateMfaMethods();
         }
 

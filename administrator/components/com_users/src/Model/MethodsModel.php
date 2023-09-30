@@ -41,7 +41,7 @@ class MethodsModel extends BaseDatabaseModel
      */
     public function getMethods(?User $user = null): array
     {
-        if (is_null($user)) {
+        if (\is_null($user)) {
             $user = $this->getCurrentUser();
         }
 
@@ -87,7 +87,7 @@ class MethodsModel extends BaseDatabaseModel
     public function deleteAll(?User $user = null): void
     {
         // Make sure we have a user object
-        if (is_null($user)) {
+        if (\is_null($user)) {
             $user = $this->getCurrentUser() ?: Factory::getApplication()->getIdentity();
         }
 
@@ -200,7 +200,7 @@ class MethodsModel extends BaseDatabaseModel
             return;
         }
 
-        $exists = !is_null($result);
+        $exists = !\is_null($result);
 
         $object = (object) [
             'user_id'       => $user->id,

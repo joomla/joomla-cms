@@ -81,7 +81,7 @@ class JoomlaInstallerScript
         // The errorCollector are required
         // However when someone already running the script manually the code may fail.
         if ($this->errorCollector) {
-            call_user_func($this->errorCollector, $context, $error);
+            \call_user_func($this->errorCollector, $context, $error);
         } else {
             Log::add($error->getMessage(), Log::ERROR, 'Update');
         }
@@ -104,7 +104,7 @@ class JoomlaInstallerScript
             if (!empty($installer->extension->manifest_cache)) {
                 $manifestValues = json_decode($installer->extension->manifest_cache, true);
 
-                if (array_key_exists('version', $manifestValues)) {
+                if (\array_key_exists('version', $manifestValues)) {
                     $this->fromVersion = $manifestValues['version'];
 
                     return true;
@@ -2463,11 +2463,11 @@ class JoomlaInstallerScript
 
         $this->fixFilenameCasing();
 
-        if ($suppressOutput === false && count($status['folders_errors'])) {
+        if ($suppressOutput === false && \count($status['folders_errors'])) {
             echo implode('<br>', $status['folders_errors']);
         }
 
-        if ($suppressOutput === false && count($status['files_errors'])) {
+        if ($suppressOutput === false && \count($status['files_errors'])) {
             echo implode('<br>', $status['files_errors']);
         }
 
@@ -2772,7 +2772,7 @@ class JoomlaInstallerScript
                 $replace = ['blocks', 'fontfamily', 'fontsize', 'styles'];
 
                 // Don't redo the template
-                if (!in_array('jtemplate', $params['configuration']['toolbars'][$setIdx]['menu'])) {
+                if (!\in_array('jtemplate', $params['configuration']['toolbars'][$setIdx]['menu'])) {
                     $search[]  = 'template';
                     $replace[] = 'jtemplate';
                 }
@@ -2796,7 +2796,7 @@ class JoomlaInstallerScript
                     $replace = ['fontfamily', 'fontsize', 'blocks', 'styles'];
 
                     // Don't redo the template
-                    if (!in_array('jtemplate', $params['configuration']['toolbars'][$setIdx][$toolbarIdx])) {
+                    if (!\in_array('jtemplate', $params['configuration']['toolbars'][$setIdx][$toolbarIdx])) {
                         $search[]  = 'template';
                         $replace[] = 'jtemplate';
                     }
@@ -2932,7 +2932,7 @@ class JoomlaInstallerScript
                 // Check if case-insensitive file system, eg on OSX.
                 if (fileinode($oldRealpath) === fileinode($newRealpath)) {
                     // Check deeper because even realpath or glob might not return the actual case.
-                    if (!in_array($expectedBasename, scandir(dirname($newRealpath)))) {
+                    if (!\in_array($expectedBasename, scandir(\dirname($newRealpath)))) {
                         // Rename the file.
                         File::move(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
                         File::move(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);

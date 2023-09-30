@@ -340,7 +340,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
             $row           = new \stdClass();
             $row->language = $lang;
 
-            if (!is_array($info)) {
+            if (!\is_array($info)) {
                 continue;
             }
 

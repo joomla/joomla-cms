@@ -229,7 +229,7 @@ class MenuItemByTypeField extends GroupedlistField
                     $levelPrefix . $text . $lang,
                     'value',
                     'text',
-                    in_array($link->type, $this->disable)
+                    \in_array($link->type, $this->disable)
                 );
             }
         } else {
@@ -258,7 +258,7 @@ class MenuItemByTypeField extends GroupedlistField
                         $levelPrefix . $text . $lang,
                         'value',
                         'text',
-                        in_array($link->type, $this->disable)
+                        \in_array($link->type, $this->disable)
                     );
                 }
             }

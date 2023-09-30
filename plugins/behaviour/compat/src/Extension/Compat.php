@@ -73,7 +73,7 @@ final class Compat extends CMSPlugin implements SubscriberInterface
          * likely be removed in Joomla 6.0
          */
         if ($this->params->get('classes_aliases', '1')) {
-            require_once dirname(__DIR__) . '/classmap/classmap.php';
+            require_once \dirname(__DIR__) . '/classmap/classmap.php';
         }
     }
 
