@@ -10,7 +10,7 @@
     color: var(--template-text-dark);
     background: var(--white);
     border-color: var(--whiteoffset);
-    box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, .25);
+    box-shadow: $modal-btn-box-shadow;
   }
 
   .btn-primary:not([href]),
@@ -175,7 +175,7 @@ joomla-dialog {
     padding: 0;
     border: 1px solid var(--border-color-translucent);
     border-radius: .3rem;
-    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+    box-shadow: $modal-joomla-dialog-box-shadow;
 
     @include media-breakpoint-up(xxl) {
       width: 80vw;
