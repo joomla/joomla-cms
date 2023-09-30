@@ -16,16 +16,9 @@ body {
   margin: 0;
   text-align: start;
 
-  &.admin {
-    background-color: var(--template-bg-dark-5);
-  }
-
-  @if $enable-dark-mode {
-    @include color-mode(dark) {
-      &.admin {
-        background-color: var(--template-bg-dark-90);
-      }
-    }
+  &.admin, & #subhead-container,
+  {
+    background-color: $admin-background;
   }
 
   &.monochrome {
