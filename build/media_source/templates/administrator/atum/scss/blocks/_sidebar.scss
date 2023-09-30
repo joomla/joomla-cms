@@ -4,7 +4,7 @@
   z-index: $zindex-sidebar;
   min-height: calc(100vh - 66px);
   overflow: hidden;
-  background-color: var(--template-sidebar-bg);
+  background-color: $sidebarwrapper-bg;
   box-shadow: $atum-box-shadow;
 
   .sidebar-sticky {
