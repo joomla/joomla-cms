@@ -397,6 +397,8 @@ class ModuleModel extends AdminModel
 
         $table = $this->getTable();
 
+        $tuples = [];
+
         foreach ($pks as $pk) {
             if ($table->load($pk, true)) {
                 // Reset the id to create a new record.
