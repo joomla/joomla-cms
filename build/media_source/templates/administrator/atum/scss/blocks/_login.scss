@@ -30,7 +30,7 @@
     color: var(--template-text-dark);
     background: var(--body-bg);
     border-radius: 10px;
-    box-shadow: 0 4px 20px -10px var(--template-bg-dark-50);
+    box-shadow: $login-box-shadow;
 
     @include media-breakpoint-down(lg) {
       margin-bottom: 3rem;
@@ -102,7 +102,7 @@
 
   input:focus,
   select:focus {
-    box-shadow: inset 0 0 1px 1px var(--template-contrast);
+    box-shadow: $login-focus-box-shadow;
   }
 
   h1 {
