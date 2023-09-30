@@ -92,9 +92,19 @@ class RequestsModel extends ListModel
                 $query->where($db->quoteName('a.id') . ' = :id')
                     ->bind(':id', $ids, ParameterType::INTEGER);
             } else {
-                $search = '%' . $search . '%';
+                $searchLike = '%' . $search . '%';
                 $query->where('(' . $db->quoteName('a.email') . ' LIKE :search)')
-                    ->bind(':search', $search);
+                    ->bind(':search', $searchLike);
+
+                // Search by ID without the prefix ID:, used numbers from the search.
+                $ids        = array_filter(array_map(function ($number) {
+                    $number = trim($number);
+                    return is_numeric($number) && $number >= 0 ? (string) $number : false;
+                }, explode(',', $search)));
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
             }
         }
 

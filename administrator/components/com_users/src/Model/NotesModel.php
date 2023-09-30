@@ -107,15 +107,25 @@ class NotesModel extends ListModel
                 $query->where($db->quoteName('a.user_id') . ' = :id');
                 $query->bind(':id', $search4, ParameterType::INTEGER);
             } else {
-                $search = '%' . trim($search) . '%';
+                $searchLike = '%' . trim($search) . '%';
                 $query->where(
                     '(' . $db->quoteName('a.subject') . ' LIKE :subject'
                     . ' OR ' . $db->quoteName('u.name') . ' LIKE :name'
                     . ' OR ' . $db->quoteName('u.username') . ' LIKE :username)'
                 );
-                $query->bind(':subject', $search);
-                $query->bind(':name', $search);
-                $query->bind(':username', $search);
+                $query->bind(':subject', $searchLike);
+                $query->bind(':name', $searchLike);
+                $query->bind(':username', $searchLike);
+
+                // Search by ID without the prefix ID:, used numbers from the search.
+                $ids        = array_filter(array_map(function ($number) {
+                    $number = trim($number);
+                    return is_numeric($number) && $number >= 0 ? (string) $number : false;
+                }, explode(',', $search)));
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
             }
         }
 

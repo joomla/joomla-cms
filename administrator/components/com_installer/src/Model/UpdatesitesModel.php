@@ -618,10 +618,22 @@ class UpdatesitesModel extends InstallerModel
         // Process search filter (update site id).
         $search = $this->getState('filter.search');
 
-        if (!empty($search) && stripos($search, 'id:') === 0) {
-            $uid = (int) substr($search, 3);
-            $query->where($db->quoteName('s.update_site_id') . ' = :siteId')
-                ->bind(':siteId', $uid, ParameterType::INTEGER);
+        if (!empty($search)) {
+            if (stripos($search, 'id:') === 0) {
+                $uid = (int) substr($search, 3);
+                $query->where($db->quoteName('s.update_site_id') . ' = :siteId')
+                    ->bind(':siteId', $uid, ParameterType::INTEGER);
+            } else {
+                // Search by ID without the prefix ID:, used numbers from the search.
+                $ids        = array_filter(array_map(function ($number) {
+                    $number = trim($number);
+                    return is_numeric($number) && $number >= 0 ? (string) $number : false;
+                }, explode(',', $search)));
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('s.update_site_id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
+            }
         }
 
         if (is_numeric($supported)) {

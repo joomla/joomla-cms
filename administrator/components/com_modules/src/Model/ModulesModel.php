@@ -394,7 +394,7 @@ class ModulesModel extends ListModel
                 $query->where($db->quoteName('a.id') . ' = :id')
                     ->bind(':id', $ids, ParameterType::INTEGER);
             } else {
-                $search = '%' . StringHelper::strtolower($search) . '%';
+                $searchLike = '%' . StringHelper::strtolower($search) . '%';
                 $query->extendWhere(
                     'AND',
                     [
@@ -403,8 +403,18 @@ class ModulesModel extends ListModel
                     ],
                     'OR'
                 )
-                    ->bind(':title', $search)
-                    ->bind(':note', $search);
+                    ->bind(':title', $searchLike)
+                    ->bind(':note', $searchLike);
+
+                // Search by ID without the prefix ID:, used numbers from the search.
+                $ids        = array_filter(array_map(function ($number) {
+                    $number = trim($number);
+                    return is_numeric($number) && $number >= 0 ? (string) $number : false;
+                }, explode(',', $search)));
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
             }
         }
 

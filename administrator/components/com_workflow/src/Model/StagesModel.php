@@ -168,9 +168,19 @@ class StagesModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+            $searchLike = '%' . str_replace(' ', '%', trim($search)) . '%';
             $query->where('(' . $db->quoteName('s.title') . ' LIKE :search1 OR ' . $db->quoteName('s.description') . ' LIKE :search2)')
-                ->bind([':search1', ':search2'], $search);
+                ->bind([':search1', ':search2'], $searchLike);
+
+            // Search by ID without the prefix ID:, used numbers from the search.
+            $ids        = array_filter(array_map(function ($number) {
+                $number = trim($number);
+                return is_numeric($number) && $number >= 0 ? (string) $number : false;
+            }, explode(',', $search)));
+
+            if ($ids) {
+                $query->orWhere($db->quoteName('s.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+            }
         }
 
         // Add the list ordering clause.

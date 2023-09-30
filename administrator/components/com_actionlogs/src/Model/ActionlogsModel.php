@@ -154,9 +154,19 @@ class ActionlogsModel extends ListModel
                 $query->where($db->quoteName('a.item_id') . ' = :itemid')
                     ->bind(':itemid', $ids, ParameterType::INTEGER);
             } else {
-                $search = '%' . $search . '%';
+                $searchLike = '%' . $search . '%';
                 $query->where($db->quoteName('a.message') . ' LIKE :message')
-                    ->bind(':message', $search);
+                    ->bind(':message', $searchLike);
+
+                // Search by ID without the prefix ID:, used numbers from the search.
+                $ids        = array_filter(array_map(function ($number) {
+                    $number = trim($number);
+                    return is_numeric($number) && $number >= 0 ? (string) $number : false;
+                }, explode(',', $search)));
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
             }
         }
 

@@ -256,12 +256,22 @@ class ContactsModel extends ListModel
                 $query->where($db->quoteName('a.id') . ' = :id');
                 $query->bind(':id', $search, ParameterType::INTEGER);
             } else {
-                $search = '%' . trim($search) . '%';
+                $searchLike = '%' . trim($search) . '%';
                 $query->where(
                     '(' . $db->quoteName('a.name') . ' LIKE :name OR ' . $db->quoteName('a.alias') . ' LIKE :alias)'
                 );
-                $query->bind(':name', $search);
-                $query->bind(':alias', $search);
+                $query->bind(':name', $searchLike);
+                $query->bind(':alias', $searchLike);
+
+                // Search by ID without the prefix ID:, used numbers from the search.
+                $ids        = array_filter(array_map(function ($number) {
+                    $number = trim($number);
+                    return is_numeric($number) && $number >= 0 ? (string) $number : false;
+                }, explode(',', $search)));
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
             }
         }
 

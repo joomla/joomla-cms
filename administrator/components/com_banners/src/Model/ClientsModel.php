@@ -167,9 +167,19 @@ class ClientsModel extends ListModel
                 $query->where($db->quoteName('a.id') . ' = :search')
                     ->bind(':search', $search, ParameterType::INTEGER);
             } else {
-                $search = '%' . str_replace(' ', '%', $search) . '%';
+                $searchLike = '%' . str_replace(' ', '%', $search) . '%';
                 $query->where($db->quoteName('a.name') . ' LIKE :search')
-                    ->bind(':search', $search);
+                    ->bind(':search', $searchLike);
+
+                // Search by ID without the prefix ID:, used numbers from the search.
+                $ids        = array_filter(array_map(function ($number) {
+                    $number = trim($number);
+                    return is_numeric($number) && $number >= 0 ? (string) $number : false;
+                }, explode(',', $search)));
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
             }
         }
 
