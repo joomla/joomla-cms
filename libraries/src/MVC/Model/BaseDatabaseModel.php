@@ -78,8 +78,8 @@ abstract class BaseDatabaseModel extends BaseModel implements
     /**
      * Constructor
      *
-     * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   3.0
      * @throws  \Exception
@@ -145,9 +145,9 @@ abstract class BaseDatabaseModel extends BaseModel implements
     /**
      * Gets an array of objects from the results of database query.
      *
-     * @param   string   $query       The query.
-     * @param   integer  $limitstart  Offset.
-     * @param   integer  $limit       The number of records.
+     * @param   DatabaseQuery|string   $query       The query.
+     * @param   integer                $limitstart  Offset.
+     * @param   integer                $limit       The number of records.
      *
      * @return  object[]  An array of results.
      *
@@ -336,6 +336,31 @@ abstract class BaseDatabaseModel extends BaseModel implements
     }
 
     /**
+     * Get the event dispatcher.
+     *
+     * The override was made to keep a backward compatibility for legacy component.
+     * TODO: Remove the override in 6.0
+     *
+     * @return  DispatcherInterface
+     *
+     * @since   4.4.0
+     * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
+     */
+    public function getDispatcher()
+    {
+        if (!$this->dispatcher) {
+            @trigger_error(
+                sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                E_USER_DEPRECATED
+            );
+
+            return Factory::getContainer()->get(DispatcherInterface::class);
+        }
+
+        return $this->dispatcher;
+    }
+
+    /**
      * Dispatches the given event on the internal dispatcher, does a fallback to the global one.
      *
      * @param   EventInterface  $event  The event
@@ -343,14 +368,20 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @return  void
      *
      * @since   4.1.0
+     *
+     * @deprecated 4.4 will be removed in 6.0. Use $this->getDispatcher() directly.
      */
     protected function dispatchEvent(EventInterface $event)
     {
-        try {
-            $this->getDispatcher()->dispatch($event->getName(), $event);
-        } catch (\UnexpectedValueException $e) {
-            Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
-        }
+        $this->getDispatcher()->dispatch($event->getName(), $event);
+
+        @trigger_error(
+            sprintf(
+                'Method %s is deprecated and will be removed in 6.0. Use getDispatcher()->dispatch() directly.',
+                __METHOD__
+            ),
+            E_USER_DEPRECATED
+        );
     }
 
     /**
@@ -377,7 +408,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     /**
      * Set the database driver.
      *
-     * @param   DatabaseInterface  $db  The database driver.
+     * @param   ?DatabaseInterface  $db  The database driver.
      *
      * @return  void
      *

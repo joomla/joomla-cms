@@ -62,5 +62,9 @@
   option {
     color: var(--template-text-dark);
     background-color: $white;
+
+    &:disabled {
+      background-color: var(--template-bg-dark-5);
+    }
   }
 }

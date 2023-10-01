@@ -86,11 +86,14 @@ trait ResultAware
      *
      * @return  array
      * @since   4.2.0
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setResult(array $value)
     {
         if ($this->preventSetArgumentResult) {
-            throw new BadMethodCallException('You are not allowed to set the result argument directly. Use addResult() instead.');
+            throw new \BadMethodCallException('You are not allowed to set the result argument directly. Use addResult() instead.');
         }
 
         // Always assume that the last element of the array is the result the handler is trying to append.
@@ -99,5 +102,29 @@ trait ResultAware
         $this->addResult($latestValue);
 
         return $this->arguments['result'];
+    }
+
+    /**
+     * Handle setting the result argument directly.
+     *
+     * This method serves a dual purpose: backwards compatibility and enforcing the use of addResult.
+     *
+     * When $this->preventSetArgumentResult is false it acts as a backwards compatibility shim for
+     * event handlers expecting generic event classes instead of the concrete Events implemented in
+     * this package. This allows the migration to concrete event classes throughout the lifetime of
+     * Joomla 4.x.
+     *
+     * When $this->preventSetArgumentResult is false (which will always be the case on Joomla 5.0)
+     * it will throw a BadMethodCallException if the developer tries to call setArgument('result', ...)
+     * instead of going through the addResult() method.
+     *
+     * @param   array  $value  The new result array.
+     *
+     * @return  array
+     * @since   4.4.0
+     */
+    protected function onSetResult(array $value)
+    {
+        return $this->setResult($value);
     }
 }

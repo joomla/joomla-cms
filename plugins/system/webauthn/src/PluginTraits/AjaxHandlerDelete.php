@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Exception;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxDelete;
 use Joomla\CMS\User\User;
 
@@ -19,7 +18,7 @@ use Joomla\CMS\User\User;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Ajax handler for akaction=savelabel
+ * Ajax handler for akaction=delete
  *
  * Deletes a security key
  *
@@ -64,7 +63,7 @@ trait AjaxHandlerDelete
             $user             = $this->getApplication()->getIdentity() ?? new User();
             $credentialHandle = $repository->getUserHandleFor($credentialId);
             $myHandle         = $repository->getHandleFromUserId($user->id);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $event->addResult(false);
 
             return;
@@ -79,7 +78,7 @@ trait AjaxHandlerDelete
         // Delete the record
         try {
             $repository->remove($credentialId);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $event->addResult(false);
 
             return;
