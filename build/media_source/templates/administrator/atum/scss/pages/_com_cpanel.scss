@@ -21,7 +21,7 @@
   }
 
   .card-header {
-    --card-bg: hsla(0, 0%, 100%, .7);
+    --card-bg: $card-bg;
 
     .btn {
       margin-top: .25em;
