@@ -29,8 +29,8 @@
     align-items: center;
     padding: 1rem 1rem .75rem;
     font-weight: $font-weight-bold;
-    color: $content-card-header-color;
-    background-color: $content-card-header-bg;
+    color: $card-header-color;
+    background-color: $card-header-bg;
 
     > [class^="icon-"],
     > img {
