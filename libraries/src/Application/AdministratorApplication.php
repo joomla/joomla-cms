@@ -488,7 +488,7 @@ class AdministratorApplication extends CMSApplication
          * with a user account that has the Backend Login privilege.
          */
         if ($user->get('guest') || !$user->authorise('core.login.admin')) {
-            $option = in_array($option, $this->allowedUnprivilegedOptions) ? $option : 'com_login';
+            $option = \in_array($option, $this->allowedUnprivilegedOptions) ? $option : 'com_login';
         }
 
         /**

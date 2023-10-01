@@ -42,11 +42,11 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
             throw new \BadMethodCallException("Argument 'asset' of event $name is not of the expected type");
         }
 
-        if (!\array_key_exists('assetType', $arguments) || !is_string($arguments['assetType'])) {
+        if (!\array_key_exists('assetType', $arguments) || !\is_string($arguments['assetType'])) {
             throw new \BadMethodCallException("Argument 'assetType' of event $name is not of the expected type");
         }
 
-        if (!\array_key_exists('change', $arguments) || !is_string($arguments['change'])) {
+        if (!\array_key_exists('change', $arguments) || !\is_string($arguments['change'])) {
             throw new \BadMethodCallException("Argument 'change' of event $name is not of the expected type");
         }
     }
@@ -62,7 +62,7 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
      *
      * @since  4.0.0
      *
-     * @deprecated 5.0.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 6.0
      *                Use counterpart with onSet prefix
      */
     protected function setSubject($value)
@@ -83,7 +83,7 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @since  5.0.0
+     * @since  4.4.0
      */
     protected function onSetSubject($value)
     {

@@ -26,7 +26,7 @@ abstract class DataShapeObject implements \ArrayAccess
      */
     public function __construct(array $array = [])
     {
-        if (!is_array($array) && !($array instanceof self)) {
+        if (!\is_array($array) && !($array instanceof self)) {
             throw new \InvalidArgumentException(sprintf('%s needs an array or a %s object', __METHOD__, __CLASS__));
         }
 
@@ -58,7 +58,7 @@ abstract class DataShapeObject implements \ArrayAccess
      */
     public function merge($newValues): self
     {
-        if (!is_array($newValues) && !($newValues instanceof self)) {
+        if (!\is_array($newValues) && !($newValues instanceof self)) {
             throw new \InvalidArgumentException(sprintf('%s needs an array or a %s object', __METHOD__, __CLASS__));
         }
 

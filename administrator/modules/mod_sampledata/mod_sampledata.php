@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 $items = \Joomla\Module\Sampledata\Administrator\Helper\SampledataHelper::getList();
 

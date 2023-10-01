@@ -73,7 +73,7 @@ final class Compat extends CMSPlugin implements SubscriberInterface
          * likely be removed in Joomla 6.0
          */
         if ($this->params->get('classes_aliases', '1')) {
-            require_once dirname(__DIR__) . '/classmap/classmap.php';
+            require_once \dirname(__DIR__) . '/classmap/classmap.php';
         }
     }
 
@@ -97,6 +97,17 @@ final class Compat extends CMSPlugin implements SubscriberInterface
                 ->getWebAssetManager()
                 ->getRegistry()
                 ->addRegistryFile('media/plg_behaviour_compat/es5.asset.json');
+        }
+        /**
+         * Load the removed assets stubs, they are needed if an extension
+         * directly uses a core asset from Joomla 4 which is not present in Joomla 5+
+         * and only provides an empty asset to not throw an exception
+         */
+        if ($this->params->get('removed_asset', '1')) {
+            $event->getDocument()
+                ->getWebAssetManager()
+                ->getRegistry()
+                ->addRegistryFile('media/plg_behaviour_compat/removed.asset.json');
         }
     }
 }

@@ -194,10 +194,10 @@ class LanguagesModel extends ListModel
         );
 
         // Count the non-paginated list
-        $this->languageCount = count($languages);
+        $this->languageCount = \count($languages);
         $limit               = ($this->getState('list.limit') > 0) ? $this->getState('list.limit') : $this->languageCount;
 
-        return array_slice($languages, $this->getStart(), $limit);
+        return \array_slice($languages, $this->getStart(), $limit);
     }
 
     /**
