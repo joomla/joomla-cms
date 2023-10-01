@@ -53,7 +53,7 @@ class PrepareFormEvent extends AbstractImmutableEvent
      *
      * @since   5.0.0
      */
-    protected function setSubject(Form $value): Form
+    protected function onSetSubject(Form $value): Form
     {
         return $value;
     }

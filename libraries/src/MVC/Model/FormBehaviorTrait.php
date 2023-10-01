@@ -162,7 +162,7 @@ trait FormBehaviorTrait
             'onContentPrepareData',
             new Model\PrepareDataEvent('onContentPrepareData', [
                 'context' => $context,
-                'data'    => &$data, // TODO: Remove reference in Joomla 6, see PrepareDataEvent::__constructor()
+                'data'    => &$data, // @todo: Remove reference in Joomla 6, see PrepareDataEvent::__constructor()
                 'subject' => new \stdClass(),
             ])
         )->getArgument('data', $data);

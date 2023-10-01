@@ -126,10 +126,10 @@
     z-index: 1;
     width: max-content;
     min-width: 100%;
-    background-color: var(--media-manager-overlay-bg, var(--template-bg-dark-3));
+    background-color: $browser-background-color;
     border: 1px solid hsl(var(--hue), 35%, 95%);
     border-radius: .25rem;
-    box-shadow: 0 2px 10px -8px var(--template-bg-dark-50);
+    box-shadow: 0 2px 10px -8px $box-shadow-color;
     > button {
       display: none;
     }
@@ -143,7 +143,7 @@
           width: 100%;
           height: 100%;
           overflow: auto;
-          background-color: var(--template-bg-dark-3);
+          background-color: $browser-background-color;
         }
       }
 
@@ -179,7 +179,8 @@
       opacity: 1;
       transition-duration: .2s;
       &:hover, &:focus {
-        background-color: var(--template-bg-dark-10);
+        color: $grid-item-icon-color-hover;
+        background-color: $grid-item-icon-bg-color-hover;
         &.action-delete {
           color: $grid-item-icon-color;
           background-color: $grid-item-icon-warning-icon-bg;

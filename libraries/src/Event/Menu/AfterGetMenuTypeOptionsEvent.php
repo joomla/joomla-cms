@@ -64,7 +64,7 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
         }
 
         // For backward compatibility make sure the content is referenced
-        // TODO: Remove in Joomla 6
+        // @todo: Remove in Joomla 6
         // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
         if (key($arguments) === 0) {
             $this->arguments['items'] = &$arguments[0];
@@ -82,7 +82,7 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(BaseModel $value): BaseModel
+    protected function onSetSubject(BaseModel $value): BaseModel
     {
         return $value;
     }
@@ -96,7 +96,7 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setItems(array $value): array
+    protected function onSetItems(array $value): array
     {
         return $value;
     }
@@ -132,11 +132,11 @@ class AfterGetMenuTypeOptionsEvent extends AbstractImmutableEvent
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function updateItems(array $value): static
     {
-        $this->arguments['items'] = $this->setItems($value);
+        $this->arguments['items'] = $this->onSetItems($value);
 
         return $this;
     }

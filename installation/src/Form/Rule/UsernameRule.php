@@ -44,9 +44,9 @@ class UsernameRule extends FormRule
 
         if (
             preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $value)
-            || strlen(mb_convert_encoding($value, 'ISO-8859-1', 'UTF-8')) < 2
+            || \strlen(mb_convert_encoding($value, 'ISO-8859-1', 'UTF-8')) < 2
             || $filterInput->clean($value, 'TRIM') !== $value
-            || strlen(mb_convert_encoding($value, 'ISO-8859-1', 'UTF-8')) > $element['size']
+            || \strlen(mb_convert_encoding($value, 'ISO-8859-1', 'UTF-8')) > $element['size']
         ) {
             return false;
         }

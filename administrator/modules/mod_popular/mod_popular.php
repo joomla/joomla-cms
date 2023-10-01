@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ModuleHelper;
@@ -34,7 +34,7 @@ if (!ComponentHelper::getParams('com_content')->get('record_hits', 1)) {
 }
 
 // If there are some articles to display.
-if (count($list)) {
+if (\count($list)) {
     require ModuleHelper::getLayoutPath('mod_popular', $params->get('layout', 'default'));
 
     return;

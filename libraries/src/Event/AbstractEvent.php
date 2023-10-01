@@ -117,9 +117,10 @@ abstract class AbstractEvent extends Event
     }
 
     /**
-     * Get an event argument value. It will use a getter method if one exists. The getters have the signature:
+     * Get an event argument value.
+     * It will use a pre-processing method if one exists. The method has the signature:
      *
-     * get<ArgumentName>($value): mixed
+     * onGet<ArgumentName>($value): mixed
      *
      * where:
      *
@@ -138,7 +139,7 @@ abstract class AbstractEvent extends Event
         // B/C check for numeric access to named argument, eg $event->getArgument('0').
         if (is_numeric($name)) {
             if (key($this->arguments) != 0) {
-                $argNames = \array_keys($this->arguments);
+                $argNames = array_keys($this->arguments);
                 $name     = $argNames[$name] ?? '';
             }
 
@@ -152,21 +153,37 @@ abstract class AbstractEvent extends Event
             );
         }
 
-        $methodName = 'get' . ucfirst($name);
+        // Look for the method for the value pre-processing/validation
+        $ucfirst     = ucfirst($name);
+        $methodName1 = 'onGet' . $ucfirst;
+        $methodName2 = 'get' . $ucfirst;
 
         $value = parent::getArgument($name, $default);
 
-        if (method_exists($this, $methodName)) {
-            return $this->{$methodName}($value);
+        if (method_exists($this, $methodName1)) {
+            return $this->{$methodName1}($value);
+        } elseif (method_exists($this, $methodName2)) {
+            @trigger_error(
+                sprintf(
+                    'Use method "%s" for value pre-processing is deprecated, and will not work in Joomla 6. Use "%s" instead. Event %s',
+                    $methodName2,
+                    $methodName1,
+                    \get_class($this)
+                ),
+                E_USER_DEPRECATED
+            );
+
+            return $this->{$methodName2}($value);
         }
 
         return $value;
     }
 
     /**
-     * Add argument to event. It will use a setter method if one exists. The setters have the signature:
+     * Add argument to event.
+     * It will use a pre-processing method if one exists. The method has the signature:
      *
-     * set<ArgumentName>($value): mixed
+     * onSet<ArgumentName>($value): mixed
      *
      * where:
      *
@@ -185,7 +202,7 @@ abstract class AbstractEvent extends Event
         // B/C check for numeric access to named argument, eg $event->setArgument('0', $value).
         if (is_numeric($name)) {
             if (key($this->arguments) != 0) {
-                $argNames = \array_keys($this->arguments);
+                $argNames = array_keys($this->arguments);
                 $name     = $argNames[$name] ?? '';
             }
 
@@ -199,10 +216,25 @@ abstract class AbstractEvent extends Event
             );
         }
 
-        $methodName = 'set' . ucfirst($name);
+        // Look for the method for the value pre-processing/validation
+        $ucfirst     = ucfirst($name);
+        $methodName1 = 'onSet' . $ucfirst;
+        $methodName2 = 'set' . $ucfirst;
 
-        if (method_exists($this, $methodName)) {
-            $value = $this->{$methodName}($value);
+        if (method_exists($this, $methodName1)) {
+            $value = $this->{$methodName1}($value);
+        } elseif (method_exists($this, $methodName2)) {
+            @trigger_error(
+                sprintf(
+                    'Use method "%s" for value pre-processing is deprecated, and will not work in Joomla 6. Use "%s" instead. Event %s',
+                    $methodName2,
+                    $methodName1,
+                    \get_class($this)
+                ),
+                E_USER_DEPRECATED
+            );
+
+            $value = $this->{$methodName2}($value);
         }
 
         return parent::setArgument($name, $value);

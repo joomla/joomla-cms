@@ -160,7 +160,7 @@ class ConfigurationModel extends BaseInstallationModel
         // Handle default backend language setting. This feature is available for localized versions of Joomla.
         $languages = Factory::getApplication()->getLocaliseAdmin($db);
 
-        if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['site'])) {
+        if (\in_array($options->language, $languages['admin']) || \in_array($options->language, $languages['site'])) {
             // Build the language parameters for the language manager.
             $params = [];
 
@@ -168,11 +168,11 @@ class ConfigurationModel extends BaseInstallationModel
             $params['administrator'] = 'en-GB';
             $params['site']          = 'en-GB';
 
-            if (in_array($options->language, $languages['admin'])) {
+            if (\in_array($options->language, $languages['admin'])) {
                 $params['administrator'] = $options->language;
             }
 
-            if (in_array($options->language, $languages['site'])) {
+            if (\in_array($options->language, $languages['site'])) {
                 $params['site'] = $options->language;
             }
 
@@ -463,7 +463,7 @@ class ConfigurationModel extends BaseInstallationModel
          * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
          * is not writable the user needs to fix this.
          */
-        if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path) . '/'))) {
+        if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(\dirname($path) . '/'))) {
             return false;
         }
 

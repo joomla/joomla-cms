@@ -61,7 +61,7 @@ const updateAsset = async (asset, directory) => {
 
   const hash = await createHashFromFile(path);
 
-  asset.version = hash;
+  asset.version = hash.substring(0, 6);
   final[directory].push(asset);
 };
 

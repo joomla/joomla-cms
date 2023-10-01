@@ -68,7 +68,7 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
         }
 
         // For backward compatibility make sure the content is referenced
-        // TODO: Remove in Joomla 6
+        // @todo: Remove in Joomla 6
         // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
         if (key($arguments) === 0) {
             $this->arguments['data'] = &$arguments[1];
@@ -86,7 +86,7 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
      *
      * @since  5.0.0
      */
-    protected function setSubject(object $value): object
+    protected function onSetSubject(object $value): object
     {
         return $value;
     }
@@ -100,7 +100,7 @@ class ValidateContactEvent extends AbstractImmutableEvent implements ResultAware
      *
      * @since  5.0.0
      */
-    protected function setData(array $value): array
+    protected function onSetData(array $value): array
     {
         return $value;
     }
