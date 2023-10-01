@@ -239,7 +239,7 @@ $excludeZip         = isset($options['exclude-zip']);
 $excludeGzip        = isset($options['exclude-gzip']);
 $excludeBzip2       = isset($options['exclude-bzip2']);
 $excludeZstd        = !isset($options['include-zstd']);
-$buildPatchPackages = !isset($options['disable-patch-packages']);
+$buildPatchPackages = false && !isset($options['disable-patch-packages']);
 $showHelp           = isset($options['help']);
 
 // Disable the generation of extra text files
@@ -395,7 +395,6 @@ $doNotPackage = [
     'appveyor-phpunit.xml',
     'build',
     'build.xml',
-    'codeception.yml',
     'CODE_OF_CONDUCT.md',
     'composer.json',
     'composer.lock',
@@ -412,7 +411,6 @@ $doNotPackage = [
     'README.md',
     'renovate.json',
     'ruleset.xml',
-    'selenium.log',
     'tests',
 ];
 

@@ -10,9 +10,13 @@
 namespace Joomla\CMS\Console;
 
 use Joomla\Application\Cli\CliInput;
+use Joomla\CMS\Extension\ExtensionHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\InstallerHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -130,6 +134,11 @@ class UpdateCoreCommand extends AbstractCommand
 
         $this->cliInput = $input;
         $this->ioStyle  = new SymfonyStyle($input, $output);
+
+        $language = Factory::getLanguage();
+        $language->load('lib_joomla', JPATH_ADMINISTRATOR);
+        $language->load('', JPATH_ADMINISTRATOR);
+        $language->load('com_joomlaupdate', JPATH_ADMINISTRATOR);
     }
 
     /**
@@ -153,6 +162,17 @@ class UpdateCoreCommand extends AbstractCommand
 
         $model = $this->getUpdateModel();
 
+        // Make sure logging is working before continue
+        try {
+            Log::add('Test logging', Log::INFO, 'Update');
+        } catch (\Throwable $e) {
+            $message = Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOGGING_TEST_FAIL', $e->getMessage());
+            $this->ioStyle->error($message);
+            return self::ERR_UPDATE_FAILED;
+        }
+
+        Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', 0, 'CLI', \JVERSION), Log::INFO, 'Update');
+
         $this->setUpdateInfo($model->getUpdateInformation());
 
         $this->progressBar->advance();
@@ -166,10 +186,29 @@ class UpdateCoreCommand extends AbstractCommand
         }
 
         $this->progressBar->advance();
+        $this->progressBar->setMessage('Check Database Table Structure...');
+
+        $errors = $this->checkSchema();
+
+        if ($errors > 0) {
+            $this->ioStyle->error('Database Table Structure not Up to Date');
+            $this->progressBar->finish();
+            $this->ioStyle->info('There were ' . $errors . ' errors');
+
+            return self::ERR_CHECKS_FAILED;
+        }
+
+        $this->progressBar->advance();
         $this->progressBar->setMessage('Starting Joomla! update ...');
 
         if ($this->updateJoomlaCore($model)) {
             $this->progressBar->finish();
+
+            if ($model->getErrors()) {
+                $this->ioStyle->error('Update finished with errors. Please check logs for details.');
+                return self::ERR_UPDATE_FAILED;
+            }
+
             $this->ioStyle->success('Joomla core updated successfully!');
 
             return self::UPDATE_SUCCESSFUL;
@@ -227,7 +266,7 @@ class UpdateCoreCommand extends AbstractCommand
                 // Remove the administrator/cache/autoload_psr4.php file
                 $autoloadFile = JPATH_CACHE . '/autoload_psr4.php';
 
-                if (File::exists($autoloadFile)) {
+                if (file_exists($autoloadFile)) {
                     File::delete($autoloadFile);
                 }
 
@@ -385,5 +424,33 @@ class UpdateCoreCommand extends AbstractCommand
     public function copyFileTo($file, $dir): void
     {
         Folder::copy($file, $dir, '', true);
+    }
+
+    /**
+     * Check Database Table Structure
+     *
+     * @return  integer the number of errors
+     *
+     * @since 4.4.0
+     */
+    public function checkSchema(): int
+    {
+        $app = $this->getApplication();
+        $app->getLanguage()->load('com_installer', JPATH_ADMINISTRATOR);
+        $coreExtensionInfo = ExtensionHelper::getExtensionRecord('joomla', 'file');
+
+        $dbmodel = $app->bootComponent('com_installer')->getMVCFactory($app)->createModel('Database', 'Administrator');
+
+        // Ensure we only get information for core
+        $dbmodel->setState('filter.extension_id', $coreExtensionInfo->extension_id);
+
+        // We're filtering by a single extension which must always exist - so can safely access this through element 0 of the array
+        $changeInformation = $dbmodel->getItems()[0];
+
+        foreach ($changeInformation['errorsMessage'] as $msg) {
+            $this->ioStyle->info($msg);
+        }
+
+        return $changeInformation['errorsCount'];
     }
 }

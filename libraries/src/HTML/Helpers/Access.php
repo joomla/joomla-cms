@@ -157,8 +157,8 @@ abstract class Access
 
             // If checkSuperAdmin is true, only add item if the user is superadmin or the group is not super admin
             if ((!$checkSuperAdmin) || $isSuperAdmin || (!AccessCheck::checkGroup($item->id, 'core.admin'))) {
-                // Setup  the variable attributes.
-                $eid = $count . 'group_' . $item->id;
+                // Set up the variable attributes. ID may not start with a number (CSS)
+                $eid = 'group_' . $item->id . '_' . $count;
 
                 // Don't call in_array unless something is selected
                 $checked = '';
@@ -167,7 +167,7 @@ abstract class Access
                     $checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
                 }
 
-                $rel = ($item->parent_id > 0) ? ' rel="' . $count . 'group_' . $item->parent_id . '"' : '';
+                $rel = ($item->parent_id > 0) ? ' rel="group_' . $item->parent_id . '_' . $count . '"' : '';
 
                 // Build the HTML for the item.
                 $html[] = '	<div class="control-group">';
