@@ -147,7 +147,7 @@ body .container-main {
 }
 
 body:not(.contentpane) .main-card {
-  background: var(--body-bg);
+  background: $main-card-bg;
   border-radius: $border-radius;
   box-shadow: $atum-box-shadow;
 }
