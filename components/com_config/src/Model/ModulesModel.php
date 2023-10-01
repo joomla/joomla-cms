@@ -187,7 +187,7 @@ class ModulesModel extends FormModel
 
         try {
             $positions = $db->loadColumn();
-            $positions = is_array($positions) ? $positions : [];
+            $positions = \is_array($positions) ? $positions : [];
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 

@@ -74,7 +74,7 @@ abstract class ModuleListEvent extends ModuleEvent
     {
         // Filter out Module elements. Non empty result means invalid data
         $valid = !array_filter($value, function ($item) {
-            return !is_object($item);
+            return !\is_object($item);
         });
 
         if (!$valid) {

@@ -70,7 +70,7 @@ class MenuParentField extends ListField
         // Filter by client id.
         $clientId = $this->getAttribute('clientid');
 
-        if (!is_null($clientId)) {
+        if (!\is_null($clientId)) {
             $clientId = (int) $clientId;
             $query->where($db->quoteName('a.client_id') . ' = :clientId')
                 ->bind(':clientId', $clientId, ParameterType::INTEGER);

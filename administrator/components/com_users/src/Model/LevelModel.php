@@ -114,7 +114,7 @@ class LevelModel extends AdminModel
             // Ok, after all that we are ready to check the record :)
         }
 
-        if (in_array($record->id, $this->levelsInUse)) {
+        if (\in_array($record->id, $this->levelsInUse)) {
             $this->setError(Text::sprintf('COM_USERS_ERROR_VIEW_LEVEL_IN_USE', $record->id, $record->title));
 
             return false;
@@ -261,7 +261,7 @@ class LevelModel extends AdminModel
 
         // Non Super user should not be able to change the access levels of super user groups
         if (!$isSuperAdmin) {
-            if (!isset($data['rules']) || !is_array($data['rules'])) {
+            if (!isset($data['rules']) || !\is_array($data['rules'])) {
                 $data['rules'] = [];
             }
 

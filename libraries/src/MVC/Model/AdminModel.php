@@ -1675,7 +1675,7 @@ abstract class AdminModel extends FormModel
          * load directly the associated target item in the side by side view
          * otherwise select already the target language
          */
-        if (count($languages) === 2) {
+        if (\count($languages) === 2) {
             $lang_code = [];
 
             foreach ($languages as $language) {

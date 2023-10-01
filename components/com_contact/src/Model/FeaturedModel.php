@@ -175,7 +175,7 @@ class FeaturedModel extends ListModel
 
         $orderCol = $input->get('filter_order', 'ordering');
 
-        if (!in_array($orderCol, $this->filter_fields)) {
+        if (!\in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'ordering';
         }
 
@@ -183,7 +183,7 @@ class FeaturedModel extends ListModel
 
         $listOrder = $input->get('filter_order_Dir', 'ASC');
 
-        if (!in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
+        if (!\in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 

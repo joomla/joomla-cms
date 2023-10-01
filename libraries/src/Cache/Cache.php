@@ -616,7 +616,7 @@ class Cache
                 }
 
                 // Sanitize empty data
-                foreach (\array_keys($headNow) as $key) {
+                foreach (array_keys($headNow) as $key) {
                     if (!isset($headNow[$key]) || $headNow[$key] === []) {
                         unset($headNow[$key]);
                     }

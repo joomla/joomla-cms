@@ -79,7 +79,7 @@ abstract class Access
         $options = $db->loadObjectList();
 
         // If params is an array, push these options to the array
-        if (is_array($params)) {
+        if (\is_array($params)) {
             $options = array_merge($params, $options);
         } elseif ($params) {
             // If all levels is allowed, push it into the array.
@@ -153,7 +153,6 @@ abstract class Access
         $html = [];
 
         foreach ($groups as $item) {
-
             // If checkSuperAdmin is true, only add item if the user is superadmin or the group is not super admin
             if ((!$checkSuperAdmin) || $isSuperAdmin || (!AccessCheck::checkGroup($item->id, 'core.admin'))) {
                 // Set up the variable attributes. ID may not start with a number (CSS)
@@ -163,7 +162,7 @@ abstract class Access
                 $checked = '';
 
                 if ($selected) {
-                    $checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
+                    $checked = \in_array($item->id, $selected) ? ' checked="checked"' : '';
                 }
 
                 $rel = ($item->parent_id > 0) ? ' rel="group_' . $item->parent_id . '_' . $count . '"' : '';
@@ -214,7 +213,7 @@ abstract class Access
         foreach ($actions as $item) {
             // Setup  the variable attributes.
             $eid     = $count . 'action_' . $item->id;
-            $checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
+            $checked = \in_array($item->id, $selected) ? ' checked="checked"' : '';
 
             // Build the HTML for the item.
             $html[] = '	<li>';

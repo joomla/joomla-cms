@@ -78,7 +78,7 @@ class Router extends RouterBase
             $count--;
             $segment = array_shift($segments);
 
-            if (\is_numeric($segment)) {
+            if (is_numeric($segment)) {
                 $vars['id'] = $segment;
             } else {
                 $vars['task'] = $segment;
@@ -88,7 +88,7 @@ class Router extends RouterBase
         if ($count) {
             $segment = array_shift($segments);
 
-            if (\is_numeric($segment)) {
+            if (is_numeric($segment)) {
                 $vars['id'] = $segment;
             }
         }

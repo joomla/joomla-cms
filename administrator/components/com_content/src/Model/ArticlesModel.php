@@ -335,7 +335,7 @@ class ArticlesModel extends ListModel
             $access = (int) $access;
             $query->where($db->quoteName('a.access') . ' = :access')
                 ->bind(':access', $access, ParameterType::INTEGER);
-        } elseif (is_array($access)) {
+        } elseif (\is_array($access)) {
             $access = ArrayHelper::toInteger($access);
             $query->whereIn($db->quoteName('a.access'), $access);
         }
@@ -387,12 +387,12 @@ class ArticlesModel extends ListModel
         $categoryId = $this->getState('filter.category_id', []);
         $level      = (int) $this->getState('filter.level');
 
-        if (!is_array($categoryId)) {
+        if (!\is_array($categoryId)) {
             $categoryId = $categoryId ? [$categoryId] : [];
         }
 
         // Case: Using both categories filter and by level filter
-        if (count($categoryId)) {
+        if (\count($categoryId)) {
             $categoryId       = ArrayHelper::toInteger($categoryId);
             $categoryTable    = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
             $subCatItemsWhere = [];
@@ -434,7 +434,7 @@ class ArticlesModel extends ListModel
             $type     = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
             $query->where($db->quoteName('a.created_by') . $type . ':authorId')
                 ->bind(':authorId', $authorId, ParameterType::INTEGER);
-        } elseif (is_array($authorId)) {
+        } elseif (\is_array($authorId)) {
             // Check to see if by_me is in the array
             if (\in_array('by_me', $authorId)) {
                 // Replace by_me with the current user id in the array
@@ -573,7 +573,7 @@ class ArticlesModel extends ListModel
         $this->cache[$store] = [];
 
         try {
-            if (count($stage_ids) || count($workflow_ids)) {
+            if (\count($stage_ids) || \count($workflow_ids)) {
                 Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
 
                 $query = $db->getQuery(true);
@@ -604,11 +604,11 @@ class ArticlesModel extends ListModel
 
                 $where = [];
 
-                if (count($stage_ids)) {
+                if (\count($stage_ids)) {
                     $where[] = $db->quoteName('t.from_stage_id') . ' IN (' . implode(',', $query->bindArray($stage_ids)) . ')';
                 }
 
-                if (count($workflow_ids)) {
+                if (\count($workflow_ids)) {
                     $where[] = '(' . $db->quoteName('t.from_stage_id') . ' = -1 AND ' . $db->quoteName('t.workflow_id') . ' IN (' . implode(',', $query->bindArray($workflow_ids)) . '))';
                 }
 

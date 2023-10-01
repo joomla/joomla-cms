@@ -300,7 +300,7 @@ abstract class DebugAdapter extends CMSPlugin
             $this->indexer->remove($item);
         }
 
-        return count($items);
+        return \count($items);
     }
 
     /**

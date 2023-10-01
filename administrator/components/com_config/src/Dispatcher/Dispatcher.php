@@ -37,7 +37,7 @@ class Dispatcher extends ComponentDispatcher
     protected function checkAccess(): void
     {
         // sendtestmail and store do their own checks, so leave the method to handle the permission and send response itself
-        if (in_array($this->input->getCmd('task'), ['application.sendtestmail', 'application.store'], true)) {
+        if (\in_array($this->input->getCmd('task'), ['application.sendtestmail', 'application.store'], true)) {
             return;
         }
 

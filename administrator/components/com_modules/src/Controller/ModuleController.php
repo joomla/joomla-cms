@@ -291,7 +291,7 @@ class ModuleController extends FormController
         }
 
         $orders2 = [];
-        $n       = count($orders);
+        $n       = \count($orders);
 
         if ($n > 0) {
             foreach ($orders as $order) {

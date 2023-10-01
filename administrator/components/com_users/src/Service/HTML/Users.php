@@ -256,7 +256,7 @@ class Users
      */
     public function value($value)
     {
-        if (is_string($value)) {
+        if (\is_string($value)) {
             $value = trim($value);
         }
 
@@ -264,7 +264,7 @@ class Users
             return Text::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
         }
 
-        if (!is_array($value)) {
+        if (!\is_array($value)) {
             return htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
         }
     }

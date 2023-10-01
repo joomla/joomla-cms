@@ -255,7 +255,7 @@ class ApiController extends BaseController
             $model->setState('list.limit', $this->itemsPerPage);
         }
 
-        if (!is_null($offset) && $offset > $model->getTotal()) {
+        if (!\is_null($offset) && $offset > $model->getTotal()) {
             throw new Exception\ResourceNotFound();
         }
 
@@ -408,7 +408,7 @@ class ApiController extends BaseController
                 $fields = $table->getFields();
 
                 foreach ($fields as $field) {
-                    if (array_key_exists($field->Field, $data)) {
+                    if (\array_key_exists($field->Field, $data)) {
                         continue;
                     }
 

@@ -302,7 +302,7 @@ abstract class Adapter extends CMSPlugin
             $this->indexer->remove($item);
         }
 
-        return count($items);
+        return \count($items);
     }
 
     /**
