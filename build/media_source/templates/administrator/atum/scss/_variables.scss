@@ -18,7 +18,6 @@ $gray-800:                         #343a40;
 $gray-900:                         #212529; //used for tree header
 $bluegray:                         #b2bfcd; // used for borders
 $black:                            #000;    //used for shadows
-$dark-blue:                        #001b4c; //is the atum-special-color
 $light-blue:                       #2a69b8; //is the template-link-color
 
 // BS Colours
@@ -65,7 +64,6 @@ $atum-colors: (
   template-link-color:             var(--link-color),
   template-text-light:             $white,
   template-text-dark:              $atum-text-dark,
-  template-special-color:          $dark-blue,
   template-contrast:               $light-blue,
   template-quickicon-color:        hsl(var(--hue), 30%, 40%),
   template-bg-dark:                hsl(var(--hue), 40%, 20%),

@@ -66,7 +66,6 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 		--template-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
 		--template-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
 		--link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
-		--template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
 	}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
