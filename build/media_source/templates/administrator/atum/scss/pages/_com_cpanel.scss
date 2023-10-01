@@ -34,6 +34,7 @@
     overflow: hidden;
     border-bottom-right-radius: $border-radius;
     border-bottom-left-radius: $border-radius;
+    background-color: $card-body-bg;
   }
 
   .module-actions {
@@ -42,15 +43,7 @@
 
     > * {
       padding: 0;
-      color: var(--template-bg-dark-70);
-    }
-
-    @if $enable-dark-mode {
-      @include color-mode(dark) {
-        > * {
-          color: var(--body-color);
-        }
-      }
+      color: $module-actions-color;
     }
   }
 
