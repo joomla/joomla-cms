@@ -100,7 +100,7 @@ class HtmlView extends BaseHtmlView
         $toolbar->divider();
 
         // Get the help information for the plugin item.
-        $lang = Factory::getLanguage();
+        $lang = $this->getLanguage();
 
         $help = $this->get('Help');
 

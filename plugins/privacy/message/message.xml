@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.9.0</version>
 	<description>PLG_PRIVACY_MESSAGE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Privacy\Message</namespace>
 	<files>
-		<filename plugin="message">message.php</filename>
+		<folder plugin="message">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_privacy_message.ini</language>

@@ -12,6 +12,8 @@ namespace Joomla\Plugin\System\Debug\DataCollector;
 
 use Joomla\CMS\Factory;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
+use Joomla\Plugin\System\Debug\Extension\Debug;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -33,31 +35,60 @@ class SessionCollector extends AbstractDataCollector
     private $name = 'session';
 
     /**
+     * Collected data.
+     *
+     * @var   array
+     * @since 4.4.0
+     */
+    protected $sessionData;
+
+    /**
+     * Constructor.
+     *
+     * @param   Registry  $params   Parameters.
+     * @param   bool      $collect  Collect the session data.
+     *
+     * @since 4.4.0
+     */
+    public function __construct($params, $collect = false)
+    {
+        parent::__construct($params);
+
+        if ($collect) {
+            $this->collect();
+        }
+    }
+
+    /**
      * Called by the DebugBar when data needs to be collected
      *
-     * @since  4.0.0
+     * @param   bool  $overwrite  Overwrite the previously collected session data.
      *
      * @return array Collected data
+     *
+     * @since  4.0.0
      */
-    public function collect()
+    public function collect($overwrite = false)
     {
-        $returnData  = [];
-        $sessionData = Factory::getApplication()->getSession()->all();
+        if ($this->sessionData === null || $overwrite) {
+            $this->sessionData  = [];
+            $data               = Factory::getApplication()->getSession()->all();
 
-        // redact value of potentially secret keys
-        array_walk_recursive($sessionData, static function (&$value, $key) {
-            if (!preg_match(\PlgSystemDebug::PROTECTED_COLLECTOR_KEYS, $key)) {
-                return;
+            // redact value of potentially secret keys
+            array_walk_recursive($data, static function (&$value, $key) {
+                if (!preg_match(Debug::PROTECTED_COLLECTOR_KEYS, $key)) {
+                    return;
+                }
+
+                $value = '***redacted***';
+            });
+
+            foreach ($data as $key => $value) {
+                $this->sessionData[$key] = $this->getDataFormatter()->formatVar($value);
             }
-
-            $value = '***redacted***';
-        });
-
-        foreach ($sessionData as $key => $value) {
-            $returnData[$key] = $this->getDataFormatter()->formatVar($value);
         }
 
-        return ['data' => $returnData];
+        return ['data' => $this->sessionData];
     }
 
     /**

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event\QuickIcon;
 
-use BadMethodCallException;
-use DomainException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\ReshapeArgumentsAware;
 use Joomla\CMS\Event\Result\ResultAware;
@@ -39,11 +37,11 @@ class GetIconEvent extends AbstractImmutableEvent implements ResultAwareInterfac
      * @param   array   $arguments  The event arguments.
      *
      * @since   4.2.0
-     * @throws  BadMethodCallException
+     * @throws  \BadMethodCallException
      */
     public function __construct(string $name, array $arguments = [])
     {
-        $this->reshapeArguments($arguments, ['context']);
+        $arguments = $this->reshapeArguments($arguments, ['context']);
 
         parent::__construct($name, $arguments);
     }
@@ -53,14 +51,33 @@ class GetIconEvent extends AbstractImmutableEvent implements ResultAwareInterfac
      *
      * @param   string  $value  The calling context for retrieving icons.
      *
-     * @return  void
+     * @return  string
      *
      * @since   4.2.0
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     public function setContext(string $value)
     {
         if (empty($value)) {
-            throw new DomainException(sprintf("Argument 'context' of event %s must be a non-empty string.", $this->name));
+            throw new \DomainException(sprintf("Argument 'context' of event %s must be a non-empty string.", $this->name));
         }
+
+        return $value;
+    }
+
+    /**
+     * A method to validate the 'context' named parameter.
+     *
+     * @param   string  $value  The calling context for retrieving icons.
+     *
+     * @return  string
+     *
+     * @since   4.4.0
+     */
+    protected function onSetContext(string $value)
+    {
+        return $this->setContext($value);
     }
 }

@@ -103,7 +103,7 @@ class Cli extends Input
      *
      * @param   string  $input  The serialized input.
      *
-     * @return  Input  The input object.
+     * @return  void
      *
      * @since   3.0.0
      *
