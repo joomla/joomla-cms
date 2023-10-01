@@ -106,7 +106,7 @@ class TemplatesModel extends ListModel
         $db->setQuery($query);
 
         // Load the results as a list of stdClass objects.
-        $num = count($db->loadObjectList());
+        $num = \count($db->loadObjectList());
 
         if ($num > 0) {
             return $num;
@@ -210,7 +210,7 @@ class TemplatesModel extends ListModel
 
         // Special case for the client id.
         $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-        $clientId = (!in_array($clientId, [0, 1])) ? 0 : $clientId;
+        $clientId = (!\in_array($clientId, [0, 1])) ? 0 : $clientId;
         $this->setState('client_id', $clientId);
 
         // Load the parameters.

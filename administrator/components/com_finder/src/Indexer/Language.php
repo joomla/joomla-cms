@@ -76,7 +76,7 @@ class Language
 
         try {
             foreach (StemmerFactory::LANGS as $classname => $isoCodes) {
-                if (in_array($this->language, $isoCodes)) {
+                if (\in_array($this->language, $isoCodes)) {
                     $this->stemmer = StemmerFactory::create($this->language);
                     break;
                 }

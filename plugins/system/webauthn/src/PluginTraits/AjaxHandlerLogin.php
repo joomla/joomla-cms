@@ -77,7 +77,7 @@ trait AjaxHandlerLogin
             // Validate the authenticator response and get the user handle
             $userHandle           = $this->getUserHandleFromResponse($user);
 
-            if (is_null($userHandle)) {
+            if (\is_null($userHandle)) {
                 Log::add('Cannot retrieve the user handle from the request; the browser did not assert our request.', Log::NOTICE, 'webauthn.system');
 
                 throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
@@ -205,7 +205,7 @@ trait AjaxHandlerLogin
         $results        = !isset($result['result']) || \is_null($result['result']) ? [] : $result['result'];
 
         // If there is no boolean FALSE result from any plugin the login is successful.
-        if (in_array(false, $results, true) === false) {
+        if (\in_array(false, $results, true) === false) {
             // Set the user in the session, letting Joomla! know that we are logged in.
             $this->getApplication()->getSession()->set('user', $user);
 

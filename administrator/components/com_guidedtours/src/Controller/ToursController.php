@@ -53,7 +53,7 @@ class ToursController extends AdminController
             }
             $model = $this->getModel();
             $model->duplicate($pks);
-            $this->setMessage(Text::plural('COM_GUIDEDTOURS_TOURS_DUPLICATED', count($pks)));
+            $this->setMessage(Text::plural('COM_GUIDEDTOURS_TOURS_DUPLICATED', \count($pks)));
         } catch (\Exception $e) {
             $this->app->enqueueMessage($e->getMessage(), 'warning');
         }

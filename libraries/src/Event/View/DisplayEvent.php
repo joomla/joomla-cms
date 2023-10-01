@@ -47,7 +47,7 @@ class DisplayEvent extends AbstractImmutableEvent
             throw new \BadMethodCallException("Argument 'extension' of event {$this->name} is required but has not been provided");
         }
 
-        if (!isset($arguments['extension']) || !is_string($arguments['extension'])) {
+        if (!isset($arguments['extension']) || !\is_string($arguments['extension'])) {
             throw new \BadMethodCallException("Argument 'extension' of event {$this->name} is not of type 'string'");
         }
 

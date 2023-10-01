@@ -44,7 +44,7 @@ final class LoadModule extends CMSPlugin
     public function onContentPrepare($context, &$article, &$params, $page = 0)
     {
         // Only execute if $article is an object and has a text property
-        if (!is_object($article) || !property_exists($article, 'text') || is_null($article->text)) {
+        if (!\is_object($article) || !property_exists($article, 'text') || \is_null($article->text)) {
             return;
         }
 
@@ -92,7 +92,7 @@ final class LoadModule extends CMSPlugin
                     $matcheslist = explode(',', $match[1]);
 
                     // We may not have a module style so fall back to the plugin default.
-                    if (!array_key_exists(1, $matcheslist)) {
+                    if (!\array_key_exists(1, $matcheslist)) {
                         $matcheslist[1] = $defaultStyle;
                     }
 
@@ -103,7 +103,7 @@ final class LoadModule extends CMSPlugin
 
                     // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
                     if (($start = strpos($article->text, $match[0])) !== false) {
-                        $article->text = substr_replace($article->text, $output, $start, strlen($match[0]));
+                        $article->text = substr_replace($article->text, $output, $start, \strlen($match[0]));
                     }
                 }
             }
@@ -124,14 +124,14 @@ final class LoadModule extends CMSPlugin
                     // Second parameter is the title
                     $title = '';
 
-                    if (array_key_exists(1, $matchesmodlist)) {
+                    if (\array_key_exists(1, $matchesmodlist)) {
                         $title = htmlspecialchars_decode(trim($matchesmodlist[1]));
                     }
 
                     // Third parameter is the module style, (fallback is the plugin default set earlier).
                     $stylemod = $defaultStyle;
 
-                    if (array_key_exists(2, $matchesmodlist)) {
+                    if (\array_key_exists(2, $matchesmodlist)) {
                         $stylemod = trim($matchesmodlist[2]);
                     }
 
@@ -139,7 +139,7 @@ final class LoadModule extends CMSPlugin
 
                     // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
                     if (($start = strpos($article->text, $matchmod[0])) !== false) {
-                        $article->text = substr_replace($article->text, $output, $start, strlen($matchmod[0]));
+                        $article->text = substr_replace($article->text, $output, $start, \strlen($matchmod[0]));
                     }
                 }
             }
@@ -157,7 +157,7 @@ final class LoadModule extends CMSPlugin
 
                     // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
                     if (($start = strpos($article->text, $match[0])) !== false) {
-                        $article->text = substr_replace($article->text, $output, $start, strlen($match[0]));
+                        $article->text = substr_replace($article->text, $output, $start, \strlen($match[0]));
                     }
                 }
             }
