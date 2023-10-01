@@ -17,8 +17,8 @@ $atum-colors-dark: (
   main-bg:                         var(--body-bg),
   sidebar-accent-bg:               hsl(var(--hue), 66.11%, 44.12%),
   template-bg-dark:                hsl(var(--hue), 55.3%, 10.8%),
-  template-quickicon-bg:           hsl(var(--hue), 62.33%, 15.09%),
-  template-quickicon-bg-hvr:       hsl(var(--hue), 66.11%, 44.12%),
+  template-quickicon-bg:           hsl(var(--hue), 6.7%, 29.8%),
+  template-quickicon-bg-hvr:       hsl(var(--hue), 6.7%, 44.12%),
 
   // not clean, but there are too many elements using it...
   //template-bg-dark-60:             hsl(var(--hue), 62.33%, 15.09%),
@@ -28,7 +28,7 @@ $atum-colors-dark: (
   //admin
   admin-background:                var(--body-bg),
   options-form-color:              var(--template-text-light),
-  options-form-bg:                 rgba(255, 255, 255, 0.15),
+  options-form-bg:                 hsl(var(--hue), 5%, 34%),
   options-form-border:             1px solid var(--template-bg-dark-80),
   options-form-legend-color:       var(--template-text-light),
   options-form-legend-bg:          var(--admin-background),
@@ -40,8 +40,8 @@ $atum-colors-dark: (
   quickicons-bg:                   transparent,
   quickicon-border:                none,
   quickicon-border-radius:         unset,
-  quickicon-linkadd-bg:            rgba(255, 255, 255, 0.15),
-  quickicon-linkadd-color:         var(--template-bg-dark-80),
+  quickicon-linkadd-bg:            hsl(var(--hue), 5%, 34%),
+  quickicon-linkadd-color:         #479a59,
 
   // modules
   new-modules-color:               var(--template-quickicon-color),
@@ -61,20 +61,29 @@ $atum-colors-dark: (
   sidebarwrapper-bg:               var(--template-sidebar-bg),
 
   // header-content
-  header-item-content-bg:             hsl(var(--hue), 59.05%, 44.12%),
+  header-bg:                          hsl(var(--hue), 59.05%, 44.12%),
+  header-item-content-bg:             var(--header-bg),
   header-item-content-bg-hvr:         hsl(var(--hue), 43.4%, 50.19%),
   header-item-content-border-radius:  4px,
   header-item-content-jversion-color: var(--dark-mode-text-light),
   header-item-content-jversion-bg:    transparent,
+  header-logo-bg:                     var(--body-bg),
+
 
   // table:
   table-border-top-nfc:            1px solid #969696,
   table-thead-a-color:             hsl(214, 94.9%, 55.29%),
 
-  // card-header
-  content-card-header-color:       var(--template-bg-dark),
-  content-card-header-bg:          rgba(255, 255, 255, 0.05),
+  // card
+  card-bg-dark:                    hsl(214,10%,22%),
+  card-header-color:               var(--dark-mode-text-light),
+  card-header-bg:                  var(--card-bg-dark),
+  card-bg:                         var(--card-bg-dark),
+  card-body-bg:                    var(--card-bg-dark),
+  main-card-bg:                    var(--card-bg-dark),
 
+  //cpanel
+  module-actions-color:            var(--body-color),
 
   //turn off shadow in dark mode
   atum-box-shadow:                 none,

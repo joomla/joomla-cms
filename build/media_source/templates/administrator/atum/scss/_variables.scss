@@ -121,14 +121,22 @@ $atum-colors: (
   header-item-content-border-radius:  22px,
   header-item-content-jversion-color: var(--bluegray),
   header-item-content-jversion-bg:    transparent,
+  header-logo-bg:                     var(--template-bg-dark-70),
 
-  // table
+
+// table
   table-border-top-nfc:            2px solid #dee2e6,
   table-thead-a-color:             var(--template-link-color),
 
-  // card-header
-  content-card-header-color:       var(--template-bg-dark),
-  content-card-header-bg:          var(--card-bg),
+  // card
+  card-header-color:               var(--template-bg-dark),
+  card-bg:                         hsla(0, 0%, 100%, .7),
+  card-header-bg:                  var(--card-bg),
+  card-body-bg:                    var(--template-bg-dark-70),
+  main-card-bg:                    var(--body-bg),
+
+  //cpanel
+  module-actions-color:            var(--body-color),
 
   // box-shadow:
   atum-box-shadow:                 0 2px 10px -8px var(--template-bg-dark-50),
@@ -237,9 +245,15 @@ $table-group-separator-color:      $gray-300;
 $table-border-top-nfc:             var(--table-border-top-nfc);
 $table-thead-a-color:              var(--table-thead-a-color);
 
-// card-header
-$content-card-header-color:       var(--content-card-header-color);
-$content-card-header-bg:          var(--content-card-header-bg);
+// card
+$card-header-color:                var(--card-header-color);
+$card-header-bg:                   var(--card-header-bg);
+$card-bg:                          var(--card-bg);
+$main-card-bg:                     var(--main-card-bg);
+$card-body-bg:                     var(--card-body-bg);
+
+// cpanel
+$module-actions-color:             var(--module-actions-color);
 
 // Dropdowns
 $dropdown-padding-y:               0;
@@ -389,6 +403,7 @@ $header-item-content-bg-hvr:         var(--header-item-content-bg-hvr);
 $header-item-content-border-radius:  var(--header-item-content-border-radius);
 $header-item-content-jversion-color: var(--header-item-content-jversion-color);
 $header-item-content-jversion-bg:    var(--header-item-content-jversion-bg);
+$header-logo-bg:                     var(--header-logo-bg);
 
 // Gutter
 $grid-gutter-width:                2rem;
