@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
         $activeRecords = 0;
 
         foreach ($this->methods as $methodName => $method) {
-            $methodActiveRecords = count($method['active']);
+            $methodActiveRecords = \count($method['active']);
 
             if (!$methodActiveRecords) {
                 continue;
@@ -153,7 +153,7 @@ class HtmlView extends BaseHtmlView
 
         $backupCodesRecord = $model->getBackupCodesRecord($this->user);
 
-        if (!is_null($backupCodesRecord)) {
+        if (!\is_null($backupCodesRecord)) {
             $this->methods = array_merge(
                 [
                     'backupcodes' => new MethodDescriptor(

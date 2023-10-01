@@ -82,7 +82,7 @@ class LimitboxField extends ListField
             asort($limits);
 
             // Add an option to show all?
-            $showAll = isset($this->element['showall']) && (string) $this->element['showall'] === 'true';
+            $showAll = !isset($this->element['showall']) || (string) $this->element['showall'] === 'true';
 
             if ($showAll) {
                 $limits[] = 0;

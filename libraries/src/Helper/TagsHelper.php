@@ -624,7 +624,7 @@ class TagsHelper extends CMSHelper
 
         // Get the type data, limited to types in the request if there are any specified.
         $typesarray  = self::getTypes('assocList', $typesr, false);
-        $typeAliases = \array_column($typesarray, 'type_alias');
+        $typeAliases = array_column($typesarray, 'type_alias');
         $query->whereIn($db->quoteName('m.type_alias'), $typeAliases, ParameterType::STRING);
 
         $groups   = array_values(array_unique($user->getAuthorisedViewLevels()));
@@ -973,7 +973,7 @@ class TagsHelper extends CMSHelper
             $tagTable = Factory::getApplication()->bootComponent('com_tags')->getMVCFactory()->createTable('Tag', 'Administrator');
 
             if ($children = $tagTable->getTree($filters['parent_id'])) {
-                $childrenIds = \array_column($children, 'id');
+                $childrenIds = array_column($children, 'id');
 
                 $query->whereIn($db->quoteName('a.id'), $childrenIds);
             }
@@ -1115,7 +1115,7 @@ class TagsHelper extends CMSHelper
      *
      * @return  array  An array of tag id and name.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function getTags($tagIds)
     {

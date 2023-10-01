@@ -38,7 +38,7 @@ class SessionCollector extends AbstractDataCollector
      * Collected data.
      *
      * @var   array
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      */
     protected $sessionData;
 
@@ -48,7 +48,7 @@ class SessionCollector extends AbstractDataCollector
      * @param   Registry  $params   Parameters.
      * @param   bool      $collect  Collect the session data.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      */
     public function __construct($params, $collect = false)
     {

@@ -43,6 +43,11 @@ joomla-tab {
       border: 0;
       box-shadow: none;
 
+      &:first-of-type,
+      &[aria-expanded=true]:first-of-type {
+        border-start-start-radius: .25rem;
+      }
+
       &:focus-visible {
         z-index: 1;
       }
