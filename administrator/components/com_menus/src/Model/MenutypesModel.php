@@ -373,7 +373,7 @@ class MenutypesModel extends BaseDatabaseModel
         $rootMenu = $manifest->administration->menu;
 
         // If the menu item doesn't exist or is hidden do nothing.
-        if (!$rootMenu || in_array((string) $rootMenu['hidden'], ['true', 'hidden'])) {
+        if (!$rootMenu || \in_array((string) $rootMenu['hidden'], ['true', 'hidden'])) {
             return $options;
         }
 
@@ -415,7 +415,7 @@ class MenutypesModel extends BaseDatabaseModel
             $options[]  = new CMSObject($o);
 
             // Do not repeat the default view link (index.php?option=com_abc).
-            if (count($o->request) == 1) {
+            if (\count($o->request) == 1) {
                 $ro = null;
             }
         }

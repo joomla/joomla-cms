@@ -125,7 +125,7 @@ class ManageModel extends InstallerModel
          * Ensure eid is an array of extension ids
          * @todo: If it isn't an array do we want to set an error and fail?
          */
-        if (!is_array($eid)) {
+        if (!\is_array($eid)) {
             $eid = [$eid];
         }
 
@@ -196,7 +196,7 @@ class ManageModel extends InstallerModel
      */
     public function refresh($eid)
     {
-        if (!is_array($eid)) {
+        if (!\is_array($eid)) {
             $eid = [$eid => 0];
         }
 
@@ -235,7 +235,7 @@ class ManageModel extends InstallerModel
          * Ensure eid is an array of extension ids in the form id => client_id
          * @todo: If it isn't an array do we want to set an error and fail?
          */
-        if (!is_array($eid)) {
+        if (!\is_array($eid)) {
             $eid = [$eid => 0];
         }
 

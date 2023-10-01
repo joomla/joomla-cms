@@ -128,7 +128,7 @@ class ExportRequestEvent extends PrivacyEvent implements ResultAwareInterface
      */
     public function typeCheckResult($data): void
     {
-        if (!is_array($data)) {
+        if (!\is_array($data)) {
             throw new \InvalidArgumentException(sprintf('Event %s only accepts Array results.', \get_class($this)));
         }
 

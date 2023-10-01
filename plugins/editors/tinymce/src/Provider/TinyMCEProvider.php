@@ -50,6 +50,7 @@ final class TinyMCEProvider extends AbstractEditorProvider
      * @param   Registry                 $params
      * @param   CMSApplicationInterface  $application
      * @param   DispatcherInterface      $dispatcher
+     * @param   DatabaseInterface        $database
      *
      * @since  5.0.0
      */

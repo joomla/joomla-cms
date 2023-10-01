@@ -7,14 +7,14 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 // Saves the start time and memory usage.
 $startTime = microtime(1);
 $startMem  = memory_get_usage();
 
-if (file_exists(dirname(__DIR__) . '/defines.php')) {
-    include_once dirname(__DIR__) . '/defines.php';
+if (file_exists(\dirname(__DIR__) . '/defines.php')) {
+    include_once \dirname(__DIR__) . '/defines.php';
 }
 
 require_once __DIR__ . '/defines.php';

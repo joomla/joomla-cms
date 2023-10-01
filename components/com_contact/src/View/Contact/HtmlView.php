@@ -193,14 +193,14 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Check if access is not public
         $groups = $user->getAuthorisedViewLevels();
 
-        if (!in_array($item->access, $groups) || !in_array($item->category_access, $groups)) {
+        if (!\in_array($item->access, $groups) || !\in_array($item->category_access, $groups)) {
             $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
             $app->setHeader('status', 403, true);
 
@@ -314,7 +314,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         }
 
         // Add links to contacts
-        if ($item->params->get('show_contact_list') && count($contacts) > 1) {
+        if ($item->params->get('show_contact_list') && \count($contacts) > 1) {
             foreach ($contacts as &$contact) {
                 $contact->link = Route::_(RouteHelper::getContactRoute($contact->slug, $contact->catid, $contact->language));
             }
@@ -422,7 +422,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
             // Get ID of the category from active menu item
             if (
                 $menu && $menu->component == 'com_contact' && isset($menu->query['view'])
-                && in_array($menu->query['view'], ['categories', 'category'])
+                && \in_array($menu->query['view'], ['categories', 'category'])
             ) {
                 $id = $menu->query['id'];
             } else {

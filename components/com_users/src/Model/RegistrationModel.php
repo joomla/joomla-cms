@@ -280,7 +280,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
 
             foreach ($temp as $k => $v) {
                 // Here we could have a grouped field, let's check it
-                if (is_array($v)) {
+                if (\is_array($v)) {
                     $this->data->$k = new \stdClass();
 
                     foreach ($v as $key => $val) {
@@ -601,7 +601,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
                 return false;
             }
 
-            if (count($userids) > 0) {
+            if (\count($userids) > 0) {
                 $jdate     = new Date();
                 $dateToSql = $jdate->toSql();
                 $subject   = Text::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT');
