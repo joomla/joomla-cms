@@ -23,17 +23,17 @@ var errorLocale = window.errorLocale || null;
 
         if (ref) {
           header.innerHTML = errorLocale[ref].header;
-        }
 
-        if (helpLink) {
-          helpLink.innerText = errorLocale[ref]['help-url-text'];
-        }
+          if (helpLink) {
+            helpLink.innerText = errorLocale[ref]['help-url-text'];
+          }
 
-        // Sets the lang attribute on the html element
-        var htmlElement = document.documentElement;
+          // Sets the lang attribute on the html element
+          var htmlElement = document.documentElement;
 
-        if (htmlElement) {
-          htmlElement.setAttribute('lang', ref);
+          if (htmlElement) {
+            htmlElement.setAttribute('lang', ref);
+          }
         }
       });
 
