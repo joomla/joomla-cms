@@ -18,7 +18,7 @@ var errorLocale = window.errorLocale || null;
       }
 
       document.getElementById('translatedLanguagesSelect').addEventListener('change', function(e) {
-        var ref = e.target.value, helpLink, meta;
+        var ref = e.target.value, helpLink;
 
         if (ref) {
           header.innerHTML = errorLocale[ref].header;
@@ -50,7 +50,7 @@ var errorLocale = window.errorLocale || null;
         // Append the translated strings
         header.innerHTML = errorLocale[key].header;
 
-        var helpLink = document.getElementById('linkHelp'), meta;
+        var helpLink = document.getElementById('linkHelp');
 
         if (helpLink) {
           helpLink.innerText = errorLocale[key]['help-url-text'];
