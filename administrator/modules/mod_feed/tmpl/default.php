@@ -49,7 +49,7 @@ if ($feed !== false) : ?>
         <?php // Show items ?>
         <?php if (!empty($feed)) : ?>
             <ul class="newsfeed">
-                <?php for ($i = 0, $max = min(count($feed), $params->get('rssitems', 3)); $i < $max; $i++) { ?>
+                <?php for ($i = 0, $max = min(count($feed), $params->get('rssitems', 3)); $i < $max; $i++) : ?>
                     <?php
                         $uri  = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
                         $uri  = !$uri || stripos($uri, 'http') !== 0 ? $rssurl : $uri;
@@ -81,7 +81,7 @@ if ($feed !== false) : ?>
                             </div>
                         <?php endif; ?>
                     </li>
-                <?php } ?>
+                <?php endfor; ?>
             </ul>
         <?php endif; ?>
     </div>
