@@ -32,9 +32,9 @@
   .card-body {
     padding: 0;
     overflow: hidden;
+    background-color: $card-body-bg;
     border-bottom-right-radius: $border-radius;
     border-bottom-left-radius: $border-radius;
-    background-color: $card-body-bg;
   }
 
   .module-actions {
