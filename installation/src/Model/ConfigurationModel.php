@@ -312,7 +312,7 @@ class ConfigurationModel extends BaseInstallationModel
     {
         $version = new Version();
 
-        if (!$version->isInDevelopmentState() || !is_file(JPATH_PLUGINS . '/sampledata/testing/testing.php')) {
+        if (!$version->isInDevelopmentState() || !is_file(JPATH_PLUGINS . '/sampledata/testing/testing.xml')) {
             return;
         }
 
