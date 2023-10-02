@@ -9,13 +9,10 @@
 
 namespace Joomla\CMS\Event\Workflow;
 
-use BadMethodCallException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
-use function explode;
-
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -31,22 +28,22 @@ abstract class AbstractEvent extends AbstractImmutableEvent
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.
      *
-     * @throws  BadMethodCallException
+     * @throws  \BadMethodCallException
      *
      * @since   4.0.0
      */
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('subject', $arguments)) {
-            throw new BadMethodCallException("Argument 'subject' of event {$this->name} is required but has not been provided");
+            throw new \BadMethodCallException("Argument 'subject' of event {$this->name} is required but has not been provided");
         }
 
         if (!\array_key_exists('extension', $arguments)) {
-            throw new BadMethodCallException("Argument 'extension' of event {$this->name} is required but has not been provided");
+            throw new \BadMethodCallException("Argument 'extension' of event {$this->name} is required but has not been provided");
         }
 
         if (strpos($arguments['extension'], '.') === false) {
-            throw new BadMethodCallException("Argument 'extension' of event {$this->name} has wrong format. Valid format: 'component.section'");
+            throw new \BadMethodCallException("Argument 'extension' of event {$this->name} has wrong format. Valid format: 'component.section'");
         }
 
         if (!\array_key_exists('extensionName', $arguments) || !\array_key_exists('section', $arguments)) {

@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -26,7 +26,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 abstract class ActionsDropdown
 {
     /**
-     * @var    string  HTML markup for the dropdown list
+     * @var    string[]  HTML markup for the dropdown list
      * @since  3.2
      */
     protected static $dropDownList = [];
@@ -56,7 +56,7 @@ abstract class ActionsDropdown
         $html[] = implode('', static::$dropDownList);
         $html[] = '</ul>';
 
-        static::$dropDownList = null;
+        static::$dropDownList = [];
 
         return implode('', $html);
     }

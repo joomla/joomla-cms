@@ -167,7 +167,7 @@ class JsonapiView extends BaseApiView
         $previousPage                = clone $currentUrl;
         $previousPageQuery           = $currentPageQuery;
         $previousOffset              = $currentPageQuery['offset'] - $limit;
-        $previousPageQuery['offset'] = $previousOffset >= 0 ? $previousOffset : 0;
+        $previousPageQuery['offset'] = max($previousOffset, 0);
         $previousPage->setVar('page', $previousPageQuery);
 
         $lastPage                = clone $currentUrl;
@@ -178,7 +178,7 @@ class JsonapiView extends BaseApiView
         $collection = (new Collection($items, new JoomlaSerializer('menutypes')));
 
         // Set the data into the document and render it
-        $this->document->addMeta('total-pages', $totalPagesAvailable)
+        $this->getDocument()->addMeta('total-pages', $totalPagesAvailable)
             ->setData($collection)
             ->addLink('self', (string) $currentUrl)
             ->addLink('first', (string) $firstPage)
@@ -186,7 +186,7 @@ class JsonapiView extends BaseApiView
             ->addLink('previous', (string) $previousPage)
             ->addLink('last', (string) $lastPage);
 
-        return $this->document->render();
+        return $this->getDocument()->render();
     }
 
     /**

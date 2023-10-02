@@ -81,10 +81,10 @@ class GroupparentField extends ListField
         }
 
         $options      = array_values($options);
-        $isSuperAdmin = Factory::getUser()->authorise('core.admin');
+        $isSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
 
         // Pad the option text with spaces using depth level as a multiplier.
-        for ($i = 0, $n = count($options); $i < $n; $i++) {
+        for ($i = 0, $n = \count($options); $i < $n; $i++) {
             // Show groups only if user is super admin or group is not super admin
             if ($isSuperAdmin || !Access::checkGroup($options[$i]->id, 'core.admin')) {
                 $options[$i]->value = $options[$i]->id;

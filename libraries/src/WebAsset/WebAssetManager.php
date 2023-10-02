@@ -15,7 +15,7 @@ use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -232,12 +232,12 @@ class WebAssetManager implements WebAssetManagerInterface
                 $name = $arguments[0] instanceof WebAssetItemInterface ? $arguments[0]->getName() : $arguments[0];
 
                 return $this->registerAsset($type, ...$arguments)->useAsset($type, $name);
-            } else {
-                return $this->registerAsset($type, ...$arguments);
             }
+
+            return $this->registerAsset($type, ...$arguments);
         }
 
-        throw new \BadMethodCallException(sprintf('Undefined method %s in class %s', $method, get_class($this)));
+        throw new \BadMethodCallException(sprintf('Undefined method %s in class %s', $method, \get_class($this)));
     }
 
     /**
@@ -502,7 +502,7 @@ class WebAssetManager implements WebAssetManagerInterface
     {
         if ($asset instanceof WebAssetItemInterface) {
             $this->registry->add($type, $asset);
-        } elseif (is_string($asset)) {
+        } elseif (\is_string($asset)) {
             $options['type'] = $type;
             $assetInstance   = $this->registry->createAsset($asset, $uri, $options, $attributes, $dependencies);
             $this->registry->add($type, $assetInstance);
@@ -661,7 +661,7 @@ class WebAssetManager implements WebAssetManagerInterface
     {
         if ($content instanceof WebAssetItemInterface) {
             $assetInstance = $content;
-        } elseif (is_string($content)) {
+        } elseif (\is_string($content)) {
             $name          = $options['name'] ?? ('inline.' . md5($content));
             $assetInstance = $this->registry->createAsset($name, '', $options, $attributes, $dependencies);
             $assetInstance->setOption('content', $content);

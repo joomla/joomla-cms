@@ -83,7 +83,7 @@ class WorkflowstageField extends GroupedlistField
     /**
      * Method to get the field option groups.
      *
-     * @return  array  The field option objects as a nested array in groups.
+     * @return  array[]  The field option objects as a nested array in groups.
      *
      * @since  4.0.0
      * @throws  \UnexpectedValueException

@@ -16,7 +16,7 @@ use Joomla\CMS\WebAsset\WebAssetManager;
 use Symfony\Component\WebLink\HttpHeaderSerializer;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -452,7 +452,7 @@ class Document
         } elseif ($name === 'description') {
             $result = $this->getDescription();
         } else {
-            $result = isset($this->_metaTags[$attribute]) && isset($this->_metaTags[$attribute][$name]) ? $this->_metaTags[$attribute][$name] : '';
+            $result = $this->_metaTags[$attribute][$name] ?? '';
         }
 
         return $result;
@@ -586,9 +586,9 @@ class Document
     {
         if ($key) {
             return (empty($this->scriptOptions[$key])) ? [] : $this->scriptOptions[$key];
-        } else {
-            return $this->scriptOptions;
         }
+
+        return $this->scriptOptions;
     }
 
     /**
@@ -981,7 +981,7 @@ class Document
                     'The $date parameter of %1$s must be a string or a %2$s instance, a %3$s was given.',
                     __METHOD__ . '()',
                     'Joomla\\CMS\\Date\\Date',
-                    \gettype($date) === 'object' ? (\get_class($date) . ' instance') : \gettype($date)
+                    \is_object($date) ? (\get_class($date) . ' instance') : \gettype($date)
                 )
             );
         }

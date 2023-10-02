@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
@@ -30,6 +30,8 @@ if ($this->direction === 'rtl') {
 // Set page title
 $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'));
 
+// Get the error code
+$errorCode = $this->error->getCode();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -42,22 +44,26 @@ $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error-
     <div class="error">
         <div id="outline">
         <div id="errorboxoutline">
+            <?php if ($this->countModules('error-' . $errorCode)) : ?>
+                    <jdoc:include type="modules" name="error-<?php echo $errorCode; ?>" style="none" />
+            <?php else : ?>
             <div id="errorboxheader"><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></div>
             <div id="errorboxbody">
             <p><strong><?php echo Text::_('JERROR_LAYOUT_NOT_ABLE_TO_VISIT'); ?></strong></p>
-            <ol>
+            <ul>
                 <li><?php echo Text::_('JERROR_LAYOUT_AN_OUT_OF_DATE_BOOKMARK_FAVOURITE'); ?></li>
                 <li><?php echo Text::_('JERROR_LAYOUT_SEARCH_ENGINE_OUT_OF_DATE_LISTING'); ?></li>
                 <li><?php echo Text::_('JERROR_LAYOUT_MIS_TYPED_ADDRESS'); ?></li>
                 <li><?php echo Text::_('JERROR_LAYOUT_YOU_HAVE_NO_ACCESS_TO_THIS_PAGE'); ?></li>
                 <li><?php echo Text::_('JERROR_LAYOUT_REQUESTED_RESOURCE_WAS_NOT_FOUND'); ?></li>
                 <li><?php echo Text::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></li>
-            </ol>
+            </ul>
             <p><strong><?php echo Text::_('JERROR_LAYOUT_PLEASE_TRY_ONE_OF_THE_FOLLOWING_PAGES'); ?></strong></p>
             <ul>
                 <li><a href="<?php echo Uri::root(true); ?>/index.php"><?php echo Text::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></li>
             </ul>
             <p><?php echo Text::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></p>
+            <?php endif; ?>
             <div id="techinfo">
             <p>
                 <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
@@ -93,7 +99,6 @@ $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error-
         </div>
         </div>
     </div>
-
     <jdoc:include type="modules" name="debug" style="none" />
 </body>
 </html>

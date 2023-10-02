@@ -11,13 +11,14 @@
 namespace Joomla\Component\Finder\Administrator\Service\HTML;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\ParameterType;
+use Joomla\Filter\OutputFilter;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -54,8 +55,8 @@ class Filter
 
         // Get the configuration options.
         $filterId    = $options['filter_id'] ?? null;
-        $activeNodes = array_key_exists('selected_nodes', $options) ? $options['selected_nodes'] : [];
-        $classSuffix = array_key_exists('class_suffix', $options) ? $options['class_suffix'] : '';
+        $activeNodes = \array_key_exists('selected_nodes', $options) ? $options['selected_nodes'] : [];
+        $classSuffix = \array_key_exists('class_suffix', $options) ? $options['class_suffix'] : '';
 
         // Load the predefined filter if specified.
         if (!empty($filterId)) {
@@ -104,7 +105,7 @@ class Filter
         }
 
         // Check that we have at least one branch.
-        if (count($branches) === 0) {
+        if (\count($branches) === 0) {
             return null;
         }
 
@@ -164,7 +165,7 @@ class Filter
                 'accordion',
                 Text::sprintf(
                     'COM_FINDER_FILTER_BRANCH_LABEL',
-                    Text::_(LanguageHelper::branchSingular($bv->title)) . ' - ' . count($nodes)
+                    Text::_(LanguageHelper::branchSingular($bv->title)) . ' - ' . \count($nodes)
                 ),
                 'accordion-' . $bk
             );
@@ -176,7 +177,7 @@ class Filter
             // Populate the group with nodes.
             foreach ($nodes as $nk => $nv) {
                 // Determine if the node should be checked.
-                $checked = in_array($nk, $activeNodes) ? ' checked="checked"' : '';
+                $checked = \in_array($nk, $activeNodes) ? ' checked="checked"' : '';
 
                 // Build a node.
                 $html .= '<div class="form-check">';
@@ -198,10 +199,10 @@ class Filter
     /**
      * Method to generate filters using select box dropdown controls.
      *
-     * @param   Query  $idxQuery  A Query object.
-     * @param   array  $options   An array of options.
+     * @param   Query     $idxQuery  A Query object.
+     * @param   Registry  $options   An array of options.
      *
-     * @return  mixed  A rendered HTML widget on success, null otherwise.
+     * @return  string|null  A rendered HTML widget on success, null otherwise.
      *
      * @since   2.5
      */
@@ -277,7 +278,7 @@ class Filter
             }
 
             // Check that we have at least one branch.
-            if (count($branches) === 0) {
+            if (\count($branches) === 0) {
                 return null;
             }
 
@@ -292,11 +293,19 @@ class Filter
                 $query->clear()
                     ->select('t.*')
                     ->from($db->quoteName('#__finder_taxonomy') . ' AS t')
-                    ->where('t.lft > ' . (int) $bv->lft)
-                    ->where('t.rgt < ' . (int) $bv->rgt)
+                    ->where('t.lft > :lft')
+                    ->where('t.rgt < :rgt')
                     ->where('t.state = 1')
-                    ->where('t.access IN (' . $groups . ')')
-                    ->order('t.title');
+                    ->whereIn('t.access', $user->getAuthorisedViewLevels())
+                    ->order('t.title')
+                    ->bind(':lft', $bv->lft, ParameterType::INTEGER)
+                    ->bind(':rgt', $bv->rgt, ParameterType::INTEGER);
+
+                // Apply multilanguage filter
+                if (Multilanguage::isEnabled()) {
+                    $language = [Factory::getLanguage()->getTag(), '*'];
+                    $query->whereIn($db->quoteName('t.language'), $language, ParameterType::STRING);
+                }
 
                 // Self-join to get the parent title.
                 $query->select('e.title AS parent_title')
@@ -304,7 +313,7 @@ class Filter
 
                 // Limit the nodes to a predefined filter.
                 if (!empty($filter->data)) {
-                    $query->where('t.id IN(' . $filter->data . ')');
+                    $query->whereIn('t.id', explode(",", $filter->data));
                 }
 
                 // Load the branches.
@@ -361,13 +370,13 @@ class Filter
             $active = null;
 
             // Check if the branch is in the filter.
-            if (array_key_exists($bv->title, $idxQuery->filters)) {
+            if (\array_key_exists($bv->title, $idxQuery->filters)) {
                 // Get the request filters.
                 $temp   = Factory::getApplication()->getInput()->request->get('t', [], 'array');
 
                 // Search for active nodes in the branch and get the active node.
                 $active = array_intersect($temp, $idxQuery->filters[$bv->title]);
-                $active = count($active) === 1 ? array_shift($active) : null;
+                $active = \count($active) === 1 ? array_shift($active) : null;
             }
 
             // Build a node.
@@ -400,10 +409,10 @@ class Filter
     /**
      * Method to generate fields for filtering dates
      *
-     * @param   Query  $idxQuery  A Query object.
-     * @param   array  $options   An array of options.
+     * @param   Query     $idxQuery  A Query object.
+     * @param   Registry  $options   An array of options.
      *
-     * @return  mixed  A rendered HTML widget on success, null otherwise.
+     * @return  string  A rendered HTML widget.
      *
      * @since   2.5
      */
@@ -440,6 +449,9 @@ class Filter
             $html .= Text::_('COM_FINDER_FILTER_DATE1');
             $html .= '</label>';
             $html .= '<br>';
+            $html .= '<label for="finder-filter-w1" class="visually-hidden">';
+            $html .= Text::_('COM_FINDER_FILTER_DATE1_OPERATOR');
+            $html .= '</label>';
             $html .= HTMLHelper::_(
                 'select.genericlist',
                 $operators,
@@ -459,6 +471,9 @@ class Filter
             $html .= Text::_('COM_FINDER_FILTER_DATE2');
             $html .= '</label>';
             $html .= '<br>';
+            $html .= '<label for="finder-filter-w2" class="visually-hidden">';
+            $html .= Text::_('COM_FINDER_FILTER_DATE2_OPERATOR');
+            $html .= '</label>';
             $html .= HTMLHelper::_(
                 'select.genericlist',
                 $operators,

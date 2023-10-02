@@ -15,7 +15,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Exception\KeyNotFoundException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -73,10 +73,10 @@ class Route
     {
         try {
             /**
-             * @deprecated  3.9 int conversion will be removed in 5.0
+             * @deprecated  3.9 int conversion will be removed in 6.0
              *              Before 3.9.7 this method silently converted $tls to integer
              */
-            if (!is_int($tls)) {
+            if (!\is_int($tls)) {
                 @trigger_error(
                     __METHOD__ . '() called with incompatible variable type on parameter $tls.',
                     E_USER_DEPRECATED
@@ -86,7 +86,7 @@ class Route
             }
 
             /**
-             * @deprecated  3.9 -1 as valid value will be removed in 5.0
+             * @deprecated  3.9 -1 as valid value will be removed in 6.0
              *              Before 3.9.7 this method accepted -1.
              */
             if ($tls === -1) {
@@ -99,8 +99,8 @@ class Route
             return static::link($client, $url, $xhtml, $tls, $absolute);
         } catch (\RuntimeException $e) {
             /**
-             * @deprecated  3.9 this method will not fail silently from 5.0
-             *              Before 3.9.0 this method failed silently on router error. This B/C will be removed in Joomla 5.0
+             * @deprecated  3.9 this method will not fail silently from 6.0
+             *              Before 3.9.0 this method failed silently on router error. This B/C will be removed in Joomla 6.0
              */
             return null;
         }
@@ -172,7 +172,7 @@ class Route
                 $scheme_host_port = [$uri2->getScheme(), $uri2->getHost(), $uri2->getPort()];
             }
 
-            if (is_null($uri->getScheme())) {
+            if (\is_null($uri->getScheme())) {
                 $uri->setScheme($scheme_host_port[0]);
             }
 

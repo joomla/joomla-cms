@@ -115,7 +115,7 @@ class DatabaseModel extends InstallerModel
     private function fetchSchemaCache($cid = 0)
     {
         // We already have it
-        if (array_key_exists($cid, $this->changeSetList)) {
+        if (\array_key_exists($cid, $this->changeSetList)) {
             return;
         }
 
@@ -294,16 +294,6 @@ class DatabaseModel extends InstallerModel
                 $installer = new \JoomlaInstallerScript();
                 $installer->deleteUnexistingFiles();
                 $this->fixDefaultTextFilters();
-
-                /*
-                 * Finally, if the schema updates succeeded, make sure the database table is
-                 * converted to utf8mb4 or, if not supported by the server, compatible to it.
-                 */
-                $statusArray = $changeSet['changeset']->getStatus();
-
-                if (count($statusArray['error']) == 0) {
-                    $installer->convertTablesToUtf8mb4(false);
-                }
             }
         }
     }
@@ -386,7 +376,7 @@ class DatabaseModel extends InstallerModel
                 ->bind(':extensionid', $extensionId, ParameterType::INTEGER);
         }
 
-        if ($folder != '' && in_array($type, ['plugin', 'library', ''])) {
+        if ($folder != '' && \in_array($type, ['plugin', 'library', ''])) {
             $folder = $folder === '*' ? '' : $folder;
             $query->where($db->quoteName('extensions.folder') . ' = :folder')
                 ->bind(':folder', $folder);
@@ -419,7 +409,7 @@ class DatabaseModel extends InstallerModel
         $finalResults  = [];
 
         foreach ($results as $result) {
-            if (array_key_exists($result->extension_id, $changeSetList) && $changeSetList[$result->extension_id]) {
+            if (\array_key_exists($result->extension_id, $changeSetList) && $changeSetList[$result->extension_id]) {
                 $finalResults[] = $changeSetList[$result->extension_id];
             }
         }
@@ -546,8 +536,8 @@ class DatabaseModel extends InstallerModel
     private function getOtherInformationMessage($status)
     {
         $problemsMessage   = [];
-        $problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($status['ok']));
-        $problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', count($status['skipped']));
+        $problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', \count($status['ok']));
+        $problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', \count($status['skipped']));
 
         return $problemsMessage;
     }
@@ -569,9 +559,9 @@ class DatabaseModel extends InstallerModel
             $key             = 'COM_INSTALLER_MSG_DATABASE_' . $error->queryType;
             $messages        = $error->msgElements;
             $file            = basename($error->file);
-            $message0        = isset($messages[0]) ? $messages[0] : ' ';
-            $message1        = isset($messages[1]) ? $messages[1] : ' ';
-            $message2        = isset($messages[2]) ? $messages[2] : ' ';
+            $message0        = $messages[0] ?? ' ';
+            $message1        = $messages[1] ?? ' ';
+            $message2        = $messages[2] ?? ' ';
             $errorMessages[] = Text::sprintf($key, $file, $message0, $message1, $message2);
         }
 

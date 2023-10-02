@@ -22,7 +22,7 @@ namespace
         \define('_JEXEC', 1);
     }
 
-    if (!function_exists('jimport')) {
+    if (!\function_exists('jimport')) {
         /**
          * This is deprecated but it may still be used in the update finalisation script.
          *
@@ -40,7 +40,7 @@ namespace
         }
     }
 
-    if (!function_exists('finalizeUpdate')) {
+    if (!\function_exists('finalizeUpdate')) {
         /**
          * Run part of the Joomla! finalisation script, namely the part that cleans up unused files/folders
          *
@@ -77,7 +77,7 @@ namespace
              */
             $namespaceMapFile = JPATH_ROOT . '/administrator/cache/autoload_psr4.php';
 
-            if (\Joomla\CMS\Filesystem\File::exists($namespaceMapFile)) {
+            if (is_file($namespaceMapFile)) {
                 \Joomla\CMS\Filesystem\File::delete($namespaceMapFile);
             }
         }
@@ -162,7 +162,7 @@ namespace Joomla\CMS\Filesystem
              */
             public static function invalidateFileCache($filepath, $force = true)
             {
-                return \clearFileInOPCache($filepath);
+                return clearFileInOPCache($filepath);
             }
         }
     }
@@ -227,7 +227,7 @@ namespace Joomla\CMS\Filesystem
                         continue;
                     }
 
-                    \clearFileInOPCache($item->getPathname());
+                    clearFileInOPCache($item->getPathname());
 
                     @unlink($item->getPathname());
                 }

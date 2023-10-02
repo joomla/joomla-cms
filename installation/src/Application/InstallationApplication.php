@@ -20,6 +20,7 @@ use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Input\Input;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactory;
@@ -117,7 +118,7 @@ final class InstallationApplication extends CMSApplication
 
         $errorfiles = $lang->getErrorFiles();
 
-        if (count($errorfiles)) {
+        if (\count($errorfiles)) {
             $output .= '<ul>';
 
             foreach ($errorfiles as $error) {
@@ -133,7 +134,7 @@ final class InstallationApplication extends CMSApplication
         $output .= '<pre>';
         $orphans = $lang->getOrphans();
 
-        if (count($orphans)) {
+        if (\count($orphans)) {
             ksort($orphans, SORT_STRING);
 
             $guesses = [];
@@ -143,7 +144,7 @@ final class InstallationApplication extends CMSApplication
 
                 $parts = explode(' ', $guess);
 
-                if (count($parts) > 1) {
+                if (\count($parts) > 1) {
                     array_shift($parts);
                     $guess = implode(' ', $parts);
                 }
@@ -296,7 +297,7 @@ final class InstallationApplication extends CMSApplication
             list($controllerName, $task) = explode('.', $task, 2);
         }
 
-        $factory = new MVCFactory('Joomla\\CMS');
+        $factory = new MVCFactory('Joomla\\CMS', $this->getLogger());
         $factory->setDatabase($this->getContainer()->get(DatabaseInterface::class));
 
         // Create the instance
@@ -351,7 +352,7 @@ final class InstallationApplication extends CMSApplication
 
         // If db connection, fetch them from the database.
         if ($db) {
-            foreach (LanguageHelper::getInstalledLanguages() as $clientId => $language) {
+            foreach (LanguageHelper::getInstalledLanguages(null, null, null, null, null, null, $db) as $clientId => $language) {
                 $clientName = $clientId === 0 ? 'site' : 'admin';
 
                 foreach ($language as $languageCode => $lang) {
@@ -452,6 +453,15 @@ final class InstallationApplication extends CMSApplication
         $this->config->set('debug_lang', $forced['debug']);
         $this->config->set('sampledata', $forced['sampledata']);
         $this->config->set('helpurl', $options['helpurl']);
+
+        // Build our language object
+        $lang = $this->getContainer()->get(LanguageFactoryInterface::class)->createLanguage($options['language'], $forced['debug']);
+
+        // Load the language to the API
+        $this->loadLanguage($lang);
+
+        // Register the language object with Factory
+        Factory::$language = $this->getLanguage();
     }
 
     /**
@@ -470,7 +480,7 @@ final class InstallationApplication extends CMSApplication
     public function loadDocument(Document $document = null)
     {
         if ($document === null) {
-            $lang = Factory::getLanguage();
+            $lang = $this->getLanguage();
             $type = $this->input->get('format', 'html', 'word');
             $date = new Date('now');
 

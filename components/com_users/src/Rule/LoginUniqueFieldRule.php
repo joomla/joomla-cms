@@ -15,7 +15,7 @@ use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -49,11 +49,11 @@ class LoginUniqueFieldRule extends FormRule
         $loginRedirectMenuitem  = $input['params']->login_redirect_menuitem;
 
         if ($form === null) {
-            throw new \InvalidArgumentException(sprintf('The value for $form must not be null in %s', get_class($this)));
+            throw new \InvalidArgumentException(sprintf('The value for $form must not be null in %s', \get_class($this)));
         }
 
         if ($input === null) {
-            throw new \InvalidArgumentException(sprintf('The value for $input must not be null in %s', get_class($this)));
+            throw new \InvalidArgumentException(sprintf('The value for $input must not be null in %s', \get_class($this)));
         }
 
         // Test the input values for login.

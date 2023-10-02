@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -206,7 +206,9 @@ class ExtensionRemoveCommand extends AbstractCommand
             }
 
             return self::REMOVE_INVALID_TYPE;
-        } elseif (strtolower($response) === 'no') {
+        }
+
+        if (strtolower($response) === 'no') {
             $this->ioStyle->note('Extension not removed.');
 
             return self::REMOVE_ABORT;

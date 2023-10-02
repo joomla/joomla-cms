@@ -123,7 +123,7 @@ class ArchiveModel extends ArticlesModel
                 ->bind(':year', $year, ParameterType::INTEGER);
         }
 
-        if (count($catids) > 0) {
+        if (\count($catids) > 0) {
             $query->whereIn($db->quoteName('c.id'), $catids);
         }
 

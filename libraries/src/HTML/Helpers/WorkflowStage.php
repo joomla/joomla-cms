@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -63,7 +63,7 @@ abstract class WorkflowStage
             // Using workflow ID to differentiate workflows having same title
             $workflowStageKey = Text::_($stage->workflow_title) . ' (' . $stage->workflow_id . ')';
 
-            if (!array_key_exists($workflowStageKey, $workflowStages)) {
+            if (!\array_key_exists($workflowStageKey, $workflowStages)) {
                 $workflowStages[$workflowStageKey] = [];
             }
 

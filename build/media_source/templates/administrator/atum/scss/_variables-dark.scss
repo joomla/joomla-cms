@@ -1,0 +1,15 @@
+$atum-colors-dark: (
+  template-quickicon-color:        var(--template-bg-dark-5),
+  focus-shadow:                    var(--gray-800),
+) !default;
+
+$link-hover-color-dark: lighten($light-blue, 20%);
+
+$form-select-indicator-dark:       url("../images/select-bg-dark.svg");
+$form-select-indicator-rtl-dark:   url("../images/select-bg-rtl-dark.svg");
+$form-select-bg-dark:              var(--template-bg-dark);
+$form-select-background-dark:      $form-select-bg-dark $form-select-indicator-dark no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g. arrow and feedback icon)
+$form-select-background-rtl-dark:  $form-select-bg-dark $form-select-indicator-rtl-dark no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g. arrow and feedback icon)
+
+// Alerts
+$state-info-text-dark:             var(--template-bg-dark-50);

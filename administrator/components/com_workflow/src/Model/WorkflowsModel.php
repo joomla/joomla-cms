@@ -81,7 +81,7 @@ class WorkflowsModel extends ListModel
         $this->setState('filter.component', $parts[0]);
 
         // Extract the optional section name
-        $this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
+        $this->setState('filter.section', (\count($parts) > 1) ? $parts[1] : null);
 
         parent::populateState($ordering, $direction);
     }
@@ -146,7 +146,7 @@ class WorkflowsModel extends ListModel
      *
      * @param   array  $items  The workflow items
      *
-     * @return  mixed  An array of data items on success, false on failure.
+     * @return  void
      *
      * @since  4.0.0
      */

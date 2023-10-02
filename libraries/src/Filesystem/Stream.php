@@ -10,10 +10,11 @@
 namespace Joomla\CMS\Filesystem;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -30,9 +31,14 @@ use Joomla\CMS\Object\CMSObject;
  * @link   https://www.php.net/manual/en/filters.php Stream Filters
  * @link   https://www.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
  * @since  1.7.0
+ * @deprecated  4.4 will be removed in 6.0
+ *              Use Joomla\Filesystem\Stream instead.
  */
-class Stream extends CMSObject
+class Stream
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
     /**
      * File Mode
      *
@@ -146,6 +152,8 @@ class Stream extends CMSObject
      * @param   array   $context      The context options (optional).
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::__construct() instead.
      */
     public function __construct($writeprefix = '', $readprefix = '', $context = [])
     {
@@ -159,6 +167,8 @@ class Stream extends CMSObject
      * Destructor
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::__destruct() instead.
      */
     public function __destruct()
     {
@@ -185,6 +195,9 @@ class Stream extends CMSObject
      * @return  boolean
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::open() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function open(
         $filename,
@@ -295,6 +308,9 @@ class Stream extends CMSObject
      * @return  boolean
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::close() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function close()
     {
@@ -352,6 +368,9 @@ class Stream extends CMSObject
      * @return  boolean
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::eof() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function eof()
     {
@@ -395,6 +414,9 @@ class Stream extends CMSObject
      * @return  mixed
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::filesize() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function filesize()
     {
@@ -455,6 +477,9 @@ class Stream extends CMSObject
      * @return  mixed
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::gets() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function gets($length = 0)
     {
@@ -507,6 +532,9 @@ class Stream extends CMSObject
      *
      * @link    https://www.php.net/manual/en/function.fread.php
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::read() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function read($length = 0)
     {
@@ -595,6 +623,9 @@ class Stream extends CMSObject
      *
      * @link    https://www.php.net/manual/en/function.fseek.php
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::seek() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function seek($offset, $whence = SEEK_SET)
     {
@@ -643,6 +674,9 @@ class Stream extends CMSObject
      * @return  mixed
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::tell() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function tell()
     {
@@ -700,6 +734,9 @@ class Stream extends CMSObject
      *
      * @link    https://www.php.net/manual/en/function.fwrite.php
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::write() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function write(&$string, $length = 0, $chunk = 0)
     {
@@ -766,6 +803,9 @@ class Stream extends CMSObject
      * @return  boolean
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::chmod() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function chmod($filename = '', $mode = 0)
     {
@@ -825,6 +865,9 @@ class Stream extends CMSObject
      *
      * @link    https://www.php.net/manual/en/function.stream-get-meta-data.php
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::get_meta_data() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function get_meta_data()
     {
@@ -841,9 +884,11 @@ class Stream extends CMSObject
      * Stream contexts
      * Builds the context from the array
      *
-     * @return  mixed
+     * @return  void
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::_buildContext() instead.
      */
     public function _buildContext()
     {
@@ -866,6 +911,8 @@ class Stream extends CMSObject
      *
      * @link    https://www.php.net/stream_context_create
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::setContextOptions() instead.
      */
     public function setContextOptions($context)
     {
@@ -885,6 +932,8 @@ class Stream extends CMSObject
      * @link    https://www.php.net/stream_context_create Stream Context Creation
      * @link    https://www.php.net/manual/en/context.php Context Options for various streams
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::addContextEntry() instead.
      */
     public function addContextEntry($wrapper, $name, $value)
     {
@@ -902,6 +951,8 @@ class Stream extends CMSObject
      *
      * @link    https://www.php.net/stream_context_create
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::deleteContextEntry() instead.
      */
     public function deleteContextEntry($wrapper, $name)
     {
@@ -932,6 +983,9 @@ class Stream extends CMSObject
      * @return  mixed
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::applyContextToStream() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function applyContextToStream()
     {
@@ -967,6 +1021,9 @@ class Stream extends CMSObject
      *
      * @link    https://www.php.net/manual/en/function.stream-filter-append.php
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::appendFilter() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function appendFilter($filterName, $readWrite = STREAM_FILTER_READ, $params = [])
     {
@@ -1004,6 +1061,9 @@ class Stream extends CMSObject
      *
      * @link    https://www.php.net/manual/en/function.stream-filter-prepend.php
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::prependFilter() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function prependFilter($filterName, $readWrite = STREAM_FILTER_READ, $params = [])
     {
@@ -1041,6 +1101,9 @@ class Stream extends CMSObject
      * @return  boolean   Result of operation
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::removeFilter() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function removeFilter(&$resource, $byindex = false)
     {
@@ -1077,6 +1140,9 @@ class Stream extends CMSObject
      * @return  mixed
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::copy() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function copy($src, $dest, $context = null, $usePrefix = true, $relative = false)
     {
@@ -1127,6 +1193,9 @@ class Stream extends CMSObject
      * @return  mixed
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::move() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function move($src, $dest, $context = null, $usePrefix = true, $relative = false)
     {
@@ -1172,6 +1241,9 @@ class Stream extends CMSObject
      * @return  mixed
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::delete() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function delete($filename, $context = null, $usePrefix = true, $relative = false)
     {
@@ -1215,17 +1287,20 @@ class Stream extends CMSObject
      * @return  mixed
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::upload() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function upload($src, $dest, $context = null, $usePrefix = true, $relative = false)
     {
         if (is_uploaded_file($src)) {
             // Make sure it's an uploaded file
             return $this->copy($src, $dest, $context, $usePrefix, $relative);
-        } else {
-            $this->setError(Text::_('JLIB_FILESYSTEM_ERROR_STREAMS_NOT_UPLOADED_FILE'));
-
-            return false;
         }
+
+        $this->setError(Text::_('JLIB_FILESYSTEM_ERROR_STREAMS_NOT_UPLOADED_FILE'));
+
+        return false;
     }
 
     /**
@@ -1237,6 +1312,8 @@ class Stream extends CMSObject
      * @return  boolean
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::writeFile() instead.
      */
     public function writeFile($filename, &$buffer)
     {
@@ -1262,6 +1339,8 @@ class Stream extends CMSObject
      * @return  string
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::_getFilename() instead.
      */
     public function _getFilename($filename, $mode, $usePrefix, $relative)
     {
@@ -1295,6 +1374,8 @@ class Stream extends CMSObject
      * @return  resource  File handler
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::getFileHandle() instead.
      */
     public function getFileHandle()
     {

@@ -13,7 +13,6 @@ namespace Joomla\Component\Templates\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -23,10 +22,10 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -147,7 +146,7 @@ class StyleModel extends AdminModel
                 // Trigger the before delete event.
                 $result = Factory::getApplication()->triggerEvent($this->event_before_delete, [$context, $table]);
 
-                if (in_array(false, $result, true) || !$table->delete($pk)) {
+                if (\in_array(false, $result, true) || !$table->delete($pk)) {
                     $this->setError($table->getError());
 
                     return false;
@@ -212,7 +211,7 @@ class StyleModel extends AdminModel
                 // Trigger the before save event.
                 $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, true]);
 
-                if (in_array(false, $result, true) || !$table->store()) {
+                if (\in_array(false, $result, true) || !$table->store()) {
                     throw new \Exception($table->getError());
                 }
 
@@ -414,8 +413,8 @@ class StyleModel extends AdminModel
         // Disable home field if it is default style
 
         if (
-            (is_array($data) && array_key_exists('home', $data) && $data['home'] == '1')
-            || (is_object($data) && isset($data->home) && $data->home == '1')
+            (\is_array($data) && \array_key_exists('home', $data) && $data['home'] == '1')
+            || (\is_object($data) && isset($data->home) && $data->home == '1')
         ) {
             $form->setFieldAttribute('home', 'readonly', 'true');
         }
@@ -504,7 +503,7 @@ class StyleModel extends AdminModel
         $result = Factory::getApplication()->triggerEvent($this->event_before_save, ['com_templates.style', &$table, $isNew]);
 
         // Store the data.
-        if (in_array(false, $result, true) || !$table->store()) {
+        if (\in_array(false, $result, true) || !$table->store()) {
             $this->setError($table->getError());
 
             return false;
@@ -519,7 +518,7 @@ class StyleModel extends AdminModel
             $tableId = (int) $table->id;
             $userId  = (int) $user->id;
 
-            if (!empty($data['assigned']) && is_array($data['assigned'])) {
+            if (!empty($data['assigned']) && \is_array($data['assigned'])) {
                 $data['assigned'] = ArrayHelper::toInteger($data['assigned']);
 
                 // Update the mapping for menu items that this style IS assigned to.
@@ -664,7 +663,9 @@ class StyleModel extends AdminModel
 
         if (!is_numeric($style->client_id)) {
             throw new \Exception(Text::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
-        } elseif ($style->home == '1') {
+        }
+
+        if ($style->home == '1') {
             throw new \Exception(Text::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
         }
 
@@ -700,11 +701,11 @@ class StyleModel extends AdminModel
      *
      * @param   int  $styleId  The style id
      *
-     * @return  stdClass
+     * @return  \stdClass
      *
      * @since   4.2.0
      */
-    public function getAdminTemplate(int $styleId): stdClass
+    public function getAdminTemplate(int $styleId): \stdClass
     {
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)

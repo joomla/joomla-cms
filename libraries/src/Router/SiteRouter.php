@@ -19,7 +19,7 @@ use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -149,11 +149,11 @@ class SiteRouter extends Router
         if (preg_match("#.*?\.php#u", $path, $matches)) {
             // Get the current entry point path relative to the site path.
             $scriptPath         = realpath($_SERVER['SCRIPT_FILENAME'] ?: str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']));
-            $relativeScriptPath = str_replace('\\', '/', str_replace(JPATH_SITE, '', $scriptPath));
+            $relativeScriptPath = str_replace('\\', '/', str_replace(JPATH_PUBLIC, '', $scriptPath));
 
             // If a php file has been found in the request path, check to see if it is a valid file.
             // Also verify that it represents the same file from the server variable for entry script.
-            if (is_file(JPATH_SITE . $matches[0]) && ($matches[0] === $relativeScriptPath)) {
+            if (is_file(JPATH_PUBLIC . $matches[0]) && ($matches[0] === $relativeScriptPath)) {
                 // Remove the entry point segments from the request path for proper routing.
                 $path = str_replace($matches[0], '', $path);
             }
@@ -594,8 +594,8 @@ class SiteRouter extends Router
             $this->componentRouters[$component] = $router;
 
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 }

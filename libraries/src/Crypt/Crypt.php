@@ -12,7 +12,7 @@ namespace Joomla\CMS\Crypt;
 use Joomla\Crypt\Crypt as JCrypt;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -45,17 +45,17 @@ class Crypt extends JCrypt
          * than that. However, this does not prevent a misguided server administrator from disabling
          * hash_equals in php.ini. Hence the need for checking whether the function exists or not.
          */
-        if (function_exists('hash_equals')) {
+        if (\function_exists('hash_equals')) {
             return hash_equals($known, $unknown);
         }
 
         /**
          * If hash_equals is not available we use a pure PHP implementation by Anthony Ferrara.
          *
-         * @see https://blog.ircmaxell.com/2014/11/its-all-about-time.html
+         * @link https://blog.ircmaxell.com/2014/11/its-all-about-time.html
          */
-        $safeLen = strlen($known);
-        $userLen = strlen($unknown);
+        $safeLen = \strlen($known);
+        $userLen = \strlen($unknown);
 
         if ($userLen != $safeLen) {
             return false;
@@ -64,7 +64,7 @@ class Crypt extends JCrypt
         $result = 0;
 
         for ($i = 0; $i < $userLen; $i++) {
-            $result |= (ord($known[$i]) ^ ord($unknown[$i]));
+            $result |= (\ord($known[$i]) ^ \ord($unknown[$i]));
         }
 
         // They are only identical strings if $result is exactly 0...

@@ -28,7 +28,7 @@ $start = (int) $params->get('startLevel', 1);
 
 ?>
 <ul <?php echo ArrayHelper::toString($attributes); ?>>
-<?php foreach ($list as $i => &$item) {
+<?php foreach ($list as $i => $item) {
     // Skip sub-menu items if they are set to be hidden in the module's options
     if (!$showAll && $item->level > $start) {
         continue;

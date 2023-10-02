@@ -11,9 +11,9 @@
 namespace Joomla\Plugin\System\Debug\Storage;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -161,7 +161,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
         /**
          * We only started this collector in Joomla 4.2.4 - any older files we have to assume are insecure.
          */
-        if (!array_key_exists('juser', $data)) {
+        if (!\array_key_exists('juser', $data)) {
             return false;
         }
 

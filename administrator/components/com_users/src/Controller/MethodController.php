@@ -10,24 +10,22 @@
 
 namespace Joomla\Component\Users\Administrator\Controller;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Event\MultiFactor\SaveSetup;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController as BaseControllerAlias;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\MethodModel;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Input\Input;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -38,8 +36,10 @@ use RuntimeException;
  *
  * @since 4.2.0
  */
-class MethodController extends BaseControllerAlias
+class MethodController extends BaseControllerAlias implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Public constructor
      *
@@ -67,7 +67,7 @@ class MethodController extends BaseControllerAlias
      *
      * @return  mixed   The value returned by the called Method.
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public function execute($task)
@@ -86,7 +86,7 @@ class MethodController extends BaseControllerAlias
      * @param   boolean|array  $urlparams  Ignored. This page is never cached.
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public function add($cachable = false, $urlparams = []): void
@@ -95,7 +95,7 @@ class MethodController extends BaseControllerAlias
 
         // Make sure I am allowed to edit the specified user
         $userId = $this->input->getInt('user_id', null);
-        $user   = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+        $user   = $this->getUserFactory()->loadUserById($userId);
 
         $this->assertCanEdit($user);
 
@@ -131,7 +131,7 @@ class MethodController extends BaseControllerAlias
      * @param   boolean|array  $urlparams  Ignored. This page is never cached.
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public function edit($cachable = false, $urlparams = []): void
@@ -140,7 +140,7 @@ class MethodController extends BaseControllerAlias
 
         // Make sure I am allowed to edit the specified user
         $userId = $this->input->getInt('user_id', null);
-        $user   = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+        $user   = $this->getUserFactory()->loadUserById($userId);
 
         $this->assertCanEdit($user);
 
@@ -149,7 +149,7 @@ class MethodController extends BaseControllerAlias
         $record = $this->assertValidRecordId($id, $user);
 
         if ($id <= 0) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         /** @var MethodModel $model */
@@ -180,7 +180,7 @@ class MethodController extends BaseControllerAlias
      * @param   boolean|array  $urlparams  Ignored. This page is never cached.
      *
      * @return  void
-     * @throws Exception
+     * @throws \Exception
      * @since   4.2.0
      */
     public function regenerateBackupCodes($cachable = false, $urlparams = []): void
@@ -191,7 +191,7 @@ class MethodController extends BaseControllerAlias
 
         // Make sure I am allowed to edit the specified user
         $userId = $this->input->getInt('user_id', null);
-        $user   = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+        $user   = $this->getUserFactory()->loadUserById($userId);
         $this->assertCanEdit($user);
 
         /** @var BackupcodesModel $model */
@@ -231,7 +231,7 @@ class MethodController extends BaseControllerAlias
 
         // Make sure I am allowed to edit the specified user
         $userId  = $this->input->getInt('user_id', null);
-        $user    = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+        $user    = $this->getUserFactory()->loadUserById($userId);
         $this->assertCanDelete($user);
 
         // Also make sure the Method really does exist
@@ -239,7 +239,7 @@ class MethodController extends BaseControllerAlias
         $record = $this->assertValidRecordId($id, $user);
 
         if ($id <= 0) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         $type    = null;
@@ -250,7 +250,7 @@ class MethodController extends BaseControllerAlias
 
         try {
             $record->delete();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $message = $e->getMessage();
             $type    = 'error';
         }
@@ -283,7 +283,7 @@ class MethodController extends BaseControllerAlias
 
         // Make sure I am allowed to edit the specified user
         $userId = $this->input->getInt('user_id', null);
-        $user   = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+        $user   = $this->getUserFactory()->loadUserById($userId);
         $this->assertCanEdit($user);
 
         // Redirect
@@ -325,7 +325,7 @@ class MethodController extends BaseControllerAlias
             foreach ($pluginResults as $pluginResult) {
                 $result = array_merge($result, $pluginResult);
             }
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             // Go back to the edit page
             $nonSefUrl = 'index.php?option=com_users&task=method.';
 
@@ -401,9 +401,8 @@ class MethodController extends BaseControllerAlias
      */
     private function assertValidRecordId($id, ?User $user = null): MfaTable
     {
-        if (is_null($user)) {
-            $user = $this->app->getIdentity()
-                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        if (\is_null($user)) {
+            $user = $this->app->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
         }
 
         /** @var MethodModel $model */
@@ -413,8 +412,8 @@ class MethodController extends BaseControllerAlias
 
         $record = $model->getRecord($user);
 
-        if (is_null($record) || ($record->id != $id) || ($record->user_id != $user->id)) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+        if (\is_null($record) || ($record->id != $id) || ($record->user_id != $user->id)) {
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         return $record;
@@ -426,13 +425,13 @@ class MethodController extends BaseControllerAlias
      * @param   User|null  $user  User record. Null to use current user.
      *
      * @return  void
-     * @throws  RuntimeException|Exception
+     * @throws  \RuntimeException|\Exception
      * @since   4.2.0
      */
     private function assertCanEdit(?User $user = null): void
     {
         if (!MfaHelper::canAddEditMethod($user)) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
     }
 
@@ -442,13 +441,13 @@ class MethodController extends BaseControllerAlias
      * @param   User|null  $user  User record. Null to use current user.
      *
      * @return  void
-     * @throws  RuntimeException|Exception
+     * @throws  \RuntimeException|\Exception
      * @since   4.2.0
      */
     private function assertCanDelete(?User $user = null): void
     {
         if (!MfaHelper::canDeleteMethod($user)) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
     }
 
@@ -466,7 +465,7 @@ class MethodController extends BaseControllerAlias
         $model = $this->getModel('Method');
 
         if (empty($method) || !$model->methodExists($method)) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
     }
 
@@ -478,11 +477,10 @@ class MethodController extends BaseControllerAlias
      */
     private function assertLoggedInUser(): void
     {
-        $user = $this->app->getIdentity()
-            ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        $user = $this->app->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
 
         if ($user->guest) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
     }
 }

@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -229,7 +229,7 @@ class MenuItemByTypeField extends GroupedlistField
                     $levelPrefix . $text . $lang,
                     'value',
                     'text',
-                    in_array($link->type, $this->disable)
+                    \in_array($link->type, $this->disable)
                 );
             }
         } else {
@@ -258,7 +258,7 @@ class MenuItemByTypeField extends GroupedlistField
                         $levelPrefix . $text . $lang,
                         'value',
                         'text',
-                        in_array($link->type, $this->disable)
+                        \in_array($link->type, $this->disable)
                     );
                 }
             }

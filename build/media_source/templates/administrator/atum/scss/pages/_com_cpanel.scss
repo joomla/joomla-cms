@@ -1,72 +1,5 @@
 // com_cpanel
 
-.cpanel-add-module-icon,
-.com-cpanel {
-  &-help,
-  &-system {
-
-    .list-group-item {
-      padding: 0;
-
-      a {
-        display: block;
-        padding: $list-group-item-padding-y $list-group-item-padding-x;
-      }
-    }
-  }
-
-  &-help {
-
-    &__header {
-      color: var(--template-special-color);
-    }
-
-    a {
-      color: var(--template-link-color);
-    }
-
-    h2 {
-      font-size: $h4-font-size;
-    }
-
-  }
-
-  &-system {
-    column-count: 4;
-
-    &__category {
-      margin-bottom: 1.5em;
-      page-break-inside: avoid;
-      break-inside: avoid;
-    }
-
-    &__header {
-      color: var(--template-special-color);
-
-      span {
-        margin-right: 5px;
-      }
-    }
-
-    a {
-      color: var(--template-link-color);
-    }
-
-    h2 {
-      font-size: $h4-font-size;
-    }
-
-
-    @include media-breakpoint-down(lg) {
-      column-count: 2;
-    }
-
-    @include media-breakpoint-down(md) {
-      column-count: 1;
-    }
-  }
-}
-
 .com_cpanel {
 
   .content {
@@ -88,17 +21,7 @@
   }
 
   .card-header {
-    display: flex;
-    align-items: center;
-    padding: 1rem 1rem .75rem;
-    font-weight: $font-weight-bold;
-    color: var(--template-bg-dark);
-    background: hsla(0, 0%, 100%, .7); // default: var(--card-bg);
-
-    > [class^="icon-"],
-    > img {
-      margin-inline-end: .5rem;
-    }
+    --card-bg: hsla(0, 0%, 100%, .7);
 
     .btn {
       margin-top: .25em;
@@ -121,6 +44,14 @@
       padding: 0;
       color: var(--template-bg-dark-70);
     }
+
+    @if $enable-dark-mode {
+      @include color-mode(dark) {
+        > * {
+          color: var(--body-color);
+        }
+      }
+    }
   }
 
   .cpanel-add-module {
@@ -134,9 +65,9 @@
     font-size: .875rem;
     font-weight: 700;
     line-height: 1;
-    color: hsl(var(--hue),30%,40%);
-    background-color: hsl(var(--hue),35%,98%);
-    border: 1px solid hsl(var(--hue),35%,88%);
+    color: var(--template-quickicon-color);
+    background-color: var(--body-bg);
+    border: 1px solid var(--body-bg);
     border-radius: $border-radius;
     transition: all .15s ease-in;
 
@@ -154,7 +85,7 @@
 
     .cpanel-add-module-icon {
       font-size: 2rem;
-      color: hsl(var(--hue),30%,40%);
+      color: var(--template-quickicon-color);
       margin-inline-end: .5rem;
     }
   }
@@ -166,10 +97,6 @@
   }
 
   .list-group-item {
-    &:hover {
-      background: var(--toolbar-bg);
-    }
-
     a {
       font-weight: 500;
       text-decoration: underline;
@@ -187,11 +114,11 @@
         display: block;
         padding: .5rem;
         color: rgba(255, 255, 255, .9);
-        background: var(--template-link-color);
+        background: var(--#{$prefix}link-color);
         box-shadow: $atum-box-shadow;
 
         &:hover {
-          background: var(--template-link-hover-color);
+          background: var(--#{$prefix}link-hover-color);
         }
       }
     }
@@ -206,8 +133,7 @@
       padding: 0;
       margin: 0 .85rem;
       font-size: .9rem;
-      color: rgba(1, 1, 1, 1);
-      background: var(--white-offset);
+      color: var(--body-color);
       box-shadow: none;
       transform: scale(1.2);
     }
@@ -231,7 +157,7 @@
 
 .sample-data__title {
   font-weight: bold;
-  color: var(--primary);
+  color: var(--template-bg-dark-50);
 }
 
 .sample-data__icon {

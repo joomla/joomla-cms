@@ -18,6 +18,8 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -29,8 +31,10 @@ use Joomla\Component\Contact\Site\Helper\RouteHelper;
  *
  * @since  1.5
  */
-class HtmlView extends BaseHtmlView
+class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * The item model state
      *
@@ -189,14 +193,14 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Check if access is not public
         $groups = $user->getAuthorisedViewLevels();
 
-        if (!in_array($item->access, $groups) || !in_array($item->category_access, $groups)) {
+        if (!\in_array($item->access, $groups) || !\in_array($item->category_access, $groups)) {
             $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
             $app->setHeader('status', 403, true);
 
@@ -310,7 +314,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Add links to contacts
-        if ($item->params->get('show_contact_list') && count($contacts) > 1) {
+        if ($item->params->get('show_contact_list') && \count($contacts) > 1) {
             foreach ($contacts as &$contact) {
                 $contact->link = Route::_(RouteHelper::getContactRoute($contact->slug, $contact->catid, $contact->language));
             }
@@ -348,7 +352,7 @@ class HtmlView extends BaseHtmlView
 
         $contactUser = null;
 
-        if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = Factory::getUser($item->user_id)) {
+        if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = $this->getUserFactory()->loadUserById($item->user_id)) {
             $contactUser->text = '';
             $app->triggerEvent('onContentPrepare', ['com_users.user', &$contactUser, &$item->params, 0]);
 
@@ -418,7 +422,7 @@ class HtmlView extends BaseHtmlView
             // Get ID of the category from active menu item
             if (
                 $menu && $menu->component == 'com_contact' && isset($menu->query['view'])
-                && in_array($menu->query['view'], ['categories', 'category'])
+                && \in_array($menu->query['view'], ['categories', 'category'])
             ) {
                 $id = $menu->query['id'];
             } else {
@@ -447,20 +451,20 @@ class HtmlView extends BaseHtmlView
         $this->setDocumentTitle($title);
 
         if ($this->item->metadesc) {
-            $this->document->setDescription($this->item->metadesc);
+            $this->getDocument()->setDescription($this->item->metadesc);
         } elseif ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
 
         $mdata = $this->item->metadata->toArray();
 
         foreach ($mdata as $k => $v) {
             if ($v) {
-                $this->document->setMetaData($k, $v);
+                $this->getDocument()->setMetaData($k, $v);
             }
         }
     }

@@ -67,7 +67,7 @@ class HtmlView extends InstallerViewDefault
      *
      * @param   string  $tpl  Template
      *
-     * @return  mixed|void
+     * @return  void
      *
      * @since   3.4
      *
@@ -83,7 +83,7 @@ class HtmlView extends InstallerViewDefault
         $this->activeFilters = $model->getActiveFilters();
 
         // Check for errors.
-        if (count($errors = $model->getErrors())) {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Table;
 
-use Exception;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -18,15 +17,14 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Service\Encrypt;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
-use RuntimeException;
-use Throwable;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -48,9 +46,10 @@ use Throwable;
  *
  * @since 4.2.0
  */
-class MfaTable extends Table implements CurrentUserInterface
+class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareInterface
 {
     use CurrentUserTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * Delete flags per ID, set up onBeforeDelete and used onAfterDelete
@@ -80,8 +79,8 @@ class MfaTable extends Table implements CurrentUserInterface
     /**
      * Table constructor
      *
-     * @param   DatabaseDriver            $db          Database driver object
-     * @param   DispatcherInterface|null  $dispatcher  Events dispatcher object
+     * @param   DatabaseDriver        $db          Database driver object
+     * @param   ?DispatcherInterface  $dispatcher  Events dispatcher object
      *
      * @since 4.2.0
      */
@@ -161,7 +160,7 @@ class MfaTable extends Table implements CurrentUserInterface
             $mustCreateBackupCodes = !$hasBackupCodes;
 
             // If the only other entry is the backup records one I need to make this the default method
-            if ($hasBackupCodes && count($records) === 1) {
+            if ($hasBackupCodes && \count($records) === 1) {
                 $this->default = 1;
             }
         }
@@ -169,7 +168,7 @@ class MfaTable extends Table implements CurrentUserInterface
         // Store the record
         try {
             $result = parent::store($updateNulls);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $this->setError($e->getMessage());
 
             $result = false;
@@ -202,7 +201,7 @@ class MfaTable extends Table implements CurrentUserInterface
      *
      * @since 4.2.0
      * @throws  \InvalidArgumentException
-     * @throws  RuntimeException
+     * @throws  \RuntimeException
      * @throws  \UnexpectedValueException
      */
     public function load($keys = null, $reset = true)
@@ -237,7 +236,7 @@ class MfaTable extends Table implements CurrentUserInterface
 
             if (!$result) {
                 // If the record does not exist I will stomp my feet and deny your request
-                throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+                throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
             }
         }
 
@@ -245,7 +244,7 @@ class MfaTable extends Table implements CurrentUserInterface
 
         // The user must be a registered user, not a guest
         if ($user->guest) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         // Save flags used onAfterDelete
@@ -282,15 +281,15 @@ class MfaTable extends Table implements CurrentUserInterface
         // Try with modern decryption
         $decrypted = @json_decode($this->encryptService->decrypt($this->options ?? ''), true);
 
-        if (is_string($decrypted)) {
+        if (\is_string($decrypted)) {
             $decrypted = @json_decode($decrypted, true);
         }
 
         // Fall back to legacy decryption
-        if (!is_array($decrypted)) {
+        if (!\is_array($decrypted)) {
             $decrypted = @json_decode($this->encryptService->decrypt($this->options ?? '', true), true);
 
-            if (is_string($decrypted)) {
+            if (\is_string($decrypted)) {
                 $decrypted = @json_decode($decrypted, true);
             }
         }
@@ -329,7 +328,7 @@ class MfaTable extends Table implements CurrentUserInterface
      * Regenerate backup code is the flag is set.
      *
      * @return void
-     * @throws Exception
+     * @throws \Exception
      * @since 4.2.0
      */
     private function generateBackupCodes(): void
@@ -339,7 +338,7 @@ class MfaTable extends Table implements CurrentUserInterface
 
         /** @var BackupcodesModel $backupCodes */
         $backupCodes = $factory->createModel('Backupcodes', 'Administrator');
-        $user        = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($this->user_id);
+        $user        = $this->getUserFactory()->loadUserById($this->user_id);
         $backupCodes->regenerateBackupCodes($user);
     }
 
@@ -353,7 +352,7 @@ class MfaTable extends Table implements CurrentUserInterface
      */
     private function afterDelete($pk): void
     {
-        if (is_array($pk)) {
+        if (\is_array($pk)) {
             $pk = $pk[$this->_tbl_key] ?? array_shift($pk);
         }
 

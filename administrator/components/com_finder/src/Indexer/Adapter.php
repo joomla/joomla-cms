@@ -10,12 +10,12 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -131,15 +131,15 @@ abstract class Adapter extends CMSPlugin
     /**
      * Method to instantiate the indexer adapter.
      *
-     * @param   object  $subject  The object to observe.
-     * @param   array   $config   An array that holds the plugin configuration.
+     * @param   DispatcherInterface  $dispatcher  The object to observe.
+     * @param   array                $config      An array that holds the plugin configuration.
      *
      * @since   2.5
      */
-    public function __construct(&$subject, $config)
+    public function __construct(DispatcherInterface $dispatcher, array $config)
     {
         // Call the parent constructor.
-        parent::__construct($subject, $config);
+        parent::__construct($dispatcher, $config);
 
         // Get the type id.
         $this->type_id = $this->getTypeId();
@@ -159,12 +159,29 @@ abstract class Adapter extends CMSPlugin
     }
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.0.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onBeforeIndex'             => 'onBeforeIndex',
+            'onBuildIndex'              => 'onBuildIndex',
+            'onFinderGarbageCollection' => 'onFinderGarbageCollection',
+            'onStartIndex'              => 'onStartIndex',
+        ];
+    }
+
+    /**
      * Method to get the adapter state and push it into the indexer.
      *
      * @return  void
      *
      * @since   2.5
-     * @throws  Exception on error.
+     * @throws  \Exception on error.
      */
     public function onStartIndex()
     {
@@ -192,7 +209,7 @@ abstract class Adapter extends CMSPlugin
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on error.
+     * @throws  \Exception on error.
      */
     public function onBeforeIndex()
     {
@@ -218,7 +235,7 @@ abstract class Adapter extends CMSPlugin
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on error.
+     * @throws  \Exception on error.
      */
     public function onBuildIndex()
     {
@@ -239,7 +256,7 @@ abstract class Adapter extends CMSPlugin
         $items = $this->getItems($offset, $limit);
 
         // Iterate through the items and index them.
-        for ($i = 0, $n = count($items); $i < $n; $i++) {
+        for ($i = 0, $n = \count($items); $i < $n; $i++) {
             // Index the item.
             $this->index($items[$i]);
 
@@ -285,7 +302,7 @@ abstract class Adapter extends CMSPlugin
             $this->indexer->remove($item);
         }
 
-        return count($items);
+        return \count($items);
     }
 
     /**
@@ -300,7 +317,7 @@ abstract class Adapter extends CMSPlugin
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function change($id, $property, $value)
     {
@@ -331,7 +348,7 @@ abstract class Adapter extends CMSPlugin
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     abstract protected function index(Result $item);
 
@@ -343,7 +360,7 @@ abstract class Adapter extends CMSPlugin
      * @return  void
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function reindex($id)
     {
@@ -368,7 +385,7 @@ abstract class Adapter extends CMSPlugin
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function remove($id, $removeTaxonomies = true)
     {
@@ -404,7 +421,7 @@ abstract class Adapter extends CMSPlugin
      * @return  boolean  True on success, false on failure.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     abstract protected function setup();
 
@@ -520,7 +537,7 @@ abstract class Adapter extends CMSPlugin
      * @return  integer  The number of content items available to index.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function getContentCount()
     {
@@ -556,7 +573,7 @@ abstract class Adapter extends CMSPlugin
      * @return  Result  A Result object.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function getItem($id)
     {
@@ -590,7 +607,7 @@ abstract class Adapter extends CMSPlugin
      * @return  Result[]  An array of Result objects.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function getItems($offset, $limit, $query = null)
     {
@@ -719,7 +736,7 @@ abstract class Adapter extends CMSPlugin
      * @return  integer  The numeric type id for the content.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function getTypeId()
     {
@@ -759,7 +776,7 @@ abstract class Adapter extends CMSPlugin
      * @return  mixed  The title on success, null if not found.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function getItemMenuTitle($url)
     {
@@ -905,9 +922,16 @@ abstract class Adapter extends CMSPlugin
 
         // Translate the state
         switch ($item) {
-            // Published and archived items only should return a published state
+            // Published items should always show up in search results
             case 1:
+                return 1;
+
+            // Archived items should only show up when option is enabled
             case 2:
+                if ($this->params->get('search_archived', 1) == 0) {
+                    return 0;
+                }
+
                 return 1;
 
             // All other states should return an unpublished state

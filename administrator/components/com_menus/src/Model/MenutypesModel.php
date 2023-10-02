@@ -11,6 +11,7 @@
 namespace Joomla\Component\Menus\Administrator\Model;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Event\Menu\AfterGetMenuTypeOptionsEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -126,9 +127,10 @@ class MenutypesModel extends BaseDatabaseModel
         }
 
         // Allow a system plugin to insert dynamic menu types to the list shown in menus:
-        Factory::getApplication()->triggerEvent('onAfterGetMenuTypeOptions', [&$list, $this]);
-
-        return $list;
+        return $this->getDispatcher()->dispatch('onAfterGetMenuTypeOptions', new AfterGetMenuTypeOptionsEvent('onAfterGetMenuTypeOptions', [
+            'items'   => &$list, // @todo: Remove reference in Joomla 6, see AfterGetMenuTypeOptionsEvent::__constructor()
+            'subject' => $this,
+        ]))->getArgument('items', $list);
     }
 
     /**
@@ -198,9 +200,9 @@ class MenutypesModel extends BaseDatabaseModel
         // Look for the first menu node off of the root node.
         if (!$menu = $xml->xpath('menu[1]')) {
             return false;
-        } else {
-            $menu = $menu[0];
         }
+
+        $menu = $menu[0];
 
         // If we have no options to parse, just add the base component to the list of options.
         if (!empty($menu['options']) && $menu['options'] == 'none') {
@@ -218,9 +220,9 @@ class MenutypesModel extends BaseDatabaseModel
         // Look for the first options node off of the menu node.
         if (!$optionsNode = $menu->xpath('options[1]')) {
             return false;
-        } else {
-            $optionsNode = $optionsNode[0];
         }
+
+        $optionsNode = $optionsNode[0];
 
         // Make sure the options node has children.
         if (!$children = $optionsNode->children()) {
@@ -371,7 +373,7 @@ class MenutypesModel extends BaseDatabaseModel
         $rootMenu = $manifest->administration->menu;
 
         // If the menu item doesn't exist or is hidden do nothing.
-        if (!$rootMenu || in_array((string) $rootMenu['hidden'], ['true', 'hidden'])) {
+        if (!$rootMenu || \in_array((string) $rootMenu['hidden'], ['true', 'hidden'])) {
             return $options;
         }
 
@@ -413,7 +415,7 @@ class MenutypesModel extends BaseDatabaseModel
             $options[]  = new CMSObject($o);
 
             // Do not repeat the default view link (index.php?option=com_abc).
-            if (count($o->request) == 1) {
+            if (\count($o->request) == 1) {
                 $ro = null;
             }
         }

@@ -370,7 +370,7 @@ class NewsfeedModel extends AdminModel
      * @param   array   $data   The data to be injected into the form
      * @param   string  $group  The plugin group to process
      *
-     * @return  array  An array of conditions to add to ordering queries.
+     * @return  void
      *
      * @since   1.6
      */
@@ -387,7 +387,7 @@ class NewsfeedModel extends AdminModel
         if (Associations::isEnabled()) {
             $languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
-            if (count($languages) > 1) {
+            if (\count($languages) > 1) {
                 $addform = new \SimpleXMLElement('<form />');
                 $fields  = $addform->addChild('fields');
                 $fields->addAttribute('name', 'associations');

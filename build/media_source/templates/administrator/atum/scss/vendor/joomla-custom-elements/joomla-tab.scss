@@ -8,7 +8,6 @@
 
 // Tabs
 
-
 //
 // Base styles
 //
@@ -40,9 +39,14 @@ joomla-tab {
       display: block;
       padding: .6rem 1rem;
       text-decoration: none;
-      background-color: var(--white);
+      background-color: var(--body-bg);
       border: 0;
       box-shadow: none;
+
+      &:first-of-type,
+      &[aria-expanded=true]:first-of-type {
+        border-start-start-radius: .25rem;
+      }
 
       &:focus-visible {
         z-index: 1;
@@ -51,7 +55,7 @@ joomla-tab {
       &[aria-expanded=true],
       &:focus,
       &:hover {
-        color: var(--primary);
+        color: var(--template-bg-dark-60);
         border: 0;
         border-radius: 0;
         box-shadow: none;
@@ -74,8 +78,25 @@ joomla-tab {
 
       &[aria-expanded=true] {
         font-weight: $font-weight-bold;
-        color: var(--primary);
         background: var(--template-bg-dark-3);
+      }
+
+      @if $enable-dark-mode {
+        @include color-mode(dark) {
+          /* stylelint-disable max-nesting-depth */
+          &[aria-expanded=true],
+          &:focus,
+          &:hover {
+            /* stylelint-enable max-nesting-depth */
+            color: var(--template-text-light);
+          }
+
+          /* stylelint-disable max-nesting-depth */
+          &[aria-expanded=true] {
+            /* stylelint-enable max-nesting-depth */
+            background: var(--template-bg-dark-60);
+          }
+        }
       }
 
       .text-muted {
@@ -90,7 +111,7 @@ joomla-tab {
     color: var(--template-text-light);
     text-align: start;
     background-color: var(--template-link-color);
-    border: 1px solid var(--template-text-light);
+    border: 1px solid var(--template-bg-dark-3);
     border-top: 0;
 
     &[aria-expanded=true],
@@ -105,11 +126,19 @@ joomla-tab {
     }
   }
 
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      > button[role=region] {
+        border-color: var(--template-bg-dark-70);
+      }
+    }
+  }
+
   > joomla-tab-element {
     --gutter-x: 2rem;
     display: none;
     padding: 30px 2vw;
-    background-color: $white;
+    background-color: var(--body-bg);
     border: 0;
     border-radius: .25rem;
     box-shadow: none;
@@ -258,7 +287,7 @@ joomla-tab[view=accordion] {
 
   [active],
   [aria-expanded=true] {
-    background-color: $white;
+    background-color: var(--body-bg);
   }
 
   .col-md-6,

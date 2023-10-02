@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 /**
@@ -11,7 +12,7 @@
 const _JEXEC = 1;
 
 // Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
-const JOOMLA_MINIMUM_PHP = '7.2.5';
+const JOOMLA_MINIMUM_PHP = '8.1.0';
 
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
     echo 'Sorry, your PHP version is not supported.' . PHP_EOL;
@@ -24,12 +25,12 @@ if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
 }
 
 // Load system defines
-if (file_exists(dirname(__DIR__) . '/defines.php')) {
-    require_once dirname(__DIR__) . '/defines.php';
+if (file_exists(\dirname(__DIR__) . '/defines.php')) {
+    require_once \dirname(__DIR__) . '/defines.php';
 }
 
-if (!defined('_JDEFINES')) {
-    define('JPATH_BASE', dirname(__DIR__));
+if (!\defined('_JDEFINES')) {
+    \define('JPATH_BASE', \dirname(__DIR__));
     require_once JPATH_BASE . '/includes/defines.php';
 }
 

@@ -115,7 +115,7 @@ class ModulesModel extends ListModel
             $clientId = 0;
         } else {
             $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-            $clientId = (!in_array($clientId, [0, 1])) ? 0 : $clientId;
+            $clientId = (!\in_array($clientId, [0, 1])) ? 0 : $clientId;
             $this->setState('client_id', $clientId);
         }
 
@@ -175,7 +175,7 @@ class ModulesModel extends ListModel
         $db = $this->getDatabase();
 
         // If ordering by fields that need translate we need to sort the array of objects after translating them.
-        if (in_array($listOrder, ['pages', 'name'])) {
+        if (\in_array($listOrder, ['pages', 'name'])) {
             // Fetch the results.
             $db->setQuery($query);
             $result = $db->loadObjectList();
@@ -187,7 +187,7 @@ class ModulesModel extends ListModel
             $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, true, true);
 
             // Process pagination.
-            $total                                      = count($result);
+            $total                                      = \count($result);
             $this->cache[$this->getStoreId('getTotal')] = $total;
 
             if ($total < $limitstart) {
@@ -195,7 +195,7 @@ class ModulesModel extends ListModel
                 $this->setState('list.start', 0);
             }
 
-            return array_slice($result, $limitstart, $limit ?: null);
+            return \array_slice($result, $limitstart, $limit ?: null);
         }
 
         // If ordering by fields that doesn't need translate just order the query.
@@ -223,7 +223,7 @@ class ModulesModel extends ListModel
      *
      * @param   array  &$items  The array of objects
      *
-     * @return  array The array of translated objects
+     * @return  void
      */
     protected function translate(&$items)
     {
@@ -237,7 +237,7 @@ class ModulesModel extends ListModel
                 || $lang->load("$extension.sys", $source);
             $item->name = Text::_($item->name);
 
-            if (is_null($item->pages)) {
+            if (\is_null($item->pages)) {
                 $item->pages = Text::_('JNONE');
             } elseif ($item->pages < 0) {
                 $item->pages = Text::_('COM_MODULES_ASSIGNED_VARIES_EXCEPT');

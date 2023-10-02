@@ -10,11 +10,10 @@
 
 namespace Joomla\Plugin\System\Webauthn;
 
-use Exception;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Token\Plain;
-use Webauthn\MetadataService\MetadataStatement;
 use Webauthn\MetadataService\MetadataStatementRepository;
+use Webauthn\MetadataService\Statement\MetadataStatement;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -26,7 +25,7 @@ use Webauthn\MetadataService\MetadataStatementRepository;
  * This repository contains the metadata of all FIDO authenticators as published by the FIDO
  * Alliance in their MDS version 3.0.
  *
- * @see   https://fidoalliance.org/metadata/
+ * @link  https://fidoalliance.org/metadata/
  * @since 4.2.0
  */
 final class MetadataRepository implements MetadataStatementRepository
@@ -122,14 +121,14 @@ final class MetadataRepository implements MetadataStatementRepository
         $jwtFilename = JPATH_PLUGINS . '/system/webauthn/fido.jwt';
         $rawJwt      = file_get_contents($jwtFilename);
 
-        if (!is_string($rawJwt) || strlen($rawJwt) < 1024) {
+        if (!\is_string($rawJwt) || \strlen($rawJwt) < 1024) {
             return;
         }
 
         try {
             $jwtConfig = Configuration::forUnsecuredSigner();
             $token     = $jwtConfig->parser()->parse($rawJwt);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return;
         }
 
@@ -154,7 +153,7 @@ final class MetadataRepository implements MetadataStatementRepository
                 }
 
                 return MetadataStatement::createFromArray($array);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 return null;
             }
         };

@@ -9,13 +9,13 @@
 
 namespace Joomla\CMS\Form\Field;
 
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -69,7 +69,7 @@ class SubformField extends FormField
 
     /**
      * Which buttons to show in multiple mode
-     * @var array $buttons
+     * @var boolean[] $buttons
      */
     protected $buttons = ['add' => true, 'remove' => true, 'move' => true];
 
@@ -168,7 +168,7 @@ class SubformField extends FormField
 
             case 'value':
                 // We allow a json encoded string or an array
-                if (is_string($value)) {
+                if (\is_string($value)) {
                     $value = json_decode($value, true);
                 }
 
@@ -397,9 +397,9 @@ class SubformField extends FormField
     /**
      * Method to filter a field value.
      *
-     * @param   mixed     $value  The optional value to use as the default for the field.
-     * @param   string    $group  The optional dot-separated form group path on which to find the field.
-     * @param   Registry  $input  An optional Registry object with the entire data set to filter
+     * @param   mixed      $value  The optional value to use as the default for the field.
+     * @param   string     $group  The optional dot-separated form group path on which to find the field.
+     * @param   ?Registry  $input  An optional Registry object with the entire data set to filter
      *                            against the entire form.
      *
      * @return  mixed   The filtered value.
@@ -425,7 +425,7 @@ class SubformField extends FormField
         $subForm = $this->loadSubForm();
 
         // Subform field may have a default value, that is a JSON string
-        if ($value && is_string($value)) {
+        if ($value && \is_string($value)) {
             $value = json_decode($value, true);
 
             // The string is invalid json

@@ -8,12 +8,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Module\PrivacyStatus\Administrator\Helper\PrivacyStatusHelper;
 
 // Only super user can view this data
@@ -35,6 +36,6 @@ $privacyConsentPluginId       = PrivacyHelper::getPrivacyConsentPluginId();
 $sendMailEnabled              = (bool) $app->get('mailonline', 1);
 $numberOfUrgentRequests       = PrivacyStatusHelper::getNumberUrgentRequests();
 $urgentRequestDays            = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
-$databaseConnectionEncryption = Factory::getContainer()->get('DatabaseDriver')->getConnectionEncryption();
+$databaseConnectionEncryption = Factory::getContainer()->get(DatabaseInterface::class)->getConnectionEncryption();
 
 require ModuleHelper::getLayoutPath('mod_privacy_status', $params->get('layout', 'default'));
