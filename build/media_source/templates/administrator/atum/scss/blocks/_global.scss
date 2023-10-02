@@ -16,8 +16,7 @@ body {
   margin: 0;
   text-align: start;
 
-  &.admin, & #subhead-container,
-  {
+  &.admin, &#subhead-container  {
     background-color: $admin-background;
   }
 
