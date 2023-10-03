@@ -303,7 +303,7 @@ class Workflow
                 ]
             )
             ->join(
-                'INNER', 
+                'INNER',
                 $this->db->quoteName('#__workflows', 'w'),
                 $this->db->quoteName('t.workflow_id') . ' = ' . $this->db->quoteName('w.id')
             )
