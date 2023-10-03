@@ -40,16 +40,16 @@ class ChecksModel extends BaseInstallationModel
         if (!empty($disabled_functions)) {
             // Attempt to detect them in the PHP INI disable_functions variable.
             $disabled_functions           = explode(',', trim($disabled_functions));
-            $number_of_disabled_functions = count($disabled_functions);
+            $number_of_disabled_functions = \count($disabled_functions);
 
             for ($i = 0, $l = $number_of_disabled_functions; $i < $l; $i++) {
                 $disabled_functions[$i] = trim($disabled_functions[$i]);
             }
 
-            $result = !in_array('parse_ini_string', $disabled_functions);
+            $result = !\in_array('parse_ini_string', $disabled_functions);
         } else {
             // Attempt to detect their existence; even pure PHP implementation of them will trigger a positive response, though.
-            $result = function_exists('parse_ini_string');
+            $result = \function_exists('parse_ini_string');
         }
 
         return $result;
@@ -69,14 +69,14 @@ class ChecksModel extends BaseInstallationModel
         // Check for zlib support.
         $option         = new \stdClass();
         $option->label  = Text::_('INSTL_ZLIB_COMPRESSION_SUPPORT');
-        $option->state  = extension_loaded('zlib');
+        $option->state  = \extension_loaded('zlib');
         $option->notice = $option->state ? null : Text::_('INSTL_NOTICE_ZLIB_COMPRESSION_SUPPORT');
         $options[]      = $option;
 
         // Check for XML support.
         $option         = new \stdClass();
         $option->label  = Text::_('INSTL_XML_SUPPORT');
-        $option->state  = extension_loaded('xml');
+        $option->state  = \extension_loaded('xml');
         $option->notice = $option->state ? null : Text::_('INSTL_NOTICE_XML_SUPPORT');
         $options[]      = $option;
 
@@ -86,12 +86,12 @@ class ChecksModel extends BaseInstallationModel
         $option         = new \stdClass();
         $option->label  = Text::_('INSTL_DATABASE_SUPPORT');
         $option->label .= '<br>(' . implode(', ', $available) . ')';
-        $option->state  = count($available);
+        $option->state  = \count($available);
         $option->notice = $option->state ? null : Text::_('INSTL_NOTICE_DATABASE_SUPPORT');
         $options[]      = $option;
 
         // Check for mbstring options.
-        if (extension_loaded('mbstring')) {
+        if (\extension_loaded('mbstring')) {
             // Check for default MB language.
             $option         = new \stdClass();
             $option->label  = Text::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
@@ -110,7 +110,7 @@ class ChecksModel extends BaseInstallationModel
         // Check for missing native json_encode / json_decode support.
         $option         = new \stdClass();
         $option->label  = Text::_('INSTL_JSON_SUPPORT_AVAILABLE');
-        $option->state  = function_exists('json_encode') && function_exists('json_decode');
+        $option->state  = \function_exists('json_encode') && \function_exists('json_decode');
         $option->notice = $option->state ? null : Text::_('INSTL_NOTICE_JSON_SUPPORT_AVAILABLE');
         $options[]      = $option;
 
@@ -189,28 +189,28 @@ class ChecksModel extends BaseInstallationModel
         // Check for native ZIP support.
         $setting              = new \stdClass();
         $setting->label       = Text::_('INSTL_ZIP_SUPPORT_AVAILABLE');
-        $setting->state       = function_exists('zip_open') && function_exists('zip_read');
+        $setting->state       = \function_exists('zip_open') && \function_exists('zip_read');
         $setting->recommended = true;
         $settings[]           = $setting;
 
         // Check for GD support
         $setting              = new \stdClass();
         $setting->label       = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'GD');
-        $setting->state       = extension_loaded('gd');
+        $setting->state       = \extension_loaded('gd');
         $setting->recommended = true;
         $settings[]           = $setting;
 
         // Check for iconv support
         $setting              = new \stdClass();
         $setting->label       = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'iconv');
-        $setting->state       = function_exists('iconv');
+        $setting->state       = \function_exists('iconv');
         $setting->recommended = true;
         $settings[]           = $setting;
 
         // Check for intl support
         $setting              = new \stdClass();
         $setting->label       = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'intl');
-        $setting->state       = function_exists('transliterator_transliterate');
+        $setting->state       = \function_exists('transliterator_transliterate');
         $setting->recommended = true;
         $settings[]           = $setting;
 

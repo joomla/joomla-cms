@@ -64,7 +64,7 @@ class ArticleField extends ModalSelectField
         $language  = (string) $this->element['language'];
 
         // Prepare enabled actions
-        $this->canDo['propagate']  = ((string) $this->element['propagate'] == 'true') && count($languages) > 2;
+        $this->canDo['propagate']  = ((string) $this->element['propagate'] == 'true') && \count($languages) > 2;
 
         // Prepare Urls
         $linkArticles = (new Uri())->setPath(Uri::base(true) . '/index.php');

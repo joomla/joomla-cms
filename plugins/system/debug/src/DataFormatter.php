@@ -80,7 +80,7 @@ class DataFormatter extends DebugBarDataFormatter
             } elseif (\is_object($call['args'][0])) {
                 $string .= \get_class($call['args'][0]);
             } else {
-                $string .= gettype($call['args'][0]);
+                $string .= \gettype($call['args'][0]);
             }
             $string .= ')';
         } else {

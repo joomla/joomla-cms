@@ -139,7 +139,7 @@ abstract class AbstractEvent extends Event
         // B/C check for numeric access to named argument, eg $event->getArgument('0').
         if (is_numeric($name)) {
             if (key($this->arguments) != 0) {
-                $argNames = \array_keys($this->arguments);
+                $argNames = array_keys($this->arguments);
                 $name     = $argNames[$name] ?? '';
             }
 
@@ -204,7 +204,7 @@ abstract class AbstractEvent extends Event
         // B/C check for numeric access to named argument, eg $event->setArgument('0', $value).
         if (is_numeric($name)) {
             if (key($this->arguments) != 0) {
-                $argNames = \array_keys($this->arguments);
+                $argNames = array_keys($this->arguments);
                 $name     = $argNames[$name] ?? '';
             }
 

@@ -57,14 +57,14 @@ final class Profile extends CMSPlugin
     public function onContentPrepareData($context, $data)
     {
         // Check we are manipulating a valid form.
-        if (!in_array($context, ['com_users.profile', 'com_users.user', 'com_users.registration'])) {
+        if (!\in_array($context, ['com_users.profile', 'com_users.user', 'com_users.registration'])) {
             return true;
         }
 
         // Load plugin language files
         $this->loadLanguage();
 
-        if (is_object($data)) {
+        if (\is_object($data)) {
             $userId = $data->id ?? 0;
 
             if (!isset($data->profile) && $userId > 0) {
@@ -205,7 +205,7 @@ final class Profile extends CMSPlugin
         // Check we are manipulating a valid form.
         $name = $form->getName();
 
-        if (!in_array($name, ['com_users.user', 'com_users.profile', 'com_users.registration'])) {
+        if (!\in_array($name, ['com_users.user', 'com_users.profile', 'com_users.registration'])) {
             return true;
         }
 
@@ -279,7 +279,7 @@ final class Profile extends CMSPlugin
         // Drop the profile form entirely if there aren't any fields to display.
         $remainingfields = $form->getGroup('profile');
 
-        if (!count($remainingfields)) {
+        if (!\count($remainingfields)) {
             $form->removeGroup('profile');
         }
 
@@ -346,7 +346,7 @@ final class Profile extends CMSPlugin
     {
         $userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
-        if ($userId && $result && isset($data['profile']) && count($data['profile'])) {
+        if ($userId && $result && isset($data['profile']) && \count($data['profile'])) {
             $db = $this->getDatabase();
 
             // Sanitize the date
@@ -381,7 +381,7 @@ final class Profile extends CMSPlugin
                 ->insert($db->quoteName('#__user_profiles'));
 
             foreach ($data['profile'] as $k => $v) {
-                while (in_array($order, $usedOrdering)) {
+                while (\in_array($order, $usedOrdering)) {
                     $order++;
                 }
 
