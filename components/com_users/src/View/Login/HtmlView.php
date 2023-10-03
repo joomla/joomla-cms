@@ -102,7 +102,7 @@ class HtmlView extends BaseHtmlView
         $this->params = $this->state->get('params');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -133,7 +133,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function prepareDocument()
     {
-        $login = $this->getCurrentUser()->get('guest') ? true : false;
+        $login = (bool) $this->getCurrentUser()->get('guest');
 
         // Because the application sets a default page title,
         // we need to get it from the menu item itself

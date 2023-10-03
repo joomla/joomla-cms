@@ -130,7 +130,7 @@ class HtmlView extends BaseHtmlView
 
             $backupCodes = $this->record->options;
 
-            if (!is_array($backupCodes)) {
+            if (!\is_array($backupCodes)) {
                 $backupCodes = [];
             }
 
@@ -141,7 +141,7 @@ class HtmlView extends BaseHtmlView
                 }
             );
 
-            if (count($backupCodes) % 2 != 0) {
+            if (\count($backupCodes) % 2 != 0) {
                 $backupCodes[] = '';
             }
 

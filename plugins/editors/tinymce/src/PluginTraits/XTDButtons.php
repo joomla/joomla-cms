@@ -78,23 +78,12 @@ trait XTDButtons
             }
 
             // Set action to "modal" for legacy buttons, when possible
-            $legacyModal = $button->get('modal') && !empty($options['confirmCallback']);
-
-            if (!$action && $button->get('modal') && !$legacyModal) {
-                $action = 'modal';
-
-                // Backward compatibility check, for older options
-                if (!empty($options['modalWidth'])) {
-                    $options['width'] = $options['modalWidth'] . 'vw';
-                }
-                if (!empty($options['bodyHeight'])) {
-                    $options['height'] = $options['bodyHeight'] . 'vh';
-                }
-            }
+            $legacyModal = $button->get('modal');
 
             // Prepare default values for modal
             if ($action === 'modal') {
                 $wa->useScript('joomla.dialog');
+                $legacyModal = false;
 
                 $options['popupType']  = $options['popupType'] ?? 'iframe';
                 $options['textHeader'] = $options['textHeader'] ?? $title;

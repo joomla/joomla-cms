@@ -48,14 +48,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
     use UserFactoryAwareTrait;
 
     /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     * @since  5.0.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Returns an array of events this subscriber will listen to.
      *
      * @return  array
@@ -147,6 +139,9 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         if (!$app->isClient('administrator') || !$this->isSupported($context)) {
             return;
         }
+
+        // Load plugin language files.
+        $this->loadLanguage();
 
         // Load the form fields
         $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/schemaorg.xml');
@@ -286,7 +281,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $context = $option . '.' . $view;
 
         // We need the plugin configured at least once to add structured data
-        if (!$app->isClient('site') || !in_array($baseType, ['organization', 'person']) || !$this->isSupported($context)) {
+        if (!$app->isClient('site') || !\in_array($baseType, ['organization', 'person']) || !$this->isSupported($context)) {
             return;
         }
 
@@ -466,7 +461,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $result = [];
 
         foreach ($schema as $key => $value) {
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 // Subtypes need special handling
                 if (!empty($value['@type'])) {
                     if ($value['@type'] === 'ImageObject') {
@@ -491,7 +486,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
                     $value = $this->cleanupSchema($value);
 
                     // We don't save when the array contains only the @type
-                    if (empty($value) || count($value) <= 1) {
+                    if (empty($value) || \count($value) <= 1) {
                         $value = null;
                     }
                 } elseif ($key == 'genericField') {

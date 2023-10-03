@@ -38,6 +38,9 @@ trait AjaxHandlerInitCreate
      */
     public function onAjaxWebauthnInitcreate(AjaxInitCreate $event): void
     {
+        // Load plugin language files
+        $this->loadLanguage();
+
         // Make sure I have a valid user
         $user = Factory::getApplication()->getIdentity();
 
@@ -48,7 +51,7 @@ trait AjaxHandlerInitCreate
         }
 
         // I need the server to have either GMP or BCComp support to attest new authenticators
-        if (function_exists('gmp_intval') === false && function_exists('bccomp') === false) {
+        if (\function_exists('gmp_intval') === false && \function_exists('bccomp') === false) {
             $event->addResult(new \stdClass());
 
             return;

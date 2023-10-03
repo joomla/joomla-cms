@@ -92,7 +92,7 @@ class JsonResponse
             }
 
             // If messages exist add them to the output
-            if (count($lists)) {
+            if (\count($lists)) {
                 $this->messages = $lists;
             }
         }

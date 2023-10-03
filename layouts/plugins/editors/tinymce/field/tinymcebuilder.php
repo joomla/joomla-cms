@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 
@@ -61,9 +60,8 @@ extract($displayData);
 $doc = Factory::getApplication()->getDocument();
 $wa  = $doc->getWebAssetManager();
 
-$wa->registerScript('tinymce', 'media/vendor/tinymce/tinymce.min.js', [], ['defer' => true])
-    ->registerScript('plg_editors_tinymce', 'plg_editors_tinymce/tinymce.min.js', [], ['defer' => true], ['core', 'tinymce'])
-    ->registerAndUseStyle('tinymce.skin', 'media/vendor/tinymce/skins/ui/oxide/skin.min.css')
+$wa->getRegistry()->addExtensionRegistryFile('plg_editors_tinymce');
+$wa->registerAndUseStyle('tinymce.skin', 'media/vendor/tinymce/skins/ui/oxide/skin.min.css')
     ->registerAndUseStyle('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.css', [], [], ['tinymce.skin', 'dragula'])
     ->registerScript('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.js', [], ['type' => 'module'], ['dragula', 'plg_editors_tinymce'])
     ->useScript('plg_editors_tinymce.builder')
@@ -79,13 +77,10 @@ if ($languageFile) {
 $doc->addScriptOptions(
     'plg_editors_tinymce_builder',
     [
-        'menus'            => $menus,
-        'buttons'          => $buttons,
-        'toolbarPreset'    => $toolbarPreset,
-        'formControl'      => $name . '[toolbars]',
-        'external_plugins' => [
-            'jtemplate' => HTMLHelper::_('script', 'plg_editors_tinymce/plugins/jtemplate/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true])
-        ]
+        'menus'         => $menus,
+        'buttons'       => $buttons,
+        'toolbarPreset' => $toolbarPreset,
+        'formControl'   => $name . '[toolbars]',
     ]
 );
 

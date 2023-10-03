@@ -75,11 +75,6 @@
         @include media-breakpoint-down(sm) {
           width: 100%;
         }
-
-        &.text-end {
-          font-size: ($font-size-base * .75);
-          color: var(--template-special-color);
-        }
       }
     }
 

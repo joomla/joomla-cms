@@ -20,7 +20,6 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AdministratorMenuItem;
-use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
@@ -70,7 +69,7 @@ class MenusHelper extends ContentHelper
         }
 
         // Check if the link is in the form of index.php?...
-        if (is_string($request)) {
+        if (\is_string($request)) {
             $args = [];
 
             if (strpos($request, 'index.php') === 0) {
@@ -84,7 +83,7 @@ class MenusHelper extends ContentHelper
 
         // Only take the option, view and layout parts.
         foreach ($request as $name => $value) {
-            if ((!in_array($name, self::$_filter)) && (!($name == 'task' && !array_key_exists('view', $request)))) {
+            if ((!\in_array($name, self::$_filter)) && (!($name == 'task' && !\array_key_exists('view', $request)))) {
                 // Remove the variables we want to ignore.
                 unset($request[$name]);
             }
@@ -262,9 +261,9 @@ class MenusHelper extends ContentHelper
             }
 
             return $menuTypes;
-        } else {
-            return $links;
         }
+
+        return $links;
     }
 
     /**
@@ -333,7 +332,7 @@ class MenusHelper extends ContentHelper
                 'OR'
             );
 
-        if (count($exclude)) {
+        if (\count($exclude)) {
             $exId = array_map('intval', array_filter($exclude, 'is_numeric'));
             $exEl = array_filter($exclude, 'is_string');
 
@@ -366,7 +365,7 @@ class MenusHelper extends ContentHelper
                     static::resolveAlias($menuitem);
                 }
 
-                if ($menuitem->link = in_array($menuitem->type, ['separator', 'heading', 'container']) ? '#' : trim($menuitem->link)) {
+                if ($menuitem->link = \in_array($menuitem->type, ['separator', 'heading', 'container']) ? '#' : trim($menuitem->link)) {
                     $menuitem->submenu = [];
                     $menuitem->class   = $menuitem->img ?? '';
                     $menuitem->scope   = $menuitem->scope ?? null;
@@ -407,7 +406,7 @@ class MenusHelper extends ContentHelper
     {
         $root = static::loadPreset($preset, false);
 
-        if (count($root->getChildren()) == 0) {
+        if (\count($root->getChildren()) == 0) {
             throw new \Exception(Text::_('COM_MENUS_PRESET_LOAD_FAILED'));
         }
 
@@ -448,12 +447,12 @@ class MenusHelper extends ContentHelper
         }
 
         $dispatcher = Factory::getApplication()->getDispatcher();
-        $dispatcher->dispatch('onPreprocessMenuItems', new PreprocessMenuItemsEvent('onPreprocessMenuItems', [
+        $items      = $dispatcher->dispatch('onPreprocessMenuItems', new PreprocessMenuItemsEvent('onPreprocessMenuItems', [
             'context' => 'com_menus.administrator.import',
-            'subject' => new ArrayProxy($items),
+            'subject' => &$items, // @todo: Remove reference in Joomla 6, see PreprocessMenuItemsEvent::__constructor()
             'params'  => null,
             'enabled' => true,
-        ]));
+        ]))->getArgument('subject', $items);
 
         foreach ($items as $item) {
             /** @var \Joomla\CMS\Table\Menu $table */
@@ -503,7 +502,7 @@ class MenusHelper extends ContentHelper
             }
 
             // Translate "hideitems" param value from "element" into "menu-item-id"
-            if ($item->type == 'container' && count($hideitems = (array) $item->getParams()->get('hideitems'))) {
+            if ($item->type == 'container' && \count($hideitems = (array) $item->getParams()->get('hideitems'))) {
                 foreach ($hideitems as &$hel) {
                     if (!is_numeric($hel)) {
                         $hel = array_search($hel, $components);
@@ -582,7 +581,7 @@ class MenusHelper extends ContentHelper
             $replace = false;
         }
 
-        if (($replace || !array_key_exists($name, static::$presets)) && is_file($path)) {
+        if (($replace || !\array_key_exists($name, static::$presets)) && is_file($path)) {
             $preset = new \stdClass();
 
             $preset->name  = $name;
@@ -749,7 +748,7 @@ class MenusHelper extends ContentHelper
             static::resolveAlias($item);
         }
 
-        if ($item->link = in_array($item->type, ['separator', 'heading', 'container']) ? '#' : trim($item->link)) {
+        if ($item->link = \in_array($item->type, ['separator', 'heading', 'container']) ? '#' : trim($item->link)) {
             $item->class  = $item->img ?? '';
             $item->scope  = $item->scope ?? null;
             $item->target = $item->browserNav ? '_blank' : '';

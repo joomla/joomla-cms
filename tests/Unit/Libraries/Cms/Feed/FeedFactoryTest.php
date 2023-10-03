@@ -95,9 +95,9 @@ class FeedFactoryTest extends UnitTestCase
     {
         $tagName            = 'parser-mock';
         $parseMock          = $this->createMock(FeedParser::class);
-        $defaultParserCount = count($this->feedFactory->getParsers());
+        $defaultParserCount = \count($this->feedFactory->getParsers());
 
-        $this->feedFactory->registerParser($tagName, get_class($parseMock));
+        $this->feedFactory->registerParser($tagName, \get_class($parseMock));
 
         $feedParsers = $this->feedFactory->getParsers();
         $this->assertCount($defaultParserCount + 1, $feedParsers);
@@ -126,7 +126,7 @@ class FeedFactoryTest extends UnitTestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $parseMock = $this->createMock(FeedParser::class);
-        $this->feedFactory->registerParser('42tag', get_class($parseMock));
+        $this->feedFactory->registerParser('42tag', \get_class($parseMock));
     }
 
     /**
@@ -140,7 +140,7 @@ class FeedFactoryTest extends UnitTestCase
     {
         $tagName   = 'parser-mock';
         $parseMock = $this->createMock(FeedParser::class);
-        $this->feedFactory->registerParser($tagName, get_class($parseMock));
+        $this->feedFactory->registerParser($tagName, \get_class($parseMock));
 
         // Use reflection to test private method
         $reflectionClass = new \ReflectionClass($this->feedFactory);
@@ -149,7 +149,7 @@ class FeedFactoryTest extends UnitTestCase
         $parser = $method->invoke($this->feedFactory, $tagName, new \XMLReader());
 
         $this->assertInstanceOf(FeedParser::class, $parser);
-        $this->assertSame(get_class($parseMock), get_class($parser));
+        $this->assertSame(\get_class($parseMock), \get_class($parser));
     }
 
     /**

@@ -26,6 +26,14 @@
       }
     }
 
+    @if $enable-dark-mode {
+      @include color-mode(dark) {
+        a {
+          color: var(--template-text-light);
+        }
+      }
+    }
+
     &.item:hover, &.active {
       background-color: var(--template-bg-dark-60);
 

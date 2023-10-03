@@ -210,7 +210,7 @@ class SetupRenderOptions extends DataShapeObject
     // phpcs:ignore
     protected function setField_type($value)
     {
-        if (!in_array($value, [self::FIELD_INPUT, self::FIELD_CUSTOM])) {
+        if (!\in_array($value, [self::FIELD_INPUT, self::FIELD_CUSTOM])) {
             throw new \InvalidArgumentException('Invalid value for property field_type.');
         }
 
