@@ -22,9 +22,8 @@ var errorLocale = window.errorLocale || null;
         var ref = e.target.value;
 
         if (ref) {
-          header.innerHTML = errorLocale[ref].header;
-
-          if (helpLink) {
+          if (header && helpLink) {
+            header.innerHTML = errorLocale[ref].header;
             helpLink.innerText = errorLocale[ref]['help-url-text'];
           }
   
@@ -46,9 +45,8 @@ var errorLocale = window.errorLocale || null;
         document.querySelector('#translatedLanguagesSelect option[value="' + key + '"]').setAttribute('selected', 'selected');
 
         // Append the translated strings
-        header.innerHTML = errorLocale[key].header;
-
-        if (helpLink) {
+        if (header && helpLink) {
+          header.innerHTML = errorLocale[key].header;
           helpLink.innerText = errorLocale[key]['help-url-text'];
         }
 
