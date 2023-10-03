@@ -303,7 +303,9 @@ class Workflow
                     $this->db->quoteName('#__workflow_transitions', 't'),
                 ]
             )
-            ->join('INNER', $this->db->quoteName('#__workflows', 'w'))
+            ->join('INNER', $this->db->quoteName('#__workflows', 'w'),
+                $this->db->quoteName('t.asset_id') . ' = ' . $this->db->quoteName('w.asset_id')
+            )
             ->join(
                 'LEFT',
                 $this->db->quoteName('#__workflow_stages', 's'),
