@@ -14,7 +14,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Filter\OutputFilter;
 
-
 // Check if feed exists
 if (!empty($feed) && is_string($feed)) :
     echo $feed;
