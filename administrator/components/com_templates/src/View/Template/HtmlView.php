@@ -179,12 +179,12 @@ class HtmlView extends BaseHtmlView
         $fontTypes    = explode(',', $params->get('font_formats', 'woff,woff2,ttf,otf'));
         $archiveTypes = explode(',', $params->get('compressed_formats', 'zip'));
 
-        if (in_array($ext, $sourceTypes)) {
+        if (\in_array($ext, $sourceTypes)) {
             $this->form   = $this->get('Form');
             $this->form->setFieldAttribute('source', 'syntax', $ext);
             $this->source = $this->get('Source');
             $this->type   = 'file';
-        } elseif (in_array($ext, $imageTypes)) {
+        } elseif (\in_array($ext, $imageTypes)) {
             try {
                 $this->image = $this->get('Image');
                 $this->type  = 'image';
@@ -192,10 +192,10 @@ class HtmlView extends BaseHtmlView
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_GD_EXTENSION_NOT_AVAILABLE'));
                 $this->type = 'home';
             }
-        } elseif (in_array($ext, $fontTypes)) {
+        } elseif (\in_array($ext, $fontTypes)) {
             $this->font = $this->get('Font');
             $this->type = 'font';
-        } elseif (in_array($ext, $archiveTypes)) {
+        } elseif (\in_array($ext, $archiveTypes)) {
             $this->archive = $this->get('Archive');
             $this->type    = 'archive';
         } else {
@@ -206,7 +206,7 @@ class HtmlView extends BaseHtmlView
         $this->id            = $this->state->get('extension.id');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             $app->enqueueMessage(implode("\n", $errors));
 
             return false;
@@ -296,7 +296,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        if (count($this->updatedList) !== 0 && $this->pluginState && $this->type === 'home') {
+        if (\count($this->updatedList) !== 0 && $this->pluginState && $this->type === 'home') {
             /** @var DropdownButton $dropdown */
             $dropdown = $toolbar->dropdownButton('override-group', 'COM_TEMPLATES_BUTTON_CHECK')
                 ->toggleSplit(false)

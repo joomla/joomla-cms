@@ -79,7 +79,7 @@ class HtmlView extends InstallerViewDefault
 
         $this->paths = &$paths;
 
-        if (count($this->items) === 0 && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (\count($this->items) === 0 && $this->isEmptyState = $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');
         } else {
             Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'), 'warning');

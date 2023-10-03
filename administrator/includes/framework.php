@@ -7,7 +7,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Version;
@@ -78,7 +78,7 @@ switch ($config->error_reporting) {
         break;
 }
 
-define('JDEBUG', $config->debug);
+\define('JDEBUG', $config->debug);
 
 // Check deprecation logging
 if (empty($config->log_deprecated)) {

@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Extension\PluginInterface;
@@ -39,7 +39,7 @@ return new class () implements ServiceProviderInterface {
                 $dispatcher             = $container->get(DispatcherInterface::class);
                 $documentFactory        = $container->get('document.factory');
                 $cacheControllerFactory = $container->get(CacheControllerFactoryInterface::class);
-                $profiler               = (defined('JDEBUG') && JDEBUG) ? Profiler::getInstance('Application') : null;
+                $profiler               = (\defined('JDEBUG') && JDEBUG) ? Profiler::getInstance('Application') : null;
                 $router                 = $container->has(SiteRouter::class) ? $container->get(SiteRouter::class) : null;
 
                 $plugin = new Cache($dispatcher, (array) $plugin, $documentFactory, $cacheControllerFactory, $profiler, $router);

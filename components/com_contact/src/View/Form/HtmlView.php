@@ -86,7 +86,7 @@ class HtmlView extends BaseHtmlView
         $this->return_page = $this->get('ReturnPage');
 
         if (empty($this->item->id)) {
-            $authorised = $user->authorise('core.create', 'com_contact') || count($user->getAuthorisedCategories('com_contact', 'core.create'));
+            $authorised = $user->authorise('core.create', 'com_contact') || \count($user->getAuthorisedCategories('com_contact', 'core.create'));
         } else {
             // Since we don't track these assets at the item level, use the category id.
             $canDo      = ContactHelper::getActions('com_contact', 'category', $this->item->catid);
@@ -107,7 +107,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             $app->enqueueMessage(implode("\n", $errors), 'error');
 
             return false;

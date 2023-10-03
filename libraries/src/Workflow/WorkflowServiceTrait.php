@@ -60,11 +60,11 @@ trait WorkflowServiceTrait
             return false;
         }
 
-        if (!is_array($this->supportedFunctionality[$functionality])) {
+        if (!\is_array($this->supportedFunctionality[$functionality])) {
             return true;
         }
 
-        return in_array($context, $this->supportedFunctionality[$functionality], true);
+        return \in_array($context, $this->supportedFunctionality[$functionality], true);
     }
 
     /**
@@ -126,7 +126,7 @@ trait WorkflowServiceTrait
     {
         $parts = explode('.', $context);
 
-        if (count($parts) < 2) {
+        if (\count($parts) < 2) {
             return '';
         }
 
