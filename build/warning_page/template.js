@@ -23,15 +23,15 @@ var errorLocale = window.errorLocale || null;
 
         if (ref) {
           header.innerHTML = errorLocale[ref].header;
-        }
 
-        if (helpLink) {
-          helpLink.innerText = errorLocale[ref]['help-url-text'];
-        }
-
-        var meta = document.querySelector('[http-equiv="Content-Language"]');
-        if (meta) {
-          meta.setAttribute('content', ref);
+          if (helpLink) {
+            helpLink.innerText = errorLocale[ref]['help-url-text'];
+          }
+  
+          var meta = document.querySelector('[http-equiv="Content-Language"]');
+          if (meta) {
+            meta.setAttribute('content', ref);
+          }
         }
       });
 
