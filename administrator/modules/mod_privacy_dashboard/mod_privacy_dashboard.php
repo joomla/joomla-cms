@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -29,7 +29,7 @@ $lang->load('com_privacy', JPATH_ADMINISTRATOR)
 
 $list = PrivacyDashboardHelper::getData();
 
-if (count($list)) {
+if (\count($list)) {
     require ModuleHelper::getLayoutPath('mod_privacy_dashboard', $params->get('layout', 'default'));
 } else {
     echo LayoutHelper::render('joomla.content.emptystate_module', [

@@ -110,7 +110,7 @@ class RouteHelper extends CMSRouteHelper
     public static function getComponentTagRoute(string $id, string $language = '*'): string
     {
         // We actually would want to allow arrays of tags here, but can't due to B/C
-        if (!is_array($id)) {
+        if (!\is_array($id)) {
             if ($id < 1) {
                 return '';
             }
@@ -120,7 +120,7 @@ class RouteHelper extends CMSRouteHelper
 
         $id = array_values(array_filter($id));
 
-        if (!count($id)) {
+        if (!\count($id)) {
             return '';
         }
 
@@ -206,9 +206,9 @@ class RouteHelper extends CMSRouteHelper
                         }
 
                         // Only match menu items that list one tag
-                        if (isset($item->query['id']) && is_array($item->query['id'])) {
+                        if (isset($item->query['id']) && \is_array($item->query['id'])) {
                             foreach ($item->query['id'] as $position => $tagId) {
-                                if (!isset(self::$lookup[$lang][$view][$item->query['id'][$position]]) || count($item->query['id']) == 1) {
+                                if (!isset(self::$lookup[$lang][$view][$item->query['id'][$position]]) || \count($item->query['id']) == 1) {
                                     self::$lookup[$lang][$view][$item->query['id'][$position]] = $item->id;
                                 }
                             }
