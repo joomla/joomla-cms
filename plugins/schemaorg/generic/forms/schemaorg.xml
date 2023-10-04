@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="schema">
+		<fieldset
+			name="schema"
+			label="PLG_SYSTEM_SCHEMA_FIELD_SCHEMA_LABEL"
+		>
+			<field
+				name="Custom"
+				type="subform"
+				showon="schemaType:Custom"
+			>
+				<form>
+
+				<field
+					name="json"
+					type="textarea"
+				/>
+
+				</form>
+			</field>
+		</fieldset>
+	</fields>
+</form>
