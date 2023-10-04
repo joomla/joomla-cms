@@ -55,3 +55,4 @@ module.exports.cssVersioning = async () => {
   await Promise.all(cssFiles.map((file) => fixVersion(file)));
 
   bench.stop();
+};
