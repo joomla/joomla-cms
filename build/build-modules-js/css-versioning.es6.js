@@ -21,7 +21,7 @@ const fixVersion = async (file) => {
 };
 
 /**
- * Loop the media folder and add version to all url() entries on all the css files
+ * Loop the media folder and add version to all url() entries in all the css files
  *
  * @returns {Promise<void>}
  */
