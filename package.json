@@ -114,7 +114,7 @@
     "mysql": "^2.18.1",
     "postcss": "^8.4.30",
     "postcss-scss": "^4.0.8",
-    "postcss-url-version": "^1.0.3",
+    "postcss-url-version": "^1.0.4",
     "postgres": "^3.3.5",
     "recursive-readdir": "^2.2.3",
     "rimraf": "^3.0.2",
