@@ -13,7 +13,7 @@ const { Timer } = require('./utils/timer.es6.js');
 const fixVersion = async (file) => {
   try {
     const cssString = await readFile(file, { encoding: 'utf8' });
-    const data = await Postcss([UrlVersion()]).process(cssString, { from: undefined });
+    const data = await Postcss([UrlVersion()]).process(cssString, { from: file });
     await writeFile(file, data.css, { encoding: 'utf8', mode: 0o644 });
   } catch (error) {
     throw new Error(error);
