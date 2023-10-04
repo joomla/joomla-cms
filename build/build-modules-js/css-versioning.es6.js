@@ -1,12 +1,11 @@
 const { readFile, writeFile } = require('fs/promises');
 const { existsSync, readFileSync } = require('fs');
 const { resolve, dirname } = require('path');
+const crypto = require('crypto');
 const jetpack = require('fs-jetpack');
 const Postcss = require('postcss');
 const UrlVersion = require('postcss-url-version');
 const { Timer } = require('./utils/timer.es6.js');
-
-global.crypto = require('crypto');
 
 const opts = {
   version: (imagePath, sourceCssPath) => {
