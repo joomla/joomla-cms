@@ -24,6 +24,7 @@ $app = Factory::getApplication();
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
+    ->useScript('editors')
     ->useScript('com_mails.admin-email-template-edit');
 
 $this->useCoreUI = true;
