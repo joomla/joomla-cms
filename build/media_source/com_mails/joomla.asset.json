@@ -10,8 +10,7 @@
       "type": "script",
       "uri": "com_mails/admin-email-template-edit.min.js",
       "dependencies": [
-        "core",
-        "editors"
+        "core"
       ],
       "attributes": {
         "type": "module"
