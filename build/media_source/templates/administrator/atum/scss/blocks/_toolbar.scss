@@ -86,10 +86,6 @@
       --subhead-btn-accent: var(--template-bg-dark);
     }
 
-    &.btn-inverse {
-      --subhead-btn-accent: var(--template-text-dark);
-    }
-
     @if $enable-dark-mode {
       @include color-mode(dark) {
         &.btn-info {
