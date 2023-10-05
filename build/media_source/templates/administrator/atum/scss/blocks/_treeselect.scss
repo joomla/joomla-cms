@@ -32,7 +32,7 @@
       height: 1px;
       margin: auto;
       content: "";
-      background-color: rgba(0, 0, 0, .2);
+      background-color: $treeselect-line-color;
     }
 
     &::after {
@@ -43,7 +43,7 @@
       width: 1px;
       height: 100%;
       content: "";
-      background-color: rgba(0, 0, 0, .2);
+      background-color: $treeselect-line-color;
     }
 
     &:last-child {
