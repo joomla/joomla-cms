@@ -180,7 +180,7 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
   line-height: 1.5;
   color: var(--calendar-select-color, #212529);
   background-color: var(--calendar-select-bg-color, #f0f4fb);
-  background-image: var(--calendar-select-bg-url, url("../../images/select-bg.svg"));
+  background-image: var(--calendar-select-bg-url, var(--fallback-url));
   background-repeat: no-repeat;
   background-position: right center;
   background-size: max(100%, 58rem);
