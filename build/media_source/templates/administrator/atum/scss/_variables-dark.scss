@@ -36,6 +36,10 @@ $atum-colors-dark: (
   form-control-bg:                 var(--admin-background),
   form-control-bg-disabled:        var(--gray-800),
 
+  // text
+  text-muted-color:                var(--template-text-light) !important,
+  text-muted-hvr-color:            var(--template-text-dark) !important,
+
   // quickicons
   quickicons-bg:                   transparent,
   quickicon-border:                none,
@@ -100,6 +104,10 @@ $atum-colors-dark: (
   form-aria-grabbed-box-shadow:    none,
   choices__button_joomla-focus-box-shadow: none,
   joomla-tab-accordion-box-shadow: none,
+  joomla-tab-btn-hvr:              var(--template-text-light),
+  joomla-tab-btn-aria-exp-bg:      var(--template-bg-dark-60),
+  joomla-tab-btn-region-border:    var(--template-bg-dark-70),
+
 ) !default;
 
 $link-hover-color-dark: lighten($light-blue, 20%);

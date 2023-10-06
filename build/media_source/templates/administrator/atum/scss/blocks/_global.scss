@@ -194,16 +194,8 @@ a[target="_blank"]::before {
 }
 
 .text-muted {
-  color: var(--template-text-dark) !important;
+  color: $text-muted-color;
   opacity: .7;
-}
-
-@if $enable-dark-mode {
-  @include color-mode(dark) {
-    .text-muted {
-      color: var(--template-text-light) !important;
-    }
-  }
 }
 
 .card-columns {
