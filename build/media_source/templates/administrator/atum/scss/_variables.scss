@@ -70,7 +70,6 @@ $atum-colors: (
   template-text-dark:              $atum-text-dark,
   template-special-color:          $dark-blue,
   template-contrast:               $light-blue,
-  template-quickicon-color:        hsl(var(--hue), 30%, 40%),
   template-bg-dark:                hsl(var(--hue), 40%, 20%),
   template-bg-dark-3:              hsl(var(--hue), 40%, 97%),
   template-bg-dark-5:              hsl(var(--hue), 40%, 95%),
@@ -87,6 +86,9 @@ $atum-colors: (
   template-bg-dark-75:             hsl(var(--hue), 40%, 25%),
   template-bg-dark-80:             hsl(var(--hue), 40%, 20%),
   template-bg-dark-90:             hsl(var(--hue), 40%, 10%),
+  template-quickicon-color:        hsl(var(--hue), 30%, 40%),
+  template-quickicon-bg:           hsl(var(--hue), 60%, 97%),
+  template-quickicon-bg-hvr:       var(--template-bg-dark),
   form-control-bg:                 unset,
   form-control-bg-disabled:        var(--gray-200),
 
@@ -95,10 +97,12 @@ $atum-colors: (
   quickicon-color:                 var(--template-quickicon-color),
   quickicon-border:                1px solid hsl(var(--hue), 50%, 93%),
   quickicon-border-radius:         4px,
+  quickicon-link-hvr:              $white,
   quickicon-linkadd-bg:            hsl(var(--hue), 50%, 93%),
   quickicon-linkadd-color:         var(--template-quickicon-color),
+  quickicon-amount-bg:             hsl(var(--hue), 50%, 93%),
 
-  // modules
+    // modules
   new-modules-color:               var(--template-quickicon-color),
   new-modules-bg:                  hsl(var(--hue), 60%, 97%),
   new-modules-bg-hvr:              var(--template-bg-dark),
@@ -151,7 +155,7 @@ $atum-colors: (
   form-aria-grabbed-box-shadow:    0 0 2px 1px var(--template-bg-dark),
   choices__button_joomla-focus-box-shadow: 0 0 0 2px #00bcd4,
   joomla-tab-accordion-box-shadow: (0 1px $white inset, 0 0 3px rgba(0, 0, 0, .04)),
-  admin-background:                var(--body-bg),
+  admin-background:                var(--template-bg-light),
   options-form-color:              var(--template-text-dark),
   options-form-bg:                 unset,
   options-form-border:             1px solid var(--template-bg-dark-20),
@@ -379,8 +383,10 @@ $quickicon-icon-size-sm:           1.3rem;
 $quickicon-border:                var(--quickicon-border);
 $quickicon-border-radius:         var(--quickicon-border-radius);
 $quickicon-color:                 var(--quickicon-color);
+$quickicon-link-hvr:              var(--quickicon-link-hvr);
 $quickicon-linkadd-color:         var(--quickicon-linkadd-color);
 $quickicon-linkadd-bg:            var(--quickicon-linkadd-bg);
+$quickicon-amount-bg:             var(--quickicon-amount-bg);
 
 // Modules
 $new-modules-color:               var(--new-modules-color);
