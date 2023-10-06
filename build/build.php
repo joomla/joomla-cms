@@ -294,6 +294,9 @@ if ($npmReturnCode !== 0) {
     exit(1);
 }
 
+// Create version entries of the urls inside the static css files
+system('npm run cssversioning', $verReturnCode);
+
 // Create gzipped version of the static assets
 system('npm run gzip', $gzipReturnCode);
 

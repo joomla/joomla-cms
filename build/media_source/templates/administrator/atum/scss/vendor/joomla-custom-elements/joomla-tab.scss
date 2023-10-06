@@ -102,6 +102,15 @@ joomla-tab {
       .text-muted {
         color: var(--template-text-dark) !important;
       }
+      @if $enable-dark-mode {
+        @include color-mode(dark) {
+          /* stylelint-disable max-nesting-depth */
+          .text-muted {
+            /* stylelint-enable max-nesting-depth */
+            color: var(--template-text-light) !important;
+          }
+        }
+      }
     }
   }
 
@@ -194,7 +203,6 @@ joomla-tab[orientation=vertical] {
       display: block;
       padding: .75em 1em;
       margin: -1px 0;
-      color: var(--template-special-color);
       text-decoration: none;
       border-top: 1px solid transparent;
       border-bottom: 1px solid $gray-300;
@@ -224,6 +232,15 @@ joomla-tab[orientation=vertical] {
       }
       .text-muted {
         color: var(--template-text-dark) !important;
+      }
+      @if $enable-dark-mode {
+        @include color-mode(dark) {
+          /* stylelint-disable max-nesting-depth */
+          .text-muted {
+            /* stylelint-enable max-nesting-depth */
+            color: var(--template-text-light) !important;
+          }
+        }
       }
     }
   }
