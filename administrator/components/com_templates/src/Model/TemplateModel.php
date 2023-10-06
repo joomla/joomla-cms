@@ -507,7 +507,7 @@ class TemplateModel extends FormModel
                 return $coreFile;
             }
 
-            if (\stristr($subtype, 'joomla') || \stristr($subtype, 'libraries') || \stristr($subtype, 'plugins')) {
+            if (stristr($subtype, 'joomla') || stristr($subtype, 'libraries') || stristr($subtype, 'plugins')) {
                 $subFolder = \array_slice($explodeArray, 3, -1);
 
                 $subFolder = implode(DIRECTORY_SEPARATOR, $subFolder);
