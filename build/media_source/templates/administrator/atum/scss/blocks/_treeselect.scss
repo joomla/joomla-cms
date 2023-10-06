@@ -7,7 +7,15 @@
 
   .nav-header {
     font-weight: $font-weight-bold;
-    color: $gray-900;
+    color: var(--template-bg-dark);
+  }
+
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      .nav-header {
+        color: var(--body-color);
+      }
+    }
   }
 
   li {
@@ -24,7 +32,7 @@
       height: 1px;
       margin: auto;
       content: "";
-      background-color: rgba(0, 0, 0, .2);
+      background-color: $treeselect-line-color;
     }
 
     &::after {
@@ -35,7 +43,7 @@
       width: 1px;
       height: 100%;
       content: "";
-      background-color: rgba(0, 0, 0, .2);
+      background-color: $treeselect-line-color;
     }
 
     &:last-child {
