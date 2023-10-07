@@ -1319,7 +1319,8 @@ ENDDATA;
     {
         $updateInformation = $this->getUpdateInformation();
 
-        return $updateInformation['object']->supported_databases->$type ?? '';
+        return empty($updateInformation['object']->supported_databases->$type) ?
+            '' : $updateInformation['object']->supported_databases->$type;
     }
 
 
