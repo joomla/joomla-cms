@@ -1151,9 +1151,18 @@ ENDDATA;
         $nextMajorVersion = Version::MAJOR_VERSION + 1;
 
         if (version_compare($updateInformation['latest'], (string) $nextMajorVersion, '>=')) {
+            $dbType = $this->getConfiguredDatabaseType();
+            $dbMin  = $this->getTargetMinimumDatabaseVersion($dbType);
+
             $option         = new \stdClass();
-            $option->label  = Text::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
+            $option->label  = Text::sprintf('INSTL_DATABASE_SUPPORTED', $dbType);
             $option->state  = $this->isDatabaseTypeSupported();
+            $option->notice = null;
+            $options[]      = $option;
+
+            $option         = new \stdClass();
+            $option->label  = Text::sprintf('INSTL_DATABASE_MIN_VERSION', $dbType, $dbMin);
+            $option->state  = $this->isDatabaseVersionSupported($dbType);
             $option->notice = null;
             $options[]      = $option;
         }
@@ -1273,6 +1282,44 @@ ENDDATA;
         }
 
         return true;
+    }
+
+    /**
+     * Returns true, if database version is compatible with the update.
+     *
+     * @pararm  string  $type  The database type
+     *
+     * @return boolean
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function isDatabaseVersionSupported(string $type)
+    {
+        $newVer = $this->getTargetMinimumDatabaseVersion($type);
+        $curVer = $this->getDatabase()->getVersion();
+
+        if (!$newVer) {
+            return false;
+        }
+
+        return version_compare($curVer, $newVer, '>=');
+    }
+
+    /**
+     * Returns the Database minimum version for the update.
+     * Returns empty string, if there is no information given.
+     *
+     * @pararm  string  $type  The database type
+     *
+     * @return string
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    private function getTargetMinimumDatabaseVersion(string $type)
+    {
+        $updateInformation = $this->getUpdateInformation();
+
+        return $updateInformation['object']->supported_databases->$type ?? '';
     }
 
 
