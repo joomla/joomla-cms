@@ -55,7 +55,7 @@ joomla-tab {
       &[aria-expanded=true],
       &:focus,
       &:hover {
-        color:  $joomla-tab-btn-hvr;
+        color: $joomla-tab-btn-hvr;
         border: 0;
         border-radius: 0;
         box-shadow: none;
@@ -82,7 +82,7 @@ joomla-tab {
       }
 
       .text-muted {
-        color:  $text-muted-color;
+        color: $text-muted-color;
       }
     }
   }
