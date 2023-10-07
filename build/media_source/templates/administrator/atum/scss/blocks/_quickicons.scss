@@ -102,6 +102,21 @@
       .quickicon {
         --bg-color: var(--template-bg-dark-80);
         --bg-color-hvr: var(--template-bg-dark-65);
+        a {
+                &.warning,
+                  &.danger {
+                    --text-color: var(--template-quickicon-color);
+                    --bg-color: var(--danger);
+                    --icon-color: #f4f0f0;;
+                    --bg-color-hvr: #ce8484;
+                  }
+          &.success {
+              --text-color: var(--template-quickicon-color);
+              --bg-color: var(--success);
+              --icon-color: #f3f9f3;
+              --bg-color-hvr: #55a258;
+            }
+        }
       }
     }
   }
