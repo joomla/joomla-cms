@@ -541,7 +541,7 @@ class TagModel extends AdminModel
 
             // Add child IDs to the array only if they aren't already there.
             foreach ($childIds as $childId) {
-                if (!in_array($childId, $pks)) {
+                if (!\in_array($childId, $pks)) {
                     $pks[] = $childId;
                 }
             }
