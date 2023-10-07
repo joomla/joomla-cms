@@ -183,7 +183,7 @@ joomla-dialog {
     }
 
     // Override display to flex, to scale the content to full height
-    &[open]{
+    &[open] {
       display: flex;
     }
   }
