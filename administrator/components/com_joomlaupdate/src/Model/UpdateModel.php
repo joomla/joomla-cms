@@ -1162,7 +1162,7 @@ ENDDATA;
 
             $option         = new \stdClass();
             $option->label  = Text::sprintf('INSTL_DATABASE_MIN_VERSION', $dbType, $dbMin);
-            $option->state  = $this->isDatabaseVersionSupported($dbType);
+            $option->state  = $dbMin && version_compare($this->getDatabase()->getVersion(), $dbMin, '>=');
             $option->notice = null;
             $options[]      = $option;
         }
@@ -1282,27 +1282,6 @@ ENDDATA;
         }
 
         return true;
-    }
-
-    /**
-     * Returns true, if database version is compatible with the update.
-     *
-     * @pararm  string  $type  The database type
-     *
-     * @return boolean
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    public function isDatabaseVersionSupported(string $type)
-    {
-        $newVer = $this->getTargetMinimumDatabaseVersion($type);
-        $curVer = $this->getDatabase()->getVersion();
-
-        if (!$newVer) {
-            return false;
-        }
-
-        return version_compare($curVer, $newVer, '>=');
     }
 
     /**
