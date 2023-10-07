@@ -48,7 +48,7 @@ class TagModel extends AdminModel
 
     /**
      * Batch copy/move command. If set to false,
-     * the batch copy/move command is not supported
+     * the batch copy/move command is not supported.
      *
      * @var    string
      * @since  __DEPLOY_VERSION__
