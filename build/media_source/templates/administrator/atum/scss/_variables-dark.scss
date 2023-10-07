@@ -6,8 +6,14 @@ $atum-colors-dark: (
   media-manager-overlay-header-bg: var(--template-bg-dark-80),
   media-manager-disk-name-color:   var(--template-text-light),
   success:                         #467d53,
+  successlight:                    #9ac6a5,
   danger:                          #c62a25,
+  dangerlight:                     #dc4a46,
+  darkdanger:                      #941f1c,
+  error:                           #941f1c,
+  errorlight:                      #be2824,
   warning:                         #996808,
+  warninglight:                    #ba7f0a,
   dark-mode-text-light:            #f7f7f7,
   sidebar-bg:                      hsl(var(--hue), 37.8%, 8.63%),
   template-sidebar-bg:             hsl(var(--hue), 37.8%, 8.63%),
@@ -37,6 +43,8 @@ $atum-colors-dark: (
   form-control-bg-disabled:        var(--gray-800),
 
   // text
+  text-normal:                     var(--template-text-light),
+  text-reverted:                   var(--template-text-dark),
   text-muted-color:                var(--template-text-light) !important,
   text-muted-hvr-color:            var(--template-text-dark) !important,
 
@@ -75,6 +83,9 @@ $atum-colors-dark: (
   header-item-content-jversion-bg:    transparent,
   header-logo-bg:                     var(--body-bg),
 
+  // alerts
+  alert-accent-color:              #457d54,
+  alert-bg-color:                  #f2f8f4,
 
   // table:
   table-border-top-nfc:            1px solid #969696,
@@ -107,6 +118,33 @@ $atum-colors-dark: (
   joomla-tab-btn-hvr:              var(--template-text-light),
   joomla-tab-btn-aria-exp-bg:      var(--template-bg-dark-60),
   joomla-tab-btn-region-border:    var(--template-bg-dark-70),
+
+  // Alerts
+  state-success-text:               var(--text-normal),
+  state-success-bg:                 var(--success),
+  state-success-border:             1px solid var(--successlight),
+
+  state-info-text:                  var(--text-normal),
+  state-info-bg:                    var(--template-bg-dark-70),
+  state-info-border:                1px solid var(--template-bg-dark-60),
+
+  state-warning-text:               var(--text-normal),
+  state-warning-bg:                 var(--warning),
+  state-warning-border:             1px solid var(--warninglight),
+
+  state-danger-text:                var(--text-normal),
+  state-danger-bg:                  var(--danger),
+  state-danger-border:              1px solid var(--dangerlight),
+
+  state-error-text:                 var(--text-normal),
+  state-error-bg:                   var(--error),
+  state-error-border:               1px solid var(--errorlight),
+
+  alert-info-color:                 var(--text-normal),
+  alert-info-bg:                    var(--admin-bg),
+  alert-info-border:                1px solid hsl(var(--hue), 17%, 33.3%),
+
+  alert-heading-bg:                 var(--successlight),
 
 ) !default;
 

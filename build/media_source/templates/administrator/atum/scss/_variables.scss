@@ -92,7 +92,13 @@ $atum-colors: (
   form-control-bg:                 unset,
   form-control-bg-disabled:        var(--gray-200),
 
-  // text
+  // background:
+  bg-normal:                        var(--template-bg-light),
+  bg-reverted:                      var(--template-bg-dark-60),
+
+// text
+  text-normal:                     var(--template-text-dark),
+  text-reverted:                   var(--template-text-light),
   text-muted-color:                var(--template-text-dark) !important,
   text-muted-hvr-color:            var(--template-text-light) !important,
 
@@ -170,6 +176,31 @@ $atum-colors: (
   options-form-legend-color:       var(--template-text-dark),
   options-form-legend-bg:          var(--admin-background),
 
+  // Alerts
+  state-success-text:               $success,
+  state-success-bg:                 lighten($success, 58%),
+  state-success-border:             1px solid $success,
+
+  state-info-text:                  var(--template-bg-dark-70),
+  state-info-bg:                    var(--body-bg),
+  state-info-border:                1px solid var(--template-bg-dark-70),
+
+  state-warning-text:               darken($warning, 24%),
+  state-warning-bg:                 lighten($warning, 44%),
+  state-warning-border:             1px solid $warning,
+
+  state-danger-text:                $danger,
+  state-danger-bg:                  lighten($danger, 52%),
+  state-danger-border:              1px solid $danger,
+
+  state-error-text:                 $danger,
+  state-error-bg:                   lighten($danger, 52%),
+  state-error-border:               1px solid $danger,
+
+  alert-info-color:                 var(--template-bg-dark),
+  alert-info-bg:                    var(--template-bg-dark-10),
+  alert-info-border:                1px solid var(--template-bg-dark-20),
+  alert-heading-bg:                 $success,
 );
 
 $colors: (
@@ -199,6 +230,8 @@ $alert-color-level:                0;
 $atum-box-shadow:                  var(--atum-box-shadow);
 $btn-disabled-opacity:             .4;
 $admin-background:                 var(--admin-background);
+$bg-normal:                        var(--bg-normal);
+$bg-reverted:                      var(--bg-reverted);
 
 // Login
 $login-box-shadow:                 var(--login-box-shadow);
@@ -280,24 +313,31 @@ $card-border-width:                0;
 $card-border-color:                transparent;
 
 // Alerts
-$state-success-text:               $success;
-$state-success-bg:                 lighten($success, 58%);
-$state-success-border:             hsl(var(--hue),50%,93%);
+$state-success-text:               var(--state-success-text);
+$state-success-bg:                 var(--state-success-bg);
+$state-success-border:             var(--state-success-border);
 
-$state-info-text:                  var(--template-bg-dark-70);
-$state-info-bg:                    var(--body-bg);
+$state-info-text:                  var(--state-info-text);
+$state-info-bg:                    var(--state-info-bg);
+$state-info-border:                var(--state-info-border);
 
-$state-warning-text:               darken($warning, 24%);
-$state-warning-bg:                 lighten($warning, 44%);
-$state-warning-border:             $warning;
+$state-warning-text:               var(--state-warning-text);
+$state-warning-bg:                 var(--state-warning-bg);
+$state-warning-border:             var(--state-warning-border);
 
-$state-danger-text:                $danger;
-$state-danger-bg:                  lighten($danger, 52%);
-$state-danger-border:              $danger;
+$state-danger-text:                var(--state-danger-text);
+$state-danger-bg:                  var(--state-danger-bg);
+$state-danger-border:              var(--state-danger-border);
 
-$state-error-text:                 $danger;
-$state-error-bg:                   lighten($danger, 52%);
-$state-error-border:               $danger;
+$state-error-text:                 var(--state-error-text);
+$state-error-bg:                   var(--state-error-bg);
+$state-error-border:               var(--state-error-border);
+
+$alert-border:                     var(--alert-border);
+$alert-info-color:                 var(--alert-info-color);
+$alert-info-bg:                    var(--alert-info-bg);
+$alert-info-border:                var(--alert-info-border);
+$alert-heading-bg:                 var(--alert-heading-bg);
 
 // Badges
 $badge-padding-x:                  .2rem;
@@ -400,6 +440,8 @@ $quickicon-linkadd-bg:            var(--quickicon-linkadd-bg);
 $quickicon-amount-bg:             var(--quickicon-amount-bg);
 
 // Text
+$text-normal:                     var(--text-normal);
+$text-reverted:                   var(--text-reverted);
 $text-muted-color:                var(--text-muted-color);
 $text-muted-hvr-color:            var(--text-muted-hvr-color);
 
