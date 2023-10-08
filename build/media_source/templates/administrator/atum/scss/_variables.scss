@@ -176,6 +176,14 @@ $atum-colors: (
   options-form-legend-color:       var(--template-text-dark),
   options-form-legend-bg:          var(--admin-background),
 
+  // details
+  details-bg:                      var(--template-bg-dark-3),
+
+  // users
+  users-method-image:               var(--light),
+  users-methods-reset-cont-bg:      var(--light),
+  users-method-header-inact-bg:     var(--light),
+
   // Alerts
   state-success-text:               $success,
   state-success-bg:                 lighten($success, 58%),
@@ -315,6 +323,14 @@ $dropdown-spacer:                  0;
 // Cards
 $card-border-width:                0;
 $card-border-color:                transparent;
+
+// Details
+$details-bg:                      var(--details-bg);
+
+// users
+$users-method-image:              var(--users-method-image);
+$users-methods-reset-cont-bg:     var(--users-methods-reset-cont-bg);
+$users-method-header-inact-bg:    var(--users-method-header-inact-bg);
 
 // Alerts
 $state-success-text:               var(--state-success-text);
