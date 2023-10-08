@@ -893,7 +893,10 @@ ENDDATA;
         $tempdir = $app->get('tmp_path');
 
         $file = $app->getUserState('com_joomlaupdate.file', null);
-        File::delete($tempdir . '/' . $file);
+
+        if (is_file($tempdir . '/' . $file)) {
+            File::delete($tempdir . '/' . $file);
+        }
 
         // Remove the update.php file used in Joomla 4.0.3 and later.
         if (is_file(JPATH_COMPONENT_ADMINISTRATOR . '/update.php')) {
