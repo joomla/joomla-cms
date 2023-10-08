@@ -52,7 +52,7 @@ $atum-colors-dark: (
   quickicons-bg:                   transparent,
   quickicon-border:                none,
   quickicon-border-radius:         unset,
-  quickicon-link-hvr:              var(--template-bg-dark-5),
+  quickicon-link-hvr:              #fff, //var(--text-normal), // var(--template-bg-dark-5)
   quickicon-linkadd-bg:            hsl(var(--hue), 5%, 34%),
   quickicon-linkadd-color:         #479a59,
   quickicon-amount-bg:             hsl(var(--hue), 5%, 34%),
@@ -123,6 +123,7 @@ $atum-colors-dark: (
   state-success-text:               var(--text-normal),
   state-success-bg:                 var(--success),
   state-success-border:             1px solid var(--successlight),
+  state-success-icon:               var(--successlight),
 
   state-info-text:                  var(--text-normal),
   state-info-bg:                    var(--template-bg-dark-70),
