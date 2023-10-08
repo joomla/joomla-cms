@@ -9,6 +9,13 @@
 			readonly="true"
 		/>
 		<field
+			name="user_id_from"
+			type="UserMessages"
+			label="COM_MESSAGES_FIELD_USER_ID_FROM_LABEL"
+			default="0"
+			required="false"
+		/>
+		<field
 			name="user_id_to"
 			type="UserMessages"
 			label="COM_MESSAGES_FIELD_USER_ID_TO_LABEL"
