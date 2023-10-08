@@ -58,11 +58,11 @@
         padding: .25rem .5rem;
         font-weight: $bold-weight;
         line-height: 1rem;
+        color: var(--text-amount-color);
         background: $quickicon-amount-bg;
         border-radius: $border-radius;
         transition: all .25s ease;
         margin-inline-start: .5rem;
-        color: var(--text-amount-color);
       }
 
       .j-links-link {
