@@ -228,7 +228,7 @@ a[target="_blank"]::before {
 details {
   padding: .5rem 1rem;
   margin: 0 0 2rem;
-  background: var(--template-bg-dark-3);
+  background: $details-bg;
   border: 1px solid var(--template-bg-dark-10);
   border-radius: $border-radius;
 
@@ -237,14 +237,6 @@ details {
 
     ~ * {
       margin-top: 1rem;
-    }
-  }
-}
-
-@if $enable-dark-mode {
-  @include color-mode(dark) {
-    details {
-      background: var(--template-bg-dark-90);
     }
   }
 }
