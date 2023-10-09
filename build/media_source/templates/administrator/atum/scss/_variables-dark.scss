@@ -13,3 +13,6 @@ $form-select-background-rtl-dark:  $form-select-bg-dark $form-select-indicator-r
 
 // Alerts
 $state-info-text-dark:             var(--template-bg-dark-50);
+
+// Code-color override bootstrap for accessibility contrast
+$code-color-dark: #d7488b; //used in bootstrap
