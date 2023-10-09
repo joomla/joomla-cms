@@ -190,7 +190,8 @@ class HtmlView extends BaseHtmlView
             } else {
                 // No download available
                 if ($hasUpdate) {
-                    $this->messagePrefix = '_NODOWNLOAD';
+                    $this->messagePrefix    = '_NODOWNLOAD';
+                    $this->reasonNoDownload = 'COM_JOOMLAUPDATE_NODOWNLOAD_EMPTYSTATE_REASON';
                 }
 
                 $this->setLayout('noupdate');
