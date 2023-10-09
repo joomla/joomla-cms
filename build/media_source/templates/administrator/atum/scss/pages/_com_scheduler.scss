@@ -39,14 +39,14 @@
     margin: 0;
     font-size: .875rem;
   }
-  :hover {
-      background: var(--bg-color-hvr);
-      color: #{$quickicon-link-hvr};
-      .new-task-title {
-        color: #{$quickicon-link-hvr};
-      }
-  }
 
+  :hover {
+    color: #{$quickicon-link-hvr};
+    background: var(--bg-color-hvr);
+    .new-task-title {
+      color: #{$quickicon-link-hvr};
+    }
+  }
 
   &-link {
     display: flex;
