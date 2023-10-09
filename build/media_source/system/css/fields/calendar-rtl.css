@@ -8,6 +8,7 @@
 }
 
 .calendar-container {
+  --fallback-url: url("../../images/select-bg-rtl.svg");
   z-index: 1100 !important;
   float: left;
   min-width: 160px;
@@ -179,7 +180,7 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
   line-height: 1.5;
   color: var(--calendar-select-color, #212529);
   background-color: var(--calendar-select-bg-color, #f0f4fb);
-  background-image: var(--calendar-select-bg-url-rtl, url("../../images/select-bg-rtl.svg"));
+  background-image: var(--calendar-select-bg-url, var(--fallback-url));
   background-repeat: no-repeat;
   background-position: left center;
   background-size: max(100%, 58rem);
