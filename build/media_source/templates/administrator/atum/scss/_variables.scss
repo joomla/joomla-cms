@@ -70,6 +70,7 @@ $atum-colors: (
   template-text-dark:              $atum-text-dark,
   template-special-color:          $dark-blue,
   template-contrast:               $light-blue,
+  template-quickicon-color:        hsl(var(--hue), 30%, 40%),
   template-bg-dark:                hsl(var(--hue), 40%, 20%),
   template-bg-dark-3:              hsl(var(--hue), 40%, 97%),
   template-bg-dark-5:              hsl(var(--hue), 40%, 95%),
@@ -86,7 +87,6 @@ $atum-colors: (
   template-bg-dark-75:             hsl(var(--hue), 40%, 25%),
   template-bg-dark-80:             hsl(var(--hue), 40%, 20%),
   template-bg-dark-90:             hsl(var(--hue), 40%, 10%),
-  template-quickicon-color:        hsl(var(--hue), 30%, 40%),
   template-quickicon-bg:           hsl(var(--hue), 60%, 97%),
   template-quickicon-bg-hvr:       var(--template-bg-dark),
   form-control-bg:                 unset,
@@ -103,7 +103,7 @@ $atum-colors: (
   text-muted-hvr-color:            var(--template-text-light) !important,
 
   // quickicons
-  quickicons-bg:                   var(--white),
+  quickicon-bg:                    var(--white),
   quickicon-color:                 var(--template-quickicon-color),
   quickicon-border:                1px solid hsl(var(--hue), 50%, 93%),
   quickicon-border-radius:         4px,
@@ -455,7 +455,7 @@ $joomla-tab-btn-aria-exp-bg:       var(--joomla-tab-btn-aria-exp-bg);
 $joomla-tab-btn-region-border:     var(--joomla-tab-btn-region-border);
 
 // Quickicons
-$quickicons-bg:                    var(--quickicons-bg);
+$quickicon-bg:                     var(--quickicon-bg);
 $quickicon-box-shadow-success:     var(--quickicon-box-shadow-success);
 $quickicon-box-shadow-danger:      var(--quickicon-box-shadow-danger);
 $quickicon-box-shadow-warning:     var(--quickicon-box-shadow-warning);
