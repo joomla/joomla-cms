@@ -2,7 +2,7 @@
 
 .table {
   > :not(:first-child) {
-    border-top: 2px solid #dee2e6;
+    border-top: $table-border-top-nfc;
   }
 
   thead {
@@ -20,7 +20,7 @@
     }
 
     a {
-      color: var(--template-link-color);
+      color: $table-thead-a-color;
 
       &#sorted {
         font-weight: $medium-weight;

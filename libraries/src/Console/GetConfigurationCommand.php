@@ -223,7 +223,7 @@ class GetConfigurationCommand extends AbstractCommand
             $config = $config === false ? "false" : $config;
             $config = $config === true ? "true" : $config;
 
-            if (!in_array($key, ['cwd', 'execution'])) {
+            if (!\in_array($key, ['cwd', 'execution'])) {
                 $newConfig[$key] = $config;
             }
         }
@@ -244,7 +244,7 @@ class GetConfigurationCommand extends AbstractCommand
     {
         $configs = $this->getApplication()->getConfig()->toArray();
 
-        if (!array_key_exists($option, $configs)) {
+        if (!\array_key_exists($option, $configs)) {
             $this->ioStyle->error("Can't find option *$option* in configuration list");
 
             return self::CONFIG_GET_OPTION_NOT_FOUND;
@@ -281,11 +281,11 @@ class GetConfigurationCommand extends AbstractCommand
         }
 
         if (\is_array($value)) {
-            return \json_encode($value);
+            return json_encode($value);
         }
 
         if (\is_object($value)) {
-            return \json_encode(\get_object_vars($value));
+            return json_encode(get_object_vars($value));
         }
 
         return $value;

@@ -198,7 +198,7 @@
     }
 
     &:focus {
-      box-shadow: 0 0 0 2px #00bcd4;
+      box-shadow: $choices__button_joomla-focus-box-shadow;
     }
   }
 

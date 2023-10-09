@@ -477,7 +477,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             return null;
         }
 
-        if (is_null($numRecords) || ($numRecords < 1)) {
+        if (\is_null($numRecords) || ($numRecords < 1)) {
             return null;
         }
 
@@ -617,7 +617,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         $tz = null;
 
         if ($tzAware !== false) {
-            $userId = is_bool($tzAware) ? null : (int) $tzAware;
+            $userId = \is_bool($tzAware) ? null : (int) $tzAware;
 
             try {
                 $tzDefault = Factory::getApplication()->get('offset');

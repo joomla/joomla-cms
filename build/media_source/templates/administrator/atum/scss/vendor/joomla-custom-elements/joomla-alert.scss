@@ -12,9 +12,9 @@
   min-width: 16rem;
   padding: 0;
   margin-bottom: 1rem;
-  color: var(--alert-accent-color, var(--template-bg-dark));
-  background-color: var(--alert-bg-color, var(--white));
-  border: 1px solid var(--alert-accent-color, var(--template-bg-dark));
+  color: var(--alert-accent-color, $text-normal);
+  background-color: var(--alert-bg-color, $text-reverted);
+  border: var(--alert-border);
   border-radius: .25rem;
   transition: opacity .15s linear;
 
@@ -24,8 +24,8 @@
     justify-content: center;
     padding: .8rem;
     line-height: normal;
-    color: var(--white);
-    background: var(--alert-accent-color, var(--template-bg-dark));
+    color: $state-success-bg;
+    background: $alert-heading-bg;
     align-content: center;
 
     .message::before,
@@ -81,25 +81,14 @@
   &[type="message"] {
     --alert-accent-color: #{$state-success-text};
     --alert-bg-color: #{$state-success-bg};
+    --alert-border: #{$state-success-border};
   }
 
   &[type="info"],
   &[type="notice"] {
     --alert-accent-color: #{$state-info-text};
     --alert-bg-color: #{$state-info-bg};
-
-    @include color-mode(dark) {
-      p {
-        color: var(--body-color);
-      }
-    }
-  }
-
-  @include color-mode(dark) {
-    &[type="info"],
-    &[type="notice"] {
-      --alert-accent-color: #{$state-info-text-dark};
-    }
+    --alert-border: #{$state-info-border};
   }
 
   &[type="warning"] {
@@ -110,12 +99,14 @@
     color: #{$state-warning-text};
     --alert-accent-color: #{$warning};
     --alert-bg-color: #{$state-warning-bg};
+    --alert-border: #{$state-warning-border};
   }
 
   &[type="error"],
   &[type="danger"] {
     --alert-accent-color: #{$state-danger-text};
     --alert-bg-color: #{$state-danger-bg};
+    --alert-border: #{$state-danger-border};
   }
 
   .joomla-alert--close,

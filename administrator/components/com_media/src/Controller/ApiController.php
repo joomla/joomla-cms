@@ -63,7 +63,7 @@ class ApiController extends BaseController
             // Record the actual task being fired
             $this->doTask = $doTask;
 
-            if (!in_array($this->doTask, $this->taskMap)) {
+            if (!\in_array($this->doTask, $this->taskMap)) {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 405);
             }
 
@@ -374,7 +374,7 @@ class ApiController extends BaseController
     {
         $parts = explode(':', $this->input->getString('path', ''), 2);
 
-        if (count($parts) < 1) {
+        if (\count($parts) < 1) {
             return null;
         }
 
@@ -392,7 +392,7 @@ class ApiController extends BaseController
     {
         $parts = explode(':', $this->input->getString('path', ''), 2);
 
-        if (count($parts) < 2) {
+        if (\count($parts) < 2) {
             return null;
         }
 

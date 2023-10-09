@@ -1,72 +1,5 @@
 // com_cpanel
 
-.cpanel-add-module-icon,
-.com-cpanel {
-  &-help,
-  &-system {
-
-    .list-group-item {
-      padding: 0;
-
-      a {
-        display: block;
-        padding: $list-group-item-padding-y $list-group-item-padding-x;
-      }
-    }
-  }
-
-  &-help {
-
-    &__header {
-      color: var(--template-special-color);
-    }
-
-    a {
-      color: var(--#{$prefix}link-color);
-    }
-
-    h2 {
-      font-size: $h4-font-size;
-    }
-
-  }
-
-  &-system {
-    column-count: 4;
-
-    &__category {
-      margin-bottom: 1.5em;
-      page-break-inside: avoid;
-      break-inside: avoid;
-    }
-
-    &__header {
-      color: var(--template-special-color);
-
-      span {
-        margin-right: 5px;
-      }
-    }
-
-    a {
-      color: var(--#{$prefix}link-color);
-    }
-
-    h2 {
-      font-size: $h4-font-size;
-    }
-
-
-    @include media-breakpoint-down(lg) {
-      column-count: 2;
-    }
-
-    @include media-breakpoint-down(md) {
-      column-count: 1;
-    }
-  }
-}
-
 .com_cpanel {
 
   .content {
@@ -88,7 +21,7 @@
   }
 
   .card-header {
-    --card-bg: hsla(0, 0%, 100%, .7);
+    --card-bg: $card-bg;
 
     .btn {
       margin-top: .25em;
@@ -99,6 +32,7 @@
   .card-body {
     padding: 0;
     overflow: hidden;
+    background-color: $card-body-bg;
     border-bottom-right-radius: $border-radius;
     border-bottom-left-radius: $border-radius;
   }
@@ -109,15 +43,7 @@
 
     > * {
       padding: 0;
-      color: var(--template-bg-dark-70);
-    }
-
-    @if $enable-dark-mode {
-      @include color-mode(dark) {
-        > * {
-          color: var(--body-color);
-        }
-      }
+      color: $module-actions-color;
     }
   }
 
@@ -224,7 +150,7 @@
 
 .sample-data__title {
   font-weight: bold;
-  color: var(--template-bg-dark-50);
+  color: var(--heading-color);
 }
 
 .sample-data__icon {

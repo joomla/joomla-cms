@@ -86,6 +86,8 @@ $config
             'ordered_imports'                => ['imports_order' => ['class', 'function', 'const'], 'sort_algorithm' => 'alpha'],
             // There should not be useless else cases
             'no_useless_else'                => true,
+            // Native function invocation
+            'native_function_invocation'     => ['include' => ['@compiler_optimized']],
         ]
     )
     ->setFinder($finder);

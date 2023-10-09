@@ -30,7 +30,7 @@
     color: var(--template-text-dark);
     background: var(--body-bg);
     border-radius: 10px;
-    box-shadow: 0 4px 20px -10px var(--template-bg-dark-50);
+    box-shadow: $login-box-shadow;
 
     @include media-breakpoint-down(lg) {
       margin-bottom: 3rem;
@@ -75,11 +75,6 @@
         @include media-breakpoint-down(sm) {
           width: 100%;
         }
-
-        &.text-end {
-          font-size: ($font-size-base * .75);
-          color: var(--template-special-color);
-        }
       }
     }
 
@@ -102,7 +97,7 @@
 
   input:focus,
   select:focus {
-    box-shadow: inset 0 0 1px 1px var(--template-contrast);
+    box-shadow: $login-focus-box-shadow;
   }
 
   h1 {
@@ -215,17 +210,8 @@
 }
 
 label {
-  color: $darkblue;
+  color: $login-label-color;
 }
-
-@if $enable-dark-mode {
-  @include color-mode(dark) {
-    label {
-      color: var(--white);
-    }
-  }
-}
-
 
 .com_login .sidebar-wrapper .main-brand {
   flex: 1;

@@ -70,10 +70,11 @@ trait ProviderManagerHelperTrait
     /**
      * Returns a provider for the given id.
      *
+     * @param   string  $id
+     *
      * @return  ProviderInterface
      *
-     * @throws  \Exception
-     *
+     * @throws \Exception
      * @since   4.1.0
      */
     public function getProvider(string $id): ProviderInterface
@@ -84,10 +85,11 @@ trait ProviderManagerHelperTrait
     /**
      * Return an adapter for the given name.
      *
+     * @param   string  $name
+     *
      * @return  AdapterInterface
      *
-     * @throws  \Exception
-     *
+     * @throws \Exception
      * @since   4.1.0
      */
     public function getAdapter(string $name): AdapterInterface
@@ -98,10 +100,11 @@ trait ProviderManagerHelperTrait
     /**
      * Returns an array with the adapter name as key and the path of the file.
      *
+     * @param   string  $path
+     *
      * @return  array
      *
-     * @throws  \InvalidArgumentException
-     *
+     * @throws \Exception
      * @since   4.1.0
      */
     protected function resolveAdapterAndPath(string $path): array

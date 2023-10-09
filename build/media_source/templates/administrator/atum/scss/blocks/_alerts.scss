@@ -7,21 +7,21 @@
   border-radius: $border-radius-sm;
 
   &.alert-info {
-    color: var(--template-bg-dark);
-    background-color: var(--template-bg-dark-10);
-    border: 1px solid var(--template-bg-dark-20);
+    color: $alert-info-color;
+    background-color: $alert-info-bg;
+    border: $alert-info-border;
   }
 
   &.alert-warning {
     color: $state-warning-text;
     background-color: $state-warning-bg;
-    border: 1px solid $state-warning-border;
+    border: $state-warning-border;
   }
 
   &.alert-success {
     color: $state-success-text;
     background-color: $state-success-bg;
-    border: 1px solid $state-success-border;
+    border: $state-success-border;
   }
 
   &.alert-error {

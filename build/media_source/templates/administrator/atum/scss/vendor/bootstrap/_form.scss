@@ -48,7 +48,7 @@ legend {
 }
 
 [aria-grabbed="true"] {
-  box-shadow: 0 0 2px 1px var(--template-bg-dark);
+  box-shadow: $form-aria-grabbed-box-shadow;
 }
 
 select.form-control {

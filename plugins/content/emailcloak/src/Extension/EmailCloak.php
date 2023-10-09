@@ -145,7 +145,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 1, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -166,7 +166,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -185,7 +185,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 1, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -204,7 +204,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 1, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -222,7 +222,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -240,7 +240,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -258,7 +258,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -276,7 +276,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 1, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -294,7 +294,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -316,7 +316,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 1, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -337,7 +337,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -356,7 +356,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 1, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -374,7 +374,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -396,7 +396,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -418,7 +418,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 1, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -440,7 +440,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($regs[0][0]));
         }
 
         /*
@@ -455,7 +455,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             $replacement = HTMLHelper::_('email.cloak', $mail, 0, $mail);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($mail));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($mail));
         }
 
         /*
@@ -469,7 +469,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             $replacement =  HTMLHelper::_('email.cloak', $mail, 0, $mail);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[0][1], strlen($mail));
+            $text = substr_replace($text, $replacement, $regs[0][1], \strlen($mail));
         }
 
         /*
@@ -486,7 +486,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mail);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[1][1], strlen($mail));
+            $text = substr_replace($text, $replacement, $regs[1][1], \strlen($mail));
         }
 
         return $text;

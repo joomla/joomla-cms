@@ -25,7 +25,7 @@
     height: 100%;
     padding: 12px 5px;
     overflow: hidden;
-    background-color: var(--template-bg-dark-70);
+    background-color: $header-logo-bg;
     transition: all .3s ease-in-out;
 
     &.small {
@@ -131,8 +131,8 @@
   align-items: center;
   line-height: 1rem;
   color: $white;
-  background-color: var(--template-bg-dark-60);
-  border-radius: 22px;
+  background-color: $header-item-content-bg;
+  border-radius: $header-item-content-border-radius;
   padding-inline-end: 4px;
 
   a,
@@ -146,12 +146,12 @@
   }
 
   &:not(.no-link):not(.joomlaversion):hover {
-    background-color: var(--template-bg-dark-50);
+    background-color: $header-item-content-bg-hvr;
   }
 
   &.joomlaversion {
-    color: var(--bluegray);
-    background-color: transparent;
+    color: $header-item-content-jversion-color;
+    background-color: $header-item-content-jversion-bg;
 
     .header-item-text {
       padding-inline-end: 12px;

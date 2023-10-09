@@ -224,7 +224,7 @@ $systemGit = trim(ob_get_clean());
 umask(022);
 
 // Shortcut the paths to the repository root and build folder
-$repo = dirname(__DIR__);
+$repo = \dirname(__DIR__);
 $here = __DIR__;
 
 // Set paths for the build packages
@@ -294,6 +294,9 @@ if ($npmReturnCode !== 0) {
     exit(1);
 }
 
+// Create version entries of the urls inside the static css files
+system('npm run cssversioning', $verReturnCode);
+
 // Create gzipped version of the static assets
 system('npm run gzip', $gzipReturnCode);
 
@@ -325,7 +328,7 @@ system('rm -rf node_modules');
 echo "Workspace built.\n";
 
 // Import the version class to set the version information
-define('_JEXEC', 1);
+\define('_JEXEC', 1);
 require_once $fullpath . '/libraries/src/Version.php';
 
 // Set version information for the build
@@ -476,17 +479,17 @@ for ($num = $release - 1; $num >= 0; $num--) {
 
         $folderPath             = explode('/', $fileName);
         $baseFolderName         = $folderPath[0];
-        $doNotPackageFile       = in_array(trim($fileName), $doNotPackage);
-        $doNotPatchFile         = in_array(trim($fileName), $doNotPatch);
-        $doNotPackageBaseFolder = in_array($baseFolderName, $doNotPackage);
-        $doNotPatchBaseFolder   = in_array($baseFolderName, $doNotPatch);
+        $doNotPackageFile       = \in_array(trim($fileName), $doNotPackage);
+        $doNotPatchFile         = \in_array(trim($fileName), $doNotPatch);
+        $doNotPackageBaseFolder = \in_array($baseFolderName, $doNotPackage);
+        $doNotPatchBaseFolder   = \in_array($baseFolderName, $doNotPatch);
         $dirtyHackForMediaCheck = false;
 
         // The raw files for the vue files are not packaged but are not a top level directory so aren't handled by the
         // above checks. This is dirty but a fairly performant fix for now until we can come up with something better.
-        if (count($folderPath) >= 4) {
+        if (\count($folderPath) >= 4) {
             $fullPath               = [$folderPath[0] . '/' . $folderPath[1] . '/' . $folderPath[2] . '/' . $folderPath[3]];
-            $dirtyHackForMediaCheck = in_array('administrator/components/com_media/resources', $fullPath);
+            $dirtyHackForMediaCheck = \in_array('administrator/components/com_media/resources', $fullPath);
         }
 
         if ($dirtyHackForMediaCheck || $doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder) {
