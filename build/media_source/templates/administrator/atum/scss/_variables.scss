@@ -87,6 +87,11 @@ $atum-colors: (
   template-bg-dark-75:             hsl(var(--hue), 40%, 25%),
   template-bg-dark-80:             hsl(var(--hue), 40%, 20%),
   template-bg-dark-90:             hsl(var(--hue), 40%, 10%),
+  media-manager-overlay-header-bg: var(--template-bg-dark-5),
+  media-manager-infobar-dt-color:  rgba(0, 0, 0, .54),
+  media-manager-content-bg:        var(--body-bg),
+  media-manager-overlay-bg:        var(--template-bg-dark-3),
+  media-manager-disk-name-color:   var(--template-text-dark),
   template-quickicon-bg:           hsl(var(--hue), 60%, 97%),
   template-quickicon-bg-hvr:       var(--template-bg-dark),
   form-control-bg:                 unset,
@@ -392,7 +397,9 @@ $input-group-addon-border-color:   var(--template-bg-dark);
 // Treeselect
 $treeselect-line-height:           2.2rem;
 $treeselect-indent:                40px;
+$treeselect-line-color:            var(--template-bg-dark-7);
 
+// List
 $list-group-border-color:          var(--template-bg-dark-15);
 $list-group-item-padding-y:        .75rem;
 
