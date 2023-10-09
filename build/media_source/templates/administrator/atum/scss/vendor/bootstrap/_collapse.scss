@@ -14,7 +14,15 @@
    *       that view rather than just being overridden for everything.
    */
   .list-group-item {
-    --list-group-color: $list-group-color;
-    --list-group-bg: $list-group-bg;
+    --list-group-color: var(--link-color);
+    --list-group-bg: var(--white-offset);
+  }
+
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      .list-group-item {
+        --list-group-bg: var(--gray-800);
+      }
+    }
   }
 }
