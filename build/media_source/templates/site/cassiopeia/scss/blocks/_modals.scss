@@ -48,6 +48,11 @@ joomla-dialog {
       width: 80vw;
       height: 80vh;
     }
+
+    // Override display to flex, to scale the content to full height
+    &[open] {
+      display: flex;
+    }
   }
 
   &[type="image"] {
@@ -112,7 +117,7 @@ joomla-dialog dialog[open] {
   box-sizing: border-box;
   display: flex;
   flex-flow: column;
-  height: 100%;
+  width: 100%;
 
   .buttons-holder {
     display: flex;
