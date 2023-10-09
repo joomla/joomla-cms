@@ -49,7 +49,7 @@ $atum-colors-dark: (
   text-muted-hvr-color:            var(--template-text-dark) !important,
 
   // quickicons
-  quickicon-bg:                    transparent,
+  quickicon-bg:                    var(--card-bg), /* transparent */
   quickicon-border:                none,
   quickicon-border-radius:         unset,
   quickicon-link-hvr:              #fff, //var(--text-normal), // var(--template-bg-dark-5)
