@@ -184,6 +184,10 @@ $atum-colors: (
   users-methods-reset-cont-bg:      var(--light),
   users-method-header-inact-bg:     var(--light),
 
+  // Lists
+  list-group-color:                 var(--link-color),
+  list-group-bg:                    var(--white-offset),
+
   // Alerts
   state-success-text:               $success,
   state-success-bg:                 lighten($success, 58%),
@@ -391,6 +395,8 @@ $treeselect-line-height:           2.2rem;
 $treeselect-indent:                40px;
 
 // List
+$list-group-color:                 var(--list-group-color);
+$list-group-bg:                    var(--list-group-bg);
 $list-group-border-color:          var(--template-bg-dark-15);
 $list-group-item-padding-y:        .75rem;
 
