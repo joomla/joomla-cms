@@ -210,17 +210,8 @@
 }
 
 label {
-  color: $darkblue;
+  color: $login-label-color;
 }
-
-@if $enable-dark-mode {
-  @include color-mode(dark) {
-    label {
-      color: var(--white);
-    }
-  }
-}
-
 
 .com_login .sidebar-wrapper .main-brand {
   flex: 1;

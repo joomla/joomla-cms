@@ -188,6 +188,9 @@ $atum-colors: (
   list-group-color:                 var(--link-color),
   list-group-bg:                    var(--white-offset),
 
+  // Login
+  login-label-color:                $dark-blue,
+
   // Alerts
   state-success-text:               $success,
   state-success-bg:                 lighten($success, 58%),
@@ -394,11 +397,14 @@ $input-group-addon-border-color:   var(--template-bg-dark);
 $treeselect-line-height:           2.2rem;
 $treeselect-indent:                40px;
 
-// List
+// Lists
 $list-group-color:                 var(--list-group-color);
 $list-group-bg:                    var(--list-group-bg);
 $list-group-border-color:          var(--template-bg-dark-15);
 $list-group-item-padding-y:        .75rem;
+
+// Login
+$login-label-color:                var(--login-label-color);
 
 // Buttons
 $input-btn-padding-y-sm-submenu:    0;
