@@ -162,7 +162,7 @@ PHP;
         $this->createFile($fullDestinationPath . 'api/index.php', str_replace(['{{APPLICATIONPATH}}', '{{DEFINESPATH}}'], ['\'' . DIRECTORY_SEPARATOR . 'api\'', 'dirname(__DIR__)'], $this->indexTemplate));
 
         // Get all the local filesystem directories
-        if (defined('_JCLI_INSTALLATION')) {
+        if (\defined('_JCLI_INSTALLATION')) {
             $localDirectories = [(object)['directory' => 'images']];
         } elseif (PluginHelper::isEnabled('filesystem', 'local')) {
             $local            = PluginHelper::getPlugin('filesystem', 'local');
