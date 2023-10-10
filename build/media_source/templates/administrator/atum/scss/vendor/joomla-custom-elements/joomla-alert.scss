@@ -12,11 +12,47 @@
   min-width: 16rem;
   padding: 0;
   margin-bottom: 1rem;
-  color: var(--alert-accent-color, $text-normal);
-  background-color: var(--alert-bg-color, $text-reverted);
+  /* color: var(--alert-accent-color, $text-normal); */
+  color: var(--alert-accent-color);
+  /* background-color: var(--alert-bg-color, $text-reverted); */
+  background-color: var(--alert-bg-color);
   border: var(--alert-border);
   border-radius: .25rem;
   transition: opacity .15s linear;
+  &[type="success"],
+  &[type="message"] {
+    --alert-accent-color: #{$state-success-text};
+    --alert-bg-color: #{$state-success-bg};
+    --alert-border: #{$state-success-border};
+    --alert-heading-bg: #{$state-success-heading-bg};
+  }
+
+  &[type="info"],
+  &[type="notice"] {
+    --alert-accent-color: #{$state-info-text};
+    --alert-bg-color: #{$state-info-bg};
+    --alert-border: #{$state-info-border};
+    --alert-heading-bg: #{$state-info-heading-bg};
+  }
+
+  &[type="warning"] {
+    .joomla-alert--close {
+      color: #{$state-warning-text};
+    }
+
+    --alert-accent-color: #{$state-warning-text};
+    --alert-bg-color: #{$state-warning-bg};
+    --alert-border: #{$state-warning-border};
+    --alert-heading-bg: #{$state-warning-heading-bg};
+  }
+
+  &[type="error"],
+  &[type="danger"] {
+    --alert-accent-color: #{$state-danger-text};
+    --alert-bg-color: #{$state-danger-bg};
+    --alert-border: #{$state-danger-border};
+    --alert-heading-bg: #{$state-danger-heading-bg};
+  }
 
   .alert-heading {
     display: flex;
@@ -24,8 +60,8 @@
     justify-content: center;
     padding: .8rem;
     line-height: normal;
-    color: $state-success-bg;
-    background: $alert-heading-bg;
+    color: var(--alert-accent-color);
+    background: var(--alert-heading-bg);
     align-content: center;
 
     .message::before,
@@ -75,38 +111,6 @@
   .alert-link {
     color: var(--template-link-color);
     text-decoration: underline;
-  }
-
-  &[type="success"],
-  &[type="message"] {
-    --alert-accent-color: #{$state-success-text};
-    --alert-bg-color: #{$state-success-bg};
-    --alert-border: #{$state-success-border};
-  }
-
-  &[type="info"],
-  &[type="notice"] {
-    --alert-accent-color: #{$state-info-text};
-    --alert-bg-color: #{$state-info-bg};
-    --alert-border: #{$state-info-border};
-  }
-
-  &[type="warning"] {
-    .joomla-alert--close {
-      color: #{$state-warning-text};
-    }
-
-    color: #{$state-warning-text};
-    --alert-accent-color: #{$warning};
-    --alert-bg-color: #{$state-warning-bg};
-    --alert-border: #{$state-warning-border};
-  }
-
-  &[type="error"],
-  &[type="danger"] {
-    --alert-accent-color: #{$state-danger-text};
-    --alert-bg-color: #{$state-danger-bg};
-    --alert-border: #{$state-danger-border};
   }
 
   .joomla-alert--close,

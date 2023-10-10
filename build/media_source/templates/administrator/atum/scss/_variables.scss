@@ -197,30 +197,35 @@ $atum-colors: (
   state-success-bg:                 lighten($success, 58%),
   state-success-border:             1px solid $success,
   state-success-icon:               #55a258,
+  state-success-heading-bg:         $success,
 
   state-info-text:                  var(--template-bg-dark-70),
   state-info-bg:                    var(--body-bg),
   state-info-border:                1px solid var(--template-bg-dark-70),
+  state-info-icon:                  var(--template-bg-dark-70),
+  state-info-heading-bg:            var(--template-bg-dark-70),
 
-  state-warning-text:               darken($warning, 10%),
+  state-warning-text:               #996900,
   state-warning-bg:                 lighten($warning, 44%),
   state-warning-border:             1px solid $warning,
   state-warning-icon:               $warning,
+  state-warning-heading-bg:         $warning,
 
   state-danger-text:                $danger,
   state-danger-bg:                  lighten($danger, 52%),
   state-danger-border:              1px solid $danger,
   state-danger-icon:                #ce8484,
+  state-danger-heading-bg:          $danger,
 
   state-error-text:                 $danger,
   state-error-bg:                   lighten($danger, 52%),
   state-error-border:               1px solid $danger,
   state-error-icon:                 lighten($danger, 20%),
+  state-error-heading-bg:           $danger,
 
   alert-info-color:                 var(--template-bg-dark),
   alert-info-bg:                    var(--template-bg-dark-10),
   alert-info-border:                1px solid var(--template-bg-dark-20),
-  alert-heading-bg:                 $success,
 );
 
 $colors: (
@@ -345,32 +350,36 @@ $state-success-text:               var(--state-success-text);
 $state-success-bg:                 var(--state-success-bg);
 $state-success-border:             var(--state-success-border);
 $state-success-icon:               var(--state-success-icon);
+$state-success-heading-bg:         var(--state-success-heading-bg);
 
 $state-info-text:                  var(--state-info-text);
 $state-info-bg:                    var(--state-info-bg);
 $state-info-border:                var(--state-info-border);
 $state-info-icon:                  var(--state-info-icon);
+$state-info-heading-bg:            var(--state-info-heading-bg);
 
 $state-warning-text:               var(--state-warning-text);
 $state-warning-bg:                 var(--state-warning-bg);
 $state-warning-border:             var(--state-warning-border);
 $state-warning-icon:               var(--state-warning-icon);
+$state-warning-heading-bg:         var(--state-warning-heading-bg);
 
 $state-danger-text:                var(--state-danger-text);
 $state-danger-bg:                  var(--state-danger-bg);
 $state-danger-border:              var(--state-danger-border);
 $state-danger-icon:                var(--state-danger-icon);
+$state-danger-heading-bg:          var(--state-danger-heading-bg);
 
 $state-error-text:                 var(--state-error-text);
 $state-error-bg:                   var(--state-error-bg);
 $state-error-border:               var(--state-error-border);
-$state-error-icon:                 var(--state-icon-border);
+$state-error-icon:                 var(--state-error-icon);
+$state-error-heading-bg:           var(--state-error-heading-bg);
 
 $alert-border:                     var(--alert-border);
 $alert-info-color:                 var(--alert-info-color);
 $alert-info-bg:                    var(--alert-info-bg);
 $alert-info-border:                var(--alert-info-border);
-$alert-heading-bg:                 var(--alert-heading-bg);
 
 // Badges
 $badge-padding-x:                  .2rem;

@@ -134,29 +134,36 @@ $atum-colors-dark: (
   state-success-text:               var(--text-normal),
   state-success-bg:                 var(--success),
   state-success-border:             1px solid var(--successlight),
-  state-success-icon:               var(--successlight),
+  state-success-icon:               var(--text-normal),
+  state-success-heading-bg:         var(--successlight),
 
   state-info-text:                  var(--text-normal),
   state-info-bg:                    var(--template-bg-dark-70),
   state-info-border:                1px solid var(--template-bg-dark-60),
+  state-info-icon:                  var(--state-info-text),
+  state-info-heading-bg:            var(--state-info-bg),
 
   state-warning-text:               var(--text-normal),
   state-warning-bg:                 var(--warning),
   state-warning-border:             1px solid var(--warninglight),
+  state-warning-icon:               var(--text-normal),
+  state-warning-heading-bg:         var(--warninglight),
 
   state-danger-text:                var(--text-normal),
   state-danger-bg:                  var(--danger),
   state-danger-border:              1px solid var(--dangerlight),
+  state-danger-icon:                var(--text-normal),
+  state-danger-heading-bg:          var(--dangerlight),
 
   state-error-text:                 var(--text-normal),
   state-error-bg:                   var(--error),
   state-error-border:               1px solid var(--errorlight),
+  state-error-icon:                 var(--text-normal),
+  state-error-heading-bg:           var(--errorlight),
 
   alert-info-color:                 var(--text-normal),
   alert-info-bg:                    var(--admin-bg),
   alert-info-border:                1px solid hsl(var(--hue), 17%, 33.3%),
-
-  alert-heading-bg:                 var(--successlight),
 
 ) !default;
 
