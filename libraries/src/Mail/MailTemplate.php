@@ -326,7 +326,7 @@ class MailTemplate
     {
         foreach ($tags as $key => $value) {
             // If the value is NULL, replace with an empty string. NULL itself throws notices
-            if (is_null($value)) {
+            if (\is_null($value)) {
                 $value = '';
             }
 
