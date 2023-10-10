@@ -53,7 +53,7 @@ class ConsentsController extends FormController
             if (!$model->invalidate($ids)) {
                 $this->setMessage($model->getError());
             } else {
-                $this->setMessage(Text::plural('COM_PRIVACY_N_CONSENTS_INVALIDATED', count($ids)));
+                $this->setMessage(Text::plural('COM_PRIVACY_N_CONSENTS_INVALIDATED', \count($ids)));
             }
         }
 

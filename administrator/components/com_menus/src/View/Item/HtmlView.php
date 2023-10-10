@@ -99,7 +99,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -142,7 +142,7 @@ class HtmlView extends BaseHtmlView
 
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
         $canDo      = $this->canDo;
         $clientId   = $this->state->get('item.client_id', 0);
         $toolbar    = Toolbar::getInstance();
@@ -222,7 +222,7 @@ class HtmlView extends BaseHtmlView
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      *
      * @throws  \Exception
      */
@@ -230,7 +230,7 @@ class HtmlView extends BaseHtmlView
     {
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
         $canDo      = $this->canDo;
         $toolbar    = Toolbar::getInstance();
 

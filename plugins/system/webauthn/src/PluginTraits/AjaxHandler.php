@@ -60,6 +60,9 @@ trait AjaxHandler
         $returnURL = $this->getApplication()->getSession()->get('plg_system_webauthn.returnUrl', Uri::base());
         $result    = null;
 
+        // Load plugin language files
+        $this->loadLanguage();
+
         try {
             Log::add("Received AJAX callback.", Log::DEBUG, 'webauthn.system');
 

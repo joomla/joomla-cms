@@ -43,6 +43,11 @@ joomla-tab {
       border: 0;
       box-shadow: none;
 
+      &:first-of-type,
+      &[aria-expanded=true]:first-of-type {
+        border-start-start-radius: .25rem;
+      }
+
       &:focus-visible {
         z-index: 1;
       }
@@ -97,6 +102,15 @@ joomla-tab {
       .text-muted {
         color: var(--template-text-dark) !important;
       }
+      @if $enable-dark-mode {
+        @include color-mode(dark) {
+          /* stylelint-disable max-nesting-depth */
+          .text-muted {
+            /* stylelint-enable max-nesting-depth */
+            color: var(--template-text-light) !important;
+          }
+        }
+      }
     }
   }
 
@@ -106,7 +120,7 @@ joomla-tab {
     color: var(--template-text-light);
     text-align: start;
     background-color: var(--template-link-color);
-    border: 1px solid var(--template-text-light);
+    border: 1px solid var(--template-bg-dark-3);
     border-top: 0;
 
     &[aria-expanded=true],
@@ -118,6 +132,14 @@ joomla-tab {
 
     .text-muted {
       color: var(--template-text-light) !important;
+    }
+  }
+
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      > button[role=region] {
+        border-color: var(--template-bg-dark-70);
+      }
     }
   }
 
@@ -181,7 +203,6 @@ joomla-tab[orientation=vertical] {
       display: block;
       padding: .75em 1em;
       margin: -1px 0;
-      color: var(--template-special-color);
       text-decoration: none;
       border-top: 1px solid transparent;
       border-bottom: 1px solid $gray-300;
@@ -211,6 +232,15 @@ joomla-tab[orientation=vertical] {
       }
       .text-muted {
         color: var(--template-text-dark) !important;
+      }
+      @if $enable-dark-mode {
+        @include color-mode(dark) {
+          /* stylelint-disable max-nesting-depth */
+          .text-muted {
+            /* stylelint-enable max-nesting-depth */
+            color: var(--template-text-light) !important;
+          }
+        }
       }
     }
   }
@@ -274,7 +304,7 @@ joomla-tab[view=accordion] {
 
   [active],
   [aria-expanded=true] {
-    background-color: $white;
+    background-color: var(--body-bg);
   }
 
   .col-md-6,

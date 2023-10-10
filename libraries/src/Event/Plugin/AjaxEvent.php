@@ -55,7 +55,7 @@ class AjaxEvent extends AbstractImmutableEvent implements ResultAwareInterface
      *
      * @since  5.0.0
      */
-    protected function setSubject(AbstractApplication $value): AbstractApplication
+    protected function onSetSubject(AbstractApplication $value): AbstractApplication
     {
         return $value;
     }
@@ -86,7 +86,7 @@ class AjaxEvent extends AbstractImmutableEvent implements ResultAwareInterface
 
         if (\is_array($this->arguments['result'])) {
             $this->arguments['result'][] = $data;
-        } elseif (\is_scalar($this->arguments['result']) && \is_scalar($data)) {
+        } elseif (is_scalar($this->arguments['result']) && is_scalar($data)) {
             $this->arguments['result'] .= $data;
         } else {
             throw new \UnexpectedValueException('Mixed data in the result for the event ' . $this->getName());

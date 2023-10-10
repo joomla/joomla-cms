@@ -938,7 +938,7 @@ final class Testing extends CMSPlugin
             ],
             [
                 'catid'    => $catIdsLevel5[0],
-                'tags'     => array_map('strval', array_slice($tagIds, 0, 3)),
+                'tags'     => array_map('strval', \array_slice($tagIds, 0, 3)),
                 'ordering' => 0,
             ],
             [
@@ -1072,7 +1072,7 @@ final class Testing extends CMSPlugin
         // Categories A-Z.
         for ($i = 65; $i <= 90; $i++) {
             $categories[] = [
-                'title'     => chr($i),
+                'title'     => \chr($i),
                 'parent_id' => $catIdsLevel3[1],
             ];
         }
@@ -3472,10 +3472,12 @@ final class Testing extends CMSPlugin
                     'rssurl'      => 'https://community.joomla.org/blogs/community.feed?type=rss',
                     'rssrtl'      => 0,
                     'rsstitle'    => 1,
+                    'rssdate'     => 0,
                     'rssdesc'     => 1,
                     'rssimage'    => 1,
                     'rssitems'    => 3,
                     'rssitemdesc' => 1,
+                    'rssitemdate' => 0,
                     'word_count'  => 0,
                     'cache'       => 1,
                     'cache_time'  => 900,

@@ -330,7 +330,7 @@ class MailTemplate
                 $value = '';
             }
 
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 $matches = [];
                 $pregKey = preg_quote(strtoupper($key), '/');
 
@@ -339,11 +339,11 @@ class MailTemplate
                         $replacement = '';
 
                         foreach ($value as $name => $subvalue) {
-                            if (is_array($subvalue) && $name == $matches[1][$i]) {
+                            if (\is_array($subvalue) && $name == $matches[1][$i]) {
                                 $replacement .= implode("\n", $subvalue);
-                            } elseif (is_array($subvalue)) {
+                            } elseif (\is_array($subvalue)) {
                                 $replacement .= $this->replaceTags($matches[1][$i], $subvalue);
-                            } elseif (is_string($subvalue) && $name == $matches[1][$i]) {
+                            } elseif (\is_string($subvalue) && $name == $matches[1][$i]) {
                                 $replacement .= $subvalue;
                             }
                         }

@@ -87,7 +87,7 @@ class HtmlView extends BaseHtmlView
         $this->canDo = ContentHelper::getActions($component, 'fieldgroup', $this->item->id);
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -119,7 +119,7 @@ class HtmlView extends BaseHtmlView
         $canDo     = $this->canDo;
 
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
         // Avoid nonsense situation.
         if ($component == 'com_fields') {
@@ -140,8 +140,6 @@ class HtmlView extends BaseHtmlView
             ($isNew ? 'add' : 'edit')
         );
 
-        $toolbarButtons = [];
-
         // For new records, check the create permission.
         if ($isNew) {
             $toolbar->apply('group.apply');
@@ -154,7 +152,7 @@ class HtmlView extends BaseHtmlView
                 }
             );
 
-            $toolbar->cancel('group.cancel');
+            $toolbar->cancel('group.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);

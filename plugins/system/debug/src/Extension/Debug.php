@@ -131,7 +131,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
      * The time spent in onAfterDisconnect()
      *
      * @var   float
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      */
     protected $timeInOnAfterDisconnect = 0;
 
@@ -297,7 +297,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
             }
 
             if ($this->params->get('session', 1)) {
-                $this->debugBar->addCollector(new SessionCollector($this->params));
+                $this->debugBar->addCollector(new SessionCollector($this->params, true));
             }
 
             if ($this->params->get('profile', 1)) {
@@ -305,6 +305,9 @@ final class Debug extends CMSPlugin implements SubscriberInterface
             }
 
             if ($this->params->get('queries', 1)) {
+                // Remember session form token for possible future usage.
+                $formToken = Session::getFormToken();
+
                 // Close session to collect possible session-related queries.
                 $this->getApplication()->getSession()->close();
 
@@ -333,7 +336,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
 
         $debugBarRenderer = new JavascriptRenderer($this->debugBar, Uri::root(true) . '/media/vendor/debugbar/');
         $openHandlerUrl   = Uri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
-        $openHandlerUrl .= '&' . Session::getFormToken() . '=1';
+        $openHandlerUrl .= '&' . ($formToken ?? Session::getFormToken()) . '=1';
 
         $debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
 
@@ -477,7 +480,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
             }
         }
 
-        if ($this->params->get('query_explains') && in_array($db->getServerType(), ['mysql', 'postgresql'], true)) {
+        if ($this->params->get('query_explains') && \in_array($db->getServerType(), ['mysql', 'postgresql'], true)) {
             $logs        = $this->queryMonitor->getLogs();
             $boundParams = $this->queryMonitor->getBoundParams();
 
@@ -692,7 +695,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
             $metrics .= sprintf('%s;dur=%f;desc="%s", ', $index . $name, $mark->time, $desc);
 
             // Do not create too large headers, some web servers don't love them
-            if (strlen($metrics) > 3000) {
+            if (\strlen($metrics) > 3000) {
                 $metrics .= 'System;dur=0;desc="Data truncated to 3000 characters", ';
                 break;
             }

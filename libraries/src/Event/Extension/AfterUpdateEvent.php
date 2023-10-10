@@ -64,7 +64,7 @@ class AfterUpdateEvent extends AbstractExtensionEvent
      *
      * @since  5.0.0
      */
-    protected function setInstaller(Installer $value): Installer
+    protected function onSetInstaller(Installer $value): Installer
     {
         return $value;
     }
@@ -78,7 +78,7 @@ class AfterUpdateEvent extends AbstractExtensionEvent
      *
      * @since  5.0.0
      */
-    protected function setEid(int|bool $value): int|bool
+    protected function onSetEid(int|bool $value): int|bool
     {
         return $value;
     }

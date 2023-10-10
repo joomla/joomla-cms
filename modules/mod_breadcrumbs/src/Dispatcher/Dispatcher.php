@@ -39,7 +39,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
         $data = parent::getLayoutData();
 
         $data['list']  = $this->getHelperFactory()->getHelper('BreadcrumbsHelper')->getBreadcrumbs($data['params'], $data['app']);
-        $data['count'] = count($data['list']);
+        $data['count'] = \count($data['list']);
 
         if (!$data['params']->get('showHome', 1)) {
             $data['homeCrumb'] = $this->getHelperFactory()->getHelper('BreadcrumbsHelper')->getHomeItem($data['params'], $data['app']);

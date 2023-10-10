@@ -197,7 +197,9 @@ class ExtensionInstallCommand extends AbstractCommand
             $this->ioStyle->success('Extension installed successfully.');
 
             return self::INSTALLATION_SUCCESSFUL;
-        } elseif ($url = $this->cliInput->getOption('url')) {
+        }
+
+        if ($url = $this->cliInput->getOption('url')) {
             $result = $this->processUrlInstallation($url);
 
             if (!$result) {

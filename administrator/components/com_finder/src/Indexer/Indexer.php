@@ -400,7 +400,7 @@ class Indexer
                 }
 
                 // Tokenize the property.
-                if (is_array($item->$property)) {
+                if (\is_array($item->$property)) {
                     // Tokenize an array of content and add it to the database.
                     foreach ($item->$property as $ip) {
                         /*
@@ -823,7 +823,7 @@ class Indexer
         }
 
         // If the input is a resource, batch the process out.
-        if (is_resource($input)) {
+        if (\is_resource($input)) {
             // Batch the process out to avoid memory limits.
             while (!feof($input)) {
                 // Read into the buffer.
@@ -886,7 +886,7 @@ class Indexer
     {
         static $filterCommon, $filterNumeric;
 
-        if (is_null($filterCommon)) {
+        if (\is_null($filterCommon)) {
             $params        = ComponentHelper::getParams('com_finder');
             $filterCommon  = $params->get('filter_commonwords', false);
             $filterNumeric = $params->get('filter_numerics', false);
@@ -903,7 +903,7 @@ class Indexer
         // Tokenize the input.
         $tokens = Helper::tokenize($input, $lang);
 
-        if (count($tokens) == 0) {
+        if (\count($tokens) == 0) {
             return $count;
         }
 

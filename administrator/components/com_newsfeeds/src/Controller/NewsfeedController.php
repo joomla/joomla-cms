@@ -50,9 +50,9 @@ class NewsfeedController extends FormController
         if ($allow === null) {
             // In the absence of better information, revert to the component permissions.
             return parent::allowAdd($data);
-        } else {
-            return $allow;
         }
+
+        return $allow;
     }
 
     /**

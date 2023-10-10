@@ -147,7 +147,7 @@ class Toolbar
     {
         $toolbar = Factory::getApplication()->getDocument()->getToolbar($name);
 
-        // TODO b/c remove with Joomla 7.0 or removed in 6.0 with this function
+        // @todo b/c remove with Joomla 7.0 or removed in 6.0 with this function
         if (empty(self::$instances[$name])) {
             self::$instances[$name] = $toolbar;
         }
@@ -312,7 +312,7 @@ class Toolbar
             $html[] = $layout->render(['id' => $this->_name]);
         }
 
-        $len = count($this->_bar);
+        $len = \count($this->_bar);
 
         // Render each button in the toolbar.
         foreach ($this->_bar as $i => $button) {

@@ -26,14 +26,6 @@ use Joomla\Event\SubscriberInterface;
 final class Jooa11y extends CMSPlugin implements SubscriberInterface
 {
     /**
-     * Affects constructor behavior. If true, language files will be loaded automatically.
-     *
-     * @var    boolean
-     * @since  4.1.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Subscribe to certain events
      *
      * @return string[]  An array of event mappings
@@ -58,7 +50,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
     {
         static $result;
 
-        if (is_bool($result)) {
+        if (\is_bool($result)) {
             return $result;
         }
 
@@ -100,6 +92,9 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         if (!$showJooa11y || !$this->isAuthorisedDisplayChecker()) {
             return;
         }
+
+        // Load translations
+        $this->loadLanguage();
 
         // Get the document object.
         $document = $this->getApplication()->getDocument();

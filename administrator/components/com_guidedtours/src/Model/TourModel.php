@@ -200,7 +200,7 @@ class TourModel extends AdminModel
         $pk    = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
 
         $table = $this->getTable();
-        if (is_integer($pk)) {
+        if (\is_integer($pk)) {
             $result = $table->load((int) $pk);
         } else {
             // Attempt to load the row by uid.
@@ -299,11 +299,11 @@ class TourModel extends AdminModel
                         Log::add($error, Log::WARNING, 'jerror');
 
                         return false;
-                    } else {
-                        Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-
-                        return false;
                     }
+
+                    Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+
+                    return false;
                 }
             } else {
                 $this->setError($table->getError());

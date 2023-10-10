@@ -252,8 +252,8 @@ class ComponentlayoutField extends FormField
             );
 
             return implode($html);
-        } else {
-            return '';
         }
+
+        return '';
     }
 }

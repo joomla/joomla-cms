@@ -28,14 +28,6 @@ use Joomla\String\StringHelper;
 final class ContactCreator extends CMSPlugin
 {
     /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     * @since  3.1
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Utility method to act on a user after it has been saved.
      *
      * This method creates a contact for the saved user
@@ -68,6 +60,9 @@ final class ContactCreator extends CMSPlugin
         if (empty($user_id)) {
             return;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         $categoryId = $this->params->get('category', 0);
 

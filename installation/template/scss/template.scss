@@ -387,6 +387,14 @@ legend {
   color: $red;
 }
 
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .form-control-feedback {
+      color: #d55;
+    }
+  }
+}
+
 // Language Table
 caption {
   caption-side: top;
