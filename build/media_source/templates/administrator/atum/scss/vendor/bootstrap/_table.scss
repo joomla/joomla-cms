@@ -20,8 +20,8 @@
     }
 
     a {
-      color: $table-link-color;
       font-weight: $table-link-font-weight;
+      color: $table-link-color;
 
       &#sorted {
         font-weight: $table-link-font-weight-sorted; /* $medium-weight */
@@ -66,9 +66,9 @@
     }
 
     a:not(.badge):not(.btn):not(.dropdown-item) {
-      text-decoration: underline;
-      color: $table-link-color;
       font-weight: $table-link-font-weight;
+      color: $table-link-color;
+      text-decoration: underline;
     }
 
     .badge.bg-info {

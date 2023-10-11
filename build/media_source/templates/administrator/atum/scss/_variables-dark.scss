@@ -17,7 +17,7 @@ $atum-colors-dark: (
   dark-mode-text-light:            #f7f7f7,
   sidebar-bg:                      hsl(var(--hue), 37.8%, 8.63%),
   template-sidebar-bg:             hsl(var(--hue), 37.8%, 8.63%),
-  template-link-color:             #21C2F9,
+  template-link-color:             #21c2f9,
 
   // assuming hue 214
   body-bg:                         hsl(var(--hue), 17%, 13.3%),
@@ -103,7 +103,7 @@ $atum-colors-dark: (
 
   // table:
   table-border-top-nfc:            1px solid #969696,
-  table-link-color:                #21C2F9, /* hsl(214, 94.9%, 55.29%), */
+  table-link-color:                #21c2f9, /* hsl(214, 94.9%, 55.29%), */
   table-link-font-weight:          $normal-weight,
   table-link-font-weight-sorted:   $normal-weight,
   badge-bg-info:                   rgba(255,255,255,.2) !important,
