@@ -17,7 +17,7 @@ use Joomla\CMS\Form\Field\CheckboxesField;
  * This is a helper to allow to save an empty set of
  * options by having a hidden field with a "none" value.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class TaxonomytypesField extends CheckboxesField
 {
@@ -25,7 +25,7 @@ class TaxonomytypesField extends CheckboxesField
      * The form field type.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $type = 'TaxonomyTypes';
 
@@ -35,7 +35,7 @@ class TaxonomytypesField extends CheckboxesField
      *
      * @return  string  The field input markup.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getInput()
     {

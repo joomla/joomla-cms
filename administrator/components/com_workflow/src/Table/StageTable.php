@@ -13,9 +13,11 @@ namespace Joomla\Component\Workflow\Administrator\Table;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -38,13 +40,14 @@ class StageTable extends Table
     protected $_supportNullValue = true;
 
     /**
-     * @param   DatabaseDriver  $db  Database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since  4.0.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__workflow_stages', 'id', $db);
+        parent::__construct('#__workflow_stages', 'id', $db, $dispatcher);
     }
 
     /**
@@ -173,7 +176,7 @@ class StageTable extends Table
      */
     public function store($updateNulls = true)
     {
-        $table = new StageTable($this->getDbo());
+        $table = new StageTable($this->getDbo(), $this->getDispatcher());
 
         if ($this->default == '1') {
             // Verify that the default is unique for this workflow
@@ -222,7 +225,7 @@ class StageTable extends Table
     protected function _getAssetName()
     {
         $k        = $this->_tbl_key;
-        $workflow = new WorkflowTable($this->getDbo());
+        $workflow = new WorkflowTable($this->getDbo(), $this->getDispatcher());
         $workflow->load($this->workflow_id);
 
         $parts = explode('.', $workflow->extension);
@@ -256,9 +259,9 @@ class StageTable extends Table
      */
     protected function _getAssetParentId(Table $table = null, $id = null)
     {
-        $asset = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
+        $asset = new Asset($this->getDbo(), $this->getDispatcher());
 
-        $workflow = new WorkflowTable($this->getDbo());
+        $workflow = new WorkflowTable($this->getDbo(), $this->getDispatcher());
         $workflow->load($this->workflow_id);
 
         $parts = explode('.', $workflow->extension);

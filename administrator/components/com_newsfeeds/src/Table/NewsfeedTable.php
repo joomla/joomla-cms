@@ -21,6 +21,7 @@ use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -56,12 +57,15 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  A database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
+     *
+     * @since   1.6
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_newsfeeds.newsfeed';
-        parent::__construct('#__newsfeeds', 'id', $db);
+        parent::__construct('#__newsfeeds', 'id', $db, $dispatcher);
         $this->setColumnAlias('title', 'name');
     }
 
@@ -118,7 +122,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
             $this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
         }
 
-        if (is_null($this->hits)) {
+        if (!$this->hits) {
             $this->hits = 0;
         }
 
@@ -126,7 +130,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
     }
 
     /**
-     * Overridden \JTable::store to set modified data.
+     * Overridden \Joomla\CMS\Table\Table::store to set modified data.
      *
      * @param   boolean  $updateNulls  True to update fields even if they are null.
      *

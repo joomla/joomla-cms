@@ -12,10 +12,10 @@ namespace Joomla\CMS\Mail;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 
@@ -325,7 +325,7 @@ class MailTemplate
     protected function replaceTags($text, $tags)
     {
         foreach ($tags as $key => $value) {
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 $matches = [];
                 $pregKey = preg_quote(strtoupper($key), '/');
 
@@ -334,11 +334,11 @@ class MailTemplate
                         $replacement = '';
 
                         foreach ($value as $name => $subvalue) {
-                            if (is_array($subvalue) && $name == $matches[1][$i]) {
+                            if (\is_array($subvalue) && $name == $matches[1][$i]) {
                                 $replacement .= implode("\n", $subvalue);
-                            } elseif (is_array($subvalue)) {
+                            } elseif (\is_array($subvalue)) {
                                 $replacement .= $this->replaceTags($matches[1][$i], $subvalue);
-                            } elseif (is_string($subvalue) && $name == $matches[1][$i]) {
+                            } elseif (\is_string($subvalue) && $name == $matches[1][$i]) {
                                 $replacement .= $subvalue;
                             }
                         }

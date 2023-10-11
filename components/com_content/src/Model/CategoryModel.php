@@ -177,7 +177,7 @@ class CategoryModel extends ListModel
         // Filter.order
         $orderCol = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
 
-        if (!in_array($orderCol, $this->filter_fields)) {
+        if (!\in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'a.ordering';
         }
 
@@ -185,7 +185,7 @@ class CategoryModel extends ListModel
 
         $listOrder = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
 
-        if (!in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
+        if (!\in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
@@ -284,11 +284,11 @@ class CategoryModel extends ListModel
         $orderDirn = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
         $orderby   = ' ';
 
-        if (!in_array($orderCol, $this->filter_fields)) {
+        if (!\in_array($orderCol, $this->filter_fields)) {
             $orderCol = null;
         }
 
-        if (!in_array(strtoupper($orderDirn), ['ASC', 'DESC', ''])) {
+        if (!\in_array(strtoupper($orderDirn), ['ASC', 'DESC', ''])) {
             $orderDirn = 'ASC';
         }
 
@@ -332,7 +332,7 @@ class CategoryModel extends ListModel
      */
     public function getCategory()
     {
-        if (!is_object($this->_item)) {
+        if (!\is_object($this->_item)) {
             if (isset($this->state->params)) {
                 $params                = $this->state->params;
                 $options               = [];
@@ -346,7 +346,7 @@ class CategoryModel extends ListModel
             $this->_item = $categories->get($this->getState('category.id', 'root'));
 
             // Compute selected asset permissions.
-            if (is_object($this->_item)) {
+            if (\is_object($this->_item)) {
                 $user  = $this->getCurrentUser();
                 $asset = 'com_content.category.' . $this->_item->id;
 
@@ -383,7 +383,7 @@ class CategoryModel extends ListModel
      */
     public function getParent()
     {
-        if (!is_object($this->_item)) {
+        if (!\is_object($this->_item)) {
             $this->getCategory();
         }
 
@@ -399,7 +399,7 @@ class CategoryModel extends ListModel
      */
     public function &getLeftSibling()
     {
-        if (!is_object($this->_item)) {
+        if (!\is_object($this->_item)) {
             $this->getCategory();
         }
 
@@ -415,7 +415,7 @@ class CategoryModel extends ListModel
      */
     public function &getRightSibling()
     {
-        if (!is_object($this->_item)) {
+        if (!\is_object($this->_item)) {
             $this->getCategory();
         }
 
@@ -431,7 +431,7 @@ class CategoryModel extends ListModel
      */
     public function &getChildren()
     {
-        if (!is_object($this->_item)) {
+        if (!\is_object($this->_item)) {
             $this->getCategory();
         }
 
@@ -464,7 +464,7 @@ class CategoryModel extends ListModel
         if ($hitcount) {
             $pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
-            $table = Table::getInstance('Category', 'JTable');
+            $table = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
             $table->hit($pk);
         }
 

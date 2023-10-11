@@ -85,7 +85,7 @@ class FeedEntry
                 sprintf(
                     '%1$s "author" must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
                     \get_class($this),
-                    \gettype($value) === 'object' ? \get_class($value) : \gettype($value)
+                    \is_object($value) ? \get_class($value) : \gettype($value)
                 )
             );
         }
@@ -96,7 +96,7 @@ class FeedEntry
                 sprintf(
                     '%1$s "source" must be an instance of Joomla\\CMS\\Feed\\Feed. %2$s given.',
                     \get_class($this),
-                    \gettype($value) === 'object' ? \get_class($value) : \gettype($value)
+                    \is_object($value) ? \get_class($value) : \gettype($value)
                 )
             );
         }

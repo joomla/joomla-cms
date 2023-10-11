@@ -107,13 +107,13 @@ class MailModel extends AdminModel
         $db       = $this->getDatabase();
         $language = Factory::getLanguage();
 
-        $mode         = array_key_exists('mode', $data) ? (int) $data['mode'] : 0;
-        $subject      = array_key_exists('subject', $data) ? $data['subject'] : '';
-        $grp          = array_key_exists('group', $data) ? (int) $data['group'] : 0;
-        $recurse      = array_key_exists('recurse', $data) ? (int) $data['recurse'] : 0;
-        $bcc          = array_key_exists('bcc', $data) ? (int) $data['bcc'] : 0;
-        $disabled     = array_key_exists('disabled', $data) ? (int) $data['disabled'] : 0;
-        $message_body = array_key_exists('message', $data) ? $data['message'] : '';
+        $mode         = \array_key_exists('mode', $data) ? (int) $data['mode'] : 0;
+        $subject      = \array_key_exists('subject', $data) ? $data['subject'] : '';
+        $grp          = \array_key_exists('group', $data) ? (int) $data['group'] : 0;
+        $recurse      = \array_key_exists('recurse', $data) ? (int) $data['recurse'] : 0;
+        $bcc          = \array_key_exists('bcc', $data) ? (int) $data['bcc'] : 0;
+        $disabled     = \array_key_exists('disabled', $data) ? (int) $data['disabled'] : 0;
+        $message_body = \array_key_exists('message', $data) ? $data['message'] : '';
 
         // Automatically removes html formatting
         if (!$mode) {
@@ -164,7 +164,7 @@ class MailModel extends AdminModel
         if (!$rows) {
             $app->setUserState('com_users.display.mail.data', $data);
 
-            if (in_array($user->id, $to)) {
+            if (\in_array($user->id, $to)) {
                 $this->setError(Text::_('COM_USERS_MAIL_ONLY_YOU_COULD_BE_FOUND_IN_THIS_GROUP'));
             } else {
                 $this->setError(Text::_('COM_USERS_MAIL_NO_USERS_COULD_BE_FOUND_IN_THIS_GROUP'));
@@ -218,27 +218,29 @@ class MailModel extends AdminModel
             $this->setError($mailer->ErrorInfo);
 
             return false;
-        } elseif (empty($rs)) {
+        }
+
+        if (empty($rs)) {
             $app->setUserState('com_users.display.mail.data', $data);
             $this->setError(Text::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
 
             return false;
-        } else {
-            /**
-             * Fill the data (specially for the 'mode', 'group' and 'bcc': they could not exist in the array
-             * when the box is not checked and in this case, the default value would be used instead of the '0'
-             * one)
-             */
-            $data['mode']    = $mode;
-            $data['subject'] = $subject;
-            $data['group']   = $grp;
-            $data['recurse'] = $recurse;
-            $data['bcc']     = $bcc;
-            $data['message'] = $message_body;
-            $app->setUserState('com_users.display.mail.data', []);
-            $app->enqueueMessage(Text::plural('COM_USERS_MAIL_EMAIL_SENT_TO_N_USERS', count($rows)), 'message');
-
-            return true;
         }
+
+        /**
+         * Fill the data (specially for the 'mode', 'group' and 'bcc': they could not exist in the array
+         * when the box is not checked and in this case, the default value would be used instead of the '0'
+         * one)
+         */
+        $data['mode']    = $mode;
+        $data['subject'] = $subject;
+        $data['group']   = $grp;
+        $data['recurse'] = $recurse;
+        $data['bcc']     = $bcc;
+        $data['message'] = $message_body;
+        $app->setUserState('com_users.display.mail.data', []);
+        $app->enqueueMessage(Text::plural('COM_USERS_MAIL_EMAIL_SENT_TO_N_USERS', \count($rows)), 'message');
+
+        return true;
     }
 }

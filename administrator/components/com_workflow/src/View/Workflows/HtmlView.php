@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Workflow\Administrator\View\Workflows;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -112,7 +111,7 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters    = $this->get('ActiveFilters');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -141,7 +140,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         $canDo   = ContentHelper::getActions($this->extension, $this->section);
-        $user    = Factory::getApplication()->getIdentity();
+        $user    = $this->getCurrentUser();
         $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_WORKFLOW_WORKFLOWS_LIST'), 'file-alt contact');

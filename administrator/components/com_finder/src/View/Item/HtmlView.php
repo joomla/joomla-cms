@@ -12,12 +12,14 @@ namespace Joomla\Component\Finder\Administrator\View\Item;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * Index view class for Finder.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class HtmlView extends BaseHtmlView
 {
@@ -26,7 +28,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $item;
 
@@ -35,7 +37,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var  object[]
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $terms;
 
@@ -44,7 +46,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var  object[]
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $taxonomies;
 
@@ -55,7 +57,7 @@ class HtmlView extends BaseHtmlView
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function display($tpl = null)
     {
@@ -74,11 +76,17 @@ class HtmlView extends BaseHtmlView
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function addToolbar()
     {
+        /** @var Toolbar $toolbar */
+        $toolbar = $this->getDocument()->getToolbar();
+
         ToolbarHelper::title(Text::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'search-plus finder');
-        ToolbarHelper::back('JTOOLBAR_BACK', 'index.php?option=com_finder&view=index');
+
+        $toolbar->linkButton('back', 'JTOOLBAR_BACK')
+            ->icon('icon-arrow-' . ($this->getLanguage()->isRtl() ? 'right' : 'left'))
+            ->url(Route::_('index.php?option=com_finder&view=index'));
     }
 }

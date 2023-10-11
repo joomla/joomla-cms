@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -32,9 +32,8 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
                 $plugin     = new NamespaceMap(
-                    $dispatcher,
+                    $container->get(DispatcherInterface::class),
                     new JNamespacePsr4Map(),
                     (array) PluginHelper::getPlugin('extension', 'namespacemap')
                 );

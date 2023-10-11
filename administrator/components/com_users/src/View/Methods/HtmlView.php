@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
         $activeRecords = 0;
 
         foreach ($this->methods as $methodName => $method) {
-            $methodActiveRecords = count($method['active']);
+            $methodActiveRecords = \count($method['active']);
 
             if (!$methodActiveRecords) {
                 continue;
@@ -153,7 +153,7 @@ class HtmlView extends BaseHtmlView
 
         $backupCodesRecord = $model->getBackupCodesRecord($this->user);
 
-        if (!is_null($backupCodesRecord)) {
+        if (!\is_null($backupCodesRecord)) {
             $this->methods = array_merge(
                 [
                     'backupcodes' => new MethodDescriptor(
@@ -177,7 +177,7 @@ class HtmlView extends BaseHtmlView
         if ($this->isAdmin) {
             ToolbarHelper::title(Text::_('COM_USERS_MFA_LIST_PAGE_HEAD'), 'users user-lock');
 
-            if (Factory::getApplication()->getIdentity()->authorise('core.manage', 'com_users')) {
+            if ($this->getCurrentUser()->authorise('core.manage', 'com_users')) {
                 $toolbar = Toolbar::getInstance();
                 $arrow   = Factory::getApplication()->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
                 $toolbar->link('JTOOLBAR_BACK', 'index.php?option=com_users')

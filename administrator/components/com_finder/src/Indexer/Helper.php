@@ -10,8 +10,8 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Finder\PrepareContentEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -45,7 +45,7 @@ class Helper
      * @return  string  The parsed input.
      *
      * @since   2.5
-     * @throws  Exception on invalid parser.
+     * @throws  \Exception on invalid parser.
      */
     public static function parse($input, $format = 'html')
     {
@@ -75,7 +75,7 @@ class Helper
             $tuplecount = $params->get('tuplecount', 1);
         }
 
-        if (is_null($multilingual)) {
+        if (\is_null($multilingual)) {
             $multilingual = Multilanguage::isEnabled();
             $config       = ComponentHelper::getParams('com_finder');
 
@@ -119,12 +119,12 @@ class Helper
          * tokenize the individual terms and we do not create the two and three
          * term combinations. The phrase must contain more than one word!
          */
-        if ($phrase === true && count($terms) > 1) {
+        if ($phrase === true && \count($terms) > 1) {
             // Create tokens from the phrase.
             $tokens[] = new Token($terms, $language->language, $language->spacer);
         } else {
             // Create tokens from the terms.
-            for ($i = 0, $n = count($terms); $i < $n; $i++) {
+            for ($i = 0, $n = \count($terms); $i < $n; $i++) {
                 if (isset($cache[$lang][$terms[$i]])) {
                     $tokens[] = $cache[$lang][$terms[$i]];
                 } else {
@@ -136,7 +136,7 @@ class Helper
 
             // Create multi-word phrase tokens from the individual words.
             if ($tuplecount > 1) {
-                for ($i = 0, $n = count($tokens); $i < $n; $i++) {
+                for ($i = 0, $n = \count($tokens); $i < $n; $i++) {
                     $temp = [$tokens[$i]->term];
 
                     // Create tokens for 2 to $tuplecount length phrases
@@ -162,7 +162,7 @@ class Helper
         }
 
         // Prevent the cache to fill up the memory
-        while (count($cache[$lang]) > 1024) {
+        while (\count($cache[$lang]) > 1024) {
             /**
              * We want to cache the most common words/tokens. At the same time
              * we don't want to cache too much. The most common words will also
@@ -190,7 +190,7 @@ class Helper
         static $multilingual;
         static $defaultStemmer;
 
-        if (is_null($multilingual)) {
+        if (\is_null($multilingual)) {
             $multilingual = Multilanguage::isEnabled();
             $config       = ComponentHelper::getParams('com_finder');
 
@@ -221,7 +221,7 @@ class Helper
      * @return  integer  The id of the content type.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public static function addContentType($title, $mime = null)
     {
@@ -272,7 +272,7 @@ class Helper
     {
         static $data = [], $default, $multilingual;
 
-        if (is_null($multilingual)) {
+        if (\is_null($multilingual)) {
             $multilingual = Multilanguage::isEnabled();
             $config       = ComponentHelper::getParams('com_finder');
 
@@ -295,7 +295,7 @@ class Helper
         }
 
         // Check if the token is in the common array.
-        return in_array($token, $data[$lang], true);
+        return \in_array($token, $data[$lang], true);
     }
 
     /**
@@ -306,7 +306,7 @@ class Helper
      * @return  array  Array of common terms.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public static function getCommonWords($lang)
     {
@@ -358,7 +358,7 @@ class Helper
 
         // Only parse the identifier if necessary.
         if (!isset($data[$lang])) {
-            if (is_callable(['Locale', 'getPrimaryLanguage'])) {
+            if (\is_callable(['Locale', 'getPrimaryLanguage'])) {
                 // Get the language key using the Locale package.
                 $data[$lang] = \Locale::getPrimaryLanguage($lang);
             } else {
@@ -379,14 +379,18 @@ class Helper
      * @return  boolean  True on success, false on failure.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public static function getContentExtras(Result $item)
     {
-        // Load the finder plugin group.
-        PluginHelper::importPlugin('finder');
+        $dispatcher = Factory::getApplication()->getDispatcher();
 
-        Factory::getApplication()->triggerEvent('onPrepareFinderContent', [&$item]);
+        // Load the finder plugin group.
+        PluginHelper::importPlugin('finder', null, true, $dispatcher);
+
+        $dispatcher->dispatch('onPrepareFinderContent', new PrepareContentEvent('onPrepareFinderContent', [
+            'subject' => $item,
+        ]));
 
         return true;
     }
@@ -399,7 +403,7 @@ class Helper
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public static function addCustomFields(Result $item, $context)
     {

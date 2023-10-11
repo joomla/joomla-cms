@@ -58,7 +58,7 @@ class MenuTable extends Menu
      *
      * @return  boolean  True on success, false on failure
      *
-     * @see     JTable::check
+     * @see     \Joomla\CMS\Table\Table::check
      * @since   4.0.0
      */
     public function check()
@@ -77,7 +77,7 @@ class MenuTable extends Menu
             }
 
             // Check the publish down date is not earlier than publish up.
-            if (!is_null($this->publish_down) && !is_null($this->publish_up) && $this->publish_down < $this->publish_up) {
+            if (!\is_null($this->publish_down) && !\is_null($this->publish_up) && $this->publish_down < $this->publish_up) {
                 $this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 
                 return false;

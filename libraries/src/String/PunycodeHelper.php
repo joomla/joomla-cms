@@ -195,6 +195,11 @@ abstract class PunycodeHelper
      */
     public static function emailToPunycode($email)
     {
+        if ($email === null) {
+            @trigger_error(sprintf('Passing null value is deprecated in %s and will throw an exception in 6.0.', __METHOD__), E_USER_DEPRECATED);
+            return '';
+        }
+
         $explodedAddress = explode('@', $email);
 
         // Not addressing UTF-8 user names
@@ -210,7 +215,7 @@ abstract class PunycodeHelper
             }
 
             $newdomain = substr($newdomain, 0, -1);
-            $newEmail  = $newEmail . '@' . $newdomain;
+            $newEmail .= '@' . $newdomain;
         }
 
         return $newEmail;
@@ -243,7 +248,7 @@ abstract class PunycodeHelper
             }
 
             $newdomain = substr($newdomain, 0, -1);
-            $newEmail  = $newEmail . '@' . $newdomain;
+            $newEmail .= '@' . $newdomain;
         }
 
         return $newEmail;

@@ -187,17 +187,17 @@ class LanguagesModel extends ListModel
 
                 if (strtolower($that->getState('list.direction')) === 'asc') {
                     return StringHelper::strcmp($a->$ordering, $b->$ordering);
-                } else {
-                    return StringHelper::strcmp($b->$ordering, $a->$ordering);
                 }
+
+                return StringHelper::strcmp($b->$ordering, $a->$ordering);
             }
         );
 
         // Count the non-paginated list
-        $this->languageCount = count($languages);
+        $this->languageCount = \count($languages);
         $limit               = ($this->getState('list.limit') > 0) ? $this->getState('list.limit') : $this->languageCount;
 
-        return array_slice($languages, $this->getStart(), $limit);
+        return \array_slice($languages, $this->getStart(), $limit);
     }
 
     /**

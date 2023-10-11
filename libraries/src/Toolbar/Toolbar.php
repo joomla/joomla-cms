@@ -77,6 +77,10 @@ class Toolbar
      *
      * @var    Toolbar[]
      * @since  2.5
+     *
+     * @deprecated  5.0 will be removed in 7.0
+     *              Toolbars instances will be stored in the \Joomla\CMS\Document\HTMLDocument object
+     *              Request the instance from Factory::getApplication()->getDocument()->getToolbar('name');
      */
     protected static $instances = [];
 
@@ -141,11 +145,14 @@ class Toolbar
      */
     public static function getInstance($name = 'toolbar')
     {
+        $toolbar = Factory::getApplication()->getDocument()->getToolbar($name);
+
+        // @todo b/c remove with Joomla 7.0 or removed in 6.0 with this function
         if (empty(self::$instances[$name])) {
-            self::$instances[$name] = Factory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar($name);
+            self::$instances[$name] = $toolbar;
         }
 
-        return self::$instances[$name];
+        return $toolbar;
     }
 
     /**
@@ -191,7 +198,7 @@ class Toolbar
 
         @trigger_error(
             sprintf(
-                '%s::appendButton() should only accept %s instance in Joomla 5.0.',
+                '%s::appendButton() should only accept %s instance in Joomla 6.0.',
                 static::class,
                 ToolbarButton::class
             ),
@@ -268,7 +275,7 @@ class Toolbar
 
         @trigger_error(
             sprintf(
-                '%s::prependButton() should only accept %s instance in Joomla 5.0.',
+                '%s::prependButton() should only accept %s instance in Joomla 6.0.',
                 static::class,
                 ToolbarButton::class
             ),
@@ -290,6 +297,10 @@ class Toolbar
      */
     public function render(array $options = [])
     {
+        if (!$this->_bar) {
+            return '';
+        }
+
         $html = [];
 
         $isChild = !empty($options['is_child']);
@@ -301,7 +312,7 @@ class Toolbar
             $html[] = $layout->render(['id' => $this->_name]);
         }
 
-        $len = count($this->_bar);
+        $len = \count($this->_bar);
 
         // Render each button in the toolbar.
         foreach ($this->_bar as $i => $button) {
@@ -398,7 +409,7 @@ class Toolbar
     {
         @trigger_error(
             sprintf(
-                'Registering lookup paths for toolbar buttons is deprecated and will be removed in Joomla 5.0.'
+                'Registering lookup paths for toolbar buttons is deprecated and will be removed in Joomla 6.0.'
                     . ' %1$s objects should be autoloaded or a custom %2$s implementation supporting path lookups provided.',
                 ToolbarButton::class,
                 ToolbarFactoryInterface::class
@@ -435,7 +446,7 @@ class Toolbar
     {
         @trigger_error(
             sprintf(
-                'Lookup paths for %s objects is deprecated and will be removed in Joomla 5.0.',
+                'Lookup paths for %s objects is deprecated and will be removed in Joomla 6.0.',
                 ToolbarButton::class
             ),
             E_USER_DEPRECATED

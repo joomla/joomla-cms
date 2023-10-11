@@ -287,7 +287,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 
         // If there is still no key in the options throw an error
         if (empty($key)) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         /**
@@ -307,7 +307,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
         $isValid = $totp->checkCode($key, $code);
 
         if (!$isValid) {
-            throw new RuntimeException(Text::_('PLG_MULTIFACTORAUTH_TOTP_ERR_VALIDATIONFAILED'), 500);
+            throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_TOTP_ERR_VALIDATIONFAILED'), 500);
         }
 
         // The code is valid. Unset the key from the session.

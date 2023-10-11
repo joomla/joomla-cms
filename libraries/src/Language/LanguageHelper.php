@@ -14,6 +14,7 @@ use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Log\Log;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -85,7 +86,9 @@ class LanguageHelper
                     if (\strlen($Jinstall_lang) < 6) {
                         if (strtolower($browserLang) == strtolower(substr($systemLang->lang_code, 0, \strlen($browserLang)))) {
                             return $systemLang->lang_code;
-                        } elseif ($primary_browserLang == substr($systemLang->lang_code, 0, 2)) {
+                        }
+
+                        if ($primary_browserLang == substr($systemLang->lang_code, 0, 2)) {
                             $primaryDetectedLang = $systemLang->lang_code;
                         }
                     }
@@ -111,7 +114,7 @@ class LanguageHelper
     {
         static $languages = [];
 
-        if (!count($languages)) {
+        if (!\count($languages)) {
             // Installation uses available languages
             if (Factory::getApplication()->isClient('installation')) {
                 $languages[$key] = [];
@@ -161,12 +164,13 @@ class LanguageHelper
     /**
      * Get a list of installed languages.
      *
-     * @param   integer  $clientId         The client app id.
-     * @param   boolean  $processMetaData  Fetch Language metadata.
-     * @param   boolean  $processManifest  Fetch Language manifest.
-     * @param   string   $pivot            The pivot of the returning array.
-     * @param   string   $orderField       Field to order the results.
-     * @param   string   $orderDirection   Direction to order the results.
+     * @param   integer            $clientId         The client app id.
+     * @param   boolean            $processMetaData  Fetch Language metadata.
+     * @param   boolean            $processManifest  Fetch Language manifest.
+     * @param   string             $pivot            The pivot of the returning array.
+     * @param   string             $orderField       Field to order the results.
+     * @param   string             $orderDirection   Direction to order the results.
+     * @param   DatabaseInterface  $db               Database object to use database queries
      *
      * @return  array  Array with the installed languages.
      *
@@ -178,7 +182,8 @@ class LanguageHelper
         $processManifest = false,
         $pivot = 'element',
         $orderField = null,
-        $orderDirection = null
+        $orderDirection = null,
+        DatabaseInterface $db = null
     ) {
         static $installedLanguages = null;
 
@@ -190,7 +195,7 @@ class LanguageHelper
             if ($cache->contains('installedlanguages')) {
                 $installedLanguages = $cache->get('installedlanguages');
             } else {
-                $db = Factory::getDbo();
+                $db = $db ?? Factory::getContainer()->get(DatabaseInterface::class);
 
                 $query = $db->getQuery(true)
                     ->select(
@@ -396,6 +401,7 @@ class LanguageHelper
      * @return  array  The strings parsed.
      *
      * @since   3.9.0
+     * @throws  \RuntimeException On debug
      */
     public static function parseIniFile($fileName, $debug = false)
     {
@@ -404,30 +410,31 @@ class LanguageHelper
             return [];
         }
 
-        // Capture hidden PHP errors from the parsing.
-        if ($debug === true) {
-            // See https://www.php.net/manual/en/reserved.variables.phperrormsg.php
-            $php_errormsg = null;
-
-            $trackErrors = ini_get('track_errors');
-            ini_set('track_errors', true);
-        }
-
         // This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
         // issue it is solving
         $disabledFunctions      = explode(',', ini_get('disable_functions'));
         $isParseIniFileDisabled = \in_array('parse_ini_file', array_map('trim', $disabledFunctions));
 
-        if (!\function_exists('parse_ini_file') || $isParseIniFileDisabled) {
-            $contents = file_get_contents($fileName);
-            $strings  = @parse_ini_string($contents);
-        } else {
-            $strings = @parse_ini_file($fileName);
-        }
+        // Capture hidden PHP errors from the parsing.
+        set_error_handler(static function ($errno, $err) {
+            throw new \Exception($err);
+        }, \E_WARNING);
 
-        // Restore error tracking to what it was before.
-        if ($debug === true) {
-            ini_set('track_errors', $trackErrors);
+        try {
+            if (!\function_exists('parse_ini_file') || $isParseIniFileDisabled) {
+                $contents = file_get_contents($fileName);
+                $strings  = parse_ini_string($contents);
+            } else {
+                $strings = parse_ini_file($fileName);
+            }
+        } catch (\Exception $e) {
+            if ($debug) {
+                throw new \RuntimeException($e->getMessage());
+            }
+
+            return [];
+        } finally {
+            restore_error_handler();
         }
 
         return \is_array($strings) ? $strings : [];

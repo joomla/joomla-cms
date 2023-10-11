@@ -99,13 +99,13 @@ class HtmlView extends BaseHtmlView
         $pagination->hideEmptyLimitstart = true;
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Prepare the data.
         // Compute the contact slug.
-        for ($i = 0, $n = count($items); $i < $n; $i++) {
+        for ($i = 0, $n = \count($items); $i < $n; $i++) {
             $item         = &$items[$i];
             $item->slug   = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
             $temp         = $item->params;
@@ -163,11 +163,11 @@ class HtmlView extends BaseHtmlView
         $this->setDocumentTitle($this->params->get('page_title', ''));
 
         if ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
     }
 }

@@ -145,7 +145,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -184,11 +184,12 @@ class HtmlView extends BaseHtmlView
             $childBar = $dropdown->getChildToolbar();
 
             $childBar->popupButton('index', 'COM_FINDER_INDEX')
+                ->popupType('iframe')
+                ->textHeader(Text::_('COM_FINDER_HEADING_INDEXER'))
                 ->url('index.php?option=com_finder&view=indexer&tmpl=component')
+                ->modalWidth('800px')
+                ->modalHeight('400px')
                 ->icon('icon-archive')
-                ->iframeWidth(500)
-                ->iframeHeight(210)
-                ->onclose('window.parent.location.reload()')
                 ->title(Text::_('COM_FINDER_HEADING_INDEXER'));
 
             $childBar->linkButton('indexdebug', 'COM_FINDER_INDEX_TOOLBAR_INDEX_DEBUGGING')
@@ -196,13 +197,15 @@ class HtmlView extends BaseHtmlView
                 ->icon('icon-tools');
         } else {
             $toolbar->popupButton('index', 'COM_FINDER_INDEX')
+                ->popupType('iframe')
+                ->textHeader(Text::_('COM_FINDER_HEADING_INDEXER'))
                 ->url('index.php?option=com_finder&view=indexer&tmpl=component')
+                ->modalWidth('800px')
+                ->modalHeight('400px')
                 ->icon('icon-archive')
-                ->iframeWidth(500)
-                ->iframeHeight(210)
-                ->onclose('window.parent.location.reload()')
                 ->title(Text::_('COM_FINDER_HEADING_INDEXER'));
         }
+
 
         if (!$this->isEmptyState) {
             if ($canDo->get('core.edit.state')) {
@@ -220,7 +223,7 @@ class HtmlView extends BaseHtmlView
             }
 
             if ($canDo->get('core.delete')) {
-                $toolbar->confirmButton('', 'JTOOLBAR_DELETE', 'index.delete')
+                $toolbar->confirmButton('delete', 'JTOOLBAR_DELETE', 'index.delete')
                     ->message('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT')
                     ->icon('icon-delete')
                     ->listCheck(true);
@@ -236,16 +239,18 @@ class HtmlView extends BaseHtmlView
 
                 $childBar = $dropdown->getChildToolbar();
 
-                $childBar->standardButton('cog', 'COM_FINDER_INDEX_TOOLBAR_OPTIMISE', 'index.optimise', false);
+                $childBar->standardButton('cog', 'COM_FINDER_INDEX_TOOLBAR_OPTIMISE', 'index.optimise');
                 $childBar->confirmButton('index-purge', 'COM_FINDER_INDEX_TOOLBAR_PURGE', 'index.purge')
                     ->message('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT')
                     ->icon('icon-trash');
             }
 
-            $toolbar->popupButton('bars', 'COM_FINDER_STATISTICS')
+            $toolbar->popupButton('statistics', 'COM_FINDER_STATISTICS')
+                ->popupType('iframe')
+                ->textHeader(Text::_('COM_FINDER_STATISTICS_TITLE'))
                 ->url('index.php?option=com_finder&view=statistics&tmpl=component')
-                ->iframeWidth(550)
-                ->iframeHeight(350)
+                ->modalWidth('800px')
+                ->modalHeight('500px')
                 ->title(Text::_('COM_FINDER_STATISTICS_TITLE'))
                 ->icon('icon-bars');
         }

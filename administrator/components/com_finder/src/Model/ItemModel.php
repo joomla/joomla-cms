@@ -17,7 +17,7 @@ use Joomla\Database\ParameterType;
 /**
  * Index Item model class for Finder.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class ItemModel extends BaseDatabaseModel
 {
@@ -26,12 +26,12 @@ class ItemModel extends BaseDatabaseModel
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function populateState()
     {
         // Get the pk of the record from the request.
-        $pk = Factory::getApplication()->input->getInt('id');
+        $pk = Factory::getApplication()->getInput()->getInt('id');
         $this->setState('item.link_id', $pk);
     }
 
@@ -40,7 +40,7 @@ class ItemModel extends BaseDatabaseModel
      *
      * @return  object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getItem()
     {
@@ -62,7 +62,7 @@ class ItemModel extends BaseDatabaseModel
      *
      * @return  object[]
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getTerms()
     {
@@ -86,7 +86,7 @@ class ItemModel extends BaseDatabaseModel
      *
      * @return  \stdClass[]
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getTaxonomies()
     {

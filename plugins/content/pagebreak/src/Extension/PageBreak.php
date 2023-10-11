@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Content\PageBreak\Extension;
 
-use Exception;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Pagination\Pagination;
@@ -19,7 +18,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Utility\Utility;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\String\StringHelper;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -93,7 +91,7 @@ final class PageBreak extends CMSPlugin
         // Simple performance check to determine whether bot should process further.
         if (StringHelper::strpos($row->text, 'class="system-pagebreak') === false) {
             if ($page > 0) {
-                throw new Exception($this->getApplication()->getLanguage()->_('JERROR_PAGE_NOT_FOUND'), 404);
+                throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_PAGE_NOT_FOUND'), 404);
             }
 
             return;
@@ -139,11 +137,11 @@ final class PageBreak extends CMSPlugin
         $text = preg_split($regex, $row->text);
 
         if (!isset($text[$page])) {
-            throw new Exception($this->getApplication()->getLanguage()->_('JERROR_PAGE_NOT_FOUND'), 404);
+            throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_PAGE_NOT_FOUND'), 404);
         }
 
         // Count the number of pages.
-        $n = count($text);
+        $n = \count($text);
 
         // We have found at least one plugin, therefore at least 2 pages.
         if ($n > 1) {
@@ -278,7 +276,7 @@ final class PageBreak extends CMSPlugin
         }
 
         // TOC first Page link.
-        $this->list[1]         = new stdClass();
+        $this->list[1]         = new \stdClass();
         $this->list[1]->link   = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language);
         $this->list[1]->title  = $heading;
         $this->list[1]->active = ($limitstart === 0 && $showall === 0);
@@ -300,7 +298,7 @@ final class PageBreak extends CMSPlugin
                 $title = Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
             }
 
-            $this->list[$i]         = new stdClass();
+            $this->list[$i]         = new \stdClass();
             $this->list[$i]->link   = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($i - 1);
             $this->list[$i]->title  = $title;
             $this->list[$i]->active = ($limitstart === $i - 1);
@@ -309,7 +307,7 @@ final class PageBreak extends CMSPlugin
         }
 
         if ($this->params->get('showall')) {
-            $this->list[$i]         = new stdClass();
+            $this->list[$i]         = new \stdClass();
             $this->list[$i]->link   = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1';
             $this->list[$i]->title  = $this->getApplication()->getLanguage()->_('PLG_CONTENT_PAGEBREAK_ALL_PAGES');
             $this->list[$i]->active = ($limitstart === $i - 1);

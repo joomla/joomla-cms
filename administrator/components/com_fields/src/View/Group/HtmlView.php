@@ -11,7 +11,6 @@
 namespace Joomla\Component\Fields\Administrator\View\Group;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -20,6 +19,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -47,7 +47,7 @@ class HtmlView extends BaseHtmlView
     protected $item;
 
     /**
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  3.7.0
      */
@@ -56,7 +56,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  3.7.0
      */
@@ -87,7 +87,7 @@ class HtmlView extends BaseHtmlView
         $this->canDo = ContentHelper::getActions($component, 'fieldgroup', $this->item->id);
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -119,7 +119,7 @@ class HtmlView extends BaseHtmlView
         $canDo     = $this->canDo;
 
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
         // Avoid nonsense situation.
         if ($component == 'com_fields') {
@@ -127,7 +127,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Load component language file
-        $lang = Factory::getLanguage();
+        $lang = $this->getLanguage();
         $lang->load($component, JPATH_ADMINISTRATOR)
         || $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
@@ -139,8 +139,6 @@ class HtmlView extends BaseHtmlView
             'puzzle-piece field-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . '-group-' .
             ($isNew ? 'add' : 'edit')
         );
-
-        $toolbarButtons = [];
 
         // For new records, check the create permission.
         if ($isNew) {
@@ -154,7 +152,7 @@ class HtmlView extends BaseHtmlView
                 }
             );
 
-            $toolbar->cancel('group.cancel');
+            $toolbar->cancel('group.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);

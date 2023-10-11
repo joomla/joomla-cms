@@ -10,7 +10,7 @@
 namespace Joomla\CMS\MVC\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\Model\BeforeBatchEvent;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Associations;
@@ -159,7 +159,7 @@ abstract class AdminModel extends FormModel
     protected $user = null;
 
     /**
-     * A JTable instance (of appropriate type) to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
+     * A \Joomla\CMS\Table\Table instance (of appropriate type) to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
      *
      * @var     Table
      * @since   3.8.2
@@ -167,7 +167,7 @@ abstract class AdminModel extends FormModel
     protected $table = null;
 
     /**
-     * The class name of the JTable instance managing the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
+     * The class name of the \Joomla\CMS\Table\Table instance managing the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
      *
      * @var     string
      * @since   3.8.2
@@ -361,17 +361,19 @@ abstract class AdminModel extends FormModel
         // Initialize re-usable member properties, and re-usable local variables
         $this->initBatch();
 
+        $dispatcher = $this->getDispatcher();
+
         foreach ($pks as $pk) {
             if ($this->user->authorise('core.edit', $contexts[$pk])) {
                 $this->table->reset();
                 $this->table->load($pk);
                 $this->table->access = (int) $value;
 
-                $event = new BeforeBatchEvent(
+                $event = new Model\BeforeBatchEvent(
                     $this->event_before_batch,
                     ['src' => $this->table, 'type' => 'access']
                 );
-                $this->dispatchEvent($event);
+                $dispatcher->dispatch($event->getName(), $event);
 
                 // Check the row.
                 if (!$this->table->check()) {
@@ -420,8 +422,9 @@ abstract class AdminModel extends FormModel
             return false;
         }
 
-        $newIds = [];
-        $db     = $this->getDatabase();
+        $newIds     = [];
+        $db         = $this->getDatabase();
+        $dispatcher = $this->getDispatcher();
 
         // Parent exists so let's proceed
         while (!empty($pks)) {
@@ -437,11 +440,11 @@ abstract class AdminModel extends FormModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Not fatal error
-                    $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-                    continue;
                 }
+
+                // Not fatal error
+                $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
             }
 
             // Check for asset_id
@@ -470,11 +473,11 @@ abstract class AdminModel extends FormModel
             // New category ID
             $this->table->catid = $categoryId;
 
-            $event = new BeforeBatchEvent(
+            $event = new Model\BeforeBatchEvent(
                 $this->event_before_batch,
                 ['src' => $this->table, 'type' => 'copy']
             );
-            $this->dispatchEvent($event);
+            $dispatcher->dispatch($event->getName(), $event);
 
             // @todo: Deal with ordering?
             // $this->table->ordering = 1;
@@ -565,17 +568,19 @@ abstract class AdminModel extends FormModel
         // Initialize re-usable member properties, and re-usable local variables
         $this->initBatch();
 
+        $dispatcher = $this->getDispatcher();
+
         foreach ($pks as $pk) {
             if ($this->user->authorise('core.edit', $contexts[$pk])) {
                 $this->table->reset();
                 $this->table->load($pk);
                 $this->table->language = $value;
 
-                $event = new BeforeBatchEvent(
+                $event = new Model\BeforeBatchEvent(
                     $this->event_before_batch,
                     ['src' => $this->table, 'type' => 'language']
                 );
-                $this->dispatchEvent($event);
+                $dispatcher->dispatch($event->getName(), $event);
 
                 // Check the row.
                 if (!$this->table->check()) {
@@ -624,6 +629,8 @@ abstract class AdminModel extends FormModel
             return false;
         }
 
+        $dispatcher = $this->getDispatcher();
+
         // Parent exists so we proceed
         foreach ($pks as $pk) {
             if (!$this->user->authorise('core.edit', $contexts[$pk])) {
@@ -639,21 +646,21 @@ abstract class AdminModel extends FormModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Not fatal error
-                    $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-                    continue;
                 }
+
+                // Not fatal error
+                $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
             }
 
             // Set the new category ID
             $this->table->catid = $categoryId;
 
-            $event = new BeforeBatchEvent(
+            $event = new Model\BeforeBatchEvent(
                 $this->event_before_batch,
                 ['src' => $this->table, 'type' => 'move']
             );
-            $this->dispatchEvent($event);
+            $dispatcher->dispatch($event->getName(), $event);
 
             // Check the row.
             if (!$this->table->check()) {
@@ -823,11 +830,12 @@ abstract class AdminModel extends FormModel
      */
     public function delete(&$pks)
     {
-        $pks   = ArrayHelper::toInteger((array) $pks);
-        $table = $this->getTable();
+        $pks        = ArrayHelper::toInteger((array) $pks);
+        $table      = $this->getTable();
+        $dispatcher = $this->getDispatcher();
 
         // Include the plugins for the delete events.
-        PluginHelper::importPlugin($this->events_map['delete']);
+        PluginHelper::importPlugin($this->events_map['delete'], null, true, $dispatcher);
 
         // Iterate the items to delete each one.
         foreach ($pks as $i => $pk) {
@@ -836,7 +844,11 @@ abstract class AdminModel extends FormModel
                     $context = $this->option . '.' . $this->name;
 
                     // Trigger the before delete event.
-                    $result = Factory::getApplication()->triggerEvent($this->event_before_delete, [$context, $table]);
+                    $beforeDeleteEvent = new Model\BeforeDeleteEvent($this->event_before_delete, [
+                        'context' => $context,
+                        'subject' => $table,
+                    ]);
+                    $result = $dispatcher->dispatch($this->event_before_delete, $beforeDeleteEvent)->getArgument('result', []);
 
                     if (\in_array(false, $result, true)) {
                         $this->setError($table->getError());
@@ -898,7 +910,10 @@ abstract class AdminModel extends FormModel
                     }
 
                     // Trigger the after event.
-                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$context, $table]);
+                    $dispatcher->dispatch($this->event_after_delete, new Model\AfterDeleteEvent($this->event_after_delete, [
+                        'context' => $context,
+                        'subject' => $table,
+                    ]));
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
@@ -908,11 +923,11 @@ abstract class AdminModel extends FormModel
                         Log::add($error, Log::WARNING, 'jerror');
 
                         return false;
-                    } else {
-                        Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-
-                        return false;
                     }
+
+                    Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+
+                    return false;
                 }
             } else {
                 $this->setError($table->getError());
@@ -1065,10 +1080,11 @@ abstract class AdminModel extends FormModel
         $table = $this->getTable();
         $pks   = (array) $pks;
 
-        $context = $this->option . '.' . $this->name;
+        $context    = $this->option . '.' . $this->name;
+        $dispatcher = $this->getDispatcher();
 
         // Include the plugins for the change of state event.
-        PluginHelper::importPlugin($this->events_map['change_state']);
+        PluginHelper::importPlugin($this->events_map['change_state'], null, true, $dispatcher);
 
         // Access checks.
         foreach ($pks as $i => $pk) {
@@ -1112,7 +1128,12 @@ abstract class AdminModel extends FormModel
         }
 
         // Trigger the before change state event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_change_state, [$context, $pks, $value]);
+        $beforeChngEvent = new Model\BeforeChangeStateEvent($this->event_before_change_state, [
+            'context' => $context,
+            'subject' => $pks,
+            'value'   => $value,
+        ]);
+        $result = $dispatcher->dispatch($this->event_before_change_state, $beforeChngEvent)->getArgument('result', []);
 
         if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
@@ -1128,7 +1149,12 @@ abstract class AdminModel extends FormModel
         }
 
         // Trigger the change state event.
-        $result = Factory::getApplication()->triggerEvent($this->event_change_state, [$context, $pks, $value]);
+        $afterChngEvent = new Model\AfterChangeStateEvent($this->event_change_state, [
+            'context' => $context,
+            'subject' => $pks,
+            'value'   => $value,
+        ]);
+        $result = $dispatcher->dispatch($this->event_change_state, $afterChngEvent)->getArgument('result', []);
 
         if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
@@ -1219,6 +1245,7 @@ abstract class AdminModel extends FormModel
         $table      = $this->getTable();
         $context    = $this->option . '.' . $this->name;
         $app        = Factory::getApplication();
+        $dispatcher = $this->getDispatcher();
 
         if (\array_key_exists('tags', $data) && \is_array($data['tags'])) {
             $table->newTags = $data['tags'];
@@ -1229,7 +1256,7 @@ abstract class AdminModel extends FormModel
         $isNew = true;
 
         // Include the plugins for the save events.
-        PluginHelper::importPlugin($this->events_map['save']);
+        PluginHelper::importPlugin($this->events_map['save'], null, true, $dispatcher);
 
         // Allow an exception to be thrown.
         try {
@@ -1257,7 +1284,13 @@ abstract class AdminModel extends FormModel
             }
 
             // Trigger the before save event.
-            $result = $app->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
+            $beforeSaveEvent = new Model\BeforeSaveEvent($this->event_before_save, [
+                'context' => $context,
+                'subject' => $table,
+                'isNew'   => $isNew,
+                'data'    => $data,
+            ]);
+            $result = $dispatcher->dispatch($this->event_before_save, $beforeSaveEvent)->getArgument('result', []);
 
             if (\in_array(false, $result, true)) {
                 $this->setError($table->getError());
@@ -1276,7 +1309,12 @@ abstract class AdminModel extends FormModel
             $this->cleanCache();
 
             // Trigger the after save event.
-            $app->triggerEvent($this->event_after_save, [$context, $table, $isNew, $data]);
+            $dispatcher->dispatch($this->event_after_save, new Model\AfterSaveEvent($this->event_after_save, [
+                'context' => $context,
+                'subject' => $table,
+                'isNew'   => $isNew,
+                'data'    => $data,
+            ]));
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
 
@@ -1487,11 +1525,11 @@ abstract class AdminModel extends FormModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
-
-                    return false;
                 }
+
+                $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+
+                return false;
             }
         }
 
@@ -1639,7 +1677,7 @@ abstract class AdminModel extends FormModel
          * load directly the associated target item in the side by side view
          * otherwise select already the target language
          */
-        if (count($languages) === 2) {
+        if (\count($languages) === 2) {
             $lang_code = [];
 
             foreach ($languages as $language) {

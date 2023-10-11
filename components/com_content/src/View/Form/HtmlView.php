@@ -53,7 +53,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -125,7 +125,7 @@ class HtmlView extends BaseHtmlView
             if ($this->state->params->get('enable_category') == 1 && $catid) {
                 $authorised = $user->authorise('core.create', 'com_content.category.' . $catid);
             } else {
-                $authorised = $user->authorise('core.create', 'com_content') || count($user->getAuthorisedCategories('com_content', 'core.create'));
+                $authorised = $user->authorise('core.create', 'com_content') || \count($user->getAuthorisedCategories('com_content', 'core.create'));
             }
         } else {
             $authorised = $this->item->params->get('access-edit');
@@ -153,7 +153,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -171,7 +171,7 @@ class HtmlView extends BaseHtmlView
 
         // Propose current language as default when creating new article
         if (empty($this->item->id) && Multilanguage::isEnabled() && $params->get('enable_category') != 1) {
-            $lang = Factory::getLanguage()->getTag();
+            $lang = $this->getLanguage()->getTag();
             $this->form->setFieldAttribute('language', 'default', $lang);
         }
 
@@ -223,11 +223,11 @@ class HtmlView extends BaseHtmlView
         $app->getPathway()->addItem($title);
 
         if ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
     }
 }

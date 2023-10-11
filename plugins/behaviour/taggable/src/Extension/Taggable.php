@@ -23,7 +23,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\Event\SubscriberInterface;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -80,7 +79,7 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
         }
 
         // If the table already has a tags helper we have nothing to do
-        if (!is_null($table->getTagsHelper())) {
+        if (!\is_null($table->getTagsHelper())) {
             return;
         }
 
@@ -118,7 +117,7 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
         }
 
         // If the table doesn't have a tags helper we can't proceed
-        if (is_null($table->getTagsHelper())) {
+        if (\is_null($table->getTagsHelper())) {
             return;
         }
 
@@ -155,12 +154,12 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        if (!is_object($table) || !($table instanceof TaggableTableInterface)) {
+        if (!\is_object($table) || !($table instanceof TaggableTableInterface)) {
             return;
         }
 
         // If the table doesn't have a tags helper we can't proceed
-        if (is_null($table->getTagsHelper())) {
+        if (\is_null($table->getTagsHelper())) {
             return;
         }
 
@@ -174,9 +173,9 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
         if (empty($newTags)) {
             $result = $tagsHelper->postStoreProcess($table);
         } else {
-            if (is_string($newTags) && (strpos($newTags, ',') !== false)) {
+            if (\is_string($newTags) && (strpos($newTags, ',') !== false)) {
                 $newTags = explode(',', $newTags);
-            } elseif (!is_array($newTags)) {
+            } elseif (!\is_array($newTags)) {
                 $newTags = (array) $newTags;
             }
 
@@ -206,7 +205,7 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
         }
 
         // If the table doesn't have a tags helper we can't proceed
-        if (is_null($table->getTagsHelper())) {
+        if (\is_null($table->getTagsHelper())) {
             return;
         }
 
@@ -239,7 +238,7 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
         }
 
         // If the table doesn't have a tags helper we can't proceed
-        if (is_null($table->getTagsHelper())) {
+        if (\is_null($table->getTagsHelper())) {
             return;
         }
 
@@ -249,7 +248,7 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
         $tagsHelper->typeAlias = $table->getTypeAlias();
 
         if (!$tagsHelper->postStoreProcess($table, $newTags, $replaceTags)) {
-            throw new RuntimeException($table->getError());
+            throw new \RuntimeException($table->getError());
         }
     }
 
@@ -300,7 +299,7 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
         }
 
         // If the table doesn't have a tags helper we can't proceed
-        if (is_null($table->getTagsHelper())) {
+        if (\is_null($table->getTagsHelper())) {
             return;
         }
 

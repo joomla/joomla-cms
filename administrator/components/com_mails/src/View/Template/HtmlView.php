@@ -81,14 +81,14 @@ class HtmlView extends BaseHtmlView
         $this->form   = $this->get('Form');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         list($component, $template_id) = explode('.', $this->item->template_id, 2);
         $fields                        = ['subject', 'body', 'htmlbody'];
         $this->templateData            = [];
-        $language                      = Factory::getLanguage();
+        $language                      = $this->getLanguage();
         $language->load($component, JPATH_SITE, $this->item->language, true);
         $language->load($component, JPATH_SITE . '/components/' . $component, $this->item->language, true);
         $language->load($component, JPATH_ADMINISTRATOR, $this->item->language, true);
@@ -110,7 +110,7 @@ class HtmlView extends BaseHtmlView
         ];
 
         foreach ($fields as $field) {
-            if (is_null($this->item->$field) || $this->item->$field == '') {
+            if (\is_null($this->item->$field) || $this->item->$field == '') {
                 $this->item->$field = $this->master->$field;
                 $this->form->setValue($field, null, $this->item->$field);
             }

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Set the platform root path as a constant if necessary.
  *
- * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+ * @deprecated 4.4.0 will be removed in 6.0
  *             Use defined('_JEXEC') or die; to detect if the CMS is loaded correctly
  **/
 defined('JPATH_PLATFORM') or define('JPATH_PLATFORM', __DIR__);
@@ -48,9 +48,6 @@ $loader->unregister();
 
 // Decorate Composer autoloader
 spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
-
-// Register the class aliases for Framework classes that have replaced their Platform equivalents
-require_once JPATH_LIBRARIES . '/classmap.php';
 
 /**
  * Register the global exception handler. And set error level to server default error level.

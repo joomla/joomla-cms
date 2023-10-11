@@ -47,7 +47,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MINOR_VERSION = 0;
+    public const MINOR_VERSION = 1;
 
     /**
      * Patch release version.
@@ -66,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'dev';
+    public const EXTRA_VERSION = 'alpha1-dev';
 
     /**
      * Development status.
@@ -82,7 +82,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const CODENAME = 'Schnitzel';
+    public const CODENAME = 'Kudumisha';
 
     /**
      * Release date.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '17-October-2023';
+    public const RELDATE = '5-October-2023';
 
     /**
      * Release time.
@@ -98,7 +98,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTIME = '16:01';
+    public const RELTIME = '19:48';
 
     /**
      * Release timezone.
@@ -238,7 +238,7 @@ final class Version
      */
     public function generateMediaVersion(): string
     {
-        return md5($this->getLongVersion() . Factory::getApplication()->get('secret') . (new Date())->toSql());
+        return substr(md5($this->getLongVersion() . Factory::getApplication()->get('secret') . (new Date())->toSql()), 0, 6);
     }
 
     /**

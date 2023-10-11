@@ -121,7 +121,7 @@ class BackupcodesModel extends BaseDatabaseModel
         /** @var MfaTable $record */
         $record = $this->getTable('Mfa', 'Administrator');
 
-        if (is_null($existingCodes)) {
+        if (\is_null($existingCodes)) {
             $record->reset();
 
             $newData = [
@@ -227,7 +227,7 @@ class BackupcodesModel extends BaseDatabaseModel
         $newArray   = [];
         $dummyArray = [];
 
-        $realLength = count($codes);
+        $realLength = \count($codes);
         $restLength = 10 - $realLength;
 
         for ($i = 0; $i < $realLength; $i++) {

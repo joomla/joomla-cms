@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Site\Controller;
 
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
@@ -105,9 +106,13 @@ class ProfileController extends BaseController
 
         // Send an object which can be modified through the plugin event
         $objData = (object) $requestData;
-        $app->triggerEvent(
+        $this->getDispatcher()->dispatch(
             'onContentNormaliseRequestData',
-            ['com_users.user', $objData, $form]
+            new Model\NormaliseRequestDataEvent('onContentNormaliseRequestData', [
+                'context' => 'com_users.user',
+                'data'    => $objData,
+                'subject' => $form,
+            ])
         );
         $requestData = (array) $objData;
 
@@ -120,7 +125,7 @@ class ProfileController extends BaseController
             $errors = $model->getErrors();
 
             // Push up to three validation messages out to the user.
-            for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
                     $app->enqueueMessage($errors[$i]->getMessage(), 'warning');
                 } else {

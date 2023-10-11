@@ -54,7 +54,7 @@
   background-image: linear-gradient(45deg,hsl(var(--hue), 20%, 97%) 25%,transparent 0,transparent 75%,#fafafa 0,hsl(var(--hue),20%,97%)),linear-gradient(45deg,#fafafa 25%,transparent 0,transparent 75%,hsl(var(--hue), 20%, 97%) 0,hsl(var(--hue), 20%, 97%));
   background-position: 0 0,10px 10px;
   background-size: 20px 20px;
-  border-left: 1px solid var(--template-bg-dark-7);
+  border-left: 1px solid $border-color;
 
   > div > img {
     padding: 0;
