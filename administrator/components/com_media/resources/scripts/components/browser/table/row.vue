@@ -6,6 +6,19 @@
     @click="onClick"
   >
     <td
+      v-if="item.mime_type === 'image/svg+xml' && getURL()"
+    >
+      <img
+        :src="getURL()"
+        :width="item.width"
+        :height="item.height"
+        alt=""
+        style="width:100%;height:auto"
+        @load="setSize"
+      >
+    </td>
+    <td
+      v-else
       class="type"
       :data-type="item.extension"
     />
@@ -31,6 +44,7 @@
 </template>
 
 <script>
+import api from '../../../app/Api.es6';
 import * as types from '../../../store/mutation-types.es6';
 import navigable from '../../../mixins/navigable.es6';
 
@@ -67,6 +81,30 @@ export default {
   },
 
   methods: {
+    getURL() {
+      if (!this.item.thumb_path) {
+        return '';
+      }
+
+      return this.item.thumb_path.split(Joomla.getOptions('system.paths').rootFull).length > 1
+        ? `${this.item.thumb_path}?${this.item.modified_date ? new Date(this.item.modified_date).valueOf() : api.mediaVersion}`
+        : `${this.item.thumb_path}`;
+    },
+    width() {
+      return this.item.naturalWidth ? this.item.naturalWidth : 300;
+    },
+    height() {
+      return this.item.naturalHeight ? this.item.naturalHeight : 150;
+    },
+    setSize(event) {
+      if (this.item.mime_type === 'image/svg+xml') {
+        const image = event.target;
+        // Update the item properties
+        this.$store.dispatch('updateItemProperties', { item: this.item, width: image.naturalWidth ? image.naturalWidth : 300, height: image.naturalHeight ? image.naturalHeight : 150 });
+        // @TODO Remove the fallback size (300x150) when https://bugzilla.mozilla.org/show_bug.cgi?id=1328124 is fixed
+        // Also https://github.com/whatwg/html/issues/3510
+      }
+    },
     /* Handle the on row double click event */
     onDblClick() {
       if (this.isDir) {
