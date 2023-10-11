@@ -26,8 +26,8 @@
   .#{$jicon-css-prefix}-publish,
   .#{$jicon-css-prefix}-check,
   .#{$fa-css-prefix}-check {
-    color: var(--success);
-    border-color: var(--success);
+    color: $icon-success;
+    border-color: $icon-success;
   }
 
   .#{$jicon-css-prefix}-home,

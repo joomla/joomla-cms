@@ -17,6 +17,7 @@ $atum-colors-dark: (
   dark-mode-text-light:            #f7f7f7,
   sidebar-bg:                      hsl(var(--hue), 37.8%, 8.63%),
   template-sidebar-bg:             hsl(var(--hue), 37.8%, 8.63%),
+  template-link-color:             #21C2F9,
 
   // assuming hue 214
   body-bg:                         hsl(var(--hue), 17%, 13.3%),
@@ -102,7 +103,10 @@ $atum-colors-dark: (
 
   // table:
   table-border-top-nfc:            1px solid #969696,
-  table-thead-a-color:             hsl(214, 94.9%, 55.29%),
+  table-link-color:                #21C2F9, /* hsl(214, 94.9%, 55.29%), */
+  table-link-font-weight:          $normal-weight,
+  table-link-font-weight-sorted:   $normal-weight,
+  badge-bg-info:                   rgba(255,255,255,.2) !important,
 
   // card
   card-bg-dark:                    hsl(214,10%,22%),
@@ -142,6 +146,10 @@ $atum-colors-dark: (
 
   // Login
   login-label-color:                var(--white),
+
+  // Icons
+  icon-success:                     var(--successlight),
+  icon-success-border:              var(--successlight),
 
   // Alerts
   state-success-text:               var(--text-normal),

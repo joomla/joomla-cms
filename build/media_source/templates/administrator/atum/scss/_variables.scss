@@ -60,6 +60,17 @@ $theme-colors: (
 
 $template-background-light: #f0f4fb; //light background color, frontend dashboard background and installer body background
 
+// Font weights
+$thin-weight:                      100;
+$extralight-weight:                200;
+$light-weight:                     300;
+$normal-weight:                    400;
+$medium-weight:                    500;
+$semibold-weight:                  600;
+$bold-weight:                      700;
+$extrabold-weight:                 800;
+$black-weight:                     900;
+
 $atum-colors: (
   template-sidebar-bg:             var(--template-bg-dark-80),
   template-sidebar-font-color:     $white,
@@ -155,8 +166,11 @@ $atum-colors: (
   header-logo-bg:                     var(--template-bg-dark-70),
 
   // table
-  table-border-top-nfc:            2px solid #dee2e6,
-  table-thead-a-color:             var(--template-link-color),
+  table-border-top-nfc:               2px solid #dee2e6,
+  table-link-color:                   var(--template-link-color),
+  table-link-font-weight:             $medium-weight,
+  table-link-font-weight-sorted:      $medium-weight,
+  badge-bg-info:                      var(--info) !important,
 
   // card
   card-header-color:               var(--template-bg-dark),
@@ -204,6 +218,10 @@ $atum-colors: (
   // Login
   login-label-color:                $dark-blue,
 
+  // Icons
+  icon-success:                     var(--success),
+  icon-success-border:              var(--success),
+
   // Alerts
   state-success-text:               $success,
   state-success-bg:                 lighten($success, 58%),
@@ -238,6 +256,8 @@ $atum-colors: (
   alert-info-color:                 var(--template-bg-dark),
   alert-info-bg:                    var(--template-bg-dark-10),
   alert-info-border:                1px solid var(--template-bg-dark-20),
+
+
 );
 
 $colors: (
@@ -319,17 +339,6 @@ $fa-css-prefix:                    fa !default;
 $fa-font-path:                     "../../../../media/vendor/fontawesome-free/webfonts";
 $roboto-font-path:                 "../../../../../media/vendor/roboto-fontface/fonts";
 
-// Font weights
-$thin-weight:                      100;
-$extralight-weight:                200;
-$light-weight:                     300;
-$normal-weight:                    400;
-$medium-weight:                    500;
-$semibold-weight:                  600;
-$bold-weight:                      700;
-$extrabold-weight:                 800;
-$black-weight:                     900;
-
 // Tables
 $table-cell-padding-y:             .75rem;
 $table-cell-padding-x:             1rem;
@@ -337,7 +346,10 @@ $table-cell-padding-y-sm:          .3rem;
 $table-cell-padding-x-sm:          .3rem;
 $table-group-separator-color:      $gray-300;
 $table-border-top-nfc:             var(--table-border-top-nfc);
-$table-thead-a-color:              var(--table-thead-a-color);
+$table-link-color:                 var(--table-link-color);
+$table-link-font-weight:           var(--table-link-font-weight);
+$table-link-font-weight-sorted:    var(--table-link-font-weight-sorted);
+$badge-bg-info:                    var(--badge-bg-info);
 
 // card
 $card-header-color:                var(--card-header-color);
@@ -369,6 +381,10 @@ $details-bg:                      var(--details-bg);
 $users-method-image:              var(--users-method-image);
 $users-methods-reset-cont-bg:     var(--users-methods-reset-cont-bg);
 $users-method-header-inact-bg:    var(--users-method-header-inact-bg);
+
+// Icons
+$icon-success:                     var(--icon-success);
+$icon-success-border:              var(--icon-success);
 
 // Alerts
 $state-success-text:               var(--state-success-text);
