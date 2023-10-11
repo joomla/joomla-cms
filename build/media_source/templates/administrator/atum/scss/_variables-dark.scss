@@ -155,6 +155,7 @@ $atum-colors-dark: (
   state-success-text:               var(--text-normal),
   state-success-bg:                 var(--success),
   state-success-border:             1px solid var(--successlight),
+  state-success-btn-border:         1px solid var(--success),
   state-success-icon:               var(--text-normal),
   state-success-heading-bg:         var(--successlight),
 
@@ -186,6 +187,16 @@ $atum-colors-dark: (
   alert-info-bg:                    var(--admin-bg),
   alert-info-border:                1px solid hsl(var(--hue), 17%, 33.3%),
 
+  // Subhead
+  atum-subhead-color:               var(--template-text-dark),
+  atum-subhead-bg:                  var(--body-bg),
+  atum-subhead-bg-img:              (linear-gradient(var(--body-bg), var(--dark-bg))),
+  atum-subhead-btn-accent:          var(--template-text-dark),
+  atum-subhead-btn-color:           var(--template-text-light),
+  atum-subhead-btn-bg:              var(--body-bg),
+  atum-subhead-btn-border:          1px solid hsl(var(--hue),20%,80%),
+  atum-subhead-btn-hvr:             rgba(255, 255, 255, .9),
+  atum-subhead-btn-info:            var(--template-bg-light),
 ) !default;
 
 $link-hover-color-dark: lighten($light-blue, 20%);

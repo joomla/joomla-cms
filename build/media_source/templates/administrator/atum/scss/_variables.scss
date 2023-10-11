@@ -226,6 +226,7 @@ $atum-colors: (
   state-success-text:               $success,
   state-success-bg:                 lighten($success, 58%),
   state-success-border:             1px solid $success,
+  state-succes-btn-border:          1px solid $success,
   state-success-icon:               #55a258,
   state-success-heading-bg:         $success,
 
@@ -257,7 +258,20 @@ $atum-colors: (
   alert-info-bg:                    var(--template-bg-dark-10),
   alert-info-border:                1px solid var(--template-bg-dark-20),
 
-
+  // Subhead
+  atum-subhead-color:               var(--template-text-dark),
+  atum-subhead-bg:                  $white,
+  atum-subhead-bg-img:              (linear-gradient(var(--toolbar-bg), var(--template-bg-dark-3))),
+  atum-subhead-btn-color:           var(--template-text-dark),
+  atum-subhead-btn-bg:              var(--body-bg),
+  atum-subhead-btn-border:          1px solid hsl(var(--hue),20%,80%),
+  atum-subhead-btn-hvr:             rgba(255, 255, 255, .9),
+  atum-subhead-btn-success:         var(--success),
+  atum-subhead-btn-danger:          var(--danger),
+  atum-subhead-btn-primary:         var(--template-link-color),
+  atum-subhead-btn-secondary:       var(--template-special-color),
+  atum-subhead-btn-action:          var(--template-bg-dark),
+  atum-subhead-btn-info:            var(--template-bg-dark),
 );
 
 $colors: (
@@ -390,6 +404,7 @@ $icon-success-border:              var(--icon-success);
 $state-success-text:               var(--state-success-text);
 $state-success-bg:                 var(--state-success-bg);
 $state-success-border:             var(--state-success-border);
+$state-success-btn-border:         var(--state-success-btn-border);
 $state-success-icon:               var(--state-success-icon);
 $state-success-heading-bg:         var(--state-success-heading-bg);
 
@@ -455,6 +470,21 @@ $list-group-item-padding-y:        .75rem;
 
 // Login
 $login-label-color:                var(--login-label-color);
+
+// Subhead
+$atum-subhead-color:               var(--atum-subhead-color);
+$atum-subhead-bg:                  var(--atum-subhead-bg);
+$atum-subhead-bg-img:              var(--atum-subhead-bg-img);
+$atum-subhead-btn-color:           var(--atum-subhead-btn-color);
+$atum-subhead-btn-bg:              var(--atum-subhead-btn-bg);
+$atum-subhead-btn-border:          var(--atum-subhead-bth-border);
+$atum-subhead-btn-hvr:             var(--atum-subhead-btn-hvr);
+$atum-subhead-btn-success:         var(--atum-subhead-btn-success);
+$atum-subhead-btn-danger:          var(--atum-subhead-btn-danger);
+$atum-subhead-btn-primary:         var(--atum-subhead-btn-primary);
+$atum-subhead-btn-secondary:       var(--atum-subhead-btn-secondary);
+$atum-subhead-btn-action:          var(--atum-subhead-btn-action);
+$atum-subhead-btn-info:            var(--atum-subhead-btn-info);
 
 // Buttons
 $input-btn-padding-y-sm-submenu:    0;
