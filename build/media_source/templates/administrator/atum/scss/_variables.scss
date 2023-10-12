@@ -84,6 +84,8 @@ $atum-colors: (
   template-bg-dark-75:             hsl(var(--hue), 40%, 25%),
   template-bg-dark-80:             hsl(var(--hue), 40%, 20%),
   template-bg-dark-90:             hsl(var(--hue), 40%, 10%),
+
+  bg-readonly:                     var(--gray-200),
 );
 
 $colors: (
@@ -112,6 +114,7 @@ $alert-color-level:                0;
 // Global
 $atum-box-shadow:                  0 2px 10px -8px var(--template-bg-dark-50);
 $btn-disabled-opacity:             .4;
+$bg-readonly:                      var(--bg-readonly);
 
 // Toolbar
 $atum-toolbar-line-height:         2.45rem;
