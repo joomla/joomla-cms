@@ -108,7 +108,7 @@ final class Local extends CMSPlugin implements ProviderInterface
     public function getAdapters()
     {
         $adapters    = [];
-        $directories = $this->params->get('directories', [(object) ["directory" => "images", "thumbs" => 0, "strengthened" => 0]]);
+        $directories = $this->params->get('directories', [(object) ["directory" => "images", "thumbs" => false, "strengthened" => false]]);
 
         foreach ($directories as $directoryEntity) {
             if (!$directoryEntity->directory) {
