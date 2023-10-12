@@ -27,7 +27,7 @@ $wa->useScript('core');
                     <div class="control-label">
                         <?php echo Text::_('COM_MESSAGES_FIELD_USER_ID_FROM_LABEL'); ?>
                     </div>
-                    <div class="p-3 bg-light border rounded">
+                    <div class="p-3 border rounded">
                         <?php echo $this->item->get('from_user_name'); ?>
                     </div>
                 </div>
@@ -35,7 +35,7 @@ $wa->useScript('core');
                     <div class="control-label">
                         <?php echo Text::_('COM_MESSAGES_FIELD_DATE_TIME_LABEL'); ?>
                     </div>
-                    <div class="p-3 bg-light border rounded">
+                    <div class="p-3 border rounded">
                         <?php echo HTMLHelper::_('date', $this->item->date_time, Text::_('DATE_FORMAT_LC2')); ?>
                     </div>
                 </div>
@@ -43,7 +43,7 @@ $wa->useScript('core');
                     <div class="control-label">
                         <?php echo Text::_('COM_MESSAGES_FIELD_SUBJECT_LABEL'); ?>
                     </div>
-                    <div class="p-3 bg-light border rounded">
+                    <div class="p-3 border rounded">
                         <?php echo $this->item->subject; ?>
                     </div>
                 </div>
@@ -51,7 +51,7 @@ $wa->useScript('core');
                     <div class="control-label">
                         <?php echo Text::_('COM_MESSAGES_FIELD_MESSAGE_LABEL'); ?>
                     </div>
-                    <div class="p-3 bg-light border rounded">
+                    <div class="p-3 border rounded">
                         <?php echo $this->item->message; ?>
                     </div>
                 </div>
