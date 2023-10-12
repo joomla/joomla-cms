@@ -107,7 +107,7 @@ class LocalPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getIdentity')->willReturn(new User());
 
-        $plugin   = new Local($dispatcher, ['params' => ['directories' => [(object) ["directory" => "tests", "thumbs" => 0, "strengthened" => 0]]]], JPATH_ROOT);
+        $plugin   = new Local($dispatcher, ['params' => ['directories' => [(object) ["directory" => "tests", "thumbs" => false, "strengthened" => false]]]], JPATH_ROOT);
         $plugin->setApplication($app);
         $adapters = $plugin->getAdapters();
 
