@@ -77,16 +77,26 @@ class LocalAdapter implements AdapterInterface
     private $thumbnailSize = [200, 200];
 
     /**
+     * Should the adapter create an .htaccess to disable php execution
+     *
+     * @var boolean
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    private $strengthened = false;
+
+    /**
      * The absolute root path in the local file system.
      *
-     * @param   string    $rootPath    The root path
-     * @param   string    $filePath    The file path of media folder
-     * @param   boolean   $thumbnails      The thumbnails option
-     * @param   array     $thumbnailSize   The thumbnail dimensions in pixels
+     * @param   string    $rootPath       The root path
+     * @param   string    $filePath       The file path of media folder
+     * @param   boolean   $thumbnails     The thumbnails option
+     * @param   array     $thumbnailSize  The thumbnail dimensions in pixels
+     * @param   boolean   $strengthened   The strengthened option
      *
      * @since   4.0.0
      */
-    public function __construct(string $rootPath, string $filePath, bool $thumbnails = false, array $thumbnailSize = [200, 200])
+    public function __construct(string $rootPath, string $filePath, bool $thumbnails = false, array $thumbnailSize = [200, 200], bool $strengthened = false)
     {
         if (!file_exists($rootPath)) {
             throw new \InvalidArgumentException(Text::_('COM_MEDIA_ERROR_MISSING_DIR'));
@@ -96,6 +106,7 @@ class LocalAdapter implements AdapterInterface
         $this->filePath      = $filePath;
         $this->thumbnails    = $thumbnails;
         $this->thumbnailSize = $thumbnailSize;
+        $this->strengthened  = $strengthened;
 
         if ($this->thumbnails) {
             $dir = JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath;
@@ -103,6 +114,22 @@ class LocalAdapter implements AdapterInterface
             if (!is_dir($dir)) {
                 Folder::create($dir);
             }
+        }
+
+        if ($this->strengthened && !is_file(JPATH_ROOT . '/' . $this->filePath . '/.htaccess')) {
+            file_put_contents(
+                JPATH_ROOT . '/' . $this->filePath . '/.htaccess',
+                <<<HTACC
+# Block executables
+<FilesMatch "\.(php|phtml|php3|php4|php5|php7|php8|shtml|sh|cgi)$">
+    deny from all
+</FilesMatch>
+HTACC
+            );
+        }
+
+        if (!$this->strengthened && is_file(JPATH_ROOT . '/' . $this->filePath . '/.htaccess')) {
+            unlink(JPATH_ROOT . '/' . $this->filePath . '/.htaccess');
         }
     }
 

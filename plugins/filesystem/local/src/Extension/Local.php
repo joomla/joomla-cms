@@ -108,12 +108,7 @@ final class Local extends CMSPlugin implements ProviderInterface
     public function getAdapters()
     {
         $adapters    = [];
-        $directories = $this->params->get('directories', '[{"directory": "images", "thumbs": 0}]');
-
-        // Do a check if default settings are not saved by user, if not initialize them manually
-        if (\is_string($directories)) {
-            $directories = json_decode($directories);
-        }
+        $directories = $this->params->get('directories', [(object) ["directory" => "images", "thumbs" => 0, "strengthened" => 0]]);
 
         foreach ($directories as $directoryEntity) {
             if (!$directoryEntity->directory) {
@@ -127,11 +122,16 @@ final class Local extends CMSPlugin implements ProviderInterface
                 $directoryEntity->thumbs = 0;
             }
 
+            if (!isset($directoryEntity->strengthened)) {
+                $directoryEntity->strengthened = 0;
+            }
+
             $adapter = new LocalAdapter(
                 $directoryPath,
                 $directoryEntity->directory,
                 $directoryEntity->thumbs,
-                [200, 200]
+                [200, 200],
+                $directoryEntity->strengthened
             );
             $adapter->setCurrentUser($this->getApplication()->getIdentity());
 

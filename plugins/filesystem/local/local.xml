@@ -55,6 +55,17 @@
 							<option value="0">JNO</option>
 							<option value="1">JYES</option>
 						</field>
+						<field
+							name="strengthened"
+							type="radio"
+							label="PLG_FILESYSTEM_LOCAL_DIRECTORIES_DIRECTORY_STRENGTHENED_LABEL"
+							layout="joomla.form.field.radio.switcher"
+							default="0"
+							filter="integer"
+							>
+							<option value="0">JNO</option>
+							<option value="1">JYES</option>
+						</field>
 					</form>
 				</field>
 			</fieldset>
