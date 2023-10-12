@@ -14,31 +14,31 @@
 }
 
 .btn-primary {
-  color: var(--template-text-light);
-  background-color: var(--template-bg-dark-60);
-  border-color: var(--template-bg-dark-60);
+  color: $btn-primary-color; /* var(--template-text-light); */
+  background-color: $btn-primary-bg; /* var(--template-bg-dark-60); */
+  border: $btn-primary-border; /* var(--template-bg-dark-60); */
 
   &:hover,
   &:focus,
   &:active {
-    background-color: var(--template-bg-dark-70);
-    border-color: var(--template-bg-dark-90);
+    background-color: $btn-primary-bg-hvr; /* var(--template-bg-dark-70); */
+    border: $btn-primary-border-hvr; /* var(--template-bg-dark-90); */
   }
 
   &:not(:disabled):not(.disabled):active,
   &:not(:disabled):not(.disabled).active,
   .show > &.dropdown-toggle {
-    background-color: var(--template-bg-dark);
-    border-color: var(--template-bg-dark);
+    background-color: $btn-primary-toggle-bg; /* var(--template-bg-dark); */
+    border-color: $btn-primary-toggle-border; /* var(--template-bg-dark); */
   }
 }
 
 .btn-secondary {
-  background-color: var(--template-bg-dark-60);
-  border-color: var(--template-bg-dark-60);
+  background-color: $btn-secondary-bg; /* var(--template-bg-dark-60); */
+  border: $btn-secondary-border; /* var(--template-bg-dark-60); */
 }
 
 .input-group-text {
-  background-color: var(--template-bg-dark);
-  border-color: var(--template-bg-dark);
+  background-color: $input-group-text-bg; /* var(--template-bg-dark); */
+  border: $input-group-text-border; /* var(--template-bg-dark); */
 }

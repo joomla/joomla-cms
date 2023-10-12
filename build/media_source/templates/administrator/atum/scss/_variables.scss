@@ -222,6 +222,19 @@ $atum-colors: (
   icon-success:                     var(--success),
   icon-success-border:              var(--success),
 
+  // Buttons
+  btn-primary-color: var(--template-text-light),
+  btn-primary-bg: var(--template-bg-dark-60),
+  btn-primary-border: 1px solid var(--template-bg-dark-60),
+  btn-primary-bg-hvr: var(--template-bg-dark-70),
+  btn-primary-border-hvr: 1px solid var(--template-bg-dark-90),
+  btn-primary-toggle-bg: var(--template-bg-dark),
+  btn-primary-toggle-border: var(--template-bg-dark),
+  btn-secondary-bg: var(--template-bg-dark-60),
+  btn-secondary-border: 1px solid var(--template-bg-dark-60),
+  input-group-text-bg: var(--template-bg-dark),
+  input-group-text-border: 1px solid var(--template-bg-dark),
+
   // Alerts
   state-success-text:               $success,
   state-success-bg:                 lighten($success, 58%),
@@ -271,7 +284,11 @@ $atum-colors: (
   atum-subhead-btn-primary:         var(--template-link-color),
   atum-subhead-btn-secondary:       var(--template-special-color),
   atum-subhead-btn-action:          var(--template-bg-dark),
+  atum-subhead-btn-action-bg:       var(--body-bg),
+  atum-subhead-btn-action-border:   1px solid hsl(var(--hue),20%,80%),
   atum-subhead-btn-info:            var(--template-bg-dark),
+  atum-subhead-btn-info-bg:         var(--body-bg),
+  atum-subhead-btn-info-border:     1px solid hsl(var(--hue),20%,80%),
 );
 
 $colors: (
@@ -400,6 +417,19 @@ $users-method-header-inact-bg:    var(--users-method-header-inact-bg);
 $icon-success:                     var(--icon-success);
 $icon-success-border:              var(--icon-success);
 
+// Buttons
+$btn-primary-color: var(--btn-primary-color);
+$btn-primary-bg: var(--btn-primary-bg);
+$btn-primary-border: var(--btn-primary-border);
+$btn-primary-bg-hvr: var(--btn-primary-bg-hvr);
+$btn-primary-border-hvr: var(--btn-primary-border-hvr);
+$btn-primary-toggle-bg: var(--btn-primary-toggle-bg);
+$btn-primary-toggle-border: var(--btn-primary-toggle-border);
+$btn-secondary-bg: var(--btn-secondary-bg);
+$btn-secondary-border: var(--btn-secondary-border);
+$input-group-text-bg: var(--input-group-text-bg);
+$input-group-text-border: var(--input-group-text-border);
+
 // Alerts
 $state-success-text:               var(--state-success-text);
 $state-success-bg:                 var(--state-success-bg);
@@ -477,14 +507,18 @@ $atum-subhead-bg:                  var(--atum-subhead-bg);
 $atum-subhead-bg-img:              var(--atum-subhead-bg-img);
 $atum-subhead-btn-color:           var(--atum-subhead-btn-color);
 $atum-subhead-btn-bg:              var(--atum-subhead-btn-bg);
-$atum-subhead-btn-border:          var(--atum-subhead-bth-border);
+$atum-subhead-btn-border:          var(--atum-subhead-btn-border);
 $atum-subhead-btn-hvr:             var(--atum-subhead-btn-hvr);
 $atum-subhead-btn-success:         var(--atum-subhead-btn-success);
 $atum-subhead-btn-danger:          var(--atum-subhead-btn-danger);
 $atum-subhead-btn-primary:         var(--atum-subhead-btn-primary);
 $atum-subhead-btn-secondary:       var(--atum-subhead-btn-secondary);
 $atum-subhead-btn-action:          var(--atum-subhead-btn-action);
+$atum-subhead-btn-action-bg:       var(--atum-subhead-btn-action-bg);
+$atum-subhead-btn-action-border:   var(--atum-subhead-btn-action-border);
 $atum-subhead-btn-info:            var(--atum-subhead-btn-info);
+$atum-subhead-btn-info-bg:         var(--atum-subhead-btn-info-bg);
+$atum-subhead-btn-info-border:     var(--atum-subhead-btn-info-border);
 
 // Buttons
 $input-btn-padding-y-sm-submenu:    0;

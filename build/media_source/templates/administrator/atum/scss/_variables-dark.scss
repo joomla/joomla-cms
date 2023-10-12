@@ -52,7 +52,7 @@ $atum-colors-dark: (
   // quickicons
   quickicon-bg:                    var(--card-bg), /* transparent */
   quickicon-border:                none,
-  quickicon-border-radius:         unset,
+  quickicon-border-radius:         4px,
   quickicon-link-hvr:              #fff, //var(--text-normal), // var(--template-bg-dark-5)
   quickicon-linkadd-bg:            hsl(var(--hue), 5%, 34%),
   quickicon-linkadd-color:         #479a59,
@@ -151,6 +151,19 @@ $atum-colors-dark: (
   icon-success:                     var(--successlight),
   icon-success-border:              var(--successlight),
 
+  // Buttons
+  btn-primary-color: var(--text-normal),
+  btn-primary-bg: #2969b8,
+  btn-primary-border: 1px solid var(--btn-primary-bg),
+  btn-primary-bg-hvr: var(--template-bg-dark-70),
+  btn-primary-border-hvr: 1px solid var(--template-bg-dark-90),
+  btn-primary-toggle-bg: var(--template-bg-dark),
+  btn-primary-toggle-border: var(--template-bg-dark),
+  btn-secondary-bg: #64676c, /* rgba(255,255,255,.2), */
+  btn-secondary-border: 1px solid var(--btn-secondary-bg),
+  input-group-text-bg: var(--template-bg-dark),
+  input-group-text-border: 1px solid var(--template-bg-dark),
+
   // Alerts
   state-success-text:               var(--text-normal),
   state-success-bg:                 var(--success),
@@ -193,10 +206,19 @@ $atum-colors-dark: (
   atum-subhead-bg-img:              (linear-gradient(var(--body-bg), var(--dark-bg))),
   atum-subhead-btn-accent:          var(--template-text-dark),
   atum-subhead-btn-color:           var(--template-text-light),
-  atum-subhead-btn-bg:              var(--body-bg),
-  atum-subhead-btn-border:          1px solid hsl(var(--hue),20%,80%),
+  atum-subhead-btn-bg:              #2969b8,
+  atum-subhead-btn-border:          1px solid var(--atum-subhead-btn-bg),
   atum-subhead-btn-hvr:             rgba(255, 255, 255, .9),
-  atum-subhead-btn-info:            var(--template-bg-light),
+  atum-subhead-btn-success:         var(--success),
+  atum-subhead-btn-danger:          var(--danger),
+  atum-subhead-btn-primary:         var(--text-normal),
+  atum-subhead-btn-secondary:       #f0f4fb,
+  atum-subhead-btn-action:          #f0f4fb,
+  atum-subhead-btn-action-bg:       #494d53,
+  atum-subhead-btn-action-border:     1px solid var(---atum-subhead-btn-action-bg),
+  atum-subhead-btn-info:            #f0f4fb,
+  atum-subhead-btn-info-bg:         #494d53,
+  atum-subhead-btn-info-border:     1px solid var(---atum-subhead-btn-info-bg),
 ) !default;
 
 $link-hover-color-dark: lighten($light-blue, 20%);

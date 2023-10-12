@@ -49,7 +49,7 @@
     line-height: $atum-toolbar-line-height;
     color: var(--subhead-btn-accent); /* $atum-subhead-btn-color var(--template-text-dark); */
     background: var(--subhead-btn-bg); /* $atum-subhead-btn-bg var(--body-bg); */
-    border: var(--subhead-btn-border); /* $atum-subhead-bth-border-color hsl(var(--hue),20%,80%); */
+    border: var(--subhead-btn-border); /* $atum-subhead-btn-border-color hsl(var(--hue),20%,80%); */
 
     > span {
       display: inline-block;
@@ -89,6 +89,8 @@
 
     &.btn-info {
       --subhead-btn-accent: #{$atum-subhead-btn-info}; /* var(--template-bg-dark)/var(--template-bg-light); */
+      --subhead-btn-bg: #{$atum-subhead-btn-info-bg};
+      --subhead-btn-border: #{$atum-subhead-btn-info-border};
     }
 
     @if false /* $enable-dark-mode */ {
@@ -107,6 +109,8 @@
 
     &.btn-action {
       --subhead-btn-accent: #{$atum-subhead-btn-action}; /* var(--template-bg-dark); */
+      --subhead-btn-bg: #{$atum-subhead-btn-action-bg};
+      --subhead-btn-border: #{$atum-subhead-btn-action-border};
       display: flex;
       align-items: center;
 
