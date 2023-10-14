@@ -19,7 +19,7 @@ $uploadLink = 'index.php?option=com_joomlaupdate&view=upload';
 
 $displayData = [
     'textPrefix' => 'COM_JOOMLAUPDATE' . $this->messagePrefix,
-    'content'    => Text::sprintf($this->langKey, $this->updateSourceKey),
+    'content'    => Text::_($this->reasonNoDownload) . Text::sprintf($this->langKey, $this->updateSourceKey),
     'formURL'    => 'index.php?option=com_joomlaupdate&view=joomlaupdate',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Updating_from_an_existing_version',
     'icon'       => 'icon-loop joomlaupdate',
