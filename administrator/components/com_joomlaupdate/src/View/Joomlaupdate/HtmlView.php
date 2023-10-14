@@ -115,7 +115,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var string  The message
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      */
     protected $reasonNoDownload = '';
 
