@@ -111,6 +111,15 @@ class HtmlView extends BaseHtmlView
     protected $messagePrefix = '';
 
     /**
+     * A special text used for the emptystate layout to explain why there is no download
+     *
+     * @var string  The message
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected $reasonNoDownload = '';
+
+    /**
      * List of non core critical plugins
      *
      * @var    \stdClass[]
@@ -190,7 +199,8 @@ class HtmlView extends BaseHtmlView
             } else {
                 // No download available
                 if ($hasUpdate) {
-                    $this->messagePrefix = '_NODOWNLOAD';
+                    $this->messagePrefix    = '_NODOWNLOAD';
+                    $this->reasonNoDownload = 'COM_JOOMLAUPDATE_NODOWNLOAD_EMPTYSTATE_REASON';
                 }
 
                 $this->setLayout('noupdate');
