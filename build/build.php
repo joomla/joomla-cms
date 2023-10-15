@@ -38,8 +38,8 @@ function usage(string $command)
     echo PHP_TAB . PHP_TAB . '--remote=<remote>:' . PHP_TAB . PHP_TAB . 'The git remote reference to build from (ex: `tags/3.8.6`, `4.0-dev`), defaults to the most recent tag for the repository' . PHP_EOL;
     echo PHP_TAB . PHP_TAB . '--exclude-zip:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Exclude the generation of .zip packages' . PHP_EOL;
     echo PHP_TAB . PHP_TAB . '--exclude-gzip:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Exclude the generation of .tar.gz packages' . PHP_EOL;
-    echo PHP_TAB . PHP_TAB . '--exclude-bzip2:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .tar.bz2 packages' . PHP_EOL;
-    echo PHP_TAB . PHP_TAB . '--include-zstd:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Include the generation of .tar.zst packages' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '--include-bzip2:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .tar.bz2 packages' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '--exclude-zstd:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Include the generation of .tar.zst packages' . PHP_EOL;
     echo PHP_TAB . PHP_TAB . '--disable-patch-packages:' . PHP_TAB . 'Disable the generation of patch packages' . PHP_EOL;
     echo PHP_TAB . PHP_TAB . '--help:' . PHP_TAB . PHP_TAB . PHP_TAB . PHP_TAB . 'Show this help output' . PHP_EOL;
     echo PHP_EOL;
@@ -237,8 +237,8 @@ $options = getopt('', ['help', 'remote::', 'exclude-zip', 'exclude-gzip', 'exclu
 $remote             = $options['remote'] ?? false;
 $excludeZip         = isset($options['exclude-zip']);
 $excludeGzip        = isset($options['exclude-gzip']);
-$excludeBzip2       = isset($options['exclude-bzip2']);
-$excludeZstd        = !isset($options['include-zstd']);
+$excludeBzip2       = !isset($options['include-bzip2']);
+$excludeZstd        = isset($options['exclude-zstd']);
 $buildPatchPackages = false && !isset($options['disable-patch-packages']);
 $showHelp           = isset($options['help']);
 
@@ -332,9 +332,10 @@ echo "Workspace built.\n";
 require_once $fullpath . '/libraries/src/Version.php';
 
 // Set version information for the build
-$version     = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
-$release     = Version::PATCH_VERSION;
-$fullVersion = (new Version())->getShortVersion();
+$majorVersion = Version::MAJOR_VERSION;
+$version      = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
+$release      = Version::PATCH_VERSION;
+$fullVersion  = (new Version())->getShortVersion();
 
 $previousRelease = Version::PATCH_VERSION - 1;
 
@@ -541,10 +542,12 @@ for ($num = $release - 1; $num >= 0; $num--) {
     $fromName = $num == 0 ? 'x' : $num;
 
     // Create the diff archive packages using the file name list.
-    if (!$excludeBzip2) {
-        $packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.bz2';
+    if (!$excludeZip) {
+        $packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.zip';
         echo "Building " . $packageName . "... ";
-        system('tar --create --bzip2 --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
+        chdir($time);
+        system('zip ../packages/' . $packageName . ' -@ < ../diffconvert/' . $version . '.' . $num . '> /dev/null');
+        chdir('..');
         echo "done.\n";
         $checksums[$packageName] = [];
     }
@@ -557,12 +560,10 @@ for ($num = $release - 1; $num >= 0; $num--) {
         $checksums[$packageName] = [];
     }
 
-    if (!$excludeZip) {
-        $packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.zip';
+    if (!$excludeBzip2) {
+        $packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.bz2';
         echo "Building " . $packageName . "... ";
-        chdir($time);
-        system('zip ../packages/' . $packageName . ' -@ < ../diffconvert/' . $version . '.' . $num . '> /dev/null');
-        chdir('..');
+        system('tar --create --bzip2 --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
         echo "done.\n";
         $checksums[$packageName] = [];
     }
@@ -570,7 +571,7 @@ for ($num = $release - 1; $num >= 0; $num--) {
     if (!$excludeZstd) {
         $packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.zst';
         echo "Building " . $packageName . "... ";
-        system('tar --create --use-compress-program=zstd --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
+        system('tar "-I zstd --ultra -22" --create --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
         echo "done.\n";
         $checksums[$packageName] = [];
     }
@@ -580,10 +581,10 @@ echo "Build full package files.\n";
 chdir($time);
 
 // Create full archive packages.
-if (!$excludeBzip2) {
-    $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.bz2';
+if (!$excludeZip) {
+    $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.zip';
     echo "Building " . $packageName . "... ";
-    system('tar --create --bzip2 --file ../packages/' . $packageName . ' * > /dev/null');
+    system('zip -r ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
     $checksums[$packageName] = [];
 }
@@ -596,10 +597,10 @@ if (!$excludeGzip) {
     $checksums[$packageName] = [];
 }
 
-if (!$excludeZip) {
-    $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.zip';
+if (!$excludeBzip2) {
+    $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.bz2';
     echo "Building " . $packageName . "... ";
-    system('zip -r ../packages/' . $packageName . ' * > /dev/null');
+    system('tar --create --bzip2 --file ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
     $checksums[$packageName] = [];
 }
@@ -607,7 +608,7 @@ if (!$excludeZip) {
 if (!$excludeZstd) {
     $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.zst';
     echo "Building " . $packageName . "... ";
-    system('tar --create --use-compress-program=zstd --file ../packages/' . $packageName . ' * > /dev/null');
+    system('tar "-I zstd --ultra -22" --create --file ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
     $checksums[$packageName] = [];
 }
@@ -622,10 +623,10 @@ system('rm -r images/sampledata');
 system('rm images/joomla_black.png');
 system('rm images/powered_by.png');
 
-if (!$excludeBzip2) {
-    $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2';
+if (!$excludeZip) {
+    $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.zip';
     echo "Building " . $packageName . "... ";
-    system('tar --create --bzip2 --file ../packages/' . $packageName . ' * > /dev/null');
+    system('zip -r ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
     $checksums[$packageName] = [];
 }
@@ -638,10 +639,10 @@ if (!$excludeGzip) {
     $checksums[$packageName] = [];
 }
 
-if (!$excludeZip) {
-    $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.zip';
+if (!$excludeBzip2) {
+    $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2';
     echo "Building " . $packageName . "... ";
-    system('zip -r ../packages/' . $packageName . ' * > /dev/null');
+    system('tar --create --bzip2 --file ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
     $checksums[$packageName] = [];
 }
@@ -649,7 +650,7 @@ if (!$excludeZip) {
 if (!$excludeZstd) {
     $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.zst';
     echo "Building " . $packageName . "... ";
-    system('tar --create --use-compress-program=zstd --file ../packages/' . $packageName . ' * > /dev/null');
+    system('tar "-I zstd --ultra -22" --create --file ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
     $checksums[$packageName] = [];
 }
@@ -689,17 +690,12 @@ if ($includeExtraTextfiles) {
     echo "Generating github_release.txt file\n";
 
     $githubContent = [];
-    $githubText    = '';
     $releaseText   = [
         'FULL'    => 'New Joomla! Installations ',
         'POINT'   => 'Update from Joomla! ' . $version . '.' . $previousRelease . ' ',
         'MINOR'   => 'Update from Joomla! ' . $version . '.x ',
         'UPGRADE' => 'Update from Joomla! 3.10 ',
     ];
-
-    if (!$buildPatchPackages) {
-        $releaseText['UPGRADE'] = 'Update from a previous version of Joomla! ';
-    }
 
     $githubLink = 'https://github.com/joomla/joomla-cms/releases/download/' . $tagVersion . '/';
 
@@ -718,19 +714,12 @@ if ($includeExtraTextfiles) {
             $type = 'UPGRADE';
         }
 
-        $githubContent[$type][] = '[' . substr($packageName, strpos($packageName, 'Package') + 7) . '](' . $githubLink . $packageName . ')';
+        $githubContent[$type][$packageName] = $packageHashes;
     }
 
-    foreach ($releaseText as $type => $text) {
-        if (empty($githubContent[$type])) {
-            continue;
-        }
-
-        $githubText .= $text;
-        $githubText .= implode(" | ", $githubContent[$type]);
-
-        $githubText .= "\n";
-    }
+    ob_start();
+        require __DIR__ . '/layouts/github.php';
+    $githubText = ob_get_clean();
 
     file_put_contents('github_release.txt', $githubText);
 }
