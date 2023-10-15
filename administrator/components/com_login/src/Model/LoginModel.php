@@ -80,7 +80,6 @@ class LoginModel extends BaseDatabaseModel
     {
         $result  = null;
         $modules = self::_load($name);
-        $total   = \count($modules);
 
         foreach ($modules as $module) {
             // Match the title if we're looking for a specific instance of the module.
