@@ -1656,7 +1656,7 @@ ENDDATA;
      */
     protected function translateExtensionName(&$item)
     {
-        // @todo: Cleanup duplicated code. from com_installer/models/extension.php
+        // @todo: Cleanup duplicated code. from com_installer/src/Model/InstallerModel.php
         $lang = Factory::getLanguage();
         $path = $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
