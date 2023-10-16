@@ -73,13 +73,13 @@ class LanguagesModel extends ListModel
             ->where($db->quoteName('e.element') . ' = ' . $db->quote('pkg_en-GB'))
             ->where($db->quoteName('e.client_id') . ' = 0')
             ->join(
-                'LEFT',
-                $db->quoteName('#__update_sites_extensions', 'use')
+            	'LEFT',
+            	$db->quoteName('#__update_sites_extensions', 'use')
                 . ' ON ' . $db->quoteName('use.extension_id') . ' = ' . $db->quoteName('e.extension_id')
             )
             ->join(
-                'LEFT',
-                $db->quoteName('#__update_sites', 'us')
+            	'LEFT',
+            	$db->quoteName('#__update_sites', 'us')
                 . ' ON ' . $db->quoteName('us.update_site_id') . ' = ' . $db->quoteName('use.update_site_id')
             );
 
@@ -181,8 +181,8 @@ class LanguagesModel extends ListModel
 
         // Sort the array by value of subarray
         usort(
-            $languages,
-            function ($a, $b) use ($that) {
+        	$languages,
+        	function ($a, $b) use ($that) {
                 $ordering = $that->getState('list.ordering', 'name');
 
                 if (strtolower($that->getState('list.direction', 'asc')) === 'asc') {
@@ -194,10 +194,10 @@ class LanguagesModel extends ListModel
         );
 
         // Count the non-paginated list
-        $this->languageCount = count($languages);
-        $limit               = ($this->getState('list.limit', 20 ) > 0) ? $this->getState('list.limit', 20) : $this->languageCount;
+        $this->languageCount = \count($languages);
+        $limit               = ($this->getState('list.limit', 20) > 0) ? $this->getState('list.limit', 20) : $this->languageCount;
 
-        return array_slice($languages, $this->getStart() ?? 0, $limit);
+        return \array_slice($languages, $this->getStart() ?? 0, $limit);
     }
 
     /**
