@@ -51,7 +51,7 @@ class JsonapiView extends BaseApiView
     protected function prepareItem($item)
     {
         $item->id = ++$this->i;
-        return parent::prepareItem($item);
 
+        return parent::prepareItem($item);
     }
 }
