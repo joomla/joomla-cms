@@ -123,7 +123,7 @@ final class Languages extends CMSPlugin
     private function createLanguageInstallerRoutes(&$router)
     {
         $defaults    = ['component' => 'com_installer'];
-        $getDefaults = array_merge(['public' => false], ['component' => 'com_languages']);
+        $getDefaults = array_merge(['public' => false], $defaults);
 
         $routes = [
             new Route(['GET'], 'v1/languages', 'languages.displayList', [], $getDefaults),

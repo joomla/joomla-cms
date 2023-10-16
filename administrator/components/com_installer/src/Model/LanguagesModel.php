@@ -155,7 +155,7 @@ class LanguagesModel extends ListModel
         }
 
         $languages     = [];
-        $search        = strtolower($this->getState('filter.search'));
+        $search        = strtolower($this->getState('filter.search', ''));
 
         foreach ($updateSiteXML->extension as $extension) {
             $language = new \stdClass();
@@ -183,9 +183,9 @@ class LanguagesModel extends ListModel
         usort(
             $languages,
             function ($a, $b) use ($that) {
-                $ordering = $that->getState('list.ordering');
+                $ordering = $that->getState('list.ordering', 'name');
 
-                if (strtolower($that->getState('list.direction')) === 'asc') {
+                if (strtolower($that->getState('list.direction', 'asc')) === 'asc') {
                     return StringHelper::strcmp($a->$ordering, $b->$ordering);
                 } else {
                     return StringHelper::strcmp($b->$ordering, $a->$ordering);
@@ -195,9 +195,9 @@ class LanguagesModel extends ListModel
 
         // Count the non-paginated list
         $this->languageCount = count($languages);
-        $limit               = ($this->getState('list.limit') > 0) ? $this->getState('list.limit') : $this->languageCount;
+        $limit               = ($this->getState('list.limit', 20 ) > 0) ? $this->getState('list.limit', 20) : $this->languageCount;
 
-        return array_slice($languages, $this->getStart(), $limit);
+        return array_slice($languages, $this->getStart() ?? 0, $limit);
     }
 
     /**
