@@ -83,7 +83,12 @@ class Uri extends \Joomla\Uri\Uri
                  * are present, we will assume we are running on apache.
                  */
 
-                if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI'])) {
+                if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['PATH_INFO']) && !empty($_SERVER['QUERY_STRING'])) {
+
+                    // Convert browser url to uqery string url according to ReWrite rule
+                    $theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['PATH_INFO'] . '?' . $_SERVER['QUERY_STRING'];;
+
+                } else if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI'])) {
                     // To build the entire URI we need to prepend the protocol, and the http host
                     // to the URI string.
                     $theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
