@@ -718,7 +718,7 @@ if ($includeExtraTextfiles) {
     }
 
     ob_start();
-        require __DIR__ . '/layouts/github.php';
+    require __DIR__ . '/layouts/github.php';
     $githubText = ob_get_clean();
 
     file_put_contents('github_release.txt', $githubText);
