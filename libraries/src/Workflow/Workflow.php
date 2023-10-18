@@ -351,7 +351,7 @@ class Workflow
 
         $transition = $this->getValidTransition($pks, $transitionId);
 
-        if (is_null($transition)) {
+        if (\is_null($transition)) {
             return false;
         }
 

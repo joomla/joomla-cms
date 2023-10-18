@@ -284,12 +284,12 @@ abstract class FieldsPlugin extends CMSPlugin
 
         // Set the specific field parameters
         foreach ($params->toArray() as $key => $param) {
-            if (is_array($param)) {
+            if (\is_array($param)) {
                 // Multidimensional arrays (eg. list options) can't be transformed properly
-                $param = count($param) == count($param, COUNT_RECURSIVE) ? implode(',', $param) : '';
+                $param = \count($param) == \count($param, COUNT_RECURSIVE) ? implode(',', $param) : '';
             }
 
-            if ($param === '' || (!is_string($param) && !is_numeric($param))) {
+            if ($param === '' || (!\is_string($param) && !is_numeric($param))) {
                 continue;
             }
 

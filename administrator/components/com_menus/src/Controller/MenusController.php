@@ -85,7 +85,7 @@ class MenusController extends AdminController
                 }
             }
 
-            if (count($cids) > 0) {
+            if (\count($cids) > 0) {
                 // Get the model.
                 /** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
                 $model = $this->getModel();
@@ -94,7 +94,7 @@ class MenusController extends AdminController
                 if (!$model->delete($cids)) {
                     $this->setMessage($model->getError(), 'error');
                 } else {
-                    $this->setMessage(Text::plural('COM_MENUS_N_MENUS_DELETED', count($cids)));
+                    $this->setMessage(Text::plural('COM_MENUS_N_MENUS_DELETED', \count($cids)));
                 }
             }
         }

@@ -521,7 +521,7 @@ class Email extends CMSPlugin implements SubscriberInterface
         static $alreadySent = false;
 
         // Make sure we have a user
-        if (!is_object($user) || !($user instanceof User)) {
+        if (!\is_object($user) || !($user instanceof User)) {
             $user = $this->getApplication()->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
         }
 

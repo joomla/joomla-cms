@@ -17,7 +17,7 @@ describe('Test in backend that privacy consent component', () => {
     cy.get('tbody > tr > :nth-child(4)').should('contain', 'test user');
     cy.get('table').find('tr').should('have.length', 4);
   });
-  /*
+
   it('can invalidate privacy consent', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
@@ -28,6 +28,8 @@ describe('Test in backend that privacy consent component', () => {
     cy.get('tbody > tr > :nth-child(4)').should('contain', 'test user');
     cy.get('#cb0').click();
     cy.get('.button-trash').click();
+    cy.clickDialogConfirm(true);
+
     cy.get('.alert-message').should('contain', 'The consent was invalidated.');
   });
 
@@ -42,10 +44,11 @@ describe('Test in backend that privacy consent component', () => {
 
     cy.get('.w-1.text-center > .form-check-input').click();
     cy.get('#toolbar-trash').click();
+    cy.clickDialogConfirm(true);
 
     cy.get('.alert-message').should('contain', '2 consents were invalidated');
   });
-  */
+
   it('can filter by valid consent', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
@@ -154,7 +157,7 @@ describe('Test in backend that privacy consent component', () => {
     cy.get('.filter-search-bar__button').click();
     cy.get('.alert').should('contain', 'No Matching Results');
   });
-  /*
+
   it('can displays correct number of consents', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
@@ -187,7 +190,7 @@ describe('Test in backend that privacy consent component', () => {
     cy.get('#list_limit').select('All');
     cy.get('table').find('tr').should('have.length', 551);
   });
-  */
+
   it('can list by status in ascending order', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {

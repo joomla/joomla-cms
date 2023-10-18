@@ -136,7 +136,7 @@ class GroupModel extends AdminModel
      */
     protected function preprocessForm(Form $form, $data, $group = '')
     {
-        $obj = is_array($data) ? ArrayHelper::toObject($data, CMSObject::class) : $data;
+        $obj = \is_array($data) ? ArrayHelper::toObject($data, CMSObject::class) : $data;
 
         if (isset($obj->parent_id) && $obj->parent_id == 0 && $obj->id > 0) {
             $form->setFieldAttribute('parent_id', 'type', 'hidden');
@@ -199,7 +199,7 @@ class GroupModel extends AdminModel
             // Next, are we a member of the current group?
             $myGroups = Access::getGroupsByUser($this->getCurrentUser()->get('id'), false);
 
-            if (in_array($data['id'], $myGroups)) {
+            if (\in_array($data['id'], $myGroups)) {
                 // Now, would we have super admin permissions without the current group?
                 $otherGroups     = array_diff($myGroups, [$data['id']]);
                 $otherSuperAdmin = false;
@@ -258,7 +258,7 @@ class GroupModel extends AdminModel
 
         foreach ($pks as $pk) {
             // Do not allow to delete groups to which the current user belongs
-            if (in_array($pk, $groups)) {
+            if (\in_array($pk, $groups)) {
                 Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_DELETE_ERROR_INVALID_GROUP'), 'error');
 
                 return false;

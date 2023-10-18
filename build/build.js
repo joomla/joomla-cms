@@ -13,6 +13,7 @@
  * node build.js --com-media        will compile the media manager Vue application
  * node build.js --watch-com-media  will watch and compile the media manager Vue application
  * node build.js --gzip             will create gzip files for all the minified stylesheets and scripts.
+ * node build.js --cssversioning    will update all the url entries providing accurate versions for stylesheets.
  * node build.js --versioning       will update all the joomla.assets.json files providing accurate versions for stylesheets and scripts.
  */
 
@@ -32,6 +33,7 @@ const { recreateMediaFolder } = require('./build-modules-js/init/recreate-media.
 const { watching } = require('./build-modules-js/watch.es6.js');
 const { mediaManager, watchMediaManager } = require('./build-modules-js/javascript/build-com_media-js.es6');
 const { compressFiles } = require('./build-modules-js/compress.es6.js');
+const { cssVersioning } = require('./build-modules-js/css-versioning.es6.js');
 const { versioning } = require('./build-modules-js/versioning.es6.js');
 const { Timer } = require('./build-modules-js/utils/timer.es6.js');
 const { compileCodemirror } = require('./build-modules-js/javascript/build-codemirror.es6.js');
@@ -75,6 +77,7 @@ Program
   .option('--watch-com-media', 'Watch and Compile the Media Manager client side App.')
   .option('--gzip', 'Compress all the minified stylesheets and scripts.')
   .option('--prepare', 'Run all the needed tasks to initialise the repo')
+  .option('--cssversioning', 'Update all the url() versions on their relative stylesheet files')
   .option('--versioning', 'Update all the .js/.css versions on their relative joomla.assets.json')
 
   .addHelpText('after', `
@@ -151,6 +154,12 @@ if (cliOptions.watchComMedia) {
 // Update the .js/.css versions
 if (cliOptions.versioning) {
   versioning()
+    .catch((err) => handleError(err, 1));
+}
+
+// Update the url() versions in the .css files
+if (cliOptions.cssversioning) {
+  cssVersioning()
     .catch((err) => handleError(err, 1));
 }
 

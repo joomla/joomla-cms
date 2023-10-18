@@ -358,7 +358,7 @@ class InstallCommand extends AbstractCommand
         if ($givenOption || !$this->cliInput->isInteractive()) {
             $answer = $this->getApplication()->getConsoleInput()->getOption($option);
 
-            if (!is_string($answer)) {
+            if (!\is_string($answer)) {
                 throw new \Exception($option . ' has been declared, but has not been given!');
             }
 
@@ -373,7 +373,7 @@ class InstallCommand extends AbstractCommand
 
         // We don't have a CLI option and now interactively get that from the user.
         while (\is_null($answer) || $answer === false) {
-            if (in_array($option, ['admin-password', 'db-pass', 'public_folder'])) {
+            if (\in_array($option, ['admin-password', 'db-pass', 'public_folder'])) {
                 $answer = $this->ioStyle->askHidden($question);
             } else {
                 $answer = $this->ioStyle->ask(

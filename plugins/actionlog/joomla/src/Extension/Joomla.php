@@ -888,7 +888,7 @@ final class Joomla extends ActionLogPlugin
      */
     protected function checkLoggable($extension)
     {
-        return in_array($extension, $this->loggableExtensions);
+        return \in_array($extension, $this->loggableExtensions);
     }
 
     /**
@@ -1066,7 +1066,7 @@ final class Joomla extends ActionLogPlugin
 
         $verb = $this->getApplication()->getInput()->getMethod();
 
-        if (!in_array($verb, $this->loggableVerbs)) {
+        if (!\in_array($verb, $this->loggableVerbs)) {
             return;
         }
 
