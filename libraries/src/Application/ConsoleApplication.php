@@ -550,39 +550,17 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      */
     protected function getDefaultInputDefinition(): InputDefinition
     {
-        return new InputDefinition(
-            [
-                new InputArgument('command', InputArgument::REQUIRED, 'The command to execute'),
-                new InputOption(
-                    '--live-site',
-                    null,
-                    InputOption::VALUE_OPTIONAL,
-                    'The URL to your site, e.g. https://www.example.com'
-                ),
-                new InputOption('--help', '-h', InputOption::VALUE_NONE, 'Display the help information'),
-                new InputOption(
-                    '--quiet',
-                    '-q',
-                    InputOption::VALUE_NONE,
-                    'Flag indicating that all output should be silenced'
-                ),
-                new InputOption(
-                    '--verbose',
-                    '-v|vv|vvv',
-                    InputOption::VALUE_NONE,
-                    'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
-                ),
-                new InputOption('--version', '-V', InputOption::VALUE_NONE, 'Displays the application version'),
-                new InputOption('--ansi', '', InputOption::VALUE_NONE, 'Force ANSI output'),
-                new InputOption('--no-ansi', '', InputOption::VALUE_NONE, 'Disable ANSI output'),
-                new InputOption(
-                    '--no-interaction',
-                    '-n',
-                    InputOption::VALUE_NONE,
-                    'Flag to disable interacting with the user'
-                ),
-            ]
+        $inputDefinition = parent::getDefaultInputDefinition();
+        $inputDefinition->addOption(
+            new InputOption(
+                '--live-site',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'The URL to your site, e.g. https://www.example.com'
+            )
         );
+
+        return $inputDefinition;
     }
 
     /**
