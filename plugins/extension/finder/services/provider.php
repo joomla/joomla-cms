@@ -33,9 +33,10 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $plugin     = new Finder(
+                $extensionPlugin = (array) PluginHelper::getPlugin('extension', 'finder');
+                $plugin          = new Finder(
                     $container->get(DispatcherInterface::class),
-                    (array) PluginHelper::getPlugin('extension', 'finder')
+                    $extensionPlugin
                 );
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
 

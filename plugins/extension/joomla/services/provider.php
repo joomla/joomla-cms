@@ -33,9 +33,10 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $plugin     = new Joomla(
+                $extensionPlugin = (array) PluginHelper::getPlugin('extension', 'joomla');
+                $plugin          = new Joomla(
                     $container->get(DispatcherInterface::class),
-                    (array) PluginHelper::getPlugin('extension', 'joomla')
+                    $extensionPlugin
                 );
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
 
