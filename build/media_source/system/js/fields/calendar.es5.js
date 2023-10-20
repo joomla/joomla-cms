@@ -800,7 +800,7 @@
 							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value);
 					}, false);
 				}
-      })();
+			})();
 		}
 
 		row = createElement("div", this.wrapper);
