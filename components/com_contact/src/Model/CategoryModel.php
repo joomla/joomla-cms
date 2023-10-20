@@ -177,12 +177,11 @@ class CategoryModel extends ListModel
             ->whereIn($db->quoteName('a.access'), $groups);
 
         // Filter by category.
-        $categoryId           = $this->getState('category.id');
-        $includeSubcategories = (int)$this->getState('filter.max_category_levels', 1) !== 0;
+        $categoryId           = (int) $this->getState('category.id');
+        $includeSubcategories = (int) $this->getState('filter.max_category_levels', 1) !== 0;
 
         if ($includeSubcategories) {
-            $categoryId = (int) $categoryId;
-            $levels     = (int) $this->getState('filter.max_category_levels', 1);
+            $levels = (int) $this->getState('filter.max_category_levels', 1);
 
             // Create a subquery for the subcategory list
             $subQuery = $db->getQuery(true)
