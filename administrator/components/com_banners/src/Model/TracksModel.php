@@ -13,11 +13,11 @@ namespace Joomla\Component\Banners\Administrator\Model;
 use Joomla\Archive\Archive;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -476,7 +476,9 @@ class TracksModel extends ListModel
                     $this->setError(Text::_('COM_BANNERS_ERR_ZIP_ADAPTER_FAILURE'));
 
                     return false;
-                } elseif (!$packager->create($ziproot, $files)) {
+                }
+
+                if (!$packager->create($ziproot, $files)) {
                     $this->setError(Text::_('COM_BANNERS_ERR_ZIP_CREATE_FAILURE'));
 
                     return false;

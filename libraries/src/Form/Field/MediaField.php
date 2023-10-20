@@ -11,13 +11,13 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -185,8 +185,6 @@ class MediaField extends FormField
             case 'authorField':
             case 'asset':
             case 'link':
-            case 'width':
-            case 'height':
             case 'preview':
             case 'directory':
             case 'folder':
@@ -194,8 +192,10 @@ class MediaField extends FormField
                 $this->$name = (string) $value;
                 break;
 
+            case 'height':
             case 'previewWidth':
             case 'previewHeight':
+            case 'width':
                 $this->$name = (int) $value;
                 break;
 

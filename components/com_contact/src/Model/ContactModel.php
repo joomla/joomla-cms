@@ -47,10 +47,10 @@ class ContactModel extends FormModel
     /**
      * A loaded item
      *
-     * @var    \stdClass
+     * @var    \stdClass[]
      * @since  1.6
      */
-    protected $_item = null;
+    protected $_item = [];
 
     /**
      * Model context string.
@@ -111,7 +111,7 @@ class ContactModel extends FormModel
         }
 
         $temp    = clone $this->getState('params');
-        $contact = $this->_item[$this->getState('contact.id')];
+        $contact = $this->getItem($this->getState('contact.id'));
         $active  = Factory::getContainer()->get(SiteApplication::class)->getMenu()->getActive();
 
         if ($active) {
@@ -176,10 +176,6 @@ class ContactModel extends FormModel
     public function getItem($pk = null)
     {
         $pk = $pk ?: (int) $this->getState('contact.id');
-
-        if ($this->_item === null) {
-            $this->_item = [];
-        }
 
         if (!isset($this->_item[$pk])) {
             try {
@@ -265,9 +261,9 @@ class ContactModel extends FormModel
                     $groups = $user->getAuthorisedViewLevels();
 
                     if ($data->catid == 0 || $data->category_access === null) {
-                        $data->params->set('access-view', in_array($data->access, $groups));
+                        $data->params->set('access-view', \in_array($data->access, $groups));
                     } else {
-                        $data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
+                        $data->params->set('access-view', \in_array($data->access, $groups) && \in_array($data->category_access, $groups));
                     }
                 }
 
@@ -276,10 +272,10 @@ class ContactModel extends FormModel
                 if ($e->getCode() == 404) {
                     // Need to go through the error handler to allow Redirect to work.
                     throw $e;
-                } else {
-                    $this->setError($e);
-                    $this->_item[$pk] = false;
                 }
+
+                $this->setError($e);
+                $this->_item[$pk] = false;
             }
         }
 
@@ -335,7 +331,7 @@ class ContactModel extends FormModel
 
             // Filter per language if plugin published
             if (Multilanguage::isEnabled()) {
-                $language = [Factory::getLanguage()->getTag(), $db->quote('*')];
+                $language = [Factory::getLanguage()->getTag(), '*'];
                 $query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
             }
 

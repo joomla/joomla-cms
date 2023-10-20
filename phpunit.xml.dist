@@ -20,7 +20,7 @@
 		<const name="JTEST_LDAP_PORT" value="1389" />
 		<const name="JTEST_LDAP_PORT_SSL" value="1636" />
 		<!--CACERTFILE path is relative to JPATH_ROOT-->
-		<const name="JTEST_LDAP_CACERTFILE" value="./tests/Codeception/_data/certs/CA.crt" />
+		<const name="JTEST_LDAP_CACERTFILE" value="./tests/certs/CA.crt" />
 		<const name="JTEST_LDAP_USEV3" value="1" />
 		<const name="JTEST_LDAP_NOREFERRALS" value="1" />
 		<const name="JTEST_LDAP_BASE" value="dc=example,dc=org" />

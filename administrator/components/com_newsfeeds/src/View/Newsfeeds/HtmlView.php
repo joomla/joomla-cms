@@ -53,7 +53,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  1.6
      */
@@ -67,6 +67,20 @@ class HtmlView extends BaseHtmlView
      * @since  4.0.0
      */
     private $isEmptyState = false;
+
+    /**
+     * Form object for search filters
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    public $filterForm;
+
+    /**
+     * The active search filters
+     *
+     * @var  array
+     */
+    public $activeFilters;
 
     /**
      * Execute and display a template script.
@@ -133,12 +147,12 @@ class HtmlView extends BaseHtmlView
     {
         $state   = $this->get('State');
         $canDo   = ContentHelper::getActions('com_newsfeeds', 'category', $state->get('filter.category_id'));
-        $user    = Factory::getApplication()->getIdentity();
+        $user    = $this->getCurrentUser();
         $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'rss newsfeeds');
 
-        if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
+        if ($canDo->get('core.create') || \count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
             $toolbar->addNew('newsfeed.add');
         }
 

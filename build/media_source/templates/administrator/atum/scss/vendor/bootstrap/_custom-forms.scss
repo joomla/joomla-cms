@@ -1,3 +1,5 @@
+@import "../../variables-dark";
+
 // Custom Forms
 
 .custom-select {
@@ -8,16 +10,12 @@
   max-width: $input-max-width;
   cursor: pointer;
   background: $form-select-background #{"/* rtl:"}$form-select-background-rtl#{"*/"};;
-  background-color: $form-select-bg;
-  border: $form-select-border-width solid $form-select-border-color;
 
   &[multiple] {
     padding: 0;
-    background-color: var(--white-offset);
 
     option {
       padding: $form-select-multiple-padding-y $form-select-padding-x;
-      background-color: var(--white-offset);
 
       &:checked {
         color: var(--template-text-light);
@@ -36,6 +34,14 @@
       color: $form-select-color;
       background-color: var(--white-offset);
     }
+
+    @if $enable-dark-mode {
+      @include color-mode(dark) {
+        option {
+          background-color: var(--gray-800);
+        }
+      }
+    }
   }
 
   &.form-select-danger,
@@ -48,19 +54,60 @@
       color: $form-select-color;
       background-color: var(--white-offset);
     }
+
+    @if $enable-dark-mode {
+      @include color-mode(dark) {
+        option {
+          background-color: var(--gray-800);
+        }
+      }
+    }
   }
 
   &:disabled {
     cursor: default;
-    background-color: #e8e8e8;
+    background-color: var(--gray-200);
     background-image: none;
     border: 0;
     box-shadow: none;
   }
 
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      &:disabled {
+        background-color: var(--gray-800);
+      }
+    }
+  }
+
   optgroup,
   option {
     color: var(--template-text-dark);
-    background-color: $white;
+    background-color: var(--body-bg);
+
+    &:disabled {
+      background-color: var(--template-bg-dark-5);
+    }
+  }
+
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      option {
+        color: var(--template-text-light);
+
+        &:disabled {
+          background-color: var(--template-bg-dark-90);
+        }
+      }
+    }
   }
 }
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .form-select {
+      background: $form-select-background-dark #{"/* rtl:"}$form-select-background-rtl-dark#{"*/"};
+    }
+  }
+}
+

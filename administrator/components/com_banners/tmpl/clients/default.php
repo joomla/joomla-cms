@@ -10,17 +10,16 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
+use Joomla\Registry\Registry;
 
 /** @var \Joomla\Component\Banners\Administrator\View\Clients\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
@@ -32,11 +31,11 @@ $purchaseTypes = [
     '5' => 'DAILY',
 ];
 
-$user       = Factory::getUser();
+$user       = $this->getCurrentUser();
 $userId     = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
-$params     = $this->state->params ?? new CMSObject();
+$params     = $this->state->get('params') ?? new Registry();
 ?>
 <form action="<?php echo Route::_('index.php?option=com_banners&view=clients'); ?>" method="post" name="adminForm" id="adminForm">
     <div class="row">

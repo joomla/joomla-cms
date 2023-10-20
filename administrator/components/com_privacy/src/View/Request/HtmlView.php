@@ -20,7 +20,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Privacy\Administrator\Model\RequestsModel;
+use Joomla\Component\Privacy\Administrator\Model\RequestModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -60,7 +60,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The state information
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  3.9.0
      */
     protected $state;
@@ -78,7 +78,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        /** @var RequestsModel $model */
+        /** @var RequestModel $model */
         $model       = $this->getModel();
         $this->item  = $model->getItem();
         $this->state = $model->getState();
@@ -91,7 +91,7 @@ class HtmlView extends BaseHtmlView
             $this->actionlogs = $logsModel->getLogsForItem('com_privacy.request', $this->item->id);
 
             // Load the com_actionlogs language strings for use in the layout
-            $lang = Factory::getLanguage();
+            $lang = $this->getLanguage();
             $lang->load('com_actionlogs', JPATH_ADMINISTRATOR)
                 || $lang->load('com_actionlogs', JPATH_ADMINISTRATOR . '/components/com_actionlogs');
         }
@@ -102,7 +102,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

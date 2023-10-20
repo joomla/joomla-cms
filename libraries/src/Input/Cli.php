@@ -12,7 +12,7 @@ namespace Joomla\CMS\Input;
 use Joomla\CMS\Filter\InputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -103,7 +103,7 @@ class Cli extends Input
      *
      * @param   string  $input  The serialized input.
      *
-     * @return  Input  The input object.
+     * @return  void
      *
      * @since   3.0.0
      *

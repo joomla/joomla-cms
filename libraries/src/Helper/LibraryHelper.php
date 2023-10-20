@@ -19,7 +19,7 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -59,7 +59,7 @@ class LibraryHelper
             }
         } else {
             $result          = new \stdClass();
-            $result->enabled = $strict ? false : true;
+            $result->enabled = !$strict;
             $result->params  = new Registry();
         }
 

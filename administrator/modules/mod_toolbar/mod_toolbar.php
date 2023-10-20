@@ -8,11 +8,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\Toolbar\Toolbar;
 
-$toolbar = Toolbar::getInstance('toolbar')->render();
+/** @var $params Joomla\Registry\Registry */
+
+$toolbar = Factory::getApplication()->getDocument()->getToolbar($params->get('toolbar', 'toolbar'))->render();
 
 require ModuleHelper::getLayoutPath('mod_toolbar', $params->get('layout', 'default'));

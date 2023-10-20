@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -66,7 +65,7 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 		--template-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
 		--template-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
 		--template-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
-		--template-link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
+		--link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
 		--template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
 	}');
 
@@ -102,11 +101,6 @@ HTMLHelper::_('bootstrap.dropdown');
             <?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
         </div>
     </noscript>
-    <?php if (Browser::getInstance()->getBrowser() === 'msie') : ?>
-        <div class="ie11 alert alert-warning" role="alert">
-            <?php echo Text::_('JGLOBAL_WARNIE'); ?>
-        </div>
-    <?php endif; ?>
 
     <header id="header" class="header d-flex">
         <div class="header-title d-flex">

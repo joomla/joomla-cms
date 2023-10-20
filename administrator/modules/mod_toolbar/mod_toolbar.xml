@@ -20,6 +20,16 @@
 	<help key="Admin_Modules:_Toolbar" />
 	<config>
 		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="toolbar"
+					type="text"
+					default="toolbar"
+					label="MOD_TOOLBAR_FIELD_TOOLBAR_LABEL"
+					description="MOD_TOOLBAR_FIELD_TOOLBAR_DESCRIPTION"
+				/>
+			</fieldset>
+
 			<fieldset name="advanced">
 				<field
 					name="layout"

@@ -14,12 +14,13 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -28,8 +29,11 @@ use Joomla\Registry\Registry;
  *
  * @since  1.7.0
  */
-class Update extends CMSObject
+class Update
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
     /**
      * Update manifest `<name>` element
      *
@@ -228,6 +232,11 @@ class Update extends CMSObject
      * @since  3.10.2
      */
     protected $compatibleVersions = [];
+    public $downloadurl;
+    protected $tag;
+    protected $stability;
+    protected $supported_databases;
+    protected $php_minimum;
 
     /**
      * Gets the reference to the current direct parent

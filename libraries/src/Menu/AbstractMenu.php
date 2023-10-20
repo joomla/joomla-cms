@@ -15,7 +15,7 @@ use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -100,7 +100,7 @@ abstract class AbstractMenu
          * user object is not updated, the menu will render incorrectly, not complying with
          * menu items access levels.
          *
-         * @see https://github.com/joomla/joomla-cms/issues/11541
+         * @link https://github.com/joomla/joomla-cms/issues/11541
          */
         $this->storedUser = isset($options['user']) && $options['user'] instanceof User ? $options['user'] : null;
     }

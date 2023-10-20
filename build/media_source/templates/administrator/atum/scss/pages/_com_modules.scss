@@ -1,14 +1,32 @@
 .new-modules {
+  // We use the same colors for the new module section as we do for the quickicons.
+  --text-color: var(--template-quickicon-color);
+  --bg-color: hsl(var(--hue), 60%, 97%);
+  --bg-color-hvr: var(--template-bg-dark);
+  --icon-color: var(--template-quickicon-color);
+  --icon-color-hvr: hsl(var(--hue), 50%, 93%);
+
   .card-columns {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .new-modules {
+      --bg-color: var(--template-bg-dark-80);
+      --bg-color-hvr: var(--template-bg-dark-65);
+      --icon-color: var(--template-bg-dark-80);
+      --icon-color-hvr: var(--template-quickicon-color);
+    }
   }
 }
 
 .new-module {
   display: flex;
   overflow: hidden;
-  color: hsl(var(--hue),30%,40%);
-  background-color: hsl(var(--hue), 60%, 97%);
+  color: var(--text-color);
+  background-color: var(--bg-color);
   border: 1px solid hsl(var(--hue), 50%, 93%);
   border-radius: $border-radius;
 
@@ -43,14 +61,14 @@
 
     span {
       margin-bottom: 10px;
-      color: hsl(var(--hue), 30%, 40%);
+      color: var(--icon-color);
     }
 
     .new-module:hover & {
-      background: var(--template-bg-dark);
+      background: var(--bg-color-hvr);
 
       span {
-        color: $white;
+        color: var(--icon-color-hvr);
       }
     }
   }

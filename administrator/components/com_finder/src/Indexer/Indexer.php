@@ -10,16 +10,15 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
+use Joomla\Filesystem\File;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -116,7 +115,7 @@ class Indexer
     /**
      * Indexer constructor.
      *
-     * @param  DatabaseInterface  $db  The database
+     * @param  ?DatabaseInterface  $db  The database
      *
      * @since  3.8.0
      */
@@ -147,7 +146,7 @@ class Indexer
     /**
      * Method to get the indexer state.
      *
-     * @return  object  The indexer state object.
+     * @return  CMSObject  The indexer state object.
      *
      * @since   2.5
      */
@@ -187,7 +186,7 @@ class Indexer
                      */
                     $memory_table_limit = (int) ($heapsize->Value / 800);
                     $data->options->set('memory_table_limit', $memory_table_limit);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     // Something failed. We fall back to a reasonable guess.
                     $data->options->set('memory_table_limit', 7500);
                 }
@@ -401,7 +400,7 @@ class Indexer
                 }
 
                 // Tokenize the property.
-                if (is_array($item->$property)) {
+                if (\is_array($item->$property)) {
                     // Tokenize an array of content and add it to the database.
                     foreach ($item->$property as $ip) {
                         /*
@@ -457,6 +456,10 @@ class Indexer
                     $nodeId = Taxonomy::addNestedNode($branch, $node->node, $node->state, $node->access, $node->language);
                 } else {
                     $nodeId = Taxonomy::addNode($branch, $node->title, $node->state, $node->access, $node->language);
+                }
+
+                if (!$nodeId) {
+                    continue;
                 }
 
                 // Add the link => node map.
@@ -643,7 +646,7 @@ class Indexer
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function remove($linkId, $removeTaxonomies = true)
     {
@@ -701,7 +704,7 @@ class Indexer
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function optimize()
     {
@@ -776,7 +779,7 @@ class Indexer
     /**
      * Method to get a content item's signature.
      *
-     * @param   object  $item  The content item to index.
+     * @param   Result  $item  The content item to index.
      *
      * @return  string  The content item's signature.
      *
@@ -800,12 +803,12 @@ class Indexer
     /**
      * Method to parse input, tokenize it, and then add it to the database.
      *
-     * @param   mixed    $input    String or resource to use as input. A resource input will automatically be chunked to conserve
-     *                             memory. Strings will be chunked if longer than 2K in size.
-     * @param   integer  $context  The context of the input. See context constants.
-     * @param   string   $lang     The language of the input.
-     * @param   string   $format   The format of the input.
-     * @param   integer  $count    Number of words indexed so far.
+     * @param   string|resource  $input    String or resource to use as input. A resource input will automatically be chunked to conserve
+     *                                     memory. Strings will be chunked if longer than 2K in size.
+     * @param   integer          $context  The context of the input. See context constants.
+     * @param   string           $lang     The language of the input.
+     * @param   string           $format   The format of the input.
+     * @param   integer          $count    Number of terms indexed so far.
      *
      * @return  integer  The number of tokens extracted from the input.
      *
@@ -820,7 +823,7 @@ class Indexer
         }
 
         // If the input is a resource, batch the process out.
-        if (is_resource($input)) {
+        if (\is_resource($input)) {
             // Batch the process out to avoid memory limits.
             while (!feof($input)) {
                 // Read into the buffer.
@@ -883,7 +886,7 @@ class Indexer
     {
         static $filterCommon, $filterNumeric;
 
-        if (is_null($filterCommon)) {
+        if (\is_null($filterCommon)) {
             $params        = ComponentHelper::getParams('com_finder');
             $filterCommon  = $params->get('filter_commonwords', false);
             $filterNumeric = $params->get('filter_numerics', false);
@@ -900,7 +903,7 @@ class Indexer
         // Tokenize the input.
         $tokens = Helper::tokenize($input, $lang);
 
-        if (count($tokens) == 0) {
+        if (\count($tokens) == 0) {
             return $count;
         }
 
@@ -962,7 +965,7 @@ class Indexer
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function toggleTables($memory)
     {
