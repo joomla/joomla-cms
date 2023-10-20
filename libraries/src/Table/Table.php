@@ -325,7 +325,7 @@ abstract class Table implements TableInterface, DispatcherAwareInterface
             /*
             * If unable to find the class file in the Table include paths. Return false.
             * The warning JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND has been removed in 3.6.3.
-            * In 4.0 an Exception (type to be determined) will be thrown.
+            * In 6.0 an Exception (type to be determined) will be thrown.
             * For more info see https://github.com/joomla/joomla-cms/issues/11570
             */
 
