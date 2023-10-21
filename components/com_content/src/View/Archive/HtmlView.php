@@ -31,7 +31,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var   \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      */
     protected $state = null;
 
@@ -196,7 +196,7 @@ class HtmlView extends BaseHtmlView
         $years       = [];
         $years[]     = HTMLHelper::_('select.option', null, Text::_('JYEAR'));
 
-        for ($i = 0, $iMax = count($this->years); $i < $iMax; $i++) {
+        for ($i = 0, $iMax = \count($this->years); $i < $iMax; $i++) {
             $years[] = HTMLHelper::_('select.option', $this->years[$i], $this->years[$i]);
         }
 

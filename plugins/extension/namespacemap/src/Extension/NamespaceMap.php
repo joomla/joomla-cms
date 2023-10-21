@@ -36,18 +36,18 @@ final class NamespaceMap extends CMSPlugin
      * Constructor
      *
      * @param   DispatcherInterface  $subject  The object to observe
-     * @param   \JNamespacePsr4Map    $map      The namespace map creator
+     * @param   \JNamespacePsr4Map   $map      The namespace map creator
      * @param   array                $config   An optional associative array of configuration settings.
      *                                         Recognized key values include 'name', 'group', 'params', 'language'
      *                                         (this list is not meant to be comprehensive).
      *
      * @since   4.0.0
      */
-    public function __construct(DispatcherInterface $subject, \JNamespacePsr4Map $map, $config = [])
+    public function __construct(DispatcherInterface $dispatcher, \JNamespacePsr4Map $map, array $config = [])
     {
         $this->fileCreator = $map;
 
-        parent::__construct($subject, $config);
+        parent::__construct($dispatcher, $config);
     }
 
     /**

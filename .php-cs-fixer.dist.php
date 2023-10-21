@@ -9,8 +9,8 @@
 /**
  * This is the configuration file for php-cs-fixer
  *
- * @see https://github.com/FriendsOfPHP/PHP-CS-Fixer
- * @see https://mlocati.github.io/php-cs-fixer-configurator/#version:3.0
+ * @link https://github.com/FriendsOfPHP/PHP-CS-Fixer
+ * @link https://mlocati.github.io/php-cs-fixer-configurator/#version:3.0
  *
  *
  * If you would like to run the automated clean up, then open a command line and type one of the commands below
@@ -84,6 +84,10 @@ $config
             'global_namespace_import'        => ['import_classes' => false, 'import_constants' => false, 'import_functions' => false],
             // Alpha order imports
             'ordered_imports'                => ['imports_order' => ['class', 'function', 'const'], 'sort_algorithm' => 'alpha'],
+            // There should not be useless else cases
+            'no_useless_else'                => true,
+            // Native function invocation
+            'native_function_invocation'     => ['include' => ['@compiler_optimized']],
         ]
     )
     ->setFinder($finder);

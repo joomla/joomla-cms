@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Event\Result;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -63,7 +63,7 @@ trait ResultTypeArrayAware
             return;
         }
 
-        if (!is_array($data)) {
+        if (!\is_array($data)) {
             throw new \InvalidArgumentException(sprintf('Event %s only accepts Array results.', $this->getName()));
         }
     }

@@ -18,7 +18,7 @@ use Joomla\Session\HandlerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -124,14 +124,6 @@ class SessionFactory implements ContainerAwareInterface
                 }
 
                 return new Handler\RedisHandler($redis, ['ttl' => $options['expire']]);
-
-            case 'wincache':
-                // @TODO Remove WinCache with Joomla 5.0
-                if (!Handler\WincacheHandler::isSupported()) {
-                    throw new \RuntimeException('Wincache is not supported on this system.');
-                }
-
-                return new Handler\WincacheHandler();
 
             default:
                 throw new \InvalidArgumentException(sprintf('The "%s" session handler is not recognised.', $handlerType));

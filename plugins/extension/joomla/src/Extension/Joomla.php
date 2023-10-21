@@ -191,7 +191,7 @@ final class Joomla extends CMSPlugin
             $db->setQuery($query);
             $results = $db->loadColumn();
 
-            if (is_array($results)) {
+            if (\is_array($results)) {
                 // So we need to delete the update sites and their associated updates
                 $updatesite_delete = $db->getQuery(true);
                 $updatesite_delete->delete($db->quoteName('#__update_sites'));
@@ -201,7 +201,7 @@ final class Joomla extends CMSPlugin
                     ->from($db->quoteName('#__update_sites'));
 
                 // If we get results back then we can exclude them
-                if (count($results)) {
+                if (\count($results)) {
                     $updatesite_query->whereNotIn($db->quoteName('update_site_id'), $results);
                     $updatesite_delete->whereNotIn($db->quoteName('update_site_id'), $results);
                 }
@@ -210,7 +210,7 @@ final class Joomla extends CMSPlugin
                 $db->setQuery($updatesite_query);
                 $update_sites_pending_delete = $db->loadColumn();
 
-                if (is_array($update_sites_pending_delete) && count($update_sites_pending_delete)) {
+                if (\is_array($update_sites_pending_delete) && \count($update_sites_pending_delete)) {
                     // Nuke any pending updates with this site before we delete it
                     // @todo: investigate alternative of using a query after the delete below with a query and not in like above
                     $query->clear()
@@ -276,7 +276,7 @@ final class Joomla extends CMSPlugin
             $children = [];
         }
 
-        if (count($children)) {
+        if (\count($children)) {
             foreach ($children as $child) {
                 $attrs = $child->attributes();
                 $this->addUpdateSite((string) $attrs['name'], (string) $attrs['type'], trim($child), true, $this->installer->extraQuery);

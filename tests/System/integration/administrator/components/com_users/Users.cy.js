@@ -28,7 +28,7 @@ describe('Test in backend that the user list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Delete').click();
-      cy.on('window:confirm', () => true);
+      cy.clickDialogConfirm(true);
 
       cy.get('#system-message-container').contains('User deleted.').should('exist');
     });

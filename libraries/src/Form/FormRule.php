@@ -12,7 +12,7 @@
 
 namespace Joomla\CMS\Form;
 
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
@@ -80,7 +80,7 @@ class FormRule
         static $unicodePropertiesSupport = null;
 
         if ($unicodePropertiesSupport === null) {
-            $unicodePropertiesSupport = (bool) @\preg_match('/\pL/u', 'a');
+            $unicodePropertiesSupport = (bool) @preg_match('/\pL/u', 'a');
         }
 
         // Add unicode property support if available.

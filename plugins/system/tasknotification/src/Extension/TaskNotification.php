@@ -10,9 +10,8 @@
 
 namespace Joomla\Plugin\System\TaskNotification\Extension;
 
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -21,8 +20,8 @@ use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\Event;
-use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Filesystem\Path;
 use PHPMailer\PHPMailer\Exception as MailerException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -55,12 +54,6 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
     private const TASK_NOTIFICATION_FORM = 'task_notification';
 
     /**
-     * @var boolean
-     * @since 4.1.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * @inheritDoc
      *
      * @return array
@@ -81,20 +74,22 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
     /**
      * Inject fields to support configuration of post-execution notifications into the task item form.
      *
-     * @param   EventInterface  $event  The onContentPrepareForm event.
+     * @param   Model\PrepareFormEvent  $event  The onContentPrepareForm event.
      *
      * @return boolean True if successful.
      *
      * @since 4.1.0
      */
-    public function injectTaskNotificationFieldset(EventInterface $event): bool
+    public function injectTaskNotificationFieldset(Model\PrepareFormEvent $event): bool
     {
-        /** @var Form $form */
-        [$form] = array_values($event->getArguments());
+        $form = $event->getForm();
 
         if ($form->getName() !== 'com_scheduler.task') {
             return true;
         }
+
+        // Load translations
+        $this->loadLanguage();
 
         $formFile = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/' . self::TASK_NOTIFICATION_FORM . '.xml';
 
@@ -133,6 +128,9 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        // Load translations
+        $this->loadLanguage();
+
         // @todo safety checks, multiple files [?]
         $outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
         $data    = $this->getDataFromTask($event->getArgument('subject'));
@@ -160,6 +158,9 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        // Load translations
+        $this->loadLanguage();
+
         $data = $this->getDataFromTask($event->getArgument('subject'));
         $this->sendMail('plg_system_tasknotification.orphan_mail', $data);
     }
@@ -182,6 +183,9 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         if (!(int) $task->get('params.notifications.success_mail', 0)) {
             return;
         }
+
+        // Load translations
+        $this->loadLanguage();
 
         // @todo safety checks, multiple files [?]
         $outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
@@ -212,6 +216,9 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         if (!(int) $task->get('params.notifications.fatal_failure_mail', 1)) {
             return;
         }
+
+        // Load translations
+        $this->loadLanguage();
 
         $data = $this->getDataFromTask($event->getArgument('subject'));
         $this->sendMail('plg_system_tasknotification.fatal_recovery_mail', $data);
