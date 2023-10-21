@@ -43,6 +43,10 @@ $atum-colors-dark: (
   form-control-bg:                 var(--admin-background),
   form-control-bg-disabled:        var(--gray-800),
 
+  // background:
+  bg-normal:                        var(--template-bg-dark),
+  bg-reverted:                      var(--template-bg-dark-20),
+
   // text
   text-normal:                     var(--template-text-light),
   text-reverted:                   var(--template-text-dark),
@@ -173,7 +177,7 @@ $atum-colors-dark: (
   state-success-heading-bg:         var(--successlight),
 
   state-info-text:                  var(--text-normal),
-  state-info-bg:                    var(--template-bg-dark-70),
+  state-info-bg:                    #2969b8,
   state-info-border:                1px solid var(--template-bg-dark-60),
   state-info-icon:                  var(--state-info-text),
   state-info-heading-bg:            var(--state-info-bg),
