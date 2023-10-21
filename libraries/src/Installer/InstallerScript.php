@@ -182,7 +182,7 @@ class InstallerScript
                 ->from($db->quoteName('#__modules'))
                 ->where($db->quoteName('module') . ' = :extension');
         } else {
-            $query->select($db->quoteName('extension_id') . ' AS id')
+            $query->select($db->quoteName('extension_id', 'id'))
                 ->from($db->quoteName('#__extensions'))
                 ->where($db->quoteName('element') . ' = :extension');
         }
