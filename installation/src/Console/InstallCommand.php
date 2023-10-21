@@ -175,6 +175,8 @@ class InstallCommand extends AbstractCommand
             $cleanupModel = $app->getMVCFactory()->createModel('Cleanup', 'Installation');
 
             if (!$cleanupModel->deleteInstallationFolder()) {
+                $this->ioStyle->error('Unable to delete installation folder!');
+
                 return Command::FAILURE;
             }
 
@@ -184,7 +186,11 @@ class InstallCommand extends AbstractCommand
         if (!empty($cfg['public_folder'])) {
             $this->ioStyle->write('Creating the public folder...');
 
-            if (!(new PublicFolderGeneratorHelper())->createPublicFolder($cfg['public_folder'])) {
+            try {
+                (new PublicFolderGeneratorHelper())->createPublicFolder($cfg['public_folder']);
+            } catch (\Exception $e) {
+                $this->ioStyle->error($e->getMessage());
+
                 return Command::FAILURE;
             }
 
