@@ -21,6 +21,7 @@
     --text-color: var(--template-quickicon-color);
     --bg-color: var(--template-quickicon-bg);
     --icon-color: var(--template-quickicon-color);
+    --icon-color-hvr: #{$quickicon-color-hvr};
     --bg-color-hvr: var(--template-quickicon-bg-hvr);
     --text-color-hvr: #{$quickicon-link-hvr};
     --text-amount-color: var(--template-quickicon-color);
@@ -41,10 +42,10 @@
       .quickicon-icon {
         margin-top: .5rem;
         margin-inline-start: .2rem;
+        color: var(--icon-color);
 
         > * {
           font-size: $quickicon-icon-size;
-          color: var(--icon-color);
         }
       }
 
@@ -83,6 +84,9 @@
           color: $quickicon-amount-bg;
           background: var(--icon-color);
         }
+        .quickicon-icon {
+          color: var(--icon-color-hvr);
+        }
       }
 
       &.warning {
@@ -106,6 +110,7 @@
         --text-color-hvr: #{$state-success-bg};
         --bg-color: #{$state-success-bg};
         --icon-color: #{$state-success-icon};
+        --icon-color-hvr: #{$state-success-icon-hvr};
         --bg-color-hvr: #{$state-success-text};
       }
     }

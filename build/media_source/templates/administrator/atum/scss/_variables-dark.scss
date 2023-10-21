@@ -62,6 +62,7 @@ $atum-colors-dark: (
   quickicon-linkadd-bg:            hsl(var(--hue), 5%, 34%),
   quickicon-linkadd-color:         #479a59,
   quickicon-amount-bg:             hsl(var(--hue), 5%, 34%),
+  quickicon-color-hvr:             var(--quickicon-link-hvr),
 
   // modules
   new-modules-color:               var(--template-quickicon-color),
@@ -175,6 +176,7 @@ $atum-colors-dark: (
   state-success-border:             1px solid var(--successlight),
   state-success-btn-border:         1px solid var(--success),
   state-success-icon:               var(--text-normal),
+  state-success-icon-hvr:           var(--successlight),
   state-success-heading-bg:         var(--successlight),
 
   state-info-text:                  var(--text-normal),

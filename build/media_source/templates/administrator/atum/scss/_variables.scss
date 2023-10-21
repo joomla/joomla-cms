@@ -122,6 +122,7 @@ $atum-colors: (
   // quickicons
   quickicon-bg:                    var(--white),
   quickicon-color:                 var(--template-quickicon-color),
+  quickicon-color-hvr:             var(--template-quickicon-color),
   quickicon-border:                1px solid hsl(var(--hue), 50%, 93%),
   quickicon-border-radius:         4px,
   quickicon-link-hvr:              $white,
@@ -242,6 +243,7 @@ $atum-colors: (
   state-success-border:             1px solid $success,
   state-succes-btn-border:          1px solid $success,
   state-success-icon:               #55a258,
+  state-success-icon-hvr:           var(--state-success-icon),
   state-success-heading-bg:         $success,
 
   state-info-text:                  var(--template-bg-dark-70),
@@ -287,9 +289,9 @@ $atum-colors: (
   atum-subhead-btn-action:          var(--template-bg-dark),
   atum-subhead-btn-action-bg:       var(--body-bg),
   atum-subhead-btn-action-border:   1px solid hsl(var(--hue),20%,80%),
-  atum-subhead-btn-info:            var(--template-bg-dark),
-  atum-subhead-btn-info-bg:         var(--body-bg),
-  atum-subhead-btn-info-border:     1px solid hsl(var(--hue),20%,80%),
+  atum-subhead-btn-info:            var(--body-bg),
+  atum-subhead-btn-info-bg:         var(--template-bg-dark),
+  atum-subhead-btn-info-border:     1px solid var(--template-bg-dark),
 );
 
 $colors: (
@@ -437,6 +439,7 @@ $state-success-bg:                 var(--state-success-bg);
 $state-success-border:             var(--state-success-border);
 $state-success-btn-border:         var(--state-success-btn-border);
 $state-success-icon:               var(--state-success-icon);
+$state-success-icon-hvr:               var(--state-success-icon-hvr);
 $state-success-heading-bg:         var(--state-success-heading-bg);
 
 $state-info-text:                  var(--state-info-text);
@@ -586,6 +589,7 @@ $quickicon-icon-size-sm:           1.3rem;
 $quickicon-border:                var(--quickicon-border);
 $quickicon-border-radius:         var(--quickicon-border-radius);
 $quickicon-color:                 var(--quickicon-color);
+$quickicon-color-hvr:             var(--quickicon-color-hvr);
 $quickicon-link-hvr:              var(--quickicon-link-hvr);
 $quickicon-linkadd-color:         var(--quickicon-linkadd-color);
 $quickicon-linkadd-bg:            var(--quickicon-linkadd-bg);
