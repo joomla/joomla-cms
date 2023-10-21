@@ -77,6 +77,7 @@ $atum-colors: (
   template-sidebar-link-color:     $white,
   template-bg-light:               $template-background-light,
   template-link-color:             var(--link-color),
+  tempalte-link-hover-color:       var(--link-hover-color),
   template-text-light:             $white,
   template-text-dark:              $atum-text-dark,
   template-special-color:          $dark-blue,
@@ -618,6 +619,10 @@ $header-item-content-border-radius:  var(--header-item-content-border-radius);
 $header-item-content-jversion-color: var(--header-item-content-jversion-color);
 $header-item-content-jversion-bg:    var(--header-item-content-jversion-bg);
 $header-logo-bg:                     var(--header-logo-bg);
+
+// links
+$template-link-color:             var(--template-link-color);
+$template-link-hover-color:       var(--template-link-hover-color);
 
 // Gutter
 $grid-gutter-width:                2rem;

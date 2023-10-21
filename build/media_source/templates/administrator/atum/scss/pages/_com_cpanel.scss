@@ -90,6 +90,14 @@
   }
 
   .list-group-item {
+    a:not(.btn) {
+      color: $template-link-color;
+    }
+
+    a:not(.btn):hover {
+      color: $template-link-hover-color;
+    }
+
     a {
       font-weight: 500;
       text-decoration: underline;

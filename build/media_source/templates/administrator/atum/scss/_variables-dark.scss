@@ -18,6 +18,7 @@ $atum-colors-dark: (
   sidebar-bg:                      hsl(var(--hue), 37.8%, 8.63%),
   template-sidebar-bg:             hsl(var(--hue), 37.8%, 8.63%),
   template-link-color:             #21c2f9,
+  template-link-hover-color:       darken(#21c2f9,20%),
 
   // assuming hue 214
   body-bg:                         hsl(var(--hue), 17%, 13.3%),
