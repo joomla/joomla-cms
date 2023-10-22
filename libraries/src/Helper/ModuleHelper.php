@@ -375,12 +375,15 @@ abstract class ModuleHelper
         $dispatcher = Factory::getApplication()->getDispatcher();
         $modules    = [];
 
-        $modules = $dispatcher->dispatch('onPrepareModuleList', new Module\PrepareModuleListEvent('onPrepareModuleList', [
+        $event = $dispatcher->dispatch('onPrepareModuleList', new Module\PrepareModuleListEvent('onPrepareModuleList', [
             'modules' => &$modules, // @todo: Remove reference in Joomla 6, see PrepareModuleListEvent::__constructor()
-        ]))->getArgument('modules', $modules);
+            'loaded'  => false,
+        ]));
+        $modules = $event->getArgument('modules', $modules);
+        $loaded  = $event->getArgument('loaded');
 
         // If the onPrepareModuleList event returns an array of modules, then ignore the default module list creation
-        if (!$modules) {
+        if (!$modules && !$loaded) {
             $modules = static::getModuleList();
         }
 

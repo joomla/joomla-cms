@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\Module;
 /**
  * Class for Module events.
  * Example:
- *  new AfterModuleListEvent('onEventName', ['subject' => $modules]);
+ *  new AfterModuleListEvent('onEventName', ['modules' => $modules]);
  *
  * @since  5.0.0
  */
