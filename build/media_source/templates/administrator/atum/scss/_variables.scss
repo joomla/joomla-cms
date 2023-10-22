@@ -104,6 +104,7 @@ $atum-colors: (
   media-manager-content-bg:        var(--body-bg),
   media-manager-overlay-bg:        var(--template-bg-dark-3),
   media-manager-disk-name-color:   var(--template-text-dark),
+  media-manager-tree-item-hover-bg: #e1e1e1,
   template-quickicon-bg:           hsl(var(--hue), 60%, 97%),
   template-quickicon-bg-hvr:       var(--template-bg-dark),
   form-control-bg:                 unset,
@@ -523,6 +524,14 @@ $atum-subhead-btn-action-border:   var(--atum-subhead-btn-action-border);
 $atum-subhead-btn-info:            var(--atum-subhead-btn-info);
 $atum-subhead-btn-info-bg:         var(--atum-subhead-btn-info-bg);
 $atum-subhead-btn-info-border:     var(--atum-subhead-btn-info-border);
+
+// Media Manager
+$media-manager-overlay-header-bg:  var(--media-manager-overlay-header-bg);
+$media-manager-infobar-dt-color:   var(--media-manager-infobar-dt-color);
+$media-manager-content-bg:         var(--media-manager-content-bg);
+$media-manager-overlay-bg:         var(--media-manager-overlay-bg);
+$media-manager-disk-name-color:    var(--media-manager-disk-name-color);
+$media-manager-tree-item-hover-bg: var(--media-manager-tree-item-hover-bg);
 
 // Buttons
 $input-btn-padding-y-sm-submenu:    0;

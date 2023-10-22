@@ -18,7 +18,7 @@ $sidebar-tree-line-color:           $border-color;
 $sidebar-tree-icon-color:           var(--template-bg-dark-60);
 $sidebar-tree-line-height:          26px;
 $sidebar-tree-folder-icon:          "\f07b";
-$sidebar-tree-item-hover-bg:        #e1e1e1;
+$sidebar-tree-item-hover-bg:        var(--com-media-manager-tree-item-hover-bg, #e1e1e1);
 $sidebar-active-icon-color:         $highlight-color;
 $sidebar-disk-name-color:           var(--com-media-manager-disk-name-color, var(--template-bg-dark));
 
