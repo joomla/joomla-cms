@@ -198,7 +198,7 @@
 				type="list"
 				label="COM_USERS_A11Y_SETTINGS_FIELD_ADMIN_PREFERS_COLOR_SCHEME_OS_SYNC_LABEL"
 				description="COM_USERS_A11Y_SETTINGS_FIELD_ADMIN_PREFERS_COLOR_SCHEME_OS_SYNC_DESC"
-				default=""
+				default="0"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -208,18 +208,18 @@
 				type="list"
 				label="COM_USERS_A11Y_SETTINGS_FIELD_ADMIN_FORCED_COLOR_SCHEME_LABEL"
 				description="COM_USERS_A11Y_SETTINGS_FIELD_ADMIN_FORCED_COLOR_SCHEME_DESC"
-				default="1"
-				showon="admin_prefers_color_scheme_os_sync:0"
+				default="light"
+				showon="admin_prefers_color_scheme_os_sync:1"
 				>
-				<option value="light">COM_USERS_A11Y_SETTINGS_FIELD_ADMIN_FORCED_COLOR_SCHEME_LIGHT</option>
-				<option value="dark">COM_USERS_A11Y_SETTINGS_FIELD_ADMIN_FORCED_COLOR_SCHEME_DARK</option>
+				<option value="light">COM_USERS_LIGHT</option>
+				<option value="dark">COM_USERS_DARK</option>
 			</field>
 			<field
 				name="site_prefers_color_scheme_os_sync"
 				type="list"
 				label="COM_USERS_A11Y_SETTINGS_FIELD_SITE_PREFERS_COLOR_SCHEME_OS_SYNC_LABEL"
 				description="COM_USERS_A11Y_SETTINGS_FIELD_SITE_PREFERS_COLOR_SCHEME_OS_SYNC_DESC"
-				default=""
+				default="0"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -230,10 +230,10 @@
 				label="COM_USERS_A11Y_SETTINGS_FIELD_SITE_FORCED_COLOR_SCHEME_LABEL"
 				description="COM_USERS_A11Y_SETTINGS_FIELD_SITE_FORCED_COLOR_SCHEME_DESC"
 				default="light"
-				showon="site_prefers_color_scheme_os_sync:0"
+				showon="site_prefers_color_scheme_os_sync:1"
 				>
-				<option value="light">COM_USERS_A11Y_SETTINGS_FIELD_ADMIN_FORCED_COLOR_SCHEME_LIGHT</option>
-				<option value="dark">COM_USERS_A11Y_SETTINGS_FIELD_ADMIN_FORCED_COLOR_SCHEME_DARK</option>
+				<option value="light">COM_USERS_LIGHT</option>
+				<option value="dark">COM_USERS_DARK</option>
 			</field>
 			<field
 				name="a11y_mono"
