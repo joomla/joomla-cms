@@ -194,44 +194,24 @@
 			description="COM_USERS_A11Y_SETTINGS_FIELDSET_DESC"
 		>
 			<field
-				name="admin_prefers_color_scheme_os_sync"
+				name="admin_prefers_color_scheme"
 				type="list"
-				label="COM_USERS_A11Y_SETTINGS_FIELD_ADMIN_PREFERS_COLOR_SCHEME_OS_SYNC_LABEL"
-				description="COM_USERS_A11Y_SETTINGS_FIELD_ADMIN_PREFERS_COLOR_SCHEME_OS_SYNC_DESC"
+				label="COM_USERS_A11Y_SETTINGS_FIELD_ADMIN_PREFERS_COLOR_SCHEME_LABEL"
+				description="COM_USERS_A11Y_SETTINGS_FIELD_ADMIN_PREFERS_COLOR_SCHEME_DESC"
 				default="0"
 				>
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
-			<field
-				name="admin_forced_color_scheme"
-				type="list"
-				label="COM_USERS_A11Y_SETTINGS_FIELD_ADMIN_FORCED_COLOR_SCHEME_LABEL"
-				description="COM_USERS_A11Y_SETTINGS_FIELD_ADMIN_FORCED_COLOR_SCHEME_DESC"
-				default="light"
-				showon="admin_prefers_color_scheme_os_sync:1"
-				>
+				<option value="0">COM_USERS_OS_CHOICE</option>
 				<option value="light">COM_USERS_LIGHT</option>
 				<option value="dark">COM_USERS_DARK</option>
 			</field>
 			<field
-				name="site_prefers_color_scheme_os_sync"
+				name="site_prefers_color_scheme"
 				type="list"
-				label="COM_USERS_A11Y_SETTINGS_FIELD_SITE_PREFERS_COLOR_SCHEME_OS_SYNC_LABEL"
-				description="COM_USERS_A11Y_SETTINGS_FIELD_SITE_PREFERS_COLOR_SCHEME_OS_SYNC_DESC"
+				label="COM_USERS_A11Y_SETTINGS_FIELD_SITE_PREFERS_COLOR_SCHEME_LABEL"
+				description="COM_USERS_A11Y_SETTINGS_FIELD_SITE_PREFERS_COLOR_SCHEME_DESC"
 				default="0"
 				>
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
-			<field
-				name="site_forced_color_scheme"
-				type="list"
-				label="COM_USERS_A11Y_SETTINGS_FIELD_SITE_FORCED_COLOR_SCHEME_LABEL"
-				description="COM_USERS_A11Y_SETTINGS_FIELD_SITE_FORCED_COLOR_SCHEME_DESC"
-				default="light"
-				showon="site_prefers_color_scheme_os_sync:1"
-				>
+				<option value="0">COM_USERS_OS_CHOICE</option>
 				<option value="light">COM_USERS_LIGHT</option>
 				<option value="dark">COM_USERS_DARK</option>
 			</field>
