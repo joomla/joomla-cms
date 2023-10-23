@@ -165,6 +165,31 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
     }
 
     /**
+     * Method to get all data fields from a registerd model or a property of the view.
+     *
+     * @param string      $default The name of the model to reference or the default value [optional]
+     * @param ?string $property The name of the model to reference or the default value [optional]
+     *
+     * @return  mixed  The return value of the method
+     *
+     * @since   5.0
+     */
+    public function getAll($default, $property) {
+        // Create manual property based on the name of the model, if a specific property is not set
+        // E.g. if $default is article, $property will be set to Articles
+        if (!isset($property)) {
+            if (str_ends_with($property, "y")) {
+                $property = substr($property, 0, -1) . "ies";
+            } else {
+                $property = $property . "s";
+            }
+        }
+        $property = ucfirst($property);
+
+        return $this->get($property, $default);
+    }
+
+    /**
      * Method to get the model object
      *
      * @param   string  $name  The name of the model (optional)
