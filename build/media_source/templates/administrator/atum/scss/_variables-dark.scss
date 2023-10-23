@@ -1,13 +1,14 @@
 $atum-colors-dark: (
-  button-and-icon-color:           #2969b8,
-  template-quickicon-color:        var(--template-bg-dark-5),
-  focus-shadow:                    var(--gray-800),
-  media-manager-overlay-bg:        var(--template-bg-dark-90),
-  media-manager-infobar-dt-color:  rgba(255, 255, 255, .54),
-  media-manager-content-bg:        var(--body-bg),
-  media-manager-content-color:     var(--button-and-icon-color),
-  media-manager-overlay-header-bg: var(--template-bg-dark-80),
-  media-manager-disk-name-color:   var(--template-text-light),
+  button-and-icon-color:            #2969b8,
+  template-quickicon-color:         var(--template-bg-dark-5),
+  focus-shadow:                     var(--gray-800),
+  media-manager-overlay-bg:         var(--template-bg-dark-90),
+  media-manager-infobar-dt-color:   rgba(255, 255, 255, .54),
+  media-manager-content-bg:         var(--body-bg),
+  media-manager-content-color:      var(--button-and-icon-color),
+  media-manager-overlay-header-bg:  var(--template-bg-dark-80),
+  media-manager-disk-name-color:    var(--template-text-light),
+
   media-manager-tree-item-hover-bg: var(--gray-600),
   media-manager-toolbar-icon-color: var(--button-and-icon-color),
 
@@ -51,8 +52,9 @@ $atum-colors-dark: (
   form-control-bg-disabled:        var(--gray-800),
 
   // background:
-  bg-normal:                        var(--template-bg-dark),
-  bg-reverted:                      var(--template-bg-dark-20),
+  bg-normal:                       var(--template-bg-dark),
+  bg-reverted:                     var(--template-bg-dark-20),
+
 
   // text
   text-normal:                     var(--template-text-light),
@@ -157,11 +159,13 @@ $atum-colors-dark: (
   users-method-header-inact-bg:    var(--dark-bg-subtle),
 
   // Login
-  login-label-color:                var(--white),
+  login-label-color:               var(--white),
+
 
   // Icons
-  icon-success:                     var(--successlight),
-  icon-success-border:              var(--successlight),
+  icon-success:                    var(--successlight),
+  icon-success-border:             var(--successlight),
+
 
   // Buttons
   btn-primary-color: var(--text-normal),
@@ -228,7 +232,8 @@ $atum-colors-dark: (
   atum-subhead-btn-secondary:       #f0f4fb,
   atum-subhead-btn-action:          #f0f4fb,
   atum-subhead-btn-action-bg:       #494d53,
-  atum-subhead-btn-action-border:     1px solid var(---atum-subhead-btn-action-bg),
+  atum-subhead-btn-action-border:   1px solid var(---atum-subhead-btn-action-bg),
+
   atum-subhead-btn-info:            #f0f4fb,
   atum-subhead-btn-info-bg:         #494d53,
   atum-subhead-btn-info-border:     1px solid var(---atum-subhead-btn-info-bg),
