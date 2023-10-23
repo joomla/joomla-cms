@@ -56,7 +56,8 @@ $theme-colors: (
   "light":                         $gray-100,
   "dark":                          $gray-900,
   "action":                        $base-color,
-  "error":                         $red-dark) !default;
+  "error":                         $red-dark
+) !default;
 
 
 $template-background-light: #f0f4fb; //light background color, frontend dashboard background and installer body background
@@ -296,6 +297,8 @@ $atum-colors: (
   atum-subhead-btn-info:            var(--body-bg),
   atum-subhead-btn-info-bg:         var(--template-bg-dark),
   atum-subhead-btn-info-border:     1px solid var(--template-bg-dark),
+
+  atum-list-group-bg:               rgba(255,255,255,.05),
 );
 
 $colors: (
@@ -422,7 +425,7 @@ $users-method-header-inact-bg:    var(--users-method-header-inact-bg);
 
 // Icons
 $icon-success:                     var(--icon-success);
-$icon-success-border:              var(--icon-success);
+$icon-success-border:              var(--icon-success-border);
 
 // Buttons
 $btn-primary-color: var(--btn-primary-color);
@@ -527,6 +530,8 @@ $atum-subhead-btn-action-border:   var(--atum-subhead-btn-action-border);
 $atum-subhead-btn-info:            var(--atum-subhead-btn-info);
 $atum-subhead-btn-info-bg:         var(--atum-subhead-btn-info-bg);
 $atum-subhead-btn-info-border:     var(--atum-subhead-btn-info-border);
+
+$atum-list-group-bg:               var(--atum-list-group-bg);
 
 // Media Manager
 $media-manager-overlay-header-bg:  var(--media-manager-overlay-header-bg);

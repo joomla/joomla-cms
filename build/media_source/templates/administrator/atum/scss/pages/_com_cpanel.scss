@@ -90,6 +90,8 @@
   }
 
   .list-group-item {
+    --list-group-bg: #{$atum-list-group-bg};
+
     a:not(.btn) {
       color: $template-link-color;
     }

@@ -28,8 +28,8 @@ $atum-colors-dark: (
   template-link-hover-color:       darken(#21c2f9,20%),
 
   // assuming hue 214
-  body-bg:                         hsl(var(--hue), 17%, 13.3%),
-  main-bg:                         var(--body-bg),
+  body-bg:                         #0f151d, //hsl(var(--hue), 17%, 13.3%),
+  main-bg:                         #1c2128, //var(--body-bg),
   sidebar-accent-bg:               hsl(var(--hue), 66.2%, 44.1%),
   template-bg-dark:                hsl(var(--hue), 55.3%, 10.8%),
   template-quickicon-bg:           hsl(var(--hue), 6.7%, 29.8%),
@@ -123,7 +123,7 @@ $atum-colors-dark: (
   badge-bg-info:                   rgba(255,255,255,.2) !important,
 
   // card
-  card-bg-dark:                    hsl(214,10%,22%),
+  card-bg-dark:                    hsl(214,10%,22%), //rgba(255, 255, 255, .05) too dark
   card-header-color:               var(--dark-mode-text-light),
   card-header-bg:                  var(--card-bg-dark),
   card-bg:                         var(--card-bg-dark),
@@ -160,7 +160,6 @@ $atum-colors-dark: (
 
   // Login
   login-label-color:               var(--white),
-
 
   // Icons
   icon-success:                    var(--successlight),
@@ -237,6 +236,8 @@ $atum-colors-dark: (
   atum-subhead-btn-info:            #f0f4fb,
   atum-subhead-btn-info-bg:         #494d53,
   atum-subhead-btn-info-border:     1px solid var(---atum-subhead-btn-info-bg),
+
+  atum-list-group-bg:               rgba(255,255,255,.05),
 ) !default;
 
 $link-hover-color-dark: lighten($light-blue, 20%);
