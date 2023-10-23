@@ -125,14 +125,15 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
     /**
      * Method to get data from a registered model or a property of the view
      *
-     * @param   string  $property  The name of the method to call on the model or the property to get
-     * @param   string  $default   The name of the model to reference or the default value [optional]
+     * @param   string  $property   The name of the method to call on the model or the property to get
+     * @param   string  $default    The name of the model to reference or the default value [optional]
+     * @param   mixed   $parameters Arguments for the method to call with
      *
      * @return  mixed  The return value of the method
      *
      * @since   3.0
      */
-    public function get($property, $default = null)
+    public function get($property, $default = null, ...$parameters)
     {
         // If $model is null we use the default model
         if ($default === null) {
@@ -149,7 +150,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
             // Does the method exist?
             if (method_exists($this->_models[$model], $method)) {
                 // The method exists, let's call it and return what we get
-                return $this->_models[$model]->$method();
+                return $this->_models[$model]->$method(...$parameters);
             }
         }
 
