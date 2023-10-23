@@ -168,14 +168,15 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      *
      * @since   4.4
      */
-    public function getAll($default, $property) {
+    public function getAll($default, $property)
+    {
         // Create manual property based on the name of the model, if a specific property is not set
         // E.g. if $default is article, $property will be set to Articles
         if (!isset($property)) {
-            if (str_ends_with($property, "y")) {
-                $property = substr($property, 0, -1) . "ies";
+            if (str_ends_with($default, "y")) {
+                $property = substr($default, 0, -1) . "ies";
             } else {
-                $property = $property . "s";
+                $property = $default . "s";
             }
         }
         $property = ucfirst($property);
