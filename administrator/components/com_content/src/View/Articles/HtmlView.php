@@ -85,6 +85,22 @@ class HtmlView extends BaseHtmlView
     private $isEmptyState = false;
 
     /**
+     * Is the vote plugin enabled on the site
+     *
+     * @var   boolean
+     * @since 4.4.0
+     */
+    protected $vote = false;
+
+    /**
+     * Are hits being recorded on the site?
+     *
+     * @var   boolean
+     * @since 4.4.0
+     */
+    protected $hits = false;
+
+    /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -99,7 +115,7 @@ class HtmlView extends BaseHtmlView
         $this->filterForm    = $this->get('FilterForm');
         $this->activeFilters = $this->get('ActiveFilters');
         $this->vote          = PluginHelper::isEnabled('content', 'vote');
-        $this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1);
+        $this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1;
 
         if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');

@@ -70,11 +70,11 @@ final class Subform extends FieldsPlugin
         $formData = (object) $data;
 
         // Now load our own form definition into a DOMDocument, because we want to manipulate it
-        $xml = new DOMDocument();
+        $xml = new \DOMDocument();
         $xml->load($path);
 
         // Prepare a DOMXPath object
-        $xmlxpath = new DOMXPath($xml);
+        $xmlxpath = new \DOMXPath($xml);
 
         /**
          * Get all fields of type "subfields" in our own XML
@@ -242,14 +242,14 @@ final class Subform extends FieldsPlugin
      * the form XML definition for this field.
      *
      * @param   \stdClass   $field   The field
-     * @param   DOMElement  $parent  The original parent element
+     * @param   \DOMElement  $parent  The original parent element
      * @param   Form        $form    The form
      *
      * @return  \DOMElement
      *
      * @since 4.0.0
      */
-    public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
+    public function onCustomFieldsPrepareDom($field, \DOMElement $parent, Form $form)
     {
         // Call the onCustomFieldsPrepareDom method on FieldsPlugin
         $parent_field = parent::onCustomFieldsPrepareDom($field, $parent, $form);
@@ -277,7 +277,7 @@ final class Subform extends FieldsPlugin
         }
 
         // Create a child 'form' DOMElement under the field[type=subform] element.
-        $parent_fieldset = $parent_field->appendChild(new DOMElement('form'));
+        $parent_fieldset = $parent_field->appendChild(new \DOMElement('form'));
         $parent_fieldset->setAttribute('hidden', 'true');
         $parent_fieldset->setAttribute('name', ($field->name . '_modal'));
 

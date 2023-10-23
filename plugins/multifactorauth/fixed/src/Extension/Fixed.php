@@ -245,7 +245,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 
         // Make sure the code is not empty
         if (empty($code)) {
-            throw new RuntimeException(Text::_('PLG_MULTIFACTORAUTH_FIXED_ERR_EMPTYCODE'));
+            throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_FIXED_ERR_EMPTYCODE'));
         }
 
         // Return the configuration to be serialized

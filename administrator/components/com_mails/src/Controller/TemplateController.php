@@ -250,7 +250,7 @@ class TemplateController extends FormController
         }
 
         $langKey = $this->text_prefix . ($recordId === 0 && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS';
-        $prefix  = Factory::getLanguage()->hasKey($langKey) ? $this->text_prefix : 'COM_MAILS';
+        $prefix  = $this->app->getLanguage()->hasKey($langKey) ? $this->text_prefix : 'COM_MAILS';
 
         $this->setMessage(Text::_($prefix . ($recordId === 0 && $this->app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
 

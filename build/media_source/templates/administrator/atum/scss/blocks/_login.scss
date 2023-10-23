@@ -163,6 +163,7 @@
     align-self: flex-end;
     width: 100%;
     font-size: ($font-size-base * .875);
+    --body-color: var(--template-text-light);
     color: var(--template-text-light);
     text-align: center;
 

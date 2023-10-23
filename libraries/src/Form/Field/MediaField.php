@@ -185,8 +185,6 @@ class MediaField extends FormField
             case 'authorField':
             case 'asset':
             case 'link':
-            case 'width':
-            case 'height':
             case 'preview':
             case 'directory':
             case 'folder':
@@ -194,8 +192,10 @@ class MediaField extends FormField
                 $this->$name = (string) $value;
                 break;
 
+            case 'height':
             case 'previewWidth':
             case 'previewHeight':
+            case 'width':
                 $this->$name = (int) $value;
                 break;
 
