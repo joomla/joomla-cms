@@ -83,11 +83,15 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 $monochrome = (bool) $this->params->get('monochrome');
 
+$user            = $app->getIdentity();
+$forcedScheme    = $user->getParam('admin_prefers_color_scheme_os_sync', '0');
+$colorScheme     = $forcedScheme ? ('data-theme="' . $user->getParam('site_forced_color_scheme', 'light') . '"') : '';
+$forcedSchemeAtr = $forcedScheme ? ' data-forced-theme ' : '';
 // @see administrator/templates/atum/html/layouts/status.php
 $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $forcedSchemeAtr . $colorScheme; ?>>
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />

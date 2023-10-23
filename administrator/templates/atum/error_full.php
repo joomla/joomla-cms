@@ -62,14 +62,14 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
         ->useStyle('template.active.language')
         ->useStyle('template.user')
         ->addInlineStyle(':root {
-			--hue: ' . $matches[1] . ';
-			--template-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
-			--template-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
-			--template-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
-			--link-color: ' . $linkColor . ';
-    		--link-color-rgb: ' . $r . ',' . $g . ',' . $b . ';
-			--template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
-		}');
+            --hue: ' . $matches[1] . ';
+            --template-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
+            --template-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
+            --template-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
+            --link-color: ' . $linkColor . ';
+            --link-color-rgb: ' . $r . ',' . $g . ',' . $b . ';
+            --template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
+        }');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
     $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
@@ -79,11 +79,16 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
 
     $monochrome = (bool) $this->params->get('monochrome');
 
+    $user            = $app->getIdentity();
+    $forcedScheme    = $user->getParam('admin_prefers_color_scheme_os_sync', '0');
+    $colorScheme     = $forcedScheme ? ('data-theme="' . $user->getParam('site_forced_color_scheme', 'light') . '"') : '';
+    $forcedSchemeAtr = $forcedScheme ? ' data-forced-theme ' : '';
+
 // @see administrator/templates/atum/html/layouts/status.php
     $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
     ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $forcedSchemeAtr . $colorScheme; ?>>
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />

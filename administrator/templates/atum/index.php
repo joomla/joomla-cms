@@ -33,6 +33,10 @@ $hiddenMenu   = $app->getInput()->get('hidemainmenu');
 $sidebarState = $input->cookie->get('atumSidebarState', '');
 
 // Getting user accessibility settings
+$user            = $app->getIdentity();
+$forcedScheme    = $user->getParam('admin_prefers_color_scheme_os_sync', '0');
+$colorScheme     = $forcedScheme ? ('data-theme="' . $user->getParam('site_forced_color_scheme', 'light') . '"') : '';
+$forcedSchemeAtr = $forcedScheme ? 'data-forced-theme ' : '';
 $a11y_mono      = (bool) $app->getIdentity()->getParam('a11y_mono', '');
 $a11y_contrast  = (bool) $app->getIdentity()->getParam('a11y_contrast', '');
 $a11y_highlight = (bool) $app->getIdentity()->getParam('a11y_highlight', '');
@@ -99,7 +103,7 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $a11y_font ? ' class="a11y_font"' : ''; ?>>
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $a11y_font ? ' class="a11y_font" ' : ' '; ?><?php echo $forcedSchemeAtr . $colorScheme; ?>>
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />

@@ -47,10 +47,15 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1)
 $this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alternate icon', 'rel', ['type' => 'image/vnd.microsoft.icon']);
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
 
+// Getting user accessibility settings
+$user            = $app->getIdentity();
+$forcedScheme    = $user->getParam('admin_prefers_color_scheme_os_sync', '0');
+$colorScheme     = $forcedScheme ? ('data-theme="' . $user->getParam('site_forced_color_scheme', 'light') . '"') : '';
+$forcedSchemeAtr = $forcedScheme ? ' data-forced-theme ' : '';
 ?>
 
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $forcedSchemeAtr . $colorScheme; ?>>
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />
