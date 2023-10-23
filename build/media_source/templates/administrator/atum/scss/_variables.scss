@@ -47,16 +47,17 @@ $info:                             $light-blue;
 $warning:                          $yellow;
 
 $theme-colors: (
-  "primary":                         $darkblue,
-  "secondary":                       $gray-700,
-  "success":                         $success,
-  "info":                            $light-blue,
-  "warning":                         $yellow,
-  "danger":                          $danger,
-  "light":                           $gray-100,
-  "dark":                            $gray-900,
-  "action":                          $base-color,
-  "error":                           $red-dark) !default;
+  "primary":                       $darkblue,
+  "secondary":                     $gray-700,
+  "success":                       $success,
+  "info":                          $light-blue,
+  "warning":                       $yellow,
+  "danger":                        $danger,
+  "light":                         $gray-100,
+  "dark":                          $gray-900,
+  "action":                        $base-color,
+  "error":                         $red-dark) !default;
+
 
 $template-background-light: #f0f4fb; //light background color, frontend dashboard background and installer body background
 
