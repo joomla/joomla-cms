@@ -32,7 +32,7 @@ trait CurrentUserTrait
 
     /**
      * Returns the current user, if none is set the identity of the global app
-     * is returned. This will change in 5.0 and an empty user will be returned.
+     * is returned. This will change in 6.0 and an empty user will be returned.
      *
      * @return  User
      *
@@ -42,7 +42,7 @@ trait CurrentUserTrait
     {
         if (!$this->currentUser) {
             @trigger_error(
-                sprintf('User must be set in %s. This will not be caught anymore in 5.0', __METHOD__),
+                sprintf('User must be set in %s. This will not be caught anymore in 6.0', __METHOD__),
                 E_USER_DEPRECATED
             );
             $this->currentUser = Factory::getApplication()->getIdentity() ?: Factory::getUser();

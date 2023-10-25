@@ -35,13 +35,14 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $plugin = new Basic(
-                    $container->get(DispatcherInterface::class),
+                $dispatcher = $container->get(DispatcherInterface::class);
+                $plugin     = new Basic(
+                    $dispatcher,
                     (array) PluginHelper::getPlugin('api-authentication', 'basic'),
-                    $container->get(UserFactoryInterface::class)
                 );
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
+                $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
             }

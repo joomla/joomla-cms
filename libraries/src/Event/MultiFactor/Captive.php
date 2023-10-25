@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Event\MultiFactor;
 
-use DomainException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\Result\ResultAware;
 use Joomla\CMS\Event\Result\ResultAwareInterface;
@@ -55,13 +54,29 @@ class Captive extends AbstractImmutableEvent implements ResultAwareInterface
      *
      * @return  MfaTable
      * @since   4.2.0
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     public function setRecord(MfaTable $value): MfaTable
     {
         if (empty($value)) {
-            throw new DomainException(sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
+            throw new \DomainException(sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
         }
 
         return $value;
+    }
+
+    /**
+     * Validate the value of the 'record' named parameter
+     *
+     * @param   MfaTable  $value  The value to validate
+     *
+     * @return  MfaTable
+     * @since   4.4.0
+     */
+    protected function onSetRecord(MfaTable $value): MfaTable
+    {
+        return $this->setRecord($value);
     }
 }

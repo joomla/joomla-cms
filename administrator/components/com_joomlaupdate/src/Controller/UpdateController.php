@@ -305,7 +305,7 @@ class UpdateController extends BaseController
         // Do I really have an update package?
         $tempFile = $this->app->getUserState('com_joomlaupdate.temp_file', null);
 
-        if (empty($tempFile) || !File::exists($tempFile)) {
+        if (empty($tempFile) || !is_file($tempFile)) {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
         }
 
