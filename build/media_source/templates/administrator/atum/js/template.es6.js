@@ -238,7 +238,7 @@ function dartModeWatch() {
     docEl.dataset.bsTheme = newScheme;
     docEl.dataset.colorScheme = newScheme;
     expires.setTime(expires.getTime() + 31536000000);
-    // Store theme in cookies, so php will know the last choose
+    // Store theme in cookies, so php will know the last choice
     document.cookie = `atumColorScheme=${newScheme}; expires=${expires.toUTCString()};`;
     document.dispatchEvent(new CustomEvent('joomla:color-scheme-change', { bubbles: true }));
   };

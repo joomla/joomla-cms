@@ -116,7 +116,7 @@
 					type="list"
 					label="TPL_ATUM_COLORSCHEME_LABEL"
 					default="0"
-				>
+					>
 					<option value="0">TPL_ATUM_COLORSCHEME_OPTION_FOLLOW_OS</option>
 					<option value="light">TPL_ATUM_COLORSCHEME_OPTION_LIGHT</option>
 					<option value="dark">TPL_ATUM_COLORSCHEME_OPTION_DARK</option>
