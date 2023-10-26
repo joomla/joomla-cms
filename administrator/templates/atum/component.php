@@ -10,11 +10,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
 /** @var \Joomla\CMS\Document\HtmlDocument $this */
 
-$wa = $this->getWebAssetManager();
+$app = Factory::getApplication();
+$wa  = $this->getWebAssetManager();
 
 // Get the hue value
 preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
@@ -47,10 +49,14 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1)
 $this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alternate icon', 'rel', ['type' => 'image/vnd.microsoft.icon']);
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
 
+$darkMode      = $this->params->get('colorScheme', 0);
+$lastMode      = !$darkMode ? $app->getInput()->cookie->get('atumColorScheme', '') : false;
+$themeModes    = [0 => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
+$themeModeAttr = ($themeModes[$darkMode] ?? '') . ($lastMode ? ($themeModes[$lastMode] ?? '') : '');
 ?>
 
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $themeModeAttr; ?>>
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />

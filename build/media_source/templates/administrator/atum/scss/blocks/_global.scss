@@ -19,15 +19,17 @@ body {
   &.admin {
     background-color: var(--template-bg-dark-5);
   }
+}
 
-  @if $enable-dark-mode {
-    @include color-mode(dark) {
-      &.admin {
-        background-color: var(--template-bg-dark-90);
-      }
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    body.admin {
+      background-color: var(--template-bg-dark-90);
     }
   }
+}
 
+body {
   &.monochrome {
     filter: grayscale(1);
     &::after {
