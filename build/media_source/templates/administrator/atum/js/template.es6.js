@@ -218,7 +218,36 @@ function subheadScrolling() {
   }
 }
 
+/**
+ * Watch for Dark mode changes, when the template is configured to follow OS setting
+ *
+ * @since   __DEPLOY_VERSION__
+ */
+function dartModeWatch() {
+  const docEl = document.documentElement;
+  const { colorSchemeOs } = docEl.dataset;
+  // Look for data-color-scheme-os attribute
+  if (colorSchemeOs === undefined) return;
+  // Watch on media changes
+  const mql = window.matchMedia('(prefers-color-scheme: dark)');
+  const check = () => {
+    const newScheme = mql.matches ? 'dark' : 'light';
+    // Check if theme already was set
+    if (docEl.dataset.colorScheme === newScheme) return;
+    const expires = new Date();
+    docEl.dataset.bsTheme = newScheme;
+    docEl.dataset.colorScheme = newScheme;
+    expires.setTime(expires.getTime() + 31536000000);
+    // Store theme in cookies, so php will know the last choose
+    document.cookie = `atumColorScheme=${newScheme}; expires=${expires.toUTCString()};`;
+    document.dispatchEvent(new CustomEvent('joomla:color-scheme-change', { bubbles: true }));
+  };
+  mql.addEventListener('change', check);
+  check();
+}
+
 // Initialize
+dartModeWatch();
 headerItemsInDropdown();
 reactToResize();
 subheadScrolling();

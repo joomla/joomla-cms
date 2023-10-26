@@ -80,10 +80,10 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 		--link-color-rgb: ' . $r . ',' . $g . ',' . $b . ';
 		--template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
 	}')
-    ->addInlineStyle('@media (prefers-color-scheme: dark) { :root {
+    ->addInlineStyle(':root[data-color-scheme="dark"] {
 		--link-color: ' . $linkColorDark . ';
 		--link-color-rgb: ' . $rd . ',' . $gd . ',' . $bd . ';
-	}}');
+	}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
@@ -91,7 +91,11 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
-$monochrome = (bool) $this->params->get('monochrome');
+$monochrome    = (bool) $this->params->get('monochrome');
+$darkMode      = $this->params->get('colorScheme', 0);
+$lastMode      = !$darkMode ? $app->getInput()->cookie->get('atumColorScheme', '') : false;
+$themeModes    = [0 => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
+$themeModeAttr = ($themeModes[$darkMode] ?? '') . ($lastMode ? ($themeModes[$lastMode] ?? '') : '');
 
 Text::script('TPL_ATUM_MORE_ELEMENTS');
 
@@ -99,7 +103,7 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $a11y_font ? ' class="a11y_font"' : ''; ?>>
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $a11y_font ? ' class="a11y_font"' : ''; ?><?php echo $themeModeAttr; ?>>
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />
