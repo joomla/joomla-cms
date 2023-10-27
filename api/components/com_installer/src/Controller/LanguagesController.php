@@ -21,7 +21,7 @@ use Tobscure\JsonApi\Exception\InvalidParameterException;
 /**
  * The manage controller
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class LanguagesController extends ApiController
 {
@@ -29,7 +29,7 @@ class LanguagesController extends ApiController
      * The content type of the item.
      *
      * @var    string
-     * @since  4.0.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $contentType = 'languages';
 
@@ -37,7 +37,7 @@ class LanguagesController extends ApiController
      * The default view for the display method.
      *
      * @var    string
-     * @since  4.0.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $default_view = 'languages';
 
