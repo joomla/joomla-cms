@@ -141,8 +141,7 @@ class UpdateModel extends ListModel
                 ->bind(':extensionid', $extensionId, ParameterType::INTEGER);
         } else {
             $eid = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
-            $query->where($db->quoteName('u.extension_id') . ' != 0')
-                ->where($db->quoteName('u.extension_id') . ' != :eid')
+            $query->where($db->quoteName('u.extension_id') . ' != :eid')
                 ->bind(':eid', $eid, ParameterType::INTEGER);
         }
 
