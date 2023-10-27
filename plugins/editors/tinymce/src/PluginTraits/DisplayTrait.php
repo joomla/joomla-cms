@@ -464,10 +464,10 @@ trait DisplayTrait
 
         if ($levelParams->get('newlines')) {
             // Break
-            $scriptOptions['force_br_newlines'] = true;
+            $scriptOptions['newline_behavior'] = 'invert';
         } else {
             // Paragraph
-            $scriptOptions['force_br_newlines'] = false;
+            $scriptOptions['newline_behavior'] = 'default';
             $scriptOptions['forced_root_block'] = 'p';
         }
 
