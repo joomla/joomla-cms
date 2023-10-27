@@ -143,27 +143,24 @@ class StreamTransport extends AbstractTransport implements TransportInterface
         }
 
         // Capture PHP errors
-        $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
-        ini_set('track_errors', true);
+        // PHP sends a warning if the uri does not exist; we silence it and throw an exception instead.
+        set_error_handler(static function ($errno, $err) {
+            throw new \Exception($err);
+        }, \E_WARNING);
 
-        // Open the stream for reading.
-        $stream = @fopen((string) $uri, 'r', false, $context);
+        try {
+            // Open the stream for reading.
+            $stream = fopen((string) $uri, 'r', false, $context);
 
-        if (!$stream) {
-            if (!$php_errormsg) {
+            if (!$stream) {
                 // Error but nothing from php? Create our own
-                $php_errormsg = sprintf('Could not connect to resource: %s', $uri);
+                throw new \Exception(sprintf('Could not connect to resource: %s', $uri));
             }
-
-            // Restore error tracking to give control to the exception handler
-            ini_set('track_errors', $track_errors);
-
-            throw new \RuntimeException($php_errormsg);
+        } catch (\Exception $e) {
+            throw new \RuntimeException($e->getMessage());
+        } finally {
+            restore_error_handler();
         }
-
-        // Restore error tracking to what it was before.
-        ini_set('track_errors', $track_errors);
 
         // Get the metadata for the stream, including response headers.
         $metadata = stream_get_meta_data($stream);

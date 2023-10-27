@@ -10,8 +10,11 @@
 
 namespace Joomla\Plugin\Schemaorg\JobPosting\Extension;
 
+use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
+use Joomla\CMS\Schemaorg\SchemaorgPrepareDateTrait;
+use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -26,6 +29,7 @@ use Joomla\Event\SubscriberInterface;
 final class JobPosting extends CMSPlugin implements SubscriberInterface
 {
     use SchemaorgPluginTrait;
+    use SchemaorgPrepareDateTrait;
 
     /**
      * Load the language file on instantiation.
@@ -44,16 +48,49 @@ final class JobPosting extends CMSPlugin implements SubscriberInterface
     protected $pluginName = 'JobPosting';
 
     /**
-     *  To add plugin specific functions
+     * Returns an array of events this subscriber will listen to.
      *
-     *  @param   array $schema Schema form
+     * @return  array
      *
-     *  @return  array Updated schema form
+     * @since   5.0.0
      */
-    public function customCleanup(array $schema)
+    public static function getSubscribedEvents(): array
     {
-        $schema = $this->cleanupDate($schema, ['datePosted', 'validThrough']);
+        return [
+            'onSchemaPrepareForm'       => 'onSchemaPrepareForm',
+            'onSchemaBeforeCompileHead' => ['onSchemaBeforeCompileHead', Priority::BELOW_NORMAL],
+        ];
+    }
 
-        return $schema;
+    /**
+     * Cleanup all JobPosting types
+     *
+     * @param   BeforeCompileHeadEvent  $event  The given event
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    public function onSchemaBeforeCompileHead(BeforeCompileHeadEvent $event)
+    {
+        $schema = $event->getSchema();
+
+        $graph = $schema->get('@graph');
+
+        foreach ($graph as &$entry) {
+            if (!isset($entry['@type']) || $entry['@type'] !== 'JobPosting') {
+                continue;
+            }
+
+            if (!empty($entry['datePosted'])) {
+                $entry['datePosted'] = $this->prepareDate($entry['datePosted']);
+            }
+
+            if (!empty($entry['validThrough'])) {
+                $entry['validThrough'] = $this->prepareDate($entry['validThrough']);
+            }
+        }
+
+        $schema->set('@graph', $graph);
     }
 }

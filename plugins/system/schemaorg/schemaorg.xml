@@ -26,6 +26,7 @@
 					type="list"
 					label="PLG_SYSTEM_SCHEMAORG_BASETYPE_LABEL"
 					description="PLG_SYSTEM_SCHEMAORG_BASETYPE_DESCRIPTION"
+					default="organization"
 					validate="options"
 					required="true"
 					>

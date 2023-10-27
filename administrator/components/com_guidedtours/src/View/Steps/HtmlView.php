@@ -15,9 +15,9 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Router\Route;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -99,7 +99,12 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($this->state->get('filter.tour_id', -1) < 0) {
-            throw new GenericDataException(implode("\n", $errors), 500);
+            // This arises when you are logged out and return to the steps view after logging back in
+            // We redirect back to the tour lists view
+            $app = Factory::getApplication();
+            $app->enqueueMessage(Text::_('COM_GUIDEDTOURS_STEPS_UNKNOWN_TOUR'), 'notice');
+            $app->redirect(Route::_('index.php?option=com_guidedtours&view=tours', false), 300);
+            return;
         }
 
         // Unset the tour_id field from activeFilters as we don't filter by tour here.

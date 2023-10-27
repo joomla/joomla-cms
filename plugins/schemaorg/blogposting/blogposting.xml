@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>5.0.0</version>
 	<description>PLG_SCHEMAORG_BLOGPOSTING_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\Schemaorg\Blogposting</namespace>
+	<namespace path="src">Joomla\Plugin\Schemaorg\BlogPosting</namespace>
 	<files>
 		<folder plugin="blogposting">services</folder>
 		<folder>src</folder>

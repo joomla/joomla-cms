@@ -178,7 +178,7 @@ class ComponentModel extends FormModel
         }
 
         // Save the rules.
-        if (isset($data['params']) && isset($data['params']['rules'])) {
+        if (isset($data['params']['rules'])) {
             if (!$this->getCurrentUser()->authorise('core.admin', $data['option'])) {
                 throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
             }
@@ -225,7 +225,7 @@ class ComponentModel extends FormModel
         $result = Factory::getApplication()->triggerEvent('onExtensionBeforeSave', [$context, $table, false]);
 
         // Store the data.
-        if (in_array(false, $result, true) || !$table->store()) {
+        if (\in_array(false, $result, true) || !$table->store()) {
             throw new \RuntimeException($table->getError());
         }
 

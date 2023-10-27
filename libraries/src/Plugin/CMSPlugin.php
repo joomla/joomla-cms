@@ -10,6 +10,8 @@
 namespace Joomla\CMS\Plugin;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Event\AbstractImmutableEvent;
+use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageAwareInterface;
@@ -282,7 +284,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
                 }
 
                 // Convert to indexed array for unpacking.
-                $arguments = \array_values($arguments);
+                $arguments = array_values($arguments);
 
                 $result = $this->{$methodName}(...$arguments);
 
@@ -291,9 +293,13 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
                     return;
                 }
 
-                // Restore the old results and add the new result from our method call
-                $allResults[]    = $result;
-                $event['result'] = $allResults;
+                if ($event instanceof ResultAwareInterface) {
+                    $event->addResult($result);
+                } elseif (!$event instanceof AbstractImmutableEvent) {
+                    // Restore the old results and add the new result from our method call
+                    $allResults[]    = $result;
+                    $event['result'] = $allResults;
+                }
             }
         );
     }
@@ -338,13 +344,13 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 
         // Handle standard typehints.
         if ($reflectionType instanceof \ReflectionNamedType) {
-            return \is_a($reflectionType->getName(), EventInterface::class, true);
+            return is_a($reflectionType->getName(), EventInterface::class, true);
         }
 
         // Handle PHP 8 union types.
         if ($reflectionType instanceof \ReflectionUnionType) {
             foreach ($reflectionType->getTypes() as $type) {
-                if (!\is_a($type->getName(), EventInterface::class, true)) {
+                if (!is_a($type->getName(), EventInterface::class, true)) {
                     return false;
                 }
             }
@@ -382,24 +388,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 
         if ($application->getLanguage()) {
             $this->setLanguage($application->getLanguage());
-        }
-    }
-
-    /**
-     * Returns the string for the given key from the internal language object.
-     *
-     * @param   string  $key  The key
-     *
-     * @return  string
-     *
-     * @since   5.0.0
-     */
-    protected function text(string $key): string
-    {
-        try {
-            return $this->getLanguage()->_($key);
-        } catch (\UnexpectedValueException $e) {
-            return $this->getApplication()->getLanguage()->_($key);
         }
     }
 }
