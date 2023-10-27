@@ -467,7 +467,7 @@ trait DisplayTrait
             $scriptOptions['newline_behavior'] = 'invert';
         } else {
             // Paragraph
-            $scriptOptions['newline_behavior'] = 'default';
+            $scriptOptions['newline_behavior']  = 'default';
             $scriptOptions['forced_root_block'] = 'p';
         }
 
