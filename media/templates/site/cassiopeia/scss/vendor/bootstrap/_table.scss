@@ -1,0 +1,24 @@
+// Table
+
+.table {
+
+  th {
+    font-weight: 500;
+  }
+
+  thead th {
+    white-space: nowrap;
+    border-bottom-width: 1px;
+  }
+
+  th,
+  td {
+    vertical-align: middle;
+
+    label {
+      margin-bottom: 0;
+    }
+
+  }
+
+}

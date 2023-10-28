@@ -1,0 +1,186 @@
+// Bootstrap functions
+@import "../../../../vendor/bootstrap/scss/functions";
+@import "tools/variables/variables";
+@import "../../../../vendor/bootstrap/scss/variables";
+@import "../../../../vendor/bootstrap/scss/variables-dark";
+@import "../../../../vendor/bootstrap/scss/maps";
+@import "../../../../vendor/bootstrap/scss/mixins";
+@import "../../../../vendor/bootstrap/scss/utilities";
+
+// Variables, Functions and Mixins
+@import "tools/tools";
+
+// Bootstrap
+@import "../../../../vendor/bootstrap/scss/bootstrap";
+
+// jQuery Minicolors
+@import "../../../../system/scss/jquery-minicolors";
+
+// Blocks
+@import "blocks/global"; // Leave this first
+@import "blocks/alerts";
+@import "blocks/back-to-top";
+@import "blocks/banner";
+@import "blocks/footer";
+@import "blocks/form";
+@import "blocks/frontend-edit";
+@import "blocks/header";
+@import "blocks/icons";
+@import "blocks/iframe";
+@import "blocks/layout";
+@import "blocks/modals";
+@import "blocks/modifiers";
+@import "blocks/utilities";
+@import "blocks/toolbar";
+@import "blocks/legacy";
+@import "blocks/tags";
+@import "blocks/css-grid"; // Last to allow fallback
+
+// Vendor overrides
+@import "vendor/awesomplete";
+@import "vendor/bootstrap/buttons";
+@import "vendor/bootstrap/custom-forms";
+@import "vendor/bootstrap/collapse";
+@import "vendor/bootstrap/dropdown";
+@import "vendor/bootstrap/forms";
+@import "vendor/bootstrap/lists";
+@import "vendor/bootstrap/modal";
+@import "vendor/bootstrap/nav";
+@import "vendor/bootstrap/pagination";
+@import "vendor/bootstrap/table";
+@import "vendor/chosen";
+@import "vendor/dragula";
+@import "vendor/metismenu/metismenu";
+@import "vendor/minicolors";
+@import "vendor/tinymce";
+
+// Finally add the cassiopeia colours
+:root {
+  @each $color, $value in $cassiopeia-colors {
+    --#{$color}: #{$value};
+  }
+}
+
+.border-primary {
+  border-color: var(--primary) !important;
+}
+
+.border-secondary {
+  border-color: var(--secondary) !important;
+}
+
+.border-success {
+  border-color: var(--success) !important;
+}
+
+.border-info {
+  border-color: var(--info) !important;
+}
+
+.border-warning {
+  border-color: var(--warning) !important;
+}
+
+.border-danger {
+  border-color: var(--danger) !important;
+}
+
+.border-light {
+  border-color: var(--light) !important;
+}
+
+.border-dark {
+  border-color: var(--dark) !important;
+}
+
+.border-white {
+  border-color: var(--white) !important;
+}
+
+.text-primary {
+  color: var(--primary) !important;
+}
+
+.text-secondary {
+  color: var(--secondary) !important;
+}
+
+.text-success {
+  color: var(--success) !important;
+}
+
+.text-info {
+  color: var(--info) !important;
+}
+
+.text-warning {
+  color: var(--warning) !important;
+}
+
+.text-danger {
+  color: var(--danger) !important;
+}
+
+.text-light {
+  color: var(--light) !important;
+}
+
+.text-dark {
+  color: var(--dark) !important;
+}
+
+.text-black {
+  color: var(--black) !important;
+}
+
+.text-white {
+  color: var(--white) !important;
+}
+
+.text-body {
+  color: var(--body-color) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary) !important;
+}
+
+.bg-secondary {
+  background-color: var(--secondary) !important;
+}
+
+.bg-success {
+  background-color: var(--success) !important;
+}
+
+.bg-info {
+  background-color: var(--info) !important;
+}
+
+.bg-warning {
+  background-color: var(--warning) !important;
+}
+
+.bg-danger {
+  background-color: var(--danger) !important;
+}
+
+.bg-light {
+  background-color: var(--light) !important;
+}
+
+.bg-dark {
+  background-color: var(--dark) !important;
+}
+
+.bg-black {
+  background-color: var(--black) !important;
+}
+
+.bg-white {
+  background-color: var(--white) !important;
+}
+
+.bg-body {
+  background-color: var(--body-bg) !important;
+}

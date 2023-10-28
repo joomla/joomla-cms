@@ -1,0 +1,104 @@
+.outer {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.offline-card {
+  width: 100%;
+  max-width: 30em;
+  margin: 60px auto;
+  background-color: hsl(0, 0%, 100%);
+  border: 1px solid hsla(0, 0%, 0%, 0.1);
+  border-radius: 5px;
+  -webkit-box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.05);
+          box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.05);
+}
+
+.header {
+  position: relative;
+  padding: 1em 2em;
+  margin: 0;
+  color: hsl(0, 0%, 100%);
+  text-align: center;
+  background-color: var(--cassiopeia-color-primary);
+  background-image: linear-gradient(135deg, var(--cassiopeia-color-primary) 0%, var(--cassiopeia-color-hover) 100%);
+  border-radius: 5px 5px 0 0;
+}
+[dir=rtl] .header {
+  background-image: linear-gradient(135deg, var(--cassiopeia-color-hover) 0%, var(--cassiopeia-color-primary) 100%);
+}
+
+.login {
+  padding: 40px 20px 20px;
+}
+
+.form-control {
+  max-width: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  margin: 15px 0;
+  border: 0;
+}
+
+form,
+fieldset {
+  padding: 0;
+  margin: 0;
+}
+
+label {
+  display: block;
+  margin: 0;
+}
+
+input[type=text],
+input[type=password] {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100%;
+  height: auto;
+}
+
+input {
+  margin: 0.5em 0 1em;
+}
+
+.logo-icon {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: 1;
+  padding: 12px;
+  margin-top: 2px;
+  background-color: hsl(0, 0%, 100%);
+  border: 1px solid hsla(0, 0%, 0%, 0.05);
+  border-radius: 50%;
+  -webkit-box-shadow: 0 0 5px hsla(0, 0%, 0%, 0.075);
+          box-shadow: 0 0 5px hsla(0, 0%, 0%, 0.075);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.logo-icon svg {
+  display: block;
+  width: 38px;
+}

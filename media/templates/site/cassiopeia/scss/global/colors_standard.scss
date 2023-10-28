@@ -1,0 +1,12 @@
+// Variables, Functions and Mixins
+@import "../tools/tools";
+@import "../../../../../vendor/bootstrap/scss/functions";
+
+:root {
+  --cassiopeia-color-primary: #{$standard-color-primary};
+  // @deprecated --casiopeia-color-link is deprecated in favour of --link-color
+  --cassiopeia-color-link: #{$standard-color-link};
+  --link-color: #{$standard-color-link};
+  --link-color-rgb: #{to-rgb($standard-color-link)};
+  --cassiopeia-color-hover: #{$standard-color-hover};
+}

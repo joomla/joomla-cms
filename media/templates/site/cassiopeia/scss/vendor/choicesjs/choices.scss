@@ -1,0 +1,167 @@
+@import "../../../../../../vendor/bootstrap/scss/functions";
+@import "../../../../../../templates/site/cassiopeia/scss/tools/variables/variables";
+@import "../../../../../../vendor/bootstrap/scss/variables";
+@import "../../../../../../vendor/bootstrap/scss/mixins";
+
+// choices.js
+@import "../../../../../../vendor/choicesjs/scss/choices";
+
+// Cassiopea Variables, Functions and Mixins
+@import "../../tools/tools";
+
+.choices {
+  border: $form-select-border-width solid $form-select-border-color;
+  @include border-radius($form-select-border-radius, 0);
+  @include box-shadow($form-select-box-shadow);
+
+  &.is-focused {
+    border-color: $form-select-focus-border-color;
+
+    @if $enable-shadows {
+      @include box-shadow($form-select-box-shadow, $form-select-focus-box-shadow);
+    } @else {
+      // Avoid using mixin so we can pass custom focus shadow properly
+      box-shadow: $form-select-focus-box-shadow;
+    }
+  }
+}
+
+.choices__inner {
+  padding: .4rem 1rem;
+  margin-bottom: 0;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0;
+}
+
+.choices__input {
+  padding: 0;
+  margin-bottom: 0;
+  font-size: 1rem;
+  background-color: transparent;
+
+  &::placeholder {
+    color: $gray-700;
+    opacity: 1;
+  }
+}
+
+.choices__list--dropdown {
+  z-index: $zindex-popover;
+}
+
+.choices__list--multiple .choices__item {
+  position: relative;
+  margin: 2px;
+  background-color: var(--cassiopeia-color-primary);
+  margin-inline-end: 2px;
+  border: 0;
+  @include border-radius($border-radius, 0);
+
+  &.is-highlighted {
+    background-color: var(--cassiopeia-color-primary);
+    opacity: .9;
+  }
+}
+
+.choices .choices__list--dropdown {
+  .choices__item {
+    padding-inline-end: 10px;
+  }
+
+  .choices__item--selectable::after {
+    display: none;
+  }
+}
+
+.choices__button_joomla {
+  position: relative;
+  padding: 0 10px;
+  color: inherit;
+  text-indent: -9999px;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  opacity: .5;
+  appearance: none;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    text-align: center;
+    text-indent: 0;
+    content: "\00d7";
+  }
+
+  &:hover,
+  &:focus {
+    opacity: 1;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.choices[data-type*="select-one"],
+.choices[data-type*="select-multiple"] {
+  .choices__inner {
+    padding-inline-end: 3rem;
+    cursor: pointer;
+    background: url("../../../images/select-bg.svg") no-repeat 100%/116rem;
+    background-color: $form-select-bg;
+
+    [dir="rtl"] & {
+      background: url("../../../images/select-bg-rtl.svg") no-repeat 0/116rem;
+      background-color: $form-select-bg;
+    }
+  }
+}
+
+.choices[data-type*="select-one"] {
+  .choices__item {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .choices__button_joomla {
+    position: absolute;
+    top: 50%;
+    inset-inline-end: 0;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin-block-start: -10px;
+    margin-inline-end: 50px;
+    border-radius: 10em;
+    opacity: .5;
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 2px #00bcd4;
+    }
+  }
+
+  &::after {
+    display: none;
+  }
+}
+
+.choices[data-type*="select-multiple"],
+.choices[data-type*="text"] {
+  .choices__input {
+    padding: .2rem 0;
+  }
+}
+
+.choices__heading {
+  font-size: 1.2rem;
+}

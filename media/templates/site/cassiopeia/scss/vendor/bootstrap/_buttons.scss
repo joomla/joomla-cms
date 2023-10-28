@@ -1,0 +1,57 @@
+// Buttons
+
+.btn:focus,
+.btn.focus,
+.btn:active:focus,
+.btn.focus:active,
+.btn.active:focus,
+.btn.active.focus {
+  text-decoration: none;
+}
+
+.btn.group-move {
+  cursor: move;
+}
+
+.btn-secondary {
+  color: $gray-800;
+  background-color: $white;
+  border-color: $gray-400;
+
+  &:hover,
+  &:focus {
+    color: $gray-800;
+    background-color: $gray-100;
+  }
+}
+
+.article-info .association,
+.cat-list-association {
+  .btn-secondary {
+    font-weight: 700;
+    color: $white;
+    background-color: $gray-600;
+    border-color: $gray-400;
+
+    &:hover,
+    &:focus {
+      color: $white;
+      background-color: $gray-800;
+    }
+  }
+
+  .btn-sm {
+    padding: 0 .25rem;
+    font-size: .8rem;
+    border-radius: .2rem;
+  }
+}
+
+@include media-breakpoint-down(lg) {
+  .btn {
+    margin-bottom: .25rem;
+  }
+  .input-group .btn {
+    margin-bottom: 0;
+  }
+}

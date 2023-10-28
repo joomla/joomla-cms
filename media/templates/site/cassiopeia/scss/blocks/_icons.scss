@@ -1,0 +1,76 @@
+// Icons
+
+.#{$jicon-css-prefix}-white {
+  color: $white;
+}
+
+.input-group-text {
+  &::before {
+    min-width: 16px;
+  }
+}
+
+.tbody-icon {
+  padding: 0 3px;
+  text-align: center;
+  background-color: transparent;
+  border: 0;
+
+  [class^="#{$jicon-css-prefix}-"],
+  [class*=" #{$jicon-css-prefix}-"],
+  [class^="#{$fa-css-prefix}-"],
+  [class*=" #{$fa-css-prefix}-"] {
+    width: 26px;
+    height: 26px;
+    font-size: 1.1rem;
+    line-height: 22px;
+    color: $gray-400;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+  }
+
+  .#{$jicon-css-prefix}-publish,
+  .#{$jicon-css-prefix}-check,
+  .#{$fa-css-prefix}-check {
+    color: $success;
+    border-color: $success;
+  }
+
+  .#{$jicon-css-prefix}-checkedout,
+  .#{$jicon-css-prefix}-lock,
+  .#{$fa-css-prefix}-lock {
+    width: auto;
+    height: auto;
+    font-size: 1.2rem;
+    line-height: 1rem;
+    color: $gray-700;
+    border: 0;
+  }
+
+  &.home-disabled,
+  &.featured-disabled,
+  &.color-featured-disabled,
+  &.#{$jicon-css-prefix}-star-disabled,
+  &.#{$fa-css-prefix}-star-disabled {
+    cursor: not-allowed;
+    opacity: 1;
+  }
+}
+
+.tbody-icon .icon-delete,
+.tbody-icon .fa-delete,
+.tbody-icon .icon-times,
+.tbody-icon .fa-times {
+  color: $danger;
+  border-color: $danger;
+}
+
+// WebAuthn
+.plg_system_webauthn_login_button svg {
+  width: 30px;
+  margin: 4px;
+}
+
+.plg_system_webauthn_login_button svg path, .plg_system_webauthn_login_button svg circle {
+  fill: var(--black);
+}

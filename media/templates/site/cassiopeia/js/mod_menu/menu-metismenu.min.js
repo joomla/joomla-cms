@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",(()=>{document.querySelectorAll("ul.mod-menu_dropdown-metismenu").forEach((e=>{const n=new MetisMenu(e,{triggerElement:"button.mm-toggler"}).on("shown.metisMenu",(e=>{window.addEventListener("click",(function t(o){e.target.contains(o.target)||(n.hide(e.detail.shownElement),window.removeEventListener("click",t))}))}))}))}));

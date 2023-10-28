@@ -1,0 +1,232 @@
+// Header
+
+.container-header {
+  position: relative;
+  z-index: 10;
+  background-color: var(--cassiopeia-color-primary);
+  background-image: $cassiopeia-header-grad;
+  box-shadow: 0 5px 5px hsla(0, 0%, 0%, .03) inset;
+
+  @include media-breakpoint-down(lg) {
+    position: relative !important;
+  }
+
+  .grid-child {
+    padding: $cassiopeia-grid-gutter * .5;
+  }
+
+  nav {
+    padding: 0;
+    margin-top: $cassiopeia-grid-gutter * .5;
+  }
+
+  .site-description {
+    font-size: 1rem;
+    color: $white;
+    white-space: normal;
+  }
+
+  .navbar-brand {
+    position: relative;
+    display: inline-block;
+    padding-top: .3125rem;
+    padding-bottom: .3125rem;
+    font-size: 2rem;
+    color: $white;
+    margin-inline-end: auto;
+
+    a {
+      color: $white;
+    }
+
+    &:hover,
+    &:focus {
+      color: scale-color($white, $lightness: -6%);
+    }
+  }
+
+  .container-nav {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-bottom: $cassiopeia-grid-gutter;
+
+    @include media-breakpoint-down(md) {
+      .container-search,
+      nav {
+        margin-top: $cassiopeia-grid-gutter;
+      }
+    }
+
+    .container-search:only-child {
+      margin-left: auto;
+    }
+  }
+
+  .navbar-collapse {
+    &.show {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+  }
+
+  .mod-menu {
+    flex: 1 0 100%;
+    padding: 0;
+    margin: 0;
+    color: $white;
+    list-style: none;
+
+    @include media-breakpoint-up(lg) {
+      display: flex;
+      flex: 1 1 0%;
+      flex-direction: row;
+    }
+
+    > li {
+      position: relative;
+
+      @include media-breakpoint-up(lg) {
+        + li {
+          margin-left: 1.55em;
+        }
+      }
+
+      > a,
+      > span {
+        position: relative;
+        color: currentColor;
+        text-decoration: none;
+      }
+
+      &::after {
+        @include media-breakpoint-up(lg) {
+          position: absolute;
+          right: 50%;
+          bottom: 0;
+          left: 50%;
+          display: block;
+          height: 2px;
+          margin: auto;
+          content: "";
+          background: transparent;
+          opacity: .2;
+          transition: all .2s ease, background-color .2s ease;
+        }
+      }
+
+      &.active::after,
+      &:hover::after {
+        right: 2px;
+        left: 0;
+        background: $white;
+      }
+
+      @include media-breakpoint-down(lg) {
+        &.active > a,
+        &.active > span,
+        > a:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .parent {
+      > ul {
+        display: none;
+        color: $gray-900;
+      }
+    }
+  }
+
+  @if $metismenu==true {
+    .metismenu > li {
+      + li {
+        margin-left: 0;
+      }
+
+      > a::after,
+      > button::before {
+
+        @include media-breakpoint-up(lg) {
+          position: absolute;
+          right: 50%;
+          bottom: 0;
+          left: 50%;
+          display: block;
+          height: 2px;
+          margin: auto;
+          content: "";
+          background: transparent;
+          opacity: .2;
+          transition: all .2s ease, background-color .2s ease;
+        }
+      }
+
+      > a:hover::after,
+      > button:hover::before,
+      &.active > a::after,
+      &.active > button::before {
+        right: 0;
+        left: 0;
+        background: $white;
+      }
+
+      > button.mm-toggler-link:hover::before,
+      &.active > button.mm-toggler-link::before {
+        right: 0;
+        left: .5em;
+      }
+    }
+
+    .metismenu > li.level-1 {
+      &.active > a,
+      &.active > button,
+      > a:hover,
+      > button:hover {
+
+        @include media-breakpoint-up(lg) {
+          text-decoration: none;
+        }
+      }
+
+      > ul {
+        min-width: 12rem;
+      }
+    }
+  }
+
+  .navbar-toggler {
+    color: $white;
+    cursor: pointer;
+    border: 1px solid $white;
+
+    .fas {
+      font-size: 1.5rem;
+    }
+  }
+
+  .container-search {
+    margin-top: $cassiopeia-grid-gutter * .5;
+  }
+
+  .mod-finder {
+    color: $white;
+
+    a {
+      color: $white;
+
+      &:hover, &:focus {
+        color: darken($white, 10%);
+      }
+    }
+
+    .awesomplete {
+      color: var(--body-color);
+
+      > ul {
+        background: linear-gradient(to bottom right, $white, hsla(0,0%,100%,.9));
+      }
+    }
+  }
+}
