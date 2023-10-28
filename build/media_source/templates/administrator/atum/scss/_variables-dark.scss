@@ -237,7 +237,8 @@ $atum-colors-dark: (
   atum-subhead-btn-info-bg:         #494d53,
   atum-subhead-btn-info-border:     1px solid var(---atum-subhead-btn-info-bg),
 
-  atum-list-group-bg:               rgba(255,255,255,.05),
+  atum-list-group-bg:               rgba(255, 255, 255, .05),
+
 ) !default;
 
 $link-hover-color-dark: lighten($light-blue, 20%);
