@@ -4,7 +4,7 @@
  * @package     Joomla.API
  * @subpackage  com_installer
  *
- * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 /**
  * The languages view
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class JsonapiView extends BaseApiView
 {
@@ -27,7 +27,7 @@ class JsonapiView extends BaseApiView
      * The fields to render item in the documents
      *
      * @var  array
-     * @since  4.0.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $fieldsToRenderList = [
         'name',
@@ -46,7 +46,7 @@ class JsonapiView extends BaseApiView
      *
      * @return  object
      *
-     * @since   4.0.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function prepareItem($item)
     {
