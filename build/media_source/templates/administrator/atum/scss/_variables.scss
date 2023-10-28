@@ -113,6 +113,7 @@ $atum-colors: (
   template-quickicon-bg-hvr:       var(--template-bg-dark),
   form-control-bg:                 unset,
   form-control-bg-disabled:        var(--gray-200),
+  form-select-border:              1px solid,
 
   // background:
   bg-normal:                       var(--template-bg-light),
@@ -560,6 +561,7 @@ $form-select-indicator-active:     url("../../../images/select-bg.svg");
 $form-select-indicator-active-rtl: url("../../../images/select-bg-rtl.svg");
 $form-select-background:           $form-select-bg $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 $form-select-background-rtl:       $form-select-bg $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$form-select-border:               var(--form-select-border);
 $form-select-box-shadow:           $atum-box-shadow;
 $form-select-bg-size-sm:           75rem;
 $form-select-multiple-padding-y:   .3rem;

@@ -10,6 +10,7 @@
   max-width: $input-max-width;
   cursor: pointer;
   background: $form-select-background #{"/* rtl:"}$form-select-background-rtl#{"*/"};;
+  border: $form-select-border;
 
   &[multiple] {
     padding: 0;
