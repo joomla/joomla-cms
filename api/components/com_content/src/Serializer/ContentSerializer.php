@@ -13,15 +13,12 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Serializer\JoomlaSerializer;
 use Joomla\CMS\Tag\TagApiSerializerTrait;
 use Joomla\CMS\Uri\Uri;
-use stdClass;
 use Tobscure\JsonApi\Collection;
 use Tobscure\JsonApi\Relationship;
 use Tobscure\JsonApi\Resource;
 
-use function defined;
-
 // phpcs:disable PSR1.Files.SideEffects
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -36,7 +33,7 @@ class ContentSerializer extends JoomlaSerializer
     /**
      * Build content relationships by associations
      *
-     * @param   stdClass  $model  Item model
+     * @param   \stdClass  $model  Item model
      *
      * @return  Relationship
      *
@@ -65,7 +62,7 @@ class ContentSerializer extends JoomlaSerializer
     /**
      * Build category relationship
      *
-     * @param   stdClass  $model  Item model
+     * @param   \stdClass  $model  Item model
      *
      * @return  Relationship
      *
@@ -87,7 +84,7 @@ class ContentSerializer extends JoomlaSerializer
     /**
      * Build category relationship
      *
-     * @param   stdClass  $model  Item model
+     * @param   \stdClass  $model  Item model
      *
      * @return  Relationship
      *
@@ -106,7 +103,7 @@ class ContentSerializer extends JoomlaSerializer
     /**
      * Build editor relationship
      *
-     * @param   stdClass  $model  Item model
+     * @param   \stdClass  $model  Item model
      *
      * @return  Relationship
      *
