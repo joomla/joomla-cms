@@ -73,6 +73,16 @@ $bold-weight:                      700;
 $extrabold-weight:                 800;
 $black-weight:                     900;
 
+$form-select-indicator:            url("../images/select-bg.svg");
+$form-select-indicator-rtl:        url("../images/select-bg-rtl.svg");
+$form-select-indicator-active:     url("../../../images/select-bg.svg");
+$form-select-indicator-active-rtl: url("../../../images/select-bg-rtl.svg");
+$form-select-bg:                   var(--template-bg-light);
+$form-select-bg-size:              calc(max(100%, 116rem));
+$form-select-bg-size-sm:           75rem;
+//$form-select-background:           $form-select-bg $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+//$form-select-background-rtl:       $form-select-bg $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+
 $atum-colors: (
   template-sidebar-bg:             var(--template-bg-dark-80),
   template-sidebar-font-color:     $white,
@@ -113,7 +123,15 @@ $atum-colors: (
   template-quickicon-bg-hvr:       var(--template-bg-dark),
   form-control-bg:                 unset,
   form-control-bg-disabled:        var(--gray-200),
+  form-select-background:          $form-select-bg $form-select-indicator no-repeat right center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+  form-select-background-rtl:      $form-select-bg $form-select-indicator-rtl no-repeat left center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+
   form-select-border:              1px solid,
+  form-select-success-bg:          var(--white-offset),
+  form-select-danger-bg:           var(--white-offset),
+  form-select-disabled-bg:         var(--gray-200),
+  form-select-option:              var(--template-text-dark),
+  form-select-option-disabled-bg:  var(--template-bg-dark-5),
 
   // background:
   bg-normal:                       var(--template-bg-light),
@@ -553,18 +571,17 @@ $input-btn-submenu-icon-distance:   1rem;
 
 // Custom form
 $form-select-indicator-padding:    3rem;
-$form-select-bg:                   var(--template-bg-light);
-$form-select-bg-size:              calc(max(100%, 116rem));
-$form-select-indicator:            url("../images/select-bg.svg");
-$form-select-indicator-rtl:        url("../images/select-bg-rtl.svg");
-$form-select-indicator-active:     url("../../../images/select-bg.svg");
-$form-select-indicator-active-rtl: url("../../../images/select-bg-rtl.svg");
-$form-select-background:           $form-select-bg $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
-$form-select-background-rtl:       $form-select-bg $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$form-select-background:           var(--form-select-background);
+$form-select-background-rtl:       var(--form-select-background-rtl);
 $form-select-border:               var(--form-select-border);
 $form-select-box-shadow:           $atum-box-shadow;
-$form-select-bg-size-sm:           75rem;
 $form-select-multiple-padding-y:   .3rem;
+$form-select-success-bg:           var(--form-select-success-bg);
+$form-select-danger-bg:            var(--form-select-danger-bg);
+$form-select-disabled-bg:          var(--form-select-disabled-bg);
+$form-select-option:               var(--form-select-option);
+$form-select-option-disabled-bg:   var(--form-select-option-disabled-bg);
+
 $form-file-button-color:           var(--white);
 
 //Forms

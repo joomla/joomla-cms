@@ -1,5 +1,3 @@
-@import "../../variables-dark";
-
 // Custom Forms
 
 .custom-select {
@@ -28,86 +26,42 @@
   &.form-select-success,
   &.custom-select-success {
     color: var(--success);
-    background-color: var(--success);
+    //background-color: var(--success);
     border-color: var(--success);
 
     option {
       color: $form-select-color;
-      background-color: var(--white-offset);
-    }
-
-    @if $enable-dark-mode {
-      @include color-mode(dark) {
-        option {
-          background-color: var(--gray-800);
-        }
-      }
+      background-color: $form-select-success-bg;
     }
   }
 
   &.form-select-danger,
   &.custom-select-danger {
     color: var(--danger);
-    background-color: var(--danger);
+    //background-color: var(--danger);
     border-color: var(--danger);
 
     option {
       color: $form-select-color;
-      background-color: var(--white-offset);
-    }
-
-    @if $enable-dark-mode {
-      @include color-mode(dark) {
-        option {
-          background-color: var(--gray-800);
-        }
-      }
+      background-color: $form-select-danger-bg;
     }
   }
 
   &:disabled {
     cursor: default;
-    background-color: var(--gray-200);
+    background-color: $form-select-disabled-bg;
     background-image: none;
     border: 0;
     box-shadow: none;
   }
 
-  @if $enable-dark-mode {
-    @include color-mode(dark) {
-      &:disabled {
-        background-color: var(--gray-800);
-      }
-    }
-  }
-
   optgroup,
   option {
-    color: var(--template-text-dark);
+    color: $form-select-option;
     background-color: var(--body-bg);
 
     &:disabled {
-      background-color: var(--template-bg-dark-5);
-    }
-  }
-
-  @if $enable-dark-mode {
-    @include color-mode(dark) {
-      option {
-        color: var(--template-text-light);
-
-        &:disabled {
-          background-color: var(--template-bg-dark-90);
-        }
-      }
-    }
-  }
-}
-
-@if $enable-dark-mode {
-  @include color-mode(dark) {
-    .form-select {
-      background: $form-select-background-dark #{"/* rtl:"}$form-select-background-rtl-dark#{"*/"};
+      background-color: $form-select-option-disabled-bg;
     }
   }
 }
