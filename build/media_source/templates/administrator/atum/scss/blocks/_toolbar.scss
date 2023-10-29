@@ -74,6 +74,9 @@
       &:not([disabled]) {
         --subhead-btn-border: #{$state-success-btn-border};
       }
+      &:disabled {
+        --subhead-btn-border: #{$atum-subhead-btn-info-border};
+      }
     }
 
     &.btn-danger {
@@ -81,6 +84,9 @@
       --subhead-btn-bg: #{$state-danger-bg};
       &:not([disabled]) {
         --subhead-btn-border: #{$state-danger-border};
+      }
+      &:disabled {
+        --subhead-btn-border: #{$atum-subhead-btn-info-border};
       }
     }
 
