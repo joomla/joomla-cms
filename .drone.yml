@@ -380,11 +380,7 @@ steps:
       DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
       DRONE_COMMIT: DRONE_COMMIT
     commands:
-      - if [ $DRONE_REPO_NAME != 'joomla-cms' ]; then echo "The packager only runs on the joomla/joomla-cms repo"; exit 0; fi
       - /bin/drone_build.sh
-    when:
-      branch:
-        - 4.4-dev
 
   - name: upload
     image: joomlaprojects/docker-images:packager
@@ -409,9 +405,10 @@ steps:
       - rclone config create package sftp host $package_host user $package_user port 22
       - rclone copy ./upload/ nightly:$package_root/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/downloads/$DRONE_BUILD_NUMBER
       - /bin/add_github_status.sh "Download" "Prebuilt packages are available for download." "https://ci.joomla.org/artifacts/${DRONE_REPO}/${DRONE_BRANCH}/${DRONE_PULL_REQUEST}/downloads/${DRONE_BUILD_NUMBER}"
-    when:
-      branch:
-        - 4.4-dev
+
+trigger:
+  repo:
+    - joomla/joomla-cms
 
 ---
 kind: pipeline
@@ -438,8 +435,8 @@ steps:
         from_secret: nightly_user
       nightly_host:
         from_secret: nightly_host
-      RINGCENTRAL_WEBHOOK:
-        from_secret: notification_url
+      MATTERMOST_NIGHTLY_HOOK:
+        from_secret: mattermost_nightly_hook
     commands:
       - export MINORVERSION=${DRONE_BRANCH%-*}
       - mkdir -p ~/.ssh
@@ -452,19 +449,18 @@ steps:
       - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
       - rclone delete nightly:/home/devj/public_html/cache/com_content/
       - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
-      - /bin/notify
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 4.4](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
 
   - name: buildfailure
     image: joomlaprojects/docker-images:packager
     environment:
-      RINGCENTRAL_WEBHOOK:
-        from_secret: notification_url
+      MATTERMOST_NIGHTLY_HOOK:
+        from_secret: mattermost_nightly_hook
     commands:
-      - /bin/notify
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 4.4](https://developer.joomla.org/nightly-builds.html) FAILED to built."}' $MATTERMOST_NIGHTLY_HOOK
     when:
       status:
         - failure
-
 
 trigger:
   event:
@@ -475,6 +471,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 9f59c99dfbd6332aecf16796499d3c4c88f541945b731fad10f2945f5b809c5f
+hmac: 24d61a6418487858c1383ff5800f08255be6bf024bf190e1d741e1033b0f9a10
 
 ...
