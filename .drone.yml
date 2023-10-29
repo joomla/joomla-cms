@@ -376,7 +376,7 @@ steps:
   - name: packager
     image: joomlaprojects/docker-images:packager
     environment:
-      HTTP_ROOT: "https://ci.joomla.org/artifacts"
+      HTTP_ROOT: "https://artifacts.joomla.org/drone"
       DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
       DRONE_COMMIT: DRONE_COMMIT
     commands:
@@ -403,8 +403,8 @@ steps:
       - chmod 600 ~/.ssh/id_rsa
       - ssh-add
       - rclone config create package sftp host $package_host user $package_user port 22
-      - rclone copy ./upload/ nightly:$package_root/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/downloads/$DRONE_BUILD_NUMBER
-      - /bin/add_github_status.sh "Download" "Prebuilt packages are available for download." "https://ci.joomla.org/artifacts/${DRONE_REPO}/${DRONE_BRANCH}/${DRONE_PULL_REQUEST}/downloads/${DRONE_BUILD_NUMBER}"
+      - rclone copy ./upload/ package:$package_root/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/downloads/$DRONE_BUILD_NUMBER
+      - /bin/add_github_status.sh "Download" "Prebuilt packages are available for download." "https://artifacts.joomla.org/drone/${DRONE_REPO}/${DRONE_BRANCH}/${DRONE_PULL_REQUEST}/downloads/${DRONE_BUILD_NUMBER}"
 
 trigger:
   repo:
@@ -471,6 +471,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 24d61a6418487858c1383ff5800f08255be6bf024bf190e1d741e1033b0f9a10
+hmac: 19f3fcb277f6d220fd7780172cbeb02f5752b2c2ca621334eff3a52d9725e1e5
 
 ...
