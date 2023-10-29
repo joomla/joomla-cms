@@ -399,7 +399,7 @@ steps:
       - mkdir -p ~/.ssh
       - eval $(ssh-agent -s)
       - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-      - echo "$nightly_key" > ~/.ssh/id_rsa
+      - echo "$package_key" > ~/.ssh/id_rsa
       - chmod 600 ~/.ssh/id_rsa
       - ssh-add
       - rclone config create package sftp host $package_host user $package_user port 22
@@ -471,6 +471,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 19f3fcb277f6d220fd7780172cbeb02f5752b2c2ca621334eff3a52d9725e1e5
+hmac: aba8f50a67f4c8a11e5e179dd2313fdd9a884111f594e21a6b921daa60133534
 
 ...
