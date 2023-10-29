@@ -71,13 +71,17 @@
     &.btn-success {
       --subhead-btn-accent: #{$state-success-text}; /* var(--success); */
       --subhead-btn-bg: #{$state-success-bg};
-      --subhead-btn-border: #{$state-success-btn-border};
+      &:not([disabled]) {
+        --subhead-btn-border: #{$state-success-btn-border};
+      }
     }
 
     &.btn-danger {
       --subhead-btn-accent: #{$state-danger-text}; /* var(--danger); */
       --subhead-btn-bg: #{$state-danger-bg};
-      --subhead-btn-border: #{$state-danger-border};
+      &:not([disabled]) {
+        --subhead-btn-border: #{$state-danger-border};
+      }
     }
 
     &.btn-primary {
