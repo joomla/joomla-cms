@@ -3,20 +3,21 @@ $form-select-indicator-rtl-dark:   url("../images/select-bg-rtl-dark.svg");
 $form-select-bg-dark:              var(--template-bg-dark);
 //$form-select-background-dark:      $form-select-bg-dark $form-select-indicator-dark no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g. arrow and feedback icon)
 //$form-select-background-rtl-dark:  $form-select-bg-dark $form-select-indicator-rtl-dark no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g. arrow and feedback icon)
+$button-and-icon-color-dark:        #2969b8;
 
 $atum-colors-dark: (
-  button-and-icon-color:            #2969b8,
+  button-and-icon-color:            $button-and-icon-color-dark,
   template-quickicon-color:         var(--template-bg-dark-5),
   focus-shadow:                     var(--gray-800),
   media-manager-overlay-bg:         var(--template-bg-dark-90),
   media-manager-infobar-dt-color:   rgba(255, 255, 255, .54),
   media-manager-content-bg:         var(--body-bg),
-  media-manager-content-color:      var(--button-and-icon-color),
+  media-manager-content-color:      $button-and-icon-color-dark,
   media-manager-overlay-header-bg:  var(--template-bg-dark-80),
   media-manager-disk-name-color:    var(--template-text-light),
 
   media-manager-tree-item-hover-bg: var(--gray-600),
-  media-manager-toolbar-icon-color: var(--button-and-icon-color),
+  media-manager-toolbar-icon-color: $button-and-icon-color-dark,
 
   success:                         #467d53,
   successlight:                    #9ac6a5,
@@ -104,13 +105,13 @@ $atum-colors-dark: (
   sidebarwrapper-bg:               var(--template-sidebar-bg),
   sidebar-item-color:              $white,
   sidebar-item-color-hvr:          var(--template-text-light),
-  sidebar-item-bg-hvr:             var(--button-and-icon-color),
+  sidebar-item-bg-hvr:             $button-and-icon-color-dark,
   sidebar-toggle-bg:               rgba(255,255,255, .1),
   sidebar-toggle-link:             $white,
   main-nav-ul-bg:                  rgba(255,255,255, .1),
   main-nav-divider-bg:             var(--template-bg-dark-60),
   main-nav-item-title:             var(--template-bg-dark-30),
-  main-nav-mm-active-bg:           var(--button-and-icon-color),
+  main-nav-mm-active-bg:           $button-and-icon-color-dark,
   main-nav-mm-active-quicktask-bg: var(--template-bg-dark-60),
   main-nav-badge:                  var(--template-bg-dark-60),
   main-nav-item-title-hvr-bg:      var(--template-bg-dark-60),
@@ -118,8 +119,8 @@ $atum-colors-dark: (
 
   // header-content
   header-bg:                          hsl(var(--hue), 59.05%, 44.12%),
-  header-item-content-bg:             var(--header-bg),
-  header-item-content-bg-hvr:         hsl(var(--hue), 43.4%, 50.19%),
+  header-item-content-bg:             $button-and-icon-color-dark,
+  header-item-content-bg-hvr:         darken($button-and-icon-color-dark, 10%),
   header-item-content-border-radius:  4px,
   header-item-content-jversion-color: var(--dark-mode-text-light),
   header-item-content-jversion-bg:    transparent,
@@ -182,10 +183,10 @@ $atum-colors-dark: (
 
   // Buttons
   btn-primary-color: var(--text-normal),
-  btn-primary-bg: var(--button-and-icon-color),
+  btn-primary-bg: $button-and-icon-color-dark,
   btn-primary-border: 1px solid var(--btn-primary-bg),
-  btn-primary-bg-hvr: var(--template-bg-dark-70),
-  btn-primary-border-hvr: 1px solid var(--template-bg-dark-90),
+  btn-primary-bg-hvr: darken($button-and-icon-color-dark, 10%),
+  btn-primary-border-hvr: 1px solid darken($button-and-icon-color-dark, 15%),
   btn-primary-toggle-bg: var(--template-bg-dark),
   btn-primary-toggle-border: var(--template-bg-dark),
   btn-secondary-bg: #64676c, /* rgba(255,255,255,.2), */
