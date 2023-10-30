@@ -161,11 +161,11 @@ $atum-colors-dark: (
   choices__button_joomla-focus-box-shadow: none,
   joomla-tab-accordion-box-shadow: none,
   joomla-tab-btn-hvr:              var(--template-text-light),
-  joomla-tab-btn-aria-exp-bg:      var(--template-bg-dark-60),
-  joomla-tab-btn-region-border:    var(--template-bg-dark-70),
+  joomla-tab-btn-aria-exp-bg:      var(--atum-subhead-btn-bg),
+  joomla-tab-btn-region-border:    var(--atum-subhead-btn-bg),
 
   // details
-  details-bg:                      var(--template-bg-dark-90),
+  details-bg:                      var(----atum-subhead-btn-bg),
 
   // users
   users-method-image:              var(--light),
