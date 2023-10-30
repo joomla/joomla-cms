@@ -44,7 +44,7 @@ class NewsfeedsController extends AdminController
     /**
      * Method to get the number of published newsfeeds for quickicons
      *
-     * @return  string  The JSON-encoded amount of published newsfeeds
+     * @return  void
      *
      * @since   4.3.0
      */

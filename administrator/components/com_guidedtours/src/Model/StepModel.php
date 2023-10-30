@@ -59,10 +59,6 @@ class StepModel extends AdminModel
             return false;
         }
 
-        if ($record->tour_id) {
-            return $this->getCurrentUser()->authorise('core.delete', 'com_guidedtours.tour.' . $record->tour_id);
-        }
-
         return parent::canDelete($record);
     }
 
@@ -146,26 +142,6 @@ class StepModel extends AdminModel
             $table->modified    = $date;
             $table->modified_by = $this->getCurrentUser()->id;
         }
-    }
-
-    /**
-     * Method to test whether a record can have its state changed.
-     *
-     * @param   object  $record  A record object.
-     *
-     * @return  boolean  True if allowed to change the state of the record.
-     * Defaults to the permission set in the component.
-     *
-     * @since   4.3.0
-     */
-    protected function canEditState($record)
-    {
-        // Check for existing tour.
-        if (!empty($record->tour_id)) {
-            return $this->getCurrentUser()->authorise('core.edit.state', 'com_guidedtours.tour.' . $record->tour_id);
-        }
-
-        return parent::canEditState($record);
     }
 
     /**

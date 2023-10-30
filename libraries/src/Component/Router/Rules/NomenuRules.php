@@ -79,7 +79,7 @@ class NomenuRules implements RulesInterface
 
                 if (isset($view->key) && isset($segments[0])) {
                     if (\is_callable([$this->router, 'get' . ucfirst($view->name) . 'Id'])) {
-                        $input = $this->app->getInput();
+                        $input = $this->router->app->getInput();
                         if ($view->parent_key && $input->get($view->parent_key)) {
                             $vars[$view->parent->key] = $input->get($view->parent_key);
                             $vars[$view->parent_key]  = $input->get($view->parent_key);

@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_WEBSERVICES_MODULES_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\WebServices\Modules</namespace>
 	<files>
-		<filename plugin="modules">modules.php</filename>
+		<folder plugin="modules">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_webservices_modules.ini</language>

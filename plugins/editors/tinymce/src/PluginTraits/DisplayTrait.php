@@ -18,7 +18,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -80,7 +79,7 @@ trait DisplayTrait
         $theme           = 'silver';
 
         // Data object for the layout
-        $textarea           = new stdClass();
+        $textarea           = new \stdClass();
         $textarea->name     = $name;
         $textarea->id       = $id;
         $textarea->class    = 'mce_editable joomla-editor-tinymce';
@@ -136,8 +135,8 @@ trait DisplayTrait
 
         // Prepare the parameters
         $levelParams      = new Registry();
-        $extraOptions     = new stdClass();
-        $toolbarParams    = new stdClass();
+        $extraOptions     = new \stdClass();
+        $toolbarParams    = new \stdClass();
         $extraOptionsAll  = (array) $this->params->get('configuration.setoptions', []);
         $toolbarParamsAll = (array) $this->params->get('configuration.toolbars', []);
 
@@ -390,7 +389,9 @@ trait DisplayTrait
                     $ctemp[] = ['title' => $content_language['content_language_name'], 'code' => $content_language['content_language_code']];
                 }
             }
-            $scriptOptions['content_langs'] = array_merge($ctemp);
+            if (isset($ctemp)) {
+                $scriptOptions['content_langs'] = array_merge($ctemp);
+            }
         }
 
         // User custom plugins and buttons
@@ -478,6 +479,9 @@ trait DisplayTrait
 
                 // Disable TinyMCE Branding
                 'branding' => false,
+
+                // Specify the attributes to be used when previewing a style. This prevents white text on a white background making the preview invisible.
+                'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform background-color border border-radius outline text-shadow',
             ]
         );
 

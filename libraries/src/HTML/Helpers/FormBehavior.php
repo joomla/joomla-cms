@@ -23,7 +23,12 @@ use Joomla\Registry\Registry;
  *
  * @since       3.0
  *
- * @deprecated  5.0  Without replacement
+ * @deprecated  4.0 will be removed in 6.0
+ *              Will be removed without replacement
+ *              Use choice.js instead
+ *              Example:
+ *              Factory::getDocument()->getWebAssetManager()->enableAsset('choicesjs');
+ *              HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
  */
 abstract class FormBehavior
 {

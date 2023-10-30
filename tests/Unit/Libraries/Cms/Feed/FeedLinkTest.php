@@ -10,7 +10,6 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Feed;
 
-use InvalidArgumentException;
 use Joomla\CMS\Feed\FeedLink;
 use Joomla\Tests\Unit\UnitTestCase;
 
@@ -32,7 +31,7 @@ class FeedLinkTest extends UnitTestCase
      */
     public function testConstructWithInvalidLength()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         new FeedLink('URI', 'self', 'application/x-pdf', 'en-GB', 'My Link', 'foobar');
     }
 }

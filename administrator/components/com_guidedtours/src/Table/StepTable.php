@@ -31,7 +31,6 @@ class StepTable extends Table
      * @var    boolean
      * @since  4.3.0
      */
-    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
     protected $_supportNullValue = true;
 
     /**

@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @package         Joomla.Plugin
- * @subpackage      System.Webauthn
+ * @package     Joomla.Plugin
+ * @subpackage  System.Webauthn
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\Extension;
@@ -75,12 +75,21 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
     protected $autoloadLanguage = true;
 
     /**
-     * Should I try to detect and register legacy event listeners?
+     * Should I try to detect and register legacy event listeners, i.e. methods which accept unwrapped arguments? While
+     * this maintains a great degree of backwards compatibility to Joomla! 3.x-style plugins it is much slower. You are
+     * advised to implement your plugins using proper Listeners, methods accepting an AbstractEvent as their sole
+     * parameter, for best performance. Also bear in mind that Joomla! 5.x onwards will only allow proper listeners,
+     * removing support for legacy Listeners.
      *
      * @var    boolean
      * @since  4.2.0
      *
-     * @deprecated
+     * @deprecated  4.3 will be removed in 6.0
+     *              Implement your plugin methods accepting an AbstractEvent object
+     *              Example:
+     *              onEventTriggerName(AbstractEvent $event) {
+     *                  $context = $event->getArgument(...);
+     *              }
      */
     protected $allowLegacyListeners = false;
 
@@ -123,9 +132,9 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
         }
 
         Log::addLogger([
-                'text_file'         => "webauthn_system.php",
-                'text_entry_format' => '{DATETIME}	{PRIORITY} {CLIENTIP}	{MESSAGE}',
-            ], $logLevels, ["webauthn.system"]);
+            'text_file'         => "webauthn_system.php",
+            'text_entry_format' => '{DATETIME}	{PRIORITY} {CLIENTIP}	{MESSAGE}',
+        ], $logLevels, ["webauthn.system"]);
 
         $this->authenticationHelper = $authHelper ?? (new Authentication());
         $this->authenticationHelper->setAttestationSupport($this->params->get('attestationSupport', 0) == 1);

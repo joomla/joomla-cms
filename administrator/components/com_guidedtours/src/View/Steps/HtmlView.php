@@ -15,9 +15,9 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Router\Route;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -134,7 +134,7 @@ class HtmlView extends BaseHtmlView
         $title = !empty($tour->title) ? $tour->title : '';
 
         ToolbarHelper::title(Text::sprintf('COM_GUIDEDTOURS_STEPS_LIST', Text::_($title)), 'map-signs');
-        $arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+        $arrow  = $this->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
         ToolbarHelper::link(
             Route::_('index.php?option=com_guidedtours&view=tours'),

@@ -56,6 +56,7 @@ class ManageModel extends InstallerModel
                 'package_id',
                 'extension_id',
                 'creationDate',
+                'core',
             ];
         }
 
