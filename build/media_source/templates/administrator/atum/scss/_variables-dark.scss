@@ -4,6 +4,7 @@ $form-select-bg-dark:              var(--template-bg-dark);
 //$form-select-background-dark:      $form-select-bg-dark $form-select-indicator-dark no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g. arrow and feedback icon)
 //$form-select-background-rtl-dark:  $form-select-bg-dark $form-select-indicator-rtl-dark no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g. arrow and feedback icon)
 $button-and-icon-color-dark:        #2969b8;
+$success-dark:                      #479a59;
 
 $atum-colors-dark: (
   button-and-icon-color:            $button-and-icon-color-dark,
@@ -19,7 +20,7 @@ $atum-colors-dark: (
   media-manager-tree-item-hover-bg: var(--gray-600),
   media-manager-toolbar-icon-color: $button-and-icon-color-dark,
 
-  success:                         #467d53,
+  success:                         $success-dark,
   successlight:                    #9ac6a5,
   danger:                          #c62a25,
   dangerlight:                     #dc4a46,
@@ -29,28 +30,22 @@ $atum-colors-dark: (
   warning:                         #996808,
   warninglight:                    #ba7f0a,
   dark-mode-text-light:            #f7f7f7,
-  sidebar-bg:                      hsl(var(--hue), 37.8%, 8.63%),
-  template-sidebar-bg:             hsl(var(--hue), 37.8%, 8.63%),
+  sidebar-bg:                      #0f151d, //hsl(var(--hue), 37.8%, 8.63%),
+  template-sidebar-bg:             #0f151d, //hsl(var(--hue), 37.8%, 8.63%),
   template-link-color:             #21c2f9,
   template-link-hover-color:       darken(#21c2f9,20%),
 
-  // assuming hue 214
   body-bg:                         #0f151d, //hsl(var(--hue), 17%, 13.3%),
   main-bg:                         #1c2128, //var(--body-bg),
-  sidebar-accent-bg:               hsl(var(--hue), 66.2%, 44.1%),
-  template-bg-dark:                hsl(var(--hue), 55.3%, 10.8%),
-  template-quickicon-bg:           hsl(var(--hue), 6.7%, 29.8%),
-  template-quickicon-bg-hvr:       hsl(var(--hue), 6.7%, 44.12%),
-
-  // not clean, but there are too many elements using it...
-  //template-bg-dark-60:             hsl(var(--hue), 62.33%, 15.09%),
-  //template-bg-dark-65:             var(--sidebar-accent-bg),
-  //template-bg-dark-70:             var(--sidebar-bg),
+  sidebar-accent-bg:               #2667bb, //hsl(var(--hue), 66.2%, 44.1%),
+  template-bg-dark:                #0c1a2b, //hsl(var(--hue), 55.3%, 10.8%),
+  template-quickicon-bg:           #484b51, //hsl(var(--hue), 6.7%, 29.8%),
+  template-quickicon-bg-hvr:       #696e78, //hsl(var(--hue), 6.7%, 44.12%),
 
   //admin
   admin-background:                var(--body-bg),
   options-form-color:              var(--template-text-light),
-  options-form-bg:                 hsl(var(--hue), 5%, 34%),
+  options-form-bg:                 #52565b, //hsl(var(--hue), 5%, 34%),
   options-form-border:             1px solid var(--template-bg-dark-80),
   options-form-legend-color:       var(--template-text-light),
   options-form-legend-bg:          var(--admin-background),
@@ -82,9 +77,9 @@ $atum-colors-dark: (
   quickicon-border:                none,
   quickicon-border-radius:         4px,
   quickicon-link-hvr:              #fff, //var(--text-normal), // var(--template-bg-dark-5)
-  quickicon-linkadd-bg:            hsl(var(--hue), 5%, 34%),
+  quickicon-linkadd-bg:            #52565b, // hsl(var(--hue), 5%, 34%),
   quickicon-linkadd-color:         #479a59,
-  quickicon-amount-bg:             hsl(var(--hue), 5%, 34%),
+  quickicon-amount-bg:             #6b6f77, //hsl(var(--hue), 5%, 34%),
   quickicon-color-hvr:             var(--quickicon-link-hvr),
 
   // modules
@@ -118,7 +113,7 @@ $atum-colors-dark: (
   mobile-menu-collapse-bg:         var(--template-bg-dark-50),
 
   // header-content
-  header-bg:                          hsl(var(--hue), 59.05%, 44.12%),
+  header-bg:                          $button-and-icon-color-dark, // hsl(var(--hue), 59.05%, 44.12%),
   header-item-content-bg:             $button-and-icon-color-dark,
   header-item-content-bg-hvr:         darken($button-and-icon-color-dark, 10%),
   header-item-content-border-radius:  4px,
@@ -197,9 +192,9 @@ $atum-colors-dark: (
 
   // Alerts
   state-success-text:               var(--text-normal),
-  state-success-bg:                 var(--success),
+  state-success-bg:                 $success-dark,
   state-success-border:             1px solid var(--successlight),
-  state-success-btn-border:         1px solid var(--success),
+  state-success-btn-border:         1px solid $success-dark,
   state-success-icon:               var(--text-normal),
   state-success-icon-hvr:           var(--successlight),
   state-success-heading-bg:         var(--successlight),
@@ -241,7 +236,7 @@ $atum-colors-dark: (
   atum-subhead-btn-bg:              var(--button-and-icon-color),
   atum-subhead-btn-border:          1px solid var(--atum-subhead-btn-bg),
   atum-subhead-btn-hvr:             rgba(255, 255, 255, .9),
-  atum-subhead-btn-success:         var(--success),
+  atum-subhead-btn-success:         $success-dark,
   atum-subhead-btn-danger:          var(--danger),
   atum-subhead-btn-primary:         var(--text-normal),
   atum-subhead-btn-secondary:       #f0f4fb,
