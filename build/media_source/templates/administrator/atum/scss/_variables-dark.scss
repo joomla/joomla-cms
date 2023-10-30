@@ -198,10 +198,10 @@ $atum-colors-dark: (
   state-success-heading-bg:         var(--successlight),
 
   state-info-text:                  var(--text-normal),
-  state-info-bg:                    var(--button-and-icon-color),
+  state-info-bg:                    $button-and-icon-color-dark,
   state-info-border:                1px solid var(--template-bg-dark-60),
   state-info-icon:                  var(--state-info-text),
-  state-info-heading-bg:            var(--state-info-bg),
+  state-info-heading-bg:            lighten($button-and-icon-color-dark, 10%),
 
   state-warning-text:               var(--text-normal),
   state-warning-bg:                 var(--warning),
