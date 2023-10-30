@@ -126,7 +126,7 @@ $atum-colors: (
   form-select-background:          $form-select-bg $form-select-indicator no-repeat right center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
   form-select-background-rtl:      $form-select-bg $form-select-indicator-rtl no-repeat left center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 
-  form-select-border:              1px solid,
+  form-select-border:              var(--border-width) solid var(--template-bg-dark-20),
   form-select-success-bg:          var(--white-offset),
   form-select-danger-bg:           var(--white-offset),
   form-select-disabled-bg:         var(--gray-200),
