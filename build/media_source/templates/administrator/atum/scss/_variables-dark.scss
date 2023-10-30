@@ -1,8 +1,6 @@
 $form-select-indicator-dark:       url("../images/select-bg-dark.svg");
 $form-select-indicator-rtl-dark:   url("../images/select-bg-rtl-dark.svg");
 $form-select-bg-dark:              var(--template-bg-dark);
-//$form-select-background-dark:      $form-select-bg-dark $form-select-indicator-dark no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g. arrow and feedback icon)
-//$form-select-background-rtl-dark:  $form-select-bg-dark $form-select-indicator-rtl-dark no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g. arrow and feedback icon)
 $button-and-icon-color-dark:        #2969b8;
 $success-dark:                      #479a59;
 
@@ -30,22 +28,22 @@ $atum-colors-dark: (
   warning:                         #996808,
   warninglight:                    #ba7f0a,
   dark-mode-text-light:            #f7f7f7,
-  sidebar-bg:                      #0f151d, //hsl(var(--hue), 37.8%, 8.63%),
-  template-sidebar-bg:             #0f151d, //hsl(var(--hue), 37.8%, 8.63%),
+  sidebar-bg:                      #0f151d,
+  template-sidebar-bg:             #0f151d,
   template-link-color:             #21c2f9,
   template-link-hover-color:       darken(#21c2f9,20%),
 
-  body-bg:                         #0f151d, //hsl(var(--hue), 17%, 13.3%),
-  main-bg:                         #1c2128, //var(--body-bg),
-  sidebar-accent-bg:               #2667bb, //hsl(var(--hue), 66.2%, 44.1%),
-  template-bg-dark:                #0c1a2b, //hsl(var(--hue), 55.3%, 10.8%),
-  template-quickicon-bg:           #484b51, //hsl(var(--hue), 6.7%, 29.8%),
-  template-quickicon-bg-hvr:       #696e78, //hsl(var(--hue), 6.7%, 44.12%),
+  body-bg:                         #0f151d,
+  main-bg:                         #1c2128,
+  sidebar-accent-bg:               #2667bb,
+  template-bg-dark:                #0c1a2b,
+  template-quickicon-bg:           #484b51,
+  template-quickicon-bg-hvr:       #696e78,
 
   //admin
   admin-background:                var(--body-bg),
   options-form-color:              var(--template-text-light),
-  options-form-bg:                 #52565b, //hsl(var(--hue), 5%, 34%),
+  options-form-bg:                 #52565b,
   options-form-border:             1px solid var(--template-bg-dark-80),
   options-form-legend-color:       var(--template-text-light),
   options-form-legend-bg:          var(--admin-background),
@@ -53,7 +51,7 @@ $atum-colors-dark: (
   form-control-bg:                 var(--admin-background),
   form-control-bg-disabled:        var(--gray-800),
   form-select-background:          $form-select-bg-dark $form-select-indicator-dark no-repeat right center / $form-select-bg-size, // Used so we can have multiple background elements (e.g. arrow and feedback icon)
-  form-select-background-rtl-dark:  $form-select-bg-dark $form-select-indicator-rtl-dark no-repeat left center / $form-select-bg-size, // Used so we can have multiple background elements (e.g. arrow and feedback icon)
+  form-select-background-rtl-dark: $form-select-bg-dark $form-select-indicator-rtl-dark no-repeat left center / $form-select-bg-size, // Used so we can have multiple background elements (e.g. arrow and feedback icon)
   form-select-border:              1px solid rgba(255, 255, 255, .1),
   form-select-success-bg:          var(--gray-800),
   form-select-danger-bg:           var(--gray-800),
@@ -76,10 +74,10 @@ $atum-colors-dark: (
   quickicon-bg:                    var(--card-bg), /* transparent */
   quickicon-border:                none,
   quickicon-border-radius:         4px,
-  quickicon-link-hvr:              #fff, //var(--text-normal), // var(--template-bg-dark-5)
-  quickicon-linkadd-bg:            #52565b, // hsl(var(--hue), 5%, 34%),
+  quickicon-link-hvr:              #fff,
+  quickicon-linkadd-bg:            #52565b,
   quickicon-linkadd-color:         #479a59,
-  quickicon-amount-bg:             #6b6f77, //hsl(var(--hue), 5%, 34%),
+  quickicon-amount-bg:             #6b6f77,
   quickicon-color-hvr:             var(--quickicon-link-hvr),
 
   // modules
@@ -113,7 +111,7 @@ $atum-colors-dark: (
   mobile-menu-collapse-bg:         var(--template-bg-dark-50),
 
   // header-content
-  header-bg:                          $button-and-icon-color-dark, // hsl(var(--hue), 59.05%, 44.12%),
+  header-bg:                          $button-and-icon-color-dark,
   header-item-content-bg:             $button-and-icon-color-dark,
   header-item-content-bg-hvr:         darken($button-and-icon-color-dark, 10%),
   header-item-content-border-radius:  4px,
@@ -127,7 +125,7 @@ $atum-colors-dark: (
 
   // table:
   table-border-top-nfc:            1px solid #969696,
-  table-link-color:                #21c2f9, /* hsl(214, 94.9%, 55.29%), */
+  table-link-color:                #21c2f9,
   table-link-font-weight:          $normal-weight,
   table-link-font-weight-sorted:   $normal-weight,
   badge-bg-info:                   rgba(255,255,255,.2) !important,
