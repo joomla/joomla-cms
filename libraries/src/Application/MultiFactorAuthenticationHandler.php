@@ -19,7 +19,6 @@ use Joomla\CMS\Table\User as UserTable;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
-use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
