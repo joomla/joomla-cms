@@ -36,7 +36,7 @@ class SessionhandlerField extends ListField
     /**
      * Method to get the session handler field options.
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   1.7.0
      */

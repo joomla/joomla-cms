@@ -744,6 +744,7 @@
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 				description="COM_CONTENT_FIELD_IMAGE_CLASS_DESC"
 				useglobal="true"
+				validate="CssIdentifier"
 			/>
 
 			<field
@@ -780,6 +781,7 @@
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 				description="COM_CONTENT_FIELD_IMAGE_CLASS_DESC"
 				useglobal="true"
+				validate="CssIdentifier"
 			/>
 
 			<field

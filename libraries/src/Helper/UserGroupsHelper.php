@@ -42,7 +42,7 @@ final class UserGroupsHelper
     /**
      * Singleton instance.
      *
-     * @var    array
+     * @var    UserGroupsHelper
      * @since  3.6.3
      */
     private static $instance;

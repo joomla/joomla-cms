@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
@@ -22,7 +21,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\UpdateSite as UpdateSiteTable;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\ParameterType;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -75,14 +73,14 @@ class UpdatesitesModel extends InstallerModel
      *
      * @return  boolean  True on success
      *
-     * @throws  Exception on ACL error
+     * @throws  \Exception on ACL error
      * @since   3.4
      *
      */
     public function publish(&$eid = [], $value = 1)
     {
         if (!$this->getCurrentUser()->authorise('core.edit.state', 'com_installer')) {
-            throw new Exception(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 403);
+            throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 403);
         }
 
         $result = true;
@@ -116,14 +114,14 @@ class UpdatesitesModel extends InstallerModel
      *
      * @return  void
      *
-     * @throws  Exception on ACL error
+     * @throws  \Exception on ACL error
      * @since   3.6
      *
      */
     public function delete($ids = [])
     {
         if (!$this->getCurrentUser()->authorise('core.delete', 'com_installer')) {
-            throw new Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
+            throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
         }
 
         // Ensure eid is an array of extension ids
@@ -180,7 +178,7 @@ class UpdatesitesModel extends InstallerModel
                 $db->execute();
 
                 $count++;
-            } catch (RuntimeException $e) {
+            } catch (\RuntimeException $e) {
                 $app->enqueueMessage(
                     Text::sprintf(
                         'COM_INSTALLER_MSG_UPDATESITES_DELETE_ERROR',
@@ -242,14 +240,14 @@ class UpdatesitesModel extends InstallerModel
      *
      * @return  void
      *
-     * @throws  Exception on ACL error
+     * @throws  \Exception on ACL error
      * @since   3.6
      *
      */
     public function rebuild(): void
     {
         if (!$this->getCurrentUser()->authorise('core.admin', 'com_installer')) {
-            throw new Exception(Text::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_NOT_PERMITTED'), 403);
+            throw new \Exception(Text::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_NOT_PERMITTED'), 403);
         }
 
         $db  = $this->getDatabase();

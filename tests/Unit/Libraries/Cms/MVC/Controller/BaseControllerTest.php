@@ -210,7 +210,7 @@ class BaseControllerTest extends UnitTestCase
         $controller = new class (['default_task' => 'invalid', 'base_path' => __DIR__], $this->createStub(MVCFactoryInterface::class), $this->createStub(CMSApplication::class)) extends BaseController {
         };
 
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
 
         $controller->execute('unit');
     }
@@ -374,7 +374,7 @@ class BaseControllerTest extends UnitTestCase
         $controller = new class (['base_path' => __DIR__], $mvcFactory, $this->createStub(CMSApplication::class), new Input()) extends BaseController {
         };
 
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
 
         $controller->getView('testGetNullView');
     }
