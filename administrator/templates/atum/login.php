@@ -14,7 +14,6 @@ use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
 
 /** @var \Joomla\CMS\Document\HtmlDocument $this */
@@ -81,9 +80,6 @@ $monochrome = (bool) $this->params->get('monochrome');
 // Add cookie alert message
 Text::script('JGLOBAL_WARNCOOKIES');
 
-// @see administrator/templates/atum/html/layouts/status.php
-$statusModules = LayoutHelper::render('status', ['modules' => 'status']);
-
 HTMLHelper::_('bootstrap.dropdown');
 
 ?>
@@ -118,7 +114,6 @@ HTMLHelper::_('bootstrap.dropdown');
             </div>
             <jdoc:include type="modules" name="title" />
         </div>
-        <?php echo $statusModules; ?>
     </header>
 
     <div id="wrapper" class="wrapper flex-grow-1">
