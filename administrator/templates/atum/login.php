@@ -14,6 +14,7 @@ use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
 
 /** @var \Joomla\CMS\Document\HtmlDocument $this */
@@ -82,6 +83,9 @@ Text::script('JGLOBAL_WARNCOOKIES');
 
 HTMLHelper::_('bootstrap.dropdown');
 
+// @see administrator/templates/atum/html/layouts/status.php
+$statusModules = LayoutHelper::render('status', ['modules' => 'status']);
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -114,6 +118,7 @@ HTMLHelper::_('bootstrap.dropdown');
             </div>
             <jdoc:include type="modules" name="title" />
         </div>
+        <?php echo $statusModules; ?>
     </header>
 
     <div id="wrapper" class="wrapper flex-grow-1">
