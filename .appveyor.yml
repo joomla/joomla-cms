@@ -48,7 +48,6 @@ hosts:
   openldap: 127.0.0.1
 
 services:
-  - mysql
   - iis
 
 before_test:
