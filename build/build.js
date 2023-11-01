@@ -180,9 +180,5 @@ if (cliOptions.prepare) {
     .then(() => compileCodemirror())
     .then(() => bench.stop('Build'))
     .then(() => { process.exit(0); })
-    .catch((err) => {
-      // eslint-disable-next-line no-console
-      console.error(err);
-      process.exit(-1);
-    });
+    .catch((err) => handleError(err, -1));
 }
