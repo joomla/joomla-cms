@@ -2,6 +2,7 @@
  * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+// @TODO: remove the specific conditional on plg_system_shortcut/js/shortcut.es6.js when this moves to JoomlaDialog
 window.tinymce.PluginManager.add('joomlaHighlighter', (editor) => {
   const setContent = (html) => {
     editor.focus();
