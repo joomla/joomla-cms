@@ -90,8 +90,7 @@
 		<field
 			name="show_in_list"
 			type="list"
-			label="In list administation page"
-			_layout="joomla.form.field.list-fancy-select"
+			label="COM_FIELDS_EDITOR_SHOW_IN_LIST_LABEL"
 			class="form-select"
 			validate="options"
 			default="0"

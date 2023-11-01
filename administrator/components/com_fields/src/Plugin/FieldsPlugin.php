@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -363,10 +364,12 @@ abstract class FieldsPlugin extends CMSPlugin
         }
 
         foreach ($contentIDs as $itemID) {
-            $field->item_id  = $itemID;
-            $field->value    = $fieldValues[$itemID]->value ?? $field->default_value;
+            $field->item_id     = $itemID;
+            $field->value       = $fieldValues[$itemID]->value ?? $field->default_value;
+			$field->params      = new Registry($field->params ?? null);
+			$field->fieldparams = new Registry($field->fieldparams ?? null);
 
-            $path = \Joomla\CMS\Plugin\PluginHelper::getLayoutPath('fields', $this->_name, $this->_name);
+            $path = PluginHelper::getLayoutPath('fields', $this->_name, $this->_name);
 
             ob_start();
             include $path;

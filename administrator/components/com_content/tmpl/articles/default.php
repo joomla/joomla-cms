@@ -111,8 +111,8 @@ $assoc = Associations::isEnabled();
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
                                 </th>
                                 <?php foreach ($this->fields as $field) : ?>
-                                <th scope="col" class="w-10 <?= $field->show_in_list == 1 ? 'd-none ' : '' ?>d-md-table-cell">
-                                    <?php echo $field->label; // HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+                                <th scope="col" class="w-10<?= $field->show_in_list == 1 ? ' d-none ' : '' ?>d-md-table-cell">
+                                    <?php echo $field->label; ?>
                                 </th>
                                 <?php endforeach; ?>
                                 <th scope="col" class="w-10 d-none d-md-table-cell">
@@ -311,7 +311,7 @@ $assoc = Associations::isEnabled();
                                     </div>
                                 </th>
                                 <?php foreach ($this->fields as $fieldID => $field) : ?>
-                                <th scope="col" class="small <?= $field->show_in_list == 1 ? 'd-none ' : '' ?>d-md-table-cell">
+                                <th scope="col" class="small<?= $field->show_in_list == 1 ? ' d-none ' : '' ?>d-md-table-cell">
                                     <?php if (empty($field->category_id) || in_array($item->catid, $field->category_id)) : ?>
                                         <?php echo $this->contentColumnField[$fieldID][$item->id] ?? ''; ?>
                                     <?php endif; ?>
