@@ -364,11 +364,11 @@ abstract class FieldsPlugin extends CMSPlugin
         }
 
         foreach ($contentIDs as $itemID) {
-            $field->item_id     = $itemID;
-            $field->value       = $fieldValues[$itemID]->value ?? $field->default_value;
-            $field->params      = new Registry($field->params ?? null);
-            $field->fieldparams = new Registry($field->fieldparams ?? null);
-            $field->getSubscribedEvents = fn() => [];
+            $field->item_id             = $itemID;
+            $field->value               = $fieldValues[$itemID]->value ?? $field->default_value;
+            $field->params              = new Registry($field->params ?? null);
+            $field->fieldparams         = new Registry($field->fieldparams ?? null);
+            $field->getSubscribedEvents = fn () => [];
 
             $path = PluginHelper::getLayoutPath('fields', $this->_name, $this->_name);
 
