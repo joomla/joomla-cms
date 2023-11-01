@@ -117,7 +117,7 @@ class Icon
         if (
             property_exists($contact, 'checked_out')
             && property_exists($contact, 'checked_out_time')
-            && !is_null($contact->checked_out)
+            && !\is_null($contact->checked_out)
             && $contact->checked_out !== $user->get('id')
         ) {
             $checkoutUser = $this->getUserFactory()->loadUserById($contact->checked_out);

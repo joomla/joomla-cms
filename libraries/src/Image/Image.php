@@ -130,7 +130,7 @@ class Image
          * @todo: Remove check for resource when we only support PHP 8
          */
         if (
-            $source && (\is_object($source) && get_class($source) == 'GdImage')
+            $source && (\is_object($source) && \get_class($source) == 'GdImage')
             || (\is_resource($source) && get_resource_type($source) == 'gd')
         ) {
             $this->handle = $source;
@@ -547,7 +547,7 @@ class Image
          * @todo: Remove check for resource when we only support PHP 8
          */
         if (
-            !((\is_object($this->handle) && get_class($this->handle) == 'GdImage')
+            !((\is_object($this->handle) && \get_class($this->handle) == 'GdImage')
                 || (\is_resource($this->handle) && get_resource_type($this->handle) == 'gd'))
         ) {
             return false;

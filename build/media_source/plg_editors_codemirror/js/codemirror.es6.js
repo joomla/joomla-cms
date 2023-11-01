@@ -138,6 +138,7 @@ async function createFromTextarea(textarea, options) {
   const extensions = [minimalSetup(), await optionsToExtensions(options)];
   const view = new EditorView({
     doc: textarea.value,
+    root: options.root || null,
     extensions,
   });
   textarea.parentNode.insertBefore(view.dom, textarea);

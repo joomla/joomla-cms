@@ -18,7 +18,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 /**
  * Prepare images to be valid for JSON-LD output
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 trait SchemaorgPrepareImageTrait
 {
@@ -29,13 +29,13 @@ trait SchemaorgPrepareImageTrait
      *
      * @return  string|array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function prepareImage($image)
     {
-        if (is_array($image)) {
+        if (\is_array($image)) {
             // We don't handle references, they should be ok
-            if (count($image) === 1 && isset($image['@id'])) {
+            if (\count($image) === 1 && isset($image['@id'])) {
                 return $image;
             }
 

@@ -546,6 +546,12 @@
         register(editor);
         register$1(editor);
         setup(editor);
+        return {
+          getMetadata: () => ({
+            name: 'Template (Joomla)',
+            url: 'https://www.joomla.org/'
+          })
+        }
       });
     };
 
