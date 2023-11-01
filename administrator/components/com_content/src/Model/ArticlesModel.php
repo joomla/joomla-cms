@@ -135,7 +135,7 @@ class ArticlesModel extends ListModel
         $catWhere = [];
 
         /* If the $cat parameter is null then the category ID values are used from REQUEST Input. */
-        if (is_null($cat)) {
+        if (\is_null($cat)) {
             $filter = Factory::getApplication()->getInput()->get('filter');
 
             if (isset($filter['category_id'])) {
@@ -152,7 +152,7 @@ class ArticlesModel extends ListModel
         }
 
         /* if you use an empty param $cat value in the Category ID array then fields without the specified category IDs will be displayed. */
-        if (is_null($cat) || is_array($cat) && in_array(null, $cat, true)) {
+        if (\is_null($cat) || \is_array($cat) && \in_array(null, $cat, true)) {
             $catWhere[] = $db->quoteName('c.category_id') . ' IS NULL ';
         }
 
