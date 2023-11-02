@@ -8,8 +8,8 @@
     "url": "https://github.com/joomla/joomla-cms.git"
   },
   "engines": {
-    "node": "20.x",
-    "npm": "10.x"
+    "node": ">=20.x",
+    "npm": ">=10.x"
   },
   "scripts": {
     "build:js": "node build/build.js --compile-js",
