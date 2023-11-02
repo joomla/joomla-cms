@@ -311,11 +311,11 @@ $assoc = Associations::isEnabled();
                                     </div>
                                 </th>
                                 <?php foreach ($this->fields as $fieldID => $field) : ?>
-                                <th scope="col" class="small<?= $field->show_in_list == 1 ? ' d-none ' : '' ?>d-md-table-cell">
+                                <td scope="col" class="small<?= $field->show_in_list == 1 ? ' d-none ' : '' ?>d-md-table-cell">
                                     <?php if (empty($field->category_id) || in_array($item->catid, $field->category_id)) : ?>
                                         <?php echo $this->contentColumnField[$fieldID][$item->id] ?? ''; ?>
                                     <?php endif; ?>
-                                </th>
+                                </td>
                                 <?php endforeach; ?>
                                 <td class="small d-none d-md-table-cell">
                                     <?php echo $this->escape($item->access_level); ?>
