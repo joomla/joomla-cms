@@ -290,7 +290,7 @@ steps:
       DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
       DRONE_COMMIT: DRONE_COMMIT
     commands:
-      - /bin/drone_build.sh
+      - /bin/drone_prepare_package.sh
 
   - name: upload
     image: joomlaprojects/docker-images:packager
@@ -359,7 +359,7 @@ steps:
       - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
       - rclone delete nightly:/home/devj/public_html/cache/com_content/
       - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
-      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 4.4](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.0](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
 
 
   - name: buildfailure
@@ -368,7 +368,7 @@ steps:
       MATTERMOST_NIGHTLY_HOOK:
         from_secret: mattermost_nightly_hook
     commands:
-      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 4.4](https://developer.joomla.org/nightly-builds.html) FAILED to built."}' $MATTERMOST_NIGHTLY_HOOK
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.0](https://developer.joomla.org/nightly-builds.html) FAILED to built."}' $MATTERMOST_NIGHTLY_HOOK
     when:
       status:
         - failure
@@ -382,6 +382,6 @@ trigger:
 
 ---
 kind: signature
-hmac: f4fef5618ddde88b171b1837636dd4e3fd8b891cbb26b13695c431d50acb41e9
+hmac: 16aad9229964700a46de8f3e3265147715d3d5c1173eec9439148af364d6092c
 
 ...
