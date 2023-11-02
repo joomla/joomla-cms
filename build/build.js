@@ -42,19 +42,23 @@ const { compileCodemirror } = require('./build-modules-js/javascript/build-codem
 const options = require('../package.json');
 const settings = require('./build-modules-js/settings.json');
 
-// The command line
-const Program = new Command();
-
-// Merge Joomla's specific settings to the main package.json object
-if ('settings' in settings) {
-  options.settings = settings.settings;
-}
-
 const handleError = (err, terminateCode) => {
   // eslint-disable-next-line no-console
   console.error(err);
   process.exit(terminateCode);
 };
+
+// The command line
+const Program = new Command();
+
+if (semver.gte(semver.minVersion(options.engines.node), semver.clean(process.version))) {
+  handleError(`Node version ${semver.clean(process.version)} is not supported, please upgrade to Node version ${semver.clean(options.engines.node)}`, 1);
+}
+
+// Merge Joomla's specific settings to the main package.json object
+if ('settings' in settings) {
+  options.settings = settings.settings;
+}
 
 const allowedVersion = () => {
   if (!semver.satisfies(process.version.substring(1), options.engines.node)) {
