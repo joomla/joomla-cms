@@ -10,7 +10,7 @@
 namespace Joomla\CMS\MVC\Model\Exception;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -18,7 +18,7 @@ namespace Joomla\CMS\MVC\Model\Exception;
  * It is expected that the controller should catch all exceptions that implement this interface and then
  * make a decision as to whether the exception can be recovered from or not.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.4.0
  */
 interface ModelExceptionInterface extends \Throwable
 {

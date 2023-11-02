@@ -199,7 +199,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $user    = $app->getIdentity();
         $factory = $app->bootComponent('com_guidedtours')->getMVCFactory();
 
-        if (empty($item->id) || $item->published < 1 || !in_array($item->access, $user->getAuthorisedViewLevels())) {
+        if (empty($item->id) || $item->published < 1 || !\in_array($item->access, $user->getAuthorisedViewLevels())) {
             return null;
         }
 

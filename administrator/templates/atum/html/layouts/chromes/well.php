@@ -36,6 +36,11 @@ $moduleClass    = $bootstrapSize ? 'col-md-' . $bootstrapSize : 'col-md-12';
 $headerTag      = htmlspecialchars($params->get('header_tag', 'h2'), ENT_QUOTES, 'UTF-8');
 $moduleClassSfx = $params->get('moduleclass_sfx', '');
 
+// Add class from attributes if any
+if (!empty($attribs['class'])) {
+    $moduleClass .= ' ' . htmlspecialchars($attribs['class'], ENT_QUOTES, 'UTF-8');
+}
+
 // Temporarily store header class in variable
 $headerClass = $params->get('header_class') ? ' class="' . htmlspecialchars($params->get('header_class'), ENT_QUOTES, 'UTF-8') . '"' : '';
 

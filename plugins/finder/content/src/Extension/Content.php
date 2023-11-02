@@ -334,12 +334,12 @@ final class Content extends Adapter implements SubscriberInterface
         $taxonomies = $this->params->get('taxonomies', ['type', 'author', 'category', 'language']);
 
         // Add the type taxonomy data.
-        if (in_array('type', $taxonomies)) {
+        if (\in_array('type', $taxonomies)) {
             $item->addTaxonomy('Type', 'Article');
         }
 
         // Add the author taxonomy data.
-        if (in_array('author', $taxonomies) && (!empty($item->author) || !empty($item->created_by_alias))) {
+        if (\in_array('author', $taxonomies) && (!empty($item->author) || !empty($item->created_by_alias))) {
             $item->addTaxonomy('Author', !empty($item->created_by_alias) ? $item->created_by_alias : $item->author, $item->state);
         }
 
@@ -352,12 +352,12 @@ final class Content extends Adapter implements SubscriberInterface
         }
 
         // Add the category taxonomy data.
-        if (in_array('category', $taxonomies)) {
+        if (\in_array('category', $taxonomies)) {
             $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
         }
 
         // Add the language taxonomy data.
-        if (in_array('language', $taxonomies)) {
+        if (\in_array('language', $taxonomies)) {
             $item->addTaxonomy('Language', $item->language);
         }
 

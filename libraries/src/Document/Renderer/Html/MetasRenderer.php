@@ -131,8 +131,8 @@ class MetasRenderer extends DocumentRenderer
                 }
 
                 if (is_file($dir . $icon)) {
-                    $urlBase = in_array($base, [0, 2]) ? Uri::base(true) : Uri::root(true);
-                    $base    = in_array($base, [0, 2]) ? JPATH_BASE : JPATH_ROOT;
+                    $urlBase = \in_array($base, [0, 2]) ? Uri::base(true) : Uri::root(true);
+                    $base    = \in_array($base, [0, 2]) ? JPATH_BASE : JPATH_ROOT;
                     $path    = str_replace($base, '', $dir);
                     $path    = str_replace('\\', '/', $path);
                     $this->_doc->addFavicon($urlBase . $path . $icon);

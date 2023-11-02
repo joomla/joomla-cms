@@ -59,7 +59,7 @@ class Text
                 $script = (bool) $jsSafe['script'];
             }
 
-            $jsSafe = !\empty($jsSafe['jsSafe']);
+            $jsSafe = !empty($jsSafe['jsSafe']);
         }
 
         if (self::passSprintf($string, $jsSafe, $interpretBackSlashes, $script)) {

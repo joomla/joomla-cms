@@ -64,7 +64,7 @@ if (elSearch && elSearchContainer) {
       }
 
       const cardHeader = card.querySelector('.new-module-title');
-      const cardBody = card.querySelector('.card-body');
+      const cardBody = card.querySelector('.new-module-caption');
       const title = cardHeader ? cardHeader.textContent : '';
       const description = cardBody ? cardBody.textContent : '';
 

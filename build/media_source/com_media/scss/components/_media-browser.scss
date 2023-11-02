@@ -374,6 +374,15 @@
       visibility: hidden;
     }
   }
+
+  .selected {
+    background-color: $table-item-icon-bg-selected;
+
+    > td,
+    > th {
+      background-color: $table-item-icon-bg-selected;
+    }
+  }
 }
 
 .action-toggle {

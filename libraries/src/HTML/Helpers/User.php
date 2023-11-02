@@ -38,7 +38,7 @@ abstract class User
     {
         $options = array_values(UserGroupsHelper::getInstance()->getAll());
 
-        for ($i = 0, $n = count($options); $i < $n; $i++) {
+        for ($i = 0, $n = \count($options); $i < $n; $i++) {
             $options[$i]->value = $options[$i]->id;
             $options[$i]->text  = str_repeat('- ', $options[$i]->level) . $options[$i]->title;
             $groups[]           = HTMLHelper::_('select.option', $options[$i]->value, $options[$i]->text);

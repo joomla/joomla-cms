@@ -128,7 +128,7 @@ class DisplayController extends BaseController
             return false;
         }
 
-        if (in_array($view, ['captive', 'callback', 'methods', 'method'])) {
+        if (\in_array($view, ['captive', 'callback', 'methods', 'method'])) {
             $controller = $this->factory->createController($view, 'Administrator', [], $this->app, $this->input);
             $task       = $this->input->get('task', '');
 
