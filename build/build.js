@@ -48,12 +48,12 @@ const handleError = (err, terminateCode) => {
   process.exit(terminateCode);
 };
 
-// The command line
-const Program = new Command();
-
 if (semver.gte(semver.minVersion(options.engines.node), semver.clean(process.version))) {
   handleError(`Node version ${semver.clean(process.version)} is not supported, please upgrade to Node version ${semver.clean(options.engines.node)}`, 1);
 }
+
+// The command line
+const Program = new Command();
 
 // Merge Joomla's specific settings to the main package.json object
 if ('settings' in settings) {
