@@ -203,8 +203,8 @@ class ModulelayoutField extends FormField
             );
 
             return implode($html);
-        } else {
-            return '';
         }
+
+        return '';
     }
 }

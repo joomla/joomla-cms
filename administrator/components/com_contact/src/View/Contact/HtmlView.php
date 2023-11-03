@@ -67,7 +67,7 @@ class HtmlView extends BaseHtmlView
         $this->state = $this->get('State');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -105,7 +105,7 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
         $toolbar    = Toolbar::getInstance();
 
         // Since we don't track these assets at the item level, use the category id.
@@ -116,7 +116,7 @@ class HtmlView extends BaseHtmlView
         // Build the actions for new and existing records.
         if ($isNew) {
             // For new records, check the create permission.
-            if (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0) {
+            if (\count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0) {
                 $toolbar->apply('contact.apply');
 
                 $saveGroup = $toolbar->dropdownButton('save-group');
@@ -134,7 +134,7 @@ class HtmlView extends BaseHtmlView
                 );
             }
 
-            $toolbar->cancel('contact.cancel');
+            $toolbar->cancel('contact.cancel', 'JTOOLBAR_CANCEL');
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);

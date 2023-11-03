@@ -29,6 +29,9 @@ abstract class BannerHelper
      * @return  boolean  True if an image of type bmp, gif, jp(e)g, png or webp, false otherwise
      *
      * @since   1.6
+     *
+     * @deprecated  5.1 will be removed in 7.0
+     *              Use MediaHelper::isImage($url) instead
      */
     public static function isImage($url)
     {

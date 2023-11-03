@@ -211,9 +211,9 @@ class CoreContent extends Table implements CurrentUserInterface
 
         if ($ucmId = $db->loadResult()) {
             return $this->delete($ucmId);
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**

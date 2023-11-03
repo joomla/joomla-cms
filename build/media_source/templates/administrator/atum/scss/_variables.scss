@@ -84,10 +84,6 @@ $atum-colors: (
   template-bg-dark-75:             hsl(var(--hue), 40%, 25%),
   template-bg-dark-80:             hsl(var(--hue), 40%, 20%),
   template-bg-dark-90:             hsl(var(--hue), 40%, 10%),
-  media-manager-overlay-header-bg: var(--template-bg-dark-5),
-  media-manager-infobar-dt-color:  rgba(0, 0, 0, .54),
-  media-manager-content-bg:        var(--body-bg),
-  media-manager-overlay-bg:        var(--template-bg-dark-3),
 );
 
 $colors: (
@@ -186,7 +182,6 @@ $state-success-border:             hsl(var(--hue),50%,93%);
 
 $state-info-text:                  var(--template-bg-dark-70);
 $state-info-bg:                    var(--body-bg);
-$state-info-border:                var(--template-bg-dark-70);
 
 $state-warning-text:               darken($warning, 24%);
 $state-warning-bg:                 lighten($warning, 44%);
@@ -225,6 +220,7 @@ $input-group-addon-border-color:   var(--template-bg-dark);
 // Treeselect
 $treeselect-line-height:           2.2rem;
 $treeselect-indent:                40px;
+$treeselect-line-color:            var(--template-bg-dark-7);
 
 // List
 $list-group-border-color:          var(--template-bg-dark-15);

@@ -250,17 +250,17 @@ final class Tags extends Adapter
         $taxonomies = $this->params->get('taxonomies', ['type', 'author', 'language']);
 
         // Add the type taxonomy data.
-        if (in_array('type', $taxonomies)) {
+        if (\in_array('type', $taxonomies)) {
             $item->addTaxonomy('Type', 'Tag');
         }
 
         // Add the author taxonomy data.
-        if (in_array('author', $taxonomies) && (!empty($item->author) || !empty($item->created_by_alias))) {
+        if (\in_array('author', $taxonomies) && (!empty($item->author) || !empty($item->created_by_alias))) {
             $item->addTaxonomy('Author', !empty($item->created_by_alias) ? $item->created_by_alias : $item->author);
         }
 
         // Add the language taxonomy data.
-        if (in_array('language', $taxonomies)) {
+        if (\in_array('language', $taxonomies)) {
             $item->addTaxonomy('Language', $item->language);
         }
 

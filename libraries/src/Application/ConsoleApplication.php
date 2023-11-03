@@ -252,6 +252,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
         $this->populateHttpHost();
 
         // Import CMS plugin groups to be able to subscribe to events
+        PluginHelper::importPlugin('behaviour', null, true, $this->getDispatcher());
         PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         PluginHelper::importPlugin('console', null, true, $this->getDispatcher());
 
@@ -270,7 +271,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      */
     public function enqueueMessage($msg, $type = self::MSG_INFO)
     {
-        if (!array_key_exists($type, $this->messages)) {
+        if (!\array_key_exists($type, $this->messages)) {
             $this->messages[$type] = [];
         }
 
