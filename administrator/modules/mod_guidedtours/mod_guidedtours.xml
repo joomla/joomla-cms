@@ -24,6 +24,17 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
+					name="contextcount"
+					type="number"
+					label="MOD_GUIDEDTOURS_FIELD_CONTEXT_TOUR_COUNT_LABEL"
+					description="MOD_GUIDEDTOURS_FIELD_CONTEXT_TOUR_COUNT_DESC"
+					default="7"
+					filter="integer"
+					min="0"
+					validate="number"
+				/>
+
+				<field
 					name="tourscount"
 					type="number"
 					label="MOD_GUIDEDTOURS_FIELD_TOUR_COUNT_LABEL"

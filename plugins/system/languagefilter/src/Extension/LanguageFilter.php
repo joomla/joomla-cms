@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\LanguageFilter\Extension;
 
-use JLoader;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
@@ -98,7 +97,7 @@ final class LanguageFilter extends CMSPlugin
      *
      * @var   LanguageFactoryInterface
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      */
     private $languageFactory;
 
@@ -138,8 +137,8 @@ final class LanguageFilter extends CMSPlugin
                 // @todo: In Joomla 2.5.4 and earlier access wasn't set. Non modified Content Languages got 0 as access value
                 // we also check if frontend language exists and is enabled
                 if (
-                    ($language->access && !in_array($language->access, $levels))
-                    || (!array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0)))
+                    ($language->access && !\in_array($language->access, $levels))
+                    || (!\array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0)))
                 ) {
                     unset($this->lang_codes[$language->lang_code], $this->sefs[$language->sef]);
                 }
@@ -150,7 +149,7 @@ final class LanguageFilter extends CMSPlugin
             $this->current_lang = isset($this->lang_codes[$this->default_lang]) ? $this->default_lang : 'en-GB';
 
             foreach ($this->sefs as $sef => $language) {
-                if (!array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0))) {
+                if (!\array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0))) {
                     unset($this->lang_codes[$language->lang_code]);
                     unset($this->sefs[$language->sef]);
                 }
@@ -352,7 +351,7 @@ final class LanguageFilter extends CMSPlugin
                     array_shift($parts);
 
                     // Empty parts array when "index.php" is the only part left.
-                    if (count($parts) === 1 && $parts[0] === 'index.php') {
+                    if (\count($parts) === 1 && $parts[0] === 'index.php') {
                         $parts = [];
                     }
 
@@ -385,8 +384,8 @@ final class LanguageFilter extends CMSPlugin
         if (
             $this->getApplication()->getInput()->getMethod() === 'POST'
             || $this->getApplication()->getInput()->get('nolangfilter', 0) == 1
-            || count($this->getApplication()->getInput()->post) > 0
-            || count($this->getApplication()->getInput()->files) > 0
+            || \count($this->getApplication()->getInput()->post) > 0
+            || \count($this->getApplication()->getInput()->files) > 0
         ) {
             $found = true;
 
@@ -528,7 +527,7 @@ final class LanguageFilter extends CMSPlugin
      */
     public function onUserBeforeSave($user, $isnew, $new)
     {
-        if (array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1) {
+        if (\array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1) {
             $registry             = new Registry($user['params']);
             $this->user_lang_code = $registry->get('language');
 
@@ -554,7 +553,7 @@ final class LanguageFilter extends CMSPlugin
      */
     public function onUserAfterSave($user, $isnew, $success, $msg): void
     {
-        if ($success && array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1) {
+        if ($success && \array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1) {
             $registry  = new Registry($user['params']);
             $lang_code = $registry->get('language');
 
@@ -605,8 +604,8 @@ final class LanguageFilter extends CMSPlugin
                 // The language has been deleted/disabled or the related content language does not exist/has been unpublished
                 // or the related home page does not exist/has been unpublished
                 if (
-                    !array_key_exists($lang_code, $this->lang_codes)
-                    || !array_key_exists($lang_code, Multilanguage::getSiteHomePages())
+                    !\array_key_exists($lang_code, $this->lang_codes)
+                    || !\array_key_exists($lang_code, Multilanguage::getSiteHomePages())
                     || !Folder::exists(JPATH_SITE . '/language/' . $lang_code)
                 ) {
                     $lang_code = $this->current_lang;
@@ -729,10 +728,10 @@ final class LanguageFilter extends CMSPlugin
                 $cassociations = $component->getAssociationsExtension()->getAssociationsForItem();
             } else {
                 $cName = ucfirst(substr($option, 4)) . 'HelperAssociation';
-                JLoader::register($cName, Path::clean(JPATH_SITE . '/components/' . $option . '/helpers/association.php'));
+                \JLoader::register($cName, Path::clean(JPATH_SITE . '/components/' . $option . '/helpers/association.php'));
 
-                if (class_exists($cName) && is_callable([$cName, 'getAssociations'])) {
-                    $cassociations = call_user_func([$cName, 'getAssociations']);
+                if (class_exists($cName) && \is_callable([$cName, 'getAssociations'])) {
+                    $cassociations = \call_user_func([$cName, 'getAssociations']);
                 }
             }
 
@@ -740,9 +739,9 @@ final class LanguageFilter extends CMSPlugin
             foreach ($languages as $i => $language) {
                 switch (true) {
                     // Language without frontend UI || Language without specific home menu || Language without authorized access level
-                    case !array_key_exists($i, LanguageHelper::getInstalledLanguages(0)):
+                    case !\array_key_exists($i, LanguageHelper::getInstalledLanguages(0)):
                     case !isset($homes[$i]):
-                    case isset($language->access) && $language->access && !in_array($language->access, $levels):
+                    case isset($language->access) && $language->access && !\in_array($language->access, $levels):
                         unset($languages[$i]);
                         break;
 
@@ -774,7 +773,7 @@ final class LanguageFilter extends CMSPlugin
             }
 
             // If there are at least 2 of them, add the rel="alternate" links to the <head>
-            if (count($languages) > 1) {
+            if (\count($languages) > 1) {
                 // Remove the sef from the default language if "Remove URL Language Code" is on
                 if ($remove_default_prefix && isset($languages[$this->default_lang])) {
                     $languages[$this->default_lang]->link
@@ -848,7 +847,7 @@ final class LanguageFilter extends CMSPlugin
         }
 
         // Let's be sure we got a valid language code. Fallback to null.
-        if (!array_key_exists($languageCode, $this->lang_codes)) {
+        if (!\array_key_exists($languageCode, $this->lang_codes)) {
             $languageCode = null;
         }
 

@@ -17,7 +17,7 @@ describe('Test in frontend that the content article form', () => {
 
   it('can edit an article without menu item', () => {
     cy.doFrontendLogin();
-    cy.visit('index.php?option=com_content&view=form&layout=edit');
+    cy.visit('/index.php?option=com_content&view=form&layout=edit');
 
     cy.get('#jform_title').type('test article');
     cy.get('[data-submit-task="article.save"]').click();

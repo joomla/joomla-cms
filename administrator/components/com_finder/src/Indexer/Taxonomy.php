@@ -457,7 +457,7 @@ class Taxonomy
      */
     public static function getTaxonomy($id = 0)
     {
-        if (!count(self::$taxonomies)) {
+        if (!\count(self::$taxonomies)) {
             $db    = Factory::getDbo();
             $query = $db->getQuery(true);
 
@@ -491,7 +491,7 @@ class Taxonomy
      */
     public static function getBranch($title = '')
     {
-        if (!count(self::$branches)) {
+        if (!\count(self::$branches)) {
             $taxonomies = self::getTaxonomy();
 
             foreach ($taxonomies as $t) {

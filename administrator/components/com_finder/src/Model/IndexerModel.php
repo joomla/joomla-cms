@@ -32,7 +32,7 @@ class IndexerModel extends FormModel
      *
      * @return  Form
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      *
      * @throws \Exception
      */

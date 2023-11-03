@@ -49,7 +49,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -97,7 +97,7 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters = $this->get('ActiveFilters');
         $this->clientId      = $this->state->get('client_id');
 
-        if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');
         }
 
@@ -108,7 +108,7 @@ class HtmlView extends BaseHtmlView
          * 1. Edit the module, change it to new position, save it and come back to Modules Management Screen
          * 2. Or move that module to new position using Batch action
          */
-        if (count($this->items) === 0 && $this->state->get('filter.position')) {
+        if (\count($this->items) === 0 && $this->state->get('filter.position')) {
             $selectedPosition = $this->state->get('filter.position');
             $positionField    = $this->filterForm->getField('position', 'filter');
 
@@ -127,7 +127,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

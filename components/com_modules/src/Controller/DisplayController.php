@@ -21,7 +21,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Modules manager master display controller.
+ * Modules manager display controller.
  *
  * @since  3.5
  */

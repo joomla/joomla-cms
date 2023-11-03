@@ -52,7 +52,7 @@ if ($paramsFontScheme) {
 
         if (preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches) > 0) {
             $fontStyles = '--cassiopeia-font-family-body: "' . str_replace('+', ' ', $matches[1][0]) . '", sans-serif;
-			--cassiopeia-font-family-headings: "' . str_replace('+', ' ', isset($matches[1][1]) ? $matches[1][1] : $matches[1][0]) . '", sans-serif;
+			--cassiopeia-font-family-headings: "' . str_replace('+', ' ', $matches[1][1] ?? $matches[1][0]) . '", sans-serif;
 			--cassiopeia-font-weight-normal: 400;
 			--cassiopeia-font-weight-headings: 700;';
         }
@@ -72,7 +72,7 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
 		--template-bg-light: #f0f4fb;
 		--template-text-dark: #495057;
 		--template-text-light: #ffffff;
-		--template-link-color: #2a69b8;
+		--link-color: var(--link-color);
 		--template-special-color: #001B4C;
 		$fontStyles
 	}");
@@ -101,6 +101,9 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 // Defer font awesome
 $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
+
+// Get the error code
+$errorCode = $this->error->getCode();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -148,6 +151,11 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 
     <div class="site-grid">
         <div class="grid-child container-component">
+            <?php if ($this->countModules('error-' . $errorCode)) : ?>
+                <div class="container">
+                    <jdoc:include type="modules" name="error-<?php echo $errorCode; ?>" style="none" />
+                </div>
+            <?php else : ?>
             <h1 class="page-header"><?php echo Text::_('JERROR_LAYOUT_PAGE_NOT_FOUND'); ?></h1>
             <div class="card">
                 <div class="card-body">
@@ -167,28 +175,29 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
                     <blockquote>
                         <span class="badge bg-secondary"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
                     </blockquote>
-                    <?php if ($this->debug) : ?>
-                        <div>
-                            <?php echo $this->renderBacktrace(); ?>
-                            <?php // Check if there are more Exceptions and render their data as well ?>
-                            <?php if ($this->error->getPrevious()) : ?>
-                                <?php $loop = true; ?>
-                                <?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly ?>
-                                <?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
-                                <?php $this->setError($this->_error->getPrevious()); ?>
-                                <?php while ($loop === true) : ?>
-                                    <p><strong><?php echo Text::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
-                                    <p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
-                                    <?php echo $this->renderBacktrace(); ?>
-                                    <?php $loop = $this->setError($this->_error->getPrevious()); ?>
-                                <?php endwhile; ?>
-                                <?php // Reset the main error object to the base error ?>
-                                <?php $this->setError($this->error); ?>
-                            <?php endif; ?>
-                        </div>
-                    <?php endif; ?>
                 </div>
             </div>
+            <?php endif; ?>
+            <?php if ($this->debug) : ?>
+                <div>
+                    <?php echo $this->renderBacktrace(); ?>
+                    <?php // Check if there are more Exceptions and render their data as well ?>
+                    <?php if ($this->error->getPrevious()) : ?>
+                        <?php $loop = true; ?>
+                        <?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly ?>
+                        <?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
+                        <?php $this->setError($this->_error->getPrevious()); ?>
+                        <?php while ($loop === true) : ?>
+                            <p><strong><?php echo Text::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
+                            <p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+                            <?php echo $this->renderBacktrace(); ?>
+                            <?php $loop = $this->setError($this->_error->getPrevious()); ?>
+                        <?php endwhile; ?>
+                        <?php // Reset the main error object to the base error ?>
+                        <?php $this->setError($this->error); ?>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
     <?php if ($this->countModules('footer')) : ?>

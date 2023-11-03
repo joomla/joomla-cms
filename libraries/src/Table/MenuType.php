@@ -10,12 +10,12 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -33,13 +33,14 @@ class MenuType extends Table implements CurrentUserInterface
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  Database driver object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.6
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__menu_types', 'id', $db);
+        parent::__construct('#__menu_types', 'id', $db, $dispatcher);
     }
 
     /**
@@ -114,7 +115,7 @@ class MenuType extends Table implements CurrentUserInterface
             $notIn  = [0, $userId];
 
             // Get the old value of the table
-            $table = Table::getInstance('Menutype', 'JTable', ['dbo' => $this->getDbo()]);
+            $table = new Menutype($this->getDbo(), $this->getDispatcher());
             $table->load($this->id);
 
             // Verify that no items are checked out
@@ -206,7 +207,7 @@ class MenuType extends Table implements CurrentUserInterface
             $star   = '*';
 
             // Get the old value of the table
-            $table = Table::getInstance('Menutype', 'JTable', ['dbo' => $this->getDbo()]);
+            $table = new Menutype($this->getDbo(), $this->getDispatcher());
             $table->load($pk);
 
             // Verify that no items are checked out

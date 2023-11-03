@@ -21,7 +21,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @testdox     The State
  *
- * @since       __DEPLOY_VERSION__
+ * @since       5.0.0
  */
 class StateTest extends UnitTestCase
 {
@@ -30,7 +30,7 @@ class StateTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function testGetProperties()
     {
@@ -46,7 +46,7 @@ class StateTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function testGetDirectPropertyAccess()
     {
@@ -62,7 +62,7 @@ class StateTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function testSetDirectPropertyAccess()
     {
@@ -78,7 +78,7 @@ class StateTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function testIsSet()
     {
@@ -93,7 +93,7 @@ class StateTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function testIsNotSet()
     {
@@ -107,7 +107,7 @@ class StateTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function testEmptyValue()
     {

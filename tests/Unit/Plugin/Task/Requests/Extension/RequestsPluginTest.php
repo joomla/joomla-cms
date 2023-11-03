@@ -239,7 +239,7 @@ class RequestsPluginTest extends UnitTestCase
         );
         $plugin->standardRoutineHandler($event);
 
-        $this->assertEquals(['basic' => '123'], $transport->headers);
+        $this->assertEquals(['Authorization' => 'basic 123'], $transport->headers);
     }
 
     /**
@@ -254,7 +254,7 @@ class RequestsPluginTest extends UnitTestCase
         $transport = new class () implements TransportInterface {
             public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
             {
-                throw new Exception('test');
+                throw new \Exception('test');
             }
 
             public static function isSupported()

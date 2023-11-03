@@ -13,7 +13,7 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 /**
  * Debugging indexer class for the Finder indexer package.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  * @internal
  */
 class DebugIndexer extends Indexer
@@ -23,7 +23,7 @@ class DebugIndexer extends Indexer
      *
      * @var Result
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public static $item;
 
@@ -35,7 +35,7 @@ class DebugIndexer extends Indexer
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function index($item, $format = 'html')
     {

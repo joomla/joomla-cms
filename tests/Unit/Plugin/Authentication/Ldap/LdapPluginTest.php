@@ -24,7 +24,6 @@ use Symfony\Component\Ldap\Adapter\QueryInterface;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\LdapException;
 use Symfony\Component\Ldap\LdapInterface;
-use Traversable;
 
 /**
  * Test class for Ldap plugin
@@ -366,7 +365,7 @@ class LdapPluginTest extends UnitTestCase
                                             return [];
                                         }
 
-                                        public function getIterator(): Traversable
+                                        public function getIterator(): \Traversable
                                         {
                                             return null;
                                         }
@@ -411,7 +410,7 @@ class LdapPluginTest extends UnitTestCase
                                         return [$this->entry];
                                     }
 
-                                    public function getIterator(): Traversable
+                                    public function getIterator(): \Traversable
                                     {
                                         yield $this->entry;
                                     }

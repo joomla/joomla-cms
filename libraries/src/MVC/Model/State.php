@@ -12,14 +12,14 @@ namespace Joomla\CMS\MVC\Model;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * A simple state holder class. This class acts for transition from CMSObject to Registry
  * and should not be used directly. Instead of, use the Registry class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  *
  * @deprecated  7.0 Use the Registry directly
  */
@@ -30,7 +30,7 @@ class State extends Registry
     *
     * @param  mixed  $data  The data to bind to the new Registry object.
     *
-    * @since   __DEPLOY_VERSION__
+    * @since   5.0.0
     */
     public function __construct($data = null)
     {
@@ -48,7 +48,7 @@ class State extends Registry
      *
      * @return  mixed  Value of entry or null
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function get($path, $default = null)
     {
@@ -68,7 +68,7 @@ class State extends Registry
       *
       * @return  array  The data array
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   5.0.0
       *
       * @deprecated  7.0 Use toArray instead
       */
@@ -84,9 +84,9 @@ class State extends Registry
      *
      * @return  mixed  The value of the element if set, null otherwise
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      *
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated  5.0.0 will be removed in 7.0
      *
      */
     public function __get($name)
@@ -104,9 +104,9 @@ class State extends Registry
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      *
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated  5.0.0 will be removed in 7.0
      *
      */
     public function __set($name, $value)
@@ -123,9 +123,9 @@ class State extends Registry
      *
      * @return  bool    Returns if the internal data storage contains a key with the given
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      *
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated  5.0.0 will be removed in 7.0
      *
      */
     public function __isset($name)

@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Event\MultiFactor;
 
-use DomainException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\Result\ResultAware;
 use Joomla\CMS\Event\Result\ResultAwareInterface;
@@ -59,11 +58,14 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
      *
      * @return  MfaTable
      * @since   4.2.0
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     public function setRecord(MfaTable $value): MfaTable
     {
         if (empty($value)) {
-            throw new DomainException(sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
+            throw new \DomainException(sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
         }
 
         return $value;
@@ -76,11 +78,14 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
      *
      * @return  User
      * @since   4.2.0
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     public function setUser(User $value): User
     {
         if (empty($value) || ($value->id <= 0) || ($value->guest == 1)) {
-            throw new DomainException(sprintf('Argument \'user\' of event %s must be a non-guest User object.', $this->name));
+            throw new \DomainException(sprintf('Argument \'user\' of event %s must be a non-guest User object.', $this->name));
         }
 
         return $value;
@@ -93,10 +98,52 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
      *
      * @return  string|null
      * @since   4.2.0
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     public function setCode(?string $value): ?string
     {
         // No validation necessary, the type check in the method options is enough
         return $value;
+    }
+
+    /**
+     * Validate the value of the 'record' named parameter
+     *
+     * @param   MfaTable  $value  The value to validate
+     *
+     * @return  MfaTable
+     * @since   4.4.0
+     */
+    protected function onSetRecord(MfaTable $value): MfaTable
+    {
+        return $this->setRecord($value);
+    }
+
+    /**
+     * Validate the value of the 'user' named parameter
+     *
+     * @param   User  $value  The value to validate
+     *
+     * @return  User
+     * @since   4.4.0
+     */
+    protected function onSetUser(User $value): User
+    {
+        return $this->setUser($value);
+    }
+
+    /**
+     * Validate the value of the 'code' named parameter
+     *
+     * @param   string|null  $value  The value to validate
+     *
+     * @return  string|null
+     * @since   4.4.0
+     */
+    protected function onSetCode(?string $value): ?string
+    {
+        return $this->setCode($value);
     }
 }

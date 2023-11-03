@@ -21,8 +21,6 @@ use Joomla\CMS\WebAuthn\Server;
 use Joomla\Plugin\Multifactorauth\Webauthn\CredentialRepository;
 use Joomla\Session\SessionInterface;
 use Laminas\Diactoros\ServerRequestFactory;
-use ReflectionClass;
-use RuntimeException;
 use Webauthn\AttestedCredentialData;
 use Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs;
 use Webauthn\AuthenticatorSelectionCriteria;
@@ -52,7 +50,7 @@ abstract class Credentials
      * @param   User   $user   The Joomla user to create the public key for
      *
      * @return  string
-     * @throws  Exception  On error
+     * @throws  \Exception  On error
      * @since   4.2.0
      */
     public static function requestAttestation(User $user): string
@@ -93,7 +91,7 @@ abstract class Credentials
      * @param   string   $data   The JSON-encoded data returned by the browser during the authentication flow
      *
      * @return  AttestedCredentialData|null
-     * @throws  Exception  When something does not check out
+     * @throws  \Exception  When something does not check out
      * @since   4.2.0
      */
     public static function verifyAttestation(string $data): ?PublicKeyCredentialSource
@@ -104,17 +102,17 @@ abstract class Credentials
         $encodedOptions = $session->get('plg_multifactorauth_webauthn.publicKeyCredentialCreationOptions', null);
 
         if (empty($encodedOptions)) {
-            throw new RuntimeException(Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_CREATE_NO_PK'));
+            throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_CREATE_NO_PK'));
         }
 
         try {
             $publicKeyCredentialCreationOptions = unserialize(base64_decode($encodedOptions));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $publicKeyCredentialCreationOptions = null;
         }
 
-        if (!is_object($publicKeyCredentialCreationOptions) || !($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialCreationOptions)) {
-            throw new RuntimeException(Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_CREATE_NO_PK'));
+        if (!\is_object($publicKeyCredentialCreationOptions) || !($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialCreationOptions)) {
+            throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_CREATE_NO_PK'));
         }
 
         // Retrieve the stored user ID and make sure it's the same one in the request.
@@ -124,7 +122,7 @@ abstract class Credentials
         $myUserId     = $myUser->id;
 
         if (($myUser->guest) || ($myUserId != $storedUserId)) {
-            throw new RuntimeException(Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_CREATE_INVALID_USER'));
+            throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_CREATE_INVALID_USER'));
         }
 
         return self::getWebauthnServer($myUser->id)->loadAndCheckAttestationResponse(
@@ -140,7 +138,7 @@ abstract class Credentials
      * @param   int  $userId  The user ID to create a WebAuthn PK for
      *
      * @return  string
-     * @throws  Exception  On error
+     * @throws  \Exception  On error
      * @since   4.2.0
      */
     public static function requestAssertion(int $userId): string
@@ -170,7 +168,7 @@ abstract class Credentials
      * @param   string   $response   Base64-encoded response
      *
      * @return  void
-     * @throws  Exception  When something does not check out.
+     * @throws  \Exception  When something does not check out.
      * @since   4.2.0
      */
     public static function verifyAssertion(string $response): void
@@ -187,14 +185,14 @@ abstract class Credentials
         $session->set('plg_multifactorauth_webauthn.userId', null);
 
         if (empty($userId)) {
-            throw new RuntimeException(Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+            throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
         }
 
         // Make sure the user exists
         $user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 
         if ($user->id != $userId) {
-            throw new RuntimeException(Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+            throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
         }
 
         // Make sure the user is ourselves (we cannot perform MFA on behalf of another user!)
@@ -202,7 +200,7 @@ abstract class Credentials
             ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
         if ($currentUser->id != $userId) {
-            throw new RuntimeException(Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+            throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
         }
 
         // Make sure the public key credential request options in the session are valid
@@ -210,11 +208,11 @@ abstract class Credentials
         $publicKeyCredentialRequestOptions = unserialize($serializedOptions);
 
         if (
-            !is_object($publicKeyCredentialRequestOptions)
+            !\is_object($publicKeyCredentialRequestOptions)
             || empty($publicKeyCredentialRequestOptions)
             || !($publicKeyCredentialRequestOptions instanceof PublicKeyCredentialRequestOptions)
         ) {
-            throw new RuntimeException(Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
+            throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
         }
 
         // Unserialize the browser response data
@@ -278,7 +276,7 @@ abstract class Credentials
         try {
             $app      = Factory::getApplication();
             $siteName = $app->get('sitename');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $siteName = 'Joomla! Site';
         }
 
@@ -292,11 +290,11 @@ abstract class Credentials
             ''
         );
 
-        $refClass       = new ReflectionClass(Server::class);
+        $refClass       = new \ReflectionClass(Server::class);
         $refConstructor = $refClass->getConstructor();
         $params         = $refConstructor->getParameters();
 
-        if (count($params) === 3) {
+        if (\count($params) === 3) {
             // WebAuthn library 2, 3
             $server = new Server($rpEntity, $repository, null);
         } else {
@@ -305,7 +303,7 @@ abstract class Credentials
         }
 
         // Ed25519 is only available with libsodium
-        if (!function_exists('sodium_crypto_sign_seed_keypair')) {
+        if (!\function_exists('sodium_crypto_sign_seed_keypair')) {
             $server->setSelectedAlgorithms(['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512']);
         }
 

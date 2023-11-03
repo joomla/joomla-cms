@@ -46,7 +46,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var   \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -66,7 +66,7 @@ class HtmlView extends BaseHtmlView
         $this->state = $this->get('State');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

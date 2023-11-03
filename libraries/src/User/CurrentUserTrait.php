@@ -32,7 +32,7 @@ trait CurrentUserTrait
 
     /**
      * Returns the current user, if none is set the identity of the global app
-     * is returned. This will change in 5.0 and an empty user will be returned.
+     * is returned. This will change in 6.0 and an empty user will be returned.
      *
      * @return  User
      *

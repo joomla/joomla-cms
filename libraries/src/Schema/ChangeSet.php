@@ -188,7 +188,7 @@ class ChangeSet
     {
         $updateFiles = $this->getUpdateFiles();
 
-        // No schema files found - abort and return empty string
+        // No schema files found - stop and return empty string
         if (empty($updateFiles)) {
             return '';
         }

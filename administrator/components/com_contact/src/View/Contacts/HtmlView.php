@@ -48,7 +48,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -144,7 +144,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         $canDo = ContentHelper::getActions('com_contact', 'category', $this->state->get('filter.category_id'));
-        $user  = Factory::getApplication()->getIdentity();
+        $user  = $this->getCurrentUser();
 
         // Get the toolbar object instance
         $toolbar = Toolbar::getInstance();

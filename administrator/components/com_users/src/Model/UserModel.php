@@ -20,7 +20,8 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -34,8 +35,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class UserModel extends AdminModel
+class UserModel extends AdminModel implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * An item.
      *
@@ -222,7 +225,7 @@ class UserModel extends AdminModel
     public function save($data)
     {
         $pk   = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
-        $user = User::getInstance($pk);
+        $user = $this->getUserFactory()->loadUserById($pk);
 
         $my            = $this->getCurrentUser();
         $iAmSuperAdmin = $my->authorise('core.admin');
@@ -310,7 +313,7 @@ class UserModel extends AdminModel
 
         PluginHelper::importPlugin($this->events_map['delete']);
 
-        if (in_array($user->id, $pks)) {
+        if (\in_array($user->id, $pks)) {
             $this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_DELETE_SELF'));
 
             return false;
@@ -327,7 +330,7 @@ class UserModel extends AdminModel
 
                 if ($allow) {
                     // Get users data for the users to delete.
-                    $user_to_delete = Factory::getUser($pk);
+                    $user_to_delete = $this->getUserFactory()->loadUserById($pk);
 
                     // Fire the before delete event.
                     Factory::getApplication()->triggerEvent($this->event_before_delete, [$table->getProperties()]);
@@ -336,10 +339,10 @@ class UserModel extends AdminModel
                         $this->setError($table->getError());
 
                         return false;
-                    } else {
-                        // Trigger the after delete event.
-                        Factory::getApplication()->triggerEvent($this->event_after_delete, [$user_to_delete->getProperties(), true, $this->getError()]);
                     }
+
+                    // Trigger the after delete event.
+                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$user_to_delete->getProperties(), true, $this->getError()]);
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
@@ -421,7 +424,7 @@ class UserModel extends AdminModel
                         // Trigger the before save event.
                         $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$old, false, $table->getProperties()]);
 
-                        if (in_array(false, $result, true)) {
+                        if (\in_array(false, $result, true)) {
                             // Plugin will have to raise its own error or throw an exception.
                             return false;
                         }
@@ -508,7 +511,7 @@ class UserModel extends AdminModel
                         // Trigger the before save event.
                         $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$old, false, $table->getProperties()]);
 
-                        if (in_array(false, $result, true)) {
+                        if (\in_array(false, $result, true)) {
                             // Plugin will have to raise it's own error or throw an exception.
                             return false;
                         }
@@ -801,7 +804,7 @@ class UserModel extends AdminModel
             $groups = false;
 
             foreach ($userIds as $id) {
-                if (!in_array($id, $users)) {
+                if (!\in_array($id, $users)) {
                     $query->values($id . ',' . $groupId);
                     $groups = true;
                 }
@@ -846,9 +849,9 @@ class UserModel extends AdminModel
                 ->getMVCFactory()->createModel('Groups', 'Administrator', ['ignore_request' => true]);
 
             return $model->getItems();
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**

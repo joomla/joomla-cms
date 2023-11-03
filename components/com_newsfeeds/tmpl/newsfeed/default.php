@@ -10,19 +10,18 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\Filter\OutputFilter;
 
 ?>
 
 <?php if (!empty($this->msg)) : ?>
     <?php echo $this->msg; ?>
 <?php else : ?>
-    <?php $lang      = Factory::getLanguage(); ?>
+    <?php $lang      = $this->getLanguage(); ?>
     <?php $myrtl     = $this->item->rtl; ?>
     <?php $direction = ' '; ?>
     <?php $isRtl     = $lang->isRtl(); ?>
@@ -79,7 +78,7 @@ use Joomla\CMS\Layout\LayoutHelper;
             </div>
         <?php endif; ?>
 
-        <?php if (isset($images->image_second) and !empty($images->image_second)) : ?>
+        <?php if (isset($images->image_second) && !empty($images->image_second)) : ?>
             <?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
             <div class="com-newsfeeds-newsfeed__second-image float-<?php echo $this->escape($imgfloat); ?> item-image">
                 <figure>

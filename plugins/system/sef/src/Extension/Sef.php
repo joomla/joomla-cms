@@ -13,7 +13,6 @@ namespace Joomla\Plugin\System\Sef\Extension;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -213,7 +212,7 @@ final class Sef extends CMSPlugin
                     $message = 'Unknown PCRE error calling PCRE function';
             }
 
-            throw new RuntimeException($message);
+            throw new \RuntimeException($message);
         }
     }
 }

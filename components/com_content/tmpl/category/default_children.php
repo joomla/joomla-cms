@@ -10,13 +10,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
-$lang   = Factory::getLanguage();
+$lang   = $this->getLanguage();
 $user   = $this->getCurrentUser();
 $groups = $user->getAuthorisedViewLevels();
 ?>

@@ -21,7 +21,7 @@ trigger_error(
 /**
  * Set the platform root path as a constant if necessary.
  *
- * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+ * @deprecated 4.4.0 will be removed in 6.0
  *             Use defined('_JEXEC') or die; to detect if the CMS is loaded correctly
  **/
 if (!defined('JPATH_PLATFORM')) {
@@ -48,9 +48,6 @@ $loader->unregister();
 
 // Decorate Composer autoloader
 spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
-
-// Register the class aliases for Framework classes that have replaced their Platform equivalents
-require_once JPATH_LIBRARIES . '/classmap.php';
 
 // Suppress phar stream wrapper for non .phar files
 $behavior = new \TYPO3\PharStreamWrapper\Behavior();

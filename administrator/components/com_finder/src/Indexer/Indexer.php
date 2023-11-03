@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
@@ -187,7 +186,7 @@ class Indexer
                      */
                     $memory_table_limit = (int) ($heapsize->Value / 800);
                     $data->options->set('memory_table_limit', $memory_table_limit);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     // Something failed. We fall back to a reasonable guess.
                     $data->options->set('memory_table_limit', 7500);
                 }
@@ -401,7 +400,7 @@ class Indexer
                 }
 
                 // Tokenize the property.
-                if (is_array($item->$property)) {
+                if (\is_array($item->$property)) {
                     // Tokenize an array of content and add it to the database.
                     foreach ($item->$property as $ip) {
                         /*
@@ -647,7 +646,7 @@ class Indexer
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function remove($linkId, $removeTaxonomies = true)
     {
@@ -705,7 +704,7 @@ class Indexer
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function optimize()
     {
@@ -824,7 +823,7 @@ class Indexer
         }
 
         // If the input is a resource, batch the process out.
-        if (is_resource($input)) {
+        if (\is_resource($input)) {
             // Batch the process out to avoid memory limits.
             while (!feof($input)) {
                 // Read into the buffer.
@@ -887,7 +886,7 @@ class Indexer
     {
         static $filterCommon, $filterNumeric;
 
-        if (is_null($filterCommon)) {
+        if (\is_null($filterCommon)) {
             $params        = ComponentHelper::getParams('com_finder');
             $filterCommon  = $params->get('filter_commonwords', false);
             $filterNumeric = $params->get('filter_numerics', false);
@@ -904,7 +903,7 @@ class Indexer
         // Tokenize the input.
         $tokens = Helper::tokenize($input, $lang);
 
-        if (count($tokens) == 0) {
+        if (\count($tokens) == 0) {
             return $count;
         }
 
@@ -966,7 +965,7 @@ class Indexer
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function toggleTables($memory)
     {
