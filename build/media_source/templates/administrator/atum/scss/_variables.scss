@@ -333,7 +333,7 @@ $atum-colors: (
   atum-subhead-btn-action-border:   1px solid hsl(var(--hue),20%,80%),
 
 
-  atum-list-group-bg:               rgba(255, 255, 255, .05),
+  atum-list-group-bg:               var(--body-bg), //rgba(255, 255, 255, .05),
 
 );
 
