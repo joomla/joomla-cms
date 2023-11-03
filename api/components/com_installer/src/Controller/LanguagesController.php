@@ -10,9 +10,7 @@
 
 namespace Joomla\Component\Installer\Api\Controller;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
-use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -40,5 +38,4 @@ class LanguagesController extends ApiController
      * @since  __DEPLOY_VERSION__
      */
     protected $default_view = 'languages';
-
 }
