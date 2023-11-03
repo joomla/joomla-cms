@@ -380,7 +380,7 @@ steps:
       DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
       DRONE_COMMIT: DRONE_COMMIT
     commands:
-      - /bin/drone_build.sh
+      - /bin/drone_prepare_package.sh
 
   - name: upload
     image: joomlaprojects/docker-images:packager
@@ -471,6 +471,6 @@ trigger:
 
 ---
 kind: signature
-hmac: aba8f50a67f4c8a11e5e179dd2313fdd9a884111f594e21a6b921daa60133534
+hmac: e6258dbb42f2d93905d0ed3496ccca6e9133d6fd9867ff3b22ccb8b810a01a3e
 
 ...
