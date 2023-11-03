@@ -20,8 +20,6 @@ use Joomla\Input\Input;
 use Joomla\Plugin\Captcha\InvisibleReCaptcha\Extension\InvisibleReCaptcha;
 use Joomla\Tests\Unit\UnitTestCase;
 use ReCaptcha\RequestMethod;
-use RuntimeException;
-use SimpleXMLElement;
 
 /**
  * Test class for InvisibleReCaptcha plugin
@@ -121,7 +119,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => []], $this->createStub(RequestMethod::class));
         $plugin->setApplication($app);
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $plugin->onInit();
     }
@@ -187,7 +185,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => []], $this->createStub(RequestMethod::class));
         $plugin->setApplication($app);
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $plugin->onCheckAnswer();
     }
@@ -211,7 +209,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => ['private_key' => 'test']], $this->createStub(RequestMethod::class));
         $plugin->setApplication($app);
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $plugin->onCheckAnswer();
     }
@@ -238,7 +236,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => ['private_key' => 'test']], $method);
         $plugin->setApplication($app);
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $plugin->onCheckAnswer();
     }
@@ -255,7 +253,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => ['private_key' => 'test']], $this->createStub(RequestMethod::class));
         $plugin->setApplication($this->createStub(CMSWebApplicationInterface::class));
 
-        $this->assertNull($plugin->onSetupField(new CaptchaField(), new SimpleXMLElement('<test/>')));
+        $this->assertNull($plugin->onSetupField(new CaptchaField(), new \SimpleXMLElement('<test/>')));
     }
 
     /**

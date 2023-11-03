@@ -92,6 +92,6 @@ class JHtmlDateTest extends UnitTestCase
      */
     public function testRelative($result, $date, $unit = null, $time = null)
     {
-        $this->assertEquals($result, JHtmlDate::relative($date, $unit, $time));
+        $this->assertEquals($result, \JHtmlDate::relative($date, $unit, $time));
     }
 }

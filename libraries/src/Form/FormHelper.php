@@ -36,7 +36,7 @@ class FormHelper
      * - /path/1
      * - /path/2
      *
-     * @var    array
+     * @var    array[]
      * @since  1.7.0
      */
     protected static $paths;
@@ -44,7 +44,7 @@ class FormHelper
     /**
      * The class namespaces.
      *
-     * @var   string
+     * @var   array[]
      * @since 3.8.0
      */
     protected static $prefixes = ['field' => [], 'form' => [], 'rule' => [], 'filter' => []];
@@ -58,7 +58,7 @@ class FormHelper
      * {ENTITY_NAME}:
      * {KEY}: {OBJECT}
      *
-     * @var    array
+     * @var    array[]
      * @since  1.7.0
      */
     protected static $entities = ['field' => [], 'form' => [], 'rule' => [], 'filter' => []];
@@ -282,9 +282,9 @@ class FormHelper
     /**
      * Method to add a path to the list of field include paths.
      *
-     * @param   mixed  $new  A path or array of paths to add.
+     * @param   string|string[]  $new  A path or array of paths to add.
      *
-     * @return  array  The list of paths that have been added.
+     * @return  string[]  The list of paths that have been added.
      *
      * @since   1.7.0
      */
@@ -296,9 +296,9 @@ class FormHelper
     /**
      * Method to add a path to the list of form include paths.
      *
-     * @param   mixed  $new  A path or array of paths to add.
+     * @param   string|string[]  $new  A path or array of paths to add.
      *
-     * @return  array  The list of paths that have been added.
+     * @return  string[]  The list of paths that have been added.
      *
      * @since   1.7.0
      */
@@ -310,9 +310,9 @@ class FormHelper
     /**
      * Method to add a path to the list of rule include paths.
      *
-     * @param   mixed  $new  A path or array of paths to add.
+     * @param   string|string[]  $new  A path or array of paths to add.
      *
-     * @return  array  The list of paths that have been added.
+     * @return  string[]  The list of paths that have been added.
      *
      * @since   1.7.0
      */
@@ -324,9 +324,9 @@ class FormHelper
     /**
      * Method to add a path to the list of filter include paths.
      *
-     * @param   mixed  $new  A path or array of paths to add.
+     * @param   string|string[]  $new  A path or array of paths to add.
      *
-     * @return  array  The list of paths that have been added.
+     * @return  string[]  The list of paths that have been added.
      *
      * @since   4.0.0
      */
@@ -339,10 +339,10 @@ class FormHelper
      * Method to add a path to the list of include paths for one of the form's entities.
      * Currently supported entities: field, rule and form. You are free to support your own in a subclass.
      *
-     * @param   string  $entity  Form's entity name for which paths will be added.
-     * @param   mixed   $new     A path or array of paths to add.
+     * @param   string            $entity  Form's entity name for which paths will be added.
+     * @param   string|string[]   $new     A path or array of paths to add.
      *
-     * @return  array  The list of paths that have been added.
+     * @return  string[]  The list of paths that have been added.
      *
      * @since   1.7.0
      */
@@ -373,9 +373,9 @@ class FormHelper
     /**
      * Method to add a namespace prefix to the list of field lookups.
      *
-     * @param   mixed  $new  A namespaces or array of namespaces to add.
+     * @param   string|string[]  $new  A namespaces or array of namespaces to add.
      *
-     * @return  array  The list of namespaces that have been added.
+     * @return  string[]  The list of namespaces that have been added.
      *
      * @since   3.8.0
      */
@@ -387,9 +387,9 @@ class FormHelper
     /**
      * Method to add a namespace to the list of form lookups.
      *
-     * @param   mixed  $new  A namespace or array of namespaces to add.
+     * @param   string|string[]  $new  A namespace or array of namespaces to add.
      *
-     * @return  array  The list of namespaces that have been added.
+     * @return  string[]  The list of namespaces that have been added.
      *
      * @since   3.8.0
      */
@@ -401,9 +401,9 @@ class FormHelper
     /**
      * Method to add a namespace to the list of rule lookups.
      *
-     * @param   mixed  $new  A namespace or array of namespaces to add.
+     * @param   string|string[]  $new  A namespace or array of namespaces to add.
      *
-     * @return  array  The list of namespaces that have been added.
+     * @return  string[]  The list of namespaces that have been added.
      *
      * @since   3.8.0
      */
@@ -415,9 +415,9 @@ class FormHelper
     /**
      * Method to add a namespace to the list of filter lookups.
      *
-     * @param   mixed  $new  A namespace or array of namespaces to add.
+     * @param   string|string[]  $new  A namespace or array of namespaces to add.
      *
-     * @return  array  The list of namespaces that have been added.
+     * @return  string[]  The list of namespaces that have been added.
      *
      * @since   4.0.0
      */
@@ -430,10 +430,10 @@ class FormHelper
      * Method to add a namespace to the list of namespaces for one of the form's entities.
      * Currently supported entities: field, rule and form. You are free to support your own in a subclass.
      *
-     * @param   string  $entity  Form's entity name for which paths will be added.
-     * @param   mixed   $new     A namespace or array of namespaces to add.
+     * @param   string           $entity  Form's entity name for which paths will be added.
+     * @param   string|string[]  $new     A namespace or array of namespaces to add.
      *
-     * @return  array  The list of namespaces that have been added.
+     * @return  string[]  The list of namespaces that have been added.
      *
      * @since   3.8.0
      */
@@ -471,7 +471,7 @@ class FormHelper
      * @param   string  $formControl  Form name.
      * @param   string  $group        The dot-separated form group path.
      *
-     * @return  array   Array with show on conditions.
+     * @return  array[]   Array with show on conditions.
      *
      * @since   3.7.0
      */

@@ -54,8 +54,8 @@ class PluginModel extends AdminModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
@@ -240,7 +240,7 @@ class PluginModel extends AdminModel
      * @param   mixed   $data   The data expected for the form.
      * @param   string  $group  Cache group name.
      *
-     * @return  mixed  True if successful.
+     * @return  void
      *
      * @since   1.6
      *

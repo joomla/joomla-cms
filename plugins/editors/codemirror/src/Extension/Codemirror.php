@@ -15,7 +15,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\Event;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -151,7 +150,7 @@ final class Codemirror extends CMSPlugin
         $height .= is_numeric($height) ? 'px' : '';
 
         // Options for the CodeMirror constructor.
-        $options   = new stdClass();
+        $options   = new \stdClass();
         $keyMapUrl = '';
 
         // Is field readonly?

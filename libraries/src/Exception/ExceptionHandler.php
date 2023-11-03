@@ -94,6 +94,11 @@ class ExceptionHandler
                 $app->redirect('index.php');
             }
 
+            // Clear all opened Output buffers to prevent misrendering
+            for ($i = 0, $l = ob_get_level(); $i < $l; $i++) {
+                ob_end_clean();
+            }
+
             /*
              * Try and determine the format to render the error page in
              *
