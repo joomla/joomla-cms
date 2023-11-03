@@ -184,6 +184,7 @@ $atum-colors: (
   mobile-menu-collapse-bg:         var(--template-bg-dark-50),
 
   // header-content
+  header-bg:                          var(--template-bg-dark),
   header-item-content-bg:             var(--template-bg-dark-60),
   header-item-content-bg-hvr:         var(--template-bg-dark-50),
   header-item-content-border-radius:  22px,
@@ -688,6 +689,7 @@ $new-module-link-hvr:             var(--new-module-link-hvr);
 $new-module-link-span-hvr:        var(--new-module-link-span-hvr);
 
 // header-content
+$header-bg:                          var(--header-bg);
 $header-item-content-bg:             var(--header-item-content-bg);
 $header-item-content-bg-hvr:         var(--header-item-content-bg-hvr);
 $header-item-content-border-radius:  var(--header-item-content-border-radius);

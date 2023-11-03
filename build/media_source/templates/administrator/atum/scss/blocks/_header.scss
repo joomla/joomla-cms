@@ -2,7 +2,7 @@
 .header {
   z-index: $zindex-header;
   color: $white;
-  background: var(--template-bg-dark);
+  background: $header-bg;
 
   &-inside {
     display: flex;

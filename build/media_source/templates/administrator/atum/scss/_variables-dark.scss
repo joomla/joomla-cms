@@ -111,7 +111,7 @@ $atum-colors-dark: (
   mobile-menu-collapse-bg:         var(--template-bg-dark-50),
 
   // header-content
-  header-bg:                          $button-and-icon-color-dark,
+  header-bg:                          var(--body-bg),
   header-item-content-bg:             $button-and-icon-color-dark,
   header-item-content-bg-hvr:         darken($button-and-icon-color-dark, 10%),
   header-item-content-border-radius:  4px,
