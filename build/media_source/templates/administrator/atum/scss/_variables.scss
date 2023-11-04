@@ -161,12 +161,12 @@ $atum-colors: (
   new-modules-icon-color:          var(--template-quickicon-color),
   new-modules-icon-color-hvr:      hsl(var(--hue), 50%, 93%),
   new-module-color:                var(--text-color),
-  new-module-bg:                   var(--bg-color),
+  new-module-bg:                   var(--template-quickicon-bg),
   new-module-border:               1px solid hsl(var(--hue), 50%, 93%),
   new-module-link-bg:              hsl(var(--hue), 50%, 93%),
-  new-module-link-span:            var(--icon-color),
-  new-module-link-hvr:             var(--bg-color-hvr),
-  new-module-link-span-hvr:        var(--icon-color-hvr),
+  new-module-link-span:            var(--quickicon-color),
+  new-module-link-hvr:             var(--new-modules-bg-hvr),
+  new-module-link-span-hvr:        var(--new-modules-icon-color-hvr),
 
   // sidebar incl. main-nav
   sidebarwrapper-bg:               var(--template-sidebar-bg),

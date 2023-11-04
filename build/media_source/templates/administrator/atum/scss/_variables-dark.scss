@@ -87,11 +87,11 @@ $atum-colors-dark: (
   new-modules-icon-color:          var(--template-bg-dark-80),
   new-modules-icon-color-hvr:      var(--template-quickicon-color),
   new-module-color:                var(--dark-mode-text-light),
-  new-module-bg:                   var(--bg-color),
+  new-module-bg:                   var(--template-quickicon-bg),
   new-module-border:               none,
   new-module-link-bg:              rgba(255, 255, 255, .05),
-  new-module-link-span:            var(--icon-color),
-  new-module-link-hvr:             var(--bg-color-hvr),
+  new-module-link-span:            var(--quickicon-linkadd-color),
+  new-module-link-hvr:             var(--new-modules-bg-hvr),
   new-module-link-span-hvr:        var(--icon-color-hvr),
 
   // sidebar
