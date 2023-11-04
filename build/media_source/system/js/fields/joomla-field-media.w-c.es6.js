@@ -167,7 +167,7 @@ class JoomlaFieldMedia extends HTMLElement {
           data: { buttonClose: '', dialogClose: '' },
           location: 'header',
         },
-      ]
+      ],
     });
     dialog.classList.add('joomla-dialog-media-field');
     dialog.show();
