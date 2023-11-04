@@ -91,15 +91,14 @@ if ($showPreview) {
     $style .= ($height > 0) ? 'max-height:' . $height . 'px;' : '';
 
     $imgattr = [
-        'id'    => $id . '_preview',
         'class' => 'media-preview',
         'style' => $style,
     ];
 
     $img = HTMLHelper::_('image', $src, Text::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
 
-    $previewImg      = '<div id="' . $id . '_preview_img">' . $img . '</div>';
-    $previewImgEmpty = '<div id="' . $id . '_preview_empty"' . ($src ? ' class="hidden"' : '') . '>'
+    $previewImg      = '<div class="preview_img">' . $img . '</div>';
+    $previewImgEmpty = '<div class="preview_empty"' . ($src ? ' class="hidden"' : '') . '>'
         . Text::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
 
     $showPreview = 'static';
