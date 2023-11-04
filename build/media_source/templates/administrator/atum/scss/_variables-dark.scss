@@ -187,17 +187,21 @@ $atum-colors-dark: (
 
 
   // Buttons
-  btn-primary-color: var(--text-normal),
-  btn-primary-bg: $button-and-icon-color-dark,
-  btn-primary-border: 1px solid var(--btn-primary-bg),
-  btn-primary-bg-hvr: darken($button-and-icon-color-dark, 10%),
-  btn-primary-border-hvr: 1px solid darken($button-and-icon-color-dark, 15%),
-  btn-primary-toggle-bg: var(--template-bg-dark),
-  btn-primary-toggle-border: var(--template-bg-dark),
-  btn-secondary-bg: #64676c, /* rgba(255,255,255,.2), */
-  btn-secondary-border: 1px solid var(--btn-secondary-bg),
-  input-group-text-bg: var(--template-bg-dark),
-  input-group-text-border: 1px solid var(--template-bg-dark),
+  btn-primary-color:               var(--text-normal),
+  btn-primary-bg:                  $button-and-icon-color-dark,
+  btn-primary-border:              1px solid var(--btn-primary-bg),
+  btn-primary-bg-hvr:              darken($button-and-icon-color-dark, 10%),
+  btn-primary-border-hvr:          1px solid darken($button-and-icon-color-dark, 15%),
+  btn-primary-toggle-bg:           var(--template-bg-dark),
+  btn-primary-toggle-border:       var(--template-bg-dark),
+  btn-secondary-border:            1px solid var(--btn-secondary-bg),
+  btn-secondary-bg:                #64676c, /* rgba(255,255,255,.2) */
+  btn-outline-secondary-color:     var(--template-text-light),
+  btn-outline-secondary-bg:        #64676c, /* rgba(255,255,255,.2) */
+  btn-outline-secondary-border:    1px solid var(--btn-secondary-bg),
+
+  input-group-text-bg:             var(--template-bg-dark),
+  input-group-text-border:         1px solid var(--template-bg-dark),
 
   // Alerts
   state-success-text:               var(--text-normal),

@@ -251,7 +251,7 @@ $atum-colors: (
   // input
   input-border-color:               var(--template-bg-dark-20),
 
-// users
+  // users
   users-method-image:               var(--light),
   users-methods-reset-cont-bg:      var(--light),
   users-method-header-inact-bg:     var(--light),
@@ -273,6 +273,9 @@ $atum-colors: (
   btn-primary-toggle-border: var(--template-bg-dark),
   btn-secondary-bg: var(--template-bg-dark-60),
   btn-secondary-border: 1px solid var(--template-bg-dark-60),
+  btn-outline-secondary-color: gray-700,
+  btn-outline-secondary-bg: transparent,
+  btn-outline-secondary-border: var(--btn-secondary-border),
   input-group-text-bg: var(--template-bg-dark),
   input-group-text-border: 1px solid var(--template-bg-dark),
 
@@ -479,17 +482,20 @@ $icon-success:                     var(--icon-success);
 $icon-success-border:              var(--icon-success-border);
 
 // Buttons
-$btn-primary-color: var(--btn-primary-color);
-$btn-primary-bg: var(--btn-primary-bg);
-$btn-primary-border: var(--btn-primary-border);
-$btn-primary-bg-hvr: var(--btn-primary-bg-hvr);
-$btn-primary-border-hvr: var(--btn-primary-border-hvr);
-$btn-primary-toggle-bg: var(--btn-primary-toggle-bg);
-$btn-primary-toggle-border: var(--btn-primary-toggle-border);
-$btn-secondary-bg: var(--btn-secondary-bg);
-$btn-secondary-border: var(--btn-secondary-border);
-$input-group-text-bg: var(--input-group-text-bg);
-$input-group-text-border: var(--input-group-text-border);
+$btn-primary-color:                var(--btn-primary-color);
+$btn-primary-bg:                   var(--btn-primary-bg);
+$btn-primary-border:               var(--btn-primary-border);
+$btn-primary-bg-hvr:               var(--btn-primary-bg-hvr);
+$btn-primary-border-hvr:           var(--btn-primary-border-hvr);
+$btn-primary-toggle-bg:            var(--btn-primary-toggle-bg);
+$btn-primary-toggle-border:        var(--btn-primary-toggle-border);
+$btn-secondary-bg:                 var(--btn-secondary-bg);
+$btn-secondary-border:             var(--btn-secondary-border);
+$btn-outline-secondary-color:      var(--btn-outline-secondary-color);
+$btn-outline-secondary-bg:         var(--btn-outline-secondary-bg);
+$btn-outline-secondary-border:     var(--btn-outline-secondary-border);
+$input-group-text-bg:              var(--input-group-text-bg);
+$input-group-text-border:          var(--input-group-text-border);
 
 // Alerts
 $state-success-text:               var(--state-success-text);

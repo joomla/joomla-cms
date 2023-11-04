@@ -38,6 +38,12 @@
   border: $btn-secondary-border; /* var(--template-bg-dark-60); */
 }
 
+.btn-outline-secondary {
+  color: $btn-outline-secondary-color;
+  background-color: $btn-outline-secondary-bg; /* var(--template-bg-dark-60); */
+  border: $btn-outline-secondary-border; /* var(--template-bg-dark-60); */
+}
+
 .input-group-text {
   background-color: $input-group-text-bg; /* var(--template-bg-dark); */
   border: $input-group-text-border; /* var(--template-bg-dark); */
