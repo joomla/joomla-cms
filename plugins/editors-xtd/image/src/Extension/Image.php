@@ -102,7 +102,13 @@ final class Image extends CMSPlugin
             // Register the button assets
             if (!$wa->assetExists('script', 'editor-button.image')) {
                 $wa->registerStyle('editor-button.image', '', [], [], ['webcomponent.media-select']);
-                $wa->registerScript('editor-button.image', 'plg_editors-xtd_image/button-image.js', [], ['type' => 'module'], ['webcomponent.media-select', 'editors']);
+                $wa->registerScript(
+                    'editor-button.image',
+                    'plg_editors-xtd_image/button-image.js',
+                    [],
+                    ['type' => 'module'],
+                    ['webcomponent.media-select', 'editors', 'joomla.dialog']
+                );
             }
 
             $doc->addScriptOptions('media-picker-api', ['apiBaseUrl' => Uri::base(true) . '/index.php?option=com_media&format=json']);
@@ -157,6 +163,8 @@ final class Image extends CMSPlugin
                 ]);
             }
 
+            Text::script('JCLOSE');
+            Text::script('PLG_IMAGE_BUTTON_INSERT');
             Text::script('JFIELD_MEDIA_LAZY_LABEL');
             Text::script('JFIELD_MEDIA_ALT_LABEL');
             Text::script('JFIELD_MEDIA_ALT_CHECK_LABEL');
@@ -202,8 +210,7 @@ final class Image extends CMSPlugin
             return new Button(
                 $this->_name,
                 [
-                    'action'  => 'modal',
-                    'link'    => $link,
+                    'action'  => 'modal-media',
                     'text'    => Text::_('PLG_IMAGE_BUTTON_IMAGE'),
                     'name'    => $this->_type . '_' . $this->_name,
                     'icon'    => 'pictures',
@@ -212,6 +219,12 @@ final class Image extends CMSPlugin
                         . ' 0 0 1 6 6v276a6 6 0 0 1-6 6zM128 152c-22.091 0-40 17.909-40 40s17.909 40 40 40 40-17.909 40-40-17.909-40-40-40'
                         . 'zM96 352h320v-80l-87.515-87.515c-4.686-4.686-12.284-4.686-16.971 0L192 304l-39.515-39.515c-4.686-4.686-12.284-4'
                         . '.686-16.971 0L96 304v48z"></path></svg>',
+                ],
+                [
+                    'popupType'  => 'iframe',
+                    'textHeader' => Text::_('PLG_IMAGE_BUTTON_IMAGE'),
+                    'iconHeader' => 'icon-pictures',
+                    'src'        => $link,
                 ]
             );
         }
