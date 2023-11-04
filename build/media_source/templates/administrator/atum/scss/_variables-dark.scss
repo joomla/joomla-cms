@@ -269,7 +269,7 @@ $atum-colors-dark: (
   atum-subhead-btn-primary-hvr:     var(--template-text-light),
 
   atum-subhead-btn-secondary:       #f0f4fb,
-  atum-subhead-btn-action:          #f0f4fb,
+  atum-subhead-btn-action:          darken(#494d53,10%),
   atum-subhead-btn-action-bg:       #494d53,
   atum-subhead-btn-action-border:   1px solid var(--atum-subhead-btn-action-bg),
 
