@@ -22,17 +22,19 @@ var errorLocale = window.errorLocale || null;
       document.getElementById('translatedLanguagesSelect').addEventListener('change', function(e) {
         var ref = e.target.value;
 
-        if (ref) {
-          if (header && desc1 && helpLink) {
-            header.innerHTML = errorLocale[ref].header;
-            desc1.innerHTML = errorLocale[ref].text1;
-            helpLink.innerText = errorLocale[ref]['help-url-text'];
-          }
-  
-          var meta = document.querySelector('[http-equiv="Content-Language"]');
-          if (meta) {
-            meta.setAttribute('content', ref);
-          }
+        if (!ref) {
+          return;
+        }
+
+        if (header && desc1 && helpLink) {
+          header.innerHTML = errorLocale[ref].header;
+          desc1.innerHTML = errorLocale[ref].text1;
+          helpLink.innerText = errorLocale[ref]['help-url-text'];
+        }
+
+        var meta = document.querySelector('[http-equiv="Content-Language"]');
+        if (meta) {
+          meta.setAttribute('content', ref);
         }
       });
 
