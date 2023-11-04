@@ -27,7 +27,6 @@ class JoomlaFieldMedia extends HTMLElement {
   constructor() {
     super();
 
-    this.onSelected = this.onSelected.bind(this);
     this.show = this.show.bind(this);
     this.clearValue = this.clearValue.bind(this);
     this.modalClose = this.modalClose.bind(this);
@@ -133,14 +132,6 @@ class JoomlaFieldMedia extends HTMLElement {
     if (this.dialog) {
       this.dialog.close();
     }
-  }
-
-  onSelected(event) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.modalClose();
-    return false;
   }
 
   show() {
