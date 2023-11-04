@@ -11,6 +11,7 @@ namespace Joomla\Component\Content\Api\Serializer;
 
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Serializer\JoomlaSerializer;
+use Joomla\CMS\Tag\TagApiSerializerTrait;
 use Joomla\CMS\Uri\Uri;
 use Tobscure\JsonApi\Collection;
 use Tobscure\JsonApi\Relationship;
@@ -27,6 +28,8 @@ use Tobscure\JsonApi\Resource;
  */
 class ContentSerializer extends JoomlaSerializer
 {
+    use TagApiSerializerTrait;
+
     /**
      * Build content relationships by associations
      *
@@ -45,7 +48,10 @@ class ContentSerializer extends JoomlaSerializer
 
         foreach ($model->associations as $association) {
             $resources[] = (new Resource($association, $serializer))
-                ->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/content/articles/' . $association->id));
+                ->addLink(
+                    'self',
+                    Route::link('site', Uri::root() . 'api/index.php/v1/content/articles/' . $association->id)
+                );
         }
 
         $collection = new Collection($resources, $serializer);
@@ -67,7 +73,10 @@ class ContentSerializer extends JoomlaSerializer
         $serializer = new JoomlaSerializer('categories');
 
         $resource = (new Resource($model->catid, $serializer))
-            ->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/content/categories/' . $model->catid));
+            ->addLink(
+                'self',
+                Route::link('site', Uri::root() . 'api/index.php/v1/content/categories/' . $model->catid)
+            );
 
         return new Relationship($resource);
     }
