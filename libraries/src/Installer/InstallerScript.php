@@ -177,13 +177,13 @@ class InstallerScript
         $query = $db->getQuery(true);
 
         // Select the item(s) and retrieve the id
-        $query->select($db->quoteName('id'));
-
         if ($isModule) {
-            $query->from($db->quoteName('#__modules'))
+            $query->select($db->quoteName('id'))
+                ->from($db->quoteName('#__modules'))
                 ->where($db->quoteName('module') . ' = :extension');
         } else {
-            $query->from($db->quoteName('#__extensions'))
+            $query->select($db->quoteName('extension_id', 'id'))
+                ->from($db->quoteName('#__extensions'))
                 ->where($db->quoteName('element') . ' = :extension');
         }
 
