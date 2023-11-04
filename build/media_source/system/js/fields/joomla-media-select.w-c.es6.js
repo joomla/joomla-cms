@@ -34,18 +34,14 @@ document.addEventListener('onMediaFileSelected', async (e) => {
   const currentModal = Joomla.Modal.getCurrent();
   const container = currentModal.querySelector('.joomla-dialog-body');
 
-  if (!container) {
+  // No extra attributes (lazy, alt) for fields
+  if (!container || container.closest('.joomla-dialog-media-field')) {
     return;
   }
 
   const optionsEl = container.querySelector('joomla-field-mediamore');
   if (optionsEl) {
     optionsEl.parentNode.removeChild(optionsEl);
-  }
-
-  // No extra attributes (lazy, alt) for fields
-  if (container.closest('joomla-field-media')) {
-    return;
   }
 
   const {

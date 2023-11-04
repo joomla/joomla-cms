@@ -113,7 +113,7 @@ final class Image extends CMSPlugin
 
             $doc->addScriptOptions('media-picker-api', ['apiBaseUrl' => Uri::base(true) . '/index.php?option=com_media&format=json']);
 
-            if (\count($doc->getScriptOptions('media-picker')) === 0) {
+            if (!$doc->getScriptOptions('media-picker')) {
                 $imagesExt = array_map(
                     'trim',
                     explode(
