@@ -106,15 +106,14 @@ if ($showPreview) {
 }
 
 // The url for the modal
-$url = ($readonly ? ''
-    : ($link ?: 'index.php?option=com_media&view=media&tmpl=component&mediatypes=' . $mediaTypes
-        . '&asset=' . $asset . '&author=' . $authorId)
-    . '&fieldid={field-media-id}&path=' . $folder);
+$url = '';
 
-// Correctly route the url to ensure it's correctly using sef modes and subfolders
-$url = Route::_($url);
-$doc = Factory::getDocument();
-$wam = $doc->getWebAssetManager();
+if (!$readonly) {
+    $url = ($link ?: 'index.php?option=com_media&view=media&tmpl=component&mediatypes=' . $mediaTypes . '&asset=' . $asset . '&author=' . $authorId) . '&path=' . $folder;
+
+    // Correctly route the url to ensure it's correctly using sef modes and subfolders
+    $url = Route::_($url);
+}
 
 Text::script('JSELECT');
 Text::script('JCLOSE');
@@ -138,6 +137,9 @@ Text::script('JFIELD_MEDIA_UNSUPPORTED');
 Text::script('JFIELD_MEDIA_DOWNLOAD_FILE');
 Text::script('JLIB_APPLICATION_ERROR_SERVER');
 Text::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
+
+$doc = Factory::getApplication()->getDocument();
+$wam = $doc->getWebAssetManager();
 
 $wam->useStyle('webcomponent.field-media')
     ->useScript('webcomponent.field-media')
