@@ -227,7 +227,8 @@ class FieldsHelper
                     ]))->getArgument('result', []);
 
                     if (\is_array($value)) {
-                        $value = implode(' ', $value);
+                        $value = array_filter($value, 'strlen');
+                        $value = $value ? implode(' ', $value) : '';
                     }
 
                     /*
