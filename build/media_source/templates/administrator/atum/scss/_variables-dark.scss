@@ -50,9 +50,11 @@ $atum-colors-dark: (
 
   form-control-bg:                 var(--admin-background),
   form-control-bg-disabled:        var(--gray-800),
-  form-select-background:          $form-select-bg-dark $form-select-indicator-dark no-repeat right center / $form-select-bg-size, // Used so we can have multiple background elements (e.g. arrow and feedback icon)
+  form-control-border:             1px solid rgba(255, 255, 255, .1),
+  form-select-background:          $form-select-bg-dark $form-select-indicator-dark no-repeat right center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+  //form-select-background:          $form-select-bg-dark $form-select-indicator-dark no-repeat left center / $form-select-bg-size,
   form-select-background-rtl-dark: $form-select-bg-dark $form-select-indicator-rtl-dark no-repeat left center / $form-select-bg-size, // Used so we can have multiple background elements (e.g. arrow and feedback icon)
-  form-select-border:              1px solid rgba(255, 255, 255, .1),
+  form-select-border:              var(--form-control-border),
   form-select-success-bg:          var(--gray-800),
   form-select-danger-bg:           var(--gray-800),
   form-select-disabled-bg:         var(--gray-800),
@@ -164,6 +166,12 @@ $atum-colors-dark: (
   // details
   details-bg:                      var(--atum-subhead-btn-bg),
 
+  // choices
+  choices-input-border-color:      #495057, //TODO
+  choices-input-bg:                var(--dark-bg-subtle), //OK?
+
+  // input
+  input-border-color:              #495057, //var(--template-bg-dark-20),
 
   // users
   users-method-image:              var(--light),

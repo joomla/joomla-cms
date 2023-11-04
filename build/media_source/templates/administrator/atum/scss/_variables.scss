@@ -123,10 +123,12 @@ $atum-colors: (
   template-quickicon-bg-hvr:       var(--template-bg-dark),
   form-control-bg:                 unset,
   form-control-bg-disabled:        var(--gray-200),
+  form-control-border:             var(--border-width) solid var(--template-bg-dark-20),
   form-select-background:          $form-select-bg $form-select-indicator no-repeat right center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
   form-select-background-rtl:      $form-select-bg $form-select-indicator-rtl no-repeat left center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 
-  form-select-border:              var(--border-width) solid var(--template-bg-dark-20),
+  form-select-border:              var(--form-control-border),
+
   form-select-success-bg:          var(--white-offset),
   form-select-danger-bg:           var(--white-offset),
   form-select-disabled-bg:         var(--gray-200),
@@ -224,7 +226,9 @@ $atum-colors: (
   modal-btn-box-shadow:            1px 1px 1px 0 rgba(0, 0, 0, .25),
   modal-joomla-dialog-box-shadow:  0 .5rem 1rem rgba(0, 0, 0, .15),
   form-aria-grabbed-box-shadow:    0 0 2px 1px var(--template-bg-dark),
+
   choices__button_joomla-focus-box-shadow: 0 0 0 2px #00bcd4,
+
   joomla-tab-accordion-box-shadow: (0 1px $white inset, 0 0 3px rgba(0, 0, 0, .04)),
   joomla-tab-btn-hvr:              var(--template-bg-dark-60),
   joomla-tab-btn-aria-exp-bg:      var(--template-bg-dark-3),
@@ -240,7 +244,14 @@ $atum-colors: (
   // details
   details-bg:                      var(--template-bg-dark-3),
 
-  // users
+  // choices
+  choices-input-border-color:      var(--body-bg), //TODO
+  choices-input-bg:                var(--body-bg),
+
+  // input
+  input-border-color:               var(--template-bg-dark-20),
+
+// users
   users-method-image:               var(--light),
   users-methods-reset-cont-bg:      var(--light),
   users-method-header-inact-bg:     var(--light),
@@ -610,6 +621,7 @@ $form-select-indicator-padding:    3rem;
 $form-select-background:           var(--form-select-background);
 $form-select-background-rtl:       var(--form-select-background-rtl);
 $form-select-border:               var(--form-select-border);
+$form-select-border-radius:        4px;
 $form-select-box-shadow:           $atum-box-shadow;
 $form-select-multiple-padding-y:   .3rem;
 $form-select-success-bg:           var(--form-select-success-bg);
@@ -629,10 +641,11 @@ $options-form-legend-color:        var(--options-form-legend-color);
 $options-form-legend-bg:           var(--options-form-legend-bg);
 $form-control-bg:                  var(--form-control-bg);
 $form-control-bg-disabled:         var(--form-control-bg-disabled);
+$form-control-border:              var(--form-control-border);
 
 // Input
 $input-padding:                    .5rem 1rem;
-$input-border-color:               var(--template-bg-dark-20);
+$input-border-color:               var(--input-border-color);
 $input-focus-border-color:         var(--focus);
 $input-box-shadow:                 $atum-box-shadow;
 $input-max-width:                  100%;
@@ -648,6 +661,8 @@ $modal-joomla-dialog-box-shadow:   var(--modal-joomla-dialog-box-shadow);
 
 // Choices
 $choices__button_joomla-focus-box-shadow:  var(--choices__button_joomla-focus-box-shadow);
+$choices-input-border-color:       var(--choices-input-border-color);
+$choices-input-bg:                 var(--choices-input-bg);
 
 // Joomla-Tab
 $joomla-tab-accordion-box-shadow:  var(--joomla-tab-accordion-box-shadow);

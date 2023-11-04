@@ -3,6 +3,8 @@
 .form-control {
   max-width: $input-max-width;
   background: $form-control-bg;
+  border: $form-control-border !important;
+
   &:disabled,
   &[readonly] {
     background-color: $form-control-bg-disabled;

@@ -11,7 +11,7 @@
 @import "../../../../../../../../media/vendor/choicesjs/scss/choices";
 
 .choices {
-  border: $form-select-border-width solid $form-select-border-color;
+  border: $form-select-border; //$form-select-border-width solid $form-select-border-color;
   @include border-radius($form-select-border-radius, 0);
   @include box-shadow($form-select-box-shadow);
 
@@ -164,15 +164,7 @@
 
 .choices[data-type*="select-one"] {
   .choices__input {
-    background-color: var(--body-bg);
-  }
-
-  @if $enable-dark-mode {
-    @include color-mode(dark) {
-      .choices__input {
-        border-color: var(--gray-600);
-      }
-    }
+    background-color: $choices-input-bg; //var(--body-bg)/var(--gray-600)
   }
 
   .choices__item {

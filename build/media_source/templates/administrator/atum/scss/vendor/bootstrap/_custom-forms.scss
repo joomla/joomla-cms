@@ -26,7 +26,7 @@
   &.form-select-success,
   &.custom-select-success {
     color: var(--success);
-    //background-color: var(--success);
+    background-color: var(--success);
     border-color: var(--success);
 
     option {
@@ -38,7 +38,7 @@
   &.form-select-danger,
   &.custom-select-danger {
     color: var(--danger);
-    //background-color: var(--danger);
+    background-color: var(--danger);
     border-color: var(--danger);
 
     option {
