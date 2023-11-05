@@ -28,7 +28,7 @@ $fullWidth = 1;
 // Color Theme
 $paramsColorName = $this->params->get('colorName', 'colors_standard');
 $assetColorName  = 'theme.' . $paramsColorName;
-$wa->registerAndUseStyle($assetColorName, 'global/' . $paramsColorName . '.css', ['relative' => true]);
+$wa->registerAndUseStyle($assetColorName, 'global/' . $paramsColorName . '.css');
 
 // Use a font scheme if set in the template style options
 $paramsFontScheme = $this->params->get('useFontScheme', false);
