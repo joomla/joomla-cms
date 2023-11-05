@@ -17,6 +17,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -63,6 +64,62 @@ class CategoryField extends ModalSelectField
         if (!$result) {
             return $result;
         }
+
+        Factory::getApplication()->getLanguage()->load('com_categories', JPATH_ADMINISTRATOR);
+
+        $languages = LanguageHelper::getContentLanguages([0, 1], false);
+        $language  = (string) $this->element['language'];
+
+        // Prepare enabled actions
+        $this->canDo['propagate']  = ((string) $this->element['propagate'] == 'true') && \count($languages) > 2;
+
+        // Prepare Urls
+        $linkArticles = (new Uri())->setPath(Uri::base(true) . '/index.php');
+        $linkArticles->setQuery([
+            'option'                => 'com_categories',
+            'view'                  => 'categories',
+            'layout'                => 'modal',
+            'tmpl'                  => 'component',
+            Session::getFormToken() => 1,
+        ]);
+        $linkArticle = clone $linkArticles;
+        $linkArticle->setVar('view', 'category');
+        $linkCheckin = (new Uri())->setPath(Uri::base(true) . '/index.php');
+        $linkCheckin->setQuery([
+            'option'                => 'com_categories',
+            'task'                  => 'categories.checkin',
+            'format'                => 'json',
+            Session::getFormToken() => 1,
+        ]);
+
+        if ($language) {
+            $linkArticles->setVar('forcedLanguage', $language);
+            $linkArticle->setVar('forcedLanguage', $language);
+
+            $modalTitle = Text::_('COM_CATEGORIES_SELECT_A_CATEGORY') . ' &#8212; ' . $this->getTitle();
+
+            $this->dataAttributes['data-language'] = $language;
+        } else {
+            $modalTitle = Text::_('COM_CATEGORIES_SELECT_A_CATEGORY');
+        }
+
+        $urlSelect = $linkArticles;
+        $urlEdit   = clone $linkArticle;
+        $urlEdit->setVar('task', 'category.edit');
+        $urlNew    = clone $linkArticle;
+        $urlNew->setVar('task', 'category.add');
+
+        $this->urls['select']  = (string) $urlSelect;
+        $this->urls['new']     = (string) $urlNew;
+        $this->urls['edit']    = (string) $urlEdit;
+        $this->urls['checkin'] = (string) $linkCheckin;
+
+        // Prepare titles
+        $this->modalTitles['select']  = $modalTitle;
+        $this->modalTitles['new']     = Text::_('COM_CATEGORIES_NEW_CATEGORY');
+        $this->modalTitles['edit']    = Text::_('COM_CATEGORIES_EDIT_CATEGORY');
+
+        $this->hint = $this->hint ?: Text::_('COM_CATEGORIES_SELECT_A_CATEGORY');
 
         return $result;
     }
