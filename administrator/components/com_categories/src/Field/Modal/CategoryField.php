@@ -74,16 +74,16 @@ class CategoryField extends ModalSelectField
         $this->canDo['propagate']  = ((string) $this->element['propagate'] == 'true') && \count($languages) > 2;
 
         // Prepare Urls
-        $linkArticles = (new Uri())->setPath(Uri::base(true) . '/index.php');
-        $linkArticles->setQuery([
+        $linkItems = (new Uri())->setPath(Uri::base(true) . '/index.php');
+        $linkItems->setQuery([
             'option'                => 'com_categories',
             'view'                  => 'categories',
             'layout'                => 'modal',
             'tmpl'                  => 'component',
             Session::getFormToken() => 1,
         ]);
-        $linkArticle = clone $linkArticles;
-        $linkArticle->setVar('view', 'category');
+        $linkItem = clone $linkItems;
+        $linkItem->setVar('view', 'category');
         $linkCheckin = (new Uri())->setPath(Uri::base(true) . '/index.php');
         $linkCheckin->setQuery([
             'option'                => 'com_categories',
@@ -93,8 +93,8 @@ class CategoryField extends ModalSelectField
         ]);
 
         if ($language) {
-            $linkArticles->setVar('forcedLanguage', $language);
-            $linkArticle->setVar('forcedLanguage', $language);
+            $linkItems->setVar('forcedLanguage', $language);
+            $linkItem->setVar('forcedLanguage', $language);
 
             $modalTitle = Text::_('COM_CATEGORIES_SELECT_A_CATEGORY') . ' &#8212; ' . $this->getTitle();
 
@@ -103,10 +103,10 @@ class CategoryField extends ModalSelectField
             $modalTitle = Text::_('COM_CATEGORIES_SELECT_A_CATEGORY');
         }
 
-        $urlSelect = $linkArticles;
-        $urlEdit   = clone $linkArticle;
+        $urlSelect = $linkItems;
+        $urlEdit   = clone $linkItem;
         $urlEdit->setVar('task', 'category.edit');
-        $urlNew    = clone $linkArticle;
+        $urlNew    = clone $linkItem;
         $urlNew->setVar('task', 'category.add');
 
         $this->urls['select']  = (string) $urlSelect;
