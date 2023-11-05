@@ -164,8 +164,8 @@ $atum-colors-dark: (
   joomla-tab-btn-region-border:    var(--atum-subhead-btn-bg),
 
   // details
-  details-bg:                      var(--atum-subhead-btn-bg),
-
+  details-bg:                      #495057, //var(--atum-subhead-btn-bg),
+  details-border:                  1px solid var(--details-bg),
   // choices
   choices-input-border-color:      #495057, //TODO
   choices-input-bg:                var(--dark-bg-subtle), //OK?
@@ -237,8 +237,8 @@ $atum-colors-dark: (
   state-error-heading-bg:           var(--errorlight),
 
   alert-info-color:                 var(--text-normal),
-  alert-info-bg:                    var(--admin-bg),
-  alert-info-border:                1px solid hsl(var(--hue), 17%, 33.3%),
+  alert-info-bg:                    var(--body-bg), //var(--admin-bg),
+  alert-info-border:                var(--body-bg), //1px solid hsl(var(--hue), 17%, 33.3%),
 
   // Subhead
   atum-subhead-color:               var(--template-text-dark),

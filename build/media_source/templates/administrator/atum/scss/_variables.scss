@@ -243,6 +243,7 @@ $atum-colors: (
 
   // details
   details-bg:                      var(--template-bg-dark-3),
+  details-border:                  1px solid var(--template-bg-dark-10),
 
   // choices
   choices-input-border-color:      var(--body-bg), //TODO
@@ -471,6 +472,7 @@ $card-border-color:                transparent;
 
 // Details
 $details-bg:                      var(--details-bg);
+$details-border:                  var(--details-border);
 
 // users
 $users-method-image:              var(--users-method-image);
