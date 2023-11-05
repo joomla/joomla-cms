@@ -121,7 +121,7 @@ $atum-colors: (
   media-manager-toolbar-icon-color: var(--template-bg-dark-60),
   template-quickicon-bg:           hsl(var(--hue), 60%, 97%),
   template-quickicon-bg-hvr:       var(--template-bg-dark),
-  form-control-bg:                 unset,
+  form-control-bg:                 var(--template-text-light),
   form-control-bg-disabled:        var(--gray-200),
   form-control-border:             var(--border-width) solid var(--template-bg-dark-20),
   form-select-background:          $form-select-bg $form-select-indicator no-repeat right center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
