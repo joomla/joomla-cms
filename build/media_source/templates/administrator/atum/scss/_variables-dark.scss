@@ -3,6 +3,7 @@ $form-select-indicator-rtl-dark:   url("../images/select-bg-rtl-dark.svg");
 $form-select-bg-dark:              var(--template-bg-dark);
 $button-and-icon-color-dark:        #2969b8;
 $success-dark:                      #479a59;
+$danger-dark:                       #c62a25;
 
 $atum-colors-dark: (
   button-and-icon-color:            $button-and-icon-color-dark,
@@ -37,9 +38,9 @@ $atum-colors-dark: (
   image-bg-image:                  (linear-gradient(45deg, var(--body-bg) 25%, transparent 25%, transparent 75%, #111 75%, var(--body-bg) 100%),linear-gradient(45deg,#111 25%, transparent 25%, transparent 75%, var(--body-bg) 75%, var(--body-bg) 100%)),
 
   success:                         $success-dark,
-  successlight:                    #9ac6a5,
-  danger:                          #c62a25,
-  dangerlight:                     #dc4a46,
+  successlight:                    lighten($success-dark, 25%),
+  danger:                          $danger-dark,
+  dangerlight:                     lighten($danger-dark, 25%),
   darkdanger:                      #941f1c,
   error:                           #941f1c,
   errorlight:                      #be2824,
@@ -280,12 +281,12 @@ $atum-colors-dark: (
   atum-subhead-btn-danger-border:   1px solid $danger,
   atum-subhead-btn-danger-hvr:      var(--template-text-light),
 
-  atum-subhead-btn-info:            lighten(#494d53, 10%), /* #f0f4fb, */
+  atum-subhead-btn-info:            lighten(#494d53, 20%), /* #f0f4fb, */
   atum-subhead-btn-info-bg:         #494d53,
   atum-subhead-btn-info-border:     1px solid var(--atum-subhead-btn-info-bg),
   atum-subhead-btn-info-hvr:        var(--template-text-light),
 
-  atum-subhead-btn-primary:         lighten($button-and-icon-color-dark, 10%),
+  atum-subhead-btn-primary:         lighten($button-and-icon-color-dark, 25%),
   atum-subhead-btn-primary-bg:      $button-and-icon-color-dark, //var(--template-bg-dark),
   atum-subhead-btn-primary-border:  1px solid $button-and-icon-color-dark,
   atum-subhead-btn-primary-hvr:     var(--template-text-light),
