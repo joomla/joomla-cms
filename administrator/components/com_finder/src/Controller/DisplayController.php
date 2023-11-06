@@ -53,7 +53,7 @@ class DisplayController extends BaseController
         $filterId = $this->input->get('filter_id', null, 'int');
 
         if ($view === 'index') {
-            $pluginEnabled    = PluginHelper::isEnabled('content', 'finder');
+            $pluginEnabled    = PluginHelper::isEnabled('finder', 'content');
 
             if (!$pluginEnabled) {
                 $finderPluginId   = FinderHelper::getFinderPluginId();
