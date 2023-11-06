@@ -111,14 +111,30 @@ $atum-colors: (
   template-bg-dark-75:             hsl(var(--hue), 40%, 25%),
   template-bg-dark-80:             hsl(var(--hue), 40%, 20%),
   template-bg-dark-90:             hsl(var(--hue), 40%, 10%),
-  media-manager-overlay-header-bg: var(--template-bg-dark-5),
-  media-manager-infobar-dt-color:  rgba(0, 0, 0, .54),
-  media-manager-content-bg:        var(--body-bg),
-  media-manager-content-color:     $light-blue,
-  media-manager-overlay-bg:        var(--template-bg-dark-3),
-  media-manager-disk-name-color:   var(--template-text-dark),
+
+  media-manager-overlay-header-bg:  var(--template-bg-dark-5),
+  media-manager-infobar-dt-color:   rgba(0, 0, 0, .54),
+  media-manager-content-bg:         var(--body-bg),
+
+  media-manager-content-color:      $light-blue,
+  media-manager-overlay-bg:         var(--template-bg-dark-3),
+  media-manager-disk-name-color:    var(--template-text-dark),
   media-manager-tree-item-hover-bg: #e1e1e1,
   media-manager-toolbar-icon-color: var(--template-bg-dark-60),
+  media-manager-border:             1px solid var(--template-bg-dark-7),
+  media-browser-file-bg:            hsl(var(--hue), 20%, 97%),
+  //media-browser-file-border:       1px solid hsl(var(--hue), 35%, 95%),
+  //media-browser-item-preview-border: 1px solid hsl(var(--hue, 35%, 95%)),
+  media-drive-bg:                   var(--com-media-manager-content-bg,#fff),
+  media-toolbar-bg:                 var(--com-media-manager-content-bg,#fff),
+  media-toolbar-icon-bg:            transparent,
+  media-toolbar-icon-color:         var(--com-media-manager-toolbar-icon-color, var(--template-bg-dark-60)),
+
+  media-manager-breadcrumb-item-bg: var(--com-media-manager-overlay-bg, var(--template-bg-dark-3)),
+
+  image-bg:                        #fff,
+  image-bg-image:                  (linear-gradient(45deg,hsl(var(--hue),20%,97%) 25%,transparent 25%,transparent 75%,#eee 75%,hsl(var(--hue),20%,97%) 100%),linear-gradient(45deg,#eee 25%,transparent 25%,transparent 75%,hsl(var(--hue),20%,97%) 75%,hsl(var(--hue),20%,97%) 100%)),
+
   template-quickicon-bg:           hsl(var(--hue), 60%, 97%),
   template-quickicon-bg-hvr:       var(--template-bg-dark),
   form-control-bg:                 var(--template-text-light),
@@ -244,6 +260,9 @@ $atum-colors: (
   // details
   details-bg:                      var(--template-bg-dark-3),
   details-border:                  1px solid var(--template-bg-dark-10),
+
+  // nav
+  nav-header-color:                var(--template-bg-dark),
 
   // choices
   choices-input-border-color:      var(--body-bg), //TODO
@@ -474,6 +493,9 @@ $card-border-color:                transparent;
 $details-bg:                      var(--details-bg);
 $details-border:                  var(--details-border);
 
+// nav
+$nav-header-color:                var(--nav-header-color);
+
 // users
 $users-method-image:              var(--users-method-image);
 $users-methods-reset-cont-bg:     var(--users-methods-reset-cont-bg);
@@ -618,6 +640,25 @@ $media-manager-overlay-bg:         var(--media-manager-overlay-bg);
 $media-manager-disk-name-color:    var(--media-manager-disk-name-color);
 $media-manager-tree-item-hover-bg: var(--media-manager-tree-item-hover-bg);
 $media-manager-toolbar-icon-color: var(--media-manager-toolbar-icon-color);
+
+$media-manager-border:             var(--media-manager-border);
+$media-browser-file-bg:             var(--media-browser-file-bg);
+//$media-browser-item-preview-border: var(--media-browser-item-preview-border);
+$media-drive-bg:                    var(--media-drive-bg);
+//$media-drive-border:                var(--media-drive-border);
+$media-toolbar-bg:                  var(--media-toolbar-bg);
+//$media-toolbar-border-bottom:       var(--media-toolbar-border-bottom);
+//$media-toolbar-border-inline-start: var(--media-toolbar-border-inline-start);
+
+$media-toolbar-icon-bg:             var(--media-toolbar-icon-bg);
+//$media-toolbar-icon-border-start:   var(--media-toolbar-icon-border-start);
+$media-toolbar-icon-color:          var(--media-toolbar-icon-color);
+
+$media-manager-breadcrumb-item-bg:  var(--media-manager-breadcrumb-item-bg);
+
+$image-bg:                          var(--image-bg); // #fff;
+$image-bg-image:                    var(--image-bg-image); //linear-gradient(45deg,hsl(var(--hue),20%,97%) 25%,transparent 25%,transparent 75%,#eee 75%,hsl(var(--hue),20%,97%) 100%),linear-gradient(45deg,#eee 25%,transparent 25%,transparent 75%,hsl(var(--hue),20%,97%) 75%,hsl(var(--hue),20%,97%) 100%);
+
 
 // Buttons
 $input-btn-padding-y-sm-submenu:    0;

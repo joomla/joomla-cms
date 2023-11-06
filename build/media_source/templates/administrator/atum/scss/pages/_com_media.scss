@@ -8,3 +8,44 @@
   --com-media-manager-tree-item-hover-bg: #{$media-manager-tree-item-hover-bg};
   --com-media-manager-toolbar-icon-color: #{$media-manager-toolbar-icon-color};
 }
+.file-background, .folder-background {
+  padding-bottom: 100%;
+  background-color: $media-browser-file-bg; //hsl(var(--hue), 20%, 97%);
+  border: $media-manager-border; //1px solid hsl(var(--hue), 35%, 95%);
+}
+.media-browser-item-preview {
+  border: $media-manager-border; //1px solid hsl(var(--hue), 35%, 95%);
+}
+.media-drive {
+  background: $media-drive-bg;
+  border: $media-manager-border;
+}
+.media-toolbar {
+  background-color: $media-toolbar-bg; //var(--com-media-manager-content-bg,#fff);
+  border-bottom: $media-manager-border; //1px solid var(--template-bg-dark-7);
+  border-inline-start: $media-manager-border; //1px solid var(--template-bg-dark-7)
+}
+.media-toolbar-icon {
+  -webkit-border-start: $media-manager-border; //1px solid var(--template-bg-dark-7);
+  color: $media-toolbar-icon-color; //var(--com-media-manager-toolbar-icon-color,var(--template-bg-dark-60));
+  background-color: $media-toolbar-icon-bg; //transparent;
+  border-inline-start: $media-manager-border; //1px solid var(--template-bg-dark-7);
+}
+.media-breadcrumb {
+  -webkit-border-start: $media-manager-border; //1px solid var(--template-bg-dark-7)
+  border-inline-start: $media-manager-border;  //1px solid var(--template-bg-dark-7)
+}
+.media-breadcrumb-item a {
+  color: $media-manager-content-color; //var(--com-media-manager-content-color,var(--link-color));
+}
+.media-breadcrumb-item {
+  background-color: $media-manager-breadcrumb-item-bg; //var(--com-media-manager-overlay-bg,var(--template-bg-dark-3));
+}
+.media-breadcrumb-item::after {
+  border-inline-start-color: $media-manager-breadcrumb-item-bg; //var(--com-media-manager-overlay-bg,var(--template-bg-dark-3));
+}
+
+.image-background {
+  background-color: $image-bg; // #fff;
+  background-image: $image-bg-image; //linear-gradient(45deg,hsl(var(--hue),20%,97%) 25%,transparent 25%,transparent 75%,#eee 75%,hsl(var(--hue),20%,97%) 100%),linear-gradient(45deg,#eee 25%,transparent 25%,transparent 75%,hsl(var(--hue),20%,97%) 75%,hsl(var(--hue),20%,97%) 100%);
+}

@@ -11,12 +11,26 @@ $atum-colors-dark: (
   media-manager-overlay-bg:         var(--template-bg-dark-90),
   media-manager-infobar-dt-color:   rgba(255, 255, 255, .54),
   media-manager-content-bg:         var(--body-bg),
-  media-manager-content-color:      $button-and-icon-color-dark,
+  media-manager-content-color:      lighten($button-and-icon-color-dark, 20%),
   media-manager-overlay-header-bg:  var(--template-bg-dark-80),
   media-manager-disk-name-color:    var(--template-text-light),
+  media-manager-border:             1px solid var(--gray-800),
 
   media-manager-tree-item-hover-bg: var(--gray-600),
-  media-manager-toolbar-icon-color: $button-and-icon-color-dark,
+  media-manager-toolbar-icon-color: lighten($button-and-icon-color-dark, 20%),
+  media-manager-breadcrumb-item-bg: var(--gray-700),
+
+  media-manager-bg:                var(--body-bg),
+  media-browser-file-bg:           var(--media-manager-bg),
+
+  media-drive-bg:                  var(--media-manager-bg),
+  media-toolbar-bg:                var(--media-manager-bg),
+
+  media-toolbar-icon-bg:           var(--media-manager-bg),
+  media-toolbar-icon-color:        lighten($button-and-icon-color-dark, 10%),
+
+  image-bg:                        #000,
+  image-bg-image:                  (linear-gradient(45deg, var(--body-bg) 25%, transparent 25%, transparent 75%, #111 75%, var(--body-bg) 100%),linear-gradient(45deg,#111 25%, transparent 25%, transparent 75%, var(--body-bg) 75%, var(--body-bg) 100%)),
 
   success:                         $success-dark,
   successlight:                    #9ac6a5,
@@ -166,6 +180,10 @@ $atum-colors-dark: (
   // details
   details-bg:                      #495057, //var(--atum-subhead-btn-bg),
   details-border:                  1px solid var(--details-bg),
+
+  // nav
+  nav-header-color:                var(--body-color),
+
   // choices
   choices-input-border-color:      #495057, //TODO
   choices-input-bg:                var(--dark-bg-subtle), //OK?

@@ -7,15 +7,7 @@
 
   .nav-header {
     font-weight: $font-weight-bold;
-    color: var(--template-bg-dark);
-  }
-
-  @if $enable-dark-mode {
-    @include color-mode(dark) {
-      .nav-header {
-        color: var(--body-color);
-      }
-    }
+    color: $nav-header-color;
   }
 
   li {
