@@ -182,7 +182,7 @@ class CategoryField extends ModalSelectField
     {
         $layout = parent::getRenderer($layoutId);
         $layout->setComponent('com_categories');
-        $layout->setClient(1);;
+        $layout->setClient(1);
 
         return $layout;
     }
