@@ -98,6 +98,9 @@
       --subhead-btn-bg: #{$atum-subhead-btn-primary-bg};
       --subhead-btn-hvr: #{$atum-subhead-btn-primary-hvr};
       --subhead-btn-border: #{$atum-subhead-btn-primary-border};
+      &:disabled {
+        --subhead-btn-border: #{$atum-subhead-btn-info-border};
+      }
     }
 
     &.btn-secondary {

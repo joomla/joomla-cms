@@ -131,7 +131,7 @@ $atum-colors: (
   media-toolbar-icon-bg:            transparent,
   media-toolbar-icon-color:         var(--com-media-manager-toolbar-icon-color, var(--template-bg-dark-60)),
   media-toolbar-icon-bg-hvr:        #f0f0f0,
-  media-tree-item-color:           var(--template-bg-dark-60),
+  media-tree-item-color:            var(--template-bg-dark-60),
 
   media-manager-breadcrumb-item-bg: var(--com-media-manager-overlay-bg, var(--template-bg-dark-3)),
 
@@ -658,7 +658,7 @@ $media-toolbar-icon-bg:             var(--media-toolbar-icon-bg);
 //$media-toolbar-icon-border-start:   var(--media-toolbar-icon-border-start);
 $media-toolbar-icon-color:          var(--media-toolbar-icon-color);
 $media-toolbar-icon-bg-hvr:         var(--media-toolbar-icon-bg-hvr);
-$media-tree-item-color:            var(--media-tree-item-color); //var(--template-bg-dark-60);
+$media-tree-item-color:             var(--media-tree-item-color); //var(--template-bg-dark-60);
 
 
 $media-manager-breadcrumb-item-bg:  var(--media-manager-breadcrumb-item-bg);
