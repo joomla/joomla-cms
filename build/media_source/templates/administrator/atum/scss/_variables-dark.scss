@@ -15,10 +15,13 @@ $atum-colors-dark: (
   media-manager-overlay-header-bg:  var(--template-bg-dark-80),
   media-manager-disk-name-color:    var(--template-text-light),
   media-manager-border:             1px solid var(--gray-800),
+  media-manager-file-icon-color:    $button-and-icon-color-dark,
 
   media-manager-tree-item-hover-bg: var(--gray-600),
   media-manager-toolbar-icon-color: lighten($button-and-icon-color-dark, 20%),
   media-manager-breadcrumb-item-bg: var(--gray-700),
+  media-tree-item-color:           $button-and-icon-color-dark,
+
 
   media-manager-bg:                var(--body-bg),
   media-browser-file-bg:           var(--media-manager-bg),
@@ -28,6 +31,7 @@ $atum-colors-dark: (
 
   media-toolbar-icon-bg:           var(--media-manager-bg),
   media-toolbar-icon-color:        lighten($button-and-icon-color-dark, 10%),
+  media-toolbar-icon-bg-hvr:       var(--gray-800),
 
   image-bg:                        #000,
   image-bg-image:                  (linear-gradient(45deg, var(--body-bg) 25%, transparent 25%, transparent 75%, #111 75%, var(--body-bg) 100%),linear-gradient(45deg,#111 25%, transparent 25%, transparent 75%, var(--body-bg) 75%, var(--body-bg) 100%)),
