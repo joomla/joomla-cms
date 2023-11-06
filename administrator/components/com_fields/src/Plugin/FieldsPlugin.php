@@ -269,10 +269,6 @@ abstract class FieldsPlugin extends CMSPlugin
             $node->setAttribute('showon', $showon_attribute);
         }
 
-        if ($layout = $field->params->get('form_layout')) {
-            $node->setAttribute('layout', $layout);
-        }
-
         if ($field->default_value !== '') {
             $defaultNode = $node->appendChild(new \DOMElement('default'));
             $defaultNode->appendChild(new \DOMCdataSection($field->default_value));
@@ -281,6 +277,12 @@ abstract class FieldsPlugin extends CMSPlugin
         // Combine the two params
         $params = clone $this->params;
         $params->merge($field->fieldparams);
+
+        $layout = $field->params->get('form_layout', $this->params->get('form_layout', ''));
+
+        if ($layout) {
+            $node->setAttribute('layout', $layout);
+        }
 
         // Set the specific field parameters
         foreach ($params->toArray() as $key => $param) {

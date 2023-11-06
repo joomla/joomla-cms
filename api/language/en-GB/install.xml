@@ -2,7 +2,7 @@
 <extension client="api" type="language" method="upgrade">
 	<name>English (en-GB)</name>
 	<tag>en-GB</tag>
-	<version>5.0.0</version>
+	<version>5.1.0</version>
 	<creationDate>2023-10</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
