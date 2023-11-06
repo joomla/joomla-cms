@@ -86,8 +86,7 @@ if ($showPreview) {
 
     $width  = $previewWidth;
     $height = $previewHeight;
-    $style  = '';
-    $style .= ($width > 0) ? 'max-width:' . $width . 'px;' : '';
+    $style  = ($width > 0) ? 'max-width:' . $width . 'px;' : '';
     $style .= ($height > 0) ? 'max-height:' . $height . 'px;' : '';
 
     $imgattr = [
