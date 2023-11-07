@@ -60,6 +60,10 @@ class DisplayController extends BaseController
                     $uri->setVar('forcedLanguage', $forcedLanguage);
                 }
 
+                if ($function = $this->input->post->get('function')) {
+                    $uri->setVar('function', $function);
+                }
+
                 $this->setRedirect(Route::_('index.php' . $uri->toString(['query']), false));
 
                 return parent::display();
