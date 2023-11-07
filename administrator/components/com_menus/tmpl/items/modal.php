@@ -28,7 +28,7 @@ if ($app->isClient('site')) {
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_menus.admin-items-modal');
 
-$function  = $app->getInput()->get('function', 'jSelectMenuItem', 'cmd');
+$function  = $app->getInput()->getCmd('function', 'jSelectMenuItem');
 $editor    = $app->getInput()->getCmd('editor', '');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
