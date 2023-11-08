@@ -193,6 +193,11 @@ $atum-colors-dark: (
   choices-input-border-color:      #495057, //TODO
   choices-input-bg:                var(--dark-bg-subtle), //OK?
 
+  // switches
+  switcher-toggle-inside-bg:       var(--dark-bg-subtle),
+  switcher-toggle-outside-off-bg:  var(--gray-700),
+  switcher-toggle-outside-on-bg:   var(--success),
+
   // input
   input-border-color:              #495057, //var(--template-bg-dark-20),
 

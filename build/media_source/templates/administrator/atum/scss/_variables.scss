@@ -271,6 +271,11 @@ $atum-colors: (
   choices-input-border-color:      var(--body-bg), //TODO
   choices-input-bg:                var(--body-bg),
 
+  // switcher
+  switcher-toggle-inside-bg:       #fff,
+  switcher-toggle-outside-off-bg:  #d3d3d3,
+  switcher-toggle-outside-on-bg:   #2f7d32,
+
   // input
   input-border-color:               var(--template-bg-dark-20),
 
@@ -719,6 +724,11 @@ $modal-joomla-dialog-box-shadow:   var(--modal-joomla-dialog-box-shadow);
 $choices__button_joomla-focus-box-shadow:  var(--choices__button_joomla-focus-box-shadow);
 $choices-input-border-color:       var(--choices-input-border-color);
 $choices-input-bg:                 var(--choices-input-bg);
+
+// Switcher
+$switcher-toggle-inside-bg:        var(--switcher-toggle-inside-bg);
+$switcher-toggle-outside-off-bg:   var(--switcher-toggle-outside-off-bg);
+$switcher-toggle-outside-on-bg:    var(--switcher-toggle-outside-on-bg);
 
 // Joomla-Tab
 $joomla-tab-accordion-box-shadow:  var(--joomla-tab-accordion-box-shadow);

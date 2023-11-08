@@ -23,6 +23,9 @@
 // jQuery Minicolors
 @import "../../../../../../media/system/scss/jquery-minicolors";
 
+// System overrides
+@import "system/fields/switcher";
+
 // Vendor overrides
 @import "vendor/bootstrap/badge";
 @import "vendor/bootstrap/buttons";
