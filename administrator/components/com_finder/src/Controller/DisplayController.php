@@ -53,7 +53,7 @@ class DisplayController extends BaseController
         $filterId = $this->input->get('filter_id', null, 'int');
 
         if ($view === 'index') {
-            $pluginEnabled    = PluginHelper::isEnabled('finder', 'content');
+            $pluginEnabled    = PluginHelper::isEnabled('content', 'finder');
 
             if (!$pluginEnabled) {
                 $finderPluginId   = FinderHelper::getFinderPluginId();
@@ -65,6 +65,13 @@ class DisplayController extends BaseController
                 );
                 $this->app->enqueueMessage(Text::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED_LINK', $link), 'warning');
             }
+
+            if (!PluginHelper::getPlugin('finder')) {
+                $url = 'index.php?option=com_plugins&filter[folder]=finder';
+                $link = HTMLHelper::_('link', Route::_($url), Text::_('COM_FINDER_FINDER_PLUGINS'),);
+                $this->app->enqueueMessage(Text::sprintf('COM_FINDER_INDEX_PLUGIN_FINDER_NOT_ENABLED_LINK', $link), 'warning');
+            }
+
         }
 
         // Check for edit form.
