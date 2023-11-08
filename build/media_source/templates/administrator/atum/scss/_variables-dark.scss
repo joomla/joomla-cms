@@ -43,7 +43,7 @@ $atum-colors-dark: (
   dangerhvr:                       darken($danger-dark, 15%),
   darkdanger:                      #941f1c,
   error:                           #941f1c,
-  errorhvr:                      #be2824,
+  errorhvr:                        #be2824,
   warning:                         #996808,
   warninghvr:                      #ba7f0a,
   dark-mode-text-light:            #f7f7f7,
@@ -62,7 +62,7 @@ $atum-colors-dark: (
   //admin
   admin-background:                var(--body-bg),
   options-form-color:              var(--template-text-light),
-  options-form-bg:                 #52565b,
+  options-form-bg:                 var(--main-bg), //#484b51, //#52565b,
   options-form-border:             1px solid var(--template-bg-dark-80),
   options-form-legend-color:       var(--template-text-light),
   options-form-legend-bg:          var(--admin-background),
@@ -212,7 +212,7 @@ $atum-colors-dark: (
   // Icons
   icon-success:                    var(--successhvr),
   icon-success-border:             var(--successhvr),
-  icon-checkedout-color:           var(--gray-700),
+  icon-checkedout-color:           var(--gray-600),
 
   // Buttons
   btn-primary-color:               var(--text-normal),
@@ -287,7 +287,7 @@ $atum-colors-dark: (
   atum-btn-danger-border:           1px solid $danger,
   atum-btn-danger-hvr:              var(--template-text-light),
 
-  atum-btn-info:                    lighten(#494d53, 20%), /* #f0f4fb, */
+  atum-btn-info:                    lighten(#494d53, 50%), /* #f0f4fb, */
   atum-btn-info-bg:                 #494d53,
   atum-btn-info-border:             1px solid var(--atum-btn-info-bg),
   atum-btn-info-hvr:                var(--template-text-light),
