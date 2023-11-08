@@ -38,14 +38,14 @@ $atum-colors-dark: (
   image-bg-image:                  (linear-gradient(45deg, var(--body-bg) 25%, transparent 25%, transparent 75%, #111 75%, var(--body-bg) 100%),linear-gradient(45deg,#111 25%, transparent 25%, transparent 75%, var(--body-bg) 75%, var(--body-bg) 100%)),
 
   success:                         $success-dark,
-  successlight:                    lighten($success-dark, 25%),
+  successhvr:                      darken($success-dark, 15%),
   danger:                          $danger-dark,
-  dangerlight:                     lighten($danger-dark, 25%),
+  dangerhvr:                       darken($danger-dark, 15%),
   darkdanger:                      #941f1c,
   error:                           #941f1c,
-  errorlight:                      #be2824,
+  errorhvr:                      #be2824,
   warning:                         #996808,
-  warninglight:                    #ba7f0a,
+  warninghvr:                      #ba7f0a,
   dark-mode-text-light:            #f7f7f7,
   sidebar-bg:                      #0f151d,
   template-sidebar-bg:             #0f151d,
@@ -141,7 +141,7 @@ $atum-colors-dark: (
   header-logo-bg:                     var(--body-bg),
 
   // alerts
-  alert-accent-color:              #457d54,
+  alert-accent-color:              #479a59, //#457d54,
   alert-bg-color:                  #f2f8f4,
 
   // table:
@@ -179,11 +179,11 @@ $atum-colors-dark: (
   choices__button_joomla-focus-box-shadow: none,
   joomla-tab-accordion-box-shadow: none,
   joomla-tab-btn-hvr:              var(--template-text-light),
-  joomla-tab-btn-aria-exp-bg:      var(--atum-subhead-btn-bg),
-  joomla-tab-btn-region-border:    var(--atum-subhead-btn-bg),
+  joomla-tab-btn-aria-exp-bg:      var(--atum-btn-bg),
+  joomla-tab-btn-region-border:    var(--atum-btn-bg),
 
   // details
-  details-bg:                      #495057, //var(--atum-subhead-btn-bg),
+  details-bg:                      #495057, //var(--atum-btn-bg),
   details-border:                  1px solid var(--details-bg),
 
   // nav
@@ -210,8 +210,8 @@ $atum-colors-dark: (
   login-label-color:               var(--white),
 
   // Icons
-  icon-success:                    var(--successlight),
-  icon-success-border:             var(--successlight),
+  icon-success:                    var(--successhvr),
+  icon-success-border:             var(--successhvr),
 
 
   // Buttons
@@ -234,11 +234,11 @@ $atum-colors-dark: (
   // Alerts
   state-success-text:               var(--text-normal),
   state-success-bg:                 $success-dark,
-  state-success-border:             1px solid var(--successlight),
+  state-success-border:             1px solid var(--successhvr),
   state-success-btn-border:         1px solid $success-dark,
   state-success-icon:               var(--text-normal),
-  state-success-icon-hvr:           var(--successlight),
-  state-success-heading-bg:         var(--successlight),
+  state-success-icon-hvr:           var(--successhvr),
+  state-success-heading-bg:         var(--successhvr),
 
   state-info-text:                  var(--text-normal),
   state-info-bg:                    $button-and-icon-color-dark,
@@ -254,9 +254,9 @@ $atum-colors-dark: (
 
   state-danger-text:                var(--text-normal),
   state-danger-bg:                  var(--danger),
-  state-danger-border:              1px solid var(--dangerlight),
+  state-danger-border:              1px solid var(--dangerhvr),
   state-danger-icon:                var(--text-normal),
-  state-danger-heading-bg:          var(--dangerlight),
+  state-danger-heading-bg:          var(--dangerhvr),
 
   state-error-text:                 var(--text-normal),
   state-error-bg:                   var(--error),
@@ -272,34 +272,35 @@ $atum-colors-dark: (
   atum-subhead-color:               var(--template-text-dark),
   atum-subhead-bg:                  var(--body-bg),
   atum-subhead-bg-img:              (linear-gradient(var(--body-bg), var(--dark-bg))),
-  atum-subhead-btn-accent:          var(--template-text-dark),
-  atum-subhead-btn-color:           var(--template-text-light),
-  atum-subhead-btn-bg:              var(--button-and-icon-color),
-  atum-subhead-btn-border:          1px solid var(--atum-subhead-btn-bg),
-  atum-subhead-btn-hvr:             rgba(255, 255, 255, .9),
-  atum-subhead-btn-success:         var(--successlight),
-  atum-subhead-btn-success-bg:      $success-dark,
-  atum-subhead-btn-success-border:  1px solid $success-dark,
-  atum-subhead-btn-success-hvr:     var(--template-text-light),
-  atum-subhead-btn-danger:          var(--dangerlight),
-  atum-subhead-btn-danger-bg:       $danger,
-  atum-subhead-btn-danger-border:   1px solid $danger,
-  atum-subhead-btn-danger-hvr:      var(--template-text-light),
+  atum-btn-accent:                  var(--template-text-dark),
+  atum-btn-color:                   var(--template-text-light),
+  atum-btn-bg:                      var(--button-and-icon-color),
+  atum-btn-border:                  1px solid var(--atum-btn-bg),
+  atum-btn-hvr:                     rgba(255, 255, 255, .9),
+  atum-btn-success:                 var(--successhvr),
+  atum-btn-success-bg:              $success-dark,
+  atum-btn-success-border:          1px solid $success-dark,
+  atum-btn-success-hvr:             var(--template-text-light),
+  atum-btn-success-bg-accent:       var(--success),
+  atum-btn-danger:                  var(--dangerhvr),
+  atum-btn-danger-bg:               $danger,
+  atum-btn-danger-border:           1px solid $danger,
+  atum-btn-danger-hvr:              var(--template-text-light),
 
-  atum-subhead-btn-info:            lighten(#494d53, 20%), /* #f0f4fb, */
-  atum-subhead-btn-info-bg:         #494d53,
-  atum-subhead-btn-info-border:     1px solid var(--atum-subhead-btn-info-bg),
-  atum-subhead-btn-info-hvr:        var(--template-text-light),
+  atum-btn-info:                    lighten(#494d53, 20%), /* #f0f4fb, */
+  atum-btn-info-bg:                 #494d53,
+  atum-btn-info-border:             1px solid var(--atum-btn-info-bg),
+  atum-btn-info-hvr:                var(--template-text-light),
 
-  atum-subhead-btn-primary:         lighten($button-and-icon-color-dark, 25%),
-  atum-subhead-btn-primary-bg:      $button-and-icon-color-dark, //var(--template-bg-dark),
-  atum-subhead-btn-primary-border:  1px solid $button-and-icon-color-dark,
-  atum-subhead-btn-primary-hvr:     var(--template-text-light),
+  atum-btn-primary:                 lighten($button-and-icon-color-dark, 25%),
+  atum-btn-primary-bg:              $button-and-icon-color-dark, //var(--template-bg-dark),
+  atum-btn-primary-border:          1px solid $button-and-icon-color-dark,
+  atum-btn-primary-hvr:             var(--template-text-light),
 
-  atum-subhead-btn-secondary:       #f0f4fb,
-  atum-subhead-btn-action:          darken(#494d53,10%),
-  atum-subhead-btn-action-bg:       #494d53,
-  atum-subhead-btn-action-border:   1px solid var(--atum-subhead-btn-action-bg),
+  atum-btn-secondary:               #f0f4fb,
+  atum-btn-action:                  darken(#494d53,10%),
+  atum-btn-action-bg:               #494d53,
+  atum-btn-action-border:           1px solid var(--atum-btn-action-bg),
 
 
   atum-list-group-bg:               #05151d, //rgba(255, 255, 255, .05),

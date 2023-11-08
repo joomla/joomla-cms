@@ -12,6 +12,9 @@
     margin-bottom: 0;
   }
 }
+.btn-success {
+  background-color: $atum-btn-success-bg-accent;
+}
 
 .btn-primary {
   color: $btn-primary-color; /* var(--template-text-light); */
