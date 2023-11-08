@@ -92,7 +92,7 @@ abstract class FieldsPlugin extends CMSPlugin
     {
         $result = $this->onCustomFieldsPrepareField($event->getContext(), $event->getItem(), $event->getField());
 
-        if ($result) {
+        if ($result !== '' && $result !== null) {
             $event->addResult($result);
         }
     }
@@ -269,10 +269,6 @@ abstract class FieldsPlugin extends CMSPlugin
             $node->setAttribute('showon', $showon_attribute);
         }
 
-        if ($layout = $field->params->get('form_layout')) {
-            $node->setAttribute('layout', $layout);
-        }
-
         if ($field->default_value !== '') {
             $defaultNode = $node->appendChild(new \DOMElement('default'));
             $defaultNode->appendChild(new \DOMCdataSection($field->default_value));
@@ -282,14 +278,20 @@ abstract class FieldsPlugin extends CMSPlugin
         $params = clone $this->params;
         $params->merge($field->fieldparams);
 
+        $layout = $field->params->get('form_layout', $this->params->get('form_layout', ''));
+
+        if ($layout) {
+            $node->setAttribute('layout', $layout);
+        }
+
         // Set the specific field parameters
         foreach ($params->toArray() as $key => $param) {
-            if (is_array($param)) {
+            if (\is_array($param)) {
                 // Multidimensional arrays (eg. list options) can't be transformed properly
-                $param = count($param) == count($param, COUNT_RECURSIVE) ? implode(',', $param) : '';
+                $param = \count($param) == \count($param, COUNT_RECURSIVE) ? implode(',', $param) : '';
             }
 
-            if ($param === '' || (!is_string($param) && !is_numeric($param))) {
+            if ($param === '' || (!\is_string($param) && !is_numeric($param))) {
                 continue;
             }
 

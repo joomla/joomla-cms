@@ -60,7 +60,7 @@ class AfterDeleteEvent extends AbstractDeleteEvent
      *
      * @since  5.0.0
      */
-    protected function setDeletingResult(bool $value): bool
+    protected function onSetDeletingResult(bool $value): bool
     {
         return $value;
     }
@@ -74,7 +74,7 @@ class AfterDeleteEvent extends AbstractDeleteEvent
      *
      * @since  5.0.0
      */
-    protected function setErrorMessage(?string $value): ?string
+    protected function onSetErrorMessage(?string $value): ?string
     {
         return $value;
     }

@@ -81,7 +81,9 @@ class SiteCreatePublicFolderCommand extends AbstractCommand
         $this->publicFolder = rtrim((new InputFilter())->clean($this->publicFolder, 'PATH'), '/');
         $this->publicFolder = rtrim($this->publicFolder, '\\');
 
-        if (!((new PublicFolderGeneratorHelper())->createPublicFolder($this->publicFolder))) {
+        try {
+            (new PublicFolderGeneratorHelper())->createPublicFolder($this->publicFolder);
+        } catch (\Exception $e) {
             return Command::FAILURE;
         }
 

@@ -54,19 +54,6 @@ final class ActionLogs extends CMSPlugin
     }
 
     /**
-     * Listener for the `onAfterInitialise` event
-     *
-     * @return  void
-     *
-     * @since   4.0.0
-     */
-    public function onAfterInitialise()
-    {
-        // Load plugin language files.
-        $this->loadLanguage();
-    }
-
-    /**
      * Adds additional fields to the user editing form for logs e-mail notifications
      *
      * @param   Form   $form  The form to be altered.
@@ -87,7 +74,7 @@ final class ActionLogs extends CMSPlugin
             'com_users.user',
         ];
 
-        if (!in_array($formName, $allowedFormNames, true)) {
+        if (!\in_array($formName, $allowedFormNames, true)) {
             return true;
         }
 
@@ -101,6 +88,9 @@ final class ActionLogs extends CMSPlugin
             return true;
         }
 
+        // Load plugin language files.
+        $this->loadLanguage();
+
         // If we are on the save command, no data is passed to $data variable, we need to get it directly from request
         $jformData = $this->getApplication()->getInput()->get('jform', [], 'array');
 
@@ -108,7 +98,7 @@ final class ActionLogs extends CMSPlugin
             $data = $jformData;
         }
 
-        if (is_array($data)) {
+        if (\is_array($data)) {
             $data = (object) $data;
         }
 
@@ -145,11 +135,11 @@ final class ActionLogs extends CMSPlugin
      */
     public function onContentPrepareData($context, $data)
     {
-        if (!in_array($context, ['com_users.profile', 'com_users.user'])) {
+        if (!\in_array($context, ['com_users.profile', 'com_users.user'])) {
             return true;
         }
 
-        if (is_array($data)) {
+        if (\is_array($data)) {
             $data = (object) $data;
         }
 
@@ -175,6 +165,9 @@ final class ActionLogs extends CMSPlugin
         if (!$values) {
             return true;
         }
+
+        // Load plugin language files.
+        $this->loadLanguage();
 
         $data->actionlogs                       = new \stdClass();
         $data->actionlogs->actionlogsNotify     = $values->notify;

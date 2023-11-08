@@ -63,10 +63,10 @@ final class Image extends CMSPlugin
         if (
             $user->authorise('core.edit', $asset)
             || $user->authorise('core.create', $asset)
-            || (count($user->getAuthorisedCategories($asset, 'core.create')) > 0)
+            || (\count($user->getAuthorisedCategories($asset, 'core.create')) > 0)
             || ($user->authorise('core.edit.own', $asset) && $author === $user->id)
-            || (count($user->getAuthorisedCategories($extension, 'core.edit')) > 0)
-            || (count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author === $user->id)
+            || (\count($user->getAuthorisedCategories($extension, 'core.edit')) > 0)
+            || (\count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author === $user->id)
         ) {
             $doc->getWebAssetManager()
                 ->useScript('webcomponent.media-select')
@@ -76,7 +76,7 @@ final class Image extends CMSPlugin
             $doc->addScriptOptions('xtdImageModal', [$name . '_ImageModal']);
             $doc->addScriptOptions('media-picker-api', ['apiBaseUrl' => Uri::base() . 'index.php?option=com_media&format=json']);
 
-            if (count($doc->getScriptOptions('media-picker')) === 0) {
+            if (\count($doc->getScriptOptions('media-picker')) === 0) {
                 $imagesExt = array_map(
                     'trim',
                     explode(

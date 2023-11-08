@@ -22,3 +22,12 @@
     }
   }
 }
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .options-form {
+      color: var(--template-text-light);
+    }
+  }
+}
+

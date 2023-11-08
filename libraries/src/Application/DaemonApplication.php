@@ -547,9 +547,9 @@ abstract class DaemonApplication extends CliApplication
                 Log::add('Unable to change process owner.', Log::CRITICAL);
 
                 return false;
-            } else {
-                Log::add('Unable to change process owner.', Log::WARNING);
             }
+
+            Log::add('Unable to change process owner.', Log::WARNING);
         }
 
         // Setup the signal handlers for the daemon.
@@ -611,7 +611,9 @@ abstract class DaemonApplication extends CliApplication
         // If the fork failed, throw an exception.
         if ($pid === -1) {
             throw new \RuntimeException('The process could not be forked.');
-        } elseif ($pid === 0) {
+        }
+
+        if ($pid === 0) {
             // Update the process id for the child.
             $this->processId = (int) posix_getpid();
         } else {
@@ -692,10 +694,10 @@ abstract class DaemonApplication extends CliApplication
         // If we are already exiting, chill.
         if ($this->exiting) {
             return;
-        } else {
-            // If not, now we are.
-            $this->exiting = true;
         }
+
+        // If not, now we are.
+        $this->exiting = true;
 
         // If we aren't already daemonized then just kill the application.
         if (!$this->running && !$this->isActive()) {

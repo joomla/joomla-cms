@@ -17,7 +17,6 @@ use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Version;
 use Joomla\Filesystem\File;
@@ -70,10 +69,6 @@ abstract class InstallerHelper
      */
     public static function downloadPackage($url, $target = false)
     {
-        // Capture PHP errors
-        $track_errors = ini_get('track_errors');
-        ini_set('track_errors', true);
-
         // Set user agent
         $version = new Version();
         ini_set('user_agent', $version->getUserAgent('Installer'));
@@ -83,11 +78,12 @@ abstract class InstallerHelper
         $dispatcher = Factory::getApplication()->getDispatcher();
         PluginHelper::importPlugin('installer', null, true, $dispatcher);
         $event = new BeforePackageDownloadEvent('onInstallerBeforePackageDownload', [
-            'url'     => &$url, // TODO: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
-            'headers' => new ArrayProxy($headers),
+            'url'     => &$url, // @todo: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
+            'headers' => &$headers, // @todo: Remove reference in Joomla 6, see BeforePackageDownloadEvent::__constructor()
         ]);
         $dispatcher->dispatch('onInstallerBeforePackageDownload', $event);
-        $url = $event->getUrl();
+        $url     = $event->getArgument('url', $url);
+        $headers = $event->getArgument('headers', $headers);
 
         try {
             $response = HttpFactory::getHttp()->get($url, $headers);
@@ -102,7 +98,9 @@ abstract class InstallerHelper
 
         if (302 == $response->code && !empty($headers['location'])) {
             return self::downloadPackage($headers['location']);
-        } elseif (200 != $response->code) {
+        }
+
+        if (200 != $response->code) {
             Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), Log::WARNING, 'jerror');
 
             return false;
@@ -131,9 +129,6 @@ abstract class InstallerHelper
 
         // Write buffer to file
         File::write($target, $body);
-
-        // Restore error tracking to what it was before
-        ini_set('track_errors', $track_errors);
 
         // Bump the max execution time because not using built in php zip libs are slow
         if (\function_exists('set_time_limit')) {
@@ -232,9 +227,9 @@ abstract class InstallerHelper
 
         if ($alwaysReturnArray || $retval['type']) {
             return $retval;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

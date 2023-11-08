@@ -89,7 +89,7 @@ class DisplayController extends BaseController
 
         $model = $this->getModel('Checkin');
 
-        $amount = (int) count($model->getItems());
+        $amount = (int) \count($model->getItems());
 
         echo new JsonResponse($amount);
     }
@@ -110,7 +110,7 @@ class DisplayController extends BaseController
 
         $model = $this->getModel('Checkin');
 
-        $amount = (int) count($model->getItems());
+        $amount = (int) \count($model->getItems());
 
         $result = [];
 

@@ -26,14 +26,6 @@ use Joomla\Router\Route;
 final class Privacy extends CMSPlugin
 {
     /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     * @since  4.0.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Registers com_privacy's API's routes in the application
      *
      * @param   ApiRouter  &$router  The API Routing object
@@ -59,7 +51,6 @@ final class Privacy extends CMSPlugin
         $routes = [
             new Route(['GET'], 'v1/privacy/consents', 'consents.displayList', [], $getDefaults),
             new Route(['GET'], 'v1/privacy/consents/:id', 'consents.displayItem', ['id' => '(\d+)'], $getDefaults),
-            new Route(['DELETE'], 'v1/privacy/consents/:id', 'consents.delete', ['id' => '(\d+)'], $defaults),
         ];
 
         $router->addRoutes($routes);

@@ -37,14 +37,6 @@ final class PrivacyConsent extends CMSPlugin
     use DatabaseAwareTrait;
 
     /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     * @since  3.9.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Adds additional fields to the user editing form
      *
      * @param   Form   $form  The form to be altered.
@@ -59,12 +51,15 @@ final class PrivacyConsent extends CMSPlugin
         // Check we are manipulating a valid form - we only display this on user registration form and user profile form.
         $name = $form->getName();
 
-        if (!in_array($name, ['com_users.profile', 'com_users.registration'])) {
+        if (!\in_array($name, ['com_users.profile', 'com_users.registration'])) {
             return true;
         }
 
+        // Load plugin language files
+        $this->loadLanguage();
+
         // We only display this if user has not consented before
-        if (is_object($data)) {
+        if (\is_object($data)) {
             $userId = $data->id ?? 0;
 
             if ($userId > 0 && $this->isUserConsented($userId)) {
@@ -107,6 +102,9 @@ final class PrivacyConsent extends CMSPlugin
 
         $userId = ArrayHelper::getValue($user, 'id', 0, 'int');
 
+        // Load plugin language files
+        $this->loadLanguage();
+
         // User already consented before, no need to check it further
         if ($userId > 0 && $this->isUserConsented($userId)) {
             return true;
@@ -119,7 +117,7 @@ final class PrivacyConsent extends CMSPlugin
         $form   = $input->post->get('jform', [], 'array');
 
         if (
-            $option == 'com_users' && in_array($task, ['registration.register', 'profile.save'])
+            $option == 'com_users' && \in_array($task, ['registration.register', 'profile.save'])
             && empty($form['privacyconsent']['privacy'])
         ) {
             throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_SYSTEM_PRIVACYCONSENT_FIELD_ERROR'));
@@ -162,7 +160,7 @@ final class PrivacyConsent extends CMSPlugin
 
         if (
             $option == 'com_users'
-            && in_array($task, ['registration.register', 'profile.save'])
+            && \in_array($task, ['registration.register', 'profile.save'])
             && !empty($form['privacyconsent']['privacy'])
         ) {
             $userId = ArrayHelper::getValue($data, 'id', 0, 'int');
@@ -256,6 +254,9 @@ final class PrivacyConsent extends CMSPlugin
 
         // Check to see whether user already consented, if not, redirect to user profile page
         if ($userId > 0) {
+            // Load plugin language files
+            $this->loadLanguage();
+
             // If user consented before, no need to check it further
             if ($this->isUserConsented($userId)) {
                 return;
@@ -278,7 +279,7 @@ final class PrivacyConsent extends CMSPlugin
                 'profile.save', 'profile.apply', 'user.logout', 'user.menulogout',
                 'method', 'methods', 'captive', 'callback',
             ];
-            $isAllowedUserTask = in_array($task, $allowedUserTasks)
+            $isAllowedUserTask = \in_array($task, $allowedUserTasks)
                 || substr($task, 0, 8) === 'captive.'
                 || substr($task, 0, 8) === 'methods.'
                 || substr($task, 0, 7) === 'method.'
@@ -346,6 +347,8 @@ final class PrivacyConsent extends CMSPlugin
 
         $policy['published'] = true;
         $policy['editLink']  = Route::_('index.php?option=com_content&task=article.edit&id=' . $articleId);
+
+        $event->updatePolicyInfo($policy);
     }
 
     /**
@@ -430,7 +433,7 @@ final class PrivacyConsent extends CMSPlugin
 
         if ($itemId > 0 && Associations::isEnabled()) {
             $privacyAssociated = Associations::getAssociations('com_menus', '#__menu', 'com_menus.item', $itemId, 'id', '', '');
-            $currentLang       = $this->getApplication()->getTag();
+            $currentLang       = $this->getApplication()->getLanguage()->getTag();
 
             if (isset($privacyAssociated[$currentLang])) {
                 $itemId = $privacyAssociated[$currentLang]->id;
