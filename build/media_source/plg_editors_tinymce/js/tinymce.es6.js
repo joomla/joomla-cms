@@ -155,6 +155,18 @@ Joomla.JoomlaTinyMCE = {
       options.target = element;
     }
 
+    const skinLight = options.skin_light;
+    const skinDark = options.skin_dark;
+
+    if ('colorSchemeOs' in document.body.dataset) {
+      options.skin = (window.matchMedia('(prefers-color-scheme: dark)').matches ? skinDark : skinLight);
+    } else {
+      options.skin = skinLight;
+    }
+
+    delete options.skin_light;
+    delete options.skin_dark;
+
     // Ensure tinymce is initialised in readonly mode if the textarea has readonly applied
     let readOnlyMode = false;
 

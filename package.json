@@ -51,6 +51,7 @@
     "@codemirror/lint": "^6.4.1",
     "@codemirror/search": "^6.5.2",
     "@codemirror/state": "^6.2.1",
+    "@codemirror/theme-one-dark": "^6.1.2",
     "@codemirror/view": "^6.17.1",
     "@fortawesome/fontawesome-free": "^6.4.2",
     "@joomla/joomla-a11y-checker": "^1.0.0",
