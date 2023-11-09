@@ -23,6 +23,13 @@ if ($item->anchor_css) {
     $attributes['class'] = $item->anchor_css;
 }
 
+$attributes['data-elements'] = '';
+if ($item->data_elements) {
+    foreach ($item->data_elements as $data_element) {
+        $attributes[$data_element->name] = $data_element->value;
+    }
+}
+
 if ($item->anchor_rel) {
     $attributes['rel'] = $item->anchor_rel;
 }

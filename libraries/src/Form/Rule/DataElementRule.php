@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * Joomla! Content Management System
+ *
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+namespace Joomla\CMS\Form\Rule;
+
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormRule;
+use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
+/**
+ * Form Rule class for the Joomla Platform.
+ *
+ * @since  4.0.0
+ */
+class DataElementRule extends FormRule
+{
+    /**
+     * Method to test if the file path is valid
+     *
+     * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+     * @param   mixed              $value    The form field value to validate.
+     * @param   string             $group    The field name group control value. This acts as an array container for the field.
+     *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+     *                                       full field name would end up being "bar[foo]".
+     * @param   ?Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
+     * @param   ?Form              $form     The form object for which the field is being tested.
+     *
+     * @return  boolean  True if the value is valid, false otherwise.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    {
+        // If the field is empty and not required, the field is valid.
+        $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
+
+        if (!$required && empty($value) && $value !== '0') {
+            return true;
+        }
+
+        /**
+         * The following regex rules are based on the CssIdentifierSubstringRule.
+         */
+
+         if (preg_match('/[^\\x{002D}\\x{0030}-\\x{0039}\\x{0040}-\\x{005A}\\x{005F}\\x{003A}\\x{0061}-\\x{007A}\\x{00A1}-\\x{FFFF}]/u', $value)) {
+            return false;
+        }
+
+        /**
+         * Full identifiers cannot start with a digit, two hyphens, or a hyphen followed by a digit.
+         */
+        if (preg_match('/^[0-9]/', $value) || preg_match('/^(-[0-9])|^(--)/', $value)) {
+            return false;
+        }
+
+        return true;
+    }
+}

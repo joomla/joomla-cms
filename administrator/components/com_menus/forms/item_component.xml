@@ -17,6 +17,30 @@
 			/>
 
 			<field
+				name="menu-data_elements"
+				type="subform"
+				label="COM_MENUS_ITEM_FIELD_DATA_ELEMENT_LABEL"
+				multiple="true"
+				layout="joomla.form.field.subform.repeatable-table"
+				>
+				<form>
+					<field
+						name="name"
+						type="text"
+						label="COM_MENUS_ITEM_FIELD_DATA_ELEMENT_NAME_LABEL"
+						validate="DataElement"
+					/>
+					<field
+						name="value"
+						type="text"
+						label="COM_MENUS_ITEM_FIELD_DATA_ELEMENT_VALUE_LABEL"
+						default=""
+						validate="DataElement"
+					/>
+				</form>
+			</field>
+
+			<field
 				name="menu_icon_css"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_ICON_TITLE_LABEL"
