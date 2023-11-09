@@ -79,22 +79,19 @@ $multilang = Multilanguage::isEnabled();
                 ];
                 ?>
                 <?php foreach ($this->items as $i => $item) : ?>
-                    <?php if ($item->language && $multilang) {
-                        $tag = strlen($item->language);
+                    <?php
+                    $lang = '';
+                    if ($item->language && $multilang) {
+                        $tag = \strlen($item->language);
                         if ($tag == 5) {
                             $lang = substr($item->language, 0, 2);
                         } elseif ($tag == 6) {
                             $lang = substr($item->language, 0, 3);
-                        } else {
-                            $lang = '';
                         }
-                    } elseif (!$multilang) {
-                        $lang = '';
                     }
 
                     $link     = RouteHelper::getNewsfeedRoute($item->id, $item->catid, $item->language);
                     $itemHtml = '<a href="' . $this->escape($link) . '"' . ($lang ? ' hreflang="' . $lang . '"' : '') . '>' . $item->name . '</a>';
-
                     ?>
                     <tr class="row<?php echo $i % 2; ?>">
                         <td class="text-center">
@@ -112,7 +109,7 @@ $multilang = Multilanguage::isEnabled();
                                 . ' data-html="' . $this->escape($itemHtml) . '"';
                             ?>
                             <a href="javascript:void(0)" <?php echo $attribs; ?>
-                               onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape($link); ?>', '<?php echo $this->escape($lang); ?>', null);">
+                               onclick="if (window.parent && !window.parent.JoomlaExpectingPostMessage) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape($link); ?>', '<?php echo $this->escape($lang); ?>', null);">
                             <?php echo $this->escape($item->name); ?></a>
                             <div class="small">
                                 <?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
