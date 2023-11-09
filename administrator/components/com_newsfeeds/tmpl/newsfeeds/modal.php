@@ -24,6 +24,7 @@ $wa->useScript('core');
 
 $app = Factory::getApplication();
 
+// @todo: Use of Function is deprecated and should be removed in 6.0. It stays only for backward compatibility.
 $function  = $app->getInput()->getCmd('function', 'jSelectNewsfeed');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -90,6 +91,10 @@ $multilang = Multilanguage::isEnabled();
                     } elseif (!$multilang) {
                         $lang = '';
                     }
+
+                    $link     = RouteHelper::getNewsfeedRoute($item->id, $item->catid, $item->language);
+                    $itemHtml = '<a href="' . $this->escape($link) . '"' . ($lang ? ' hreflang="' . $lang . '"' : '') . '>' . $item->name . '</a>';
+
                     ?>
                     <tr class="row<?php echo $i % 2; ?>">
                         <td class="text-center">
@@ -98,7 +103,16 @@ $multilang = Multilanguage::isEnabled();
                             </span>
                         </td>
                         <th scope="row">
-                            <a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(RouteHelper::getNewsfeedRoute($item->id, $item->catid, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
+                            <?php $attribs = 'data-content-select data-content-type="com_newsfeeds.newsfeed"'
+                                . ' data-id="' . $item->id . '"'
+                                . ' data-title="' . $this->escape($item->title) . '"'
+                                . ' data-cat-id="' . $this->escape($item->catid) . '"'
+                                . ' data-uri="' . $this->escape($link) . '"'
+                                . ' data-language="' . $this->escape($lang) . '"'
+                                . ' data-html="' . $this->escape($itemHtml) . '"';
+                            ?>
+                            <a href="javascript:void(0)" <?php echo $attribs; ?>
+                               onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape($link); ?>', '<?php echo $this->escape($lang); ?>', null);">
                             <?php echo $this->escape($item->name); ?></a>
                             <div class="small">
                                 <?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
