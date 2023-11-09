@@ -182,7 +182,7 @@ class NewsfeedField extends ModalSelectField
     {
         $layout = parent::getRenderer($layoutId);
         $layout->setComponent('com_newsfeeds');
-        $layout->setClient(1);
+        $layout->setClient(1);;
 
         return $layout;
     }
