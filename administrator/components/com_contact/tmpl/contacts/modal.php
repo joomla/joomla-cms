@@ -117,7 +117,7 @@ if (!empty($editor)) {
                             </span>
                         </td>
                         <th scope="row">
-                            <?php $attribs = 'data-content-select data-content-type="com_content.article"'
+                            <?php $attribs = 'data-content-select data-content-type="com_contact.contact"'
                                 . 'data-function="' . $this->escape($onclick) . '"'
                                 . ' data-id="' . $item->id . '"'
                                 . ' data-title="' . $this->escape($item->name) . '"'
