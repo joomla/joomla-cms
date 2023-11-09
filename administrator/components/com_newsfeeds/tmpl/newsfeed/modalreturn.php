@@ -13,13 +13,13 @@ defined('_JEXEC') or die;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
 $icon     = 'icon-check';
-$title    = $this->item ? $this->item->title : '';
+$title    = $this->item ? $this->item->name : '';
 $content  = $this->item ? $this->item->alias : '';
 $data     = ['contentType' => 'com_newsfeeds.newsfeed'];
 
 if ($this->item) {
     $data['id']    = $this->item->id;
-    $data['title'] = $this->item->title;
+    $data['title'] = $this->item->name;
     $data['catId'] = $this->item->catid;
     $data['uri']   = RouteHelper::getNewsfeedRoute($this->item->id, $this->item->catid, $this->item->language);
 }
