@@ -20,7 +20,8 @@ use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('core');
+$wa->useScript('core')
+    ->useScript('modal-content-select');
 
 $app = Factory::getApplication();
 
@@ -102,7 +103,7 @@ $multilang = Multilanguage::isEnabled();
                         <th scope="row">
                             <?php $attribs = 'data-content-select data-content-type="com_newsfeeds.newsfeed"'
                                 . ' data-id="' . $item->id . '"'
-                                . ' data-title="' . $this->escape($item->title) . '"'
+                                . ' data-title="' . $this->escape($item->name) . '"'
                                 . ' data-cat-id="' . $this->escape($item->catid) . '"'
                                 . ' data-uri="' . $this->escape($link) . '"'
                                 . ' data-language="' . $this->escape($lang) . '"'
