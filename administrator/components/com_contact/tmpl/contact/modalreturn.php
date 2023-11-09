@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Contact\Site\Helper\RouteHelper;
+
 $icon     = 'icon-check';
 $title    = $this->item ? $this->item->name : '';
 $content  = $this->item ? $this->item->alias : '';
@@ -19,7 +21,7 @@ if ($this->item) {
     $data['id']    = $this->item->id;
     $data['title'] = $this->item->name;
     $data['catId'] = $this->item->catid;
-    $data['uri']   = 'index.php?option=com_contact&view=contact&id=' . $this->item->id;
+    $data['uri']   = RouteHelper::getContactRoute($this->item->id, $this->item->catid, $this->item->language);
 }
 
 // Add Content select script
