@@ -8,9 +8,9 @@ const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
 const { renderSync } = require('sass-embedded');
+const LightningCSS = require('lightningcss');
 const { minifyJsCode } = require('./minify.es6.js');
 const { getPackagesUnderScope } = require('../init/common/resolve-package.es6.js');
-const LightningCSS = require('lightningcss');
 
 const getWcMinifiedCss = async (file) => {
   let scssFileExists = false;

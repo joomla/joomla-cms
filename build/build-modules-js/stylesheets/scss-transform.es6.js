@@ -34,7 +34,7 @@ module.exports.compile = async (file) => {
   const cssMin = LightningCSS.transform({
     code: Buffer.from(code),
     minify: true,
-    exclude: LightningCSS.Features.VendorPrefixes
+    exclude: LightningCSS.Features.VendorPrefixes,
   });
 
   // Ensure the folder exists or create it
