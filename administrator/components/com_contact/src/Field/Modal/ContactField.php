@@ -12,7 +12,6 @@ namespace Joomla\Component\Contact\Administrator\Field\Modal;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ModalSelectField;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
