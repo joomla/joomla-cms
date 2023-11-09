@@ -11,10 +11,11 @@
 namespace Joomla\Component\Newsfeeds\Administrator\Field\Modal;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Form\Field\ModalSelectField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Session\Session;
 use Joomla\Database\ParameterType;
 
@@ -27,7 +28,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class NewsfeedField extends FormField
+class NewsfeedField extends ModalSelectField
 {
     /**
      * The form field type.
@@ -38,13 +39,51 @@ class NewsfeedField extends FormField
     protected $type = 'Modal_Newsfeed';
 
     /**
+     * Method to attach a Form object to the field.
+     *
+     * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+     * @param   mixed              $value    The form field value to validate.
+     * @param   string             $group    The field name group control value.
+     *
+     * @return  boolean  True on success.
+     *
+     * @see     FormField::setup()
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setup(\SimpleXMLElement $element, $value, $group = null)
+    {
+        // Check if the value consist with id:alias, extract the id only
+        if ($value && str_contains($value, ':')) {
+            [$id]  = explode(':', $value, 2);
+            $value = (int) $id;
+        }
+
+        $result = parent::setup($element, $value, $group);
+
+        if (!$result) {
+            return $result;
+        }
+
+        Factory::getApplication()->getLanguage()->load('com_newsfeeds', JPATH_ADMINISTRATOR);
+
+        $languages = LanguageHelper::getContentLanguages([0, 1], false);
+        $language  = (string) $this->element['language'];
+
+        // Prepare enabled actions
+        $this->canDo['propagate']  = ((string) $this->element['propagate'] == 'true') && \count($languages) > 2;
+
+
+        return $result;
+    }
+
+    /**
      * Method to get the field input markup.
      *
      * @return  string  The field input markup.
      *
      * @since   1.6
      */
-    protected function getInput()
+    protected function getInput1()
     {
         $allowNew       = ((string) $this->element['new'] == 'true');
         $allowEdit      = ((string) $this->element['edit'] == 'true');
@@ -299,8 +338,72 @@ class NewsfeedField extends FormField
      *
      * @since   3.4
      */
-    protected function getLabel()
+    protected function getLabel1()
     {
         return str_replace($this->id, $this->id . '_name', parent::getLabel());
+    }
+
+    /**
+     * Method to retrieve the title of selected item.
+     *
+     * @return string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getValueTitle()
+    {
+        $value = (int) $this->value ?: '';
+        $title = '';
+
+        if ($value) {
+            try {
+                $db    = $this->getDatabase();
+                $query = $db->getQuery(true)
+                    ->select($db->quoteName('name'))
+                    ->from($db->quoteName('#__newsfeeds'))
+                    ->where($db->quoteName('id') . ' = :value')
+                    ->bind(':value', $value, ParameterType::INTEGER);
+                $db->setQuery($query);
+
+                $title = $db->loadResult();
+            } catch (\Throwable $e) {
+                Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+            }
+        }
+
+        return $title ?: $value;
+    }
+
+    /**
+     * Method to get the data to be passed to the layout for rendering.
+     *
+     * @return  array
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected function getLayoutData()
+    {
+        $data             = parent::getLayoutData();
+        $data['language'] = (string) $this->element['language'];
+
+        return $data;
+    }
+
+    /**
+     * Get the renderer
+     *
+     * @param   string  $layoutId  Id to load
+     *
+     * @return  FileLayout
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getRenderer($layoutId = 'default')
+    {
+        $layout = parent::getRenderer($layoutId);
+        $layout->setComponent('com_newsfeeds');
+        $layout->setClient(1);
+
+        return $layout;
     }
 }
