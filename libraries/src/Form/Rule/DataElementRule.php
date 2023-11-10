@@ -52,7 +52,7 @@ class DataElementRule extends FormRule
          * The following regex rules are based on the CssIdentifierSubstringRule.
          */
 
-         if (preg_match('/[^\\x{002D}\\x{0030}-\\x{0039}\\x{0040}-\\x{005A}\\x{005F}\\x{003A}\\x{0061}-\\x{007A}\\x{00A1}-\\x{FFFF}]/u', $value)) {
+        if (preg_match('/[^\\x{002D}\\x{0030}-\\x{0039}\\x{0040}-\\x{005A}\\x{005F}\\x{003A}\\x{0061}-\\x{007A}\\x{00A1}-\\x{FFFF}]/u', $value)) {
             return false;
         }
 
