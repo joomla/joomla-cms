@@ -20,7 +20,7 @@ class JMultiSelect {
       if (!event.target.closest(this.rowSelector)) {
         return;
       }
-      this.onRowClick(event)
+      this.onRowClick(event);
     });
 
     if (this.checkallToggle) {
@@ -39,8 +39,9 @@ class JMultiSelect {
   }
 
   // Changes the row class depends on selection
+  // eslint-disable-next-line class-methods-use-this
   changeBg(row, isChecked) {
-    row.classList.toggle('row-selected', isChecked)
+    row.classList.toggle('row-selected', isChecked);
   }
 
   // Handle click on a row
@@ -48,14 +49,13 @@ class JMultiSelect {
     // Do not interfere with links, buttons, inputs
     if (target.tagName && (target.tagName === 'A' || target.tagName === 'BUTTON'
       || target.tagName === 'SELECT' || target.tagName === 'TEXTAREA'
-      || (target.tagName === 'INPUT' && !target.matches(this.boxSelector)) )) {
+      || (target.tagName === 'INPUT' && !target.matches(this.boxSelector)))) {
       return;
     }
 
     // Get clicked row and checkbox in it
     const currentRow = target.closest(this.rowSelector);
-    const currentBox = currentRow ?
-      (target.matches(this.boxSelector) ? target : currentRow.querySelector(this.boxSelector)) : false;
+    const currentBox = currentRow ? (target.matches(this.boxSelector) ? target : currentRow.querySelector(this.boxSelector)) : false;
 
     if (!currentBox) {
       return;
@@ -80,7 +80,7 @@ class JMultiSelect {
       const idxEnd = rows.indexOf(currentRow);
 
       // Check for more than 2 row selected
-      if (idxStart >=0 && idxEnd >= 0 && Math.abs(idxStart - idxEnd) > 1) {
+      if (idxStart >= 0 && idxEnd >= 0 && Math.abs(idxStart - idxEnd) > 1) {
         const slice = idxStart < idxEnd ? rows.slice(idxStart, idxEnd + 1) : rows.slice(idxEnd, idxStart + 1);
 
         slice.forEach((row) => {
@@ -106,7 +106,7 @@ const onBoot = (container) => {
   const confSelector = window.Joomla ? Joomla.getOptions('js-multiselect', {}).formName : '';
 
   if (confSelector) {
-    let pref = confSelector[0];
+    const pref = confSelector[0];
     selector = (pref !== '.' && pref !== '#') ? `#${confSelector}` : confSelector;
   }
 
