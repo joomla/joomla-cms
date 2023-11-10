@@ -46,7 +46,7 @@ class BeforeDisplayMethods extends AbstractImmutableEvent
      * @return  User
      * @since   4.2.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 6.0
      *               Use counterpart with onSet prefix
      */
     public function setUser(User $value): User
@@ -64,7 +64,7 @@ class BeforeDisplayMethods extends AbstractImmutableEvent
      * @param   User  $value  The value to validate
      *
      * @return  User
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     protected function onSetUser(User $value): User
     {

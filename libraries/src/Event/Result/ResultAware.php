@@ -87,7 +87,7 @@ trait ResultAware
      * @return  array
      * @since   4.2.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 6.0
      *                Use counterpart with onSet prefix
      */
     protected function setResult(array $value)
@@ -121,7 +121,7 @@ trait ResultAware
      * @param   array  $value  The new result array.
      *
      * @return  array
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     protected function onSetResult(array $value)
     {

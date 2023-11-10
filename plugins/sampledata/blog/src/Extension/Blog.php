@@ -799,16 +799,16 @@ final class Blog extends CMSPlugin
         $menuTypes = [];
 
         for ($i = 0; $i <= 2; $i++) {
+            $title = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_TITLE');
+
             $menu = [
                 'id'          => 0,
-                'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_TITLE') . $langSuffix,
+                'title'       => $title . ' ' . $langSuffix,
                 'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_DESCRIPTION'),
             ];
 
-            // Calculate menutype. The number of characters allowed is 24.
-            $type = HTMLHelper::_('string.truncate', $menu['title'], 23, true, false);
-
-            $menu['menutype'] = $i . $type;
+            // Calculate menutype. The maximum number of characters allowed is 24.
+            $menu['menutype'] = $i . HTMLHelper::_('string.truncate', $title, 16, true, false) . $langSuffix;
 
             try {
                 $menuTable->load();
