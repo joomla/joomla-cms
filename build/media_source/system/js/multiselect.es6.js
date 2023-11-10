@@ -7,31 +7,35 @@
  * JavaScript behavior to allow shift select in administrator grids
  */
 class JMultiSelect {
-  constructor(formElement) {
-    this.tableEl = formElement;
+  constructor(container) {
+    this.tableEl = container;
+    this.formEl = container.closest('form');
     this.rowSelector = 'tr[class^="row"]';
     this.boxSelector = 'input[type="checkbox"][name="cid[]"]';
-    this.rows = Array.from(this.tableEl.querySelectorAll(this.rowSelector));
     this.checkallToggle = this.tableEl.querySelector('[name="checkall-toggle"]');
     this.prevRow = null;
 
-    this.onRowClick = this.onRowClick.bind(this);
-
-    this.rows.forEach((row) => {
-      row.addEventListener('click', this.onRowClick);
+    // Use delegation listener, to allow dynamic tables
+    this.tableEl.addEventListener('click', (event) => {
+      if (!event.target.closest(this.rowSelector)) {
+        return;
+      }
+      this.onRowClick(event)
     });
 
     if (this.checkallToggle) {
       this.checkallToggle.addEventListener('click', ({ target }) => {
         const isChecked = target.checked;
 
-        this.rows.forEach((row) => {
+        this.getRows().forEach((row) => {
           this.changeBg(row, isChecked);
         });
       });
     }
+  }
 
-    console.log(this)
+  getRows() {
+    return Array.from(this.tableEl.querySelectorAll(this.rowSelector));
   }
 
   // Changes the row class depends on selection
@@ -57,11 +61,11 @@ class JMultiSelect {
       return;
     }
 
-    const isChecked = !currentBox.checked;
+    const isChecked = (currentBox !== target) ? !currentBox.checked : currentBox.checked;
 
-    if (currentBox !== target) {
+    if (isChecked !== currentBox.checked) {
       currentBox.checked = isChecked;
-      Joomla.isChecked(isChecked, this.tableEl);
+      Joomla.isChecked(isChecked, this.formEl);
     }
     this.changeBg(currentRow, isChecked);
 
@@ -71,12 +75,12 @@ class JMultiSelect {
       document.getSelection().removeAllRanges();
 
       // Re-query all rows, because they may be modified during sort operations
-      const rows = Array.from(this.tableEl.querySelectorAll(this.rowSelector));
+      const rows = this.getRows();
       const idxStart = rows.indexOf(this.prevRow);
       const idxEnd = rows.indexOf(currentRow);
 
       // Check for more than 2 row selected
-      if (Math.abs(idxStart - idxEnd) > 1) {
+      if (idxStart >=0 && idxEnd >= 0 && Math.abs(idxStart - idxEnd) > 1) {
         const slice = idxStart < idxEnd ? rows.slice(idxStart, idxEnd + 1) : rows.slice(idxEnd, idxStart + 1);
 
         slice.forEach((row) => {
@@ -84,10 +88,10 @@ class JMultiSelect {
             return;
           }
           const rowBox = row.querySelector(this.boxSelector);
-          if (rowBox) {
+          if (rowBox && rowBox.checked !== isChecked) {
             rowBox.checked = isChecked;
-            Joomla.isChecked(isChecked, this.tableEl);
             this.changeBg(row, isChecked);
+            Joomla.isChecked(isChecked, this.formEl);
           }
         });
       }
@@ -98,16 +102,21 @@ class JMultiSelect {
 }
 
 const onBoot = (container) => {
-  let formId = '#adminForm';
-  if (Joomla && Joomla.getOptions('js-multiselect', {}).formName) {
-    formId = `#${Joomla.getOptions('js-multiselect', {}).formName}`;
+  let selector = '#adminForm';
+  const confSelector = window.Joomla ? Joomla.getOptions('js-multiselect', {}).formName : '';
+
+  if (confSelector) {
+    let pref = confSelector[0];
+    selector = (pref !== '.' && pref !== '#') ? `#${confSelector}` : confSelector;
   }
-  const formElement = container.querySelector(formId);
-  if (formElement && !('multiselect' in formElement.dataset)) {
-    formElement.dataset.multiselect = '';
-    // eslint-disable-next-line no-new
-    new JMultiSelect(formElement);
-  }
+
+  container.querySelectorAll(selector).forEach((formElement) => {
+    if (formElement && !('multiselect' in formElement.dataset)) {
+      formElement.dataset.multiselect = '';
+      // eslint-disable-next-line no-new
+      new JMultiSelect(formElement);
+    }
+  });
 };
 
 document.addEventListener('DOMContentLoaded', () => onBoot(document));
