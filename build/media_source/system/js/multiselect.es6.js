@@ -55,8 +55,7 @@ class JMultiSelect {
 
     // Get clicked row and checkbox in it
     const currentRow = target.closest(this.rowSelector);
-    const currentBox = currentRow ? (target.matches(this.boxSelector) ? target : currentRow.querySelector(this.boxSelector)) : false;
-
+    const currentBox = target.matches(this.boxSelector) ? target : currentRow.querySelector(this.boxSelector);
     if (!currentBox) {
       return;
     }
