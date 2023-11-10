@@ -57,33 +57,39 @@ class JMultiSelect {
       return;
     }
 
+    const isChecked = !currentBox.checked;
+
     if (currentBox !== target) {
-      currentBox.checked = !currentBox.checked;
-      Joomla.isChecked(currentBox.checked, this.tableEl);
+      currentBox.checked = isChecked;
+      Joomla.isChecked(isChecked, this.tableEl);
     }
+    this.changeBg(currentRow, isChecked);
 
-    this.changeBg(currentRow, currentBox.checked);
-
-    if (shiftKey) {
+    // Select rows in range
+    if (shiftKey && this.prevRow) {
       // Prevent text selection
       document.getSelection().removeAllRanges();
 
-      // Select rows in range
-      if (this.prevRow) {
-        // Re-query all rows, as they may be modified during sort operations
-        const rows = Array.from(this.tableEl.querySelectorAll(this.rowSelector));
-        const idxStart = rows.indexOf(this.prevRow);
-        const idxEnd = rows.indexOf(currentRow);
+      // Re-query all rows, because they may be modified during sort operations
+      const rows = Array.from(this.tableEl.querySelectorAll(this.rowSelector));
+      const idxStart = rows.indexOf(this.prevRow);
+      const idxEnd = rows.indexOf(currentRow);
 
-        console.log(idxStart, idxEnd);
+      // Check for more than 2 row selected
+      if (Math.abs(idxStart - idxEnd) > 1) {
+        const slice = idxStart < idxEnd ? rows.slice(idxStart, idxEnd + 1) : rows.slice(idxEnd, idxStart + 1);
 
-        if (Math.abs(idxStart - idxEnd) > 1) {
-          const slice = idxStart < idxEnd ? rows.slice(idxStart, idxEnd) : rows.slice(idxEnd, idxStart);
-
-          console.log(rows, slice);
-        }
-
-
+        slice.forEach((row) => {
+          if (row === currentRow) {
+            return;
+          }
+          const rowBox = row.querySelector(this.boxSelector);
+          if (rowBox) {
+            rowBox.checked = isChecked;
+            Joomla.isChecked(isChecked, this.tableEl);
+            this.changeBg(row, isChecked);
+          }
+        });
       }
     }
 
