@@ -19,5 +19,5 @@ const setUp = (container) => {
     }
   }, false);
 };
-document.addEventListener('DOMContentLoaded', () => setUp(document));
+setUp(document);
 document.addEventListener('joomla:loaded', ({ target }) => setUp(target));
