@@ -118,5 +118,5 @@ const onBoot = (container) => {
   });
 };
 
-document.addEventListener('DOMContentLoaded', () => onBoot(document));
+onBoot(document);
 document.addEventListener('joomla:updated', ({ target }) => onBoot(target));
