@@ -41,8 +41,7 @@ const settings = require('./build-modules-js/settings.json');
 
 
 const handleError = (err, terminateCode) => {
-  // eslint-disable-next-line no-console
-  console.error(err);
+  console.error(err); // eslint-disable-line no-console
   process.exit(terminateCode);
 };
 
