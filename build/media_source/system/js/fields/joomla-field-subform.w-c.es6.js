@@ -360,9 +360,7 @@ class JoomlaFieldSubform extends HTMLElement {
     let touched = false; // We have a touch events
 
     // Find all existing rows and add draggable attributes
-    const rows = Array.from(this.getRows());
-
-    rows.forEach((row) => {
+    this.getRows().forEach((row) => {
       row.setAttribute('draggable', 'false');
       row.setAttribute('aria-grabbed', 'false');
       row.setAttribute('tabindex', '0');
@@ -392,36 +390,6 @@ class JoomlaFieldSubform extends HTMLElement {
         dest.parentNode.insertBefore(src, dest.nextSibling);
       }
     }
-
-    // Move UP, Move Down buttons
-    const btnUp = `${that.buttonMove}-up`;
-    const btnDown = `${that.buttonMove}-down`;
-    this.addEventListener('click', ({ target }) => {
-      if (target.closest('joomla-field-subform') !== this) {
-        return;
-      }
-      const btnUpEl = target.closest(btnUp);
-      const btnDownEl = !btnUpEl ? target.closest(btnDown) : null;
-      if (!btnUpEl && !btnDownEl) {
-        return;
-      }
-      let row = (btnUpEl || btnDownEl).closest(that.repeatableElement);
-      row = row && row.closest('joomla-field-subform') === this ? row : null;
-      if (!row) {
-        return;
-      }
-      const rows = this.getRows();
-      const curIdx = rows.indexOf(row);
-      let dstIdx = 0;
-
-      if (btnUpEl) {
-        dstIdx = curIdx - 1;
-      } else {
-        dstIdx = curIdx + 1;
-      }
-
-      console.log(rows, curIdx, dstIdx);
-    });
 
     /**
      *  Touch interaction:
@@ -604,6 +572,40 @@ class JoomlaFieldSubform extends HTMLElement {
         item.setAttribute('aria-grabbed', 'false');
         item = null;
       }
+    });
+
+    /**
+     * Move UP, Move Down sorting
+     */
+    const btnUp = `${that.buttonMove}-up`;
+    const btnDown = `${that.buttonMove}-down`;
+    this.addEventListener('click', ({ target }) => {
+      if (target.closest('joomla-field-subform') !== this) {
+        return;
+      }
+      const btnUpEl = target.closest(btnUp);
+      const btnDownEl = !btnUpEl ? target.closest(btnDown) : null;
+      if (!btnUpEl && !btnDownEl) {
+        return;
+      }
+      let row = (btnUpEl || btnDownEl).closest(that.repeatableElement);
+      row = row && row.closest('joomla-field-subform') === this ? row : null;
+      if (!row) {
+        return;
+      }
+      const rows = this.getRows();
+      const curIdx = rows.indexOf(row);
+      let dstIdx = 0;
+
+      if (btnUpEl) {
+        dstIdx = curIdx - 1;
+        dstIdx = dstIdx < 0 ? rows.length - 1 : dstIdx;
+      } else {
+        dstIdx = curIdx + 1;
+        dstIdx = dstIdx > rows.length - 1 ? 0 : dstIdx;
+      }
+
+      switchRowPositions(row, rows[dstIdx]);
     });
   }
 }
