@@ -201,7 +201,7 @@ class JoomlaFieldSubform extends HTMLElement {
 
     // Tell about the new row
     this.dispatchEvent(new CustomEvent('subform-row-add', {
-      detail: {row},
+      detail: { row },
       bubbles: true,
     }));
 
@@ -226,7 +226,7 @@ class JoomlaFieldSubform extends HTMLElement {
 
     // Tell about the row will be removed
     this.dispatchEvent(new CustomEvent('subform-row-remove', {
-      detail: {row},
+      detail: { row },
       bubbles: true,
     }));
 
@@ -466,7 +466,7 @@ class JoomlaFieldSubform extends HTMLElement {
     // Mouse interaction
     // - mouse down, enable "draggable" and allow to drag the row,
     // - mouse up, disable "draggable"
-    this.addEventListener('mousedown', ({target}) => {
+    this.addEventListener('mousedown', ({ target }) => {
       if (touched) return;
 
       // Check for .move button
@@ -564,7 +564,7 @@ class JoomlaFieldSubform extends HTMLElement {
     });
 
     // dragstart event to initiate mouse dragging
-    this.addEventListener('dragstart', ({dataTransfer}) => {
+    this.addEventListener('dragstart', ({ dataTransfer }) => {
       if (item) {
         // We going to move the row
         dataTransfer.effectAllowed = 'move';
@@ -581,7 +581,7 @@ class JoomlaFieldSubform extends HTMLElement {
     });
 
     // Handle drag action, move element to hovered position
-    this.addEventListener('dragenter', ({target}) => {
+    this.addEventListener('dragenter', ({ target }) => {
       // Make sure the target in the correct container
       if (!item || target.parentElement.closest('joomla-field-subform') !== that) {
         return;
