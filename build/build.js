@@ -39,6 +39,17 @@ const { Timer } = require('./build-modules-js/utils/timer.es6.js');
 const options = require('../package.json');
 const settings = require('./build-modules-js/settings.json');
 
+
+const handleError = (err, terminateCode) => {
+  // eslint-disable-next-line no-console
+  console.error(err);
+  process.exit(terminateCode);
+};
+
+if (semver.gte(semver.minVersion(options.engines.node), semver.clean(process.version))) {
+  handleError(`Node version ${semver.clean(process.version)} is not supported, please upgrade to Node version ${semver.clean(options.engines.node)}`, 1);
+}
+
 // The command line
 const Program = new Command();
 
@@ -46,12 +57,6 @@ const Program = new Command();
 if ('settings' in settings) {
   options.settings = settings.settings;
 }
-
-const handleError = (err, terminateCode) => {
-  // eslint-disable-next-line no-console
-  console.error(err);
-  process.exit(terminateCode);
-};
 
 const allowedVersion = () => {
   if (!semver.satisfies(process.version.substring(1), options.engines.node)) {
@@ -167,9 +172,5 @@ if (cliOptions.prepare) {
     ))
     .then(() => bench.stop('Build'))
     .then(() => { process.exit(0); })
-    .catch((err) => {
-      // eslint-disable-next-line no-console
-      console.error(err);
-      process.exit(-1);
-    });
+    .catch((err) => handleError(err, -1));
 }
