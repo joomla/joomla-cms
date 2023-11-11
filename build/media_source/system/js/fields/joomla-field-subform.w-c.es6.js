@@ -4,9 +4,9 @@
  */
 
 const KEYCODE = {
-  SPACE: 32,
-  ESC: 27,
-  ENTER: 13,
+  SPACE: 'Space',
+  ESC: 'Escape',
+  ENTER: 'Enter',
 };
 
 /**
@@ -101,7 +101,7 @@ class JoomlaFieldSubform extends HTMLElement {
       });
 
       this.addEventListener('keydown', (event) => {
-        if (event.keyCode !== KEYCODE.SPACE) return;
+        if (event.code !== KEYCODE.SPACE) return;
         const isAdd = that.buttonAdd && event.target.matches(that.buttonAdd);
         const isRem = that.buttonRemove && event.target.matches(that.buttonRemove);
 
@@ -466,9 +466,9 @@ class JoomlaFieldSubform extends HTMLElement {
     // - "enter" to place selected row in to destination
     // - "esc" to cancel selection
     this.addEventListener('keydown', (event) => {
-      if ((event.keyCode !== KEYCODE.ESC
-          && event.keyCode !== KEYCODE.SPACE
-          && event.keyCode !== KEYCODE.ENTER) || event.target.form
+      if ((event.code !== KEYCODE.ESC
+          && event.code !== KEYCODE.SPACE
+          && event.code !== KEYCODE.ENTER) || event.target.form
         || !event.target.matches(that.repeatableElement)) {
         return;
       }
@@ -481,7 +481,7 @@ class JoomlaFieldSubform extends HTMLElement {
       }
 
       // Space is the selection or unselection keystroke
-      if (event.keyCode === KEYCODE.SPACE && hasModifier(event)) {
+      if (event.code === KEYCODE.SPACE && hasModifier(event)) {
         // Unselect previously selected
         if (row.getAttribute('aria-grabbed') === 'true') {
           row.setAttribute('draggable', 'false');
@@ -506,14 +506,14 @@ class JoomlaFieldSubform extends HTMLElement {
       }
 
       // Escape is the cancel keystroke (for any target element)
-      if (event.keyCode === KEYCODE.ESC && item) {
+      if (event.code === KEYCODE.ESC && item) {
         item.setAttribute('draggable', 'false');
         item.setAttribute('aria-grabbed', 'false');
         item = null;
       }
 
       // Enter, to place selected item in selected position
-      if (event.keyCode === KEYCODE.ENTER && item) {
+      if (event.code === KEYCODE.ENTER && item) {
         item.setAttribute('draggable', 'false');
         item.setAttribute('aria-grabbed', 'false');
 
