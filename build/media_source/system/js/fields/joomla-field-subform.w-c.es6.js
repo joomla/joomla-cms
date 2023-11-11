@@ -80,15 +80,11 @@ class JoomlaFieldSubform extends HTMLElement {
         let btnRem = null;
 
         if (that.buttonAdd) {
-          btnAdd = event.target.matches(that.buttonAdd)
-            ? event.target
-            : event.target.closest(that.buttonAdd);
+          btnAdd = event.target.closest(that.buttonAdd);
         }
 
         if (that.buttonRemove) {
-          btnRem = event.target.matches(that.buttonRemove)
-            ? event.target
-            : event.target.closest(that.buttonRemove);
+          btnRem = event.target.closest(that.buttonRemove);
         }
 
         // Check active, with extra check for nested joomla-field-subform
@@ -205,7 +201,7 @@ class JoomlaFieldSubform extends HTMLElement {
 
     // Tell about the new row
     this.dispatchEvent(new CustomEvent('subform-row-add', {
-      detail: { row },
+      detail: {row},
       bubbles: true,
     }));
 
@@ -230,7 +226,7 @@ class JoomlaFieldSubform extends HTMLElement {
 
     // Tell about the row will be removed
     this.dispatchEvent(new CustomEvent('subform-row-remove', {
-      detail: { row },
+      detail: {row},
       bubbles: true,
     }));
 
@@ -397,6 +393,36 @@ class JoomlaFieldSubform extends HTMLElement {
       }
     }
 
+    // Move UP, Move Down buttons
+    const btnUp = `${that.buttonMove}-up`;
+    const btnDown = `${that.buttonMove}-down`;
+    this.addEventListener('click', ({ target }) => {
+      if (target.closest('joomla-field-subform') !== this) {
+        return;
+      }
+      const btnUpEl = target.closest(btnUp);
+      const btnDownEl = !btnUpEl ? target.closest(btnDown) : null;
+      if (!btnUpEl && !btnDownEl) {
+        return;
+      }
+      let row = (btnUpEl || btnDownEl).closest(that.repeatableElement);
+      row = row && row.closest('joomla-field-subform') === this ? row : null;
+      if (!row) {
+        return;
+      }
+      const rows = this.getRows();
+      const curIdx = rows.indexOf(row);
+      let dstIdx = 0;
+
+      if (btnUpEl) {
+        dstIdx = curIdx - 1;
+      } else {
+        dstIdx = curIdx + 1;
+      }
+
+      console.log(rows, curIdx, dstIdx);
+    });
+
     /**
      *  Touch interaction:
      *
@@ -440,7 +466,7 @@ class JoomlaFieldSubform extends HTMLElement {
     // Mouse interaction
     // - mouse down, enable "draggable" and allow to drag the row,
     // - mouse up, disable "draggable"
-    this.addEventListener('mousedown', ({ target }) => {
+    this.addEventListener('mousedown', ({target}) => {
       if (touched) return;
 
       // Check for .move button
@@ -538,7 +564,7 @@ class JoomlaFieldSubform extends HTMLElement {
     });
 
     // dragstart event to initiate mouse dragging
-    this.addEventListener('dragstart', ({ dataTransfer }) => {
+    this.addEventListener('dragstart', ({dataTransfer}) => {
       if (item) {
         // We going to move the row
         dataTransfer.effectAllowed = 'move';
@@ -555,7 +581,7 @@ class JoomlaFieldSubform extends HTMLElement {
     });
 
     // Handle drag action, move element to hovered position
-    this.addEventListener('dragenter', ({ target }) => {
+    this.addEventListener('dragenter', ({target}) => {
       // Make sure the target in the correct container
       if (!item || target.parentElement.closest('joomla-field-subform') !== that) {
         return;
