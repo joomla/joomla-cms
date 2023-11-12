@@ -47,30 +47,28 @@ $class = $class ? ' ' . $class : '';
 $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 ?>
 
-<div class="subform-repeatable-wrapper subform-grid-layout subform-grid-sublayout-<?php echo $sublayout; ?>">
+<div class="subform-repeatable-wrapper subform-layout-grid">
     <joomla-field-subform class="subform-repeatable<?php echo $class; ?>" name="<?php echo $name; ?>"
         button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
         repeatable-element=".subform-repeatable-group" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
         <?php if (!empty($buttons['add'])) : ?>
-            <div class="btn-toolbar">
-                <div class="btn-group">
-                    <button type="button" class="group-add btn btn-sm button btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
-                        <span class="icon-plus icon-white" aria-hidden="true"></span>
-                    </button>
-                </div>
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <button type="button" class="group-add btn btn-sm button btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
+                    <span class="icon-plus icon-white" aria-hidden="true"></span>
+                </button>
             </div>
+        </div>
         <?php endif; ?>
-
-        <?php
-        foreach ($forms as $k => $form) :
-            echo $this->sublayout($sublayout, ['form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons]);
-        endforeach;
-        ?>
-
-        <?php if ($multiple) : ?>
-        <template class="subform-repeatable-template-section">
-            <?php echo trim($this->sublayout($sublayout, ['form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons])); ?>
-        </template>
-        <?php endif; ?>
+    <?php
+    foreach ($forms as $k => $form) :
+        echo $this->sublayout($sublayout, ['form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons]);
+    endforeach;
+    ?>
+    <?php if ($multiple) : ?>
+    <template class="subform-repeatable-template-section hidden"><?php
+        echo trim($this->sublayout($sublayout, ['form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons]));
+    ?></template>
+    <?php endif; ?>
     </joomla-field-subform>
 </div>

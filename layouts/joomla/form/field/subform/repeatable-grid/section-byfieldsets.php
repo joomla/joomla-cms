@@ -41,11 +41,9 @@ extract($displayData);
         </div>
     </div>
     <?php endif; ?>
-    <div class="row">
+    <div class="subform-grid-row">
         <?php foreach ($form->getFieldsets() as $fieldset) : ?>
-        <fieldset class="<?php if (!empty($fieldset->class)) {
-            echo $fieldset->class;
-                         } ?>">
+        <fieldset class="<?php echo !empty($fieldset->class) ? $this->escape($fieldset->class) : ''; ?>">
             <?php if (!empty($fieldset->label)) : ?>
                 <legend><?php echo Text::_($fieldset->label); ?></legend>
             <?php endif; ?>
