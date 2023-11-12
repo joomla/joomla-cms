@@ -206,7 +206,7 @@ div.subform-repeatable-group {
 }
 
 // Subform Grid layout
-.subform-layout-grid>joomla-field-subform>.subform-repeatable-group{
+.subform-layout-grid>joomla-field-subform>.subform-repeatable-group {
   padding-top: 16px;
 }
 .subform-grid-row {
@@ -214,26 +214,26 @@ div.subform-repeatable-group {
   flex-flow: row wrap;
   column-gap: 1rem;
 
-  & > .control-group{
+  > .control-group {
     flex: 1 1 220px;
     flex-flow: column;
 
-    & > .control-label{
+    > .control-label {
       width: 100%;
     }
 
-    & > .controls{
-      min-width: unset;
+    > .controls {
       width: 100%;
+      min-width: unset;
     }
   }
 
   // For groupByFieldset="true"
-  & > fieldset {
+  > fieldset {
     flex: 1 1 220px;
 
-    & > .control-group {
-      & > .control-label{
+    > .control-group {
+      > .control-label {
         width: 100%;
       }
     }
