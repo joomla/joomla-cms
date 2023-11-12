@@ -203,6 +203,30 @@ div.subform-repeatable-group {
       }
     }
   }
+
+  // Subform Grid layout
+  &.subform-grid-row {
+    display: flex;
+    flex-flow: row wrap;
+    column-gap: 1rem;
+    padding-top: 16px;
+
+    & > .control-group{
+      flex: 1 1 220px;
+
+      & > .control-label{
+        width: 100%;
+      }
+
+      & > .controls{
+        min-width: unset;
+      }
+    }
+
+    > .btn-toolbar {
+      margin-left: -1rem; // Compensate for a gap
+    }
+  }
 }
 
 // Highlight draggable section
