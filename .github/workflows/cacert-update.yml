@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: 3.10-dev
 
@@ -33,7 +33,7 @@ jobs:
         run: cp "libraries/src/Http/Transport/cacert.pem" "libraries/fof/download/adapter/cacert.pem"
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v4
         id: cpr
         with:
           branch: mozilla_ca_update

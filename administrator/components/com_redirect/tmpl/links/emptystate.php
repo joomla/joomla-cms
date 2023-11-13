@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -23,7 +22,7 @@ $displayData = [
     'icon'       => 'icon-map-signs redirect',
 ];
 
-$user = Factory::getApplication()->getIdentity();
+$user = $this->getCurrentUser();
 
 if ($user->authorise('core.create', 'com_redirect')) {
     $displayData['createURL'] = 'index.php?option=com_redirect&task=link.add';
@@ -49,7 +48,7 @@ if (
     <?php echo HTMLHelper::_(
         'bootstrap.renderModal',
         'plugin' . $this->redirectPluginId . 'Modal',
-        array(
+        [
             'url'         => $link,
             'title'       => Text::_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
             'height'      => '400px',
@@ -66,7 +65,7 @@ if (
                 . Text::_('JSAVE') . '</button>'
                 . '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
                 . Text::_('JAPPLY') . '</button>'
-        )
+        ]
     ); ?>
 <?php endif; ?>
 <?php echo LayoutHelper::render('joomla.content.emptystate', $displayData);

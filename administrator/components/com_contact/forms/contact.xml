@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fieldset addfieldprefix="Joomla\Component\Contact\Administrator\Field">
 		<field
@@ -76,7 +76,7 @@
 			name="misc"
 			type="editor"
 			label="COM_CONTACT_FIELD_INFORMATION_MISC_LABEL"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 			buttons="true"
 			hide="readmore,pagebreak"
 		/>
@@ -175,7 +175,7 @@
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			rows="3"
 			cols="30"
-			maxlength="160"
+			maxlength="300"
 			charcounter="true"
 		/>
 

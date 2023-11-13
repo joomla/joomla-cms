@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -29,7 +28,7 @@ $wa->useScript('table.columns')
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
-$loggeduser = Factory::getUser();
+$loggeduser = $this->getCurrentUser();
 $mfa        = PluginHelper::isEnabled('multifactorauth');
 
 ?>
@@ -39,7 +38,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
             <div id="j-main-container" class="j-main-container">
                 <?php
                 // Search tools bar
-                echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+                echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
                 ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
@@ -209,18 +208,19 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                     <?php echo $this->pagination->getListFooter(); ?>
 
                     <?php // Load the batch processing form if user is allowed ?>
-                    <?php if (
-                    $loggeduser->authorise('core.create', 'com_users')
+                    <?php
+                    if (
+                        $loggeduser->authorise('core.create', 'com_users')
                         && $loggeduser->authorise('core.edit', 'com_users')
                         && $loggeduser->authorise('core.edit.state', 'com_users')
-) : ?>
+                    ) : ?>
                         <?php echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'collapseModal',
-                            array(
+                            [
                                 'title'  => Text::_('COM_USERS_BATCH_OPTIONS'),
                                 'footer' => $this->loadTemplate('batch_footer'),
-                            ),
+                            ],
                             $this->loadTemplate('batch_body')
                         ); ?>
                     <?php endif; ?>

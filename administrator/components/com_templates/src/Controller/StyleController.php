@@ -48,9 +48,9 @@ class StyleController extends FormController
         $this->checkToken();
 
         if ($this->app->getDocument()->getType() === 'json') {
-            $model = $this->getModel('Style', 'Administrator');
-            $table = $model->getTable();
-            $data  = $this->input->post->get('params', array(), 'array');
+            $model   = $this->getModel('Style', 'Administrator');
+            $table   = $model->getTable();
+            $data    = $this->input->post->get('params', [], 'array');
             $checkin = $table->hasField('checked_out');
             $context = $this->option . '.edit.' . $this->context;
 
@@ -91,7 +91,7 @@ class StyleController extends FormController
                 $errors = $model->getErrors();
 
                 // Push up to three validation messages out to the user.
-                for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+                for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                     if ($errors[$i] instanceof \Exception) {
                         $this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
                     } else {

@@ -69,17 +69,25 @@ class ArticlesController extends ApiController
             $this->modelState->set('filter.published', $filter->clean($apiFilterInfo['state'], 'INT'));
         }
 
+        if (\array_key_exists('featured', $apiFilterInfo)) {
+            $this->modelState->set('filter.featured', $filter->clean($apiFilterInfo['featured'], 'INT'));
+        }
+
+        if (\array_key_exists('tag', $apiFilterInfo)) {
+            $this->modelState->set('filter.tag', $filter->clean($apiFilterInfo['tag'], 'INT'));
+        }
+
         if (\array_key_exists('language', $apiFilterInfo)) {
             $this->modelState->set('filter.language', $filter->clean($apiFilterInfo['language'], 'STRING'));
         }
 
         $apiListInfo = $this->input->get('list', [], 'array');
 
-        if (array_key_exists('ordering', $apiListInfo)) {
+        if (\array_key_exists('ordering', $apiListInfo)) {
             $this->modelState->set('list.ordering', $filter->clean($apiListInfo['ordering'], 'STRING'));
         }
 
-        if (array_key_exists('direction', $apiListInfo)) {
+        if (\array_key_exists('direction', $apiListInfo)) {
             $this->modelState->set('list.direction', $filter->clean($apiListInfo['direction'], 'STRING'));
         }
 

@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Filesystem\Streams;
 
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Support\StringController;
 
@@ -20,6 +20,8 @@ use Joomla\CMS\Filesystem\Support\StringController;
  * you would normally use a regular stream wrapper
  *
  * @since  1.7.0
+ * @deprecated  4.4 will be removed in 6.0
+ *              Use Joomla\Filesystem\Stream\StringWrapper instead.
  */
 class StreamString
 {
@@ -100,20 +102,22 @@ class StreamString
      * @return  boolean
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream\StringWrapper::stream_open() instead.
      */
     public function stream_open($path, $mode, $options, &$openedPath)
     {
         $this->currentString = &StringController::getRef(str_replace('string://', '', $path));
 
         if ($this->currentString) {
-            $this->len = \strlen($this->currentString);
-            $this->pos = 0;
+            $this->len  = \strlen($this->currentString);
+            $this->pos  = 0;
             $this->stat = $this->url_stat($path, 0);
 
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -123,6 +127,8 @@ class StreamString
      *
      * @link    https://www.php.net/manual/en/streamwrapper.stream-stat.php
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream\StringWrapper::stream_stat instead.
      */
     public function stream_stat()
     {
@@ -139,26 +145,28 @@ class StreamString
      *
      * @link    https://www.php.net/manual/en/streamwrapper.url-stat.php
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream\StringWrapper::url_stat() instead.
      */
     public function url_stat($path, $flags = 0)
     {
-        $now = time();
+        $now    = time();
         $string = &StringController::getRef(str_replace('string://', '', $path));
-        $stat = array(
-            'dev' => 0,
-            'ino' => 0,
-            'mode' => 0,
-            'nlink' => 1,
-            'uid' => 0,
-            'gid' => 0,
-            'rdev' => 0,
-            'size' => \strlen($string),
-            'atime' => $now,
-            'mtime' => $now,
-            'ctime' => $now,
+        $stat   = [
+            'dev'     => 0,
+            'ino'     => 0,
+            'mode'    => 0,
+            'nlink'   => 1,
+            'uid'     => 0,
+            'gid'     => 0,
+            'rdev'    => 0,
+            'size'    => \strlen($string),
+            'atime'   => $now,
+            'mtime'   => $now,
+            'ctime'   => $now,
             'blksize' => '512',
-            'blocks' => ceil(\strlen($string) / 512),
-        );
+            'blocks'  => ceil(\strlen($string) / 512),
+        ];
 
         return $stat;
     }
@@ -172,10 +180,11 @@ class StreamString
      *
      * @return  string
      *
-     * @since   1.7.0
-     *
      * @link    https://www.php.net/manual/en/streamwrapper.stream-read.php
-     */
+     * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream\StringWrapper::stream_read() instead.
+ */
     public function stream_read($count)
     {
         $result = substr($this->currentString, $this->pos, $count);
@@ -193,6 +202,8 @@ class StreamString
      *
      * @since   1.7.0
      * @note    Updating the string is not supported.
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream\StringWrapper::stream_write() instead.
      */
     public function stream_write($data)
     {
@@ -206,6 +217,8 @@ class StreamString
      * @return  integer  The position
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream\StringWrapper::stream_tell() instead.
      */
     public function stream_tell()
     {
@@ -218,6 +231,8 @@ class StreamString
      * @return  boolean  True if at end of field.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream\StringWrapper::stream_eof() instead.
      */
     public function stream_eof()
     {
@@ -237,6 +252,8 @@ class StreamString
      * @return  boolean  True on success.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream\StringWrapper::stream_seek() instead.
      */
     public function stream_seek($offset, $whence)
     {
@@ -274,6 +291,8 @@ class StreamString
      *
      * @since   1.7.0
      * @note    Data storage is not supported
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream\StringWrapper::stream_flush() instead.
      */
     public function stream_flush()
     {

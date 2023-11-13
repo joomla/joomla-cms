@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Language;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -38,7 +38,7 @@ class Transliterate
 
         if ($case <= 0) {
             if (\is_null($UTF8_LOWER_ACCENTS)) {
-                $UTF8_LOWER_ACCENTS = array(
+                $UTF8_LOWER_ACCENTS = [
                     'à' => 'a',
                     'ô' => 'o',
                     'ď' => 'd',
@@ -144,7 +144,7 @@ class Transliterate
                     'µ' => 'u',
                     'ĕ' => 'e',
                     'œ' => 'oe',
-                );
+                ];
             }
 
             $string = str_replace(array_keys($UTF8_LOWER_ACCENTS), array_values($UTF8_LOWER_ACCENTS), $string);
@@ -152,7 +152,7 @@ class Transliterate
 
         if ($case >= 0) {
             if (\is_null($UTF8_UPPER_ACCENTS)) {
-                $UTF8_UPPER_ACCENTS = array(
+                $UTF8_UPPER_ACCENTS = [
                     'À' => 'A',
                     'Ô' => 'O',
                     'Ď' => 'D',
@@ -256,7 +256,7 @@ class Transliterate
                     'Æ' => 'Ae',
                     'Ĕ' => 'E',
                     'Œ' => 'Oe',
-                );
+                ];
             }
 
             $string = str_replace(array_keys($UTF8_UPPER_ACCENTS), array_values($UTF8_UPPER_ACCENTS), $string);

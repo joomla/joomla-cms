@@ -37,16 +37,16 @@ class StylesModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'template', 'a.template',
                 'home', 'a.home',
                 'menuitem',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -76,7 +76,7 @@ class StylesModel extends ListModel
 
             // Special case for the client id.
             $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-            $clientId = !in_array($clientId, [0, 1]) ? 0 : $clientId;
+            $clientId = !\in_array($clientId, [0, 1]) ? 0 : $clientId;
             $this->setState('client_id', $clientId);
         }
 
@@ -120,7 +120,7 @@ class StylesModel extends ListModel
         $clientId = (int) $this->getState('client_id');
 
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.
@@ -204,7 +204,7 @@ class StylesModel extends ListModel
             } else {
                 // If user selected the templates styles assigned to particular pages.
                 // Subquery to get the language of the selected menu item.
-                $menuItemId = (int) $menuItemId;
+                $menuItemId               = (int) $menuItemId;
                 $menuItemLanguageSubQuery = $db->getQuery(true);
                 $menuItemLanguageSubQuery->select($db->quoteName('language'))
                     ->from($db->quoteName('#__menu'))
@@ -240,12 +240,12 @@ class StylesModel extends ListModel
                 $query->extendWhere(
                     'AND',
                     [
-                        'LOWER(' . $db->quoteName('a.template') . ') LIKE :template',
+                        'LOWER(' . $db->quoteName('a.template') . ') LIKE :templatesearch',
                         'LOWER(' . $db->quoteName('a.title') . ') LIKE :title',
                     ],
                     'OR'
                 )
-                    ->bind(':template', $search)
+                    ->bind(':templatesearch', $search)
                     ->bind(':title', $search);
             }
         }

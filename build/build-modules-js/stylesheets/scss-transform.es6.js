@@ -4,7 +4,7 @@ const Fs = require('fs').promises;
 const FsExtra = require('fs-extra');
 const { dirname, sep } = require('path');
 const Postcss = require('postcss');
-const Sass = require('sass');
+const Sass = require('sass-embedded');
 
 module.exports.compile = async (file) => {
   const cssFile = file.replace(`${sep}scss${sep}`, `${sep}css${sep}`)
@@ -18,9 +18,6 @@ module.exports.compile = async (file) => {
     console.error(error.formatted);
     process.exit(1);
   }
-
-  // forked.on('message', async (msg) => {
-  // console.log('Message from child', msg);
 
   // Auto prefixing
   const cleaner = Postcss([Autoprefixer()]);
@@ -46,7 +43,4 @@ module.exports.compile = async (file) => {
 
   // eslint-disable-next-line no-console
   console.log(`✅ SCSS File compiled: ${cssFile}`);
-  // });
-
-  // forked.send({ file });
 };

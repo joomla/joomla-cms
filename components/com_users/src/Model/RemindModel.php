@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Site\Model;
 
+use Joomla\CMS\Event\User\AfterRemindEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -41,10 +42,10 @@ class RemindModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.remind', 'remind', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_users.remind', 'remind', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -85,7 +86,7 @@ class RemindModel extends FormModel
     protected function populateState()
     {
         // Get the application object.
-        $app = Factory::getApplication();
+        $app    = Factory::getApplication();
         $params = $app->getParams('com_users');
 
         // Load the parameters.
@@ -104,7 +105,7 @@ class RemindModel extends FormModel
     public function processRemindRequest($data)
     {
         // Get the form.
-        $form = $this->getForm();
+        $form          = $this->getForm();
         $data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
         // Check for an error.
@@ -131,7 +132,7 @@ class RemindModel extends FormModel
         }
 
         // Find the user id for the given email address.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->quoteName('#__users'))
@@ -170,8 +171,8 @@ class RemindModel extends FormModel
         $mode = $app->get('force_ssl', 0) == 2 ? 1 : (-1);
 
         // Put together the email template data.
-        $data = ArrayHelper::fromObject($user);
-        $data['sitename'] = $app->get('sitename');
+        $data              = ArrayHelper::fromObject($user);
+        $data['sitename']  = $app->get('sitename');
         $data['link_text'] = Route::_($link, false, $mode);
         $data['link_html'] = Route::_($link, true, $mode);
 
@@ -201,7 +202,9 @@ class RemindModel extends FormModel
             return false;
         }
 
-        Factory::getApplication()->triggerEvent('onUserAfterRemind', array($user));
+        $this->getDispatcher()->dispatch('onUserAfterRemind', new AfterRemindEvent('onUserAfterRemind', [
+            'subject' => $user,
+        ]));
 
         return true;
     }

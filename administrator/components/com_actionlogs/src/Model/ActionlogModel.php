@@ -17,6 +17,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Utilities\IpHelper;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
@@ -30,8 +32,10 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  *
  * @since  3.9.0
  */
-class ActionlogModel extends BaseDatabaseModel
+class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Function to add logs to the database
      * This method adds a record to #__action_logs contains (message_language_key, message, date, context, user)
@@ -45,9 +49,13 @@ class ActionlogModel extends BaseDatabaseModel
      *
      * @since   3.9.0
      */
-    public function addLog($messages, $messageLanguageKey, $context, $userId = null)
+    public function addLog($messages, $messageLanguageKey, $context, $userId = 0)
     {
-        $user   = Factory::getUser($userId);
+        if (!is_numeric($userId)) {
+            @trigger_error(sprintf('User ID must be an integer in %s.', __METHOD__), E_USER_DEPRECATED);
+        }
+
+        $user   = $userId ? $this->getUserFactory()->loadUserById($userId) : $this->getCurrentUser();
         $db     = $this->getDatabase();
         $date   = Factory::getDate();
         $params = ComponentHelper::getComponent('com_actionlogs')->getParams();
@@ -62,7 +70,7 @@ class ActionlogModel extends BaseDatabaseModel
             $ip = 'COM_ACTIONLOGS_DISABLED';
         }
 
-        $loggedMessages = array();
+        $loggedMessages = [];
 
         foreach ($messages as $message) {
             $logMessage                       = new \stdClass();
@@ -112,7 +120,7 @@ class ActionlogModel extends BaseDatabaseModel
         $query = $db->getQuery(true);
 
         $query
-            ->select($db->quoteName(array('u.email', 'l.extensions')))
+            ->select($db->quoteName(['u.email', 'l.extensions']))
             ->from($db->quoteName('#__users', 'u'))
             ->where($db->quoteName('u.block') . ' = 0')
             ->join(
@@ -125,7 +133,7 @@ class ActionlogModel extends BaseDatabaseModel
 
         $users = $db->loadObjectList();
 
-        $recipients = array();
+        $recipients = [];
 
         foreach ($users as $user) {
             $extensions = json_decode($user->extensions, true);
@@ -145,16 +153,16 @@ class ActionlogModel extends BaseDatabaseModel
         $temp      = [];
 
         foreach ($messages as $message) {
-            $m = [];
+            $m              = [];
             $m['extension'] = Text::_($extension);
             $m['message']   = ActionlogsHelper::getHumanReadableLogMessage($message);
             $m['date']      = HTMLHelper::_('date', $message->log_date, 'Y-m-d H:i:s T', 'UTC');
             $m['username']  = $username;
-            $temp[] = $m;
+            $temp[]         = $m;
         }
 
         $templateData = [
-            'messages'     => $temp
+            'messages' => $temp,
         ];
 
         $mailer = new MailTemplate('com_actionlogs.notification', $app->getLanguage()->getTag());

@@ -10,8 +10,10 @@
 
 namespace Joomla\Plugin\System\Debug\Storage;
 
-use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -82,7 +84,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
             if ($file->getExtension() == 'php') {
                 $files[] = [
                     'time' => $file->getMTime(),
-                    'id' => $file->getBasename('.php'),
+                    'id'   => $file->getBasename('.php'),
                 ];
             }
         }
@@ -101,7 +103,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 
         // Load the metadata and filter the results.
         $results = [];
-        $i = 0;
+        $i       = 0;
 
         foreach ($files as $file) {
             // When filter is empty, skip loading the offset
@@ -111,6 +113,11 @@ class FileStorage extends \DebugBar\Storage\FileStorage
             }
 
             $data = $this->get($file['id']);
+
+            if (!$this->isSecureToReturnData($data)) {
+                continue;
+            }
+
             $meta = $data['__meta'];
             unset($data);
 
@@ -138,5 +145,48 @@ class FileStorage extends \DebugBar\Storage\FileStorage
     public function makeFilename($id)
     {
         return $this->dirname . basename($id) . '.php';
+    }
+
+    /**
+     * Check if the user is allowed to view the request. Users can only see their own requests.
+     *
+     * @param   array  $data  The data item to process
+     *
+     * @return boolean
+     *
+     * @since 4.2.4
+     */
+    private function isSecureToReturnData($data): bool
+    {
+        /**
+         * We only started this collector in Joomla 4.2.4 - any older files we have to assume are insecure.
+         */
+        if (!\array_key_exists('juser', $data)) {
+            return false;
+        }
+
+        $currentUser           = Factory::getUser();
+        $currentUserId         = $currentUser->id;
+        $currentUserSuperAdmin = $currentUser->authorise('core.admin');
+
+        /**
+         * Guests aren't allowed to look at other requests because there's no guarantee it's the same guest. Potentially
+         * in the future this could be refined to check the session ID to show some requests. But it's unlikely we want
+         * guests to be using the debug bar anyhow
+         */
+        if ($currentUserId === 0) {
+            return false;
+        }
+
+        /** @var \Joomla\CMS\User\User $user */
+        $user = Factory::getContainer()->get(UserFactoryInterface::class)
+            ->loadUserById($data['juser']['user_id']);
+
+        // Super users are allowed to look at other users requests. Otherwise users can only see their own requests.
+        if ($currentUserSuperAdmin || $user->id === $currentUserId) {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -10,14 +10,16 @@
 namespace Joomla\CMS\Application\CLI;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class CliInput
  *
  * @since       4.0.0
- * @deprecated  5.0  Use the `joomla/console` package instead
+ *
+ * @deprecated  4.3 will be removed in 6.0
+ *              Use the `joomla/console` package instead
  */
 class CliInput
 {

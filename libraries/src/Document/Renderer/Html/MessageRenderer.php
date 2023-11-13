@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -35,15 +35,15 @@ class MessageRenderer extends DocumentRenderer
      *
      * @since   3.5
      */
-    public function render($name, $params = array(), $content = null)
+    public function render($name, $params = [], $content = null)
     {
         $msgList     = $this->getData();
-        $displayData = array(
+        $displayData = [
             'msgList' => $msgList,
             'name'    => $name,
             'params'  => $params,
             'content' => $content,
-        );
+        ];
 
         $app        = Factory::getApplication();
         $chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/message.php';
@@ -74,7 +74,7 @@ class MessageRenderer extends DocumentRenderer
     private function getData()
     {
         // Initialise variables.
-        $lists = array();
+        $lists = [];
 
         // Get the message queue
         $messages = Factory::getApplication()->getMessageQueue();

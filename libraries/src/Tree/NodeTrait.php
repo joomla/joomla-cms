@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Tree;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -27,7 +27,7 @@ trait NodeTrait
      *
      * If the node already has a parent, the link is unset
      *
-     * @param   NodeInterface|null  $parent  NodeInterface for the parent to be set or null
+     * @param   NodeInterface  $parent  NodeInterface for the parent to be set
      *
      * @return  void
      *
@@ -46,7 +46,7 @@ trait NodeTrait
 
         if (\count($this->_parent->_children) > 1) {
             end($this->_parent->_children);
-            $this->_leftSibling = prev($this->_parent->_children);
+            $this->_leftSibling                = prev($this->_parent->_children);
             $this->_leftSibling->_rightSibling = $this;
         }
     }

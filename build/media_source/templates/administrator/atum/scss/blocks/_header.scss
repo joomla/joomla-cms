@@ -58,10 +58,6 @@
       object-fit: contain;
       object-position: left center;
 
-      [dir=rtl] & {
-        object-position: right center;
-      }
-
       &.logo-collapsed {
         display: none;
       }
@@ -183,7 +179,7 @@
 }
 
 .header-item-count {
-  margin-inline-end: .5rem;;
+  margin-inline-end: .5rem;
 }
 
 .header-item-text {

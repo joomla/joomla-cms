@@ -12,7 +12,7 @@ namespace Joomla\CMS\Document\Renderer\Html;
 use Joomla\CMS\Document\DocumentRenderer;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -33,7 +33,7 @@ class ComponentRenderer extends DocumentRenderer
      *
      * @since   3.5
      */
-    public function render($component = null, $params = array(), $content = null)
+    public function render($component = null, $params = [], $content = null)
     {
         return $content;
     }

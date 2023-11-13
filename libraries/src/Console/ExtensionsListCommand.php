@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -88,7 +88,7 @@ class ExtensionsListCommand extends AbstractCommand
     protected function configureIO(InputInterface $input, OutputInterface $output): void
     {
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
+        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 
     /**
@@ -100,7 +100,6 @@ class ExtensionsListCommand extends AbstractCommand
      */
     protected function configure(): void
     {
-
         $this->addOption('type', null, InputOption::VALUE_REQUIRED, 'Type of the extension');
 
         $help = "<info>%command.name%</info> lists all installed extensions
@@ -179,7 +178,7 @@ class ExtensionsListCommand extends AbstractCommand
         $extInfo = [];
 
         foreach ($extensions as $key => $extension) {
-            $manifest = json_decode($extension['manifest_cache']);
+            $manifest  = json_decode($extension['manifest_cache']);
             $extInfo[] = [
                 $extension['name'],
                 $extension['extension_id'],
@@ -228,7 +227,7 @@ class ExtensionsListCommand extends AbstractCommand
     {
         $this->configureIO($input, $output);
         $extensions = $this->getExtensions();
-        $type = $this->cliInput->getOption('type');
+        $type       = $this->cliInput->getOption('type');
 
         if ($type) {
             $extensions = $this->filterExtensionsBasedOn($type);

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="template" client="administrator">
 	<name>atum</name>
 	<version>1.0</version>
@@ -85,6 +85,13 @@
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_LINK_COLOR_LABEL"
 					default="#2a69b8"
+					filter="color"
+				/>
+				<field
+					name="link-color-dark"
+					type="color"
+					label="TPL_ATUM_COLORS_SETTINGS_LINK_COLOR_DARK_LABEL"
+					default="#7fa5d4"
 					filter="color"
 				/>
 				<field

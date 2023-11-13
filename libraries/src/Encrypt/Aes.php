@@ -14,7 +14,7 @@ use Joomla\CMS\Encrypt\AES\AesInterface;
 use Joomla\CMS\Encrypt\AES\OpenSSL;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -49,9 +49,9 @@ class Aes
      * @param   string          $mode     Encryption mode. Can be ebc or cbc. We recommend using cbc.
      * @param   string          $priority Priority which adapter we should try first
      *
-     * @deprecated 5.0 $strength will be removed, $priority will be removed
+     * @deprecated  4.3 $strength will be removed in 6.0
      */
-    public function __construct($key, $strength = 128, $mode = 'cbc', $priority = 'openssl')
+    public function __construct($key, $strength = 128, $mode = 'cbc')
     {
         $this->adapter = new OpenSSL();
         $this->adapter->setEncryptionMode($mode, $strength);

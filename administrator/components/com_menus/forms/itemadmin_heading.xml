@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fieldset>
 		<!-- Heading type menu item does not have a navigation -->
@@ -29,6 +29,7 @@
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_ICON_TITLE_LABEL"
 				description="COM_MENUS_ITEM_FIELD_ICON_TITLE_DESC"
+				validate="CssIdentifier"
 			/>
 
 			<field
