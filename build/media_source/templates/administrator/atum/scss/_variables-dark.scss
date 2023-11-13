@@ -126,7 +126,7 @@ $atum-colors-dark: (
   main-nav-divider-bg:             #495057,
   main-nav-item-title:             var(--template-bg-dark-30),
   main-nav-mm-active-bg:           $button-and-icon-color-dark,
-  main-nav-mm-active-quicktask-bg: var(--template-bg-dark-60),
+  main-nav-mm-active-quicktask-bg: darken($button-and-icon-color-dark, 10%), //var(--template-bg-dark-60),
   main-nav-badge:                  var(--template-bg-dark-60),
   main-nav-item-title-hvr-bg:      var(--template-bg-dark-60),
   mobile-menu-collapse-bg:         var(--template-bg-dark-50),
@@ -210,9 +210,9 @@ $atum-colors-dark: (
   login-label-color:               var(--white),
 
   // Icons
-  icon-success:                    var(--successhvr),
+  icon-success:                    var(--success),
   icon-success-border:             var(--successhvr),
-  icon-checkedout-color:           var(--gray-600),
+  icon-checkedout-color:           var(--gray-400),
 
   // Buttons
   btn-primary-color:               var(--text-normal),
@@ -230,6 +230,11 @@ $atum-colors-dark: (
 
   input-group-text-bg:             var(--template-bg-dark),
   input-group-text-border:         1px solid var(--template-bg-dark),
+
+  // Dropdown
+  dropdown-header-bg:               darken($button-and-icon-color-dark, 10%),
+  dropdown-item-bg:                 $button-and-icon-color-dark,
+  dropdown-item-bg-hvr:             darken($button-and-icon-color-dark, 10%),
 
   // Alerts
   state-success-text:               var(--text-normal),
@@ -290,7 +295,7 @@ $atum-colors-dark: (
   atum-btn-info:                    lighten(#494d53, 50%), /* #f0f4fb, */
   atum-btn-info-bg:                 #494d53,
   atum-btn-info-border:             1px solid var(--atum-btn-info-bg),
-  atum-btn-info-hvr:                var(--template-text-light),
+  atum-btn-info-hvr:                var(--template-text-dark),
 
   atum-btn-primary:                 lighten($button-and-icon-color-dark, 25%),
   atum-btn-primary-bg:              $button-and-icon-color-dark, //var(--template-bg-dark),
