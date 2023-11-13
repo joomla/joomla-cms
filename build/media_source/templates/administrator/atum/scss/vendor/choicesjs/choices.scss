@@ -43,16 +43,8 @@
   background-color: transparent;
 
   &::placeholder {
-    color: $gray-700;
+    color: $choices-input-placeholder; //$gray-700; //var(--gray-200);
     opacity: 1;
-  }
-
-  @if $enable-dark-mode {
-    @include color-mode(dark) {
-      &::placeholder {
-        color: var(--gray-200);
-      }
-    }
   }
 }
 
@@ -67,7 +59,8 @@
 .choices__list--multiple .choices__item {
   position: relative;
   margin: 2px;
-  background-color: var(--template-bg-dark);
+  color: $choices-list-multiple-item; //$white;
+  background-color: $choices-list-multiple-item-bg; //var(--template-bg-dark);
   margin-inline-end: 2px;
   border: 0;
   border-radius: $border-radius;

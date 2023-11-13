@@ -270,6 +270,9 @@ $atum-colors: (
   // choices
   choices-input-border-color:      var(--body-bg), //TODO
   choices-input-bg:                var(--body-bg),
+  choices-input-placeholder:       $gray-700,
+  choices-list-multiple-item-bg:   var(--template-bg-dark),
+  choices-list-multiple-item:      $white,
 
   // switcher
   switcher-toggle-inside-bg:       #fff,
@@ -738,6 +741,9 @@ $modal-joomla-dialog-box-shadow:   var(--modal-joomla-dialog-box-shadow);
 $choices__button_joomla-focus-box-shadow:  var(--choices__button_joomla-focus-box-shadow);
 $choices-input-border-color:       var(--choices-input-border-color);
 $choices-input-bg:                 var(--choices-input-bg);
+$choices-input-placeholder:        var(--choices-input-placeholder);
+$choices-list-multiple-item-bg:    var(--choices-list-multiple-item-bg);
+$choices-list-multiple-item:       var(--choices-list-multiple-item);
 
 // Switcher
 $switcher-toggle-inside-bg:        var(--switcher-toggle-inside-bg);
