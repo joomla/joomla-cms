@@ -1,9 +1,9 @@
-describe('Test that the user back end form', () => {
+describe('Test in backend that the user form', () => {
   beforeEach(() => cy.doAdministratorLogin());
   afterEach(() => cy.task('queryDB', "DELETE FROM #__menu_types WHERE menutype = 'test'"));
 
   it('can create a new menu', () => {
-    cy.visit('administrator/index.php?option=com_menus&task=menu.add');
+    cy.visit('/administrator/index.php?option=com_menus&task=menu.add');
 
     cy.get('#jform_title').clear().type('test menu');
     cy.get('#jform_menutype').clear().type('test');

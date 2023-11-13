@@ -44,9 +44,14 @@ final class ListPlugin extends FieldsListPlugin
             return;
         }
 
-        $options = $this->getOptionsFromField($field);
+        $options         = $this->getOptionsFromField($field);
+        $field->apivalue = [];
 
-        $field->apivalue = [$field->value => $options[$field->value]];
+        if (\is_array($field->value)) {
+            foreach ($field->value as $value) {
+                $field->apivalue[$value] = $options[$value];
+            }
+        }
     }
 
     /**
@@ -68,7 +73,7 @@ final class ListPlugin extends FieldsListPlugin
         }
 
         // The field's rawvalue should be an array
-        if (!is_array($field->rawvalue)) {
+        if (!\is_array($field->rawvalue)) {
             $field->rawvalue = (array) $field->rawvalue;
         }
 

@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\User\Profile\Extension;
 
 use Exception;
-use InvalidArgumentException;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
@@ -37,15 +36,6 @@ final class Profile extends CMSPlugin
     use DatabaseAwareTrait;
 
     /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     *
-     * @since  3.1
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Date of birth.
      *
      * @var    string
@@ -67,11 +57,14 @@ final class Profile extends CMSPlugin
     public function onContentPrepareData($context, $data)
     {
         // Check we are manipulating a valid form.
-        if (!in_array($context, ['com_users.profile', 'com_users.user', 'com_users.registration'])) {
+        if (!\in_array($context, ['com_users.profile', 'com_users.user', 'com_users.registration'])) {
             return true;
         }
 
-        if (is_object($data)) {
+        // Load plugin language files
+        $this->loadLanguage();
+
+        if (\is_object($data)) {
             $userId = $data->id ?? 0;
 
             if (!isset($data->profile) && $userId > 0) {
@@ -137,16 +130,16 @@ final class Profile extends CMSPlugin
     {
         if (empty($value)) {
             return HTMLHelper::_('users.value', $value);
-        } else {
-            // Convert website URL to utf8 for display
-            $value = PunycodeHelper::urlToUTF8(htmlspecialchars($value));
-
-            if (strpos($value, 'http') === 0) {
-                return '<a href="' . $value . '">' . $value . '</a>';
-            } else {
-                return '<a href="http://' . $value . '">' . $value . '</a>';
-            }
         }
+
+        // Convert website URL to utf8 for display
+        $value = PunycodeHelper::urlToUTF8(htmlspecialchars($value));
+
+        if (strpos($value, 'http') === 0) {
+            return '<a href="' . $value . '">' . $value . '</a>';
+        }
+
+        return '<a href="http://' . $value . '">' . $value . '</a>';
     }
 
     /**
@@ -160,9 +153,9 @@ final class Profile extends CMSPlugin
     {
         if (empty($value)) {
             return HTMLHelper::_('users.value', $value);
-        } else {
-            return HTMLHelper::_('date', $value, null, null);
         }
+
+        return HTMLHelper::_('date', $value, null, null);
     }
 
     /**
@@ -192,9 +185,9 @@ final class Profile extends CMSPlugin
     {
         if ($value) {
             return Text::_('JYES');
-        } else {
-            return Text::_('JNO');
         }
+
+        return Text::_('JNO');
     }
 
     /**
@@ -212,9 +205,12 @@ final class Profile extends CMSPlugin
         // Check we are manipulating a valid form.
         $name = $form->getName();
 
-        if (!in_array($name, ['com_users.user', 'com_users.profile', 'com_users.registration'])) {
+        if (!\in_array($name, ['com_users.user', 'com_users.profile', 'com_users.registration'])) {
             return true;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         // Add the registration fields to the form.
         FormHelper::addFieldPrefix('Joomla\\Plugin\\User\\Profile\\Field');
@@ -283,7 +279,7 @@ final class Profile extends CMSPlugin
         // Drop the profile form entirely if there aren't any fields to display.
         $remainingfields = $form->getGroup('profile');
 
-        if (!count($remainingfields)) {
+        if (!\count($remainingfields)) {
             $form->removeGroup('profile');
         }
 
@@ -300,23 +296,26 @@ final class Profile extends CMSPlugin
      * @return  boolean
      *
      * @since   3.1
-     * @throws  InvalidArgumentException on invalid date.
+     * @throws  \InvalidArgumentException on invalid date.
      */
     public function onUserBeforeSave($user, $isnew, $data)
     {
+        // Load plugin language files
+        $this->loadLanguage();
+
         // Check that the date is valid.
         if (!empty($data['profile']['dob'])) {
             try {
                 $date       = new Date($data['profile']['dob']);
                 $this->date = $date->format('Y-m-d H:i:s');
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // Throw an exception if date is not valid.
-                throw new InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
+                throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
             }
 
             if (Date::getInstance('now') < $date) {
                 // Throw an exception if dob is greater than now.
-                throw new InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
+                throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
             }
         }
 
@@ -327,7 +326,7 @@ final class Profile extends CMSPlugin
 
         // Check that the tos is checked.
         if ($task === 'register' && $tosEnabled && $option === 'com_users' && !$data['profile']['tos']) {
-            throw new InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
+            throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
         }
 
         return true;
@@ -347,7 +346,7 @@ final class Profile extends CMSPlugin
     {
         $userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
-        if ($userId && $result && isset($data['profile']) && count($data['profile'])) {
+        if ($userId && $result && isset($data['profile']) && \count($data['profile'])) {
             $db = $this->getDatabase();
 
             // Sanitize the date
@@ -382,7 +381,7 @@ final class Profile extends CMSPlugin
                 ->insert($db->quoteName('#__user_profiles'));
 
             foreach ($data['profile'] as $k => $v) {
-                while (in_array($order, $usedOrdering)) {
+                while (\in_array($order, $usedOrdering)) {
                     $order++;
                 }
 

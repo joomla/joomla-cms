@@ -49,6 +49,13 @@
       if (target.type === 'checkbox') {
         return true;
       }
+
+      // Ignore TinyMCE joomlaHighlighter plugin,
+      // @TODO: remove this when the joomlaHighlighter plugin will use JoomlaDialog
+      if (target.classList.contains('tox-textarea-wrap') && target.closest('.joomla-highlighter-dialog')) {
+        return false;
+      }
+
       // Default hotkeys filter behavior
       return !(target.isContentEditable || tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA');
     };

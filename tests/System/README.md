@@ -12,8 +12,9 @@ A couple of steps are needed before the CMS system tests can be executed on the 
 3. Copy the cypress.config.dist.js to cypress.config.js in the root of the joomla folder
 4. Adjust the baseUrl in the cypress.config.js file, it should point to the Joomla base url
 5. Adapt the env variables in the file cypress.config.js, they should point to the site, user data and database environment
-6. Ensure the system has all the required dependencies according to the Cypress [documentation](https://docs.cypress.io/guides/getting-started/installing-cypress)
-7. Run the command `npm run cypress:install`
+6. In order to run the api tests you will need to change the value in your configuration.php for $secret to `tEstValue`
+7. Ensure the system has all the required dependencies according to the Cypress [documentation](https://docs.cypress.io/guides/getting-started/installing-cypress)
+8. Run the command `npm run cypress:install`
 
 ## Run the existing tests
 Cypress has a nice gui which lists all the existing tests and is able to launch a browser where the tests are executed. To open the cypress gui, run the following command:

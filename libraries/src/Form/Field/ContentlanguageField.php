@@ -12,7 +12,7 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\HTML\HTMLHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -34,7 +34,7 @@ class ContentlanguageField extends ListField
     /**
      * Method to get the field options for content languages.
      *
-     * @return  array  The options the field is going to show.
+     * @return  object[]  The options the field is going to show.
      *
      * @since   1.6
      */

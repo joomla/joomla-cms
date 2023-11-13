@@ -4,13 +4,13 @@
  * Joomla! Content Management System
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Image;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -130,7 +130,7 @@ class Image
          * @todo: Remove check for resource when we only support PHP 8
          */
         if (
-            $source && (\is_object($source) && get_class($source) == 'GdImage')
+            $source && (\is_object($source) && \get_class($source) == 'GdImage')
             || (\is_resource($source) && get_resource_type($source) == 'gd')
         ) {
             $this->handle = $source;
@@ -385,7 +385,8 @@ class Image
      * @throws  \LogicException
      * @throws  \InvalidArgumentException
      *
-     * @deprecated 6.0 Use \Joomla\CMS\Image\createThumbnails instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use \Joomla\CMS\Image\createThumbnails instead
      */
     public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null)
     {
@@ -546,8 +547,8 @@ class Image
          * @todo: Remove check for resource when we only support PHP 8
          */
         if (
-            !((\is_object($this->handle) && get_class($this->handle) == 'GdImage')
-            || (\is_resource($this->handle) && get_resource_type($this->handle) == 'gd'))
+            !((\is_object($this->handle) && \get_class($this->handle) == 'GdImage')
+                || (\is_resource($this->handle) && get_resource_type($this->handle) == 'gd'))
         ) {
             return false;
         }

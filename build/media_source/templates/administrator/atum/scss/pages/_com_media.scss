@@ -1,0 +1,16 @@
+:root {
+  --com-media-manager-overlay-header-bg: var(--template-bg-dark-5);
+  --com-media-manager-infobar-dt-color: rgba(0, 0, 0, .54);
+  --com-media-manager-content-bg: var(--body-bg);
+  --com-media-manager-overlay-bg: var(--template-bg-dark-3);
+  --com-media-manager-disk-name-color: var(--template-text-dark);
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark, true) {
+    --com-media-manager-overlay-bg: var(--template-bg-dark-90);
+    --com-media-manager-infobar-dt-color: rgba(255, 255, 255, .54);
+    --com-media-manager-overlay-header-bg: var(--template-bg-dark-80);
+    --com-media-manager-disk-name-color: var(--template-text-light);
+  }
+}

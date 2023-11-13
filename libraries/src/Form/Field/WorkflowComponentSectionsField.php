@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -36,7 +36,7 @@ class WorkflowComponentSectionsField extends ComponentsField
     /**
      * Method to get a list of options for a list input.
      *
-     * @return  array  An array of JHtml options.
+     * @return  object[]  An array of JHtml options.
      *
      * @since   4.0.0
      */

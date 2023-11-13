@@ -26,14 +26,24 @@
 
   .card-header {
     display: flex;
+    align-items: center;
     padding: 1rem 1rem .75rem;
     font-weight: $font-weight-bold;
     color: var(--template-bg-dark);
-    background: var(--card-bg);
+    background-color: var(--card-bg);
 
     > [class^="icon-"],
     > img {
       margin-inline-end: .5rem;
+    }
+  }
+
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      .card-header {
+        color: var(--body-color);
+        background-color: var(--body-bg);
+      }
     }
   }
 }

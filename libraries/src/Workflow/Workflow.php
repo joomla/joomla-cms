@@ -11,6 +11,7 @@ namespace Joomla\CMS\Workflow;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -21,7 +22,7 @@ use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -109,14 +110,14 @@ class Workflow
 
         // Initialise default objects if none have been provided
         if ($app === null) {
-            @trigger_error('In 6.0 is the app dependency mandatory.', E_USER_DEPRECATED);
+            @trigger_error('From 6.0 declaring the app dependency will be mandatory.', E_USER_DEPRECATED);
             $app = Factory::getApplication();
         }
 
         $this->app = $app;
 
         if ($db === null) {
-            @trigger_error('In 6.0 is the database dependency mandatory.', E_USER_DEPRECATED);
+            @trigger_error('From 6.0 declaring the database dependency will be mandatory.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseDriver::class);
         }
 
@@ -350,7 +351,7 @@ class Workflow
 
         $transition = $this->getValidTransition($pks, $transitionId);
 
-        if (is_null($transition)) {
+        if (\is_null($transition)) {
             return false;
         }
 
@@ -400,7 +401,7 @@ class Workflow
                 AbstractEvent::create(
                     'onWorkflowAfterTransition',
                     [
-                        'eventClass' => 'Joomla\CMS\Event\Workflow\WorkflowTransitionEvent',
+                        'eventClass' => WorkflowTransitionEvent::class,
                         'subject'    => $this,
                         'extension'  => $this->extension,
                         'pks'        => $pks,

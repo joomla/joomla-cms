@@ -93,7 +93,7 @@ class DatabaseModelTest extends UnitTestCase
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel {
         };
 
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
         $model->getTable();
     }
 

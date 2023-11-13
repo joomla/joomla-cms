@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
+/** @var \Joomla\CMS\Editor\Button\Button $button */
 $button = $displayData;
 
 if (!$button->get('modal')) {
@@ -26,7 +27,7 @@ $href     = '#' . $button->get('editor') . '_' . strtolower($button->get('name')
 $link     = ($button->get('link')) ? Uri::base() . $button->get('link') : null;
 $onclick  = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') . '"' : '';
 $title    = ($button->get('title')) ? $button->get('title') : $button->get('text');
-$options  = is_array($button->get('options')) ? $button->get('options') : [];
+$options  = $button->getOptions();
 
 $confirm = '';
 

@@ -15,7 +15,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\Filesystem\File as FilesystemFile;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -58,7 +58,7 @@ class File extends FilesystemFile
 
         if (
             ini_get('opcache.enable')
-            && function_exists('opcache_invalidate')
+            && \function_exists('opcache_invalidate')
             && (!ini_get('opcache.restrict_api') || stripos(realpath($_SERVER['SCRIPT_FILENAME']), ini_get('opcache.restrict_api')) === 0)
         ) {
             static::$canFlushFileCache = true;

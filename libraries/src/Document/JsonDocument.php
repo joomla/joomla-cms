@@ -12,7 +12,7 @@ namespace Joomla\CMS\Document;
 use Joomla\CMS\Factory as CmsFactory;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -43,16 +43,7 @@ class JsonDocument extends Document
         parent::__construct($options);
 
         // Set mime type
-        if (
-            isset($_SERVER['HTTP_ACCEPT'])
-            && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') === false
-            && strpos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false
-        ) {
-            // Internet Explorer < 10
-            $this->_mime = 'text/plain';
-        } else {
-            $this->_mime = 'application/json';
-        }
+        $this->_mime = 'application/json';
 
         // Set document type
         $this->_type = 'json';
@@ -74,11 +65,6 @@ class JsonDocument extends Document
         $app = CmsFactory::getApplication();
 
         $app->allowCache($cache);
-
-        if ($this->_mime === 'application/json') {
-            // Browser other than Internet Explorer < 10
-            $app->setHeader('Content-Disposition', 'attachment; filename="' . $this->getName() . '.json"', true);
-        }
 
         parent::render($cache, $params);
 

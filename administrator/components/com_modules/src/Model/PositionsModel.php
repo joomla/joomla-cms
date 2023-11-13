@@ -13,10 +13,10 @@ namespace Joomla\Component\Modules\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -78,7 +78,7 @@ class PositionsModel extends ListModel
 
         // Special case for the client id.
         $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-        $clientId = (!in_array((int) $clientId, [0, 1])) ? 0 : (int) $clientId;
+        $clientId = (!\in_array((int) $clientId, [0, 1])) ? 0 : (int) $clientId;
         $this->setState('client_id', $clientId);
 
         // Load the parameters.
@@ -172,7 +172,7 @@ class PositionsModel extends ListModel
 
                             if ($type == 'user' || ($state != '' && $state != $template->enabled)) {
                                 unset($positions[$value]);
-                            } elseif (preg_match(chr(1) . $search . chr(1) . 'i', $value) && ($filter_template == '' || $filter_template == $template->element)) {
+                            } elseif (preg_match(\chr(1) . $search . \chr(1) . 'i', $value) && ($filter_template == '' || $filter_template == $template->element)) {
                                 if (!isset($positions[$value])) {
                                     $positions[$value] = [];
                                 }
@@ -184,7 +184,7 @@ class PositionsModel extends ListModel
                 }
             }
 
-            $this->total = count($positions);
+            $this->total = \count($positions);
 
             if ($limitstart >= $this->total) {
                 $limitstart = $limitstart < $limit ? 0 : $limitstart - $limit;
@@ -205,7 +205,7 @@ class PositionsModel extends ListModel
                 }
             }
 
-            $this->items = array_slice($positions, $limitstart, $limit ?: null);
+            $this->items = \array_slice($positions, $limitstart, $limit ?: null);
         }
 
         return $this->items;
