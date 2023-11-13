@@ -50,7 +50,7 @@ $atum-colors-dark: (
   sidebar-bg:                      #0f151d,
   template-sidebar-bg:             #0f151d,
   template-link-color:             #21c2f9,
-  template-link-hover-color:       darken(#21c2f9,20%),
+  template-link-hover-color:       darken(#21c2f9,10%),
 
   body-bg:                         #0f151d,
   main-bg:                         #1c2128,
@@ -315,7 +315,8 @@ $atum-colors-dark: (
 
 ) !default;
 
-$link-hover-color-dark: lighten($light-blue, 20%);
+$link-hover-color-dark: darken($button-and-icon-color-dark, 1%); //$light-blue
+
 
 // Alerts
 $state-info-text-dark:             var(--template-bg-dark-50);
