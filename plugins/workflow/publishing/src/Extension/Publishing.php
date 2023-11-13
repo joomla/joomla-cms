@@ -88,9 +88,9 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      */
     public function onContentPrepareForm(EventInterface $event)
     {
-		if (!$event instanceof Event) {
-			return;
-		}
+        if (!$event instanceof Event) {
+            return;
+        }
 
         [$form, $data] = array_values($event->getArguments());
 
@@ -357,9 +357,9 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      */
     public function onContentBeforeChangeState(EventInterface $event)
     {
-		if (!$event instanceof Event) {
-			return;
-		}
+        if (!$event instanceof Event) {
+            return;
+        }
 
         [$context, $pks] = array_values($event->getArguments());
 
