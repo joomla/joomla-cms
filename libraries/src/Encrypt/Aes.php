@@ -51,7 +51,7 @@ class Aes
      *
      * @deprecated  4.3 $strength will be removed in 6.0
      */
-    public function __construct($key, $strength = 128, $mode = 'cbc')
+    public function __construct($key, $strength = 128, $mode = 'cbc', $priority = 'openssl')
     {
         $this->adapter = new OpenSSL();
         $this->adapter->setEncryptionMode($mode, $strength);
