@@ -42,7 +42,7 @@ const settings = require('./build-modules-js/settings.json');
 
 const handleError = (err, terminateCode) => {
   console.error(err); // eslint-disable-line no-console
-  process.exit(terminateCode);
+  process.exitCode = terminateCode;
 };
 
 if (semver.gte(semver.minVersion(options.engines.node), semver.clean(process.version))) {
@@ -95,9 +95,6 @@ if (cliOptions.copyAssets) {
     .then(() => localisePackages(options))
     .then(() => patchPackages(options))
     .then(() => minifyVendor())
-    .then(() => {
-      process.exit(0);
-    })
     .catch((error) => handleError(error, 1));
 }
 
@@ -170,6 +167,5 @@ if (cliOptions.prepare) {
       ],
     ))
     .then(() => bench.stop('Build'))
-    .then(() => { process.exit(0); })
     .catch((err) => handleError(err, -1));
 }
