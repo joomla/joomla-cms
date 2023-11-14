@@ -48,7 +48,6 @@ hosts:
   openldap: 127.0.0.1
 
 services:
-  - mysql
   - iis
 
 before_test:
@@ -56,8 +55,9 @@ before_test:
   - ps: docker pull bitnami/openldap:2.6.3
   - ps: docker run --rm --name openldap --publish 1389:1389 --publish 1636:1636 -v ${pwd}\tests\certs:/certificates --env LDAP_ADMIN_USERNAME=admin --env LDAP_ADMIN_PASSWORD=adminpassword --env LDAP_USERS=customuser --env LDAP_PASSWORDS=custompassword --env LDAP_ENABLE_TLS=yes --env LDAP_TLS_CERT_FILE=/certificates/openldap.crt --env LDAP_TLS_KEY_FILE=/certificates/openldap.key --env LDAP_TLS_CA_FILE=/certificates/CA.crt --env BITNAMI_DEBUG=true --env LDAP_CONFIG_ADMIN_ENABLED=yes --env LDAP_CONFIG_ADMIN_USERNAME=admin --env LDAP_CONFIG_ADMIN_PASSWORD=configpassword -d bitnami/openldap:2.6.3
 #  Database setup for MySQL via PowerShell tools
+  - ps: Start-Service MySQL80
   - >
-    "C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql" -u root -p"Password12!" -e "CREATE DATABASE IF NOT EXISTS test_joomla;"
+    "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql" -u root -p"Password12!" -e "CREATE DATABASE IF NOT EXISTS test_joomla;"
 # Wait till slapd has started
   - ps: |
       $Counter=0

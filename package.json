@@ -1,6 +1,6 @@
 {
   "name": "joomla",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "repository": {
@@ -80,7 +80,7 @@
     "shepherd.js": "^11.2.0",
     "short-and-sweet": "^1.0.4",
     "skipto": "^4.1.7",
-    "tinymce": "^6.7.0",
+    "tinymce": "^6.7.1",
     "vue": "3.2.45",
     "vue-focus-lock": "^2.0.5",
     "vuex": "^4.1.0",
