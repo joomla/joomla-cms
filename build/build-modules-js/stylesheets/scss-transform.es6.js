@@ -14,7 +14,7 @@ module.exports.compile = async (file) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error.formatted);
-    process.exit(1);
+    process.exitCode = 1;
   }
 
   // Auto prefixing
