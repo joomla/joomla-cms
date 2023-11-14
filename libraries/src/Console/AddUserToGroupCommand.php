@@ -120,7 +120,7 @@ class AddUserToGroupCommand extends AbstractCommand
         $this->userGroups = $this->getGroups($user);
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('title'))
             ->from($db->quoteName('#__usergroups'))
             ->where($db->quoteName('id') . ' = :userGroup');
@@ -182,7 +182,7 @@ class AddUserToGroupCommand extends AbstractCommand
         $userGroups = Access::getGroupsByUser($user->id, false);
 
         // Generate select list for user
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('title'))
             ->from($db->quoteName('#__usergroups'))
             ->whereNotIn($db->quoteName('id'), $userGroups)
@@ -218,7 +218,7 @@ class AddUserToGroupCommand extends AbstractCommand
     protected function getGroupId($groupName)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__usergroups'))
             ->where($db->quoteName('title') . '= :groupName')
@@ -240,7 +240,7 @@ class AddUserToGroupCommand extends AbstractCommand
     protected function getUserId($username)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('username') . '= :username')

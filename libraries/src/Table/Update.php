@@ -100,7 +100,7 @@ class Update extends Table
             $where[] = $col . ' = ' . $this->_db->quote($val);
         }
 
-        $query = $this->_db->getQuery(true)
+        $query = $this->_db->createQuery()
             ->select($this->_db->quoteName($this->_tbl_key))
             ->from($this->_db->quoteName($this->_tbl))
             ->where(implode(' AND ', $where));

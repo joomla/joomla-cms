@@ -204,7 +204,7 @@ class GroupTable extends Table implements CurrentUserInterface
     {
         $component = explode('.', $this->context);
         $db        = $this->getDbo();
-        $query     = $db->getQuery(true)
+        $query     = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__assets'))
             ->where($db->quoteName('name') . ' = :name')

@@ -177,7 +177,7 @@ class ModulesModel extends FormModel
     public static function getActivePositions($clientId, $editPositions = false)
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('DISTINCT position')
             ->from($db->quoteName('#__modules'))
             ->where($db->quoteName('client_id') . ' = ' . (int) $clientId)

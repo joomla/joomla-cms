@@ -77,7 +77,7 @@ class MenuType extends Table implements CurrentUserInterface
         $id = (int) $this->id;
 
         // Check for unique menutype.
-        $query = $this->_db->getQuery(true)
+        $query = $this->_db->createQuery()
             ->select('COUNT(id)')
             ->from($this->_db->quoteName('#__menu_types'))
             ->where($this->_db->quoteName('menutype') . ' = :menutype')
@@ -119,7 +119,7 @@ class MenuType extends Table implements CurrentUserInterface
             $table->load($this->id);
 
             // Verify that no items are checked out
-            $query = $this->_db->getQuery(true)
+            $query = $this->_db->createQuery()
                 ->select($this->_db->quoteName('id'))
                 ->from($this->_db->quoteName('#__menu'))
                 ->where($this->_db->quoteName('menutype') . ' = :menutype')
@@ -211,7 +211,7 @@ class MenuType extends Table implements CurrentUserInterface
             $table->load($pk);
 
             // Verify that no items are checked out
-            $query = $this->_db->getQuery(true)
+            $query = $this->_db->createQuery()
                 ->select($this->_db->quoteName('id'))
                 ->from($this->_db->quoteName('#__menu'))
                 ->where($this->_db->quoteName('menutype') . ' = :menutype')

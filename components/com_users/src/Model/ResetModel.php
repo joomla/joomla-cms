@@ -301,7 +301,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
 
         // Find the user id for the given token.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['activation', 'id', 'block']))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('username') . ' = :username')
@@ -396,7 +396,7 @@ class ResetModel extends FormModel implements UserFactoryAwareInterface
 
         // Find the user id for the given email address.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')

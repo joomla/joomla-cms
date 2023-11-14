@@ -174,7 +174,7 @@ class InstallerScript
         $extension = $this->extension;
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the item(s) and retrieve the id
         $query->select($db->quoteName('id'));
@@ -258,7 +258,7 @@ class InstallerScript
         $paramsString = json_encode($params);
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName($this->paramTable))
             ->set('params = :params')
             ->where('id = :id')
@@ -293,7 +293,7 @@ class InstallerScript
         $paramType = is_numeric($identifier) ? ParameterType::INTEGER : ParameterType::STRING;
 
         // Build the query
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName($element))
             ->from($db->quoteName($table))
             ->where($db->quoteName($column) . ' = :id')

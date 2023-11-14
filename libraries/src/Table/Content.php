@@ -111,7 +111,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
             $catId = (int) $this->catid;
 
             // Build the query to get the asset id for the parent category.
-            $query = $this->_db->getQuery(true)
+            $query = $this->_db->createQuery()
                 ->select($this->_db->quoteName('asset_id'))
                 ->from($this->_db->quoteName('#__categories'))
                 ->where($this->_db->quoteName('id') . ' = :catid')

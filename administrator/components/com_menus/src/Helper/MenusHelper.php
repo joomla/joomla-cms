@@ -106,7 +106,7 @@ class MenusHelper extends ContentHelper
     public static function getMenuTypes($clientId = 0)
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('a.menutype'))
             ->from($db->quoteName('#__menu_types', 'a'));
 
@@ -142,7 +142,7 @@ class MenusHelper extends ContentHelper
         $clientId    = (int) $clientId;
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     'DISTINCT ' . $db->quoteName('a.id', 'value'),
@@ -217,7 +217,7 @@ class MenusHelper extends ContentHelper
 
         if (empty($menuType)) {
             // If the menutype is empty, group the items by menutype.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('*')
                 ->from($db->quoteName('#__menu_types'))
                 ->where($db->quoteName('menutype') . ' <> ' . $db->quote(''))
@@ -302,7 +302,7 @@ class MenusHelper extends ContentHelper
     {
         $root  = new AdministratorMenuItem();
         $db    = Factory::getContainer()->get(DatabaseInterface::class);
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Prepare the query.
         $query->select($db->quoteName('m') . '.*')
@@ -428,7 +428,7 @@ class MenusHelper extends ContentHelper
     protected static function installPresetItems($node, $menutype)
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $items = $node->getChildren();
 
         static $components = [];
@@ -509,7 +509,7 @@ class MenusHelper extends ContentHelper
                     }
                 }
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('id'))
                     ->from($db->quoteName('#__menu'))
                     ->whereIn($db->quoteName('component_id'), $hideitems);
@@ -697,7 +697,7 @@ class MenusHelper extends ContentHelper
             $aliasTo = (int) $obj->getParams()->get('aliasoptions');
 
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
             $query->select(
                 [
                     $db->quoteName('a.id'),
@@ -790,7 +790,7 @@ class MenusHelper extends ContentHelper
                 $iJoin  = (string) $element['sql_innerjoin'];
 
                 $db    = Factory::getDbo();
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
                 $query->select($select)->from($from);
 
                 if ($where) {

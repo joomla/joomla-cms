@@ -116,7 +116,7 @@ final class Joomla extends CMSPlugin
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('sendEmail') . ' = 1')
@@ -334,7 +334,7 @@ final class Joomla extends CMSPlugin
                     $aContext = 'com_content.article';
 
                     // Load the schema data from the database
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->select('*')
                         ->from($db->quoteName('#__schemaorg'))
                         ->whereIn($db->quoteName('itemId'), $articleIds)
@@ -826,7 +826,7 @@ final class Joomla extends CMSPlugin
     private function countItemsInCategory($table, $catid)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Count the items in this category
         $query->select('COUNT(' . $db->quoteName('id') . ')')
@@ -879,7 +879,7 @@ final class Joomla extends CMSPlugin
             return false;
         }
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select('COUNT(' . $db->quoteName('b.id') . ')')
             ->from($db->quoteName('#__workflow_associations', 'wa'))
@@ -927,7 +927,7 @@ final class Joomla extends CMSPlugin
         // Make sure we only do the query if we have some categories to look in
         if (\count($childCategoryIds)) {
             // Count the items in this category
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('COUNT(' . $db->quoteName('id') . ')')
                 ->from($db->quoteName($table))
                 ->whereIn($db->quoteName('catid'), $childCategoryIds);
@@ -974,7 +974,7 @@ final class Joomla extends CMSPlugin
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('core_content_id'))
             ->from($db->quoteName('#__ucm_content'))
             ->where($db->quoteName('core_type_alias') . ' = :context')

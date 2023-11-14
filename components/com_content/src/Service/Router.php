@@ -158,7 +158,7 @@ class Router extends RouterView
     {
         if (!strpos($id, ':')) {
             $id      = (int) $id;
-            $dbquery = $this->db->getQuery(true);
+            $dbquery = $this->db->createQuery();
             $dbquery->select($this->db->quoteName('alias'))
                 ->from($this->db->quoteName('#__content'))
                 ->where($this->db->quoteName('id') . ' = :id')
@@ -247,7 +247,7 @@ class Router extends RouterView
     public function getArticleId($segment, $query)
     {
         if ($this->noIDs) {
-            $dbquery = $this->db->getQuery(true);
+            $dbquery = $this->db->createQuery();
             $dbquery->select($this->db->quoteName('id'))
                 ->from($this->db->quoteName('#__content'))
                 ->where(

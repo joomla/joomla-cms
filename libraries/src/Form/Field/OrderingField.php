@@ -166,7 +166,7 @@ class OrderingField extends FormField
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select([$db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')])
             ->from($db->quoteName(json_decode($ucmRow->table)->special->dbtable))
             ->where($db->quoteName('catid') . ' = :categoryId')

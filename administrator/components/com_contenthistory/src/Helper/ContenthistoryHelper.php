@@ -192,7 +192,7 @@ class ContenthistoryHelper
         if (isset($lookup->sourceColumn) && isset($lookup->targetTable) && isset($lookup->targetColumn) && isset($lookup->displayColumn)) {
             $db    = Factory::getDbo();
             $value = (int) $value;
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
             $query->select($db->quoteName($lookup->displayColumn))
                 ->from($db->quoteName($lookup->targetTable))
                 ->where($db->quoteName($lookup->targetColumn) . ' = :value')

@@ -94,7 +94,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
     {
         // Get the extension_id of the en-GB package.
         $db        = $this->getDatabase();
-        $extQuery  = $db->getQuery(true);
+        $extQuery  = $db->createQuery();
 
         $extQuery->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))
@@ -116,7 +116,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
              */
             $updater->findUpdates([$extId], 0);
 
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             // Select the required fields from the updates table.
             $query->select($db->quoteName(['update_id', 'name', 'element', 'version']))
@@ -379,7 +379,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
     {
         // Create a new db object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select field element from the extensions table.
         $query->select($db->quoteName(['element', 'name']))

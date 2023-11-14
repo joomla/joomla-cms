@@ -107,7 +107,7 @@ final class Cookie extends CMSPlugin
 
         // Remove expired tokens
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__user_keys'))
             ->where($db->quoteName('time') . ' < :now')
             ->bind(':now', $now);
@@ -119,7 +119,7 @@ final class Cookie extends CMSPlugin
         }
 
         // Find the matching record if it exists.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['user_id', 'token', 'series', 'time']))
             ->from($db->quoteName('#__user_keys'))
             ->where($db->quoteName('series') . ' = :series')
@@ -151,7 +151,7 @@ final class Cookie extends CMSPlugin
              * Either the series was guessed correctly or a cookie was stolen and used twice (once by attacker and once by victim).
              * Delete all tokens for this user!
              */
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__user_keys'))
                 ->where($db->quoteName('user_id') . ' = :userid')
                 ->bind(':userid', $results[0]->user_id);
@@ -178,7 +178,7 @@ final class Cookie extends CMSPlugin
         }
 
         // Make sure there really is a user with this name and get the data for the session.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'username', 'password']))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('username') . ' = :userid')
@@ -265,7 +265,7 @@ final class Cookie extends CMSPlugin
 
             do {
                 $series = UserHelper::genRandomPassword(20);
-                $query  = $db->getQuery(true)
+                $query  = $db->createQuery()
                     ->select($db->quoteName('series'))
                     ->from($db->quoteName('#__user_keys'))
                     ->where($db->quoteName('series') . ' = :series')
@@ -309,7 +309,7 @@ final class Cookie extends CMSPlugin
             true
         );
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         if (!empty($options['remember'])) {
             $future = (time() + $lifetime);
@@ -385,7 +385,7 @@ final class Cookie extends CMSPlugin
 
         // Remove the record from the database
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__user_keys'))
             ->where($db->quoteName('series') . ' = :series')
             ->bind(':series', $series);

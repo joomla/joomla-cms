@@ -53,7 +53,7 @@ abstract class Tag
         if (!isset(static::$items[$hash])) {
             $config = (array) $config;
             $db     = Factory::getDbo();
-            $query  = $db->getQuery(true)
+            $query  = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('a.id'),
@@ -117,7 +117,7 @@ abstract class Tag
         $hash   = md5(serialize($config));
         $config = (array) $config;
         $db     = Factory::getDbo();
-        $query  = $db->getQuery(true)
+        $query  = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('a.id'),

@@ -34,7 +34,7 @@ class PrivacyDashboardHelper
     public static function getData()
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     'COUNT(*) AS count',

@@ -54,7 +54,7 @@ class AuthorField extends ListField
             $db = $this->getDatabase();
 
             // Construct the query
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('u.id', 'value'),

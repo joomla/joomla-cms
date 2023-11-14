@@ -103,7 +103,7 @@ class TagsModel extends ListModel
 
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select required fields from the tags.
         $query->select('a.*, u.name as created_by_user_name, u.email')

@@ -172,7 +172,7 @@ class CategoryeditField extends ListField
         $db   = $this->getDatabase();
         $user = $this->getCurrentUser();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('a.id', 'value'),
@@ -315,7 +315,7 @@ class CategoryeditField extends ListField
             && !isset($options[0])
             && isset($this->element['show_root'])
         ) {
-            $rowQuery = $db->getQuery(true)
+            $rowQuery = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('a.id', 'value'),

@@ -158,7 +158,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
             if ($value->featured) {
                 // Get featured dates.
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select(
                         [
                             $db->quoteName('featured_up'),
@@ -293,7 +293,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
                 $categoryId = (int) $params->get('catid');
 
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('language'))
                     ->from($db->quoteName('#__categories'))
                     ->where($db->quoteName('id') . ' = :categoryId')

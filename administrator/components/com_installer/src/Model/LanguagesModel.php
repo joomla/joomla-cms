@@ -66,7 +66,7 @@ class LanguagesModel extends ListModel
     private function getUpdateSite()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('us.location'))
             ->from($db->quoteName('#__extensions', 'e'))
             ->where($db->quoteName('e.type') . ' = ' . $db->quote('package'))

@@ -369,7 +369,7 @@ final class Categories extends Adapter
         $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
-        $query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true);
+        $query = $query instanceof DatabaseQuery ? $query : $db->createQuery();
 
         $query->select(
             $db->quoteName(
@@ -437,7 +437,7 @@ final class Categories extends Adapter
      */
     protected function getStateQuery()
     {
-        $query = $this->getDatabase()->getQuery(true);
+        $query = $this->getDatabase()->createQuery();
 
         $query->select(
             $this->getDatabase()->quoteName(

@@ -163,7 +163,7 @@ class WorkflowsModel extends ListModel
             $item->count_transitions = 0;
         }
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select(
             [
@@ -178,7 +178,7 @@ class WorkflowsModel extends ListModel
 
         $status = $db->setQuery($query)->loadObjectList('workflow_id');
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select(
             [
@@ -214,7 +214,7 @@ class WorkflowsModel extends ListModel
     public function getListQuery()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select(
             [

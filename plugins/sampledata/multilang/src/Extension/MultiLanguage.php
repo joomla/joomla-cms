@@ -451,7 +451,7 @@ final class MultiLanguage extends CMSPlugin
     {
         // Create a new db object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query
             ->update($db->quoteName('#__extensions'))
@@ -509,7 +509,7 @@ final class MultiLanguage extends CMSPlugin
     {
         // Create a new db object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Disable main menu module with Home set to ALL languages.
         $query
@@ -832,7 +832,7 @@ final class MultiLanguage extends CMSPlugin
 
         foreach ($groupedAssociations as $context => $associations) {
             $key   = md5(json_encode($associations));
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->insert($db->quoteName('#__associations'));
 
             foreach ($associations as $language => $id) {
@@ -880,7 +880,7 @@ final class MultiLanguage extends CMSPlugin
     {
         // Create a new db object.
         $db       = $this->getDatabase();
-        $query    = $db->getQuery(true);
+        $query    = $db->createQuery();
         $moduleId = (int) $moduleId;
 
         // Add Module in Module menus.
@@ -1049,7 +1049,7 @@ final class MultiLanguage extends CMSPlugin
         // Get the new item ID.
         $newId = $article->get('id');
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->insert($db->quoteName('#__content_frontpage'))
             ->values($newId . ', 0, NULL, NULL');
 
@@ -1193,7 +1193,7 @@ final class MultiLanguage extends CMSPlugin
     {
         // Create a new db object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select field element from the extensions table.
         $query->select($db->quoteName(['element', 'name']))
@@ -1274,7 +1274,7 @@ final class MultiLanguage extends CMSPlugin
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the admin user ID
         $query

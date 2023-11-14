@@ -274,7 +274,7 @@ EOF;
 
         // Get the taxonomy ids used by the filters.
         $db    = $this->db;
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query
             ->select('filter_id, title, data')
             ->from($db->quoteName('#__finder_filters'));
@@ -288,7 +288,7 @@ EOF;
             }
 
             // Get taxonomy records.
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
             $query
                 ->select('t.title, p.title AS parent')
                 ->from($db->quoteName('#__finder_taxonomy') . ' AS t')
@@ -474,7 +474,7 @@ EOF;
 
             foreach ($filter as $element) {
                 // Look for the old taxonomy in the new taxonomy table.
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
                 $query
                     ->select('t.id')
                     ->from($db->quoteName('#__finder_taxonomy') . ' AS t')
@@ -496,7 +496,7 @@ EOF;
             $taxonomyIds = empty($tids) ? '' : implode(',', $tids);
 
             // Update the filter with the new taxonomy ids.
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
             $query
                 ->update($db->quoteName('#__finder_filters'))
                 ->set($db->quoteName('data') . ' = ' . $db->quote($taxonomyIds))

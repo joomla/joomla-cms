@@ -152,7 +152,7 @@ abstract class UpdateAdapter extends AdapterInstance
         }
 
         $db    = $this->parent->getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__update_sites'))
             ->set($db->quoteName('enabled') . ' = :enabled')
             ->where($db->quoteName('update_site_id') . ' = :id')
@@ -183,7 +183,7 @@ abstract class UpdateAdapter extends AdapterInstance
         }
 
         $db    = $this->parent->getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('name'))
             ->from($db->quoteName('#__update_sites'))
             ->where($db->quoteName('update_site_id') . ' = :id')

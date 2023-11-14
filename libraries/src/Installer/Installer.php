@@ -547,7 +547,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 case 'extension':
                     // Get database connector object
                     $db     = $this->getDatabase();
-                    $query  = $db->getQuery(true);
+                    $query  = $db->createQuery();
                     $stepId = (int) $step['id'];
 
                     // Remove the entry from the #__extensions table
@@ -1146,7 +1146,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                     usort($files, 'version_compare');
 
                     // Update the database
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->delete('#__schemas')
                         ->where('extension_id = :extension_id')
                         ->bind(':extension_id', $eid, ParameterType::INTEGER);
@@ -1232,7 +1232,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         $files = str_replace('.sql', '', $files);
         usort($files, 'version_compare');
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('version_id')
             ->from('#__schemas')
             ->where('extension_id = :extension_id')
@@ -1361,7 +1361,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
              */
             $db->transactionStart();
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete('#__schemas')
                 ->where('extension_id = :extension_id')
                 ->bind(':extension_id', $eid, ParameterType::INTEGER);
@@ -2108,7 +2108,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
     public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__extensions'))
             ->where('type = :type')
             ->where('element = :element')

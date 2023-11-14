@@ -254,7 +254,7 @@ class PluginModel extends AdminModel
 
         // Load the core and/or local language sys file(s) for the ordering field.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('element'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))

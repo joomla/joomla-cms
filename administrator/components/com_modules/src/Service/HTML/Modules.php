@@ -230,7 +230,7 @@ class Modules
     {
         $clientId = (int) $clientId;
         $db       = Factory::getDbo();
-        $query    = $db->getQuery(true)
+        $query    = $db->createQuery()
             ->select('DISTINCT ' . $db->quoteName('position', 'value'))
             ->select($db->quoteName('position', 'text'))
             ->from($db->quoteName('#__modules'))

@@ -297,7 +297,7 @@ final class Tags extends Adapter
         $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
-        $query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
+        $query = $query instanceof DatabaseQuery ? $query : $db->createQuery()
             ->select('a.id, a.title, a.alias, a.description AS summary')
             ->select('a.created_time AS start_date, a.created_user_id AS created_by')
             ->select('a.metakey, a.metadesc, a.metadata, a.language, a.access')
@@ -334,7 +334,7 @@ final class Tags extends Adapter
      */
     protected function getStateQuery()
     {
-        $query = $this->getDatabase()->getQuery(true);
+        $query = $this->getDatabase()->createQuery();
         $query->select($this->getDatabase()->quoteName('a.id'))
             ->select($this->getDatabase()->quoteName('a.' . $this->state_field, 'state') . ', ' . $this->getDatabase()->quoteName('a.access'))
             ->select('NULL AS cat_state, NULL AS cat_access')
@@ -355,7 +355,7 @@ final class Tags extends Adapter
     protected function getUpdateQueryByTime($time)
     {
         // Build an SQL query based on the modified time.
-        $query = $this->getDatabase()->getQuery(true)
+        $query = $this->getDatabase()->createQuery()
             ->where('a.date >= ' . $this->getDatabase()->quote($time));
 
         return $query;

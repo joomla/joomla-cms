@@ -76,7 +76,7 @@ class Usergroup extends Table
         $parentId = (int) $this->parent_id;
         $title    = trim($this->title);
         $id       = (int) $this->id;
-        $query    = $db->getQuery(true)
+        $query    = $db->createQuery()
             ->select('COUNT(title)')
             ->from($this->_tbl)
             ->where($db->quoteName('title') . ' = :title')
@@ -140,7 +140,7 @@ class Usergroup extends Table
     {
         // Get the database object
         $db       = $this->_db;
-        $query    = $db->getQuery(true);
+        $query    = $db->createQuery();
         $parentId = (int) $parentId;
 
         // Get all children of this node
@@ -248,7 +248,7 @@ class Usergroup extends Table
         $rgt = (int) $this->rgt;
 
         // Select the usergroup ID and its children
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('c.id'))
             ->from($db->quoteName($this->_tbl, 'c'))
             ->where($db->quoteName('c.lft') . ' >= :lft')

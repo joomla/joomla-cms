@@ -73,7 +73,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
         $pk  = (int) $pk;
 
         // Gets the workflow information that is going to be deleted.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('default'))
             ->from($db->quoteName('#__workflows'))
             ->where($db->quoteName('id') . ' = :id')
@@ -89,14 +89,14 @@ class WorkflowTable extends Table implements CurrentUserInterface
 
         // Delete the workflow states, then transitions from all tables.
         try {
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__workflow_stages'))
                 ->where($db->quoteName('workflow_id') . ' = :id')
                 ->bind(':id', $pk, ParameterType::INTEGER);
 
             $db->setQuery($query)->execute();
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__workflow_transitions'))
                 ->where($db->quoteName('workflow_id') . ' = :id')
                 ->bind(':id', $pk, ParameterType::INTEGER);
@@ -143,7 +143,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
             }
         } else {
             $db    = $this->getDbo();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             $query
                 ->select($db->quoteName('id'))
@@ -300,7 +300,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
         $extension = array_shift($parts);
 
         // Build the query to get the asset id for the parent category.
-        $query = $this->getDbo()->getQuery(true)
+        $query = $this->getDbo()->createQuery()
             ->select($this->getDbo()->quoteName('id'))
             ->from($this->getDbo()->quoteName('#__assets'))
             ->where($this->getDbo()->quoteName('name') . ' = :extension')

@@ -327,7 +327,7 @@ class DatabaseModel extends InstallerModel
     protected function getListQuery()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 $db->quoteName(
                     [
@@ -432,7 +432,7 @@ class DatabaseModel extends InstallerModel
     {
         $db          = $this->getDatabase();
         $extensionId = (int) $extensionId;
-        $query       = $db->getQuery(true)
+        $query       = $db->createQuery()
             ->select($db->quoteName('version_id'))
             ->from($db->quoteName('#__schemas'))
             ->where($db->quoteName('extension_id') . ' = :extensionid')
@@ -467,7 +467,7 @@ class DatabaseModel extends InstallerModel
         // Delete old row.
         $extensionId = (int) $extensionId;
         $db          = $this->getDatabase();
-        $query       = $db->getQuery(true)
+        $query       = $db->createQuery()
             ->delete($db->quoteName('#__schemas'))
             ->where($db->quoteName('extension_id') . ' = :extensionid')
             ->bind(':extensionid', $extensionId, ParameterType::INTEGER);

@@ -118,7 +118,7 @@ class ContentType extends Table
     public function getTypeId($typeAlias)
     {
         $db    = $this->getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select($db->quoteName('type_id'))
             ->from($db->quoteName($this->_tbl))
             ->where($db->quoteName('type_alias') . ' = :type_alias')

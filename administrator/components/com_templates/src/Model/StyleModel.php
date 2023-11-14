@@ -522,7 +522,7 @@ class StyleModel extends AdminModel
                 $data['assigned'] = ArrayHelper::toInteger($data['assigned']);
 
                 // Update the mapping for menu items that this style IS assigned to.
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->update($db->quoteName('#__menu'))
                     ->set($db->quoteName('template_style_id') . ' = :newtsid')
                     ->whereIn($db->quoteName('id'), $data['assigned'])
@@ -538,7 +538,7 @@ class StyleModel extends AdminModel
 
             // Remove style mappings for menu items this style is NOT assigned to.
             // If unassigned then all existing maps will be removed.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__menu'))
                 ->set($db->quoteName('template_style_id') . ' = 0');
 
@@ -607,7 +607,7 @@ class StyleModel extends AdminModel
         $id       = (int) $id;
 
         // Reset the home fields for the client_id.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__template_styles'))
             ->set($db->quoteName('home') . ' = ' . $db->quote('0'))
             ->where($db->quoteName('client_id') . ' = :clientid')
@@ -617,7 +617,7 @@ class StyleModel extends AdminModel
         $db->execute();
 
         // Set the new home style.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__template_styles'))
             ->set($db->quoteName('home') . ' = ' . $db->quote('1'))
             ->where($db->quoteName('id') . ' = :id')
@@ -653,7 +653,7 @@ class StyleModel extends AdminModel
         $id = (int) $id;
 
         // Lookup the client_id.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['client_id', 'home']))
             ->from($db->quoteName('#__template_styles'))
             ->where($db->quoteName('id') . ' = :id')
@@ -670,7 +670,7 @@ class StyleModel extends AdminModel
         }
 
         // Set the new home style.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__template_styles'))
             ->set($db->quoteName('home') . ' = ' . $db->quote('0'))
             ->where($db->quoteName('id') . ' = :id')
@@ -708,7 +708,7 @@ class StyleModel extends AdminModel
     public function getAdminTemplate(int $styleId): \stdClass
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['s.template', 's.params', 's.inheritable', 's.parent']))
             ->from($db->quoteName('#__template_styles', 's'))
             ->join(
@@ -753,7 +753,7 @@ class StyleModel extends AdminModel
     public function getSiteTemplates(): array
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'home', 'template', 's.params', 'inheritable', 'parent']))
             ->from($db->quoteName('#__template_styles', 's'))
             ->where(

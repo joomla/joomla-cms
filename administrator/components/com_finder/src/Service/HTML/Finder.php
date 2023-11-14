@@ -41,7 +41,7 @@ class Finder
     {
         // Load the finder types.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('DISTINCT t.title AS text, t.id AS value')
             ->from($db->quoteName('#__finder_types') . ' AS t')
             ->join('LEFT', $db->quoteName('#__finder_links') . ' AS l ON l.type_id = t.id')
@@ -78,7 +78,7 @@ class Finder
     {
         // Load the finder types.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('title', 'text'))
             ->select($db->quoteName('id', 'value'))
             ->from($db->quoteName('#__finder_taxonomy'))

@@ -97,7 +97,7 @@ class User extends Table
         $userId = (int) $userId;
 
         // Load the user data.
-        $query = $this->_db->getQuery(true)
+        $query = $this->_db->createQuery()
             ->select('*')
             ->from($this->_db->quoteName('#__users'))
             ->where($this->_db->quoteName('id') . ' = :userid')
@@ -163,7 +163,7 @@ class User extends Table
             $this->groups = ArrayHelper::toInteger($this->groups);
 
             // Get the titles for the user groups.
-            $query = $this->_db->getQuery(true)
+            $query = $this->_db->createQuery()
                 ->select($this->_db->quoteName('id'))
                 ->select($this->_db->quoteName('title'))
                 ->from($this->_db->quoteName('#__usergroups'))
@@ -253,7 +253,7 @@ class User extends Table
         $uid = (int) $this->id;
 
         // Check for existing username
-        $query = $this->_db->getQuery(true)
+        $query = $this->_db->createQuery()
             ->select($this->_db->quoteName('id'))
             ->from($this->_db->quoteName('#__users'))
             ->where($this->_db->quoteName('username') . ' = :username')
@@ -351,7 +351,7 @@ class User extends Table
         // Reset groups to the local object.
         $this->groups = $groups;
 
-        $query = $this->_db->getQuery(true);
+        $query = $this->_db->createQuery();
 
         // Store the group data if the user data was saved.
         if (\is_array($this->groups) && \count($this->groups)) {
@@ -452,7 +452,7 @@ class User extends Table
         $key = (int) $this->$k;
 
         // Delete the user.
-        $query = $this->_db->getQuery(true)
+        $query = $this->_db->createQuery()
             ->delete($this->_db->quoteName($this->_tbl))
             ->where($this->_db->quoteName($this->_tbl_key) . ' = :key')
             ->bind(':key', $key, ParameterType::INTEGER);
@@ -527,7 +527,7 @@ class User extends Table
 
         // Update the database row for the user.
         $db    = $this->_db;
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName($this->_tbl))
             ->set($db->quoteName('lastvisitDate') . ' = :lastvisitDate')
             ->where($db->quoteName('id') . ' = :id')

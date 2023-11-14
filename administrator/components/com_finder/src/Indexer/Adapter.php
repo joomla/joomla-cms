@@ -286,8 +286,8 @@ abstract class Adapter extends CMSPlugin
         $db      = $this->db;
         $type_id = $this->getTypeId();
 
-        $query    = $db->getQuery(true);
-        $subquery = $db->getQuery(true);
+        $query    = $db->createQuery();
+        $subquery = $db->createQuery();
         $subquery->select('CONCAT(' . $db->quote($this->getUrl('', $this->extension, $this->layout)) . ', id)')
             ->from($db->quoteName($this->table));
         $query->select($db->quoteName('l.link_id'))
@@ -330,7 +330,7 @@ abstract class Adapter extends CMSPlugin
         $item = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
 
         // Update the content items.
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->update($this->db->quoteName('#__finder_links'))
             ->set($this->db->quoteName($property) . ' = ' . (int) $value)
             ->where($this->db->quoteName('url') . ' = ' . $item);
@@ -393,7 +393,7 @@ abstract class Adapter extends CMSPlugin
         $url = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
 
         // Get the link ids for the content items.
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->select($this->db->quoteName('link_id'))
             ->from($this->db->quoteName('#__finder_links'))
             ->where($this->db->quoteName('url') . ' = ' . $url);
@@ -500,7 +500,7 @@ abstract class Adapter extends CMSPlugin
      */
     protected function checkCategoryAccess($row)
     {
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->select($this->db->quoteName('access'))
             ->from($this->db->quoteName('#__categories'))
             ->where($this->db->quoteName('id') . ' = ' . (int) $row->id);
@@ -521,7 +521,7 @@ abstract class Adapter extends CMSPlugin
      */
     protected function checkItemAccess($row)
     {
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->select($this->db->quoteName('access'))
             ->from($this->db->quoteName($this->table))
             ->where($this->db->quoteName('id') . ' = ' . (int) $row->id);
@@ -643,7 +643,7 @@ abstract class Adapter extends CMSPlugin
     protected function getListQuery($query = null)
     {
         // Check if we can use the supplied SQL query.
-        return $query instanceof QueryInterface ? $query : $this->db->getQuery(true);
+        return $query instanceof QueryInterface ? $query : $this->db->createQuery();
     }
 
     /**
@@ -658,7 +658,7 @@ abstract class Adapter extends CMSPlugin
     protected function getPluginType($id)
     {
         // Prepare the query
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->select($this->db->quoteName('element'))
             ->from($this->db->quoteName('#__extensions'))
             ->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('finder'))
@@ -678,7 +678,7 @@ abstract class Adapter extends CMSPlugin
      */
     protected function getStateQuery()
     {
-        $query = $this->db->getQuery(true);
+        $query = $this->db->createQuery();
 
         // Item ID
         $query->select('a.id');
@@ -706,7 +706,7 @@ abstract class Adapter extends CMSPlugin
     protected function getUpdateQueryByTime($time)
     {
         // Build an SQL query based on the modified time.
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->where('a.modified >= ' . $this->db->quote($time));
 
         return $query;
@@ -724,7 +724,7 @@ abstract class Adapter extends CMSPlugin
     protected function getUpdateQueryByIds($ids)
     {
         // Build an SQL query based on the item ids.
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->where('a.id IN(' . implode(',', $ids) . ')');
 
         return $query;
@@ -741,7 +741,7 @@ abstract class Adapter extends CMSPlugin
     protected function getTypeId()
     {
         // Get the type id from the database.
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->select($this->db->quoteName('id'))
             ->from($this->db->quoteName('#__finder_types'))
             ->where($this->db->quoteName('title') . ' = ' . $this->db->quote($this->type_title));
@@ -787,7 +787,7 @@ abstract class Adapter extends CMSPlugin
         $groups = implode(',', $user->getAuthorisedViewLevels());
 
         // Build a query to get the menu params.
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->select($this->db->quoteName('params'))
             ->from($this->db->quoteName('#__menu'))
             ->where($this->db->quoteName('link') . ' = ' . $this->db->quote($url))

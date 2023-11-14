@@ -30,7 +30,7 @@ use Joomla\CMS\Factory;
 function admin_postinstall_languageaccess340_condition()
 {
     $db    = Factory::getDbo();
-    $query = $db->getQuery(true)
+    $query = $db->createQuery()
         ->select($db->quoteName('access'))
         ->from($db->quoteName('#__languages'))
         ->where($db->quoteName('access') . ' = ' . $db->quote('0'));

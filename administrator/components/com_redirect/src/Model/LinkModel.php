@@ -145,7 +145,7 @@ class LinkModel extends AdminModel
 
         if (!empty($pks)) {
             // Update the link rows.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__redirect_links'))
                 ->set($db->quoteName('new_url') . ' = :url')
                 ->set($db->quoteName('published') . ' = 1')
@@ -199,7 +199,7 @@ class LinkModel extends AdminModel
             $date = Factory::getDate()->toSql();
 
             // Update the link rows.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__redirect_links'))
                 ->set($db->quoteName('new_url') . ' = :url')
                 ->set($db->quoteName('modified_date') . ' = :date')

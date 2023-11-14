@@ -51,7 +51,7 @@ final class Contact extends PrivacyPlugin
         $domains[] = $domain;
         $db        = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__contact_details'))
             ->order($db->quoteName('ordering') . ' ASC');

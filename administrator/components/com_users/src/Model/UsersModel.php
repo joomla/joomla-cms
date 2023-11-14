@@ -196,7 +196,7 @@ class UsersModel extends ListModel
 
             // Get the counts from the database only for the users in the list.
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             // Join over the group mapping table.
             $query->select('map.user_id, COUNT(map.group_id) AS group_count')
@@ -289,7 +289,7 @@ class UsersModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select(
@@ -303,7 +303,7 @@ class UsersModel extends ListModel
 
         // Include MFA information
         if (PluginHelper::isEnabled('multifactorauth')) {
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select(
                     [
                         'MIN(' . $db->quoteName('user_id') . ') AS ' . $db->quoteName('uid'),
@@ -589,7 +589,7 @@ class UsersModel extends ListModel
     protected function getUserDisplayedGroups($userId)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('title'))
             ->from($db->quoteName('#__usergroups', 'ug'))
             ->join('LEFT', $db->quoteName('#__user_usergroup_map', 'map') . ' ON (ug.id = map.group_id)')

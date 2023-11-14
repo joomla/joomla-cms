@@ -148,7 +148,7 @@ class Nested extends Table
 
         // Get the path from the node to the root.
         $select = ($diagnostic) ? 'p.' . $k . ', p.parent_id, p.level, p.lft, p.rgt' : 'p.*';
-        $query  = $this->_db->getQuery(true)
+        $query  = $this->_db->createQuery()
             ->select($select)
             ->from($this->_tbl . ' AS n, ' . $this->_tbl . ' AS p')
             ->where('n.lft BETWEEN p.lft AND p.rgt')
@@ -178,7 +178,7 @@ class Nested extends Table
 
         // Get the node and children as a tree.
         $select = ($diagnostic) ? 'n.' . $k . ', n.parent_id, n.level, n.lft, n.rgt' : 'n.*';
-        $query  = $this->_db->getQuery(true)
+        $query  = $this->_db->createQuery()
             ->select($select)
             ->from($this->_tbl . ' AS n, ' . $this->_tbl . ' AS p')
             ->where('n.lft BETWEEN p.lft AND p.rgt')
@@ -261,7 +261,7 @@ class Nested extends Table
         $k  = $this->_tbl_key;
         $pk = $this->$k;
 
-        $query = $this->_db->getQuery(true)
+        $query = $this->_db->createQuery()
             ->select($k)
             ->from($this->_tbl)
             ->where('parent_id = ' . $this->parent_id);
@@ -319,7 +319,7 @@ class Nested extends Table
         }
 
         // Get the ids of child nodes.
-        $query = $this->_db->getQuery(true)
+        $query = $this->_db->createQuery()
             ->select($k)
             ->from($this->_tbl)
             ->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt);
@@ -464,7 +464,7 @@ class Nested extends Table
 
         // Set the correct parent id for the moved node if required.
         if ($node->parent_id != $repositionData->new_parent_id) {
-            $query = $this->_db->getQuery(true)
+            $query = $this->_db->createQuery()
                 ->update($this->_tbl);
 
             // Update the title and alias fields if they exist for the table.
@@ -560,7 +560,7 @@ class Nested extends Table
             return false;
         }
 
-        $query = $this->_db->getQuery(true);
+        $query = $this->_db->createQuery();
 
         // Should we delete all children along with the node?
         if ($children) {
@@ -666,7 +666,7 @@ class Nested extends Table
                 throw new \UnexpectedValueException(sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
             }
 
-            $query = $this->_db->getQuery(true)
+            $query = $this->_db->createQuery()
                 ->select('1')
                 ->from($this->_tbl)
                 ->where($this->_tbl_key . ' = ' . $this->parent_id);
@@ -733,7 +733,7 @@ class Nested extends Table
                 // We are inserting a node relative to the last root node.
                 if ($this->_location_id == 0) {
                     // Get the last root node as the reference node.
-                    $query = $this->_db->getQuery(true)
+                    $query = $this->_db->createQuery()
                         ->select($this->_tbl_key . ', parent_id, level, lft, rgt')
                         ->from($this->_tbl)
                         ->where('parent_id = 0')
@@ -766,7 +766,7 @@ class Nested extends Table
                 }
 
                 // Create space in the tree at the new location for the new node in left ids.
-                $query = $this->_db->getQuery(true)
+                $query = $this->_db->createQuery()
                     ->update($this->_tbl)
                     ->set('lft = lft + 2')
                     ->where($repositionData->left_where);
@@ -872,7 +872,7 @@ class Nested extends Table
     {
         $k = $this->_tbl_key;
 
-        $query     = $this->_db->getQuery(true);
+        $query     = $this->_db->createQuery();
         $table     = $this->_db->quoteName($this->_tbl);
         $published = $this->_db->quoteName($this->getColumnAlias('published'));
         $key       = $this->_db->quoteName($k);
@@ -1017,7 +1017,7 @@ class Nested extends Table
 
         try {
             // Get the primary keys of child nodes.
-            $query = $this->_db->getQuery(true)
+            $query = $this->_db->createQuery()
                 ->select($this->_tbl_key)
                 ->from($this->_tbl)
                 ->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt);
@@ -1082,7 +1082,7 @@ class Nested extends Table
             return false;
         }
 
-        $query = $this->_db->getQuery(true);
+        $query = $this->_db->createQuery();
 
         // Get the right sibling node.
         $sibling = $this->_getNode($node->rgt + 1, 'left');
@@ -1147,7 +1147,7 @@ class Nested extends Table
         $k = $this->_tbl_key;
 
         // Test for a unique record with parent_id = 0
-        $query = $this->_db->getQuery(true)
+        $query = $this->_db->createQuery()
             ->select($k)
             ->from($this->_tbl)
             ->where('parent_id = 0');
@@ -1224,7 +1224,7 @@ class Nested extends Table
             }
         }
 
-        $query = $this->_db->getQuery(true);
+        $query = $this->_db->createQuery();
 
         // Build the structure of the recursive query.
         if (!isset($this->_cache['rebuild.sql'])) {
@@ -1305,7 +1305,7 @@ class Nested extends Table
         $pk = (\is_null($pk)) ? $this->$k : $pk;
 
         // Get the aliases for the path from the node to the root node.
-        $query = $this->_db->getQuery(true)
+        $query = $this->_db->createQuery()
             ->select('p.alias')
             ->from($this->_tbl . ' AS n, ' . $this->_tbl . ' AS p')
             ->where('n.lft BETWEEN p.lft AND p.rgt')
@@ -1368,7 +1368,7 @@ class Nested extends Table
     public function saveorder($idArray = null, $lftArray = null)
     {
         try {
-            $query = $this->_db->getQuery(true);
+            $query = $this->_db->createQuery();
 
             // Validate arguments
             if (\is_array($idArray) && \is_array($lftArray) && \count($idArray) == \count($lftArray)) {
@@ -1409,7 +1409,7 @@ class Nested extends Table
      */
     protected function recursiveUpdatePublishedColumn($pk, $newState = null)
     {
-        $query     = $this->_db->getQuery(true);
+        $query     = $this->_db->createQuery();
         $table     = $this->_db->quoteName($this->_tbl);
         $key       = $this->_db->quoteName($this->_tbl_key);
         $published = $this->_db->quoteName($this->getColumnAlias('published'));
@@ -1513,7 +1513,7 @@ class Nested extends Table
         }
 
         // Get the node data.
-        $query = $this->_db->getQuery(true)
+        $query = $this->_db->createQuery()
             ->select($this->_tbl_key . ', parent_id, level, lft, rgt')
             ->from($this->_tbl)
             ->where($k . ' = ' . (int) $id);
@@ -1641,7 +1641,7 @@ class Nested extends Table
         }
 
         if ($showData) {
-            $query = $this->_db->getQuery(true)
+            $query = $this->_db->createQuery()
                 ->select($this->_tbl_key . ', parent_id, lft, rgt, level')
                 ->from($this->_tbl)
                 ->order($this->_tbl_key);

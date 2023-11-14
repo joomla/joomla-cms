@@ -68,7 +68,7 @@ class MessagesModel extends BaseDatabaseModel
         $db = $this->getDatabase();
         $id = (int) $id;
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select(
             [
                 $db->quoteName('postinstall_message_id'),
@@ -110,7 +110,7 @@ class MessagesModel extends BaseDatabaseModel
         $db = $this->getDatabase();
         $id = (int) $id;
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query
             ->update($db->quoteName('#__postinstall_messages'))
             ->set($db->quoteName('enabled') . ' = 0')
@@ -135,7 +135,7 @@ class MessagesModel extends BaseDatabaseModel
         $db = $this->getDatabase();
         $id = (int) $id;
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query
             ->update($db->quoteName('#__postinstall_messages'))
             ->set($db->quoteName('enabled') . ' = 2')
@@ -160,7 +160,7 @@ class MessagesModel extends BaseDatabaseModel
         $db = $this->getDatabase();
         $id = (int) $id;
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query
             ->update($db->quoteName('#__postinstall_messages'))
             ->set($db->quoteName('enabled') . ' = 1')
@@ -187,7 +187,7 @@ class MessagesModel extends BaseDatabaseModel
         $cacheId = 'postinstall_messages.' . $eid;
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select(
             [
                 $db->quoteName('postinstall_message_id'),
@@ -244,7 +244,7 @@ class MessagesModel extends BaseDatabaseModel
     public function getItemsCount()
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select(
             [
                 $db->quoteName('language_extension'),
@@ -296,7 +296,7 @@ class MessagesModel extends BaseDatabaseModel
         $db  = $this->getDatabase();
         $eid = (int) $eid;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('name'),
@@ -345,7 +345,7 @@ class MessagesModel extends BaseDatabaseModel
         $db  = $this->getDatabase();
         $eid = (int) $eid;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__postinstall_messages'))
             ->set($db->quoteName('enabled') . ' = 1')
             ->where($db->quoteName('extension_id') . ' = :eid')
@@ -372,7 +372,7 @@ class MessagesModel extends BaseDatabaseModel
         $db  = $this->getDatabase();
         $eid = (int) $eid;
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__postinstall_messages'))
             ->set($db->quoteName('enabled') . ' = 0')
             ->where($db->quoteName('extension_id') . ' = :eid')
@@ -453,7 +453,7 @@ class MessagesModel extends BaseDatabaseModel
     {
         $db = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__postinstall_messages'))
             ->group($db->quoteName('extension_id'));
@@ -669,7 +669,7 @@ class MessagesModel extends BaseDatabaseModel
         $extensionId = (int) $options['extension_id'];
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName($tableName))
             ->where(
@@ -702,7 +702,7 @@ class MessagesModel extends BaseDatabaseModel
             }
 
             // Otherwise it's not the same row. Remove the old row before insert a new one.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName($tableName))
                 ->where(
                     [

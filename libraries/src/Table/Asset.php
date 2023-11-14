@@ -109,7 +109,7 @@ class Asset extends Nested
         // Nested does not allow parent_id = 0, override this.
         if ($this->parent_id > 0) {
             // Get the DatabaseQuery object
-            $query = $this->_db->getQuery(true)
+            $query = $this->_db->createQuery()
                 ->select('1')
                 ->from($this->_db->quoteName($this->_tbl))
                 ->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
@@ -153,7 +153,7 @@ class Asset extends Nested
             }
         }
 
-        $query = $this->_db->getQuery(true);
+        $query = $this->_db->createQuery();
 
         // Build the structure of the recursive query.
         if (!isset($this->_cache['rebuild.sql'])) {

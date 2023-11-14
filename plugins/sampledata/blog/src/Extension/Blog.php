@@ -304,7 +304,7 @@ final class Blog extends CMSPlugin
             }
 
             // Get the stage Ids of the new stages
-            $query = $this->getDatabase()->getQuery(true);
+            $query = $this->getDatabase()->createQuery();
 
             $query->select([$this->getDatabase()->quoteName('title'), $this->getDatabase()->quoteName('id')])
                 ->from($this->getDatabase()->quoteName('#__workflow_stages'))
@@ -731,7 +731,7 @@ final class Blog extends CMSPlugin
                 && ComponentHelper::getParams('com_content')->get('workflow_enabled')
             ) {
                 // Set the article featured in #__content_frontpage
-                $this->getDatabase()->getQuery(true);
+                $this->getDatabase()->createQuery();
 
                 $featuredItem = (object) [
                     'content_id'    => $articleModel->getItem()->id,

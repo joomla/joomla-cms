@@ -67,7 +67,7 @@ class Multilanguage
         if (!$tested) {
             // Determine status of language filter plugin.
             $db    = $db ?: Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('enabled'))
                 ->from($db->quoteName('#__extensions'))
                 ->where(
@@ -103,7 +103,7 @@ class Multilanguage
         if (!isset($multilangSiteHomePages)) {
             // Check for Home pages languages.
             $db    = $db ?: Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select(
                     [
                         $db->quoteName('language'),

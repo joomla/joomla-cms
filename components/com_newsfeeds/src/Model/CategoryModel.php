@@ -159,7 +159,7 @@ class CategoryModel extends ListModel
         $db = $this->getDatabase();
 
         /** @var \Joomla\Database\DatabaseQuery $query */
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select required fields from the categories.
         $query->select($this->getState('list.select', $db->quoteName('a') . '.*'))

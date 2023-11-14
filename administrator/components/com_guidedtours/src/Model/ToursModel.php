@@ -116,7 +116,7 @@ class ToursModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select(
@@ -126,7 +126,7 @@ class ToursModel extends ListModel
             )
         );
 
-        $subQuery = $db->getQuery(true)
+        $subQuery = $db->createQuery()
             ->select('COUNT(' . $db->quoteName('s.id') . ')')
             ->from($db->quoteName('#__guidedtour_steps', 's'))
             ->where(

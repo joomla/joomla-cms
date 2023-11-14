@@ -107,7 +107,7 @@ class StyleTable extends Table
     {
         if ($this->home != '0') {
             $clientId = (int) $this->client_id;
-            $query    = $this->_db->getQuery(true)
+            $query    = $this->_db->createQuery()
                 ->update($this->_db->quoteName('#__template_styles'))
                 ->set($this->_db->quoteName('home') . ' = ' . $this->_db->quote('0'))
                 ->where($this->_db->quoteName('client_id') . ' = :clientid')
@@ -137,7 +137,7 @@ class StyleTable extends Table
 
         if (!\is_null($pk)) {
             $clientId = (int) $this->client_id;
-            $query    = $this->_db->getQuery(true)
+            $query    = $this->_db->createQuery()
                 ->select($this->_db->quoteName('id'))
                 ->from($this->_db->quoteName('#__template_styles'))
                 ->where($this->_db->quoteName('client_id') . ' = :clientid')

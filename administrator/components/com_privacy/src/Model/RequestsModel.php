@@ -60,7 +60,7 @@ class RequestsModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select($this->getState('list.select', 'a.*'));
@@ -185,7 +185,7 @@ class RequestsModel extends ListModel
         $period = '-' . $notify;
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(*)');
         $query->from($db->quoteName('#__privacy_requests'));
         $query->where($db->quoteName('status') . ' = 1 ');

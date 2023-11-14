@@ -217,7 +217,7 @@ class ModuleAdapter extends InstallerAdapter
         $retval = true;
 
         // Remove the schema version
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete('#__schemas')
             ->where('extension_id = :extension_id')
             ->bind(':extension_id', $extensionId, ParameterType::INTEGER);
@@ -249,7 +249,7 @@ class ModuleAdapter extends InstallerAdapter
             $modules = ArrayHelper::toInteger($modules);
 
             // Wipe out any items assigned to menus
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__modules_menu'))
                 ->whereIn($db->quoteName('moduleid'), $modules);
             $db->setQuery($query);
@@ -277,7 +277,7 @@ class ModuleAdapter extends InstallerAdapter
 
         // Now we will no longer need the module object, so let's delete it and free up memory
         $this->extension->delete($this->extension->extension_id);
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__modules'))
             ->where($db->quoteName('module') . ' = :element')
             ->where($db->quoteName('client_id') . ' = :client_id')
@@ -667,7 +667,7 @@ class ModuleAdapter extends InstallerAdapter
         $moduleId = $arg['id'];
 
         // Remove the entry from the #__modules_menu table
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__modules_menu'))
             ->where($db->quoteName('moduleid') . ' = :module_id')
             ->bind(':module_id', $moduleId, ParameterType::INTEGER);
@@ -698,7 +698,7 @@ class ModuleAdapter extends InstallerAdapter
         $moduleId = $arg['id'];
 
         // Remove the entry from the #__modules table
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__modules'))
             ->where($db->quoteName('id') . ' = :module_id')
             ->bind(':module_id', $moduleId, ParameterType::INTEGER);

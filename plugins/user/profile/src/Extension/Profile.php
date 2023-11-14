@@ -70,7 +70,7 @@ final class Profile extends CMSPlugin
             if (!isset($data->profile) && $userId > 0) {
                 // Load the profile data from the database.
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select(
                         [
                             $db->quoteName('profile_key'),
@@ -360,7 +360,7 @@ final class Profile extends CMSPlugin
                 $key = 'profile.' . $key;
             }
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__user_profiles'))
                 ->where($db->quoteName('user_id') . ' = :userid')
                 ->whereIn($db->quoteName('profile_key'), $keys, ParameterType::STRING)
@@ -432,7 +432,7 @@ final class Profile extends CMSPlugin
 
         if ($userId) {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__user_profiles'))
                 ->where($db->quoteName('user_id') . ' = :userid')
                 ->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'))
