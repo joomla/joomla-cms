@@ -115,11 +115,26 @@ class PackageAdapter extends InstallerAdapter
      */
     protected function copyBaseFiles()
     {
-        $folder = (string) $this->getManifest()->files->attributes()->folder;
         $source = $this->parent->getPath('source');
 
-        if ($folder) {
-            $source .= '/' . $folder;
+        $attributes = $this->getManifest()->files->attributes();
+
+        if ($attributes) {
+            $folder = (string) $attributes->folder;
+
+            if ($folder) {
+                $source .= '/' . $folder;
+            }
+        }
+
+        // Install all necessary files
+        if (!$this->getManifest()->files->count()) {
+            throw new \RuntimeException(
+                Text::sprintf(
+                    'JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES',
+                    Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+                )
+            );
         }
 
         // Install all necessary files
