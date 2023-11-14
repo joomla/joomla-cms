@@ -119,7 +119,7 @@ class TagsHelper extends CMSHelper
             return true;
         }
 
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->insert('#__contentitem_tag_map');
         $query->columns(
             [
@@ -181,7 +181,7 @@ class TagsHelper extends CMSHelper
 
                 $db = Factory::getDbo();
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select(
                         [
                             $db->quoteName('alias'),
@@ -349,7 +349,7 @@ class TagsHelper extends CMSHelper
 
         // Initialize some variables.
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('m.tag_id'))
             ->from($db->quoteName('#__contentitem_tag_map', 'm'))
             ->where(
@@ -410,7 +410,7 @@ class TagsHelper extends CMSHelper
         /** @var DatabaseInterface $db */
         $db = Factory::getContainer()->get(DatabaseInterface::class);
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['m.tag_id', 'm.content_item_id']))
             ->from($db->quoteName('#__contentitem_tag_map', 'm'))
             ->where(
@@ -489,7 +489,7 @@ class TagsHelper extends CMSHelper
         $db = Factory::getDbo();
 
         // Load the tags.
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('t.id'))
             ->from($db->quoteName('#__tags', 't'))
             ->join('INNER', $db->quoteName('#__contentitem_tag_map', 'm'), $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'))
@@ -535,7 +535,7 @@ class TagsHelper extends CMSHelper
     ) {
         // Create a new query object.
         $db       = Factory::getDbo();
-        $query    = $db->getQuery(true);
+        $query    = $db->createQuery();
         $user     = Factory::getUser();
         $nullDate = $db->getNullDate();
         $nowDate  = Factory::getDate()->toSql();
@@ -712,7 +712,7 @@ class TagsHelper extends CMSHelper
             $tagIds = ArrayHelper::toInteger($tagIds);
 
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('title'))
                 ->from($db->quoteName('#__tags'))
                 ->whereIn($db->quoteName('id'), $tagIds)
@@ -774,7 +774,7 @@ class TagsHelper extends CMSHelper
     {
         // Initialize some variables.
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*');
 
         if (!empty($selectTypes)) {
@@ -912,7 +912,7 @@ class TagsHelper extends CMSHelper
     public static function searchTags($filters = [])
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('a.id', 'value'),
@@ -1022,7 +1022,7 @@ class TagsHelper extends CMSHelper
 
         // Delete the old tag maps.
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__contentitem_tag_map'))
             ->where($db->quoteName('tag_id') . ' = :id')
             ->bind(':id', $tagId, ParameterType::INTEGER);
@@ -1086,7 +1086,7 @@ class TagsHelper extends CMSHelper
         $key   = $table->getKeyName();
         $id    = (int) $table->$key;
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__contentitem_tag_map'))
             ->where(
                 [
@@ -1125,7 +1125,7 @@ class TagsHelper extends CMSHelper
             $tagIds = ArrayHelper::toInteger($tagIds);
 
             $db    = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select([$db->quoteName('id'), $db->quoteName('title')])
                 ->from($db->quoteName('#__tags'))
                 ->whereIn($db->quoteName('id'), $tagIds)

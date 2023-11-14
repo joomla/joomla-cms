@@ -250,7 +250,7 @@ class TaskTable extends Table implements CurrentUserInterface
 
         foreach ($pks as $pk) {
             // Update the publishing state for rows with the given primary keys.
-            $query = $this->_db->getQuery(true)
+            $query = $this->_db->createQuery()
                 ->update($this->_tbl)
                 ->set($this->_db->quoteName($lockedField) . ' = NULL');
 

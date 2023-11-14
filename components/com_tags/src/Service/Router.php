@@ -314,7 +314,7 @@ class Router extends RouterBase
                         continue;
                     }
 
-                    $query = $this->db->getQuery(true);
+                    $query = $this->db->createQuery();
                     $query->select($this->db->quoteName('a.id'))
                         ->from($this->db->quoteName('#__tags', 'a'))
                         ->leftJoin(
@@ -349,7 +349,7 @@ class Router extends RouterBase
         // Try to find tag id
         $alias = str_replace(':', '-', $segment);
 
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->select($this->db->quoteName('id'))
             ->from($this->db->quoteName('#__tags'))
             ->where($this->db->quoteName('alias') . ' = :alias')

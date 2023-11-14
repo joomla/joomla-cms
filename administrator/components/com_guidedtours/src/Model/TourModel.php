@@ -104,7 +104,7 @@ class TourModel extends AdminModel
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('MAX(ordering)')
                     ->from($db->quoteName('#__guidedtours'));
                 $db->setQuery($query);
@@ -282,7 +282,7 @@ class TourModel extends AdminModel
 
                     // Delete of the tour has been successful, now delete the steps
                     $db    = $this->getDatabase();
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->delete($db->quoteName('#__guidedtour_steps'))
                         ->where($db->quoteName('tour_id') . '=' . $tourId);
                     $db->setQuery($query);
@@ -354,7 +354,7 @@ class TourModel extends AdminModel
 
                 $pk = (int) $pk;
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select(
                         $db->quoteName(
                             [
@@ -382,7 +382,7 @@ class TourModel extends AdminModel
                 $db->setQuery($query);
                 $rows = $db->loadObjectList();
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->insert($db->quoteName('#__guidedtour_steps'))
                     ->columns(
                         [
@@ -487,7 +487,7 @@ class TourModel extends AdminModel
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__guidedtour_steps'))
             ->set($db->quoteName('language') . ' = :language')
             ->where($db->quoteName('tour_id') . ' = :tourId')

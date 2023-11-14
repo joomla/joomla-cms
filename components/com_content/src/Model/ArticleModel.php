@@ -95,7 +95,7 @@ class ArticleModel extends ItemModel
         if (!isset($this->_item[$pk])) {
             try {
                 $db    = $this->getDatabase();
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
 
                 $query->select(
                     $this->getState(
@@ -319,7 +319,7 @@ class ArticleModel extends ItemModel
 
             // Initialize variables.
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             // Create the base select statement.
             $query->select('*')
@@ -341,7 +341,7 @@ class ArticleModel extends ItemModel
 
             // There are no ratings yet, so lets insert our rating
             if (!$rating) {
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
 
                 // Create the base insert statement.
                 $query->insert($db->quoteName('#__content_rating'))
@@ -370,7 +370,7 @@ class ArticleModel extends ItemModel
                 }
             } else {
                 if ($userIP != $rating->lastip) {
-                    $query = $db->getQuery(true);
+                    $query = $db->createQuery();
 
                     // Create the base update statement.
                     $query->update($db->quoteName('#__content_rating'))

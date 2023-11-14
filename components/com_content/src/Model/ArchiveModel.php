@@ -168,7 +168,7 @@ class ArchiveModel extends ArticlesModel
     {
         $db        = $this->getDatabase();
         $nowDate   = Factory::getDate()->toSql();
-        $query     = $db->getQuery(true);
+        $query     = $db->createQuery();
         $queryDate = QueryHelper::getQueryDate($this->state->params->get('order_date'), $db);
         $years     = $query->year($queryDate);
 

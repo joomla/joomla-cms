@@ -272,7 +272,7 @@ class ActionlogsHelper
         $db   = Factory::getDbo();
 
         // Get all (both enabled and disabled) actionlog plugins
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 $db->quoteName(
                     [

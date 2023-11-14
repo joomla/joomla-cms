@@ -46,7 +46,7 @@ abstract class TagsPopularHelper
         $nowDate     = Factory::getDate()->toSql();
         $nullDate    = $db->getNullDate();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     'MAX(' . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('tag_id'),
@@ -146,7 +146,7 @@ abstract class TagsPopularHelper
                 }
 
                 $query->order($db->quoteName('count') . ' DESC');
-                $equery = $db->getQuery(true)
+                $equery = $db->createQuery()
                     ->select(
                         $db->quoteName(
                             [

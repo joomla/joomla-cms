@@ -46,7 +46,7 @@ class MenuField extends GroupedlistField
         $showAll    = (string) $this->element['showAll'] === 'true';
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('id'),

@@ -119,7 +119,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
         $this->userGroups = $this->getGroups($user);
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('title'))
             ->from($db->quoteName('#__usergroups'))
             ->where($db->quoteName('id') . ' = :userGroup');
@@ -131,7 +131,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
             $result = $db->loadResult();
 
             if (Access::checkGroup($userGroup, 'core.admin')) {
-                $queryUser = $db->getQuery(true);
+                $queryUser = $db->createQuery();
                 $queryUser->select('COUNT(*)')
                     ->from($db->quoteName('#__users', 'u'))
                     ->leftJoin(
@@ -188,7 +188,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
         $userGroups = Access::getGroupsByUser($user->id, false);
 
         if (!$option) {
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('title'))
                 ->from($db->quoteName('#__usergroups'))
                 ->whereIn($db->quoteName('id'), $userGroups);
@@ -242,7 +242,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
     protected function getGroupId($groupName)
     {
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__usergroups'))
             ->where($db->quoteName('title') . '= :groupName')

@@ -162,7 +162,7 @@ class FiltersField extends FormField
         $db = $this->getDatabase();
 
         // Get the user groups from the database.
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id as parent');
         $query->from('#__usergroups AS a');
         $query->join('LEFT', '#__usergroups AS b on a.lft > b.lft AND a.rgt < b.rgt');

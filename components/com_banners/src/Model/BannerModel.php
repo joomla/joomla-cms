@@ -56,7 +56,7 @@ class BannerModel extends BaseDatabaseModel
 
         // Update click count
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->update($db->quoteName('#__banners'))
             ->set($db->quoteName('clicks') . ' = ' . $db->quoteName('clicks') . ' + 1')
@@ -87,7 +87,7 @@ class BannerModel extends BaseDatabaseModel
             $trackDate = Factory::getDate()->format('Y-m-d H:00:00');
             $trackDate = Factory::getDate($trackDate)->toSql();
 
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             $query->select($db->quoteName('count'))
                 ->from($db->quoteName('#__banner_tracks'))
@@ -111,7 +111,7 @@ class BannerModel extends BaseDatabaseModel
 
             $count = $db->loadResult();
 
-            $query = $db->getQuery(true);
+            $query = $db->createQuery();
 
             if ($count) {
                 // Update count
@@ -171,7 +171,7 @@ class BannerModel extends BaseDatabaseModel
             $db = $this->getDatabase();
 
             $loader = function ($id) use ($db) {
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
 
                 $query->select(
                     [

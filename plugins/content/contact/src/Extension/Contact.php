@@ -103,7 +103,7 @@ final class Contact extends CMSPlugin
         }
 
         $db     = $this->getDatabase();
-        $query  = $db->getQuery(true);
+        $query  = $db->createQuery();
         $userId = (int) $userId;
 
         $query->select($db->quoteName('contact.id', 'contactid'))

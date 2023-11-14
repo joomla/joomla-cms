@@ -278,7 +278,7 @@ final class Override extends CMSPlugin
         $db = $this->getDatabase();
 
         // Create a new query object.
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query
             ->select($db->quoteName('hash_id'))
@@ -325,7 +325,7 @@ final class Override extends CMSPlugin
         $db = $this->getDatabase();
 
         // Create an insert query.
-        $insertQuery = $db->getQuery(true)
+        $insertQuery = $db->createQuery()
             ->insert($db->quoteName('#__template_overrides'))
             ->columns($db->quoteName($columns));
 
@@ -340,7 +340,7 @@ final class Override extends CMSPlugin
             }
 
             if ($this->load($pk->id, $pk->extension_id)) {
-                $updateQuery = $db->getQuery(true)
+                $updateQuery = $db->createQuery()
                     ->update($db->quoteName('#__template_overrides'))
                     ->set(
                         [

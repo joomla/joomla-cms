@@ -38,7 +38,7 @@ class InstallerHelper
     public static function getExtensionTypes()
     {
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('DISTINCT ' . $db->quoteName('type'))
             ->from($db->quoteName('#__extensions'));
         $db->setQuery($query);
@@ -64,7 +64,7 @@ class InstallerHelper
     {
         $nofolder = '';
         $db       = Factory::getDbo();
-        $query    = $db->getQuery(true)
+        $query    = $db->createQuery()
             ->select('DISTINCT ' . $db->quoteName('folder'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('folder') . ' != :folder')
@@ -131,7 +131,7 @@ class InstallerHelper
 
         /** @var DatabaseInterface $db The application's database driver object */
         $db         = Factory::getContainer()->get(DatabaseInterface::class);
-        $query      = $db->getQuery(true)
+        $query      = $db->createQuery()
             ->select(
                 $db->quoteName(
                     [
@@ -310,7 +310,7 @@ class InstallerHelper
         }
 
         // Try to retrieve the extension information as a CMSObject
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('type') . ' = :type')
@@ -427,7 +427,7 @@ class InstallerHelper
             return [];
         }
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 $db->quoteName(
                     [

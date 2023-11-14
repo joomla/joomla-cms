@@ -47,7 +47,7 @@ class CategoriesHelper
             $assocId = (int) $arrId[0];
             $db      = Factory::getDbo();
 
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('published'))
                 ->from($db->quoteName('#__categories'))
                 ->whereIn($db->quoteName('access'), $groups)

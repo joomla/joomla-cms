@@ -314,7 +314,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
          * user.
          */
         $db    = $this->getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->update($db->quoteName('#__user_mfa'))
             ->set($db->quoteName('default') . ' = 0')
             ->where($db->quoteName('user_id') . ' = :user_id')
@@ -367,7 +367,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
              * the `backupcodes` because we might just be regenerating the backup codes.
              */
             $db    = $this->getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__user_mfa'))
                 ->where($db->quoteName('user_id') . ' = :user_id')
                 ->bind(':user_id', $this->deleteFlags[$pk]['user_id'], ParameterType::INTEGER);
@@ -381,7 +381,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
         // This was the default record. Promote the next available record to default.
         if ($this->deleteFlags[$pk]['default']) {
             $db    = $this->getDbo();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__user_mfa'))
                 ->where($db->quoteName('user_id') . ' = :user_id')
@@ -394,7 +394,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
             }
 
             $id    = array_shift($ids);
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__user_mfa'))
                 ->set($db->quoteName('default') . ' = 1')
                 ->where($db->quoteName('id') . ' = :id')
@@ -415,7 +415,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
     private function getNumRecords(int $userId): int
     {
         $db    = $this->getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__user_mfa'))
             ->where($db->quoteName('user_id') . ' = :user_id')

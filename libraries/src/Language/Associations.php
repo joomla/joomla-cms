@@ -66,7 +66,7 @@ class Associations
             $multilanguageAssociations[$queryKey] = [];
 
             $db                 = Factory::getDbo();
-            $query              = $db->getQuery(true);
+            $query              = $db->createQuery();
             $categoriesExtraSql = '';
 
             if ($tablename === '#__categories') {

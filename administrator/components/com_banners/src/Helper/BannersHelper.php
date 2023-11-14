@@ -43,7 +43,7 @@ class BannersHelper extends ContentHelper
         $app  = Factory::getApplication();
         $user = $app->getIdentity();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__banners'))
             ->where(
@@ -111,7 +111,7 @@ class BannersHelper extends ContentHelper
             }
 
             // Update the row ordering field.
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__banners'))
                 ->set(
                     [
@@ -148,7 +148,7 @@ class BannersHelper extends ContentHelper
         $options = [];
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('id', 'value'),

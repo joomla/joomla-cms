@@ -116,7 +116,7 @@ class UCMType implements UCM
             return $this->getTypeByAlias($this->alias);
         }
 
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->select($this->db->quoteName('ct') . '.*')
             ->from($this->db->quoteName('#__content_types', 'ct'))
             ->where($this->db->quoteName('ct.type_id') . ' = :pk')
@@ -138,7 +138,7 @@ class UCMType implements UCM
      */
     public function getTypeByAlias($typeAlias = null)
     {
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->select($this->db->quoteName('ct') . '.*')
             ->from($this->db->quoteName('#__content_types', 'ct'))
             ->where($this->db->quoteName('ct.type_alias') . ' = :alias')
@@ -160,7 +160,7 @@ class UCMType implements UCM
      */
     public function getTypeByTable($tableName)
     {
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->select($this->db->quoteName('ct') . '.*')
             ->from($this->db->quoteName('#__content_types', 'ct'));
 
@@ -194,7 +194,7 @@ class UCMType implements UCM
             $alias = $this->alias;
         }
 
-        $query = $this->db->getQuery(true)
+        $query = $this->db->createQuery()
             ->select($this->db->quoteName('ct.type_id'))
             ->from($this->db->quoteName('#__content_types', 'ct'))
             ->where($this->db->quoteName('ct.type_alias') . ' = :alias')

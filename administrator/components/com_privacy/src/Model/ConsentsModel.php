@@ -63,7 +63,7 @@ class ConsentsModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select($this->getState('list.select', 'a.*'));
@@ -196,7 +196,7 @@ class ConsentsModel extends ListModel
 
         try {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__privacy_consents'))
                 ->set($db->quoteName('state') . ' = -1')
                 ->whereIn($db->quoteName('id'), $pks)
@@ -223,7 +223,7 @@ class ConsentsModel extends ListModel
     {
         try {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->update($db->quoteName('#__privacy_consents'))
                 ->set($db->quoteName('state') . ' = -1')
                 ->where($db->quoteName('subject') . ' = :subject')

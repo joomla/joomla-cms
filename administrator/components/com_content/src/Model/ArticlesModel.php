@@ -225,7 +225,7 @@ class ArticlesModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $user  = $this->getCurrentUser();
 
         $params = ComponentHelper::getParams('com_content');
@@ -314,7 +314,7 @@ class ArticlesModel extends ListModel
 
         // Join over the associations.
         if (Associations::isEnabled()) {
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
                 ->from($db->quoteName('#__associations', 'asso1'))
                 ->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
@@ -488,7 +488,7 @@ class ArticlesModel extends ListModel
         if ($tag && \is_array($tag)) {
             $tag = ArrayHelper::toInteger($tag);
 
-            $subQuery = $db->getQuery(true)
+            $subQuery = $db->createQuery()
                 ->select('DISTINCT ' . $db->quoteName('content_item_id'))
                 ->from($db->quoteName('#__contentitem_tag_map'))
                 ->where(
@@ -576,7 +576,7 @@ class ArticlesModel extends ListModel
             if (\count($stage_ids) || \count($workflow_ids)) {
                 Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
 
-                $query = $db->getQuery(true);
+                $query = $db->createQuery();
 
                 $query  ->select(
                     [

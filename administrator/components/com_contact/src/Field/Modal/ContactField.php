@@ -110,7 +110,7 @@ class ContactField extends FormField
 
         if ($value) {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('name'))
                 ->from($db->quoteName('#__contact_details'))
                 ->where($db->quoteName('id') . ' = :id')

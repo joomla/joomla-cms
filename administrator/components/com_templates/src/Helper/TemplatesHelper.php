@@ -55,7 +55,7 @@ class TemplatesHelper
     {
         // Build the filter options.
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select($db->quoteName('element', 'value'))
             ->select($db->quoteName('name', 'text'))

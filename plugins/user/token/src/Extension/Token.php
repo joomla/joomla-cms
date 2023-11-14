@@ -113,7 +113,7 @@ final class Token extends CMSPlugin
         // Load the profile data from the database.
         try {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select([
                         $db->quoteName('profile_key'),
                         $db->quoteName('profile_value'),
@@ -329,7 +329,7 @@ final class Token extends CMSPlugin
 
         // Remove existing Joomla Token user profile values
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__user_profiles'))
             ->where($db->quoteName('user_id') . ' = :userId')
             ->where($db->quoteName('profile_key') . ' LIKE :profileKey');
@@ -347,7 +347,7 @@ final class Token extends CMSPlugin
 
         // Save the new Joomla Token user profile values
         $order = 1;
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->insert($db->quoteName('#__user_profiles'))
             ->columns([
                     $db->quoteName('user_id'),
@@ -394,7 +394,7 @@ final class Token extends CMSPlugin
 
         try {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->delete($db->quoteName('#__user_profiles'))
                 ->where($db->quoteName('user_id') . ' = :userId')
                 ->where($db->quoteName('profile_key') . ' LIKE :profileKey');
@@ -438,7 +438,7 @@ final class Token extends CMSPlugin
     {
         try {
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select($db->quoteName('profile_value'))
                 ->from($db->quoteName('#__user_profiles'))
                 ->where($db->quoteName('profile_key') . ' = :profileKey')
@@ -588,7 +588,7 @@ final class Token extends CMSPlugin
         }
 
         $db = $this->getDatabase();
-        $q  = $db->getQuery(true)
+        $q  = $db->createQuery()
             ->select('COUNT(*)')
             ->from($db->quoteName('#__user_profiles'))
             ->where($db->quoteName('user_id') . ' = ' . $userId)

@@ -64,7 +64,7 @@ class ExistsRule extends FormRule implements DatabaseAwareInterface
 
         // Set and query the database.
         $exists = $db->setQuery(
-            $db->getQuery(true)
+            $db->createQuery()
                 ->select('COUNT(*)')
                 ->from($db->quoteName($existsTable))
                 ->where($db->quoteName($existsColumn) . ' = ' . $db->quote($value))

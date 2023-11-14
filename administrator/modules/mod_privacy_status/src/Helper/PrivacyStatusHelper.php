@@ -76,7 +76,7 @@ class PrivacyStatusHelper
         $lang = '';
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('id'),
@@ -120,7 +120,7 @@ class PrivacyStatusHelper
                 $defaultSiteLanguage = $params->get('site');
 
                 $db    = Factory::getDbo();
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select($db->quoteName('id'))
                     ->from($db->quoteName('#__menu'))
                     ->where(
@@ -164,7 +164,7 @@ class PrivacyStatusHelper
         $period = '-' . $notify;
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
         $query->select('COUNT(*)')
             ->from($db->quoteName('#__privacy_requests'))
             ->where(

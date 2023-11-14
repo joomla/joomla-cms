@@ -135,7 +135,7 @@ class LanguageHelper
                     $languages = $cache->get('languages');
                 } else {
                     $db    = Factory::getDbo();
-                    $query = $db->getQuery(true)
+                    $query = $db->createQuery()
                         ->select('*')
                         ->from($db->quoteName('#__languages'))
                         ->where($db->quoteName('published') . ' = 1')
@@ -197,7 +197,7 @@ class LanguageHelper
             } else {
                 $db = $db ?? Factory::getContainer()->get(DatabaseInterface::class);
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select(
                         [
                             $db->quoteName('element'),
@@ -346,7 +346,7 @@ class LanguageHelper
             } else {
                 $db = Factory::getDbo();
 
-                $query = $db->getQuery(true)
+                $query = $db->createQuery()
                     ->select('*')
                     ->from($db->quoteName('#__languages'));
 

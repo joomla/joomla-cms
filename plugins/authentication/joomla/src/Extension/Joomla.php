@@ -69,7 +69,7 @@ final class Joomla extends CMSPlugin implements SubscriberInterface
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['id', 'password']))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('username') . ' = :username')

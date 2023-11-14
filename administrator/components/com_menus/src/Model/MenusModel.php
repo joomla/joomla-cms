@@ -84,7 +84,7 @@ class MenusModel extends ListModel
         $db        = $this->getDatabase();
         $menuTypes = array_column((array) $items, 'menutype');
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select(
                 [
                     $db->quoteName('m.menutype'),
@@ -153,7 +153,7 @@ class MenusModel extends ListModel
     {
         // Create a new query object.
         $db       = $this->getDatabase();
-        $query    = $db->getQuery(true);
+        $query    = $db->createQuery();
         $clientId = (int) $this->getState('client_id');
 
         // Select all fields from the table.
@@ -234,7 +234,7 @@ class MenusModel extends ListModel
     {
         $clientId = (int) $this->getState('client_id');
         $db       = $this->getDatabase();
-        $query    = $db->getQuery(true)
+        $query    = $db->createQuery()
             ->select($db->quoteName('e.extension_id'))
             ->from($db->quoteName('#__extensions', 'e'))
             ->where(
@@ -290,7 +290,7 @@ class MenusModel extends ListModel
         }
 
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select($db->quoteName('m.language'))
             ->from($db->quoteName('#__modules', 'm'))

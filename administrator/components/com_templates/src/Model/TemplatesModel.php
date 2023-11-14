@@ -95,7 +95,7 @@ class TemplatesModel extends ListModel
         $db = $this->getDatabase();
 
         // Select the required fields from the table
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName('template'))
             ->from($db->quoteName('#__template_overrides'))
             ->where($db->quoteName('extension_id') . ' = :extensionid')
@@ -126,7 +126,7 @@ class TemplatesModel extends ListModel
     {
         // Create a new query object.
         $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         // Select the required fields from the table.
         $query->select(

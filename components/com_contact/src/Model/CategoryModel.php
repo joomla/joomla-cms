@@ -162,7 +162,7 @@ class CategoryModel extends ListModel
         $db = $this->getDatabase();
 
         /** @var \Joomla\Database\DatabaseQuery $query */
-        $query = $db->getQuery(true);
+        $query = $db->createQuery();
 
         $query->select($this->getState('list.select', 'a.*'))
             ->select($this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS slug')

@@ -50,7 +50,7 @@ final class Content extends PrivacyPlugin
         $domains[] = $domain;
         $db        = $this->getDatabase();
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__content'))
             ->where($db->quoteName('created_by') . ' = ' . (int) $user->id)

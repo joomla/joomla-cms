@@ -46,7 +46,7 @@ class ItemModel extends BaseDatabaseModel
     {
         $link_id = (int) $this->getState('item.link_id');
         $db      = $this->getDatabase();
-        $query   = $db->getQuery(true)
+        $query   = $db->createQuery()
             ->select('*')
             ->from($db->quoteName('#__finder_links', 'l'))
             ->where($db->quoteName('l.link_id') . ' = :link_id')
@@ -68,7 +68,7 @@ class ItemModel extends BaseDatabaseModel
     {
         $link_id = (int) $this->getState('item.link_id');
         $db      = $this->getDatabase();
-        $query   = $db->getQuery(true)
+        $query   = $db->createQuery()
             ->select('t.*, l.*')
             ->from($db->quoteName('#__finder_links_terms', 'l'))
             ->leftJoin($db->quoteName('#__finder_terms', 't') . ' ON ' . $db->quoteName('t.term_id') . ' = ' . $db->quoteName('l.term_id'))
@@ -92,7 +92,7 @@ class ItemModel extends BaseDatabaseModel
     {
         $link_id = (int) $this->getState('item.link_id');
         $db      = $this->getDatabase();
-        $query   = $db->getQuery(true)
+        $query   = $db->createQuery()
             ->select('t.*, m.*')
             ->from($db->quoteName('#__finder_taxonomy_map', 'm'))
             ->leftJoin($db->quoteName('#__finder_taxonomy', 't') . ' ON ' . $db->quoteName('t.id') . ' = ' . $db->quoteName('m.node_id'))

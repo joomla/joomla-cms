@@ -105,7 +105,7 @@ final class Joomla extends CMSPlugin
 
         try {
             $db->setQuery(
-                $db->getQuery(true)
+                $db->createQuery()
                     ->delete($db->quoteName('#__messages'))
                     ->where($db->quoteName('user_id_from') . ' = :userId')
                     ->bind(':userId', $userId, ParameterType::INTEGER)
@@ -116,7 +116,7 @@ final class Joomla extends CMSPlugin
 
         // Delete Multi-factor Authentication user profile records
         $profileKey = 'mfa.%';
-        $query      = $db->getQuery(true)
+        $query      = $db->createQuery()
             ->delete($db->quoteName('#__user_profiles'))
             ->where($db->quoteName('user_id') . ' = :userId')
             ->where($db->quoteName('profile_key') . ' LIKE :profileKey')
@@ -130,7 +130,7 @@ final class Joomla extends CMSPlugin
         }
 
         // Delete Multi-factor Authentication records
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__user_mfa'))
             ->where($db->quoteName('user_id') . ' = :userId')
             ->bind(':userId', $userId, ParameterType::INTEGER);
@@ -310,7 +310,7 @@ final class Joomla extends CMSPlugin
         $db = $this->getDatabase();
 
         // Purge the old session
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->delete($db->quoteName('#__session'))
             ->where($db->quoteName('session_id') . ' = :sessionid')
             ->bind(':sessionid', $oldSessionId);

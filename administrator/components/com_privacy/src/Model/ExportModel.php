@@ -85,7 +85,7 @@ class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
         $db = $this->getDatabase();
 
         $userId = (int) $db->setQuery(
-            $db->getQuery(true)
+            $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__users'))
                 ->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
@@ -179,7 +179,7 @@ class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
         $db = $this->getDatabase();
 
         $userId = (int) $db->setQuery(
-            $db->getQuery(true)
+            $db->createQuery()
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__users'))
                 ->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')

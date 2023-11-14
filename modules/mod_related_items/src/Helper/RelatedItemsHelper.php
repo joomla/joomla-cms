@@ -74,7 +74,7 @@ class RelatedItemsHelper implements DatabaseAwareInterface
 
         $now      = Factory::getDate()->toSql();
         $related  = [];
-        $query    = $db->getQuery(true);
+        $query    = $db->createQuery();
 
         if ($id) {
             // Select the meta keywords from the item

@@ -42,7 +42,7 @@ abstract class LoggedHelper
     public static function getList(Registry $params, CMSApplication $app, DatabaseInterface $db)
     {
         $user  = $app->getIdentity();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('s.time, s.client_id, u.id, u.name, u.username')
             ->from('#__session AS s')
             ->join('LEFT', '#__users AS u ON s.userid = u.id')

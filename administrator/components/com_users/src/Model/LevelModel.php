@@ -71,7 +71,7 @@ class LevelModel extends AdminModel
             $this->levelsInUse = [];
 
             $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
+            $query = $db->createQuery()
                 ->select('DISTINCT access');
 
             // Get all the tables and the prefix

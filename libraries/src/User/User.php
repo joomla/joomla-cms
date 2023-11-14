@@ -429,7 +429,7 @@ class User
         // @todo: Modify the way permissions are stored in the db to allow for faster implementation and better scaling
         $db = Factory::getDbo();
 
-        $subQuery = $db->getQuery(true)
+        $subQuery = $db->createQuery()
             ->select($db->quoteName(['id', 'asset_id']))
             ->from($db->quoteName('#__categories'))
             ->where(
@@ -439,7 +439,7 @@ class User
                 ]
             );
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['c.id', 'a.name']))
             ->from('(' . $subQuery . ') AS ' . $db->quoteName('c'))
             ->join('INNER', $db->quoteName('#__assets', 'a'), $db->quoteName('c.asset_id') . ' = ' . $db->quoteName('a.id'))

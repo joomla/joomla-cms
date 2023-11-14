@@ -41,7 +41,7 @@ class WhosonlineHelper
 
         $whereCondition = Factory::getApplication()->get('shared_session', '0') ? 'IS NULL' : '= 0';
 
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select('guest, client_id')
             ->from('#__session')
             ->where('client_id ' . $whereCondition);
@@ -87,7 +87,7 @@ class WhosonlineHelper
         $whereCondition = Factory::getApplication()->get('shared_session', '0') ? 'IS NULL' : '= 0';
 
         $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $query = $db->createQuery()
             ->select($db->quoteName(['a.username', 'a.userid', 'a.client_id']))
             ->from($db->quoteName('#__session', 'a'))
             ->where($db->quoteName('a.userid') . ' != 0')
