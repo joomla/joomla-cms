@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.9.0</version>
 	<description>PLG_SYSTEM_LOGROTATION_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\LogRotation</namespace>
 	<files>
-		<filename plugin="logrotation">logrotation.php</filename>
+		<folder plugin="logrotation">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages folder="language">
 		<language tag="en-GB">language/en-GB/plg_system_logrotation.ini</language>

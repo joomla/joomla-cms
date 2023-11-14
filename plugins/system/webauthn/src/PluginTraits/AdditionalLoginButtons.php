@@ -1,16 +1,15 @@
 <?php
 
 /**
- * @package         Joomla.Plugin
- * @subpackage      System.Webauthn
+ * @package     Joomla.Plugin
+ * @subpackage  System.Webauthn
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Helper\AuthenticationHelper;
@@ -62,7 +61,7 @@ trait AdditionalLoginButtons
     public function onUserLoginButtons(Event $event): void
     {
         /** @var string $form The HTML ID of the form we are enclosed in */
-        [$form] = $event->getArguments();
+        [$form] = array_values($event->getArguments());
 
         // If we determined we should not inject a button return early
         if (!$this->mustDisplayButton()) {
@@ -136,7 +135,7 @@ trait AdditionalLoginButtons
              */
             try {
                 $document = $this->getApplication()->getDocument();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $document = null;
             }
 

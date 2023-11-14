@@ -643,6 +643,7 @@ class ModuleAdapter extends InstallerAdapter
             $module->params    = '';
             $module->client_id = $this->clientId;
             $module->language  = '*';
+            $module->position  = '';
 
             $module->store();
         }
