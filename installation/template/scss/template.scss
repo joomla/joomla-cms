@@ -52,6 +52,14 @@ $table-bg: transparent;
   --primary: hsl(213, 63%, 44%);
 }
 
+@if $enable-dark-mode {
+  @include color-mode(dark, true) {
+    @each $color, $value in $atum-colors-dark {
+      --#{$prefix}#{$color}: #{$value};
+    }
+  }
+}
+
 .border-primary {
   border-color: var(--primary) !important;
 }

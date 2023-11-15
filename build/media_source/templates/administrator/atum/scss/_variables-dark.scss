@@ -72,7 +72,7 @@ $atum-colors-dark: (
   form-control-border:             1px solid rgba(255, 255, 255, .1),
   form-select-background:          $form-select-bg-dark $form-select-indicator-dark no-repeat right center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
   //form-select-background:          $form-select-bg-dark $form-select-indicator-dark no-repeat left center / $form-select-bg-size,
-  form-select-background-rtl-dark: $form-select-bg-dark $form-select-indicator-rtl-dark no-repeat left center / $form-select-bg-size, // Used so we can have multiple background elements (e.g. arrow and feedback icon)
+  form-select-background-rtl:      $form-select-bg-dark $form-select-indicator-rtl-dark no-repeat left center / $form-select-bg-size, // Used so we can have multiple background elements (e.g. arrow and feedback icon)
   form-select-border:              var(--form-control-border),
   form-select-success-bg:          var(--gray-800),
   form-select-danger-bg:           var(--gray-800),
@@ -249,10 +249,10 @@ $atum-colors-dark: (
   state-success-heading-bg:         var(--successhvr),
 
   state-info-text:                  var(--text-normal),
-  state-info-bg:                    $button-and-icon-color-dark,
+  state-info-bg:                    darken($button-and-icon-color-dark, 15%),
   state-info-border:                1px solid var(--template-bg-dark-60),
   state-info-icon:                  var(--state-info-text),
-  state-info-heading-bg:            lighten($button-and-icon-color-dark, 10%),
+  state-info-heading-bg:            darken($button-and-icon-color-dark, 5%),
 
   state-warning-text:               var(--text-normal),
   state-warning-bg:                 var(--warning),
