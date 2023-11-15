@@ -77,7 +77,7 @@ namespace
              */
             $namespaceMapFile = JPATH_ROOT . '/administrator/cache/autoload_psr4.php';
 
-            if (\Joomla\CMS\Filesystem\File::exists($namespaceMapFile)) {
+            if (is_file($namespaceMapFile)) {
                 \Joomla\CMS\Filesystem\File::delete($namespaceMapFile);
             }
         }

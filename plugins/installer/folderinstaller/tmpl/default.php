@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 
 Text::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH');
 
-$this->app->getDocument()->getWebAssetManager()
+$this->getApplication()->getDocument()->getWebAssetManager()
     ->registerAndUseScript(
         'plg_installer_folderinstaller.folderinstaller',
         'plg_installer_folderinstaller/folderinstaller.js',
@@ -34,7 +34,7 @@ $this->app->getDocument()->getWebAssetManager()
     </label>
     <div class="controls">
         <input type="text" id="install_directory" name="install_directory" class="form-control"
-            value="<?php echo $this->app->getInput()->get('install_directory', $this->app->get('tmp_path')); ?>">
+            value="<?php echo $this->getApplication()->getInput()->get('install_directory', $this->getApplication()->get('tmp_path')); ?>">
     </div>
 </div>
 <div class="control-group">

@@ -35,7 +35,7 @@ class AliastagField extends ListField
     /**
      * Method to get a list of options for a list input.
      *
-     * @return  array  An array of JHtml options.
+     * @return  object[]  An array of JHtml options.
      *
      * @since   3.6
      */
