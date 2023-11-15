@@ -28,8 +28,6 @@ class Text
      *
      * @var    array
      * @since  1.7.0
-     *
-     * @deprecated 4.0 will be removed in 6.0. Without replacement.
      */
     protected static $strings = [];
 
