@@ -88,7 +88,7 @@ class CategoryController extends FormController
     protected function allowEdit($data = [], $key = 'parent_id')
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-        $user = $this->app->getIdentity();
+        $user     = $this->app->getIdentity();
 
         // Check "edit" permission on record asset (explicit or inherited)
         if ($user->authorise('core.edit', $this->extension . '.category.' . $recordId)) {
@@ -235,12 +235,12 @@ class CategoryController extends FormController
         $item = $model->getItem();
 
         if (isset($item->params) && \is_array($item->params)) {
-            $registry = new Registry($item->params);
+            $registry     = new Registry($item->params);
             $item->params = (string) $registry;
         }
 
         if (isset($item->metadata) && \is_array($item->metadata)) {
-            $registry = new Registry($item->metadata);
+            $registry       = new Registry($item->metadata);
             $item->metadata = (string) $registry;
         }
     }

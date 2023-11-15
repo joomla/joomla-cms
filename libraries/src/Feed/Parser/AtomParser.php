@@ -113,7 +113,7 @@ class AtomParser extends FeedParser
      */
     protected function handleLink(Feed $feed, \SimpleXMLElement $el)
     {
-        $link = new FeedLink();
+        $link           = new FeedLink();
         $link->uri      = (string) $el['href'];
         $link->language = (string) $el['hreflang'];
         $link->length   = (int) $el['length'];

@@ -105,7 +105,7 @@ class WorkflowController extends FormController
     protected function allowEdit($data = [], $key = 'id')
     {
         $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
-        $user = $this->app->getIdentity();
+        $user     = $this->app->getIdentity();
 
         $record = $this->getModel()->getItem($recordId);
 
@@ -183,7 +183,7 @@ class WorkflowController extends FormController
             $recordId = (int) $this->input->getInt($key);
 
             // @todo Moves queries out of the controller.
-            $db = $model->getDbo();
+            $db    = $model->getDbo();
             $query = $db->getQuery(true);
 
             $query->select('*')
@@ -205,7 +205,7 @@ class WorkflowController extends FormController
                 $oldID = $status['id'];
 
                 $status['workflow_id'] = $workflowID;
-                $status['id'] = 0;
+                $status['id']          = 0;
 
                 unset($status['asset_id']);
 
@@ -228,10 +228,10 @@ class WorkflowController extends FormController
                 $table = $tmodel->getTable();
 
                 $transition['from_stage_id'] = $transition['from_stage_id'] != -1 ? $mapping[$transition['from_stage_id']] : -1;
-                $transition['to_stage_id'] = $mapping[$transition['to_stage_id']];
+                $transition['to_stage_id']   = $mapping[$transition['to_stage_id']];
 
                 $transition['workflow_id'] = $workflowID;
-                $transition['id'] = 0;
+                $transition['id']          = 0;
 
                 unset($transition['asset_id']);
 

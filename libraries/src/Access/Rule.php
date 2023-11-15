@@ -95,7 +95,7 @@ class Rule
     public function mergeIdentity($identity, $allow)
     {
         $identity = (int) $identity;
-        $allow = (int) ((bool) $allow);
+        $allow    = (int) ((bool) $allow);
 
         // Check that the identity exists.
         if (isset($this->data[$identity])) {

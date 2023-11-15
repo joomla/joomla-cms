@@ -75,7 +75,7 @@ class ItemController extends FormController
 
         if (isset($data[$key])) {
             $model = $this->getModel();
-            $item = $model->getItem($data[$key]);
+            $item  = $model->getItem($data[$key]);
 
             if (!empty($item->menutype)) {
                 // Protected menutype, do not allow edit
@@ -293,9 +293,9 @@ class ItemController extends FormController
             }
 
             // Reset the ID and then treat the request as for Apply.
-            $data['id'] = 0;
+            $data['id']           = 0;
             $data['associations'] = [];
-            $task = 'apply';
+            $task                 = 'apply';
         }
 
         // Access check.
@@ -496,8 +496,8 @@ class ItemController extends FormController
         // Get the type.
         $type = $data['type'];
 
-        $type = json_decode(base64_decode($type));
-        $title = $type->title ?? null;
+        $type     = json_decode(base64_decode($type));
+        $title    = $type->title ?? null;
         $recordId = $type->id ?? 0;
 
         $specialTypes = ['alias', 'separator', 'url', 'heading', 'container'];
@@ -516,7 +516,7 @@ class ItemController extends FormController
                 // Clean component name
                 $type->request->option = InputFilter::getInstance()->clean($type->request->option, 'CMD');
 
-                $component = ComponentHelper::getComponent($type->request->option);
+                $component            = ComponentHelper::getComponent($type->request->option);
                 $data['component_id'] = $component->id;
 
                 $app->setUserState('com_menus.edit.item.link', 'index.php?' . Uri::buildQuery((array) $type->request));

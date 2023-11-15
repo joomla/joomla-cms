@@ -19,6 +19,9 @@ use Joomla\CMS\Schema\ChangeItem;
  * Checks the database schema against one SQL Server DDL query to see if it has been run.
  *
  * @since  2.5
+ *
+ * @deprecated  4.3 will be removed in 6.0
+ *              Will be removed without replacement
  */
 class SqlsrvChangeItem extends ChangeItem
 {
@@ -45,16 +48,16 @@ class SqlsrvChangeItem extends ChangeItem
 
         // Change status to skipped
         $this->checkStatus = -1;
-        $result = null;
+        $result            = null;
 
         // Remove any newlines
         $this->updateQuery = str_replace("\n", '', $this->updateQuery);
 
         // Fix up extra spaces around () and in general
-        $find = ['#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#'];
-        $replace = ['($3)', '$1'];
+        $find        = ['#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#'];
+        $replace     = ['($3)', '$1'];
         $updateQuery = preg_replace($find, $replace, $this->updateQuery);
-        $wordArray = explode(' ', $updateQuery);
+        $wordArray   = explode(' ', $updateQuery);
 
         // First, make sure we have an array of at least 6 elements
         // if not, we can't make a check query for this one
@@ -70,25 +73,25 @@ class SqlsrvChangeItem extends ChangeItem
             $alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
 
             if ($alterCommand === 'ADD') {
-                $result = 'SELECT * FROM INFORMATION_SCHEMA.Columns ' . $wordArray[2] . ' WHERE COLUMN_NAME = ' . $this->fixQuote($wordArray[5]);
-                $this->queryType = 'ADD';
+                $result            = 'SELECT * FROM INFORMATION_SCHEMA.Columns ' . $wordArray[2] . ' WHERE COLUMN_NAME = ' . $this->fixQuote($wordArray[5]);
+                $this->queryType   = 'ADD';
                 $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5])];
             } elseif ($alterCommand === 'CREATE INDEX') {
-                $index = $this->fixQuote(substr($wordArray[5], 0, strpos($wordArray[5], '(')));
-                $result = 'SELECT * FROM SYS.INDEXES ' . $wordArray[2] . ' WHERE name = ' . $index;
-                $this->queryType = 'CREATE INDEX';
+                $index             = $this->fixQuote(substr($wordArray[5], 0, strpos($wordArray[5], '(')));
+                $result            = 'SELECT * FROM SYS.INDEXES ' . $wordArray[2] . ' WHERE name = ' . $index;
+                $this->queryType   = 'CREATE INDEX';
                 $this->msgElements = [$this->fixQuote($wordArray[2]), $index];
             } elseif (strtoupper($wordArray[3]) === 'MODIFY' || strtoupper($wordArray[3]) === 'CHANGE') {
-                $result = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_name = ' . $this->fixQuote($wordArray[2]);
-                $this->queryType = 'ALTER COLUMN COLUMN_NAME =' . $this->fixQuote($wordArray[4]);
+                $result            = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_name = ' . $this->fixQuote($wordArray[2]);
+                $this->queryType   = 'ALTER COLUMN COLUMN_NAME =' . $this->fixQuote($wordArray[4]);
                 $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4])];
             }
         }
 
         if ($command === 'CREATE TABLE') {
-            $table = $wordArray[2];
-            $result = 'SELECT * FROM sys.TABLES WHERE NAME = ' . $this->fixQuote($table);
-            $this->queryType = 'CREATE_TABLE';
+            $table             = $wordArray[2];
+            $result            = 'SELECT * FROM sys.TABLES WHERE NAME = ' . $this->fixQuote($table);
+            $this->queryType   = 'CREATE_TABLE';
             $this->msgElements = [$this->fixQuote($table)];
         }
 

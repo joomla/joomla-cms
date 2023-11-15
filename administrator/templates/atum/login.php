@@ -20,7 +20,7 @@ use Joomla\CMS\Uri\Uri;
 /** @var \Joomla\CMS\Document\HtmlDocument $this */
 
 $app   = Factory::getApplication();
-$input = $app->input;
+$input = $app->getInput();
 $wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
@@ -66,7 +66,7 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 		--template-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
 		--template-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
 		--template-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
-		--template-link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
+		--link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
 		--template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
 	}');
 

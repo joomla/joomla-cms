@@ -44,7 +44,7 @@ class ItemlanguageField extends ListField
      */
     protected function getOptions()
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         list($extensionName, $typeName) = explode('.', $input->get('itemtype', '', 'string'), 2);
 

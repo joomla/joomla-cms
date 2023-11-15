@@ -67,7 +67,7 @@ class LoginModel extends FormModel
         $app  = Factory::getApplication();
         $data = $app->getUserState('users.login.form.data', []);
 
-        $input = $app->input->getInputForRequestMethod();
+        $input = $app->getInput()->getInputForRequestMethod();
 
         // Check for return URL from the request first
         if ($return = $input->get('return', '', 'BASE64')) {

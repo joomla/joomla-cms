@@ -15,6 +15,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Component\Installer\Administrator\Model\UpdatesiteModel;
@@ -69,7 +70,7 @@ class HtmlView extends InstallerViewDefault
 
         // Remove the extra_query field if it's a free download extension
         $dlidSupportingSites = InstallerHelper::getDownloadKeySupportedSites(false);
-        $update_site_id = $this->item->get('update_site_id');
+        $update_site_id      = $this->item->get('update_site_id');
 
         if (!in_array($update_site_id, $dlidSupportingSites)) {
             $this->form->removeField('extra_query');
@@ -94,8 +95,9 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar(): void
     {
-        $app = Factory::getApplication();
-        $app->input->set('hidemainmenu', true);
+        $toolbar = Toolbar::getInstance();
+        $app     = Factory::getApplication();
+        $app->getInput()->set('hidemainmenu', true);
 
         $user       = $app->getIdentity();
         $userId     = $user->id;
@@ -108,18 +110,20 @@ class HtmlView extends InstallerViewDefault
 
         // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
         $itemEditable   = $canDo->get('core.edit');
-        $toolbarButtons = [];
 
         // Can't save the record if it's checked out and editable
         if (!$checkedOut && $itemEditable && $this->form->getField('extra_query')) {
-            $toolbarButtons[] = ['apply', 'updatesite.apply'];
-            $toolbarButtons[] = ['save', 'updatesite.save'];
+            $saveGroup = $toolbar->dropdownButton('save-group');
+
+            $saveGroup->configure(
+                function (Toolbar $childBar) {
+                    $childBar->apply('updatesite.apply');
+                    $childBar->save('updatesite.save');
+                }
+            );
         }
 
-        ToolbarHelper::saveGroup($toolbarButtons);
-
-        ToolbarHelper::cancel('updatesite.cancel', 'JTOOLBAR_CLOSE');
-
-        ToolbarHelper::help('Edit_Update_Site');
+        $toolbar->cancel('updatesite.cancel');
+        $toolbar->help('Edit_Update_Site');
     }
 }

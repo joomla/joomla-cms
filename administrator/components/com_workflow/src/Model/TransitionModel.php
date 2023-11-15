@@ -64,10 +64,10 @@ class TransitionModel extends AdminModel
             return false;
         }
 
-        $app = Factory::getApplication();
+        $app       = Factory::getApplication();
         $extension = $app->getUserStateFromRequest('com_workflow.transition.filter.extension', 'extension', null, 'cmd');
 
-        return Factory::getUser()->authorise('core.delete', $extension . '.transition.' . (int) $record->id);
+        return $this->getCurrentUser()->authorise('core.delete', $extension . '.transition.' . (int) $record->id);
     }
 
     /**
@@ -81,9 +81,9 @@ class TransitionModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $user = Factory::getUser();
-        $app = Factory::getApplication();
-        $context = $this->option . '.' . $this->name;
+        $user      = $this->getCurrentUser();
+        $app       = Factory::getApplication();
+        $context   = $this->option . '.' . $this->name;
         $extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
 
         if (!\property_exists($record, 'workflow_id')) {
@@ -114,7 +114,7 @@ class TransitionModel extends AdminModel
         $item = parent::getItem($pk);
 
         if (property_exists($item, 'options')) {
-            $registry = new Registry($item->options);
+            $registry      = new Registry($item->options);
             $item->options = $registry->toArray();
         }
 
@@ -136,7 +136,7 @@ class TransitionModel extends AdminModel
         $context    = $this->option . '.' . $this->name;
         $app        = Factory::getApplication();
         $user       = $app->getIdentity();
-        $input      = $app->input;
+        $input      = $app->getInput();
 
         $workflowID = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 
@@ -171,7 +171,7 @@ class TransitionModel extends AdminModel
 
             // Alter the title for save as copy
             if ($origTable->load(['title' => $data['title']])) {
-                list($title) = $this->generateNewTitle(0, '', $data['title']);
+                list($title)   = $this->generateNewTitle(0, '', $data['title']);
                 $data['title'] = $title;
             }
 
@@ -221,8 +221,8 @@ class TransitionModel extends AdminModel
             'com_workflow.transition',
             'transition',
             [
-                'control' => 'jform',
-                'load_data' => $loadData
+                'control'   => 'jform',
+                'load_data' => $loadData,
             ]
         );
 
@@ -319,7 +319,7 @@ class TransitionModel extends AdminModel
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
-        $extension = Factory::getApplication()->input->get('extension');
+        $extension = Factory::getApplication()->getInput()->get('extension');
 
         $parts = explode('.', $extension);
 

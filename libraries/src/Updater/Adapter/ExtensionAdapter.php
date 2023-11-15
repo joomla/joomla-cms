@@ -52,12 +52,12 @@ class ExtensionAdapter extends UpdateAdapter
 
         switch ($name) {
             case 'UPDATE':
-                $this->currentUpdate = Table::getInstance('update');
+                $this->currentUpdate                 = Table::getInstance('update');
                 $this->currentUpdate->update_site_id = $this->updateSiteId;
-                $this->currentUpdate->detailsurl = $this->_url;
-                $this->currentUpdate->folder = '';
-                $this->currentUpdate->client_id = 1;
-                $this->currentUpdate->infourl = '';
+                $this->currentUpdate->detailsurl     = $this->_url;
+                $this->currentUpdate->folder         = '';
+                $this->currentUpdate->client_id      = 1;
+                $this->currentUpdate->infourl        = '';
                 break;
 
             // Don't do anything
@@ -66,7 +66,7 @@ class ExtensionAdapter extends UpdateAdapter
 
             default:
                 if (\in_array($name, $this->updatecols)) {
-                    $name = strtolower($name);
+                    $name                       = strtolower($name);
                     $this->currentUpdate->$name = '';
                 }
 
@@ -300,7 +300,14 @@ class ExtensionAdapter extends UpdateAdapter
 
         if (isset($this->latest)) {
             if (isset($this->latest->client) && \strlen($this->latest->client)) {
-                $this->latest->client_id = ApplicationHelper::getClientInfo($this->latest->client, true)->id;
+                /**
+                 * The client_id in the update XML manifest can be either an integer (backwards
+                 * compatible with Joomla 1.6–3.10) or a string. Backwards compatibility with the
+                 * integer key is provided as update servers with the legacy, numeric IDs cause PHP notices
+                 * during update retrieval. The proper string key is one of 'site' or 'administrator'.
+                 */
+                $this->latest->client_id = is_numeric($this->latest->client) ? $this->latest->client
+                    : ApplicationHelper::getClientInfo($this->latest->client, true)->id;
 
                 unset($this->latest->client);
             }

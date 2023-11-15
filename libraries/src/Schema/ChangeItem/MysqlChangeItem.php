@@ -45,16 +45,16 @@ class MysqlChangeItem extends ChangeItem
 
         // Change status to skipped
         $this->checkStatus = -1;
-        $result = null;
+        $result            = null;
 
         // Remove any newlines
         $this->updateQuery = str_replace("\n", '', $this->updateQuery);
 
         // Fix up extra spaces around () and in general
-        $find = ['#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#'];
-        $replace = ['($3)', '$1'];
+        $find        = ['#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#'];
+        $replace     = ['($3)', '$1'];
         $updateQuery = preg_replace($find, $replace, $this->updateQuery);
-        $wordArray = preg_split("~'[^']*'(*SKIP)(*F)|\s+~u", trim($updateQuery, "; \t\n\r\0\x0B"));
+        $wordArray   = preg_split("~'[^']*'(*SKIP)(*F)|\s+~u", trim($updateQuery, "; \t\n\r\0\x0B"));
 
         // First, make sure we have an array of at least 5 elements
         // if not, we can't make a check query for this one
@@ -88,8 +88,8 @@ class MysqlChangeItem extends ChangeItem
             $alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
 
             if ($alterCommand === 'ADD COLUMN') {
-                $result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[5]);
-                $this->queryType = 'ADD_COLUMN';
+                $result            = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[5]);
+                $this->queryType   = 'ADD_COLUMN';
                 $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5])];
             } elseif ($alterCommand === 'ADD INDEX' || $alterCommand === 'ADD KEY') {
                 if ($pos = strpos($wordArray[5], '(')) {
@@ -98,8 +98,8 @@ class MysqlChangeItem extends ChangeItem
                     $index = $this->fixQuote($wordArray[5]);
                 }
 
-                $result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
-                $this->queryType = 'ADD_INDEX';
+                $result            = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
+                $this->queryType   = 'ADD_INDEX';
                 $this->msgElements = [$this->fixQuote($wordArray[2]), $index];
             } elseif ($alterCommand === 'ADD UNIQUE') {
                 $idxIndexName = 5;
@@ -118,21 +118,21 @@ class MysqlChangeItem extends ChangeItem
                     $index = $this->fixQuote($wordArray[$idxIndexName]);
                 }
 
-                $result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
-                $this->queryType = 'ADD_INDEX';
+                $result            = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
+                $this->queryType   = 'ADD_INDEX';
                 $this->msgElements = [$this->fixQuote($wordArray[2]), $index];
             } elseif ($alterCommand === 'DROP INDEX' || $alterCommand === 'DROP KEY') {
-                $index = $this->fixQuote($wordArray[5]);
-                $result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
-                $this->queryType = 'DROP_INDEX';
+                $index                    = $this->fixQuote($wordArray[5]);
+                $result                   = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
+                $this->queryType          = 'DROP_INDEX';
                 $this->checkQueryExpected = 0;
-                $this->msgElements = [$this->fixQuote($wordArray[2]), $index];
+                $this->msgElements        = [$this->fixQuote($wordArray[2]), $index];
             } elseif ($alterCommand === 'DROP COLUMN') {
-                $index = $this->fixQuote($wordArray[5]);
-                $result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE Field = ' . $index;
-                $this->queryType = 'DROP_COLUMN';
+                $index                    = $this->fixQuote($wordArray[5]);
+                $result                   = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE Field = ' . $index;
+                $this->queryType          = 'DROP_COLUMN';
                 $this->checkQueryExpected = 0;
-                $this->msgElements = [$this->fixQuote($wordArray[2]), $index];
+                $this->msgElements        = [$this->fixQuote($wordArray[2]), $index];
             } elseif (strtoupper($wordArray[3]) === 'MODIFY') {
                 // Kludge to fix problem with "integer unsigned"
                 $type = $wordArray[5];
@@ -144,7 +144,7 @@ class MysqlChangeItem extends ChangeItem
                 // Detect changes in NULL and in DEFAULT column attributes
                 $changesArray = \array_slice($wordArray, 6);
                 $defaultCheck = $this->checkDefault($changesArray, $type);
-                $nullCheck = $this->checkNull($changesArray);
+                $nullCheck    = $this->checkNull($changesArray);
 
                 /**
                  * When we made the UTF8MB4 conversion then text becomes medium text - so loosen the checks to these two types
@@ -156,7 +156,7 @@ class MysqlChangeItem extends ChangeItem
                     . ' AND ' . $typeCheck
                     . ($defaultCheck ? ' AND ' . $defaultCheck : '')
                     . ($nullCheck ? ' AND ' . $nullCheck : '');
-                $this->queryType = 'CHANGE_COLUMN_TYPE';
+                $this->queryType   = 'CHANGE_COLUMN_TYPE';
                 $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]), $type];
             } elseif (strtoupper($wordArray[3]) === 'CHANGE') {
                 // Kludge to fix problem with "integer unsigned"
@@ -169,7 +169,7 @@ class MysqlChangeItem extends ChangeItem
                 // Detect changes in NULL and in DEFAULT column attributes
                 $changesArray = \array_slice($wordArray, 6);
                 $defaultCheck = $this->checkDefault($changesArray, $type);
-                $nullCheck = $this->checkNull($changesArray);
+                $nullCheck    = $this->checkNull($changesArray);
 
                 /**
                  * When we made the UTF8MB4 conversion then text becomes medium text - so loosen the checks to these two types
@@ -181,7 +181,7 @@ class MysqlChangeItem extends ChangeItem
                     . ' AND ' . $typeCheck
                     . ($defaultCheck ? ' AND ' . $defaultCheck : '')
                     . ($nullCheck ? ' AND ' . $nullCheck : '');
-                $this->queryType = 'CHANGE_COLUMN_TYPE';
+                $this->queryType   = 'CHANGE_COLUMN_TYPE';
                 $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $type];
             }
         }
@@ -193,8 +193,8 @@ class MysqlChangeItem extends ChangeItem
                 $table = $wordArray[2];
             }
 
-            $result = 'SHOW TABLES LIKE ' . $this->fixQuote($table);
-            $this->queryType = 'CREATE_TABLE';
+            $result            = 'SHOW TABLES LIKE ' . $this->fixQuote($table);
+            $this->queryType   = 'CREATE_TABLE';
             $this->msgElements = [$this->fixQuote($table)];
         }
 

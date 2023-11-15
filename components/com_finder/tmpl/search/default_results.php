@@ -46,15 +46,22 @@ use Joomla\CMS\Uri\Uri;
     <?php // Exit this template. ?>
     <?php return; ?>
 <?php endif; ?>
+<?php // Display the 'Sort By' drop-down. ?>
+<?php if ($this->params->get('show_sort_order', 0) && !empty($this->sortOrderFields) && !empty($this->results)) : ?>
+    <div id="search-sorting" class="com-finder__sorting">
+        <?php echo $this->loadTemplate('sorting'); ?>
+    </div>
+<?php endif; ?>
 <?php // Activate the highlighter if enabled. ?>
 <?php if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1)) : ?>
     <?php
+        // Allow a maximum of 10 tokens to be highlighted. Otherwise the URL can get too long.
         $this->document->getWebAssetManager()->useScript('highlight');
         $this->document->addScriptOptions(
             'highlight',
             [[
                     'class'      => 'js-highlight',
-                    'highLight'  => $this->query->highlight,
+                    'highLight'  => array_slice($this->query->highlight, 0, 10),
             ]]
         );
     ?>

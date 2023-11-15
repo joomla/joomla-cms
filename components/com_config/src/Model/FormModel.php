@@ -53,7 +53,7 @@ abstract class FormModel extends BaseForm
     {
         // Only attempt to check the row in if it exists.
         if ($pk) {
-            $user = Factory::getUser();
+            $user = $this->getCurrentUser();
 
             // Get an instance of the row to checkin.
             $table = $this->getTable();
@@ -89,7 +89,7 @@ abstract class FormModel extends BaseForm
     {
         // Only attempt to check the row in if it exists.
         if ($pk) {
-            $user = Factory::getUser();
+            $user = $this->getCurrentUser();
 
             // Get an instance of the row to checkout.
             $table = $this->getTable();

@@ -12,10 +12,12 @@ namespace Joomla\Component\Media\Administrator\Controller;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\MediaHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
@@ -39,7 +41,7 @@ class ApiController extends BaseController
      *
      * @param   string  $task  The task to perform. If no matching task is found, the '__default' task is executed, if defined.
      *
-     * @return  mixed   The value returned by the called method.
+     * @return  void
      *
      * @since   4.0.0
      * @throws  \Exception
@@ -355,7 +357,9 @@ class ApiController extends BaseController
             || ($postMaxSize > 0 && $contentLength > $postMaxSize)
             || ($memoryLimit > -1 && $contentLength > $memoryLimit)
         ) {
-            throw new \Exception(Text::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 403);
+            $link   = 'index.php?option=com_config&view=component&component=com_media';
+            $output = HTMLHelper::_('link', Route::_($link), Text::_('JOPTIONS'));
+            throw new \Exception(Text::sprintf('COM_MEDIA_ERROR_WARNFILETOOLARGE', $output), 403);
         }
     }
 

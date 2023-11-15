@@ -90,7 +90,7 @@ class FieldTable extends Table
                     if (!isset($seen_customfields[$option['customfield']])) {
                         // We haven't, so add it to the final options
                         $seen_customfields[$option['customfield']] = true;
-                        $options['option' . $i] = $option;
+                        $options['option' . $i]                    = $option;
                         $i++;
                     }
                 }
@@ -175,7 +175,7 @@ class FieldTable extends Table
         if ($this->id) {
             // Existing item
             $this->modified_time = $date;
-            $this->modified_by = $user->get('id');
+            $this->modified_by   = $user->get('id');
         } else {
             if (!(int) $this->modified_time) {
                 $this->modified_time = $this->created_time;
@@ -262,7 +262,7 @@ class FieldTable extends Table
     protected function _getAssetParentId(Table $table = null, $id = null)
     {
         $contextArray = explode('.', $this->context);
-        $component = $contextArray[0];
+        $component    = $contextArray[0];
 
         if ($this->group_id) {
             $assetId = $this->getAssetId($component . '.fieldgroup.' . (int) $this->group_id);
@@ -292,7 +292,7 @@ class FieldTable extends Table
      */
     private function getAssetId($name)
     {
-        $db = $this->getDbo();
+        $db    = $this->getDbo();
         $query = $db->getQuery(true)
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__assets'))

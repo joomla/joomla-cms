@@ -20,7 +20,7 @@ use Joomla\CMS\Uri\Uri;
 /** @var \Joomla\CMS\Document\HtmlDocument $this */
 
 $app   = Factory::getApplication();
-$input = $app->input;
+$input = $app->getInput();
 $wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
@@ -29,7 +29,7 @@ $view         = $input->get('view', '');
 $layout       = $input->get('layout', 'default');
 $task         = $input->get('task', 'display');
 $cpanel       = $option === 'com_cpanel' || ($option === 'com_admin' && $view === 'help');
-$hiddenMenu   = $app->input->get('hidemainmenu');
+$hiddenMenu   = $app->getInput()->get('hidemainmenu');
 $sidebarState = $input->cookie->get('atumSidebarState', '');
 
 // Getting user accessibility settings
@@ -61,6 +61,9 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
 // Get the hue value
 preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
 
+$linkColor = $this->params->get('link-color', '#2a69b8');
+list($r, $g, $b) = sscanf($linkColor, "#%02x%02x%02x");
+
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
     ->useStyle('template.active.language')
@@ -70,7 +73,8 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 		--template-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
 		--template-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
 		--template-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
-		--template-link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
+		--link-color: ' . $linkColor . ';
+		--link-color-rgb: ' . $r . ',' . $g . ',' . $b . ';
 		--template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
 	}');
 

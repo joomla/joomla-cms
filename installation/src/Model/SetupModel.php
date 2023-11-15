@@ -73,7 +73,7 @@ class SetupModel extends BaseInstallationModel
         }
 
         // Get the session
-        $session = Factory::getSession();
+        $session            = Factory::getSession();
         $options['helpurl'] = $session->get('setup.helpurl', null);
 
         // Merge the new setup options into the current ones and store in the session.
@@ -95,7 +95,7 @@ class SetupModel extends BaseInstallationModel
     public function getForm($view = null)
     {
         if (!$view) {
-            $view = Factory::getApplication()->input->getWord('view', 'setup');
+            $view = Factory::getApplication()->getInput()->getWord('view', 'setup');
         }
 
         // Get the form.
@@ -132,7 +132,7 @@ class SetupModel extends BaseInstallationModel
     public function checkForm($page = 'setup')
     {
         // Get the posted values from the request and validate them.
-        $data   = Factory::getApplication()->input->post->get('jform', [], 'array');
+        $data   = Factory::getApplication()->getInput()->post->get('jform', [], 'array');
         $return = $this->validate($data, $page);
 
         // Attempt to save the data before validation.
@@ -249,7 +249,7 @@ class SetupModel extends BaseInstallationModel
         $options = ArrayHelper::toObject($options);
 
         // Load the backend language files so that the DB error messages work.
-        $lang = Factory::getLanguage();
+        $lang        = Factory::getLanguage();
         $currentLang = $lang->getTag();
 
         // Load the selected language

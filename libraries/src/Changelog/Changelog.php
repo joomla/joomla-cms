@@ -15,7 +15,6 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -253,9 +252,9 @@ class Changelog extends CMSObject
             case 'CHANGE':
             case 'REMOVE':
             case 'NOTE':
-                $name = strtolower($name);
+                $name                                = strtolower($name);
                 $this->currentChangelog->$name->data = $this->items;
-                $this->items = [];
+                $this->items                         = [];
                 break;
             case 'CHANGELOG':
                 if (version_compare($this->currentChangelog->version->data, $this->matchVersion, '==') === true) {
@@ -338,7 +337,7 @@ class Changelog extends CMSObject
         try {
             $http     = HttpFactory::getHttp($httpOption);
             $response = $http->get($url);
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             $response = null;
         }
 

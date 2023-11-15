@@ -27,7 +27,7 @@ $wa->useScript('com_modules.admin-modules-modal');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
+$editor    = Factory::getApplication()->getInput()->get('editor', '', 'cmd');
 $link      = 'index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . Session::getFormToken() . '=1';
 
 if (!empty($editor)) {

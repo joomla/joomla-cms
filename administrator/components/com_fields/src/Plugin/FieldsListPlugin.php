@@ -46,7 +46,7 @@ class FieldsListPlugin extends FieldsPlugin
         $fieldNode->setAttribute('validate', 'options');
 
         foreach ($this->getOptionsFromField($field) as $value => $name) {
-            $option = new \DOMElement('option', htmlspecialchars($value, ENT_COMPAT, 'UTF-8'));
+            $option              = new \DOMElement('option', htmlspecialchars($value, ENT_COMPAT, 'UTF-8'));
             $option->textContent = htmlspecialchars(Text::_($name), ENT_COMPAT, 'UTF-8');
 
             $element = $fieldNode->appendChild($option);
@@ -74,7 +74,7 @@ class FieldsListPlugin extends FieldsPlugin
         $params->merge($field->fieldparams);
 
         foreach ($params->get('options', []) as $option) {
-            $op = (object) $option;
+            $op               = (object) $option;
             $data[$op->value] = $op->name;
         }
 

@@ -52,8 +52,8 @@ abstract class Tag
 
         if (!isset(static::$items[$hash])) {
             $config = (array) $config;
-            $db = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $db     = Factory::getDbo();
+            $query  = $db->getQuery(true)
                 ->select(
                     [
                         $db->quoteName('a.id'),
@@ -94,8 +94,8 @@ abstract class Tag
             static::$items[$hash] = [];
 
             foreach ($items as &$item) {
-                $repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
-                $item->title = str_repeat('- ', $repeat) . $item->title;
+                $repeat                 = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
+                $item->title            = str_repeat('- ', $repeat) . $item->title;
                 static::$items[$hash][] = HTMLHelper::_('select.option', $item->id, $item->title);
             }
         }
@@ -114,10 +114,10 @@ abstract class Tag
      */
     public static function tags($config = ['filter.published' => [0, 1]])
     {
-        $hash = md5(serialize($config));
+        $hash   = md5(serialize($config));
         $config = (array) $config;
-        $db = Factory::getDbo();
-        $query = $db->getQuery(true)
+        $db     = Factory::getDbo();
+        $query  = $db->getQuery(true)
             ->select(
                 [
                     $db->quoteName('a.id'),
@@ -149,8 +149,8 @@ abstract class Tag
         static::$items[$hash] = [];
 
         foreach ($items as &$item) {
-            $repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
-            $item->title = str_repeat('- ', $repeat) . $item->title;
+            $repeat                 = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
+            $item->title            = str_repeat('- ', $repeat) . $item->title;
             static::$items[$hash][] = HTMLHelper::_('select.option', $item->id, $item->title);
         }
 
@@ -167,12 +167,13 @@ abstract class Tag
      *
      * @since   3.1
      *
-     * @deprecated  5.0  Without replacement
+     * @deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacement
      */
     public static function ajaxfield($selector = '#jform_tags', $allowCustom = true)
     {
         // Get the component parameters
-        $params = ComponentHelper::getParams('com_tags');
+        $params        = ComponentHelper::getParams('com_tags');
         $minTermLength = (int) $params->get('min_term_length', 3);
 
         Text::script('JGLOBAL_KEEP_TYPING');
@@ -194,7 +195,7 @@ abstract class Tag
                 'dataType'       => 'json',
                 'jsonTermKey'    => 'like',
                 'afterTypeDelay' => 500,
-                'minTermLength'  => $minTermLength
+                'minTermLength'  => $minTermLength,
             ]
         );
 

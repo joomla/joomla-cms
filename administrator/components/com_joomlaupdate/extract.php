@@ -678,7 +678,7 @@ class ZIPExtraction
 
                         // Update running tallies when we start extracting a file
                         $this->filesProcessed++;
-                        $this->compressedTotal   += array_key_exists('compressed', get_object_vars($this->fileHeader))
+                        $this->compressedTotal += array_key_exists('compressed', get_object_vars($this->fileHeader))
                             ? $this->fileHeader->compressed : 0;
                         $this->uncompressedTotal += $this->fileHeader->uncompressed;
                     }
@@ -1357,8 +1357,8 @@ class ZIPExtraction
             $toReadBytes     = min($leftBytes, self::CHUNK_SIZE);
             $mydata          = $this->fread($this->fp, $toReadBytes);
             $reallyReadBytes = $this->binStringLength($mydata);
-            $data            .= $mydata;
-            $leftBytes       -= $reallyReadBytes;
+            $data .= $mydata;
+            $leftBytes -= $reallyReadBytes;
 
             if ($reallyReadBytes < $toReadBytes) {
                 // We read less than requested!
@@ -1443,7 +1443,7 @@ class ZIPExtraction
             $toReadBytes          = min($leftBytes, self::CHUNK_SIZE);
             $data                 = $this->fread($this->fp, $toReadBytes);
             $reallyReadBytes      = $this->binStringLength($data);
-            $leftBytes            -= $reallyReadBytes;
+            $leftBytes -= $reallyReadBytes;
             $this->dataReadLength += $reallyReadBytes;
 
             if ($reallyReadBytes < $toReadBytes) {

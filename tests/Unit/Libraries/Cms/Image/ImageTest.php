@@ -2,7 +2,7 @@
 
 /**
  * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Image;
@@ -136,7 +136,7 @@ class ImageTest extends UnitTestCase
             [44, 80, Image::SCALE_OUTSIDE, 100, 50, 160, 80],
             [24, 80, Image::SCALE_OUTSIDE, 100, 50, 160, 80],
             [33, 50, Image::SCALE_INSIDE, 20, 100, 10, 50],
-            [12, 50, Image::SCALE_INSIDE, 20, 100, 10, 50]
+            [12, 50, Image::SCALE_INSIDE, 20, 100, 10, 50],
         ];
     }
 
@@ -156,7 +156,7 @@ class ImageTest extends UnitTestCase
             ['40%', 56.2, 10, 10, 4, 56],
             [42.5, '5%', 10, 10, 43, 1],
             ['33%', '25%', 10, 10, 3, 3],
-            ['40%', null, 10, 10, 4, 4]
+            ['40%', null, 10, 10, 4, 4],
         ];
     }
 
@@ -195,7 +195,7 @@ class ImageTest extends UnitTestCase
         return [
             // Note: input, expected
             [42.5, 43],
-            [56.2, 56]
+            [56.2, 56],
         ];
     }
 
@@ -929,7 +929,7 @@ class ImageTest extends UnitTestCase
     {
         $this->instance->loadFile($this->testFile);
 
-        $thumbs = $this->instance->createThumbs('50x38', Image::CROP);
+        $thumbs     = $this->instance->createThumbs('50x38', Image::CROP);
         $outFileGif = TestHelper::getValue($thumbs[0], 'path');
 
         $a = Image::getImageFileProperties($this->testFile);
@@ -1068,7 +1068,7 @@ class ImageTest extends UnitTestCase
         }
 
         // Define red and white.
-        $red = imagecolorallocate($imageHandle, 255, 0, 0);
+        $red   = imagecolorallocate($imageHandle, 255, 0, 0);
         $white = imagecolorallocate($imageHandle, 255, 255, 255);
 
         $actualCropTop = $cropTop;
@@ -1182,7 +1182,7 @@ class ImageTest extends UnitTestCase
         $imageHandle = imagecreatetruecolor(101, 101);
 
         // Define red and white.
-        $red = imagecolorallocate($imageHandle, 255, 0, 0);
+        $red   = imagecolorallocate($imageHandle, 255, 0, 0);
         $white = imagecolorallocate($imageHandle, 255, 255, 255);
 
         // Draw a red horizontal line in the middle of the image.

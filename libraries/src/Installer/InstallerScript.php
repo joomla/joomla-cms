@@ -10,11 +10,11 @@
 namespace Joomla\CMS\Installer;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -173,17 +173,17 @@ class InstallerScript
     {
         $extension = $this->extension;
 
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true);
 
         // Select the item(s) and retrieve the id
-        $query->select($db->quoteName('id'));
-
         if ($isModule) {
-            $query->from($db->quoteName('#__modules'))
+            $query->select($db->quoteName('id'))
+                ->from($db->quoteName('#__modules'))
                 ->where($db->quoteName('module') . ' = :extension');
         } else {
-            $query->from($db->quoteName('#__extensions'))
+            $query->select($db->quoteName('extension_id', 'id'))
+                ->from($db->quoteName('#__extensions'))
                 ->where($db->quoteName('element') . ' = :extension');
         }
 
@@ -257,7 +257,7 @@ class InstallerScript
         // Store the combined new and existing values back as a JSON string
         $paramsString = json_encode($params);
 
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->update($db->quoteName($this->paramTable))
             ->set('params = :params')

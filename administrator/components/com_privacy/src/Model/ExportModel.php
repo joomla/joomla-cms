@@ -202,7 +202,7 @@ class ExportModel extends BaseDatabaseModel
 
         // The mailer can be set to either throw Exceptions or return boolean false, account for both
         try {
-            $app = Factory::getApplication();
+            $app    = Factory::getApplication();
             $mailer = new MailTemplate('com_privacy.userdataexport', $app->getLanguage()->getTag());
 
             $templateData = [
@@ -256,7 +256,7 @@ class ExportModel extends BaseDatabaseModel
      */
     public function logExport(RequestTable $request)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $message = [
             'action'      => 'export',
@@ -281,7 +281,7 @@ class ExportModel extends BaseDatabaseModel
      */
     public function logExportEmailed(RequestTable $request)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $message = [
             'action'      => 'export_emailed',
@@ -305,7 +305,7 @@ class ExportModel extends BaseDatabaseModel
     protected function populateState()
     {
         // Get the pk of the record from the request.
-        $this->setState($this->getName() . '.request_id', Factory::getApplication()->input->getUint('id'));
+        $this->setState($this->getName() . '.request_id', Factory::getApplication()->getInput()->getUint('id'));
 
         // Load the parameters.
         $this->setState('params', ComponentHelper::getParams('com_privacy'));

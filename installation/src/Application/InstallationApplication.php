@@ -20,6 +20,7 @@ use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Input\Input;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactory;
@@ -379,11 +380,11 @@ final class InstallationApplication extends CMSApplication
     public function getTemplate($params = false)
     {
         if ($params) {
-            $template = new \stdClass();
-            $template->template = 'template';
-            $template->params = new Registry();
+            $template              = new \stdClass();
+            $template->template    = 'template';
+            $template->params      = new Registry();
             $template->inheritable = 0;
-            $template->parent = '';
+            $template->parent      = '';
 
             return $template;
         }
@@ -452,6 +453,15 @@ final class InstallationApplication extends CMSApplication
         $this->config->set('debug_lang', $forced['debug']);
         $this->config->set('sampledata', $forced['sampledata']);
         $this->config->set('helpurl', $options['helpurl']);
+
+        // Build our language object
+        $lang = $this->getContainer()->get(LanguageFactoryInterface::class)->createLanguage($options['language'], $forced['debug']);
+
+        // Load the language to the API
+        $this->loadLanguage($lang);
+
+        // Register the language object with Factory
+        Factory::$language = $this->getLanguage();
     }
 
     /**
@@ -470,7 +480,7 @@ final class InstallationApplication extends CMSApplication
     public function loadDocument(Document $document = null)
     {
         if ($document === null) {
-            $lang = Factory::getLanguage();
+            $lang = $this->getLanguage();
             $type = $this->input->get('format', 'html', 'word');
             $date = new Date('now');
 
@@ -515,7 +525,7 @@ final class InstallationApplication extends CMSApplication
                 'file'             => $file . '.php',
                 'directory'        => JPATH_THEMES,
                 'params'           => '{}',
-                "templateInherits" => ''
+                "templateInherits" => '',
             ];
         }
 

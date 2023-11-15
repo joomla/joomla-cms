@@ -90,7 +90,7 @@ $previousReleaseFilter = function ($file, $key, $iterator) use ($previousRelease
 
 // Directories to skip for the check
 $newReleaseExclude = [
-    $options['to'] . '/installation'
+    $options['to'] . '/installation',
 ];
 
 /**
@@ -109,11 +109,11 @@ $newReleaseFilter = function ($file, $key, $iterator) use ($newReleaseExclude) {
 };
 
 $previousReleaseDirIterator = new RecursiveDirectoryIterator($options['from'], RecursiveDirectoryIterator::SKIP_DOTS);
-$previousReleaseIterator = new RecursiveIteratorIterator(
+$previousReleaseIterator    = new RecursiveIteratorIterator(
     new RecursiveCallbackFilterIterator($previousReleaseDirIterator, $previousReleaseFilter),
     RecursiveIteratorIterator::SELF_FIRST
 );
-$previousReleaseFiles = [];
+$previousReleaseFiles   = [];
 $previousReleaseFolders = [];
 
 foreach ($previousReleaseIterator as $info) {
@@ -126,11 +126,11 @@ foreach ($previousReleaseIterator as $info) {
 }
 
 $newReleaseDirIterator = new RecursiveDirectoryIterator($options['to'], RecursiveDirectoryIterator::SKIP_DOTS);
-$newReleaseIterator = new RecursiveIteratorIterator(
+$newReleaseIterator    = new RecursiveIteratorIterator(
     new RecursiveCallbackFilterIterator($newReleaseDirIterator, $newReleaseFilter),
     RecursiveIteratorIterator::SELF_FIRST
 );
-$newReleaseFiles = [];
+$newReleaseFiles   = [];
 $newReleaseFolders = [];
 
 foreach ($newReleaseIterator as $info) {

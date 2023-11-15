@@ -150,20 +150,20 @@ class AssociationsHelper extends AssociationExtensionHelper
         if (in_array($typeName, $this->itemTypes)) {
             switch ($typeName) {
                 case 'item':
-                    $fields['ordering'] = 'a.lft';
-                    $fields['level'] = 'a.level';
-                    $fields['catid'] = '';
-                    $fields['state'] = 'a.published';
+                    $fields['ordering']        = 'a.lft';
+                    $fields['level']           = 'a.level';
+                    $fields['catid']           = '';
+                    $fields['state']           = 'a.published';
                     $fields['created_user_id'] = '';
-                    $fields['menutype'] = 'a.menutype';
+                    $fields['menutype']        = 'a.menutype';
 
-                    $support['state'] = true;
-                    $support['acl'] = true;
+                    $support['state']    = true;
+                    $support['acl']      = true;
                     $support['checkout'] = true;
-                    $support['level'] = true;
+                    $support['level']    = true;
 
                     $tables = [
-                        'a' => '#__menu'
+                        'a' => '#__menu',
                     ];
 
                     $title = 'menu';
@@ -176,7 +176,7 @@ class AssociationsHelper extends AssociationExtensionHelper
             'support' => $support,
             'tables'  => $tables,
             'joins'   => $joins,
-            'title'   => $title
+            'title'   => $title,
         ];
     }
 }

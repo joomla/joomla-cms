@@ -215,7 +215,7 @@ class SiteRouter extends Router
             // Get menu items.
             $items    = $this->menu->getItems(['parent_id', 'access'], [1, null]);
             $lang_tag = $this->app->getLanguage()->getTag();
-            $found   = null;
+            $found    = null;
 
             foreach ($segments as $segment) {
                 $matched = false;
@@ -227,9 +227,9 @@ class SiteRouter extends Router
                         || ($item->language === '*'
                         || $item->language === $lang_tag))
                     ) {
-                        $found = $item;
+                        $found   = $item;
                         $matched = true;
-                        $items = $item->getChildren();
+                        $items   = $item->getChildren();
                         break;
                     }
                 }
@@ -283,7 +283,7 @@ class SiteRouter extends Router
             if (\count($segments)) {
                 // Handle component route
                 $component = preg_replace('/[^A-Z0-9_\.-]/i', '', $uri->getVar('option'));
-                $crouter = $this->getComponentRouter($component);
+                $crouter   = $this->getComponentRouter($component);
                 $uri->setQuery(array_merge($uri->getQuery(true), $crouter->parse($segments)));
             }
 

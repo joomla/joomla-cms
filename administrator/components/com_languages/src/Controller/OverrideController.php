@@ -79,7 +79,7 @@ class OverrideController extends FormController
         $context = "$this->option.edit.$this->context";
         $task    = $this->getTask();
 
-        $recordId = $this->input->get('id');
+        $recordId   = $this->input->get('id');
         $data['id'] = $recordId;
 
         // Access check.

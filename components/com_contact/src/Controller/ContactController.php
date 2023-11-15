@@ -102,7 +102,7 @@ class ContactController extends FormController
         }
 
         // Get item params, take menu parameters into account if necessary
-        $active = $app->getMenu()->getActive();
+        $active      = $app->getMenu()->getActive();
         $stateParams = clone $model->getState()->get('params');
 
         // If the current view is the active item and a contact view for this contact, then the menu item params take priority
@@ -171,10 +171,21 @@ class ContactController extends FormController
         // Validation succeeded, continue with custom handlers
         $results = $this->app->triggerEvent('onValidateContact', [&$contact, &$data]);
 
+        $passValidation = true;
+
         foreach ($results as $result) {
             if ($result instanceof \Exception) {
-                return false;
+                $passValidation = false;
+                $app->enqueueMessage($result->getMessage(), 'error');
             }
+        }
+
+        if (!$passValidation) {
+            $app->setUserState('com_contact.contact.data', $data);
+
+            $this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $id . '&catid=' . $contact->catid, false));
+
+            return false;
         }
 
         // Passed Validation: Process the contact plugins to integrate with other applications
@@ -228,14 +239,14 @@ class ContactController extends FormController
         }
 
         $templateData = [
-            'sitename' => $app->get('sitename'),
-            'name'     => $data['contact_name'],
-            'contactname' => $contact->name,
-            'email'    => PunycodeHelper::emailToPunycode($data['contact_email']),
-            'subject'  => $data['contact_subject'],
-            'body'     => stripslashes($data['contact_message']),
-            'url'      => Uri::base(),
-            'customfields' => ''
+            'sitename'     => $app->get('sitename'),
+            'name'         => $data['contact_name'],
+            'contactname'  => $contact->name,
+            'email'        => PunycodeHelper::emailToPunycode($data['contact_email']),
+            'subject'      => $data['contact_subject'],
+            'body'         => stripslashes($data['contact_message']),
+            'url'          => Uri::base(),
+            'customfields' => '',
         ];
 
         // Load the custom fields

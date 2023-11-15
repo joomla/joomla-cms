@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -39,6 +40,50 @@ class JoomlaInstallerScript
      * @since  3.7
      */
     protected $fromVersion = null;
+
+    /**
+     * Callback for collecting errors. Like function(string $context, \Throwable $error){};
+     *
+     * @var callable
+     *
+     * @since  4.4.0
+     */
+    protected $errorCollector;
+
+    /**
+     * Set the callback for collecting errors.
+     *
+     * @param   callable  $callback  The callback Like function(string $context, \Throwable $error){};
+     *
+     * @return  void
+     *
+     * @since  4.4.0
+     */
+    public function setErrorCollector(callable $callback)
+    {
+        $this->errorCollector = $callback;
+    }
+
+    /**
+     * Collect errors.
+     *
+     * @param  string      $context  A context/place where error happened
+     * @param  \Throwable  $error    The error that occurred
+     *
+     * @return  void
+     *
+     * @since  4.4.0
+     */
+    protected function collectError(string $context, \Throwable $error)
+    {
+        // The errorCollector are required
+        // However when someone already running the script manually the code may fail.
+        if ($this->errorCollector) {
+            call_user_func($this->errorCollector, $context, $error);
+        } else {
+            Log::add($error->getMessage(), Log::ERROR, 'Update');
+        }
+    }
 
     /**
      * Function to act prior to installation process begins
@@ -82,30 +127,45 @@ class JoomlaInstallerScript
      */
     public function update($installer)
     {
-        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-        $options['text_file'] = 'joomla_update.php';
-
-        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
-
+        // Uninstall plugins before removing their files and folders
         try {
-            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), Log::INFO, 'Update');
-        } catch (RuntimeException $exception) {
-            // Informational log only
+            $this->uninstallRepeatableFieldsPlugin();
+        } catch (\Throwable $e) {
+            $this->collectError('uninstallRepeatableFieldsPlugin', $e);
         }
 
-        // Uninstall plugins before removing their files and folders
-        $this->uninstallRepeatableFieldsPlugin();
-        $this->uninstallEosPlugin();
+        try {
+            $this->uninstallEosPlugin();
+        } catch (\Throwable $e) {
+            $this->collectError('uninstallEosPlugin', $e);
+        }
 
-        // This needs to stay for 2.5 update compatibility
-        $this->deleteUnexistingFiles();
-        $this->updateManifestCaches();
-        $this->updateDatabase();
-        $this->updateAssets($installer);
-        $this->clearStatsCache();
-        $this->convertTablesToUtf8mb4(true);
-        $this->addUserAuthProviderColumn();
-        $this->cleanJoomlaCache();
+        // Remove old files
+        try {
+            Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), Log::INFO, 'Update');
+            $this->deleteUnexistingFiles();
+        } catch (\Throwable $e) {
+            $this->collectError('deleteUnexistingFiles', $e);
+        }
+
+        // Further update
+        try {
+            $this->updateManifestCaches();
+            $this->updateDatabase();
+            $this->updateAssets($installer);
+            $this->clearStatsCache();
+            $this->convertTablesToUtf8mb4(true);
+            $this->addUserAuthProviderColumn();
+        } catch (\Throwable $e) {
+            $this->collectError('Further update', $e);
+        }
+
+        // Clean cache
+        try {
+            $this->cleanJoomlaCache();
+        } catch (\Throwable $e) {
+            $this->collectError('cleanJoomlaCache', $e);
+        }
     }
 
     /**
@@ -130,7 +190,7 @@ class JoomlaInstallerScript
                     ->where($db->quoteName('element') . ' = ' . $db->quote('stats'))
             )->loadResult();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -154,7 +214,7 @@ class JoomlaInstallerScript
         try {
             $db->setQuery($query)->execute();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -186,7 +246,7 @@ class JoomlaInstallerScript
         try {
             $results = $db->loadObjectList();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -201,7 +261,7 @@ class JoomlaInstallerScript
             try {
                 $db->execute();
             } catch (Exception $e) {
-                echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+                $this->collectError(__METHOD__, $e);
 
                 return;
             }
@@ -307,10 +367,10 @@ class JoomlaInstallerScript
                          * for each of the sub fields of the `repeatable` instance.
                          */
                         $data = [
-                            'context'             => $row->context,
-                            'group_id'            => $row->group_id,
-                            'title'               => $oldField->fieldname,
-                            'name'                => (
+                            'context'  => $row->context,
+                            'group_id' => $row->group_id,
+                            'title'    => $oldField->fieldname,
+                            'name'     => (
                                 $fieldname_prefix
                                 . $oldField->fieldname
                                 . ($fieldname_suffix > 0 ? ('_' . $fieldname_suffix) : '')
@@ -538,7 +598,7 @@ class JoomlaInstallerScript
         $extensions = ExtensionHelper::getCoreExtensions();
 
         // If we have the search package around, it may not have a manifest cache entry after upgrades from 3.x, so add it to the list
-        if (File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml')) {
+        if (is_file(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml')) {
             $extensions[] = ['package', 'pkg_search', '', 0];
         }
 
@@ -563,7 +623,7 @@ class JoomlaInstallerScript
         try {
             $extensions = $db->loadObjectList();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }
@@ -573,7 +633,16 @@ class JoomlaInstallerScript
 
         foreach ($extensions as $extension) {
             if (!$installer->refreshManifestCache($extension->extension_id)) {
-                echo Text::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id) . '<br>';
+                $this->collectError(
+                    __METHOD__,
+                    new \Exception(sprintf(
+                        'Error on updating manifest cache: (type, element, folder, client) = (%s, %s, %s, %s)',
+                        $extension->type,
+                        $extension->element,
+                        $extension->name,
+                        $extension->client_id
+                    ))
+                );
             }
         }
     }
@@ -600,7 +669,7 @@ class JoomlaInstallerScript
         ];
 
         $files = [
-            // From 3.10 to 4.1
+            // From 3.10 to 4.3
             '/administrator/components/com_actionlogs/actionlogs.php',
             '/administrator/components/com_actionlogs/controller.php',
             '/administrator/components/com_actionlogs/controllers/actionlogs.php',
@@ -6467,12 +6536,170 @@ class JoomlaInstallerScript
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataFormatter/VarDumper/SeekingData.php',
             // From 4.2.8 to 4.2.9
             '/administrator/components/com_scheduler/tmpl/select/modal.php',
-            '/components/com_contact/layouts/field/render.php',
-            '/components/com_contact/layouts/fields/render.php',
+            // From 4.2.x to 4.3.0-alpha1
+            '/libraries/vendor/paragonie/sodium_compat/autoload-fast.php',
+            '/libraries/vendor/paragonie/sodium_compat/autoload-pedantic.php',
+            '/libraries/vendor/paragonie/sodium_compat/autoload-phpunit.php',
+            '/libraries/vendor/paragonie/sodium_compat/dist/Makefile',
+            '/libraries/vendor/paragonie/sodium_compat/dist/box.json',
+            '/libraries/vendor/paragonie/sodium_compat/psalm-above-3.xml',
+            '/libraries/vendor/paragonie/sodium_compat/psalm-below-3.xml',
+            '/libraries/vendor/paragonie/sodium_compat/src/Core/Base64/Common.php',
+            '/media/com_menus/css/admin-item-edit_modules.css',
+            '/media/com_menus/css/admin-item-edit_modules.min.css',
+            '/media/com_menus/css/admin-item-edit_modules.min.css.gz',
+            '/media/templates/administrator/atum/scss/vendor/bootstrap/_bootstrap-rtl.scss',
+            '/media/templates/site/cassiopeia/scss/vendor/bootstrap/_bootstrap-rtl.scss',
+            '/plugins/content/confirmconsent/confirmconsent.php',
+            '/plugins/content/contact/contact.php',
+            '/plugins/extension/finder/finder.php',
+            '/plugins/extension/joomla/joomla.php',
+            '/plugins/extension/namespacemap/namespacemap.php',
+            '/plugins/quickicon/downloadkey/downloadkey.php',
+            '/plugins/quickicon/extensionupdate/extensionupdate.php',
+            '/plugins/quickicon/overridecheck/overridecheck.php',
+            '/plugins/quickicon/phpversioncheck/phpversioncheck.php',
+            '/plugins/quickicon/privacycheck/privacycheck.php',
+            // From 4.3.0-alpha1 to 4.3.0-alpha2
+            '/plugins/content/emailcloak/emailcloak.php',
+            '/plugins/content/fields/fields.php',
+            // From 4.3.0-alpha2 to 4.3.0-alpha3
+            '/cypress.config.js',
+            '/media/templates/administrator/atum/scss/_root.scss',
+            '/media/templates/administrator/atum/scss/vendor/_bootstrap.scss',
+            '/modules/mod_articles_popular/mod_articles_popular.php',
+            '/plugins/authentication/cookie/cookie.php',
+            '/plugins/authentication/joomla/joomla.php',
+            '/plugins/authentication/ldap/ldap.php',
+            '/plugins/editors-xtd/article/article.php',
+            '/plugins/editors-xtd/contact/contact.php',
+            '/plugins/editors-xtd/fields/fields.php',
+            '/plugins/editors-xtd/image/image.php',
+            '/plugins/editors-xtd/menu/menu.php',
+            '/plugins/editors-xtd/module/module.php',
+            '/plugins/editors-xtd/readmore/readmore.php',
+            '/plugins/editors/tinymce/tinymce.php',
+            // From 4.3.0-alpha3 to 4.3.0-beta1
+            '/plugins/editors/codemirror/codemirror.php',
+            '/plugins/editors/none/none.php',
+            '/plugins/fields/calendar/calendar.php',
+            '/plugins/fields/checkboxes/checkboxes.php',
+            '/plugins/fields/color/color.php',
+            '/plugins/fields/editor/editor.php',
+            '/plugins/fields/imagelist/imagelist.php',
+            '/plugins/fields/integer/integer.php',
+            '/plugins/fields/list/list.php',
+            '/plugins/fields/media/media.php',
+            '/plugins/fields/radio/radio.php',
+            '/plugins/fields/sql/sql.php',
+            '/plugins/fields/subform/subform.php',
+            '/plugins/fields/text/text.php',
+            '/plugins/fields/textarea/textarea.php',
+            '/plugins/fields/url/url.php',
+            '/plugins/fields/user/user.php',
+            '/plugins/fields/usergrouplist/usergrouplist.php',
+            // From 4.3.0-beta2 to 4.3.0-beta3
+            '/cypress.config.dist.js',
+            '/plugins/captcha/recaptcha/recaptcha.php',
+            '/plugins/captcha/recaptcha_invisible/recaptcha_invisible.php',
+            '/plugins/filesystem/local/local.php',
+            '/plugins/finder/categories/categories.php',
+            '/plugins/finder/contacts/contacts.php',
+            '/plugins/finder/content/content.php',
+            '/plugins/finder/newsfeeds/newsfeeds.php',
+            '/plugins/finder/tags/tags.php',
+            // From 4.3.0-beta3 to 4.3.0-beta4
+            '/layouts/joomla/content/categories_default_items.php',
+            // From 4.3.0-beta4 to 4.3.0-rc1
+            '/administrator/components/com_guidedtours/src/Helper/GuidedtoursHelper.php',
+            '/libraries/vendor/voku/portable-ascii/build/docs/base.md',
+            '/libraries/vendor/voku/portable-ascii/build/generate_docs.php',
+            '/libraries/vendor/voku/portable-ascii/build/generate_max_key_length.php',
+            // From 4.3.x to 4.4.0-alpha1
+            '/modules/mod_articles_archive/mod_articles_archive.php',
+            '/modules/mod_articles_categories/mod_articles_categories.php',
+            '/modules/mod_articles_category/mod_articles_category.php',
+            '/modules/mod_breadcrumbs/mod_breadcrumbs.php',
+            '/modules/mod_custom/mod_custom.php',
+            '/modules/mod_footer/mod_footer.php',
+            '/modules/mod_related_items/mod_related_items.php',
+            '/modules/mod_users_latest/mod_users_latest.php',
+            '/plugins/content/finder/finder.php',
+            '/plugins/content/joomla/joomla.php',
+            '/plugins/content/loadmodule/loadmodule.php',
+            '/plugins/content/pagebreak/pagebreak.php',
+            '/plugins/content/pagenavigation/pagenavigation.php',
+            '/plugins/content/vote/vote.php',
+            '/plugins/installer/folderinstaller/folderinstaller.php',
+            '/plugins/installer/override/override.php',
+            '/plugins/installer/packageinstaller/packageinstaller.php',
+            '/plugins/installer/urlinstaller/urlinstaller.php',
+            '/plugins/installer/webinstaller/webinstaller.php',
+            '/plugins/media-action/crop/crop.php',
+            '/plugins/media-action/resize/resize.php',
+            '/plugins/media-action/rotate/rotate.php',
+            '/plugins/privacy/actionlogs/actionlogs.php',
+            '/plugins/privacy/consents/consents.php',
+            '/plugins/privacy/contact/contact.php',
+            '/plugins/privacy/content/content.php',
+            '/plugins/privacy/message/message.php',
+            '/plugins/privacy/user/user.php',
+            '/plugins/sampledata/blog/blog.php',
+            '/plugins/sampledata/multilang/multilang.php',
+            '/plugins/system/accessibility/accessibility.php',
+            '/plugins/system/actionlogs/actionlogs.php',
+            '/plugins/system/debug/debug.php',
+            '/plugins/system/fields/fields.php',
+            '/plugins/system/highlight/highlight.php',
+            '/plugins/system/httpheaders/httpheaders.php',
+            '/plugins/system/jooa11y/jooa11y.php',
+            '/plugins/system/languagecode/languagecode.php',
+            '/plugins/system/languagefilter/languagefilter.php',
+            '/plugins/system/log/log.php',
+            '/plugins/system/logout/logout.php',
+            '/plugins/system/logrotation/logrotation.php',
+            '/plugins/system/privacyconsent/privacyconsent.php',
+            '/plugins/system/redirect/redirect.php',
+            '/plugins/system/remember/remember.php',
+            '/plugins/system/schedulerunner/schedulerunner.php',
+            '/plugins/system/sef/sef.php',
+            '/plugins/system/sessiongc/sessiongc.php',
+            '/plugins/system/skipto/skipto.php',
+            '/plugins/system/stats/stats.php',
+            '/plugins/system/tasknotification/tasknotification.php',
+            '/plugins/system/updatenotification/updatenotification.php',
+            '/plugins/user/contactcreator/contactcreator.php',
+            '/plugins/user/joomla/joomla.php',
+            '/plugins/user/profile/profile.php',
+            '/plugins/user/terms/terms.php',
+            '/plugins/user/token/token.php',
+            '/plugins/webservices/banners/banners.php',
+            '/plugins/webservices/config/config.php',
+            '/plugins/webservices/contact/contact.php',
+            '/plugins/webservices/content/content.php',
+            '/plugins/webservices/installer/installer.php',
+            '/plugins/webservices/languages/languages.php',
+            '/plugins/webservices/media/media.php',
+            '/plugins/webservices/menus/menus.php',
+            '/plugins/webservices/messages/messages.php',
+            '/plugins/webservices/modules/modules.php',
+            '/plugins/webservices/newsfeeds/newsfeeds.php',
+            '/plugins/webservices/plugins/plugins.php',
+            '/plugins/webservices/privacy/privacy.php',
+            '/plugins/webservices/redirect/redirect.php',
+            '/plugins/webservices/tags/tags.php',
+            '/plugins/webservices/templates/templates.php',
+            '/plugins/webservices/users/users.php',
+            '/plugins/workflow/featuring/featuring.php',
+            '/plugins/workflow/notification/notification.php',
+            '/plugins/workflow/publishing/publishing.php',
+            // From 4.4.0-alpha1 to 4.4.0-alpha2
+            '/libraries/vendor/jfcherng/php-diff/src/languages/readme.txt',
+            '/plugins/editors-xtd/pagebreak/pagebreak.php',
         ];
 
         $folders = [
-            // From 3.10 to 4.1
+            // From 3.10 to 4.3
             '/templates/system/images',
             '/templates/system/html',
             '/templates/protostar/less',
@@ -7843,24 +8070,26 @@ class JoomlaInstallerScript
             '/media/vendor/hotkeys.js/js',
             '/media/vendor/hotkeys.js',
             '/libraries/vendor/symfony/string/Resources/bin',
-            // From 4.2.8 to 4.2.9
-            '/components/com_contact/layouts/fields',
-            '/components/com_contact/layouts/field',
-            '/components/com_contact/layouts',
+            // From 4.2.x to 4.3.0-alpha1
+            '/libraries/vendor/paragonie/sodium_compat/dist',
+            // From 4.3.0-beta4 to 4.3.0-rc1
+            '/libraries/vendor/voku/portable-ascii/build/docs',
+            '/libraries/vendor/voku/portable-ascii/build',
+            '/administrator/components/com_guidedtours/src/Helper',
         ];
 
-        $status['files_checked'] = $files;
+        $status['files_checked']   = $files;
         $status['folders_checked'] = $folders;
 
         foreach ($files as $file) {
-            if ($fileExists = File::exists(JPATH_ROOT . $file)) {
+            if ($fileExists = is_file(JPATH_ROOT . $file)) {
                 $status['files_exist'][] = $file;
 
                 if ($dryRun === false) {
                     if (File::delete(JPATH_ROOT . $file)) {
                         $status['files_deleted'][] = $file;
                     } else {
-                        $status['files_errors'][] = Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file);
+                        $status['files_errors'][] = sprintf('Error on deleting file or folder %s', $file);
                     }
                 }
             }
@@ -7876,7 +8105,7 @@ class JoomlaInstallerScript
                     if (Folder::delete(JPATH_ROOT . $folder)) {
                         $status['folders_deleted'][] = $folder;
                     } else {
-                        $status['folders_errors'][] = Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder);
+                        $status['folders_errors'][] = sprintf('Error on deleting file or folder %s', $folder);
                     }
                 }
             }
@@ -7891,8 +8120,8 @@ class JoomlaInstallerScript
          * but an update has put the files back. In that case it exists even if they don't believe in it!
          */
         if (
-            !File::exists(JPATH_ROOT . '/administrator/components/com_search/search.php')
-            && File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml')
+            !is_file(JPATH_ROOT . '/administrator/components/com_search/search.php')
+            && is_file(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml')
         ) {
             File::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml');
         }
@@ -7922,6 +8151,10 @@ class JoomlaInstallerScript
         // List all components added since 4.0
         $newComponents = [
             // Components to be added here
+            'com_guidedtours',
+            'com_mails',
+            'com_scheduler',
+            'com_workflow',
         ];
 
         foreach ($newComponents as $component) {
@@ -7939,6 +8172,8 @@ class JoomlaInstallerScript
             $asset->setLocation(1, 'last-child');
 
             if (!$asset->store()) {
+                $this->collectError(__METHOD__, new \Exception($asset->getError(true)));
+
                 // Install failed, roll back changes
                 $installer->abort(Text::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->getError(true)));
 
@@ -7972,8 +8207,7 @@ class JoomlaInstallerScript
         try {
             $rows = $db->loadRowList(0);
         } catch (Exception $e) {
-            // Render the error message from the Exception object
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+            $this->collectError(__METHOD__, $e);
 
             if ($doDbFixMsg) {
                 // Show an error message telling to check database problems
@@ -8000,8 +8234,7 @@ class JoomlaInstallerScript
         try {
             $convertedDB = $db->loadResult();
         } catch (Exception $e) {
-            // Render the error message from the Exception object
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+            $this->collectError(__METHOD__, $e);
 
             if ($doDbFixMsg) {
                 // Show an error message telling to check database problems
@@ -8033,8 +8266,7 @@ class JoomlaInstallerScript
                         } catch (Exception $e) {
                             $converted = $convertedDB;
 
-                            // Still render the error message from the Exception object
-                            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+                            $this->collectError(__METHOD__, $e);
                         }
                     }
                 }
@@ -8068,8 +8300,7 @@ class JoomlaInstallerScript
                             } catch (Exception $e) {
                                 $converted = 99;
 
-                                // Still render the error message from the Exception object
-                                Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+                                $this->collectError(__METHOD__, $e);
                             }
                         }
                     }
@@ -8208,6 +8439,9 @@ class JoomlaInstallerScript
             }
         }
 
+        // Refresh versionable assets cache.
+        Factory::getApplication()->flushAssets();
+
         return true;
     }
 
@@ -8314,7 +8548,7 @@ class JoomlaInstallerScript
                 'client_id'         => 1,
                 'publish_up'        => null,
                 'publish_down'      => null,
-            ]
+            ],
         ];
 
         return $menuItems;
@@ -8473,7 +8707,7 @@ class JoomlaInstallerScript
                 'client_id'         => 1,
                 'publish_up'        => null,
                 'publish_down'      => null,
-            ]
+            ],
         ];
 
         return $menuItems;
@@ -8506,7 +8740,7 @@ class JoomlaInstallerScript
         ];
 
         // Get table definitions.
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -8575,7 +8809,7 @@ class JoomlaInstallerScript
         $files = [
             // 3.10 changes
             '/libraries/src/Filesystem/Support/Stringcontroller.php' => '/libraries/src/Filesystem/Support/StringController.php',
-            '/libraries/src/Form/Rule/SubFormRule.php' => '/libraries/src/Form/Rule/SubformRule.php',
+            '/libraries/src/Form/Rule/SubFormRule.php'               => '/libraries/src/Form/Rule/SubformRule.php',
             // 4.0.0
             '/media/vendor/skipto/js/skipTo.js' => '/media/vendor/skipto/js/skipto.js',
         ];
@@ -8631,14 +8865,14 @@ class JoomlaInstallerScript
     protected function moveRemainingTemplateFiles()
     {
         $folders = [
-            '/administrator/templates/atum/css' => '/media/templates/administrator/atum/css',
+            '/administrator/templates/atum/css'    => '/media/templates/administrator/atum/css',
             '/administrator/templates/atum/images' => '/media/templates/administrator/atum/images',
-            '/administrator/templates/atum/js' => '/media/templates/administrator/atum/js',
-            '/administrator/templates/atum/scss' => '/media/templates/administrator/atum/scss',
-            '/templates/cassiopeia/css' => '/media/templates/site/cassiopeia/css',
-            '/templates/cassiopeia/images' => '/media/templates/site/cassiopeia/images',
-            '/templates/cassiopeia/js' => '/media/templates/site/cassiopeia/js',
-            '/templates/cassiopeia/scss' => '/media/templates/site/cassiopeia/scss',
+            '/administrator/templates/atum/js'     => '/media/templates/administrator/atum/js',
+            '/administrator/templates/atum/scss'   => '/media/templates/administrator/atum/scss',
+            '/templates/cassiopeia/css'            => '/media/templates/site/cassiopeia/css',
+            '/templates/cassiopeia/images'         => '/media/templates/site/cassiopeia/images',
+            '/templates/cassiopeia/js'             => '/media/templates/site/cassiopeia/js',
+            '/templates/cassiopeia/scss'           => '/media/templates/site/cassiopeia/scss',
         ];
 
         foreach ($folders as $oldFolder => $newFolder) {
@@ -8675,27 +8909,22 @@ class JoomlaInstallerScript
      */
     protected function fixTemplateMode(): void
     {
-        $db = Factory::getContainer()->get('DatabaseDriver');
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
-        array_map(
-            function ($template) use ($db) {
-                $clientId = $template === 'atum' ? 1 : 0;
-                $query = $db->getQuery(true)
-                    ->update($db->quoteName('#__template_styles'))
-                    ->set($db->quoteName('inheritable') . ' = 1')
-                    ->where($db->quoteName('template') . ' = ' . $db->quote($template))
-                    ->where($db->quoteName('client_id') . ' = ' . $clientId);
+        foreach (['atum', 'cassiopeia'] as $template) {
+            $clientId = $template === 'atum' ? 1 : 0;
+            $query    = $db->getQuery(true)
+                ->update($db->quoteName('#__template_styles'))
+                ->set($db->quoteName('inheritable') . ' = 1')
+                ->where($db->quoteName('template') . ' = ' . $db->quote($template))
+                ->where($db->quoteName('client_id') . ' = ' . $clientId);
 
-                try {
-                    $db->setQuery($query)->execute();
-                } catch (Exception $e) {
-                    echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
-
-                    return;
-                }
-            },
-            ['atum', 'cassiopeia']
-        );
+            try {
+                $db->setQuery($query)->execute();
+            } catch (Exception $e) {
+                $this->collectError(__METHOD__, $e);
+            }
+        }
     }
 
     /**
@@ -8707,7 +8936,7 @@ class JoomlaInstallerScript
      */
     protected function addUserAuthProviderColumn(): void
     {
-        $db = Factory::getContainer()->get('DatabaseDriver');
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Check if the column already exists
         $fields = $db->getTableColumns('#__users');
@@ -8724,7 +8953,7 @@ class JoomlaInstallerScript
         try {
             $db->setQuery($query)->execute();
         } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+            $this->collectError(__METHOD__, $e);
 
             return;
         }

@@ -9,9 +9,9 @@
  */
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 

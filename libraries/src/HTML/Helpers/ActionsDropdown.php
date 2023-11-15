@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\HTML\Helpers;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -229,12 +230,16 @@ abstract class ActionsDropdown
      */
     public static function addCustomItem($label, $icon = '', $id = '', $task = '')
     {
+        Factory::getDocument()->getWebAssetManager()->useScript('list-view');
+
         static::$dropDownList[] = '<li>'
             . HTMLHelper::link(
-                'javascript://',
+                '#',
                 ($icon ? LayoutHelper::render('joomla.icon.iconclass', ['icon' => $icon]) : '') . $label,
                 [
-                    'onclick' => 'Joomla.listItemTask(\'' . $id . '\', \'' . $task . '\')'
+                    'data-item-id'   => $id,
+                    'data-item-task' => $task,
+                    'class'          => 'js-grid-item-action',
                 ]
             )
             . '</li>';

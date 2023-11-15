@@ -66,7 +66,7 @@ abstract class LanguagesHelper
                 $associations = MenusHelper::getAssociations($active->id);
             }
 
-            $option = $app->input->get('option');
+            $option    = $app->getInput()->get('option');
             $component = $app->bootComponent($option);
 
             if ($component instanceof AssociationServiceInterface) {
@@ -114,7 +114,7 @@ abstract class LanguagesHelper
                     if (isset($cassociations[$language->lang_code])) {
                         $language->link = Route::_($cassociations[$language->lang_code]);
                     } elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code])) {
-                        $itemid = $associations[$language->lang_code];
+                        $itemid         = $associations[$language->lang_code];
                         $language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
                     } elseif ($active && $active->language === '*') {
                         $language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $active->id);
@@ -122,7 +122,7 @@ abstract class LanguagesHelper
                         if ($language->active) {
                             $language->link = Uri::getInstance()->toString(['path', 'query']);
                         } else {
-                            $itemid = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
+                            $itemid         = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
                             $language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
                         }
                     }

@@ -245,10 +245,10 @@ class Log
         // Closure objects are not serializable so swap it out for a unique id first then back again later
         if (isset($options['callback'])) {
             if (is_a($options['callback'], 'closure')) {
-                $callback = $options['callback'];
+                $callback            = $options['callback'];
                 $options['callback'] = spl_object_hash($options['callback']);
             } elseif (\is_array($options['callback']) && \count($options['callback']) == 2 && \is_object($options['callback'][0])) {
-                $callback = $options['callback'];
+                $callback            = $options['callback'];
                 $options['callback'] = spl_object_hash($options['callback'][0]) . '::' . $options['callback'][1];
             }
         }
@@ -269,7 +269,7 @@ class Log
         $this->lookup[$signature] = (object) [
             'priorities' => $priorities,
             'categories' => array_map('strtolower', (array) $categories),
-            'exclude' => (bool) $exclude,
+            'exclude'    => (bool) $exclude,
         ];
     }
 

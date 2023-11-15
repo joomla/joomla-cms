@@ -41,12 +41,18 @@ class DisplayController extends BaseController
         $vName = $this->input->get('view', 'categories');
         $this->input->set('view', $vName);
 
-        if ($this->app->getIdentity()->get('id') || ($this->input->getMethod() === 'POST' && $vName === 'category' )) {
+        if ($this->app->getIdentity()->get('id') || ($this->input->getMethod() === 'POST' && $vName === 'category')) {
             $cachable = false;
         }
 
-        $safeurlparams = ['id' => 'INT', 'limit' => 'UINT', 'limitstart' => 'UINT',
-                                'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'lang' => 'CMD'];
+        $safeurlparams = [
+            'id'               => 'INT',
+            'limit'            => 'UINT',
+            'limitstart'       => 'UINT',
+            'filter_order'     => 'CMD',
+            'filter_order_Dir' => 'CMD',
+            'lang'             => 'CMD',
+        ];
 
         return parent::display($cachable, $safeurlparams);
     }

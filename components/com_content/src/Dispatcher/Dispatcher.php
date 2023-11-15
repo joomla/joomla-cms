@@ -14,7 +14,7 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -42,9 +42,9 @@ class Dispatcher extends ComponentDispatcher
                 || count($this->app->getIdentity()->getAuthorisedCategories('com_content', 'core.create')) > 0;
 
             // Instead of checking edit on all records, we can use **same** check as the form editing view
-            $values = (array) $this->app->getUserState('com_content.edit.article.id');
+            $values           = (array) $this->app->getUserState('com_content.edit.article.id');
             $isEditingRecords = count($values);
-            $hasAccess = $canCreateRecords || $isEditingRecords;
+            $hasAccess        = $canCreateRecords || $isEditingRecords;
 
             if (!$hasAccess) {
                 $this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');

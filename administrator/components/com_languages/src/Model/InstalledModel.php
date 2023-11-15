@@ -239,8 +239,8 @@ class InstalledModel extends ListModel
         }
 
         // Process ordering.
-        $listOrder = $this->getState('list.ordering', 'name');
-        $listDirn  = $this->getState('list.direction', 'ASC');
+        $listOrder          = $this->getState('list.ordering', 'name');
+        $listDirn           = $this->getState('list.direction', 'ASC');
         $installedLanguages = ArrayHelper::sortObjects($installedLanguages, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
 
         // Process pagination.
@@ -339,7 +339,7 @@ class InstalledModel extends ListModel
     protected function getFolders()
     {
         if (is_null($this->folders)) {
-            $path = $this->getPath();
+            $path          = $this->getPath();
             $this->folders = Folder::folders($path, '.', false, false, ['.svn', 'CVS', '.DS_Store', '__MACOSX', 'pdf_fonts', 'overrides']);
         }
 

@@ -1063,7 +1063,7 @@ class Access
             foreach ($elements as $element) {
                 // Add the action to the actions array
                 $action = [
-                    'name' => (string) $element['name'],
+                    'name'  => (string) $element['name'],
                     'title' => (string) $element['title'],
                 ];
 

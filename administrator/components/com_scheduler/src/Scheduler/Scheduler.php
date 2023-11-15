@@ -176,8 +176,8 @@ class Scheduler
     {
         $resolver->setDefaults(
             [
-                'id' => 0,
-                'allowDisabled' => false,
+                'id'              => 0,
+                'allowDisabled'   => false,
                 'allowConcurrent' => false,
             ]
         )

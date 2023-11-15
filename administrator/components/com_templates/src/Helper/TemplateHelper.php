@@ -67,7 +67,7 @@ abstract class TemplateHelper
             'exe', 'phtml','java', 'perl', 'py', 'asp','dll', 'go', 'jar',
             'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
             'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
-            'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh'
+            'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh',
         ];
         $explodedFileName = explode('.', $file['name']);
 
@@ -91,10 +91,10 @@ abstract class TemplateHelper
 
         $format = strtolower(File::getExt($file['name']));
 
-        $imageTypes   = explode(',', $params->get('image_formats'));
-        $sourceTypes  = explode(',', $params->get('source_formats'));
-        $fontTypes    = explode(',', $params->get('font_formats'));
-        $archiveTypes = explode(',', $params->get('compressed_formats'));
+        $imageTypes   = explode(',', $params->get('image_formats', 'gif,bmp,jpg,jpeg,png,webp'));
+        $sourceTypes  = explode(',', $params->get('source_formats', 'txt,less,ini,xml,js,php,css,scss,sass,json'));
+        $fontTypes    = explode(',', $params->get('font_formats', 'woff,woff2,ttf,otf'));
+        $archiveTypes = explode(',', $params->get('compressed_formats', 'zip'));
 
         $allowable = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
 
@@ -152,7 +152,7 @@ abstract class TemplateHelper
             'map', 'marquee', 'menu', 'meta', 'multicol', 'nobr', 'noembed', 'noframes', 'noscript', 'nosmartquotes', 'object', 'ol', 'optgroup', 'option',
             'param', 'plaintext', 'pre', 'rt', 'ruby', 's', 'samp', 'script', 'select', 'server', 'shadow', 'sidebar', 'small', 'spacer', 'span', 'strike',
             'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'title', 'tr', 'tt', 'ul', 'var', 'wbr', 'xml',
-            'xmp', '!DOCTYPE', '!--'
+            'xmp', '!DOCTYPE', '!--',
         ];
 
         foreach ($html_tags as $tag) {

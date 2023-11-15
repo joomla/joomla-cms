@@ -99,7 +99,7 @@ class ArticleField extends FormField
 
         if (isset($this->element['language'])) {
             $linkArticles .= '&amp;forcedLanguage=' . $this->element['language'];
-            $linkArticle  .= '&amp;forcedLanguage=' . $this->element['language'];
+            $linkArticle .= '&amp;forcedLanguage=' . $this->element['language'];
             $modalTitle    = Text::_('COM_CONTENT_SELECT_AN_ARTICLE') . ' &#8212; ' . $this->element['label'];
         } else {
             $modalTitle    = Text::_('COM_CONTENT_SELECT_AN_ARTICLE');
@@ -189,7 +189,7 @@ class ArticleField extends FormField
         // Propagate article button
         if ($allowPropagate && count($languages) > 2) {
             // Strip off language tag at the end
-            $tagLength = (int) strlen($this->element['language']);
+            $tagLength            = (int) strlen($this->element['language']);
             $callbackFunctionStem = substr("jSelectArticle_" . $this->id, 0, -$tagLength);
 
             $html .= '<button'
@@ -212,13 +212,13 @@ class ArticleField extends FormField
                 'bootstrap.renderModal',
                 'ModalSelect' . $modalId,
                 [
-                    'title'       => $modalTitle,
-                    'url'         => $urlSelect,
-                    'height'      => '400px',
-                    'width'       => '800px',
-                    'bodyHeight'  => 70,
-                    'modalWidth'  => 80,
-                    'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+                    'title'      => $modalTitle,
+                    'url'        => $urlSelect,
+                    'height'     => '400px',
+                    'width'      => '800px',
+                    'bodyHeight' => 70,
+                    'modalWidth' => 80,
+                    'footer'     => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
                                         . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
                 ]
             );
