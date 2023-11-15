@@ -47,14 +47,3 @@ extract($displayData);
     <?php endforeach; ?>
     </div>
 </div>
-<field type="subform" name="subform" label="subform" multiple="true" groupByFieldset1="true" layout="joomla.form.field.subform.repeatable-grid">
-    <form>
-        <fieldset name="set1" label="Set 1">
-            <field type="text" name="text" label="Text"/>
-        </fieldset>
-        <fieldset name="set2" label="Set 1">
-            <field type="text" name="text2" label="Text2"/>
-            <field type="text" name="text3" label="Text3"/>
-        </fieldset>
-    </form>
-</field>
