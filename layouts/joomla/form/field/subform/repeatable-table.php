@@ -80,7 +80,7 @@ if (!empty($groupByFieldset)) {
 ?>
 
 <div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?>">
-    <joomla-field-subform class="subform-repeatable<?php echo $class; ?>  subform-repeatable-table" name="<?php echo $name; ?>"
+    <joomla-field-subform class="subform-repeatable<?php echo $class; ?> subform-repeatable-table" name="<?php echo $name; ?>"
         button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
         repeatable-element=".subform-repeatable-group"
         rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
