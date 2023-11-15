@@ -39,7 +39,7 @@ steps:
       - ./libraries/vendor/bin/phan
 
   - name: npm
-    image: node:18-bullseye-slim
+    image: node:20-bullseye-slim
     depends_on: [ phpcs ]
     volumes:
       - name: npm-cache
@@ -382,6 +382,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 16aad9229964700a46de8f3e3265147715d3d5c1173eec9439148af364d6092c
+hmac: 9da03e44bdb36f2473f1c20a83777be096e3f18b7102153cf9135a2fc6ace0e5
 
 ...
