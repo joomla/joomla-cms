@@ -25,7 +25,7 @@ extract($displayData);
  */
 ?>
 
-<div class="subform-repeatable-group" data-base-name="<?php echo $basegroup; ?>" data-group="<?php echo $group; ?>">
+<div class="subform-repeatable-group subform-grid-row" data-base-name="<?php echo $basegroup; ?>" data-group="<?php echo $group; ?>">
     <?php if (!empty($buttons)) : ?>
     <div class="btn-toolbar text-end">
         <div class="btn-group">
@@ -41,16 +41,14 @@ extract($displayData);
         </div>
     </div>
     <?php endif; ?>
-    <div class="subform-grid-row">
-        <?php foreach ($form->getFieldsets() as $fieldset) : ?>
-        <fieldset class="<?php echo !empty($fieldset->class) ? $this->escape($fieldset->class) : ''; ?>">
-            <?php if (!empty($fieldset->label)) : ?>
-                <legend><?php echo Text::_($fieldset->label); ?></legend>
-            <?php endif; ?>
-            <?php foreach ($form->getFieldset($fieldset->name) as $field) : ?>
-                <?php echo $field->renderField(); ?>
-            <?php endforeach; ?>
-        </fieldset>
+    <?php foreach ($form->getFieldsets() as $fieldset) : ?>
+    <fieldset class="<?php echo !empty($fieldset->class) ? $this->escape($fieldset->class) : ''; ?>">
+        <?php if (!empty($fieldset->label)) : ?>
+            <legend><?php echo Text::_($fieldset->label); ?></legend>
+        <?php endif; ?>
+        <?php foreach ($form->getFieldset($fieldset->name) as $field) : ?>
+            <?php echo $field->renderField(); ?>
         <?php endforeach; ?>
-    </div>
+    </fieldset>
+    <?php endforeach; ?>
 </div>

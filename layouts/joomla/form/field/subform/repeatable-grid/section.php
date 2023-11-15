@@ -25,7 +25,7 @@ extract($displayData);
  */
 ?>
 
-<div class="subform-repeatable-group" data-base-name="<?php echo $basegroup; ?>" data-group="<?php echo $group; ?>">
+<div class="subform-repeatable-group subform-grid-row" data-base-name="<?php echo $basegroup; ?>" data-group="<?php echo $group; ?>">
     <?php if (!empty($buttons)) : ?>
     <div class="btn-toolbar text-end">
         <div class="btn-group">
@@ -41,9 +41,8 @@ extract($displayData);
         </div>
     </div>
     <?php endif; ?>
-    <div class="subform-grid-row">
+
     <?php foreach ($form->getGroup('') as $field) : ?>
         <?php echo $field->renderField(); ?>
     <?php endforeach; ?>
-    </div>
 </div>

@@ -48,7 +48,7 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 ?>
 
 <div class="subform-repeatable-wrapper subform-layout">
-    <joomla-field-subform class="subform-repeatable<?php echo $class; ?>" name="<?php echo $name; ?>"
+    <joomla-field-subform class="subform-repeatable<?php echo $class; ?> subform-repeatable-default" name="<?php echo $name; ?>"
         button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
         repeatable-element=".subform-repeatable-group" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
         <?php if (!empty($buttons['add'])) : ?>
