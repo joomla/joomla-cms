@@ -2,7 +2,7 @@ const {
   readdir, readFile, writeFile, unlink,
 } = require('fs').promises;
 const { resolve } = require('path');
-const { minify } = require('terser');
+const { transform } = require('esbuild');
 const rimraf = require('rimraf');
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
@@ -16,7 +16,7 @@ const outputFolder = 'media/vendor/bootstrap/js';
 
 const createMinified = async (file) => {
   const initial = await readFile(resolve(outputFolder, file), { encoding: 'utf8' });
-  const mini = await minify(initial.replace('./popper.js', `./popper.min.js?${bsVersion}`).replace('./dom.js', `./dom.min.js?${bsVersion}`), { sourceMap: false, format: { comments: false } });
+  const mini = await transform(initial.replace('./popper.js', `./popper.min.js?${bsVersion}`).replace('./dom.js', `./dom.min.js?${bsVersion}`), { minify: true });
   await writeFile(resolve(outputFolder, file), initial.replace('./popper.js', `./popper.js?${bsVersion}`).replace('./dom.js', `./dom.js?${bsVersion}`), { encoding: 'utf8', mode: 0o644 });
   await writeFile(resolve(outputFolder, file.replace('.js', '.min.js')), mini.code, { encoding: 'utf8', mode: 0o644 });
 };
