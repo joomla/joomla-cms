@@ -39,7 +39,7 @@ steps:
       - ./libraries/vendor/bin/phan
 
   - name: npm
-    image: node:18-bullseye-slim
+    image: node:20-bullseye-slim
     depends_on: [ phpcs ]
     volumes:
       - name: npm-cache
@@ -380,7 +380,7 @@ steps:
       DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
       DRONE_COMMIT: DRONE_COMMIT
     commands:
-      - /bin/drone_build.sh
+      - /bin/drone_prepare_package.sh
 
   - name: upload
     image: joomlaprojects/docker-images:packager
@@ -471,6 +471,6 @@ trigger:
 
 ---
 kind: signature
-hmac: aba8f50a67f4c8a11e5e179dd2313fdd9a884111f594e21a6b921daa60133534
+hmac: 668e2a3bfab925caf4bc0062eaf622d2527f3b8d805e21b663ff1dd89897a431
 
 ...
