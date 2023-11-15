@@ -1,9 +1,8 @@
 const {
   existsSync, copy, readFile, writeFile, mkdir,
 } = require('fs-extra');
-const CssNano = require('cssnano');
-const Postcss = require('postcss');
-const { minify } = require('terser');
+const LightningCSS = require('lightningcss');
+const { transform } = require('esbuild');
 
 const { join } = require('path');
 
@@ -72,10 +71,13 @@ module.exports.tinyMCE = async (packageName, version) => {
   /* Create the Highlighter plugin */
   // Get the css
   let cssContent = await readFile('build/media_source/plg_editors_tinymce/js/plugins/highlighter/source.css', { encoding: 'utf8' });
-  cssContent = await Postcss([CssNano()]).process(cssContent, { from: undefined });
+  cssContent = LightningCSS.transform({
+    code: Buffer.from(cssContent),
+    minify: true,
+  }).code;
   // Get the JS
   let jsContent = await readFile('build/media_source/plg_editors_tinymce/js/plugins/highlighter/source.es6.js', { encoding: 'utf8' });
-  jsContent = await minify(jsContent, { sourceMap: false, format: { comments: false } });
+  jsContent = await transform(jsContent, { minify: true });
   // Write the HTML file
   const htmlContent = `<!DOCTYPE html>
 <html>

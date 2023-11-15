@@ -15,6 +15,6 @@ Javascript tests
 ==========
 The javascript tests test the Joomla-specific Javascript code. For further information on the tests and on how to run them, please check out https://docs.joomla.org/Special:MyLanguage/Running_JavaScript_Tests_for_the_Joomla_CMS
 
-Codeception tests
+Cypress tests
 ==========
-The Codeception tests test the user interface in a real browser and the webservices API of Joomla with the help of Codeception. For further information on the tests and on how to run them, please check out [tests/Codeception/README.md](Codeception/README.md).
+The Cypress tests test the user interface in a real browser and the webservices API of Joomla with the help of cypress.io. For further information on the tests and on how to run them, please check out [tests/System/README.md](cypress/README.md).

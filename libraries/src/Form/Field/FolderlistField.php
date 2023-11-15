@@ -52,7 +52,7 @@ class FolderlistField extends ListField
     /**
      * The recursive.
      *
-     * @var    string
+     * @var    bool
      * @since  3.6
      */
     protected $recursive;
@@ -177,7 +177,7 @@ class FolderlistField extends ListField
     /**
      * Method to get the field options.
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   1.7.0
      */
