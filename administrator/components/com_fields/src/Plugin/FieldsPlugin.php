@@ -92,7 +92,7 @@ abstract class FieldsPlugin extends CMSPlugin
     {
         $result = $this->onCustomFieldsPrepareField($event->getContext(), $event->getItem(), $event->getField());
 
-        if ($result) {
+        if ($result !== '' && $result !== null) {
             $event->addResult($result);
         }
     }
