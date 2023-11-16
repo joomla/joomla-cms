@@ -154,7 +154,10 @@ $atum-colors: (
   form-select-option:              var(--template-text-dark),
   form-select-option-disabled-bg:  var(--template-bg-dark-5),
 
-  // background:
+  file-selector-btn-bg:            var(--template-bg-dark-70),
+  file-selector-btn-bg-hvr:        var(--template-bg-dark-50),
+
+// background:
   bg-normal:                       var(--template-bg-light),
   bg-reverted:                     var(--template-bg-dark-60),
 
@@ -681,8 +684,6 @@ $media-toolbar-icon-bg:             var(--media-toolbar-icon-bg);
 $media-toolbar-icon-color:          var(--media-toolbar-icon-color);
 $media-toolbar-icon-bg-hvr:         var(--media-toolbar-icon-bg-hvr);
 $media-tree-item-color:             var(--media-tree-item-color); //var(--template-bg-dark-60);
-
-
 $media-manager-breadcrumb-item-bg:  var(--media-manager-breadcrumb-item-bg);
 
 $image-bg:                          var(--image-bg); // #fff;
@@ -709,6 +710,9 @@ $form-select-option:               var(--form-select-option);
 $form-select-option-disabled-bg:   var(--form-select-option-disabled-bg);
 
 $form-file-button-color:           var(--white);
+
+$file-selector-btn-bg:             var(--file-selector-btn-bg);
+$file-selector-btn-bg-hvr:         var(--file-selector-btn-bg-hvr);
 
 //Forms
 $form-aria-grabbed-box-shadow:     var(--form-aria-grabbed-box-shadow);

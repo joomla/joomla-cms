@@ -80,6 +80,9 @@ $atum-colors-dark: (
   form-select-option:              var(--template-text-light),
   form-select-option-disbled-bg:   var(--template-bg-dark-90),
 
+  file-selector-btn-bg:            $button-and-icon-color-dark,
+  file-selector-btn-bg-hvr:        darken($button-and-icon-color-dark, 10%),
+
   // background:
   bg-normal:                       var(--template-bg-dark),
   bg-reverted:                     var(--template-bg-dark-20),
