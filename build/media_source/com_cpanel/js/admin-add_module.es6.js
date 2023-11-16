@@ -3,103 +3,39 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-const msgListener = (event) => {
-  console.log(event);
-
+/**
+ * Message listener
+ * @param {MessageEvent} event
+ */
+const msgListener = function (event) {
   // Avoid cross origins
   if (event.origin !== window.location.origin) return;
-  // Check message type
-  if (event.data.messageType === 'joomla:content-select') {
-    //
-  } else if (event.data.messageType === 'joomla:cancel') {
-    //
+  // Check message
+  if (event.data.contentType === 'com_modules.module') {
+    // Reload the page when module has been created
+    if (event.data.id) {
+      setTimeout(() => { window.location.reload(); }, 500);
+    }
+    // Close dialog
+    this.close();
   }
 };
 
+// Listen when "add module" dialog opens, and add message listener
 document.addEventListener('joomla-dialog:open', ({ target }) => {
   if (!target.classList.contains('cpanel-dialog-addmodule')) return;
   // Prevent admin-module-edit.js closing it
+  // @TODO: This can be removed when all modals for module editing  will use Dialog
   Joomla.Modal.setCurrent(null);
-  console.log(target);
+
+  // Create a listener with current dialog context
+  const listener = msgListener.bind(target);
 
   // Wait for a message
-  window.addEventListener('message', msgListener);
+  window.addEventListener('message', listener);
 
-  // Clean up
+  // Remove listener on close
   target.addEventListener('joomla-dialog:close', () => {
-    window.removeEventListener('message', msgListener);
+    window.removeEventListener('message', listener);
   });
 });
-
-/*
-  document.addEventListener('DOMContentLoaded', () => {
-    return;
-    window.jSelectModuleType = () => {
-      const elements = document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn.hidden');
-
-      if (elements.length) {
-        setTimeout(() => {
-          elements.forEach((button) => {
-            button.classList.remove('hidden');
-          });
-        }, 1000);
-      }
-    };
-
-    const buttons = document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn');
-    const hideButtons = [];
-    let isSaving = false;
-
-    if (buttons.length) {
-      buttons.forEach((button) => {
-        if (button.classList.contains('hidden')) {
-          hideButtons.push(button);
-        }
-
-        button.addEventListener('click', (event) => {
-          let elem = event.currentTarget;
-
-          // There is some bug with events in iframe where currentTarget is "null"
-          // => prevent this here by bubble up
-          if (!elem) {
-            elem = event.target;
-          }
-
-          if (elem) {
-            const clickTarget = elem.dataset.bsTarget;
-
-            // We remember to be in the saving process
-            isSaving = clickTarget === '#saveBtn';
-
-            // Reset saving process, if e.g. the validation of the form fails
-            setTimeout(() => { isSaving = false; }, 1500);
-
-            const iframe = document.querySelector('#moduleDashboardAddModal iframe');
-            const content = iframe.contentDocument || iframe.contentWindow.document;
-            const targetBtn = content.querySelector(clickTarget);
-
-            if (targetBtn) {
-              targetBtn.click();
-            }
-          }
-        });
-      });
-    }
-
-    const elementH = document.querySelector('#moduleDashboardAddModal');
-
-    if (elementH) {
-      elementH.addEventListener('hide.bs.modal', () => {
-        hideButtons.forEach((button) => {
-          button.classList.add('hidden');
-        });
-      });
-
-      elementH.addEventListener('hidden.bs.modal', () => {
-        if (isSaving) {
-          setTimeout(() => { window.parent.location.reload(); }, 1000);
-        }
-      });
-    }
-  });
-*/

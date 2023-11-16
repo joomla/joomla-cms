@@ -73,6 +73,12 @@ class HtmlView extends BaseHtmlView
         $this->state = $this->get('State');
         $this->canDo = ContentHelper::getActions('com_modules', 'module', $this->item->id);
 
+        if ($this->getLayout() === 'modalreturn') {
+            parent::display($tpl);
+
+            return;
+        }
+
         // Check for errors.
         if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
