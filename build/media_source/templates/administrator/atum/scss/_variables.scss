@@ -134,6 +134,7 @@ $atum-colors: (
   media-tree-item-color:            var(--template-bg-dark-60),
 
   media-manager-breadcrumb-item-bg: var(--com-media-manager-overlay-bg, var(--template-bg-dark-3)),
+  media-tree-active-icon-color:     $light-blue,
 
   image-bg:                        #fff,
   image-bg-image:                  (linear-gradient(45deg,hsl(var(--hue),20%,97%) 25%,transparent 25%,transparent 75%,#eee 75%,hsl(var(--hue),20%,97%) 100%),linear-gradient(45deg,#eee 25%,transparent 25%,transparent 75%,hsl(var(--hue),20%,97%) 75%,hsl(var(--hue),20%,97%) 100%)),
@@ -687,6 +688,7 @@ $media-toolbar-icon-color:          var(--media-toolbar-icon-color);
 $media-toolbar-icon-bg-hvr:         var(--media-toolbar-icon-bg-hvr);
 $media-tree-item-color:             var(--media-tree-item-color); //var(--template-bg-dark-60);
 $media-manager-breadcrumb-item-bg:  var(--media-manager-breadcrumb-item-bg);
+$media-tree-active-icon-color:      var(--media-tree-active-icon-color);
 
 $image-bg:                          var(--image-bg); // #fff;
 $image-bg-image:                    var(--image-bg-image); //linear-gradient(45deg,hsl(var(--hue),20%,97%) 25%,transparent 25%,transparent 75%,#eee 75%,hsl(var(--hue),20%,97%) 100%),linear-gradient(45deg,#eee 25%,transparent 25%,transparent 75%,hsl(var(--hue),20%,97%) 75%,hsl(var(--hue),20%,97%) 100%);

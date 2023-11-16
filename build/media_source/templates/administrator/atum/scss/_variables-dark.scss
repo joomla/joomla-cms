@@ -22,7 +22,7 @@ $atum-colors-dark: (
   media-manager-toolbar-icon-color: lighten($button-and-icon-color-dark, 20%),
   media-manager-breadcrumb-item-bg: var(--gray-700),
   media-tree-item-color:            $button-and-icon-color-dark,
-
+  media-tree-active-icon-color:     darken($button-and-icon-color-dark, 10%),
 
   media-manager-bg:                var(--body-bg),
   media-browser-file-bg:           var(--media-manager-bg),

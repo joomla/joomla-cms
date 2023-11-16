@@ -60,3 +60,7 @@
 .media-tree-item .item-icon {
   color: $media-tree-item-color; //var(--template-bg-dark-60);
 }
+
+.media-tree-item.active > a .item-icon {
+  color: $media-tree-active-icon-color;
+}
