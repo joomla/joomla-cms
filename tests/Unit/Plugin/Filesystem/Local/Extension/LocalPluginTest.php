@@ -10,7 +10,6 @@
 
 namespace Joomla\Tests\Unit\Plugin\Filesystem\Local\Extension;
 
-use InvalidArgumentException;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Language\Language;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
@@ -118,9 +117,9 @@ class LocalPluginTest extends UnitTestCase
      *
      * @since   4.3.0
      */
-    public function testAdaptersInvalidDirectoy()
+    public function testAdaptersInvalidDirectory()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $dispatcher = new Dispatcher();
 
         $plugin = new Local($dispatcher, ['params' => ['directories' => '[{"directory": "invalid"}]']], __DIR__);

@@ -4,12 +4,10 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license        GNU General Public License version 2 or later; see LICENSE
+ * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Event\Result;
-
-use InvalidArgumentException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -60,7 +58,7 @@ trait ResultTypeObjectAware
      * @param   mixed  $data  The data to type check
      *
      * @return  void
-     * @throws  InvalidArgumentException
+     * @throws  \InvalidArgumentException
      *
      * @internal
      * @since   4.2.0
@@ -76,7 +74,7 @@ trait ResultTypeObjectAware
         }
 
         if (!is_object($data)) {
-            throw new InvalidArgumentException(sprintf('Event %s only accepts object results.', $this->getName()));
+            throw new \InvalidArgumentException(sprintf('Event %s only accepts object results.', $this->getName()));
         }
 
         if (empty($this->resultAcceptableClasses)) {
@@ -91,6 +89,6 @@ trait ResultTypeObjectAware
 
         $acceptableTypes = implode(', ', $this->resultAcceptableClasses);
         $messageTemplate = 'Event %s only accepts object results which are instances of one of %s.';
-        throw new InvalidArgumentException(sprintf($messageTemplate, $this->getName(), $acceptableTypes));
+        throw new \InvalidArgumentException(sprintf($messageTemplate, $this->getName(), $acceptableTypes));
     }
 }

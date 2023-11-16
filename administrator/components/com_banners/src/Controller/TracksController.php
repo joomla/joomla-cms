@@ -138,21 +138,25 @@ class TracksController extends BaseController
             $this->input->cookie->set(
                 ApplicationHelper::getHash($this->context . '.basename'),
                 $form['basename'],
-                $cookieLifeTime,
-                $cookiePath,
-                $cookieDomain,
-                $isHttpsForced,
-                true
+                [
+                    'expires'  => $cookieLifeTime,
+                    'path'     => $cookiePath,
+                    'domain'   => $cookieDomain,
+                    'secure'   => $isHttpsForced,
+                    'httponly' => true,
+                ]
             );
 
             $this->input->cookie->set(
                 ApplicationHelper::getHash($this->context . '.compressed'),
                 $form['compressed'],
-                $cookieLifeTime,
-                $cookiePath,
-                $cookieDomain,
-                $isHttpsForced,
-                true
+                [
+                    'expires'  => $cookieLifeTime,
+                    'path'     => $cookiePath,
+                    'domain'   => $cookieDomain,
+                    'secure'   => $isHttpsForced,
+                    'httponly' => true,
+                ]
             );
 
             // Push the model into the view (as default).

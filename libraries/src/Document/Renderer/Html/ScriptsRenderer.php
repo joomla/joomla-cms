@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Document\Renderer\Html;
@@ -158,6 +158,13 @@ class ScriptsRenderer extends DocumentRenderer
 
                 if ($asset->getDependencies()) {
                     $attribs['data-asset-dependencies'] = implode(',', $asset->getDependencies());
+                }
+
+                if ($asset->getOption('deprecated')) {
+                    @trigger_error(
+                        sprintf('Web Asset script [%s] is deprecated. %s', $asset->getName(), $asset->getOption('deprecatedMsg', '')),
+                        E_USER_DEPRECATED
+                    );
                 }
             }
         } else {

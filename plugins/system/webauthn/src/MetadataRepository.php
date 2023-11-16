@@ -1,16 +1,15 @@
 <?php
 
 /**
- * @package         Joomla.Plugin
- * @subpackage      System.Webauthn
+ * @package     Joomla.Plugin
+ * @subpackage  System.Webauthn
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn;
 
-use Exception;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Token\Plain;
 use Webauthn\MetadataService\MetadataStatement;
@@ -129,7 +128,7 @@ final class MetadataRepository implements MetadataStatementRepository
         try {
             $jwtConfig = Configuration::forUnsecuredSigner();
             $token     = $jwtConfig->parser()->parse($rawJwt);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return;
         }
 
@@ -154,7 +153,7 @@ final class MetadataRepository implements MetadataStatementRepository
                 }
 
                 return MetadataStatement::createFromArray($array);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 return null;
             }
         };

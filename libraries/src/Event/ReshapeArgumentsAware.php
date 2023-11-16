@@ -4,12 +4,10 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license        GNU General Public License version 2 or later; see LICENSE
+ * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Event;
-
-use DomainException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -79,12 +77,12 @@ trait ReshapeArgumentsAware
 
         // Am I missing any mandatory arguments?
         if ($missingKeys) {
-            throw new DomainException(sprintf('Missing arguments for ‘%s’ event: %s', $this->getName(), implode(', ', $missingKeys)));
+            throw new \DomainException(sprintf('Missing arguments for ‘%s’ event: %s', $this->getName(), implode(', ', $missingKeys)));
         }
 
         // Do I have unknown arguments?
         if ($extraKeys) {
-            throw new DomainException(sprintf('Unknown arguments for ‘%s’ event: %s', $this->getName(), implode(', ', $missingKeys)));
+            throw new \DomainException(sprintf('Unknown arguments for ‘%s’ event: %s', $this->getName(), implode(', ', $missingKeys)));
         }
 
         // Reconstruct the arguments in the order specified in $argumentTypes

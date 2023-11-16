@@ -83,7 +83,7 @@ final class Joomla extends CMSPlugin
                     if ($this->getApplication()->get('offline') && !$user->authorise('core.login.offline')) {
                         // User do not have access in offline mode
                         $_status       = Authentication::STATUS_FAILURE;
-                        $_errorMessage = Text::_('JLIB_LOGIN_DENIED');
+                        $_errorMessage = $this->getApplication()->getLanguage()->_('JLIB_LOGIN_DENIED');
                     }
                 }
 

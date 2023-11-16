@@ -69,6 +69,38 @@ class FeedLink
     public $length;
 
     /**
+     * The link of the image.
+     *
+     * @var    integer
+     * @since  4.4.0
+     */
+    public $link;
+
+    /**
+     * The description of the image.
+     *
+     * @var    integer
+     * @since  4.4.0
+     */
+    public $description;
+
+    /**
+     * The height of the image.
+     *
+     * @var    integer
+     * @since  4.4.0
+     */
+    public $height;
+
+    /**
+     * The width of the image.
+     *
+     * @var    integer
+     * @since  4.4.0
+     */
+    public $width;
+
+    /**
      * Constructor.
      *
      * @param   string   $uri       The URI to the linked resource.

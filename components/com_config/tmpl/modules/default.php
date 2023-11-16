@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -28,7 +27,7 @@ $wa->useScript('keepalive')
 $editorText  = false;
 $moduleXml   = JPATH_SITE . '/modules/' . $this->item['module'] . '/' . $this->item['module'] . '.xml';
 
-if (File::exists($moduleXml)) {
+if (is_file($moduleXml)) {
     $xml = simplexml_load_file($moduleXml);
 
     if (isset($xml->customContent)) {

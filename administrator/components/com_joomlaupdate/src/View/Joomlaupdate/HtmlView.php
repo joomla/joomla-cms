@@ -111,6 +111,15 @@ class HtmlView extends BaseHtmlView
     protected $messagePrefix = '';
 
     /**
+     * A special text used for the emptystate layout to explain why there is no download
+     *
+     * @var string  The message
+     *
+     * @since 4.4.0
+     */
+    protected $reasonNoDownload = '';
+
+    /**
      * List of non core critical plugins
      *
      * @var    \stdClass[]
@@ -190,7 +199,8 @@ class HtmlView extends BaseHtmlView
             } else {
                 // No download available
                 if ($hasUpdate) {
-                    $this->messagePrefix = '_NODOWNLOAD';
+                    $this->messagePrefix    = '_NODOWNLOAD';
+                    $this->reasonNoDownload = 'COM_JOOMLAUPDATE_NODOWNLOAD_EMPTYSTATE_REASON';
                 }
 
                 $this->setLayout('noupdate');
@@ -203,7 +213,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if (in_array($this->getLayout(), ['preupdatecheck', 'update', 'upload'])) {
-            $language = Factory::getLanguage();
+            $language = $this->getLanguage();
             $language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
             $language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
 
@@ -269,7 +279,7 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'joomla install');
 
         if (in_array($this->getLayout(), ['update', 'complete'])) {
-            $arrow = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+            $arrow = $this->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
             ToolbarHelper::link('index.php?option=com_joomlaupdate', 'JTOOLBAR_BACK', $arrow);
 

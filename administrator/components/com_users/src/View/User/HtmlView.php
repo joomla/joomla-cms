@@ -18,8 +18,8 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Helper\Mfa;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -31,8 +31,10 @@ use Joomla\Component\Users\Administrator\Helper\Mfa;
  *
  * @since  1.5
  */
-class HtmlView extends BaseHtmlView
+class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * The Form object
      *
@@ -114,10 +116,7 @@ class HtmlView extends BaseHtmlView
         $this->form->setValue('password', null);
         $this->form->setValue('password2', null);
 
-        /** @var User $userBeingEdited */
-        $userBeingEdited = Factory::getContainer()
-            ->get(UserFactoryInterface::class)
-            ->loadUserById($this->item->id);
+        $userBeingEdited = $this->getUserFactory()->loadUserById($this->item->id);
 
         if ($this->item->id > 0 && (int) $userBeingEdited->id == (int) $this->item->id) {
             try {
