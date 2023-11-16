@@ -156,15 +156,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                 && $user->authorise('core.edit', 'com_redirect')
                 && $user->authorise('core.edit.state', 'com_redirect')
             ) : ?>
-                <?php echo HTMLHelper::_(
-                    'bootstrap.renderModal',
-                    'collapseModal',
-                    [
-                        'title'  => Text::_('COM_REDIRECT_BATCH_OPTIONS'),
-                        'footer' => $this->loadTemplate('batch_footer'),
-                    ],
-                    $this->loadTemplate('batch_body')
-                ); ?>
+                <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
             <?php endif; ?>
 
         <input type="hidden" name="task" value="">
