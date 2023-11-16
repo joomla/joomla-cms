@@ -68,9 +68,17 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        $this->state = $this->get('State');
+
+        // Have to stop it earlier, because on cancel task for a new module we do not have an ID, and Model doing redirect on getItem()
+        if ($this->getLayout() === 'modalreturn' && !$this->state->get('module.id')) {
+            parent::display($tpl);
+
+            return;
+        }
+
         $this->form  = $this->get('Form');
         $this->item  = $this->get('Item');
-        $this->state = $this->get('State');
         $this->canDo = ContentHelper::getActions('com_modules', 'module', $this->item->id);
 
         if ($this->getLayout() === 'modalreturn') {
