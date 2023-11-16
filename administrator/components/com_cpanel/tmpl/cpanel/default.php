@@ -28,12 +28,13 @@ Text::script('COM_CPANEL_UNPUBLISH_MODULE_ERROR');
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_cpanel.admin-cpanel')
-    ->useScript('com_cpanel.admin-addmodule');
+    ->useScript('com_cpanel.admin-addmodule')
+    ->useScript('joomla.dialog-autocreate');
 
 $user = $this->getCurrentUser();
 
 // Set up the bootstrap modal that will be used for all module editors
-echo HTMLHelper::_(
+/*echo HTMLHelper::_(
     'bootstrap.renderModal',
     'moduleDashboardAddModal',
     [
@@ -47,7 +48,14 @@ echo HTMLHelper::_(
             . '<button type="button" id="btnModalSaveAndClose" class="button-save btn btn-success hidden" data-bs-target="#saveBtn">'
             . Text::_('JSAVE') . '</button>',
     ]
-);
+);*/
+
+$popupOptions = [
+    'popupType'  => 'iframe',
+    'src'        => Route::_('index.php?option=com_cpanel&task=addModule&position=' . $this->position, false),
+    'textHeader' => Text::_('COM_CPANEL_ADD_MODULE_MODAL_TITLE'),
+    'className'  => 'cpanel-dialog-addmodule',
+];
 ?>
 <div id="cpanel-modules">
     <div class="cpanel-modules <?php echo $this->position; ?>">
@@ -69,7 +77,8 @@ echo HTMLHelper::_(
         <?php if ($user->authorise('core.create', 'com_modules')) : ?>
             <div class="module-wrapper">
                 <div class="card">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#moduleDashboardAddModal" class="cpanel-add-module">
+                    <button type="button" class="cpanel-add-module"
+                            data-joomla-dialog="<?php echo htmlspecialchars(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)) ?>">
                         <div class="cpanel-add-module-icon">
                             <span class="icon-plus-square" aria-hidden="true"></span>
                         </div>

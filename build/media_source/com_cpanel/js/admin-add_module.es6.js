@@ -2,10 +2,38 @@
  * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-((document) => {
-  'use strict';
 
+const msgListener = (event) => {
+  console.log(event);
+
+  // Avoid cross origins
+  if (event.origin !== window.location.origin) return;
+  // Check message type
+  if (event.data.messageType === 'joomla:content-select') {
+    //
+  } else if (event.data.messageType === 'joomla:cancel') {
+    //
+  }
+};
+
+document.addEventListener('joomla-dialog:open', ({ target }) => {
+  if (!target.classList.contains('cpanel-dialog-addmodule')) return;
+  // Prevent admin-module-edit.js closing it
+  Joomla.Modal.setCurrent(null);
+  console.log(target);
+
+  // Wait for a message
+  window.addEventListener('message', msgListener);
+
+  // Clean up
+  target.addEventListener('joomla-dialog:close', () => {
+    window.removeEventListener('message', msgListener);
+  });
+});
+
+/*
   document.addEventListener('DOMContentLoaded', () => {
+    return;
     window.jSelectModuleType = () => {
       const elements = document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn.hidden');
 
@@ -74,4 +102,4 @@
       });
     }
   });
-})(document);
+*/

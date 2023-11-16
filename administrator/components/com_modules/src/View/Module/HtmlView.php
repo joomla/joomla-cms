@@ -78,7 +78,12 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        $this->addToolbar();
+        if ($this->getLayout() !== 'modal') {
+            $this->addToolbar();
+        } else {
+            $this->addModalToolbar();
+        }
+
         parent::display($tpl);
     }
 
@@ -160,5 +165,34 @@ class HtmlView extends BaseHtmlView
 
         $toolbar->inlinehelp();
         $toolbar->help($help->key, false, $url);
+    }
+
+    /**
+     * Add the modal toolbar.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     *
+     * @throws  \Exception
+     */
+    protected function addModalToolbar()
+    {
+        $isNew   = ($this->item->id == 0);
+        $toolbar = Toolbar::getInstance();
+        $canDo   = $this->canDo;
+
+        ToolbarHelper::title(Text::sprintf('COM_MODULES_MANAGER_MODULE', Text::_($this->item->module)), 'cube module');
+
+        $canCreate = $isNew && $canDo->get('core.create');
+        $canEdit   = $canDo->get('core.edit');
+
+        // For new records, check the create permission.
+        if ($canCreate || $canEdit) {
+            $toolbar->apply('module.apply');
+            $toolbar->save('module.save');
+        }
+
+        $toolbar->cancel('module.cancel');
     }
 }
