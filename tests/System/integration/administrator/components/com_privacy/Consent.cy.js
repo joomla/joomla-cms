@@ -374,7 +374,7 @@ describe('Test in backend that privacy consent component', () => {
         });
     }
     cy.wrap(cellData).then((data) => {
-      // Sort the array in decending order
+      // Sort the array in descending order
       const sortedArray = data.slice().sort((a, b) => b - a);
 
       cy.wrap(sortedArray[0]).should('eq', data[0]);
@@ -490,7 +490,7 @@ describe('Test in backend that privacy consent component', () => {
     });
   });
 
-  it('can list by id in decending order', () => {
+  it('can list by id in descending order', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
       cy.db_createPrivacyConsent({ state: 1, body: 'test body', user_id: `${id}` });
