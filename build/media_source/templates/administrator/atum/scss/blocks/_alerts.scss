@@ -1,5 +1,10 @@
 // Alerts
 
+.alert-link {
+  font-weight: 700;
+  color: $alert-link-text-color; //var(--alert-link-color);
+}
+
 .alert {
   margin: 1rem 0;
   border-right: 0;

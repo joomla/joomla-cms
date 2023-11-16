@@ -157,7 +157,7 @@ $atum-colors: (
   file-selector-btn-bg:            var(--template-bg-dark-70),
   file-selector-btn-bg-hvr:        var(--template-bg-dark-50),
 
-// background:
+  // background:
   bg-normal:                       var(--template-bg-light),
   bg-reverted:                     var(--template-bg-dark-60),
 
@@ -355,6 +355,7 @@ $atum-colors: (
   alert-info-color:                 var(--template-bg-dark),
   alert-info-bg:                    var(--template-bg-dark-10),
   alert-info-border:                1px solid var(--template-bg-dark-20),
+  alert-link-text-color:            var(--info-text-emphasis),
 
   // Subhead
   atum-subhead-color:               var(--template-text-dark),
@@ -585,6 +586,7 @@ $alert-border:                     var(--alert-border);
 $alert-info-color:                 var(--alert-info-color);
 $alert-info-bg:                    var(--alert-info-bg);
 $alert-info-border:                var(--alert-info-border);
+$alert-link-text-color:            var(--alert-link-text-color);
 
 // Badges
 $badge-padding-x:                  .2rem;
