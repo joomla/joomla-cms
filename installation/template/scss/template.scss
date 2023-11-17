@@ -24,8 +24,6 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 @import "../../../build/media_source/templates/administrator/atum/scss/variables";
 @import "../../../build/media_source/templates/administrator/atum/scss/variables-dark";
 
-$body-bg: $template-background-light;
-
 $table-bg: transparent;
 
 @import "../../../media/vendor/bootstrap/scss/variables";
@@ -197,6 +195,18 @@ $table-bg: transparent;
   box-sizing: border-box;
 }
 
+body {
+  background: var(--body-bg);
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    body {
+      background: var(--main-bg);
+    }
+  }
+}
+
 .j-install {
   display: flex;
   flex-direction: column;
@@ -224,7 +234,7 @@ $table-bg: transparent;
 .j-container {
   width: 100%;
   max-width: 40rem;
-  margin: 0 auto;
+  margin: 1rem auto;
 
   h1 {
     color: $dark-blue;
@@ -426,8 +436,16 @@ caption {
   caption-side: top;
 }
 
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    caption {
+      color: #fff;
+    }
+  }
+}
+
 .bg-warning {
-  color: #292b2c;
+  color: #fff;
 }
 
 // footer
@@ -443,7 +461,11 @@ caption {
 @if $enable-dark-mode {
   @include color-mode(dark) {
     .footer {
-      background-color: var(--secondary-bg);
+      box-shadow: none;
+      background: var(--header-bg);
+      a {
+        color: var(--table-link-color);
+      }
     }
   }
 }
