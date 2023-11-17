@@ -89,29 +89,37 @@
         }
       }
 
+      &.info {
+        --text-color: #{$state-info-text};
+        --text-color-hvr: #{$state-info-text-hvr};
+        --bg-color: #{$state-info-bg};
+        --icon-color: #{$state-info-icon};
+        --bg-color-hvr: #{$state-info-bg-hvr};
+      }
+
       &.warning {
         --text-color: #{$state-warning-text};
-        --text-color-hvr: #{$state-warning-bg};
+        --text-color-hvr: #{$state-warning-text-hvr};
         --bg-color: #{$state-warning-bg};
         --icon-color: #{$state-warning-icon};
-        --bg-color-hvr: #{$state-warning-text};
+        --bg-color-hvr: #{$state-warning-bg-hvr};
       }
 
       &.danger {
         --text-color: #{$state-danger-text};
-        --text-color-hvr: #{$state-danger-bg};
+        --text-color-hvr: #{$state-success-text-hvr};
         --bg-color: #{$state-danger-bg};
         --icon-color: #{$state-danger-icon};
-        --bg-color-hvr: #{$state-danger-text};
+        --bg-color-hvr: #{$state-danger-bg-hvr};
       }
 
       &.success {
         --text-color: #{$state-success-text};
-        --text-color-hvr: #{$state-success-bg};
+        --text-color-hvr: #{$state-success-text-hvr};
         --bg-color: #{$state-success-bg};
         --icon-color: #{$state-success-icon};
         --icon-color-hvr: #{$state-success-icon-hvr};
-        --bg-color-hvr: #{$state-success-text};
+        --bg-color-hvr: #{$state-success-bg-hvr};
       }
     }
   }

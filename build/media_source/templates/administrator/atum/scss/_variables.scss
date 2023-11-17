@@ -333,7 +333,9 @@ $atum-colors: (
 
   // Alerts
   state-success-text:               $success,
+  state-success-text-hvr:           $success,
   state-success-bg:                 lighten($success, 58%),
+  state-success-bg-hvr:             lighten($success, 58%),
   state-success-border:             1px solid $success,
   state-success-btn-border:         1px solid $success,
   state-success-icon:               #55a258,
@@ -341,25 +343,33 @@ $atum-colors: (
   state-success-heading-bg:         $success,
 
   state-info-text:                  var(--template-bg-dark-70),
+  state-info-text-hvr:                  var(--template-bg-dark-70),
   state-info-bg:                    var(--body-bg),
+  state-info-bg-hvr:                    var(--body-bg),
   state-info-border:                1px solid var(--template-bg-dark-70),
   state-info-icon:                  var(--template-bg-dark-70),
   state-info-heading-bg:            var(--template-bg-dark-70),
 
   state-warning-text:               #996900,
+  state-warning-text-hvr:               #996900,
   state-warning-bg:                 lighten($warning, 44%),
+  state-warning-bg-hvr:                 lighten($warning, 44%),
   state-warning-border:             1px solid $warning,
   state-warning-icon:               $warning,
   state-warning-heading-bg:         $warning,
 
   state-danger-text:                $danger,
+  state-danger-text-hvr:                $danger,
   state-danger-bg:                  lighten($danger, 52%),
+  state-danger-bg-hvr:                  lighten($danger, 52%),
   state-danger-border:              1px solid $danger,
   state-danger-icon:                #ce8484,
   state-danger-heading-bg:          $danger,
 
   state-error-text:                 $danger,
+  state-error-text-hvr:                 $danger,
   state-error-bg:                   lighten($danger, 52%),
+  state-error-bg-hvr:                   lighten($danger, 52%),
   state-error-border:               1px solid $danger,
   state-error-icon:                 lighten($danger, 20%),
   state-error-heading-bg:           $danger,
