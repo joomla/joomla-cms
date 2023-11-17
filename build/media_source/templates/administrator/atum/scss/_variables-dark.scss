@@ -96,7 +96,7 @@ $atum-colors-dark: (
   text-muted-hvr-color:            var(--template-text-dark) !important,
 
   // quickicons
-  quickicon-bg:                    var(--card-bg), /* transparent */
+  quickicon-bg:                    transparent,
   quickicon-border:                none,
   quickicon-border-radius:         4px,
   quickicon-link-hvr:              #fff,
