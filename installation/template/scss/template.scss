@@ -207,6 +207,12 @@ body {
   }
 }
 
+.header {
+  .h2 {
+    margin-bottom: 0;
+  }
+}
+
 .j-install {
   display: flex;
   flex-direction: column;
@@ -434,6 +440,8 @@ legend {
 // Language Table
 caption {
   caption-side: top;
+  margin: 0 1rem 0 0;
+  padding: 0;
 }
 
 @if $enable-dark-mode {
