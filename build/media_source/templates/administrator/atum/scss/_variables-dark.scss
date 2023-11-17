@@ -57,8 +57,8 @@ $atum-colors-dark: (
   main-bg:                         #1c2128,
   sidebar-accent-bg:               #2667bb,
   template-bg-dark:                #0c1a2b,
-  template-quickicon-bg:           #484b51,
-  template-quickicon-bg-hvr:       #696e78,
+  template-quickicon-bg:           rgba(255,255,255,0.07),
+  template-quickicon-bg-hvr:       rgba(255,255,255,0.125),
 
   //admin
   admin-background:                var(--body-bg),
@@ -100,7 +100,8 @@ $atum-colors-dark: (
   quickicon-border:                none,
   quickicon-border-radius:         4px,
   quickicon-link-hvr:              #fff,
-  quickicon-linkadd-bg:            #52565b,
+  quickicon-linkadd-bg:            rgba(255,255,255,0.04),
+  quickicon-linkadd-bg-hvr:        rgba(255,255,255,0.125),
   quickicon-linkadd-color:         #479a59,
   quickicon-amount-bg:             #6b6f77,
   quickicon-color-hvr:             var(--quickicon-link-hvr),
@@ -157,7 +158,7 @@ $atum-colors-dark: (
   badge-bg-info:                   rgba(255,255,255,.2) !important,
 
   // card
-  card-bg-dark:                    rgba(255, 255, 255, .025), //hsl(214,10%,22%), too light //rgba(255, 255, 255, .05) too dark
+  card-bg-dark:                    rgba(255, 255, 255, .0275), //hsl(214,10%,22%), too light //rgba(255, 255, 255, .05) too dark
   card-header-color:               var(--dark-mode-text-light),
   card-header-bg:                  var(--card-bg-dark),
   card-bg:                         var(--card-bg-dark),
