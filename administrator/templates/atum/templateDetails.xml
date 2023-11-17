@@ -95,13 +95,6 @@
 					filter="color"
 				/>
 				<field
-					name="special-color"
-					type="color"
-					label="TPL_ATUM_COLORS_SETTINGS_SPECIAL_COLOR_LABEL"
-					default="#001B4C"
-					filter="color"
-				/>
-				<field
 					name="monochrome"
 					type="radio"
 					label="TPL_ATUM_COLORS_SETTINGS_MONOCHROME_LABEL"

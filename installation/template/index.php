@@ -33,7 +33,6 @@ $this->getWebAssetManager()
 		--template-text-dark: #495057;
 		--template-text-light: #ffffff;
 		--link-color: #2a69b8;
-		--template-special-color: #001b4c;
 	}');
 
 // Add script options
