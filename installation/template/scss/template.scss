@@ -22,8 +22,10 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 
 // Variables from the Atum template
 @import "../../../build/media_source/templates/administrator/atum/scss/variables";
+@import "../../../build/media_source/templates/administrator/atum/scss/variables-dark";
 
 $body-bg: $template-background-light;
+
 $table-bg: transparent;
 
 @import "../../../media/vendor/bootstrap/scss/variables";
@@ -44,12 +46,17 @@ $table-bg: transparent;
 
 // Custom Atum colors
 :root {
-
   @each $color, $value in $atum-colors {
     --#{$prefix}#{$color}: #{$value};
   }
+}
 
-  --primary: hsl(213, 63%, 44%);
+@if $enable-dark-mode {
+  @include color-mode(dark, true) {
+    @each $color, $value in $atum-colors-dark {
+      --#{$prefix}#{$color}: #{$value};
+    }
+  }
 }
 
 @if $enable-dark-mode {
@@ -267,7 +274,7 @@ $table-bg: transparent;
     // emphasis than we require for the header
     .j-install-step-header {
       color: #fff;
-      background-color: $dark-blue;
+      background-color: var(--secondary-bg);
     }
   }
 }
@@ -307,12 +314,23 @@ $table-bg: transparent;
   display: none;
 }
 
+.btn-primary {
+  color: var(--btn-primary-color);
+  background-color: var(--btn-primary-bg);
+  border: var(--btn-primary-border);
+
+  &:hover, &:focus, &:active {
+    background-color: var(--btn-primary-bg-hvr);
+    border: var(--btn-primary-border-hvr);
+  }
+
+}
+
 .btn-success {
   color: #fff;
   background-color: #75b544;
   border-color: #75b544;
 }
-
 
 // Form
 
@@ -323,9 +341,9 @@ $table-bg: transparent;
 }
 
 @if $enable-dark-mode {
-  @include color-mode(light) {
+  @include color-mode(dark) {
     .form-control {
-      background-color: var(--white-offset);
+      background-color: var(--form-control-bg);
     }
   }
 }

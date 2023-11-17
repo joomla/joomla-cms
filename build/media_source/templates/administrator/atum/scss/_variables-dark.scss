@@ -67,7 +67,7 @@ $atum-colors-dark: (
   options-form-legend-color:       var(--template-text-light),
   options-form-legend-bg:          var(--admin-background),
 
-  form-control-bg:                 var(--admin-background),
+  form-control-bg:                 #212529,
   form-control-bg-disabled:        var(--gray-800),
   form-control-border:             1px solid rgba(255, 255, 255, .1),
   form-select-background:          $form-select-bg-dark  $form-select-indicator-dark no-repeat right center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
