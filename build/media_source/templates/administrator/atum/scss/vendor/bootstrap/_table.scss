@@ -1,9 +1,6 @@
 // Table
 
 .table {
-  > :not(:first-child) {
-    border-top: $table-border-top-nfc;
-  }
 
   thead {
     th {

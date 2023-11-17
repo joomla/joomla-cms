@@ -240,13 +240,18 @@ $atum-colors-dark: (
   btn-primary-toggle-border:       var(--template-bg-dark),
   btn-secondary-border:            1px solid $button-and-icon-color-dark,
   btn-secondary-bg:                rgba(0,0,0,0.8), /* rgba(255,255,255,.2) */
+  btn-secondary-bg-hvr:            var(--btn-primary-bg),
   btn-secondary-color:             var(--template-link-color),
+  btn-secondary-color-hvr:         var(--btn-primary-color),
   btn-outline-secondary-color:     var(--template-text-light),
   btn-outline-secondary-bg:        #64676c, /* rgba(255,255,255,.2) */
   btn-outline-secondary-border:    1px solid var(--btn-secondary-bg),
 
   input-group-text-bg:             var(--template-bg-dark),
   input-group-text-border:         1px solid var(--template-bg-dark),
+
+  // Cpanel
+  cpanel-addmodule-hover:           rgba(0, 0, 0, .5),
 
   // Dropdown
   dropdown-header-bg:               darken($button-and-icon-color-dark, 10%),
@@ -325,7 +330,7 @@ $atum-colors-dark: (
   atum-btn-action-border:           1px solid var(--atum-btn-action-bg),
 
 
-  atum-list-group-bg:               #05151d, //rgba(255, 255, 255, .05),
+  atum-list-group-bg:               var(--template-sidebar-bg),
 
 ) !default;
 
