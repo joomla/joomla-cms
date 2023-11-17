@@ -230,6 +230,7 @@ $atum-colors: (
   card-header-bg:                  var(--card-bg),
   card-body-bg:                    var(--card-bg),
   main-card-bg:                    var(--body-bg),
+  main-card-col-border-left:       1px solid var(--template-bg-dark-10),
 
   //cpanel
   module-actions-color:            var(--body-color),
@@ -252,17 +253,22 @@ $atum-colors: (
 
   choices__button_joomla-focus-box-shadow: 0 0 0 2px #00bcd4,
 
-  joomla-tab-accordion-box-shadow: (0 1px $white inset, 0 0 3px rgba(0, 0, 0, .04)),
-  joomla-tab-btn-hvr:              var(--template-bg-dark-60),
-  joomla-tab-btn-aria-exp-bg:      var(--template-bg-dark-3),
-  joomla-tab-btn-region-border:    1px solid var(--template-bg-dark-3),
+  joomla-tab-accordion-box-shadow:    (0 1px $white inset, 0 0 3px rgba(0, 0, 0, .04)),
+  joomla-tab-btn-hvr:                 var(--template-bg-dark-60),
+  joomla-tab-btn-aria-exp-bg:         var(--template-bg-dark-3),
+  joomla-tab-btn-region-border:       1px solid var(--template-bg-dark-3),
+  joomla-tablist-btn-aria-exp:        var(--template-text-light),
+  joomla-tablist-btn-aria-exp-bg:     var(--template-bg-dark-60),
+  joomla-tablist-btn-aria-exp-aft-bg: var(--template-bg-dark),
+  joomla-tablist-border-bottom:       1px solid var(--template-bg-dark-10),
+  joomla-tab-tablist-border:          1px solid $gray-300,
 
   admin-background:                var(--template-bg-light),
   options-form-color:              var(--template-text-dark),
   options-form-bg:                 unset,
   options-form-border:             1px solid var(--template-bg-dark-20),
   options-form-legend-color:       var(--template-text-dark),
-  options-form-legend-bg:          var(--admin-background),
+  options-form-legend-bg:          inherit,
 
   // details
   details-bg:                      var(--template-bg-dark-3),
@@ -494,6 +500,7 @@ $card-header-color:                var(--card-header-color);
 $card-header-bg:                   var(--card-header-bg);
 $card-bg:                          var(--card-bg);
 $main-card-bg:                     var(--main-card-bg);
+$main-card-col-border-left:        var(--main-card-col-border-left);
 $card-body-bg:                     var(--card-body-bg);
 
 // cpanel
@@ -759,10 +766,15 @@ $switcher-toggle-outside-off-bg:   var(--switcher-toggle-outside-off-bg);
 $switcher-toggle-outside-on-bg:    var(--switcher-toggle-outside-on-bg);
 
 // Joomla-Tab
-$joomla-tab-accordion-box-shadow:  var(--joomla-tab-accordion-box-shadow);
-$joomla-tab-btn-hvr:               var(--joomla-tab-btn-hvr);
-$joomla-tab-btn-aria-exp-bg:       var(--joomla-tab-btn-aria-exp-bg);
-$joomla-tab-btn-region-border:     var(--joomla-tab-btn-region-border);
+$joomla-tab-accordion-box-shadow:    var(--joomla-tab-accordion-box-shadow);
+$joomla-tab-btn-hvr:                 var(--joomla-tab-btn-hvr);
+$joomla-tab-btn-aria-exp-bg:         var(--joomla-tab-btn-aria-exp-bg);
+$joomla-tab-btn-region-border:       var(--joomla-tab-btn-region-border);
+$joomla-tablist-btn-aria-exp:        var(--joomla-tablist-btn-aria-exp);
+$joomla-tablist-btn-aria-exp-bg:     var(--joomla-tablist-btn-aria-exp-bg);
+$joomla-tablist-btn-aria-exp-aft-bg: var(--joomla-tablist-btn-aria-exp-aft-bg);
+$joomla-tablist-border-bottom:       var(--joomla-tablist-border-bottom);
+$joomla-tab-tablist-border:          var(--joomla-tab-tablist-border);
 
 // Quickicons
 $quickicon-bg:                     var(--quickicon-bg);

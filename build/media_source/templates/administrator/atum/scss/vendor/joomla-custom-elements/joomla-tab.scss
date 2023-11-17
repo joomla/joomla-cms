@@ -31,7 +31,7 @@ joomla-tab {
     padding: 0;
     white-space: nowrap;
     list-style: outside none none;
-    border-bottom: 1px solid var(--template-bg-dark-10);
+    border-bottom: $joomla-tablist-border-bottom; //1px solid var(--template-bg-dark-10);
 
     > button[role=tab] {
       position: relative;
@@ -124,7 +124,7 @@ joomla-tab {
 
   .main-card-columns > * > & {
     height: 100%;
-    border-left: 1px solid var(--template-bg-dark-10); /* Todo no dark-mode query */
+    border-left: $main-card-col-border-left; //1px solid var(--template-bg-dark-10);
   }
 }
 
@@ -142,7 +142,7 @@ joomla-tab[orientation=vertical] {
     height: auto;
     padding: 0;
     overflow: hidden;
-    border: 1px solid $gray-300;
+    border: $joomla-tab-tablist-border; //1px solid $gray-300;
     border-radius: 0;
     box-shadow: none;
 
@@ -154,8 +154,8 @@ joomla-tab[orientation=vertical] {
     > button[role=tab] {
       text-align: start;
       &[aria-expanded=true] {
-        color: var(--template-text-light);
-        background-color: var(--template-bg-dark-60); /* ToDo? No dark-mode query */
+        color: $joomla-tablist-btn-aria-exp; //var(--template-text-light);
+        background-color: $joomla-tablist-btn-aria-exp-bg; //var(--template-bg-dark-60);
       }
     }
 
@@ -177,7 +177,7 @@ joomla-tab[orientation=vertical] {
       &:focus,
       &:hover {
         color: var(--template-text-light);
-        background-color: var(--template-bg-dark-60);
+        background-color: $joomla-tablist-btn-aria-exp-bg; //var(--template-bg-dark-60);
         background-image: none;
         border-right: 0;
         box-shadow: none;
@@ -188,7 +188,7 @@ joomla-tab[orientation=vertical] {
           left: -1px;
           width: 5px;
           height: auto;
-          background-color: var(--template-bg-dark);
+          background-color: $joomla-tablist-btn-aria-exp-aft-bg; //var(--template-bg-dark);
         }
 
         .text-muted {
