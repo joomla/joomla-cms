@@ -158,12 +158,12 @@ $atum-colors-dark: (
   badge-bg-info:                   rgba(255,255,255,.2) !important,
 
   // card
-  card-bg-dark:                    rgba(255, 255, 255, .0275), //hsl(214,10%,22%), too light //rgba(255, 255, 255, .05) too dark
+  card-bg-dark:                    var(--template-sidebar-bg),
   card-header-color:               var(--dark-mode-text-light),
-  card-header-bg:                  var(--card-bg-dark),
-  card-bg:                         var(--card-bg-dark),
-  card-body-bg:                    var(--card-bg-dark),
-  main-card-bg:                    var(--card-bg-dark),
+  card-header-bg:                  var(--template-sidebar-bg),
+  card-bg:                         var(--template-sidebar-bg),
+  card-body-bg:                    var(--template-sidebar-bg),
+  main-card-bg:                    var(--template-sidebar-bg),
   main-card-col-border-left:       1px solid var(--gray-800),
 
   //cpanel
