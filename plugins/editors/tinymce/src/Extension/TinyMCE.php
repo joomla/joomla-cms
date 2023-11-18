@@ -47,7 +47,10 @@ final class TinyMCE extends CMSPlugin implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return ['onEditorSetup' => 'onEditorSetup'];
+        return [
+            'onEditorSetup' => 'onEditorSetup',
+            'onAjaxTinymce' => 'onAjaxTinymce',
+        ];
     }
 
     /**
