@@ -44,14 +44,14 @@ $atum-text-dark:                   $gray-700;
 $success:                          $green;
 $danger:                           $red;
 $info:                             $light-blue;
-$warning:                          $yellow;
+$warning:                          #996808;
 
 $theme-colors: (
   "primary":                       $darkblue,
   "secondary":                     $gray-700,
   "success":                       $success,
   "info":                          $light-blue,
-  "warning":                       $yellow,
+  "warning":                       #996808,
   "danger":                        $danger,
   "light":                         $gray-100,
   "dark":                          $gray-900,
@@ -343,9 +343,9 @@ $atum-colors: (
   state-success-heading-bg:         $success,
 
   state-info-text:                  var(--template-bg-dark-70),
-  state-info-text-hvr:              var(--template-bg-dark-70),
+  state-info-text-hvr:              var(--body-bg),
   state-info-bg:                    lighten($info, 90%),
-  state-info-bg-hvr:                var(--body-bg),
+  state-info-bg-hvr:                var(--template-bg-dark-70),
   state-info-border:                1px solid var(--template-bg-dark-70),
   state-info-icon:                  var(--template-bg-dark-70),
   state-info-heading-bg:            var(--template-bg-dark-70),
@@ -630,8 +630,8 @@ $badge-border-radius:              .2rem;
 $success-bg:                       $green;
 $success-txt:                      $white;
 
-$warning-bg:                       #f9d71c;
-$warning-txt:                      #000;
+$warning-bg:                       #996808;
+$warning-txt:                      #fff;
 
 $danger-bg:                        #900;
 $danger-txt:                       #fff;

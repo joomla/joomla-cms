@@ -22,7 +22,7 @@
     --alert-accent-color: var(--state-success-text);
     --alert-bg-color: var(--state-success-bg);
     --alert-border: var(--state-success-border);
-    --alert-heading-bg: var(--state-success-bg);
+    --alert-heading-bg: var(--state-success-bg-hvr);
   }
 
   &[type="info"],
@@ -30,7 +30,7 @@
     --alert-accent-color: var(--state-info-text);
     --alert-bg-color: var(--state-info-bg);
     --alert-border: var(--state-info-border);
-    --alert-heading-bg: var(--alert-info-color);
+    --alert-heading-bg: var(--state-info-bg-hvr);
   }
 
   &[type="warning"] {
@@ -41,7 +41,7 @@
     --alert-accent-color: var(--state-warning-text);
     --alert-bg-color: var(--state-warning-bg);
     --alert-border: var(--state-warning-border);
-    --alert-heading-bg: var(--state-warning-bg);
+    --alert--alert-heading-bg-heading-bg: var(--state-warning-bg-hvr);
   }
 
   &[type="error"],
@@ -49,7 +49,7 @@
     --alert-accent-color: var(--state-danger-text);
     --alert-bg-color: var(--state-danger-bg);
     --alert-border: var(--state-danger-border);
-    --alert-heading-bg: var(--state-danger-bg);
+    --alert-heading-bg: var(--state-danger-bg-hvr);
   }
 
   .alert-heading {
@@ -58,7 +58,7 @@
     justify-content: center;
     padding: .8rem;
     line-height: normal;
-    color: var(--alert-accent-color);
+    color: #fff;
     background: var(--alert-heading-bg);
     align-content: center;
 
