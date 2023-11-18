@@ -1,420 +1,409 @@
-$form-select-indicator-dark:  url("../images/select-bg-dark.svg");
-$form-select-indicator-rtl-dark:  url("../images/select-bg-rtl-dark.svg");
-$form-select-bg-dark:  var(--template-bg-dark);
-$button-and-icon-color-dark:  #007db0; //#2969b8;
-$link-color-rgb: rgb(33,194,249);
-$success-dark:  #479a59;
-$warning-dark:  #996808;
-$featured: #f0ad4e;
-$danger-dark:  #c62a25;
-$error-dark:  $danger-dark;
-$info-dark: #494d53;
+$form-select-indicator-dark:         url("../images/select-bg-dark.svg");
+$form-select-indicator-rtl-dark:     url("../images/select-bg-rtl-dark.svg");
+$form-select-bg-dark:                var(--template-bg-dark);
+$button-and-icon-color-dark:         #007db0; //#2969b8;
+$link-color-rgb:                     rgb(33,194,249);
+$success-dark:                       #479a59;
+$warning-dark:                       #996808;
+$featured:                           #f0ad4e;
+$danger-dark:                        #c62a25;
+$error-dark:                         $danger-dark;
+$info-dark:                          #494d53;
 
-$atum-colors-dark:  (
-  button-and-icon-color:$button-and-icon-color-dark,
-  template-quickicon-color:var(--template-bg-dark-5),
-  focus-shadow:var(--gray-800),
-  media-manager-overlay-bg:var(--template-bg-dark-90),
-  media-manager-infobar-dt-color:rgba(255, 255, 255, .54),
-  media-manager-content-bg:var(--body-bg),
-  media-manager-content-color:  lighten($button-and-icon-color-dark, 20%),
-  media-manager-overlay-header-bg:var(--template-bg-dark-80),
-  media-manager-disk-name-color:var(--template-text-light),
-  media-manager-border:1px solid var(--gray-800),
-  media-manager-file-icon-color:$button-and-icon-color-dark,
-  media-manager-tree-item-hover-bg:var(--gray-600),
-  media-manager-toolbar-icon-color:lighten($button-and-icon-color-dark, 20%),
-  media-manager-breadcrumb-item-bg:var(--gray-700),
-  media-tree-item-color:$button-and-icon-color-dark,
-  media-tree-active-icon-color:darken($button-and-icon-color-dark, 10%),
-  media-manager-bg:var(--body-bg),
-  media-browser-file-bg:var(--media-manager-bg),
-  media-drive-bg:  var(--media-manager-bg),
-  media-toolbar-bg:var(--media-manager-bg),
-  media-toolbar-icon-bg:var(--media-manager-bg),
-  media-toolbar-icon-color:lighten($button-and-icon-color-dark, 10%),
-  media-toolbar-icon-bg-hvr:var(--gray-800),
-  image-bg:#000,
-  image-bg-image:(linear-gradient(45deg, var(--body-bg) 25%, transparent 25%, transparent 75%, #111 75%, var(--body-bg) 100%), linear-gradient(45deg, #111 25%, transparent 25%, transparent 75%, var(--body-bg) 75%, var(--body-bg) 100%)),
-  success:$success-dark,
-  successhvr:darken($success-dark, 15%),
-  danger:$danger-dark,
-  dangerhvr:darken($danger-dark, 15%),
-  darkdanger:  #941f1c,
-  error:  #941f1c,
-  errorhvr:  #be2824,
-  warning:  #996808,
-  warninghvr:  #ba7f0a,
-  dark-mode-text-light:  rgba(255,255,255,.85),
-  sidebar-bg:  #0f151d,
-  template-sidebar-bg:  #0f151d,
-  template-link-color:  #21c2f9,
-  link-color-rgb: (33,194,249),
-  link-color:  #21c2f9,
-  template-link-hover-color:  darken(#21c2f9, 10%),
-  body-bg:  #0f151d,
-  main-bg:  #1c2128,
-  sidebar-accent-bg:  #2667bb,
-  template-bg-dark:  #0c1a2b,
-  template-quickicon-bg:  rgba(255, 255, 255, .07),
-  template-quickicon-bg-hvr:  rgba(255, 255, 255, .125),
+$atum-colors-dark: (
+  button-and-icon-color:             $button-and-icon-color-dark,
+  template-quickicon-color:          var(--template-bg-dark-5),
+  focus-shadow:                      var(--gray-800),
+  media-manager-overlay-bg:          var(--template-bg-dark-90),
+  media-manager-infobar-dt-color:    rgba(255, 255, 255, .54),
+  media-manager-content-bg:          var(--body-bg),
+  media-manager-content-color:       lighten($button-and-icon-color-dark, 20%),
+  media-manager-overlay-header-bg:   var(--template-bg-dark-80),
+  media-manager-disk-name-color:     var(--template-text-light),
+  media-manager-border:              1px solid var(--gray-800),
+  media-manager-file-icon-color:     $button-and-icon-color-dark,
+  media-manager-tree-item-hover-bg:  var(--gray-600),
+  media-manager-toolbar-icon-color:  lighten($button-and-icon-color-dark, 20%),
+  media-manager-breadcrumb-item-bg:  var(--gray-700),
+  media-tree-item-color:             $button-and-icon-color-dark,
+  media-tree-active-icon-color:      darken($button-and-icon-color-dark, 10%),
+  media-manager-bg:                  var(--body-bg),
+  media-browser-file-bg:             var(--media-manager-bg),
+  media-drive-bg:                    var(--media-manager-bg),
+  media-toolbar-bg:                  var(--media-manager-bg),
+  media-toolbar-icon-bg:             var(--media-manager-bg),
+  media-toolbar-icon-color:          lighten($button-and-icon-color-dark, 10%),
+  media-toolbar-icon-bg-hvr:         var(--gray-800),
+  image-bg:                          #000,
+  image-bg-image:                    (linear-gradient(45deg, var(--body-bg) 25%, transparent 25%, transparent 75%, #111 75%, var(--body-bg) 100%), linear-gradient(45deg, #111 25%, transparent 25%, transparent 75%, var(--body-bg) 75%, var(--body-bg) 100%)),
+  success:                           $success-dark,
+  successhvr:                        darken($success-dark, 15%),
+  danger:                            $danger-dark,
+  dangerhvr:                         darken($danger-dark, 15%),
+  darkdanger:                        #941f1c,
+  error:                             #941f1c,
+  errorhvr:                          #be2824,
+  warning:                           #996808,
+  warninghvr:                        #ba7f0a,
+  dark-mode-text-light:              rgba(255,255,255,.85),
+  sidebar-bg:                        #0f151d,
+  template-sidebar-bg:               #0f151d,
+  template-link-color:               #21c2f9,
+  link-color-rgb:                    (33,194,249),
+  link-color:                        #21c2f9,
+  template-link-hover-color:         darken(#21c2f9, 10%),
+  body-bg:                           #0f151d,
+  main-bg:                           #1c2128,
+  sidebar-accent-bg:                 #2667bb,
+  template-bg-dark:                  #0c1a2b,
+  template-quickicon-bg:             rgba(255, 255, 255, .07),
+  template-quickicon-bg-hvr:         rgba(255, 255, 255, .125),
 
-  //admin
-  admin-background:var(--body-bg),
-  options-form-color:var(--template-text-light),
-  options-form-bg:  transparent, //#484b51, //#52565b,
-  options-form-border:  1px solid rgba(255, 255, 255, .05),
-  options-form-legend-color:var(--template-text-light),
-  options-form-legend-bg:var(--admin-background),
-  form-control-bg:  #212529,
-  form-control-bg-disabled:var(--gray-800),
-  form-control-border:  1px solid rgba(255, 255, 255, .1),
-  form-select-background:  $form-select-bg-dark $form-select-indicator-dark no-repeat right center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+  // Admin section
+  admin-background:                  var(--body-bg),
+  options-form-color:                var(--template-text-light),
+  options-form-bg:                   transparent, //#484b51, //#52565b,
+  options-form-border:               1px solid rgba(255, 255, 255, .05),
+  options-form-legend-color:         var(--template-text-light),
+  options-form-legend-bg:            var(--admin-background),
+  form-control-bg:                   #212529,
+  form-control-bg-disabled:          var(--gray-800),
+  form-control-border:               1px solid rgba(255, 255, 255, .1),
+  form-select-background:            $form-select-bg-dark $form-select-indicator-dark no-repeat right center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+  form-select-background-rtl:        $form-select-bg-dark $form-select-indicator-rtl-dark no-repeat left center / $form-select-bg-size, // Used so we can have multiple background elements (e.g. arrow and feedback icon)
+  form-select-border:                var(--form-control-border),
+  form-select-success-bg:            var(--gray-800),
+  form-select-danger-bg:             var(--gray-800),
+  form-select-disabled-bg:           var(--gray-800),
+  form-select-option:                var(--template-text-light),
+  form-select-option-disabled-bg:    var(--template-bg-dark-90),
+  file-selector-btn-bg:              $button-and-icon-color-dark,
+  file-selector-btn-bg-hvr:          darken($button-and-icon-color-dark, 10%),
 
-  //form-select-background:   $form-select-bg-dark $form-select-indicator-dark no-repeat left center / $form-select-bg-size,
-  form-select-background-rtl:  $form-select-bg-dark $form-select-indicator-rtl-dark no-repeat left center / $form-select-bg-size, // Used so we can have multiple background elements (e.g. arrow and feedback icon)
-  form-select-border:var(--form-control-border),
-  form-select-success-bg:var(--gray-800),
-  form-select-danger-bg:var(--gray-800),
-  form-select-disabled-bg:var(--gray-800),
-  form-select-option:var(--template-text-light),
-  form-select-option-disabled-bg:var(--template-bg-dark-90),
-  file-selector-btn-bg:  $button-and-icon-color-dark,
-  file-selector-btn-bg-hvr:  darken($button-and-icon-color-dark, 10%),
+  // Background styles
+  bg-normal:                         var(--template-bg-dark),
+  bg-reverted:                       var(--template-bg-dark-20),
 
-  // background:
-  bg-normal:var(--template-bg-dark),
-  bg-reverted:var(--template-bg-dark-20),
+  // Text styles
+  text-normal:                       var(--template-text-light),
+  text-reverted:                     black, //var(--template-text-dark),
+  text-muted-color:                  var(--template-text-light) !important,
+  text-muted-hvr-color:              var(--template-text-dark) !important,
 
-  // text
-  text-normal:var(--template-text-light),
-  text-reverted:  black, //var(--template-text-dark),
-  text-muted-color:var(--template-text-light) !important,
-  text-muted-hvr-color:var(--template-text-dark) !important,
+  // Quickicons styles
+  quickicon-bg:                      transparent,
+  quickicon-border:                  none,
+  quickicon-border-radius:           4px,
+  quickicon-link-hvr:                #fff,
+  quickicon-linkadd-bg:              rgba(255, 255, 255, .04),
+  quickicon-linkadd-bg-hvr:          rgba(255, 255, 255, .125),
+  quickicon-linkadd-color:           #fff,
+  quickicon-amount-bg:               #6b6f77,
+  quickicon-color-hvr:               var(--quickicon-link-hvr),
 
-  // quickicons
-  quickicon-bg:  transparent,
-  quickicon-border:  none,
-  quickicon-border-radius:  4px,
-  quickicon-link-hvr:  #fff,
-  quickicon-linkadd-bg:  rgba(255, 255, 255, .04),
-  quickicon-linkadd-bg-hvr:  rgba(255, 255, 255, .125),
-  quickicon-linkadd-color:  #fff,
-  quickicon-amount-bg:  #6b6f77,
-  quickicon-color-hvr:var(--quickicon-link-hvr),
+  // Modules
+  new-modules-color:                   var(--template-quickicon-color),
+  new-modules-bg:                      var(--template-bg-dark-65),
+  new-modules-bg-hvr:                  var(--template-bg-dark),
+  new-modules-icon-color:              var(--template-bg-dark-80),
+  new-modules-icon-color-hvr:          var(--template-quickicon-color),
+  new-module-color:                    var(--dark-mode-text-light),
+  new-module-bg:                       var(--template-quickicon-bg),
+  new-module-border:                   none,
+  new-module-link-bg:                  rgba(255, 255, 255, .05),
+  new-module-link-span:                var(--quickicon-linkadd-color),
+  new-module-link-hvr:                 var(--new-modules-bg-hvr),
+  new-module-link-span-hvr:            var(--icon-color-hvr),
 
-  // modules
-  new-modules-color:var(--template-quickicon-color),
-  new-modules-bg:var(--template-bg-dark-65),
-  new-modules-bg-hvr:var(--template-bg-dark),
-  new-modules-icon-color:var(--template-bg-dark-80),
-  new-modules-icon-color-hvr:var(--template-quickicon-color),
-  new-module-color:var(--dark-mode-text-light),
-  new-module-bg:var(--template-quickicon-bg),
-  new-module-border:  none,
-  new-module-link-bg:  rgba(255, 255, 255, .05),
-  new-module-link-span:var(--quickicon-linkadd-color),
-  new-module-link-hvr:var(--new-modules-bg-hvr),
-  new-module-link-span-hvr:var(--icon-color-hvr),
+  // Sidebar
+  sidebarwrapper-bg:                   var(--template-sidebar-bg),
+  sidebar-item-color:                  $white,
+  sidebar-item-color-hvr:              var(--template-text-light),
+  sidebar-item-bg-hvr:                 $button-and-icon-color-dark,
+  sidebar-toggle-bg:                   rgba(255, 255, 255, .1),
+  sidebar-toggle-link:                 $white,
+  main-nav-ul-bg:                      rgba(255, 255, 255, .1),
+  main-nav-divider-bg:                 #495057,
+  main-nav-item-title:                 var(--template-bg-dark-30),
+  main-nav-mm-active-bg:               $button-and-icon-color-dark,
+  main-nav-mm-active-quicktask-bg:     darken($button-and-icon-color-dark, 10%),
+  main-nav-badge:                      var(--template-bg-dark-60),
+  main-nav-item-title-hvr-bg:          $button-and-icon-color-dark,
+  mobile-menu-collapse-bg:             var(--template-bg-dark-50),
 
-  // sidebar
-  sidebarwrapper-bg:var(--template-sidebar-bg),
-  sidebar-item-color:  $white,
-  sidebar-item-color-hvr:var(--template-text-light),
-  sidebar-item-bg-hvr:  $button-and-icon-color-dark,
-  sidebar-toggle-bg:  rgba(255, 255, 255, .1),
-  sidebar-toggle-link:  $white,
-  main-nav-ul-bg:  rgba(255, 255, 255, .1),
-  main-nav-divider-bg:  #495057,
-  main-nav-item-title:var(--template-bg-dark-30),
-  main-nav-mm-active-bg:  $button-and-icon-color-dark,
-  main-nav-mm-active-quicktask-bg:  darken($button-and-icon-color-dark, 10%), //var(--template-bg-dark-60),
-  main-nav-badge:var(--template-bg-dark-60),
-  main-nav-item-title-hvr-bg:  $button-and-icon-color-dark,
-  mobile-menu-collapse-bg:var(--template-bg-dark-50),
-
-  // header-content
-  header-bg:var(--body-bg),
-  header-item-content-bg:  $button-and-icon-color-dark,
-  header-item-content-bg-hvr:  darken($button-and-icon-color-dark, 10%),
-  header-item-content-border-radius:  4px,
-  header-item-content-jversion-color:var(--dark-mode-text-light),
-  header-item-content-jversion-bg:  transparent,
-  header-logo-bg:var(--body-bg),
-
-  // alerts
-  alert-accent-color:  #479a59, //#457d54,
-  alert-bg-color:  #f2f8f4,
-  alert-link-text-color:var(--template-link-color),
-
-  // table:
-  table-border-top-nfc:  1px solid #969696,
-  table-link-color:  #21c2f9,
-  table-link-font-weight:  $normal-weight,
-  table-link-font-weight-sorted:  $normal-weight,
-  badge-bg-info:  rgba(255, 255, 255, .2) !important,
-
-  // card
-  card-bg-dark:var(--template-sidebar-bg),
-  card-header-color:var(--dark-mode-text-light),
-  card-header-bg:var(--template-sidebar-bg),
-  card-bg:var(--template-sidebar-bg),
-  card-body-bg:var(--template-sidebar-bg),
-  main-card-bg:var(--template-sidebar-bg),
-  main-card-col-border-left:  1px solid var(--gray-800),
-
-  //cpanel
-  module-actions-color:var(--body-color),
-
-  //lists
-  atum-list-group-border-color:  #495057,
-
-  //turn off shadow in dark mode
-  atum-box-shadow:  none,
-  dropdown-box-shadow:  none,
-  quickicon-box-shadow-success:  none,
-  quickicon-box-shadow-danger:  none,
-  quickicon-box-shadow-warning:  none,
-  login-box-shadow:  none,
-  login-focus-box-shadow:  none,
-  modal-btn-box-shadow:  none,
-  modal-joomla-dialog-box-shadow:  none,
-  form-aria-grabbed-box-shadow:  none,
-  choices__button_joomla-focus-box-shadow:  none,
-  joomla-tab-accordion-box-shadow:  none,
-  joomla-tab-btn-hvr:var(--template-text-light),
-  joomla-tab-btn-aria-exp-bg:var(--atum-btn-bg),
-  joomla-tab-btn-region-border:var(--atum-btn-bg),
-  joomla-tablist-btn-aria-exp:var(--template-text-light),
-  joomla-tablist-btn-aria-exp-bg:  darken($button-and-icon-color-dark, 10%),
-  joomla-tablist-btn-aria-exp-aft-bg:  $button-and-icon-color-dark,
-  joomla-tablist-border-bottom:  1px solid var(--gray-800),
-  joomla-tab-tablist-border:  1px solid var(--gray-800),
-
-  // details
-  details-bg:  rgba(0,0,0,0.4),
-  details-border:  1px solid var(--details-bg),
-
-  // nav
-  nav-header-color:var(--body-color),
-
-  // choices
-  choices-input-border-color: var(--btn-primary-bg),
-  choices-input-bg: var(--body-bg), //OK?
-  choices-input-placeholder:var(--gray-200),
-  choices-list-multiple-item-bg:var(--btn-primary-bg),
-  choices-list-multiple-item:  var(--template-text-light), //var(--template-text-dark),
-
-  // switches
-  switcher-toggle-inside-bg:var(--dark-bg-subtle),
-  switcher-toggle-outside-off-bg:var(--gray-700),
-  switcher-toggle-outside-on-bg:var(--success),
-
-  // input
-  input-border-color:  #495057, //var(--template-bg-dark-20),
-
-  // users
-  users-method-image:var(--light),
-  users-methods-reset-cont-bg:var(--dark-bg-subtle),
-  users-method-header-inact-bg:var(--dark-bg-subtle),
-
-  // Login
-  login-label-color:var(--white),
-
-  // Icons
-  icon-success:var(--success),
-  icon-success-border:var(--successhvr),
-  icon-checkedout-color:var(--gray-400),
-
-  // Buttons
-  btn-primary-color:var(--text-normal),
-  btn-primary-bg:  $button-and-icon-color-dark,
-  btn-primary-border:  1px solid var(--btn-primary-bg),
-  btn-primary-bg-hvr:  darken($button-and-icon-color-dark, 10%),
-  btn-primary-border-hvr:  1px solid darken($button-and-icon-color-dark, 15%),
-  btn-primary-toggle-bg:var(--template-bg-dark),
-  btn-primary-toggle-border:var(--template-bg-dark),
-  btn-secondary-border:  1px solid $button-and-icon-color-dark,
-  btn-secondary-bg:  rgba(0, 0, 0, .8), /* rgba(255,255,255,.2) */
-  btn-secondary-bg-hvr:var(--btn-primary-bg),
-  btn-secondary-color:var(--template-link-color),
-  btn-secondary-color-hvr:var(--btn-primary-color),
-  btn-outline-secondary-color:var(--template-text-light),
-  btn-outline-secondary-bg:  #64676c, /* rgba(255,255,255,.2) */
-  btn-outline-secondary-border:  1px solid var(--btn-secondary-bg),
-  input-group-text-bg:var(--template-bg-dark),
-  input-group-text-border:  1px solid var(--template-bg-dark),
-
-  // Cpanel
-  cpanel-addmodule-hover:  rgba(0, 0, 0, .5),
-
-  // Dropdown
-  dropdown-header-bg:  darken($button-and-icon-color-dark, 10%),
-  dropdown-item-bg:  $button-and-icon-color-dark,
-  dropdown-item-bg-hvr:  darken($button-and-icon-color-dark, 10%),
+  // Header content
+  header-bg:                           var(--body-bg),
+  header-item-content-bg:              $button-and-icon-color-dark,
+  header-item-content-bg-hvr:          darken($button-and-icon-color-dark, 10%),
+  header-item-content-border-radius:   4px,
+  header-item-content-jversion-color:  var(--dark-mode-text-light),
+  header-item-content-jversion-bg:     transparent,
+  header-logo-bg:                      var(--body-bg),
 
   // Alerts
-  state-success-text:var(--text-normal),
-  state-success-text-hvr:var(--text-normal),
-  state-success-bg:  $success-dark,
-  state-success-bg-hvr:  darken($success-dark, 15%),
-  state-success-border:  1px solid var(--successhvr),
-  state-success-btn-border:  1px solid $success-dark,
-  state-success-icon:var(--text-normal),
-  state-success-icon-hvr:var(--text-normal),
-  state-success-heading-bg:var(--successhvr),
+  alert-accent-color:                  #479a59, //#457d54,
+  alert-bg-color:                      #f2f8f4,
+  alert-link-text-color:               var(--template-link-color),
 
-  state-info-text:var(--text-normal),
-  state-info-text-hvr:var(--text-normal),
-  state-info-bg:  darken($button-and-icon-color-dark, 15%),
-  state-info-bg-hvr:  darken($button-and-icon-color-dark, 25%),
-  state-info-border:  transparent,
-  state-info-icon:var(--state-info-text),
-  state-info-heading-bg:  darken($button-and-icon-color-dark, 5%),
+  // Table
+  table-border-top-nfc:                1px solid #969696,
+  table-link-color:                    #21c2f9,
+  table-link-font-weight:              $normal-weight,
+  table-link-font-weight-sorted:       $normal-weight,
+  badge-bg-info:                       rgba(255, 255, 255, .2) !important,
 
-  state-warning-text:var(--text-normal),
-  state-warning-text-hvr:var(--text-normal),
+  // Card
+  card-bg-dark:                        var(--template-sidebar-bg),
+  card-header-color:                   var(--dark-mode-text-light),
+  card-header-bg:                      var(--template-sidebar-bg),
+  card-bg:                             var(--template-sidebar-bg),
+  card-body-bg:                        var(--template-sidebar-bg),
+  main-card-bg:                        var(--template-sidebar-bg),
+  main-card-col-border-left:           1px solid var(--gray-800),
 
-  state-warning-bg:  $warning-dark,
-  state-warning-bg-hvr:  darken($warning-dark, 15%),
-  state-warning-border:  1px solid var(--warninglight),
-  state-warning-icon:var(--text-normal),
-  state-warning-heading-bg:var(--warninglight),
+  // Cpanel
+  module-actions-color:                var(--body-color),
 
-  state-danger-text:var(--text-normal),
-  state-danger-text-hvr:var(--text-normal),
-  state-danger-bg:  $danger-dark,
-  state-danger-bg-hvr:  darken($danger-dark, 15%),
-  state-danger-border:  1px solid var(--dangerhvr),
-  state-danger-icon:var(--text-normal),
-  state-danger-heading-bg:var(--dangerhvr),
+  // Lists
+  atum-list-group-border-color:        #495057,
 
-  state-error-text:var(--text-normal),
-  state-error-bg:var(--error),
-  state-error-border:  1px solid var(--errorlight),
-  state-error-icon:var(--text-normal),
-  state-error-heading-bg:var(--errorlight),
+  // Turn off shadow in dark mode
+  atum-box-shadow:                     none,
+  dropdown-box-shadow:                 none,
+  quickicon-box-shadow-success:        none,
+  quickicon-box-shadow-danger:         none,
+  quickicon-box-shadow-warning:        none,
+  login-box-shadow:                    none,
+  login-focus-box-shadow:              none,
+  modal-btn-box-shadow:                none,
+  modal-joomla-dialog-box-shadow:      none,
+  form-aria-grabbed-box-shadow:        none,
+  choices__button_joomla-focus-box-shadow: none,
+  joomla-tab-accordion-box-shadow:     none,
+  joomla-tab-btn-hvr:                  var(--template-text-light),
+  joomla-tab-btn-aria-exp-bg:          var(--atum-btn-bg),
+  joomla-tab-btn-region-border:        var(--atum-btn-bg),
+  joomla-tablist-btn-aria-exp:         var(--template-text-light),
+  joomla-tablist-btn-aria-exp-bg:      darken($button-and-icon-color-dark, 10%),
+  joomla-tablist-btn-aria-exp-aft-bg:  $button-and-icon-color-dark,
+  joomla-tablist-border-bottom:        1px solid var(--gray-800),
+  joomla-tab-tablist-border:           1px solid var(--gray-800),
 
-  alert-info-color:var(--text-normal),
-  alert-info-bg:var(--body-bg), //var(--admin-bg),
-  alert-info-border:var(--body-bg),
+  // Details
+  details-bg:                          rgba(0,0,0,.4),
+  details-border:                      1px solid var(--details-bg),
+
+  // Nav
+  nav-header-color:                    var(--body-color),
+
+  // Choices
+  choices-input-border-color:          var(--btn-primary-bg),
+  choices-input-bg:                    var(--body-bg),
+  choices-input-placeholder:           var(--gray-200),
+  choices-list-multiple-item-bg:       var(--btn-primary-bg),
+  choices-list-multiple-item:          var(--template-text-light),
+
+  // Switches
+  switcher-toggle-inside-bg:           var(--dark-bg-subtle),
+  switcher-toggle-outside-off-bg:      var(--gray-700),
+  switcher-toggle-outside-on-bg:       var(--success),
+
+  // Input
+  input-border-color:                  #495057,
+
+  // Users
+  users-method-image:                  var(--light),
+  users-methods-reset-cont-bg:         var(--dark-bg-subtle),
+  users-method-header-inact-bg:        var(--dark-bg-subtle),
+
+  // Login
+  login-label-color:                   var(--white),
+
+  // Icons
+  icon-success:                        var(--success),
+  icon-success-border:                 var(--successhvr),
+  icon-checkedout-color:               var(--gray-400),
+
+  // Buttons
+  btn-primary-color:                   var(--text-normal),
+  btn-primary-bg:                      $button-and-icon-color-dark,
+  btn-primary-border:                  1px solid var(--btn-primary-bg),
+  btn-primary-bg-hvr:                  darken($button-and-icon-color-dark, 10%),
+  btn-primary-border-hvr:              1px solid darken($button-and-icon-color-dark, 15%),
+  btn-primary-toggle-bg:               var(--template-bg-dark),
+  btn-primary-toggle-border:           var(--template-bg-dark),
+  btn-secondary-border:                1px solid $button-and-icon-color-dark,
+  btn-secondary-bg:                    rgba(0, 0, 0, .8),
+  btn-secondary-bg-hvr:                var(--btn-primary-bg),
+  btn-secondary-color:                 var(--template-link-color),
+  btn-secondary-color-hvr:             var(--btn-primary-color),
+  btn-outline-secondary-color:         var(--template-text-light),
+  btn-outline-secondary-bg:            #64676c,
+  btn-outline-secondary-border:        1px solid var(--btn-secondary-bg),
+
+  // Dropdown
+  dropdown-header-bg:                  darken($button-and-icon-color-dark, 10%),
+  dropdown-item-bg:                    $button-and-icon-color-dark,
+  dropdown-item-bg-hvr:                darken($button-and-icon-color-dark, 10%),
+
+  // Alerts
+  state-success-text:             var(--text-normal),
+  state-success-text-hvr:         var(--text-normal),
+  state-success-bg:               $success-dark,
+  state-success-bg-hvr:           darken($success-dark, 15%),
+  state-success-border:           1px solid var(--successhvr),
+  state-success-btn-border:       1px solid $success-dark,
+  state-success-icon:             var(--text-normal),
+  state-success-icon-hvr:         var(--text-normal),
+  state-success-heading-bg:       var(--successhvr),
+
+  state-info-text:                var(--text-normal),
+  state-info-text-hvr:            var(--text-normal),
+  state-info-bg:                  darken($button-and-icon-color-dark, 15%),
+  state-info-bg-hvr:              darken($button-and-icon-color-dark, 25%),
+  state-info-border:              transparent,
+  state-info-icon:                var(--state-info-text),
+  state-info-heading-bg:          darken($button-and-icon-color-dark, 5%),
+
+  state-warning-text:             var(--text-normal),
+  state-warning-text-hvr:         var(--text-normal),
+  state-warning-bg:               $warning-dark,
+  state-warning-bg-hvr:           darken($warning-dark, 15%),
+  state-warning-border:           1px solid var(--warninglight),
+  state-warning-icon:             var(--text-normal),
+  state-warning-heading-bg:       var(--warninglight),
+
+  state-danger-text:              var(--text-normal),
+  state-danger-text-hvr:          var(--text-normal),
+  state-danger-bg:                $danger-dark,
+  state-danger-bg-hvr:            darken($danger-dark, 15%),
+  state-danger-border:            1px solid var(--dangerhvr),
+  state-danger-icon:              var(--text-normal),
+  state-danger-heading-bg:        var(--dangerhvr),
+
+  state-error-text:               var(--text-normal),
+  state-error-bg:                 var(--error),
+  state-error-border:             1px solid var(--errorlight),
+  state-error-icon:               var(--text-normal),
+  state-error-heading-bg:         var(--errorlight),
+
+  alert-info-color:               var(--text-normal),
+  alert-info-bg:                  var(--body-bg), //var(--admin-bg),
+  alert-info-border:              var(--body-bg),
 
   // Subhead
-  atum-subhead-color:var(--template-text-dark),
-  atum-subhead-bg:var(--body-bg),
-  atum-subhead-bg-img:  (linear-gradient(var(--body-bg), var(--dark-bg))),
+  atum-subhead-color:             var(--template-text-dark),
+  atum-subhead-bg:                var(--body-bg),
+  atum-subhead-bg-img:            (linear-gradient(var(--body-bg), var(--dark-bg))),
 
   // Toolbar Buttons
+  atum-btn:                       var(--template-text-light),
+  atum-btn-icon:                  var(--template-text-light),
+  atum-btn-icon-hvr:              $atum-text-dark,
+  atum-btn-bg:                    $button-and-icon-color-dark,
+  atum-btn-bg-hvr:                darken($button-and-icon-color-dark, 15%),
+  atum-btn-border:                1px solid hsl(var(--hue),20%,80%),
+  atum-btn-hvr:                   var(--template-text-light),
+  atum-btn-bg-accent:             darken($button-and-icon-color-dark, 15%),
 
-  atum-btn:                         var(--template-text-light),
-  atum-btn-icon:                    var(--template-text-light),
-  atum-btn-icon-hvr:                $atum-text-dark,
-  atum-btn-bg:                      $button-and-icon-color-dark,
-  atum-btn-bg-hvr:                  darken($button-and-icon-color-dark, 15%),
-  atum-btn-border:                  1px solid hsl(var(--hue),20%,80%),
-  atum-btn-hvr:                     var(--template-text-light),
-  atum-btn-bg-accent:               darken($button-and-icon-color-dark, 15%),
+  atum-btn-success:               var(--atum-btn-success-hvr),
+  atum-btn-success-icon:          var(--template-text-light),
+  atum-btn-success-icon-hvr:      var(--atum-btn-success-hvr),
+  atum-btn-success-bg:            $success-dark,
+  atum-btn-success-bg-hvr:        darken($success-dark, 15%),
+  atum-btn-success-border:        1px solid lighten($success-dark, 10%),
+  atum-btn-success-hvr:           var(--template-text-light),
+  atum-btn-success-bg-accent:     var(--success),
 
-  atum-btn-success:var(--atum-btn-success-hvr),
-  atum-btn-success-icon: var(--template-text-light),
-  atum-btn-success-icon-hvr: var(--atum-btn-success-hvr),
-  atum-btn-success-bg:  $success-dark,
-  atum-btn-success-bg-hvr:  darken($success-dark, 15%),
-  atum-btn-success-border:  1px solid lighten($success-dark, 10%),
-  atum-btn-success-hvr:var(--template-text-light),
-  atum-btn-success-bg-accent:var(--success),
+  atum-btn-danger:                var(--dangerhvr),
+  atum-btn-danger-icon:           var(--template-text-light),
+  atum-btn-danger-icon-hvr:       var(--atum-btn-danger-hvr),
+  atum-btn-danger-bg:             $danger,
+  atum-btn-danger-bg-hvr:         darken($danger, 15%),
+  atum-btn-danger-border:         1px solid $danger,
+  atum-btn-danger-hvr:            var(--template-text-light),
+  atum-btn-danger-bg-accent:      darken($danger, 15%),
 
-  atum-btn-danger:var(--dangerhvr),
-  atum-btn-danger-icon: var(--template-text-light),
-  atum-btn-danger-icon-hvr: var(--atum-btn-danger-hvr),
-  atum-btn-danger-bg:  $danger,
-  atum-btn-danger-bg-hvr:  darken($danger, 15%),
-  atum-btn-danger-border:  1px solid $danger,
-  atum-btn-danger-hvr:var(--template-text-light),
-  atum-btn-danger-bg-accent:  darken($danger, 15%),
+  atum-btn-info:                  lighten($info-dark, 50%),
+  atum-btn-info-icon:             var(--template-text-light),
+  atum-btn-info-icon-hvr:         var(--template-text-dark),
+  atum-btn-info-bg:               $info-dark,
+  atum-btn-info-bg-hvr:           darken($info-dark, 15%),
+  atum-btn-info-border:           1px solid var(--atum-btn-info-bg),
+  atum-btn-info-hvr:              var(--template-text-dark),
+  atum-btn-info-bg-accent:        darken($info-dark, 15%),
 
-  atum-btn-info:  lighten($info-dark, 50%),
-  atum-btn-info-icon: var(--template-text-light),
-  atum-btn-info-icon-hvr: var(--template-text-dark),
-  atum-btn-info-bg:  $info-dark,
-  atum-btn-info-bg-hvr:  darken($info-dark, 15%),
-  atum-btn-info-border:  1px solid var(--atum-btn-info-bg),
-  atum-btn-info-hvr:  var(--template-text-dark),
-  atum-btn-info-bg-accent:  darken($info-dark, 15%),
+  atum-btn-primary:               lighten($button-and-icon-color-dark, 25%),
+  atum-btn-primary-bg:            $button-and-icon-color-dark, //var(--template-bg-dark),
+  atum-btn-primary-bg-hvr:        darken($button-and-icon-color-dark, 15%),
+  atum-btn-primary-border:        1px solid $button-and-icon-color-dark,
+  atum-btn-primary-hvr:           var(--template-text-light),
+  atum-btn-secondary:             #f0f4fb,
 
+  atum-btn-action:                darken($info-dark, 10%),
+  atum-btn-action-icon:           var(--template-text-light),
+  atum-btn-action-icon-hvr:       var(--atum-btn-action-hvr),
+  atum-btn-action-bg:             $info-dark,
+  atum-btn-action-bg-hvr:         darken($info-dark, 15%),
+  atum-btn-action-border:         1px solid var(--atum-btn-action-bg),
 
-  atum-btn-primary:  lighten($button-and-icon-color-dark, 25%),
-  atum-btn-primary-bg:  $button-and-icon-color-dark, //var(--template-bg-dark),
-  atum-btn-primary-bg-hvr:  darken($button-and-icon-color-dark, 15%),
-
-  atum-btn-primary-border:  1px solid $button-and-icon-color-dark,
-  atum-btn-primary-hvr:var(--template-text-light),
-  atum-btn-secondary:  #f0f4fb,
-
-  atum-btn-action:  darken($info-dark, 10%),
-  atum-btn-action-icon: var(--template-text-light),
-  atum-btn-action-icon-hvr: var(--atum-btn-action-hvr),
-  atum-btn-action-bg:  $info-dark,
-  atum-btn-action-bg-hvr:  darken($info-dark, 15%),
-  atum-btn-action-border:  1px solid var(--atum-btn-action-bg),
-
-  atum-list-group-bg:var(--template-sidebar-bg),
+  atum-list-group-bg:             var(--template-sidebar-bg),
 );
 
 
-$link-hover-color-dark:  darken($button-and-icon-color-dark, 1%);
+$link-hover-color-dark:           darken($button-and-icon-color-dark, 1%);
 
 // Alerts
-$state-info-text-dark:  var(--template-bg-dark-50);
+$state-info-text-dark:            var(--template-bg-dark-50);
 
 // Code-color override bootstrap for accessibility contrast
-$code-color-dark:  #d7488b; //used in bootstrap
+$code-color-dark:                 #d7488b; //used in bootstrap
 
 // Alerts
-$state-success-text:  var(--text-normal);
-$state-success-text-hvr:  var(--text-normal);
-$state-success-bg:  $success-dark;
-$state-success-bg-hvr:  darken($success-dark, 15%);
-$state-success-border:  1px solid var(--successhvr);
-$state-success-btn-border:  1px solid $success-dark;
-$state-success-icon:  var(--text-normal);
-$state-success-icon-hvr:  var(--text-normal);
-$state-success-heading-bg:  var(--successhvr);
+$state-success-text:              var(--text-normal);
+$state-success-text-hvr:          var(--text-normal);
+$state-success-bg:                $success-dark;
+$state-success-bg-hvr:            darken($success-dark, 15%);
+$state-success-border:            1px solid var(--successhvr);
+$state-success-btn-border:        1px solid $success-dark;
+$state-success-icon:              var(--text-normal);
+$state-success-icon-hvr:          var(--text-normal);
+$state-success-heading-bg:        var(--successhvr);
 
-$state-info-text:  var(--text-normal);
-$state-info-text-hvr:  var(--text-normal);
-$state-info-bg:  $button-and-icon-color-dark;
-$state-info-bg-hvr:  darken($button-and-icon-color-dark, 15%);
-$state-info-border:  1px solid var(--template-bg-dark-60);
-$state-info-icon:  var(--state-info-text);
-$state-info-icon-hvr:  var(--state-info-text);
-$state-info-heading-bg:  darken($button-and-icon-color-dark, 5%);
+$state-info-text:                 var(--text-normal);
+$state-info-text-hvr:             var(--text-normal);
+$state-info-bg:                   $button-and-icon-color-dark;
+$state-info-bg-hvr:               darken($button-and-icon-color-dark, 15%);
+$state-info-border:               1px solid var(--template-bg-dark-60);
+$state-info-icon:                 var(--state-info-text);
+$state-info-icon-hvr:             var(--state-info-text);
+$state-info-heading-bg:           darken($button-and-icon-color-dark, 5%);
 
-$state-warning-text:  var(--text-normal);
-$state-warning-text-hvr:  var(--text-normal);
-$state-warning-bg:  $warning-dark;
-$state-warning-bg-hvr:  darken($warning-dark, 15%);
-$state-warning-border:  1px solid var(--warninglight);
-$state-warning-icon:  var(--text-normal);
-$state-warning-icon-hvr:  var(--text-normal);
-$state-warning-heading-bg:  var(--warninglight);
+$state-warning-text:              var(--text-normal);
+$state-warning-text-hvr:          var(--text-normal);
+$state-warning-bg:                $warning-dark;
+$state-warning-bg-hvr:            darken($warning-dark, 15%);
+$state-warning-border:            1px solid var(--warninglight);
+$state-warning-icon:              var(--text-normal);
+$state-warning-icon-hvr:          var(--text-normal);
+$state-warning-heading-bg:        var(--warninglight);
 
-$state-danger-text:  var(--text-normal);
-$state-danger-text-hvr:  var(--text-normal);
-$state-danger-bg:  $danger-dark;
-$state-danger-bg-hvr:  darken($danger-dark, 15%);
-$state-danger-border:  1px solid var(--dangerhvr);
-$state-danger-icon:  var(--text-normal);
-$state-danger-icon-hvr:  var(--text-normal);
-$state-danger-heading-bg:  var(--dangerhvr);
+$state-danger-text:               var(--text-normal);
+$state-danger-text-hvr:           var(--text-normal);
+$state-danger-bg:                 $danger-dark;
+$state-danger-bg-hvr:             darken($danger-dark, 15%);
+$state-danger-border:             1px solid var(--dangerhvr);
+$state-danger-icon:               var(--text-normal);
+$state-danger-icon-hvr:           var(--text-normal);
+$state-danger-heading-bg:         var(--dangerhvr);
 
-$state-error-text:  var(--text-normal);
-$state-error-text-hvr:  var(--text-normal);
-$state-error-bg:  var(--error);
-$state-error-bg-hvr:  darken($error-dark, 15%);
-$state-error-border:  1px solid var(--errorlight);
-$state-error-icon:  var(--text-normal);
-$state-error-icon-hvr:  var(--text-normal);
-$state-error-heading-bg:  var(--errorlight);
+$state-error-text:                var(--text-normal);
+$state-error-text-hvr:            var(--text-normal);
+$state-error-bg:                  var(--error);
+$state-error-bg-hvr:              darken($error-dark, 15%);
+$state-error-border:              1px solid var(--errorlight);
+$state-error-icon:                var(--text-normal);
+$state-error-icon-hvr:            var(--text-normal);
+$state-error-heading-bg:          var(--errorlight);
 
-$alert-link-text-color:  var(--template-link-color);
+$alert-link-text-color:           var(--template-link-color);
