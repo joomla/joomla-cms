@@ -90,36 +90,39 @@
       }
 
       &.info {
-        --text-color: #{$state-info-text};
-        --text-color-hvr: #{$state-info-text-hvr};
-        --bg-color: #{$state-info-bg};
-        --icon-color: #{$state-info-icon};
-        --bg-color-hvr: #{$state-info-bg-hvr};
+        --text-color: var(--state-info-text);
+        --text-color-hvr: var(--state-info-text-hvr);
+        --bg-color: var(--state-info-bg);
+        --icon-color: var(--state-info-icon);
+        --icon-color-hvr: var(--state-info-icon-hvr);
+        --bg-color-hvr: var(--state-info-bg-hvr);
       }
 
       &.warning {
-        --text-color: #{$state-warning-text};
-        --text-color-hvr: #{$state-warning-text-hvr};
-        --bg-color: #{$state-warning-bg};
-        --icon-color: #{$state-warning-icon};
-        --bg-color-hvr: #{$state-warning-bg-hvr};
+        --text-color: var(--state-warning-text);
+        --text-color-hvr: var(--state-warning-text-hvr);
+        --bg-color: var(--state-warning-bg);
+        --icon-color: var(--state-warning-icon);
+        --icon-color-hvr: var(--state-warning-icon-hvr);
+        --bg-color-hvr: var(--state-warning-bg-hvr);
       }
 
       &.danger {
-        --text-color: #{$state-danger-text};
-        --text-color-hvr: #{$state-success-text-hvr};
-        --bg-color: #{$state-danger-bg};
-        --icon-color: #{$state-danger-icon};
-        --bg-color-hvr: #{$state-danger-bg-hvr};
+        --text-color: var(--state-danger-text);
+        --text-color-hvr: var(--state-danger-text-hvr);
+        --bg-color: var(--state-danger-bg);
+        --icon-color: var(--state-danger-icon);
+        --icon-color-hvr: var(--state-danger-icon-hvr);
+        --bg-color-hvr: var(--state-danger-bg-hvr);
       }
 
       &.success {
-        --text-color: #{$state-success-text};
-        --text-color-hvr: #{$state-success-text-hvr};
-        --bg-color: #{$state-success-bg};
-        --icon-color: #{$state-success-icon};
-        --icon-color-hvr: #{$state-success-icon-hvr};
-        --bg-color-hvr: #{$state-success-bg-hvr};
+        --text-color: var(--state-success-text);
+        --text-color-hvr: var(--state-success-text-hvr);
+        --bg-color: var(--state-success-bg);
+        --icon-color: var(--state-success-icon);
+        --icon-color-hvr: var(--state-success-icon-hvr);
+        --bg-color-hvr: var(--state-success-bg-hvr);
       }
     }
   }
