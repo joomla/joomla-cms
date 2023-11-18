@@ -58,8 +58,8 @@
     //admin
     admin-background: var(--body-bg),
     options-form-color: var(--template-text-light),
-    options-form-bg: var(--main-bg), //#484b51, //#52565b,
-    options-form-border: 1px solid var(--template-bg-dark-80),
+    options-form-bg: transparent, //#484b51, //#52565b,
+    options-form-border: 1px solid rgba(255,255,255,0.05),
     options-form-legend-color: var(--template-text-light),
     options-form-legend-bg: var(--admin-background),
     form-control-bg: #212529,

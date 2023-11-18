@@ -64,3 +64,16 @@
 .media-tree-item.active > a .item-icon {
   color: $media-tree-active-icon-color;
 }
+
+.field-media-wrapper .button-select {
+  background-color: var(--success);
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark, true) {
+    joomla-field-media .field-media-preview {
+      background-color: var(--gray-700);
+      border-color: rgba(255, 255, 255, .15);
+    }
+  }
+}
