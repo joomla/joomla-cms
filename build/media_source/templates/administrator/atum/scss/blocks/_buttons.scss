@@ -1,9 +1,8 @@
-.btn-secondary  {
+.btn-secondary {
   color: var(--btn-secondary-color);
 
   &:hover {
-    background: var(--btn-secondary-bg-hvr);
     color: var(--btn-secondary-color-hvr);
+    background: var(--btn-secondary-bg-hvr);
   }
-
 }

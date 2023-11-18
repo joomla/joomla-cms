@@ -2,6 +2,7 @@ $form-select-indicator-dark:  url("../images/select-bg-dark.svg");
 $form-select-indicator-rtl-dark:  url("../images/select-bg-rtl-dark.svg");
 $form-select-bg-dark:  var(--template-bg-dark);
 $button-and-icon-color-dark:  #007db0; //#2969b8;
+$link-color-rgb: rgb(33,194,249);
 $success-dark:  #479a59;
 $warning-dark:  #996808;
 $danger-dark:  #c62a25;
@@ -43,24 +44,25 @@ $atum-colors-dark:  (
   errorhvr:  #be2824,
   warning:  #996808,
   warninghvr:  #ba7f0a,
-  dark-mode-text-light:  rgba(255,255,255,0.85),
+  dark-mode-text-light:  rgba(255,255,255,.85),
   sidebar-bg:  #0f151d,
   template-sidebar-bg:  #0f151d,
   template-link-color:  #21c2f9,
-  link-color-rgb:  #{to-rgb(#21c2f9)},
+  link-color-rgb: (33,194,249),
+  link-color:  #21c2f9,
   template-link-hover-color:  darken(#21c2f9, 10%),
   body-bg:  #0f151d,
   main-bg:  #1c2128,
   sidebar-accent-bg:  #2667bb,
   template-bg-dark:  #0c1a2b,
-  template-quickicon-bg:  rgba(255, 255, 255, 0.07),
-  template-quickicon-bg-hvr:  rgba(255, 255, 255, 0.125),
+  template-quickicon-bg:  rgba(255, 255, 255, .07),
+  template-quickicon-bg-hvr:  rgba(255, 255, 255, .125),
 
   //admin
   admin-background:var(--body-bg),
   options-form-color:var(--template-text-light),
   options-form-bg:  transparent, //#484b51, //#52565b,
-  options-form-border:  1px solid rgba(255, 255, 255, 0.05),
+  options-form-border:  1px solid rgba(255, 255, 255, .05),
   options-form-legend-color:var(--template-text-light),
   options-form-legend-bg:var(--admin-background),
   form-control-bg:  #212529,
@@ -94,8 +96,8 @@ $atum-colors-dark:  (
   quickicon-border:  none,
   quickicon-border-radius:  4px,
   quickicon-link-hvr:  #fff,
-  quickicon-linkadd-bg:  rgba(255, 255, 255, 0.04),
-  quickicon-linkadd-bg-hvr:  rgba(255, 255, 255, 0.125),
+  quickicon-linkadd-bg:  rgba(255, 255, 255, .04),
+  quickicon-linkadd-bg-hvr:  rgba(255, 255, 255, .125),
   quickicon-linkadd-color:  #fff,
   quickicon-amount-bg:  #6b6f77,
   quickicon-color-hvr:var(--quickicon-link-hvr),
@@ -232,7 +234,7 @@ $atum-colors-dark:  (
   btn-primary-toggle-bg:var(--template-bg-dark),
   btn-primary-toggle-border:var(--template-bg-dark),
   btn-secondary-border:  1px solid $button-and-icon-color-dark,
-  btn-secondary-bg:  rgba(0, 0, 0, 0.8), /* rgba(255,255,255,.2) */
+  btn-secondary-bg:  rgba(0, 0, 0, .8), /* rgba(255,255,255,.2) */
   btn-secondary-bg-hvr:var(--btn-primary-bg),
   btn-secondary-color:var(--template-link-color),
   btn-secondary-color-hvr:var(--btn-primary-color),

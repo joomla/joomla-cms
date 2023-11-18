@@ -74,7 +74,7 @@
       --subhead-btn-icon: var(--atum-btn-success-icon);
       --subhead-btn-icon-hover: var(--atum-btn-success-icon-hvr);
       --subhead-btn-bg: var(--atum-btn-success-bg);
-      --subhead-btn-bg-hvr:  var(--atum-btn-success-bg-hvr);
+      --subhead-btn-bg-hvr: var(--atum-btn-success-bg-hvr);
       --subhead-btn-hvr: #{$atum-btn-success-hvr};
       --subhead-btn-border: var(--atum-btn-success-border);
 
@@ -91,7 +91,7 @@
       --subhead-btn-icon: var(--atum-btn-danger-icon);
       --subhead-btn-icon-hover: var(--atum-btn-danger-icon-hvr);
       --subhead-btn-bg: #{$atum-btn-danger-bg};
-      --subhead-btn-bg-hvr:  var(--atum-btn-danger-bg-hvr);
+      --subhead-btn-bg-hvr: var(--atum-btn-danger-bg-hvr);
       --subhead-btn-hvr: #{$atum-btn-danger-hvr};
       &:not([disabled]) {
         --subhead-btn-border: #{$atum-btn-danger-border};
@@ -106,7 +106,7 @@
       --subhead-btn-icon: var(--atum-btn-primary-icon);
       --subhead-btn-icon-hover: var(--atum-btn-primary-icon-hvr);
       --subhead-btn-bg: #{$atum-btn-primary-bg};
-      --subhead-btn-bg-hvr:  var(--atum-btn-primary-bg-hvr);
+      --subhead-btn-bg-hvr: var(--atum-btn-primary-bg-hvr);
       --subhead-btn-hvr: #{$atum-btn-primary-hvr};
       --subhead-btn-border: #{$atum-btn-primary-border};
       &:disabled {
@@ -123,7 +123,7 @@
       --subhead-btn-icon: var(--atum-btn-info-icon);
       --subhead-btn-icon-hover: var(--atum-btn-info-icon-hvr);
       --subhead-btn-bg: var(--atum-btn-info-bg);
-      --subhead-btn-bg-hvr:  var(--atum-btn-info-bg-hvr);
+      --subhead-btn-bg-hvr: var(--atum-btn-info-bg-hvr);
       --subhead-btn-hvr: #{$atum-btn-info-hvr};
       --subhead-btn-border: var(--atum-btn-info-border);
     }
