@@ -81,7 +81,7 @@ $input = Factory::getApplication()->getInput();
                                 </td>
                                 <td>
                                     <?php if (is_null($value->modified_date)) : ?>
-                                        <span class="badge bg-warning text-dark"><?php echo Text::_('COM_TEMPLATES_OVERRIDE_CORE_REMOVED'); ?></span>
+                                        <span class="badge bg-warning"><?php echo Text::_('COM_TEMPLATES_OVERRIDE_CORE_REMOVED'); ?></span>
                                     <?php else : ?>
                                         <?php echo HTMLHelper::_('date', $value->modified_date, Text::_('DATE_FORMAT_FILTER_DATETIME')); ?>
                                     <?php endif; ?>

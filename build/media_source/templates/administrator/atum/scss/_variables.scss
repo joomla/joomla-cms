@@ -344,7 +344,7 @@ $atum-colors: (
 
   state-info-text:                  var(--template-bg-dark-70),
   state-info-text-hvr:              var(--template-bg-dark-70),
-  state-info-bg:                    $info,
+  state-info-bg:                    lighten($info, 90%),
   state-info-bg-hvr:                var(--body-bg),
   state-info-border:                1px solid var(--template-bg-dark-70),
   state-info-icon:                  var(--template-bg-dark-70),
@@ -378,6 +378,7 @@ $atum-colors: (
   alert-info-bg:                    var(--template-bg-dark-10),
   alert-info-border:                1px solid var(--template-bg-dark-20),
   alert-link-text-color:            var(--info-text-emphasis),
+  alert-accent-color:               #fff,
 
   // Subhead
   atum-subhead-color:               var(--template-text-dark),
@@ -585,7 +586,7 @@ $state-success-heading-bg:         var(--state-success-heading-bg);
 
 $state-info-text:                  var(--state-info-text);
 $state-info-text-hvr:              var(--state-info-text);
-$state-info-bg:                    var(--state-info-bg);
+$state-info-bg:                    lighten($info, 90%);
 $state-info-bg-hvr:                var(--state-info-bg);
 $state-info-border:                var(--state-info-border);
 $state-info-icon:                  var(--state-info-icon);
