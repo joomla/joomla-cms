@@ -96,7 +96,7 @@ module.exports.bootstrapJs = async () => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
-    process.exit(1);
+    process.exitCode = 1;
   }
 
   (await readdir(outputFolder)).forEach((file) => {
@@ -106,6 +106,6 @@ module.exports.bootstrapJs = async () => {
   return Promise.all(tasks).catch((er) => {
     // eslint-disable-next-line no-console
     console.log(er);
-    process.exit(1);
+    process.exitCode = 1;
   });
 };
