@@ -304,11 +304,15 @@ $atum-colors-dark:  (
   atum-subhead-bg-img:  (linear-gradient(var(--body-bg), var(--dark-bg))),
 
   // Toolbar Buttons
-  atum-btn-accent:var(--template-text-dark),
-  atum-btn-color:var(--template-text-light),
-  atum-btn-bg:var(--button-and-icon-color),
-  atum-btn-border:  1px solid var(--body-bg),
-  atum-btn-hvr:  rgba(255, 255, 255, .9),
+
+  atum-btn:                         var(--template-text-light),
+  atum-btn-icon:                    var(--template-text-light),
+  atum-btn-icon-hvr:                $atum-text-dark,
+  atum-btn-bg:                      $button-and-icon-color-dark,
+  atum-btn-bg-hvr:                  darken($button-and-icon-color-dark, 15%),
+  atum-btn-border:                  1px solid hsl(var(--hue),20%,80%),
+  atum-btn-hvr:                     var(--template-text-light),
+  atum-btn-bg-accent:               darken($button-and-icon-color-dark, 15%),
 
   atum-btn-success:var(--atum-btn-success-hvr),
   atum-btn-success-icon: var(--template-text-light),

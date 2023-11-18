@@ -384,10 +384,15 @@ $atum-colors: (
   atum-subhead-color:               var(--template-text-dark),
   atum-subhead-bg:                  $white,
   atum-subhead-bg-img:              (linear-gradient(var(--toolbar-bg), var(--template-bg-dark-3))),
-  atum-btn-color:                   var(--template-text-dark),
+
+  atum-btn:                         $atum-text-dark,
+  atum-btn-icon:                    $atum-text-dark,
+  atum-btn-icon-hvr:                var(--template-text-light),
   atum-btn-bg:                      var(--body-bg),
+  atum-btn-bg-hvr:                  $atum-text-dark,
   atum-btn-border:                  1px solid hsl(var(--hue),20%,80%),
-  atum-btn-hvr:                     rgba(255, 255, 255, .9),
+  atum-btn-hvr:                     var(--body-bg),
+  atum-btn-bg-accent:               $atum-text-dark,
 
   atum-btn-success:                 var(--success),
   atum-btn-success-icon:            var(--atum-btn-success-bg-hvr),
