@@ -161,10 +161,14 @@ $assoc = Associations::isEnabled();
                             $canEditParCat    = $user->authorise('core.edit', 'com_content.category.' . $item->parent_category_id);
                             $canEditOwnParCat = $user->authorise('core.edit.own', 'com_content.category.' . $item->parent_category_id) && $item->parent_category_uid == $userId;
 
-                            $transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
+                            if ($workflow_enabled) {
+                                $transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
 
-                            $transition_ids = ArrayHelper::getColumn($transitions, 'value');
-                            $transition_ids = ArrayHelper::toInteger($transition_ids);
+                                $transition_ids = ArrayHelper::getColumn($transitions, 'value');
+                                $transition_ids = ArrayHelper::toInteger($transition_ids);
+                            } else {
+                                $transition_ids = [];
+                            }
 
                             ?>
                             <tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->catid; ?>"
