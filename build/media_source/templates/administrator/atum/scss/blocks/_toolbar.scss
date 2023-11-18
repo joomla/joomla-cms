@@ -40,39 +40,44 @@
   }
 
   .btn {
-    --subhead-btn-accent: #{$atum-btn-color}; /* var(--template-text-dark); */
+    --subhead-btn-accent: #{$atum-btn-color};
     --subhead-btn-bg: #{$atum-btn-bg};
-    --subhead-btn-border: #{$atum-btn-border};
     --subhead-btn-hvr: #{$atum-btn-hvr};
+
     padding: 0 1rem;
     margin: 5px 0;
     font-size: 1rem;
     line-height: $atum-toolbar-line-height;
-    color: #{$atum-btn-color}; /* var(--subhead-btn-accent); /* $atum-btn-color var(--template-text-dark); */
+    color: var(--atum-btn-color); /* var(--subhead-btn-accent); /* $atum-btn-color var(--template-text-dark); */
     background: var(--subhead-btn-bg); /* $atum-btn-bg var(--body-bg); */
     border: var(--subhead-btn-border); /* $atum-btn-border-color hsl(var(--hue),20%,80%); */
 
     > span {
       display: inline-block;
-      color: var(--subhead-btn-accent);
+      color: var(--subhead-btn-icon);
     }
 
     &:not([disabled]):hover,
     &:not([disabled]):active,
     &:not([disabled]):focus {
-      color: var(--subhead-btn-hvr); /* $atum-btn-hvr rgba(255, 255, 255, .9); */
-      background-color: var(--subhead-btn-accent);
+      color: var(--atum-btn-hvr); /* $atum-btn-hvr rgba(255, 255, 255, .9); */
+      background-color: var(--subhead-btn-bg-hvr);
       border: var(--subhead-btn-border);
 
       > span {
-        color: var(--subhead-btn-bg); /* $atum-btn-hvr rgba(255, 255, 255, .9); */
+        color: var(--subhead-btn-icon-hvr); /* $atum-btn-hvr rgba(255, 255, 255, .9); */
       }
     }
 
     &.btn-success {
-      --subhead-btn-accent: #{$atum-btn-success}; /* #{$state-success-text}; /* var(--success); */
-      --subhead-btn-bg: #{$atum-btn-success-bg};/* #{$state-success-bg}; */
+      --subhead-btn-accent: var(--atum-btn-success-bg-hvr);
+      --subhead-btn-icon: var(--atum-btn-success-icon);
+      --subhead-btn-icon-hover: var(--atum-btn-success-icon-hvr);
+      --subhead-btn-bg: var(--atum-btn-success-bg);
+      --subhead-btn-bg-hvr:  var(--atum-btn-success-bg-hvr);
       --subhead-btn-hvr: #{$atum-btn-success-hvr};
+      --subhead-btn-border: var(--atum-btn-success-border);
+
       &:not([disabled]) {
         --subhead-btn-border: #{$atum-btn-success-border};
       }
@@ -82,8 +87,11 @@
     }
 
     &.btn-danger {
-      --subhead-btn-accent: #{$atum-btn-danger}; /* var(--danger); */
+      --subhead-btn-accent: var(--state-danger-bg-hvr);
+      --subhead-btn-icon: var(--atum-btn-danger-icon);
+      --subhead-btn-icon-hover: var(--atum-btn-danger-icon-hvr);
       --subhead-btn-bg: #{$atum-btn-danger-bg};
+      --subhead-btn-bg-hvr:  var(--atum-btn-danger-bg-hvr);
       --subhead-btn-hvr: #{$atum-btn-danger-hvr};
       &:not([disabled]) {
         --subhead-btn-border: #{$atum-btn-danger-border};
@@ -95,7 +103,10 @@
 
     &.btn-primary {
       --subhead-btn-accent: #{$atum-btn-primary}; /* var(--template-link-color); */
+      --subhead-btn-icon: var(--atum-btn-primary-icon);
+      --subhead-btn-icon-hover: var(--atum-btn-primary-icon-hvr);
       --subhead-btn-bg: #{$atum-btn-primary-bg};
+      --subhead-btn-bg-hvr:  var(--atum-btn-primary-bg-hvr);
       --subhead-btn-hvr: #{$atum-btn-primary-hvr};
       --subhead-btn-border: #{$atum-btn-primary-border};
       &:disabled {
@@ -108,29 +119,21 @@
     }
 
     &.btn-info {
-      --subhead-btn-accent: #{$atum-btn-info}; /* var(--template-bg-dark)/var(--template-bg-light); */
-      --subhead-btn-bg: #{$atum-btn-info-bg};
+      --subhead-btn-accent: var(--atum-btn-info-bg-hvr);
+      --subhead-btn-icon: var(--atum-btn-info-icon);
+      --subhead-btn-icon-hover: var(--atum-btn-info-icon-hvr);
+      --subhead-btn-bg: var(--atum-btn-info-bg);
+      --subhead-btn-bg-hvr:  var(--atum-btn-info-bg-hvr);
       --subhead-btn-hvr: #{$atum-btn-info-hvr};
-      --subhead-btn-border: #{$atum-btn-info-border};
-    }
-
-    @if false /* $enable-dark-mode */ {
-      @include color-mode(dark) {
-        &.btn-info {
-          --subhead-btn-accent: var(--template-bg-light);
-
-          /* stylelint-disable max-nesting-depth */
-          &:hover, &:focus, &:active {
-            /* stylelint-enable max-nesting-depth */
-            --subhead-btn-accent: var(--template-bg-dark-60);
-          }
-        }
-      }
+      --subhead-btn-border: var(--atum-btn-info-border);
     }
 
     &.btn-action {
       --subhead-btn-accent: #{$atum-btn-action}; /* var(--template-bg-dark); */
-      --subhead-btn-bg: #{$atum-btn-action-bg};
+      --subhead-btn-icon: var(--atum-btn-action-icon);
+      --subhead-btn-icon-hover: var(--atum-btn-info-action-hvr);
+      --subhead-btn-bg: var(--atum-btn-action);
+      --subhead-btn-bg-hvr: var(--atum-btn-action-bg-hvr);
       --subhead-btn-border: #{$atum-btn-action-border};
       display: flex;
       align-items: center;
@@ -141,20 +144,6 @@
         font-weight: 900;
         content: "\f078";
         border: 0;
-      }
-    }
-
-    @if false /* $enable-dark-mode */ {
-      @include color-mode(dark) {
-        &.btn-action {
-          --subhead-btn-accent: var(--template-bg-light);
-
-          /* stylelint-disable max-nesting-depth */
-          &:hover, &:focus, &:active {
-            /* stylelint-enable max-nesting-depth */
-            --subhead-btn-accent: var(--template-bg-dark-60);
-          }
-        }
       }
     }
 
@@ -171,16 +160,6 @@
       }
     }
   }
-
-  @if false /* $enable-dark-mode */ {
-    @include color-mode(dark) {
-      .btn {
-        --subhead-btn-accent: var(--template-text-light);
-        color: var(--template-text-light);
-      }
-    }
-  }
-
 
   .dropdown-toggle {
     &.btn {
