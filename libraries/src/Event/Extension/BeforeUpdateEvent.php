@@ -62,7 +62,7 @@ class BeforeUpdateEvent extends AbstractExtensionEvent
      *
      * @since  5.0.0
      */
-    protected function setType(string $value): string
+    protected function onSetType(string $value): string
     {
         return $value;
     }
@@ -76,7 +76,7 @@ class BeforeUpdateEvent extends AbstractExtensionEvent
      *
      * @since  5.0.0
      */
-    protected function setManifest(?\SimpleXMLElement $value): ?\SimpleXMLElement
+    protected function onSetManifest(?\SimpleXMLElement $value): ?\SimpleXMLElement
     {
         return $value;
     }

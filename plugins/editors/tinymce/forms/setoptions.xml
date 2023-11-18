@@ -30,9 +30,29 @@
 		/>
 
 		<field
+			name="skin_dark"
+			type="folderlist"
+			label="PLG_TINY_FIELD_SKIN_DARK_LABEL"
+			directory="media/vendor/tinymce/skins/ui"
+			recursive="false"
+			hide_none="true"
+			validate="options"
+		/>
+
+		<field
 			name="skin_admin"
 			type="folderlist"
 			label="PLG_TINY_FIELD_SKIN_ADMIN_LABEL"
+			directory="media/vendor/tinymce/skins/ui"
+			recursive="false"
+			hide_none="true"
+			validate="options"
+		/>
+
+		<field
+			name="skin_admin_dark"
+			type="folderlist"
+			label="PLG_TINY_FIELD_SKIN_ADMIN_DARK_LABEL"
 			directory="media/vendor/tinymce/skins/ui"
 			recursive="false"
 			hide_none="true"

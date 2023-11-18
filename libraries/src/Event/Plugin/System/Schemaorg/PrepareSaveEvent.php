@@ -69,7 +69,7 @@ class PrepareSaveEvent extends AbstractImmutableEvent
      *
      * @since   5.0.0
      */
-    protected function setSubject(object $value): object
+    protected function onSetSubject(object $value): object
     {
         return $value;
     }
@@ -83,7 +83,7 @@ class PrepareSaveEvent extends AbstractImmutableEvent
      *
      * @since   5.0.0
      */
-    protected function setContext(string $value): string
+    protected function onSetContext(string $value): string
     {
         return $value;
     }
@@ -97,7 +97,7 @@ class PrepareSaveEvent extends AbstractImmutableEvent
      *
      * @since   5.0.0
      */
-    protected function setItem(TableInterface $value): TableInterface
+    protected function onSetItem(TableInterface $value): TableInterface
     {
         return $value;
     }
@@ -111,7 +111,7 @@ class PrepareSaveEvent extends AbstractImmutableEvent
      *
      * @since   5.0.0
      */
-    protected function setIsNew(bool $value): bool
+    protected function onSetIsNew(bool $value): bool
     {
         return $value;
     }
@@ -125,7 +125,7 @@ class PrepareSaveEvent extends AbstractImmutableEvent
      *
      * @since   5.0.0
      */
-    protected function setSchema(array $value): array
+    protected function onSetSchema(array $value): array
     {
         return $value;
     }

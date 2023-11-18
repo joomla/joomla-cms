@@ -56,7 +56,7 @@ class ActionlogsHelper
                 sprintf(
                     '%s() requires an array or object implementing the Traversable interface, a %s was given.',
                     __METHOD__,
-                    \gettype($data) === 'object' ? \get_class($data) : \gettype($data)
+                    \is_object($data) ? \get_class($data) : \gettype($data)
                 )
             );
         }

@@ -64,7 +64,7 @@
 						filter="user_utc"
 						showtime="false"
 						todaybutton="true"
-						format="%Y-%m-%d"
+						translateformat="true"
 					/>
 
 					<field

@@ -29,7 +29,6 @@ describe('Test in backend that the newsfeeds list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Publish').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('News feed published.').should('exist');
     });
@@ -42,7 +41,6 @@ describe('Test in backend that the newsfeeds list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Unpublish').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('News feed unpublished.').should('exist');
     });
@@ -55,7 +53,6 @@ describe('Test in backend that the newsfeeds list', () => {
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Trash').click();
-      cy.on('window:confirm', () => true);
 
       cy.get('#system-message-container').contains('News feed trashed.').should('exist');
     });
@@ -68,7 +65,7 @@ describe('Test in backend that the newsfeeds list', () => {
       cy.searchForItem('Test newsfeed');
       cy.checkAllResults();
       cy.clickToolbarButton('empty trash');
-      cy.on('window:confirm', () => true);
+      cy.clickDialogConfirm(true);
 
       cy.get('#system-message-container').contains('News feed deleted.').should('exist');
     });

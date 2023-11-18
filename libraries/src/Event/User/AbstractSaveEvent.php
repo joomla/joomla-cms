@@ -38,7 +38,7 @@ abstract class AbstractSaveEvent extends UserEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -58,7 +58,7 @@ abstract class AbstractSaveEvent extends UserEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(array $value): array
+    protected function onSetSubject(array $value): array
     {
         return $value;
     }
@@ -72,7 +72,7 @@ abstract class AbstractSaveEvent extends UserEvent
      *
      * @since  5.0.0
      */
-    protected function setIsNew($value): bool
+    protected function onSetIsNew($value): bool
     {
         return (bool) $value;
     }
