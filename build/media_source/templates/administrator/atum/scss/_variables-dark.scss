@@ -120,7 +120,7 @@
     main-nav-mm-active-bg: $button-and-icon-color-dark,
     main-nav-mm-active-quicktask-bg: darken($button-and-icon-color-dark, 10%), //var(--template-bg-dark-60),
     main-nav-badge: var(--template-bg-dark-60),
-    main-nav-item-title-hvr-bg: var(--template-bg-dark-60),
+    main-nav-item-title-hvr-bg: $button-and-icon-color-dark,
     mobile-menu-collapse-bg: var(--template-bg-dark-50),
     // header-content
     header-bg: var(--body-bg),
