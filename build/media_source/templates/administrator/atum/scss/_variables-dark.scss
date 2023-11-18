@@ -191,18 +191,18 @@ $atum-colors-dark:  (
   joomla-tab-tablist-border:  1px solid var(--gray-800),
 
   // details
-  details-bg:  darken($gray-800, 5%), //#495057, //var(--atum-btn-bg),
+  details-bg:  rgba(0,0,0,0.4),
   details-border:  1px solid var(--details-bg),
 
   // nav
   nav-header-color:var(--body-color),
 
   // choices
-  choices-input-border-color:  #495057, //TODO
-  choices-input-bg:var(--dark-bg-subtle), //OK?
+  choices-input-border-color: var(--btn-primary-bg),
+  choices-input-bg: var(--body-bg), //OK?
   choices-input-placeholder:var(--gray-200),
-  choices-list-multiple-item-bg:var(--gray-500),
-  choices-list-multiple-item:  $black, //var(--template-text-dark),
+  choices-list-multiple-item-bg:var(--btn-primary-bg),
+  choices-list-multiple-item:  var(--template-text-light), //var(--template-text-dark),
 
   // switches
   switcher-toggle-inside-bg:var(--dark-bg-subtle),

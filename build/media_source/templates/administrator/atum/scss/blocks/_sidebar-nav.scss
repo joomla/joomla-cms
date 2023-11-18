@@ -27,10 +27,10 @@
     }
 
     &.item:hover, &.active {
-      background-color: $bg-reverted;
+      background-color: var(--sidebar-item-bg-hvr);
 
       a {
-        color: $text-reverted;
+        color: var(--sidebar-item-color);
       }
     }
   }
