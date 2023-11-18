@@ -75,5 +75,15 @@
       background-color: var(--gray-700);
       border-color: rgba(255, 255, 255, .15);
     }
+
+    joomla-field-mediamore details {
+      background: #1c1c1c;
+      color: var(--template-text-light);
+    }
+
+    joomla-field-mediamore summary {
+      background: #131313;
+    }
+
   }
 }

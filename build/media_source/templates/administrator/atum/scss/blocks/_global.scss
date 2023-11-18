@@ -176,15 +176,6 @@ body:not(.contentpane) .main-card {
   text-align: end !important;
 }
 
-a {
-  color: rgba(var(--link-color-rgb), var(--link-opacity,1));
-  text-decoration: none;
-}
-
-a:hover {
-  --link-color-rgb: var(--link-hover-color-rgb);
-}
-
 // external links with icons
 a[target="_blank"]::before {
   padding-inline-end: 3px;
