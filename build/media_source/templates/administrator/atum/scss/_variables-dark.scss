@@ -14,7 +14,7 @@ $template-bg-dark:                   #0c1a2b;
 // Form select
 $form-select-indicator-dark:         url("../images/select-bg-dark.svg");
 $form-select-indicator-rtl-dark:     url("../images/select-bg-rtl-dark.svg");
-$form-select-bg-dark:                $template-bg-dark;
+$form-select-bg-dark:                $btn-primary-dark;
 
 $atum-colors-dark: (
 
@@ -274,6 +274,12 @@ $atum-colors-dark: (
   btn-outline-secondary-color:         var(--template-text-light),
   btn-outline-secondary-bg:            #64676c,
   btn-outline-secondary-border:        1px solid var(--btn-secondary-bg),
+
+  btn-info-color:                   var(--template-text-light),
+  btn-info-bg:                      $info-dark,
+  btn-info-border:                  1px solid $info-dark,
+  btn-info-bg-hvr:                  darken($info-dark, 10%),
+  btn-info-border-hvr:              1px solid darken($info-dark, 10%),
 
   // Dropdown
   dropdown-header-bg:                  darken($btn-primary-dark, 10%),
