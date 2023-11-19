@@ -5,22 +5,22 @@
   z-index: $zindex-popover !important;
   display: table;
   margin: 0 !important;
+  color: var(--drag-color) !important;
   cursor: move;
-  color: var(--drag-color)!important;
   background-color: var(--drag-background-color);
   opacity: .8;
 
   td, th {
-    color: var(--drag-color)!important;
+    color: var(--drag-color) !important;
     background-color: var(--drag-background-color);
 
     a {
-      color: var(--drag-color)!important;
+      color: var(--drag-color) !important;
     }
 
-    .tbody-icon [class^="icon-"]{
-      color: var(--drag-color)!important;
-      border-color: var(--drag-color)!important;
+    .tbody-icon [class^="icon-"] {
+      color: var(--drag-color) !important;
+      border-color: var(--drag-color) !important;
     }
   }
 }

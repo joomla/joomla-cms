@@ -45,7 +45,7 @@ $success:                          $green;
 $danger:                           $red;
 $info:                             $light-blue;
 $warning:                          #996808;
-$featured:                         #C78800;
+$featured:                         #c78800;
 
 $theme-colors: (
   "primary":                       $darkblue,
@@ -220,6 +220,7 @@ $atum-colors: (
   header-logo-bg:                     var(--template-bg-dark-70),
 
   // table
+  table-color:                        var(--body-color),
   table-border-top-nfc:               2px solid #dee2e6,
   table-link-color:                   var(--template-link-color),
   table-link-font-weight:             $medium-weight,
@@ -387,7 +388,7 @@ $atum-colors: (
   alert-link-text-color:            var(--info-text-emphasis),
   alert-accent-color:               #fff,
 
-// Subhead
+  // Subhead
   atum-subhead-color:               var(--template-text-dark),
   atum-subhead-bg:                  $white,
   atum-subhead-bg-img:              (linear-gradient(var(--toolbar-bg), var(--template-bg-dark-3))),

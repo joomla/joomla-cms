@@ -37,10 +37,18 @@
   }
 }
 
+// Buttons
+
 .btn-secondary {
-  background-color: $btn-secondary-bg; /* var(--template-bg-dark-60); */
-  border: $btn-secondary-border; /* var(--template-bg-dark-60); */
+  color: var(--btn-secondary-color);
+  border: var(--btn-secondary-border);
+
+  &:hover {
+    color: var(--btn-secondary-color-hvr);
+    background: var(--btn-secondary-bg-hvr);
+  }
 }
+
 
 .btn-outline-secondary {
   color: $btn-outline-secondary-color;

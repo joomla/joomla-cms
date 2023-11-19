@@ -13,18 +13,18 @@
     }
 
     .shepherd-has-title .shepherd-content .shepherd-cancel-icon {
-      color: var(--template-link-color)!important;
+      color: var(--template-link-color) !important;
       &:hover {
-        color: var(--template-link-hover-color)!important;
+        color: var(--template-link-hover-color) !important;
       }
 
       body .shepherd-button.shepherd-button-secondary:not(:disabled) {
-        background-color: var(--btn-secondary-bg)!important;
-        border: var(--btn-secondary-border)!important;
-        color: var(--btn-secondary-color)!important;
+        color: var(--btn-secondary-color) !important;
+        background-color: var(--btn-secondary-bg) !important;
+        border: var(--btn-secondary-border) !important;
         &:hover {
-          background-color: var(--btn-secondary-bg-hvr)!important;
-          color: var(--btn-secondary-color-hvr)!important;
+          color: var(--btn-secondary-color-hvr) !important;
+          background-color: var(--btn-secondary-bg-hvr) !important;
         }
 
       }

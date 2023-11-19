@@ -40,8 +40,8 @@
       transition: all .25s ease;
 
       &:focus-visible {
-        outline: 0;
         border: 1px solid var(--link-color);
+        outline: 0;
       }
 
       .quickicon-icon {
@@ -154,8 +154,8 @@
       }
 
       &:focus-visible {
-        outline: 0;
         border: 1px solid var(--link-color);
+        outline: 0;
       }
 
       &:hover,

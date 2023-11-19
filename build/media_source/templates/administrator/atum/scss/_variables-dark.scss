@@ -2,8 +2,8 @@
 // Color definitions for the dark theme - don't use it with the light theme
 $btn-primary-dark:                   #007db0; // contrast ratio: 4.6 with #fff text
 $link-color-dark:                    rgb(33,194,249); // contrast ratio: 8.87 on backgrounds like #0F151D
-$success-dark:                       #3D854D; // contrast ratio: 4.51 with #fff test
-$warning-dark:                       #A26B1D; // contrast ratio: 4.51 with #fff text
+$success-dark:                       #3d854d; // contrast ratio: 4.51 with #fff test
+$warning-dark:                       #a26b1d; // contrast ratio: 4.51 with #fff text
 $featured-dark:                      #f0ad4e; // contrast ratio: 9.42 on dark backgrounds (icons,etc.)
 $danger-dark:                        #c62a25; // contrast ratio: 5.59 with #fff text
 $error-dark:                         $danger-dark; // contrast ratio: 5.59 with #fff text
@@ -19,6 +19,7 @@ $form-select-bg-dark:                $template-bg-dark;
 $atum-colors-dark: (
 
   body-bg:                           #0f151d,
+  body-color:                        rgba(255,255,255,.85),
   template-bg-dark:                  $template-bg-dark,
   main-bg:                           #1c2128,
 
@@ -171,6 +172,7 @@ $atum-colors-dark: (
   alert-link-text-color:               $link-color-dark,
 
   // Table
+  table-color:                         rgba(255,255,255,.9),
   table-border-top-nfc:                1px solid #969696,
   table-link-color:                    $link-color-dark,
   table-link-font-weight:              $normal-weight,
@@ -381,7 +383,7 @@ $atum-colors-dark: (
   atum-list-group-bg:             var(--template-sidebar-bg),
 
   // Treeselect
-  treeselect-line-color:          rgba(255,255,255,0.4),
+  treeselect-line-color:          rgba(255,255,255,.4),
 
   // Table Row Dragging
   drag-color:                     #151515,
