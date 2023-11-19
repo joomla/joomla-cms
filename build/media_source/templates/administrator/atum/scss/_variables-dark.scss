@@ -56,11 +56,11 @@ $atum-colors-dark: (
   image-bg:                          #000,
   image-bg-image:                    (linear-gradient(45deg, var(--body-bg) 25%, transparent 25%, transparent 75%, #111 75%, var(--body-bg) 100%), linear-gradient(45deg, #111 25%, transparent 25%, transparent 75%, var(--body-bg) 75%, var(--body-bg) 100%)),
 
-  success-text:                      #418D52,
+  success-text:                      #418d52,
   success:                           $success-dark,
   successhvr:                        darken($success-dark, 15%),
 
-  danger-text:                       #DD4B47,
+  danger-text:                       #dd4b47,
   danger:                            $danger-dark,
   dangerhvr:                         darken($danger-dark, 15%),
 
