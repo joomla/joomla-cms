@@ -47,10 +47,14 @@
   color: $media-manager-content-color; //var(--com-media-manager-content-color,var(--link-color));
 }
 .media-breadcrumb-item {
-  background-color: $media-manager-breadcrumb-item-bg; //var(--com-media-manager-overlay-bg,var(--template-bg-dark-3));
+  background-color: var(--btn-primary-bg);
+  color:  var(--btn-primary-color);
+  a {
+    color: var(--btn-primary-color);
+  }
 }
 .media-breadcrumb-item::after {
-  border-inline-start-color: $media-manager-breadcrumb-item-bg; //var(--com-media-manager-overlay-bg,var(--template-bg-dark-3));
+  border-inline-start-color: var(--btn-primary-bg); //var(--com-media-manager-overlay-bg,var(--template-bg-dark-3));
 }
 
 .image-background {
@@ -58,11 +62,11 @@
   background-image: $image-bg-image; //linear-gradient(45deg,hsl(var(--hue),20%,97%) 25%,transparent 25%,transparent 75%,#eee 75%,hsl(var(--hue),20%,97%) 100%),linear-gradient(45deg,#eee 25%,transparent 25%,transparent 75%,hsl(var(--hue),20%,97%) 75%,hsl(var(--hue),20%,97%) 100%);
 }
 .media-tree-item .item-icon {
-  color: $media-tree-item-color; //var(--template-bg-dark-60);
+  color: var(--template-link-color);
 }
 
 .media-tree-item.active > a .item-icon {
-  color: $media-tree-active-icon-color;
+  color: var(--drag-background-color);
 }
 
 .field-media-wrapper .button-select {
