@@ -21,7 +21,7 @@ $atum-colors-dark: (
   body-bg:                           #0f151d,
   body-color:                        rgba(255,255,255,.85),
   template-bg-dark:                  $template-bg-dark,
-  main-bg:                           #1c2128,
+  main-bg:                           #151b22,
 
   admin-background:                  var(--body-bg),
 
@@ -81,8 +81,8 @@ $atum-colors-dark: (
   link-color:                        $link-color-dark,
   template-link-hover-color:         lighten($link-color-dark, 10%),
 
-  template-quickicon-bg:             rgba(255, 255, 255, .07),
-  template-quickicon-bg-hvr:         rgba(255, 255, 255, .125),
+  template-quickicon-bg:             rgba(255, 255, 255, .1),
+  template-quickicon-bg-hvr:         rgba(255, 255, 255, .15),
 
   // Admin section
   options-form-color:                var(--template-text-light),
@@ -195,7 +195,8 @@ $atum-colors-dark: (
   module-actions-color:                var(--body-color),
 
   // Lists
-  atum-list-group-border-color:        #495057,
+  atum-list-group-border-color:        rgba(255, 255, 255, .1),
+  border-color:                        rgba(255, 255, 255, .1),
 
   // Turn off shadow in dark mode
   atum-box-shadow:                     none,
