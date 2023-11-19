@@ -124,7 +124,7 @@
         padding: .5rem;
         color: rgba(255, 255, 255, .9);
         background: var(--#{$prefix}link-color);
-        box-shadow: $atum-box-shadow;
+        box-shadow: var(--atum-box-shadow);
 
         &:hover {
           background: var(--#{$prefix}link-hover-color);

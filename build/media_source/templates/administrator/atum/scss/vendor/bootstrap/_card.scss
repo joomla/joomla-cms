@@ -21,7 +21,7 @@
 
 .content {
   .card {
-    box-shadow: $atum-box-shadow;
+    box-shadow: var(--atum-box-shadow);
   }
 
   .card-header {

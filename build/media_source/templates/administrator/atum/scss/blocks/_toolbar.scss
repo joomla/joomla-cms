@@ -7,10 +7,10 @@
   width: auto;
   min-height: 43px;
   padding: 8px 1rem;
-  color: $atum-subhead-color; /* var(--template-text-dark) ; //#0c192e; */
-  background: $atum-subhead-bg; /* $white / var(--body-bg) ; */
-  background-image: $atum-subhead-bg-img; /* linear-gradient(var(--toolbar-bg), var(--template-bg-dark-3)) / linear-gradient(var(--body-bg), var(--dark-bg)); */
-  box-shadow: $atum-box-shadow;
+  color: var(--atum-subhead-color);
+  background: var(--atum-subhead-bg);
+  background-image: var(--atum-subhead-bg-img);
+  box-shadow: var(--atum-box-shadow);
 
   .row {
     margin-right: 0;
@@ -40,13 +40,10 @@
   }
 
   .btn {
-
-    --subhead-btn-accent: var(--atum-btn-bg-hvr);
     --subhead-btn-icon: var(--atum-btn-icon);
     --subhead-btn-icon-hover: var(--atum-btn-icon-hvr);
     --subhead-btn-bg: var(--atum-btn-bg);
     --subhead-btn-bg-hvr: var(--atum-btn-bg-hvr);
-    --subhead-btn-hvr: var(--atum-btn-bg-hvr);
     --subhead-btn-border: var(--atum-btn-border);
 
     padding: 0 1rem;
@@ -75,71 +72,61 @@
     }
 
     &.btn-success {
-      --subhead-btn-accent: var(--atum-btn-success-bg-hvr);
       --subhead-btn-icon: var(--atum-btn-success-icon);
       --subhead-btn-icon-hover: var(--atum-btn-success-icon-hvr);
       --subhead-btn-bg: var(--atum-btn-success-bg);
       --subhead-btn-bg-hvr: var(--atum-btn-success-bg-hvr);
-      --subhead-btn-hvr: #{$atum-btn-success-hvr};
       --subhead-btn-border: var(--atum-btn-success-border);
 
       &:not([disabled]) {
-        --subhead-btn-border: #{$atum-btn-success-border};
+        --subhead-btn-border: var(--atum-btn-success-border);
       }
       &:disabled {
-        --subhead-btn-border: #{$atum-btn-info-border};
+        --subhead-btn-border: var(--atum-btn-info-border);
       }
     }
 
     &.btn-danger {
-      --subhead-btn-accent: var(--state-danger-bg-hvr);
       --subhead-btn-icon: var(--atum-btn-danger-icon);
       --subhead-btn-icon-hover: var(--atum-btn-danger-icon-hvr);
-      --subhead-btn-bg: #{$atum-btn-danger-bg};
+      --subhead-btn-bg: var(--atum-btn-danger-bg);
       --subhead-btn-bg-hvr: var(--atum-btn-danger-bg-hvr);
-      --subhead-btn-hvr: #{$atum-btn-danger-hvr};
+      --subhead-btn-border: var(--atum-btn-danger-border);
+
       &:not([disabled]) {
-        --subhead-btn-border: #{$atum-btn-danger-border};
+        --subhead-btn-border: var(--atum-btn-danger-border);
       }
       &:disabled {
-        --subhead-btn-border: #{$atum-btn-info-border};
+        --subhead-btn-border: var(--atum-btn-info-border);
       }
     }
 
     &.btn-primary {
-      --subhead-btn-accent: #{$atum-btn-primary}; /* var(--template-link-color); */
       --subhead-btn-icon: var(--atum-btn-primary-icon);
       --subhead-btn-icon-hover: var(--atum-btn-primary-icon-hvr);
-      --subhead-btn-bg: #{$atum-btn-primary-bg};
+      --subhead-btn-bg: var(--atum-btn-primary-bg);
       --subhead-btn-bg-hvr: var(--atum-btn-primary-bg-hvr);
-      --subhead-btn-hvr: #{$atum-btn-primary-hvr};
-      --subhead-btn-border: #{$atum-btn-primary-border};
+      --subhead-btn-border: var(--atum-btn-primary-border);
+
       &:disabled {
-        --subhead-btn-border: #{$atum-btn-info-border};
+        --subhead-btn-border: var(--atum-btn-info-border);
       }
     }
 
-    &.btn-secondary {
-      --subhead-btn-accent: #{$atum-btn-secondary}; /* var(--template-special-color); */
-    }
-
     &.btn-info, &.button-options {
-      --subhead-btn-accent: var(--atum-btn-info-bg-hvr);
       --subhead-btn-icon: var(--atum-btn-info-icon);
       --subhead-btn-icon-hover: var(--atum-btn-info-icon-hvr);
       --subhead-btn-bg: var(--atum-btn-info-bg);
       --subhead-btn-bg-hvr: var(--atum-btn-info-bg-hvr);
-      --subhead-btn-hvr: #{$atum-btn-info-hvr};
       --subhead-btn-border: var(--atum-btn-info-border);
     }
 
     &.btn-action {
-      --subhead-btn-accent: #{$atum-btn-action}; /* var(--template-bg-dark); */
       --subhead-btn-icon: var(--atum-btn-action-icon);
       --subhead-btn-icon-hover: var(--atum-btn-info-action-hvr);
       --subhead-btn-bg: var(--atum-btn-action);
       --subhead-btn-bg-hvr: var(--atum-btn-action-bg-hvr);
-      --subhead-btn-border: #{$atum-btn-action-border};
+      --subhead-btn-border: var(--atum-btn-action-border);
       display: flex;
       align-items: center;
 
@@ -154,8 +141,7 @@
 
     &[disabled],
     &.dropdown-toggle[disabled] {
-      --subhead-btn-accent: var(--template-bg-dark);
-      background: rgba($gray-300, .8);
+      background: rgba($gray-300, .8); // TODO: unified variables for light and dark mode
       opacity: .5;
 
       &:hover,
@@ -186,16 +172,7 @@
   .contentpane & {
     margin: -15px -15px 0;
     background-image: none;
-    border-bottom: 1px solid var(--template-bg-dark-7);
-  }
-}
-
-@if false /* $enable-dark-mode  */ {
-  @include color-mode(dark) {
-    .subhead {
-      background-color: var(--body-bg);
-      background-image: linear-gradient(var(--body-bg), var(--dark-bg));
-    }
+    border-bottom: 1px solid var(--template-bg-dark-7); // TODO: unified variables for light and dark mode
   }
 }
 
@@ -220,7 +197,7 @@
     z-index: $zindex-alerts;
     padding: 7px 10px;
     margin: 5px;
-    background-color: var(--template-bg-dark);
+    background-color: var(--template-bg-dark); // TODO: unified variables for light and dark mode
     border-radius: 30px;
 
     .toggler-toolbar-icon::before {

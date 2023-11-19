@@ -333,7 +333,6 @@ $atum-colors-dark: (
   atum-btn-bg-hvr:                darken($btn-primary-dark, 15%),
   atum-btn-border:                1px solid hsl(var(--hue),20%,80%),
   atum-btn-hvr:                   var(--template-text-light),
-  atum-btn-bg-accent:             darken($btn-primary-dark, 15%),
 
   atum-btn-success:               var(--atum-btn-success-hvr),
   atum-btn-success-icon:          var(--template-text-light),
@@ -342,7 +341,6 @@ $atum-colors-dark: (
   atum-btn-success-bg-hvr:        darken($success-dark, 15%),
   atum-btn-success-border:        1px solid lighten($success-dark, 10%),
   atum-btn-success-hvr:           var(--template-text-light),
-  atum-btn-success-bg-accent:     var(--success),
 
   atum-btn-danger:                var(--dangerhvr),
   atum-btn-danger-icon:           var(--template-text-light),
@@ -351,7 +349,6 @@ $atum-colors-dark: (
   atum-btn-danger-bg-hvr:         darken($danger, 15%),
   atum-btn-danger-border:         1px solid $danger,
   atum-btn-danger-hvr:            var(--template-text-light),
-  atum-btn-danger-bg-accent:      darken($danger, 15%),
 
   atum-btn-info:                  lighten($info-dark, 50%),
   atum-btn-info-icon:             var(--template-text-light),
@@ -360,13 +357,15 @@ $atum-colors-dark: (
   atum-btn-info-bg-hvr:           darken($info-dark, 15%),
   atum-btn-info-border:           1px solid var(--atum-btn-info-bg),
   atum-btn-info-hvr:              var(--template-text-dark),
-  atum-btn-info-bg-accent:        darken($info-dark, 15%),
 
   atum-btn-primary:               lighten($btn-primary-dark, 25%),
+  atum-btn-primary-icon:          var(--template-text-light),
+  atum-btn-primary-icon-hvr:      var(--template-text-dark),
   atum-btn-primary-bg:            $btn-primary-dark, //var(--template-bg-dark),
   atum-btn-primary-bg-hvr:        darken($btn-primary-dark, 15%),
   atum-btn-primary-border:        1px solid $btn-primary-dark,
   atum-btn-primary-hvr:           var(--template-text-light),
+
   atum-btn-secondary:             #f0f4fb,
 
   atum-btn-action:                darken($info-dark, 10%),

@@ -315,12 +315,15 @@ $atum-colors: (
   btn-primary-border-hvr:           1px solid var(--template-bg-dark-90),
   btn-primary-toggle-bg:            var(--template-bg-dark),
   btn-primary-toggle-border:        var(--template-bg-dark),
+
   btn-secondary-bg:                 var(--template-bg-dark-60),
   btn-secondary-border:             1px solid var(--template-bg-dark-60),
   btn-secondary-color:              var(--template-text-light),
+
   btn-outline-secondary-color:      gray-700,
   btn-outline-secondary-bg:         transparent,
   btn-outline-secondary-border:     var(--btn-secondary-border),
+
   input-group-text-bg:              var(--template-bg-dark),
   input-group-text-border:          1px solid var(--template-bg-dark),
 
@@ -393,7 +396,6 @@ $atum-colors: (
   atum-btn-bg-hvr:                  $atum-text-dark,
   atum-btn-border:                  1px solid hsl(var(--hue),20%,80%),
   atum-btn-hvr:                     var(--body-bg),
-  atum-btn-bg-accent:               $atum-text-dark,
 
   atum-btn-success:                 var(--success),
   atum-btn-success-icon:            var(--atum-btn-success-bg-hvr),
@@ -402,7 +404,6 @@ $atum-colors: (
   atum-btn-success-bg-hvr:          var(--success),
   atum-btn-success-border:          1px solid hsl(var(--hue),20%,80%),
   atum-btn-success-hvr:             var(--body-bg),
-  atum-btn-success-bg-accent:       var(--success),
 
   atum-btn-danger:                  $danger,
   atum-btn-danger-icon:             $danger,
@@ -411,7 +412,6 @@ $atum-colors: (
   atum-btn-danger-bg-hvr:           $danger,
   atum-btn-danger-border:           1px solid hsl(var(--hue),20%,80%),
   atum-btn-danger-hvr:              var(--body-bg),
-  atum-btn-danger-bg-accent:        darken($danger, 15%),
 
   atum-btn-info:                    $atum-text-dark,
   atum-btn-info-icon:               $info,
@@ -420,10 +420,12 @@ $atum-colors: (
   atum-btn-info-bg-hvr:             $info,
   atum-btn-info-border:             1px solid hsl(var(--hue),20%,80%),
   atum-btn-info-hvr:                var(--body-bg),
-  atum-btn-info-bg-accent:          darken($atum-text-dark, 15%),
 
   atum-btn-primary:                 var(--template-link-color),
-  atum-btn-primary-bg:              var(--body-bg), //var(--template-bg-dark),
+  atum-btn-primary-icon:            var(--template-link-color),
+  atum-btn-primary-icon-hvr:        var(--template-text-light),
+  atum-btn-primary-bg:              var(--body-bg),
+  atum-btn-primary-bg-hvr:          var(--template-link-color),
   atum-btn-primary-border:          1px solid hsl(var(--hue),20%,80%),
   atum-btn-primary-hvr:             var(--body-bg),
 
@@ -464,7 +466,6 @@ $alert-border-level:               0;
 $alert-color-level:                0;
 
 // Global
-$atum-box-shadow:                  var(--atum-box-shadow);
 $btn-disabled-opacity:             .4;
 $admin-background:                 var(--admin-background);
 $bg-normal:                        var(--bg-normal);
@@ -672,7 +673,6 @@ $list-group-item-padding-y:        .75rem;
 $login-label-color:                var(--login-label-color);
 
 // Subhead
-$atum-subhead-color:               var(--atum-subhead-color);
 $atum-subhead-bg:                  var(--atum-subhead-bg);
 $atum-subhead-bg-img:              var(--atum-subhead-bg-img);
 $atum-btn-color:                   var(--atum-btn-color);
@@ -682,7 +682,6 @@ $atum-btn-hvr:                     var(--atum-btn-hvr);
 
 $atum-btn-success:                 var(--atum-btn-success);
 $atum-btn-success-bg:              var(--atum-btn-success-bg);
-$atum-btn-success-bg-accent:       var(--atum-btn-success-bg-accent);
 $atum-btn-success-border:          var(--atum-btn-success-border);
 $atum-btn-success-hvr:             var(--atum-btn-success-hvr);
 
@@ -705,7 +704,6 @@ $atum-btn-primary-hvr:             var(--atum-btn-primary-hvr);
 $atum-btn-secondary:               var(--atum-btn-secondary);
 $atum-btn-action:                  var(--atum-btn-action);
 $atum-btn-action-bg:               var(--atum-btn-action-bg);
-$atum-btn-action-border:           var(--atum-btn-action-border);
 
 $atum-list-group-bg:               var(--atum-list-group-bg);
 
@@ -753,7 +751,7 @@ $form-select-background:           var(--form-select-background);
 $form-select-background-rtl:       var(--form-select-background-rtl);
 $form-select-border:               var(--form-select-border);
 $form-select-border-radius:        4px;
-$form-select-box-shadow:           $atum-box-shadow;
+$form-select-box-shadow:           var(--atum-box-shadow);
 $form-select-multiple-padding-y:   .3rem;
 $form-select-success-bg:           var(--form-select-success-bg);
 $form-select-danger-bg:            var(--form-select-danger-bg);
@@ -781,7 +779,7 @@ $form-control-border:              var(--form-control-border);
 $input-padding:                    .5rem 1rem;
 $input-border-color:               var(--input-border-color);
 $input-focus-border-color:         var(--focus);
-$input-box-shadow:                 $atum-box-shadow;
+$input-box-shadow:                 var(--atum-box-shadow);
 $input-max-width:                  100%;
 $input-btn-focus-width:            .2rem;
 $input-btn-focus-color:            var(--focus-shadow);

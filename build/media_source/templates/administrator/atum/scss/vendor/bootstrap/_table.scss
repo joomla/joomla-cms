@@ -88,6 +88,6 @@
   }
 
   .j-main-container > & {
-    box-shadow: $atum-box-shadow;
+    box-shadow: var(--atum-box-shadow);
   }
 }
