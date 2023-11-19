@@ -2,6 +2,10 @@
 
 .table {
 
+  > :not(caption) > * > * {
+    color: var(--body-color);
+  }
+
   thead {
     th {
       font-size: $label-font-size;
