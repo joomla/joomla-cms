@@ -3,7 +3,7 @@
 .form-control {
   max-width: $input-max-width;
   background: $form-control-bg;
-  border: $form-control-border !important;
+  border: $form-control-border;
 
   &:disabled,
   &[readonly] {
@@ -20,6 +20,13 @@
     background-color: $file-selector-btn-bg-hvr;
   }
 
+  &.invalid {
+    border-color: var(--danger);
+  }
+
+  &.valid {
+    border-color: var(--success);
+  }
 
   &::placeholder {
     font-style: italic;
@@ -105,13 +112,19 @@ td .form-control {
 
 // Validation
 .invalid {
-  color: var(--danger-text);
   border-color: var(--danger);
 }
 
+label.invalid {
+  color: var(--danger-text);
+}
+
 .valid {
-  color: var(--success-text);
   border-color: var(--success);
+}
+
+label.valid {
+  color: var(--success-text);
 }
 
 .form-control-feedback {

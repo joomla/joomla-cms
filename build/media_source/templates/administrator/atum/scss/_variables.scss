@@ -81,6 +81,11 @@ $form-select-indicator-active-rtl: url("../../../images/select-bg-rtl.svg");
 $form-select-bg:                   var(--template-bg-light);
 $form-select-bg-size:              calc(max(100%, 116rem));
 $form-select-bg-size-sm:           75rem;
+
+// links
+$template-link-color:             var(--template-link-color);
+$template-link-hover-color:       var(--template-link-hover-color);
+
 //$form-select-background:           $form-select-bg $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 //$form-select-background-rtl:       $form-select-bg $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 
@@ -354,6 +359,8 @@ $atum-colors: (
   dropdown-item-bg-hvr:             var(--template-bg-dark),
 
   // Alerts
+  states-link-color:                var(--template-link-color),
+
   state-success-text:               $success,
   state-success-text-hvr:           lighten($success, 58%),
   state-success-bg:                 lighten($success, 58%),
@@ -914,9 +921,6 @@ $header-item-content-jversion-color: var(--header-item-content-jversion-color);
 $header-item-content-jversion-bg:    var(--header-item-content-jversion-bg);
 $header-logo-bg:                     var(--header-logo-bg);
 
-// links
-$template-link-color:             var(--template-link-color);
-$template-link-hover-color:       var(--template-link-hover-color);
 
 // Gutter
 $grid-gutter-width:                2rem;
