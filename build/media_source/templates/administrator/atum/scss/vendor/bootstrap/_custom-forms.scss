@@ -23,9 +23,11 @@
     }
   }
 
+  // TODO: Archived State has a green border instead blue
+
   &.form-select-success,
   &.custom-select-success {
-    color: var(--success);
+    color: var(--success-text);
     background-color: var(--success);
     border-color: var(--success);
 
@@ -37,7 +39,7 @@
 
   &.form-select-danger,
   &.custom-select-danger {
-    color: var(--danger);
+    color: var(--danger-text);
     background-color: var(--danger);
     border-color: var(--danger);
 

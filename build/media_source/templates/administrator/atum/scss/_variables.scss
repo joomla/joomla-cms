@@ -474,15 +474,18 @@ $atum-colors: (
   drag-color:                       #151515,
   drag-background-color:            $teal,
 
+  success-text:                      $success,
   success:                           $success,
   successhvr:                        darken($success, 15%),
 
+  danger-text:                       $danger,
   danger:                            $danger,
   dangerhvr:                         darken($danger, 15%),
 
   darkdanger:                        $danger,
   darkdangerhvr:                     darken($danger, 15%),
 
+  warning-text:                      $warning,
   warning:                           $warning,
   warninghvr:                        darken($warning, 15%),
 
