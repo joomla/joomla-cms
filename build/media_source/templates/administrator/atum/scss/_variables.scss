@@ -45,7 +45,7 @@ $success:                          $green;
 $danger:                           $red;
 $info:                             $light-blue;
 $warning:                          #996808;
-$featured:                         #996808;
+$featured:                         #C78800;
 
 $theme-colors: (
   "primary":                       $darkblue,
@@ -293,6 +293,9 @@ $atum-colors: (
 
   // input
   input-border-color:               var(--template-bg-dark-20),
+
+  // icons
+  featured-icon-color:              $featured,
 
   // users
   users-method-image:               var(--light),
