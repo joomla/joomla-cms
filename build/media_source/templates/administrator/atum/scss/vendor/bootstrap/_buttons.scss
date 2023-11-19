@@ -59,6 +59,17 @@
   }
 }
 
+.btn-dark {
+  color: var(--btn-dark-color);
+  background: var(--btn-dark-bg);
+  border: var(--btn-dark-border);
+
+  &:hover {
+    color: var(--btn-dark-color-hvr);
+    background: var(--btn-dark-bg-hvr);
+  }
+}
+
 .btn-info {
   color: var(--btn-info-color);
   background: var(--btn-info-bg);

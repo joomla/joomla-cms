@@ -334,6 +334,12 @@ $atum-colors: (
   btn-outline-secondary-bg:         transparent,
   btn-outline-secondary-border:     var(--btn-secondary-border),
 
+  btn-dark-border:                     1px solid rgba(0,0,0,.85),
+  btn-dark-bg:                         rgba(0,0,0,.9),
+  btn-dark-bg-hvr:                     #000,
+  btn-dark-color:                      #fff,
+  btn-dark-color-hvr:                  #fff,
+
   input-group-text-bg:              var(--template-bg-dark),
   input-group-text-border:          1px solid var(--template-bg-dark),
 

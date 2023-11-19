@@ -266,20 +266,27 @@ $atum-colors-dark: (
   btn-primary-toggle-bg:               var(--template-bg-dark),
   btn-primary-toggle-border:           var(--template-bg-dark),
 
-  btn-secondary-border:                1px solid $btn-primary-dark,
-  btn-secondary-bg:                    rgba(0, 0, 0, .8),
-  btn-secondary-bg-hvr:                var(--btn-primary-bg),
-  btn-secondary-color:                 var(--template-link-color),
-  btn-secondary-color-hvr:             var(--btn-primary-color),
+  btn-secondary-color:                   var(--template-text-light),
+  btn-secondary-bg:                      $info-dark,
+  btn-secondary-border:                  1px solid $info-dark,
+  btn-secondary-bg-hvr:                  darken($info-dark, 10%),
+  btn-secondary-border-hvr:              1px solid darken($info-dark, 10%),
+
+  btn-dark-border:                     1px solid rgba(0,0,0,.85),
+  btn-dark-bg:                         rgba(0,0,0,.9),
+  btn-dark-bg-hvr:                     #000,
+  btn-dark-color:                      #fff,
+  btn-dark-color-hvr:                  #fff,
+
   btn-outline-secondary-color:         var(--template-text-light),
   btn-outline-secondary-bg:            #64676c,
   btn-outline-secondary-border:        1px solid var(--btn-secondary-bg),
 
-  btn-info-color:                   var(--template-text-light),
-  btn-info-bg:                      $info-dark,
-  btn-info-border:                  1px solid $info-dark,
-  btn-info-bg-hvr:                  darken($info-dark, 10%),
-  btn-info-border-hvr:              1px solid darken($info-dark, 10%),
+  btn-info-color:                      var(--template-text-light),
+  btn-info-bg:                         $info-dark,
+  btn-info-border:                     1px solid $info-dark,
+  btn-info-bg-hvr:                     darken($info-dark, 10%),
+  btn-info-border-hvr:                 1px solid darken($info-dark, 10%),
 
   // Dropdown
   dropdown-header-bg:                  darken($btn-primary-dark, 10%),
