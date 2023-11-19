@@ -39,6 +39,11 @@
       background-color: var(--bg-color);
       transition: all .25s ease;
 
+      &:focus-visible {
+        outline: 0;
+        border: 1px solid var(--link-color);
+      }
+
       .quickicon-icon {
         margin-top: .5rem;
         margin-inline-start: .2rem;
@@ -146,6 +151,11 @@
       > * {
         margin-bottom: 10px;
         color: $quickicon-linkadd-color;
+      }
+
+      &:focus-visible {
+        outline: 0;
+        border: 1px solid var(--link-color);
       }
 
       &:hover,
