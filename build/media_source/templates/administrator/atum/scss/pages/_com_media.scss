@@ -47,8 +47,8 @@
   color: $media-manager-content-color; //var(--com-media-manager-content-color,var(--link-color));
 }
 .media-breadcrumb-item {
+  color: var(--btn-primary-color);
   background-color: var(--btn-primary-bg);
-  color:  var(--btn-primary-color);
   a {
     color: var(--btn-primary-color);
   }
