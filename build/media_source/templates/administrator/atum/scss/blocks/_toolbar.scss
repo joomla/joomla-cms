@@ -141,7 +141,7 @@
 
     &[disabled],
     &.dropdown-toggle[disabled] {
-      background: rgba($gray-300, .8); // TODO: unified variables for light and dark mode
+      background: var(--body-bg);
       opacity: .5;
 
       &:hover,
