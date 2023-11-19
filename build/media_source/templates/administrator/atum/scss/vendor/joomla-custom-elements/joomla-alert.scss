@@ -107,8 +107,9 @@
   }
 
   .alert-link {
-    color: var(--template-link-color);
+    font-weight: normal;
     text-decoration: underline;
+    color: var(--states-link-color);
   }
 
   .joomla-alert--close,

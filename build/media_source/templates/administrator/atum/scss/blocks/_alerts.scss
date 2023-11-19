@@ -9,8 +9,9 @@
 }
 
 .alert-link {
-  font-weight: 700;
-  color: var(--alert-link-text-color);
+  font-weight: normal;
+  text-decoration: underline;
+  color: var(--states-link-color);
 }
 
 .alert {

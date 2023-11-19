@@ -60,7 +60,7 @@ $atum-colors-dark: (
   success:                           $success-dark,
   successhvr:                        darken($success-dark, 15%),
 
-  danger-text:                       #dd4b47,
+  danger-text:                       #E0615C,
   danger:                            $danger-dark,
   dangerhvr:                         darken($danger-dark, 15%),
 
@@ -298,15 +298,17 @@ $atum-colors-dark: (
   dropdown-item-bg-hvr:                darken($btn-primary-dark, 10%),
 
   // Alerts
+  states-link-color:              #fff,
+
   state-success-text:             var(--text-normal),
   state-success-text-hvr:         var(--text-normal),
   state-success-bg:               $success-dark,
   state-success-bg-hvr:           darken($success-dark, 15%),
-  state-success-border:           1px solid var(--successhvr),
-  state-success-btn-border:       1px solid $success-dark,
+  state-success-border:           var(--state-success-bg),
+  state-success-btn-border:       var(--state-success-bg),
   state-success-icon:             var(--text-normal),
   state-success-icon-hvr:         var(--text-normal),
-  state-success-heading-bg:       var(--successhvr),
+  state-success-heading-bg:       $success-dark,
 
   state-info-text:                var(--text-normal),
   state-info-text-hvr:            var(--text-normal),
@@ -320,7 +322,7 @@ $atum-colors-dark: (
   state-warning-text-hvr:         var(--text-normal),
   state-warning-bg:               $warning-dark,
   state-warning-bg-hvr:           darken($warning-dark, 15%),
-  state-warning-border:           1px solid var(--warning),
+  state-warning-border:           var(--warning),
   state-warning-icon:             var(--text-normal),
   state-warning-heading-bg:       var(--warning),
 
@@ -328,7 +330,7 @@ $atum-colors-dark: (
   state-danger-text-hvr:          var(--text-normal),
   state-danger-bg:                $danger-dark,
   state-danger-bg-hvr:            darken($danger-dark, 15%),
-  state-danger-border:            1px solid var(--dangerhvr),
+  state-danger-border:            var(--dangerhvr),
   state-danger-icon:              var(--text-normal),
   state-danger-heading-bg:        var(--dangerhvr),
 
