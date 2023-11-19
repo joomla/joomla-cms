@@ -1,5 +1,13 @@
 // Alerts
 
+.alert-parent {
+  margin-top: 0;
+}
+
+.alert-heading {
+  font-size: $h4-font-size;
+}
+
 .alert-link {
   font-weight: 700;
   color: var(--alert-link-text-color);
@@ -36,18 +44,10 @@
   }
 }
 
-.alert-parent {
-  margin-top: 0;
-}
-
 fieldset .alert {
   &.alert-info {
     margin: -1rem 0 1rem;
   }
-}
-
-.alert-heading {
-  font-size: $h4-font-size;
 }
 
 @keyframes fadeIn {
