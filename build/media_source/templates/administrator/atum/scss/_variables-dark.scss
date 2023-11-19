@@ -122,7 +122,7 @@ $atum-colors-dark: (
   quickicon-border-radius:           4px,
   quickicon-link-hvr:                #fff,
   quickicon-linkadd-bg:              rgba(255, 255, 255, .04),
-  quickicon-linkadd-bg-hvr:          rgba(255, 255, 255, .125),
+  quickicon-linkadd-bg-hvr:          var(--success),
   quickicon-linkadd-color:           #fff,
   quickicon-amount-bg:               #6b6f77,
   quickicon-color-hvr:               var(--quickicon-link-hvr),
@@ -130,7 +130,7 @@ $atum-colors-dark: (
   // Modules
   new-modules-color:                   var(--template-quickicon-color),
   new-modules-bg:                      var(--template-bg-dark-65),
-  new-modules-bg-hvr:                  var(--template-bg-dark),
+  new-modules-bg-hvr:                  var(--success),
   new-modules-icon-color:              var(--template-bg-dark-80),
   new-modules-icon-color-hvr:          var(--template-quickicon-color),
   new-module-color:                    var(--dark-mode-text-light),
