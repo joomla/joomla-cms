@@ -14,7 +14,7 @@
 }
 
 .btn-success {
-  background-color: var(--atum-btn-success-bg);
+  background-color: var(--success);
 }
 
 .btn-primary {
@@ -37,19 +37,6 @@
   }
 }
 
-// Buttons
-
-.btn-secondary {
-  color: var(--btn-secondary-color);
-  border: var(--btn-secondary-border);
-
-  &:hover {
-    color: var(--btn-secondary-color-hvr);
-    background: var(--btn-secondary-bg-hvr);
-  }
-}
-
-
 .btn-outline-secondary {
   color: $btn-outline-secondary-color;
   background-color: $btn-outline-secondary-bg; /* var(--template-bg-dark-60); */
@@ -60,3 +47,15 @@
   background-color: $input-group-text-bg; /* var(--template-bg-dark); */
   border: $input-group-text-border; /* var(--template-bg-dark); */
 }
+
+.btn-secondary {
+  color: var(--btn-secondary-color);
+  background: var(--btn-secondary-bg);
+  border: var(--btn-secondary-border);
+
+  &:hover {
+    color: var(--btn-secondary-color-hvr);
+    background: var(--btn-secondary-bg-hvr);
+  }
+}
+

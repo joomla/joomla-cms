@@ -44,7 +44,7 @@ $atum-text-dark:                   $gray-700;
 $success:                          $green;
 $danger:                           $red;
 $info:                             $light-blue;
-$warning:                          #996808;
+$warning:                          #c1571c;
 $featured:                         #c78800;
 
 $theme-colors: (
@@ -52,7 +52,7 @@ $theme-colors: (
   "secondary":                     $gray-700,
   "success":                       $success,
   "info":                          $light-blue,
-  "warning":                       #996808,
+  "warning":                       $warning,
   "danger":                        $danger,
   "light":                         $gray-100,
   "dark":                          $gray-900,
@@ -401,6 +401,16 @@ $atum-colors: (
   atum-btn-border:                  1px solid hsl(var(--hue),20%,80%),
   atum-btn-hvr:                     var(--body-bg),
 
+  /*
+  btn-success:                      var(--success),
+  btn-success-icon:                 var(--atum-btn-success-bg-hvr),
+  btn-success-icon-hvr:             var(--template-text-light),
+  btn-success-bg:                   var(--body-bg),
+  btn-success-bg-hvr:               var(--success),
+  btn-success-border:               1px solid hsl(var(--hue),20%,80%),
+  btn-success-hvr:                  var(--body-bg),
+  */
+
   atum-btn-success:                 var(--success),
   atum-btn-success-icon:            var(--atum-btn-success-bg-hvr),
   atum-btn-success-icon-hvr:        var(--template-text-light),
@@ -433,10 +443,14 @@ $atum-colors: (
   atum-btn-primary-border:          1px solid hsl(var(--hue),20%,80%),
   atum-btn-primary-hvr:             var(--body-bg),
 
-  atum-btn-secondary:               var(--template-special-color),
-  atum-btn-action:                  var(--template-bg-dark),
-  atum-btn-action-bg:               var(--body-bg),
-  atum-btn-action-border:           1px solid hsl(var(--hue),20%,80%),
+
+  atum-btn-action:                 var(--template-text-light),
+  atum-btn-action-icon:            var(--template-bg-dark),
+  atum-btn-action-icon-hvr:        var(--template-text-light),
+  atum-btn-action-bg:              var(--body-bg),
+  atum-btn-action-bg-hvr:          var(--template-bg-dark),
+  atum-btn-action-border:          1px solid hsl(var(--hue),20%,80%),
+  atum-btn-action-hvr:             var(--body-bg),
 
 
   atum-list-group-bg:               var(--body-bg), //rgba(255, 255, 255, .05),
@@ -447,6 +461,18 @@ $atum-colors: (
   // Table Row Dragging
   drag-color:                       #151515,
   drag-background-color:            $teal,
+
+  success:                           $success,
+  successhvr:                        darken($success, 15%),
+
+  danger:                            $danger,
+  dangerhvr:                         darken($danger, 15%),
+
+  darkdanger:                        $danger,
+  darkdangerhvr:                     darken($danger, 15%),
+
+  warning:                           $warning,
+  warninghvr:                        darken($warning, 15%),
 
 );
 
@@ -467,6 +493,7 @@ $colors: (
   focus:                           #39f,
   focus-shadow:                    #eaeaea,
   toggle-color:                    $white, //used in sidebar
+
 );
 
 // Alerts
@@ -589,8 +616,10 @@ $btn-primary-bg-hvr:               var(--btn-primary-bg-hvr);
 $btn-primary-border-hvr:           var(--btn-primary-border-hvr);
 $btn-primary-toggle-bg:            var(--btn-primary-toggle-bg);
 $btn-primary-toggle-border:        var(--btn-primary-toggle-border);
+
 $btn-secondary-bg:                 var(--btn-secondary-bg);
 $btn-secondary-border:             var(--btn-secondary-border);
+
 $btn-outline-secondary-color:      var(--btn-outline-secondary-color);
 $btn-outline-secondary-bg:         var(--btn-outline-secondary-bg);
 $btn-outline-secondary-border:     var(--btn-outline-secondary-border);

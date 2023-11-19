@@ -3,7 +3,7 @@
 $btn-primary-dark:                   #007db0; // contrast ratio: 4.6 with #fff text
 $link-color-dark:                    #249ec8; // contrast ratio: 8.87 on backgrounds like #0F151D
 $success-dark:                       #3d854d; // contrast ratio: 4.51 with #fff test
-$warning-dark:                       #a26b1d; // contrast ratio: 4.51 with #fff text
+$warning-dark:                       #c1571c; // contrast ratio: 4.51 with #fff text
 $featured-dark:                      #f0ad4e; // contrast ratio: 9.42 on dark backgrounds (icons,etc.)
 $danger-dark:                        #c62a25; // contrast ratio: 5.59 with #fff text
 $error-dark:                         $danger-dark; // contrast ratio: 5.59 with #fff text
@@ -68,8 +68,8 @@ $atum-colors-dark: (
   error:                             #941f1c,
   errorhvr:                          #be2824,
 
-  warning:                           #996808,
-  warninghvr:                        #ba7f0a,
+  warning:                           $warning-dark,
+  warninghvr:                        darken($warning-dark, 15%),
 
   dark-mode-text-light:              rgba(255,255,255,.85),
 
@@ -303,9 +303,9 @@ $atum-colors-dark: (
   state-warning-text-hvr:         var(--text-normal),
   state-warning-bg:               $warning-dark,
   state-warning-bg-hvr:           darken($warning-dark, 15%),
-  state-warning-border:           1px solid var(--warninglight),
+  state-warning-border:           1px solid var(--warning),
   state-warning-icon:             var(--text-normal),
-  state-warning-heading-bg:       var(--warninglight),
+  state-warning-heading-bg:       var(--warning),
 
   state-danger-text:              var(--text-normal),
   state-danger-text-hvr:          var(--text-normal),

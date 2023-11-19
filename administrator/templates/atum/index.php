@@ -83,6 +83,7 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
     ->addInlineStyle('@media (prefers-color-scheme: dark) { :root {
 		--link-color: ' . $linkColorDark . ';
 		--link-color-rgb: ' . $rd . ',' . $gd . ',' . $bd . ';
+		--template-special-color: #249ec8;
 	}}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
