@@ -32,6 +32,10 @@
     color: $card-header-color;
     background-color: $card-header-bg;
 
+    a {
+      font-weight:normal;
+    }
+
     > [class^="icon-"],
     > img {
       margin-inline-end: .5rem;

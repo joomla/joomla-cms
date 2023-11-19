@@ -218,7 +218,7 @@ joomla-dialog {
         width: 66px;
         height: 66px;
         content: "";
-        background: url("../../../../system/images/ajax-loader.gif") no-repeat center;
+        background: url("../../../../system/images/ajax-loader.gif") no-repeat center; // TODO: use svg animation?
         transform: translate(-50%, -50%);
       }
     }
