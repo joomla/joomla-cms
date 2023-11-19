@@ -2,7 +2,7 @@
 
 .alert-link {
   font-weight: 700;
-  color: $alert-link-text-color; //var(--alert-link-color);
+  color: var(--alert-link-text-color);
 }
 
 .alert {
@@ -12,9 +12,9 @@
   border-radius: $border-radius-sm;
 
   &.alert-info {
-    color: $alert-info-color;
-    background-color: $alert-info-bg;
-    border: $alert-info-border;
+    color: var(--alert-info-color);
+    background-color: var(--alert-info-bg);
+    border: var(--alert-info-border);
   }
 
   &.alert-warning {

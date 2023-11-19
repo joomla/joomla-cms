@@ -381,7 +381,7 @@ $atum-colors: (
   alert-link-text-color:            var(--info-text-emphasis),
   alert-accent-color:               #fff,
 
-  // Subhead
+// Subhead
   atum-subhead-color:               var(--template-text-dark),
   atum-subhead-bg:                  $white,
   atum-subhead-bg-img:              (linear-gradient(var(--toolbar-bg), var(--template-bg-dark-3))),
@@ -634,10 +634,6 @@ $state-error-icon:                 var(--state-error-icon);
 $state-error-heading-bg:           var(--state-error-heading-bg);
 
 $alert-border:                     var(--alert-border);
-$alert-info-color:                 var(--alert-info-color);
-$alert-info-bg:                    var(--alert-info-bg);
-$alert-info-border:                var(--alert-info-border);
-$alert-link-text-color:            var(--alert-link-text-color);
 
 // Badges
 $badge-padding-x:                  .2rem;

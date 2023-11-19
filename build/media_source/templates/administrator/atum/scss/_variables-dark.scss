@@ -76,7 +76,6 @@ $atum-colors-dark: (
   link-color:                        #21c2f9,
   template-link-hover-color:         darken(#21c2f9, 10%),
 
-
   template-quickicon-bg:             rgba(255, 255, 255, .07),
   template-quickicon-bg-hvr:         rgba(255, 255, 255, .125),
 
@@ -313,7 +312,7 @@ $atum-colors-dark: (
   state-error-heading-bg:         var(--errorlight),
 
   alert-info-color:               var(--text-normal),
-  alert-info-bg:                  var(--body-bg), //var(--admin-bg),
+  alert-info-bg:                  var(--body-bg),
   alert-info-border:              var(--body-bg),
 
   // Subhead
