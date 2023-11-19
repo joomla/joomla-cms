@@ -251,6 +251,7 @@ joomla-dialog dialog[open] {
   display: flex;
   flex-flow: column;
   width: 100%;
+  background: var(--body-bg);
 
   .buttons-holder {
     display: flex;
@@ -346,4 +347,8 @@ joomla-dialog dialog[open] {
       height: 90vh;
     }
   }
+}
+
+.modal-content {
+  background-color: var(--body-bg);
 }
