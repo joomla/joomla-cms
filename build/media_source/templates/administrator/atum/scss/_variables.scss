@@ -125,8 +125,8 @@ $atum-colors: (
   media-manager-toolbar-icon-color: var(--template-bg-dark-60),
   media-manager-border:             1px solid var(--template-bg-dark-7),
   media-browser-file-bg:            hsl(var(--hue), 20%, 97%),
-  //media-browser-file-border:       1px solid hsl(var(--hue), 35%, 95%),
-  //media-browser-item-preview-border: 1px solid hsl(var(--hue, 35%, 95%)),
+  // media-browser-file-border:       1px solid hsl(var(--hue), 35%, 95%),
+  // media-browser-item-preview-border: 1px solid hsl(var(--hue, 35%, 95%)),
   media-drive-bg:                   var(--com-media-manager-content-bg,#fff),
   media-toolbar-bg:                 var(--com-media-manager-content-bg,#fff),
   media-toolbar-icon-bg:            transparent,
@@ -442,6 +442,10 @@ $atum-colors: (
 
   // Treeselect
   treeselect-line-color:            hsl(var(--hue), 40%, 93%),
+
+  // Table Row Dragging
+  drag-color:                       #151515,
+  drag-background-color:            $teal,
 
 );
 
