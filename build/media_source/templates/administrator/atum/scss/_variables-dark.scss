@@ -21,6 +21,7 @@ $atum-colors-dark: (
   body-bg:                           #0f151d,
   template-bg-dark:                  $template-bg-dark,
   main-bg:                           #1c2128,
+
   admin-background:                  var(--body-bg),
 
   button-and-icon-color:             $btn-primary-dark,
@@ -231,7 +232,7 @@ $atum-colors-dark: (
   choices-list-multiple-item:          var(--template-text-light),
 
   // Switches
-  switcher-toggle-inside-bg:           var(--dark-bg-subtle),
+  switcher-toggle-inside-bg:           var(--body-bg),
   switcher-toggle-outside-off-bg:      var(--gray-700),
   switcher-toggle-outside-on-bg:       var(--success),
 
@@ -240,8 +241,8 @@ $atum-colors-dark: (
 
   // Users
   users-method-image:                  var(--light),
-  users-methods-reset-cont-bg:         var(--dark-bg-subtle),
-  users-method-header-inact-bg:        var(--dark-bg-subtle),
+  users-methods-reset-cont-bg:         var(--body-bg),
+  users-method-header-inact-bg:        var(--body-bg),
 
   // Login
   login-label-color:                   var(--white),
