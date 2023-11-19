@@ -59,6 +59,7 @@ body {
     a.page-link {
       padding: $pagination-padding-y $pagination-padding-x;
     }
+
   }
 }
 
@@ -148,7 +149,7 @@ body .container-main {
 body:not(.contentpane) .main-card {
   background: $main-card-bg;
   border-radius: $border-radius;
-  box-shadow: $atum-box-shadow;
+  box-shadow: var(--atum-box-shadow);
 }
 
 .row-selected {

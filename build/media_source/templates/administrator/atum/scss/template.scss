@@ -88,6 +88,7 @@
   }
 }
 
+// Check if dark mode is enabled
 @if $enable-dark-mode {
   @include color-mode(dark, true) {
     @each $color, $value in $atum-colors-dark {

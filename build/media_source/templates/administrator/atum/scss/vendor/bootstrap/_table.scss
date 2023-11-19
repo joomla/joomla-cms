@@ -1,8 +1,9 @@
 // Table
 
 .table {
-  > :not(:first-child) {
-    border-top: $table-border-top-nfc;
+
+  > :not(caption) > * > * {
+    color: var(--body-color);
   }
 
   thead {
@@ -91,6 +92,6 @@
   }
 
   .j-main-container > & {
-    box-shadow: $atum-box-shadow;
+    box-shadow: var(--atum-box-shadow);
   }
 }

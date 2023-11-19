@@ -21,7 +21,7 @@
 
 .content {
   .card {
-    box-shadow: $atum-box-shadow;
+    box-shadow: var(--atum-box-shadow);
   }
 
   .card-header {
@@ -31,6 +31,10 @@
     font-weight: $font-weight-bold;
     color: $card-header-color;
     background-color: $card-header-bg;
+
+    a {
+      font-weight: normal;
+    }
 
     > [class^="icon-"],
     > img {

@@ -34,8 +34,8 @@
   .#{$jicon-css-prefix}-color-featured,
   .#{$jicon-css-prefix}-star.featured,
   .#{$fa-css-prefix}-star.featured {
-    color: $warning;
-    border-color: $warning;
+    color: var(--featured-icon-color);
+    border-color: var(--featured-icon-color);
   }
 
   .#{$jicon-css-prefix}-folder,

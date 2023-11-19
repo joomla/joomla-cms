@@ -1,8 +1,16 @@
 // Alerts
 
+.alert-parent {
+  margin-top: 0;
+}
+
+.alert-heading {
+  font-size: $h4-font-size;
+}
+
 .alert-link {
   font-weight: 700;
-  color: $alert-link-text-color; //var(--alert-link-color);
+  color: var(--alert-link-text-color);
 }
 
 .alert {
@@ -12,42 +20,34 @@
   border-radius: $border-radius-sm;
 
   &.alert-info {
-    color: $alert-info-color;
-    background-color: $alert-info-bg;
-    border: $alert-info-border;
+    color: var(--state-info-text);
+    background-color: var(--state-info-bg);
+    border-color: var(--state-info-border);
   }
 
   &.alert-warning {
-    color: $state-warning-text;
-    background-color: $state-warning-bg;
-    border: $state-warning-border;
+    color: var(--state-warning-text);
+    background-color: var(--state-warning-bg);
+    border-color: var(--state-warning-border);
   }
 
   &.alert-success {
-    color: $state-success-text;
-    background-color: $state-success-bg;
-    border: $state-success-border;
+    color: var(--state-success-text);
+    background-color: var(--state-success-bg);
+    border-color: var(--state-success-border);
   }
 
   &.alert-error {
-    color: $state-error-text;
-    background-color: $state-error-bg;
-    border: 1px solid $state-error-border;
+    color: var(--state-error-text);
+    background-color: var(--state-error-bg);
+    border-color: var(--state-error-border);
   }
-}
-
-.alert-parent {
-  margin-top: 0;
 }
 
 fieldset .alert {
   &.alert-info {
     margin: -1rem 0 1rem;
   }
-}
-
-.alert-heading {
-  font-size: $h4-font-size;
 }
 
 @keyframes fadeIn {

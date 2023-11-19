@@ -35,11 +35,12 @@ legend {
 
 // Validation
 .invalid {
-  color: var(--danger);
+  color: var(--danger-text);
   border-color: var(--danger);
 }
 
 .valid {
+  color: var(--success-text);
   border-color: var(--success);
 }
 

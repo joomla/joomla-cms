@@ -23,6 +23,10 @@
   .card-header {
     --card-bg: #{$card-bg};
 
+    a {
+      font-weight: normal;
+    }
+
     .btn {
       margin-top: .25em;
       margin-bottom: .25em;
@@ -69,7 +73,7 @@
     &:active {
       color: #fff;
       text-decoration: none;
-      background: var(--template-bg-dark);
+      background: var(--cpanel-addmodule-hover);
     }
 
     > span {
@@ -101,7 +105,7 @@
     }
 
     a {
-      font-weight: 500;
+      font-weight: normal;
       text-decoration: underline;
     }
 
@@ -124,7 +128,7 @@
         padding: .5rem;
         color: rgba(255, 255, 255, .9);
         background: var(--#{$prefix}link-color);
-        box-shadow: $atum-box-shadow;
+        box-shadow: var(--atum-box-shadow);
 
         &:hover {
           background: var(--#{$prefix}link-hover-color);
