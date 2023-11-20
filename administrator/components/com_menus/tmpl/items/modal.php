@@ -40,7 +40,7 @@ if (!empty($editor)) {
     // This view is used also in com_menus. Load the xtd script only if the editor is set!
     $this->document->addScriptOptions('xtd-menus', ['editor' => $editor]);
     $onclick = "jSelectMenuItem";
-    $link    = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&editor=' . $editor . '&' . Session::getFormToken() . '=1';
+    $link    = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&editor=' . $editor . '&' . Session::getFormToken() . '=1&function=' . $function;
 }
 ?>
 <div class="container-popup">
@@ -186,7 +186,6 @@ if (!empty($editor)) {
 
         <input type="hidden" name="task" value="">
         <input type="hidden" name="boxchecked" value="0">
-        <input type="hidden" name="function" value="<?php echo $function; ?>">
         <input type="hidden" name="forcedLanguage" value="<?php echo $app->getInput()->get('forcedLanguage', '', 'cmd'); ?>">
         <?php echo HTMLHelper::_('form.token'); ?>
 
