@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Document\Renderer\Html;
 
 use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Event\Module;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -57,8 +58,13 @@ class ModulesRenderer extends DocumentRenderer
             $buffer .= $moduleHtml;
         }
 
-        $app->triggerEvent('onAfterRenderModules', [&$buffer, &$params]);
+        // Dispatch onAfterRenderModules event
+        $event = new Module\AfterRenderModulesEvent('onAfterRenderModules', [
+            'content'    => &$buffer, // @todo: Remove reference in Joomla 6, see AfterRenderModulesEvent::__constructor()
+            'attributes' => $params,
+        ]);
+        $app->getDispatcher()->dispatch('onAfterRenderModules', $event);
 
-        return $buffer;
+        return $event->getArgument('content', $content);
     }
 }

@@ -78,7 +78,7 @@ class InstallerModel extends ListModel
         $customOrderFields = ['name', 'client_translated', 'type_translated', 'folder_translated', 'creationDate'];
 
         // Process searching, ordering and pagination for fields that need to be translated.
-        if (in_array($listOrder, $customOrderFields) || (!empty($search) && stripos($search, 'id:') !== 0)) {
+        if (\in_array($listOrder, $customOrderFields) || (!empty($search) && stripos($search, 'id:') !== 0)) {
             // Get results from database and translate them.
             $db->setQuery($query);
             $result = $db->loadObjectList();
@@ -118,7 +118,7 @@ class InstallerModel extends ListModel
             $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, false, true);
 
             // Process pagination.
-            $total                                      = count($result);
+            $total                                      = \count($result);
             $this->cache[$this->getStoreId('getTotal')] = $total;
 
             if ($total <= $limitstart) {
@@ -126,7 +126,7 @@ class InstallerModel extends ListModel
                 $this->setState('list.limitstart', 0);
             }
 
-            return array_slice($result, $limitstart, $limit ?: null);
+            return \array_slice($result, $limitstart, $limit ?: null);
         }
 
         // Process searching, ordering and pagination for regular database fields.
@@ -149,7 +149,7 @@ class InstallerModel extends ListModel
         $lang = Factory::getLanguage();
 
         foreach ($items as &$item) {
-            if (strlen($item->manifest_cache) && $data = json_decode($item->manifest_cache)) {
+            if (\strlen($item->manifest_cache) && $data = json_decode($item->manifest_cache)) {
                 foreach ($data as $key => $value) {
                     if ($key == 'type') {
                         // Ignore the type field
@@ -215,7 +215,7 @@ class InstallerModel extends ListModel
 
             settype($item->description, 'string');
 
-            if (!in_array($item->type, ['language'])) {
+            if (!\in_array($item->type, ['language'])) {
                 $item->description = Text::_($item->description);
             }
         }

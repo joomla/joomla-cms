@@ -34,7 +34,7 @@ trait VersionableModelTrait
      *
      * @since   4.0.0
      */
-    public function loadHistory($versionId, Table &$table)
+    public function loadHistory($versionId, Table $table)
     {
         // Only attempt to check the row in if it exists, otherwise do an early exit.
         if (!$versionId) {

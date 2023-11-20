@@ -12,6 +12,7 @@ namespace Joomla\Plugin\Fields\Calendar\Extension;
 
 use Joomla\CMS\Form\Form;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -22,7 +23,7 @@ use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
  *
  * @since  3.7.0
  */
-final class Calendar extends FieldsPlugin
+final class Calendar extends FieldsPlugin implements SubscriberInterface
 {
     /**
      * Transforms the field into a DOM XML element and appends it as a child on the given parent.

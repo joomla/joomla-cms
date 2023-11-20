@@ -115,9 +115,9 @@ class StreamString
             $this->stat = $this->url_stat($path, 0);
 
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

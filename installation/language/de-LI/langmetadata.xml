@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metafile client="installation">
-	<name>German (Lichtenstein)</name>
-	<version>4.3.2</version>
-	<creationDate>2023-05</creationDate>
+	<name>German (Liechtenstein)</name>
+	<version>4.3.3</version>
+	<creationDate>2023-07</creationDate>
 	<author>J!German</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
@@ -11,8 +11,8 @@
 		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
-		<name>German (Lichtenstein)</name>
-		<nativeName>Deutsch (Lichtenstein)</nativeName>
+		<name>German (Liechtenstein)</name>
+		<nativeName>Deutsch (Liechtenstein)</nativeName>
 		<tag>de-LI</tag>
 		<rtl>0</rtl>
 	</metadata>
