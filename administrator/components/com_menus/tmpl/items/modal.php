@@ -33,7 +33,7 @@ $function  = $app->getInput()->get('function', 'jSelectMenuItem', 'cmd');
 $editor    = $app->getInput()->getCmd('editor', '');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$link      = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&' . Session::getFormToken() . '=1';
+$link      = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&' . Session::getFormToken() . '=1&function=' . $function;
 $multilang = Multilanguage::isEnabled();
 
 if (!empty($editor)) {
