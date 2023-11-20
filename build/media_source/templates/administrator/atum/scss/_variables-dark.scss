@@ -297,6 +297,11 @@ $atum-colors-dark: (
   dropdown-item-bg:                    $btn-primary-dark,
   dropdown-item-bg-hvr:                darken($btn-primary-dark, 10%),
 
+  // Input Group
+  input-group-text-bg:                 var(--btn-primary-bg),
+  input-group-text-border:             1px solid var(--btn-primary-border),
+  input-group-text-color:              var(--btn-primary-color),
+
   // Alerts
   states-link-color:                   #fff,
   states-btn-primary-bg:               rgba(0,0,0,.5),
