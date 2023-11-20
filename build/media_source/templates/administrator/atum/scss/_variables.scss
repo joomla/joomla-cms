@@ -393,7 +393,7 @@ $atum-colors: (
   state-warning-bg-hvr:             #996900,
   state-warning-border:             #ffb512,
   state-warning-icon:               $warning,
-  state-warning-heading-bg:         $warning,
+  state-warning-heading-bg:         #ffb512,
   state-warning-link-color:         var(--warning-text-emphasis),
 
   state-danger-text:                var(--danger-text-emphasis),
