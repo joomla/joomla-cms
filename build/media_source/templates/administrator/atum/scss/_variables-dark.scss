@@ -298,7 +298,12 @@ $atum-colors-dark: (
   dropdown-item-bg-hvr:                darken($btn-primary-dark, 10%),
 
   // Alerts
-  states-link-color:              #fff,
+  states-link-color:                   #fff,
+  states-btn-primary-bg:               rgba(0,0,0,.5),
+  states-btn-primary-bg-hover:         rgba(0,0,0,.7),
+  states-btn-primary-color:            var(--template-text-light),
+  states-btn-primary-border:           rgba(0,0,0,.8),
+
 
   state-success-text:             var(--text-normal),
   state-success-text-hvr:         var(--text-normal),
@@ -324,7 +329,7 @@ $atum-colors-dark: (
   state-warning-bg-hvr:           darken($warning-dark, 15%),
   state-warning-border:           var(--warning),
   state-warning-icon:             var(--text-normal),
-  state-warning-heading-bg:       var(--warning),
+  state-warning-heading-bg:       darken($warning-dark, 15%),
 
   state-danger-text:              var(--text-normal),
   state-danger-text-hvr:          var(--text-normal),
@@ -336,7 +341,7 @@ $atum-colors-dark: (
 
   state-error-text:               var(--text-normal),
   state-error-bg:                 var(--error),
-  state-error-border:             1px solid var(--errorlight),
+  state-error-border:             var(--error),
   state-error-icon:               var(--text-normal),
   state-error-heading-bg:         var(--errorlight),
 
