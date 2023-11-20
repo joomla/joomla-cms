@@ -14,23 +14,36 @@
   margin-bottom: 1rem;
   color: var(--alert-accent-color);
   background-color: var(--alert-bg-color);
-  border: var(--alert-border);
-  border-radius: .25rem;
+  border: 1px solid;
+  border-color: var(--alert-border);
+  border-radius: $border-radius-sm;
   transition: opacity .15s linear;
+
+  .btn-primary {
+    color: var(--states-btn-primary-color);
+    background: var(--states-btn-primary-bg);
+    border-color: var(--states-btn-primary-bg-hover);
+    &:hover {
+      background: var(--states-btn-primary-bg-hover);
+    }
+  }
+
   &[type="success"],
   &[type="message"] {
     --alert-accent-color: var(--state-success-text);
     --alert-bg-color: var(--state-success-bg);
-    --alert-border: var(--state-success-border);
+    --alert-border: var(--state-success-bg-hvr);
     --alert-heading-bg: var(--state-success-bg-hvr);
+    --alert-link-color: var(--state-success-link-color, var(--states-link-color));
   }
 
   &[type="info"],
   &[type="notice"] {
     --alert-accent-color: var(--state-info-text);
     --alert-bg-color: var(--state-info-bg);
-    --alert-border: var(--state-info-border);
+    --alert-border: var(--state-info-bg-hvr);
     --alert-heading-bg: var(--state-info-bg-hvr);
+    --alert-link-color: var(--state-success-link-color, var(--states-link-color));
   }
 
   &[type="warning"] {
@@ -40,16 +53,18 @@
 
     --alert-accent-color: var(--state-warning-text);
     --alert-bg-color: var(--state-warning-bg);
-    --alert-border: var(--state-warning-border);
-    --alert--alert-heading-bg-heading-bg: var(--state-warning-bg-hvr);
+    --alert-border: var(--state-warning-border); //TODO Change to --state-warning-heading-bg in another PR
+    --alert-heading-bg: var(--state-warning-heading-bg); //TODO Change to --state-warning-heading-bg in another PR
+    --alert-link-color: var(--state-success-link-color, var(--states-link-color));
   }
 
   &[type="error"],
   &[type="danger"] {
     --alert-accent-color: var(--state-danger-text);
     --alert-bg-color: var(--state-danger-bg);
-    --alert-border: var(--state-danger-border);
+    --alert-border: var(--state-danger-bg-hvr);
     --alert-heading-bg: var(--state-danger-bg-hvr);
+    --alert-link-color: var(--state-success-link-color, var(--states-link-color));
   }
 
   .alert-heading {
@@ -108,8 +123,8 @@
 
   .alert-link {
     font-weight: normal;
-    text-decoration: underline;
     color: var(--states-link-color);
+    text-decoration: underline;
   }
 
   .joomla-alert--close,

@@ -10,14 +10,13 @@
 
 .alert-link {
   font-weight: normal;
-  text-decoration: underline;
   color: var(--states-link-color);
+  text-decoration: underline;
 }
 
 .alert {
   margin: 1rem 0;
-  border-right: 0;
-  border-left: 0;
+  border: 1px solid;
   border-radius: $border-radius-sm;
 
   &.alert-info {
@@ -42,6 +41,12 @@
     color: var(--state-error-text);
     background-color: var(--state-error-bg);
     border: var(--state-error-border);
+  }
+
+  &.alert-danger {
+    color: var(--state-danger-text);
+    background-color: var(--state-danger-bg);
+    border-color: var(--state-danger-border);
   }
 }
 
