@@ -51,7 +51,7 @@ abstract class ApplicationConfigurationEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(Registry $value): Registry
+    protected function onSetSubject(Registry $value): Registry
     {
         return $value;
     }

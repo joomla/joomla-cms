@@ -54,7 +54,7 @@ class PrepareDataEvent extends ModelEvent
         }
 
         // For backward compatibility make sure the content is referenced
-        // TODO: Remove in Joomla 6
+        // @todo: Remove in Joomla 6
         // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
         if (key($arguments) === 0) {
             $this->arguments['data'] = &$arguments[1];
@@ -72,7 +72,7 @@ class PrepareDataEvent extends ModelEvent
      *
      * @since  5.0.0
      */
-    protected function setData(object|array $value): object|array
+    protected function onSetData(object|array $value): object|array
     {
         return $value;
     }
@@ -100,7 +100,7 @@ class PrepareDataEvent extends ModelEvent
      */
     public function updateData(object|array $value): static
     {
-        $this->arguments['data'] = $this->setData($value);
+        $this->arguments['data'] = $this->onSetData($value);
 
         return $this;
     }

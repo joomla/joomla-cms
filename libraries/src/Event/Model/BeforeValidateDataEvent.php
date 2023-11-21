@@ -37,7 +37,7 @@ class BeforeValidateDataEvent extends FormEvent
         parent::__construct($name, $arguments);
 
         // For backward compatibility make sure the content is referenced
-        // TODO: Remove in Joomla 6
+        // @todo: Remove in Joomla 6
         // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
         if (key($arguments) === 0) {
             $this->arguments['data'] = &$arguments[1];
@@ -57,7 +57,7 @@ class BeforeValidateDataEvent extends FormEvent
      */
     public function updateData(object|array $value): static
     {
-        $this->arguments['data'] = $this->setData($value);
+        $this->arguments['data'] = $this->onSetData($value);
 
         return $this;
     }

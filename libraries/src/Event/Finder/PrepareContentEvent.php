@@ -43,7 +43,7 @@ class PrepareContentEvent extends AbstractFinderEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(Result $value): Result
+    protected function onSetSubject(Result $value): Result
     {
         return $value;
     }

@@ -160,7 +160,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
             $mustCreateBackupCodes = !$hasBackupCodes;
 
             // If the only other entry is the backup records one I need to make this the default method
-            if ($hasBackupCodes && count($records) === 1) {
+            if ($hasBackupCodes && \count($records) === 1) {
                 $this->default = 1;
             }
         }
@@ -281,15 +281,15 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
         // Try with modern decryption
         $decrypted = @json_decode($this->encryptService->decrypt($this->options ?? ''), true);
 
-        if (is_string($decrypted)) {
+        if (\is_string($decrypted)) {
             $decrypted = @json_decode($decrypted, true);
         }
 
         // Fall back to legacy decryption
-        if (!is_array($decrypted)) {
+        if (!\is_array($decrypted)) {
             $decrypted = @json_decode($this->encryptService->decrypt($this->options ?? '', true), true);
 
-            if (is_string($decrypted)) {
+            if (\is_string($decrypted)) {
                 $decrypted = @json_decode($decrypted, true);
             }
         }
@@ -352,7 +352,7 @@ class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareIn
      */
     private function afterDelete($pk): void
     {
-        if (is_array($pk)) {
+        if (\is_array($pk)) {
             $pk = $pk[$this->_tbl_key] ?? array_shift($pk);
         }
 

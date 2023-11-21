@@ -96,7 +96,7 @@ class File
         $file = rtrim($file, '.');
 
         // Try transliterating the file name using the native php function
-        if (function_exists('transliterator_transliterate') && function_exists('iconv')) {
+        if (\function_exists('transliterator_transliterate') && \function_exists('iconv')) {
             // Using iconv to ignore characters that can't be transliterated
             $file = iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII', $file));
         }
@@ -229,7 +229,7 @@ class File
 
         if (
             ini_get('opcache.enable')
-            && function_exists('opcache_invalidate')
+            && \function_exists('opcache_invalidate')
             && (!ini_get('opcache.restrict_api') || stripos(realpath($_SERVER['SCRIPT_FILENAME']), ini_get('opcache.restrict_api')) === 0)
         ) {
             static::$canFlushFileCache = true;

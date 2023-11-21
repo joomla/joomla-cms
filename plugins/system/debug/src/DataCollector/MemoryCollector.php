@@ -21,19 +21,19 @@ use Joomla\Registry\Registry;
  * Collects info about the request duration as well as providing
  * a way to log duration of any operations
  *
- * @since  5.0.0
+ * @since  4.4.0
  */
 class MemoryCollector extends AbstractDataCollector
 {
     /**
      * @var   boolean
-     * @since 5.0.0
+     * @since 4.4.0
      */
     protected $realUsage = false;
 
     /**
      * @var    float
-     * @since 5.0.0
+     * @since 4.4.0
      */
     protected $peakUsage = 0;
 
@@ -42,7 +42,7 @@ class MemoryCollector extends AbstractDataCollector
      * @param   float     $peakUsage
      * @param   boolean   $realUsage
      *
-     * @since 5.0.0
+     * @since 4.4.0
      */
     public function __construct(Registry $params, $peakUsage = null, $realUsage = null)
     {
@@ -63,7 +63,7 @@ class MemoryCollector extends AbstractDataCollector
      *
      * @return boolean
      *
-     * @since 5.0.0
+     * @since 4.4.0
      */
     public function getRealUsage()
     {
@@ -76,7 +76,7 @@ class MemoryCollector extends AbstractDataCollector
      *
      * @param boolean $realUsage
      *
-     * @since 5.0.0
+     * @since 4.4.0
      */
     public function setRealUsage($realUsage)
     {
@@ -88,7 +88,7 @@ class MemoryCollector extends AbstractDataCollector
      *
      * @return integer
      *
-     * @since 5.0.0
+     * @since 4.4.0
      */
     public function getPeakUsage()
     {
@@ -98,7 +98,7 @@ class MemoryCollector extends AbstractDataCollector
     /**
      * Updates the peak memory usage value
      *
-     * @since 5.0.0
+     * @since 4.4.0
      */
     public function updatePeakUsage()
     {
@@ -110,7 +110,7 @@ class MemoryCollector extends AbstractDataCollector
     /**
      * @return array
      *
-     * @since 5.0.0
+     * @since 4.4.0
      */
     public function collect()
     {
@@ -125,7 +125,7 @@ class MemoryCollector extends AbstractDataCollector
     /**
      * @return string
      *
-     * @since 5.0.0
+     * @since 4.4.0
      */
     public function getName()
     {
@@ -135,7 +135,7 @@ class MemoryCollector extends AbstractDataCollector
     /**
      * @return array
      *
-     * @since 5.0.0
+     * @since 4.4.0
      */
     public function getWidgets()
     {

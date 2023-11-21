@@ -74,7 +74,7 @@ class HtmlView extends BaseHtmlView
         $this->form  = $this->get('Form');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -108,7 +108,7 @@ class HtmlView extends BaseHtmlView
 
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
         $toolbar    = Toolbar::getInstance();
 
         // Since we don't track these assets at the item level, use the category id.
@@ -118,7 +118,7 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::title($title, 'rss newsfeeds');
 
         // If not checked out, can save the item.
-        if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)) {
+        if (!$checkedOut && ($canDo->get('core.edit') || \count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)) {
             $toolbar->apply('newsfeed.apply');
         }
 
@@ -127,11 +127,11 @@ class HtmlView extends BaseHtmlView
         $saveGroup->configure(
             function (Toolbar $childBar) use ($checkedOut, $canDo, $user, $isNew) {
                 // If not checked out, can save the item.
-                if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)) {
+                if (!$checkedOut && ($canDo->get('core.edit') || \count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)) {
                     $childBar->save('newsfeed.save');
                 }
 
-                if (!$checkedOut && count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
+                if (!$checkedOut && \count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
                     $childBar->save2new('newsfeed.save2new');
                 }
 
