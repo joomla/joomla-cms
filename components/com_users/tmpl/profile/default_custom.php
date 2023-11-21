@@ -64,7 +64,7 @@ unset($tmp);
                             <?php elseif (HTMLHelper::isRegistered('users.' . $field->type)) : ?>
                                 <?php echo HTMLHelper::_('users.' . $field->type, $field->value); ?>
                             <?php else : ?>
-                                <?php echo $field->value; ?>
+                                <?php echo HTMLHelper::_('users.value', $field->value); ?>
                             <?php endif; ?>
                         </dd>
                     <?php endif; ?>
