@@ -18,6 +18,8 @@ namespace Joomla\Component\Banners\Site\Helper;
  * Banner Helper Class
  *
  * @since  1.6
+ *
+ * @deprecated  5.1 will be removed in 7.0
  */
 abstract class BannerHelper
 {
@@ -29,6 +31,11 @@ abstract class BannerHelper
      * @return  boolean  True if an image of type bmp, gif, jp(e)g, png or webp, false otherwise
      *
      * @since   1.6
+     *
+     * @deprecated  5.1 will be removed in 7.0
+     *              When testing the image file, use Joomla\CMS\Helper\MediaHelper::isImage($url) for pixel-based image files
+     *              in combination with Joomla\CMS\Helper\MediaHelper::getMimeType($url) === 'image/svg+xml' for vector based image files
+     *              Be aware that the image url should first be sanitized with the helper function Joomla\CMS\HTML\HTMLHelper::cleanImageURL($imageurl)
      */
     public static function isImage($url)
     {

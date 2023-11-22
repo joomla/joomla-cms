@@ -81,3 +81,8 @@ $this->document->getWebAssetManager()
         </div>
     </div>
 </div>
+<div class="btn-toolbar p-3">
+    <joomla-toolbar-button task="module.batch" class="ms-auto">
+        <button type="button" class="btn btn-success"><?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?></button>
+    </joomla-toolbar-button>
+</div>
