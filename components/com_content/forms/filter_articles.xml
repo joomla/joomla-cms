@@ -22,7 +22,7 @@
 		<field
 			name="category_id"
 			type="category"
-			label="JOPTION_SELECT_CATEGORY"
+			label="JCATEGORY"
 			multiple="true"
 			extension="com_content"
 			layout="joomla.form.field.list-fancy-select"
@@ -34,7 +34,7 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_SELECT_ACCESS"
+			label="JGRID_HEADING_ACCESS"
 			multiple="true"
 			layout="joomla.form.field.list-fancy-select"
 			hint="JOPTION_SELECT_ACCESS"
@@ -44,7 +44,7 @@
 		<field
 			name="author_id"
 			type="author"
-			label="JOPTION_SELECT_AUTHOR"
+			label="JAUTHOR"
 			multiple="true"
 			layout="joomla.form.field.list-fancy-select"
 			hint="JOPTION_SELECT_AUTHOR"
