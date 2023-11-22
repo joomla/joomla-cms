@@ -42,7 +42,7 @@
 		<field
 			name="assigned_cat_ids"
 			type="category"
-			label="JOPTION_SELECT_CATEGORY"
+			label="JCATEGORY"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_FIELDS_VIEW_FIELDS_SELECT_CATEGORY</option>
@@ -51,7 +51,7 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_SELECT_ACCESS"
+			label="JGRID_HEADING_ACCESS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
