@@ -10,12 +10,15 @@
 
 namespace Joomla\Component\Admin\Administrator\View\Sysinfo;
 
-use Exception;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\Component\Admin\Administrator\Model\SysinfoModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Sysinfo View class for the Admin component
@@ -29,11 +32,11 @@ class TextView extends AbstractView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  mixed  A string if successful, otherwise an Error object.
+     * @return  void
      *
      * @since   3.5
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function display($tpl = null): void
     {
@@ -81,28 +84,28 @@ class TextView extends AbstractView
         return [
             'info' => [
                 'title' => Text::_('COM_ADMIN_SYSTEM_INFORMATION', true),
-                'data'  => $model->getSafeData('info')
+                'data'  => $model->getSafeData('info'),
             ],
             'phpSettings' => [
                 'title' => Text::_('COM_ADMIN_PHP_SETTINGS', true),
-                'data'  => $model->getSafeData('phpSettings')
+                'data'  => $model->getSafeData('phpSettings'),
             ],
             'config' => [
                 'title' => Text::_('COM_ADMIN_CONFIGURATION_FILE', true),
-                'data'  => $model->getSafeData('config')
+                'data'  => $model->getSafeData('config'),
             ],
             'directories' => [
                 'title' => Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS', true),
-                'data'  => $model->getSafeData('directory', true)
+                'data'  => $model->getSafeData('directory', true),
             ],
             'phpInfo' => [
                 'title' => Text::_('COM_ADMIN_PHP_INFORMATION', true),
-                'data'  => $model->getSafeData('phpInfoArray')
+                'data'  => $model->getSafeData('phpInfoArray'),
             ],
             'extensions' => [
                 'title' => Text::_('COM_ADMIN_EXTENSIONS', true),
-                'data'  => $model->getSafeData('extensions')
-            ]
+                'data'  => $model->getSafeData('extensions'),
+            ],
         ];
     }
 
@@ -142,6 +145,7 @@ class TextView extends AbstractView
                 }
 
                 if (\is_int($name) && ($name == 0 || $name == 1)) {
+                    // The term "Master" is used because it is the term used in phpinfo() and this is a text representation of that.
                     $name = ($name == 0 ? 'Local Value' : 'Master Value');
                 }
 

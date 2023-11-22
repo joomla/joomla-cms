@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\View\Captive;
 
-use Exception;
 use Joomla\CMS\Event\MultiFactor\BeforeDisplayMethods;
 use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Factory;
@@ -19,14 +18,15 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Button\BasicButton;
 use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\CaptiveModel;
 use Joomla\Component\Users\Administrator\View\SiteTemplateTrait;
-use stdClass;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View for Multi-factor Authentication captive page
@@ -48,7 +48,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The currently selected MFA Method record against which we'll be authenticating
      *
-     * @var   null|stdClass
+     * @var   null|\stdClass
      * @since 4.2.0
      */
     public $record = null;
@@ -100,7 +100,7 @@ class HtmlView extends BaseHtmlView
      *
      * @return  void  A string if successful, otherwise an Error object.
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since 4.2.0
      */
     public function display($tpl = null)
@@ -108,8 +108,7 @@ class HtmlView extends BaseHtmlView
         $this->setSiteTemplateStyle();
 
         $app  = Factory::getApplication();
-        $user = Factory::getApplication()->getIdentity()
-            ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        $user = $this->getCurrentUser();
 
         PluginHelper::importPlugin('multifactorauth');
         $event = new BeforeDisplayMethods($user);
@@ -188,12 +187,12 @@ class HtmlView extends BaseHtmlView
 
         // Back-end: always show a title in the 'title' module position, not in the page body
         if ($this->isAdmin) {
-            ToolbarHelper::title(Text::_('COM_USERS_HEADING_MFA'), 'users user-lock');
+            ToolbarHelper::title(Text::_('COM_USERS_USER_MULTIFACTOR_AUTH'), 'users user-lock');
             $this->title = '';
         }
 
         if ($this->isAdmin && $this->getLayout() === 'default') {
-            $bar = Toolbar::getInstance();
+            $bar    = Toolbar::getInstance();
             $button = (new BasicButton('user-mfa-submit'))
                 ->text($this->renderOptions['submit_text'])
                 ->icon($this->renderOptions['submit_icon']);

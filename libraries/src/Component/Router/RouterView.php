@@ -12,6 +12,10 @@ namespace Joomla\CMS\Component\Router;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\Rules\RulesInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View-based component routing class
  *
@@ -33,7 +37,7 @@ abstract class RouterView extends RouterBase
      * @var    RulesInterface[]
      * @since  3.5
      */
-    protected $rules = array();
+    protected $rules = [];
 
     /**
      * Views of the component
@@ -41,7 +45,7 @@ abstract class RouterView extends RouterBase
      * @var    RouterViewConfiguration[]
      * @since  3.5
      */
-    protected $views = array();
+    protected $views = [];
 
     /**
      * Register the views of a component
@@ -82,7 +86,7 @@ abstract class RouterView extends RouterBase
     public function getPath($query)
     {
         $views  = $this->getViews();
-        $result = array();
+        $result = [];
 
         // Get the right view object
         if (isset($query['view']) && isset($views[$query['view']])) {
@@ -107,13 +111,13 @@ abstract class RouterView extends RouterBase
 
                 $childkey = $view->parent_key;
 
-                if (($key || $view->key) && \is_callable(array($this, 'get' . ucfirst($view->name) . 'Segment'))) {
+                if (($key || $view->key) && \is_callable([$this, 'get' . ucfirst($view->name) . 'Segment'])) {
                     if (isset($query[$key])) {
-                        $result[$view->name] = \call_user_func_array(array($this, 'get' . ucfirst($view->name) . 'Segment'), array($query[$key], $query));
+                        $result[$view->name] = \call_user_func_array([$this, 'get' . ucfirst($view->name) . 'Segment'], [$query[$key], $query]);
                     } elseif (isset($query[$view->key])) {
-                        $result[$view->name] = \call_user_func_array(array($this, 'get' . ucfirst($view->name) . 'Segment'), array($query[$view->key], $query));
+                        $result[$view->name] = \call_user_func_array([$this, 'get' . ucfirst($view->name) . 'Segment'], [$query[$view->key], $query]);
                     } else {
-                        $result[$view->name] = array();
+                        $result[$view->name] = [];
                     }
                 } else {
                     $result[$view->name] = true;
@@ -218,7 +222,7 @@ abstract class RouterView extends RouterBase
      */
     public function build(&$query)
     {
-        $segments = array();
+        $segments = [];
 
         // Process the parsed variables based on custom defined rules
         foreach ($this->rules as $rule) {
@@ -239,7 +243,7 @@ abstract class RouterView extends RouterBase
      */
     public function parse(&$segments)
     {
-        $vars = array();
+        $vars = [];
 
         // Process the parsed variables based on custom defined rules
         foreach ($this->rules as $rule) {

@@ -16,6 +16,10 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper class for admin privacy status module
  *
@@ -64,6 +68,7 @@ class PrivacyStatusHelper
             'published' => false,
             'link'      => '',
         ];
+        $lang = '';
 
         $db    = Factory::getDbo();
         $query = $db->getQuery(true)
@@ -98,8 +103,6 @@ class PrivacyStatusHelper
             // Add language to the url if the site is multilingual
             if (Multilanguage::isEnabled() && $menuItem->language && $menuItem->language !== '*') {
                 $lang = '&lang=' . $menuItem->language;
-            } else {
-                $lang = '';
             }
         }
 
@@ -108,7 +111,7 @@ class PrivacyStatusHelper
         if (!$menuItem) {
             if (Multilanguage::isEnabled()) {
                 // Find the Itemid of the home menu item tagged to the site default language
-                $params = ComponentHelper::getParams('com_languages');
+                $params              = ComponentHelper::getParams('com_languages');
                 $defaultSiteLanguage = $params->get('site');
 
                 $db    = Factory::getDbo();

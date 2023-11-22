@@ -12,6 +12,10 @@ namespace Joomla\Component\Content\Api\Helper;
 
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content api helper.
  *

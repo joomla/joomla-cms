@@ -27,6 +27,10 @@ use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 use Joomla\Database\Exception\ExecutionFailureException;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Request model class.
  *
@@ -81,7 +85,7 @@ class RequestModel extends AdminModel
             return false;
         }
 
-        $data['email'] = Factory::getUser()->email;
+        $data['email'] = $this->getCurrentUser()->email;
 
         // Search for an open information request matching the email and type
         $db    = $this->getDatabase();

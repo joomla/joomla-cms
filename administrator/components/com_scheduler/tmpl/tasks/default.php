@@ -71,7 +71,7 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
     <div id="j-main-container" class="j-main-container">
         <?php
         // Search tools bar
-        echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+        echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
         ?>
 
         <!-- If no tasks -->

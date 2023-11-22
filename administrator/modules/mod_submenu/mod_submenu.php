@@ -20,7 +20,7 @@ $root     = false;
 
 if ($menutype === '*') {
     $name   = $params->get('preset', 'system');
-    $root = MenusHelper::loadPreset($name);
+    $root   = MenusHelper::loadPreset($name);
 } else {
     $root = MenusHelper::getMenuItems($menutype, true);
 }

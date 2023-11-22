@@ -24,6 +24,10 @@ use Webauthn\MetadataService\MetadataStatementRepository;
 use Webauthn\StringStream;
 use Webauthn\TrustPath\CertificateTrustPath;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * We had to fork the key attestation support object from the WebAuthn server package to address an
  * issue with PHP 8.
@@ -41,21 +45,23 @@ use Webauthn\TrustPath\CertificateTrustPath;
  * class to change the assertion. The assertion takes place through a third party library we cannot
  * (and should not!) modify.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   4.2.0
  *
- * @deprecated 5.0 We will upgrade the WebAuthn library to version 3 or later and this will go away.
+ * @deprecated  4.2 will be removed in 6.0
+ *              Will be removed without replacement
+ *              We will upgrade the WebAuthn library to version 3 or later and this will go away.
  */
 final class FidoU2FAttestationStatementSupport implements AttestationStatementSupport
 {
     /**
      * @var   Decoder
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     private $decoder;
 
     /**
      * @var   MetadataStatementRepository|null
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     private $metadataStatementRepository;
 
@@ -63,7 +69,7 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
      * @param   Decoder|null                      $decoder                      Obvious
      * @param   MetadataStatementRepository|null  $metadataStatementRepository  Obvious
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function __construct(
         ?Decoder $decoder = null,
@@ -80,13 +86,13 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
             );
         }
 
-        $this->decoder = $decoder ?? new Decoder(new TagObjectManager(), new OtherObjectManager());
+        $this->decoder                     = $decoder ?? new Decoder(new TagObjectManager(), new OtherObjectManager());
         $this->metadataStatementRepository = $metadataStatementRepository;
     }
 
     /**
      * @return  string
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function name(): string
     {
@@ -99,7 +105,7 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
      * @return AttestationStatement
      * @throws \Assert\AssertionFailedException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function load(array $attestation): AttestationStatement
     {
@@ -128,7 +134,7 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
      *
      * @return  boolean
      * @throws  \Assert\AssertionFailedException
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function isValid(
         string $clientDataJSONHash,
@@ -166,20 +172,20 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
      *
      * @return  string
      * @throws  \Assert\AssertionFailedException
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function extractPublicKey(?string $publicKey): string
     {
         Assertion::notNull($publicKey, 'The attested credential data does not contain a valid public key.');
 
         $publicKeyStream = new StringStream($publicKey);
-        $coseKey = $this->decoder->decode($publicKeyStream);
+        $coseKey         = $this->decoder->decode($publicKeyStream);
         Assertion::true($publicKeyStream->isEOF(), 'Invalid public key. Presence of extra bytes.');
         $publicKeyStream->close();
         Assertion::isInstanceOf($coseKey, MapObject::class, 'The attested credential data does not contain a valid public key.');
 
         $coseKey = $coseKey->getNormalizedData();
-        $ec2Key = new Ec2Key($coseKey + [Ec2Key::TYPE => 2, Ec2Key::DATA_CURVE => Ec2Key::CURVE_P256]);
+        $ec2Key  = new Ec2Key($coseKey + [Ec2Key::TYPE => 2, Ec2Key::DATA_CURVE => Ec2Key::CURVE_P256]);
 
         return "\x04" . $ec2Key->x() . $ec2Key->y();
     }
@@ -189,7 +195,7 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
      *
      * @return  void
      * @throws  \Assert\AssertionFailedException
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function checkCertificate(string $publicKey): void
     {

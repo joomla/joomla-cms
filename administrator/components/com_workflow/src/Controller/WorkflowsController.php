@@ -18,6 +18,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Workflows controller
  *
@@ -52,7 +56,7 @@ class WorkflowsController extends AdminController
      * @since   4.0.0
      * @throws  \InvalidArgumentException when no extension is set
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -87,7 +91,7 @@ class WorkflowsController extends AdminController
      *
      * @since  4.0.0
      */
-    public function getModel($name = 'Workflow', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Workflow', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -105,8 +109,8 @@ class WorkflowsController extends AdminController
         $this->checkToken();
 
         // Get items to publish from the request.
-        $cid   = (array) $this->input->get('cid', array(), 'int');
-        $data  = array('setDefault' => 1, 'unsetDefault' => 0);
+        $cid   = (array) $this->input->get('cid', [], 'int');
+        $data  = ['setDefault' => 1, 'unsetDefault' => 0];
         $task  = $this->getTask();
         $value = ArrayHelper::getValue($data, $task, 0, 'int');
 

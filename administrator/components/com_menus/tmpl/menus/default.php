@@ -43,7 +43,7 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['filterButton' => false]]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
                         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -196,7 +196,7 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                                 <?php echo HTMLHelper::_(
                                                     'bootstrap.renderModal',
                                                     'moduleEdit' . $module->id . 'Modal',
-                                                    array(
+                                                    [
                                                             'title'       => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
                                                             'backdrop'    => 'static',
                                                             'keyboard'    => false,
@@ -215,7 +215,7 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                                                     . '<button type="button" class="btn btn-success"'
                                                                     . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#applyBtn\'})">'
                                                                     . Text::_('JAPPLY') . '</button>',
-                                                        )
+                                                        ]
                                                 ); ?>
                                             <?php endif; ?>
                                         <?php endforeach; ?>
@@ -225,7 +225,7 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                         <?php echo HTMLHelper::_(
                                             'bootstrap.renderModal',
                                             'moduleAddModal',
-                                            array(
+                                            [
                                                     'title'       => Text::_('COM_MENUS_ADD_MENU_MODULE'),
                                                     'backdrop'    => 'static',
                                                     'keyboard'    => false,
@@ -244,7 +244,7 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                                             . '<button type="button" class="btn btn-success"'
                                                             . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#applyBtn\'})">'
                                                             . Text::_('JAPPLY') . '</button>',
-                                                )
+                                                ]
                                         ); ?>
                                     <?php endif; ?>
                                 </td>

@@ -58,17 +58,13 @@ extract(array_merge($defaultDisplayData, $displayData));
 
 if ($displayData['allow_add'] === false) {
     $error = Text::_('PLG_SYSTEM_WEBAUTHN_CANNOT_ADD_FOR_A_USER');
-	//phpcs:ignore
-	$allow_add = false;
+    $allow_add = false;
 }
 
 // Ensure the GMP or BCmath extension is loaded in PHP - as this is required by third party library
-//phpcs:ignore
-if ($allow_add && function_exists('gmp_intval') === false && function_exists('bccomp') === false)
-{
+if ($allow_add && function_exists('gmp_intval') === false && function_exists('bccomp') === false) {
     $error = Text::_('PLG_SYSTEM_WEBAUTHN_REQUIRES_GMP');
-	//phpcs:ignore
-	$allow_add = false;
+    $allow_add = false;
 }
 
 Text::script('JGLOBAL_CONFIRM_DELETE');
@@ -76,8 +72,8 @@ Text::script('JGLOBAL_CONFIRM_DELETE');
 HTMLHelper::_('bootstrap.tooltip', '.plg_system_webauth-has-tooltip');
 ?>
 <div class="plg_system_webauthn" id="plg_system_webauthn-management-interface">
-	<?php // phpcs:ignore
-	if (is_string($error) && !empty($error)): ?>
+    <?php
+    if (is_string($error) && !empty($error)) : ?>
         <div class="alert alert-danger">
             <?php echo htmlentities($error) ?>
         </div>
@@ -98,8 +94,8 @@ HTMLHelper::_('bootstrap.tooltip', '.plg_system_webauth-has-tooltip');
         </tr>
         </thead>
         <tbody>
-		<?php // phpcs:ignore
-		foreach ($credentials as $method): ?>
+        <?php
+        foreach ($credentials as $method) : ?>
             <tr data-credential_id="<?php echo $method['id'] ?>">
                 <?php
                 if ($attestationSupport) :
@@ -127,10 +123,10 @@ HTMLHelper::_('bootstrap.tooltip', '.plg_system_webauth-has-tooltip');
                 </td>
             </tr>
         <?php endforeach; ?>
-		<?php // phpcs:ignore
-		if (empty($credentials)): ?>
+        <?php
+        if (empty($credentials)) : ?>
             <tr>
-                <td colspan="2">
+                <td colspan="<?php echo $attestationSupport ? '3' : '2'; ?>">
                     <?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_HEADER_NOMETHODS_LABEL') ?>
                 </td>
             </tr>
@@ -138,8 +134,8 @@ HTMLHelper::_('bootstrap.tooltip', '.plg_system_webauth-has-tooltip');
         </tbody>
     </table>
 
-	<?php // phpcs:ignore
-	if ($allow_add): ?>
+    <?php
+    if ($allow_add) : ?>
         <p class="plg_system_webauthn-manage-add-container">
             <button
                 type="button"

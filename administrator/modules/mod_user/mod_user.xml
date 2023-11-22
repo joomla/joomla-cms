@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_user</name>
 	<author>Joomla! Project</author>
@@ -10,7 +10,7 @@
 	<version>4.0.0</version>
 	<description>MOD_USER_XML_DESCRIPTION</description>
 	<files>
-		<filename module="mod_status">mod_user.php</filename>
+		<filename module="mod_user">mod_user.php</filename>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

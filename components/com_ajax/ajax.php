@@ -34,7 +34,7 @@ $app->allowCache(false);
 $app->setHeader('X-Robots-Tag', 'noindex, nofollow');
 
 // JInput object
-$input = $app->input;
+$input = $app->getInput();
 
 // Requested format passed via URL
 $format = strtolower($input->getWord('format', ''));
@@ -57,7 +57,7 @@ if (!$format) {
      */
     $module   = $input->get('module');
     $table    = Table::getInstance('extension');
-    $moduleId = $table->find(array('type' => 'module', 'element' => 'mod_' . $module));
+    $moduleId = $table->find(['type' => 'module', 'element' => 'mod_' . $module]);
 
     if ($moduleId && $table->load($moduleId) && $table->enabled) {
         $helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
@@ -96,7 +96,7 @@ if (!$format) {
                 $basePath = JPATH_BASE;
                 $lang     = Factory::getLanguage();
                 $lang->load('mod_' . $module, $basePath)
-                ||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module);
+                || $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module);
 
                 try {
                     $results = call_user_func($class . '::' . $method . 'Ajax');
@@ -145,7 +145,7 @@ if (!$format) {
      */
     $template   = $input->get('template');
     $table      = Table::getInstance('extension');
-    $templateId = $table->find(array('type' => 'template', 'element' => $template));
+    $templateId = $table->find(['type' => 'template', 'element' => $template]);
 
     if ($templateId && $table->load($templateId) && $table->enabled) {
         $basePath   = ($table->client_id) ? JPATH_ADMINISTRATOR : JPATH_SITE;
@@ -178,7 +178,7 @@ if (!$format) {
                 // Load language file for template
                 $lang = Factory::getLanguage();
                 $lang->load('tpl_' . $template, $basePath)
-                ||  $lang->load('tpl_' . $template, $basePath . '/templates/' . $template);
+                || $lang->load('tpl_' . $template, $basePath . '/templates/' . $template);
 
                 try {
                     $results = call_user_func($class . '::' . $method . 'Ajax');

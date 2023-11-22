@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="sampledata" method="upgrade">
 	<name>plg_sampledata_multilang</name>
 	<author>Joomla! Project</author>
@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_SAMPLEDATA_MULTILANG_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\SampleData\MultiLanguage</namespace>
 	<files>
-		<filename plugin="multilang">multilang.php</filename>
+		<folder plugin="multilang">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_sampledata_multilang.ini</language>

@@ -4,10 +4,8 @@ const {
 const Ini = require('ini');
 const { dirname } = require('path');
 const Recurs = require('recursive-readdir');
-const Postcss = require('postcss');
-const Autoprefixer = require('autoprefixer');
-const CssNano = require('cssnano');
-const { minify } = require('terser');
+const { transform } = require('esbuild');
+const LightningCSS = require('lightningcss');
 
 const RootPath = process.cwd();
 const dir = `${RootPath}/installation/language`;
@@ -35,10 +33,13 @@ module.exports.createErrorPages = async (options) => {
   let cssContent = await readFile(`${srcPath}/template.css`, { encoding: 'utf8' });
   let jsContent = await readFile(`${srcPath}/template.js`, { encoding: 'utf8' });
 
-  const cssMin = await Postcss([Autoprefixer, CssNano]).process(cssContent, { from: undefined });
+  const { code } = LightningCSS.transform({
+    code: Buffer.from(cssContent),
+    minify: true,
+  });
 
-  cssContent = cssMin.css;
-  jsContent = await minify(jsContent);
+  cssContent = code;
+  jsContent = await transform(jsContent, { minify: true });
 
   const processIni = async (file) => {
     const languageStrings = Ini.parse(await readFile(file, { encoding: 'utf8' }));
@@ -111,7 +112,7 @@ module.exports.createErrorPages = async (options) => {
   await Promise.all(iniFilesProcess).catch((err) => {
     // eslint-disable-next-line no-console
     console.error(err);
-    process.exit(-1);
+    process.exitCode = -1;
   });
 
   const processPage = async (name) => {
@@ -162,6 +163,6 @@ module.exports.createErrorPages = async (options) => {
   return Promise.all(processPages).catch((err) => {
     // eslint-disable-next-line no-console
     console.error(err);
-    process.exit(-1);
+    process.exitCode = -1;
   });
 };

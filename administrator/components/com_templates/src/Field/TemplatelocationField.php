@@ -13,6 +13,10 @@ namespace Joomla\Component\Templates\Administrator\Field;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Template Location field.
  *

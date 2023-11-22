@@ -13,6 +13,7 @@ namespace Joomla\Component\Media\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -23,6 +24,10 @@ use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Api Model
@@ -226,7 +231,7 @@ class ApiModel extends BaseDatabaseModel
 
         // Check if it is a media file
         if (!$this->isMediaFile($path . '/' . $name)) {
-            throw new InvalidPathException();
+            throw new InvalidPathException(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'));
         }
 
         $app               = Factory::getApplication();
@@ -447,7 +452,7 @@ class ApiModel extends BaseDatabaseModel
         // Initialize the allowed extensions
         if ($this->allowedExtensions === null) {
             // Get options from the input or fallback to images only
-            $mediaTypes = explode(',', Factory::getApplication()->input->getString('mediatypes', '0'));
+            $mediaTypes = explode(',', Factory::getApplication()->getInput()->getString('mediatypes', '0'));
             $types      = [];
             $extensions = [];
 

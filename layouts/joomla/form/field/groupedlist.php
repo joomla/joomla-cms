@@ -45,7 +45,7 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
 
-$html = array();
+$html = [];
 $attr = '';
 
 // Initialize some field attributes.
@@ -70,10 +70,10 @@ if ($readonly) {
         'select.groupedlist',
         $groups,
         null,
-        array(
+        [
             'list.attr' => $attr, 'id' => $id, 'list.select' => $value, 'group.items' => null, 'option.key.toHtml' => false,
             'option.text.toHtml' => false,
-        )
+        ]
     );
 
     // E.g. form field type tag sends $this->value as array
@@ -94,10 +94,10 @@ if ($readonly) {
         'select.groupedlist',
         $groups,
         $name,
-        array(
+        [
             'list.attr' => $attr, 'id' => $id, 'list.select' => $value, 'group.items' => null, 'option.key.toHtml' => false,
             'option.text.toHtml' => false,
-        )
+        ]
     );
 }
 

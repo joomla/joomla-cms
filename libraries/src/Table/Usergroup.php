@@ -14,6 +14,10 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Usergroup table class.
  *
@@ -89,7 +93,7 @@ class Usergroup extends Table
 
         // We do not allow to move non public to root and public to non-root
         if (!empty($this->id)) {
-            $table = self::getInstance('Usergroup', 'JTable', array('dbo' => $this->getDbo()));
+            $table = self::getInstance('Usergroup', 'JTable', ['dbo' => $this->getDbo()]);
 
             $table->load($this->id);
 
@@ -107,7 +111,7 @@ class Usergroup extends Table
 
         // The new parent_id has to be a valid group
         if ($this->parent_id) {
-            $table = self::getInstance('Usergroup', 'JTable', array('dbo' => $this->getDbo()));
+            $table = self::getInstance('Usergroup', 'JTable', ['dbo' => $this->getDbo()]);
             $table->load($this->parent_id);
 
             if ($table->id != $this->parent_id) {
@@ -267,7 +271,7 @@ class Usergroup extends Table
         $this->rebuild();
 
         // Delete the usergroup in view levels
-        $replace = array();
+        $replace = [];
 
         foreach ($ids as $id) {
             $replace[] = ',' . $db->quote("[$id,") . ',' . $db->quote('[');

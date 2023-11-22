@@ -127,7 +127,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 
                 <?php if ($tparams->get('allow_vcard')) : ?>
                     <?php echo Text::_('COM_CONTACT_DOWNLOAD_INFORMATION_AS'); ?>
-                    <a href="<?php echo Route::_('index.php?option=com_contact&amp;view=contact&amp;id=' . $this->item->id . '&amp;format=vcf'); ?>">
+                    <a href="<?php echo Route::_('index.php?option=com_contact&view=contact&catid=' . $this->item->catslug . '&id=' . $this->item->slug . '&format=vcf'); ?>">
                     <?php echo Text::_('COM_CONTACT_VCARD'); ?></a>
                 <?php endif; ?>
             </div>

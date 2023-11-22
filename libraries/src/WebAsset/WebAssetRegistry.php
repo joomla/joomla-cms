@@ -16,6 +16,10 @@ use Joomla\Event\Dispatcher as EventDispatcher;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Web Asset Registry class
  *
@@ -151,6 +155,9 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
             $this->assets[$type] = [];
         }
 
+        // Check if any new file was added
+        $this->parseRegistryFiles();
+
         $eventChange = 'new';
         $eventAsset  = $asset;
 
@@ -179,6 +186,9 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
      */
     public function remove(string $type, string $name): WebAssetRegistryInterface
     {
+        // Check if any new file was added
+        $this->parseRegistryFiles();
+
         if (!empty($this->assets[$type][$name])) {
             $asset = $this->assets[$type][$name];
 
@@ -202,6 +212,9 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
      */
     public function exists(string $type, string $name): bool
     {
+        // Check if any new file was added
+        $this->parseRegistryFiles();
+
         return !empty($this->assets[$type][$name]);
     }
 
@@ -328,7 +341,11 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
             return;
         }
 
-        foreach ($this->dataFilesNew as $path) {
+        $paths = $this->dataFilesNew;
+
+        $this->dataFilesNew = [];
+
+        foreach ($paths as $path) {
             // Parse only if the file was not parsed already
             if (empty($this->dataFilesParsed[$path])) {
                 $this->parseRegistryFile($path);
@@ -336,9 +353,6 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
                 // Mark the file as parsed
                 $this->dataFilesParsed[$path] = $path;
             }
-
-            // Remove the file from queue
-            unset($this->dataFilesNew[$path]);
         }
     }
 
@@ -390,9 +404,9 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 
             $item['type'] = strtolower($item['type']);
 
-            $name    = $item['name'];
-            $uri     = $item['uri'] ?? '';
-            $options = $item;
+            $name                   = $item['name'];
+            $uri                    = $item['uri'] ?? '';
+            $options                = $item;
             $options['assetSource'] = $assetSource;
 
             unset($options['uri'], $options['name']);

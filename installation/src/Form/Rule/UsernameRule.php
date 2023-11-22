@@ -14,6 +14,10 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_BASE') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Rule class for the username.
  *
@@ -39,9 +43,10 @@ class UsernameRule extends FormRule
         $filterInput = InputFilter::getInstance();
 
         if (
-            preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $value) || strlen(utf8_decode($value)) < 2
+            preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $value)
+            || strlen(mb_convert_encoding($value, 'ISO-8859-1', 'UTF-8')) < 2
             || $filterInput->clean($value, 'TRIM') !== $value
-            || strlen(utf8_decode($value)) > $element['size']
+            || strlen(mb_convert_encoding($value, 'ISO-8859-1', 'UTF-8')) > $element['size']
         ) {
             return false;
         }

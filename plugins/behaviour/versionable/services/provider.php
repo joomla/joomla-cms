@@ -20,8 +20,7 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Filter\InputFilter;
 use Joomla\Plugin\Behaviour\Versionable\Extension\Versionable;
 
-return new class implements ServiceProviderInterface
-{
+return new class () implements ServiceProviderInterface {
     /**
      * Registers the service provider with a DI container.
      *

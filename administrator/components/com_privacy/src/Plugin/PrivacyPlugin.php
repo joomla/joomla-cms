@@ -16,6 +16,11 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Privacy\Administrator\Export\Domain;
 use Joomla\Component\Privacy\Administrator\Export\Field;
 use Joomla\Component\Privacy\Administrator\Export\Item;
+use Joomla\Database\DatabaseAwareTrait;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Base class for privacy plugins
@@ -24,11 +29,14 @@ use Joomla\Component\Privacy\Administrator\Export\Item;
  */
 abstract class PrivacyPlugin extends CMSPlugin
 {
+    use DatabaseAwareTrait;
+
     /**
      * Database object
      *
      * @var    \Joomla\Database\DatabaseDriver
      * @since  3.9.0
+     * @deprecated  4.4.0 will be removed in 6.0 use $this->getDatabase() instead
      */
     protected $db;
 
@@ -71,7 +79,7 @@ abstract class PrivacyPlugin extends CMSPlugin
      */
     protected function createItemFromArray(array $data, $itemId = null)
     {
-        $item = new Item();
+        $item     = new Item();
         $item->id = $itemId;
 
         foreach ($data as $key => $value) {
@@ -123,7 +131,7 @@ abstract class PrivacyPlugin extends CMSPlugin
      *
      * @since   3.9.0
      */
-    protected function createCustomFieldsDomain($context, $items = array())
+    protected function createCustomFieldsDomain($context, $items = [])
     {
         if (!is_array($items)) {
             $items = [$items];

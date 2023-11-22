@@ -11,6 +11,10 @@ namespace Joomla\CMS\WebAsset;
 
 use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Web Asset Registry interface
  *

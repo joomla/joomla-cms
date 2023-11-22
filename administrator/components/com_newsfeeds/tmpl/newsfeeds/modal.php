@@ -18,11 +18,13 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
-HTMLHelper::_('behavior.core');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('core');
 
 $app = Factory::getApplication();
 
-$function  = $app->input->getCmd('function', 'jSelectNewsfeed');
+$function  = $app->getInput()->getCmd('function', 'jSelectNewsfeed');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $multilang = Multilanguage::isEnabled();
@@ -31,7 +33,7 @@ $multilang = Multilanguage::isEnabled();
 
     <form action="<?php echo Route::_('index.php?option=com_newsfeeds&view=newsfeeds&layout=modal&tmpl=component&function=' . $function); ?>" method="post" name="adminForm" id="adminForm">
 
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
 
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
@@ -68,12 +70,12 @@ $multilang = Multilanguage::isEnabled();
                 </thead>
                 <tbody>
                 <?php
-                $iconStates = array(
+                $iconStates = [
                     -2 => 'icon-trash',
                     0  => 'icon-times',
                     1  => 'icon-check',
                     2  => 'icon-folder',
-                );
+                ];
                 ?>
                 <?php foreach ($this->items as $i => $item) : ?>
                     <?php if ($item->language && $multilang) {
@@ -125,7 +127,7 @@ $multilang = Multilanguage::isEnabled();
 
         <input type="hidden" name="task" value="">
         <input type="hidden" name="boxchecked" value="0">
-        <input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'CMD'); ?>">
+        <input type="hidden" name="forcedLanguage" value="<?php echo $app->getInput()->get('forcedLanguage', '', 'CMD'); ?>">
         <?php echo HTMLHelper::_('form.token'); ?>
 
     </form>

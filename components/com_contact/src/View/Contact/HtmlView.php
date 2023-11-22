@@ -20,6 +20,10 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML Contact View class for the Contact component
  *
@@ -325,17 +329,17 @@ class HtmlView extends BaseHtmlView
             $item->text = $item->misc;
         }
 
-        $app->triggerEvent('onContentPrepare', array ('com_contact.contact', &$item, &$item->params, $offset));
+        $app->triggerEvent('onContentPrepare', ['com_contact.contact', &$item, &$item->params, $offset]);
 
         // Store the events for later
-        $item->event = new \stdClass();
-        $results = $app->triggerEvent('onContentAfterTitle', array('com_contact.contact', &$item, &$item->params, $offset));
+        $item->event                    = new \stdClass();
+        $results                        = $app->triggerEvent('onContentAfterTitle', ['com_contact.contact', &$item, &$item->params, $offset]);
         $item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-        $results = $app->triggerEvent('onContentBeforeDisplay', array('com_contact.contact', &$item, &$item->params, $offset));
+        $results                           = $app->triggerEvent('onContentBeforeDisplay', ['com_contact.contact', &$item, &$item->params, $offset]);
         $item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-        $results = $app->triggerEvent('onContentAfterDisplay', array('com_contact.contact', &$item, &$item->params, $offset));
+        $results                          = $app->triggerEvent('onContentAfterDisplay', ['com_contact.contact', &$item, &$item->params, $offset]);
         $item->event->afterDisplayContent = trim(implode("\n", $results));
 
         if (!empty($item->text)) {
@@ -346,10 +350,10 @@ class HtmlView extends BaseHtmlView
 
         if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = Factory::getUser($item->user_id)) {
             $contactUser->text = '';
-            $app->triggerEvent('onContentPrepare', array ('com_users.user', &$contactUser, &$item->params, 0));
+            $app->triggerEvent('onContentPrepare', ['com_users.user', &$contactUser, &$item->params, 0]);
 
             if (!isset($contactUser->jcfields)) {
-                $contactUser->jcfields = array();
+                $contactUser->jcfields = [];
             }
         }
 
@@ -421,11 +425,11 @@ class HtmlView extends BaseHtmlView
                 $id = 0;
             }
 
-            $path = array(array('title' => $this->item->name, 'link' => ''));
+            $path     = [['title' => $this->item->name, 'link' => '']];
             $category = Categories::getInstance('Contact')->get($this->item->catid);
 
             while ($category !== null && $category->id != $id && $category->id !== 'root') {
-                $path[] = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
+                $path[]   = ['title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language)];
                 $category = $category->getParent();
             }
 
@@ -443,20 +447,20 @@ class HtmlView extends BaseHtmlView
         $this->setDocumentTitle($title);
 
         if ($this->item->metadesc) {
-            $this->document->setDescription($this->item->metadesc);
+            $this->getDocument()->setDescription($this->item->metadesc);
         } elseif ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
 
         $mdata = $this->item->metadata->toArray();
 
         foreach ($mdata as $k => $v) {
             if ($v) {
-                $this->document->setMetaData($k, $v);
+                $this->getDocument()->setMetaData($k, $v);
             }
         }
     }

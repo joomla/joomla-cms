@@ -13,6 +13,10 @@ namespace Joomla\Plugin\User\Token\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\TextField;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomlatoken field class
  *
@@ -134,22 +138,5 @@ class JoomlatokenField extends TextField
         $data['value'] = $this->getTokenForDisplay($this->value);
 
         return $data;
-    }
-
-    /**
-     * Get the layout paths
-     *
-     * @return  array
-     *
-     * @since   4.0.0
-     */
-    protected function getLayoutPaths()
-    {
-        $template = Factory::getApplication()->getTemplate();
-
-        return [
-            JPATH_THEMES . '/' . $template . '/html/layouts',
-            JPATH_SITE . '/layouts',
-        ];
     }
 }

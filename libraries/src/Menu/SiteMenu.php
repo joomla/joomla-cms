@@ -21,6 +21,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Menu class
  *
@@ -61,7 +65,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
      *
      * @since   1.5
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         // Extract the internal dependencies before calling the parent constructor since it calls $this->load()
         $this->app      = isset($options['app']) && $options['app'] instanceof CMSApplication ? $options['app'] : Factory::getApplication();
@@ -172,7 +176,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
             /** @var CallbackController $cache */
             $cache = $this->getCacheControllerFactory()->createCacheController('callback', ['defaultgroup' => 'com_menus']);
 
-            $this->items = $cache->get($loader, array(), md5(\get_class($this)), false);
+            $this->items = $cache->get($loader, [], md5(\get_class($this)), false);
         } catch (CacheExceptionInterface $e) {
             try {
                 $this->items = $loader();
@@ -189,7 +193,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
 
         foreach ($this->items as &$item) {
             // Get parent information.
-            $parent_tree = array();
+            $parent_tree = [];
 
             if (isset($this->items[$item->parent_id])) {
                 $item->setParent($this->items[$item->parent_id]);
@@ -231,7 +235,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
             if (($key = array_search('language', $attributes)) === false) {
                 if (Multilanguage::isEnabled()) {
                     $attributes[] = 'language';
-                    $values[]     = array(Factory::getLanguage()->getTag(), '*');
+                    $values[]     = [Factory::getLanguage()->getTag(), '*'];
                 }
             } elseif ($values[$key] === null) {
                 unset($attributes[$key], $values[$key]);
