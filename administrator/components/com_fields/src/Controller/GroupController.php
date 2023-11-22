@@ -118,7 +118,7 @@ class GroupController extends FormController
     protected function allowEdit($data = [], $key = 'parent_id')
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-        $user = $this->app->getIdentity();
+        $user     = $this->app->getIdentity();
 
         // Zero record (parent_id:0), return component edit permission by calling parent controller method
         if (!$recordId) {
@@ -160,7 +160,7 @@ class GroupController extends FormController
     {
         $item = $model->getItem();
 
-        if (isset($item->params) && is_array($item->params)) {
+        if (isset($item->params) && \is_array($item->params)) {
             $registry = new Registry();
             $registry->loadArray($item->params);
             $item->params = (string) $registry;

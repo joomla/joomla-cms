@@ -106,10 +106,10 @@ class MessagesModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user = Factory::getUser();
-        $id   = (int) $user->get('id');
+        $user  = $this->getCurrentUser();
+        $id    = (int) $user->get('id');
 
         // Select the required fields from the table.
         $query->select(

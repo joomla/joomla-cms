@@ -15,7 +15,7 @@ use Joomla\CMS\User\User;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
- * Test class for \Joomla\CMS\MVC\Model\BaseDatabaseModel
+ * Test class for \Joomla\CMS\MVC\Model\BaseDatabaseModelUser\CurrentUserTrait
  *
  * @package     Joomla.UnitTest
  * @subpackage  MVC
@@ -34,8 +34,7 @@ class CurrentUserTraitTest extends UnitTestCase
     {
         $user = new User();
 
-        $trait = new class
-        {
+        $trait = new class () {
             use CurrentUserTrait;
 
             public function getUser(): User

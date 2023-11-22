@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Content\Administrator\Service\HTML;
 
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -96,7 +95,7 @@ class Icon
         }
 
         // Ignore if the state is negative (trashed).
-        if (!in_array($article->state, [Workflow::CONDITION_UNPUBLISHED, Workflow::CONDITION_PUBLISHED])) {
+        if (!\in_array($article->state, [Workflow::CONDITION_UNPUBLISHED, Workflow::CONDITION_PUBLISHED])) {
             return '';
         }
 
@@ -104,7 +103,7 @@ class Icon
         if (
             property_exists($article, 'checked_out')
             && property_exists($article, 'checked_out_time')
-            && !is_null($article->checked_out)
+            && !\is_null($article->checked_out)
             && $article->checked_out != $user->get('id')
         ) {
             $checkoutUser = Factory::getUser($article->checked_out);
@@ -115,7 +114,7 @@ class Icon
             $text = LayoutHelper::render('joomla.content.icons.edit_lock', ['article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy]);
 
             $attribs['aria-describedby'] = 'editarticle-' . (int) $article->id;
-            $output = HTMLHelper::_('link', '#', $text, $attribs);
+            $output                      = HTMLHelper::_('link', '#', $text, $attribs);
 
             return $output;
         }
@@ -132,7 +131,7 @@ class Icon
         $text = LayoutHelper::render('joomla.content.icons.edit', ['article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy]);
 
         $attribs['aria-describedby'] = 'editarticle-' . (int) $article->id;
-        $output = HTMLHelper::_('link', Route::_($url), $text, $attribs);
+        $output                      = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
         return $output;
     }

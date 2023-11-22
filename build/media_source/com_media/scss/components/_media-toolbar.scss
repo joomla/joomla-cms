@@ -18,12 +18,18 @@
     width: $toolbar-icon-width;
     font-size: 1.3rem;
     line-height: $toolbar-height;
-    color: var(--template-bg-dark-60);
+    color: $toolbar-icon-color;
     text-align: center;
     background-color: transparent;
     border: 0;
     border-inline-start: 1px solid $border-color;
-    box-shadow: 1px 0 #fefefe inset;
+    &.active {
+      color: #fff;
+      background-color: $toolbar-icon-active-bg-color;
+      &:hover {
+        background-color: $toolbar-icon-active-bg-color-hover;
+      }
+    }
     &:hover {
       background-color: $toolbar-icon-bg-hover;
       box-shadow: none;

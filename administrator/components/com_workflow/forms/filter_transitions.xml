@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields name="filter">
 		<field
@@ -12,7 +12,7 @@
 			name="published"
 			type="status"
 			label="JSTATUS"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			optionsFilter="-2,0,1"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -21,7 +21,7 @@
 			name="from_stage"
 			type="sql"
 			label="COM_WORKFLOW_FROM_STAGE"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			sql_select="id as value, title as from_stage"
 			sql_from="#__workflow_stages"
 			translate="true"
@@ -32,7 +32,7 @@
 			name="to_stage"
 			type="sql"
 			label="COM_WORKFLOW_TO_STAGE"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			sql_select="id as value, title as to_stage"
 			sql_from="#__workflow_stages"
 			translate="true"
@@ -47,7 +47,7 @@
 			type="list"
 			label="JGLOBAL_SORT_BY"
 			default="t.ordering ASC"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
@@ -70,7 +70,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 	</fields>
 </form>

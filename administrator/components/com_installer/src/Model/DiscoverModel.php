@@ -95,7 +95,7 @@ class DiscoverModel extends InstallerModel
      */
     protected function getListQuery()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->quoteName('#__extensions'))
@@ -117,7 +117,7 @@ class DiscoverModel extends InstallerModel
                 ->bind(':clientid', $clientId, ParameterType::INTEGER);
         }
 
-        if ($folder != '' && in_array($type, ['plugin', 'library', ''])) {
+        if ($folder != '' && \in_array($type, ['plugin', 'library', ''])) {
             $folder = $folder === '*' ? '' : $folder;
             $query->where($db->quoteName('folder') . ' = :folder')
                 ->bind(':folder', $folder);
@@ -155,7 +155,7 @@ class DiscoverModel extends InstallerModel
         $results = Installer::getInstance()->discover();
 
         // Get all templates, including discovered ones
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName(['extension_id', 'element', 'folder', 'client_id', 'type']))
             ->from($db->quoteName('#__extensions'));
@@ -171,7 +171,7 @@ class DiscoverModel extends InstallerModel
                     $install->type,
                     str_replace('\\', '/', $install->element),
                     $install->folder,
-                    $install->client_id
+                    $install->client_id,
                 ]
             );
             $extensions[$key] = $install;
@@ -187,11 +187,11 @@ class DiscoverModel extends InstallerModel
                     $result->type,
                     str_replace('\\', '/', $result->element),
                     $result->folder,
-                    $result->client_id
+                    $result->client_id,
                 ]
             );
 
-            if (!array_key_exists($key, $extensions)) {
+            if (!\array_key_exists($key, $extensions)) {
                 // Put it into the table
                 $result->check();
                 $result->store();
@@ -212,15 +212,15 @@ class DiscoverModel extends InstallerModel
     public function discover_install()
     {
         $app   = Factory::getApplication();
-        $input = $app->input;
+        $input = $app->getInput();
         $eid   = $input->get('cid', 0, 'array');
 
-        if (is_array($eid) || $eid) {
-            if (!is_array($eid)) {
+        if (\is_array($eid) || $eid) {
+            if (!\is_array($eid)) {
                 $eid = [$eid];
             }
 
-            $eid = ArrayHelper::toInteger($eid);
+            $eid    = ArrayHelper::toInteger($eid);
             $failed = false;
 
             foreach ($eid as $id) {
@@ -258,7 +258,7 @@ class DiscoverModel extends InstallerModel
      */
     public function purge()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__extensions'))
             ->where($db->quoteName('state') . ' = -1');
@@ -310,6 +310,6 @@ class DiscoverModel extends InstallerModel
         $db->setQuery($query);
         $discoveredExtensions = $db->loadObjectList();
 
-        return count($discoveredExtensions) > 0;
+        return \count($discoveredExtensions) > 0;
     }
 }

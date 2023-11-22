@@ -65,8 +65,8 @@ class FieldController extends FormController
         parent::__construct($config, $factory, $app, $input);
 
         $this->internalContext = $this->app->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD');
-        $parts = FieldsHelper::extract($this->internalContext);
-        $this->component = $parts ? $parts[0] : null;
+        $parts                 = FieldsHelper::extract($this->internalContext);
+        $this->component       = $parts ? $parts[0] : null;
     }
 
     /**
@@ -187,7 +187,7 @@ class FieldController extends FormController
     {
         $item = $model->getItem();
 
-        if (isset($item->params) && is_array($item->params)) {
+        if (isset($item->params) && \is_array($item->params)) {
             $registry = new Registry();
             $registry->loadArray($item->params);
             $item->params = (string) $registry;

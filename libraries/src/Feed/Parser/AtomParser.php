@@ -15,7 +15,7 @@ use Joomla\CMS\Feed\FeedLink;
 use Joomla\CMS\Feed\FeedParser;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -113,7 +113,7 @@ class AtomParser extends FeedParser
      */
     protected function handleLink(Feed $feed, \SimpleXMLElement $el)
     {
-        $link = new FeedLink();
+        $link           = new FeedLink();
         $link->uri      = (string) $el['href'];
         $link->language = (string) $el['hreflang'];
         $link->length   = (int) $el['length'];

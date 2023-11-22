@@ -29,7 +29,7 @@ class JsonResponse
      * The security token.
      *
      * @var    string
-     * @since  4.2.7
+     * @since  4.3.0
      */
     public $token;
 
@@ -37,7 +37,7 @@ class JsonResponse
      * The language tag
      *
      * @var    string
-     * @since  4.2.7
+     * @since  4.3.0
      */
     public $lang;
 
@@ -45,7 +45,7 @@ class JsonResponse
      * The message
      *
      * @var    string
-     * @since  4.2.7
+     * @since  4.3.0
      */
     public $message;
 
@@ -53,7 +53,7 @@ class JsonResponse
      * The messages array
      *
      * @var    array
-     * @since  4.2.7
+     * @since  4.3.0
      */
     public $messages;
 
@@ -61,7 +61,7 @@ class JsonResponse
      * The error message
      *
      * @var    string
-     * @since  4.2.7
+     * @since  4.3.0
      */
     public $error;
 
@@ -69,7 +69,7 @@ class JsonResponse
      * The header
      *
      * @var    string
-     * @since  4.2.7
+     * @since  4.3.0
      */
     public $header;
 
@@ -77,7 +77,7 @@ class JsonResponse
      * The data
      *
      * @var    mixed
-     * @since  4.2.7
+     * @since  4.3.0
      */
     public $data;
 
@@ -100,7 +100,7 @@ class JsonResponse
         $messages = Factory::getApplication()->getMessageQueue();
 
         // Build the sorted message list
-        if (is_array($messages) && count($messages)) {
+        if (\is_array($messages) && \count($messages)) {
             foreach ($messages as $msg) {
                 if (isset($msg['type'], $msg['message'])) {
                     $lists[$msg['type']][] = $msg['message'];
@@ -109,7 +109,7 @@ class JsonResponse
         }
 
         // If messages exist add them to the output
-        if (isset($lists) && is_array($lists)) {
+        if (isset($lists) && \is_array($lists)) {
             $this->messages = $lists;
         }
 
@@ -122,6 +122,11 @@ class JsonResponse
         } else {
             // Prepare the response data.
             $this->error = false;
+
+            if (isset($data->error) && $data->error) {
+                $this->error = true;
+            }
+
             $this->data  = $data;
         }
     }

@@ -90,14 +90,14 @@ class ApplicationController extends BaseController
 
         // Complete data array if needed
         $oldData = $model->getData();
-        $data = array_replace($oldData, $data);
+        $data    = array_replace($oldData, $data);
 
         // Get request type
         $saveFormat = $this->app->getDocument()->getType();
 
         // Handle service requests
         if ($saveFormat == 'json') {
-            $form = $model->getForm();
+            $form   = $model->getForm();
             $return = $model->validate($form, $data);
 
             if ($return === false) {
@@ -121,7 +121,7 @@ class ApplicationController extends BaseController
             $errors = $model->getErrors();
 
             // Push up to three validation messages out to the user.
-            for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
                     $this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
                 } else {

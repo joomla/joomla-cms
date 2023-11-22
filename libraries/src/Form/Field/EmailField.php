@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Form\Field;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -63,8 +63,8 @@ class EmailField extends TextField
         $data = parent::getLayoutData();
 
         $extraData = [
-            'maxLength'  => $this->maxLength,
-            'multiple'   => $this->multiple,
+            'maxLength' => $this->maxLength,
+            'multiple'  => $this->multiple,
         ];
 
         return array_merge($data, $extraData);

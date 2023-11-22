@@ -65,7 +65,7 @@ class ContenttypesField extends ListField
 
         // Translate.
         foreach ($contentTypes as $contentType) {
-            $key = LanguageHelper::branchSingular($contentType->text);
+            $key                         = LanguageHelper::branchSingular($contentType->text);
             $contentType->translatedText = $lang->hasKey($key) ? Text::_($key) : $contentType->text;
         }
 

@@ -12,7 +12,7 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Form\FormField;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -144,7 +144,7 @@ class TextareaField extends FormField
             $this->rows        = isset($this->element['rows']) ? (int) $this->element['rows'] : false;
             $this->columns     = isset($this->element['cols']) ? (int) $this->element['cols'] : false;
             $this->maxlength   = isset($this->element['maxlength']) ? (int) $this->element['maxlength'] : false;
-            $this->charcounter = isset($this->element['charcounter']) ? strtolower($this->element['charcounter']) === 'true' : false;
+            $this->charcounter = isset($this->element['charcounter']) && strtolower($this->element['charcounter']) === 'true';
         }
 
         return $return;
@@ -181,10 +181,10 @@ class TextareaField extends FormField
         $maxlength    = $this->maxlength ? ' maxlength="' . $this->maxlength . '"' : '';
 
         $extraData = [
-            'maxlength'    => $maxlength,
-            'rows'         => $rows,
-            'columns'      => $columns,
-            'charcounter'  => $this->charcounter
+            'maxlength'   => $maxlength,
+            'rows'        => $rows,
+            'columns'     => $columns,
+            'charcounter' => $this->charcounter,
         ];
 
         return array_merge($data, $extraData);

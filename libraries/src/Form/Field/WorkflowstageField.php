@@ -69,7 +69,7 @@ class WorkflowstageField extends GroupedlistField
             if (\strlen($element['extension'])) {
                 $this->extension = (string) $element['extension'];
             } else {
-                $this->extension = Factory::getApplication()->input->getCmd('extension');
+                $this->extension = Factory::getApplication()->getInput()->getCmd('extension');
             }
 
             if ((string) $element['activeonly'] === '1' || (string) $element['activeonly'] === 'true') {
@@ -83,7 +83,7 @@ class WorkflowstageField extends GroupedlistField
     /**
      * Method to get the field option groups.
      *
-     * @return  array  The field option objects as a nested array in groups.
+     * @return  array[]  The field option objects as a nested array in groups.
      *
      * @since  4.0.0
      * @throws  \UnexpectedValueException

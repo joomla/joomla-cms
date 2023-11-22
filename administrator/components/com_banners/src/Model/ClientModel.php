@@ -52,7 +52,7 @@ class ClientModel extends AdminModel
         }
 
         if (!empty($record->catid)) {
-            return Factory::getUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
+            return $this->getCurrentUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
         }
 
         return parent::canDelete($record);
@@ -70,7 +70,7 @@ class ClientModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if (!empty($record->catid)) {
             return $user->authorise('core.edit.state', 'com_banners.category.' . (int) $record->catid);

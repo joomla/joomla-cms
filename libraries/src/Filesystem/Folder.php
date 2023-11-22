@@ -16,13 +16,15 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * A Folder handling class
  *
  * @since  1.7.0
+ * @deprecated  4.4 will be removed in 6.0
+ *              Use Joomla\Filesystem\Folder instead.
  */
 abstract class Folder
 {
@@ -39,10 +41,14 @@ abstract class Folder
      *
      * @since   1.7.0
      * @throws  \RuntimeException
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Folder::copy() instead.
      */
     public static function copy($src, $dest, $path = '', $force = false, $useStreams = false)
     {
-        @set_time_limit(ini_get('max_execution_time'));
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(ini_get('max_execution_time'));
+        }
 
         $FTPOptions = ClientHelper::getCredentials('ftp');
 
@@ -52,7 +58,7 @@ abstract class Folder
         }
 
         // Eliminate trailing directory separators, if any
-        $src = rtrim($src, DIRECTORY_SEPARATOR);
+        $src  = rtrim($src, DIRECTORY_SEPARATOR);
         $dest = rtrim($dest, DIRECTORY_SEPARATOR);
 
         if (!self::exists($src)) {
@@ -159,10 +165,13 @@ abstract class Folder
      * @return  boolean  True if successful.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Folder::create() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function create($path = '', $mode = 0755)
     {
-        $FTPOptions = ClientHelper::getCredentials('ftp');
+        $FTPOptions    = ClientHelper::getCredentials('ftp');
         static $nested = 0;
 
         // Check to make sure the path valid and clean
@@ -206,7 +215,7 @@ abstract class Folder
 
             // Translate path to FTP path
             $path = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
-            $ret = $ftp->mkdir($path);
+            $ret  = $ftp->mkdir($path);
             $ftp->chmod($path, $mode);
         } else {
             // We need to get and explode the open_basedir paths
@@ -221,7 +230,7 @@ abstract class Folder
                 }
 
                 // Create the array of open_basedir paths
-                $obdArray = explode($obdSeparator, $obd);
+                $obdArray  = explode($obdSeparator, $obd);
                 $inBaseDir = false;
 
                 // Iterate through open_basedir paths looking for a match
@@ -272,10 +281,15 @@ abstract class Folder
      * @return  boolean  True on success.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Folder::delete() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function delete($path)
     {
-        @set_time_limit(ini_get('max_execution_time'));
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(ini_get('max_execution_time'));
+        }
 
         // Sanity check
         if (!$path) {
@@ -357,13 +371,16 @@ abstract class Folder
      * @return  mixed  Error message on false or boolean true on success.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Folder::move() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function move($src, $dest, $path = '', $useStreams = false)
     {
         $FTPOptions = ClientHelper::getCredentials('ftp');
 
         if ($path) {
-            $src = Path::clean($path . '/' . $src);
+            $src  = Path::clean($path . '/' . $src);
             $dest = Path::clean($path . '/' . $dest);
         }
 
@@ -389,7 +406,7 @@ abstract class Folder
                 $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
 
                 // Translate path for the FTP account
-                $src = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
+                $src  = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
                 $dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
                 // Use FTP rename to simulate move
@@ -418,6 +435,8 @@ abstract class Folder
      * @return  boolean  True if path is a folder
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use is_dir() instead.
      */
     public static function exists($path)
     {
@@ -438,6 +457,9 @@ abstract class Folder
      * @return  array|boolean  Files in the given folder.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Folder::files() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function files(
         $path,
@@ -491,6 +513,9 @@ abstract class Folder
      * @return  array  Folders in the given folder.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Folder::folders() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function folders(
         $path,
@@ -540,10 +565,14 @@ abstract class Folder
      * @return  array  Files.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Folder::_items() instead.
      */
     protected static function _items($path, $filter, $recurse, $full, $exclude, $excludeFilterString, $findFiles)
     {
-        @set_time_limit(ini_get('max_execution_time'));
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(ini_get('max_execution_time'));
+        }
 
         $arr = [];
 
@@ -603,6 +632,8 @@ abstract class Folder
      * @return  array  Folders in the given folder.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Folder::listFolderTree() instead.
      */
     public static function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0)
     {
@@ -617,17 +648,17 @@ abstract class Folder
 
             // First path, index foldernames
             foreach ($folders as $name) {
-                $id = ++$GLOBALS['_JFolder_folder_tree_index'];
+                $id       = ++$GLOBALS['_JFolder_folder_tree_index'];
                 $fullName = Path::clean($path . '/' . $name);
-                $dirs[] = [
-                    'id' => $id,
-                    'parent' => $parent,
-                    'name' => $name,
+                $dirs[]   = [
+                    'id'       => $id,
+                    'parent'   => $parent,
+                    'name'     => $name,
                     'fullname' => $fullName,
-                    'relname' => str_replace(JPATH_ROOT, '', $fullName),
+                    'relname'  => str_replace(JPATH_ROOT, '', $fullName),
                 ];
                 $dirs2 = self::listFolderTree($fullName, $filter, $maxLevel, $level + 1, $id);
-                $dirs = array_merge($dirs, $dirs2);
+                $dirs  = array_merge($dirs, $dirs2);
             }
         }
 
@@ -642,6 +673,8 @@ abstract class Folder
      * @return  string  The sanitised string.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Folder::makeSafe() instead.
      */
     public static function makeSafe($path)
     {

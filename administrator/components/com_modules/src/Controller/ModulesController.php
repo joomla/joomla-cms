@@ -49,7 +49,7 @@ class ModulesController extends AdminController
 
             $model = $this->getModel();
             $model->duplicate($pks);
-            $this->setMessage(Text::plural('COM_MODULES_N_MODULES_DUPLICATED', count($pks)));
+            $this->setMessage(Text::plural('COM_MODULES_N_MODULES_DUPLICATED', \count($pks)));
         } catch (\Exception $e) {
             $this->app->enqueueMessage($e->getMessage(), 'warning');
         }
@@ -93,7 +93,7 @@ class ModulesController extends AdminController
 
         $result['amount'] = $amount;
         $result['sronly'] = Text::plural('COM_MODULES_N_QUICKICON_SRONLY', $amount);
-        $result['name'] = Text::plural('COM_MODULES_N_QUICKICON', $amount);
+        $result['name']   = Text::plural('COM_MODULES_N_QUICKICON', $amount);
 
         echo new JsonResponse($result);
     }

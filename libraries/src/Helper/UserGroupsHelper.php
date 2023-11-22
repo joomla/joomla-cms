@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -42,7 +42,7 @@ final class UserGroupsHelper
     /**
      * Singleton instance.
      *
-     * @var    array
+     * @var    UserGroupsHelper
      * @since  3.6.3
      */
     private static $instance;
@@ -305,7 +305,7 @@ final class UserGroupsHelper
         $parentId = (int) $group->parent_id;
 
         if ($parentId === 0) {
-            $group->path = [$group->id];
+            $group->path  = [$group->id];
             $group->level = 0;
 
             return $group;
@@ -317,7 +317,7 @@ final class UserGroupsHelper
             $parentGroup = $this->populateGroupData($parentGroup);
         }
 
-        $group->path = array_merge($parentGroup->path, [$group->id]);
+        $group->path  = array_merge($parentGroup->path, [$group->id]);
         $group->level = \count($group->path) - 1;
 
         return $group;

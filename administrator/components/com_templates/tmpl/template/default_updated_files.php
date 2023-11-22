@@ -17,7 +17,11 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 
-$input = Factory::getApplication()->input;
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns');
+
+$input = Factory::getApplication()->getInput();
 ?>
 
 <?php if (count($this->updatedList) === 0) : ?>
@@ -34,6 +38,9 @@ $input = Factory::getApplication()->input;
         <div class="row mt-2">
             <div class="col-md-12">
                 <table class="table">
+                    <caption class="visually-hidden">
+                        <?php echo Text::_('COM_TEMPLATES_OVERRIDE_UPDATED_FILES_CAPTION'); ?>
+                    </caption>
                     <thead>
                         <tr>
                             <td class="w-5 text-center">

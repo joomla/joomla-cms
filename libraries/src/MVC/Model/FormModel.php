@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
@@ -21,7 +21,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -48,9 +48,9 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
     /**
      * Constructor
      *
-     * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface   $factory      The factory.
-     * @param   FormFactoryInterface  $formFactory  The form factory.
+     * @param   array                  $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface   $factory      The factory.
+     * @param   ?FormFactoryInterface  $formFactory  The form factory.
      *
      * @since   3.6
      * @throws  \Exception
@@ -192,22 +192,28 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
      */
     public function validate($form, $data, $group = null)
     {
-        // Include the plugins for the delete events.
-        PluginHelper::importPlugin($this->events_map['validate']);
+        $dispatcher = $this->getDispatcher();
 
-        $dispatcher = Factory::getContainer()->get('dispatcher');
+        // Include the plugins for the delete events.
+        PluginHelper::importPlugin($this->events_map['validate'], null, true, $dispatcher);
 
         if (!empty($dispatcher->getListeners('onUserBeforeDataValidation'))) {
             @trigger_error(
-                'The `onUserBeforeDataValidation` event is deprecated and will be removed in 5.0.'
+                'The `onUserBeforeDataValidation` event is deprecated and will be removed in 6.0.'
                 . 'Use the `onContentValidateData` event instead.',
                 E_USER_DEPRECATED
             );
 
-            Factory::getApplication()->triggerEvent('onUserBeforeDataValidation', [$form, &$data]);
+            $data = $dispatcher->dispatch('onUserBeforeDataValidation', new Model\BeforeValidateDataEvent('onUserBeforeDataValidation', [
+                'subject' => $form,
+                'data'    => &$data, // @todo: Remove reference in Joomla 6, see BeforeValidateDataEvent::__constructor()
+            ]))->getArgument('data', $data);
         }
 
-        Factory::getApplication()->triggerEvent('onContentBeforeValidateData', [$form, &$data]);
+        $data = $dispatcher->dispatch('onContentBeforeValidateData', new Model\BeforeValidateDataEvent('onContentBeforeValidateData', [
+            'subject' => $form,
+            'data'    => &$data, // @todo: Remove reference in Joomla 6, see AfterRenderModulesEvent::__constructor()
+        ]))->getArgument('data', $data);
 
         // Filter and validate the form data.
         $return = $form->process($data, $group);

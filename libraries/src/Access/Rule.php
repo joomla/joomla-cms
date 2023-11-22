@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Access;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -95,7 +95,7 @@ class Rule
     public function mergeIdentity($identity, $allow)
     {
         $identity = (int) $identity;
-        $allow = (int) ((bool) $allow);
+        $allow    = (int) ((bool) $allow);
 
         // Check that the identity exists.
         if (isset($this->data[$identity])) {

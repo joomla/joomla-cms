@@ -23,7 +23,7 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
-$input = Factory::getApplication()->input;
+$input = Factory::getApplication()->getInput();
 
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();

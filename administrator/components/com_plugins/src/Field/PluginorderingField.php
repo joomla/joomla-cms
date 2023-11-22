@@ -49,7 +49,7 @@ class PluginorderingField extends OrderingField
                     $db->quoteName('name', 'text'),
                     $db->quoteName('type'),
                     $db->quote('folder'),
-                    $db->quote('extension_id')
+                    $db->quote('extension_id'),
                 ]
             )
             ->from($db->quoteName('#__extensions'))

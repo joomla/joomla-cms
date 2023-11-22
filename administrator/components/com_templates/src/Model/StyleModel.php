@@ -13,7 +13,6 @@ namespace Joomla\Component\Templates\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -23,10 +22,10 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -80,7 +79,7 @@ class StyleModel extends AdminModel
                 'event_after_delete'  => 'onExtensionAfterDelete',
                 'event_before_save'   => 'onExtensionBeforeSave',
                 'event_after_save'    => 'onExtensionAfterSave',
-                'events_map'          => ['delete' => 'extension', 'save' => 'extension']
+                'events_map'          => ['delete' => 'extension', 'save' => 'extension'],
             ],
             $config
         );
@@ -102,7 +101,7 @@ class StyleModel extends AdminModel
         $app = Factory::getApplication();
 
         // Load the User state.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
         $this->setState('style.id', $pk);
 
         // Load the parameters.
@@ -123,7 +122,7 @@ class StyleModel extends AdminModel
     public function delete(&$pks)
     {
         $pks        = (array) $pks;
-        $user       = Factory::getUser();
+        $user       = $this->getCurrentUser();
         $table      = $this->getTable();
         $context    = $this->option . '.' . $this->name;
 
@@ -147,7 +146,7 @@ class StyleModel extends AdminModel
                 // Trigger the before delete event.
                 $result = Factory::getApplication()->triggerEvent($this->event_before_delete, [$context, $table]);
 
-                if (in_array(false, $result, true) || !$table->delete($pk)) {
+                if (\in_array(false, $result, true) || !$table->delete($pk)) {
                     $this->setError($table->getError());
 
                     return false;
@@ -179,7 +178,7 @@ class StyleModel extends AdminModel
      */
     public function duplicate(&$pks)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Access checks.
         if (!$user->authorise('core.create', 'com_templates')) {
@@ -202,7 +201,7 @@ class StyleModel extends AdminModel
                 $table->home = 0;
 
                 // Alter the title.
-                $m = null;
+                $m            = null;
                 $table->title = $this->generateNewTitle(null, null, $table->title);
 
                 if (!$table->check()) {
@@ -212,7 +211,7 @@ class StyleModel extends AdminModel
                 // Trigger the before save event.
                 $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, true]);
 
-                if (in_array(false, $result, true) || !$table->store()) {
+                if (\in_array(false, $result, true) || !$table->store()) {
                     throw new \Exception($table->getError());
                 }
 
@@ -353,7 +352,7 @@ class StyleModel extends AdminModel
             $this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
 
             // Convert the params field to an array.
-            $registry = new Registry($table->params);
+            $registry                  = new Registry($table->params);
             $this->_cache[$pk]->params = $registry->toArray();
 
             // Get the template XML.
@@ -396,10 +395,13 @@ class StyleModel extends AdminModel
         $formFile = Path::clean($client->path . '/templates/' . $template . '/templateDetails.xml');
 
         // Load the core and/or local language file(s).
+        // Default to using parent template language constants
+        $lang->load('tpl_' . $data->parent, $client->path)
+            || $lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent);
+
+        // Apply any, optional, overrides for child template language constants
         $lang->load('tpl_' . $template, $client->path)
-        ||  (!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path))
-        ||  (!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent))
-        ||  $lang->load('tpl_' . $template, $client->path . '/templates/' . $template);
+            || $lang->load('tpl_' . $template, $client->path . '/templates/' . $template);
 
         if (file_exists($formFile)) {
             // Get the template form.
@@ -411,8 +413,8 @@ class StyleModel extends AdminModel
         // Disable home field if it is default style
 
         if (
-            (is_array($data) && array_key_exists('home', $data) && $data['home'] == '1')
-            || (is_object($data) && isset($data->home) && $data->home == '1')
+            (\is_array($data) && \array_key_exists('home', $data) && $data['home'] == '1')
+            || (\is_object($data) && isset($data->home) && $data->home == '1')
         ) {
             $form->setFieldAttribute('home', 'readonly', 'true');
         }
@@ -474,7 +476,7 @@ class StyleModel extends AdminModel
             $isNew = false;
         }
 
-        if ($app->input->get('task') == 'save2copy') {
+        if ($app->getInput()->get('task') == 'save2copy') {
             $data['title']    = $this->generateNewTitle(null, null, $data['title']);
             $data['home']     = 0;
             $data['assigned'] = '';
@@ -501,22 +503,22 @@ class StyleModel extends AdminModel
         $result = Factory::getApplication()->triggerEvent($this->event_before_save, ['com_templates.style', &$table, $isNew]);
 
         // Store the data.
-        if (in_array(false, $result, true) || !$table->store()) {
+        if (\in_array(false, $result, true) || !$table->store()) {
             $this->setError($table->getError());
 
             return false;
         }
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if ($user->authorise('core.edit', 'com_menus') && $table->client_id == 0) {
             $n       = 0;
             $db      = $this->getDatabase();
-            $user    = Factory::getUser();
+            $user    = $this->getCurrentUser();
             $tableId = (int) $table->id;
             $userId  = (int) $user->id;
 
-            if (!empty($data['assigned']) && is_array($data['assigned'])) {
+            if (!empty($data['assigned']) && \is_array($data['assigned'])) {
                 $data['assigned'] = ArrayHelper::toInteger($data['assigned']);
 
                 // Update the mapping for menu items that this style IS assigned to.
@@ -580,7 +582,7 @@ class StyleModel extends AdminModel
      */
     public function setHome($id = 0)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
         $db   = $this->getDatabase();
 
         // Access checks.
@@ -640,7 +642,7 @@ class StyleModel extends AdminModel
      */
     public function unsetHome($id = 0)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
         $db   = $this->getDatabase();
 
         // Access checks.
@@ -661,7 +663,9 @@ class StyleModel extends AdminModel
 
         if (!is_numeric($style->client_id)) {
             throw new \Exception(Text::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
-        } elseif ($style->home == '1') {
+        }
+
+        if ($style->home == '1') {
             throw new \Exception(Text::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
         }
 
@@ -697,11 +701,11 @@ class StyleModel extends AdminModel
      *
      * @param   int  $styleId  The style id
      *
-     * @return  stdClass
+     * @return  \stdClass
      *
      * @since   4.2.0
      */
-    public function getAdminTemplate(int $styleId): stdClass
+    public function getAdminTemplate(int $styleId): \stdClass
     {
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)
@@ -775,7 +779,8 @@ class StyleModel extends AdminModel
      * Custom clean cache method
      *
      * @param   string   $group     The cache group
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *

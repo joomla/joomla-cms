@@ -15,7 +15,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 
 $app    = Factory::getApplication();
 $form   = $displayData->getForm();
-$input  = $app->input;
+$input  = $app->getInput();
 
 $fields = $displayData->get('fields') ?: [
     ['parent', 'parent_id'],

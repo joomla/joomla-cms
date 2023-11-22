@@ -65,14 +65,11 @@ class RequestController extends BaseController
 
         try {
             $data = $model->getData();
-            $user = $this->app->getIdentity();
         } catch (\Exception $e) {
             $this->app->enqueueMessage($e->getMessage(), 'error');
 
             return false;
         }
-
-        $this->userIsSuperAdmin = $user->authorise('core.admin');
 
         // Required data
         $requiredData = [
@@ -88,7 +85,7 @@ class RequestController extends BaseController
             'debug_lang'          => null,
             'error_reporting'     => null,
             'mailfrom'            => null,
-            'fromname'            => null
+            'fromname'            => null,
         ];
 
         $data = array_intersect_key($data, $requiredData);

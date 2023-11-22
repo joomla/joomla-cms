@@ -110,9 +110,9 @@ class ArticlesController extends AdminController
         }
 
         if ($value == 1) {
-            $message = Text::plural('COM_CONTENT_N_ITEMS_FEATURED', count($ids));
+            $message = Text::plural('COM_CONTENT_N_ITEMS_FEATURED', \count($ids));
         } else {
-            $message = Text::plural('COM_CONTENT_N_ITEMS_UNFEATURED', count($ids));
+            $message = Text::plural('COM_CONTENT_N_ITEMS_UNFEATURED', \count($ids));
         }
 
         $this->setRedirect(Route::_($redirectUrl, false), $message);
@@ -153,7 +153,7 @@ class ArticlesController extends AdminController
 
         $result['amount'] = $amount;
         $result['sronly'] = Text::plural('COM_CONTENT_N_QUICKICON_SRONLY', $amount);
-        $result['name'] = Text::plural('COM_CONTENT_N_QUICKICON', $amount);
+        $result['name']   = Text::plural('COM_CONTENT_N_QUICKICON', $amount);
 
         echo new JsonResponse($result);
     }

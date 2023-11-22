@@ -12,16 +12,16 @@ namespace Joomla\CMS\Layout;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Version;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Base class for rendering a display layout
- * loaded from from a layout file
+ * loaded from a layout file
  *
  * @link   https://docs.joomla.org/Special:MyLanguage/Sharing_layouts_across_views_or_extensions_with_JLayout
  * @since  3.0
@@ -126,8 +126,7 @@ class FileLayout extends BaseLayout
 
         ob_start();
         include $path;
-        $layoutOutput .= ob_get_contents();
-        ob_end_clean();
+        $layoutOutput .= ob_get_clean();
 
         return $layoutOutput;
     }
@@ -323,10 +322,10 @@ class FileLayout extends BaseLayout
     {
         $lang = Factory::getLanguage();
 
-        $langTag = $lang->getTag();
+        $langTag   = $lang->getTag();
         $langParts = explode('-', $langTag);
 
-        $suffixes = [$langTag, $langParts[0]];
+        $suffixes   = [$langTag, $langParts[0]];
         $suffixes[] = $lang->isRtl() ? 'rtl' : 'ltr';
 
         $this->setSuffixes($suffixes);
@@ -421,11 +420,11 @@ class FileLayout extends BaseLayout
     }
 
     /**
-     * Method to change the component where search for layouts
+     * Change the component for the search paths for layouts
      *
      * @param   string  $option  URL Option of the component. Example: com_content
      *
-     * @return  mixed  Component option string | null for none
+     * @return  void
      *
      * @since   3.2
      */
@@ -526,7 +525,7 @@ class FileLayout extends BaseLayout
             // Check template name in the options
             $template = (object) [
                 'template' => $templateName,
-                'parent' => '',
+                'parent'   => '',
             ];
         } elseif ($app->isClient('site') || $app->isClient('administrator')) {
             // Try to get a default template
@@ -601,7 +600,7 @@ class FileLayout extends BaseLayout
     /**
      * Set suffixes to search layouts
      *
-     * @param   mixed  $suffixes  String with a single suffix or 'auto' | 'none' or array of suffixes
+     * @param   array  $suffixes  Array of suffixes to utilise
      *
      * @return  self
      *
@@ -631,7 +630,7 @@ class FileLayout extends BaseLayout
             $layoutId = $this->layoutId . '.' . $layoutId;
         }
 
-        $sublayout = new static($layoutId, $this->basePath, $this->options);
+        $sublayout               = new static($layoutId, $this->basePath, $this->options);
         $sublayout->includePaths = $this->includePaths;
 
         return $sublayout->render($displayData);

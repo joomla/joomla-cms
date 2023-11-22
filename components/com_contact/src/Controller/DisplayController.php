@@ -39,7 +39,7 @@ class DisplayController extends BaseController
     public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         // Contact frontpage Editor contacts proxying.
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         if ($input->get('view') === 'contacts' && $input->get('layout') === 'modal') {
             $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
@@ -52,7 +52,8 @@ class DisplayController extends BaseController
      * Method to display a view.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  DisplayController  This object to support chaining.
      *
@@ -72,10 +73,23 @@ class DisplayController extends BaseController
             $cachable = false;
         }
 
-        $safeurlparams = ['catid' => 'INT', 'id' => 'INT', 'cid' => 'ARRAY', 'year' => 'INT', 'month' => 'INT',
-            'limit' => 'UINT', 'limitstart' => 'UINT', 'showall' => 'INT', 'return' => 'BASE64', 'filter' => 'STRING',
-            'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'filter-search' => 'STRING', 'print' => 'BOOLEAN',
-            'lang' => 'CMD'];
+        $safeurlparams = [
+            'catid'            => 'INT',
+            'id'               => 'INT',
+            'cid'              => 'ARRAY',
+            'year'             => 'INT',
+            'month'            => 'INT',
+            'limit'            => 'UINT',
+            'limitstart'       => 'UINT',
+            'showall'          => 'INT',
+            'return'           => 'BASE64',
+            'filter'           => 'STRING',
+            'filter_order'     => 'CMD',
+            'filter_order_Dir' => 'CMD',
+            'filter-search'    => 'STRING',
+            'print'            => 'BOOLEAN',
+            'lang'             => 'CMD',
+        ];
 
         parent::display($cachable, $safeurlparams);
 

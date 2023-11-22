@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -109,7 +109,7 @@ class ChromestyleField extends GroupedlistField
                 $clientName = $this->element['client'];
 
                 if (isset($clientName)) {
-                    $client = ApplicationHelper::getClientInfo($clientName, true);
+                    $client   = ApplicationHelper::getClientInfo($clientName, true);
                     $clientId = $client->id;
                 }
             }
@@ -129,7 +129,7 @@ class ChromestyleField extends GroupedlistField
      * Method to get the list of template chrome style options
      * grouped by template.
      *
-     * @return  array  The field option objects as a nested array in groups.
+     * @return  array[]  The field option objects as a nested array in groups.
      *
      * @since   3.0
      */
@@ -138,18 +138,18 @@ class ChromestyleField extends GroupedlistField
         $groups = [];
 
         // Add Module Style Field
-        $tmp = '---' . Text::_('JLIB_FORM_VALUE_FROM_TEMPLATE') . '---';
+        $tmp            = '---' . Text::_('JLIB_FORM_VALUE_FROM_TEMPLATE') . '---';
         $groups[$tmp][] = HTMLHelper::_('select.option', '0', Text::_('JLIB_FORM_VALUE_INHERITED'));
 
         $templateStyles = $this->getTemplateModuleStyles();
 
         // Create one new option object for each available style, grouped by templates
         foreach ($templateStyles as $template => $styles) {
-            $template = ucfirst($template);
+            $template          = ucfirst($template);
             $groups[$template] = [];
 
             foreach ($styles as $style) {
-                $tmp = HTMLHelper::_('select.option', $template . '-' . $style, $style);
+                $tmp                 = HTMLHelper::_('select.option', $template . '-' . $style, $style);
                 $groups[$template][] = $tmp;
             }
         }
@@ -162,7 +162,7 @@ class ChromestyleField extends GroupedlistField
     /**
      * Method to get the templates module styles.
      *
-     * @return  array  The array of styles, grouped by templates.
+     * @return  string[]  The array of styles, grouped by templates.
      *
      * @since   3.0
      */
@@ -210,7 +210,7 @@ class ChromestyleField extends GroupedlistField
     /**
      * Return a list of templates
      *
-     * @return  array  List of templates
+     * @return  object[]  List of templates
      *
      * @since   3.2.1
      */

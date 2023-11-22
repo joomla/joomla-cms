@@ -13,7 +13,7 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Session\Session;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -141,7 +141,7 @@ class ModuleorderField extends FormField
             'moduleId' => $this->form->getValue('id'),
             'name'     => $this->name,
             'token'    => Session::getFormToken() . '=1',
-            'element'  => $this->form->getName() . '_' . $this->linked
+            'element'  => $this->form->getName() . '_' . $this->linked,
         ];
 
         return array_merge($data, $extraData);

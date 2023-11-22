@@ -11,7 +11,6 @@
 namespace Joomla\Component\Templates\Administrator\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -19,6 +18,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Filesystem\Path;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
@@ -76,7 +76,7 @@ class TemplateController extends BaseController
     public function close()
     {
         $file = base64_encode('home');
-        $id = (int) $this->input->get('id', 0, 'int');
+        $id   = (int) $this->input->get('id', 0, 'int');
         $url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' .
             $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
         $this->setRedirect(Route::_($url, false));
@@ -120,7 +120,7 @@ class TemplateController extends BaseController
                     $ntext = 'COM_TEMPLATES_N_OVERRIDE_DELETED';
                 }
 
-                $this->setMessage(Text::plural($ntext, count($ids)));
+                $this->setMessage(Text::plural($ntext, \count($ids)));
             }
         }
 
@@ -165,7 +165,7 @@ class TemplateController extends BaseController
         $model->setState('to_path', $app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 
         // Process only if we have a new name entered
-        if (strlen($newName) > 0) {
+        if (\strlen($newName) > 0) {
             if (!$this->app->getIdentity()->authorise('core.create', 'com_templates')) {
                 // User is not authorised to delete
                 $this->setMessage(Text::_('COM_TEMPLATES_ERROR_CREATE_NOT_PERMITTED'), 'error');
@@ -288,7 +288,9 @@ class TemplateController extends BaseController
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'error');
 
             return;
-        } elseif ($data['extension_id'] != $model->getState('extension.id')) {
+        }
+
+        if ($data['extension_id'] != $model->getState('extension.id')) {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'error');
 
             return;
@@ -315,7 +317,7 @@ class TemplateController extends BaseController
             $errors = $model->getErrors();
 
             // Push up to three validation messages out to the user.
-            for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
                     $this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
                 } else {
@@ -353,7 +355,7 @@ class TemplateController extends BaseController
             default:
                 // Redirect to the list screen.
                 $file = base64_encode('home');
-                $id = (int) $this->input->get('id', 0, 'int');
+                $id   = (int) $this->input->get('id', 0, 'int');
                 $url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
                 $this->setRedirect(Route::_($url, false));
                 break;
@@ -433,7 +435,7 @@ class TemplateController extends BaseController
         } elseif ($model->deleteFile($file)) {
             $this->setMessage(Text::_('COM_TEMPLATES_FILE_DELETE_SUCCESS'));
             $file = base64_encode('home');
-            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
+            $url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
         } else {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_FILE_DELETE'), 'error');
@@ -479,14 +481,14 @@ class TemplateController extends BaseController
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_TYPE'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
-        } elseif (!preg_match('/^[a-zA-Z0-9-_]+$/', $name)) {
+        } elseif (!preg_match('/^(?!\.)(?!.*\.$)(?!.*\.\.)[a-zA-Z0-9_.-]+$/', $name)) {
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
         } elseif ($model->createFile($name, $type, $location)) {
             $this->setMessage(Text::_('COM_TEMPLATES_FILE_CREATE_SUCCESS'));
             $file = urlencode(base64_encode($location . '/' . $name . '.' . $type));
-            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
+            $url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
         } else {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_FILE_CREATE'), 'error');
@@ -530,7 +532,7 @@ class TemplateController extends BaseController
         if ($return = $model->uploadFile($upload, $location)) {
             $this->setMessage(Text::sprintf('COM_TEMPLATES_FILE_UPLOAD_SUCCESS', $upload['name']));
             $redirect = base64_encode($return);
-            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $redirect . '&isMedia=' . $this->input->getInt('isMedia', 0);
+            $url      = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $redirect . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
         } else {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_FILE_UPLOAD'), 'error');
@@ -672,7 +674,7 @@ class TemplateController extends BaseController
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_RENAME_ASSET_FILE'), 'warning');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $isMedia;
             $this->setRedirect(Route::_($url, false));
-        } elseif (!preg_match('/^[a-zA-Z0-9-_]+$/', $newName)) {
+        } elseif (!preg_match('/^(?!\.)(?!.*\.$)(?!.*\.\.)[a-zA-Z0-9_.-]+$/', $newName)) {
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $isMedia;
             $this->setRedirect(Route::_($url, false));
@@ -927,7 +929,7 @@ class TemplateController extends BaseController
         $model->setState('to_path', $this->app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 
         // Process only if we have a new name entered
-        if (!strlen($newName)) {
+        if (!\strlen($newName)) {
             $this->setMessage(Text::sprintf('COM_TEMPLATES_ERROR_INVALID_TEMPLATE_NAME'), 'error');
 
             return false;

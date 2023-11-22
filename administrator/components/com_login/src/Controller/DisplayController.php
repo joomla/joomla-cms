@@ -29,7 +29,8 @@ class DisplayController extends BaseController
      * Method to display a view.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static   This object to support chaining.
      *
@@ -75,9 +76,9 @@ class DisplayController extends BaseController
 
         $app = $this->app;
 
-        $model = $this->getModel('login');
+        $model       = $this->getModel('login');
         $credentials = $model->getState('credentials');
-        $return = $model->getState('return');
+        $return      = $model->getState('return');
 
         $app->login($credentials, ['action' => 'core.login.admin']);
 

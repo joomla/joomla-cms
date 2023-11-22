@@ -69,9 +69,9 @@ class TemplatesModel extends ListModel
         $items = parent::getItems();
 
         foreach ($items as &$item) {
-            $client = ApplicationHelper::getClientInfo($item->client_id);
+            $client        = ApplicationHelper::getClientInfo($item->client_id);
             $item->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $item->element);
-            $num = $this->updated($item->extension_id);
+            $num           = $this->updated($item->extension_id);
 
             if ($num) {
                 $item->updated = $num;
@@ -106,7 +106,7 @@ class TemplatesModel extends ListModel
         $db->setQuery($query);
 
         // Load the results as a list of stdClass objects.
-        $num = count($db->loadObjectList());
+        $num = \count($db->loadObjectList());
 
         if ($num > 0) {
             return $num;
@@ -125,7 +125,7 @@ class TemplatesModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.
@@ -210,7 +210,7 @@ class TemplatesModel extends ListModel
 
         // Special case for the client id.
         $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-        $clientId = (!in_array($clientId, [0, 1])) ? 0 : $clientId;
+        $clientId = (!\in_array($clientId, [0, 1])) ? 0 : $clientId;
         $this->setState('client_id', $clientId);
 
         // Load the parameters.

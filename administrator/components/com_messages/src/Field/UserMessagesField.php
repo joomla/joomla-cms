@@ -43,7 +43,7 @@ class UserMessagesField extends UserField
     protected function getGroups()
     {
         // Compute usergroups
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('id')
             ->from('#__usergroups');
@@ -84,6 +84,6 @@ class UserMessagesField extends UserField
      */
     protected function getExcluded()
     {
-        return [Factory::getUser()->id];
+        return [$this->getCurrentUser()->id];
     }
 }

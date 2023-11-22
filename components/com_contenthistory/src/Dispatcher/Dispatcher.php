@@ -70,7 +70,7 @@ class Dispatcher extends ComponentDispatcher
     public function getController(string $name, string $client = '', array $config = []): BaseController
     {
         $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
-        $client = 'Administrator';
+        $client              = 'Administrator';
 
         return parent::getController($name, $client, $config);
     }

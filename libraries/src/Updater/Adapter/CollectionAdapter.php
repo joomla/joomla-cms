@@ -18,7 +18,7 @@ use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Version;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -140,6 +140,8 @@ class CollectionAdapter extends UpdateAdapter
                 if (isset($client->id)) {
                     $attrs['CLIENT_ID'] = $client->id;
                 }
+
+                $values = [];
 
                 // Lower case all of the fields
                 foreach ($attrs as $key => $attr) {

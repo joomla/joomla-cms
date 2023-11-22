@@ -14,7 +14,7 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -127,8 +127,8 @@ abstract class ChangeItem
     public function __construct($db, $file, $query)
     {
         $this->updateQuery = $query;
-        $this->file = $file;
-        $this->db = $db;
+        $this->file        = $file;
+        $this->db          = $db;
         $this->buildCheckQuery();
     }
 
@@ -148,11 +148,6 @@ abstract class ChangeItem
     {
         // Get the class name
         $serverType = $db->getServerType();
-
-        // For `mssql` server types, convert the type to `sqlsrv`
-        if ($serverType === 'mssql') {
-            $serverType = 'sqlsrv';
-        }
 
         $class = '\\Joomla\\CMS\\Schema\\ChangeItem\\' . ucfirst($serverType) . 'ChangeItem';
 

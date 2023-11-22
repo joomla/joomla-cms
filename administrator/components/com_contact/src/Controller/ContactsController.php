@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
@@ -97,9 +98,9 @@ class ContactsController extends AdminController
             }
 
             if ($value == 1) {
-                $message = Text::plural('COM_CONTACT_N_ITEMS_FEATURED', count($ids));
+                $message = Text::plural('COM_CONTACT_N_ITEMS_FEATURED', \count($ids));
             } else {
-                $message = Text::plural('COM_CONTACT_N_ITEMS_UNFEATURED', count($ids));
+                $message = Text::plural('COM_CONTACT_N_ITEMS_UNFEATURED', \count($ids));
             }
         }
 
@@ -120,5 +121,29 @@ class ContactsController extends AdminController
     public function getModel($name = 'Contact', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
+    }
+
+    /**
+     * Method to get the number of published contacts for quickicons
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
+    public function getQuickiconContent()
+    {
+        $model = $this->getModel('contacts');
+
+        $model->setState('filter.published', 1);
+
+        $amount = (int) $model->getTotal();
+
+        $result = [];
+
+        $result['amount'] = $amount;
+        $result['sronly'] = Text::plural('COM_CONTACT_N_QUICKICON_SRONLY', $amount);
+        $result['name']   = Text::plural('COM_CONTACT_N_QUICKICON', $amount);
+
+        echo new JsonResponse($result);
     }
 }

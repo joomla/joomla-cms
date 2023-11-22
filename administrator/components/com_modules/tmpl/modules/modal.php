@@ -23,11 +23,11 @@ if (Factory::getApplication()->isClient('site')) {
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_modules.admin-modules-modal');
+$wa->useScript('com_modules.admin-modules-modal')->useScript('modal-content-select');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
+$editor    = Factory::getApplication()->getInput()->get('editor', '', 'cmd');
 $link      = 'index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . Session::getFormToken() . '=1';
 
 if (!empty($editor)) {
@@ -84,6 +84,19 @@ if (!empty($editor)) {
                     2  => 'icon-folder',
                 ];
                 foreach ($this->items as $i => $item) :
+                    $attrs = 'data-content-select data-content-type="com_modules.module"'
+                        . ' data-id="' . $item->id . '"'
+                        . ' data-title="' . $this->escape($item->title) . '"'
+                        . ' data-position="' . $this->escape($item->position) . '"'
+                        . ' data-module-element="' . $this->escape($item->module) . '"'
+                        // @TODO: Remove data-editor and data-module after full transition to postMessage()
+                        . ' data-editor="' . $this->escape($editor) . '"'
+                        . ' data-module="' . ((int) $item->id) . '"';
+
+                    $attrs1 = $attrs;
+                    $attrs1 .= ' data-html="{loadmoduleid ' . ((int) $item->id) . '}"';
+                    $attrs2 = $attrs;
+                    $attrs2 .= ' data-html="{loadposition ' . $this->escape($item->position) . '}"';
                     ?>
                 <tr class="row<?php echo $i % 2; ?>">
                     <td class="text-center">
@@ -92,13 +105,13 @@ if (!empty($editor)) {
                         </span>
                     </td>
                     <th scope="row" class="has-context">
-                        <a class="js-module-insert btn btn-sm btn-success w-100" href="#" data-module="<?php echo $item->id; ?>" data-editor="<?php echo $this->escape($editor); ?>">
+                        <button type="button" class="js-module-insert btn btn-sm btn-success w-100" <?php echo $attrs1; ?>>
                             <?php echo $this->escape($item->title); ?>
-                        </a>
+                        </button>
                     </th>
                     <td class="small d-none d-md-table-cell">
                         <?php if ($item->position) : ?>
-                        <a class="js-position-insert btn btn-sm btn-warning w-100" href="#" data-position="<?php echo $this->escape($item->position); ?>" data-editor="<?php echo $this->escape($editor); ?>"><?php echo $this->escape($item->position); ?></a>
+                        <button type="button" class="js-position-insert btn btn-sm btn-warning w-100" <?php echo $attrs2; ?>><?php echo $this->escape($item->position); ?></button>
                         <?php else : ?>
                         <span class="btn btn-sm btn-secondary w-100"><?php echo Text::_('JNONE'); ?></span>
                         <?php endif; ?>

@@ -16,7 +16,7 @@ use Joomla\CMS\Feed\FeedParser;
 use Joomla\CMS\Feed\FeedPerson;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -70,7 +70,7 @@ class RssParser extends FeedParser
      */
     protected function handleCloud(Feed $feed, \SimpleXMLElement $el)
     {
-        $cloud = new \stdClass();
+        $cloud                    = new \stdClass();
         $cloud->domain            = (string) $el['domain'];
         $cloud->port              = (string) $el['port'];
         $cloud->path              = (string) $el['path'];
@@ -197,8 +197,8 @@ class RssParser extends FeedParser
      */
     protected function handleLink(Feed $feed, \SimpleXMLElement $el)
     {
-        $link = new FeedLink();
-        $link->uri = (string) $el['href'];
+        $link       = new FeedLink();
+        $link->uri  = (string) $el['href'];
         $feed->link = $link;
     }
 

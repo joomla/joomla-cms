@@ -26,10 +26,11 @@ if ($app->isClient('site')) {
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_menus.admin-items-modal');
+$wa->useScript('com_menus.admin-items-modal')->useScript('modal-content-select');
 
-$function  = $app->input->get('function', 'jSelectMenuItem', 'cmd');
-$editor    = $app->input->getCmd('editor', '');
+// @todo: Use of Function and Editor is deprecated and should be removed in 6.0. It stays only for backward compatibility.
+$function  = $app->getInput()->get('function', 'jSelectMenuItem', 'cmd');
+$editor    = $app->getInput()->getCmd('editor', '');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $link      = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&' . Session::getFormToken() . '=1';
@@ -87,30 +88,34 @@ if (!empty($editor)) {
                 </thead>
                 <tbody>
                 <?php foreach ($this->items as $i => $item) : ?>
-                    <?php $uselessMenuItem = in_array($item->type, ['separator', 'heading', 'alias', 'url', 'container']); ?>
-                    <?php if ($item->language && $multilang) {
+                    <?php
+                    $language = '';
+                    if ($item->language && $multilang) {
                         if ($item->language !== '*') {
                             $language = $item->language;
-                        } else {
-                            $language = '';
                         }
-                    } elseif (!$multilang) {
-                        $language = '';
                     }
+
+                    $link     = 'index.php?Itemid=' . $item->id;
+                    $itemHtml = '<a href="' . $link . ($language ? '&lang=' . $language : '') . '">' . $item->title . '</a>';
+                    $attribs  = 'data-content-select data-content-type="com_menus.item"'
+                        . 'data-function="' . $this->escape($function) . '"'
+                        . ' data-id="' . $item->id . '"'
+                        . ' data-title="' . $this->escape($item->title) . '"'
+                        . ' data-uri="' . $this->escape($link) . '"'
+                        . ' data-language="' . $this->escape($language) . '"'
+                        . ' data-html="' . $this->escape($itemHtml) . '"';
                     ?>
                     <tr class="row<?php echo $i % 2; ?>">
                         <td class="text-center">
                             <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'items.', false, 'cb', $item->publish_up, $item->publish_down); ?>
                         </td>
                         <th scope="row">
-                            <?php $prefix = LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
+                            <?php $prefix  = LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
                             <?php echo $prefix; ?>
-                            <?php if (!$uselessMenuItem) : ?>
-                                <a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>" data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
-                                    <?php echo $this->escape($item->title); ?></a>
-                            <?php else : ?>
+                            <a class="select-link" href="javascript:void(0)" <?php echo $attribs; ?>>
                                 <?php echo $this->escape($item->title); ?>
-                            <?php endif; ?>
+                            </a>
                             <?php echo HTMLHelper::_('menus.visibility', $item->params); ?>
                             <div>
                                 <?php echo $prefix; ?>
@@ -182,7 +187,7 @@ if (!empty($editor)) {
         <input type="hidden" name="task" value="">
         <input type="hidden" name="boxchecked" value="0">
         <input type="hidden" name="function" value="<?php echo $function; ?>">
-        <input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'cmd'); ?>">
+        <input type="hidden" name="forcedLanguage" value="<?php echo $app->getInput()->get('forcedLanguage', '', 'cmd'); ?>">
         <?php echo HTMLHelper::_('form.token'); ?>
 
     </form>

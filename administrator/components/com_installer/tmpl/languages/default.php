@@ -100,7 +100,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                         <?php endif; ?>
                                 </td>
                                 <td class="small d-none d-md-table-cell">
-                                    <a href="<?php echo $language->detailsurl; ?>" target="_blank"><?php echo $language->detailsurl; ?></a>
+                                    <a href="<?php echo $language->detailsurl; ?>" target="_blank" rel="noopener noreferrer"><?php echo $language->detailsurl; ?></a>
                                 </td>
                             </tr>
                             <?php $i++; ?>

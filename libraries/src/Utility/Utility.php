@@ -12,7 +12,7 @@ namespace Joomla\CMS\Utility;
 use Joomla\CMS\HTML\HTMLHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -33,7 +33,7 @@ class Utility
      */
     public static function parseAttributes($string)
     {
-        $attr = [];
+        $attr     = [];
         $retarray = [];
 
         // Let's grab all the key/value pairs using a regular expression
@@ -61,6 +61,8 @@ class Utility
      */
     public static function getMaxUploadSize($custom = null)
     {
+        $sizes = [];
+
         if ($custom) {
             $custom = HTMLHelper::_('number.bytes', $custom, '');
 

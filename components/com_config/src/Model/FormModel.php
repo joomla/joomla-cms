@@ -53,7 +53,7 @@ abstract class FormModel extends BaseForm
     {
         // Only attempt to check the row in if it exists.
         if ($pk) {
-            $user = Factory::getUser();
+            $user = $this->getCurrentUser();
 
             // Get an instance of the row to checkin.
             $table = $this->getTable();
@@ -63,7 +63,7 @@ abstract class FormModel extends BaseForm
             }
 
             // Check if this is the user has previously checked out the row.
-            if (!is_null($table->checked_out) && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin')) {
+            if (!\is_null($table->checked_out) && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin')) {
                 throw new \RuntimeException($table->getError());
             }
 
@@ -89,7 +89,7 @@ abstract class FormModel extends BaseForm
     {
         // Only attempt to check the row in if it exists.
         if ($pk) {
-            $user = Factory::getUser();
+            $user = $this->getCurrentUser();
 
             // Get an instance of the row to checkout.
             $table = $this->getTable();
@@ -99,7 +99,7 @@ abstract class FormModel extends BaseForm
             }
 
             // Check if this is the user having previously checked out the row.
-            if (!is_null($table->checked_out) && $table->checked_out != $user->get('id')) {
+            if (!\is_null($table->checked_out) && $table->checked_out != $user->get('id')) {
                 throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
             }
 
@@ -236,7 +236,7 @@ abstract class FormModel extends BaseForm
      * @return  mixed  Array of filtered data if valid, false otherwise.
      *
      * @see     \Joomla\CMS\Form\FormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.2
      */
     public function validate($form, $data, $group = null)

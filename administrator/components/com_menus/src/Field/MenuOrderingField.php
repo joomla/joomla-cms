@@ -53,7 +53,7 @@ class MenuOrderingField extends ListField
             return false;
         }
 
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -116,8 +116,8 @@ class MenuOrderingField extends ListField
     {
         if ($this->form->getValue('id', 0) == 0) {
             return '<span class="readonly">' . Text::_('COM_MENUS_ITEM_FIELD_ORDERING_TEXT') . '</span>';
-        } else {
-            return parent::getInput();
         }
+
+        return parent::getInput();
     }
 }

@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -101,7 +101,7 @@ abstract class Menu
 
         if (empty(static::$items[$key])) {
             // B/C - not passed  = 0, null can be passed for both clients
-            $clientId = array_key_exists('clientid', $config) ? $config['clientid'] : 0;
+            $clientId = \array_key_exists('clientid', $config) ? $config['clientid'] : 0;
             $menus    = static::menus($clientId);
 
             $db    = Factory::getDbo();
@@ -173,9 +173,9 @@ abstract class Menu
                 }
 
                 // Start group:
-                $optGroup = new \stdClass();
-                $optGroup->value = '<OPTGROUP>';
-                $optGroup->text = $menu->text;
+                $optGroup              = new \stdClass();
+                $optGroup->value       = '<OPTGROUP>';
+                $optGroup->text        = $menu->text;
                 static::$items[$key][] = $optGroup;
 
                 // Special "Add to this Menu" option:
@@ -189,9 +189,9 @@ abstract class Menu
                 }
 
                 // Finish group:
-                $closeOptGroup = new \stdClass();
+                $closeOptGroup        = new \stdClass();
                 $closeOptGroup->value = '</OPTGROUP>';
-                $closeOptGroup->text = $menu->text;
+                $closeOptGroup->text  = $menu->text;
 
                 static::$items[$key][] = $closeOptGroup;
             }
@@ -244,7 +244,7 @@ abstract class Menu
     public static function ordering(&$row, $id)
     {
         if ($id) {
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select(
                     [
@@ -263,7 +263,7 @@ abstract class Menu
                 ->order($db->quoteName('ordering'))
                 ->bind(':menutype', $row->menutype)
                 ->bind(':parent', $row->parent_id, ParameterType::INTEGER);
-            $order = HTMLHelper::_('list.genericordering', $query);
+            $order    = HTMLHelper::_('list.genericordering', $query);
             $ordering = HTMLHelper::_(
                 'select.genericlist',
                 $order,
@@ -399,7 +399,7 @@ abstract class Menu
      */
     public static function treerecurse($id, $indent, $list, &$children, $maxlevel = 9999, $level = 0, $type = 1)
     {
-        if ($level <= $maxlevel && isset($children[$id]) && is_array($children[$id])) {
+        if ($level <= $maxlevel && isset($children[$id]) && \is_array($children[$id])) {
             if ($type) {
                 $pre    = '<sup>|_</sup>&#160;';
                 $spacer = '.&#160;&#160;&#160;&#160;&#160;&#160;';
@@ -420,8 +420,8 @@ abstract class Menu
                 $list[$id]           = $v;
                 $list[$id]->treename = $indent . $txt;
 
-                if (isset($children[$id]) && is_array($children[$id])) {
-                    $list[$id]->children = count($children[$id]);
+                if (isset($children[$id]) && \is_array($children[$id])) {
+                    $list[$id]->children = \count($children[$id]);
                     $list                = static::treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
                 } else {
                     $list[$id]->children = 0;
