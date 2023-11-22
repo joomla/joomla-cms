@@ -40,16 +40,17 @@ class DisplayController extends BaseController
      * Method to display a view.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static|boolean   A Controller object to support chaining or false on failure.
      *
      * @since   2.5
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
-        $view   = $this->input->get('view', 'index', 'word');
-        $layout = $this->input->get('layout', 'index', 'word');
+        $view     = $this->input->get('view', 'index', 'word');
+        $layout   = $this->input->get('layout', 'index', 'word');
         $filterId = $this->input->get('filter_id', null, 'int');
 
         if ($view === 'index') {
@@ -57,7 +58,7 @@ class DisplayController extends BaseController
 
             if (!$pluginEnabled) {
                 $finderPluginId   = FinderHelper::getFinderPluginId();
-                $link = HTMLHelper::_(
+                $link             = HTMLHelper::_(
                     'link',
                     '#plugin' . $finderPluginId . 'Modal',
                     Text::_('COM_FINDER_CONTENT_PLUGIN'),

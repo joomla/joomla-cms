@@ -12,14 +12,16 @@ namespace Joomla\CMS\Authentication\Password;
 use Joomla\Authentication\Password\HandlerInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Password handler for PHPass hashed passwords
  *
  * @since       4.0.0
- * @deprecated  5.0  Support for PHPass hashed passwords will be removed
+ *
+ * @deprecated  4.0 will be removed in 6.0
+ *              Support for PHPass hashed passwords will be removed without replacement
  */
 class PHPassHandler implements HandlerInterface, CheckIfRehashNeededHandlerInterface
 {

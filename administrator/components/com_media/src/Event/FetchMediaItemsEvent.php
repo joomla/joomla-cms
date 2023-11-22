@@ -31,12 +31,12 @@ final class FetchMediaItemsEvent extends AbstractMediaItemValidationEvent
      *
      * @since  4.1.0
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         parent::__construct($name, $arguments);
 
         // Check for required arguments
-        if (!\array_key_exists('items', $arguments) || !is_array($arguments['items'])) {
+        if (!\array_key_exists('items', $arguments) || !\is_array($arguments['items'])) {
             throw new \BadMethodCallException("Argument 'items' of event $name is not of the expected type");
         }
     }

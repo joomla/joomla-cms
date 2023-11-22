@@ -43,7 +43,7 @@ class DatabaseController extends BaseController
         $this->checkToken();
 
         // Get items to fix the database.
-        $cid = (array) $this->input->get('cid', array(), 'int');
+        $cid = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
@@ -53,7 +53,7 @@ class DatabaseController extends BaseController
                 Text::_(
                     'COM_INSTALLER_ERROR_NO_EXTENSIONS_SELECTED'
                 ),
-                array('category' => 'jerror')
+                ['category' => 'jerror']
             );
         } else {
             /** @var DatabaseModel $model */

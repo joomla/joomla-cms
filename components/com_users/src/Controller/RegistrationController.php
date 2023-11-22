@@ -11,10 +11,11 @@
 namespace Joomla\Component\Users\Site\Controller;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -25,8 +26,10 @@ use Joomla\CMS\Router\Route;
  *
  * @since  1.6
  */
-class RegistrationController extends BaseController
+class RegistrationController extends BaseController implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Method to activate a user.
      *
@@ -58,7 +61,7 @@ class RegistrationController extends BaseController
         $token = $input->getAlnum('token');
 
         // Check that the token is in a valid format.
-        if ($token === null || strlen($token) !== 32) {
+        if ($token === null || \strlen($token) !== 32) {
             throw new \Exception(Text::_('JINVALID_TOKEN'), 403);
         }
 
@@ -73,7 +76,7 @@ class RegistrationController extends BaseController
         }
 
         // Get the user we want to activate
-        $userToActivate = Factory::getUser($userIdToActivate);
+        $userToActivate = $this->getUserFactory()->loadUserById($userIdToActivate);
 
         // Admin activation is on and admin is activating the account
         if (($uParams->get('useractivation') == 2) && $userToActivate->getParam('activate', 0)) {
@@ -155,7 +158,7 @@ class RegistrationController extends BaseController
         $model = $this->getModel('Registration', 'Site');
 
         // Get the user data.
-        $requestData = $this->input->post->get('jform', array(), 'array');
+        $requestData = $this->input->post->get('jform', [], 'array');
 
         // Validate the posted data.
         $form = $model->getForm();
@@ -172,11 +175,34 @@ class RegistrationController extends BaseController
             $errors = $model->getErrors();
 
             // Push up to three validation messages out to the user.
-            for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
                     $app->enqueueMessage($errors[$i]->getMessage(), 'error');
                 } else {
                     $app->enqueueMessage($errors[$i], 'error');
+                }
+            }
+
+            /**
+             * We need the filtered value of calendar fields because the UTC normalisation is
+             * done in the filter and on output. This would apply the Timezone offset on
+             * reload. We set the calendar values we save to the processed date.
+             */
+            $filteredData = $form->filter($requestData);
+
+            foreach ($form->getFieldset() as $field) {
+                if ($field->type === 'Calendar') {
+                    $fieldName = $field->fieldname;
+
+                    if ($field->group) {
+                        if (isset($filteredData[$field->group][$fieldName])) {
+                            $requestData[$field->group][$fieldName] = $filteredData[$field->group][$fieldName];
+                        }
+                    } else {
+                        if (isset($filteredData[$fieldName])) {
+                            $requestData[$fieldName] = $filteredData[$fieldName];
+                        }
+                    }
                 }
             }
 

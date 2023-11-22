@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -75,7 +75,7 @@ class TasksStateCommand extends AbstractCommand
         $this->configureIO($input, $output);
         $this->ioStyle->title('Change Task State');
 
-        $id = (string) $input->getOption('id');
+        $id    = (string) $input->getOption('id');
         $state = (string) $input->getOption('state');
 
         // Try to validate and process ID, if passed
@@ -118,7 +118,7 @@ class TasksStateCommand extends AbstractCommand
 
         // Finally, the enumerated state and id in their pure form
         $state = (int) $state;
-        $id = (int) $id;
+        $id    = (int) $id;
 
         /** @var ConsoleApplication $app */
         $app = $this->getApplication();
@@ -130,14 +130,14 @@ class TasksStateCommand extends AbstractCommand
 
         // We couldn't fetch that task :(
         if (empty($task->id)) {
-            $this->ioStyle->error("Task ID '${id}' does not exist!");
+            $this->ioStyle->error("Task ID '{$id}' does not exist!");
 
             return 1;
         }
 
         // If the item is checked-out we need a check in (currently not possible through the CLI)
         if ($taskModel->isCheckedOut($task)) {
-            $this->ioStyle->error("Task ID '${id}' is checked out!");
+            $this->ioStyle->error("Task ID '{$id}' is checked out!");
 
             return 1;
         }
@@ -148,12 +148,12 @@ class TasksStateCommand extends AbstractCommand
         $action = Task::STATE_MAP[$state];
 
         if (!$table->publish($id, $state)) {
-            $this->ioStyle->error("Can't ${action} Task ID '${id}'");
+            $this->ioStyle->error("Can't {$action} Task ID '{$id}'");
 
             return 3;
         }
 
-        $this->ioStyle->success("Task ID ${id} ${action}.");
+        $this->ioStyle->success("Task ID {$id} {$action}.");
 
         return 0;
     }

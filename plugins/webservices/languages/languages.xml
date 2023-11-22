@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="webservices" method="upgrade">
 	<name>plg_webservices_languages</name>
 	<author>Joomla! Project</author>
@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_WEBSERVICES_LANGUAGES_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\WebServices\Languages</namespace>
 	<files>
-		<filename plugin="languages">languages.php</filename>
+		<folder plugin="languages">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_webservices_languages.ini</language>

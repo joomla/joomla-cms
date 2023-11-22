@@ -2,18 +2,35 @@
 
 .form-control {
   max-width: $input-max-width;
-  background-color: $white;
-  border: $input-border;
-  border-radius: $border-radius;
 
-  &:focus {
-    border-color: $focuscolor;
-    box-shadow: $focusshadow;
+  &:disabled,
+  &[readonly] {
+    background-color: var(--gray-200);
+    opacity: 1;
+  }
+
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      &:disabled,
+      &[readonly] {
+        background-color: var(--gray-800);
+      }
+    }
+  }
+
+  &:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
+  &:hover:not(:disabled):not([readonly])::file-selector-button {
+    background-color: var(--template-bg-dark-50);
   }
 
   &::placeholder {
     font-size: .8rem;
     font-style: italic;
+  }
+
+  &::-webkit-file-upload-button,
+  &::file-selector-button {
+    background-color: var(--template-bg-dark-70);
   }
 }
 
@@ -42,6 +59,7 @@
     position: relative;
     flex: 1;
     min-width: 210px;
+    max-width: 100%;
 
     + div {
       width: 100%;
@@ -150,8 +168,8 @@ div.subform-repeatable-group {
   position: relative;
   padding: 32px 32px 16px 28px;
   margin-top: 20px;
-  border: $input-border;
-  border-radius: $border-radius;
+  border: $input-border-width solid $input-border-color;
+  @include border-radius($border-radius);
 
   > .btn-toolbar {
 
@@ -175,9 +193,13 @@ div.subform-repeatable-group {
       &.group-move {
         top: 50%;
         right: 100%;
+        padding: 0;
         margin-top: -27px;
-        line-height: 52px;
         border-radius: $border-radius 0 0 $border-radius;
+
+        span {
+          padding: 1.5rem .5rem;
+        }
       }
     }
   }

@@ -28,19 +28,19 @@ class SearchesModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   4.0.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'searchterm', 'a.searchterm',
                 'hits', 'a.hits',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -103,7 +103,7 @@ class SearchesModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.
@@ -139,7 +139,7 @@ class SearchesModel extends ListModel
         $items = parent::getItems();
 
         foreach ($items as $item) {
-            if (is_resource($item->query)) {
+            if (\is_resource($item->query)) {
                 $item->query = unserialize(stream_get_contents($item->query));
             } else {
                 $item->query = unserialize($item->query);

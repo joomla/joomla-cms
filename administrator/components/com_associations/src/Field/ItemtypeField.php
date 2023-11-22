@@ -45,13 +45,13 @@ class ItemtypeField extends GroupedlistField
      */
     protected function getGroups()
     {
-        $options    = array();
+        $options    = [];
         $extensions = AssociationsHelper::getSupportedExtensions();
 
         foreach ($extensions as $extension) {
             if ($extension->get('associationssupport') === true) {
                 foreach ($extension->get('types') as $type) {
-                    $context = $extension->get('component') . '.' . $type->get('name');
+                    $context                             = $extension->get('component') . '.' . $type->get('name');
                     $options[$extension->get('title')][] = HTMLHelper::_('select.option', $context, $type->get('title'));
                 }
             }

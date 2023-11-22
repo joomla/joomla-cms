@@ -31,8 +31,8 @@ textarea.noResize {
 
 .j-install-step-header {
   span {
-    margin-right: 5px;
-    margin-left: auto;
+    margin-right: auto;
+    margin-left: 5px;
   }
 }
 
@@ -78,11 +78,6 @@ textarea.noResize {
 .j-install-last-step [class^="icon-"],
 .j-install-last-step [class*=" icon-"] {
   display: inline;
-}
-
-.j-install-step-header span {
-  margin-right: auto;
-  margin-left: 5px;
 }
 
 #jform_db_prefix {

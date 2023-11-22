@@ -49,6 +49,13 @@
       if (target.type === 'checkbox') {
         return true;
       }
+
+      // Ignore TinyMCE joomlaHighlighter plugin,
+      // @TODO: remove this when the joomlaHighlighter plugin will use JoomlaDialog
+      if (target.classList.contains('tox-textarea-wrap') && target.closest('.joomla-highlighter-dialog')) {
+        return false;
+      }
+
       // Default hotkeys filter behavior
       return !(target.isContentEditable || tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA');
     };
@@ -102,14 +109,16 @@
 
     let dl = '<dl>';
     dlItems.forEach((titles, shortcut) => {
-      dl += '<dt><kbd>J</kbd>';
+      dl += '<div>';
+      dl += '<dt class="d-inline-block"><kbd>J</kbd>';
       shortcut.split('+').forEach((key) => {
         dl += ` ${Joomla.Text._('PLG_SYSTEM_SHORTCUT_THEN')} <kbd>${key.trim()}</kbd>`;
       });
       dl += '</dt>';
       titles.forEach((title) => {
-        dl += `<dd>${title}</dd>`;
+        dl += `<dd class="d-inline-block ms-1">${title}</dd>`;
       });
+      dl += '</div>';
     });
     dl += '</dl>';
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fieldset name="core" label="COM_USERS_PROFILE_DEFAULT_LABEL">
 		<field
@@ -37,6 +37,9 @@
 			filter="raw"
 			size="30"
 			validate="password"
+			strengthmeter="true"
+			rules="true"
+			force="on"
 		/>
 
 		<field

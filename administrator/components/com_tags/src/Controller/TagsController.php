@@ -37,7 +37,7 @@ class TagsController extends AdminController
      *
      * @since   3.1
      */
-    public function getModel($name = 'Tag', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Tag', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -63,12 +63,12 @@ class TagsController extends AdminController
             $this->setMessage(Text::_('COM_TAGS_REBUILD_SUCCESS'));
 
             return true;
-        } else {
-            // Rebuild failed.
-            $this->setMessage(Text::_('COM_TAGS_REBUILD_FAILURE'));
-
-            return false;
         }
+
+        // Rebuild failed.
+        $this->setMessage(Text::_('COM_TAGS_REBUILD_FAILURE'));
+
+        return false;
     }
 
     /**
@@ -90,7 +90,7 @@ class TagsController extends AdminController
 
         $result['amount'] = $amount;
         $result['sronly'] = Text::plural('COM_TAGS_N_QUICKICON_SRONLY', $amount);
-        $result['name'] = Text::plural('COM_TAGS_N_QUICKICON', $amount);
+        $result['name']   = Text::plural('COM_TAGS_N_QUICKICON', $amount);
 
         echo new JsonResponse($result);
     }

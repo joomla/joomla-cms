@@ -30,7 +30,7 @@ $activeRequests = 0;
     <tbody>
         <?php if (count($list)) : ?>
             <?php foreach ($list as $i => $item) : ?>
-                <?php if (in_array($item->status, array(0, 1))) : ?>
+                <?php if (in_array($item->status, [0, 1])) : ?>
                     <?php $activeRequests += $item->count; ?>
                 <?php endif; ?>
                 <?php $totalRequests += $item->count; ?>

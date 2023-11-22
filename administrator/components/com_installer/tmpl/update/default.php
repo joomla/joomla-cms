@@ -18,6 +18,7 @@ use Joomla\CMS\Router\Route;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('multiselect')
+    ->useScript('table.columns')
     ->useScript('com_installer.changelog');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -31,7 +32,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     <?php if ($this->showMessage) : ?>
                         <?php echo $this->loadTemplate('message'); ?>
                     <?php endif; ?>
-                    <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+                    <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                     <?php if (empty($this->items)) : ?>
                         <div class="alert alert-info">
                             <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -67,7 +68,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 <th scope="col" class="d-none d-md-table-cell">
                                     <?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
                                 </th>
-                                <th class="d-none d-md-table-cell">
+                                <th scope="col" class="d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="d-none d-md-table-cell">
@@ -124,9 +125,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                             echo HTMLHelper::_(
                                                 'bootstrap.renderModal',
                                                 'changelogModal' . $item->extension_id,
-                                                array(
+                                                [
                                                 'title' => Text::sprintf('COM_INSTALLER_CHANGELOG_TITLE', $item->name, $item->version),
-                                                ),
+                                                ],
                                                 ''
                                             );
                                             ?>

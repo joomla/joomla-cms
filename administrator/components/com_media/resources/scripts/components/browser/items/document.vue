@@ -19,7 +19,7 @@
       :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
       :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
     />
-    <media-browser-action-items-container
+    <MediaBrowserActionItemsContainer
       ref="container"
       :item="item"
       :previewable="true"
@@ -31,10 +31,23 @@
 </template>
 
 <script>
+import MediaBrowserActionItemsContainer from '../actionItems/actionItemsContainer.vue';
+
 export default {
   name: 'MediaBrowserItemDocument',
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['item', 'focused'],
+  components: {
+    MediaBrowserActionItemsContainer,
+  },
+  props: {
+    item: {
+      type: Object,
+      default: () => {},
+    },
+    focused: {
+      type: Boolean,
+      default: false,
+    },
+  },
   emits: ['toggle-settings'],
   data() {
     return {
@@ -44,7 +57,9 @@ export default {
   methods: {
     /* Hide actions dropdown */
     hideActions() {
-      this.$refs.container.hideActions();
+      if (this.$refs.container) {
+        this.$refs.container.hideActions();
+      }
     },
     /* Preview an item */
     openPreview() {

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_debug</name>
 	<author>Joomla! Project</author>
@@ -11,7 +11,7 @@
 	<description>PLG_DEBUG_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\System\Debug</namespace>
 	<files>
-		<filename plugin="debug">debug.php</filename>
+		<folder plugin="debug">services</folder>
 		<folder>src</folder>
 	</files>
 	<languages>
@@ -140,6 +140,19 @@
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="track_request_history"
+					type="radio"
+					label="PLG_DEBUG_FIELD_TRACK_REQUEST_HISTORY_LABEL"
+					description="PLG_DEBUG_FIELD_TRACK_REQUEST_HISTORY_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
 				</field>
 			</fieldset>
 

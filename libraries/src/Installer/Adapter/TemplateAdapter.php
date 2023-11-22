@@ -21,7 +21,7 @@ use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -51,11 +51,11 @@ class TemplateAdapter extends InstallerAdapter
     {
         try {
             $this->currentExtensionId = $this->extension->find(
-                array(
+                [
                     'element'   => $this->element,
                     'type'      => $this->type,
                     'client_id' => $this->clientId,
-                )
+                ]
             );
         } catch (\RuntimeException $e) {
             // Install failed, roll back changes
@@ -111,11 +111,12 @@ class TemplateAdapter extends InstallerAdapter
 
         // If there is a manifest script, let's copy it.
         if ($this->manifest_script) {
+            $path         = [];
             $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
             if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles(array($path))) {
+                if (!$this->parent->copyFiles([$path])) {
                     throw new \RuntimeException(
                         Text::sprintf(
                             'JLIB_INSTALLER_ABORT_MANIFEST',
@@ -142,11 +143,11 @@ class TemplateAdapter extends InstallerAdapter
         $update = Table::getInstance('update');
 
         $uid = $update->find(
-            array(
+            [
                 'element'   => $this->element,
                 'type'      => $this->type,
                 'client_id' => $this->clientId,
-            )
+            ]
         );
 
         if ($uid) {
@@ -281,7 +282,7 @@ class TemplateAdapter extends InstallerAdapter
             $client = 'ADMINISTRATOR';
         }
 
-        $base = \constant('JPATH_' . strtoupper($client));
+        $base      = \constant('JPATH_' . strtoupper($client));
         $extension = 'tpl_' . $this->getName();
         $source    = $path ?: $base . '/templates/' . $this->getName();
 
@@ -311,7 +312,7 @@ class TemplateAdapter extends InstallerAdapter
      */
     protected function parseQueries()
     {
-        if (\in_array($this->route, array('install', 'discover_install'))) {
+        if (\in_array($this->route, ['install', 'discover_install'])) {
             $db    = $this->getDatabase();
             $query = $db->getQuery(true);
             $lang  = Factory::getLanguage();
@@ -540,11 +541,11 @@ class TemplateAdapter extends InstallerAdapter
             $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
             $this->extension->manifest_cache = json_encode($manifest_details);
-            $this->extension->state = 0;
-            $this->extension->name = $manifest_details['name'];
-            $this->extension->enabled = 1;
-            $this->extension->params = $this->parent->getParams();
-            $this->extension->changelogurl = (string) $this->manifest->changelogurl;
+            $this->extension->state          = 0;
+            $this->extension->name           = $manifest_details['name'];
+            $this->extension->enabled        = 1;
+            $this->extension->params         = $this->parent->getParams();
+            $this->extension->changelogurl   = (string) $this->manifest->changelogurl;
 
             if (!$this->extension->store()) {
                 // Install failed, roll back changes
@@ -606,7 +607,7 @@ class TemplateAdapter extends InstallerAdapter
      */
     public function discover()
     {
-        $results    = array();
+        $results    = [];
         $site_list  = Folder::folders(JPATH_SITE . '/templates');
         $admin_list = Folder::folders(JPATH_ADMINISTRATOR . '/templates');
         $site_info  = ApplicationHelper::getClientInfo('site', true);

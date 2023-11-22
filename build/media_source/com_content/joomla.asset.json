@@ -6,18 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_content.admin-article-edit.es5",
-      "type": "script",
-      "uri": "com_content/admin-article-edit-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_content.admin-article-edit",
       "type": "script",
       "uri": "com_content/admin-article-edit.min.js",
@@ -30,38 +18,14 @@
       }
     },
     {
-      "name": "com_content.admin-article-pagebreak.es5",
-      "type": "script",
-      "uri": "com_content/admin-article-pagebreak-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_content.admin-article-pagebreak",
       "type": "script",
       "uri": "com_content/admin-article-pagebreak.min.js",
       "dependencies": [
-        "com_content.admin-article-pagebreak.es5"
-      ],
-      "attributes": {
-        "type": "module",
-        "defer": true
-      }
-    },
-    {
-      "name": "com_content.admin-article-readmore.es5",
-      "type": "script",
-      "uri": "com_content/admin-article-readmore-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
+        "type": "module",
         "defer": true
       }
     },
@@ -70,22 +34,10 @@
       "type": "script",
       "uri": "com_content/admin-article-readmore.min.js",
       "dependencies": [
-        "com_content.admin-article-readmore.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_content.admin-articles-batch.es5",
-      "type": "script",
-      "uri": "com_content/admin-articles-default-batch-footer-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       }
     },
     {
@@ -93,22 +45,10 @@
       "type": "script",
       "uri": "com_content/admin-articles-default-batch-footer.min.js",
       "dependencies": [
-        "com_content.admin-articles-batch.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_content.admin-articles-stage.es5",
-      "type": "script",
-      "uri": "com_content/admin-articles-default-stage-footer-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       }
     },
     {
@@ -116,22 +56,10 @@
       "type": "script",
       "uri": "com_content/admin-articles-default-stage-footer.min.js",
       "dependencies": [
-        "com_content.admin-articles-stage.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_content.admin-articles-modal.es5",
-      "type": "script",
-      "uri": "com_content/admin-articles-modal-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       }
     },
     {
@@ -139,45 +67,23 @@
       "type": "script",
       "uri": "com_content/admin-articles-modal.min.js",
       "dependencies": [
-        "com_content.admin-articles-modal.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_content.form-edit.es5",
-      "type": "script",
-      "uri": "com_content/form-edit-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
+        "type": "module"
+      },
+      "deprecated": true,
+      "deprecatedMsg": "Use postMessage() directly or with help of [modal-content-select] asset. To post the modal selection."
     },
     {
       "name": "com_content.form-edit",
       "type": "script",
       "uri": "com_content/form-edit.min.js",
       "dependencies": [
-        "com_content.form-edit.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_content.articles-list.es5",
-      "type": "script",
-      "uri": "com_content/articles-list-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       }
     },
     {
@@ -185,22 +91,10 @@
       "type": "script",
       "uri": "com_content/articles-list.min.js",
       "dependencies": [
-        "com_content.articles-list.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_content.articles-status.es5",
-      "type": "script",
-      "uri": "com_content/articles-status-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       }
     },
     {
@@ -208,7 +102,7 @@
       "type": "script",
       "uri": "com_content/articles-status.min.js",
       "dependencies": [
-        "com_content.articles-status.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
