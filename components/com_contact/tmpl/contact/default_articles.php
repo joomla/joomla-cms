@@ -22,10 +22,12 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
         <?php foreach ($this->item->articles as $article) : ?>
             <?php if ($this->params->get('show_articles_introimage')) {
                 $images     = json_decode($article->images);
-                $layoutAttr = [
-                    'src' => $images->image_intro,
-                    'alt' => empty($images->image_intro_alt) && empty($images->image_intro_alt_empty) ? false : $images->image_intro_alt,
-                ];
+                if (!empty($images->image_intro)) {
+                    $layoutAttr = [
+                        'src' => $images->image_intro,
+                        'alt' => empty($images->image_intro_alt) && empty($images->image_intro_alt_empty) ? false : $images->image_intro_alt,
+                    ];
+                }
             }
             ?>
             <article class="contact-article" itemscope itemtype="https://schema.org/BlogPosting">
