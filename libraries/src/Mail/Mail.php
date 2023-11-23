@@ -539,11 +539,11 @@ class Mail extends PHPMailer implements MailerInterface
             $this->isSendmail();
 
             return true;
-        } else {
-            $this->isMail();
-
-            return false;
         }
+
+        $this->isMail();
+
+        return false;
     }
 
     /**
@@ -579,11 +579,11 @@ class Mail extends PHPMailer implements MailerInterface
             $this->isSMTP();
 
             return true;
-        } else {
-            $this->isMail();
-
-            return false;
         }
+
+        $this->isMail();
+
+        return false;
     }
 
     /**

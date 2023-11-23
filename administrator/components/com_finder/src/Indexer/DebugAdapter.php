@@ -161,7 +161,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -254,7 +254,7 @@ abstract class DebugAdapter extends CMSPlugin
         $items = $this->getItems($offset, $limit);
 
         // Iterate through the items and index them.
-        for ($i = 0, $n = count($items); $i < $n; $i++) {
+        for ($i = 0, $n = \count($items); $i < $n; $i++) {
             // Index the item.
             $this->index($items[$i]);
 
@@ -277,7 +277,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  integer
      *
-     * @since   _5.0.0
+     * @since   5.0.0
      */
     public function onFinderGarbageCollection()
     {
@@ -300,7 +300,7 @@ abstract class DebugAdapter extends CMSPlugin
             $this->indexer->remove($item);
         }
 
-        return count($items);
+        return \count($items);
     }
 
     /**

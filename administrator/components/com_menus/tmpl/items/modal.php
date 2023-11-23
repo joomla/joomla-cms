@@ -28,7 +28,7 @@ if ($app->isClient('site')) {
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_menus.admin-items-modal')->useScript('modal-content-select');
 
-// TODO: Use of Function and Editor is deprecated and should be removed in 6.0. It stays only for backward compatibility.
+// @todo: Use of Function and Editor is deprecated and should be removed in 6.0. It stays only for backward compatibility.
 $function  = $app->getInput()->get('function', 'jSelectMenuItem', 'cmd');
 $editor    = $app->getInput()->getCmd('editor', '');
 $listOrder = $this->escape($this->state->get('list.ordering'));

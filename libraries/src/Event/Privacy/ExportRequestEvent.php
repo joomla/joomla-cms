@@ -72,7 +72,7 @@ class ExportRequestEvent extends PrivacyEvent implements ResultAwareInterface
      *
      * @since  5.0.0
      */
-    protected function setSubject(RequestTable $value): RequestTable
+    protected function onSetSubject(RequestTable $value): RequestTable
     {
         return $value;
     }
@@ -86,7 +86,7 @@ class ExportRequestEvent extends PrivacyEvent implements ResultAwareInterface
      *
      * @since  5.0.0
      */
-    protected function setUser(?User $value): ?User
+    protected function onSetUser(?User $value): ?User
     {
         return $value;
     }
@@ -128,7 +128,7 @@ class ExportRequestEvent extends PrivacyEvent implements ResultAwareInterface
      */
     public function typeCheckResult($data): void
     {
-        if (!is_array($data)) {
+        if (!\is_array($data)) {
             throw new \InvalidArgumentException(sprintf('Event %s only accepts Array results.', \get_class($this)));
         }
 

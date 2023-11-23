@@ -146,7 +146,7 @@ class HtmlView extends BaseHtmlView
         // Flag indicates to not add limitstart=0 to URL
         $this->pagination->hideEmptyLimitstart = true;
 
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -162,7 +162,7 @@ class HtmlView extends BaseHtmlView
             $temp = new Registry($itemElement->params);
 
             // If the current view is the active item and a tag view for at least this tag, then the menu item params take priority
-            if ($query['option'] == 'com_tags' && $query['view'] == 'tag' && in_array($itemElement->id, $query['id'])) {
+            if ($query['option'] == 'com_tags' && $query['view'] == 'tag' && \in_array($itemElement->id, $query['id'])) {
                 // Merge so that the menu item params take priority
                 $itemElement->params = $temp;
                 $itemElement->params->merge($this->params);
@@ -289,7 +289,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        if (count($this->item) === 1) {
+        if (\count($this->item) === 1) {
             foreach ($this->item[0]->metadata->toArray() as $k => $v) {
                 if ($v) {
                     $this->getDocument()->setMetaData($k, $v);

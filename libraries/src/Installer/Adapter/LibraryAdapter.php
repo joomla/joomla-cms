@@ -323,7 +323,7 @@ class LibraryAdapter extends InstallerAdapter
         // Don't install libraries which would override core folders
         $restrictedFolders = ['php-encryption', 'phpass', 'src', 'vendor'];
 
-        if (in_array($group, $restrictedFolders)) {
+        if (\in_array($group, $restrictedFolders)) {
             throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_CORE_FOLDER'));
         }
 
