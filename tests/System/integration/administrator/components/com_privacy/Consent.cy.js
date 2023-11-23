@@ -28,6 +28,8 @@ describe('Test in backend that privacy consent component', () => {
     cy.get('tbody > tr > :nth-child(4)').should('contain', 'test user');
     cy.get('#cb0').click();
     cy.get('.button-trash').click();
+    cy.clickDialogConfirm(true);
+
     cy.get('.alert-message').should('contain', 'The consent was invalidated.');
   });
 
@@ -42,6 +44,7 @@ describe('Test in backend that privacy consent component', () => {
 
     cy.get('.w-1.text-center > .form-check-input').click();
     cy.get('#toolbar-trash').click();
+    cy.clickDialogConfirm(true);
 
     cy.get('.alert-message').should('contain', '2 consents were invalidated');
   });
@@ -371,7 +374,7 @@ describe('Test in backend that privacy consent component', () => {
         });
     }
     cy.wrap(cellData).then((data) => {
-      // Sort the array in decending order
+      // Sort the array in descending order
       const sortedArray = data.slice().sort((a, b) => b - a);
 
       cy.wrap(sortedArray[0]).should('eq', data[0]);
@@ -487,7 +490,7 @@ describe('Test in backend that privacy consent component', () => {
     });
   });
 
-  it('can list by id in decending order', () => {
+  it('can list by id in descending order', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
       cy.db_createPrivacyConsent({ state: 1, body: 'test body', user_id: `${id}` });

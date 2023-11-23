@@ -76,7 +76,7 @@ class StylesModel extends ListModel
 
             // Special case for the client id.
             $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-            $clientId = !in_array($clientId, [0, 1]) ? 0 : $clientId;
+            $clientId = !\in_array($clientId, [0, 1]) ? 0 : $clientId;
             $this->setState('client_id', $clientId);
         }
 

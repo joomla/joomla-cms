@@ -32,3 +32,185 @@
     box-shadow: none;
   }
 }
+
+// Styling for joomla-dialog element
+joomla-dialog {
+  dialog {
+    width: 96vw;
+    max-width: 1700px;
+    height: 96vh;
+    padding: 0;
+    border: 1px solid var(--border-color-translucent);
+    border-radius: .3rem;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+
+    @include media-breakpoint-up(xxl) {
+      width: 80vw;
+      height: 80vh;
+    }
+
+    // Override display to flex, to scale the content to full height
+    &[open] {
+      display: flex;
+    }
+  }
+
+  &[type="image"] {
+    dialog {
+      width: fit-content;
+      height: fit-content;
+    }
+  }
+
+  &[type="iframe"] {
+    dialog {
+      overflow: hidden;
+    }
+  }
+
+  iframe.iframe-content {
+    width: 100%;
+    height: 100%;
+  }
+
+  // Extra loading animation for iframe and ajax types
+  &[type="iframe"],
+  &[type="ajax"] {
+    &.loading {
+      dialog:after {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: block;
+        width: 66px;
+        height: 66px;
+        content: "";
+        background: url("../../../../system/images/ajax-loader.gif") no-repeat center;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+}
+// Dialog animation
+joomla-dialog dialog[open] {
+  animation: dialog-show .4s ease normal;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+@keyframes dialog-show {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+// Dialog elements
+.joomla-dialog-container {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+
+  .buttons-holder {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-inline-start: auto;
+
+    button {
+      margin-inline: .375rem;
+    }
+  }
+}
+.joomla-dialog-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+
+  h3 {
+    margin: 0;
+  }
+
+  .header-icon {
+    margin-inline-end: .375rem;
+    font-size: $h3-font-size;
+  }
+
+  &.empty {
+    display: none;
+  }
+}
+.joomla-dialog-body {
+  position: relative;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+
+  .buttons-holder {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  // Apply overflow for potentially large content
+  joomla-dialog[type="inline"],
+  joomla-dialog[type="ajax"] & {
+    overflow: auto;
+  }
+
+  // Content basic loading animation
+  joomla-dialog.loading & {
+    opacity: 0;
+  }
+  joomla-dialog.loaded & {
+    opacity: 1;
+    transition: opacity .4s ease;
+  }
+}
+.joomla-dialog-footer {
+  position: relative;
+  padding: 1rem;
+  border-top: 1px solid var(--border-color);
+
+  .buttons-holder button {
+    padding-inline: 22px;
+  }
+
+  &.empty {
+    display: none;
+  }
+}
+
+// Dialog alert and confirm
+.joomla-dialog-alert,
+.joomla-dialog-confirm {
+  dialog {
+    width: 600px;
+    max-width: 80vw;
+    height: fit-content;
+  }
+
+  .joomla-dialog-body {
+    padding: 1rem;
+  }
+}
+
+// Dialog for content select field
+.joomla-dialog-content-select-field {
+  dialog {
+    @include media-breakpoint-up(xxl) {
+      width: 90vw;
+      height: 90vh;
+    }
+  }
+}

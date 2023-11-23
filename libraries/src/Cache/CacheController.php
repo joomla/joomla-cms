@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Cache;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -20,6 +20,7 @@ use Joomla\CMS\Filesystem\Path;
  * Public cache handler
  *
  * @since  1.7.0
+ * @mixin  Cache
  * @note   As of 4.0 this class will be abstract
  */
 class CacheController

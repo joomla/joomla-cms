@@ -11,7 +11,6 @@
 namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -376,7 +375,8 @@ class UpdateController extends BaseController
      * Method to display a view.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static  This object to support chaining.
      *

@@ -46,7 +46,7 @@
 			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL"
 			hiddenLabel="true"
 			buttons="true"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 			asset_id="com_content"
 		/>
 
@@ -190,9 +190,9 @@
 			name="metadesc"
 			type="textarea"
 			label="JFIELD_META_DESCRIPTION_LABEL"
-			rows="5"
-			cols="50"
-			maxlength="160"
+			rows="3"
+			cols="30"
+			maxlength="300"
 			charcounter="true"
 		/>
 

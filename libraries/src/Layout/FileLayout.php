@@ -12,11 +12,11 @@ namespace Joomla\CMS\Layout;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Version;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -126,8 +126,7 @@ class FileLayout extends BaseLayout
 
         ob_start();
         include $path;
-        $layoutOutput .= ob_get_contents();
-        ob_end_clean();
+        $layoutOutput .= ob_get_clean();
 
         return $layoutOutput;
     }

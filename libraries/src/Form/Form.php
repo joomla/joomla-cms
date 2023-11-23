@@ -10,18 +10,20 @@
 namespace Joomla\CMS\Form;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\DatabaseNotFoundException;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -35,9 +37,10 @@ use Joomla\Utilities\ArrayHelper;
  * @link   https://html.spec.whatwg.org/multipage/forms.html
  * @since  1.7.0
  */
-class Form
+class Form implements CurrentUserInterface
 {
     use DatabaseAwareTrait;
+    use CurrentUserTrait;
 
     /**
      * The Registry data store for form fields during display.
@@ -153,7 +156,7 @@ class Form
      */
     protected function bindLevel($group, $data)
     {
-        // Ensure the input data is an array.
+        // Check the input data for specific types.
         if (\is_object($data)) {
             if ($data instanceof Registry) {
                 // Handle a Registry.
@@ -161,9 +164,6 @@ class Form
             } elseif ($data instanceof CMSObject) {
                 // Handle a CMSObject.
                 $data = $data->getProperties();
-            } else {
-                // Handle other types of objects.
-                $data = (array) $data;
             }
         }
 
@@ -249,10 +249,10 @@ class Form
         // If the element exists and the attribute exists for the field return the attribute value.
         if (($element instanceof \SimpleXMLElement) && \strlen((string) $element[$attribute])) {
             return (string) $element[$attribute];
-        } else {
-            // Otherwise return the given default value.
-            return $default;
         }
+
+        // Otherwise return the given default value.
+        return $default;
     }
 
     /**
@@ -605,10 +605,10 @@ class Form
                 $this->syncPaths();
 
                 return true;
-            } else {
-                // Create a root element for the form.
-                $this->xml = new \SimpleXMLElement('<form></form>');
             }
+
+            // Create a root element for the form.
+            $this->xml = new \SimpleXMLElement('<form></form>');
         }
 
         // Get the XML elements to load.
@@ -892,15 +892,15 @@ class Form
         // If the element doesn't exist return false.
         if (!($element instanceof \SimpleXMLElement)) {
             return false;
-        } else {
-            // Otherwise set the attribute and return true.
-            $element[$attribute] = $value;
-
-            // Synchronize any paths found in the load.
-            $this->syncPaths();
-
-            return true;
         }
+
+        // Otherwise set the attribute and return true.
+        $element[$attribute] = $value;
+
+        // Synchronize any paths found in the load.
+        $this->syncPaths();
+
+        return true;
     }
 
     /**
@@ -1256,11 +1256,11 @@ class Form
                 // If we find an ancestor fields element with a group name then it isn't what we want.
                 if ($field->xpath('ancestor::fields[@name]')) {
                     continue;
-                } else {
-                    // Found it!
-                    $element = &$field;
-                    break;
                 }
+
+                // Found it!
+                $element = &$field;
+                break;
             }
         }
 
@@ -1377,7 +1377,7 @@ class Form
         // Make sure there is actually a group to find.
         $group = explode('.', $group);
 
-        if (count($group)) {
+        if (\count($group)) {
             // Get any fields elements with the correct group name.
             $elements = $this->xml->xpath('//fields[@name="' . (string) $group[0] . '" and not(ancestor::field/form/*)]');
 
@@ -1459,6 +1459,10 @@ class Form
             }
         }
 
+        if ($field instanceof CurrentUserInterface) {
+            $field->setCurrentUser($this->getCurrentUser());
+        }
+
         // If the object could not be loaded, get a text field object.
         if ($field === false) {
             $field = FormHelper::loadFieldType('text');
@@ -1493,9 +1497,9 @@ class Form
 
         if ($field->setup($element, $value, $group)) {
             return $field;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

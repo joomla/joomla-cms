@@ -48,6 +48,9 @@ trait AjaxHandlerChallenge
         $session    = $this->getApplication()->getSession();
         $input      = $this->getApplication()->getInput();
 
+        // Load plugin language files
+        $this->loadLanguage();
+
         // Retrieve data from the request
         $username  = $input->getUsername('username', '');
         $returnUrl = base64_encode(

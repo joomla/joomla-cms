@@ -36,6 +36,9 @@ trait AjaxHandlerDelete
      */
     public function onAjaxWebauthnDelete(AjaxDelete $event): void
     {
+        // Load plugin language files
+        $this->loadLanguage();
+
         // Initialize objects
         $input      = $this->getApplication()->getInput();
         $repository = $this->authenticationHelper->getCredentialsRepository();

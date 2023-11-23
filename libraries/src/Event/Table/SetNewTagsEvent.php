@@ -10,14 +10,15 @@
 namespace Joomla\CMS\Event\Table;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onSetNewTags event
+ * Event class for \Joomla\CMS\Table\Table onSetNewTags event
  *
  * @since  4.0.0
- * @todo   Only used in JModelAdmin::batchTag since we can't use JTable::save as we don't want the data to be saved. Maybe trigger onBeforeStore?
+ * @todo   Only used in JModelAdmin::batchTag since we can't use
+ *         \Joomla\CMS\Table\Table::save as we don't want the data to be saved. Maybe trigger onBeforeStore?
  */
 class SetNewTagsEvent extends AbstractEvent
 {
@@ -25,9 +26,9 @@ class SetNewTagsEvent extends AbstractEvent
      * Constructor.
      *
      * Mandatory arguments:
-     * subject      JTableInterface The table we are operating on
-     * newTags      int[]           New tags to be added to or replace current tags for an item
-     * replaceTags  bool            Replace tags (true) or add them (false)
+     * subject      \Joomla\CMS\Table\TableInterface The table we are operating on
+     * newTags      int[]                            New tags to be added to or replace current tags for an item
+     * replaceTags  bool                             Replace tags (true) or add them (false)
      *
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.
@@ -59,7 +60,7 @@ class SetNewTagsEvent extends AbstractEvent
      */
     protected function setReplaceTags($value)
     {
-        return $value ? true : false;
+        return (bool) $value;
     }
 
     /**

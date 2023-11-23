@@ -1,7 +1,7 @@
-<html>
+<!DOCTYPE html>
+<html lang="en-GB"><!-- Sets the correct page language, IMPORTANT DO NOT REMOVE -->
 <head>
 	<meta charset="utf-8">
-	<meta http-equiv="Content-Language" content="en-GB">
 	<meta name="robots" content="noindex, nofollow">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Joomla: Environment Setup Incomplete</title><!-- Sets the page title, IMPORTANT DO NOT REMOVE -->
@@ -33,7 +33,7 @@
 		</div>
 	</div>
 </div>
-<script>var errorLocale=window.errorLocale||null;(function(t,e){"use strict";if(e){var i=t.getElementById("headerText"),l=t.getElementById("descText1"),g=t.getElementById("linkHelp");Object.keys(e).forEach(function(n){var u=t.getElementById("translatedLanguagesSelect"),r=t.createElement("option");r.text=e[n].language,r.value=n,n==="en-GB"&&r.setAttribute("selected","selected"),t.getElementById("translatedLanguagesSelect").addEventListener("change",function(v){var a=v.target.value;if(a){i&&l&&g&&(i.innerHTML=e[a].header,l.innerHTML=e[a].text1,g.innerText=e[a]["help-url-text"]);var s=t.querySelector('[http-equiv="Content-Language"]');s&&s.setAttribute("content",a)}}),u.appendChild(r)}),Object.keys(e).forEach(function(n){if(navigator.language===n){t.querySelector('#translatedLanguagesSelect option[value="en-GB"]').removeAttribute("selected"),t.querySelector('#translatedLanguagesSelect option[value="'+n+'"]').setAttribute("selected","selected"),i&&l&&g&&(i.innerHTML=e[n].header,l.innerHTML=e[n].text1,g.innerText=e[n]["help-url-text"]);var u=t.querySelector('[http-equiv="Content-Language"]');u&&u.setAttribute("content",n)}})}})(document,errorLocale);
+<script>var errorLocale=window.errorLocale||null;(function(e,t){"use strict";if(t){var l=e.getElementById("headerText"),i=e.getElementById("descText1"),g=e.getElementById("linkHelp");Object.keys(t).forEach(function(n){var s=e.getElementById("translatedLanguagesSelect"),u=e.createElement("option");u.text=t[n].language,u.value=n,n==="en-GB"&&u.setAttribute("selected","selected"),e.getElementById("translatedLanguagesSelect").addEventListener("change",function(f){var a=f.target.value;if(a){l&&i&&g&&(l.innerHTML=t[a].header,i.innerHTML=t[a].text1,g.innerText=t[a]["help-url-text"]);var r=e.documentElement;r&&r.setAttribute("lang",a)}}),s.appendChild(u)}),Object.keys(t).forEach(function(n){if(navigator.language===n){e.querySelector('#translatedLanguagesSelect option[value="en-GB"]').removeAttribute("selected"),e.querySelector('#translatedLanguagesSelect option[value="'+n+'"]').setAttribute("selected","selected"),l&&i&&g&&(l.innerHTML=t[n].header,i.innerHTML=t[n].text1,g.innerText=t[n]["help-url-text"]);var s=e.documentElement;s&&s.setAttribute("lang",n)}})}})(document,errorLocale);
 </script><!-- Sets the script, IMPORTANT DO NOT REMOVE -->
 </body>
 </html>

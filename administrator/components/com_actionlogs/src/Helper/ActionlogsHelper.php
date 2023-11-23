@@ -12,10 +12,10 @@ namespace Joomla\Component\Actionlogs\Administrator\Helper;
 
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
+use Joomla\Filesystem\Path;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -56,7 +56,7 @@ class ActionlogsHelper
                 sprintf(
                     '%s() requires an array or object implementing the Traversable interface, a %s was given.',
                     __METHOD__,
-                    \gettype($data) === 'object' ? \get_class($data) : \gettype($data)
+                    \is_object($data) ? \get_class($data) : \gettype($data)
                 )
             );
         }
