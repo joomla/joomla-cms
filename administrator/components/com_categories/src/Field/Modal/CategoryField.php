@@ -64,6 +64,12 @@ class CategoryField extends ModalSelectField
             return $result;
         }
 
+        if ($this->element['extension']) {
+            $extension = (string) $this->element['extension'];
+        } else {
+            $extension = (string) Factory::getApplication()->getInput()->get('extension', 'com_content');
+        }
+
         Factory::getApplication()->getLanguage()->load('com_categories', JPATH_ADMINISTRATOR);
 
         $languages = LanguageHelper::getContentLanguages([0, 1], false);
@@ -79,6 +85,7 @@ class CategoryField extends ModalSelectField
             'view'                  => 'categories',
             'layout'                => 'modal',
             'tmpl'                  => 'component',
+            'extension'             => $extension,
             Session::getFormToken() => 1,
         ]);
         $linkItem = clone $linkItems;
