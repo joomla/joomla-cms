@@ -11,6 +11,7 @@
 namespace Joomla\Component\Content\Api\Controller;
 
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
@@ -113,6 +114,10 @@ class ArticlesController extends ApiController
                 unset($data[$field->name]);
             }
         }
+
+        $tags = new TagsHelper();
+        $tags->getTagIds($data['id'], 'com_content.article');
+        $data['tags'] = explode(',', $tags->tags);
 
         return $data;
     }
