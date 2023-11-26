@@ -1549,7 +1549,7 @@ class ZIPExtraction
                 return false;
         }
 
-        if (!is_string($unzipData)) {
+        if (!\is_string($unzipData)) {
             $this->setError('Error while decompressing data! The archive file is corrupted');
 
             return false;
