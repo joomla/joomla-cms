@@ -112,7 +112,7 @@ class HtmlView extends InstallerViewDefault
         $itemEditable   = $canDo->get('core.edit');
 
         // Can't save the record if it's checked out and editable
-        if (!$checkedOut && $itemEditable && $this->form->getField('extra_query')) {
+        if (!$checkedOut && $itemEditable && !$this->form->getField('extra_query')) {
             $saveGroup = $toolbar->dropdownButton('save-group');
 
             $saveGroup->configure(

@@ -19,9 +19,11 @@
 		/>
 		<field
 			name="location"
-			type="text"
+			type="url"
 			label="COM_INSTALLER_FIELD_TYPE_LOCATION"
-			disabled="true"
+			required="true"
+			filter="url"
+			validate="url"
 		/>
 		<field
 			name="extra_query"
