@@ -13,6 +13,7 @@
  * node build.js --com-media        will compile the media manager Vue application
  * node build.js --watch-com-media  will watch and compile the media manager Vue application
  * node build.js --gzip             will create gzip files for all the minified stylesheets and scripts.
+ * node build.js --cssversioning    will update all the url entries providing accurate versions for stylesheets.
  * node build.js --versioning       will update all the joomla.assets.json files providing accurate versions for stylesheets and scripts.
  */
 
@@ -32,6 +33,7 @@ const { recreateMediaFolder } = require('./build-modules-js/init/recreate-media.
 const { watching } = require('./build-modules-js/watch.es6.js');
 const { mediaManager, watchMediaManager } = require('./build-modules-js/javascript/build-com_media-js.es6');
 const { compressFiles } = require('./build-modules-js/compress.es6.js');
+const { cssVersioning } = require('./build-modules-js/css-versioning.es6.js');
 const { versioning } = require('./build-modules-js/versioning.es6.js');
 const { Timer } = require('./build-modules-js/utils/timer.es6.js');
 const { compileCodemirror } = require('./build-modules-js/javascript/build-codemirror.es6.js');
@@ -40,6 +42,16 @@ const { compileCodemirror } = require('./build-modules-js/javascript/build-codem
 const options = require('../package.json');
 const settings = require('./build-modules-js/settings.json');
 
+
+const handleError = (err, terminateCode) => {
+  console.error(err); // eslint-disable-line no-console
+  process.exitCode = terminateCode;
+};
+
+if (semver.gte(semver.minVersion(options.engines.node), semver.clean(process.version))) {
+  handleError(`Node version ${semver.clean(process.version)} is not supported, please upgrade to Node version ${semver.clean(options.engines.node)}`, 1);
+}
+
 // The command line
 const Program = new Command();
 
@@ -47,12 +59,6 @@ const Program = new Command();
 if ('settings' in settings) {
   options.settings = settings.settings;
 }
-
-const handleError = (err, terminateCode) => {
-  // eslint-disable-next-line no-console
-  console.error(err);
-  process.exit(terminateCode);
-};
 
 const allowedVersion = () => {
   if (!semver.satisfies(process.version.substring(1), options.engines.node)) {
@@ -75,6 +81,7 @@ Program
   .option('--watch-com-media', 'Watch and Compile the Media Manager client side App.')
   .option('--gzip', 'Compress all the minified stylesheets and scripts.')
   .option('--prepare', 'Run all the needed tasks to initialise the repo')
+  .option('--cssversioning', 'Update all the url() versions on their relative stylesheet files')
   .option('--versioning', 'Update all the .js/.css versions on their relative joomla.assets.json')
 
   .addHelpText('after', `
@@ -93,9 +100,6 @@ if (cliOptions.copyAssets) {
     .then(() => localisePackages(options))
     .then(() => patchPackages(options))
     .then(() => minifyVendor())
-    .then(() => {
-      process.exit(0);
-    })
     .catch((error) => handleError(error, 1));
 }
 
@@ -154,6 +158,12 @@ if (cliOptions.versioning) {
     .catch((err) => handleError(err, 1));
 }
 
+// Update the url() versions in the .css files
+if (cliOptions.cssversioning) {
+  cssVersioning()
+    .catch((err) => handleError(err, 1));
+}
+
 // Prepare the repo for dev work
 if (cliOptions.prepare) {
   const bench = new Timer('Build');
@@ -170,10 +180,5 @@ if (cliOptions.prepare) {
     .then(() => bootstrapJs())
     .then(() => compileCodemirror())
     .then(() => bench.stop('Build'))
-    .then(() => { process.exit(0); })
-    .catch((err) => {
-      // eslint-disable-next-line no-console
-      console.error(err);
-      process.exit(-1);
-    });
+    .catch((err) => handleError(err, -1));
 }

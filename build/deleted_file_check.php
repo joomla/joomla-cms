@@ -88,7 +88,7 @@ $previousReleaseExclude = [
  * @return bool True if you need to recurse or if the item is acceptable
  */
 $previousReleaseFilter = function ($file, $key, $iterator) use ($previousReleaseExclude) {
-    if ($iterator->hasChildren() && !in_array($file->getPathname(), $previousReleaseExclude)) {
+    if ($iterator->hasChildren() && !\in_array($file->getPathname(), $previousReleaseExclude)) {
         return true;
     }
 
@@ -108,7 +108,7 @@ $newReleaseExclude = [
  * @return bool True if you need to recurse or if the item is acceptable
  */
 $newReleaseFilter = function ($file, $key, $iterator) use ($newReleaseExclude) {
-    if ($iterator->hasChildren() && !in_array($file->getPathname(), $newReleaseExclude)) {
+    if ($iterator->hasChildren() && !\in_array($file->getPathname(), $newReleaseExclude)) {
         return true;
     }
 
@@ -225,7 +225,7 @@ foreach ($filesDifference as $file) {
 
     if ($matches !== false) {
         foreach ($matches as $match) {
-            if (dirname($match) === dirname($file) && strtolower(basename($match)) === strtolower(basename($file))) {
+            if (\dirname($match) === \dirname($file) && strtolower(basename($match)) === strtolower(basename($file))) {
                 // File has been renamed only: Add to renamed files list
                 $renamedFiles[] = substr($file, 0, -1) . ' => ' . $match;
 
@@ -245,4 +245,4 @@ file_put_contents(__DIR__ . '/deleted_folders.txt', implode("\n", $foldersDiffer
 file_put_contents(__DIR__ . '/renamed_files.txt', implode("\n", $renamedFiles));
 
 echo PHP_EOL;
-echo 'There are ' . count($deletedFiles) . ' deleted files, ' . count($foldersDifference) .  ' deleted folders and ' . count($renamedFiles) .  ' renamed files in comparison to "' . $options['from'] . '"' . PHP_EOL;
+echo 'There are ' . \count($deletedFiles) . ' deleted files, ' . \count($foldersDifference) .  ' deleted folders and ' . \count($renamedFiles) .  ' renamed files in comparison to "' . $options['from'] . '"' . PHP_EOL;

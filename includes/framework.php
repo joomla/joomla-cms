@@ -7,7 +7,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Version;
 use Joomla\Utilities\IpHelper;
@@ -77,8 +77,8 @@ switch ($config->error_reporting) {
         break;
 }
 
-if (!defined('JDEBUG')) {
-    define('JDEBUG', $config->debug);
+if (!\defined('JDEBUG')) {
+    \define('JDEBUG', $config->debug);
 }
 
 // Check deprecation logging

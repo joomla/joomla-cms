@@ -65,7 +65,7 @@ abstract class InstallerEvent extends AbstractImmutableEvent
         }
 
         // For backward compatibility make sure the package is referenced
-        // TODO: Remove in Joomla 6
+        // @todo: Remove in Joomla 6
         // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
         if (key($arguments) === 0) {
             $this->arguments['package'] = &$arguments[1];
@@ -83,7 +83,7 @@ abstract class InstallerEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(BaseModel $value): BaseModel
+    protected function onSetSubject(BaseModel $value): BaseModel
     {
         return $value;
     }
@@ -97,7 +97,7 @@ abstract class InstallerEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setPackage(?array $value): ?array
+    protected function onSetPackage(?array $value): ?array
     {
         return $value;
     }
@@ -137,7 +137,7 @@ abstract class InstallerEvent extends AbstractImmutableEvent
      */
     public function updatePackage(?array $value): static
     {
-        $this->arguments['package'] = $value;
+        $this->arguments['package'] = $this->onSetPackage($value);
 
         return $this;
     }

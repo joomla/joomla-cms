@@ -21,11 +21,3 @@
     }
   }
 }
-
-@if $enable-dark-mode {
-  @include color-mode(dark) {
-    details div.rule-notes {
-      color: var(--template-text-light);
-    }
-  }
-}

@@ -254,7 +254,7 @@ final class Authentication
         $publicKeyCredentialRequestOptions = unserialize($serializedOptions);
 
         if (
-            !is_object($publicKeyCredentialRequestOptions)
+            !\is_object($publicKeyCredentialRequestOptions)
             || empty($publicKeyCredentialRequestOptions)
             || !($publicKeyCredentialRequestOptions instanceof PublicKeyCredentialRequestOptions)
         ) {
@@ -314,7 +314,7 @@ final class Authentication
             $publicKeyCredentialCreationOptions = null;
         }
 
-        if (!is_object($publicKeyCredentialCreationOptions) || !($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialCreationOptions)) {
+        if (!\is_object($publicKeyCredentialCreationOptions) || !($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialCreationOptions)) {
             throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_PK'));
         }
 
@@ -509,7 +509,7 @@ final class Authentication
             throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
         }
 
-        if (!is_object($publicKeyCredentialRequestOptions) || !($publicKeyCredentialRequestOptions instanceof PublicKeyCredentialRequestOptions)) {
+        if (!\is_object($publicKeyCredentialRequestOptions) || !($publicKeyCredentialRequestOptions instanceof PublicKeyCredentialRequestOptions)) {
             throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
         }
 
@@ -540,7 +540,7 @@ final class Authentication
         $server = new Server($rpEntity, $repository, $this->metadataRepository);
 
         // Ed25519 is only available with libsodium
-        if (!function_exists('sodium_crypto_sign_seed_keypair')) {
+        if (!\function_exists('sodium_crypto_sign_seed_keypair')) {
             $server->setSelectedAlgorithms(['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512']);
         }
 

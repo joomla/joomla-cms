@@ -194,7 +194,9 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
     /**
      * Manipulate the generic list view
      *
-     * @param   DisplayEvent    $event
+     * @param   DisplayEvent  $event
+     *
+     * @return  void
      *
      * @since   4.0.0
      */
@@ -211,7 +213,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
         $singularsection = Inflector::singularize($section);
 
         if (!$this->isSupported($component . '.' . $singularsection)) {
-            return true;
+            return;
         }
 
         // That's the hard coded list from the AdminController publish method => change, when it's make dynamic in the future
@@ -246,8 +248,6 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
 		";
 
         $this->getApplication()->getDocument()->addScriptDeclaration($js);
-
-        return true;
     }
 
     /**
@@ -291,7 +291,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
         // Release allowed pks, the job is done
         $this->getApplication()->set('plgWorkflowPublishing.' . $context, []);
 
-        if (in_array(false, $result, true)) {
+        if (\in_array(false, $result, true)) {
             $event->setStopTransition();
 
             return false;
@@ -500,7 +500,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
         $parts = explode('.', $context);
 
         // We need at least the extension + view for loading the table fields
-        if (count($parts) < 2) {
+        if (\count($parts) < 2) {
             return false;
         }
 

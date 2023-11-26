@@ -624,7 +624,7 @@ class TagsHelper extends CMSHelper
 
         // Get the type data, limited to types in the request if there are any specified.
         $typesarray  = self::getTypes('assocList', $typesr, false);
-        $typeAliases = \array_column($typesarray, 'type_alias');
+        $typeAliases = array_column($typesarray, 'type_alias');
         $query->whereIn($db->quoteName('m.type_alias'), $typeAliases, ParameterType::STRING);
 
         $groups   = array_values(array_unique($user->getAuthorisedViewLevels()));
@@ -973,7 +973,7 @@ class TagsHelper extends CMSHelper
             $tagTable = Factory::getApplication()->bootComponent('com_tags')->getMVCFactory()->createTable('Tag', 'Administrator');
 
             if ($children = $tagTable->getTree($filters['parent_id'])) {
-                $childrenIds = \array_column($children, 'id');
+                $childrenIds = array_column($children, 'id');
 
                 $query->whereIn($db->quoteName('a.id'), $childrenIds);
             }
@@ -1106,5 +1106,35 @@ class TagsHelper extends CMSHelper
         $db->setQuery($query);
 
         return (bool) $db->execute();
+    }
+
+    /**
+     * Function that converts tag ids to their tag id and tag names
+     *
+     * @param   array  $tagIds  Array of integer tag ids.
+     *
+     * @return  array  An array of tag id and name.
+     *
+     * @since   4.4.0
+     */
+    public function getTags($tagIds)
+    {
+        $tagNames = [];
+
+        if (\is_array($tagIds) && \count($tagIds) > 0) {
+            $tagIds = ArrayHelper::toInteger($tagIds);
+
+            $db    = Factory::getDbo();
+            $query = $db->getQuery(true)
+                ->select([$db->quoteName('id'), $db->quoteName('title')])
+                ->from($db->quoteName('#__tags'))
+                ->whereIn($db->quoteName('id'), $tagIds)
+                ->order($db->quoteName('title'));
+
+            $db->setQuery($query);
+            $tagNames = $db->loadAssocList('id', 'title');
+        }
+
+        return $tagNames;
     }
 }
