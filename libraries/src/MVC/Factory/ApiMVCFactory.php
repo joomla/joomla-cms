@@ -4,10 +4,14 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Factory;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Factory to create MVC objects based on a namespace. Note that in an API Application model and table objects will be
@@ -29,7 +33,7 @@ final class ApiMVCFactory extends MVCFactory
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function createModel($name, $prefix = '', array $config = array())
+    public function createModel($name, $prefix = '', array $config = [])
     {
         $model = parent::createModel($name, $prefix, $config);
 
@@ -52,7 +56,7 @@ final class ApiMVCFactory extends MVCFactory
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function createTable($name, $prefix = '', array $config = array())
+    public function createTable($name, $prefix = '', array $config = [])
     {
         $table = parent::createTable($name, $prefix, $config);
 

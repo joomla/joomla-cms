@@ -19,6 +19,10 @@ use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_tags_similar
  *
@@ -36,13 +40,13 @@ abstract class TagsSimilarHelper
     public static function getList(&$params)
     {
         $app    = Factory::getApplication();
-        $option = $app->input->get('option');
-        $view   = $app->input->get('view');
+        $option = $app->getInput()->get('option');
+        $view   = $app->getInput()->get('view');
 
         // For now assume com_tags and com_users do not have tags.
         // This module does not apply to list views in general at this point.
         if ($option === 'com_tags' || $view === 'category' || $option === 'com_users') {
-            return array();
+            return [];
         }
 
         $db         = Factory::getDbo();
@@ -52,7 +56,7 @@ abstract class TagsSimilarHelper
         $ordering   = $params->get('ordering', 'count');
         $tagsHelper = new TagsHelper();
         $prefix     = $option . '.' . $view;
-        $id         = $app->input->getInt('id');
+        $id         = $app->getInput()->getInt('id');
         $now        = Factory::getDate()->toSql();
         $nullDate   = $db->getNullDate();
 
@@ -60,7 +64,7 @@ abstract class TagsSimilarHelper
         $tagsToMatch = $tagsHelper->getTagIds($id, $prefix);
 
         if (!$tagsToMatch) {
-            return array();
+            return [];
         }
 
         $tagsToMatch = explode(',', $tagsToMatch);

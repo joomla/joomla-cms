@@ -18,6 +18,10 @@ use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content component helper.
  *
@@ -66,7 +70,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
             array_filter(
                 $transitions,
                 function ($var) use ($pk, $workflowId) {
-                    return in_array($var['from_stage_id'], [-1, $pk]) && $workflowId == $var['workflow_id'];
+                    return \in_array($var['from_stage_id'], [-1, $pk]) && $workflowId == $var['workflow_id'];
                 }
             )
         );
@@ -155,14 +159,18 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
                     $workflow_id = $cat->params->get('workflow_id');
 
-                    if ($workflow_id == 'inherit') {
+                    if ($workflow_id === 'inherit') {
                         continue;
-                    } elseif ($workflow_id == 'use_default') {
+                    }
+
+                    if ($workflow_id === 'use_default') {
                         break;
-                    } elseif ($workflow_id = (int) $workflow_id) {
+                    }
+
+                    if ($workflow_id = (int) $workflow_id) {
                         $title = $db->loadResult();
 
-                        if (!is_null($title)) {
+                        if (!\is_null($title)) {
                             $option = Text::sprintf('COM_WORKFLOW_INHERIT_WORKFLOW', Text::_($title));
 
                             break;

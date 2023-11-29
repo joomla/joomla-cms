@@ -17,6 +17,10 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Trait for classes that need adapters.
  *
@@ -66,10 +70,11 @@ trait ProviderManagerHelperTrait
     /**
      * Returns a provider for the given id.
      *
+     * @param   string  $id
+     *
      * @return  ProviderInterface
      *
-     * @throws  \Exception
-     *
+     * @throws \Exception
      * @since   4.1.0
      */
     public function getProvider(string $id): ProviderInterface
@@ -80,10 +85,11 @@ trait ProviderManagerHelperTrait
     /**
      * Return an adapter for the given name.
      *
+     * @param   string  $name
+     *
      * @return  AdapterInterface
      *
-     * @throws  \Exception
-     *
+     * @throws \Exception
      * @since   4.1.0
      */
     public function getAdapter(string $name): AdapterInterface
@@ -94,16 +100,17 @@ trait ProviderManagerHelperTrait
     /**
      * Returns an array with the adapter name as key and the path of the file.
      *
+     * @param   string  $path
+     *
      * @return  array
      *
-     * @throws  \InvalidArgumentException
-     *
+     * @throws \Exception
      * @since   4.1.0
      */
     protected function resolveAdapterAndPath(string $path): array
     {
         $result = [];
-        $parts = explode(':', $path, 2);
+        $parts  = explode(':', $path, 2);
 
         // If we have 2 parts, we have both an adapter name and a file path
         if (\count($parts) === 2) {

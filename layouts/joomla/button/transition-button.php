@@ -11,6 +11,10 @@
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 extract($displayData, EXTR_OVERWRITE);
 
 /**
@@ -54,10 +58,11 @@ $task = $options['task'];
         <?php
             $default = [
                 HTMLHelper::_('select.option', '', $this->escape($options['title'])),
-                HTMLHelper::_('select.option', '-1', '--------', ['disable' => true])
+                HTMLHelper::_('select.option', '-1', '--------', ['disable' => true]),
+                HTMLHelper::_('select.option', '<OPTGROUP>', Text::_('COM_CONTENT_RUN_TRANSITION')),
             ];
 
-            $transitions = array_merge($default, $options['transitions']);
+            $transitions = array_merge($default, $options['transitions'], [HTMLHelper::_('select.option', '</OPTGROUP>')]);
 
             $attribs = [
                 'id'        => 'transition-select_' . (int) $row ?? '',

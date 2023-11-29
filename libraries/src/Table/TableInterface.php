@@ -11,6 +11,10 @@ namespace Joomla\CMS\Table;
 
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Table class interface.
  *
@@ -31,7 +35,7 @@ interface TableInterface
      * @since   3.2
      * @throws  \UnexpectedValueException
      */
-    public function bind($src, $ignore = array());
+    public function bind($src, $ignore = []);
 
     /**
      * Method to perform sanity checks on the TableInterface instance properties to ensure they are safe to store in the database.

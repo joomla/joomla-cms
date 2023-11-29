@@ -15,6 +15,10 @@ use Joomla\CMS\Form\FormRule;
 use Joomla\CMS\Form\Rule\OptionsRule;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The ExecutionRulesRule Class.
  * Validates execution rules, with input for other fields as context.

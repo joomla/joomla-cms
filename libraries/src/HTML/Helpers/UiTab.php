@@ -11,6 +11,10 @@ namespace Joomla\CMS\HTML\Helpers;
 
 use Joomla\CMS\Factory;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class for the Joomla core UI Tab element.
  *
@@ -22,7 +26,7 @@ abstract class UiTab
      * @var    array  Array containing information for loaded files
      * @since  4.0.0
      */
-    protected static $loaded = array();
+    protected static $loaded = [];
 
     /**
      * Creates a core UI tab pane
@@ -34,9 +38,9 @@ abstract class UiTab
      *
      * @since   4.0.0
      */
-    public static function startTabSet($selector = 'myTab', $params = array())
+    public static function startTabSet($selector = 'myTab', $params = [])
     {
-        $sig = md5(serialize(array($selector, $params)));
+        $sig = md5(serialize([$selector, $params]));
 
         if (!isset(static::$loaded[__METHOD__][$sig])) {
             // Include the custom element
@@ -45,15 +49,15 @@ abstract class UiTab
                 ->useScript('webcomponent.joomla-tab');
 
             // Setup options object
-            $opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
+            $opt = ['active' => (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : ''];
 
             // Set static array
-            static::$loaded[__METHOD__][$sig] = true;
+            static::$loaded[__METHOD__][$sig]                = true;
             static::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
         }
 
-        $orientation = isset($params['orientation']) ? $params['orientation'] : 'horizontal';
-        $recall = isset($params['recall']) ? 'recall' : '';
+        $orientation = $params['orientation'] ?? 'horizontal';
+        $recall      = isset($params['recall']) ? 'recall' : '';
         $breakpoint  = isset($params['breakpoint']) ? 'breakpoint="' . $params['breakpoint'] . '"' : '';
 
         if (!isset($params['breakpoint']) && $breakpoint === '') {

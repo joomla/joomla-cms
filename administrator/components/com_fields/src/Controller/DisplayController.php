@@ -14,6 +14,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Fields Controller
  *
@@ -37,7 +41,8 @@ class DisplayController extends BaseController
      * you will need to override it in your own controllers.
      *
      * @param   boolean     $cachable   If true, the view output will be cached
-     * @param   array|bool  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}
+     * @param   array|bool  $urlparams  An array of safe URL parameters and their variable types.
+     *                      @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  BaseController|boolean  A Controller object to support chaining.
      *

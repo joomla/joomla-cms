@@ -12,6 +12,10 @@ namespace Joomla\CMS\Versioning;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Defines the trait for a Versionable Controller Class.
  *
@@ -28,8 +32,8 @@ trait VersionableControllerTrait
      */
     public function loadhistory()
     {
-        $model = $this->getModel();
-        $table = $model->getTable();
+        $model     = $this->getModel();
+        $table     = $model->getTable();
         $historyId = $this->input->getInt('version_id', null);
 
         if (!$model->loadhistory($historyId, $table)) {
@@ -57,7 +61,7 @@ trait VersionableControllerTrait
         $urlVar = empty($this->urlVar) ? $key : $this->urlVar;
 
         // Access check.
-        if (!$this->allowEdit(array($key => $recordId), $key)) {
+        if (!$this->allowEdit([$key => $recordId], $key)) {
             $this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
 
             $this->setRedirect(

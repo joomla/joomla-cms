@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Pagination;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Pagination object representing a particular item in the pagination lists.
  *

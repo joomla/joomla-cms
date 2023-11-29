@@ -24,6 +24,10 @@ use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The Scheduler class provides the core functionality of ComScheduler.
  * Currently, this includes fetching scheduled tasks from the database
@@ -144,7 +148,7 @@ class Scheduler
         $duration          = $executionSnapshot['duration'] ?? 0;
 
         if (\array_key_exists($exitCode, self::LOG_TEXT)) {
-            $level = in_array($exitCode, [Status::OK, Status::WILL_RESUME]) ? 'info' : 'warning';
+            $level = \in_array($exitCode, [Status::OK, Status::WILL_RESUME]) ? 'info' : 'warning';
             $task->log(Text::sprintf(self::LOG_TEXT[$exitCode], $taskId, $duration, $netDuration), $level);
 
             return $task;
@@ -172,8 +176,8 @@ class Scheduler
     {
         $resolver->setDefaults(
             [
-                'id' => 0,
-                'allowDisabled' => false,
+                'id'              => 0,
+                'allowDisabled'   => false,
                 'allowConcurrent' => false,
             ]
         )

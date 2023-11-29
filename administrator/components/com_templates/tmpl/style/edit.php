@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -23,7 +22,7 @@ $wa->useScript('keepalive')
 
 $this->useCoreUI = true;
 
-$user = Factory::getUser();
+$user = $this->getCurrentUser();
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_templates&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="style-form" aria-label="<?php echo Text::_('COM_TEMPLATES_STYLE_FORM_EDIT'); ?>" class="form-validate">
@@ -68,11 +67,11 @@ $user = Factory::getUser();
             <div class="col-lg-3">
                 <?php
                 // Set main fields.
-                $this->fields = array(
+                $this->fields = [
                     'home',
                     'client_id',
                     'template'
-                );
+                ];
                 ?>
                 <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
                 <?php echo $this->form->renderField('inheritable'); ?>
@@ -93,8 +92,8 @@ $user = Factory::getUser();
         <?php endif; ?>
 
         <?php
-        $this->fieldsets = array();
-        $this->ignore_fieldsets = array('basic', 'description');
+        $this->fieldsets = [];
+        $this->ignore_fieldsets = ['basic', 'description'];
         echo LayoutHelper::render('joomla.edit.params', $this);
         ?>
 

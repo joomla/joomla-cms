@@ -12,6 +12,10 @@ namespace Joomla\Component\Banners\Administrator\Controller;
 
 use Joomla\CMS\MVC\Controller\AdminController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Clients list controller class.
  *
@@ -38,7 +42,7 @@ class ClientsController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Client', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Client', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

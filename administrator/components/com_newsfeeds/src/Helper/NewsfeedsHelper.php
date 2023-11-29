@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Newsfeeds component helper.
  *
@@ -54,10 +58,10 @@ class NewsfeedsHelper extends ContentHelper
         $db->setQuery($query);
 
         foreach ($items as $item) {
-            $item->count_trashed = 0;
-            $item->count_archived = 0;
+            $item->count_trashed     = 0;
+            $item->count_archived    = 0;
             $item->count_unpublished = 0;
-            $item->count_published = 0;
+            $item->count_published   = 0;
 
             $id       = (int) $item->id;
             $newfeeds = $db->loadObjectList();
@@ -101,7 +105,7 @@ class NewsfeedsHelper extends ContentHelper
         $parts     = explode('.', $extension);
         $section   = null;
 
-        if (count($parts) > 1) {
+        if (\count($parts) > 1) {
             $section = $parts[1];
         }
 
@@ -132,10 +136,10 @@ class NewsfeedsHelper extends ContentHelper
         $db->setQuery($query);
 
         foreach ($items as $item) {
-            $item->count_trashed = 0;
-            $item->count_archived = 0;
+            $item->count_trashed     = 0;
+            $item->count_archived    = 0;
             $item->count_unpublished = 0;
-            $item->count_published = 0;
+            $item->count_published   = 0;
 
             // Update ID used in database query.
             $id        = (int) $item->id;

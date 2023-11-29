@@ -14,6 +14,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+$user = $app->getIdentity();
+
 /** @var  \Joomla\CMS\Menu\MenuItem  $root */
 ?>
 <?php foreach ($root->getChildren() as $child) : ?>
@@ -91,8 +93,23 @@ use Joomla\CMS\Router\Route;
                                 <?php endif; ?>
                                 <?php if ($item->dashboard) : ?>
                                     <span class="menu-dashboard">
-                                        <a href="<?php echo Route::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $item->dashboard); ?>">
-                                            <span class="icon-th-large" title="<?php echo htmlentities(Text::sprintf('MOD_MENU_DASHBOARD_LINK', Text::_($child->title))); ?>"></span>
+                                        <?php
+                                        $titleDashboard = Text::sprintf('MOD_MENU_DASHBOARD_LINK', Text::_($child->title));
+
+                                        // Prepare the Dashboard icon. We use our own icon, not Fontawesome
+                                        $pathDashboard = 'media/templates/administrator/atum/images/icons/dashboard.svg';
+                                        $attrDashboard = [
+                                            'loading'     => 'eager',
+                                            'decoding'    => 'async',
+                                            'aria-hidden' => 'true',
+                                            'class'       => 'atum-dashboard',
+                                            'height'      => '18',
+                                        ];
+                                        $iconDashboard  = HTMLHelper::_('image', $pathDashboard, '', $attrDashboard, false, 0);
+                                        ?>
+                                        <a href="<?php echo Route::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $item->dashboard); ?>" title="<?php echo $titleDashboard; ?>">
+                                            <span><?php echo $iconDashboard; ?></span>
+                                            <span class="visually-hidden"><?php echo $titleDashboard; ?></span>
                                         </a>
                                     </span>
                                 <?php endif; ?>

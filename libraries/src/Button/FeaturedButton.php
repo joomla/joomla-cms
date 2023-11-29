@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The FeaturedButton class.
  *
@@ -69,11 +73,11 @@ class FeaturedButton extends ActionButton
 
             $tz       = Factory::getUser()->getTimezone();
 
-            if (!is_null($featuredUp)) {
+            if (!\is_null($featuredUp)) {
                 $featuredUp = Factory::getDate($featuredUp, 'UTC')->setTimezone($tz);
             }
 
-            if (!is_null($featuredDown)) {
+            if (!\is_null($featuredDown)) {
                 $featuredDown = Factory::getDate($featuredDown, 'UTC')->setTimezone($tz);
             }
 
@@ -99,12 +103,12 @@ class FeaturedButton extends ActionButton
 
                 if ($featuredUp && $nowDate < $featuredUp->toUnix()) {
                     $options['tip_title'] = Text::_('JLIB_HTML_FEATURED_PENDING_ITEM');
-                    $default['icon'] = 'pending';
+                    $default['icon']      = 'pending';
                 }
 
                 if ($featuredDown && $nowDate > $featuredDown->toUnix()) {
                     $options['tip_title'] = Text::_('JLIB_HTML_FEATURED_EXPIRED_ITEM');
-                    $default['icon'] = 'expired';
+                    $default['icon']      = 'expired';
                 }
             }
 

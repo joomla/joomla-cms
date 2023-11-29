@@ -10,8 +10,8 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Traits;
 
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -19,7 +19,12 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Event\EventInterface;
+use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Utility trait for plugins that offer `com_scheduler` compatible task routines. This trait defines a lot
@@ -93,8 +98,8 @@ trait TaskPluginTrait
      * `onContentPrepareForm` event through {@see SubscriberInterface::getSubscribedEvents()} and will take care
      * of injecting the fields without additional logic in the plugin class.
      *
-     * @param   EventInterface|Form  $context  The onContentPrepareForm event or the Form object.
-     * @param   mixed                $data     The form data, required when $context is a {@see Form} instance.
+     * @param   Model\PrepareFormEvent|Form  $context  The onContentPrepareForm event or the Form object.
+     * @param   mixed                        $data     The form data, required when $context is a {@see Form} instance.
      *
      * @return boolean  True if the form was successfully enhanced or the context was not relevant.
      *
@@ -103,10 +108,9 @@ trait TaskPluginTrait
      */
     public function enhanceTaskItemForm($context, $data = null): bool
     {
-        if ($context instanceof EventInterface) {
-            /** @var Form $form */
-            $form = $context->getArgument('0');
-            $data = $context->getArgument('1');
+        if ($context instanceof Model\PrepareFormEvent) {
+            $form = $context->getForm();
+            $data = $context->getData();
         } elseif ($context instanceof Form) {
             $form = $context;
         } else {

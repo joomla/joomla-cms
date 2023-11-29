@@ -15,6 +15,10 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Client model.
  *
@@ -48,7 +52,7 @@ class ClientModel extends AdminModel
         }
 
         if (!empty($record->catid)) {
-            return Factory::getUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
+            return $this->getCurrentUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
         }
 
         return parent::canDelete($record);
@@ -66,7 +70,7 @@ class ClientModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if (!empty($record->catid)) {
             return $user->authorise('core.edit.state', 'com_banners.category.' . (int) $record->catid);
@@ -85,10 +89,10 @@ class ClientModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_banners.client', 'client', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_banners.client', 'client', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -107,7 +111,7 @@ class ClientModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_banners.edit.client.data', array());
+        $data = Factory::getApplication()->getUserState('com_banners.edit.client.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();

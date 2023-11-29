@@ -15,6 +15,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Router\Route;
 use Joomla\Router\Router;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! API Router class
  *
@@ -95,8 +99,6 @@ class ApiRouter extends Router
         // Get the path from the route and remove and leading or trailing slash.
         $routePath = $this->getRoutePath();
 
-        $query = Uri::getInstance()->getQuery(true);
-
         // Iterate through all of the known routes looking for a match.
         foreach ($this->routes as $route) {
             if (\in_array($method, $route->getMethods())) {
@@ -109,12 +111,11 @@ class ApiRouter extends Router
                     }
 
                     $controller = preg_split("/[.]+/", $route->getController());
-                    $vars       = array_merge($vars, $query);
 
                     return [
                         'controller' => $controller[0],
                         'task'       => $controller[1],
-                        'vars'       => $vars
+                        'vars'       => $vars,
                     ];
                 }
             }

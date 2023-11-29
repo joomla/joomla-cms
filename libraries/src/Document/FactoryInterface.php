@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Document;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Interface defining a factory which can create Document objects
  *

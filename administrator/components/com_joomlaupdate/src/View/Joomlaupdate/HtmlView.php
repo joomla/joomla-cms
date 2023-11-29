@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Version;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Update's Default View
  *
@@ -63,7 +67,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      *
      * @since  4.0.0
      */
@@ -105,6 +109,15 @@ class HtmlView extends BaseHtmlView
      * @since 4.0.0
      */
     protected $messagePrefix = '';
+
+    /**
+     * A special text used for the emptystate layout to explain why there is no download
+     *
+     * @var string  The message
+     *
+     * @since 4.4.0
+     */
+    protected $reasonNoDownload = '';
 
     /**
      * List of non core critical plugins
@@ -169,7 +182,7 @@ class HtmlView extends BaseHtmlView
 
         $this->state = $this->get('State');
 
-        $hasUpdate = !empty($this->updateInfo['hasUpdate']);
+        $hasUpdate   = !empty($this->updateInfo['hasUpdate']);
         $hasDownload = isset($this->updateInfo['object']->downloadurl->_data);
 
         // Fresh update, show it
@@ -186,7 +199,8 @@ class HtmlView extends BaseHtmlView
             } else {
                 // No download available
                 if ($hasUpdate) {
-                    $this->messagePrefix = '_NODOWNLOAD';
+                    $this->messagePrefix    = '_NODOWNLOAD';
+                    $this->reasonNoDownload = 'COM_JOOMLAUPDATE_NODOWNLOAD_EMPTYSTATE_REASON';
                 }
 
                 $this->setLayout('noupdate');
@@ -198,12 +212,12 @@ class HtmlView extends BaseHtmlView
             $this->setLayout('update');
         }
 
-        if (in_array($this->getLayout(), ['preupdatecheck', 'update', 'upload'])) {
-            $language = Factory::getLanguage();
+        if (\in_array($this->getLayout(), ['preupdatecheck', 'update', 'upload'])) {
+            $language = $this->getLanguage();
             $language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
             $language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
 
-            Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'notice');
+            Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'warning');
         }
 
         $params = ComponentHelper::getParams('com_joomlaupdate');
@@ -264,8 +278,8 @@ class HtmlView extends BaseHtmlView
         // Set the toolbar information.
         ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'joomla install');
 
-        if (in_array($this->getLayout(), ['update', 'complete'])) {
-            $arrow = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+        if (\in_array($this->getLayout(), ['update', 'complete'])) {
+            $arrow = $this->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
             ToolbarHelper::link('index.php?option=com_joomlaupdate', 'JTOOLBAR_BACK', $arrow);
 

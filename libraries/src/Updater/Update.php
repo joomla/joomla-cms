@@ -14,9 +14,14 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Update class. It is used by Updater::update() to install an update. Use Updater::findUpdates() to find updates for
@@ -24,8 +29,11 @@ use Joomla\Registry\Registry;
  *
  * @since  1.7.0
  */
-class Update extends CMSObject
+class Update
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
     /**
      * Update manifest `<name>` element
      *
@@ -104,7 +112,7 @@ class Update extends CMSObject
      * @var    DownloadSource[]
      * @since  3.8.3
      */
-    protected $downloadSources = array();
+    protected $downloadSources = [];
 
     /**
      * Update manifest `<tags>` element
@@ -176,7 +184,7 @@ class Update extends CMSObject
      * @var    array
      * @since  3.0.0
      */
-    protected $stack = array('base');
+    protected $stack = ['base'];
 
     /**
      * Unused state array
@@ -184,7 +192,7 @@ class Update extends CMSObject
      * @var    array
      * @since  3.0.0
      */
-    protected $stateStore = array();
+    protected $stateStore = [];
 
     /**
      * Object containing the current update data
@@ -223,7 +231,12 @@ class Update extends CMSObject
      * @var    array
      * @since  3.10.2
      */
-    protected $compatibleVersions = array();
+    protected $compatibleVersions = [];
+    public $downloadurl;
+    protected $tag;
+    protected $stability;
+    protected $supported_databases;
+    protected $php_minimum;
 
     /**
      * Gets the reference to the current direct parent
@@ -261,7 +274,7 @@ class Update extends CMSObject
      * @note    This is public because it is called externally
      * @since   1.7.0
      */
-    public function _startElement($parser, $name, $attrs = array())
+    public function _startElement($parser, $name, $attrs = [])
     {
         $this->stack[] = $name;
         $tag           = $this->_getStackLocation();
@@ -282,7 +295,7 @@ class Update extends CMSObject
                 $source = new DownloadSource();
 
                 foreach ($attrs as $key => $data) {
-                    $key = strtolower($key);
+                    $key          = strtolower($key);
                     $source->$key = $data;
                 }
 
@@ -305,7 +318,7 @@ class Update extends CMSObject
                 $this->currentUpdate->$name->_data = '';
 
                 foreach ($attrs as $key => $data) {
-                    $key = strtolower($key);
+                    $key                              = strtolower($key);
                     $this->currentUpdate->$name->$key = $data;
                 }
                 break;
@@ -398,6 +411,9 @@ class Update extends CMSObject
             case 'UPDATES':
                 // If the latest item is set then we transfer it to where we want to
                 if (isset($this->latest)) {
+                    // This is an optional tag and therefore we need to be sure that this is gone and only used when set by the update itself
+                    unset($this->downloadSources);
+
                     foreach (get_object_vars($this->latest) as $key => $val) {
                         $this->$key = $val;
                     }
@@ -438,7 +454,7 @@ class Update extends CMSObject
 
         if ($tag === 'downloadsource') {
             // Grab the last source so we can append the URL
-            $source = end($this->downloadSources);
+            $source      = end($this->downloadSources);
             $source->url = $data;
 
             return;
@@ -466,7 +482,7 @@ class Update extends CMSObject
         $httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
 
         try {
-            $http = HttpFactory::getHttp($httpOption);
+            $http     = HttpFactory::getHttp($httpOption);
             $response = $http->get($url);
         } catch (\RuntimeException $e) {
             $response = null;

@@ -25,7 +25,7 @@ extract($displayData);
 ?>
 
 <joomla-alert type="info" dismiss class="js-pstats-alert hidden" role="alertdialog" close-text="<?php echo Text::_('JCLOSE'); ?>" aria-labelledby="alert-stats-heading">
-    <div class="alert-heading"><?php echo Text::_('PLG_SYSTEM_STATS_LABEL_MESSAGE_TITLE'); ?></div>
+    <div class="alert-heading" id="alert-stats-heading"><?php echo Text::_('PLG_SYSTEM_STATS_LABEL_MESSAGE_TITLE'); ?></div>
     <div>
         <div class="alert-message">
             <p>

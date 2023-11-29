@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Application\Exception;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Exception class defining a not acceptable class
  *

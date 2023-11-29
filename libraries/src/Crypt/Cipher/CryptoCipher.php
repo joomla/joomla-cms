@@ -12,11 +12,17 @@ namespace Joomla\CMS\Crypt\Cipher;
 use Joomla\Crypt\CipherInterface;
 use Joomla\Crypt\Key;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Crypt cipher for encryption, decryption and key generation via the php-encryption library.
  *
  * @since       3.5
- * @deprecated  5.0   Without replacement use SodiumCipher
+ *
+ * @deprecated  4.3 will be removed in 6.0
+ *              Will be removed without replacement use SodiumCipher instead
  */
 class CryptoCipher implements CipherInterface
 {
@@ -88,7 +94,7 @@ class CryptoCipher implements CipherInterface
      * @since   3.5
      * @throws  \RuntimeException
      */
-    public function generateKey(array $options = array())
+    public function generateKey(array $options = [])
     {
         // Generate the encryption key.
         try {

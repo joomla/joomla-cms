@@ -14,6 +14,10 @@ use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseAwareTrait;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Default factory for creating Menu objects
  *
@@ -44,7 +48,7 @@ class MenuFactory implements MenuFactoryInterface
             throw new \InvalidArgumentException(Text::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
         }
 
-        if (!array_key_exists('db', $options)) {
+        if (!\array_key_exists('db', $options)) {
             $options['db'] = $this->getDatabase();
         }
 

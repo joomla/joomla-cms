@@ -16,6 +16,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Supports a select grouped list of finder content map.
  *
@@ -40,7 +44,7 @@ class ContentmapField extends GroupedlistField
      */
     protected function getGroups()
     {
-        $groups = array();
+        $groups = [];
 
         // Get the database object and a new query object.
         $db = $this->getDatabase();
@@ -76,7 +80,8 @@ class ContentmapField extends GroupedlistField
             }
 
             foreach ($parents[1] as $branch) {
-                $groups[$branch->text] = $this->prepareLevel($branch->value, $parents);
+                $text          = Text::_(LanguageHelper::branchSingular($branch->text));
+                $groups[$text] = $this->prepareLevel($branch->value, $parents);
             }
         }
 
@@ -98,7 +103,7 @@ class ContentmapField extends GroupedlistField
      */
     private function prepareLevel($parent, $parents)
     {
-        $lang = Factory::getLanguage();
+        $lang    = Factory::getLanguage();
         $entries = [];
 
         foreach ($parents[$parent] as $item) {
@@ -107,7 +112,7 @@ class ContentmapField extends GroupedlistField
             if (trim($item->text, '*') === 'Language') {
                 $text = LanguageHelper::branchLanguageTitle($item->text);
             } else {
-                $key = LanguageHelper::branchSingular($item->text);
+                $key  = LanguageHelper::branchSingular($item->text);
                 $text = $lang->hasKey($key) ? Text::_($key) : $item->text;
             }
 

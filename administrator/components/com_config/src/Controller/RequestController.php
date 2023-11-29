@@ -13,6 +13,10 @@ namespace Joomla\Component\Config\Administrator\Controller;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Requests from the frontend
  *
@@ -61,17 +65,14 @@ class RequestController extends BaseController
 
         try {
             $data = $model->getData();
-            $user = $this->app->getIdentity();
         } catch (\Exception $e) {
             $this->app->enqueueMessage($e->getMessage(), 'error');
 
             return false;
         }
 
-        $this->userIsSuperAdmin = $user->authorise('core.admin');
-
         // Required data
-        $requiredData = array(
+        $requiredData = [
             'sitename'            => null,
             'offline'             => null,
             'access'              => null,
@@ -84,8 +85,8 @@ class RequestController extends BaseController
             'debug_lang'          => null,
             'error_reporting'     => null,
             'mailfrom'            => null,
-            'fromname'            => null
-        );
+            'fromname'            => null,
+        ];
 
         $data = array_intersect_key($data, $requiredData);
 

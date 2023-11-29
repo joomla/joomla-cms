@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<help key="Smart_Search:_Options"/>
 	<inlinehelp button="show"/>
@@ -217,6 +217,7 @@
 			<option value="title">COM_FINDER_CONFIG_SORT_OPTION_TITLE</option>
 			<option value="date">COM_FINDER_CONFIG_SORT_OPTION_START_DATE</option>
 			<option value="price">COM_FINDER_CONFIG_SORT_OPTION_LIST_PRICE</option>
+			<option value="sale_price">COM_FINDER_CONFIG_SORT_OPTION_SALES_PRICE</option>
 		</field>
 
 		<field
@@ -234,6 +235,7 @@
 			name="highlight_terms"
 			type="radio"
 			label="COM_FINDER_CONFIG_HILIGHT_CONTENT_SEARCH_TERMS_LABEL"
+			description="COM_FINDER_CONFIG_HIGHLIGHT_CONTENT_SEARCH_TERMS_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
@@ -307,14 +309,6 @@
 			<option value="250">J250</option>
 			<option value="300">J300</option>
 		</field>
-
-		<field
-			name="memory_table_limit"
-			type="number"
-			label="COM_FINDER_CONFIG_MEMORY_TABLE_LIMIT_LABEL"
-			default="30000"
-			filter="integer"
-		/>
 
 		<field
 			name="title_multiplier"

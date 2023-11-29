@@ -15,8 +15,12 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
- * Modules manager master display controller.
+ * Modules manager display controller.
  *
  * @since  1.6
  */
@@ -34,7 +38,8 @@ class DisplayController extends BaseController
      * Method to display a view.
      *
      * @param   boolean        $cachable   If true, the view output will be cached
-     * @param   array|boolean  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}
+     * @param   array|boolean  $urlparams  An array of safe URL parameters and their variable types.
+     *                         @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static|boolean   This object to support chaining or false on failure.
      *
@@ -48,7 +53,7 @@ class DisplayController extends BaseController
         // Verify client
         $clientId = $this->input->post->getInt('client_id');
 
-        if (!is_null($clientId)) {
+        if (!\is_null($clientId)) {
             $uri = Uri::getInstance();
 
             if ((int) $uri->getVar('client_id') !== (int) $clientId) {
