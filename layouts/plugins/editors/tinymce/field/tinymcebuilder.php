@@ -62,7 +62,6 @@ $wa  = $doc->getWebAssetManager();
 
 $wa->getRegistry()->addExtensionRegistryFile('plg_editors_tinymce');
 $wa->registerAndUseStyle('tinymce.skin', 'media/vendor/tinymce/skins/ui/oxide/skin.min.css')
-    ->registerAndUseStyle('tinymce.skin.dark', 'media/vendor/tinymce/skins/ui/oxide-dark/skin.min.css')
     ->registerAndUseStyle('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.css', [], [], ['tinymce.skin', 'dragula'])
     ->registerScript('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.js', [], ['type' => 'module'], ['dragula', 'plg_editors_tinymce'])
     ->useScript('plg_editors_tinymce.builder')
