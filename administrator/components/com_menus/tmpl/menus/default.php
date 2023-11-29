@@ -21,7 +21,8 @@ use Joomla\CMS\Uri\Uri;
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect')
-    ->useScript('com_menus.admin-menus');
+    ->useScript('com_menus.admin-menus')
+    ->useScript('joomla.dialog-autocreate');
 
 $uri       = Uri::getInstance();
 $return    = base64_encode($uri);
@@ -50,10 +51,12 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
 $popupOptionsEdit = [
     'popupType'  => 'iframe',
     'textHeader' => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+    'className'  => 'joomla-dialog-module-editing',
 ];
 $popupOptionsAdd = [
     'popupType'  => 'iframe',
     'textHeader' => Text::_('COM_MENUS_ADD_MENU_MODULE'),
+    'className'  => 'joomla-dialog-module-editing',
 ];
 
 ?>

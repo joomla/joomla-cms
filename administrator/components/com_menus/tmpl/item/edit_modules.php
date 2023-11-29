@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 foreach ($this->levels as $key => $value) {
     $allLevels[$value->id] = $value->title;
@@ -22,9 +23,10 @@ $this->document->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLev
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_menus.admin-item-edit-modules');
+$wa->useScript('com_menus.admin-item-edit-modules')
+    ->useScript('joomla.dialog-autocreate');
 
-// Set up the bootstrap modal that will be used for all module editors
+/*// Set up the bootstrap modal that will be used for all module editors
 echo HTMLHelper::_(
     'bootstrap.renderModal',
     'moduleEditModal',
@@ -42,7 +44,14 @@ echo HTMLHelper::_(
                 . '<button type="button" class="btn btn-success" data-bs-target="#applyBtn">'
                 . Text::_('JAPPLY') . '</button>',
     ]
-);
+);*/
+
+// Set up the modal options that will be used for module editor
+$popupOptions = [
+    'popupType'  => 'iframe',
+    'textHeader' => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+    'className'  => 'joomla-dialog-module-editing',
+];
 
 ?>
 <?php
@@ -75,7 +84,7 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
         </tr>
     </thead>
     <tbody>
-    <?php foreach ($this->modules as $i => &$module) : ?>
+    <?php foreach ($this->modules as $i => $module) : ?>
         <?php if (is_null($module->menuid)) : ?>
             <?php if (!$module->except || $module->menuid < 0) : ?>
                 <?php $no = 'no '; ?>
@@ -92,8 +101,9 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
         <?php endif; ?>
         <tr id="tr-<?php echo $module->id; ?>" class="<?php echo $no; ?><?php echo $status; ?>row<?php echo $i % 2; ?>">
             <th scope="row">
+                <?php $popupOptions['src'] = Route::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&tmpl=component&layout=modal', false); ?>
                 <button type="button"
-                    data-bs-target="#moduleEditModal"
+                    data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)) ?>"
                     class="btn btn-link module-edit-link"
                     title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>"
                     id="title-<?php echo $module->id; ?>"
