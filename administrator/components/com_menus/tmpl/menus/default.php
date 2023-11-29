@@ -225,7 +225,7 @@ $popupOptionsAdd = [
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 <?php foreach ($this->modules[$item->menutype] as $module) : ?>
                                                     <?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
-                                                        <?php $popupOptionsEdit['src'] = Route::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&tmpl=component&layout=modal', false); ?>
+                                                        <?php $popupOptionsEdit['src'] = Route::_('index.php?option=com_modules&task=module.edit&tmpl=component&layout=modal&id=' . $module->id, false); ?>
                                                         <button type="button" class="dropdown-item" data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptionsEdit, JSON_UNESCAPED_SLASHES)) ?>">
                                                             <?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></button>
                                                     <?php else : ?>
@@ -264,7 +264,7 @@ $popupOptionsAdd = [
                                             <?php endif; ?>
                                         <?php endforeach; //*/ ?>
                                     <?php elseif ($modMenuId) : ?>
-                                        <?php $popupOptionsAdd['src'] = Route::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype . '&tmpl=component&layout=modal', false); ?>
+                                        <?php $popupOptionsAdd['src'] = Route::_('index.php?option=com_modules&task=module.add&tmpl=component&layout=modal&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype, false); ?>
                                         <button type="button" class="btn btn-sm btn-primary" data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptionsAdd, JSON_UNESCAPED_SLASHES)) ?>"><?php echo Text::_('COM_MENUS_ADD_MENU_MODULE'); ?></button>
                                         <?php /* echo HTMLHelper::_(
                                             'bootstrap.renderModal',

@@ -165,7 +165,6 @@ const msgListener = function (event) {
 // Listen when "add module" dialog opens, and add message listener
 document.addEventListener('joomla-dialog:open', ({ target }) => {
   if (!target.classList.contains('menus-dialog-module-editing')) return;
-
   // Create a listener with current dialog context
   const listener = msgListener.bind(target);
 
@@ -175,5 +174,11 @@ document.addEventListener('joomla-dialog:open', ({ target }) => {
   // Remove listener on close
   target.addEventListener('joomla-dialog:close', () => {
     window.removeEventListener('message', listener);
+
+    // Perform checkin
+    const { checkinUrl } = target.JoomlaDialogTrigger.dataset;
+    if (checkinUrl) {
+      Joomla.request({ url: checkinUrl, method: 'POST', promise: true });
+    }
   });
 });

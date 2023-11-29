@@ -59,6 +59,7 @@ document.addEventListener('click', (event) => {
     }
   });
 
+  popup.JoomlaDialogTrigger = triggerEl;
   Joomla.Modal.setCurrent(popup);
   popup.show();
 });

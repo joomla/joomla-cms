@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
@@ -25,26 +24,6 @@ $this->document->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLev
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_menus.admin-item-edit-modules')
     ->useScript('joomla.dialog-autocreate');
-
-/*// Set up the bootstrap modal that will be used for all module editors
-echo HTMLHelper::_(
-    'bootstrap.renderModal',
-    'moduleEditModal',
-    [
-        'title'       => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
-        'backdrop'    => 'static',
-        'keyboard'    => false,
-        'closeButton' => false,
-        'bodyHeight'  => '70',
-        'modalWidth'  => '80',
-        'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-target="#closeBtn">'
-                . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-                . '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-target="#saveBtn">'
-                . Text::_('JSAVE') . '</button>'
-                . '<button type="button" class="btn btn-success" data-bs-target="#applyBtn">'
-                . Text::_('JAPPLY') . '</button>',
-    ]
-);*/
 
 // Set up the modal options that will be used for module editor
 $popupOptions = [
@@ -106,13 +85,14 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
         <?php endif; ?>
         <tr id="tr-<?php echo $module->id; ?>" class="<?php echo $no; ?><?php echo $status; ?>row<?php echo $i % 2; ?>">
             <th scope="row">
-                <?php $popupOptions['src'] = Route::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&tmpl=component&layout=modal', false); ?>
+                <?php $popupOptions['src'] = Route::_('index.php?option=com_modules&task=module.edit&tmpl=component&layout=modal&id=' . $module->id, false); ?>
                 <button type="button"
                     data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)) ?>"
                     class="btn btn-link module-edit-link"
                     title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>"
                     id="title-<?php echo $module->id; ?>"
-                    data-module-id="<?php echo $module->id; ?>">
+                    data-module-id="<?php echo $module->id; ?>"
+                    data-checkin-url="<?php echo Route::_('index.php?option=com_modules&task=modules.checkin&format=json&cid[]=' . $module->id); ?>">
                     <?php echo $this->escape($module->title); ?></button>
             </th>
             <td id="access-<?php echo $module->id; ?>">
