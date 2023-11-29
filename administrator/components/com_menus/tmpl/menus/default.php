@@ -236,62 +236,9 @@ $popupOptionsAdd = [
                                                 <?php endforeach; ?>
                                             </div>
                                          </div>
-                                        <?php /* foreach ($this->modules[$item->menutype] as $module) : ?>
-                                            <?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
-                                                <?php $link = Route::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
-                                                <?php echo HTMLHelper::_(
-                                                    'bootstrap.renderModal',
-                                                    'moduleEdit' . $module->id . 'Modal',
-                                                    [
-                                                            'title'       => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
-                                                            'backdrop'    => 'static',
-                                                            'keyboard'    => false,
-                                                            'closeButton' => false,
-                                                            'url'         => $link,
-                                                            'height'      => '400px',
-                                                            'width'       => '800px',
-                                                            'bodyHeight'  => 70,
-                                                            'modalWidth'  => 80,
-                                                            'footer'      => '<button type="button" class="btn btn-danger" data-bs-dismiss="modal"'
-                                                                    . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#closeBtn\'})">'
-                                                                    . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-                                                                    . '<button type="button" class="btn btn-success"'
-                                                                    . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#saveBtn\'})">'
-                                                                    . Text::_('JSAVE') . '</button>'
-                                                                    . '<button type="button" class="btn btn-success"'
-                                                                    . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#applyBtn\'})">'
-                                                                    . Text::_('JAPPLY') . '</button>',
-                                                        ]
-                                                ); ?>
-                                            <?php endif; ?>
-                                        <?php endforeach; //*/ ?>
                                     <?php elseif ($modMenuId) : ?>
                                         <?php $popupOptionsAdd['src'] = Route::_('index.php?option=com_modules&task=module.add&tmpl=component&layout=modal&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype, false); ?>
                                         <button type="button" class="btn btn-sm btn-primary" data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptionsAdd, JSON_UNESCAPED_SLASHES)) ?>"><?php echo Text::_('COM_MENUS_ADD_MENU_MODULE'); ?></button>
-                                        <?php /* echo HTMLHelper::_(
-                                            'bootstrap.renderModal',
-                                            'moduleAddModal',
-                                            [
-                                                    'title'       => Text::_('COM_MENUS_ADD_MENU_MODULE'),
-                                                    'backdrop'    => 'static',
-                                                    'keyboard'    => false,
-                                                    'closeButton' => false,
-                                                    'url'         => $link,
-                                                    'height'      => '400px',
-                                                    'width'       => '800px',
-                                                    'bodyHeight'  => 70,
-                                                    'modalWidth'  => 80,
-                                                    'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
-                                                            . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#closeBtn\'})">'
-                                                            . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-                                                            . '<button type="button" class="btn btn-primary"'
-                                                            . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#saveBtn\'})">'
-                                                            . Text::_('JSAVE') . '</button>'
-                                                            . '<button type="button" class="btn btn-success"'
-                                                            . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#applyBtn\'})">'
-                                                            . Text::_('JAPPLY') . '</button>',
-                                                ]
-                                        ); */ ?>
                                     <?php endif; ?>
                                 </td>
                                 <td class="d-none d-lg-table-cell">
