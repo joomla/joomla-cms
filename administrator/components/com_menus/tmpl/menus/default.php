@@ -226,7 +226,9 @@ $popupOptionsAdd = [
                                                 <?php foreach ($this->modules[$item->menutype] as $module) : ?>
                                                     <?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
                                                         <?php $popupOptionsEdit['src'] = Route::_('index.php?option=com_modules&task=module.edit&tmpl=component&layout=modal&id=' . $module->id, false); ?>
-                                                        <button type="button" class="dropdown-item" data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptionsEdit, JSON_UNESCAPED_SLASHES)) ?>">
+                                                        <button type="button" class="dropdown-item"
+                                                                data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptionsEdit, JSON_UNESCAPED_SLASHES)) ?>"
+                                                                data-checkin-url="<?php echo Route::_('index.php?option=com_modules&task=modules.checkin&format=json&cid[]=' . $module->id); ?>">
                                                             <?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></button>
                                                     <?php else : ?>
                                                         <span class="dropdown-item"><?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
