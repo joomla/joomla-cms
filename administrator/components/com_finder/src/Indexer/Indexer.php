@@ -996,7 +996,7 @@ class Indexer
             if ($db->loadResult() === 0) {
                 return true;
             }
-            
+
             $db->setQuery('SELECT EXISTS (SELECT 1 FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ')');
             if ($db->loadResult() === 0) {
                 return true;
