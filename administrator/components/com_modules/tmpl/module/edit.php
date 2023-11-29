@@ -18,7 +18,7 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.combobox');
 
-$hasContent = isset($this->item->xml->customContent);
+$hasContent          = isset($this->item->xml->customContent);
 $hasContentFieldName = 'content';
 
 // For a later improvement

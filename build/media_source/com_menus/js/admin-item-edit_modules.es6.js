@@ -6,12 +6,6 @@
 const options = Joomla.getOptions('menus-edit-modules', {});
 const viewLevels = options.viewLevels || [];
 const menuId = options.itemId || 0;
-
-if (options) {
-  window.viewLevels = viewLevels;
-  window.menuId = menuId;
-}
-
 const assigned1 = document.getElementById('jform_toggle_modules_assigned1');
 const assigned0 = document.getElementById('jform_toggle_modules_assigned0');
 const published1 = document.getElementById('jform_toggle_modules_published1');
@@ -147,7 +141,7 @@ const updateView = (data) => {
   // Update Title, Position and Access
   document.querySelector(`#title-${modId}`).textContent = updTitle;
   document.querySelector(`#position-${modId}`).textContent = updPosition;
-  document.querySelector(`#access-${modId}`).textContent = window.parent.viewLevels[updAccess] || '';
+  document.querySelector(`#access-${modId}`).textContent = viewLevels[updAccess] || '';
 };
 
 /**
