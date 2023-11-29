@@ -11,7 +11,7 @@ const msgListener = function (event) {
   // Avoid cross origins
   if (event.origin !== window.location.origin) return;
   // Check message
-  if (event.data.contentType === 'com_modules.module') {
+  if (event.data.messageType === 'joomla:content-select' && event.data.contentType === 'com_modules.module') {
     // Reload the page when module has been created
     if (event.data.id) {
       setTimeout(() => { window.location.reload(); }, 500);

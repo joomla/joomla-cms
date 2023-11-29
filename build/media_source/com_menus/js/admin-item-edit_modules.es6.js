@@ -3,11 +3,13 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-const options = Joomla.getOptions('menus-edit-modules');
+const options = Joomla.getOptions('menus-edit-modules', {});
+const viewLevels = options.viewLevels || [];
+const menuId = options.itemId || 0;
 
 if (options) {
-  window.viewLevels = options.viewLevels;
-  window.menuId = parseInt(options.itemId, 10);
+  window.viewLevels = viewLevels;
+  window.menuId = menuId;
 }
 
 const assigned1 = document.getElementById('jform_toggle_modules_assigned1');
@@ -58,3 +60,120 @@ if (published0) {
     });
   });
 }
+
+/**
+ * A helper to create an element
+ * @param {String} tag
+ * @param {String} content
+ * @param {Array} classList
+ * @returns {HTMLElement}
+ */
+const createElement = (tag, content, classList = []) => {
+  const el = document.createElement(tag);
+  el.textContent = content;
+  if (classList.length) {
+    el.classList.add(...classList);
+  }
+  return el;
+};
+
+/**
+ * Update module in list
+ * @param {Object} data
+ */
+const updateView = (data) => {
+  console.log(data);
+
+  const modId = data.id;
+  const updPosition = data.position;
+  const updTitle = data.title;
+  const updMenus = data.assignment;
+  const updStatus = data.status;
+  const updAccess = data.access;
+  const tmpMenu = document.getElementById(`menus-${modId}`);
+  const tmpRow = document.getElementById(`tr-${modId}`);
+  const tmpStatus = document.getElementById(`status-${modId}`);
+  const assigned = data.assigned || [];
+  const numMenus = assigned.length;
+  const inMenus = assigned.map((v) => Math.abs(v));
+
+  // Update assignment badge
+  if (updMenus === '-') {
+    tmpMenu.innerHTML = createElement('span', Joomla.Text._('JNO'), ['badge', 'bg-danger']).outerHTML;
+    tmpRow.classList.add('no');
+  } else if (updMenus === 0) {
+    tmpMenu.innerHTML = createElement('span', Joomla.Text._('JALL'), ['badge', 'bg-info']).outerHTML;
+    tmpRow.classList.remove('no');
+  } else if (updMenus > 0) {
+    const inThisMenu = inMenus.indexOf(menuId);
+    if (inThisMenu >= 0) {
+      tmpMenu.innerHTML = createElement('span', Joomla.Text._('JYES'), ['badge', 'bg-success']).outerHTML;
+      tmpRow.classList.remove('no');
+    } else if (inThisMenu < 0) {
+      tmpMenu.innerHTML = createElement('span', Joomla.Text._('JNO'), ['badge', 'bg-danger']).outerHTML;
+      tmpRow.classList.add('no');
+    }
+  } else if (updMenus < 0) {
+    const inThisMenu2 = inMenus.indexOf(menuId);
+    if (inThisMenu2 >= 0) {
+      tmpMenu.innerHTML = createElement('span', Joomla.Text._('JYES'), ['badge', 'bg-success']).outerHTML;
+      tmpRow.classList.remove('no');
+    } else if (inThisMenu2 < 0) {
+      tmpMenu.innerHTML = createElement('span', Joomla.Text._('JNO'), ['badge', 'bg-danger']).outerHTML;
+      tmpRow.classList.add('no');
+    }
+  }
+
+  // Update status
+  if (updStatus === 1) {
+    tmpStatus.innerHTML = createElement('span', Joomla.Text._('JYES'), ['badge', 'bg-success']).outerHTML;
+    tmpRow.classList.remove('unpublished');
+  } else if (updStatus === 0) {
+    tmpStatus.innerHTML = createElement('span', Joomla.Text._('JNO'), ['badge', 'bg-danger']).outerHTML;
+    tmpRow.classList.add('unpublished');
+  } else if (updStatus === -2) {
+    tmpStatus.innerHTML = createElement('span', Joomla.Text._('JTRASHED'), ['badge', 'bg-secondary']).outerHTML;
+    tmpRow.classList.add('unpublished');
+  }
+
+  // Update Title, Position and Access
+  document.querySelector(`#title-${modId}`).textContent = updTitle;
+  document.querySelector(`#position-${modId}`).textContent = updPosition;
+  document.querySelector(`#access-${modId}`).textContent = window.parent.viewLevels[updAccess] || '';
+
+  console.log(updMenus, numMenus, inMenus, tmpMenu.innerHTML);
+};
+
+/**
+ * Message listener
+ * @param {MessageEvent} event
+ */
+const msgListener = function (event) {
+  // Avoid cross origins
+  if (event.origin !== window.location.origin) return;
+  // Check message
+  if (event.data.messageType === 'joomla:content-select' && event.data.contentType === 'com_modules.module') {
+    // Update view, if there are any changes
+    if (event.data.id) {
+      updateView(event.data);
+    }
+    // Close dialog
+    this.close();
+  }
+};
+
+// Listen when "add module" dialog opens, and add message listener
+document.addEventListener('joomla-dialog:open', ({ target }) => {
+  if (!target.classList.contains('menus-dialog-module-editing')) return;
+
+  // Create a listener with current dialog context
+  const listener = msgListener.bind(target);
+
+  // Wait for a message
+  window.addEventListener('message', listener);
+
+  // Remove listener on close
+  target.addEventListener('joomla-dialog:close', () => {
+    window.removeEventListener('message', listener);
+  });
+});

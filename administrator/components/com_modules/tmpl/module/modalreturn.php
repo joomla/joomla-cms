@@ -20,6 +20,12 @@ if ($this->item) {
     $data['title']          = $this->item->title;
     $data['position']       = $this->item->position;
     $data['module-element'] = $this->item->module;
+
+    // Extra data, used in Menu modal
+    $data['status']     = $this->item->published;
+    $data['access']     = $this->item->access;
+    $data['assignment'] = $this->item->assignment;
+    $data['assigned']   = $this->item->assigned;
 }
 
 // Add Content select script

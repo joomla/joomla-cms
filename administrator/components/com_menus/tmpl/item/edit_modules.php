@@ -19,7 +19,7 @@ foreach ($this->levels as $key => $value) {
     $allLevels[$value->id] = $value->title;
 }
 
-$this->document->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLevels, 'itemId' => $this->item->id]);
+$this->document->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLevels, 'itemId' => (int) $this->item->id]);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
@@ -52,6 +52,11 @@ $popupOptions = [
     'textHeader' => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
     'className'  => 'menus-dialog-module-editing',
 ];
+
+Text::script('JNO');
+Text::script('JYES');
+Text::script('JALL');
+Text::script('JTRASHED');
 
 ?>
 <?php
