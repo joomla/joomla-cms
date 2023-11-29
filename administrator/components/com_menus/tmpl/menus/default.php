@@ -45,6 +45,17 @@ if ($saveOrder) {
 }
 
 $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
+
+// Set up the modal options that will be used for module editor
+$popupOptionsEdit = [
+    'popupType'  => 'iframe',
+    'textHeader' => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+];
+$popupOptionsAdd = [
+    'popupType'  => 'iframe',
+    'textHeader' => Text::_('COM_MENUS_ADD_MENU_MODULE'),
+];
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=menus'); ?>" method="post" name="adminForm" id="adminForm">
     <div class="row">
@@ -209,10 +220,10 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                                 <span class="caret"></span>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-end">
-                                                <?php foreach ($this->modules[$item->menutype] as &$module) : ?>
+                                                <?php foreach ($this->modules[$item->menutype] as $module) : ?>
                                                     <?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
-                                                        <?php $link = Route::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
-                                                        <button type="button" class="dropdown-item" data-bs-target="#moduleEdit<?php echo $module->id; ?>Modal" data-bs-toggle="modal" title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
+                                                        <?php $popupOptionsEdit['src'] = Route::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&tmpl=component&layout=modal', false); ?>
+                                                        <button type="button" class="dropdown-item" data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptionsEdit, JSON_UNESCAPED_SLASHES)) ?>">
                                                             <?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></button>
                                                     <?php else : ?>
                                                         <span class="dropdown-item"><?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
@@ -220,7 +231,7 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                                 <?php endforeach; ?>
                                             </div>
                                          </div>
-                                        <?php foreach ($this->modules[$item->menutype] as &$module) : ?>
+                                        <?php /* foreach ($this->modules[$item->menutype] as $module) : ?>
                                             <?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
                                                 <?php $link = Route::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
                                                 <?php echo HTMLHelper::_(
@@ -248,11 +259,11 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                                         ]
                                                 ); ?>
                                             <?php endif; ?>
-                                        <?php endforeach; ?>
+                                        <?php endforeach; //*/ ?>
                                     <?php elseif ($modMenuId) : ?>
-                                        <?php $link = Route::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype . '&tmpl=component&layout=modal'); ?>
-                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#moduleAddModal"><?php echo Text::_('COM_MENUS_ADD_MENU_MODULE'); ?></button>
-                                        <?php echo HTMLHelper::_(
+                                        <?php $popupOptionsAdd['src'] = Route::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype . '&tmpl=component&layout=modal', false); ?>
+                                        <button type="button" class="btn btn-sm btn-primary" data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptionsAdd, JSON_UNESCAPED_SLASHES)) ?>"><?php echo Text::_('COM_MENUS_ADD_MENU_MODULE'); ?></button>
+                                        <?php /* echo HTMLHelper::_(
                                             'bootstrap.renderModal',
                                             'moduleAddModal',
                                             [
@@ -275,7 +286,7 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                                             . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#applyBtn\'})">'
                                                             . Text::_('JAPPLY') . '</button>',
                                                 ]
-                                        ); ?>
+                                        ); */ ?>
                                     <?php endif; ?>
                                 </td>
                                 <td class="d-none d-lg-table-cell">
