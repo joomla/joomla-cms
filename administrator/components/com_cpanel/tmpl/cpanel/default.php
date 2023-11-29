@@ -33,23 +33,7 @@ $wa->useScript('com_cpanel.admin-cpanel')
 
 $user = $this->getCurrentUser();
 
-// Set up the bootstrap modal that will be used for all module editors
-/*echo HTMLHelper::_(
-    'bootstrap.renderModal',
-    'moduleDashboardAddModal',
-    [
-        'title'       => Text::_('COM_CPANEL_ADD_MODULE_MODAL_TITLE'),
-        'backdrop'    => 'static',
-        'url'         => Route::_('index.php?option=com_cpanel&task=addModule&function=jSelectModuleType&position=' . $this->escape($this->position)),
-        'bodyHeight'  => '70',
-        'modalWidth'  => '80',
-        'footer'      => '<button type="button" class="button-cancel btn btn-danger" data-bs-dismiss="modal" data-bs-target="#closeBtn">'
-            . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-            . '<button type="button" id="btnModalSaveAndClose" class="button-save btn btn-success hidden" data-bs-target="#saveBtn">'
-            . Text::_('JSAVE') . '</button>',
-    ]
-);*/
-
+// Set up the modal options that will be used for module editor
 $popupOptions = [
     'popupType'  => 'iframe',
     'src'        => Route::_('index.php?option=com_cpanel&task=addModule&position=' . $this->position, false),
