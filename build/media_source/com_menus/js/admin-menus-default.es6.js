@@ -22,12 +22,33 @@ Joomla.submitform = (task, form) => {
   }
 };
 
+/**
+ * Message listener
+ * @param {MessageEvent} event
+ */
+const msgListener = function (event) {
+  // Avoid cross origins
+  if (event.origin !== window.location.origin) return;
+  // Check message
+  if (event.data.messageType === 'joomla:content-select' && event.data.contentType === 'com_modules.module') {
+    // Close dialog
+    this.close();
+  }
+};
+
 // Listen when "edit module" dialog opens
 document.addEventListener('joomla-dialog:open', ({ target }) => {
   if (!target.classList.contains('menus-dialog-module-editing')) return;
+  // Create a listener with current dialog context
+  const listener = msgListener.bind(target);
+
+  // Wait for a message
+  window.addEventListener('message', listener);
 
   // Reload page on close
   target.addEventListener('joomla-dialog:close', () => {
+    window.removeEventListener('message', listener);
+
     // Perform checkin
     const { checkinUrl } = target.JoomlaDialogTrigger.dataset;
     if (checkinUrl) {
