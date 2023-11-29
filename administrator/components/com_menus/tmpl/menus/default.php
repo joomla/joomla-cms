@@ -51,12 +51,12 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
 $popupOptionsEdit = [
     'popupType'  => 'iframe',
     'textHeader' => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
-    'className'  => 'joomla-dialog-module-editing',
+    'className'  => 'menus-dialog-module-editing',
 ];
 $popupOptionsAdd = [
     'popupType'  => 'iframe',
     'textHeader' => Text::_('COM_MENUS_ADD_MENU_MODULE'),
-    'className'  => 'joomla-dialog-module-editing',
+    'className'  => 'menus-dialog-module-editing',
 ];
 
 ?>

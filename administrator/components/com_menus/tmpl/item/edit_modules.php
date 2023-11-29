@@ -50,7 +50,7 @@ echo HTMLHelper::_(
 $popupOptions = [
     'popupType'  => 'iframe',
     'textHeader' => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
-    'className'  => 'joomla-dialog-module-editing',
+    'className'  => 'menus-dialog-module-editing',
 ];
 
 ?>

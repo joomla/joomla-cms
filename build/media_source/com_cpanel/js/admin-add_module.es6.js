@@ -23,7 +23,7 @@ const msgListener = function (event) {
 
 // Listen when "add module" dialog opens, and add message listener
 document.addEventListener('joomla-dialog:open', ({ target }) => {
-  if (!target.classList.contains('joomla-dialog-module-editing')) return;
+  if (!target.classList.contains('cpanel-dialog-module-editing')) return;
   // Prevent admin-module-edit.js closing it
   // @TODO: This can be removed when all modals for module editing  will use Dialog
   Joomla.Modal.setCurrent(null);
