@@ -82,8 +82,6 @@ const createElement = (tag, content, classList = []) => {
  * @param {Object} data
  */
 const updateView = (data) => {
-  console.log(data);
-
   const modId = data.id;
   const updPosition = data.position;
   const updTitle = data.title;
@@ -94,34 +92,44 @@ const updateView = (data) => {
   const tmpRow = document.getElementById(`tr-${modId}`);
   const tmpStatus = document.getElementById(`status-${modId}`);
   const assigned = data.assigned || [];
-  const numMenus = assigned.length;
   const inMenus = assigned.map((v) => Math.abs(v));
+  const inAssignedList = inMenus.indexOf(menuId);
+  let assignedState = 0; // 0 = No, 1 = Yes, 2 = All
 
   // Update assignment badge
   if (updMenus === '-') {
-    tmpMenu.innerHTML = createElement('span', Joomla.Text._('JNO'), ['badge', 'bg-danger']).outerHTML;
-    tmpRow.classList.add('no');
+    assignedState = 0;
   } else if (updMenus === 0) {
-    tmpMenu.innerHTML = createElement('span', Joomla.Text._('JALL'), ['badge', 'bg-info']).outerHTML;
-    tmpRow.classList.remove('no');
+    assignedState = 2;
   } else if (updMenus > 0) {
-    const inThisMenu = inMenus.indexOf(menuId);
-    if (inThisMenu >= 0) {
-      tmpMenu.innerHTML = createElement('span', Joomla.Text._('JYES'), ['badge', 'bg-success']).outerHTML;
-      tmpRow.classList.remove('no');
-    } else if (inThisMenu < 0) {
-      tmpMenu.innerHTML = createElement('span', Joomla.Text._('JNO'), ['badge', 'bg-danger']).outerHTML;
-      tmpRow.classList.add('no');
+    if (inAssignedList >= 0) {
+      assignedState = 1;
+    } else if (inAssignedList < 0) {
+      assignedState = 0;
     }
   } else if (updMenus < 0) {
-    const inThisMenu2 = inMenus.indexOf(menuId);
-    if (inThisMenu2 >= 0) {
+    if (inAssignedList >= 0) {
+      assignedState = 0;
+    } else if (inAssignedList < 0) {
+      assignedState = 1;
+    }
+  }
+
+  switch (assignedState) {
+    case 1:
       tmpMenu.innerHTML = createElement('span', Joomla.Text._('JYES'), ['badge', 'bg-success']).outerHTML;
-      tmpRow.classList.remove('no');
-    } else if (inThisMenu2 < 0) {
+      tmpRow.classList.add('no');
+      break;
+
+    case 2:
+      tmpMenu.innerHTML = createElement('span', Joomla.Text._('JALL'), ['badge', 'bg-info']).outerHTML;
+      tmpRow.classList.add('no');
+      break;
+
+    case 0:
+    default:
       tmpMenu.innerHTML = createElement('span', Joomla.Text._('JNO'), ['badge', 'bg-danger']).outerHTML;
       tmpRow.classList.add('no');
-    }
   }
 
   // Update status
@@ -140,8 +148,6 @@ const updateView = (data) => {
   document.querySelector(`#title-${modId}`).textContent = updTitle;
   document.querySelector(`#position-${modId}`).textContent = updPosition;
   document.querySelector(`#access-${modId}`).textContent = window.parent.viewLevels[updAccess] || '';
-
-  console.log(updMenus, numMenus, inMenus, tmpMenu.innerHTML);
 };
 
 /**

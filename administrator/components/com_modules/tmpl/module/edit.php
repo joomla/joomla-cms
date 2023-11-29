@@ -40,8 +40,7 @@ $this->document->addScriptOptions('module-edit', ['itemId' => $this->item->id, '
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
-    ->useScript('form.validate')
-    ->useScript('com_modules.admin-module-edit');
+    ->useScript('form.validate');
 
 $input = Factory::getApplication()->getInput();
 
