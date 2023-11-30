@@ -101,15 +101,22 @@ $user = $this->getCurrentUser();
             <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'assignment', Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT')); ?>
             <?php if ($this->form->getGroup('assigned')) : ?>
                 <?php
-                $this->ignore_fieldsets = ['basic', 'description', 'params'];
+                $this->ignore_fieldsets = ['basic'];
                 $this->fieldset         = 'assigned';
+
+                foreach ($this->form->getFieldsets() as $fieldSet) {
+                    if ($fieldSet->name !== 'assigned') {
+                        $this->ignore_fieldsets[] = $fieldSet->name;
+                    }
+                }
+
                 echo LayoutHelper::render('joomla.edit.fieldset', $this);
                 ?>
             <?php else : ?>
                 <fieldset id="fieldset-assignment" class="options-form">
                     <legend><?php echo Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT'); ?></legend>
                     <div>
-                    <?php echo $this->loadTemplate('assignment'); ?>
+                        <?php echo $this->loadTemplate('assignment'); ?>
                     </div>
                 </fieldset>
             <?php endif; ?>
