@@ -446,14 +446,7 @@ class UpdateModel extends BaseDatabaseModel
         $exists = is_file($target);
 
         if (!$exists) {
-            // Not there, let's fetch it.
-            $mirror = 0;
-
-            while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror])) {
-                $name       = $sources[$mirror];
-                $packageURL = trim($name->url);
-                $mirror++;
-            }
+            $download = $this->downloadPackage($packageURL, $target);
 
             $response['basename'] = $download;
         } else {
@@ -461,19 +454,10 @@ class UpdateModel extends BaseDatabaseModel
             $filesize = @filesize($target);
 
             if (empty($filesize)) {
-                $mirror = 0;
-
-                while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror])) {
-                    $name       = $sources[$mirror];
-                    $packageURL = trim($name->url);
-                    $mirror++;
-                }
+                $download = $this->downloadPackage($packageURL, $target);
 
                 $response['basename'] = $download;
             }
-
-            // Yes, it's there, skip downloading.
-            $response['basename'] = $basename;
         }
 
         $response['check'] = $this->isChecksumValid($target, $updateInfo['object']);
