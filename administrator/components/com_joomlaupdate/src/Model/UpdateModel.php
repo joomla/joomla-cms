@@ -363,34 +363,65 @@ class UpdateModel extends BaseDatabaseModel
     public function download()
     {
         $updateInfo = $this->getUpdateInformation();
-        $packageURL = trim($updateInfo['object']->downloadurl->_data);
-        $sources    = $updateInfo['object']->get('downloadSources', []);
+
+        // Get all download sources and add primary server to top.
+        $sources = ArrayHelper::getColumn($updateInfo['object']->get('downloadSources', []), 'url');
+        array_unshift($sources, $updateInfo['object']->downloadurl->_data);
+        $sources = array_unique($sources);
 
         // We have to manually follow the redirects here so we set the option to false.
         $httpOptions = new Registry();
         $httpOptions->set('follow_location', false);
 
-        try {
-            $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
-        } catch (\RuntimeException $e) {
-            // Passing false here -> download failed message
+        $packageURL = null;
+        foreach ($sources as $i => $source) {
+            // If key 0 this is primary server
+            $primary = $i === 0;
+
+            // Set timeout 5 - for primary server, 3 - for mirrors
+            $timeout = ($primary) ? 5 : 3;
+
+            // Clean and check url
+            $packageURL = trim($source);
+            if (empty($packageURL)) {
+                if ($primary) {
+                    $packageURL = null;
+                    break;
+                }
+
+                continue;
+            }
+
+            // Follow the Location headers until the actual download URL is known
+            try {
+                $head = HttpFactory::getHttp($httpOptions)->head($packageURL, [], $timeout);
+                while (isset($head->headers['location'])) {
+                    $packageURL = (string) $head->headers['location'][0];
+
+                    $head = HttpFactory::getHttp($httpOptions)->head($packageURL, [], $timeout);
+                }
+
+                // If is primary server and response is 404 stop
+                if ($primary && $head->code === 404) {
+                    $packageURL = null;
+                    break;
+                }
+            } catch (\RuntimeException $e) {
+                $packageURL = null;
+                continue;
+            }
+
+            // If find actual download URL stop
+            if ($packageURL !== null) {
+                break;
+            }
+        }
+
+        // Passing false here -> download failed message
+        if ($packageURL === null) {
             $response['basename'] = false;
 
             return $response;
-        }
-
-        // Follow the Location headers until the actual download URL is known
-        while (isset($head->headers['location'])) {
-            $packageURL = (string) $head->headers['location'][0];
-
-            try {
-                $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
-            } catch (\RuntimeException $e) {
-                // Passing false here -> download failed message
-                $response['basename'] = false;
-
-                return $response;
-            }
         }
 
         // Remove protocol, path and query string from URL
