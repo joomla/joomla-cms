@@ -53,11 +53,11 @@ final class Contact extends CMSPlugin
             || $user->authorise('core.edit.own', 'com_contact')
         ) {
             // The URL for the contacts list
-            $link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;'
-                . Session::getFormToken() . '=1&amp;editor=' . $name;
+            $link = 'index.php?option=com_contact&view=contacts&layout=modal&tmpl=component&'
+                . Session::getFormToken() . '=1&editor=' . $name;
 
             $button          = new CMSObject();
-            $button->modal   = true;
+            $button->action  = 'modal';
             $button->link    = $link;
             $button->text    = Text::_('PLG_EDITORS-XTD_CONTACT_BUTTON_CONTACT');
             $button->name    = $this->_type . '_' . $this->_name;
@@ -68,13 +68,6 @@ final class Contact extends CMSPlugin
                             . ' 64 64s-28.7 64-64 64-64-28.7-64-64 28.7-64 64-64zm112 236.8c0 10.6-10 19.2-22.4 19.2H118.4C106 384 96 375.4 96 364.'
                             . '8v-19.2c0-31.8 30.1-57.6 67.2-57.6h5c12.3 5.1 25.7 8 39.8 8s27.6-2.9 39.8-8h5c37.1 0 67.2 25.8 67.2 57.6v19.2z">'
                             . '</path></svg>';
-
-            $button->options = [
-            'height'     => '300px',
-            'width'      => '800px',
-            'bodyHeight' => '70',
-            'modalWidth' => '80',
-            ];
 
             return $button;
         }

@@ -20,6 +20,7 @@ use Joomla\Filesystem\Path;
  * Public cache handler
  *
  * @since  1.7.0
+ * @mixin  Cache
  * @note   As of 4.0 this class will be abstract
  */
 class CacheController

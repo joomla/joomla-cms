@@ -52,7 +52,7 @@ abstract class ToolbarHelper
             $title .= ' - ' . Text::_('JADMINISTRATION');
         }
 
-        Factory::getDocument()->setTitle($title);
+        $app->getDocument()->setTitle($title);
     }
 
     /**

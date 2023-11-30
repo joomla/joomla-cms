@@ -14,6 +14,7 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\AfterCategoryChangeStateEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
@@ -740,10 +741,14 @@ class CategoryModel extends AdminModel
             $extension = Factory::getApplication()->getInput()->get('extension');
 
             // Include the content plugins for the change of category state event.
-            PluginHelper::importPlugin('content');
+            PluginHelper::importPlugin('content', null, true, $this->getDispatcher());
 
             // Trigger the onCategoryChangeState event.
-            Factory::getApplication()->triggerEvent('onCategoryChangeState', [$extension, $pks, $value]);
+            $this->getDispatcher()->dispatch('onCategoryChangeState', new AfterCategoryChangeStateEvent('onCategoryChangeState', [
+                'context' => $extension,
+                'subject' => $pks,
+                'value'   => $value,
+            ]));
 
             return true;
         }
@@ -885,11 +890,11 @@ class CategoryModel extends AdminModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Non-fatal error
-                    $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
-                    $parentId = 0;
                 }
+
+                // Non-fatal error
+                $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+                $parentId = 0;
             }
 
             // Check that user has create permission for parent category
@@ -913,7 +918,9 @@ class CategoryModel extends AdminModel
                 $this->setError($this->table->getError());
 
                 return false;
-            } elseif (!$this->user->authorise('core.create', $extension)) {
+            }
+
+            if (!$this->user->authorise('core.create', $extension)) {
                 // Make sure we can create in root
                 $this->setError(Text::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 
@@ -952,11 +959,11 @@ class CategoryModel extends AdminModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Not fatal error
-                    $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-                    continue;
                 }
+
+                // Not fatal error
+                $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
             }
 
             // Copy is a bit tricky, because we also need to copy the children
@@ -1087,11 +1094,11 @@ class CategoryModel extends AdminModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Non-fatal error.
-                    $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
-                    $parentId = 0;
                 }
+
+                // Non-fatal error.
+                $this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+                $parentId = 0;
             }
 
             // Check that user has create permission for parent category.
@@ -1134,11 +1141,11 @@ class CategoryModel extends AdminModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Not fatal error
-                    $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-                    continue;
                 }
+
+                // Not fatal error
+                $this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
             }
 
             // Set the new location in the tree for the node.

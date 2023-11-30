@@ -258,7 +258,7 @@ class CategoryeditField extends ListField
 
             // Displays language code if not set to All
             if ($options[$i]->language !== '*') {
-                $options[$i]->text = $options[$i]->text . ' (' . $options[$i]->language . ')';
+                $options[$i]->text .= ' (' . $options[$i]->language . ')';
             }
         }
 

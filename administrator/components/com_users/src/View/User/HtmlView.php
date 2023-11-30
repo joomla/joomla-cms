@@ -100,12 +100,12 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         $this->state = $this->get('State');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Prevent user from modifying own group(s)
-        $user = Factory::getApplication()->getIdentity();
+        $user = $this->getCurrentUser();
 
         if ((int) $user->id != (int) $this->item->id || $user->authorise('core.admin')) {
             $this->grouplist = $this->get('Groups');
@@ -145,7 +145,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
     {
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $user      = Factory::getApplication()->getIdentity();
+        $user      = $this->getCurrentUser();
         $canDo     = ContentHelper::getActions('com_users');
         $isNew     = ($this->item->id == 0);
         $isProfile = $this->item->id == $user->id;

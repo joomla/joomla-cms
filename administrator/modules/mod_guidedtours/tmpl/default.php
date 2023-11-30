@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
@@ -23,24 +22,58 @@ if ($hideLinks || !$tours) {
 // Load the Bootstrap Dropdown
 $app->getDocument()
     ->getWebAssetManager()
-    ->useScript('bootstrap.dropdown');
+    ->useScript('bootstrap.dropdown')
+    ->useScript('joomla.dialog-autocreate');
 
-$lang       = $app->getLanguage();
-$extension  = $app->getInput()->get('option');
-$listTours  = [];
-$allTours   = [];
-$toursCount = $params->get('tourscount', 7);
+$lang         = $app->getLanguage();
+$extension    = $app->getInput()->get('option');
+$contextTours = [];
+$starTours    = [];
+$listTours    = [];
+$allTours     = [];
+$contextCount = $params->get('contextcount', 7);
+$toursCount   = $params->get('tourscount', 7);
 
 foreach ($tours as $tour) :
-    if ($toursCount > 0 && count(array_intersect(['*', $extension], $tour->extensions))) :
+    $uri = new Uri($tour->url);
+
+    if (in_array('*', $tour->extensions)) :
+        $starTours[] = $tour;
+    elseif (in_array($extension, $tour->extensions)) :
+        if ($extension === 'com_categories') :
+            // Special case for the categories page, where the context is complemented with the extension the categories apply to
+            if ($uri->getVar('option', '') === 'com_categories') :
+                if ($uri->getVar('extension', '') === $app->getInput()->get('extension', '')) :
+                    if ($contextCount > 0) :
+                        $contextTours[] = $tour;
+                        $contextCount--;
+                    endif;
+                elseif ($toursCount > 0) :
+                    $listTours[] = $tour;
+                    $toursCount--;
+                endif;
+            else :
+                if (in_array($app->getInput()->get('extension', ''), $tour->extensions)) :
+                    if ($contextCount > 0) :
+                        $contextTours[] = $tour;
+                        $contextCount--;
+                    endif;
+                elseif ($toursCount > 0) :
+                    $listTours[] = $tour;
+                    $toursCount--;
+                endif;
+            endif;
+        elseif ($contextCount > 0) :
+            $contextTours[] = $tour;
+            $contextCount--;
+        endif;
+    elseif ($toursCount > 0) :
         $listTours[] = $tour;
         $toursCount--;
     endif;
 
-    $uri = new Uri($tour->url);
-
     // We assume the url is the starting point
-    $key = $uri->getVar('option') ?? Text::_('MOD_GUIDEDTOURS_GENERIC_TOUR');
+    $key = $uri->getVar('option') ?? 'com_cpanel';
 
     if (!isset($allTours[$key])) :
         $lang->load("$key.sys", JPATH_ADMINISTRATOR)
@@ -51,6 +84,20 @@ foreach ($tours as $tour) :
 
     $allTours[$key][] = $tour;
 endforeach;
+
+if ($contextCount > 0) :
+    // The '*' tours have lower priority than contextual tours and are added after them, room permitting
+    $contextTours = array_slice(array_merge($contextTours, $starTours), 0, $params->get('contextcount', 7));
+endif;
+
+$popupId      = 'guidedtours-popup-content' . $module->id;
+$popupOptions = json_encode([
+    'src'             => '#' . $popupId,
+    'width'           => '800px',
+    'height'          => 'fit-content',
+    'textHeader'      => Text::_('MOD_GUIDEDTOURS_START_TOUR'),
+    'preferredParent' => 'body',
+]);
 
 ?>
 <div class="header-item-content dropdown header-tours d-none d-sm-block">
@@ -64,24 +111,38 @@ endforeach;
         <span class="icon-angle-down" aria-hidden="true"></span>
     </button>
     <div class="dropdown-menu dropdown-menu-end">
-        <?php foreach ($listTours as $tour) : ?>
-            <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
-                <span class="icon-map-signs" aria-hidden="true"></span>
-                <?php echo $tour->title; ?>
-            </button>
-        <?php endforeach; ?>
-        <button type="button" class="dropdown-item text-center" data-bs-toggle="modal" data-bs-target="#modGuidedTours-modal">
+        <?php if (count($contextTours) > 0) : ?>
+            <ul class="list-unstyled m-0">
+                <?php foreach ($contextTours as $tour) : ?>
+                    <li>
+                        <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id; ?>">
+                            <span class="icon-star icon-fw" aria-hidden="true"></span>
+                            <?php echo $tour->title; ?>
+                        </button>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+            <hr class="dropdown-divider m-0" role="separator" />
+        <?php endif; ?>
+        <?php if (count($listTours) > 0) : ?>
+            <ul class="list-unstyled m-0">
+                <?php foreach ($listTours as $tour) : ?>
+                    <li>
+                        <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id; ?>">
+                            <span class="icon-map-signs icon-fw" aria-hidden="true"></span>
+                            <?php echo $tour->title; ?>
+                        </button>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+            <hr class="dropdown-divider m-0" role="separator" />
+        <?php endif; ?>
+        <button type="button" class="dropdown-item text-center" data-joomla-dialog="<?php echo htmlspecialchars($popupOptions); ?>">
             <?php echo Text::_('MOD_GUIDEDTOURS_SHOW_ALL'); ?>
         </button>
     </div>
 </div>
 <?php
-
-$modalParams = [
-    'title'  => Text::_('MOD_GUIDEDTOURS_START_TOUR'),
-    'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
-        . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
-];
 
 $modalHtml = [];
 $modalHtml[] = '<div class="p-3">';
@@ -103,40 +164,5 @@ $modalHtml[] = '</div>';
 
 $modalBody = implode($modalHtml);
 
-$modalCode = HTMLHelper::_('bootstrap.renderModal', 'modGuidedTours-modal', $modalParams, $modalBody);
-
-// We have to attach the modal to the body, otherwise we have problems with the backdrop
-$app->getDocument()->getWebAssetManager()->addInlineScript("
-document.addEventListener('DOMContentLoaded', function() {
-    document.body.insertAdjacentHTML('beforeend', " . json_encode($modalCode) . ");
-    const modal = document.getElementById('modGuidedTours-modal');
-
-    // add all the elements inside modal which you want to make focusable
-    const focusableElements = 'button, [href]';
-    const firstFocusableElement = modal.querySelectorAll(focusableElements)[0]; // get first element to be focused inside modal
-    const focusableContent = modal.querySelectorAll(focusableElements);
-    const lastFocusableElement = focusableContent[focusableContent.length - 1]; // get last element to be focused inside modal
-
-    document.addEventListener('keydown', function(e) {
-      let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
-
-      if (!isTabPressed) {
-        return;
-      }
-
-      if (e.shiftKey) { // if shift key pressed for shift + tab combination
-        if (document.activeElement === firstFocusableElement) {
-          lastFocusableElement.focus(); // add focus for the last focusable element
-          e.preventDefault();
-        }
-      } else { // if tab key is pressed
-        if (document.activeElement === lastFocusableElement) { // if focused has reached to last focusable element then focus first focusable element after pressing tab
-          firstFocusableElement.focus(); // add focus for the first focusable element
-          e.preventDefault();
-        }
-      }
-    });
-
-    firstFocusableElement.focus();
-});
-");
+?>
+<template id="<?php echo $popupId; ?>"><?php echo $modalBody; ?></template>

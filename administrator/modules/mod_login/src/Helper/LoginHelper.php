@@ -50,7 +50,7 @@ abstract class LoginHelper
         // Fix wrongly set parentheses in RTL languages
         if (Factory::getApplication()->getLanguage()->isRtl()) {
             foreach ($languages as &$language) {
-                $language['text'] = $language['text'] . '&#x200E;';
+                $language['text'] .= '&#x200E;';
             }
         }
 
@@ -69,10 +69,10 @@ abstract class LoginHelper
         $uri    = Uri::getInstance();
         $return = 'index.php' . $uri->toString(['query']);
 
-        if ($return != 'index.php?option=com_login') {
+        if ($return !== 'index.php?option=com_login') {
             return base64_encode($return);
-        } else {
-            return base64_encode('index.php');
         }
+
+        return base64_encode('index.php');
     }
 }

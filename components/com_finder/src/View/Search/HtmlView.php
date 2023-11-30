@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Finder\Site\View\Search;
 
+use Joomla\CMS\Event\Finder\ResultEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -154,7 +155,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         $this->pagination->hideEmptyLimitstart = true;
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -174,12 +175,17 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         }
 
         // Run an event on each result item
-        if (is_array($this->results)) {
+        if (\is_array($this->results)) {
+            $dispatcher = $this->getDispatcher();
+
             // Import Finder plugins
-            PluginHelper::importPlugin('finder');
+            PluginHelper::importPlugin('finder', null, true, $dispatcher);
 
             foreach ($this->results as $result) {
-                $app->triggerEvent('onFinderResult', [&$result, &$this->query]);
+                $dispatcher->dispatch('onFinderResult', new ResultEvent('onFinderResult', [
+                    'subject' => $result,
+                    'query'   => $this->query,
+                ]));
             }
         }
 

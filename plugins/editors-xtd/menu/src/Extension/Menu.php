@@ -54,11 +54,11 @@ final class Menu extends CMSPlugin
             $user->authorise('core.create', 'com_menus')
             || $user->authorise('core.edit', 'com_menus')
         ) {
-            $link = 'index.php?option=com_menus&amp;view=items&amp;layout=modal&amp;tmpl=component&amp;'
-            . Session::getFormToken() . '=1&amp;editor=' . $name;
+            $link = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&'
+            . Session::getFormToken() . '=1&editor=' . $name;
 
             $button          = new CMSObject();
-            $button->modal   = true;
+            $button->action  = 'modal';
             $button->link    = $link;
             $button->text    = Text::_('PLG_EDITORS-XTD_MENU_BUTTON_MENU');
             $button->name    = $this->_type . '_' . $this->_name;
@@ -69,13 +69,6 @@ final class Menu extends CMSPlugin
                             . '76a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0-320H176a16 16 0 0 0-16 16'
                             . 'v32a16 16 0 0 0 16 16h320a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16zm0 160H176a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16'
                             . 'h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16z"></path></svg>';
-
-            $button->options = [
-            'height'     => '300px',
-            'width'      => '800px',
-            'bodyHeight' => '70',
-            'modalWidth' => '80',
-            ];
 
             return $button;
         }
