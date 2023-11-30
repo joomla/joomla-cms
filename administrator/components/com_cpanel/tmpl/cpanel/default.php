@@ -28,7 +28,6 @@ Text::script('COM_CPANEL_UNPUBLISH_MODULE_ERROR');
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_cpanel.admin-cpanel')
-    ->useScript('com_cpanel.admin-addmodule')
     ->useScript('joomla.dialog-autocreate');
 
 $user = $this->getCurrentUser();
@@ -38,7 +37,7 @@ $popupOptions = [
     'popupType'  => 'iframe',
     'src'        => Route::_('index.php?option=com_cpanel&task=addModule&position=' . $this->position, false),
     'textHeader' => Text::_('COM_CPANEL_ADD_MODULE_MODAL_TITLE'),
-    'className'  => 'cpanel-dialog-module-editing',
+    'data'       => ['closeOnMessage' => '', 'reloadOnClose' => ''],
 ];
 ?>
 <div id="cpanel-modules">
