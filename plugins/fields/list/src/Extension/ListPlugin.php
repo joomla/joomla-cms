@@ -51,6 +51,8 @@ final class ListPlugin extends FieldsListPlugin
             foreach ($field->value as $value) {
                 $field->apivalue[$value] = $options[$value];
             }
+        } elseif (!empty($field->value)) {
+            $field->apivalue[$field->value] = $options[$field->value];
         }
     }
 
