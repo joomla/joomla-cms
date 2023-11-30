@@ -62,14 +62,29 @@ document.addEventListener('click', (event) => {
     });
   }
 
-  // Perform clean up after close
+  // Perform post-close actions
   popup.addEventListener('joomla-dialog:close', () => {
+    // Clean up after close
     Joomla.Modal.setCurrent(null);
     if (!cacheable) {
       popup.destroy();
     }
+
+    // Perform checkin request and page reload after close when needed
+    const { checkinUrl } = popup.dataset;
+    const reloadOnClose = 'reloadOnClose' in popup.dataset;
+    if (checkinUrl) {
+      Joomla.request({ url: checkinUrl, method: 'POST', promise: true }).then(() => {
+        if (reloadOnClose) {
+          window.location.reload();
+        }
+      });
+    } else if (reloadOnClose) {
+      window.location.reload();
+    }
   });
 
+  // Show the popup
   popup.JoomlaDialogTrigger = triggerEl;
   Joomla.Modal.setCurrent(popup);
   popup.show();

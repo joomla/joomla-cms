@@ -51,13 +51,12 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
 $popupOptionsEdit = [
     'popupType'  => 'iframe',
     'textHeader' => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
-    'className'  => 'menus-dialog-module-editing',
-    'data'       => ['closeOnMessage' => '', 'checkinUrl' => ''],
+    'data'       => ['closeOnMessage' => '', 'reloadOnClose' => '', 'checkinUrl' => ''],
 ];
 $popupOptionsAdd = [
     'popupType'  => 'iframe',
     'textHeader' => Text::_('COM_MENUS_ADD_MENU_MODULE'),
-    'className'  => 'menus-dialog-module-editing',
+    'data'       => ['closeOnMessage' => '', 'reloadOnClose' => ''],
 ];
 
 ?>
@@ -232,8 +231,7 @@ $popupOptionsAdd = [
                                                     <?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
                                                         <?php  ?>
                                                         <button type="button" class="dropdown-item"
-                                                                data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptionsEdit, JSON_UNESCAPED_SLASHES)) ?>"
-                                                                data-checkin-url1="<?php echo Route::_('index.php?option=com_modules&task=modules.checkin&format=json&cid[]=' . $module->id); ?>">
+                                                                data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptionsEdit, JSON_UNESCAPED_SLASHES)) ?>">
                                                             <?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></button>
                                                     <?php else : ?>
                                                         <span class="dropdown-item"><?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
