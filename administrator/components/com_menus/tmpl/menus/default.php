@@ -52,6 +52,7 @@ $popupOptionsEdit = [
     'popupType'  => 'iframe',
     'textHeader' => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
     'className'  => 'menus-dialog-module-editing',
+    'data'       => ['closeOnMessage' => '', 'checkinUrl' => ''],
 ];
 $popupOptionsAdd = [
     'popupType'  => 'iframe',
@@ -223,12 +224,16 @@ $popupOptionsAdd = [
                                                 <span class="caret"></span>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-end">
-                                                <?php foreach ($this->modules[$item->menutype] as $module) : ?>
+                                                <?php foreach ($this->modules[$item->menutype] as $module) :
+                                                    $popupOptionsEdit['src'] = Route::_('index.php?option=com_modules&task=module.edit&tmpl=component&layout=modal&id=' . $module->id, false);
+
+                                                    $popupOptionsEdit['data']['checkinUrl'] = Route::_('index.php?option=com_modules&task=modules.checkin&format=json&cid[]=' . $module->id, false);
+                                                ?>
                                                     <?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
-                                                        <?php $popupOptionsEdit['src'] = Route::_('index.php?option=com_modules&task=module.edit&tmpl=component&layout=modal&id=' . $module->id, false); ?>
+                                                        <?php  ?>
                                                         <button type="button" class="dropdown-item"
                                                                 data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptionsEdit, JSON_UNESCAPED_SLASHES)) ?>"
-                                                                data-checkin-url="<?php echo Route::_('index.php?option=com_modules&task=modules.checkin&format=json&cid[]=' . $module->id); ?>">
+                                                                data-checkin-url1="<?php echo Route::_('index.php?option=com_modules&task=modules.checkin&format=json&cid[]=' . $module->id); ?>">
                                                             <?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></button>
                                                     <?php else : ?>
                                                         <span class="dropdown-item"><?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>

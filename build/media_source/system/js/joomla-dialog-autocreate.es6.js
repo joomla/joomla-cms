@@ -52,6 +52,17 @@ document.addEventListener('click', (event) => {
     triggerEl.JoomlaDialogInstance = popup;
   }
 
+  // Perform close when received any message
+  if ('closeOnMessage' in popup.dataset) {
+    window.addEventListener('message', (message) => {
+      // Close when source Window match the iframe Window (for iframe) or current Window (for other popups)
+      if (message.source === (popup.getBodyContent().contentWindow || window)) {
+        popup.close();
+      }
+    });
+  }
+
+  // Perform clean up after close
   popup.addEventListener('joomla-dialog:close', () => {
     Joomla.Modal.setCurrent(null);
     if (!cacheable) {
