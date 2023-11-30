@@ -53,7 +53,7 @@ document.addEventListener('click', (event) => {
   }
 
   // Perform close when received any message
-  if ('closeOnMessage' in popup.dataset) {
+  if ('closeOnMessage' in triggerEl.dataset) {
     window.addEventListener('message', (message) => {
       // Close when source Window match the iframe Window (for iframe) or current Window (for other popups)
       if (message.source === (popup.getBodyContent().contentWindow || window)) {
@@ -71,8 +71,8 @@ document.addEventListener('click', (event) => {
     }
 
     // Perform checkin request and page reload after close when needed
-    const { checkinUrl } = popup.dataset;
-    const reloadOnClose = 'reloadOnClose' in popup.dataset;
+    const { checkinUrl } = triggerEl.dataset;
+    const reloadOnClose = 'reloadOnClose' in triggerEl.dataset;
     if (checkinUrl) {
       Joomla.request({ url: checkinUrl, method: 'POST', promise: true }).then(() => {
         if (reloadOnClose) {

@@ -30,7 +30,6 @@ $popupOptions = [
     'popupType'  => 'iframe',
     'textHeader' => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
     'className'  => 'menus-dialog-module-editing',
-    'data'       => ['checkinUrl' => ''],
 ];
 
 Text::script('JNO');
@@ -87,13 +86,13 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
         <tr id="tr-<?php echo $module->id; ?>" class="<?php echo $no; ?><?php echo $status; ?>row<?php echo $i % 2; ?>">
             <th scope="row">
                 <?php $popupOptions['src'] = Route::_('index.php?option=com_modules&task=module.edit&tmpl=component&layout=modal&id=' . $module->id, false); ?>
-                <?php $popupOptions['data']['checkinUrl'] = Route::_('index.php?option=com_modules&task=modules.checkin&format=json&cid[]=' . $module->id, false); ?>
                 <button type="button"
                     data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)) ?>"
                     class="btn btn-link module-edit-link"
                     title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>"
                     id="title-<?php echo $module->id; ?>"
-                    data-module-id="<?php echo $module->id; ?>">
+                    data-module-id="<?php echo $module->id; ?>"
+                    data-checkin-url="<?php echo Route::_('index.php?option=com_modules&task=modules.checkin&format=json&cid[]=' . $module->id); ?>">
                     <?php echo $this->escape($module->title); ?></button>
             </th>
             <td id="access-<?php echo $module->id; ?>">

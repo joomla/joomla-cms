@@ -51,12 +51,10 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
 $popupOptionsEdit = [
     'popupType'  => 'iframe',
     'textHeader' => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
-    'data'       => ['closeOnMessage' => '', 'reloadOnClose' => '', 'checkinUrl' => ''],
 ];
 $popupOptionsAdd = [
     'popupType'  => 'iframe',
     'textHeader' => Text::_('COM_MENUS_ADD_MENU_MODULE'),
-    'data'       => ['closeOnMessage' => '', 'reloadOnClose' => ''],
 ];
 
 ?>
@@ -223,15 +221,13 @@ $popupOptionsAdd = [
                                                 <span class="caret"></span>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-end">
-                                                <?php foreach ($this->modules[$item->menutype] as $module) :
-                                                    $popupOptionsEdit['src'] = Route::_('index.php?option=com_modules&task=module.edit&tmpl=component&layout=modal&id=' . $module->id, false);
-
-                                                    $popupOptionsEdit['data']['checkinUrl'] = Route::_('index.php?option=com_modules&task=modules.checkin&format=json&cid[]=' . $module->id, false);
-                                                ?>
+                                                <?php foreach ($this->modules[$item->menutype] as $module) : ?>
                                                     <?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
-                                                        <?php  ?>
+                                                        <?php $popupOptionsEdit['src'] = Route::_('index.php?option=com_modules&task=module.edit&tmpl=component&layout=modal&id=' . $module->id, false); ?>
                                                         <button type="button" class="dropdown-item"
-                                                                data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptionsEdit, JSON_UNESCAPED_SLASHES)) ?>">
+                                                            data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptionsEdit, JSON_UNESCAPED_SLASHES)) ?>"
+                                                            data-checkin-url="<?php echo Route::_('index.php?option=com_modules&task=modules.checkin&format=json&cid[]=' . $module->id); ?>"
+                                                            data-close-on-message data-reload-on-close>
                                                             <?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></button>
                                                     <?php else : ?>
                                                         <span class="dropdown-item"><?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
@@ -241,7 +237,9 @@ $popupOptionsAdd = [
                                          </div>
                                     <?php elseif ($modMenuId) : ?>
                                         <?php $popupOptionsAdd['src'] = Route::_('index.php?option=com_modules&task=module.add&tmpl=component&layout=modal&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype, false); ?>
-                                        <button type="button" class="btn btn-sm btn-primary" data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptionsAdd, JSON_UNESCAPED_SLASHES)) ?>"><?php echo Text::_('COM_MENUS_ADD_MENU_MODULE'); ?></button>
+                                        <button type="button" class="btn btn-sm btn-primary"
+                                            data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptionsAdd, JSON_UNESCAPED_SLASHES)) ?>"
+                                            data-close-on-message data-reload-on-close><?php echo Text::_('COM_MENUS_ADD_MENU_MODULE'); ?></button>
                                     <?php endif; ?>
                                 </td>
                                 <td class="d-none d-lg-table-cell">

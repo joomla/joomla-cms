@@ -37,7 +37,6 @@ $popupOptions = [
     'popupType'  => 'iframe',
     'src'        => Route::_('index.php?option=com_cpanel&task=addModule&position=' . $this->position, false),
     'textHeader' => Text::_('COM_CPANEL_ADD_MODULE_MODAL_TITLE'),
-    'data'       => ['closeOnMessage' => '', 'reloadOnClose' => ''],
 ];
 ?>
 <div id="cpanel-modules">
@@ -61,7 +60,8 @@ $popupOptions = [
             <div class="module-wrapper">
                 <div class="card">
                     <button type="button" class="cpanel-add-module"
-                            data-joomla-dialog="<?php echo htmlspecialchars(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)) ?>">
+                            data-joomla-dialog="<?php echo htmlspecialchars(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)) ?>"
+                            data-close-on-message data-reload-on-close>
                         <div class="cpanel-add-module-icon">
                             <span class="icon-plus-square" aria-hidden="true"></span>
                         </div>
