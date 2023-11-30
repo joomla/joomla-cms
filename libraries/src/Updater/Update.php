@@ -237,6 +237,10 @@ class Update
     protected $stability;
     protected $supported_databases;
     protected $php_minimum;
+    protected $sha256;
+    protected $sha384;
+    protected $sha512;
+    protected $section;
 
     /**
      * Gets the reference to the current direct parent
