@@ -174,11 +174,5 @@ document.addEventListener('joomla-dialog:open', ({ target }) => {
   // Remove listener on close
   target.addEventListener('joomla-dialog:close', () => {
     window.removeEventListener('message', listener);
-
-    // Perform checkin
-    const { checkinUrl } = target.JoomlaDialogTrigger.dataset;
-    if (checkinUrl) {
-      Joomla.request({ url: checkinUrl, method: 'POST', promise: true });
-    }
   });
 });
