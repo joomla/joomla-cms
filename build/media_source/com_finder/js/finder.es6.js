@@ -29,7 +29,7 @@
         if (Object.prototype.toString.call(response.suggestions) === '[object Array]') {
           target.awesomplete.list = response.suggestions;
         }
-      }).catch((xhr) => {
+      }).catch(() => {
         // Something went wrong, but we are not going to bother the enduser with this
       });
     }
