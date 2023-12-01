@@ -23,6 +23,7 @@
           response = JSON.parse(xhr.responseText);
         } catch (e) {
           // Something went wrong, but we are not going to bother the enduser with this
+          return;
         }
 
         if (Object.prototype.toString.call(response.suggestions) === '[object Array]') {
