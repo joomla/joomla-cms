@@ -22,15 +22,14 @@
         try {
           response = JSON.parse(xhr.responseText);
         } catch (e) {
-          Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr, 'parsererror'));
-          return;
+          // Something went wrong, but we are not going to bother the enduser with this
         }
 
         if (Object.prototype.toString.call(response.suggestions) === '[object Array]') {
           target.awesomplete.list = response.suggestions;
         }
       }).catch((xhr) => {
-        Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+        // Something went wrong, but we are not going to bother the enduser with this
       });
     }
   };
