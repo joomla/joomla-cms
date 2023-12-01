@@ -422,7 +422,7 @@ class LanguageHelper
             $contents = file_get_contents($fileName);
             $strings  = @parse_ini_string($contents, false, INI_SCANNER_RAW);
         } else {
-            $strings = @parse_ini_file($fileName, false, INI_SCANNER_RAW);
+            $strings = self::parseMultilineIniFile($fileName);
         }
 
         // Ini files are processed in the "RAW" mode of parse_ini_string, leaving escaped quotes untouched - lets postprocess them
@@ -434,6 +434,88 @@ class LanguageHelper
         }
 
         return \is_array($strings) ? $strings : [];
+    }
+
+    /**
+     * Parse strings from a language file.
+     * Caters for multi-line text strings.
+     * See issue https://github.com/joomla/joomla-cms/issues/42416     *
+     *
+     * @param   string   $fileName  The language ini file path.
+     * @param   boolean  $debug     If set to true debug language ini file.
+     *
+     * @return  array  The strings parsed.
+     *
+     * @since   4.1.1
+     */
+    protected static function parseMultilineIniFile($fileName) {
+        $fd = fopen($fileName, "r");
+
+        if (!$fd) return [];
+
+        $unexpectedFileContents = false;
+
+        $nameValuePairs = [];
+
+        while (($line = fgets($fd)) !== false) {
+            $line = trim($line);
+
+            if (empty($line)) continue;
+
+            if ($line[0] == ';') continue;
+
+            // Should not happen, but if it does let parse_ini_file() deal with it
+            if (strpos($line, '=') === false) {
+                $unexpectedFileContents = true;
+
+                break;
+            }
+
+            if (str_ends_with($line, '"')) {
+                // Just in case we have a line ending with an escaped "
+                if (!str_ends_with($line, '\\"')) {
+                    $nameValuePairs[] = $line;
+
+                    continue;
+                }
+            }
+
+            // Found a string with embedded new lines
+            $nameValuePair = $line;
+
+            while (($line = fgets($fd)) !== false)
+            {
+                $line = trim($line);
+
+                // If current value ends with " we don't want to add a space following it
+                $nameValuePair .= (str_ends_with($nameValuePair, '"') ? '' : ' ') . $line;
+
+                if (str_ends_with($line, '"')) {
+
+                    if (!str_ends_with($line, '\\"')) {
+                        $nameValuePairs[] = $nameValuePair;
+
+                        continue 2;
+                    }
+                }
+            }
+
+            // Unexpected end of file. Let parse_ini_file() deal with it
+            $unexpectedFileContents = true;
+
+            break;
+        }
+
+        fclose($fd);
+
+        // Silently ignore parsing errors, like Joomla 4.1.1
+        if ($unexpectedFileContents)
+        {
+            // Handle file like Joomla 4.1.1
+            return @parse_ini_file($fileName, false, INI_SCANNER_RAW);
+        }
+
+        return @parse_ini_string(implode("\n", $nameValuePairs), false, INI_SCANNER_RAW);
     }
 
     /**
