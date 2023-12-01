@@ -413,17 +413,7 @@ class LanguageHelper
             ini_set('track_errors', true);
         }
 
-        // This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
-        // issue it is solving
-        $disabledFunctions      = explode(',', ini_get('disable_functions'));
-        $isParseIniFileDisabled = \in_array('parse_ini_file', array_map('trim', $disabledFunctions));
-
-        if (!\function_exists('parse_ini_file') || $isParseIniFileDisabled) {
-            $contents = file_get_contents($fileName);
-            $strings  = @parse_ini_string($contents, false, INI_SCANNER_RAW);
-        } else {
-            $strings = self::parseMultilineIniFile($fileName);
-        }
+        $strings = self::parseMultilineIniFile($fileName);
 
         // Ini files are processed in the "RAW" mode of parse_ini_string, leaving escaped quotes untouched - lets postprocess them
         $strings = str_replace('\"', '"', $strings);
@@ -512,6 +502,17 @@ class LanguageHelper
         if ($unexpectedFileContents)
         {
             // Handle file like Joomla 4.1.1
+
+            // This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
+            // issue it is solving
+            $disabledFunctions      = explode(',', ini_get('disable_functions'));
+            $isParseIniFileDisabled = \in_array('parse_ini_file', array_map('trim', $disabledFunctions));
+
+            if (!\function_exists('parse_ini_file') || $isParseIniFileDisabled) {
+                $contents = file_get_contents($fileName);
+                return @parse_ini_string($contents, false, INI_SCANNER_RAW);
+            }
+            
             return @parse_ini_file($fileName, false, INI_SCANNER_RAW);
         }
 
