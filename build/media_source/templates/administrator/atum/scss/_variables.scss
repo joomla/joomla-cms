@@ -86,8 +86,8 @@ $form-select-bg-size-sm:           75rem;
 $template-link-color:             var(--template-link-color);
 $template-link-hover-color:       var(--template-link-hover-color);
 
-//$form-select-background:           $form-select-bg $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
-//$form-select-background-rtl:       $form-select-bg $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+//$form-select-background:        $form-select-bg $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+//$form-select-background-rtl:    $form-select-bg $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 
 $atum-colors: (
   template-sidebar-bg:             var(--template-bg-dark-80),
@@ -145,13 +145,13 @@ $atum-colors: (
   image-bg:                        #fff,
   image-bg-image:                  (linear-gradient(45deg,hsl(var(--hue),20%,97%) 25%,transparent 25%,transparent 75%,#eee 75%,hsl(var(--hue),20%,97%) 100%),linear-gradient(45deg,#eee 25%,transparent 25%,transparent 75%,hsl(var(--hue),20%,97%) 75%,hsl(var(--hue),20%,97%) 100%)),
 
-  template-quickicon-bg:           hsl(var(--hue), 60%, 97%),
-  template-quickicon-bg-hvr:       var(--template-bg-dark),
-  form-control-bg:                 var(--template-text-light),
-  form-control-bg-disabled:        var(--gray-200),
-  form-control-border:             var(--border-width) solid var(--template-bg-dark-20),
-  form-select-background:          $form-select-bg $form-select-indicator no-repeat right center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
-  form-select-background-rtl:      $form-select-bg $form-select-indicator-rtl no-repeat left center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+  template-quickicon-bg:                   hsl(var(--hue), 60%, 97%),
+  template-quickicon-bg-hvr:               var(--template-bg-dark),
+  form-control-bg:                         var(--template-text-light),
+  form-control-bg-disabled:                var(--gray-200),
+  form-control-border:                     var(--border-width) solid var(--template-bg-dark-20),
+  form-select-background:                  $form-select-bg $form-select-indicator no-repeat right center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+  form-select-background-rtl:              $form-select-bg $form-select-indicator-rtl no-repeat left center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 
   form-select-border:              var(--form-control-border),
 
@@ -164,7 +164,10 @@ $atum-colors: (
   file-selector-btn-bg:            var(--template-bg-dark-70),
   file-selector-btn-bg-hvr:        var(--template-bg-dark-50),
 
-  // background:
+  form-check-bg-image:             url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='#2a69b7' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/></svg>"),
+
+
+// background:
   bg-normal:                       var(--template-bg-light),
   bg-reverted:                     var(--template-bg-dark-60),
 
@@ -836,15 +839,15 @@ $file-selector-btn-bg:             var(--file-selector-btn-bg);
 $file-selector-btn-bg-hvr:         var(--file-selector-btn-bg-hvr);
 
 //Forms
-$form-aria-grabbed-box-shadow:     var(--form-aria-grabbed-box-shadow);
-$options-form-color:               var(--options-form-color);
-$options-form-bg:                  var(--options-form-bg);
-$options-form-border:              var(--options-form-border);
-$options-form-legend-color:        var(--options-form-legend-color);
-$options-form-legend-bg:           var(--options-form-legend-bg);
-$form-control-bg:                  var(--form-control-bg);
-$form-control-bg-disabled:         var(--form-control-bg-disabled);
-$form-control-border:              var(--form-control-border);
+$form-aria-grabbed-box-shadow:            var(--form-aria-grabbed-box-shadow);
+$options-form-color:                      var(--options-form-color);
+$options-form-bg:                         var(--options-form-bg);
+$options-form-border:                     var(--options-form-border);
+$options-form-legend-color:               var(--options-form-legend-color);
+$options-form-legend-bg:                  var(--options-form-legend-bg);
+$form-control-bg:                         var(--form-control-bg);
+$form-control-bg-disabled:                var(--form-control-bg-disabled);
+$form-control-border:                     var(--form-control-border);
 
 // Input
 $input-padding:                    .5rem 1rem;

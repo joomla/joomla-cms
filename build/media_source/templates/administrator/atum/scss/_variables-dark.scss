@@ -94,17 +94,20 @@ $atum-colors-dark: (
   form-control-bg-disabled:          var(--gray-800),
   form-control-border:               1px solid rgba(255, 255, 255, .1),
 
-  form-select-background:            $form-select-bg-dark $form-select-indicator-dark no-repeat right center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
-  form-select-background-rtl:        $form-select-bg-dark $form-select-indicator-rtl-dark no-repeat left center / $form-select-bg-size, // Used so we can have multiple background elements (e.g. arrow and feedback icon)
+  form-check-input-checked-bg-image:       url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='#007db0' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/></svg>"),
 
-  form-select-border:                var(--form-control-border),
-  form-select-success-bg:            var(--template-sidebar-bg),
-  form-select-danger-bg:             var(--template-sidebar-bg),
-  form-select-disabled-bg:           var(--template-sidebar-bg),
-  form-select-option:                var(--template-text-light),
-  form-select-option-disabled-bg:    var(--template-bg-dark-90),
-  file-selector-btn-bg:              $btn-primary-dark,
-  file-selector-btn-bg-hvr:          darken($btn-primary-dark, 10%),
+
+  form-select-background:                 $form-select-bg-dark $form-select-indicator-dark no-repeat right center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+  form-select-background-rtl:             $form-select-bg-dark $form-select-indicator-rtl-dark no-repeat left center / $form-select-bg-size, // Used so we can have multiple background elements (e.g. arrow and feedback icon)
+
+  form-select-border:                     var(--form-control-border),
+  form-select-success-bg:                 var(--template-sidebar-bg),
+  form-select-danger-bg:                  var(--template-sidebar-bg),
+  form-select-disabled-bg:                var(--template-sidebar-bg),
+  form-select-option:                     var(--template-text-light),
+  form-select-option-disabled-bg:         var(--template-bg-dark-90),
+  file-selector-btn-bg:                   $btn-primary-dark,
+  file-selector-btn-bg-hvr:               darken($btn-primary-dark, 10%),
 
   // Background styles
   bg-normal:                         var(--template-bg-dark),
