@@ -469,7 +469,11 @@ class LanguageHelper
             if (str_ends_with($lineParts[1], '"')) {
                 // Just in case we have a line ending with an escaped "
                 if (!str_ends_with($line, '\\"')) {
-                    $nameValuePairs[$lineParts[0]] = $lineParts[1];
+                    if (strlen($lineParts[1]) == 2) {
+                        $nameValuePairs[$lineParts[0]] = '';
+                        continue;
+                    }
+                    $nameValuePairs[$lineParts[0]] = substr($lineParts[1], 1, strlen($lineParts[1])-2);
 
                     continue;
                 }
@@ -487,7 +491,7 @@ class LanguageHelper
                 if (str_ends_with($line, '"')) {
 
                     if (!str_ends_with($line, '\\"')) {
-                        $nameValuePairs[$lineParts[0]] = $nameValuePair;
+                        $nameValuePairs[$lineParts[0]] = substr($nameValuePair, 1, strlen($nameValuePair)-1);
 
                         continue 2;
                     }
