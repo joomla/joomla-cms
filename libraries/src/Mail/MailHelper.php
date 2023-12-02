@@ -216,20 +216,25 @@ abstract class MailHelper
             self::checkContent($content);
         }
 
-        // Replace relative links, image sources with absolute Urls
+        // Replace relative links, image sources with absolute Urls and lazyloading
         $protocols  = '[a-zA-Z0-9\-]+:';
-        $attributes = ['href=', 'src=', 'poster='];
+        $attributes = ['href=', 'src=', 'poster=', 'loading='];
 
         foreach ($attributes as $attribute) {
             if (strpos($content, $attribute) !== false) {
+            // If the attribute is 'loading=', remove loading="lazy"
+            if ($attribute === 'loading=') {
+                $content = preg_replace('/\s' . $attribute . '"lazy"/i', '', $content);
+            } else {
+                // Define a regular expression pattern for matching relative URLs in the specified attribute
                 $regex = '#\s' . $attribute . '"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
 
+                // Replace relative URLs with absolute URLs using the siteUrl variable
                 $content = preg_replace($regex, ' ' . $attribute . '"' . $siteUrl . '$1"', $content);
-
+            }
                 self::checkContent($content);
             }
         }
-
         return $content;
     }
 
