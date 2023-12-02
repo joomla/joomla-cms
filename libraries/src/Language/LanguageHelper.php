@@ -466,6 +466,13 @@ class LanguageHelper
             $lineParts[0] = rtrim($lineParts[0]);
             $lineParts[1] = ltrim($lineParts[1]);
 
+            // We are only expecting strings for language translation
+            if (!str_starts_with($lineParts[0], '"')) {
+                $unexpectedFileContents = true;
+
+                break;
+            }
+
             if (str_ends_with($lineParts[1], '"')) {
                 // Just in case we have a line ending with an escaped "
                 if (!str_ends_with($line, '\\"')) {
