@@ -10,12 +10,9 @@
 
 namespace Joomla\Component\Redirect\Administrator\Controller;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
