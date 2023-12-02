@@ -222,19 +222,19 @@ abstract class MailHelper
 
         foreach ($attributes as $attribute) {
             if (strpos($content, $attribute) !== false) {
-            // If the attribute is 'loading=', remove loading="lazy"
-            if ($attribute === 'loading=') {
-                $content = preg_replace('/\s' . $attribute . '"lazy"/i', '', $content);
-            } elseif ($attribute === 'data-path=') {
-                // If the attribute is 'data-path=', remove the entire attribute
-                $content = preg_replace('/\s' . $attribute . '"([^"]*)"/i', '', $content);
-            } else {
-                // Define a regular expression pattern for matching relative URLs in the specified attribute
-                $regex = '#\s' . $attribute . '"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
+                // If the attribute is 'loading=', remove loading="lazy"
+                if ($attribute === 'loading=') {
+                    $content = preg_replace('/\s' . $attribute . '"lazy"/i', '', $content);
+                } elseif ($attribute === 'data-path=') {
+                    // If the attribute is 'data-path=', remove the entire attribute
+                    $content = preg_replace('/\s' . $attribute . '"([^"]*)"/i', '', $content);
+                } else {
+                    // Define a regular expression pattern for matching relative URLs in the specified attribute
+                    $regex = '#\s' . $attribute . '"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
 
-                // Replace relative URLs with absolute URLs using the siteUrl variable
-                $content = preg_replace($regex, ' ' . $attribute . '"' . $siteUrl . '$1"', $content);
-            }
+                    // Replace relative URLs with absolute URLs using the siteUrl variable
+                    $content = preg_replace($regex, ' ' . $attribute . '"' . $siteUrl . '$1"', $content);
+                }
                 self::checkContent($content);
             }
         }
