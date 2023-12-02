@@ -429,7 +429,7 @@ class LanguageHelper
     /**
      * Parse strings from a language file.
      * Caters for multi-line text strings.
-     * See issue https://github.com/joomla/joomla-cms/issues/42416     *
+     * See issue https://github.com/joomla/joomla-cms/issues/42416
      *
      * @param   string   $fileName  The language ini file path.
      * @param   boolean  $debug     If set to true debug language ini file.
@@ -455,35 +455,39 @@ class LanguageHelper
             if ($line[0] == ';') continue;
 
             // Should not happen, but if it does let parse_ini_file() deal with it
-            if (strpos($line, '=') === false) {
+            $lineParts = explode('=', $line);
+            if (count($lineParts) != 2) {
                 $unexpectedFileContents = true;
 
                 break;
             }
 
-            if (str_ends_with($line, '"')) {
+            // In case there is a space before / after =
+            $lineParts[0] = rtrim($lineParts[0]);
+            $lineParts[1] = ltrim($lineParts[1]);
+
+            if (str_ends_with($lineParts[1], '"')) {
                 // Just in case we have a line ending with an escaped "
                 if (!str_ends_with($line, '\\"')) {
-                    $nameValuePairs[] = $line;
+                    $nameValuePairs[$lineParts[0]] = $lineParts[1];
 
                     continue;
                 }
             }
 
             // Found a string with embedded new lines
-            $nameValuePair = $line;
+            $nameValuePair = $lineParts[1];
 
             while (($line = fgets($fd)) !== false)
             {
                 $line = trim($line);
 
-                // If current value ends with " we don't want to add a space following it
-                $nameValuePair .= (str_ends_with($nameValuePair, '"') ? '' : ' ') . $line;
+                $nameValuePair .= "\n" . $line;
 
                 if (str_ends_with($line, '"')) {
 
                     if (!str_ends_with($line, '\\"')) {
-                        $nameValuePairs[] = $nameValuePair;
+                        $nameValuePairs[$lineParts[0]] = $nameValuePair;
 
                         continue 2;
                     }
@@ -516,7 +520,7 @@ class LanguageHelper
             return @parse_ini_file($fileName, false, INI_SCANNER_RAW);
         }
 
-        return @parse_ini_string(implode("\n", $nameValuePairs), false, INI_SCANNER_RAW);
+        return $nameValuePairs;
     }
 
     /**
