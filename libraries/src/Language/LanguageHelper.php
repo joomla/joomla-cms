@@ -467,7 +467,7 @@ class LanguageHelper
             $lineParts[1] = ltrim($lineParts[1]);
 
             // We are only expecting strings for language translation
-            if (!str_starts_with($lineParts[0], '"')) {
+            if (!str_starts_with($lineParts[1], '"')) {
                 $unexpectedFileContents = true;
 
                 break;
