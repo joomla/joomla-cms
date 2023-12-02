@@ -30,6 +30,10 @@ echo LayoutHelper::render('joomla.content.emptystate', $displayData);
 
 // Show warning that the content - finder plugin is disabled
 if ($this->finderPluginId) {
+    /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+    $wa = $this->document->getWebAssetManager();
+    $wa->useScript('joomla.dialog-autocreate');
+
     $popupOptions = [
         'popupType'  => 'iframe',
         'textHeader' => Text::_('COM_FINDER_EDIT_PLUGIN_SETTINGS'),
