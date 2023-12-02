@@ -53,21 +53,6 @@ class DisplayController extends BaseController
         $layout   = $this->input->get('layout', 'index', 'word');
         $filterId = $this->input->get('filter_id', null, 'int');
 
-        if ($view === 'index') {
-            $pluginEnabled    = PluginHelper::isEnabled('content', 'finder');
-
-            if (!$pluginEnabled) {
-                $finderPluginId   = FinderHelper::getFinderPluginId();
-                $link             = HTMLHelper::_(
-                    'link',
-                    '#plugin' . $finderPluginId . 'Modal',
-                    Text::_('COM_FINDER_CONTENT_PLUGIN'),
-                    'class="alert-link" data-bs-toggle="modal" id="title-' . $finderPluginId . '"'
-                );
-                $this->app->enqueueMessage(Text::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED_LINK', $link), 'warning');
-            }
-        }
-
         // Check for edit form.
         if ($view === 'filter' && $layout === 'edit' && !$this->checkEditId('com_finder.edit.filter', $filterId)) {
             // Somehow the person just went to the form - we don't allow that.
