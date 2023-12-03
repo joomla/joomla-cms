@@ -404,33 +404,43 @@ class LanguageHelper
             return [];
         }
 
-        // Capture hidden PHP errors from the parsing.
-        if ($debug === true) {
-            // See https://www.php.net/manual/en/reserved.variables.phperrormsg.php
-            $php_errormsg = null;
-
-            $trackErrors = ini_get('track_errors');
-            ini_set('track_errors', true);
-        }
-
         // This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
         // issue it is solving
         $disabledFunctions      = explode(',', ini_get('disable_functions'));
         $isParseIniFileDisabled = \in_array('parse_ini_file', array_map('trim', $disabledFunctions));
 
-        if (!\function_exists('parse_ini_file') || $isParseIniFileDisabled) {
-            $contents = file_get_contents($fileName);
-            $strings  = @parse_ini_string($contents, false, INI_SCANNER_RAW);
-        } else {
-            $strings = @parse_ini_file($fileName, false, INI_SCANNER_RAW);
-        }
+        // Capture hidden PHP errors from the parsing.
+        set_error_handler(static function ($errno, $err) {
+            throw new \Exception($err);
+        }, \E_WARNING);
 
-        // Ini files are processed in the "RAW" mode of parse_ini_string, leaving escaped quotes untouched - lets postprocess them
-        $strings = str_replace('\"', '"', $strings);
+        try {
+            if (!\function_exists('parse_ini_file') || $isParseIniFileDisabled) {
+                $contents = file_get_contents($fileName);
+                $strings  = parse_ini_string($contents, false, INI_SCANNER_RAW);
+            } else {
+                $strings = parse_ini_file($fileName, false, INI_SCANNER_RAW);
+            }
+        } catch (\Exception $e) {
+            // Emulate Java 4.4.0 and earlier handling of multi-line text strings.
+            // Some developers prefer to format long descriptive strings in that way for easier maintenance.
+            // For performance reasons we only do this as a last resort as most .ini files are not affected by this.
+            $strings = self::parseMultilineIni(isset($contents) ? $contents : file_get_contents($fileName));
 
-        // Restore error tracking to what it was before.
-        if ($debug === true) {
-            ini_set('track_errors', $trackErrors);
+            if ($strings === false) {
+                if ($debug)
+                {
+                    throw new \RuntimeException($e->getMessage());
+                }
+
+                return [];
+            }
+
+            // Ini file processing has left escaped quotes untouched - lets postprocess them
+            $strings = str_replace('\"', '"', $strings);
+
+        } finally {
+            restore_error_handler();
         }
 
         return \is_array($strings) ? $strings : [];
