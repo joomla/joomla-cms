@@ -422,7 +422,7 @@ class LanguageHelper
                 $strings = parse_ini_file($fileName, false, INI_SCANNER_RAW);
             }
         } catch (\Exception $e) {
-            // Emulate Java 4.4.0 and earlier handling of multi-line text strings.
+            // Emulate Joomla 4.4.0 and earlier handling of multi-line text strings.
             // Some developers prefer to format long descriptive strings in that way for easier maintenance.
             // For performance reasons we only do this as a last resort as most .ini files are not affected by this.
             $strings = self::parseMultilineIni(isset($contents) ? $contents : file_get_contents($fileName));
