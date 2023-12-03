@@ -38,7 +38,7 @@ $wa->useScript('multiselect')
     ->useScript('list-view')
     ->addInlineScript($inlineJS, [], ['type' => 'module']);
 ?>
-<div class="container-popup">
+<div class="container-popup p-3">
     <div id="subhead" class="subhead noshadow mb-3">
         <?php echo $this->toolbar->render(); ?>
     </div>
