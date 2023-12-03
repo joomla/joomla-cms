@@ -126,7 +126,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                                 'width'      => '800px',
                                                 'height'     => 'fit-content',
                                             ];
-                                        ?>
+                                            ?>
                                             <button type="button" class="btn btn-info btn-sm"
                                                 data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)); ?>">
                                                 <?php echo $item->version?></button>
