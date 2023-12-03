@@ -441,6 +441,10 @@ class LanguageHelper
 
                 return [];
             }
+
+            // Ini file processing has left escaped quotes untouched - lets postprocess them
+            $strings = str_replace('\"', '"', $strings);
+
         } finally {
             restore_error_handler();
         }
