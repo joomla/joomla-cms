@@ -447,6 +447,87 @@ class LanguageHelper
     }
 
     /**
+     * Parse strings from a language file.
+     * See issue https://github.com/joomla/joomla-cms/issues/42416
+     * Emulates Joomla v4.4.0 and earlier behaviour with multi-line text strings without the potential security concerns.
+     *
+     * @param   string   $fileName  The language ini file path.
+     * @param   boolean  $debug     If set to true debug language ini file.
+     *
+     * @return  array | false  The strings parsed.
+     *
+     * @since   4.1.1
+     */
+    protected static function parseMultilineIni($inifileContents) {
+        $lines = explode("\n", $inifileContents);
+
+        $nameValuePairs = [];
+
+        for ($l=0; $l<count($lines); $l++) {
+            $line = trim($lines[$l]);
+
+            if (empty($line)) continue;
+
+            if ($line[0] == ';') continue;
+
+            $lineParts = explode('=', $line);
+            if (count($lineParts) != 2) {
+                // Unexpected file contents
+                return false;
+            }
+
+            // In case there is a space before / after =
+            $lineParts[0] = rtrim($lineParts[0]);
+            $lineParts[1] = ltrim($lineParts[1]);
+            
+            // We are only expecting strings for language translation
+            if (!str_starts_with($lineParts[1], '"')) {
+                // Unexpected file contents
+                return false;
+            }
+
+            if (str_ends_with($lineParts[1], '"')) {
+                // Just in case we have a line ending with an escaped "
+                if (!str_ends_with($line, '\\"')) {
+                    if (strlen($lineParts[1]) == 2) {
+                        $nameValuePairs[$lineParts[0]] = '';
+                        continue;
+                    }
+                    $nameValuePairs[$lineParts[0]] = substr($lineParts[1], 1, strlen($lineParts[1])-2);
+
+                    continue;
+                }
+            }
+
+            // Found a string with embedded new lines
+            $nameValuePair = $lineParts[1];
+
+            while (++$l<count($lines))
+            {
+                $line = trim($lines[$l]);
+
+                $nameValuePair .= "\n" . $line;
+
+                if (str_ends_with($line, '"')) {
+
+                    if (!str_ends_with($line, '\\"')) {
+                        $nameValuePairs[$lineParts[0]] = substr($nameValuePair, 1, strlen($nameValuePair)-1);
+
+                        continue 2;
+                    }
+                }
+            }
+
+            if (!str_starts_with($lineParts[1], '"')) {
+                // Unexpected file contents
+                return false;
+            }
+        }
+
+        return $nameValuePairs;
+    }
+
+    /**
      * Save strings to a language file.
      *
      * @param   string  $fileName  The language ini file path.
