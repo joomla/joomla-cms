@@ -423,9 +423,9 @@ class LanguageHelper
         try {
             if (!\function_exists('parse_ini_file') || $isParseIniFileDisabled) {
                 $contents = file_get_contents($fileName);
-                $strings  = parse_ini_string($contents, false, INI_SCANNER_RAW);
+                $strings  = parse_ini_string($contents);
             } else {
-                $strings = parse_ini_file($fileName, false, INI_SCANNER_RAW);
+                $strings = parse_ini_file($fileName);
             }
         } catch (\Exception $e) {
             if ($debug) {
@@ -436,9 +436,6 @@ class LanguageHelper
         } finally {
             restore_error_handler();
         }
-
-        // Ini files are processed in the "RAW" mode of parse_ini_string, leaving escaped quotes untouched - lets postprocess them
-        $strings = str_replace('\"', '"', $strings);
 
         return \is_array($strings) ? $strings : [];
     }
@@ -455,9 +452,9 @@ class LanguageHelper
      */
     public static function saveToIniFile($fileName, array $strings)
     {
-        // Escape double quotes.
+        // Escape double quotes and dollars.
         foreach ($strings as $key => $string) {
-            $strings[$key] = addcslashes($string, '"');
+            $strings[$key] = addcslashes($string, '"$');
         }
 
         // Write override.ini file with the strings.
