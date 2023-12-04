@@ -63,7 +63,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
                         break;
                     case 3:
                         $wa->useScript('joomla.dialog-autocreate');
-                        $popupOptions = ['textHeader' => $label, 'className' => 'dialog-content-link'];
+                        $popupOptions = ['textHeader' => $label, 'className' => 'dialog-content-link', 'width' => '800px', 'height' => '500px', 'preferredParent' => 'body'];
 
                         echo '<a href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '" rel="noopener noreferrer"'
                             . ' data-joomla-dialog="' . htmlspecialchars(json_encode($popupOptions, JSON_UNESCAPED_SLASHES), ENT_COMPAT, 'UTF-8') . '">' .
