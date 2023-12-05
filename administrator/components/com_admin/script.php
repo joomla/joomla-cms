@@ -2975,7 +2975,8 @@ class JoomlaInstallerScript
             $files = Folder::files($client_path . '/language/overrides', '\.override\.ini$');
 
             foreach ($files as $filename) {
-                $contents = file_get_contents($filename);
+                $override_path = $client_path . '/language/overrides/' . $filename;
+                $contents = file_get_contents($override_path);
 
                 // Check file contains dollar sign
                 if (strpos($contents, '$') !== false) {
@@ -2984,7 +2985,7 @@ class JoomlaInstallerScript
 
                     if ($count > 0) {
                         // Save on change
-                        File::write($filename, $contents);
+                        File::write($override_path, $contents);
                     }
                 }
             }
