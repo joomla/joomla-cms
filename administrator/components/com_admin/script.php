@@ -147,6 +147,7 @@ class JoomlaInstallerScript
             $this->updateManifestCaches();
             $this->updateDatabase();
             $this->updateAssets($installer);
+            $this->fixLanguageOverrides();
             $this->clearStatsCache();
         } catch (\Throwable $e) {
             $this->collectError('Further update', $e);
@@ -2945,6 +2946,45 @@ class JoomlaInstallerScript
                     // On Unix with both files: Delete the incorrectly cased file.
                     if (is_file(JPATH_ROOT . $old)) {
                         File::delete(JPATH_ROOT . $old);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Fixes escaping of characters in language override files
+     *
+     * @return  void
+     *
+     * @since   4.4.2
+     */
+    protected function fixLanguageOverrides()
+    {
+        if (version_compare($this->fromVersion, '4.4.1', '>=') && $this->fromVersion !== '5.0.0') {
+            return;
+        }
+
+        $client_paths = [
+            JPATH_SITE,
+            JPATH_ADMINISTRATOR,
+        ];
+
+        foreach ($client_paths as $client_path) {
+            // Get list of all *.override.ini language files
+            $files = Folder::files($client_path . '/language/overrides', '\.override\.ini$');
+
+            foreach ($files as $filename) {
+                $contents = file_get_contents($filename);
+
+                // Check file contains dollar sign
+                if (strpos($contents, '$') !== false) {
+                    // Escape non-escaped dollar signs (probably preceded by escaped backslashes)
+                    $contents = preg_replace('/(?<=[^\\\\])((?:\\\\)*)\$/', '\1\\\\$', $contents, -1, $count);
+
+                    if ($count > 0) {
+                        // Save on change
+                        File::write($filename, $contents);
                     }
                 }
             }
