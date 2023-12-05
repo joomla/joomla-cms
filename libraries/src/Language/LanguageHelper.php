@@ -454,7 +454,7 @@ class LanguageHelper
     {
         // Escape double quotes and dollars.
         foreach ($strings as $key => $string) {
-            $strings[$key] = addcslashes($string, '"$');
+            $strings[$key] = addcslashes($string, '"$\\');
         }
 
         // Write override.ini file with the strings.
