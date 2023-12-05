@@ -153,8 +153,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                             <?php echo Text::_('COM_USERS_ACTIVATED'); ?>
                                         </div>
 									<?php else : ?>
-                                        <?php $activated = empty($item->activation) ? 0 : 1; ?>
-										<?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.activateStates'), $activated, $i, 'users.', (bool) $activated); ?>
+                                        <?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.activateStates'), 1, $i, 'users.', true); ?>
 									<?php endif; ?>
                                 </td>
                                 <?php if ($mfa) : ?>
