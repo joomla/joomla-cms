@@ -147,14 +147,14 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                     <?php endif; ?>
                                 </td>
                                 <td class="text-center d-md-table-cell">
-									<?php if (empty($item->activation)) : ?>
-										<span class="icon-check" aria-hidden="true" aria-describedby="tip-activated<?php echo $i; ?>"></span>
+                                    <?php if (empty($item->activation)) : ?>
+                                        <span class="icon-check" aria-hidden="true" aria-describedby="tip-activated<?php echo $i; ?>"></span>
                                         <div role="tooltip" id="tip-activated<?php echo $i; ?>">
                                             <?php echo Text::_('COM_USERS_ACTIVATED'); ?>
                                         </div>
-									<?php else : ?>
+                                    <?php else : ?>
                                         <?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.activateStates'), 1, $i, 'users.', true); ?>
-									<?php endif; ?>
+                                    <?php endif; ?>
                                 </td>
                                 <?php if ($mfa) : ?>
                                 <td class="text-center d-none d-md-table-cell">
