@@ -23,14 +23,18 @@
           response = JSON.parse(xhr.responseText);
         } catch (e) {
           // Something went wrong, but we are not going to bother the enduser with this
+          // eslint-disable-next-line no-console
+          console.error(e);
           return;
         }
 
         if (Object.prototype.toString.call(response.suggestions) === '[object Array]') {
           target.awesomplete.list = response.suggestions;
         }
-      }).catch(() => {
+      }).catch((xhr) => {
         // Something went wrong, but we are not going to bother the enduser with this
+        // eslint-disable-next-line no-console
+        console.error(xhr);
       });
     }
   };
