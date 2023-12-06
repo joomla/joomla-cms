@@ -444,6 +444,9 @@ class Browser
         'axios',
         'Amazon CloudFront',
         'Pulsepoint',
+        'SemrushBot/',
+        'bytesspider',
+        'PetalBot',
     ];
 
     /**
