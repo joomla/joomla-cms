@@ -129,7 +129,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                             ?>
                                             <button type="button" class="btn btn-info btn-sm"
                                                 data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)); ?>">
-                                                <?php echo $item->version?></button>
+                                                <?php echo $item->version; ?></button>
                                         <?php else : ?>
                                             <?php echo $item->version; ?>
                                         <?php endif; ?>
