@@ -92,7 +92,7 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 $monochrome    = (bool) $this->params->get('monochrome');
-$darkMode      = $this->params->get('colorScheme', 0);
+$darkMode      = $app->getIdentity()->getParams('colorScheme', $this->params->get('colorScheme', 0));
 $lastMode      = !$darkMode ? $app->getInput()->cookie->get('atumColorScheme', '') : false;
 $themeModes    = [0 => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
 $themeModeAttr = ($themeModes[$darkMode] ?? '') . ($lastMode ? ($themeModes[$lastMode] ?? '') : '');
