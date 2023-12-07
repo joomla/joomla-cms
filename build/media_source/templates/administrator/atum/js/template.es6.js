@@ -223,7 +223,7 @@ function subheadScrolling() {
  *
  * @since   __DEPLOY_VERSION__
  */
-function dartModeWatch() {
+function darkModeWatch() {
   const docEl = document.documentElement;
   const { colorSchemeOs } = docEl.dataset;
   // Look for data-color-scheme-os attribute
@@ -247,7 +247,7 @@ function dartModeWatch() {
 }
 
 // Initialize
-dartModeWatch();
+darkModeWatch();
 headerItemsInDropdown();
 reactToResize();
 subheadScrolling();
