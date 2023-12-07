@@ -124,7 +124,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                                 'textHeader' => Text::sprintf('COM_INSTALLER_CHANGELOG_TITLE', $item->name, $item->version),
                                                 'src'        => Route::_('index.php?option=com_installer&task=manage.loadChangelogRaw&eid=' . $item->extension_id . '&source=manage&format=raw', false),
                                                 'width'      => '800px',
-                                                'height'     => 'fit-content',
+                                                'height'     => 'fit-content' ,
                                             ];
                                             ?>
                                             <button type="button" class="btn btn-info btn-sm"
