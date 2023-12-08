@@ -20,7 +20,7 @@ use Tuf\Metadata\StorageBase;
  */
 class DatabaseStorage extends StorageBase
 {
-    const METADATA_COLUMNS = ["root", "targets", "snapshot", "timestamp", "mirrors"];
+    const METADATA_COLUMNS = ['root', 'targets', 'snapshot', 'timestamp', 'mirrors'];
 
     /**
      * The Tuf table object
@@ -29,7 +29,7 @@ class DatabaseStorage extends StorageBase
      */
     protected $table;
 
-    protected $container = array();
+    protected $container = [];
 
     /**
      * Initialize the DatabaseStorage class

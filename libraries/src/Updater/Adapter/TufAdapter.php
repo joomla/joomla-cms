@@ -98,7 +98,7 @@ class TufAdapter extends UpdateAdapter
             ->bind(':id', $options['update_site_id'], ParameterType::INTEGER);
         $db->setQuery($query);
 
-        $params = ["location" => $db->loadResult()];
+        $params = ['location' => $db->loadResult()];
 
         $tufFetcher = new TufFetcher($extension_id, $params);
         $metaData = $tufFetcher->getValidUpdate();
@@ -151,8 +151,8 @@ class TufAdapter extends UpdateAdapter
             $checker = new ConstraintChecker();
 
             foreach ($versions as $version) {
-                if ($checker->check((array)$version)) {
-                    return array($version);
+                if ($checker->check((array) $version)) {
+                    return [$version];
                 }
             }
         }
