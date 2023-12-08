@@ -98,62 +98,64 @@ class TufAdapter extends UpdateAdapter
             ->bind(':id', $options['update_site_id'], ParameterType::INTEGER);
         $db->setQuery($query);
 
-        $params = ['location' => $db->loadResult()];
+        $params = ["location" => $db->loadResult()];
 
         $tufFetcher = new TufFetcher($extension_id, $params);
         $metaData = $tufFetcher->getValidUpdate();
 
         $metaData = json_decode($metaData);
 
-        if (isset($metaData->signed->targets)) {
-            foreach ($metaData->signed->targets as $filename => $target) {
-                $values = [];
+        if (!isset($metaData->signed->targets) || !is_array($metaData->signed->targets)) {
+            return false;
+        }
 
-                foreach ($keys as $key) {
-                    if (isset($target->custom->$key)) {
-                        $values[$key] = $target->custom->$key;
-                    }
+        foreach ($metaData->signed->targets as $filename => $target) {
+            $values = [];
+
+            foreach ($keys as $key) {
+                if (isset($target->custom->$key)) {
+                    $values[$key] = $target->custom->$key;
                 }
-
-                if (isset($values['client']) && is_string($values['client'])) {
-                    $client = ApplicationHelper::getClientInfo($values['client'], true);
-
-                    if (is_object($client)) {
-                        $values['client'] = $client->id;
-                    }
-                }
-
-                if (isset($values['infourl']) && isset($values['infourl']->url)) {
-                    $values['infourl'] = $values['infourl']->url;
-                }
-
-                try {
-                    $values = $resolver->resolve($values);
-                } catch (\Exception $e) {
-                    continue;
-                }
-
-                $values['data'] = [
-                    'downloads' => $values['downloads'],
-                    'channel' => $values['channel'],
-                    'targetplatform' => $values['targetplatform'],
-                    'supported_databases' => $values['supported_databases'],
-                    'hashes' => $target->hashes
-                ];
-
-                $versions[$values['version']] = $values;
             }
 
-            usort($versions, function ($a, $b) {
-                return version_compare($b['version'], $a['version']);
-            });
+            if (isset($values['client']) && is_string($values['client'])) {
+                $client = ApplicationHelper::getClientInfo($values['client'], true);
 
-            $checker = new ConstraintChecker();
-
-            foreach ($versions as $version) {
-                if ($checker->check((array) $version)) {
-                    return [$version];
+                if (is_object($client)) {
+                    $values['client'] = $client->id;
                 }
+            }
+
+            if (isset($values['infourl']) && isset($values['infourl']->url)) {
+                $values['infourl'] = $values['infourl']->url;
+            }
+
+            try {
+                $values = $resolver->resolve($values);
+            } catch (\Exception $e) {
+                continue;
+            }
+
+            $values['data'] = [
+                'downloads' => $values['downloads'],
+                'channel' => $values['channel'],
+                'targetplatform' => $values['targetplatform'],
+                'supported_databases' => $values['supported_databases'],
+                'hashes' => $target->hashes
+            ];
+
+            $versions[$values['version']] = $values;
+        }
+
+        usort($versions, function ($a, $b) {
+            return version_compare($b['version'], $a['version']);
+        });
+
+        $checker = new ConstraintChecker();
+
+        foreach ($versions as $version) {
+            if ($checker->check($version)) {
+                return array($version);
             }
         }
 

@@ -107,6 +107,8 @@ class TufFetcher
             $storage
         );
 
+        $app = Factory::getApplication();
+
         try {
             try
             {
@@ -126,23 +128,23 @@ class TufFetcher
             }
         } catch (DownloadSizeException $e) {
             $this->rollBackTufMetadata();
-            Factory::getApplication()->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_DOWNLOAD_SIZE'), 'error');
+            $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_DOWNLOAD_SIZE'), 'error');
             return null;
         } catch (MetadataException $e) {
             $this->rollBackTufMetadata();
-            Factory::getApplication()->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_INVALID_METADATA'), 'error');
+            $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_INVALID_METADATA'), 'error');
             return null;
         } catch (FreezeAttackException $e) {
             $this->rollBackTufMetadata();
-            Factory::getApplication()->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_FREEZE_ATTACK'), 'error');
+            $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_FREEZE_ATTACK'), 'error');
             return null;
         } catch (RollbackAttackException $e) {
             $this->rollBackTufMetadata();
-            Factory::getApplication()->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_ROLLBACK_ATTACK'), 'error');
+            $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_ROLLBACK_ATTACK'), 'error');
             return null;
         } catch (SignatureThresholdException $e) {
             $this->rollBackTufMetadata();
-            Factory::getApplication()->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_SIGNATURE_THRESHOLD'), 'error');
+            $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_SIGNATURE_THRESHOLD'), 'error');
             return null;
         }
     }

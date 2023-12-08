@@ -28,7 +28,7 @@ class HttpLoader implements LoaderInterface
         $client = $httpFactory->getHttp([], 'curl');
         $response = $client->get($this->repositoryPath . $locator);
 
-        if ($response->code === 404) {
+        if ($response->code !== 200) {
             throw new RepoFileNotFound();
         }
 
