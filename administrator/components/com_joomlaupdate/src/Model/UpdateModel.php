@@ -24,7 +24,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Updater\Update\Update;
+use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
@@ -296,8 +296,9 @@ class UpdateModel extends BaseDatabaseModel
 
         $minimumStability      = Updater::STABILITY_STABLE;
         $comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
+        $channel = $comJoomlaupdateParams->get('updatesource', 'nochange');
 
-        if (\in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), ['testing', 'custom'])) {
+        if (\in_array($channel, ['testing', 'custom'])) {
             $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
         }
 
