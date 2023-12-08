@@ -178,7 +178,7 @@ class TaskTable extends Table implements CurrentUserInterface
     {
         return $this->title;
     }
-    
+
     /**
      * Method to get the parent asset under which to register this one.
      * By default, all assets are registered to the ROOT node with ID,
@@ -197,11 +197,11 @@ class TaskTable extends Table implements CurrentUserInterface
     {
         $assetId = null;
         $asset   = new Asset($this->getDbo(), $this->getDispatcher());
-    
+
         if ($asset->loadByName('com_scheduler')) {
             $assetId = $asset->id;
         }
-    
+
         return $assetId ?? parent::_getAssetParentId($table, $id);
     }
 
