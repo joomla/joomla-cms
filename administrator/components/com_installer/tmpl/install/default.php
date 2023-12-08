@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Event\Installer\AddInstallationTabEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -29,8 +30,9 @@ $wa->useScript('core')
     ->usePreset('com_installer.installer')
     ->useScript('webcomponent.core-loader');
 
-$app  = Factory::getApplication();
-$tabs = $app->triggerEvent('onInstallerAddInstallationTab', []);
+$tabs = Factory::getApplication()->getDispatcher()
+    ->dispatch('onInstallerAddInstallationTab', new AddInstallationTabEvent('onInstallerAddInstallationTab', []))
+    ->getArgument('result', []);
 
 ?>
 <div id="installer-install" class="clearfix">

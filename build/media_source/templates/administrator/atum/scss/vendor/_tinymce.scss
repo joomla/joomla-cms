@@ -61,3 +61,13 @@
     border-top: var(--template-bg-light) 1px solid;
   }
 }
+
+// Add a toolbar separator for the groups
+.tox-toolbar__group:not(:last-of-type) {
+  border-inline-end: 1px solid var(--border-color) !important;
+}
+
+// Adjust the border radius for the editor
+.tox-tinymce {
+  border-radius: 0 !important;
+}

@@ -17,6 +17,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -43,23 +44,24 @@ class GroupTable extends Table implements CurrentUserInterface
     /**
      * Class constructor.
      *
-     * @param   DatabaseDriver  $db  DatabaseDriver object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.7.0
      */
-    public function __construct($db = null)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__fields_groups', 'id', $db);
+        parent::__construct('#__fields_groups', 'id', $db, $dispatcher);
 
         $this->setColumnAlias('published', 'state');
     }
 
     /**
-     * Method to bind an associative array or object to the JTable instance.This
+     * Method to bind an associative array or object to the \Joomla\CMS\Table\Table instance.This
      * method only binds properties that are publicly accessible and optionally
      * takes an array of properties to ignore when binding.
      *
-     * @param   mixed  $src     An associative array or object to bind to the JTable instance.
+     * @param   mixed  $src     An associative array or object to bind to the \Joomla\CMS\Table\Table instance.
      * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
      *
      * @return  boolean  True on success.
@@ -69,14 +71,14 @@ class GroupTable extends Table implements CurrentUserInterface
      */
     public function bind($src, $ignore = '')
     {
-        if (isset($src['params']) && is_array($src['params'])) {
+        if (isset($src['params']) && \is_array($src['params'])) {
             $registry = new Registry();
             $registry->loadArray($src['params']);
             $src['params'] = (string) $registry;
         }
 
         // Bind the rules.
-        if (isset($src['rules']) && is_array($src['rules'])) {
+        if (isset($src['rules']) && \is_array($src['rules'])) {
             $rules = new Rules($src['rules']);
             $this->setRules($rules);
         }
@@ -85,7 +87,7 @@ class GroupTable extends Table implements CurrentUserInterface
     }
 
     /**
-     * Method to perform sanity checks on the JTable instance properties to ensure
+     * Method to perform sanity checks on the \Joomla\CMS\Table\Table instance properties to ensure
      * they are safe to store in the database.  Child classes should override this
      * method to make sure the data they are storing in the database is safe and
      * as expected before storage.

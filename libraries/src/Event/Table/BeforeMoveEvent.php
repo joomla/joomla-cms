@@ -16,7 +16,7 @@ use Joomla\Database\DatabaseQuery;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onBeforeMove event
+ * Event class for \Joomla\CMS\Table\Table onBeforeMove event
  *
  * @since  4.0.0
  */
@@ -26,10 +26,10 @@ class BeforeMoveEvent extends AbstractEvent
      * Constructor.
      *
      * Mandatory arguments:
-     * subject      JTableInterface The table we are operating on
-     * query        DatabaseQuery   The query to get the primary keys and ordering values for the selection.
-     * delta        int             The direction and magnitude to move the row in the ordering sequence.
-     * where        string          WHERE clause to use for limiting the selection of rows to compact the ordering values.
+     * subject      \Joomla\CMS\Table\TableInterface The table we are operating on
+     * query        DatabaseQuery                    The query to get the primary keys and ordering values for the selection.
+     * delta        int                              The direction and magnitude to move the row in the ordering sequence.
+     * where        string                           WHERE clause to use for limiting the selection of rows to compact the ordering values.
      *
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.
@@ -61,6 +61,9 @@ class BeforeMoveEvent extends AbstractEvent
      * @return  mixed
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setQuery($value)
     {
@@ -79,6 +82,9 @@ class BeforeMoveEvent extends AbstractEvent
      * @return  integer
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setDelta($value)
     {
@@ -97,6 +103,9 @@ class BeforeMoveEvent extends AbstractEvent
      * @return  mixed
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setWhere($value)
     {
@@ -105,5 +114,53 @@ class BeforeMoveEvent extends AbstractEvent
         }
 
         return $value;
+    }
+
+    /**
+     * Setter for the query argument
+     *
+     * @param   DatabaseQuery  $value  The value to set
+     *
+     * @return  mixed
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetQuery($value)
+    {
+        return $this->setQuery($value);
+    }
+
+    /**
+     * Setter for the delta argument
+     *
+     * @param   int  $value  The value to set
+     *
+     * @return  integer
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetDelta($value)
+    {
+        return $this->setDelta($value);
+    }
+
+    /**
+     * Setter for the where argument
+     *
+     * @param   string|null  $value  The value to set
+     *
+     * @return  mixed
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetWhere($value)
+    {
+        return $this->setWhere($value);
     }
 }

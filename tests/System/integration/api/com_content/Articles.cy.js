@@ -9,6 +9,14 @@ describe('Test that content API endpoint', () => {
         .should('include', 'automated test article'));
   });
 
+  it('can deliver a single article', () => {
+    cy.db_createArticle({ title: 'automated test article' })
+      .then((article) => cy.api_get(`/content/articles/${article.id}`))
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+        .its('title')
+        .should('include', 'automated test article'));
+  });
+
   it('can create an article', () => {
     cy.db_createCategory({ extension: 'com_content' })
       .then((categoryId) => cy.api_post('/content/articles', {

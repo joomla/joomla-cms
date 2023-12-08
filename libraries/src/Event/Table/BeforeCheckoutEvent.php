@@ -14,7 +14,7 @@ namespace Joomla\CMS\Event\Table;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onBeforeCheckout event
+ * Event class for \Joomla\CMS\Table\Table onBeforeCheckout event
  *
  * @since  4.0.0
  */
@@ -24,9 +24,9 @@ class BeforeCheckoutEvent extends AbstractEvent
      * Constructor.
      *
      * Mandatory arguments:
-     * subject      JTableInterface The table we are operating on
-     * userId       integer         The Id of the user checking out the row.
-     * pk           mixed           An optional primary key value to check out.
+     * subject      \Joomla\CMS\Table\TableInterface The table we are operating on
+     * userId       integer                          The Id of the user checking out the row.
+     * pk           mixed                            An optional primary key value to check out.
      *
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.
@@ -54,6 +54,9 @@ class BeforeCheckoutEvent extends AbstractEvent
      * @return  mixed
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setUserId($value)
     {
@@ -62,5 +65,21 @@ class BeforeCheckoutEvent extends AbstractEvent
         }
 
         return (int) $value;
+    }
+
+    /**
+     * Setter for the userId argument
+     *
+     * @param   mixed  $value  The value to set
+     *
+     * @return  mixed
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetUserId($value)
+    {
+        return $this->setUserId($value);
     }
 }

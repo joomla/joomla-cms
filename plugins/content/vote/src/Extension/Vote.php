@@ -84,7 +84,7 @@ final class Vote extends CMSPlugin
      * @param   object   &$params  The article params
      * @param   integer  $page     The 'page' number
      *
-     * @return  string|boolean  HTML string containing code for the votes if in com_content else boolean false
+     * @return  string  HTML string containing code for the votes if in com_content else empty string
      *
      * @since   3.7.0
      */
@@ -93,7 +93,7 @@ final class Vote extends CMSPlugin
         $parts = explode('.', $context);
 
         if ($parts[0] !== 'com_content') {
-            return false;
+            return '';
         }
 
         if (empty($params) || !$params->get('show_vote', null)) {

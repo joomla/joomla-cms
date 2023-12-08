@@ -45,7 +45,7 @@ trait UserDeletion
          * @var   bool        $success True if user was successfully stored in the database
          * @var   string|null $msg     Message
          */
-        [$user, $success, $msg] = $event->getArguments();
+        [$user, $success, $msg] = array_values($event->getArguments());
 
         if (!$success) {
             $this->returnFromEvent($event, true);

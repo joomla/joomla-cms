@@ -11,6 +11,7 @@
 namespace Joomla\Component\Privacy\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Privacy\ExportRequestEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
@@ -97,9 +98,14 @@ class ExportModel extends BaseDatabaseModel implements UserFactoryAwareInterface
         // Log the export
         $this->logExport($table);
 
-        PluginHelper::importPlugin('privacy');
+        $dispatcher = $this->getDispatcher();
 
-        $pluginResults = Factory::getApplication()->triggerEvent('onPrivacyExportRequest', [$table, $user]);
+        PluginHelper::importPlugin('privacy', null, true, $dispatcher);
+
+        $pluginResults = $dispatcher->dispatch('onPrivacyExportRequest', new ExportRequestEvent('onPrivacyExportRequest', [
+            'subject' => $table,
+            'user'    => $user,
+        ]))->getArgument('result', []);
 
         $domains = [];
 
