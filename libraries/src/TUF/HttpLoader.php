@@ -8,8 +8,9 @@
 
 namespace Joomla\CMS\TUF;
 
+use GuzzleHttp\Promise\Create;
 use Joomla\Http\HttpFactory;
-use Psr\Http\Message\StreamInterface;
+use GuzzleHttp\Promise\PromiseInterface;
 use Tuf\Exception\RepoFileNotFound;
 use Tuf\Loader\LoaderInterface;
 
@@ -19,7 +20,7 @@ class HttpLoader implements LoaderInterface
     {
     }
 
-    public function load(string $locator, int $maxBytes): StreamInterface
+    public function load(string $locator, int $maxBytes): PromiseInterface
     {
         $httpFactory = new HttpFactory();
 
@@ -34,7 +35,7 @@ class HttpLoader implements LoaderInterface
         // Rewind to start
         $response->getBody()->rewind();
 
-        // Return reponse
-        return $response->getBody();
+        // Return response
+        return Create::promiseFor($response->getBody());
     }
 }
