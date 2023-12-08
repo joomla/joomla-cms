@@ -105,7 +105,7 @@ class TufAdapter extends UpdateAdapter
 
         $metaData = json_decode($metaData);
 
-        if (!isset($metaData->signed->targets) || !is_array($metaData->signed->targets)) {
+        if (!isset($metaData->signed->targets)) {
             return false;
         }
 
