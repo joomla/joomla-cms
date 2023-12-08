@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Updater\Update;
+namespace Joomla\CMS\Updater;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -14,8 +14,6 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Updater\DownloadSource;
-use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Version;
@@ -529,9 +527,9 @@ class Update
             foreach ($data["downloads"] as $download) {
                 $source = new DownloadSource;
 
-                foreach ($download as $key => $data) {
+                foreach ($download as $key => $url) {
                     $key = strtolower($key);
-                    $source->$key = $data;
+                    $source->$key = $url;
                 }
 
                 $this->downloadSources[] = $source;
