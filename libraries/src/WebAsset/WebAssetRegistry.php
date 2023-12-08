@@ -156,6 +156,9 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
             $this->assets[$type] = [];
         }
 
+        // Check if any new file was added
+        $this->parseRegistryFiles();
+
         $eventChange = 'new';
         $eventAsset  = $asset;
 
@@ -184,6 +187,9 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
      */
     public function remove(string $type, string $name): WebAssetRegistryInterface
     {
+        // Check if any new file was added
+        $this->parseRegistryFiles();
+
         if (!empty($this->assets[$type][$name])) {
             $asset = $this->assets[$type][$name];
 
@@ -207,6 +213,9 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
      */
     public function exists(string $type, string $name): bool
     {
+        // Check if any new file was added
+        $this->parseRegistryFiles();
+
         return !empty($this->assets[$type][$name]);
     }
 
@@ -333,7 +342,11 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
             return;
         }
 
-        foreach ($this->dataFilesNew as $path) {
+        $paths = $this->dataFilesNew;
+
+        $this->dataFilesNew = [];
+
+        foreach ($paths as $path) {
             // Parse only if the file was not parsed already
             if (empty($this->dataFilesParsed[$path])) {
                 $this->parseRegistryFile($path);
@@ -341,9 +354,6 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
                 // Mark the file as parsed
                 $this->dataFilesParsed[$path] = $path;
             }
-
-            // Remove the file from queue
-            unset($this->dataFilesNew[$path]);
         }
     }
 
