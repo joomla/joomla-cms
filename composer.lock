@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cb54f540e3f4e28bf4163ada9e1d343c",
+    "content-hash": "09597ed1b47803155aec589f45321340",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -3130,12 +3130,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-tuf/php-tuf.git",
-                "reference": "7c2c58c5275618307d6b143ae7b2f09e8bc2b378"
+                "reference": "d8bd8d69bfa6da812b85c19c6fd7b0bfc8ba6daa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-tuf/php-tuf/zipball/7c2c58c5275618307d6b143ae7b2f09e8bc2b378",
-                "reference": "7c2c58c5275618307d6b143ae7b2f09e8bc2b378",
+                "url": "https://api.github.com/repos/php-tuf/php-tuf/zipball/d8bd8d69bfa6da812b85c19c6fd7b0bfc8ba6daa",
+                "reference": "d8bd8d69bfa6da812b85c19c6fd7b0bfc8ba6daa",
                 "shasum": ""
             },
             "require": {

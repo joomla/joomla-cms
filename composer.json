@@ -107,7 +107,7 @@
     "phpseclib/bcmath_compat": "^2.0.1",
     "jfcherng/php-diff": "^6.15.3",
     "voku/portable-utf8": "^6.0.13",
-    "php-tuf/php-tuf": "dev-main",
+    "php-tuf/php-tuf": "dev-main#d8bd8d69bfa6da812b85c19c6fd7b0bfc8ba6daa",
     "cweagans/composer-patches": "^1.7"
   },
   "require-dev": {
