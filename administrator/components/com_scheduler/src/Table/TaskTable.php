@@ -172,7 +172,7 @@ class TaskTable extends Table implements CurrentUserInterface
      *
      * @return  string
      *
-     * @since   __DEPLOY_SINCE__
+     * @since   __DEPLOY_VERSION__
      */
     protected function _getAssetTitle(): string
     {
@@ -191,7 +191,7 @@ class TaskTable extends Table implements CurrentUserInterface
      *
      * @return  integer
      *
-     * @since   __DEPLOY_SINCE__
+     * @since   __DEPLOY_VERSION__
      */
     protected function _getAssetParentId(Table $table = null, $id = null): int
     {
