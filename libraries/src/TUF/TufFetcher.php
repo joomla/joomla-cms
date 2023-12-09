@@ -44,14 +44,22 @@ class TufFetcher
     private $params;
 
     /**
+     * The database driver
+     *
+     * @var DatabaseDriver
+     */
+    protected $db;
+
+    /**
      * Validating updates with TUF
      *
      * @param integer $extensionId The ID of the extension to be checked
      * @param mixed $params The parameters containing the Base-URI, the Metadata- and Targets-Path and mirrors for the update
      */
-    public function __construct(int $extensionId, $params)
+    public function __construct(int $extensionId, $params = [], DatabaseDriver $db = null)
     {
         $this->extensionId = $extensionId;
+        $this->db = $db ?? Factory::getContainer()->get(DatabaseDriver::class);
 
         $resolver = new OptionsResolver;
 
@@ -84,7 +92,8 @@ class TufFetcher
                 'location' => ''
             ]
         )
-            ->setAllowedTypes('location', 'string');
+            ->setAllowedTypes('location', 'string')
+            ->setRequired('location');
     }
 
     /**
@@ -95,12 +104,10 @@ class TufFetcher
      */
     public function getValidUpdate()
     {
-        $db = Factory::getContainer()->get(DatabaseDriver::class);
-
-        $httpLoader = new HttpLoader($this->params["location"]);
+        $httpLoader = new HttpLoader($this->params['location']);
         $sizeCheckingLoader = new SizeCheckingLoader($httpLoader);
 
-        $storage = new DatabaseStorage($db, $this->extensionId);
+        $storage = new DatabaseStorage($this->db, $this->extensionId);
 
         $updater = new Updater(
             $sizeCheckingLoader,
@@ -127,26 +134,18 @@ class TufFetcher
                 throw $e;
             }
         } catch (DownloadSizeException $e) {
-            $this->rollBackTufMetadata();
             $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_DOWNLOAD_SIZE'), 'error');
-            return null;
         } catch (MetadataException $e) {
-            $this->rollBackTufMetadata();
             $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_INVALID_METADATA'), 'error');
-            return null;
         } catch (FreezeAttackException $e) {
-            $this->rollBackTufMetadata();
             $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_FREEZE_ATTACK'), 'error');
-            return null;
         } catch (RollbackAttackException $e) {
-            $this->rollBackTufMetadata();
             $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_ROLLBACK_ATTACK'), 'error');
-            return null;
         } catch (SignatureThresholdException $e) {
-            $this->rollBackTufMetadata();
             $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_SIGNATURE_THRESHOLD'), 'error');
-            return null;
         }
+
+        $this->rollBackTufMetadata();
     }
 
     /**
@@ -156,10 +155,12 @@ class TufFetcher
      */
     private function rollBackTufMetadata()
     {
-        $db = Factory::getContainer()->get(DatabaseDriver::class);
+        $db = $this->db;
+
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__tuf_metadata'))
             ->columns(['snapshot_json', 'targets_json', 'timestamp_json']);
-        $db->setQuery($query);
+
+        $db->setQuery($query)->execute();
     }
 }
