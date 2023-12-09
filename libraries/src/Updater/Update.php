@@ -499,14 +499,14 @@ class Update
         $channelMatch = false;
 
         // Check if the release channel matches, assume true if tag isn't present
-        if (!$channel || !isset($data["channel"]) || preg_match('/' . $channel . '/', $data["channel"])) {
+        if (!$channel || !isset($data['channel']) || preg_match('/' . $channel . '/', $data['channel'])) {
             $channelMatch = true;
         }
 
         // Check minimum stability
         $stabilityMatch = true;
 
-        if (isset($data["stability"]) && ($this->stabilityTagToInteger((string) $data["stability"]) < $minimumStability)) {
+        if (isset($data['stability']) && ($this->stabilityTagToInteger((string) $data['stability']) < $minimumStability)) {
             $stabilityMatch = false;
         }
 
@@ -519,12 +519,12 @@ class Update
             $this->$key = $updateObject->$key;
         }
 
-        if (isset($data["targetplatform"])) {
-            $this->targetplatform = $data["targetplatform"];
+        if (isset($data['targetplatform'])) {
+            $this->targetplatform = $data['targetplatform'];
         }
 
-        if (isset($data["downloads"])) {
-            foreach ($data["downloads"] as $download) {
+        if (isset($data['downloads'])) {
+            foreach ($data['downloads'] as $download) {
                 $source = new DownloadSource;
 
                 foreach ($download as $key => $url) {
@@ -536,9 +536,9 @@ class Update
             }
         }
 
-        if (isset($data["hashes"])) {
-            foreach ($data["hashes"] as $hashAlgorithm => $hashSum) {
-                $this->$hashAlgorithm = (object) ["_data" => $hashSum];
+        if (isset($data['hashes'])) {
+            foreach ($data['hashes'] as $hashAlgorithm => $hashSum) {
+                $this->$hashAlgorithm = (object) ['_data' => $hashSum];
             }
         }
 
