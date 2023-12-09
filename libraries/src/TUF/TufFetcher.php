@@ -129,7 +129,7 @@ class TufFetcher
                 return $storage->read('targets');
             } catch (\Exception $e) {
                 if (JDEBUG && $message = $e->getMessage()) {
-                    Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_TUF_DEBUG_MESSAGE', $message), 'error');
+                    $app->enqueueMessage(Text::sprintf('JLIB_INSTALLER_TUF_DEBUG_MESSAGE', $message), 'error');
                 }
                 throw $e;
             }
