@@ -254,6 +254,7 @@ abstract class AdminModel extends FormModel
                 'save'         => 'content',
                 'change_state' => 'content',
                 'validate'     => 'content',
+                'batch'        => 'content',
             ],
             $config['events_map']
         );
@@ -295,6 +296,7 @@ abstract class AdminModel extends FormModel
         }
 
         $done = false;
+        PluginHelper::importPlugin($this->events_map['batch']);
 
         // Initialize re-usable member properties
         $this->initBatch();

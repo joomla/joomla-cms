@@ -431,27 +431,27 @@ class InstallerHelper
             ->select(
                 $db->quoteName(
                     [
-                                's.update_site_id',
-                                's.enabled',
-                                's.extra_query',
-                                'e.extension_id',
-                                'e.type',
-                                'e.element',
-                                'e.folder',
-                                'e.client_id',
-                                'e.manifest_cache',
-                            ],
+                        's.update_site_id',
+                        's.enabled',
+                        's.extra_query',
+                        'e.extension_id',
+                        'e.type',
+                        'e.element',
+                        'e.folder',
+                        'e.client_id',
+                        'e.manifest_cache',
+                    ],
                     [
-                                'update_site_id',
-                                'enabled',
-                                'extra_query',
-                                'extension_id',
-                                'type',
-                                'element',
-                                'folder',
-                                'client_id',
-                                'manifest_cache',
-                            ]
+                        'update_site_id',
+                        'enabled',
+                        'extra_query',
+                        'extension_id',
+                        'type',
+                        'element',
+                        'folder',
+                        'client_id',
+                        'manifest_cache',
+                    ]
                 )
             )
             ->from($db->quoteName('#__update_sites', 's'))
