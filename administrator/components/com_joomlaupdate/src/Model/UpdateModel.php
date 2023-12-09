@@ -310,7 +310,7 @@ class UpdateModel extends BaseDatabaseModel
         if (!empty($updateType === 'tuf')) {
             // Use the correct identifier for the update channel
             $updateChannel = Version::MAJOR_VERSION . '.x';
-    
+
             if ($channel === 'next') {
                 $updateChannel = (Version::MAJOR_VERSION + 1) . '.x';
             }

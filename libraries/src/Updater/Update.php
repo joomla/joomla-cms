@@ -520,7 +520,7 @@ class Update
             if (
                 !isset($target['custom']['targetplatform']['name'])
                 || $product !== $target['custom']['targetplatform']['name']
-                || !preg_match('/^' . $target['custom']['targetplatform']['name'] . '/', $this->get('jversion.full', JVERSION))
+                || !preg_match('/^' . $target['custom']['targetplatform']['version'] . '/', $this->get('jversion.full', JVERSION))
             ) {
                 continue;
             }
