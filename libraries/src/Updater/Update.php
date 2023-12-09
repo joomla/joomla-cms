@@ -568,7 +568,11 @@ class Update
             }
 
             if (!isset($this->latest) || version_compare($target['custom']['version'], $this->latest->version, '>')) {
-                $this->latest = (object) $target['custom'];
+                $this->latest = new \stdClass();
+
+                foreach ($target['custom'] as $key => $val) {
+                    $this->latest->$key = $val;
+                }
 
                 $this->downloadSources = [];
 
@@ -593,6 +597,52 @@ class Update
                     }
                 }
             }
+        }
+
+        // If the latest item is set then we transfer it to where we want to
+        if (isset($this->latest)) {
+            // Ugly XML structure conversion
+            foreach (get_object_vars($this->latest) as $key => $val) {
+                if (in_array($key, ['infourl'])) {
+                    $this->$key = (object) [
+                        '_data' => $val['url'],
+                    ];
+
+                    unset($val['url']);
+
+                    foreach ($val as $k => $v) {
+                        $this->$key->$k = $v;
+                    }
+
+                    continue;
+                }
+                elseif (in_array($key, ['targetplatform', 'supported_databases'])) {
+                    $this->$key = (object) [
+                        '_data' => '',
+                    ];
+
+                    foreach ($val as $k => $v) {
+                        $this->$key->$k = $v;
+                    }
+
+                    continue;
+                }
+                elseif ($key === 'stability') {
+                    $this->$key = $this->stabilityTagToInteger($val);
+
+                    continue;
+                }
+
+                $this->$key = (object) ['_data' => $val];
+            }
+
+            $this->downloadurl = (object) [
+                '_data' => $this->downloadSources[0]->url,
+                'type' => $this->downloadSources[0]->type,
+                'format' => $this->downloadSources[0]->format,
+            ];
+
+            unset($this->latest);
         }
 
         return true;
