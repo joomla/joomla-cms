@@ -82,10 +82,9 @@ class TufAdapter extends UpdateAdapter
             ->from($db->quoteName('#__update_sites_extensions'))
             ->where($db->quoteName('update_site_id') . ' = :id')
             ->bind(':id', $options['update_site_id'], ParameterType::INTEGER);
-        $db->setQuery($query);
 
         try {
-            $extension_id = $db->loadResult();
+            $extension_id = $db->setQuery($query)->loadResult();
         } catch (\RuntimeException $e) {
             // Do nothing
         }
@@ -96,9 +95,8 @@ class TufAdapter extends UpdateAdapter
             ->from($db->quoteName('#__update_sites'))
             ->where($db->quoteName('update_site_id') . ' = :id')
             ->bind(':id', $options['update_site_id'], ParameterType::INTEGER);
-        $db->setQuery($query);
 
-        $params = ["location" => $db->loadResult()];
+        $params = ['location' => $db->setQuery($query)->loadResult()];
 
         $tufFetcher = new TufFetcher($extension_id, $params);
         $metaData = $tufFetcher->getValidUpdate();
