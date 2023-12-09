@@ -160,6 +160,6 @@ class TufFetcher
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__tuf_metadata'))
             ->columns(['snapshot_json', 'targets_json', 'timestamp_json']);
-        $db->setQuery($query);
+        $db->setQuery($query)->execute();
     }
 }
