@@ -14,7 +14,6 @@ namespace Joomla\CMS\Updater;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Version;
 
 /**
