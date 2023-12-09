@@ -495,23 +495,12 @@ class Update
         // decode data information
         $data = json_decode($updateObject->data, true, 512, JSON_THROW_ON_ERROR);
 
-        // Check channel
-        $channelMatch = false;
-
         // Check if the release channel matches, assume true if tag isn't present
-        if (!$channel || !isset($data['channel']) || preg_match('/' . $channel . '/', $data['channel'])) {
-            $channelMatch = true;
+        if ($channel && isset($data['channel']) && $channel !== $data['channel']) {
+            return false;
         }
-
-        // Check minimum stability
-        $stabilityMatch = true;
 
         if (isset($data['stability']) && ($this->stabilityTagToInteger((string) $data['stability']) < $minimumStability)) {
-            $stabilityMatch = false;
-        }
-
-        // Compatibility mismatch, return here before properties are written
-        if (!$stabilityMatch || !$channelMatch) {
             return false;
         }
 
