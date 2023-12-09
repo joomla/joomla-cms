@@ -308,14 +308,15 @@ class UpdateModel extends BaseDatabaseModel
 
         // Check if we have a local JSON string with update metadata
         if (!empty($updateType === 'tuf')) {
-            $channel = Version::MAJOR_VERSION . '.x';
+            // Use the correct identifier for the update channel
+            $updateChannel = Version::MAJOR_VERSION . '.x';
     
             if ($channel === 'next') {
-                $channel = (Version::MAJOR_VERSION + 1) . '.x';
+                $updateChannel = (Version::MAJOR_VERSION + 1) . '.x';
             }
 
             // Local data is available, read and parse
-            $update->loadFromJSON($updateObject->detailsurl, $minimumStability, $channel);
+            $update->loadFromJSON($updateObject->detailsurl, $minimumStability, $updateChannel);
         } else {
             // No local data, fetch the full update details from the update details URL.
             $update->loadFromXml($updateObject->detailsurl, $minimumStability, $channel);
