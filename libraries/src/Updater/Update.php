@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,6 +9,8 @@
 
 namespace Joomla\CMS\Updater;
 
+use InvalidArgumentException;
+use Exception;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -17,7 +20,11 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Version;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Http\Response;
+use Joomla\DI\Exception\KeyNotFoundException;
 use Joomla\Registry\Registry;
+use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -481,68 +488,118 @@ class Update
     }
 
     /**
-     * Loads an XML file from a URL.
+     * Loads a JSON file from a URL.
      *
-     * @param mixed $updateObject The object of the update containing all information.
+     *
+     * @param   string  $url               The URL.
      * @param int $minimumStability The minimum stability required for updating the extension {@see Updater}
      *
      * @return  boolean  True on success
      *
-     * @since   1.7.0
+     * @since   __DEPLOY_VERSION__
      */
-    public function loadFromRow(object $updateObject, $minimumStability = Updater::STABILITY_STABLE, $channel = null)
+    public function loadFromJSON(string $url, $minimumStability = Updater::STABILITY_STABLE, $channel = null)
     {
-        // decode data information
-        $data = json_decode($updateObject->data, true, 512, JSON_THROW_ON_ERROR);
+        $response = $this->loadUpdateInformation($url);
 
-        // Check if the release channel matches, assume true if tag isn't present
-        if ($channel && isset($data['channel']) && $channel !== $data['channel']) {
+        if (!$response) {
             return false;
         }
 
-        if (isset($data['stability']) && ($this->stabilityTagToInteger((string) $data['stability']) < $minimumStability)) {
+        $data = json_decode($response->body, true);
+
+        if (empty($data['signed']['targets'])) {
             return false;
         }
 
-        foreach ($updateObject as $key => $value) {
-            $this->$key = $updateObject->$key;
-        }
+        $product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
 
-        if (isset($data['targetplatform'])) {
-            $this->targetplatform = $data['targetplatform'];
-        }
+        foreach ($data['signed']['targets'] as $target) {
 
-        if (isset($data['downloads'])) {
-            foreach ($data['downloads'] as $download) {
-                $source = new DownloadSource;
+            // Check that the product matches and that the version matches (optionally a regexp)
+            if (
+                !isset($target['custom']['targetplatform']['name'])
+                || $product !== $target['custom']['targetplatform']['name']
+                || !preg_match('/^' . $target['custom']['targetplatform']['name'] . '/', $this->get('jversion.full', JVERSION))
+            ) {
+                continue;
+            }
 
-                foreach ($download as $key => $url) {
-                    $key = strtolower($key);
-                    $source->$key = $url;
+            // Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
+            if (isset($target['custom']['php_minimum']) && !version_compare(PHP_VERSION, $target['custom']['php_minimum'], '>=')) {
+                continue;
+            }
+
+            // Check if the release channel matches, assume true if tag isn't present
+            if ($channel && isset($target['custom']['channel']) && $channel !== $target['custom']['channel']) {
+                continue;
+            }
+
+            // Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
+            if (isset($target['custom']['supported_databases'])) {
+                $db = Factory::getContainer()->get(DatabaseDriver::class);
+                $dbType       = strtolower($db->getServerType());
+                $dbVersion    = $db->getVersion();
+                $supportedDbs = $target['custom']['supported_databases'];
+
+                // MySQL and MariaDB use the same database driver but not the same version numbers
+                if ($dbType === 'mysql') {
+                    // Check whether we have a MariaDB version string and extract the proper version from it
+                    if (stripos($dbVersion, 'mariadb') !== false) {
+                        // MariaDB: Strip off any leading '5.5.5-', if present
+                        $dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
+                        $dbType    = 'mariadb';
+                    }
                 }
 
-                $this->downloadSources[] = $source;
+                // Do we have an entry for the database?
+                if (!isset($supportedDbs[$dbType]) || !version_compare($dbVersion, $supportedDbs[$dbType], '>=')) {
+                    continue;
+                }
+            }
+
+            // Check minimum stability
+            if (isset($target['custom']['stability']) && ($this->stabilityTagToInteger($target['custom']['stability']) < $minimumStability)) {
+                continue;
+            }
+
+            if (!empty($target['custom']['downloads'])) {
+                $this->compatibleVersions[] = $target['custom']['version'];
+            }
+
+            if (!isset($this->latest) || version_compare($target['custom']['version'], $this->latest->version, '>')) {
+                $this->latest = (object) $target['custom'];
+
+                $this->downloadSources = [];
+
+                if (!empty($this->latest->downloads)) {
+                    foreach ($this->latest->downloads as $download) {
+                        $source = new DownloadSource;
+
+                        foreach ($download as $key => $url) {
+                            $key = strtolower($key);
+                            $source->$key = $url;
+                        }
+
+                        $this->downloadSources[] = $source;
+                    }
+                }
+
+                $this->client = $this->latest->client;
+
+                if (isset($target['hashes'])) {
+                    foreach ($target['hashes'] as $hashAlgorithm => $hashSum) {
+                        $this->$hashAlgorithm = (object) ['_data' => $hashSum];
+                    }
+                }
             }
         }
-
-        if (isset($data['hashes'])) {
-            foreach ($data['hashes'] as $hashAlgorithm => $hashSum) {
-                $this->$hashAlgorithm = (object) ['_data' => $hashSum];
-            }
-        }
-
-        $this->client = ApplicationHelper::getClientInfo($updateObject->client_id);
-
-        $this->downloadurl = new \stdClass();
-        $this->downloadurl->_data = $this->downloadSources[0]->url;
-        $this->downloadurl->format = $this->downloadSources[0]->format;
-        $this->downloadurl->type = $this->downloadSources[0]->type;
 
         return true;
     }
 
     /**
-     * Loads an XML file from a URL.
+     * Loads a XML file from a URL.
      *
      * @param   string  $url               The URL.
      * @param   int     $minimumStability  The minimum stability required for updating the extension {@see Updater}
@@ -553,21 +610,9 @@ class Update
      */
     public function loadFromXml($url, $minimumStability = Updater::STABILITY_STABLE, $channel = null)
     {
-        $version    = new Version();
-        $httpOption = new Registry();
-        $httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
+        $response = $this->loadUpdateInformation($url);
 
-        try {
-            $http     = HttpFactory::getHttp($httpOption);
-            $response = $http->get($url);
-        } catch (\RuntimeException $e) {
-            $response = null;
-        }
-
-        if ($response === null || $response->code !== 200) {
-            // @todo: Add a 'mark bad' setting here somehow
-            Log::add(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), Log::WARNING, 'jerror');
-
+        if (!$response) {
             return false;
         }
 
@@ -596,6 +641,37 @@ class Update
         xml_parser_free($this->xmlParser);
 
         return true;
+    }
+
+    /**
+     * Load the update manifest file
+     *
+     * @param string $url
+     *
+     * @return Response|null
+     */
+    protected function loadUpdateInformation($url)
+    {
+        $version    = new Version();
+        $httpOption = new Registry();
+
+        $httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
+
+        try {
+            $http     = HttpFactory::getHttp($httpOption);
+            $response = $http->get($url);
+        } catch (\RuntimeException $e) {
+            $response = null;
+        }
+
+        if ($response === null || $response->code !== 200) {
+            // @todo: Add a 'mark bad' setting here somehow
+            Log::add(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), Log::WARNING, 'jerror');
+
+            return false;
+        }
+
+        return $response;
     }
 
     /**

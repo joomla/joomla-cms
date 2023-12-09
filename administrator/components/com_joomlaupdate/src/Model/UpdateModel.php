@@ -304,10 +304,12 @@ class UpdateModel extends BaseDatabaseModel
 
         $update = new Update();
 
+        $updateType = (pathinfo($updateObject->detailsurl, PATHINFO_EXTENSION) === 'xml') ? 'collection' : 'tuf';
+
         // Check if we have a local JSON string with update metadata
-        if (!empty($updateObject->data)) {
+        if (!empty($updateType === 'tuf')) {
             // Local data is available, read and parse
-            $update->loadFromRow($updateObject, $minimumStability, $channel);
+            $update->loadFromJSON($updateObject->detailsurl, $minimumStability, $channel);
         } else {
             // No local data, fetch the full update details from the update details URL.
             $update->loadFromXml($updateObject->detailsurl, $minimumStability, $channel);
