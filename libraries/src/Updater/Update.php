@@ -636,11 +636,15 @@ class Update
                 $this->$key = (object) ['_data' => $val];
             }
 
-            $this->downloadurl = (object) [
-                '_data' => $this->downloadSources[0]->url,
-                'type' => $this->downloadSources[0]->type,
-                'format' => $this->downloadSources[0]->format,
-            ];
+            foreach ($this->downloadSources as $source) {
+                $this->downloadurl = (object) [
+                    '_data' => $source->url,
+                    'type' => $source->type,
+                    'format' => $source->format,
+                ];
+
+                break;
+            }
 
             unset($this->latest);
         }
