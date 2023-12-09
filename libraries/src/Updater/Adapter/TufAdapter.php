@@ -98,7 +98,7 @@ class TufAdapter extends UpdateAdapter
             ->bind(':id', $options['update_site_id'], ParameterType::INTEGER);
         $db->setQuery($query);
 
-        $params = ["location" => $db->loadResult()];
+        $params = ['location' => $db->loadResult()];
 
         $tufFetcher = new TufFetcher($extension_id, $params);
         $metaData = $tufFetcher->getValidUpdate();
