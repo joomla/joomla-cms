@@ -2,7 +2,53 @@
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-window.customElements.define('joomla-editor-none', class extends HTMLElement {
+
+// eslint-disable-next-line import/no-unresolved, max-classes-per-file
+import { JoomlaEditor, JoomlaEditorDecorator } from 'editor-api';
+
+/**
+ * EditorNone Decorator for Joomla.Editor
+ */
+// eslint-disable-next-line max-classes-per-file
+class EditorNoneDecorator extends JoomlaEditorDecorator {
+  /**
+   * @returns {string}
+   */
+  getValue() {
+    return this.instance.getValue();
+  }
+
+  /**
+   * @param {string} value
+   * @returns {EditorNoneDecorator}
+   */
+  setValue(value) {
+    this.instance.setValue(value);
+    return this;
+  }
+
+  /**
+   * @returns {string}
+   */
+  getSelection() {
+    return this.instance.getSelection();
+  }
+
+  replaceSelection(value) {
+    this.instance.replaceSelection(value);
+    return this;
+  }
+
+  disable(enable) {
+    if (this.instance.editor) {
+      this.instance.editor.disabled = !enable;
+      this.instance.editor.readOnly = !enable;
+    }
+    return this;
+  }
+}
+
+class JoomlaEditorNone extends HTMLElement {
   constructor() {
     super();
 
@@ -19,6 +65,13 @@ window.customElements.define('joomla-editor-none', class extends HTMLElement {
     // eslint-disable-next-line no-return-assign
     new MutationObserver(() => this.childrenChange())
       .observe(this, { childList: true });
+
+    // Find out when editor is interacted
+    this.interactionCallback = () => {
+      if (this.editor) {
+        JoomlaEditor.setActive(this.editor.id);
+      }
+    };
   }
 
   /**
@@ -28,6 +81,7 @@ window.customElements.define('joomla-editor-none', class extends HTMLElement {
     // Note the mutation observer won't fire for initial contents,
     // so childrenChange is also called here.
     this.childrenChange();
+    this.addEventListener('click', this.interactionCallback);
   }
 
   /**
@@ -35,59 +89,55 @@ window.customElements.define('joomla-editor-none', class extends HTMLElement {
    */
   disconnectedCallback() {
     this.unregisterEditor();
+    this.removeEventListener('click', this.interactionCallback);
+  }
+
+  /**
+   * Get editor value
+   */
+  getValue() {
+    return this.editor.value;
+  }
+
+  /**
+   * Set editor value
+   * @param {string} text
+   */
+  setValue(text) {
+    this.editor.value = text;
   }
 
   /**
    * Get the selected text
    */
   getSelection() {
-    if (document.selection) {
-      // IE support
-      this.editor.focus();
-      return document.selection.createRange();
-    } if (this.editor.selectionStart || this.editor.selectionStart === 0) {
-      // MOZILLA/NETSCAPE support
+    if (this.editor.selectionStart || this.editor.selectionStart === 0) {
       return this.editor.value.substring(this.editor.selectionStart, this.editor.selectionEnd);
     }
     return this.editor.value;
   }
 
   /**
+   * Replace selected text
+   * @param {string} text
+   */
+  replaceSelection(text) {
+    const ed = this.editor;
+    if (ed.selectionStart || ed.selectionStart === 0) {
+      ed.value = ed.value.substring(0, ed.selectionStart)
+        + text
+        + ed.value.substring(ed.selectionEnd, ed.value.length);
+    } else {
+      ed.value += text;
+    }
+  }
+
+  /**
    * Register the editor
    */
   registerEditor() {
-    if (!window.Joomla
-        || !window.Joomla.editors
-        || typeof window.Joomla.editors !== 'object') {
-      throw new Error('The Joomla API is not correctly registered.');
-    }
-
-    window.Joomla.editors.instances[this.editor.id] = {
-      id: () => this.editor.id,
-      element: () => this.editor,
-      // eslint-disable-next-line no-return-assign
-      getValue: () => this.editor.value,
-      // eslint-disable-next-line no-return-assign
-      setValue: (text) => this.editor.value = text,
-      // eslint-disable-next-line no-return-assign
-      getSelection: () => this.getSelection(),
-      // eslint-disable-next-line no-return-assign
-      disable: (disabled) => {
-        this.editor.disabled = disabled;
-        this.editor.readOnly = disabled;
-      },
-      // eslint-disable-next-line no-return-assign
-      replaceSelection: (text) => {
-        if (this.editor.selectionStart || this.editor.selectionStart === 0) {
-          this.editor.value = this.editor.value.substring(0, this.editor.selectionStart)
-            + text
-            + this.editor.value.substring(this.editor.selectionEnd, this.editor.value.length);
-        } else {
-          this.editor.value += text;
-        }
-      },
-      onSave: () => {},
-    };
+    const jEditor = new EditorNoneDecorator(this, 'none', this.editor.id);
+    JoomlaEditor.register(jEditor);
   }
 
   /**
@@ -95,7 +145,7 @@ window.customElements.define('joomla-editor-none', class extends HTMLElement {
    */
   unregisterEditor() {
     if (this.editor) {
-      delete window.Joomla.editors.instances[this.editor.id];
+      JoomlaEditor.unregister(this.editor.id);
     }
   }
 
@@ -113,4 +163,6 @@ window.customElements.define('joomla-editor-none', class extends HTMLElement {
       this.registerEditor();
     }
   }
-});
+}
+
+customElements.define('joomla-editor-none', JoomlaEditorNone);

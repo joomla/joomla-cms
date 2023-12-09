@@ -57,7 +57,7 @@ class BeforeCompileHeadEvent extends AbstractImmutableEvent
      *
      * @since   5.0.0
      */
-    protected function setSubject(Registry $value): Registry
+    protected function onSetSubject(Registry $value): Registry
     {
         return $value;
     }
@@ -71,7 +71,7 @@ class BeforeCompileHeadEvent extends AbstractImmutableEvent
      *
      * @since   5.0.0
      */
-    protected function setContext(string $value): string
+    protected function onSetContext(string $value): string
     {
         return $value;
     }

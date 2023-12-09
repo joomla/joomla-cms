@@ -87,7 +87,7 @@ class ManageController extends BaseController
                     $ntext = 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
                 }
 
-                $this->setMessage(Text::plural($ntext, count($ids)));
+                $this->setMessage(Text::plural($ntext, \count($ids)));
             }
         }
 

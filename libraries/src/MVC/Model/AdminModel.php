@@ -254,6 +254,7 @@ abstract class AdminModel extends FormModel
                 'save'         => 'content',
                 'change_state' => 'content',
                 'validate'     => 'content',
+                'batch'        => 'content',
             ],
             $config['events_map']
         );
@@ -295,6 +296,7 @@ abstract class AdminModel extends FormModel
         }
 
         $done = false;
+        PluginHelper::importPlugin($this->events_map['batch']);
 
         // Initialize re-usable member properties
         $this->initBatch();
@@ -446,11 +448,11 @@ abstract class AdminModel extends FormModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Not fatal error
-                    $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-                    continue;
                 }
+
+                // Not fatal error
+                $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
             }
 
             // Check for asset_id
@@ -652,11 +654,11 @@ abstract class AdminModel extends FormModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    // Not fatal error
-                    $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-                    continue;
                 }
+
+                // Not fatal error
+                $this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+                continue;
             }
 
             // Set the new category ID
@@ -931,11 +933,11 @@ abstract class AdminModel extends FormModel
                         Log::add($error, Log::WARNING, 'jerror');
 
                         return false;
-                    } else {
-                        Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-
-                        return false;
                     }
+
+                    Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+
+                    return false;
                 }
             } else {
                 $this->setError($table->getError());
@@ -1533,11 +1535,11 @@ abstract class AdminModel extends FormModel
                     $this->setError($error);
 
                     return false;
-                } else {
-                    $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
-
-                    return false;
                 }
+
+                $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+
+                return false;
             }
         }
 
@@ -1685,7 +1687,7 @@ abstract class AdminModel extends FormModel
          * load directly the associated target item in the side by side view
          * otherwise select already the target language
          */
-        if (count($languages) === 2) {
+        if (\count($languages) === 2) {
             $lang_code = [];
 
             foreach ($languages as $language) {

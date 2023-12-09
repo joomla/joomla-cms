@@ -116,15 +116,13 @@ class DisplayController extends BaseController
 
                     return $controller->execute($task);
 
-                    break;
-
                 default:
                     $model = $this->getModel('Login');
                     break;
             }
 
             // Make sure we don't send a referer
-            if (in_array($vName, ['remind', 'reset'])) {
+            if (\in_array($vName, ['remind', 'reset'])) {
                 $this->app->setHeader('Referrer-Policy', 'no-referrer', true);
             }
 

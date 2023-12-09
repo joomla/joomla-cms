@@ -35,14 +35,6 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
     use DatabaseAwareTrait;
 
     /**
-     * Affects constructor behavior. If true, language files will be loaded automatically.
-     *
-     * @var    boolean
-     * @since  3.4
-     */
-    protected $autoloadLanguage = false;
-
-    /**
      * Returns an array of events this subscriber will listen to.
      *
      * @return  array
@@ -71,6 +63,9 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
         if ($app->isClient('administrator') || ((int) $event->getError()->getCode() !== 404)) {
             return;
         }
+
+        // Load translations
+        $this->loadLanguage();
 
         $uri = Uri::getInstance();
 

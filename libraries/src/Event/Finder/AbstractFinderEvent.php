@@ -52,10 +52,10 @@ abstract class AbstractFinderEvent extends AbstractImmutableEvent implements Fin
             $arguments = $this->reshapeArguments($arguments, $this->legacyArgumentsOrder);
         }
 
-        if (!\array_key_exists('subject', $arguments)) {
+        parent::__construct($name, $arguments);
+
+        if (!\array_key_exists('subject', $this->arguments)) {
             throw new \BadMethodCallException("Argument 'subject' of event {$name} is required but has not been provided");
         }
-
-        parent::__construct($name, $arguments);
     }
 }

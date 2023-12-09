@@ -11,6 +11,7 @@
 namespace Joomla\Component\Content\Api\Controller;
 
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
@@ -83,11 +84,11 @@ class ArticlesController extends ApiController
 
         $apiListInfo = $this->input->get('list', [], 'array');
 
-        if (array_key_exists('ordering', $apiListInfo)) {
+        if (\array_key_exists('ordering', $apiListInfo)) {
             $this->modelState->set('list.ordering', $filter->clean($apiListInfo['ordering'], 'STRING'));
         }
 
-        if (array_key_exists('direction', $apiListInfo)) {
+        if (\array_key_exists('direction', $apiListInfo)) {
             $this->modelState->set('list.direction', $filter->clean($apiListInfo['direction'], 'STRING'));
         }
 
@@ -113,6 +114,10 @@ class ArticlesController extends ApiController
                 unset($data[$field->name]);
             }
         }
+
+        $tags = new TagsHelper();
+        $tags->getTagIds($data['id'], 'com_content.article');
+        $data['tags'] = explode(',', $tags->tags);
 
         return $data;
     }

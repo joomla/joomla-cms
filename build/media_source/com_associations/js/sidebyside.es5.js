@@ -46,10 +46,11 @@ jQuery(document).ready(function($) {
       // Remove it on the target
       $('#jform_itemlanguage option').each(function()
       {
-        lang = $(this).val().split('|')[0];
+        lang = $(this).val().split(':')[0];
 
-        if (typeof lang !== 'undefined') {
+        if (lang) {
           lang = lang.replace(/-/,'_');
+
           // - For modal association selectors.
           target.find('#jform_associations_' + lang + '_id').val('');
           // - For chosen association selectors (menus).

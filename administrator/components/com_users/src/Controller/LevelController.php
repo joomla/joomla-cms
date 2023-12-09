@@ -106,7 +106,9 @@ class LevelController extends FormController
 
         if (!$this->app->getIdentity()->authorise('core.admin', $this->option)) {
             throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
-        } elseif (empty($ids)) {
+        }
+
+        if (empty($ids)) {
             $this->setMessage(Text::_('COM_USERS_NO_LEVELS_SELECTED'), 'warning');
         } else {
             // Get the model.
@@ -114,7 +116,7 @@ class LevelController extends FormController
 
             // Remove the items.
             if ($model->delete($ids)) {
-                $this->setMessage(Text::plural('COM_USERS_N_LEVELS_DELETED', count($ids)));
+                $this->setMessage(Text::plural('COM_USERS_N_LEVELS_DELETED', \count($ids)));
             }
         }
 

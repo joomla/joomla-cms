@@ -44,8 +44,11 @@ final class Radio extends FieldsListPlugin
             return;
         }
 
-        $options = $this->getOptionsFromField($field);
+        $options         = $this->getOptionsFromField($field);
+        $field->apivalue = [];
 
-        $field->apivalue = [$field->value => $options[$field->value]];
+        if (!empty($field->value)) {
+            $field->apivalue = [$field->value => $options[$field->value]];
+        }
     }
 }

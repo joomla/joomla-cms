@@ -157,7 +157,7 @@ class StagesController extends AdminController
 
         if (empty($cid)) {
             $this->setMessage(Text::_('COM_WORKFLOW_NO_ITEM_SELECTED'), 'warning');
-        } elseif (count($cid) > 1) {
+        } elseif (\count($cid) > 1) {
             $this->setMessage(Text::_('COM_WORKFLOW_TOO_MANY_STAGES'), 'error');
         } else {
             // Get the model.

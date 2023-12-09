@@ -88,6 +88,13 @@
 					filter="color"
 				/>
 				<field
+					name="link-color-dark"
+					type="color"
+					label="TPL_ATUM_COLORS_SETTINGS_LINK_COLOR_DARK_LABEL"
+					default="#7fa5d4"
+					filter="color"
+				/>
+				<field
 					name="special-color"
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_SPECIAL_COLOR_LABEL"

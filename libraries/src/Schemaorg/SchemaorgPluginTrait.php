@@ -110,7 +110,7 @@ trait SchemaorgPluginTrait
             $result = [];
 
             foreach ($field as $key => $value) {
-                if (is_array($value)) {
+                if (\is_array($value)) {
                     foreach ($value as $k => $v) {
                         $result[] = $v;
                     }
@@ -151,7 +151,7 @@ trait SchemaorgPluginTrait
         $parts = explode('.', $context);
 
         // We need at least the extension + view for loading the table fields
-        if (count($parts) < 2) {
+        if (\count($parts) < 2) {
             return false;
         }
 
@@ -171,8 +171,8 @@ trait SchemaorgPluginTrait
      */
     protected function checkAllowedAndForbiddenlist($context)
     {
-        $allowedlist   = \array_filter((array) $this->params->get('allowedlist', []));
-        $forbiddenlist = \array_filter((array) $this->params->get('forbiddenlist', []));
+        $allowedlist   = array_filter((array) $this->params->get('allowedlist', []));
+        $forbiddenlist = array_filter((array) $this->params->get('forbiddenlist', []));
 
         if (!empty($allowedlist)) {
             foreach ($allowedlist as $allowed) {
