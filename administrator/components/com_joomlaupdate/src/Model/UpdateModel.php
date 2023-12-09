@@ -87,7 +87,7 @@ class UpdateModel extends BaseDatabaseModel
         // Determine the intended update URL.
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
-        switch ($params->get('updatesource', 'nochange')) {
+        switch ($params->get('updatesource', 'default')) {
                 // "Testing"
             case 'testing':
                 $updateURL = 'https://update.joomla.org/core/test/list_test.xml';
@@ -174,7 +174,7 @@ class UpdateModel extends BaseDatabaseModel
         $minimumStability      = Updater::STABILITY_STABLE;
         $comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
 
-        if (\in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), ['testing', 'custom'])) {
+        if (\in_array($comJoomlaupdateParams->get('updatesource', 'default'), ['testing', 'custom'])) {
             $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
         }
 
@@ -296,7 +296,7 @@ class UpdateModel extends BaseDatabaseModel
 
         $minimumStability      = Updater::STABILITY_STABLE;
         $comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
-        $channel = $comJoomlaupdateParams->get('updatesource', 'nochange');
+        $channel = $comJoomlaupdateParams->get('updatesource', 'default');
 
         if (\in_array($channel, ['testing', 'custom'])) {
             $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
