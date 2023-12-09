@@ -134,17 +134,12 @@ class TufAdapter extends UpdateAdapter
                 continue;
             }
 
-            $values['data'] = [
-                'downloads' => $values['downloads'],
-                'channel' => $values['channel'],
-                'targetplatform' => $values['targetplatform'],
-                'supported_databases' => $values['supported_databases'],
-                'hashes' => $target->hashes
-            ];
+            $values['detailsurl'] = rtrim($params['location'], '/') . '/targets.json';
 
             $versions[$values['version']] = $values;
         }
 
+        // We only want the latest version we support
         usort($versions, function ($a, $b) {
             return version_compare($b['version'], $a['version']);
         });
