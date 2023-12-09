@@ -153,7 +153,7 @@ class TufAdapter extends UpdateAdapter
 
         foreach ($versions as $version) {
             if ($checker->check($version)) {
-                return array($version);
+                return [$version];
             }
         }
 
