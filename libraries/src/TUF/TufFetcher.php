@@ -10,6 +10,7 @@ namespace Joomla\CMS\TUF;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Tuf;
 use Joomla\Database\DatabaseDriver;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
@@ -107,7 +108,10 @@ class TufFetcher
         $httpLoader = new HttpLoader($this->params['location']);
         $sizeCheckingLoader = new SizeCheckingLoader($httpLoader);
 
-        $storage = new DatabaseStorage($this->db, $this->extensionId);
+        $metadataTable = new Tuf($this->db);
+        $metadataTable->load(['extension_id' => $this->extensionId]);
+
+        $storage = new DatabaseStorage($metadataTable);
 
         $updater = new Updater(
             $sizeCheckingLoader,

@@ -9,6 +9,7 @@
 namespace Joomla\CMS\TUF;
 
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Table\Tuf;
 use Joomla\Database\DatabaseDriver;
 use Tuf\Metadata\StorageBase;
@@ -34,14 +35,11 @@ class DatabaseStorage extends StorageBase
     /**
      * Initialize the DatabaseStorage class
      *
-     * @param DatabaseDriver $db A database connector object
-     * @param integer $extensionId The extension ID where the storage should be implemented for
+     * @param TableInterface $table The table object that represents the metadata row
      */
-    public function __construct(DatabaseDriver $db, int $extensionId)
+    public function __construct(TableInterface $table)
     {
-        $this->table = new Tuf($db);
-
-        $this->table->load(['extension_id' => $extensionId]);
+        $this->table = $table;
 
         foreach (self::METADATA_COLUMNS as $column) {
             if ($this->table->$column === null) {
