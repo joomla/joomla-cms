@@ -120,6 +120,16 @@ class HtmlView extends BaseHtmlView
     protected $reasonNoDownload = '';
 
     /**
+     * Details on failed PHP or DB version requirements to be shown in the emptystate layout when there is no download
+     *
+     * @var \stdClass  PHP and database requirements from the update manifest
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected $detailsNoDownload;
+
+
+    /**
      * List of non core critical plugins
      *
      * @var    \stdClass[]
@@ -199,8 +209,9 @@ class HtmlView extends BaseHtmlView
             } else {
                 // No download available
                 if ($hasUpdate) {
-                    $this->messagePrefix    = '_NODOWNLOAD';
-                    $this->reasonNoDownload = 'COM_JOOMLAUPDATE_NODOWNLOAD_EMPTYSTATE_REASON';
+                    $this->messagePrefix     = '_NODOWNLOAD';
+                    $this->reasonNoDownload  = 'COM_JOOMLAUPDATE_NODOWNLOAD_EMPTYSTATE_REASON';
+                    $this->detailsNoDownload = $this->updateInfo['object']->get('otherUpdateInfo');
                 }
 
                 $this->setLayout('noupdate');
