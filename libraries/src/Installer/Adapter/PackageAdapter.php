@@ -137,16 +137,6 @@ class PackageAdapter extends InstallerAdapter
             );
         }
 
-        // Install all necessary files
-        if (!$this->getManifest()->files->count()) {
-            throw new \RuntimeException(
-                Text::sprintf(
-                    'JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES',
-                    Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
-                )
-            );
-        }
-
         $dispatcher = Factory::getApplication()->getDispatcher();
 
         // Add a callback for the `onExtensionAfterInstall` event so we can receive the installed extension ID
