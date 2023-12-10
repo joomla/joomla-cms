@@ -128,7 +128,6 @@ class HtmlView extends BaseHtmlView
      */
     protected $detailsNoDownload;
 
-
     /**
      * List of non core critical plugins
      *
