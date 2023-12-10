@@ -26,44 +26,44 @@ class ConstraintChecker
     /**
      * Checks whether the passed constraints are matched
      *
-     * @param array $constraints The provided constraints to be checked
+     * @param array $candidate The provided constraints to be checked
      *
      * @return  boolean
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function check(array $constraints)
+    public function check(array $candidate)
     {
-        if (!isset($constraints['targetplatform'])) {
+        if (!isset($candidate['targetplatform'])) {
             // targetplatform is required
             return false;
         }
 
         // Check targetplatform
-        if (!$this->checkTargetplatform($constraints['targetplatform'])) {
+        if (!$this->checkTargetplatform($candidate['targetplatform'])) {
             return false;
         }
 
         // Check php_minimumm, assume true when not set
         if (
-            isset($constraints['php_minimum'])
-            && !$this->checkPhpMinimum($constraints['php_minimum'])
+            isset($candidate['php_minimum'])
+            && !$this->checkPhpMinimum($candidate['php_minimum'])
         ) {
             return false;
         }
 
         // Check supported databases, assume true when not set
         if (
-            isset($constraints['supported_databases'])
-            && !$this->checkSupportedDatabases($constraints['supported_databases'])
+            isset($candidate['supported_databases'])
+            && !$this->checkSupportedDatabases($candidate['supported_databases'])
         ) {
             return false;
         }
 
         // Check stability, assume true when not set
         if (
-            isset($constraints['stability'])
-            && !$this->checkStability($constraints['stability'])
+            isset($candidate['stability'])
+            && !$this->checkStability($candidate['stability'])
         ) {
             return false;
         }
@@ -74,21 +74,21 @@ class ConstraintChecker
     /**
      * Check the targetPlatform
      *
-     * @param object $targetPlatform
+     * @param array $targetPlatform
      *
      * @return  boolean
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function checkTargetplatform(\stdClass $targetPlatform)
+    protected function checkTargetplatform(array $targetPlatform)
     {
         // Lower case and remove the exclamation mark
         $product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
 
         // Check that the product matches and that the version matches (optionally a regexp)
         if (
-            $product === $targetPlatform->name
-            && preg_match('/^' . $targetPlatform->version . '/', JVERSION)
+            $product === $targetPlatform["name"]
+            && preg_match('/^' . $targetPlatform["version"] . '/', JVERSION)
         ) {
             return true;
         }
@@ -114,13 +114,13 @@ class ConstraintChecker
     /**
      * Check the supported databases and versions
      *
-     * @param object $supportedDatabases stdClass of supported databases and versions
+     * @param array $supportedDatabases array of supported databases and versions
      *
      * @return  boolean
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function checkSupportedDatabases(\stdClass $supportedDatabases)
+    protected function checkSupportedDatabases(array $supportedDatabases)
     {
         $db = Factory::getDbo();
         $dbType = strtolower($db->getServerType());
@@ -137,8 +137,8 @@ class ConstraintChecker
         }
 
         // Do we have an entry for the database?
-        if (\property_exists($supportedDatabases, $dbType)) {
-            $minimumVersion = $supportedDatabases->$dbType;
+        if (!empty($supportedDatabases["$dbType"])) {
+            $minimumVersion = $supportedDatabases["$dbType"];
 
             return version_compare($dbVersion, $minimumVersion, '>=');
         }

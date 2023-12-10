@@ -9,9 +9,6 @@
 
 namespace Joomla\CMS\Updater;
 
-use InvalidArgumentException;
-use Exception;
-use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\HttpFactory;
@@ -19,12 +16,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
+use Joomla\CMS\Table\Tuf as TufMetadata;
+use Joomla\CMS\TUF\TufFetcher;
 use Joomla\CMS\Version;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Http\Response;
-use Joomla\DI\Exception\KeyNotFoundException;
 use Joomla\Registry\Registry;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -488,78 +484,32 @@ class Update
     }
 
     /**
-     * Loads a JSON file from a URL.
+     * Loads update information from a TUF repo.
      *
      *
-     * @param   string  $url               The URL.
-     * @param int $minimumStability The minimum stability required for updating the extension {@see Updater}
+     * @param TufMetadata $metadataTable     The metadata table
+     * @param string      $url               The repo url
+     * @param int         $minimumStability  The minimum stability required for updating the extension {@see Updater}
+     * @param string      $channel           The update channnel
      *
      * @return  boolean  True on success
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function loadFromJSON(string $url, $minimumStability = Updater::STABILITY_STABLE, $channel = null)
+    public function loadFromTuf(TufMetadata $metadataTable, string $url, $minimumStability = Updater::STABILITY_STABLE, $channel = null)
     {
-        $response = $this->loadUpdateInformation($url);
+        $tufFetcher = new TufFetcher(
+            $metadataTable,
+            $url
+        );
 
-        if (!$response) {
-            return false;
-        }
+        $metaData = $tufFetcher->getValidUpdate();
 
-        $data = json_decode($response->body, true);
-
-        if (empty($data['signed']['targets'])) {
-            return false;
-        }
-
-        $product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
+        $data = json_decode($metaData, true);
+        $constraintChecker = new ConstraintChecker();
 
         foreach ($data['signed']['targets'] as $target) {
-
-            // Check that the product matches and that the version matches (optionally a regexp)
-            if (
-                !isset($target['custom']['targetplatform']['name'])
-                || $product !== $target['custom']['targetplatform']['name']
-                || !preg_match('/^' . $target['custom']['targetplatform']['version'] . '/', $this->get('jversion.full', JVERSION))
-            ) {
-                continue;
-            }
-
-            // Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
-            if (isset($target['custom']['php_minimum']) && !version_compare(PHP_VERSION, $target['custom']['php_minimum'], '>=')) {
-                continue;
-            }
-
-            // Check if the release channel matches, assume true if tag isn't present
-            if ($channel && isset($target['custom']['channel']) && $channel !== $target['custom']['channel']) {
-                continue;
-            }
-
-            // Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
-            if (isset($target['custom']['supported_databases'])) {
-                $db = Factory::getContainer()->get(DatabaseDriver::class);
-                $dbType       = strtolower($db->getServerType());
-                $dbVersion    = $db->getVersion();
-                $supportedDbs = $target['custom']['supported_databases'];
-
-                // MySQL and MariaDB use the same database driver but not the same version numbers
-                if ($dbType === 'mysql') {
-                    // Check whether we have a MariaDB version string and extract the proper version from it
-                    if (stripos($dbVersion, 'mariadb') !== false) {
-                        // MariaDB: Strip off any leading '5.5.5-', if present
-                        $dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
-                        $dbType    = 'mariadb';
-                    }
-                }
-
-                // Do we have an entry for the database?
-                if (!isset($supportedDbs[$dbType]) || !version_compare($dbVersion, $supportedDbs[$dbType], '>=')) {
-                    continue;
-                }
-            }
-
-            // Check minimum stability
-            if (isset($target['custom']['stability']) && ($this->stabilityTagToInteger($target['custom']['stability']) < $minimumStability)) {
+            if (!$constraintChecker->check($target['custom'])) {
                 continue;
             }
 
@@ -567,75 +517,42 @@ class Update
                 $this->compatibleVersions[] = $target['custom']['version'];
             }
 
-            if (!isset($this->latest) || version_compare($target['custom']['version'], $this->latest->version, '>')) {
-                $this->latest = new \stdClass();
+            // Check if this target is newer than the current version
+            if (isset($this->latest) && version_compare($target['custom']['version'], $this->latest->version, '<')) {
+                continue;
+            }
 
-                foreach ($target['custom'] as $key => $val) {
-                    $this->latest->$key = $val;
-                }
+            $this->latest = new \stdClass();
 
-                $this->downloadSources = [];
+            foreach ($target['custom'] as $key => $val) {
+                $this->latest->$key = $val;
+            }
 
-                if (!empty($this->latest->downloads)) {
-                    foreach ($this->latest->downloads as $download) {
-                        $source = new DownloadSource;
+            $this->downloadSources = [];
 
-                        foreach ($download as $key => $url) {
-                            $key = strtolower($key);
-                            $source->$key = $url;
-                        }
+            if (!empty($this->latest->downloads)) {
+                foreach ($this->latest->downloads as $download) {
+                    $source = new DownloadSource;
 
-                        $this->downloadSources[] = $source;
+                    foreach ($download as $key => $sourceUrl) {
+                        $key = strtolower($key);
+                        $source->$key = $sourceUrl;
                     }
-                }
 
-                $this->client = $this->latest->client;
-
-                if (isset($target['hashes'])) {
-                    foreach ($target['hashes'] as $hashAlgorithm => $hashSum) {
-                        $this->$hashAlgorithm = (object) ['_data' => $hashSum];
-                    }
+                    $this->downloadSources[] = $source;
                 }
             }
+
+            $this->client = $this->latest->client;
+
+            foreach ($target['hashes'] as $hashAlgorithm => $hashSum) {
+                $this->$hashAlgorithm = (object) ['_data' => $hashSum];
+            }
+
         }
 
         // If the latest item is set then we transfer it to where we want to
         if (isset($this->latest)) {
-            // Ugly XML structure conversion
-            foreach (get_object_vars($this->latest) as $key => $val) {
-                if (in_array($key, ['infourl'])) {
-                    $this->$key = (object) [
-                        '_data' => $val['url'],
-                    ];
-
-                    unset($val['url']);
-
-                    foreach ($val as $k => $v) {
-                        $this->$key->$k = $v;
-                    }
-
-                    continue;
-                }
-                elseif (in_array($key, ['targetplatform', 'supported_databases'])) {
-                    $this->$key = (object) [
-                        '_data' => '',
-                    ];
-
-                    foreach ($val as $k => $v) {
-                        $this->$key->$k = $v;
-                    }
-
-                    continue;
-                }
-                elseif ($key === 'stability') {
-                    $this->$key = $this->stabilityTagToInteger($val);
-
-                    continue;
-                }
-
-                $this->$key = (object) ['_data' => $val];
-            }
-
             foreach ($this->downloadSources as $source) {
                 $this->downloadurl = (object) [
                     '_data' => $source->url,

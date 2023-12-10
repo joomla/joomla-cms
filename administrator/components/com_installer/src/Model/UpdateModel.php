@@ -21,7 +21,6 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
@@ -338,7 +337,7 @@ class UpdateModel extends ListModel
             }
 
             $app = Factory::getApplication();
-            $db = Factory::getContainer()->get(DatabaseDriver::class);
+            $db = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->select('type')
                 ->from('#__update_sites')

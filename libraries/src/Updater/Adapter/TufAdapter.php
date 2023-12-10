@@ -12,12 +12,14 @@ namespace Joomla\CMS\Updater\Adapter;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\Tuf as MetadataTable;
 use Joomla\CMS\TUF\TufFetcher;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Updater\ConstraintChecker;
-use Joomla\Database\ParameterType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Tuf\Exception\MetadataException;
 
 /**
  * TUF Update Adapter Class
@@ -74,45 +76,29 @@ class TufAdapter extends UpdateAdapter
         } catch (\Exception $e) {
         }
 
-        // Get extension_id for TufValidation
-        $db = $this->parent->getDbo();
+        /** @var MetadataTable $metadataTable */
+        $metadataTable = new MetadataTable(Factory::getDbo());
+        $metadataTable->load(['update_site_id' => $options['update_site_id']]);
 
-        $query = $db->getQuery(true)
-            ->select($db->quoteName('extension_id'))
-            ->from($db->quoteName('#__update_sites_extensions'))
-            ->where($db->quoteName('update_site_id') . ' = :id')
-            ->bind(':id', $options['update_site_id'], ParameterType::INTEGER);
-
-        try {
-            $extension_id = $db->setQuery($query)->loadResult();
-        } catch (\RuntimeException $e) {
-            // Do nothing
-        }
-
-        // Get params for TufValidation
-        $query = $db->getQuery(true)
-            ->select($db->quoteName('location'))
-            ->from($db->quoteName('#__update_sites'))
-            ->where($db->quoteName('update_site_id') . ' = :id')
-            ->bind(':id', $options['update_site_id'], ParameterType::INTEGER);
-
-        $params = ['location' => $db->setQuery($query)->loadResult()];
-
-        $tufFetcher = new TufFetcher($extension_id, $params);
+        $tufFetcher = new TufFetcher($metadataTable, $options['location']);
         $metaData = $tufFetcher->getValidUpdate();
 
-        $metaData = json_decode($metaData);
+        $metaData = json_decode($metaData, true);
 
-        if (!isset($metaData->signed->targets)) {
+        if (!isset($metaData["signed"]["targets"])) {
             return false;
         }
 
-        foreach ($metaData->signed->targets as $filename => $target) {
+        foreach ($metaData["signed"]["targets"] as $filename => $target) {
             $values = [];
 
+            if (!isset($target["hashes"])) {
+                throw new MetadataException("No trusted hashes are available for '$filename'");
+            }
+
             foreach ($keys as $key) {
-                if (isset($target->custom->$key)) {
-                    $values[$key] = $target->custom->$key;
+                if (isset($target["custom"][$key])) {
+                    $values[$key] = $target["custom"][$key];
                 }
             }
 
@@ -124,8 +110,8 @@ class TufAdapter extends UpdateAdapter
                 }
             }
 
-            if (isset($values['infourl']) && isset($values['infourl']->url)) {
-                $values['infourl'] = $values['infourl']->url;
+            if (isset($values['infourl']) && isset($values['infourl']['url'])) {
+                $values['infourl'] = $values['infourl']['url'];
             }
 
             try {
@@ -134,7 +120,7 @@ class TufAdapter extends UpdateAdapter
                 continue;
             }
 
-            $values['detailsurl'] = rtrim($params['location'], '/') . '/targets.json';
+            $values['detailsurl'] = $options['location'];
 
             $versions[$values['version']] = $values;
         }
@@ -195,10 +181,10 @@ class TufAdapter extends UpdateAdapter
             ->setAllowedTypes('infourl', 'string')
             ->setAllowedTypes('client', 'int')
             ->setAllowedTypes('downloads', 'array')
-            ->setAllowedTypes('targetplatform', 'object')
+            ->setAllowedTypes('targetplatform', 'array')
             ->setAllowedTypes('php_minimum', 'string')
             ->setAllowedTypes('channel', 'string')
-            ->setAllowedTypes('supported_databases', 'object')
+            ->setAllowedTypes('supported_databases', 'array')
             ->setAllowedTypes('stability', 'string')
             ->setRequired(['version']);
     }

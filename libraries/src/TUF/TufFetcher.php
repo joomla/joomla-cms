@@ -10,11 +10,8 @@ namespace Joomla\CMS\TUF;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Table\Tuf;
+use Joomla\CMS\Table\Tuf as MetadataTable;
 use Joomla\Database\DatabaseDriver;
-use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
-use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tuf\Client\Updater;
 use Tuf\Exception\Attack\FreezeAttackException;
 use Tuf\Exception\Attack\RollbackAttackException;
@@ -31,71 +28,39 @@ use Tuf\Loader\SizeCheckingLoader;
 class TufFetcher
 {
     /**
-     * The id of the extension to be updated
+     * The table object holding the metadata
      *
-     * @var integer
+     * @var MetadataTable
      */
-    private $extensionId;
+    private MetadataTable $metadataTable;
 
     /**
-     * The params of the validator
+     * The repository base url
      *
      * @var mixed
      */
-    private $params;
+    private string $repositoryUrl;
 
     /**
      * The database driver
      *
      * @var DatabaseDriver
      */
-    protected $db;
+    protected DatabaseDriver $db;
 
     /**
      * Validating updates with TUF
      *
-     * @param integer $extensionId The ID of the extension to be checked
-     * @param mixed $params The parameters containing the Base-URI, the Metadata- and Targets-Path and mirrors for the update
+     * @param MetadataTable $metadataTable  The table object holding the metadata
+     * @param string        $repositoryUrl  The base repo URL
      */
-    public function __construct(int $extensionId, $params = [], DatabaseDriver $db = null)
+    public function __construct(MetadataTable $metadataTable, string $repositoryUrl, DatabaseDriver $db = null)
     {
-        $this->extensionId = $extensionId;
+        $this->metadataTable = $metadataTable;
+        $this->repositoryUrl = $repositoryUrl;
         $this->db = $db ?? Factory::getContainer()->get(DatabaseDriver::class);
-
-        $resolver = new OptionsResolver;
-
-        try {
-            $this->configureTufOptions($resolver);
-        } catch (\Exception $e) {
-        }
-
-        try {
-            $params = $resolver->resolve($params);
-        } catch (\Exception $e) {
-            if ($e instanceof UndefinedOptionsException || $e instanceof InvalidOptionsException) {
-                throw $e;
-            }
-        }
-
-        $this->params = $params;
     }
 
-    /**
-     * Configures default values or pass arguments to params
-     *
-     * @param OptionsResolver $resolver The OptionsResolver for the params
-     * @return void
-     */
-    protected function configureTufOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(
-            [
-                'location' => ''
-            ]
-        )
-            ->setAllowedTypes('location', 'string')
-            ->setRequired('location');
-    }
 
     /**
      * Checks for updates and writes it into the database if they are valid. Then it gets the targets.json content and
@@ -105,13 +70,10 @@ class TufFetcher
      */
     public function getValidUpdate()
     {
-        $httpLoader = new HttpLoader($this->params['location']);
+        $httpLoader = new HttpLoader($this->repositoryUrl);
         $sizeCheckingLoader = new SizeCheckingLoader($httpLoader);
 
-        $metadataTable = new Tuf($this->db);
-        $metadataTable->load(['extension_id' => $this->extensionId]);
-
-        $storage = new DatabaseStorage($metadataTable);
+        $storage = new DatabaseStorage($this->metadataTable);
 
         $updater = new Updater(
             $sizeCheckingLoader,

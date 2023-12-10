@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Updater\ConstraintChecker;
+use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Tests\Unit\UnitTestCase;
 
@@ -65,7 +66,7 @@ class ConstraintCheckerTest extends UnitTestCase
 
     public function testCheckMethodReturnsTrueIfPlatformIsOnlyConstraint()
     {
-        $constraint = ['targetplatform' => (object) ["name" => "joomla", "version" => "4.*"]];
+        $constraint = ['targetplatform' => (array) ["name" => "joomla", "version" => JVERSION]];
         $this->assertTrue($this->checker->check($constraint));
     }
 
@@ -136,37 +137,37 @@ class ConstraintCheckerTest extends UnitTestCase
         return [
             [
                 ['type' => 'mysql', 'version' => '5.7.37-log-cll-lve'],
-                (object) ['mysql' => '5.6', 'mariadb' => '10.3'],
+                (array) ['mysql' => '5.6', 'mariadb' => '10.3'],
                 true
             ],
             [
                 ['type' => 'mysql', 'version' => '5.6.0-log-cll-lve'],
-                (object) ['mysql' => '5.6', 'mariadb' => '10.3'],
+                (array) ['mysql' => '5.6', 'mariadb' => '10.3'],
                 true
             ],
             [
                 ['type' => 'mysql', 'version' => '10.3.34-MariaDB-0+deb10u1'],
-                (object) ['mysql' => '5.6', 'mariadb' => '10.3'],
+                (array) ['mysql' => '5.6', 'mariadb' => '10.3'],
                 true
             ],
             [
                 ['type' => 'mysql', 'version' => '5.7.37-log-cll-lve'],
-                (object) ['mysql' => '5.8', 'mariadb' => '10.3'],
+                (array) ['mysql' => '5.8', 'mariadb' => '10.3'],
                 false
             ],
             [
                 ['type' => 'pgsql', 'version' => '14.3'],
-                (object) ['mysql' => '5.8', 'mariadb' => '10.3'],
+                (array) ['mysql' => '5.8', 'mariadb' => '10.3'],
                 false
             ],
             [
                 ['type' => 'mysql', 'version' => '10.3.34-MariaDB-0+deb10u1'],
-                (object) ['mysql' => '5.6', 'mariadb' => '10.4'],
+                (array) ['mysql' => '5.6', 'mariadb' => '10.4'],
                 false
             ],
             [
                 ['type' => 'mysql', 'version' => '5.5.5-10.3.34-MariaDB-0+deb10u1'],
-                (object) ['mysql' => '5.6', 'mariadb' => '10.3'],
+                (array) ['mysql' => '5.6', 'mariadb' => '10.3'],
                 true
             ],
         ];
@@ -182,14 +183,15 @@ class ConstraintCheckerTest extends UnitTestCase
     protected function targetplatformDataProvider()
     {
         return [
-            [(object) ["name" => "foobar", "version" => "1.*"], false],
-            [(object) ["name" => "foobar", "version" => "4.*"], false],
-            [(object) ["name" => "joomla", "version" => "1.*"], false],
-            [(object) ["name" => "joomla", "version" => "3.1.2"], false],
-            [(object) ["name" => "joomla", "version" => ""], true],
-            [(object) ["name" => "joomla", "version" => ".*"], true],
-            [(object) ["name" => "joomla", "version" => JVERSION], true],
-            [(object) ["name" => "joomla", "version" => "4.*"], true],
+            [(array) ["name" => "foobar", "version" => "1.*"], false],
+            [(array) ["name" => "foobar", "version" => "4.*"], false],
+            [(array) ["name" => "joomla", "version" => "1.*"], false],
+            [(array) ["name" => "joomla", "version" => "3.1.2"], false],
+            [(array) ["name" => "joomla", "version" => "6.*"], false],
+            [(array) ["name" => "joomla", "version" => ""], true],
+            [(array) ["name" => "joomla", "version" => ".*"], true],
+            [(array) ["name" => "joomla", "version" => JVERSION], true],
+            [(array) ["name" => "joomla", "version" => "5.*"], true],
         ];
     }
 

@@ -24,6 +24,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Tuf as TufMetadata;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
@@ -106,9 +107,10 @@ class UpdateModel extends BaseDatabaseModel
                 break;
 
                 /**
-                 * "Minor & Patch Release for Current version (recommended and default)".
+                 * All "non-testing" releases of the official project hosted in the TUF repo.
                  * The commented "case" below are for documenting where 'default' and legacy options falls
                  * case 'default':
+                 * case 'next':
                  * case 'lts':
                  * case 'sts': (It's shown as "Default" because that option does not exist any more)
                  * case 'nochange':
@@ -134,7 +136,7 @@ class UpdateModel extends BaseDatabaseModel
         $db->setQuery($query);
         $update_site = $db->loadObject();
 
-        if ($update_site->location != $updateURL || $update_site->type != $updateType) {
+        if ($update_site->location !== $updateURL || $update_site->type !== $updateType) {
             // Modify the database record.
             $update_site->last_check_timestamp = 0;
             $update_site->location             = $updateURL;
@@ -315,11 +317,14 @@ class UpdateModel extends BaseDatabaseModel
                 $updateChannel = (Version::MAJOR_VERSION + 1) . '.x';
             }
 
-            // Local data is available, read and parse
-            $update->loadFromJSON($updateObject->detailsurl, $minimumStability, $updateChannel);
+            $metadata = new TufMetadata($this->getDatabase());
+            $metadata->load(['update_site_id' => $updateObject->update_site_id]);
+
+            // Fetch update data from TUF repo
+            $update->loadFromTuf($metadata, $updateObject->detailsurl, $minimumStability, $updateChannel);
         } else {
-            // No local data, fetch the full update details from the update details URL.
-            $update->loadFromXml($updateObject->detailsurl, $minimumStability, $channel);
+            // We are using the legacy XML method
+            $update->loadFromXml($updateObject->location, $minimumStability, $channel);
         }
 
         // Make sure we use the current information we got from the detailsurl
