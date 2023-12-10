@@ -25,12 +25,12 @@ use Joomla\Event\DispatcherInterface;
 class Update extends Table
 {
     /**
-     * Ensure the data in json encoded in the bind method
+     * Ensure the params in json encoded in the bind method
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  4.0.0
      */
-    protected $_jsonEncode = ['data'];
+    protected $_jsonEncode = ['params'];
 
     /**
      * Constructor

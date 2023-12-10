@@ -581,7 +581,24 @@ class Update
      */
     public function loadFromXml($url, $minimumStability = Updater::STABILITY_STABLE, $channel = null)
     {
-        $response = $this->loadUpdateInformation($url);
+        $version    = new Version();
+        $httpOption = new Registry();
+
+        $httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
+
+        try {
+            $http     = HttpFactory::getHttp($httpOption);
+            $response = $http->get($url);
+        } catch (\RuntimeException $e) {
+            $response = null;
+        }
+
+        if ($response === null || $response->code !== 200) {
+            // @todo: Add a 'mark bad' setting here somehow
+            Log::add(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), Log::WARNING, 'jerror');
+
+            return false;
+        }
 
         if (!$response) {
             return false;
@@ -612,37 +629,6 @@ class Update
         xml_parser_free($this->xmlParser);
 
         return true;
-    }
-
-    /**
-     * Load the update manifest file
-     *
-     * @param string $url
-     *
-     * @return Response|null
-     */
-    protected function loadUpdateInformation($url)
-    {
-        $version    = new Version();
-        $httpOption = new Registry();
-
-        $httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
-
-        try {
-            $http     = HttpFactory::getHttp($httpOption);
-            $response = $http->get($url);
-        } catch (\RuntimeException $e) {
-            $response = null;
-        }
-
-        if ($response === null || $response->code !== 200) {
-            // @todo: Add a 'mark bad' setting here somehow
-            Log::add(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), Log::WARNING, 'jerror');
-
-            return false;
-        }
-
-        return $response;
     }
 
     /**
