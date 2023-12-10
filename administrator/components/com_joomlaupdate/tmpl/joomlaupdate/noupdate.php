@@ -20,7 +20,7 @@ $uploadLink       = 'index.php?option=com_joomlaupdate&view=upload';
 $reasonNoDownload = '';
 
 if (!empty($this->reasonNoDownload)) {
-    $reasonNoDownload .= Text::_($this->reasonNoDownload);
+    $reasonNoDownload = Text::_($this->reasonNoDownload);
 
     if (isset($this->detailsNoDownload->php)) {
         $reasonNoDownload .= Text::sprintf(
