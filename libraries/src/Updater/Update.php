@@ -583,7 +583,6 @@ class Update
     {
         $version    = new Version();
         $httpOption = new Registry();
-
         $httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
 
         try {
@@ -597,10 +596,6 @@ class Update
             // @todo: Add a 'mark bad' setting here somehow
             Log::add(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), Log::WARNING, 'jerror');
 
-            return false;
-        }
-
-        if (!$response) {
             return false;
         }
 
