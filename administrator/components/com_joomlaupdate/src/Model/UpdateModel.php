@@ -390,12 +390,12 @@ class UpdateModel extends BaseDatabaseModel
         $httpOptions = new Registry();
         $httpOptions->set('follow_location', false);
 
+        $response = ['basename' => false, 'check' => null, 'version' => $updateInfo['latest']];
+
         try {
             $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
         } catch (\RuntimeException $e) {
             // Passing false here -> download failed message
-            $response['basename'] = false;
-
             return $response;
         }
 
@@ -407,8 +407,6 @@ class UpdateModel extends BaseDatabaseModel
                 $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
             } catch (\RuntimeException $e) {
                 // Passing false here -> download failed message
-                $response['basename'] = false;
-
                 return $response;
             }
         }
@@ -429,7 +427,6 @@ class UpdateModel extends BaseDatabaseModel
         )
             ->clean(Factory::getApplication()->get('tmp_path'), 'path');
         $target   = $tempdir . '/' . $basename;
-        $response = [];
 
         // Do we have a cached file?
         $exists = is_file($target);

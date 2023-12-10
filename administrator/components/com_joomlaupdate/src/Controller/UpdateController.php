@@ -62,6 +62,24 @@ class UpdateController extends BaseController
         $message     = null;
         $messageType = null;
 
+        // The versions mismatch
+        if ($result['version'] !== $this->input->get('targetVersion')) {
+            $message     = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_VERSION_WRONG');
+            $messageType = 'error';
+            $url         = 'index.php?option=com_joomlaupdate';
+
+            $this->app->setUserState('com_joomlaupdate.file', null);
+            $this->setRedirect($url, $message, $messageType);
+
+            try {
+                Log::add($message, Log::ERROR, 'Update');
+            } catch (\RuntimeException $exception) {
+                // Informational log only
+            }
+
+            return;
+        }
+
         // The validation was not successful so stop.
         if ($result['check'] === false) {
             $message     = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
