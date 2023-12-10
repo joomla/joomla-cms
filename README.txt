@@ -4,7 +4,7 @@ The Joomla! 5.1 branch is under heavy development and not all links in this docu
 ------------------------------------------------------------------------------------------------------
 
 1- Overview
-	* This is a Joomla! 5.x installation/upgrade package.
+	* This is a Joomla! 5.1 installation/upgrade package.
 	* Joomla! Official site: https://www.joomla.org
 	* Joomla! 5.1 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_5.1_version_history
 	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/5.1-dev
