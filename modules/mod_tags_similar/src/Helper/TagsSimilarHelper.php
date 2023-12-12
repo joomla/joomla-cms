@@ -84,6 +84,7 @@ abstract class TagsSimilarHelper
                     $db->quoteName('cc.core_catid'),
                     $db->quoteName('cc.core_language'),
                     $db->quoteName('cc.core_params'),
+                    $db->quoteName('cc.core_images'),
                 ]
             )
             ->from($db->quoteName('#__contentitem_tag_map', 'm'))
@@ -168,6 +169,7 @@ abstract class TagsSimilarHelper
                 $db->quoteName('cc.core_catid'),
                 $db->quoteName('cc.core_language'),
                 $db->quoteName('cc.core_params'),
+                $db->quoteName('cc.core_images'),
             ]
         );
 
