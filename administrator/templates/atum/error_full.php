@@ -78,9 +78,9 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
     $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
     $monochrome    = (bool) $this->params->get('monochrome');
-    $darkMode      = $app->getIdentity()->getParam('colorScheme', $this->params->get('colorScheme', 0));
+    $darkMode      = $app->getIdentity()->getParam('colorScheme', $this->params->get('colorScheme', 'os'));
     $lastMode      = !$darkMode ? $app->getInput()->cookie->get('atumColorScheme', '') : false;
-    $themeModes    = [0 => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
+    $themeModes    = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
     $themeModeAttr = ($themeModes[$darkMode] ?? '') . ($lastMode ? ($themeModes[$lastMode] ?? '') : '');
 
 // @see administrator/templates/atum/html/layouts/status.php
