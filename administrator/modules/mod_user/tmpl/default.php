@@ -23,6 +23,13 @@ if ($hideLinks) {
     return;
 }
 
+$app = Factory::getApplication();
+
+$tParams = $app->getTemplate(true)->params;
+
+$darkMode = $app->getIdentity()->getParam('colorScheme', $tParams->get('colorScheme', 'os'));
+$lastMode = $app->getInput()->cookie->get('atumColorScheme', $darkMode);
+
 // Load the Bootstrap Dropdown
 HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 ?>
@@ -54,15 +61,28 @@ HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
             <?php echo Text::_('MOD_USER_ACCESSIBILITY_SETTINGS'); ?>
         </a>
         <?php // Not all templates support a colorScheme ?>
-        <?php if (Factory::getApplication()->getTemplate(true)->params->get('colorScheme')) : ?>
+        <?php if ($tParams->get('colorScheme')) : ?>
         <div class="dropdown dropstart">
             <button type="button" class="dropdown-item" data-bs-toggle="dropdown">
-                <span class="fa fa-moon icon-fw" aria-hidden="true"></span> Color mode
+                <?php
+                    switch ($lastMode) :
+                        case 'light':
+                ?>
+                        <span class="fa fa-sun icon-fw" aria-hidden="true"></span>
+                        <?php break; ?>
+                    <?php case 'dark': ?>
+                        <span class="fa fa-moon icon-fw" aria-hidden="true"></span>
+                        <?php break; ?>
+                    <?php default: ?>
+                        <span class="fa fa-circle-half-stroke icon-fw" aria-hidden="true"></span>
+                        <?php break; ?>
+                <?php endswitch; ?>
+                Color mode
             </button>
             <div class="dropdown-menu dropdown-menu-end">
-                <a class="dropdown-item" href="#"><span class="fa fa-sun icon-fw" aria-hidden="true"></span> Light</a>
-                <a class="dropdown-item" href="#"><span class="fa fa-moon icon-fw" aria-hidden="true"></span> Dark</a>
-                <a class="dropdown-item" href="#"><span class="fa fa-circle-half-stroke icon-fw" aria-hidden="true"></span> Auto</a>
+                <button class="dropdown-item" data-mode="light" type="button"><span class="fa fa-sun icon-fw" aria-hidden="true"></span> Light</button>
+                <button class="dropdown-item" data-mode="dark" type="button"><span class="fa fa-moon icon-fw" aria-hidden="true"></span> Dark</button>
+                <button class="dropdown-item" data-mode="os" type="button"><span class="fa fa-circle-half-stroke icon-fw" aria-hidden="true"></span> Auto</button>
             </div>
         </div>
         <?php endif; ?>
