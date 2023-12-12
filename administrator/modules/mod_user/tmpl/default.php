@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -27,7 +28,7 @@ HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 ?>
 <div class="header-item-content dropdown header-profile">
     <button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button"
-        title="<?php echo Text::_('MOD_USER_MENU'); ?>">
+    data-bs-auto-close="outside" title="<?php echo Text::_('MOD_USER_MENU'); ?>">
         <span class="header-item-icon">
             <span class="icon-user-circle" aria-hidden="true"></span>
         </span>
@@ -52,6 +53,19 @@ HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
             <span class="icon-universal-access icon-fw" aria-hidden="true"></span>
             <?php echo Text::_('MOD_USER_ACCESSIBILITY_SETTINGS'); ?>
         </a>
+        <?php // Not all templates support a colorScheme ?>
+        <?php if (Factory::getApplication()->getTemplate(true)->params->get('colorScheme')) : ?>
+        <div class="dropdown dropstart">
+            <button type="button" class="dropdown-item" data-bs-toggle="dropdown">
+                <span class="fa fa-moon icon-fw" aria-hidden="true"></span> Color mode
+            </button>
+            <div class="dropdown-menu dropdown-menu-end">
+                <a class="dropdown-item" href="#"><span class="fa fa-sun icon-fw" aria-hidden="true"></span> Light</a>
+                <a class="dropdown-item" href="#"><span class="fa fa-moon icon-fw" aria-hidden="true"></span> Dark</a>
+                <a class="dropdown-item" href="#"><span class="fa fa-circle-half-stroke icon-fw" aria-hidden="true"></span> Auto</a>
+            </div>
+        </div>
+        <?php endif; ?>
         <?php $route = 'index.php?option=com_login&task=logout&amp;' . Session::getFormToken() . '=1'; ?>
         <a class="dropdown-item" href="<?php echo Route::_($route); ?>">
             <span class="icon-power-off icon-fw" aria-hidden="true"></span>
