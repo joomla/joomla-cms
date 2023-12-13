@@ -17,12 +17,8 @@
   --btn-color: var(--gray-800);
   --btn-bg: var(--white);
   --btn-border-color: var(--gray-400);
-
-  &:hover,
-  &:focus {
-    --btn-color: var(--gray-800);
-    --btn-bg: var(--gray-100);
-  }
+  --btn-hover-color: var(--gray-800);
+  --btn-hover-bg: var(--gray-100);
 }
 
 .article-info .association,
@@ -32,12 +28,8 @@
     --btn-color: var(--white);
     --btn-bg: var(--gray-600);
     --btn-border-color: var(--gray-400);
-
-    &:hover,
-    &:focus {
-      --btn-color: var(--white);
-      --btn-bg: var(--gray-800);
-    }
+    --btn-hover-color: var(--white);
+    --btn-hover-bg: var(--gray-800);
   }
 
   .btn-sm {
