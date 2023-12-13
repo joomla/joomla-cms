@@ -60,7 +60,6 @@ class ContentComponent extends MVCComponent implements
     use HTMLRegistryAwareTrait;
     use WorkflowServiceTrait;
     use SchemaorgServiceTrait;
-    use FieldsServiceTrait;
     use CategoryServiceTrait, TagServiceTrait, FieldsServiceTrait {
         CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
         CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
