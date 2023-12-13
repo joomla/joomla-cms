@@ -15,6 +15,7 @@ use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\CustomFields\PrepareDomEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
@@ -1105,6 +1106,37 @@ class FieldModel extends AdminModel
 
             if (!$form->loadFile($path, false)) {
                 throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
+            }
+        }
+
+        $componentInterface = Factory::getApplication()->bootComponent($component);
+
+        if ($componentInterface instanceof FieldsServiceInterface) {
+            $componentInterface->prepareForm($form, $data);
+        } else {
+            // Try to find the component helper.
+            $eName = str_replace('com_', '', $component);
+            $path  = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/helpers/fields.php");
+
+            if (file_exists($path)) {
+                $cName = ucfirst($eName) . ucfirst($section) . 'HelperFields';
+
+                \JLoader::register($cName, $path);
+
+                if (class_exists($cName) && \is_callable([$cName, 'onPrepareForm'])) {
+                    $lang->load($component, JPATH_BASE, null, false, false)
+                        || $lang->load($component, JPATH_BASE . '/components/' . $component, null, false, false)
+                        || $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
+                        || $lang->load($component, JPATH_BASE . '/components/' . $component, $lang->getDefault(), false, false);
+                    \call_user_func_array([$cName, 'onPrepareForm'], [&$form]);
+
+                    // Check for an error.
+                    if ($form instanceof \Exception) {
+                        $this->setError($form->getMessage());
+
+                        return false;
+                    }
+                }
             }
         }
 

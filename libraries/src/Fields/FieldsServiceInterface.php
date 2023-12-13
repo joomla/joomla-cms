@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Fields;
 
+use Joomla\CMS\Form\Form;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -41,4 +43,16 @@ interface FieldsServiceInterface
      * @since   4.0.0
      */
     public function getContexts(): array;
+
+    /**
+     * Prepares the category form
+     *
+     * @param   Form          $form  The form to change
+     * @param   array|object  $data  The form data
+     *
+     * @return   void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function prepareForm(Form $form, $data);
 }
