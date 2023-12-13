@@ -11,12 +11,12 @@ namespace Joomla\CMS\MVC\View;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\DocumentAwareInterface;
-use Joomla\CMS\Document\DocumentAwareTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
@@ -33,10 +33,16 @@ use Joomla\Event\EventInterface;
  *
  * @since  2.5.5
  */
-abstract class AbstractView extends CMSObject implements ViewInterface, DispatcherAwareInterface, DocumentAwareInterface, LanguageAwareInterface
+#[\AllowDynamicProperties]
+abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, DocumentAwareInterface, LanguageAwareInterface
 {
     use DispatcherAwareTrait;
     use LanguageAwareTrait;
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait {
+        get as private legacyGet;
+    }
+
 
     /**
      * The active document object
@@ -154,8 +160,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
             }
         }
 
-        // Degrade to CMSObject::get
-        return parent::get($property, $default);
+        return $this->legacyGet($property, $default);
     }
 
     /**
@@ -234,7 +239,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
             }
 
             if (empty($this->_name)) {
-                throw new \Exception(sprintf($this->_('JLIB_APPLICATION_ERROR_GET_NAME'), __METHOD__), 500);
+                throw new \Exception(sprintf($this->text('JLIB_APPLICATION_ERROR_GET_NAME'), __METHOD__), 500);
             }
         }
 
@@ -273,6 +278,31 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
     }
 
     /**
+     * Get the event dispatcher.
+     *
+     * The override was made to keep a backward compatibility for legacy component.
+     * TODO: Remove the override in 6.0
+     *
+     * @return  DispatcherInterface
+     *
+     * @since   4.4.0
+     * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
+     */
+    public function getDispatcher()
+    {
+        if (!$this->dispatcher) {
+            @trigger_error(
+                sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                E_USER_DEPRECATED
+            );
+
+            return Factory::getContainer()->get(DispatcherInterface::class);
+        }
+
+        return $this->dispatcher;
+    }
+
+    /**
      * Dispatches the given event on the internal dispatcher, does a fallback to the global one.
      *
      * @param   EventInterface  $event  The event
@@ -280,31 +310,19 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      * @return  void
      *
      * @since   4.1.0
+     *
+     * @deprecated 4.4 will be removed in 6.0. Use $this->getDispatcher() directly.
      */
     protected function dispatchEvent(EventInterface $event)
     {
-        try {
-            $this->getDispatcher()->dispatch($event->getName(), $event);
-        } catch (\UnexpectedValueException $e) {
-            Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
-        }
-    }
+        $this->getDispatcher()->dispatch($event->getName(), $event);
 
-    /**
-     * Returns the string for the given key from the internal language object.
-     *
-     * @param   string  $key  The key
-     *
-     * @return  string
-     *
-     * @since   4.4.0
-     */
-    protected function _(string $key): string
-    {
-        try {
-            return $this->getLanguage()->_($key);
-        } catch (\UnexpectedValueException $e) {
-            return Factory::getApplication()->getLanguage()->_($key);
-        }
+        @trigger_error(
+            sprintf(
+                'Method %s is deprecated and will be removed in 6.0. Use getDispatcher()->dispatch() directly.',
+                __METHOD__
+            ),
+            E_USER_DEPRECATED
+        );
     }
 }

@@ -228,8 +228,8 @@ abstract class Factory
      *   notify developers of changes needed in their code
      *
      * This method is not suggested for use as a one-for-one replacement of static calls, such as
-     * replacing calls to `Factory::getDbo()` with calls to `Factory::getContainer()->get('db')`, code
-     * should be refactored to support dependency injection instead of making this change.
+     * replacing calls to `Factory::getDbo()` with calls to `Factory::getContainer()->get(DatabaseInterface::class)`,
+     * code should be refactored to support dependency injection instead of making this change.
      *
      * @return  Container
      *
@@ -459,8 +459,8 @@ abstract class Factory
         );
 
         if (!self::$database) {
-            if (self::getContainer()->has('DatabaseDriver')) {
-                self::$database = self::getContainer()->get('DatabaseDriver');
+            if (self::getContainer()->has(DatabaseInterface::class)) {
+                self::$database = self::getContainer()->get(DatabaseInterface::class);
             } else {
                 self::$database = self::createDbo();
             }
@@ -606,12 +606,15 @@ abstract class Factory
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Authentication())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\CacheController())
+            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\CaptchaRegistry())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Config())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Console())
+            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\EditorsRegistry())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form())
+            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Input())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Logger())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Language())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Mailer())

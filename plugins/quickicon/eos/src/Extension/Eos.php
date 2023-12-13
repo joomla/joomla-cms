@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Quickicon\Eos\Extension;
 
-use Exception;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Factory;
@@ -93,7 +92,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @since 4.4.0
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function getEndOfServiceNotification(QuickIconsEvent $event): void
     {
@@ -158,7 +157,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @since 4.4.0
      *
-     * @throws Exception
+     * @throws \Exception
      */
     private function shouldDisplayMessage(): bool
     {
@@ -249,7 +248,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @since 4.4.0
      *
-     * @throws Exception
+     * @throws \Exception
      */
     private function isAllowedUser(): bool
     {
@@ -265,7 +264,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @throws  Notallowed  If user is not allowed
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function onAjaxEos(): string
     {

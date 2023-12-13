@@ -83,7 +83,7 @@ class Console implements ServiceProviderInterface
         $container->share(
             ExportCommand::class,
             function (Container $container) {
-                return new ExportCommand($container->get('db'));
+                return new ExportCommand($container->get(DatabaseInterface::class));
             },
             true
         );
@@ -91,7 +91,7 @@ class Console implements ServiceProviderInterface
         $container->share(
             ImportCommand::class,
             function (Container $container) {
-                return new ImportCommand($container->get('db'));
+                return new ImportCommand($container->get(DatabaseInterface::class));
             },
             true
         );
@@ -131,7 +131,7 @@ class Console implements ServiceProviderInterface
         $container->share(
             ExtensionsListCommand::class,
             function (Container $container) {
-                return new ExtensionsListCommand($container->get('db'));
+                return new ExtensionsListCommand($container->get(DatabaseInterface::class));
             },
             true
         );
@@ -171,7 +171,7 @@ class Console implements ServiceProviderInterface
         $container->share(
             ExtensionDiscoverInstallCommand::class,
             function (Container $container) {
-                return new ExtensionDiscoverInstallCommand($container->get('db'));
+                return new ExtensionDiscoverInstallCommand($container->get(DatabaseInterface::class));
             },
             true
         );
@@ -179,7 +179,7 @@ class Console implements ServiceProviderInterface
         $container->share(
             ExtensionDiscoverListCommand::class,
             function (Container $container) {
-                return new ExtensionDiscoverListCommand($container->get('db'));
+                return new ExtensionDiscoverListCommand($container->get(DatabaseInterface::class));
             },
             true
         );
@@ -187,7 +187,7 @@ class Console implements ServiceProviderInterface
         $container->share(
             UpdateCoreCommand::class,
             function (Container $container) {
-                return new UpdateCoreCommand($container->get('db'));
+                return new UpdateCoreCommand($container->get(DatabaseInterface::class));
             },
             true
         );
@@ -195,7 +195,7 @@ class Console implements ServiceProviderInterface
         $container->share(
             FinderIndexCommand::class,
             function (Container $container) {
-                $command = new FinderIndexCommand($container->get('db'));
+                $command = new FinderIndexCommand($container->get(DatabaseInterface::class));
                 $command->setLanguage($container->get(LanguageFactoryInterface::class)->createLanguage(
                     $container->get('config')->get('language'),
                     $container->get('config')->get('debug_lang')

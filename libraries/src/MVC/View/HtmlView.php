@@ -11,13 +11,13 @@ namespace Joomla\CMS\MVC\View;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
-use UnexpectedValueException;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -194,7 +194,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
             AbstractEvent::create(
                 'onBeforeDisplay',
                 [
-                    'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
+                    'eventClass' => DisplayEvent::class,
                     'subject'    => $this,
                     'extension'  => $context,
                 ]
@@ -208,7 +208,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
             AbstractEvent::create(
                 'onAfterDisplay',
                 [
-                    'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
+                    'eventClass' => DisplayEvent::class,
                     'subject'    => $this,
                     'extension'  => $context,
                     'source'     => $result,
@@ -372,7 +372,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
         try {
             // Load the language file for the template
             $lang = $this->getLanguage();
-        } catch (UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException $e) {
             $lang = Factory::getApplication()->getLanguage();
         }
 
@@ -383,8 +383,8 @@ class HtmlView extends AbstractView implements CurrentUserInterface
         // Change the template folder if alternative layout is in different template
         if (isset($layoutTemplate) && $layoutTemplate !== '_' && $layoutTemplate != $template->template) {
             $this->_path['template'] = str_replace(
-                JPATH_THEMES . DIRECTORY_SEPARATOR . $template->template,
-                JPATH_THEMES . DIRECTORY_SEPARATOR . $layoutTemplate,
+                JPATH_THEMES . DIRECTORY_SEPARATOR . $template->template . DIRECTORY_SEPARATOR,
+                JPATH_THEMES . DIRECTORY_SEPARATOR . $layoutTemplate . DIRECTORY_SEPARATOR,
                 $this->_path['template']
             );
         }
@@ -417,8 +417,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
 
             // Done with the requested template; get the buffer and
             // clear it.
-            $this->_output = ob_get_contents();
-            ob_end_clean();
+            $this->_output = ob_get_clean();
 
             return $this->_output;
         }

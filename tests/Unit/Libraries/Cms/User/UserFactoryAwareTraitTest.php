@@ -10,11 +10,10 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\User;
 
-use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Tests\Unit\UnitTestCase;
-use UnexpectedValueException;
 
 /**
  * Test class for \Joomla\CMS\User\UserFactoryAwareTrait
@@ -69,7 +68,7 @@ class UserFactoryAwareTraitTest extends UnitTestCase
      */
     public function testGetUserFactoryThrowsException()
     {
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
 
         $trait = new class () {
             use UserFactoryAwareTrait;

@@ -40,6 +40,9 @@
 		<position>bottom-b</position>
 		<position>footer</position>
 		<position>debug</position>
+		<!-- used directly in the error.php and included here so the position will appear in the list of available positions -->
+		<position>error-403</position>
+		<position>error-404</position>
 	</positions>
 	<languages folder="language">
 		<language tag="en-GB">en-GB/tpl_cassiopeia.ini</language>

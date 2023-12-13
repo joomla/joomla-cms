@@ -172,12 +172,12 @@ class ScriptsRenderer extends DocumentRenderer
             }
         } else {
             $attribs     = $item;
-            $version     = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
+            $version     = $attribs['options']['version'] ?? '';
             $conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
         }
 
         // Add "nonce" attribute if exist
-        if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce)) {
+        if ($this->_doc->cspNonce && !\is_null($this->_doc->cspNonce)) {
             $attribs['nonce'] = $this->_doc->cspNonce;
         }
 
@@ -242,7 +242,7 @@ class ScriptsRenderer extends DocumentRenderer
         }
 
         // Add "nonce" attribute if exist
-        if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce)) {
+        if ($this->_doc->cspNonce && !\is_null($this->_doc->cspNonce)) {
             $attribs['nonce'] = $this->_doc->cspNonce;
         }
 
@@ -331,7 +331,7 @@ class ScriptsRenderer extends DocumentRenderer
      *
      * @return  string  The attributes string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function renderImportmap(array &$assets)
     {
@@ -382,7 +382,7 @@ class ScriptsRenderer extends DocumentRenderer
             $attribs     = ['type' => 'importmap'];
 
             // Add "nonce" attribute if exist
-            if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce)) {
+            if ($this->_doc->cspNonce && !\is_null($this->_doc->cspNonce)) {
                 $attribs['nonce'] = $this->_doc->cspNonce;
             }
 

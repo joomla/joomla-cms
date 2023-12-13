@@ -10,10 +10,8 @@
 
 namespace Joomla\Component\Menus\Administrator\Controller;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Database\ParameterType;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -24,13 +22,14 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class MenusController extends BaseController
+class MenusController extends AdminController
 {
     /**
      * Display the view
      *
      * @param   boolean  $cachable   If true, the view output will be cached.
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  void
      *
@@ -86,7 +85,7 @@ class MenusController extends BaseController
                 }
             }
 
-            if (count($cids) > 0) {
+            if (\count($cids) > 0) {
                 // Get the model.
                 /** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
                 $model = $this->getModel();
@@ -95,7 +94,7 @@ class MenusController extends BaseController
                 if (!$model->delete($cids)) {
                     $this->setMessage($model->getError(), 'error');
                 } else {
-                    $this->setMessage(Text::plural('COM_MENUS_N_MENUS_DELETED', count($cids)));
+                    $this->setMessage(Text::plural('COM_MENUS_N_MENUS_DELETED', \count($cids)));
                 }
             }
         }

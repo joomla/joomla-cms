@@ -35,7 +35,7 @@ class NotAllowedExceptionHandler implements ExceptionHandlerInterface
      *
      * @since  4.0.0
      */
-    public function manages(Exception $e)
+    public function manages(\Exception $e)
     {
         return $e instanceof NotAllowed;
     }
@@ -43,13 +43,13 @@ class NotAllowedExceptionHandler implements ExceptionHandlerInterface
     /**
      * Handle the provided exception.
      *
-     * @param   Exception  $e  The exception being handled
+     * @param   \Exception  $e  The exception being handled
      *
      * @return  \Tobscure\JsonApi\Exception\Handler\ResponseBag
      *
      * @since  4.0.0
      */
-    public function handle(Exception $e)
+    public function handle(\Exception $e)
     {
         $status = 403;
         $error  = ['title' => 'Access Denied'];

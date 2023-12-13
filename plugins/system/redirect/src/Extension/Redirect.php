@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\Redirect\Extension;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Factory;
@@ -21,7 +20,6 @@ use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
 use Joomla\String\StringHelper;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -35,14 +33,6 @@ use RuntimeException;
 final class Redirect extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
-
-    /**
-     * Affects constructor behavior. If true, language files will be loaded automatically.
-     *
-     * @var    boolean
-     * @since  3.4
-     */
-    protected $autoloadLanguage = false;
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -73,6 +63,9 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
         if ($app->isClient('administrator') || ((int) $event->getError()->getCode() !== 404)) {
             return;
         }
+
+        // Load translations
+        $this->loadLanguage();
 
         $uri = Uri::getInstance();
 
@@ -160,8 +153,8 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
 
         try {
             $redirects = $this->getDatabase()->loadAssocList();
-        } catch (Exception $e) {
-            $event->setError(new Exception($this->getApplication()->getLanguage()->_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+        } catch (\Exception $e) {
+            $event->setError(new \Exception($this->getApplication()->getLanguage()->_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
 
             return;
         }
@@ -221,14 +214,14 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
 
                 try {
                     $this->getDatabase()->updateObject('#__redirect_links', $redirect, 'id');
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     // We don't log issues for now
                 }
 
                 $app->redirect($destination, (int) $redirect->header);
             }
 
-            $event->setError(new RuntimeException($event->getError()->getMessage(), $redirect->header, $event->getError()));
+            $event->setError(new \RuntimeException($event->getError()->getMessage(), $redirect->header, $event->getError()));
         } elseif ($redirect === null) {
             // No redirect object was found so we create an entry in the redirect table
             if ((bool) $this->params->get('collect_urls', 1)) {
@@ -250,8 +243,8 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
 
                 try {
                     $this->getDatabase()->insertObject('#__redirect_links', $data, 'id');
-                } catch (Exception $e) {
-                    $event->setError(new Exception($this->getApplication()->getLanguage()->_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+                } catch (\Exception $e) {
+                    $event->setError(new \Exception($this->getApplication()->getLanguage()->_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
 
                     return;
                 }
@@ -262,8 +255,8 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
 
             try {
                 $this->getDatabase()->updateObject('#__redirect_links', $redirect, ['id']);
-            } catch (Exception $e) {
-                $event->setError(new Exception($this->getApplication()->getLanguage()->_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+            } catch (\Exception $e) {
+                $event->setError(new \Exception($this->getApplication()->getLanguage()->_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
 
                 return;
             }

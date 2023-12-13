@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Banners\Administrator\View\Tracks;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -37,7 +36,7 @@ class RawView extends BaseHtmlView
      *
      * @since   1.6
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function display($tpl = null): void
     {

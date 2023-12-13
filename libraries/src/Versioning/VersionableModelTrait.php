@@ -34,7 +34,7 @@ trait VersionableModelTrait
      *
      * @since   4.0.0
      */
-    public function loadHistory($versionId, Table &$table)
+    public function loadHistory($versionId, Table $table)
     {
         // Only attempt to check the row in if it exists, otherwise do an early exit.
         if (!$versionId) {
@@ -42,7 +42,7 @@ trait VersionableModelTrait
         }
 
         // Get an instance of the row to checkout.
-        $historyTable = Table::getInstance('Contenthistory');
+        $historyTable = Table::getInstance('ContentHistory');
 
         if (!$historyTable->load($versionId)) {
             $this->setError($historyTable->getError());

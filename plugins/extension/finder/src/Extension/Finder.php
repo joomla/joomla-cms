@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Extension\Finder\Extension;
 
-use Exception;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
@@ -138,6 +137,7 @@ final class Finder extends CMSPlugin
         );
 
         $words = array_filter(array_map('trim', $words));
+        $words = array_unique($words);
         $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
@@ -155,7 +155,7 @@ final class Finder extends CMSPlugin
         try {
             $db->setQuery($query);
             $db->execute();
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             // It would be nice if the common word is stored to the DB, but it isn't super important
         }
     }

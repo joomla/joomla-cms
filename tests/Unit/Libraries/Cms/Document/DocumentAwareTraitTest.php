@@ -10,10 +10,9 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Document;
 
-use Joomla\CMS\Document\DocumentAwareTrait;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Document\DocumentAwareTrait;
 use Joomla\Tests\Unit\UnitTestCase;
-use UnexpectedValueException;
 
 /**
  * Test class for \Joomla\CMS\Document\DocumentAwareTrait
@@ -57,7 +56,7 @@ class DocumentAwareTraitTest extends UnitTestCase
      */
     public function testGetDocumentThrowsException()
     {
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
 
         $trait = new class () {
             use DocumentAwareTrait;

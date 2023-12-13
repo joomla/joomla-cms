@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
@@ -133,7 +132,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
@@ -194,7 +193,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      *
      * @return boolean
      *
-     * @throws Exception
+     * @throws \Exception
      *
      * @since 4.0.0
      */
@@ -630,7 +629,8 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      * @param   string   $key        The key of the user state variable.
      * @param   string   $request    The name of the variable passed in a request.
      * @param   string   $default    The default value for the variable if not found. Optional.
-     * @param   string   $type       Filter for the variable, for valid values see {@link InputFilter::clean()}. Optional.
+     * @param   string   $type       Filter for the variable. Optional.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      * @param   boolean  $resetPage  If true, the limitstart in request is set to zero
      *
      * @return  mixed  The request user state.

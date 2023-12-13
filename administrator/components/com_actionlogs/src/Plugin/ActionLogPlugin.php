@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\Plugin;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 // phpcs:disable PSR1.Files.SideEffects

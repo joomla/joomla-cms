@@ -12,7 +12,8 @@ namespace Joomla\CMS\Installer;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,8 +24,11 @@ use Joomla\CMS\Object\CMSObject;
  *
  * @since  3.1
  */
-class InstallerExtension extends CMSObject
+class InstallerExtension
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
     /**
      * Client ID of the extension
      *

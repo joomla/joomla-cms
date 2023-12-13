@@ -15,7 +15,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -117,7 +116,7 @@ final class Remember extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             // Log an alert for the site admin
             Log::add(
                 sprintf('Failed to delete cookie token for user %s with the following error: %s', $user['username'], $e->getMessage()),
