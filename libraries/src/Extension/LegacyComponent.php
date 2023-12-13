@@ -46,10 +46,10 @@ class LegacyComponent implements
     RouterServiceInterface,
     TagServiceInterface
 {
-    use FieldsServiceTrait;
-    use CategoryServiceTrait, TagServiceTrait {
+    use CategoryServiceTrait, TagServiceTrait, FieldsServiceTrait {
         CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
         CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
+        CategoryServiceTrait::prepareForm insteadof FieldsServiceTrait;
     }
 
     /**

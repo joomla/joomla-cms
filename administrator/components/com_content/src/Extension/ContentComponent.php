@@ -61,9 +61,10 @@ class ContentComponent extends MVCComponent implements
     use WorkflowServiceTrait;
     use SchemaorgServiceTrait;
     use FieldsServiceTrait;
-    use CategoryServiceTrait, TagServiceTrait {
+    use CategoryServiceTrait, TagServiceTrait, FieldsServiceTrait {
         CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
         CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
+        CategoryServiceTrait::prepareForm insteadof FieldsServiceTrait;
     }
 
     /** @var array Supported functionality */

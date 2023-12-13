@@ -56,9 +56,10 @@ class ContactComponent extends MVCComponent implements
     use RouterServiceTrait;
     use SchemaorgServiceTrait;
     use FieldsServiceTrait;
-    use CategoryServiceTrait, TagServiceTrait {
+    use CategoryServiceTrait, TagServiceTrait, FieldsServiceTrait {
         CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
         CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
+        CategoryServiceTrait::prepareForm insteadof FieldsServiceTrait;
     }
 
     /**
