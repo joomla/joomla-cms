@@ -50,7 +50,7 @@ interface FieldsServiceInterface
      * @param   Form          $form  The form to change
      * @param   array|object  $data  The form data
      *
-     * @return   void
+     * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
