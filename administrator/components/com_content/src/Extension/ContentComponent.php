@@ -20,6 +20,7 @@ use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Fields\FieldsServiceTrait;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper as LibraryContentHelper;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
@@ -59,6 +60,7 @@ class ContentComponent extends MVCComponent implements
     use HTMLRegistryAwareTrait;
     use WorkflowServiceTrait;
     use SchemaorgServiceTrait;
+    use FieldsServiceTrait;
     use CategoryServiceTrait, TagServiceTrait {
         CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
         CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;

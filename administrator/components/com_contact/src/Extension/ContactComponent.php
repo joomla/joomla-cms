@@ -20,6 +20,7 @@ use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Fields\FieldsServiceTrait;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Language\Text;
@@ -54,6 +55,7 @@ class ContactComponent extends MVCComponent implements
     use HTMLRegistryAwareTrait;
     use RouterServiceTrait;
     use SchemaorgServiceTrait;
+    use FieldsServiceTrait;
     use CategoryServiceTrait, TagServiceTrait {
         CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
         CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;

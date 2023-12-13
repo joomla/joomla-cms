@@ -16,6 +16,7 @@ use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Fields\FieldsServiceTrait;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\Component\Users\Administrator\Service\HTML\Users;
 use Psr\Container\ContainerInterface;
@@ -31,6 +32,7 @@ use Psr\Container\ContainerInterface;
  */
 class UsersComponent extends MVCComponent implements BootableExtensionInterface, RouterServiceInterface, FieldsServiceInterface
 {
+    use FieldsServiceTrait;
     use RouterServiceTrait;
     use HTMLRegistryAwareTrait;
 
