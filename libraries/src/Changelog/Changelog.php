@@ -391,7 +391,7 @@ class Changelog
      *
      * @return  mixed   False on failure or the parsed markdown data
      *
-     * @since   4.0.0
+     * @since   __DEPLOY_VERSION__
      */
     public function loadFromMarkdown($url)
     {
