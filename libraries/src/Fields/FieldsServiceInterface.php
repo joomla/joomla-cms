@@ -45,7 +45,7 @@ interface FieldsServiceInterface
     public function getContexts(): array;
 
     /**
-     * Prepares the category form
+     * Prepares the field form
      *
      * @param   Form          $form  The form to change
      * @param   array|object  $data  The form data

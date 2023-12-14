@@ -16,14 +16,14 @@ use Joomla\CMS\Form\Form;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Trait for component categories service.
+ * Trait for component fields service.
  *
  * @since  __DEPLOY_VERSION__
  */
 trait FieldsServiceTrait
 {
     /**
-     * Prepares the category form
+     * Prepares the fields form
      *
      * @param   Form          $form  The form to change
      * @param   array|object  $data  The form data
