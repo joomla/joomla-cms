@@ -46,10 +46,10 @@ use Joomla\CMS\Uri\Uri;
                     'alt' => $alt
                 ];?>
                 <?php if (!empty($width)) : ?>
-                    <?php $imageAttributes['width'] = $width; ?>
+                    <?php $imageAttribs['width'] = $width; ?>
                 <?php endif; ?>
                 <?php if (!empty($height)) : ?>
-                    <?php $imageAttributes['height'] = $height; ?>
+                    <?php $imageAttribs['height'] = $height; ?>
                 <?php endif; ?>
                 <?php $image = LayoutHelper::render('joomla.html.image', $imageAttribs); ?>
                 <?php if ($item->clickurl) : ?>
