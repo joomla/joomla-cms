@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Changelog;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -16,6 +17,7 @@ use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
+use Michelf\Markdown;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -381,5 +383,37 @@ class Changelog
         xml_parser_free($this->xmlParser);
 
         return true;
+    }
+
+    /**
+     * Loads an Markdown file from a URL.
+     *
+     * @param   string  $url  The URL.
+     *
+     * @return  mixed   False on failure or the parsed markdown data
+     *
+     * @since   4.0.0
+     */
+    public function loadFromMarkdown($url)
+    {
+        $version    = new Version();
+        $httpOption = new Registry();
+        $httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
+
+        try {
+            $http     = HttpFactory::getHttp($httpOption);
+            $response = $http->get($url);
+        } catch (\RuntimeException $e) {
+            $response = null;
+        }
+
+        if ($response === null || $response->code !== 200) {
+            // @todo: Add a 'mark bad' setting here somehow
+            Log::add(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), Log::WARNING, 'jerror');
+
+            return false;
+        }
+
+        return Markdown::defaultTransform($response->body);
     }
 }

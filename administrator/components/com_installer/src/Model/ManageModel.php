@@ -437,6 +437,18 @@ class ManageModel extends InstallerModel
         }
 
         $changelog = new Changelog();
+
+        // If we're dealing with a Markdown file, just render the parsed data in the layout
+        if (str_ends_with($extension->changelogurl, '.md')) {
+          $layout = new FileLayout('joomla.installer.changelog-markdown');
+
+          $output = $layout->render(
+            $changelog->loadFromMarkdown($extension->changelogurl)
+          );
+
+          return $output;
+        }
+
         $changelog->setVersion($source === 'manage' ? $extension->version : $extension->updateVersion);
         $changelog->loadFromXml($extension->changelogurl);
 

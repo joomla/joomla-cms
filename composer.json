@@ -100,7 +100,8 @@
     "web-token/signature-pack": "^3.2.8",
     "phpseclib/bcmath_compat": "^2.0.1",
     "jfcherng/php-diff": "^6.15.3",
-    "voku/portable-utf8": "^6.0.13"
+    "voku/portable-utf8": "^6.0.13",
+    "michelf/php-markdown": "^2.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.6.11",
