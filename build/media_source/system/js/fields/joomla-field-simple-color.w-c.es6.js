@@ -246,7 +246,7 @@
       const close = document.createElement('button');
       close.setAttribute('class', 'btn-close');
       close.setAttribute('type', 'button');
-      close.innerHTML = Joomla.sanitizeHtml(this.textClose);
+      close.setAttribute('aria-label', this.textClose);
 
       this.buttons.push(close);
 
