@@ -174,10 +174,12 @@ trait DisplayTrait
         $levelParams->loadObject($extraOptions);
 
         // Set the selected skin
-        $skin = $levelParams->get($app->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
+        $skin     = $levelParams->get($app->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
+        $skinDark = $levelParams->get($app->isClient('administrator') ? 'skin_admin_dark' : 'skin_dark', 'oxide-dark');
 
         // Check that selected skin exists.
-        $skin = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
+        $skin     = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
+        $skinDark = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skinDark) ? $skinDark : 'oxide-dark';
 
         if (!$levelParams->get('lang_mode', 1)) {
             // Admin selected language
@@ -390,7 +392,8 @@ trait DisplayTrait
                 'directionality'              => $language->isRtl() ? 'rtl' : 'ltr',
                 'language'                    => $langPrefix,
                 'autosave_restore_when_empty' => false,
-                'skin'                        => $skin,
+                'skin_light'                  => $skin,
+                'skin_dark'                   => $skinDark,
                 'theme'                       => $theme,
                 'schema'                      => 'html5',
 
@@ -464,10 +467,10 @@ trait DisplayTrait
 
         if ($levelParams->get('newlines')) {
             // Break
-            $scriptOptions['force_br_newlines'] = true;
+            $scriptOptions['newline_behavior'] = 'invert';
         } else {
             // Paragraph
-            $scriptOptions['force_br_newlines'] = false;
+            $scriptOptions['newline_behavior']  = 'default';
             $scriptOptions['forced_root_block'] = 'p';
         }
 
