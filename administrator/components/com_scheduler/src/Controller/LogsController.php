@@ -10,8 +10,8 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Controller;
 
-use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -98,7 +98,7 @@ class LogsController extends AdminController
 
             // Remove the items.
             if ($model->delete($ids)) {
-                $this->setMessage(Text::plural('COM_SCHEDULER_N_ITEMS_DELETED', count($ids)));
+                $this->setMessage(Text::plural('COM_SCHEDULER_N_ITEMS_DELETED', \count($ids)));
             }
         }
 

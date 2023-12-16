@@ -49,7 +49,6 @@ class LogsModel extends ListModel
                 'taskid', 'a.taskid',
                 'lastdate', 'a.lastdate',
                 'nextdate', 'a.nextdate',
-                'exitcode',
             ];
         }
 

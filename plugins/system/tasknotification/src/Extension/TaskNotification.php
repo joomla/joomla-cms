@@ -24,7 +24,6 @@ use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\Event;
-use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use PHPMailer\PHPMailer\Exception as MailerException;
 
