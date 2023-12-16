@@ -108,7 +108,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                             <?php else : ?>
                                 <?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode($item->taskname))); ?>
                             <?php endif; ?>
-                        </td>
+                        </th>
                         <!-- Item type -->
                         <td class="small d-none d-md-table-cell">
                             <?php echo $this->escape($item->tasktype); ?>
