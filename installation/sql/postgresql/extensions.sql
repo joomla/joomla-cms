@@ -897,6 +897,29 @@ INSERT INTO "#__scheduler_tasks" ("id", "asset_id", "title", "type", "execution_
 (3, 99, 'Update Notification', 'update.notification', CONCAT('{"rule-type":"interval-hours","interval-hours":"24","exec-day":"01","exec-time":"', TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'UTC', 'HH24:00'), '"}'), '{"type":"interval","exp":"PT24H"}', 1, NULL, TO_TIMESTAMP(TO_CHAR(CURRENT_TIMESTAMP AT TIME ZONE 'UTC' + INTERVAL '24 hours', 'YYYY-MM-DD HH24:00:00'), 'YYYY-MM-DD HH24:MI:SS'), NULL, '{"individual_log":false,"log_file":"","notifications":{"success_mail":"0","failure_mail":"1","fatal_failure_mail":"1","orphan_mail":"1"},"email":"","language_override":""}', CURRENT_TIMESTAMP AT TIME ZONE 'UTC', 42);
 
 SELECT setval('#__scheduler_tasks_id_seq', 4, false);
+-- --------------------------------------------------------
+
+--
+-- Table structure for table "#__scheduler_logs"
+--
+
+CREATE TABLE IF NOT EXISTS "#__scheduler_logs" (
+  "id" serial NOT NULL,
+  "taskname" varchar(255) NOT NULL,
+  "tasktype" varchar(128) NOT NULL,
+  "duration" NUMERIC(5,3) NOT NULL,
+  "jobid" integer DEFAULT 0 NOT NULL,
+  "taskid" integer DEFAULT 0 NOT NULL,
+  "exitcode" integer NOT NULL,
+  "last_date" timestamp without time zone,
+  "next_date" timestamp without time zone,
+  PRIMARY KEY (id),
+);
+CREATE INDEX "#__scheduler_tasks_idx_taskname" ON "#__scheduler_tasks" ("taskname");
+CREATE INDEX "#__scheduler_tasks_idx_tasktype" ON "#__scheduler_tasks" ("tasktype");
+CREATE INDEX "#__scheduler_tasks_idx_last_date" ON "#__scheduler_tasks" ("last_date");
+CREATE INDEX "#__scheduler_tasks_idx_next_date" ON "#__scheduler_tasks" ("next_date");
+
 
 -- --------------------------------------------------------
 
