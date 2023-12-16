@@ -423,9 +423,9 @@ class LanguageHelper
         try {
             if (!\function_exists('parse_ini_file') || $isParseIniFileDisabled) {
                 $contents = file_get_contents($fileName);
-                $strings  = parse_ini_string($contents);
+                $strings  = parse_ini_string($contents, false, INI_SCANNER_RAW);
             } else {
-                $strings = parse_ini_file($fileName);
+                $strings = parse_ini_file($fileName, false, INI_SCANNER_RAW);
             }
         } catch (\Exception $e) {
             if ($debug) {
@@ -436,6 +436,9 @@ class LanguageHelper
         } finally {
             restore_error_handler();
         }
+
+        // Ini files are processed in the "RAW" mode of parse_ini_string, leaving escaped quotes untouched - lets postprocess them
+        $strings = str_replace('\"', '"', $strings);
 
         return \is_array($strings) ? $strings : [];
     }
