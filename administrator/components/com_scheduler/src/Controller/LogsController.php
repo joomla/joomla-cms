@@ -65,7 +65,7 @@ class LogsController extends AdminController
         $model = $this->getModel('Logs');
 
         if ($model->purge()) {
-            $message = Text::_('COM_SCHEDULEER_LOGS_CLEAR');
+            $message = Text::_('COM_SCHEDULER_LOGS_CLEAR');
         } else {
             $message = Text::_('COM_JOBS_CLEAR_FAIL');
         }
