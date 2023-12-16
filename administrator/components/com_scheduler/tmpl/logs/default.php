@@ -80,7 +80,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         <td class="text-center">
                             <?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
                         </td>
-                        <td class="d-none d-md-table-cell">
+                        <th scope="row class="d-none d-md-table-cell">
                             <?php if ($canEdit) : ?>
                                 <?php
                                     $link = Route::_('index.php?option=com_scheduler&view=tasks&filter[search]=id:' . $item->jobid . '&tmpl=component&layout=modal');
