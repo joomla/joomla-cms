@@ -174,7 +174,7 @@ class FileAdapter extends InstallerAdapter
     {
         $manifest = JPATH_MANIFESTS . '/files/' . $this->extension->element . '.xml';
 
-        if (\is_file($manifest)) {
+        if (is_file($manifest)) {
             File::delete($manifest);
         }
 
