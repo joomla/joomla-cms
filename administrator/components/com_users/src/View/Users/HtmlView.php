@@ -161,7 +161,11 @@ class HtmlView extends BaseHtmlView
                 && $user->authorise('core.edit.state', 'com_users')
             ) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
-                    ->selector('collapseModal')
+                    ->popupType('inline')
+                    ->textHeader(Text::_('COM_USERS_BATCH_OPTIONS'))
+                    ->url('#joomla-dialog-batch')
+                    ->modalWidth('800px')
+                    ->modalHeight('fit-content')
                     ->listCheck(true);
             }
 

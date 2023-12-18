@@ -315,21 +315,21 @@ abstract class Table implements TableInterface, DispatcherAwareInterface
                     include_once $tryThis;
                 }
             }
+        }
 
-            if (!class_exists($tableClass) && class_exists($tableClassLegacy)) {
-                $tableClass = $tableClassLegacy;
-            }
+        if (!class_exists($tableClass) && class_exists($tableClassLegacy)) {
+            $tableClass = $tableClassLegacy;
+        }
 
-            if (!class_exists($tableClass)) {
-                /*
-                * If unable to find the class file in the Table include paths. Return false.
-                * The warning JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND has been removed in 3.6.3.
-                * In 4.0 an Exception (type to be determined) will be thrown.
-                * For more info see https://github.com/joomla/joomla-cms/issues/11570
-                */
+        if (!class_exists($tableClass)) {
+            /*
+            * If unable to find the class file in the Table include paths. Return false.
+            * The warning JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND has been removed in 3.6.3.
+            * In 6.0 an Exception (type to be determined) will be thrown.
+            * For more info see https://github.com/joomla/joomla-cms/issues/11570
+            */
 
-                return false;
-            }
+            return false;
         }
 
         // If a database object was passed in the configuration array use it, otherwise get the global one from Factory.
