@@ -94,7 +94,7 @@ Joomla.JoomlaTinyMCE = {
     editors.forEach((editor) => {
       const currentEditor = editor.querySelector('textarea');
       const toggleButton = editor.querySelector('.js-tiny-toggler-button');
-      const toggleIcon = toggleButton.querySelector('.icon-eye');
+      const toggleIcon = toggleButton ? toggleButton.querySelector('.icon-eye') : false;
 
       // Set up the editor
       Joomla.JoomlaTinyMCE.setupEditor(currentEditor, pluginOptions);
@@ -154,6 +154,18 @@ Joomla.JoomlaTinyMCE = {
       options.selector = null;
       options.target = element;
     }
+
+    const skinLight = options.skin_light;
+    const skinDark = options.skin_dark;
+
+    if ('colorSchemeOs' in document.body.dataset) {
+      options.skin = (window.matchMedia('(prefers-color-scheme: dark)').matches ? skinDark : skinLight);
+    } else {
+      options.skin = skinLight;
+    }
+
+    delete options.skin_light;
+    delete options.skin_dark;
 
     // Ensure tinymce is initialised in readonly mode if the textarea has readonly applied
     let readOnlyMode = false;
