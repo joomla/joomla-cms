@@ -141,7 +141,7 @@ class InstallerScript
 
         // Abort if the extension being installed is not newer than the currently installed version
         if (!$this->allowDowngrades && strtolower($type) === 'update') {
-            $manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', $this->extension);
+            $manifest = $this->getItemArray('manifest_cache', '#__extensions', 'name', $this->extension);
 
             // Check whether we have an old release installed and skip this check when this here is the initial install.
             if (!isset($manifest['version'])) {
@@ -301,7 +301,9 @@ class InstallerScript
         $db->setQuery($query);
 
         // Load the single cell and json_decode data
-        return json_decode($db->loadResult(), true);
+        $result = $db->loadResult();
+
+        return $result === null ? [] : json_decode($result, true);
     }
 
     /**
