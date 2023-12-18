@@ -5,6 +5,11 @@
 (() => {
   'use strict';
 
+  // Use a JoomlaExpectingPostMessage flag to be able to distinct legacy methods
+  if (window.parent.JoomlaExpectingPostMessage) {
+    return;
+  }
+
   /**
     * Javascript to insert the link
     * View element calls jSelectContact when a contact is clicked
@@ -13,11 +18,12 @@
     */
 
   window.jSelectContact = (id, title, catid, object, link, lang) => {
+    // eslint-disable-next-line no-console
+    console.warn('Method jSelectContact() is deprecated. Use postMessage() instead.');
+
     let hreflang = '';
 
     if (!Joomla.getOptions('xtd-contacts')) {
-      // Something went wrong
-      window.parent.Joomla.Modal.getCurrent().close();
       return false;
     }
 
@@ -29,7 +35,10 @@
 
     const tag = `<a ${hreflang}  href="${link}">${title}</a>`;
     window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
-    window.parent.Joomla.Modal.getCurrent().close();
+
+    if (window.parent.Joomla.Modal && window.parent.Joomla.Modal.getCurrent()) {
+      window.parent.Joomla.Modal.getCurrent().close();
+    }
     return true;
   };
 
@@ -43,15 +52,15 @@
         event.preventDefault();
         const functionName = event.target.getAttribute('data-function');
 
-        if (functionName === 'jSelectContact') {
+        if (functionName === 'jSelectContact' && window[functionName]) {
           // Used in xtd_contacts
           window[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), null, null, event.target.getAttribute('data-uri'), event.target.getAttribute('data-language'), null);
-        } else {
+        } else if (window.parent[functionName]) {
           // Used in com_menus
           window.parent[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), null, null, event.target.getAttribute('data-uri'), event.target.getAttribute('data-language'), null);
         }
 
-        if (window.parent.Joomla.Modal) {
+        if (window.parent.Joomla.Modal && window.parent.Joomla.Modal.getCurrent()) {
           window.parent.Joomla.Modal.getCurrent().close();
         }
       });
