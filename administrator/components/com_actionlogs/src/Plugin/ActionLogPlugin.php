@@ -67,7 +67,8 @@ abstract class ActionLogPlugin extends CMSPlugin
      */
     protected function addLog($messages, $messageLanguageKey, $context, $userId = null)
     {
-        $user = $this->getApplication()->getIdentity();
+        $app  = $this->getApplication();
+        $user = $app->getIdentity();
 
         foreach ($messages as $index => $message) {
             if (!\array_key_exists('userid', $message)) {
@@ -94,7 +95,7 @@ abstract class ActionLogPlugin extends CMSPlugin
         }
 
         /** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel $model */
-        $model = $this->getApplication()->bootComponent('com_actionlogs')
+        $model = $app->bootComponent('com_actionlogs')
             ->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
 
         $model->addLog($messages, strtoupper($messageLanguageKey), $context, $userId);
