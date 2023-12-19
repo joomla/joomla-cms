@@ -188,7 +188,7 @@ if (!empty($version['codename'])) {
 
 echo PHP_EOL;
 
-$rootPath = dirname(__DIR__);
+$rootPath = \dirname(__DIR__);
 
 // Updates the version in version class.
 if (file_exists($rootPath . $versionFile)) {
@@ -282,7 +282,7 @@ foreach ($iterator as $file) {
         }
 
         // Exclude certain files.
-        if (in_array($relativePath, $directoryLoopExcludeFiles)) {
+        if (\in_array($relativePath, $directoryLoopExcludeFiles)) {
             continue;
         }
 

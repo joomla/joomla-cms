@@ -193,7 +193,7 @@ class CacheModel extends ListModel
     public function getTotal()
     {
         if (empty($this->_total)) {
-            $this->_total = count($this->getData());
+            $this->_total = \count($this->getData());
         }
 
         return $this->_total;

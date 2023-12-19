@@ -42,7 +42,7 @@ class Templates
      */
     public function thumb($template, $clientId = 0)
     {
-        if (is_string($template)) {
+        if (\is_string($template)) {
             return HTMLHelper::_('image', 'template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'), [], true, -1);
         }
 
@@ -100,7 +100,7 @@ class Templates
      */
     public function thumbModal($template, $clientId = 0)
     {
-        if (is_string($template)) {
+        if (\is_string($template)) {
             return HTMLHelper::_('image', 'template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'), [], true, -1);
         }
 

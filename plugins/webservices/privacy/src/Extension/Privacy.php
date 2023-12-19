@@ -51,7 +51,6 @@ final class Privacy extends CMSPlugin
         $routes = [
             new Route(['GET'], 'v1/privacy/consents', 'consents.displayList', [], $getDefaults),
             new Route(['GET'], 'v1/privacy/consents/:id', 'consents.displayItem', ['id' => '(\d+)'], $getDefaults),
-            new Route(['DELETE'], 'v1/privacy/consents/:id', 'consents.delete', ['id' => '(\d+)'], $defaults),
         ];
 
         $router->addRoutes($routes);

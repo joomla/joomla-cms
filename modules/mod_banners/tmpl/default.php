@@ -10,11 +10,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\MediaHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Component\Banners\Site\Helper\BannerHelper;
-
 ?>
 <div class="mod-banners bannergroup">
 <?php if ($headerText) : ?>
@@ -30,15 +30,16 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
             <?php // Text based banners ?>
             <?php echo str_replace(['{CLICKURL}', '{NAME}'], [$link, $item->name], $item->custombannercode); ?>
         <?php else : ?>
-            <?php $imageurl = $item->params->get('imageurl'); ?>
-            <?php $width = $item->params->get('width'); ?>
-            <?php $height = $item->params->get('height'); ?>
-            <?php if (BannerHelper::isImage($imageurl)) : ?>
+            <?php $imageobject = HTMLHelper::cleanImageURL($item->params->get('imageurl')); ?>
+            <?php $imageurl = $imageobject->url; ?>
+            <?php if (!empty($imageurl) && (MediaHelper::isImage($imageurl) || MediaHelper::getMimeType($imageurl) === 'image/svg+xml')) : ?>
                 <?php // Image based banner ?>
                 <?php $baseurl = strpos($imageurl, 'http') === 0 ? '' : Uri::base(); ?>
                 <?php $alt = $item->params->get('alt'); ?>
                 <?php $alt = $alt ?: $item->name; ?>
                 <?php $alt = $alt ?: Text::_('MOD_BANNERS_BANNER'); ?>
+                <?php $width = $item->params->get('width'); ?>
+                <?php $height = $item->params->get('height'); ?>
                 <?php if ($item->clickurl) : ?>
                     <?php // Wrap the banner in a link ?>
                     <?php $target = $params->get('target', 1); ?>
