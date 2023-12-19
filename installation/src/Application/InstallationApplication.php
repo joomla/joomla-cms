@@ -118,7 +118,7 @@ final class InstallationApplication extends CMSApplication
 
         $errorfiles = $lang->getErrorFiles();
 
-        if (count($errorfiles)) {
+        if (\count($errorfiles)) {
             $output .= '<ul>';
 
             foreach ($errorfiles as $error) {
@@ -134,7 +134,7 @@ final class InstallationApplication extends CMSApplication
         $output .= '<pre>';
         $orphans = $lang->getOrphans();
 
-        if (count($orphans)) {
+        if (\count($orphans)) {
             ksort($orphans, SORT_STRING);
 
             $guesses = [];
@@ -144,7 +144,7 @@ final class InstallationApplication extends CMSApplication
 
                 $parts = explode(' ', $guess);
 
-                if (count($parts) > 1) {
+                if (\count($parts) > 1) {
                     array_shift($parts);
                     $guess = implode(' ', $parts);
                 }

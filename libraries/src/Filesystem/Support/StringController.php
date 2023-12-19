@@ -52,8 +52,8 @@ class StringController
      */
     public function createRef($reference, &$string)
     {
-        $ref             = &self::_getArray();
-        $ref[$reference] = & $string;
+        $ref             =& self::_getArray();
+        $ref[$reference] =& $string;
     }
 
     /**
@@ -69,12 +69,8 @@ class StringController
      */
     public function getRef($reference)
     {
-        $ref = &self::_getArray();
+        $ref =& self::_getArray();
 
-        if (isset($ref[$reference])) {
-            return $ref[$reference];
-        }
-
-        return false;
+        return $ref[$reference] ?? false;
     }
 }

@@ -23,7 +23,15 @@
 
   &.view-user, &.view-methods {
     #com-users-methods-reset-container {
-      @extend .bg-light;
+      background-color: var(--light);
+    }
+
+    @if $enable-dark-mode {
+      @include color-mode(dark) {
+        #com-users-methods-reset-container {
+          background-color: var(--dark-bg-subtle);
+        }
+      }
     }
 
     .com-users-methods-list-method {
@@ -48,7 +56,17 @@
 
       /** This is applied to headers that aren't an active method **/
       &:not(.com-users-methods-list-method-active) .com-users-methods-list-method-header {
-        @extend .bg-light;
+        background-color: var(--light);
+      }
+
+      @if $enable-dark-mode {
+        @include color-mode(dark) {
+          /* stylelint-disable max-nesting-depth */
+          &:not(.com-users-methods-list-method-active) .com-users-methods-list-method-header {
+            /* stylelint-enable max-nesting-depth */
+            background-color: var(--dark-bg-subtle);
+          }
+        }
       }
 
       .com-users-methods-list-method-header {
@@ -63,8 +81,19 @@
         @extend .pt-1;
         @extend .px-3;
         @extend .pb-2;
-        @extend .bg-light;
         @extend .rounded-2;
+
+        background-color: var(--light);
+      }
+
+      @if $enable-dark-mode {
+        @include color-mode(dark) {
+          /* stylelint-disable max-nesting-depth */
+          .com-users-methods-list-method-image {
+            /* stylelint-enable max-nesting-depth */
+            background-color: var(--dark-bg-subtle);
+          }
+        }
       }
 
       .com-users-methods-list-method-title {

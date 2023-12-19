@@ -1377,7 +1377,7 @@ class Form implements CurrentUserInterface
         // Make sure there is actually a group to find.
         $group = explode('.', $group);
 
-        if (count($group)) {
+        if (\count($group)) {
             // Get any fields elements with the correct group name.
             $elements = $this->xml->xpath('//fields[@name="' . (string) $group[0] . '" and not(ancestor::field/form/*)]');
 

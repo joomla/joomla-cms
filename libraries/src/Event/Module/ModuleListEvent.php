@@ -52,7 +52,7 @@ abstract class ModuleListEvent extends ModuleEvent
         }
 
         // For backward compatibility make sure the content is referenced
-        // TODO: Remove in Joomla 6
+        // @todo: Remove in Joomla 6
         // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
         if (key($arguments) === 0) {
             $this->arguments['modules'] = &$arguments[0];
@@ -74,7 +74,7 @@ abstract class ModuleListEvent extends ModuleEvent
     {
         // Filter out Module elements. Non empty result means invalid data
         $valid = !array_filter($value, function ($item) {
-            return !is_object($item);
+            return !\is_object($item);
         });
 
         if (!$valid) {
