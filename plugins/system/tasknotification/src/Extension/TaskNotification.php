@@ -12,7 +12,6 @@ namespace Joomla\Plugin\System\TaskNotification\Extension;
 
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailTemplate;
@@ -25,6 +24,7 @@ use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Filesystem\Path;
 use PHPMailer\PHPMailer\Exception as MailerException;
 
 // phpcs:disable PSR1.Files.SideEffects
