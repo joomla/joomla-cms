@@ -41,7 +41,7 @@ class ResetController extends BaseController
 
         /** @var \Joomla\Component\Users\Site\Model\ResetModel $model */
         $model = $this->getModel('Reset', 'Site');
-        $data  = $this->input->post->get('jform', array(), 'array');
+        $data  = $this->input->post->get('jform', [], 'array');
 
         // Submit the password reset request.
         $return = $model->processResetRequest($data);
@@ -92,7 +92,7 @@ class ResetController extends BaseController
 
         /** @var \Joomla\Component\Users\Site\Model\ResetModel $model */
         $model = $this->getModel('Reset', 'Site');
-        $data  = $this->input->get('jform', array(), 'array');
+        $data  = $this->input->get('jform', [], 'array');
 
         // Confirm the password reset request.
         $return = $model->processResetConfirm($data);
@@ -142,7 +142,7 @@ class ResetController extends BaseController
 
         /** @var \Joomla\Component\Users\Site\Model\ResetModel $model */
         $model = $this->getModel('Reset', 'Site');
-        $data  = $this->input->post->get('jform', array(), 'array');
+        $data  = $this->input->post->get('jform', [], 'array');
 
         // Complete the password reset request.
         $return = $model->processResetComplete($data);

@@ -67,9 +67,9 @@ class ComboField extends ListField
         // Get the field options.
         $options = $this->getOptions();
 
-        $extraData = array(
+        $extraData = [
             'options' => $options,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

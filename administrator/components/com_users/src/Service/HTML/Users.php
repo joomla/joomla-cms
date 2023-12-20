@@ -42,7 +42,7 @@ class Users
      */
     public function image($src)
     {
-        $src = preg_replace('#[^A-Z0-9\-_\./]#i', '', $src);
+        $src  = preg_replace('#[^A-Z0-9\-_\./]#i', '', $src);
         $file = JPATH_SITE . '/' . $src;
 
         Path::check($file);
@@ -132,14 +132,14 @@ class Users
             return '';
         }
 
-        $title = Text::plural('COM_USERS_N_USER_NOTES', $count);
+        $title  = Text::plural('COM_USERS_N_USER_NOTES', $count);
         $footer = '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
             . Text::_('JTOOLBAR_CLOSE') . '</button>';
 
         return HTMLHelper::_(
             'bootstrap.renderModal',
             'userModal_' . (int) $userId,
-            array(
+            [
                 'title'       => $title,
                 'backdrop'    => 'static',
                 'keyboard'    => true,
@@ -148,7 +148,7 @@ class Users
                 'url'         => Route::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&filter[user_id]=' . (int) $userId),
                 'height'      => '300px',
                 'width'       => '800px',
-            )
+            ]
         );
     }
 
@@ -166,8 +166,8 @@ class Users
     public function blockStates($self = false)
     {
         if ($self) {
-            $states = array(
-                1 => array(
+            $states = [
+                1 => [
                     'task'           => 'unblock',
                     'text'           => '',
                     'active_title'   => 'COM_USERS_TOOLBAR_BLOCK',
@@ -175,8 +175,8 @@ class Users
                     'tip'            => true,
                     'active_class'   => 'unpublish',
                     'inactive_class' => 'unpublish',
-                ),
-                0 => array(
+                ],
+                0 => [
                     'task'           => 'block',
                     'text'           => '',
                     'active_title'   => '',
@@ -184,11 +184,11 @@ class Users
                     'tip'            => true,
                     'active_class'   => 'publish',
                     'inactive_class' => 'publish',
-                )
-            );
+                ],
+            ];
         } else {
-            $states = array(
-                1 => array(
+            $states = [
+                1 => [
                     'task'           => 'unblock',
                     'text'           => '',
                     'active_title'   => 'COM_USERS_TOOLBAR_UNBLOCK',
@@ -196,8 +196,8 @@ class Users
                     'tip'            => true,
                     'active_class'   => 'unpublish',
                     'inactive_class' => 'unpublish',
-                ),
-                0 => array(
+                ],
+                0 => [
                     'task'           => 'block',
                     'text'           => '',
                     'active_title'   => 'COM_USERS_TOOLBAR_BLOCK',
@@ -205,8 +205,8 @@ class Users
                     'tip'            => true,
                     'active_class'   => 'publish',
                     'inactive_class' => 'publish',
-                )
-            );
+                ],
+            ];
         }
 
         return $states;
@@ -221,8 +221,8 @@ class Users
      */
     public function activateStates()
     {
-        $states = array(
-            1 => array(
+        $states = [
+            1 => [
                 'task'           => 'activate',
                 'text'           => '',
                 'active_title'   => 'COM_USERS_TOOLBAR_ACTIVATE',
@@ -230,8 +230,8 @@ class Users
                 'tip'            => true,
                 'active_class'   => 'unpublish',
                 'inactive_class' => 'unpublish',
-            ),
-            0 => array(
+            ],
+            0 => [
                 'task'           => '',
                 'text'           => '',
                 'active_title'   => '',
@@ -239,8 +239,8 @@ class Users
                 'tip'            => true,
                 'active_class'   => 'publish',
                 'inactive_class' => 'publish',
-            )
-        );
+            ],
+        ];
 
         return $states;
     }
@@ -295,7 +295,7 @@ class Users
         if (empty($value)) {
             return static::value($value);
         } else {
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select($db->quoteName('title'))
                 ->from($db->quoteName('#__template_styles'))
@@ -398,8 +398,8 @@ class Users
         if (empty($value)) {
             return static::value($value);
         } else {
-            $db = Factory::getDbo();
-            $lang = Factory::getLanguage();
+            $db    = Factory::getDbo();
+            $lang  = Factory::getLanguage();
             $query = $db->getQuery(true)
                 ->select($db->quoteName('name'))
                 ->from($db->quoteName('#__extensions'))

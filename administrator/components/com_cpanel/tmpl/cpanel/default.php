@@ -36,7 +36,7 @@ $user = Factory::getUser();
 echo HTMLHelper::_(
     'bootstrap.renderModal',
     'moduleDashboardAddModal',
-    array(
+    [
         'title'       => Text::_('COM_CPANEL_ADD_MODULE_MODAL_TITLE'),
         'backdrop'    => 'static',
         'url'         => Route::_('index.php?option=com_cpanel&task=addModule&function=jSelectModuleType&position=' . $this->escape($this->position)),
@@ -46,7 +46,7 @@ echo HTMLHelper::_(
             . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
             . '<button type="button" id="btnModalSaveAndClose" class="button-save btn btn-success hidden" data-bs-target="#saveBtn">'
             . Text::_('JSAVE') . '</button>',
-    )
+    ]
 );
 ?>
 <div id="cpanel-modules">
@@ -54,11 +54,11 @@ echo HTMLHelper::_(
         <div class="card-columns">
         <?php if ($this->quickicons) :
             foreach ($this->quickicons as $iconmodule) {
-                echo ModuleHelper::renderModule($iconmodule, array('style' => 'well'));
+                echo ModuleHelper::renderModule($iconmodule, ['style' => 'well']);
             }
         endif;
         foreach ($this->modules as $module) {
-            echo ModuleHelper::renderModule($module, array('style' => 'well'));
+            echo ModuleHelper::renderModule($module, ['style' => 'well']);
         }
         ?>
         <?php if ($user->authorise('core.create', 'com_modules')) : ?>

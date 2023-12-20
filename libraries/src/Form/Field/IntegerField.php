@@ -34,18 +34,18 @@ class IntegerField extends ListField
     /**
      * Method to get the field options.
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   1.7.0
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         // Initialize some field attributes.
         $first = (int) $this->element['first'];
-        $last = (int) $this->element['last'];
-        $step = (int) $this->element['step'];
+        $last  = (int) $this->element['last'];
+        $step  = (int) $this->element['step'];
 
         // Sanity checks.
         if ($step == 0) {

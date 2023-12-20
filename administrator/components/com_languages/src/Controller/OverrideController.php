@@ -40,7 +40,7 @@ class OverrideController extends FormController
         // Do not cache the response to this, its a redirect
         $this->app->allowCache(false);
 
-        $cid     = (array) $this->input->post->get('cid', array(), 'string');
+        $cid     = (array) $this->input->post->get('cid', [], 'string');
         $context = "$this->option.edit.$this->context";
 
         // Get the constant name.
@@ -75,11 +75,11 @@ class OverrideController extends FormController
 
         $app     = $this->app;
         $model   = $this->getModel();
-        $data    = $this->input->post->get('jform', array(), 'array');
+        $data    = $this->input->post->get('jform', [], 'array');
         $context = "$this->option.edit.$this->context";
         $task    = $this->getTask();
 
-        $recordId = $this->input->get('id');
+        $recordId   = $this->input->get('id');
         $data['id'] = $recordId;
 
         // Access check.

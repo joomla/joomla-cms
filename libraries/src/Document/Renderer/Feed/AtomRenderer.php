@@ -65,7 +65,7 @@ class AtomRenderer extends DocumentRenderer
 
         $data = $this->_doc;
 
-        $url = Uri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+        $url            = Uri::getInstance()->toString(['scheme', 'user', 'pass', 'host', 'port']);
         $syndicationURL = Route::_('&format=feed&type=atom');
 
         $title = $data->getTitle();

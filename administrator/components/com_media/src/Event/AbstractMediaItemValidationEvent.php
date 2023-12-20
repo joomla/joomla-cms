@@ -58,12 +58,12 @@ abstract class AbstractMediaItemValidationEvent extends AbstractImmutableEvent
         }
 
         // Non empty string
-        if (empty($item->name) || !is_string($item->name)) {
+        if (!isset($item->name) || !is_string($item->name) || trim($item->name) === '') {
             throw new \BadMethodCallException("Property 'name' of argument 'item' of event {$this->name} has a wrong item. Valid: non empty string");
         }
 
         // Non empty string
-        if (empty($item->path) || !is_string($item->path)) {
+        if (!isset($item->path) || !is_string($item->path) || trim($item->path) === '') {
             throw new \BadMethodCallException("Property 'path' of argument 'item' of event {$this->name} has a wrong item. Valid: non empty string");
         }
 

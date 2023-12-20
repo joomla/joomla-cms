@@ -38,15 +38,15 @@ class FeedEntry
      * @var    array  The entry properties.
      * @since  3.1.4
      */
-    protected $properties = array(
-        'uri'  => '',
-        'title' => '',
-        'updatedDate' => '',
-        'content' => '',
-        'categories' => array(),
-        'contributors' => array(),
-        'links' => array(),
-    );
+    protected $properties = [
+        'uri'          => '',
+        'title'        => '',
+        'updatedDate'  => '',
+        'content'      => '',
+        'categories'   => [],
+        'contributors' => [],
+        'links'        => [],
+    ];
 
     /**
      * Magic method to return values for feed entry properties.
@@ -102,7 +102,7 @@ class FeedEntry
         }
 
         // Disallow setting categories, contributors, or links directly.
-        if (\in_array($name, array('categories', 'contributors', 'links'))) {
+        if (\in_array($name, ['categories', 'contributors', 'links'])) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'Cannot directly set %1$s property "%2$s".',

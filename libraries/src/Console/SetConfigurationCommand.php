@@ -110,7 +110,7 @@ class SetConfigurationCommand extends AbstractCommand
         $language->load('com_config', JPATH_ADMINISTRATOR, null, false, false) ||
         $language->load('com_config', JPATH_ADMINISTRATOR, null, true);
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
+        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 
     /**

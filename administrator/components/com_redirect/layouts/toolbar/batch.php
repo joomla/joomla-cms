@@ -10,9 +10,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
-
-HTMLHelper::_('behavior.core');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = \Joomla\CMS\Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa->useScript('core');
 
 $title = $displayData['title'];
 

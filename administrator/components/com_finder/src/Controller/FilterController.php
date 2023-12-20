@@ -42,12 +42,12 @@ class FilterController extends FormController
         $this->checkToken();
 
         /** @var \Joomla\Component\Finder\Administrator\Model\FilterModel $model */
-        $model = $this->getModel();
-        $table = $model->getTable();
-        $data = $this->input->post->get('jform', array(), 'array');
+        $model   = $this->getModel();
+        $table   = $model->getTable();
+        $data    = $this->input->post->get('jform', [], 'array');
         $checkin = $table->hasField('checked_out');
         $context = "$this->option.edit.$this->context";
-        $task = $this->getTask();
+        $task    = $this->getTask();
 
         // Determine the name of the primary key for the data.
         if (empty($key)) {
@@ -88,7 +88,7 @@ class FilterController extends FormController
 
             // Reset the ID and then treat the request as for Apply.
             $data[$key] = 0;
-            $task = 'apply';
+            $task       = 'apply';
         }
 
         // Access check.
@@ -138,7 +138,7 @@ class FilterController extends FormController
         }
 
         // Get and sanitize the filter data.
-        $validData['data'] = $this->input->post->get('t', array(), 'array');
+        $validData['data'] = $this->input->post->get('t', [], 'array');
         $validData['data'] = array_unique($validData['data']);
         $validData['data'] = ArrayHelper::toInteger($validData['data']);
 

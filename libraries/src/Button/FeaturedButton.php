@@ -103,12 +103,12 @@ class FeaturedButton extends ActionButton
 
                 if ($featuredUp && $nowDate < $featuredUp->toUnix()) {
                     $options['tip_title'] = Text::_('JLIB_HTML_FEATURED_PENDING_ITEM');
-                    $default['icon'] = 'pending';
+                    $default['icon']      = 'pending';
                 }
 
                 if ($featuredDown && $nowDate > $featuredDown->toUnix()) {
                     $options['tip_title'] = Text::_('JLIB_HTML_FEATURED_EXPIRED_ITEM');
-                    $default['icon'] = 'expired';
+                    $default['icon']      = 'expired';
                 }
             }
 

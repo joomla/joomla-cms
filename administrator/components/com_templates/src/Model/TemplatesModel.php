@@ -38,10 +38,10 @@ class TemplatesModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
                 'folder', 'a.folder',
@@ -51,7 +51,7 @@ class TemplatesModel extends ListModel
                 'state', 'a.state',
                 'enabled', 'a.enabled',
                 'ordering', 'a.ordering',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -69,9 +69,9 @@ class TemplatesModel extends ListModel
         $items = parent::getItems();
 
         foreach ($items as &$item) {
-            $client = ApplicationHelper::getClientInfo($item->client_id);
+            $client        = ApplicationHelper::getClientInfo($item->client_id);
             $item->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $item->element);
-            $num = $this->updated($item->extension_id);
+            $num           = $this->updated($item->extension_id);
 
             if ($num) {
                 $item->updated = $num;
@@ -125,7 +125,7 @@ class TemplatesModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.
@@ -210,7 +210,7 @@ class TemplatesModel extends ListModel
 
         // Special case for the client id.
         $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-        $clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
+        $clientId = (!in_array($clientId, [0, 1])) ? 0 : $clientId;
         $this->setState('client_id', $clientId);
 
         // Load the parameters.

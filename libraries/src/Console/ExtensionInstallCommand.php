@@ -76,7 +76,7 @@ class ExtensionInstallCommand extends AbstractCommand
     private function configureIO(InputInterface $input, OutputInterface $output): void
     {
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
+        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 
     /**
@@ -122,8 +122,8 @@ class ExtensionInstallCommand extends AbstractCommand
             return false;
         }
 
-        $tmpPath = $this->getApplication()->get('tmp_path');
-        $tmpPath = $tmpPath . '/' . basename($path);
+        $tmpPath  = $this->getApplication()->get('tmp_path');
+        $tmpPath  = $tmpPath . '/' . basename($path);
         $package  = InstallerHelper::unpack($path, true);
 
         if ($package['type'] === false) {

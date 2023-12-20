@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="captcha" method="upgrade">
 	<name>plg_captcha_recaptcha_invisible</name>
 	<version>3.8</version>
@@ -9,8 +9,10 @@
 	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>PLG_CAPTCHA_RECAPTCHA_INVISIBLE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Captcha\InvisibleReCaptcha</namespace>
 	<files>
-		<filename plugin="recaptcha_invisible">recaptcha_invisible.php</filename>
+		<folder plugin="recaptcha_invisible">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_captcha_recaptcha_invisible.ini</language>

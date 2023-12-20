@@ -46,7 +46,7 @@ class MenutypeField extends ListField
      */
     protected function getInput()
     {
-        $html     = array();
+        $html     = [];
         $recordId = (int) $this->form->getValue('id');
         $size     = (string) ($v = $this->element['size']) ? ' size="' . $v . '"' : '';
         $class    = (string) ($v = $this->element['class']) ? ' class="form-control ' . $v . '"' : ' class="form-control"';
@@ -76,12 +76,12 @@ class MenutypeField extends ListField
                 break;
 
             default:
-                $link = $this->form->getValue('link');
+                $link  = $this->form->getValue('link');
                 $value = '';
 
                 if ($link !== null) {
                     $model = Factory::getApplication()->bootComponent('com_menus')
-                        ->getMVCFactory()->createModel('Menutypes', 'Administrator', array('ignore_request' => true));
+                        ->getMVCFactory()->createModel('Menutypes', 'Administrator', ['ignore_request' => true]);
                     $model->setState('client_id', $clientId);
 
                     $rlu   = $model->getReverseLookup();
@@ -92,7 +92,7 @@ class MenutypeField extends ListField
                 break;
         }
 
-        $link = Route::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
+        $link   = Route::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
         $html[] = '<span class="input-group"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
             . '" value="' . $value . '"' . $size . $class . '>';
         $html[] = '<button type="button" data-bs-target="#menuTypeModal" class="btn btn-primary" data-bs-toggle="modal">'
@@ -101,7 +101,7 @@ class MenutypeField extends ListField
         $html[] = HTMLHelper::_(
             'bootstrap.renderModal',
             'menuTypeModal',
-            array(
+            [
                 'url'        => $link,
                 'title'      => Text::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL'),
                 'width'      => '800px',
@@ -109,8 +109,8 @@ class MenutypeField extends ListField
                 'modalWidth' => 80,
                 'bodyHeight' => 70,
                 'footer'     => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
-                        . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-            )
+                        . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
+            ]
         );
 
         // This hidden field has an ID so it can be used for showon attributes

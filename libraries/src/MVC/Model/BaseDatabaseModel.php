@@ -78,13 +78,13 @@ abstract class BaseDatabaseModel extends BaseModel implements
     /**
      * Constructor
      *
-     * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   3.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         parent::__construct($config);
 
@@ -100,13 +100,14 @@ abstract class BaseDatabaseModel extends BaseModel implements
         }
 
         /**
-         * @deprecated 5.0 Database instance is injected through the setter function,
-         *                 subclasses should not use the db instance in constructor anymore
+         * @deprecated  4.3 will be Removed in 6.0
+         *              Database instance is injected through the setter function,
+         *              subclasses should not use the db instance in constructor anymore
          */
         $db = \array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo();
 
         if ($db) {
-            @trigger_error(sprintf('Database is not available in constructor in 5.0.'), E_USER_DEPRECATED);
+            @trigger_error(sprintf('Database is not available in constructor in 6.0.'), E_USER_DEPRECATED);
             $this->setDatabase($db);
 
             // Is needed, when models use the deprecated MVC DatabaseAwareTrait, as the trait is overriding the local functions
@@ -144,9 +145,9 @@ abstract class BaseDatabaseModel extends BaseModel implements
     /**
      * Gets an array of objects from the results of database query.
      *
-     * @param   string   $query       The query.
-     * @param   integer  $limitstart  Offset.
-     * @param   integer  $limit       The number of records.
+     * @param   DatabaseQuery|string   $query       The query.
+     * @param   integer                $limitstart  Offset.
+     * @param   integer                $limit       The number of records.
      *
      * @return  object[]  An array of results.
      *
@@ -224,14 +225,20 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @see     \JTable::getInstance()
      */
-    protected function _createTable($name, $prefix = 'Table', $config = array())
+    protected function _createTable($name, $prefix = 'Table', $config = [])
     {
         // Make sure we are returning a DBO object
         if (!\array_key_exists('dbo', $config)) {
             $config['dbo'] = $this->getDbo();
         }
 
-        return $this->getMVCFactory()->createTable($name, $prefix, $config);
+        $table = $this->getMVCFactory()->createTable($name, $prefix, $config);
+
+        if ($table instanceof CurrentUserInterface) {
+            $table->setCurrentUser($this->getCurrentUser());
+        }
+
+        return $table;
     }
 
     /**
@@ -246,7 +253,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @throws  \Exception
      */
-    public function getTable($name = '', $prefix = '', $options = array())
+    public function getTable($name = '', $prefix = '', $options = [])
     {
         if (empty($name)) {
             $name = $this->getName();
@@ -273,7 +280,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      */
     public function isCheckedOut($item)
     {
-        $table = $this->getTable();
+        $table           = $this->getTable();
         $checkedOutField = $table->getColumnAlias('checked_out');
 
         if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != $this->getCurrentUser()->id) {
@@ -297,7 +304,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
         $app = Factory::getApplication();
 
         $options = [
-            'defaultgroup' => $group ?: ($this->option ?? $app->input->get('option')),
+            'defaultgroup' => $group ?: ($this->option ?? $app->getInput()->get('option')),
             'cachebase'    => $app->get('cache_path', JPATH_CACHE),
             'result'       => true,
         ];
@@ -329,6 +336,31 @@ abstract class BaseDatabaseModel extends BaseModel implements
     }
 
     /**
+     * Get the event dispatcher.
+     *
+     * The override was made to keep a backward compatibility for legacy component.
+     * TODO: Remove the override in 6.0
+     *
+     * @return  DispatcherInterface
+     *
+     * @since   4.4.0
+     * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
+     */
+    public function getDispatcher()
+    {
+        if (!$this->dispatcher) {
+            @trigger_error(
+                sprintf('Dispatcher for %s should be set through MVC factory. It will throw an exception in 6.0', __CLASS__),
+                E_USER_DEPRECATED
+            );
+
+            return Factory::getContainer()->get(DispatcherInterface::class);
+        }
+
+        return $this->dispatcher;
+    }
+
+    /**
      * Dispatches the given event on the internal dispatcher, does a fallback to the global one.
      *
      * @param   EventInterface  $event  The event
@@ -336,14 +368,20 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @return  void
      *
      * @since   4.1.0
+     *
+     * @deprecated 4.4 will be removed in 6.0. Use $this->getDispatcher() directly.
      */
     protected function dispatchEvent(EventInterface $event)
     {
-        try {
-            $this->getDispatcher()->dispatch($event->getName(), $event);
-        } catch (\UnexpectedValueException $e) {
-            Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
-        }
+        $this->getDispatcher()->dispatch($event->getName(), $event);
+
+        @trigger_error(
+            sprintf(
+                'Method %s is deprecated and will be removed in 6.0. Use getDispatcher()->dispatch() directly.',
+                __METHOD__
+            ),
+            E_USER_DEPRECATED
+        );
     }
 
     /**
@@ -354,7 +392,9 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   4.2.0
      * @throws  \UnexpectedValueException
      *
-     * @deprecated  5.0 Use getDatabase() instead
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use getDatabase() instead
+     *              Example: $model->getDatabase();
      */
     public function getDbo()
     {
@@ -368,13 +408,15 @@ abstract class BaseDatabaseModel extends BaseModel implements
     /**
      * Set the database driver.
      *
-     * @param   DatabaseInterface  $db  The database driver.
+     * @param   ?DatabaseInterface  $db  The database driver.
      *
      * @return  void
      *
      * @since   4.2.0
      *
-     * @deprecated  5.0 Use setDatabase() instead
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use setDatabase() instead
+     *              Example: $model->setDatabase($db);
      */
     public function setDbo(DatabaseInterface $db = null)
     {
@@ -394,7 +436,8 @@ abstract class BaseDatabaseModel extends BaseModel implements
      *
      * @since   4.2.0
      *
-     * @deprecated  5.0 Use getDatabase() instead of directly accessing _db
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use getDatabase() instead of directly accessing _db
      */
     public function __get($name)
     {

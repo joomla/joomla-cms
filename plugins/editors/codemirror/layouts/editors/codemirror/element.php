@@ -24,11 +24,11 @@ $cols            = $displayData->cols;
 $rows            = $displayData->rows;
 $content         = $displayData->content;
 $extJS           = JDEBUG ? '.js' : '.min.js';
-$modifier        = $params->get('fullScreenMod', array()) ? implode(' + ', $params->get('fullScreenMod', array())) . ' + ' : '';
+$modifier        = $params->get('fullScreenMod', []) ? implode(' + ', $params->get('fullScreenMod', [])) . ' + ' : '';
 $basePath        = $displayData->basePath;
 $modePath        = $displayData->modePath;
 $modPath         = 'mod-path="' . Uri::root() . $modePath . $extJS . '"';
-$fskeys          = $params->get('fullScreenMod', array());
+$fskeys          = $params->get('fullScreenMod', []);
 $fskeys[]        = $params->get('fullScreen', 'F10');
 $fullScreenCombo = implode('-', $fskeys);
 $fsCombo         = 'fs-combo=' . json_encode($fullScreenCombo);
@@ -36,6 +36,11 @@ $option          = 'options=\'' . json_encode($options) . '\'';
 $mediaVersion    = Factory::getDocument()->getMediaVersion();
 $editor          = 'editor="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/codemirror' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '?' . $mediaVersion . '"';
 $addons          = 'addons="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/addons' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '?' . $mediaVersion . '"';
+
+// Remove the fullscreen message and option if readonly not null.
+if (isset($options->readOnly)) {
+    $fsCombo = '';
+}
 
 Factory::getDocument()->getWebAssetManager()
     ->registerAndUseStyle('codemirror.lib.main', $basePath . 'lib/codemirror.css')
@@ -57,8 +62,10 @@ Factory::getDocument()->getWebAssetManager()
 ?>
 <joomla-editor-codemirror <?php echo $editor . ' ' . $addons . ' ' . $modPath . ' ' . $fsCombo . ' ' . $option; ?>>
 <?php echo '<textarea name="', $name, '" id="', $id, '" cols="', $cols, '" rows="', $rows, '">', $content, '</textarea>'; ?>
-<p class="small float-end">
-    <?php echo Text::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $fullScreenCombo); ?>
-</p>
+<?php if ($fsCombo !== '') { ?>
+    <p class="small float-end">
+        <?php echo Text::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $fullScreenCombo); ?>
+    </p>
+<?php }; ?>
 </joomla-editor-codemirror>
 <?php echo $displayData->buttons; ?>

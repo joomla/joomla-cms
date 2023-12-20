@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Exception;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxSaveLabel;
 use Joomla\CMS\User\User;
 
@@ -39,7 +38,7 @@ trait AjaxHandlerSaveLabel
     public function onAjaxWebauthnSavelabel(AjaxSaveLabel $event): void
     {
         // Initialize objects
-        $input      = $this->getApplication()->input;
+        $input      = $this->getApplication()->getInput();
         $repository = $this->authenticationHelper->getCredentialsRepository();
 
         // Retrieve data from the request
@@ -66,7 +65,7 @@ trait AjaxHandlerSaveLabel
             $credentialHandle = $repository->getUserHandleFor($credentialId);
             $user             = $this->getApplication()->getIdentity() ?? new User();
             $myHandle         = $repository->getHandleFromUserId($user->id);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $event->addResult(false);
 
             return;
@@ -88,7 +87,7 @@ trait AjaxHandlerSaveLabel
         // Save the new label
         try {
             $repository->setLabel($credentialId, $newLabel);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $event->addResult(false);
 
             return;

@@ -17,7 +17,9 @@ namespace Joomla\CMS\Application\CLI;
  * Class CliInput
  *
  * @since       4.0.0
- * @deprecated  5.0  Use the `joomla/console` package instead
+ *
+ * @deprecated  4.3 will be removed in 6.0
+ *              Use the `joomla/console` package instead
  */
 class CliInput
 {

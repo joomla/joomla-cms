@@ -43,9 +43,9 @@ class MenuParentField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select(
                 [

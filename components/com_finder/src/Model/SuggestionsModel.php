@@ -72,9 +72,9 @@ class SuggestionsModel extends ListModel
         $lang   = Helper::getPrimaryLanguage($this->getState('language'));
 
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db          = $this->getDatabase();
         $termIdQuery = $db->getQuery(true);
-        $termQuery = $db->getQuery(true);
+        $termQuery   = $db->getQuery(true);
 
         // Limit term count to a reasonable number of results to reduce main query join size
         $termIdQuery->select('ti.term_id')
@@ -151,10 +151,10 @@ class SuggestionsModel extends ListModel
     protected function populateState($ordering = null, $direction = null)
     {
         // Get the configuration options.
-        $app = Factory::getApplication();
-        $input = $app->input;
+        $app    = Factory::getApplication();
+        $input  = $app->getInput();
         $params = ComponentHelper::getParams('com_finder');
-        $user = $this->getCurrentUser();
+        $user   = $this->getCurrentUser();
 
         // Get the query input.
         $this->setState('input', $input->request->get('q', '', 'string'));

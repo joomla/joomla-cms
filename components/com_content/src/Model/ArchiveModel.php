@@ -49,7 +49,8 @@ class ArchiveModel extends ArticlesModel
     {
         parent::populateState();
 
-        $app = Factory::getApplication();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
         // Add archive properties
         $params = $this->state->get('params');
@@ -58,15 +59,15 @@ class ArchiveModel extends ArticlesModel
         $this->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
 
         // Filter on month, year
-        $this->setState('filter.month', $app->input->getInt('month'));
-        $this->setState('filter.year', $app->input->getInt('year'));
+        $this->setState('filter.month', $input->getInt('month'));
+        $this->setState('filter.year', $input->getInt('year'));
 
         // Optional filter text
-        $this->setState('list.filter', $app->input->getString('filter-search'));
+        $this->setState('list.filter', $input->getString('filter-search'));
 
         // Get list limit
-        $itemid = $app->input->get('Itemid', 0, 'int');
-        $limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num', 20), 'uint');
+        $itemid = $input->get('Itemid', 0, 'int');
+        $limit  = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num', 20), 'uint');
         $this->setState('list.limit', $limit);
 
         // Set the archive ordering
@@ -81,7 +82,7 @@ class ArchiveModel extends ArticlesModel
     }
 
     /**
-     * Get the master query for retrieving a list of articles subject to the model state.
+     * Get the main query for retrieving a list of articles subject to the model state.
      *
      * @return  \Joomla\Database\DatabaseQuery
      *
@@ -91,13 +92,13 @@ class ArchiveModel extends ArticlesModel
     {
         $params           = $this->state->params;
         $app              = Factory::getApplication();
-        $catids           = $app->input->get('catid', array(), 'array');
-        $catids           = array_values(array_diff($catids, array('')));
+        $catids           = $app->getInput()->get('catid', [], 'array');
+        $catids           = array_values(array_diff($catids, ['']));
 
         $articleOrderDate = $params->get('order_date');
 
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = parent::getListQuery();
 
         // Add routing for archive
@@ -145,8 +146,8 @@ class ArchiveModel extends ArticlesModel
             $params = $app->getParams();
 
             // Get the pagination request variables
-            $limit      = $app->input->get('limit', $params->get('display_num', 20), 'uint');
-            $limitstart = $app->input->get('limitstart', 0, 'uint');
+            $limit      = $app->getInput()->get('limit', $params->get('display_num', 20), 'uint');
+            $limitstart = $app->getInput()->get('limitstart', 0, 'uint');
 
             $query = $this->_buildQuery();
 
@@ -165,27 +166,28 @@ class ArchiveModel extends ArticlesModel
      */
     public function getYears()
     {
-        $db      = $this->getDatabase();
-        $nowDate = Factory::getDate()->toSql();
-        $query   = $db->getQuery(true);
-        $years   = $query->year($db->quoteName('c.created'));
+        $db        = $this->getDatabase();
+        $nowDate   = Factory::getDate()->toSql();
+        $query     = $db->getQuery(true);
+        $queryDate = QueryHelper::getQueryDate($this->state->params->get('order_date'), $db);
+        $years     = $query->year($queryDate);
 
         $query->select('DISTINCT ' . $years)
-            ->from($db->quoteName('#__content', 'c'))
-            ->where($db->quoteName('c.state') . ' = ' . ContentComponent::CONDITION_ARCHIVED)
+            ->from($db->quoteName('#__content', 'a'))
+            ->where($db->quoteName('a.state') . ' = ' . ContentComponent::CONDITION_ARCHIVED)
             ->extendWhere(
                 'AND',
                 [
-                    $db->quoteName('c.publish_up') . ' IS NULL',
-                    $db->quoteName('c.publish_up') . ' <= :publishUp',
+                    $db->quoteName('a.publish_up') . ' IS NULL',
+                    $db->quoteName('a.publish_up') . ' <= :publishUp',
                 ],
                 'OR'
             )
             ->extendWhere(
                 'AND',
                 [
-                    $db->quoteName('c.publish_down') . ' IS NULL',
-                    $db->quoteName('c.publish_down') . ' >= :publishDown',
+                    $db->quoteName('a.publish_down') . ' IS NULL',
+                    $db->quoteName('a.publish_down') . ' >= :publishDown',
                 ],
                 'OR'
             )

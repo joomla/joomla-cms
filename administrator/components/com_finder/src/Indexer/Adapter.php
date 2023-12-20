@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
@@ -164,7 +163,7 @@ abstract class Adapter extends CMSPlugin
      * @return  void
      *
      * @since   2.5
-     * @throws  Exception on error.
+     * @throws  \Exception on error.
      */
     public function onStartIndex()
     {
@@ -178,7 +177,7 @@ abstract class Adapter extends CMSPlugin
         $iState->totalItems += $total;
 
         // Populate the indexer state information for the adapter.
-        $iState->pluginState[$this->context]['total'] = $total;
+        $iState->pluginState[$this->context]['total']  = $total;
         $iState->pluginState[$this->context]['offset'] = 0;
 
         // Set the indexer state.
@@ -192,7 +191,7 @@ abstract class Adapter extends CMSPlugin
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on error.
+     * @throws  \Exception on error.
      */
     public function onBeforeIndex()
     {
@@ -218,7 +217,7 @@ abstract class Adapter extends CMSPlugin
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on error.
+     * @throws  \Exception on error.
      */
     public function onBuildIndex()
     {
@@ -233,7 +232,7 @@ abstract class Adapter extends CMSPlugin
 
         // Get the batch offset and size.
         $offset = (int) $aState['offset'];
-        $limit = (int) ($iState->batchSize - $iState->batchOffset);
+        $limit  = (int) ($iState->batchSize - $iState->batchOffset);
 
         // Get the content items to index.
         $items = $this->getItems($offset, $limit);
@@ -250,7 +249,7 @@ abstract class Adapter extends CMSPlugin
         }
 
         // Update the indexer state.
-        $aState['offset'] = $offset;
+        $aState['offset']                    = $offset;
         $iState->pluginState[$this->context] = $aState;
         Indexer::setState($iState);
 
@@ -266,10 +265,10 @@ abstract class Adapter extends CMSPlugin
      */
     public function onFinderGarbageCollection()
     {
-        $db = $this->db;
+        $db      = $this->db;
         $type_id = $this->getTypeId();
 
-        $query = $db->getQuery(true);
+        $query    = $db->getQuery(true);
         $subquery = $db->getQuery(true);
         $subquery->select('CONCAT(' . $db->quote($this->getUrl('', $this->extension, $this->layout)) . ', id)')
             ->from($db->quoteName($this->table));
@@ -300,7 +299,7 @@ abstract class Adapter extends CMSPlugin
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function change($id, $property, $value)
     {
@@ -331,7 +330,7 @@ abstract class Adapter extends CMSPlugin
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     abstract protected function index(Result $item);
 
@@ -343,15 +342,12 @@ abstract class Adapter extends CMSPlugin
      * @return  void
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function reindex($id)
     {
         // Run the setup method.
         $this->setup();
-
-        // Remove the old item.
-        $this->remove($id, false);
 
         // Get the item.
         $item = $this->getItem($id);
@@ -371,7 +367,7 @@ abstract class Adapter extends CMSPlugin
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function remove($id, $removeTaxonomies = true)
     {
@@ -388,7 +384,7 @@ abstract class Adapter extends CMSPlugin
 
         // Check the items.
         if (empty($items)) {
-            Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', array($id));
+            Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', [$id]);
 
             return true;
         }
@@ -407,7 +403,7 @@ abstract class Adapter extends CMSPlugin
      * @return  boolean  True on success, false on failure.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     abstract protected function setup();
 
@@ -523,7 +519,7 @@ abstract class Adapter extends CMSPlugin
      * @return  integer  The number of content items available to index.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function getContentCount()
     {
@@ -559,7 +555,7 @@ abstract class Adapter extends CMSPlugin
      * @return  Result  A Result object.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function getItem($id)
     {
@@ -593,7 +589,7 @@ abstract class Adapter extends CMSPlugin
      * @return  Result[]  An array of Result objects.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function getItems($offset, $limit, $query = null)
     {
@@ -637,7 +633,7 @@ abstract class Adapter extends CMSPlugin
      *
      * @param   integer  $id  The plugin ID
      *
-     * @return  string  The plugin type
+     * @return  string|null  The plugin type
      *
      * @since   2.5
      */
@@ -647,6 +643,7 @@ abstract class Adapter extends CMSPlugin
         $query = $this->db->getQuery(true)
             ->select($this->db->quoteName('element'))
             ->from($this->db->quoteName('#__extensions'))
+            ->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('finder'))
             ->where($this->db->quoteName('extension_id') . ' = ' . (int) $id);
         $this->db->setQuery($query);
 
@@ -721,7 +718,7 @@ abstract class Adapter extends CMSPlugin
      * @return  integer  The numeric type id for the content.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function getTypeId()
     {
@@ -761,14 +758,14 @@ abstract class Adapter extends CMSPlugin
      * @return  mixed  The title on success, null if not found.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function getItemMenuTitle($url)
     {
         $return = null;
 
         // Set variables
-        $user = Factory::getUser();
+        $user   = Factory::getUser();
         $groups = implode(',', $user->getAuthorisedViewLevels());
 
         // Build a query to get the menu params.
@@ -881,6 +878,8 @@ abstract class Adapter extends CMSPlugin
                 foreach ($items as $item) {
                     $this->remove($item);
                 }
+                // Stop processing plugins
+                break;
             }
         }
     }

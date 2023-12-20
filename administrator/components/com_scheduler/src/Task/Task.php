@@ -22,7 +22,6 @@ use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Table\TaskTable;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -142,7 +141,7 @@ class Task implements LoggerAwareInterface
 
         $this->set('taskOption', $taskOption);
         $this->app = Factory::getApplication();
-        $this->db  = Factory::getContainer()->get(DatabaseDriver::class);
+        $this->db  = Factory::getContainer()->get(DatabaseInterface::class);
         $this->setLogger(Log::createDelegatedLogger());
         $this->logCategory = 'task' . $this->get('id');
 
@@ -231,7 +230,7 @@ class Task implements LoggerAwareInterface
             // Suppress the exception for now, we'll throw it again once it's safe
             $this->log(Text::sprintf('COM_SCHEDULER_TASK_ROUTINE_EXCEPTION', $e->getMessage()), 'error');
             $this->snapshot['exception'] = $e;
-            $this->snapshot['status'] = Status::KNOCKOUT;
+            $this->snapshot['status']    = Status::KNOCKOUT;
         }
 
         $resultSnapshot = $event->getResultSnapshot();
@@ -316,14 +315,14 @@ class Task implements LoggerAwareInterface
         $now              = $now->toSql();
 
         // @todo update or remove this method
-        $query->update($db->qn('#__scheduler_tasks'))
+        $query->update($db->quoteName('#__scheduler_tasks'))
             ->set('locked = :now')
-            ->where($db->qn('id') . ' = :taskId')
+            ->where($db->quoteName('id') . ' = :taskId')
             ->extendWhere(
                 'AND',
                 [
-                    $db->qn('locked') . ' < :threshold',
-                    $db->qn('locked') . 'IS NULL',
+                    $db->quoteName('locked') . ' < :threshold',
+                    $db->quoteName('locked') . 'IS NULL',
                 ],
                 'OR'
             )
@@ -365,10 +364,10 @@ class Task implements LoggerAwareInterface
         $query = $db->getQuery(true);
         $id    = $this->get('id');
 
-        $query->update($db->qn('#__scheduler_tasks', 't'))
+        $query->update($db->quoteName('#__scheduler_tasks', 't'))
             ->set('locked = NULL')
-            ->where($db->qn('id') . ' = :taskId')
-            ->where($db->qn('locked') . ' IS NOT NULL')
+            ->where($db->quoteName('id') . ' = :taskId')
+            ->where($db->quoteName('locked') . ' IS NOT NULL')
             ->bind(':taskId', $id, ParameterType::INTEGER);
 
         if ($update) {
@@ -439,7 +438,7 @@ class Task implements LoggerAwareInterface
         $id       = $this->get('id');
         $nextExec = (new ExecRuleHelper($this->taskRegistry->toObject()))->nextExec(true, true);
 
-        $query->update($db->qn('#__scheduler_tasks', 't'))
+        $query->update($db->quoteName('#__scheduler_tasks', 't'))
             ->set('t.next_execution = :nextExec')
             ->where('t.id = :id')
             ->bind(':nextExec', $nextExec)

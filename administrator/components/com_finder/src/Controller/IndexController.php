@@ -37,7 +37,7 @@ class IndexController extends AdminController
      *
      * @since   2.5
      */
-    public function getModel($name = 'Index', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Index', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -79,7 +79,9 @@ class IndexController extends AdminController
         $this->checkToken();
 
         // Remove the script time limit.
-        @set_time_limit(0);
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(0);
+        }
 
         /** @var \Joomla\Component\Finder\Administrator\Model\IndexModel $model */
         $model = $this->getModel('Index', 'Administrator');
