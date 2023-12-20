@@ -253,6 +253,10 @@
       box-shadow: none;
     }
 
+    .navbar-toggler-icon {
+      background-image: none;
+    }
+
     .navbar-toggler-icon::before {
       display: inline-block;
       font: normal normal 900 28px/1 "Font Awesome 6 Free";
