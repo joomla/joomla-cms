@@ -170,7 +170,7 @@ joomla-tab[orientation=vertical] {
       margin: -1px 0;
       text-decoration: none;
       border-top: 1px solid transparent;
-      border-bottom: 1px solid $gray-300;
+      border-bottom: $joomla-tab-vert-border-bottom; //1px solid $gray-300;
       box-shadow: none;
 
       &[aria-expanded=true],
@@ -226,7 +226,7 @@ joomla-tab[view=accordion] {
       text-align: start;
       text-decoration: none;
       border: 0;
-      border-bottom: 1px solid $gray-300;
+      border-bottom: $joomla-tab-vert-border-bottom; //1px solid $gray-300;
       box-shadow: none;
 
       &[aria-expanded=true]::after,
@@ -254,7 +254,7 @@ joomla-tab[view=accordion] {
       display: block;
       width: 100%;
       max-width: 100%;
-      border-bottom: 1px solid $gray-300;
+      border-bottom: $joomla-tab-vert-border-bottom; //1px solid $gray-300;
     }
   }
 
@@ -313,11 +313,11 @@ joomla-tab[view=accordion] {
       }
 
       .respTable td:last-child {
-        border-bottom: 1em var(--template-bg-dark-80) solid;
+        border-bottom: $respTable-border-bottom; //1em var(--template-bg-dark-80) solid;
       }
 
       .oddCol {
-        background: var(--template-bg-light);
+        background: $permissions-sliders-oddCol-bg; //var(--template-bg-light);
       }
     }
   }

@@ -225,6 +225,7 @@ $atum-colors-dark: (
   joomla-tablist-border-bottom:        1px solid var(--gray-800),
 
   joomla-tab-tablist-border:           1px solid var(--gray-800),
+  joomla-tab-vert-border-bottom:       1px solid var(--gray-800),
 
   // Details
   details-bg:                          rgba(0,0,0,.4),
@@ -422,6 +423,10 @@ $atum-colors-dark: (
   atum-calendar-select-bg:          $form-select-bg-dark,
   atum-calendar-select-bg-url:      url("../../images/select-bg-dark.svg"),
   atum-calendar-select-bg-url-rtl:  url("../../images/select-bg-dark-rtl.svg"),
+
+  // Permissions
+  permissions-sliders-oddCol-bg:  var(--template-bg-dark),
+  respTable-border-bottom:        1em solid $btn-primary-dark,
 
   // Treeselect
   treeselect-line-color:          rgba(255,255,255,.4),

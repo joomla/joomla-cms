@@ -275,6 +275,7 @@ $atum-colors: (
   joomla-tablist-btn-aria-exp-aft-bg: var(--template-bg-dark),
   joomla-tablist-border-bottom:       1px solid var(--template-bg-dark-10),
   joomla-tab-tablist-border:          1px solid $gray-300,
+  joomla-tab-vert-border-bottom:      1px solid $gray-300,
 
   admin-background:                var(--template-bg-light),
   options-form-color:              var(--template-text-dark),
@@ -498,6 +499,10 @@ $atum-colors: (
   atum-calendar-select-bg:          $form-select-bg,
   atum-calendar-select-bg-url:      url("../../images/select-bg.svg"),
   atum-calendar-select-bg-url-rtl:  url("../../images/select-bg-rtl.svg"),
+
+  // Permissions
+  permissions-sliders-oddCol-bg:    var(--template-bg-light),
+  respTable-border-bottom:          1em solid var(--template-bg-dark-80),
 
   // Treeselect
   treeselect-line-color:            hsl(var(--hue), 40%, 93%),
@@ -801,6 +806,10 @@ $atum-calendar-select-bg:          var(--atum-calendar-select-bg);
 $atum-calendar-select-bg-url:      var(--atum-calendar-select-bg-url);
 $atum-calendar-select-bg-url-rtl:  var(--atum-calendar-select-bg-url-rtl);
 
+// Permissions
+$permissions-sliders-oddCol-bg:    var(--permissions-sliders-oddCol);
+$respTable-border-bottom:          var(--respTable-border-bottom);
+
 // Media Manager
 $media-manager-overlay-header-bg:  var(--media-manager-overlay-header-bg);
 $media-manager-infobar-dt-color:   var(--media-manager-infobar-dt-color);
@@ -908,6 +917,7 @@ $joomla-tablist-btn-aria-exp-bg:     var(--joomla-tablist-btn-aria-exp-bg);
 $joomla-tablist-btn-aria-exp-aft-bg: var(--joomla-tablist-btn-aria-exp-aft-bg);
 $joomla-tablist-border-bottom:       var(--joomla-tablist-border-bottom);
 $joomla-tab-tablist-border:          var(--joomla-tab-tablist-border);
+$joomla-tab-vert-border-bottom:      var(--joomla-tab-vert-border-bottom);
 
 // Quickicons
 $quickicon-bg:                     var(--quickicon-bg);
