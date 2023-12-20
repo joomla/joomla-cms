@@ -67,7 +67,7 @@ class LogsController extends AdminController
         if ($model->purge()) {
             $message = Text::_('COM_SCHEDULER_LOGS_CLEAR');
         } else {
-            $message = Text::_('COM_JOBS_CLEAR_FAIL');
+            $message = Text::_('COM_SCHEDULER_CLEAR_FAIL');
         }
 
         $this->setRedirect('index.php?option=com_scheduler&view=logs', $message);

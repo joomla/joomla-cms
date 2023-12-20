@@ -266,7 +266,6 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
             'TASK_OUTPUT'    => $task->getContent()['output_body'] ?? '',
             'TASK_TIMES'     => $task->get('times_executed'),
             'TASK_DURATION'  => $task->getContent()['duration'],
-
         ];
     }
 
