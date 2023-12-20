@@ -489,6 +489,16 @@ $atum-colors: (
 
   atum-list-group-bg:               var(--body-bg), //rgba(255, 255, 255, .05),
 
+  // Calendar
+  atum-calendar-week-bg:            #f4f4f4,
+  atum-calendar-bg:                 var(--body-bg),
+  atum-calendar-buttons-color:      #495057, //var(--btn-primary-bg);
+  atum-calendar-disabled-color:     #999, //#4b4b4b,
+  atum-calendar-disabled-bg:        #fff, //rgba(0,0,0,.5),
+  atum-calendar-select-bg:          $form-select-bg,
+  atum-calendar-select-bg-url:      url("../../images/select-bg.svg"),
+  atum-calendar-select-bg-url-rtl:  url("../../images/select-bg-rtl.svg"),
+
   // Treeselect
   treeselect-line-color:            hsl(var(--hue), 40%, 93%),
 
@@ -780,6 +790,16 @@ $atum-btn-action:                  var(--atum-btn-action);
 $atum-btn-action-bg:               var(--atum-btn-action-bg);
 
 $atum-list-group-bg:               var(--atum-list-group-bg);
+
+// Calendar
+$atum-calendar-week-bg:            var(--atum-calendar-week-bg);
+$atum-calendar-bg:                 var(--atum-calendar-bg);
+$atum-calendar-buttons-color:      var(--atum-calendar-buttons-color);
+$atum-calendar-disabled-color:     var(--atum-calendar-disabled-color);
+$atum-calendar-disabled-bg:        var(--atum-calendar-disabled-bg);
+$atum-calendar-select-bg:          var(--atum-calendar-select-bg);
+$atum-calendar-select-bg-url:      var(--atum-calendar-select-bg-url);
+$atum-calendar-select-bg-url-rtl:  var(--atum-calendar-select-bg-url-rtl);
 
 // Media Manager
 $media-manager-overlay-header-bg:  var(--media-manager-overlay-header-bg);
