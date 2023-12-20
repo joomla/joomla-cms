@@ -323,7 +323,11 @@ class PackageAdapter extends InstallerAdapter
             $update->delete($uid);
         }
 
-        File::delete(JPATH_MANIFESTS . '/packages/' . $this->extension->element . '.xml');
+        $file = JPATH_MANIFESTS . '/packages/' . $this->extension->element . '.xml';
+
+        if (is_file($file)) {
+            File::delete($file);
+        }
 
         $folder = $this->parent->getPath('extension_root');
 
