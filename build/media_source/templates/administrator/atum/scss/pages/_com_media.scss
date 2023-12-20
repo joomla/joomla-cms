@@ -73,6 +73,13 @@
   background-color: var(--success);
 }
 
+.media-infobar {
+  border-inline-start: $media-manager-border; //1px solid $border-color;
+  h2 {
+    border-bottom: $media-manager-border;
+  }
+}
+
 @if $enable-dark-mode {
   @include color-mode(dark, true) {
     joomla-field-media .field-media-preview {
