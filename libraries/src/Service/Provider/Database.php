@@ -131,16 +131,21 @@ class Database implements ServiceProviderInterface
 
                     $db->setDispatcher($container->get(DispatcherInterface::class));
 
-                    // Enbable sql_big_selects for mysql adapters if enforced by configuration
-                    if (in_array(strtolower($dbtype), ['mysql', 'mysqli']) && (int) $conf->get('dbsqlbigselects') === 1) {
-                        try {
-                            $db->setQuery('SET @@SESSION.sql_big_selects = 1;');
-                            $db->execute();
-                        } catch (\RuntimeException $e) {
-                            jexit('Database Error: ' . $e->getMessage());
+                    // Set sql_big_selects variable for mysql adapters
+                    if (in_array(strtolower($dbtype), ['mysql', 'mysqli'])) {
+                        $sqlbigselects = (int) $conf->get('dbsqlbigselects');
+
+                        // Only set session variable if enforced by configuration
+                        if ($sqlbigselects !== 0) {
+                            try {
+                                $db->setQuery('SET @@SESSION.sql_big_selects = ' . ($sqlbigselects === 2 ? '1' : '0') . ';');
+                                $db->execute();
+                            } catch (\RuntimeException $e) {
+                                jexit('Database Error: ' . $e->getMessage());
+                            }
                         }
                     }
-
+ 
                     return $db;
                 },
                 true
