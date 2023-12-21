@@ -50,6 +50,7 @@ class JConfig
 	public $dbsslcert = '';
 	public $dbsslca = '';
 	public $dbsslcipher = '';
+	public $dbsqlbigselects = 0;
 
 	/* Server Settings */
 	public $secret = '';     // Use something very secure. For example on linux the following command `cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${1:-16} | head -n 1`
