@@ -88,6 +88,26 @@ use Joomla\CMS\Language\Text;
                     <?php echo $this->info['dbconnencryptsupported'] ? Text::_('JYES') : Text::_('JNO'); ?>
                 </td>
             </tr>
+            <?php if ($this->info['dbsqlbigselects'] !== null) : ?>
+            <tr>
+                <th scope="row">
+                    <?php echo Text::_('COM_ADMIN_DATABASE_SQL_BIG_SELECTS'); ?>
+                </th>
+                <td>
+                    <?php echo $this->info['dbsqlbigselects'] ? Text::_('JON') : Text::_('JOFF'); ?>
+                </td>
+            </tr>
+            <?php endif; ?>
+            <?php if ($this->info['dbmaxjoinsize'] !== null) : ?>
+            <tr>
+                <th scope="row">
+                    <?php echo Text::_('COM_ADMIN_DATABASE_MAX_JOIN_SIZE'); ?>
+                </th>
+                <td>
+                    <?php echo $this->info['dbmaxjoinsize']; ?>
+                </td>
+            </tr>
+            <?php endif; ?>
             <tr>
                 <th scope="row">
                     <?php echo Text::_('COM_ADMIN_PHP_VERSION'); ?>

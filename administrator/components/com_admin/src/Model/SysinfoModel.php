@@ -310,16 +310,19 @@ class SysinfoModel extends BaseDatabaseModel
             return $this->info;
         }
 
-        $db = $this->getDatabase();
+        $db     = $this->getDatabase();
+        $dbType = $db->getServerType();
 
         $this->info = [
             'php'                    => php_uname(),
-            'dbserver'               => $db->getServerType(),
+            'dbserver'               => $dbType,
             'dbversion'              => $db->getVersion(),
             'dbcollation'            => $db->getCollation(),
             'dbconnectioncollation'  => $db->getConnectionCollation(),
             'dbconnectionencryption' => $db->getConnectionEncryption(),
             'dbconnencryptsupported' => $db->isConnectionEncryptionSupported(),
+            'dbsqlbigselects'        => $dbType === 'mysql' ? $db->getSessionVarBool('sql_big_selects') : null,
+            'dbmaxjoinsize'          => $dbType === 'mysql' ? $db->getSessionVarString('max_join_size') : null,
             'phpversion'             => PHP_VERSION,
             'server'                 => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
             'sapi_name'              => PHP_SAPI,
