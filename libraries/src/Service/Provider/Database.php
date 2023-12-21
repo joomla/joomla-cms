@@ -145,7 +145,7 @@ class Database implements ServiceProviderInterface
                             }
                         }
                     }
- 
+
                     return $db;
                 },
                 true
