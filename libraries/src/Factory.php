@@ -687,6 +687,16 @@ abstract class Factory
             jexit('Database Error: ' . $e->getMessage());
         }
 
+        // Enbable sql_big_selects for mysql adapters if enforced by configuration
+        if (in_array(strtolower($driver), ['mysql', 'mysqli']) && (int) $conf->get('dbsqlbigselects') === 1) {
+            try {
+                $db->setQuery('SET @@SESSION.sql_big_selects = 1;');
+                $db->execute();
+            } catch (\RuntimeException $e) {
+                jexit('Database Error: ' . $e->getMessage());
+            }
+        }
+
         return $db;
     }
 
