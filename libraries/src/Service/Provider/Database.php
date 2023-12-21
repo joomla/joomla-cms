@@ -115,6 +115,16 @@ class Database implements ServiceProviderInterface
                         $options['charset'] = 'utf8mb4';
                     }
 
+                    // Set sql_big_selects variable for mysql adapters
+                    if (in_array(strtolower($dbtype),['mysql', 'mysqli'])) {
+                        $sqlbigselects = (int) $conf->get('dbsqlbigselects');
+
+                        // Only set option if enforced by configuration
+                        if ($sqlbigselects !== 0) {
+                            $options['sqlBigSelects'] = $sqlbigselects === 2;
+                        }
+                    }
+
                     if (JDEBUG) {
                         $options['monitor'] = new \Joomla\Database\Monitor\DebugMonitor();
                     }
