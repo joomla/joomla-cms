@@ -127,13 +127,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                             <?php
                             switch ($item->exitcode) {
                                 case '123':
-                                    echo "<span class='badge bg-secondary'>" . Text::_('COM_SCHEDULER_TASK_RESUME') . $item->exitcode . "</span>";
+                                    echo '<span class="badge bg-secondary">' . Text::_('COM_SCHEDULER_TASK_RESUME') . $item->exitcode . '</span>';
                                     break;
                                 case '0':
-                                    echo "<span class='badge bg-success'>" . Text::_('COM_SCHEDULER_TASK_EXECUTED') . $item->exitcode . "</span>";
+                                    echo '<span class="badge bg-success">' . Text::_('COM_SCHEDULER_TASK_EXECUTED') . $item->exitcode . '</span>';
                                     break;
                                 default:
-                                    echo "<span class='badge bg-danger'>" . Text::_('COM_SCHEDULER_TASK_FAILED') . $item->exitcode . "</span>";
+                                    echo '<span class="badge bg-danger">' . Text::_('COM_SCHEDULER_TASK_FAILED') . $item->exitcode . '</span>';
                                     break;
                             }
                             ?>
