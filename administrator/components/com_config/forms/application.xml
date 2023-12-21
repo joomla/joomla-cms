@@ -279,6 +279,20 @@
 			showon="dbtype:mysql,mysqli[AND]dbencryption:2"
 		/>
 
+		<field
+			name="dbsqlbigselects"
+			type="list"
+			label="COM_CONFIG_FIELD_DATABASE_SQL_BIG_SELECTS_LABEL"
+			default="0"
+			showon="dbtype:mysql,mysqli"
+			filter="integer"
+			validate="options"
+			>
+			<option value="0">COM_CONFIG_FIELD_DATABASE_SQL_BIG_SELECTS_VALUE_NONE</option>
+			<option value="1">JNO</option>
+			<option value="2">JYES</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset
