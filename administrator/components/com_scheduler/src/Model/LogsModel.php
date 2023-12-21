@@ -176,7 +176,7 @@ class LogsModel extends ListModel
         if ($typeFilter) {
             $taskOptions   = SchedulerHelper::getTaskOptions();
             $safeTypeTitle = $taskOptions->findOption($typeFilter)->title ?? '';
-            $query->where($db->quotename('a.tasktype') . '= :type')
+            $query->where($db->quotename('a.tasktype') . ' = :type')
                 ->bind(':type', $safeTypeTitle);
         }
 
@@ -188,6 +188,8 @@ class LogsModel extends ListModel
 
     /**
      * Method to delete rows.
+     *
+     * @param   array    $pks    The ids of the items to delete.
      *
      * @return  boolean  Returns true on success, false on failure.
      */

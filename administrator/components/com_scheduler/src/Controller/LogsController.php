@@ -89,7 +89,7 @@ class LogsController extends AdminController
         if (!$this->app->getIdentity()->authorise('core.admin', $this->option)) {
             throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         } elseif (empty($ids)) {
-            $this->setMessage(Text::_('COM_USERS_NO_LEVELS_SELECTED'), 'warning');
+            $this->setMessage(Text::_('COM_SCHEDULER_NO_LOGS_SELECTED'), 'warning');
         } else {
             // Get the model.
             $model = $this->getModel();
