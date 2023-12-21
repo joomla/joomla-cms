@@ -116,7 +116,7 @@ class Database implements ServiceProviderInterface
                     }
 
                     // Set sql_big_selects variable for mysql adapters
-                    if (in_array(strtolower($dbtype),['mysql', 'mysqli'])) {
+                    if (in_array(strtolower($dbtype), ['mysql', 'mysqli'])) {
                         $sqlbigselects = (int) $conf->get('dbsqlbigselects');
 
                         // Only set option if enforced by configuration

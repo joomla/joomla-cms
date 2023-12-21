@@ -678,7 +678,7 @@ abstract class Factory
         }
 
         // Set sql_big_selects variable for mysql adapters
-        if (in_array($conf->get('dbtype'),['mysql', 'mysqli'])) {
+        if (in_array($conf->get('dbtype'), ['mysql', 'mysqli'])) {
             $sqlbigselects = (int) $conf->get('dbsqlbigselects');
 
             // Only set option if enforced by configuration
