@@ -228,7 +228,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * This method is responsible for the "run tEST" functionality in the Scheduler administrator backend interface.
+     * This method is responsible for the "run test" functionality in the Scheduler administrator backend interface.
      * Acting on a `com_ajax` call, this method requires the URL to have a `id` query parameter (corresponding to an
      * existing Task ID).
      *
