@@ -198,7 +198,7 @@ class LogsModel extends ListModel
         $user = Factory::getUser();
 
         if ($user->authorise('core.delete', 'com_scheduler')) {
-            // Delete logss from list
+            // Delete logs from list
             $db    = $this->getDbo();
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__scheduler_logs'))
