@@ -911,14 +911,14 @@ CREATE TABLE IF NOT EXISTS "#__scheduler_logs" (
   "jobid" integer NOT NULL,
   "taskid" integer NOT NULL,
   "exitcode" integer NOT NULL,
-  "last_date" timestamp without time zone,
-  "next_date" timestamp without time zone,
+  "lastdate" timestamp without time zone,
+  "nextdate" timestamp without time zone,
   PRIMARY KEY (id),
 );
-CREATE INDEX "#__scheduler_tasks_idx_taskname" ON "#__scheduler_tasks" ("taskname");
-CREATE INDEX "#__scheduler_tasks_idx_tasktype" ON "#__scheduler_tasks" ("tasktype");
-CREATE INDEX "#__scheduler_tasks_idx_last_date" ON "#__scheduler_tasks" ("last_date");
-CREATE INDEX "#__scheduler_tasks_idx_next_date" ON "#__scheduler_tasks" ("next_date");
+CREATE INDEX "#__scheduler_logs_idx_taskname" ON "#__scheduler_logs" ("taskname");
+CREATE INDEX "#__scheduler_logs_idx_tasktype" ON "#__scheduler_logs" ("tasktype");
+CREATE INDEX "#__scheduler_logs_idx_lastdate" ON "#__scheduler_logs" ("lastdate");
+CREATE INDEX "#__scheduler_logs_idx_nextdate" ON "#__scheduler_logs" ("nextdate");
 
 
 -- --------------------------------------------------------
