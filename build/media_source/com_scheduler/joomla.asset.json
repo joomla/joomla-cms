@@ -18,11 +18,11 @@
       }
     },
     {
-      "name": "com_scheduler.run-task",
+      "name": "com_scheduler.run-test",
       "type": "script",
-      "uri": "com_scheduler/admin-view-run-task.js",
+      "uri": "com_scheduler/admin-view-run-test.js",
       "dependencies": [
-        "com_scheduler.run-task.es5"
+        "com_scheduler.run-test.es5"
       ],
       "attributes": {
         "type" : "module"
