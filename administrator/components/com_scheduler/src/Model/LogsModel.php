@@ -170,7 +170,7 @@ class LogsModel extends ListModel
             }
         }
 
-        // Filter over type ----
+        // Filter over type
         $typeFilter = $this->getState('filter.type');
 
         if ($typeFilter) {
