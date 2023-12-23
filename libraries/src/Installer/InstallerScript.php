@@ -317,7 +317,7 @@ class InstallerScript
     {
         if (!empty($this->deleteFiles)) {
             foreach ($this->deleteFiles as $file) {
-                if (file_exists(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file)) {
+                if (is_file(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file)) {
                     echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br>';
                 }
             }
