@@ -2976,7 +2976,7 @@ class JoomlaInstallerScript
 
             foreach ($files as $filename) {
                 $override_path = $client_path . '/language/overrides/' . $filename;
-                $contents = file_get_contents($override_path);
+                $contents      = file_get_contents($override_path);
 
                 // Check file contains dollar sign
                 if (strpos($contents, '$') !== false) {
