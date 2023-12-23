@@ -135,11 +135,6 @@ class HtmlView extends BaseHtmlView
                 ->icon('icon-new');
         }
 
-        $toolbar->linkButton('history', 'COM_SCHEDULER_EXECUTION_HISTORY')
-            ->url('index.php?option=com_scheduler&view=logs&layout=default')
-            ->buttonClass('btn btn-info')
-            ->icon('icon-menu');
-
         if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $user->authorise('core.admin'))) {
             /** @var  DropdownButton $dropdown */
             $dropdown = $toolbar->dropdownButton('status-group')
@@ -168,6 +163,11 @@ class HtmlView extends BaseHtmlView
                 }
             }
         }
+
+        $toolbar->linkButton('history', 'COM_SCHEDULER_EXECUTION_HISTORY')
+            ->url('index.php?option=com_scheduler&view=logs&layout=default')
+            ->buttonClass('btn btn-info')
+            ->icon('icon-menu');
 
         // Add "Empty Trash" button if filtering by trashed.
         if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {

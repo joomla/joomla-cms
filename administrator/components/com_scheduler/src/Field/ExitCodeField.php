@@ -38,9 +38,9 @@ class ExitCodeField extends PredefinedlistField
      * @since  __DEPLOY_VERSION__
      */
     protected $predefinedOptions = [
-        5   => 'Failed',
-        0   => 'Executed',
-        123 => 'Task Will Resume',
+        5   => 'COM_SCHEDULER_EXIT_CODE_FAILED',
+        0   => 'COM_SCHEDULER_EXIT_CODE_EXECUTED',
+        123 => 'COM_SCHEDULER_EXIT_CODE_WILLRESUME',
         '*' => 'JALL',
     ];
 }
