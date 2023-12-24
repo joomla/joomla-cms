@@ -456,7 +456,7 @@ class LanguageHelper
      *
      * @return  array | false  The strings parsed.
      *
-     * @since   4.1.1
+     * @since   __DEPLOY_VERSION__
      */
     protected static function parseMultilineIni($inifileContents) {
         $lines = explode("\n", $inifileContents);
