@@ -2957,7 +2957,7 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since   4.4.2
+     * @since   __DEPLOY_VERSION__
      */
     protected function fixLanguageOverrides()
     {
