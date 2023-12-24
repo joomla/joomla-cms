@@ -5,7 +5,7 @@
 			name="search"
 			type="text"
 			label="COM_SCHEDULER_FILTER_SEARCH_LABEL"
-			description="COM_SCHEDULER_FILTER_SEARCH_DESC"
+			description="COM_SCHEDULER_FILTER_SEARCH_HISTORY_DESC"
 			inputmode="search"
 			hint="JSEARCH_FILTER"
 		/>
@@ -40,6 +40,10 @@
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 			<option value="a.taskname ASC">JGLOBAL_TITLE_ASC</option>
 			<option value="a.taskname DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="a.tasktype ASC">COM_SCHEDULER_TASK_TYPE_ASC</option>
+			<option value="a.tasktype DESC">COM_SCHEDULER_TASK_TYPE_DESC</option>
+			<option value="a.taskide ASC">COM_SCHEDULER_TASK_TIMES_ASC</option>
+			<option value="a.taskid DESC">COM_SCHEDULER_TASK_TIMES_DESC</option>
 			<option value="a.lastdate ASC">COM_SCHEDULER_LAST_RUN_ASC</option>
 			<option value="a.lastdate DESC">COM_SCHEDULER_LAST_RUN_DESC</option>
 			<option value="a.duration ASC">COM_SCHEDULER_DURATION_ASC</option>
