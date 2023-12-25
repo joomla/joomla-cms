@@ -12,19 +12,26 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Event\Application\AfterExecuteEvent;
+use Joomla\CMS\Event\Application\AfterRenderEvent;
+use Joomla\CMS\Event\Application\AfterRespondEvent;
+use Joomla\CMS\Event\Application\BeforeExecuteEvent;
+use Joomla\CMS\Event\Application\BeforeRenderEvent;
+use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Version;
+use Joomla\Filter\OutputFilter;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 use Psr\Http\Message\ResponseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -51,7 +58,7 @@ abstract class WebApplication extends AbstractWebApplication
      * @var    integer
      * @since  4.3.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0 as this property is not used anymore
+     * @deprecated 4.4.0 will be removed in 6.0 as this property is not used anymore
      */
     public $item_associations;
 
@@ -153,24 +160,36 @@ abstract class WebApplication extends AbstractWebApplication
     public function execute()
     {
         // Trigger the onBeforeExecute event.
-        $this->triggerEvent('onBeforeExecute');
+        $this->dispatchEvent(
+            'onBeforeExecute',
+            new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this])
+        );
 
         // Perform application routines.
         $this->doExecute();
 
         // Trigger the onAfterExecute event.
-        $this->triggerEvent('onAfterExecute');
+        $this->dispatchEvent(
+            'onAfterExecute',
+            new AfterExecuteEvent('onAfterExecute', ['subject' => $this])
+        );
 
         // If we have an application document object, render it.
         if ($this->document instanceof Document) {
             // Trigger the onBeforeRender event.
-            $this->triggerEvent('onBeforeRender');
+            $this->dispatchEvent(
+                'onBeforeRender',
+                new BeforeRenderEvent('onBeforeRender', ['subject' => $this])
+            );
 
             // Render the application output.
             $this->render();
 
             // Trigger the onAfterRender event.
-            $this->triggerEvent('onAfterRender');
+            $this->dispatchEvent(
+                'onAfterRender',
+                new AfterRenderEvent('onAfterRender', ['subject' => $this])
+            );
         }
 
         // If gzip compression is enabled in configuration and the server is compliant, compress the output.
@@ -179,13 +198,19 @@ abstract class WebApplication extends AbstractWebApplication
         }
 
         // Trigger the onBeforeRespond event.
-        $this->triggerEvent('onBeforeRespond');
+        $this->dispatchEvent(
+            'onBeforeRespond',
+            new BeforeRespondEvent('onBeforeRespond', ['subject' => $this])
+        );
 
         // Send the application response.
         $this->respond();
 
         // Trigger the onAfterRespond event.
-        $this->triggerEvent('onAfterRespond');
+        $this->dispatchEvent(
+            'onAfterRespond',
+            new AfterRespondEvent('onAfterRespond', ['subject' => $this])
+        );
     }
 
     /**
@@ -267,7 +292,7 @@ abstract class WebApplication extends AbstractWebApplication
      * but for many applications it will make sense to override this method and create a document,
      * if required, based on more specific needs.
      *
-     * @param   Document  $document  An optional document object. If omitted, the factory document is created.
+     * @param   ?Document  $document  An optional document object. If omitted, the factory document is created.
      *
      * @return  WebApplication This method is chainable.
      *
@@ -287,7 +312,7 @@ abstract class WebApplication extends AbstractWebApplication
      * but for many applications it will make sense to override this method and create a language,
      * if required, based on more specific needs.
      *
-     * @param   Language  $language  An optional language object. If omitted, the factory language is created.
+     * @param   ?Language  $language  An optional language object. If omitted, the factory language is created.
      *
      * @return  WebApplication This method is chainable.
      *
@@ -296,6 +321,7 @@ abstract class WebApplication extends AbstractWebApplication
     public function loadLanguage(Language $language = null)
     {
         $this->language = $language ?? Factory::getLanguage();
+        OutputFilter::setLanguage($this->language);
 
         return $this;
     }
@@ -307,7 +333,7 @@ abstract class WebApplication extends AbstractWebApplication
      * but for many applications it will make sense to override this method and create a session,
      * if required, based on more specific needs.
      *
-     * @param   Session  $session  An optional session object. If omitted, the session is created.
+     * @param   ?Session  $session  An optional session object. If omitted, the session is created.
      *
      * @return  WebApplication This method is chainable.
      *

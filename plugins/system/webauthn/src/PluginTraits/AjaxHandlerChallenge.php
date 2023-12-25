@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Exception;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxChallenge;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
@@ -40,7 +39,7 @@ trait AjaxHandlerChallenge
      *
      * @return  void
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.0.0
      */
     public function onAjaxWebauthnChallenge(AjaxChallenge $event): void
@@ -48,6 +47,9 @@ trait AjaxHandlerChallenge
         // Initialize objects
         $session    = $this->getApplication()->getSession();
         $input      = $this->getApplication()->getInput();
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         // Retrieve data from the request
         $username  = $input->getUsername('username', '');
@@ -75,7 +77,7 @@ trait AjaxHandlerChallenge
         // Is the username valid?
         try {
             $userId = UserHelper::getUserId($username);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $userId = 0;
         }
 
@@ -87,7 +89,7 @@ trait AjaxHandlerChallenge
 
         try {
             $myUser = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $myUser = new User();
         }
 

@@ -10,8 +10,10 @@
 
 namespace Joomla\Plugin\Installer\Url\Extension;
 
+use Joomla\CMS\Event\Installer\AddInstallationTabEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -22,7 +24,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  3.6.0
  */
-final class UrlInstaller extends CMSPlugin
+final class UrlInstaller extends CMSPlugin implements SubscriberInterface
 {
     /**
      * Application object.
@@ -34,13 +36,27 @@ final class UrlInstaller extends CMSPlugin
     protected $app;
 
     /**
-     * Textfield or Form of the Plugin.
+     * Returns an array of events this subscriber will listen to.
      *
-     * @return  array  Returns an array with the tab information
+     * @return  array
+     *
+     * @since   5.0.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return ['onInstallerAddInstallationTab' => 'onInstallerAddInstallationTab'];
+    }
+
+    /**
+     * Installer add Installation Tab listener.
+     *
+     * @param   AddInstallationTabEvent  $event  The event instance
+     *
+     * @return  void
      *
      * @since   3.6.0
      */
-    public function onInstallerAddInstallationTab()
+    public function onInstallerAddInstallationTab(AddInstallationTabEvent $event)
     {
         // Load language files
         $this->loadLanguage();
@@ -54,6 +70,6 @@ final class UrlInstaller extends CMSPlugin
         include PluginHelper::getLayoutPath('installer', 'urlinstaller');
         $tab['content'] = ob_get_clean();
 
-        return $tab;
+        $event->addResult($tab);
     }
 }

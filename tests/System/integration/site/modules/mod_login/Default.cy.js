@@ -1,5 +1,5 @@
-describe('Test that the login module', () => {
-  it('can log in and log out in frontend with the default credentials', () => {
+describe('Test in frontend that the login module', () => {
+  it('can log in and out with the default credentials', () => {
     cy.doFrontendLogin(null, null, false);
     cy.doFrontendLogout();
   });
@@ -17,7 +17,7 @@ describe('Test that the login module', () => {
       cy.get('input[name="remember"]').check();
       cy.get('.mod-login__submit > .btn').click();
 
-      cy.get('.alert-wrapper').should('contain.text', 'You have been logged in.');
+      cy.get('.mod-login-logout').should('contain.text', 'Hi automated test user');
     });
   });
 });

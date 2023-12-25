@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.1.0</version>
 	<description>PLG_WEBSERVICES_MEDIA_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\WebServices\Media</namespace>
 	<files>
-		<filename plugin="media">media.php</filename>
+		<folder plugin="media">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_webservices_media.ini</language>

@@ -1,5 +1,5 @@
-describe('Test the articles category module', () => {
-  it('can load in frontend and showing the title of the articles', () => {
+describe('Test in frontend that the articles category module', () => {
+  it('can display the title of the articles', () => {
     cy.db_createCategory({ extension: 'com_content' })
       .then(async (categoryId) => {
         await cy.db_createArticle({ title: 'automated test article', catid: categoryId });

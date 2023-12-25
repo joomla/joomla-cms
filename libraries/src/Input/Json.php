@@ -12,7 +12,7 @@ namespace Joomla\CMS\Input;
 use Joomla\CMS\Filter\InputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -60,7 +60,7 @@ class Json extends Input
             $this->_raw = file_get_contents('php://input');
             $this->data = json_decode($this->_raw, true);
 
-            if (!is_array($this->data)) {
+            if (!\is_array($this->data)) {
                 $this->data = [];
             }
         } else {

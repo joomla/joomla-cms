@@ -31,7 +31,7 @@ $wa->useScript('table.columns')
     ->useScript('multiselect');
 
 $app       = Factory::getApplication();
-$user      = Factory::getUser();
+$user      = $this->getCurrentUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -265,7 +265,7 @@ $assoc = Associations::isEnabled();
                                                     echo ' &#187; ';
                                                 endif;
                                             endif;
-                                            if (Factory::getLanguage()->isRtl()) {
+                                            if ($this->getLanguage()->isRtl()) {
                                                 if ($canEditCat || $canEditOwnCat) :
                                                     echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
                                                 endif;
