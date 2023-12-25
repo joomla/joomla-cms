@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Form\Rule;
 
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
