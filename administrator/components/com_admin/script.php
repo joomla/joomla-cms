@@ -2204,6 +2204,10 @@ class JoomlaInstallerScript
             '/administrator/components/com_newsfeeds/tmpl/newsfeeds/default_batch_footer.php',
             '/administrator/components/com_tags/tmpl/tags/default_batch_footer.php',
             '/administrator/components/com_users/tmpl/users/default_batch_footer.php',
+            // From 5.1.0-alpha1 to 5.1.0-alpha2
+            '/media/mod_multilangstatus/js/admin-multilangstatus.js',
+            '/media/mod_multilangstatus/js/admin-multilangstatus.min.js',
+            '/media/mod_multilangstatus/js/admin-multilangstatus.min.js.gz',
         ];
 
         $folders = [
@@ -2438,6 +2442,9 @@ class JoomlaInstallerScript
             '/libraries/vendor/fgrosse/phpasn1/lib',
             '/libraries/vendor/fgrosse/phpasn1',
             '/libraries/vendor/fgrosse',
+            // From 5.1.0-alpha1 to 5.1.0-alpha2
+            '/media/mod_multilangstatus/js',
+            '/media/mod_multilangstatus',
         ];
 
         $status['files_checked']   = $files;
