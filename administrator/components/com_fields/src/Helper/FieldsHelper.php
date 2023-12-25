@@ -227,7 +227,10 @@ class FieldsHelper
                     ]))->getArgument('result', []);
 
                     if (\is_array($value)) {
-                        $value = implode(' ', $value);
+                        $value = array_filter($value, function ($v) {
+                            return $v !== '' && $v !== null;
+                        });
+                        $value = $value ? implode(' ', $value) : '';
                     }
 
                     /*
