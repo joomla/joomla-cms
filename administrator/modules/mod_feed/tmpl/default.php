@@ -51,7 +51,7 @@ if (!empty($feed) && is_string($feed)) {
         // Feed title
         if (!is_null($feed->title) && $params->get('rsstitle', 1)) : ?>
             <h2 class="<?php echo $direction; ?>">
-                <a href="<?php echo str_replace('&', '&amp;', $rssurl); ?>" target="_blank">
+                <a href="<?php echo str_replace('&', '&amp;', $rssurl); ?>" target="_blank" rel="noopener noreferrer">
                 <?php echo $feed->title; ?></a>
             </h2>
         <?php endif;

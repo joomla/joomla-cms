@@ -211,7 +211,7 @@ class TemplateController extends FormController
             $errors = $model->getErrors();
 
             // Push up to three validation messages out to the user.
-            for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
                     $this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
                 } else {
@@ -286,7 +286,7 @@ class TemplateController extends FormController
                 // Check if there is a return value
                 $return = $this->input->get('return', null, 'base64');
 
-                if (!is_null($return) && Uri::isInternal(base64_decode($return))) {
+                if (!\is_null($return) && Uri::isInternal(base64_decode($return))) {
                     $url = base64_decode($return);
                 }
 

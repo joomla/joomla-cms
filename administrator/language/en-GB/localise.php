@@ -5,9 +5,9 @@
  *
  * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
-
+ *
  * @phpcs:disable Squiz.Classes.ValidClassName.NotCamelCaps
-
+ *
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
@@ -35,11 +35,13 @@ abstract class En_GBLocalise
     {
         if ($count == 0) {
             return ['0'];
-        } elseif ($count == 1) {
-            return ['ONE', '1'];
-        } else {
-            return ['OTHER', 'MORE'];
         }
+
+        if ($count == 1) {
+            return ['ONE', '1'];
+        }
+
+        return ['OTHER', 'MORE'];
     }
 
     /**

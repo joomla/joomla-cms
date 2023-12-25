@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
@@ -31,6 +31,6 @@ try {
     $app->enqueueMessage($e->getMessage(), 'error');
 }
 
-$countUnread = count($messages);
+$countUnread = \count($messages);
 
 require ModuleHelper::getLayoutPath('mod_messages', $params->get('layout', 'default'));

@@ -343,7 +343,7 @@ final class Contacts extends Adapter
         $taxonomies = $this->params->get('taxonomies', ['type', 'category', 'language', 'region', 'country']);
 
         // Add the type taxonomy data.
-        if (in_array('type', $taxonomies)) {
+        if (\in_array('type', $taxonomies)) {
             $item->addTaxonomy('Type', 'Contact');
         }
 
@@ -356,22 +356,22 @@ final class Contacts extends Adapter
         }
 
         // Add the category taxonomy data.
-        if (in_array('category', $taxonomies)) {
+        if (\in_array('category', $taxonomies)) {
             $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
         }
 
         // Add the language taxonomy data.
-        if (in_array('language', $taxonomies)) {
+        if (\in_array('language', $taxonomies)) {
             $item->addTaxonomy('Language', $item->language);
         }
 
         // Add the region taxonomy data.
-        if (in_array('region', $taxonomies) && !empty($item->region) && $this->params->get('tax_add_region', true)) {
+        if (\in_array('region', $taxonomies) && !empty($item->region) && $this->params->get('tax_add_region', true)) {
             $item->addTaxonomy('Region', $item->region);
         }
 
         // Add the country taxonomy data.
-        if (in_array('country', $taxonomies) && !empty($item->country) && $this->params->get('tax_add_country', true)) {
+        if (\in_array('country', $taxonomies) && !empty($item->country) && $this->params->get('tax_add_country', true)) {
             $item->addTaxonomy('Country', $item->country);
         }
 

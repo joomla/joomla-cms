@@ -82,7 +82,7 @@ class WorkflowTable extends Table implements CurrentUserInterface
         $isDefault = $db->setQuery($query)->loadResult();
 
         if ($isDefault) {
-            $app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');
+            $app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_IS_DEFAULT'), 'error');
 
             return false;
         }
@@ -316,8 +316,8 @@ class WorkflowTable extends Table implements CurrentUserInterface
         // Return the asset id.
         if ($assetId) {
             return $assetId;
-        } else {
-            return parent::_getAssetParentId($table, $id);
         }
+
+        return parent::_getAssetParentId($table, $id);
     }
 }
