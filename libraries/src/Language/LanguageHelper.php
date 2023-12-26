@@ -462,7 +462,7 @@ class LanguageHelper
 
         $nameValuePairs = [];
 
-        for ($l=0; $l < count($lines); $l++) {
+        for ($l = 0; $l < count($lines); $l++) {
             $line = trim($lines[$l]);
 
             if (empty($line)) {
