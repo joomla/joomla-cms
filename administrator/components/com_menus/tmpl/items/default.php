@@ -269,15 +269,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 
                     <?php // Load the batch processing form if user is allowed ?>
                     <?php if ($user->authorise('core.create', 'com_menus') || $user->authorise('core.edit', 'com_menus')) : ?>
-                        <?php echo HTMLHelper::_(
-                            'bootstrap.renderModal',
-                            'collapseModal',
-                            [
-                                'title'  => Text::_('COM_MENUS_BATCH_OPTIONS'),
-                                'footer' => $this->loadTemplate('batch_footer')
-                            ],
-                            $this->loadTemplate('batch_body')
-                        ); ?>
+                        <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
                     <?php endif; ?>
                 <?php endif; ?>
 

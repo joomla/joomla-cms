@@ -14,8 +14,7 @@
 		<field
 			name="published"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
-			description="JOPTION_SELECT_PUBLISHED_DESC"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -36,8 +35,7 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_FILTER_ACCESS"
-			description="JOPTION_FILTER_ACCESS_DESC"
+			label="JGRID_HEADING_ACCESS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -46,8 +44,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_FILTER_LANGUAGE"
-			description="JOPTION_FILTER_LANGUAGE_DESC"
+			label="JGRID_HEADING_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -68,8 +65,7 @@
 		<field
 			name="level"
 			type="integer"
-			label="JOPTION_FILTER_LEVEL"
-			description="JOPTION_FILTER_LEVEL_DESC"
+			label="JGLOBAL_MAXLEVEL_LABEL"
 			first="1"
 			last="10"
 			step="1"
@@ -85,8 +81,7 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="COM_CONTACT_LIST_FULL_ORDERING"
-			description="COM_CONTACT_LIST_FULL_ORDERING_DESC"
+			label="JGLOBAL_SORT_BY"
 			default="a.name ASC"
 			onchange="this.form.submit();"
 			validate="options"
@@ -117,8 +112,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="COM_CONTACT_LIST_LIMIT"
-			description="COM_CONTACT_LIST_LIMIT_DESC"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>
