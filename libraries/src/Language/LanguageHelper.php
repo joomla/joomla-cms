@@ -457,17 +457,22 @@ class LanguageHelper
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected static function parseMultilineIni($inifileContents) {
+    protected static function parseMultilineIni($inifileContents)
+    {
         $lines = explode("\n", $inifileContents);
 
         $nameValuePairs = [];
 
-        for ($l=0; $l<count($lines); $l++) {
+        for ($l=0; $l < count($lines); $l++) {
             $line = trim($lines[$l]);
 
-            if (empty($line)) continue;
+            if (empty($line)) {
+                continue;
+            }
 
-            if ($line[0] == ';') continue;
+            if ($line[0] == ';') {
+                continue;
+            }
 
             $lineParts = explode('=', $line);
             if (count($lineParts) != 2) {
@@ -492,7 +497,7 @@ class LanguageHelper
                         $nameValuePairs[$lineParts[0]] = '';
                         continue;
                     }
-                    $nameValuePairs[$lineParts[0]] = substr($lineParts[1], 1, strlen($lineParts[1])-2);
+                    $nameValuePairs[$lineParts[0]] = substr($lineParts[1], 1, strlen($lineParts[1]) - 2);
 
                     continue;
                 }
@@ -501,15 +506,14 @@ class LanguageHelper
             // Found a string with embedded new lines
             $nameValuePair = $lineParts[1];
 
-            while (++$l<count($lines)) {
+            while (++$l < count($lines)) {
                 $line = trim($lines[$l]);
 
                 $nameValuePair .= "\n" . $line;
 
                 if (str_ends_with($line, '"')) {
-
                     if (!str_ends_with($line, '\\"')) {
-                        $nameValuePairs[$lineParts[0]] = substr($nameValuePair, 1, strlen($nameValuePair)-1);
+                        $nameValuePairs[$lineParts[0]] = substr($nameValuePair, 1, strlen($nameValuePair) - 1);
 
                         continue 2;
                     }
