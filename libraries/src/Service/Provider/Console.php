@@ -18,6 +18,7 @@ use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
 use Joomla\CMS\Console\FinderIndexCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
+use Joomla\CMS\Console\MaintenanceDatabaseCommand;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Console\SetConfigurationCommand;
@@ -226,6 +227,14 @@ class Console implements ServiceProviderInterface
             function (Container $container) {
                 return new TasksStateCommand();
             }
+        );
+
+        $container->share(
+            MaintenanceDatabaseCommand::class,
+            function (Container $container) {
+                return new MaintenanceDatabaseCommand();
+            },
+            true
         );
     }
 }
