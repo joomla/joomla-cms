@@ -8,6 +8,7 @@ class TableColumns {
     this.storageKey = `joomla-tablecolumns-${this.tableName}`;
 
     this.$headers = [].slice.call($table.querySelector('thead tr').children);
+    this.listOfHidden = this.$headers.map((th, i) => th.classList.contains('d-hide') ? i : false).filter((i) => i !== false);
     this.$rows = [].slice.call($table.querySelectorAll('tbody tr'));
     this.listOfHidden = [];
 
