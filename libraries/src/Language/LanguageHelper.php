@@ -428,8 +428,7 @@ class LanguageHelper
             $strings = self::parseMultilineIni(isset($contents) ? $contents : file_get_contents($fileName));
 
             if ($strings === false) {
-                if ($debug)
-                {
+                if ($debug) {
                     throw new \RuntimeException($e->getMessage());
                 }
 
@@ -502,8 +501,7 @@ class LanguageHelper
             // Found a string with embedded new lines
             $nameValuePair = $lineParts[1];
 
-            while (++$l<count($lines))
-            {
+            while (++$l<count($lines)) {
                 $line = trim($lines[$l]);
 
                 $nameValuePair .= "\n" . $line;
