@@ -482,7 +482,7 @@ class LanguageHelper
             // In case there is a space before / after =
             $lineParts[0] = rtrim($lineParts[0]);
             $lineParts[1] = ltrim($lineParts[1]);
-            
+
             // We are only expecting strings for language translation
             if (!str_starts_with($lineParts[1], '"')) {
                 // Unexpected file contents
