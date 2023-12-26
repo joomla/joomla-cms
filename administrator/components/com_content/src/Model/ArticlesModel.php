@@ -183,8 +183,8 @@ class ArticlesModel extends ListModel
         $query->select($db->quoteName('default_value'));
         $query->select($db->quoteName('fieldparams'));
         $query->select($db->quoteName('params'));
-        $query->select(' "" AS ' . $db->quote('item_id'));
-        $query->select(' "" AS ' . $db->quote('value'));
+        $query->select($db->q('') . ' AS ' . $db->q('item_id'));
+        $query->select($db->q('') . ' AS ' . $db->q('value'));
 
         $query->order($db->quoteName('ordering') . ',' . $db->quoteName('label'));
 
