@@ -405,7 +405,7 @@ class ExtensionHelper
                     $db->quoteName('type'),
                     $db->quoteName('element'),
                     $db->quoteName('folder'),
-                    $db->quoteName('client_id')
+                    $db->quoteName('client_id'),
                 ],
                 '|'
             ),
