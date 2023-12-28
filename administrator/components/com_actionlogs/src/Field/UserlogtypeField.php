@@ -22,7 +22,7 @@ use Joomla\Database\ParameterType;
 /**
  * Field to load a list of all users that have logged actions
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 class UserlogtypeField extends ListField
 {
@@ -30,7 +30,7 @@ class UserlogtypeField extends ListField
      * The form field type.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     protected $type = 'UserLogType';
 
@@ -39,7 +39,7 @@ class UserlogtypeField extends ListField
      *
      * @return  array  The field option objects.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function getOptions()
     {
