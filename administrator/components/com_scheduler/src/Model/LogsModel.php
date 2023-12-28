@@ -45,7 +45,7 @@ class LogsModel extends ListModel
                 'exitcode', 'a.exitcode',
                 'duration', 'a.duration',
                 'taskname', 'a.taskname',
-                'tasktype', 'a.tasktype',
+                'type', 'a.tasktype',
                 'jobid', 'a.jobid',
                 'taskid', 'a.taskid',
                 'lastdate', 'a.lastdate',

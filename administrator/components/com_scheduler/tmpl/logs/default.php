@@ -80,7 +80,7 @@ $canChange = $user->authorise('core.edit.state', 'com_scheduler');
                         <td class="text-center">
                             <?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
                         </td>
-                        <th scope="row class="d-none d-md-table-cell">
+                        <th scope="row" class="d-none d-md-table-cell">
                             <?php if ($canEdit) : ?>
                                 <?php
                                     $link = Route::_('index.php?option=com_scheduler&view=tasks&filter[search]=id:' . $item->jobid . '&tmpl=component&layout=modal');
@@ -144,7 +144,6 @@ $canChange = $user->authorise('core.edit.state', 'com_scheduler');
                             <?php echo (int) $item->id; ?>
                         </td>
                     </tr>
-                    <input type="hidden" name="jobid[]" value="<?php echo $item->jobid; ?>">
                 <?php endforeach; ?>
                 </tbody>
             </table>
