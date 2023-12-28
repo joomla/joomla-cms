@@ -396,7 +396,7 @@ class ExtensionHelper
         $values = [];
 
         foreach (self::$coreExtensions as $extension) {
-            $values[] = $db->quote($extension[0] . '|' . $extension[1] . '|' . $extension[2] . '|' . $extension[3]);
+            $values[] = $extension[0] . '|' . $extension[1] . '|' . $extension[2] . '|' . $extension[3];
         }
 
         $query->whereIn(
