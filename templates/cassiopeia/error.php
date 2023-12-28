@@ -31,13 +31,10 @@ $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu     = $app->getMenu()->getActive();
 $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
 
-// Template path
-$templatePath = 'media/templates/site/cassiopeia';
-
 // Color Theme
 $paramsColorName = $this->params->get('colorName', 'colors_standard');
 $assetColorName  = 'theme.' . $paramsColorName;
-$wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
+$wa->registerAndUseStyle($assetColorName, 'global/' . $paramsColorName . '.css');
 
 // Use a font scheme if set in the template style options
 $paramsFontScheme = $this->params->get('useFontScheme', false);
@@ -52,7 +49,7 @@ if ($paramsFontScheme) {
 
         if (preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches) > 0) {
             $fontStyles = '--cassiopeia-font-family-body: "' . str_replace('+', ' ', $matches[1][0]) . '", sans-serif;
-			--cassiopeia-font-family-headings: "' . str_replace('+', ' ', isset($matches[1][1]) ? $matches[1][1] : $matches[1][0]) . '", sans-serif;
+			--cassiopeia-font-family-headings: "' . str_replace('+', ' ', $matches[1][1] ?? $matches[1][0]) . '", sans-serif;
 			--cassiopeia-font-weight-normal: 400;
 			--cassiopeia-font-weight-headings: 700;';
         }
@@ -72,7 +69,7 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
 		--template-bg-light: #f0f4fb;
 		--template-text-dark: #495057;
 		--template-text-light: #ffffff;
-		--template-link-color: #2a69b8;
+		--link-color: var(--link-color);
 		--template-special-color: #001B4C;
 		$fontStyles
 	}");

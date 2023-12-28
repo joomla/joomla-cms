@@ -174,7 +174,7 @@ class CategoriesModel extends ListModel
                 'a.id, a.title, a.alias, a.note, a.published, a.access' .
                 ', a.checked_out, a.checked_out_time, a.created_user_id' .
                 ', a.path, a.parent_id, a.level, a.lft, a.rgt' .
-                ', a.language'
+                ', a.language, a.description'
             )
         );
         $query->from($db->quoteName('#__categories', 'a'));
@@ -245,12 +245,12 @@ class CategoriesModel extends ListModel
         $categoryId = $this->getState('filter.category_id', []);
         $level      = $this->getState('filter.level');
 
-        if (!is_array($categoryId)) {
+        if (!\is_array($categoryId)) {
             $categoryId = $categoryId ? [$categoryId] : [];
         }
 
         // Case: Using both categories filter and by level filter
-        if (count($categoryId)) {
+        if (\count($categoryId)) {
             $categoryTable    = Table::getInstance('Category', 'JTable');
             $subCatItemsWhere = [];
 

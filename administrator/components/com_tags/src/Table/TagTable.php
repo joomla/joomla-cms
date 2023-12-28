@@ -19,6 +19,7 @@ use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -53,13 +54,16 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  A database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
+     *
+     * @since   3.1.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_tags.tag';
 
-        parent::__construct('#__tags', 'id', $db);
+        parent::__construct('#__tags', 'id', $db, $dispatcher);
     }
 
     /**
@@ -155,7 +159,7 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
     }
 
     /**
-     * Overridden \JTable::store to set modified data and user id.
+     * Overridden \Joomla\CMS\Table\Table::store to set modified data and user id.
      *
      * @param   boolean  $updateNulls  True to update fields even if they are null.
      *

@@ -49,9 +49,6 @@ $loader->unregister();
 // Decorate Composer autoloader
 spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
-// Register the class aliases for Framework classes that have replaced their Platform equivalents
-require_once JPATH_LIBRARIES . '/classmap.php';
-
 /**
  * Register the global exception handler. And set error level to server default error level.
  * The error level may be changed later in boot up process, after application config will be loaded.

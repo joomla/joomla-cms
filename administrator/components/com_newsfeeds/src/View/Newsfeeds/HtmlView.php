@@ -147,12 +147,12 @@ class HtmlView extends BaseHtmlView
     {
         $state   = $this->get('State');
         $canDo   = ContentHelper::getActions('com_newsfeeds', 'category', $state->get('filter.category_id'));
-        $user    = Factory::getApplication()->getIdentity();
+        $user    = $this->getCurrentUser();
         $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'rss newsfeeds');
 
-        if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
+        if ($canDo->get('core.create') || \count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
             $toolbar->addNew('newsfeed.add');
         }
 
@@ -185,7 +185,11 @@ class HtmlView extends BaseHtmlView
                 && $user->authorise('core.edit.state', 'com_newsfeeds')
             ) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
-                    ->selector('collapseModal')
+                    ->popupType('inline')
+                    ->textHeader(Text::_('COM_NEWSFEEDS_BATCH_OPTIONS'))
+                    ->url('#joomla-dialog-batch')
+                    ->modalWidth('800px')
+                    ->modalHeight('fit-content')
                     ->listCheck(true);
             }
         }

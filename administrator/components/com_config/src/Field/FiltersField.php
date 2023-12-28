@@ -59,20 +59,21 @@ class FiltersField extends FormField
 
         // Open the table.
         $html[] = '<table id="filter-config" class="table">';
+        $html[] = '<caption class="visually-hidden">' . Text::_('COM_CONFIG_TEXT_FILTERS') . '</caption>';
 
         // The table heading.
         $html[] = '	<thead>';
         $html[] = '	<tr>';
-        $html[] = '		<th>';
+        $html[] = '		<th scope="col">';
         $html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_GROUPS_LABEL') . '</span>';
         $html[] = '		</th>';
-        $html[] = '		<th>';
+        $html[] = '		<th scope="col">';
         $html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_TYPE_LABEL') . '</span>';
         $html[] = '		</th>';
-        $html[] = '		<th>';
+        $html[] = '		<th scope="col">';
         $html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_TAGS_LABEL') . '</span>';
         $html[] = '		</th>';
-        $html[] = '		<th>';
+        $html[] = '		<th scope="col">';
         $html[] = '			<span class="acl-action">' . Text::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</span>';
         $html[] = '		</th>';
         $html[] = '	</tr>';
@@ -92,9 +93,9 @@ class FiltersField extends FormField
             $group_filter['filter_attributes'] = !empty($group_filter['filter_attributes']) ? $group_filter['filter_attributes'] : '';
 
             $html[] = '	<tr>';
-            $html[] = '		<td class="acl-groups left">';
+            $html[] = '		<th class="acl-groups left" scope="row">';
             $html[] = '			' . LayoutHelper::render('joomla.html.treeprefix', ['level' => $group->level + 1]) . $group->text;
-            $html[] = '		</td>';
+            $html[] = '		</th>';
             $html[] = '		<td>';
             $html[] = '			<label for="' . $this->id . $group->value . '_filter_type" class="visually-hidden">'
                 . Text::_('JGLOBAL_FILTER_TYPE_LABEL') . '</label>';

@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\View\Tours;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -124,7 +123,7 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::title(Text::_('COM_GUIDEDTOURS_TOURS_LIST'), 'map-signs');
 
         $canDo = ContentHelper::getActions('com_guidedtours');
-        $user  = Factory::getApplication()->getIdentity();
+        $user  = $this->getCurrentUser();
 
         if ($canDo->get('core.create')) {
             $toolbar->addNew('tour.add');

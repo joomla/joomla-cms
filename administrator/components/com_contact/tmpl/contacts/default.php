@@ -67,7 +67,7 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col">
-                                    <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
+                                    <?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTACT_FIELD_NAME_LABEL', 'a.name', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="w-10 d-none">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
@@ -190,15 +190,7 @@ if ($saveOrder && !empty($this->items)) {
                         && $user->authorise('core.edit', 'com_contact')
                         && $user->authorise('core.edit.state', 'com_contact')
                     ) : ?>
-                        <?php echo HTMLHelper::_(
-                            'bootstrap.renderModal',
-                            'collapseModal',
-                            [
-                                'title'  => Text::_('COM_CONTACT_BATCH_OPTIONS'),
-                                'footer' => $this->loadTemplate('batch_footer'),
-                            ],
-                            $this->loadTemplate('batch_body')
-                        ); ?>
+                        <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
                     <?php endif; ?>
                 <?php endif; ?>
                 <input type="hidden" name="task" value="">

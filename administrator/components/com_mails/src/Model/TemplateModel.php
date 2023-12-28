@@ -12,13 +12,13 @@ namespace Joomla\Component\Mails\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -282,7 +282,7 @@ class TemplateModel extends AdminModel
     {
         $validLanguages = LanguageHelper::getContentLanguages([0, 1]);
 
-        if (!array_key_exists($data['language'], $validLanguages)) {
+        if (!\array_key_exists($data['language'], $validLanguages)) {
             $this->setError(Text::_('COM_MAILS_FIELD_LANGUAGE_CODE_INVALID'));
 
             return false;
@@ -345,7 +345,7 @@ class TemplateModel extends AdminModel
             // Trigger the before save event.
             $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
 
-            if (in_array(false, $result, true)) {
+            if (\in_array(false, $result, true)) {
                 $this->setError($table->getError());
 
                 return false;

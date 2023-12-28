@@ -58,6 +58,9 @@ class SaveSetup extends AbstractImmutableEvent implements ResultAwareInterface
      *
      * @return  MfaTable
      * @since   4.2.0
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     public function setRecord(MfaTable $value): MfaTable
     {
@@ -75,6 +78,9 @@ class SaveSetup extends AbstractImmutableEvent implements ResultAwareInterface
      *
      * @return  Input
      * @since   4.2.0
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     public function setInput(Input $value): Input
     {
@@ -83,5 +89,31 @@ class SaveSetup extends AbstractImmutableEvent implements ResultAwareInterface
         }
 
         return $value;
+    }
+
+    /**
+     * Validate the value of the 'record' named parameter
+     *
+     * @param   MfaTable  $value  The value to validate
+     *
+     * @return  MfaTable
+     * @since   4.4.0
+     */
+    protected function onSetRecord(MfaTable $value): MfaTable
+    {
+        return $this->setRecord($value);
+    }
+
+    /**
+     * Validate the value of the 'record' named parameter
+     *
+     * @param   Input  $value  The value to validate
+     *
+     * @return  Input
+     * @since   4.4.0
+     */
+    protected function onSetInput(Input $value): Input
+    {
+        return $this->setInput($value);
     }
 }

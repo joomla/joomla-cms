@@ -54,7 +54,7 @@ class LibraryAdapter extends InstallerAdapter
 
                 // Clear the cached data
                 $this->currentExtensionId = null;
-                $this->extension          = Table::getInstance('Extension', 'JTable', ['dbo' => $this->getDatabase()]);
+                $this->extension          = Table::getInstance('Extension', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDatabase()]);
 
                 // From this point we'll consider this an update
                 $this->setRoute('update');
@@ -274,7 +274,11 @@ class LibraryAdapter extends InstallerAdapter
     protected function removeExtensionFiles()
     {
         $this->parent->removeFiles($this->getManifest()->files, -1);
-        File::delete(JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml');
+        $manifest = JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml';
+
+        if (is_file($manifest)) {
+            File::delete($manifest);
+        }
 
         // @todo: Change this so it walked up the path backwards so we clobber multiple empties
         // If the folder is empty, let's delete it
@@ -323,7 +327,7 @@ class LibraryAdapter extends InstallerAdapter
         // Don't install libraries which would override core folders
         $restrictedFolders = ['php-encryption', 'phpass', 'src', 'vendor'];
 
-        if (in_array($group, $restrictedFolders)) {
+        if (\in_array($group, $restrictedFolders)) {
             throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_CORE_FOLDER'));
         }
 

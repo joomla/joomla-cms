@@ -299,7 +299,7 @@ class QuickIconHelper
                 $this->buttons[$key][] = $tmp;
             }
 
-            if (ComponentHelper::isEnabled('com_contacts') && $params->get('show_contact')) {
+            if (ComponentHelper::isEnabled('com_contact') && $params->get('show_contact')) {
                 $tmp = [
                     'image'   => 'icon-address-book contact',
                     'link'    => Route::_('index.php?option=com_contact&view=contacts'),
