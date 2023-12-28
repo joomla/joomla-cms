@@ -12,9 +12,11 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Form\Constraint\FieldLengthConstraint;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -311,5 +313,29 @@ class TextField extends FormField
         ];
 
         return array_merge($data, $extraData);
+    }
+
+    /**
+     * Method to validate a FormField object based on field data.
+     *
+     * @param   mixed      $value  The optional value to use as the default for the field.
+     * @param   string     $group  The optional dot-separated form group path on which to find the field.
+     * @param   ?Registry  $input  An optional Registry object with the entire data set to validate
+     *                             against the entire form.
+     *
+     * @return   \Joomla\CMS\Form\Validation\FieldValidationResponseInterface
+     *
+     * @throws  \UnexpectedValueException  When the field or a rule configuration is invalid
+     *@since   4.0.0
+     */
+    public function validate($value, $group = null, Registry $input = null)
+    {
+        $validationResults = parent::validate($value, $group, $input);
+
+        $validationResults->addConstraint(
+            new FieldLengthConstraint($this, $value, $this->maxLength)
+        );
+
+        return $validationResults;
     }
 }

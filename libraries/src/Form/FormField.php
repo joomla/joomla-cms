@@ -12,6 +12,10 @@ namespace Joomla\CMS\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Field\SubformField;
+use Joomla\CMS\Form\Rule\FormRuleInterface;
+use Joomla\CMS\Form\Constraint\FieldRequiredConstraint;
+use Joomla\CMS\Form\Constraint\LegacyRuleConstraint;
+use Joomla\CMS\Form\Validation\FieldValidationResponse;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Log\Log;
@@ -1155,11 +1159,10 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      * @param   ?Registry  $input  An optional Registry object with the entire data set to validate
      *                             against the entire form.
      *
-     * @return  boolean|\Exception  Boolean true if field value is valid, Exception on failure.
+     * @return   Validation\FieldValidationResponseInterface
      *
-     * @since   4.0.0
-     * @throws  \InvalidArgumentException
-     * @throws  \UnexpectedValueException
+     * @throws  \UnexpectedValueException  When the field or a rule configuration is invalid
+     *@since   4.0.0
      */
     public function validate($value, $group = null, Registry $input = null)
     {
@@ -1168,29 +1171,17 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             throw new \UnexpectedValueException(sprintf('%s::validate `element` is not an instance of SimpleXMLElement', \get_class($this)));
         }
 
-        $valid = true;
+        $response = new FieldValidationResponse($this->name, $this->group);
+        $valid    = true;
 
         // Check if the field is required.
         $required = ((string) $this->element['required'] === 'true' || (string) $this->element['required'] === 'required');
 
-        if ($this->element['label']) {
-            $fieldLabel = $this->element['label'];
-
-            // Try to translate label if not set to false
-            $translate = (string) $this->element['translateLabel'];
-
-            if (!($translate === 'false' || $translate === 'off' || $translate === '0')) {
-                $fieldLabel = Text::_($fieldLabel);
-            }
-        } else {
-            $fieldLabel = Text::_($this->element['name']);
-        }
-
         // If the field is required and the value is empty return an error message.
         if ($required && (($value === '') || ($value === null))) {
-            $message = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $fieldLabel);
-
-            return new \RuntimeException($message);
+            $response->addConstraint(new FieldRequiredConstraint(false, $this));
+        } elseif ($required) {
+            $response->addConstraint(new FieldRequiredConstraint(true, $this));
         }
 
         // Get the field validation rule.
@@ -1216,54 +1207,32 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
                 $rule->setCurrentUser($this->getCurrentUser());
             }
 
-            try {
+            if ($rule instanceof FormRuleInterface) {
+                $rule->test($this->element, $value, $group, $input, $this->form);
+                $response->addConstraint($rule);
+            } else {
+                @trigger_error(
+                    sprintf('Rules should implement %s from 6.0.', FormRuleInterface::class),
+                    E_USER_DEPRECATED
+                );
+
                 // Run the field validation rule test.
                 $valid = $rule->test($this->element, $value, $group, $input, $this->form);
-            } catch (\Exception $e) {
-                return $e;
+                $response->addConstraint(new LegacyRuleConstraint($valid, $this, $rule));
             }
         }
 
         if ($valid !== false && $this instanceof SubformField) {
-            // Load the subform validation rule.
+            /** @var \Joomla\CMS\Form\Rule\SubformRule $rule */
             $rule = FormHelper::loadRuleType('Subform');
 
-            if ($rule instanceof DatabaseAwareInterface) {
-                try {
-                    $rule->setDatabase($this->getDatabase());
-                } catch (DatabaseNotFoundException $e) {
-                    @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
-                    $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
-                }
-            }
+            // Run the field validation rule test.
+            $rule->test($this->element, $value, $group, $input, $this->form);
 
-            if ($rule instanceof CurrentUserInterface) {
-                $rule->setCurrentUser($this->getCurrentUser());
-            }
-
-            try {
-                // Run the field validation rule test.
-                $valid = $rule->test($this->element, $value, $group, $input, $this->form);
-            } catch (\Exception $e) {
-                return $e;
-            }
+            $response->addConstraint($rule);
         }
 
-        // Check if the field is valid.
-        if ($valid === false) {
-            // Does the field have a defined error message?
-            $message = (string) $this->element['message'];
-
-            if ($message) {
-                $message = Text::_($this->element['message']);
-            } else {
-                $message = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $fieldLabel);
-            }
-
-            return new \UnexpectedValueException($message);
-        }
-
-        return $valid;
+        return $response;
     }
 
     /**

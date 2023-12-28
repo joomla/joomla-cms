@@ -12,7 +12,6 @@ namespace Joomla\CMS\Form\Rule;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Form\FormRule;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
@@ -25,8 +24,10 @@ use Joomla\Registry\Registry;
  *
  * @since  3.1.2
  */
-class PasswordRule extends FormRule
+class PasswordRule implements FormRuleInterface
 {
+    use RuleConstraintTrait;
+
     /**
      * Method to test if two values are not equal. To use this rule, the form
      * XML needs a validate attribute of equals and a field attribute
@@ -40,13 +41,13 @@ class PasswordRule extends FormRule
      * @param   ?Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
      * @param   ?Form              $form     The form object for which the field is being tested.
      *
-     * @return  boolean  True if the value is valid, false otherwise.
+     * @return  void
      *
      * @since   3.1.2
      * @throws  \InvalidArgumentException
      * @throws  \UnexpectedValueException
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null): void
     {
         $meter            = isset($element['strengthmeter']) ? ' meter="0"' : '1';
         $threshold        = isset($element['threshold']) ? (int) $element['threshold'] : 66;
@@ -86,32 +87,28 @@ class PasswordRule extends FormRule
         }
 
         // If the field is empty and not required, the field is valid.
-        $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
+        $required      = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
+        $this->isValid = true;
 
         if (!$required && empty($value)) {
-            return true;
+            return;
         }
 
-        $valueLength = \strlen($value);
+        // Set a variable to check if any errors are made in password
+        $valueLength   = \strlen($value);
 
         // We set a maximum length to prevent abuse since it is unfiltered.
         if ($valueLength > 4096) {
-            Factory::getApplication()->enqueueMessage(Text::_('JFIELD_PASSWORD_TOO_LONG'), 'error');
+            $this->errorMessage = Text::_('JFIELD_PASSWORD_TOO_LONG');
+            $this->isValid      = false;
         }
 
         // We don't allow white space inside passwords
         $valueTrim = trim($value);
 
-        // Set a variable to check if any errors are made in password
-        $validPassword = true;
-
         if (\strlen($valueTrim) !== $valueLength) {
-            Factory::getApplication()->enqueueMessage(
-                Text::_('JFIELD_PASSWORD_SPACES_IN_PASSWORD'),
-                'error'
-            );
-
-            $validPassword = false;
+            $this->errorMessage = Text::_('JFIELD_PASSWORD_SPACES_IN_PASSWORD');
+            $this->isValid      = false;
         }
 
         // Minimum number of integers required
@@ -119,12 +116,8 @@ class PasswordRule extends FormRule
             $nInts = preg_match_all('/[0-9]/', $value, $imatch);
 
             if ($nInts < $minimumIntegers) {
-                Factory::getApplication()->enqueueMessage(
-                    Text::plural('JFIELD_PASSWORD_NOT_ENOUGH_INTEGERS_N', $minimumIntegers),
-                    'error'
-                );
-
-                $validPassword = false;
+                $this->errorMessage = Text::plural('JFIELD_PASSWORD_NOT_ENOUGH_INTEGERS_N', $minimumIntegers);
+                $this->isValid      = false;
             }
         }
 
@@ -133,12 +126,8 @@ class PasswordRule extends FormRule
             $nsymbols = preg_match_all('[\W]', $value, $smatch);
 
             if ($nsymbols < $minimumSymbols) {
-                Factory::getApplication()->enqueueMessage(
-                    Text::plural('JFIELD_PASSWORD_NOT_ENOUGH_SYMBOLS_N', $minimumSymbols),
-                    'error'
-                );
-
-                $validPassword = false;
+                $this->errorMessage = Text::plural('JFIELD_PASSWORD_NOT_ENOUGH_SYMBOLS_N', $minimumSymbols);
+                $this->isValid      = false;
             }
         }
 
@@ -147,12 +136,8 @@ class PasswordRule extends FormRule
             $nUppercase = preg_match_all('/[A-Z]/', $value, $umatch);
 
             if ($nUppercase < $minimumUppercase) {
-                Factory::getApplication()->enqueueMessage(
-                    Text::plural('JFIELD_PASSWORD_NOT_ENOUGH_UPPERCASE_LETTERS_N', $minimumUppercase),
-                    'error'
-                );
-
-                $validPassword = false;
+                $this->errorMessage = Text::plural('JFIELD_PASSWORD_NOT_ENOUGH_UPPERCASE_LETTERS_N', $minimumUppercase);
+                $this->isValid      = false;
             }
         }
 
@@ -161,32 +146,29 @@ class PasswordRule extends FormRule
             $nLowercase = preg_match_all('/[a-z]/', $value, $umatch);
 
             if ($nLowercase < $minimumLowercase) {
-                Factory::getApplication()->enqueueMessage(
-                    Text::plural('JFIELD_PASSWORD_NOT_ENOUGH_LOWERCASE_LETTERS_N', $minimumLowercase),
-                    'error'
-                );
-
-                $validPassword = false;
+                $this->errorMessage = Text::plural('JFIELD_PASSWORD_NOT_ENOUGH_LOWERCASE_LETTERS_N', $minimumLowercase);
+                $this->isValid      = false;
             }
         }
 
         // Minimum length option
         if (!empty($minimumLength)) {
             if (\strlen((string) $value) < $minimumLength) {
-                Factory::getApplication()->enqueueMessage(
-                    Text::plural('JFIELD_PASSWORD_TOO_SHORT_N', $minimumLength),
-                    'error'
-                );
-
-                $validPassword = false;
+                $this->errorMessage = Text::plural('JFIELD_PASSWORD_TOO_SHORT_N', $minimumLength);
+                $this->isValid      = false;
             }
         }
+    }
 
-        // If valid has violated any rules above return false.
-        if (!$validPassword) {
-            return false;
-        }
-
-        return true;
+    /**
+     * Name of the constraint - note this is for machine access and should be unique for a form field.
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getName(): string
+    {
+        return 'passwordRule';
     }
 }
