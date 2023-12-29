@@ -82,29 +82,9 @@ $canChange = $user->authorise('core.edit.state', 'com_scheduler');
                         </td>
                         <th scope="row" class="d-none d-md-table-cell">
                             <?php if ($canEdit) : ?>
-                                <?php
-                                    $link = Route::_('index.php?option=com_scheduler&view=tasks&filter[search]=id:' . $item->jobid . '&tmpl=component&layout=modal');
-                                    $href = '#plugin' . $item->jobid . 'Modal'
-                                ?>
-                                <a title="<?php echo Text::_("JACTION_EDIT");?>" data-bs-toggle="modal" href="<?php echo $href; ?>"><?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode($item->taskname))); ?></a>
-                                <?php echo HTMLHelper::_(
-                                    'bootstrap.renderModal',
-                                    'plugin' . $item->jobid . 'Modal',
-                                    [
-                                        'url'         => $link,
-                                        'title'       => $item->taskname,
-                                        'height'      => '400px',
-                                        'width'       => '800px',
-                                        'bodyHeight'  => '70',
-                                        'modalWidth'  => '80',
-                                        'closeButton' => false,
-                                        'backdrop'    => 'static',
-                                        'keyboard'    => false,
-                                        'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
-                                            . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $item->jobid . 'Modal\', buttonSelector: \'#closeBtn\'})">'
-                                            . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
-                                    ]
-                                );?>
+                                <a href="<?php echo Route::_('index.php?option=com_scheduler&task=task.edit&id=' . $item->jobid); ?>"
+                                        title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->taskname); ?>"> <?php echo $this->escape($item->taskname); ?>
+                                </a>
                             <?php else : ?>
                                 <?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode($item->taskname))); ?>
                             <?php endif; ?>
