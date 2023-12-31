@@ -12,9 +12,9 @@ namespace Joomla\Component\Privacy\Api\View\Requests;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
-use Joomla\CMS\Serializer\JoomlaSerializer;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Privacy\Administrator\Model\ExportModel;
+use Joomla\Component\Privacy\Api\Serializer\ExportSerializer;
 use Tobscure\JsonApi\Resource;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -62,7 +62,7 @@ class JsonapiView extends BaseApiView
             throw new RouteNotFoundException('Item does not exist');
         }
 
-        $serializer = new JoomlaSerializer('export');
+        $serializer = new ExportSerializer('export');
         $element    = (new Resource($exportData, $serializer));
 
         $this->getDocument()->setData($element);
