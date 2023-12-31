@@ -181,7 +181,7 @@ steps:
   - name: phpmin-system-postgres
     depends_on:
       - prepare_system_tests
-    image: joomlaprojects/docker-images:cypress8.3
+    image: joomlaprojects/docker-images:cypress8.1
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -403,6 +403,6 @@ trigger:
 
 ---
 kind: signature
-hmac: fe941dd88b45e7314424a0138348a21573e6c57990ce4449e0cf1278b04e4f42
+hmac: 0e5edd7d08f5ba19a156ad97cc733ebe28bca4fd63958be1ada1391170e0c327
 
 ...
