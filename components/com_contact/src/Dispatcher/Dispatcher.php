@@ -27,9 +27,9 @@ class Dispatcher extends ComponentDispatcher
     /**
      * Load the language
      *
-     * @since   __DEPLOY_VERSION__
-     *
      * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
      */
     protected function loadLanguage()
     {
