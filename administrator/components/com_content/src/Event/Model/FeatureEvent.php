@@ -73,7 +73,7 @@ class FeatureEvent extends AbstractImmutableEvent
     /**
      * Abort with reason
      *
-     * @param   string  $reason  The value to set
+     * @param   string  $reason  Abort reason
      *
      * @return void
      *
