@@ -47,7 +47,7 @@ $canChange = $user->authorise('core.edit.state', 'com_scheduler');
                         <td class="w-1 text-center">
                             <?php echo HTMLHelper::_('grid.checkall'); ?>
                         </td>
-                        <th scope="col" class="w-1 d-none d-md-table-cell">
+                        <th scope="col" class="d-none d-md-table-cell">
                             <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.taskname', $listDirn, $listOrder); ?>
                         </th>
                          <!-- Task type header -->

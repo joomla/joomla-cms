@@ -22,7 +22,7 @@ use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Database\ParameterType;
 
 /**
- * Methods supporting a list of logs.
+ * Supporting a list of logs.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -75,7 +75,7 @@ class LogsModel extends ListModel
     }
 
     /**
-     * Method to auto-populate the model state.
+     * Auto-populate the model state.
      *
      * Note. Calling getState in this method will result in recursion.
      *
@@ -97,7 +97,7 @@ class LogsModel extends ListModel
     }
 
     /**
-     * Method to get a store id based on model configuration state.
+     * Get a store id based on model configuration state.
      *
      * This is necessary because the model is used by the component and
      * different modules that might need different sets of data or different
@@ -188,7 +188,7 @@ class LogsModel extends ListModel
     }
 
     /**
-     * Method to delete rows.
+     * Delete rows.
      *
      * @param   array    $pks    The ids of the items to delete.
      *
