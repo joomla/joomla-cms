@@ -80,7 +80,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
      * The client application Id
      *
      * @var Integer
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.2
      */
     protected $clientId;
 
