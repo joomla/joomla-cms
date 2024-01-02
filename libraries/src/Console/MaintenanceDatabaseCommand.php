@@ -46,6 +46,7 @@ class MaintenanceDatabaseCommand extends AbstractCommand
 
     /**
      * SymfonyStyle Object
+     *
      * @var SymfonyStyle
      * @since __DEPLOY_VERSION__
      */
