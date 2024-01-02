@@ -6,7 +6,7 @@ clone:
 
 steps:
   - name: setup
-    image: joomlaprojects/docker-images:php8.3
+    image: joomlaprojects/docker-images:php8.2
     volumes:
       - name: certificates
         path: /certificates
@@ -14,7 +14,7 @@ steps:
       - cp -v tests/certs/* /certificates/
 
   - name: composer
-    image: joomlaprojects/docker-images:php8.3
+    image: joomlaprojects/docker-images:php8.2
     volumes:
       - name: composer-cache
         path: /tmp/composer-cache
@@ -63,13 +63,6 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
-  - name: php83-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php8.3
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
   - name: php81-integration
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.1
@@ -84,13 +77,6 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
 
-  - name: php83-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.3
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
   - name: php81-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.1
@@ -101,13 +87,6 @@ steps:
   - name: php82-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.2
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-
-  - name: php83-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.3
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
@@ -166,7 +145,7 @@ steps:
   - name: phpnext-system-mysql
     depends_on:
       - phpmax-system-mysql
-    image: joomlaprojects/docker-images:cypress8.3
+    image: joomlaprojects/docker-images:cypress8.2
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -181,7 +160,7 @@ steps:
   - name: phpmin-system-postgres
     depends_on:
       - prepare_system_tests
-    image: joomlaprojects/docker-images:cypress8.3
+    image: joomlaprojects/docker-images:cypress8.1
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -205,7 +184,7 @@ steps:
   - name: phpnext-system-postgres
     depends_on:
       - phpmax-system-postgres
-    image: joomlaprojects/docker-images:cypress8.3
+    image: joomlaprojects/docker-images:cypress8.2
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -380,8 +359,7 @@ steps:
       - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
       - rclone delete nightly:/home/devj/public_html/cache/com_content/
       - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
-      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.0](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
-
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.1](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
 
   - name: buildfailure
     image: joomlaprojects/docker-images:packager
@@ -389,10 +367,11 @@ steps:
       MATTERMOST_NIGHTLY_HOOK:
         from_secret: mattermost_nightly_hook
     commands:
-      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.0](https://developer.joomla.org/nightly-builds.html) FAILED to built."}' $MATTERMOST_NIGHTLY_HOOK
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.1](https://developer.joomla.org/nightly-builds.html) FAILED to built."}' $MATTERMOST_NIGHTLY_HOOK
     when:
       status:
         - failure
+
 
 trigger:
   event:
@@ -403,6 +382,6 @@ trigger:
 
 ---
 kind: signature
-hmac: fe941dd88b45e7314424a0138348a21573e6c57990ce4449e0cf1278b04e4f42
+hmac: 5814cadc441b90eec51da0aa32cd29ff1014c4d759841cc70063b5e9245d2b08
 
 ...
