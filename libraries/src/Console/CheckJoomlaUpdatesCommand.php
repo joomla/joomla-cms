@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Console;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Version;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Command\Command;
@@ -33,7 +35,7 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
      * @var    string
      * @since  4.0.0
      */
-    protected static $defaultName = 'core:check-updates';
+    protected static $defaultName = 'core:update:check';
 
     /**
      * Stores the Update Information
@@ -42,6 +44,19 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
      * @since  4.0.0
      */
     private $updateInfo;
+
+    /**
+     * Command constructor.
+     *
+     * @param   string|null  $name  The name of the command; if the name is empty and no default is set, a name must be set in the configure() method
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct(?string $name = null)
+    {
+        $this->setAliases(['core:check-updates']);
+        parent::__construct($name);
+    }
 
     /**
      * Initialise the command.
@@ -124,9 +139,25 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
     {
         $symfonyStyle = new SymfonyStyle($input, $output);
 
-        $model = $this->getUpdateInfo();
-        $data  = $model->getUpdateInformation();
-        $symfonyStyle->title('Joomla! Updates');
+        $model  = $this->getUpdateInfo();
+        $data   = $model->getUpdateInformation();
+        $config = ComponentHelper::getParams('com_joomlaupdate');
+
+        $symfonyStyle->title('Joomla! Update Status');
+
+        switch ($config->get('updatesource', 'default')) {
+            case 'default':
+            case 'next':
+            case 'testing':
+                $symfonyStyle->writeln('You are on the ' . $config->get('updatesource', 'default') . ' update channel.');
+                break;
+            case 'custom':
+                $symfonyStyle->writeln('You are on a custom update channel with the URL ' . $config->get('customurl') . '.');
+                break;
+        }
+
+        $version = new Version();
+        $symfonyStyle->writeln('Your current Joomla version is ' . $version->getShortVersion() . '.');
 
         if (!$data['hasUpdate']) {
             $symfonyStyle->success('You already have the latest Joomla version ' . $data['latest']);
