@@ -93,7 +93,7 @@ class CoreUpdateChannelCommand extends AbstractCommand
     {
         $symfonyStyle = new SymfonyStyle($input, $output);
 
-        $params = ComponentHelper::getParams('com_joomlaupdate');
+        $params  = ComponentHelper::getParams('com_joomlaupdate');
         $channel = $input->getArgument('channel');
 
         if (!$channel) {
@@ -114,7 +114,7 @@ class CoreUpdateChannelCommand extends AbstractCommand
             return Command::SUCCESS;
         }
 
-        if (!in_array($channel, ['default', 'next', 'testing', 'custom'])) {
+        if (!\in_array($channel, ['default', 'next', 'testing', 'custom'])) {
             $symfonyStyle->error('The given update channel is invalid. Please only choose from [default, next, testing, custom].');
 
             return Command::FAILURE;
