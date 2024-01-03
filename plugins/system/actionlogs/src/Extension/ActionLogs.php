@@ -359,7 +359,7 @@ final class ActionLogs extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function onExtensionAfterSave($context, $table, $isNew): void
     {
