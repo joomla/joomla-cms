@@ -120,16 +120,14 @@ class HtmlView extends BaseHtmlView
         $toolbar->link('JTOOLBAR_BACK', 'index.php?option=com_scheduler')
             ->icon('icon-' . $arrow);
 
-        if (\count($this->items)) {
-            if ($canDo->get('core.delete')) {
-                $toolbar->delete('logs.delete')
-                    ->message('JGLOBAL_CONFIRM_DELETE')
-                    ->listCheck(true);
+        if ($canDo->get('core.delete') && \count($this->items)) {
+            $toolbar->delete('logs.delete')
+                ->message('JGLOBAL_CONFIRM_DELETE')
+                ->listCheck(true);
 
-                $toolbar->confirmButton('trash', 'COM_SCHEDULER_TOOLBAR_PURGE', 'logs.purge')
-                    ->message('COM_SCHEDULER_TOOLBAR_PURGE_CONFIRM')
-                    ->listCheck(false);
-            }
+            $toolbar->confirmButton('trash', 'COM_SCHEDULER_TOOLBAR_PURGE', 'logs.purge')
+                ->message('COM_SCHEDULER_TOOLBAR_PURGE_CONFIRM')
+                ->listCheck(false);
         }
 
         // Link to component preferences if user has admin privileges
