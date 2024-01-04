@@ -15,8 +15,14 @@
 .container-topbar,
 .container-below-top {
   color: $white;
-  a {
+
+  a:not(.btn), .btn-link {
     color: currentColor;
+
+    &:hover,
+    &:focus {
+      color: var(--gray-200);
+    }
   }
 }
 
