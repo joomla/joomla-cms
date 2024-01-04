@@ -76,7 +76,6 @@ class HtmlView extends InstallerViewDefault
     {
         $canDo   = ContentHelper::getActions('com_installer');
         $toolbar = Toolbar::getInstance();
-        
 
         if ($canDo->get('core.manage')) {
             $toolbar->linkButton('list', 'COM_INSTALLER_TOOLBAR_MANAGE_LANGUAGES')
