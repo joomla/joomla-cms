@@ -16,7 +16,7 @@ use Joomla\CMS\Serializer\JoomlaSerializer;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Pricacy export serializer
+ * Privacy export serializer
  *
  * @since  __DEPLOY_VERSION__
  */
