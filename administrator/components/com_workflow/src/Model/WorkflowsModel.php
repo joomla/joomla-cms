@@ -13,6 +13,7 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -80,7 +81,7 @@ class WorkflowsModel extends ListModel
         $this->setState('filter.component', $parts[0]);
 
         // Extract the optional section name
-        $this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
+        $this->setState('filter.section', (\count($parts) > 1) ? $parts[1] : null);
 
         parent::populateState($ordering, $direction);
     }
@@ -145,7 +146,7 @@ class WorkflowsModel extends ListModel
      *
      * @param   array  $items  The workflow items
      *
-     * @return  mixed  An array of data items on success, false on failure.
+     * @return  void
      *
      * @since  4.0.0
      */
@@ -206,7 +207,7 @@ class WorkflowsModel extends ListModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  string  The query to database.
+     * @return  DatabaseQuery  The query to database.
      *
      * @since  4.0.0
      */

@@ -10,6 +10,9 @@
 
 defined('_JEXEC') or die;
 ?>
+<div class="subhead noshadow mb-3">
+    <?php echo $this->document->getToolbar('toolbar')->render(); ?>
+</div>
 <div class="container-popup">
     <?php $this->setLayout('edit'); ?>
     <?php echo $this->loadTemplate(); ?>

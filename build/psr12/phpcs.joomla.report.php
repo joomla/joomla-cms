@@ -10,12 +10,10 @@
 
 namespace Joomla\Reports;
 
-use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Files\File;
 
 use function array_keys;
 use function array_merge;
-use function array_values;
 use function file_exists;
 use function file_get_contents;
 use function file_put_contents;
@@ -106,7 +104,6 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
 
                 if (
                     strpos($fileContent, "defined('_JEXEC')") !== false
-                    || strpos($fileContent, "defined('JPATH_PLATFORM')") !== false
                     || strpos($fileContent, "defined('JPATH_BASE')") !== false
                 ) {
                     $this->preProcessing[] = [

@@ -13,6 +13,7 @@ namespace Joomla\Component\Guidedtours\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -24,7 +25,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Methods supporting a list of steps records.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
 class StepsModel extends ListModel
 {
@@ -33,7 +34,7 @@ class StepsModel extends ListModel
      *
      * @param   array $config An optional associative array of configuration settings.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      * @see   \Joomla\CMS\MVC\Controller\BaseController
      */
     public function __construct($config = [])
@@ -50,6 +51,7 @@ class StepsModel extends ListModel
                 'created_by', 'a.created_by',
                 'modified', 'a.modified',
                 'modified_by', 'a.modified_by',
+                'note', 'a.note',
             ];
         }
 
@@ -61,7 +63,7 @@ class StepsModel extends ListModel
      *
      * @return DatabaseQuery
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected function getEmptyStateQuery()
     {
@@ -70,29 +72,12 @@ class StepsModel extends ListModel
         $tourId = $this->getState('filter.tour_id');
 
         if ($tourId) {
-            $db     = $this->getDatabase();
             $tourId = (int) $tourId;
-            $query->where($db->quoteName('a.tour_id') . ' = :tour_id')
+            $query->where($this->getDatabase()->quoteName('a.tour_id') . ' = :tour_id')
                 ->bind(':tour_id', $tourId, ParameterType::INTEGER);
         }
 
         return $query;
-    }
-
-    /**
-     * Method to get a table object, load it if necessary.
-     *
-     * @param   string  $type    The table name. Optional.
-     * @param   string  $prefix  The class prefix. Optional.
-     * @param   array   $config  Configuration array for model. Optional.
-     *
-     * @return  \Joomla\CMS\Table\Table  A JTable object
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    public function getTable($type = 'Step', $prefix = 'Administrator', $config = [])
-    {
-        return parent::getTable($type, $prefix, $config);
     }
 
     /**
@@ -105,28 +90,22 @@ class StepsModel extends ListModel
      *
      * @return void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected function populateState($ordering = 'a.ordering', $direction = 'ASC')
     {
         $app = Factory::getApplication();
 
-        $tour_id = $app->getUserStateFromRequest($this->context . '.filter.tour_id', 'tour_id', 0, 'int');
+        $tourId = $app->getUserStateFromRequest($this->context . '.filter.tour_id', 'tour_id', 0, 'int');
 
-        if (empty($tour_id)) {
-            $tour_id = $app->getUserState('com_guidedtours.tour_id');
+        if (empty($tourId)) {
+            $tourId = $app->getUserState('com_guidedtours.tour_id');
         }
 
-        $this->setState('filter.tour_id', $tour_id);
+        $this->setState('filter.tour_id', $tourId);
 
         // Keep the tour_id for adding new visits
-        $app->setUserState('com_guidedtours.tour_id', $tour_id);
-
-        $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-        $this->setState('filter.search', $search);
-
-        $published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
-        $this->setState('filter.published', $published);
+        $app->setUserState('com_guidedtours.tour_id', $tourId);
 
         // List state information.
         parent::populateState($ordering, $direction);
@@ -143,11 +122,12 @@ class StepsModel extends ListModel
      *
      * @return string  A store id.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected function getStoreId($id = '')
     {
         // Compile the store id.
+        $id .= ':' . $this->getState('filter.tour_id');
         $id .= ':' . $this->getState('filter.search');
         $id .= ':' . $this->getState('filter.published');
 
@@ -159,7 +139,7 @@ class StepsModel extends ListModel
      *
      * @return \Joomla\Database\DatabaseQuery
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected function getListQuery()
     {
@@ -185,15 +165,15 @@ class StepsModel extends ListModel
         )
             ->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'));
 
-        $tour_id = $this->getState('filter.tour_id');
+        $tourId = $this->getState('filter.tour_id');
 
-        if (is_numeric($tour_id)) {
-            $tour_id = (int) $tour_id;
+        if (is_numeric($tourId)) {
+            $tourId = (int) $tourId;
             $query->where($db->quoteName('a.tour_id') . ' = :tour_id')
-                ->bind(':tour_id', $tour_id, ParameterType::INTEGER);
-        } elseif (is_array($tour_id)) {
-            $tour_id = ArrayHelper::toInteger($tour_id);
-            $query->whereIn($db->quoteName('a.tour_id'), $tour_id);
+                ->bind(':tour_id', $tourId, ParameterType::INTEGER);
+        } elseif (\is_array($tourId)) {
+            $tourId = ArrayHelper::toInteger($tourId);
+            $query->whereIn($db->quoteName('a.tour_id'), $tourId);
         }
 
         // Published state
@@ -215,16 +195,17 @@ class StepsModel extends ListModel
                 $query->where($db->quoteName('a.id') . ' = :search')
                     ->bind(':search', $search, ParameterType::INTEGER);
             } elseif (stripos($search, 'description:') === 0) {
-                $search = '%' . substr($search, 8) . '%';
+                $search = '%' . substr($search, 12) . '%';
                 $query->where('(' . $db->quoteName('a.description') . ' LIKE :search1)')
                     ->bind([':search1'], $search);
             } else {
                 $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->where(
                     '(' . $db->quoteName('a.title') . ' LIKE :search1'
-                    . ' OR ' . $db->quoteName('a.description') . ' LIKE :search2)'
+                    . ' OR ' . $db->quoteName('a.description') . ' LIKE :search2'
+                    . ' OR ' . $db->quoteName('a.note') . ' LIKE :search3)'
                 )
-                    ->bind([':search1', ':search2'], $search);
+                    ->bind([':search1', ':search2', ':search3'], $search);
             }
         }
 
@@ -242,16 +223,29 @@ class StepsModel extends ListModel
      *
      * @return  mixed  An array of data items on success, false on failure.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getItems()
     {
         $items = parent::getItems();
 
-        $lang = Factory::getLanguage();
-        $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
-
+        $tourLanguageLoaded = false;
         foreach ($items as $item) {
+            if (!$tourLanguageLoaded) {
+                $app    = Factory::getApplication();
+                $tourId = $item->tour_id;
+
+                /** @var \Joomla\Component\Guidedtours\Administrator\Model\TourModel $tourModel */
+                $tourModel = $app->bootComponent('com_guidedtours')
+                                 ->getMVCFactory()->createModel('Tour', 'Administrator', [ 'ignore_request' => true ]);
+
+                $tour = $tourModel->getItem($tourId);
+
+                GuidedtoursHelper::loadTranslationFiles($tour->uid, true);
+
+                $tourLanguageLoaded = true;
+            }
+
             $item->title       = Text::_($item->title);
             $item->description = Text::_($item->description);
         }

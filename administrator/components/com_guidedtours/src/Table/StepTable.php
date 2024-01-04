@@ -12,7 +12,10 @@ namespace Joomla\Component\Guidedtours\Administrator\Table;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -21,29 +24,31 @@ use Joomla\Database\DatabaseDriver;
 /**
  * Step table class.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
-class StepTable extends Table
+class StepTable extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
      * @var    boolean
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
-    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
     protected $_supportNullValue = true;
 
     /**
      * Constructor
      *
-     * @param   DatabaseDriver $db Database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__guidedtour_steps', 'id', $db);
+        parent::__construct('#__guidedtour_steps', 'id', $db, $dispatcher);
     }
 
     /**
@@ -53,12 +58,12 @@ class StepTable extends Table
      *
      * @return  boolean True on success, false on failure.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     public function store($updateNulls = true)
     {
         $date   = Factory::getDate()->toSql();
-        $userId = Factory::getUser()->id;
+        $userId = $this->getCurrentUser()->id;
 
         // Set created date if not set.
         if (!(int) $this->created) {

@@ -16,7 +16,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -74,7 +74,7 @@ class ModulepositionField extends TextField
     {
         switch ($name) {
             case 'clientId':
-                $this->clientId = (string) $value;
+                $this->clientId = (int) $value;
                 break;
 
             default:

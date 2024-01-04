@@ -20,8 +20,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Component\Content\Site\Model\ArticlesModel;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -173,7 +171,11 @@ class ArticlesPopularHelper
      *
      * @since  4.3.0
      *
-     * @deprecated 5.0 Use the none static function getArticles
+     * @deprecated 4.3 will be removed in 6.0
+     *             Use the non-static method getArticles
+     *             Example: Factory::getApplication()->bootModule('mod_articles_popular', 'site')
+     *                          ->getHelper('ArticlesPopularHelper')
+     *                          ->getArticles($params, Factory::getApplication())
      */
     public static function getList(&$params)
     {

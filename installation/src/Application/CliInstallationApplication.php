@@ -20,7 +20,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Console\InstallCommand;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Version;
 use Joomla\Console\Application;
@@ -76,6 +75,14 @@ final class CliInstallationApplication extends Application implements CMSApplica
      * @since 4.3.0
      */
     protected $session;
+
+    /**
+     * The client application Id
+     *
+     * @var Integer
+     * @since 5.0.2
+     */
+    protected $clientId;
 
     /**
      * Class constructor.
@@ -218,7 +225,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
 
         // If db connection, fetch them from the database.
         if ($db) {
-            foreach (LanguageHelper::getInstalledLanguages() as $clientId => $language) {
+            foreach (LanguageHelper::getInstalledLanguages(null, null, null, null, null, null, $db) as $clientId => $language) {
                 $clientName = $clientId === 0 ? 'site' : 'admin';
 
                 foreach ($language as $languageCode => $lang) {
@@ -313,7 +320,9 @@ final class CliInstallationApplication extends Application implements CMSApplica
      * @return  boolean
      *
      * @since       4.3.0
-     * @deprecated  5.0  Will be removed without replacements
+     *
+     * @deprecated   4.3 will be removed in 5.0
+     *               Use $app->isClient('cli_installation') instead
      */
     public function isCli()
     {

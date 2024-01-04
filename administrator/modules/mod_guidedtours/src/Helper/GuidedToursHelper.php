@@ -22,7 +22,7 @@ use Joomla\Uri\Uri;
 /**
  * Helper for mod_guidedtours
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.3.0
  */
 class GuidedToursHelper
 {
@@ -34,7 +34,7 @@ class GuidedToursHelper
      *
      * @return  mixed
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getTours(Registry $params, AdministratorApplication $app)
     {

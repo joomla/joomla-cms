@@ -22,7 +22,7 @@ use Psr\Container\ContainerInterface;
 /**
  * Component class for com_guidedtours
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
 class GuidedtoursComponent extends MVCComponent implements BootableExtensionInterface
 {
@@ -31,7 +31,7 @@ class GuidedtoursComponent extends MVCComponent implements BootableExtensionInte
     /**
      * The step type
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     public const STEP_TYPE_NAMES = [
         self::STEP_NEXT        => 'COM_GUIDEDTOURS_FIELD_VALUE_STEP_TYPE_NEXT',
@@ -42,28 +42,28 @@ class GuidedtoursComponent extends MVCComponent implements BootableExtensionInte
     /**
      * A regular step.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     public const STEP_NEXT = 0;
 
     /**
      * A step that redirects to another page.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     public const STEP_REDIRECT = 1;
 
     /**
      * A step that allows interactions from the user.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     public const STEP_INTERACTIVE = 2;
 
     /**
      * The step interactive type names
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     public const STEP_INTERACTIVETYPE_NAMES = [
         self::STEP_INTERACTIVETYPE_FORM_SUBMIT => 'COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_FORM_SUBMIT',
@@ -75,28 +75,28 @@ class GuidedtoursComponent extends MVCComponent implements BootableExtensionInte
     /**
      * An interactive step where a user clicks on a form button.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     public const STEP_INTERACTIVETYPE_FORM_SUBMIT = 1;
 
     /**
      * An interactive step where a user enters text.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     public const STEP_INTERACTIVETYPE_TEXT = 2;
 
     /**
      * An interactive step where a user clicks on a button.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     public const STEP_INTERACTIVETYPE_BUTTON = 4;
 
     /**
      * An interactive step for other fields.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     public const STEP_INTERACTIVETYPE_OTHER = 3;
 
@@ -111,7 +111,7 @@ class GuidedtoursComponent extends MVCComponent implements BootableExtensionInte
      *
      * @return void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     public function boot(ContainerInterface $container)
     {

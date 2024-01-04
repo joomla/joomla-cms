@@ -21,7 +21,7 @@ use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 /**
  * ComponentDispatcher class for com_config
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.9
  */
 class Dispatcher extends ComponentDispatcher
 {
@@ -30,14 +30,14 @@ class Dispatcher extends ComponentDispatcher
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.9
      *
      * @throws  \Exception
      */
     protected function checkAccess(): void
     {
-        // sendtestmail expects json response, so we leave the method to handle the permission and send response itself
-        if ($this->input->getCmd('task') === 'application.sendtestmail') {
+        // sendtestmail and store do their own checks, so leave the method to handle the permission and send response itself
+        if (\in_array($this->input->getCmd('task'), ['application.sendtestmail', 'application.store'], true)) {
             return;
         }
 

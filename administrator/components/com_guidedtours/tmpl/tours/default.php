@@ -19,7 +19,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\View\Tours\HtmlView;
-use Joomla\String\Inflector;
 
 /** @var  HtmlView  $this */
 
@@ -41,6 +40,11 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 $section = null;
 $mode = false;
+
+$canEdit              = $user->authorise('core.edit', 'com_guidedtours');
+$canEditOwnTour       = $user->authorise('core.edit.own', 'com_guidedtours');
+$canEditStateTour     = $user->authorise('core.edit.state', 'com_guidedtours');
+$hasCheckinPermission = $user->authorise('core.manage', 'com_checkin');
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl =
@@ -104,7 +108,7 @@ if ($saveOrder && !empty($this->items)) {
                     <th scope="col" class="w-1 text-center">
                         <?php echo HTMLHelper::_(
                             'searchtools.sort',
-                            'COM_GUIDEDTOURS_STATUS',
+                            'JSTATUS',
                             'a.published',
                             $listDirn,
                             $listOrder
@@ -134,7 +138,7 @@ if ($saveOrder && !empty($this->items)) {
                     <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                         <?php echo HTMLHelper::_(
                             'searchtools.sort',
-                            'COM_GUIDEDTOURS_TOUR_ID',
+                            'JGRID_HEADING_ID',
                             'a.id',
                             $listDirn,
                             $listOrder
@@ -148,9 +152,9 @@ if ($saveOrder && !empty($this->items)) {
                     class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php
                        endif; ?>>
                 <?php foreach ($this->items as $i => $item) :
-                    $canEdit = $user->authorise('core.edit', 'com_guidedtours' . '.tour.' . $item->id);
-                    $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
-                    $canChange = $user->authorise('core.edit.state', 'com_guidedtours' . '.tour.' . $item->id) && $canCheckin;
+                    $canEditOwn = $canEditOwnTour && $item->created_by == $userId;
+                    $canCheckin = $hasCheckinPermission || $item->checked_out == $userId || is_null($item->checked_out);
+                    $canChange  = $canEditStateTour && $canCheckin;
                     ?>
 
                     <!-- Row begins -->
@@ -197,7 +201,7 @@ if ($saveOrder && !empty($this->items)) {
                                 <?php if ($item->checked_out) : ?>
                                     <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'tours.', $canCheckin); ?>
                                 <?php endif; ?>
-                                <?php if ($canEdit) : ?>
+                                <?php if ($canEdit || $canEditOwn) : ?>
                                     <a href="<?php echo Route::_('index.php?option=com_guidedtours&task=tour.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
                                         <?php echo $this->escape($item->title); ?>
                                     </a>

@@ -25,8 +25,8 @@ trait KnownButtons
 {
     /**
      * Return list of known TinyMCE buttons
-     * @see https://www.tiny.cloud/docs/demo/full-featured/
-     * @see https://www.tiny.cloud/apps/#core-plugins
+     * @link https://www.tiny.cloud/docs/demo/full-featured/
+     * @link https://www.tiny.cloud/apps/#core-plugins
      *
      * @return array
      *
@@ -74,15 +74,15 @@ trait KnownButtons
 
             'cut'          => ['label' => 'Cut'],
             'copy'         => ['label' => 'Copy'],
-            'paste'        => ['label' => 'Paste', 'plugin' => 'paste'],
-            'pastetext'    => ['label' => 'Paste as text', 'plugin' => 'paste'],
+            'paste'        => ['label' => 'Paste'],
+            'pastetext'    => ['label' => 'Paste as text'],
             'removeformat' => ['label' => 'Clear formatting'],
 
             'language' => ['label' => 'Language'],
 
             // Buttons from the plugins
             'anchor'         => ['label' => 'Anchor', 'plugin' => 'anchor'],
-            'hr'             => ['label' => 'Horizontal line', 'plugin' => 'hr'],
+            'hr'             => ['label' => 'Horizontal line'],
             'ltr'            => ['label' => 'Left to right', 'plugin' => 'directionality'],
             'rtl'            => ['label' => 'Right to left', 'plugin' => 'directionality'],
             'code'           => ['label' => 'Source code', 'plugin' => 'code'],
@@ -96,10 +96,10 @@ trait KnownButtons
             'media'          => ['label' => 'Insert/edit video', 'plugin' => 'media'],
             'image'          => ['label' => 'Insert/edit image', 'plugin' => 'image'],
             'pagebreak'      => ['label' => 'Page break', 'plugin' => 'pagebreak'],
-            'print'          => ['label' => 'Print', 'plugin' => 'print'],
+            'print'          => ['label' => 'Print'],
             'preview'        => ['label' => 'Preview', 'plugin' => 'preview'],
             'fullscreen'     => ['label' => 'Fullscreen', 'plugin' => 'fullscreen'],
-            'template'       => ['label' => 'Insert template', 'plugin' => 'template'],
+            'jtemplate'      => ['label' => 'Insert template', 'plugin' => 'jtemplate'],
             'searchreplace'  => ['label' => 'Find and replace', 'plugin' => 'searchreplace'],
             'insertdatetime' => ['label' => 'Insert date/time', 'plugin' => 'insertdatetime'],
             'help'           => ['label' => 'Help', 'plugin' => 'help'],

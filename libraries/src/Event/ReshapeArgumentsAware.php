@@ -4,15 +4,13 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license        GNU General Public License version 2 or later; see LICENSE
+ * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Event;
 
-use DomainException;
-
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -48,13 +46,14 @@ use DomainException;
  * All this is achieved by the reshapeArguments() method in this trait which has to be called in the
  * constructor of the concrete event class.
  *
- * This trait is marked as deprecated with a removal target of 5.0 because in Joomla 5 we will only
+ * This trait is marked as deprecated with a removal target of 6.0 because in Joomla 6 we will only
  * be using concrete event classes with named arguments, removing legacy listeners and their
  * positional arguments headaches.
  *
  * @since  4.2.0
  *
- * @deprecated 5.0
+ * @deprecated  4.3 will be removed in 6.0
+ *              Will be removed without replacement
  */
 trait ReshapeArgumentsAware
 {
@@ -71,26 +70,21 @@ trait ReshapeArgumentsAware
      */
     protected function reshapeArguments(array $arguments, array $argumentNames, array $defaults = [])
     {
-        $mandatoryKeys = array_diff($argumentNames, array_keys($defaults));
-        $currentKeys   = array_keys($arguments);
-        $missingKeys   = array_diff($mandatoryKeys, $currentKeys);
-        $extraKeys     = array_diff($currentKeys, $argumentNames);
-
-        // Am I missing any mandatory arguments?
-        if ($missingKeys) {
-            throw new DomainException(sprintf('Missing arguments for ‘%s’ event: %s', $this->getName(), implode(', ', $missingKeys)));
-        }
-
-        // Do I have unknown arguments?
-        if ($extraKeys) {
-            throw new DomainException(sprintf('Unknown arguments for ‘%s’ event: %s', $this->getName(), implode(', ', $missingKeys)));
-        }
-
-        // Reconstruct the arguments in the order specified in $argumentTypes
         $reconstructed = [];
 
+        // Check when the source is non-associative, example [$context, $item, $isNew, $data]
+        if (key($arguments) === 0) {
+            foreach ($argumentNames as $i => $name) {
+                $reconstructed[$name] = $arguments[$i] ?? $defaults[$name] ?? null;
+            }
+
+            // Return the reconstructed arguments array
+            return $reconstructed;
+        }
+
+        // Reconstruct the arguments in the order specified in $argumentNames
         foreach ($argumentNames as $key) {
-            $reconstructed[$key] = $arguments[$key] ?? $defaults[$key];
+            $reconstructed[$key] = $arguments[$key] ?? $defaults[$key] ?? null;
         }
 
         // Return the reconstructed arguments array

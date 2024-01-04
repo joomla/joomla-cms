@@ -8,9 +8,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
-use Joomla\Application\ApplicationInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -28,21 +27,22 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function register(Container $container)
     {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
+                $app        = Factory::getApplication();
 
                 $plugin = new GuidedTours(
-                    $dispatcher,
-                    (array) PluginHelper::getPlugin('system', 'guidedtours')
+                    $container->get(DispatcherInterface::class),
+                    (array) PluginHelper::getPlugin('system', 'guidedtours'),
+                    $app->isClient('administrator')
                 );
 
-                $plugin->setApplication(Factory::getApplication());
+                $plugin->setApplication($app);
 
                 $wa = $container->get(WebAssetRegistry::class);
 

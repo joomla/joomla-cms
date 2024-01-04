@@ -8,7 +8,7 @@
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
@@ -27,7 +27,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * The Guidedtours service provider.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
 return new class () implements ServiceProviderInterface {
     /**
@@ -37,7 +37,7 @@ return new class () implements ServiceProviderInterface {
      *
      * @return void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     public function register(Container $container)
     {

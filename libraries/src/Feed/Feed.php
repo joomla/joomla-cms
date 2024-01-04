@@ -12,7 +12,7 @@ namespace Joomla\CMS\Feed;
 use Joomla\CMS\Date\Date;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -90,7 +90,7 @@ class Feed implements \ArrayAccess, \Countable
                 sprintf(
                     '%1$s "author" must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
                     \get_class($this),
-                    \gettype($value) === 'object' ? \get_class($value) : \gettype($value)
+                    \is_object($value) ? \get_class($value) : \gettype($value)
                 )
             );
         }
@@ -242,7 +242,7 @@ class Feed implements \ArrayAccess, \Countable
                 sprintf(
                     '%1$s entries must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
                     \get_class($this),
-                    \gettype($value) === 'object' ? \get_class($value) : \gettype($value)
+                    \is_object($value) ? \get_class($value) : \gettype($value)
                 )
             );
         }

@@ -13,7 +13,7 @@ namespace Joomla\Component\Guidedtours\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\DatabaseQuery;
+use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -25,7 +25,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Model class for Tours
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.3.0
  */
 class ToursModel extends ListModel
 {
@@ -35,7 +35,7 @@ class ToursModel extends ListModel
      * @param   array  $config  An optional associative array of configuration settings.
      *
      * @see     JController
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function __construct($config = [])
     {
@@ -52,42 +52,11 @@ class ToursModel extends ListModel
                 'created_by', 'a.created_by',
                 'modified', 'a.modified',
                 'modified_by', 'a.modified_by',
+                'note', 'a.note',
             ];
         }
 
         parent::__construct($config);
-    }
-
-    /**
-     * Provide a query to be used to evaluate if this is an Empty State, can be overridden in the model to provide granular control.
-     *
-     * @return DatabaseQuery
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    protected function getEmptyStateQuery()
-    {
-        $query = clone $this->_getListQuery();
-
-        if ($query instanceof DatabaseQuery) {
-            $query->clear('bounded')
-                ->clear('group')
-                ->clear('having')
-                ->clear('join')
-                ->clear('values')
-                ->clear('where');
-
-            // override of ListModel to keep the tour id filter
-            $db      = $this->getDatabase();
-            $tour_id = $this->getState('filter.tour_id');
-            if ($tour_id) {
-                $tour_id = (int) $tour_id;
-                $query->where($db->quoteName('a.tour_id') . ' = :tour_id')
-                    ->bind(':tour_id', $tour_id, ParameterType::INTEGER);
-            }
-        }
-
-        return $query;
     }
 
     /**
@@ -104,7 +73,7 @@ class ToursModel extends ListModel
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected function populateState($ordering = 'a.ordering', $direction = 'ASC')
     {
@@ -113,26 +82,9 @@ class ToursModel extends ListModel
 
         $this->setState('filter.extension', $extension);
 
-        // Extract the optional section name
-
         parent::populateState($ordering, $direction);
     }
 
-    /**
-     * Method to get a table object, load it if necessary.
-     *
-     * @param   string  $type    The table name. Optional.
-     * @param   string  $prefix  The class prefix. Optional.
-     * @param   array   $config  Configuration array for model. Optional.
-     *
-     * @return  \Joomla\CMS\Table\Table  A JTable object
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public function getTable($type = 'Tour', $prefix = 'Administrator', $config = [])
-    {
-        return parent::getTable($type, $prefix, $config);
-    }
     /**
      * Get the filter form
      *
@@ -141,7 +93,7 @@ class ToursModel extends ListModel
      *
      * @return  \JForm|false  the JForm object or false
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public function getFilterForm($data = [], $loadData = true)
     {
@@ -158,7 +110,7 @@ class ToursModel extends ListModel
      *
      * @return  string  The query to database.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public function getListQuery()
     {
@@ -242,7 +194,7 @@ class ToursModel extends ListModel
             $access = (int) $access;
             $query->where($db->quoteName('a.access') . ' = :access')
                 ->bind(':access', $access, ParameterType::INTEGER);
-        } elseif (is_array($access)) {
+        } elseif (\is_array($access)) {
             $access = ArrayHelper::toInteger($access);
             $query->whereIn($db->quoteName('a.access'), $access);
         }
@@ -263,16 +215,17 @@ class ToursModel extends ListModel
                 $query->where($db->quoteName('a.id') . ' = :search')
                     ->bind(':search', $search, ParameterType::INTEGER);
             } elseif (stripos($search, 'description:') === 0) {
-                $search = '%' . substr($search, 8) . '%';
+                $search = '%' . substr($search, 12) . '%';
                 $query->where('(' . $db->quoteName('a.description') . ' LIKE :search1)')
                     ->bind([':search1'], $search);
             } else {
                 $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->where(
                     '(' . $db->quoteName('a.title') . ' LIKE :search1'
-                    . ' OR ' . $db->quoteName('a.description') . ' LIKE :search2)'
+                    . ' OR ' . $db->quoteName('a.description') . ' LIKE :search2'
+                    . ' OR ' . $db->quoteName('a.note') . ' LIKE :search3)'
                 )
-                    ->bind([':search1', ':search2'], $search);
+                    ->bind([':search1', ':search2', ':search3'], $search);
             }
         }
 
@@ -290,20 +243,21 @@ class ToursModel extends ListModel
      *
      * @return  mixed  An array of data items on success, false on failure.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getItems()
     {
         $items = parent::getItems();
 
-        $lang = Factory::getLanguage();
-        $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
-
-        foreach ($items as $item) {
+        foreach ($items as & $item) {
+            if (!empty($item->uid)) {
+                GuidedtoursHelper::loadTranslationFiles($item->uid, false);
+            }
             $item->title       = Text::_($item->title);
             $item->description = Text::_($item->description);
             $item->extensions  = (new Registry($item->extensions))->toArray();
         }
+        unset($item);
 
         return $items;
     }

@@ -18,7 +18,6 @@ use Joomla\Event\Dispatcher;
 use Joomla\Plugin\Authentication\Ldap\Extension\Ldap as LdapPlugin;
 use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactory;
 use Joomla\Tests\Integration\IntegrationTestCase;
-use Symfony\Component\Ldap\Ldap;
 
 /**
  * Test class for Ldap plugin

@@ -98,9 +98,9 @@ class ContactsController extends AdminController
             }
 
             if ($value == 1) {
-                $message = Text::plural('COM_CONTACT_N_ITEMS_FEATURED', count($ids));
+                $message = Text::plural('COM_CONTACT_N_ITEMS_FEATURED', \count($ids));
             } else {
-                $message = Text::plural('COM_CONTACT_N_ITEMS_UNFEATURED', count($ids));
+                $message = Text::plural('COM_CONTACT_N_ITEMS_UNFEATURED', \count($ids));
             }
         }
 
@@ -126,7 +126,7 @@ class ContactsController extends AdminController
     /**
      * Method to get the number of published contacts for quickicons
      *
-     * @return  string  The JSON-encoded amount of published contacts
+     * @return  void
      *
      * @since   4.3.0
      */

@@ -21,7 +21,7 @@ use Joomla\CMS\Router\Route;
 /**
  * Guidedtours list controller class.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
 
 class ToursController extends AdminController
@@ -35,7 +35,7 @@ class ToursController extends AdminController
      *
      * @return \Joomla\CMS\MVC\Model\BaseDatabaseModel
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     public function getModel($name = 'Tour', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
@@ -53,7 +53,7 @@ class ToursController extends AdminController
             }
             $model = $this->getModel();
             $model->duplicate($pks);
-            $this->setMessage(Text::plural('COM_GUIDEDTOURS_TOURS_DUPLICATED', count($pks)));
+            $this->setMessage(Text::plural('COM_GUIDEDTOURS_TOURS_DUPLICATED', \count($pks)));
         } catch (\Exception $e) {
             $this->app->enqueueMessage($e->getMessage(), 'warning');
         }

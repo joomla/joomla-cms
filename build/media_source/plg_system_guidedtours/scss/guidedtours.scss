@@ -41,7 +41,7 @@
   border-color: var(--template-bg-dark-90);
 }
 
-.shepherd-enabled.shepherd-element[data-popper-placement="bottom"] {
+.shepherd-enabled.shepherd-element[data-popper-placement=bottom] {
   transform: translateY(12px);
 }
 
