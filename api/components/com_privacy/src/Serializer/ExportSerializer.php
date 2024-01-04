@@ -34,6 +34,7 @@ class ExportSerializer extends JoomlaSerializer
     public function getId($model)
     {
         $model['id'] = '1';
+
         return $model['id'];
     }
 
