@@ -161,7 +161,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
         /**
          * We only started this collector in Joomla 4.2.4 - any older files we have to assume are insecure.
          */
-        if (!array_key_exists('juser', $data)) {
+        if (!\array_key_exists('juser', $data)) {
             return false;
         }
 

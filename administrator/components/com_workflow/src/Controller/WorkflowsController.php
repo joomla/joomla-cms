@@ -132,7 +132,7 @@ class WorkflowsController extends AdminController
 
         if (empty($cid)) {
             $this->setMessage(Text::_('COM_WORKFLOW_NO_ITEM_SELECTED'), 'warning');
-        } elseif (count($cid) > 1) {
+        } elseif (\count($cid) > 1) {
             $this->setMessage(Text::_('COM_WORKFLOW_TOO_MANY_WORKFLOWS'), 'error');
         } else {
             // Get the model.
@@ -151,7 +151,7 @@ class WorkflowsController extends AdminController
                     $ntext = 'COM_WORKFLOW_ITEM_UNSET_DEFAULT';
                 }
 
-                $this->setMessage(Text::_($ntext, count($cid)));
+                $this->setMessage(Text::_($ntext, \count($cid)));
             }
         }
 

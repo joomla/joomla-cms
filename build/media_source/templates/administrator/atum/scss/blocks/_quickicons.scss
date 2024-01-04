@@ -60,6 +60,13 @@
         border-radius: $border-radius;
         transition: all .25s ease;
         margin-inline-start: .5rem;
+        @if $enable-dark-mode {
+          /* stylelint-disable max-nesting-depth */
+          @include color-mode(dark) {
+            /* stylelint-enable max-nesting-depth */
+            color: var(--template-bg-dark-80);
+          }
+        }
       }
 
       .j-links-link {
@@ -126,6 +133,16 @@
       > * {
         margin-bottom: 10px;
         color: var(--template-quickicon-color);
+      }
+
+      @if $enable-dark-mode {
+        @include color-mode(dark) {
+          /* stylelint-disable max-nesting-depth */
+          > * {
+            /* stylelint-enable max-nesting-depth */
+            color: var(--template-bg-dark-80);
+          }
+        }
       }
 
       &:hover,

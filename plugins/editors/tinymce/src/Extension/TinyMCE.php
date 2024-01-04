@@ -34,7 +34,7 @@ final class TinyMCE extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
-    // TODO: KnownButtons, ToolbarPresets for backward compatibility. Remove in Joomla 6
+    // @todo: KnownButtons, ToolbarPresets for backward compatibility. Remove in Joomla 6
     use KnownButtons;
     use ToolbarPresets;
 
@@ -43,11 +43,14 @@ final class TinyMCE extends CMSPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public static function getSubscribedEvents(): array
     {
-        return ['onEditorSetup' => 'onEditorSetup'];
+        return [
+            'onEditorSetup' => 'onEditorSetup',
+            'onAjaxTinymce' => 'onAjaxTinymce',
+        ];
     }
 
     /**
@@ -57,7 +60,7 @@ final class TinyMCE extends CMSPlugin implements SubscriberInterface
      *
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function onEditorSetup(EditorSetupEvent $event)
     {

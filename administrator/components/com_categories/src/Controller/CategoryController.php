@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
@@ -152,6 +153,15 @@ class CategoryController extends FormController
         $newKey = $this->option . '.edit.category.' . substr($this->extension, 4) . '.data';
         $this->app->setUserState($newKey, null);
 
+        // When editing in modal then redirect to modalreturn layout
+        if ($result && $this->input->get('layout') === 'modal') {
+            $id     = $this->input->get('id');
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=cancel';
+
+            $this->setRedirect(Route::_($return, false));
+        }
+
         return $result;
     }
 
@@ -242,6 +252,15 @@ class CategoryController extends FormController
         if (isset($item->metadata) && \is_array($item->metadata)) {
             $registry       = new Registry($item->metadata);
             $item->metadata = (string) $registry;
+        }
+
+        // When editing in modal then redirect to modalreturn layout
+        if ($this->input->get('layout') === 'modal' && $this->task === 'save') {
+            $id     = $item->id;
+            $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                . '&layout=modalreturn&from-task=save';
+
+            $this->setRedirect(Route::_($return, false));
         }
     }
 }

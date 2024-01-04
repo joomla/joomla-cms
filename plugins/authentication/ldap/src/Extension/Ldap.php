@@ -80,7 +80,7 @@ final class Ldap extends CMSPlugin
         $response->type = $logcategory;
 
         // Strip null bytes from the password
-        $credentials['password'] = str_replace(chr(0), '', $credentials['password']);
+        $credentials['password'] = str_replace(\chr(0), '', $credentials['password']);
 
         // LDAP does not like Blank passwords (tries to Anon Bind which is bad)
         if (empty($credentials['password'])) {
@@ -106,7 +106,7 @@ final class Ldap extends CMSPlugin
                 $cacertfile = "";
             } elseif (is_file($cacert)) {
                 $cacertfile = $cacert;
-                $cacertdir  = dirname($cacert);
+                $cacertdir  = \dirname($cacert);
             } else {
                 $cacertfile = $cacert;
                 $cacertdir  = $cacert;
@@ -176,9 +176,9 @@ final class Ldap extends CMSPlugin
                     Log::add($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_USER_NOT_FOUND'), Log::ERROR, $logcategory);
 
                     return;
-                } else {
-                    Log::add(sprintf('LDAP entry found at "%s"', $entry->getDn()), Log::DEBUG, $logcategory);
                 }
+
+                Log::add(sprintf('LDAP entry found at "%s"', $entry->getDn()), Log::DEBUG, $logcategory);
 
                 try {
                     // Verify Users Credentials
@@ -290,7 +290,7 @@ final class Ldap extends CMSPlugin
         foreach (explode(';', $search) as $key => $result) {
             $results = $ldap->query($dn, '(' . str_replace('\3b', ';', $result) . ')')->execute();
 
-            if (count($results)) {
+            if (\count($results)) {
                 return $results[0];
             }
         }

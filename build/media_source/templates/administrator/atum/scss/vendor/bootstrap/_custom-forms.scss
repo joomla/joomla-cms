@@ -13,11 +13,9 @@
 
   &[multiple] {
     padding: 0;
-    background-color: var(--white-offset);
 
     option {
       padding: $form-select-multiple-padding-y $form-select-padding-x;
-      background-color: var(--white-offset);
 
       &:checked {
         color: var(--template-text-light);
