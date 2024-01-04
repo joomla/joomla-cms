@@ -145,7 +145,7 @@ class MaintenanceDatabaseCommand extends AbstractCommand
             }
         }
 
-         $this->ioStyle->table(
+        $this->ioStyle->table(
             [
                 Text::_('COM_INSTALLER_HEADING_ID'),
                 Text::_('COM_INSTALLER_HEADING_NAME'),
