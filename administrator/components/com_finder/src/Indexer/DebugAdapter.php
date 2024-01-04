@@ -925,7 +925,7 @@ abstract class DebugAdapter extends CMSPlugin
             case 2:
                 return 1;
 
-            // All other states should return an unpublished state
+                // All other states should return an unpublished state
             default:
                 return 0;
         }

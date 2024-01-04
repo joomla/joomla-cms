@@ -86,7 +86,7 @@ class GroupedlistField extends FormField
                     $groups[$label][] = $tmp;
                     break;
 
-                // The element is a <group />
+                    // The element is a <group />
                 case 'group':
                     // Get the group label.
                     if ($groupLabel = (string) $element['label']) {
@@ -133,7 +133,7 @@ class GroupedlistField extends FormField
                     }
                     break;
 
-                // Unknown element type.
+                    // Unknown element type.
                 default:
                     throw new \UnexpectedValueException(sprintf('Unsupported element %s in GroupedlistField', $element->getName()), 500);
             }

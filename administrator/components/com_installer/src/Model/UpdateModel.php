@@ -570,7 +570,7 @@ class UpdateModel extends ListModel
 
                 break;
 
-            // Modules could have a helper which adds additional data
+                // Modules could have a helper which adds additional data
             case 'module':
                 $cname = str_replace('_', '', $table->element) . 'Helper';
                 $path  = ($table->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $table->element . '/helper.php';
@@ -585,8 +585,8 @@ class UpdateModel extends ListModel
 
                 break;
 
-            // If we have a plugin, we can use the plugin trigger "onInstallerBeforePackageDownload"
-            // But we should make sure, that our plugin is loaded, so we don't need a second "installer" plugin
+                // If we have a plugin, we can use the plugin trigger "onInstallerBeforePackageDownload"
+                // But we should make sure, that our plugin is loaded, so we don't need a second "installer" plugin
             case 'plugin':
                 $cname = str_replace('plg_', '', $table->element);
                 PluginHelper::importPlugin($table->folder, $cname);

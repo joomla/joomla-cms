@@ -820,7 +820,7 @@ class Query
 
                         break;
 
-                    // Handle a taxonomy branch filter.
+                        // Handle a taxonomy branch filter.
                     default:
                         // Try to find the node id.
                         $return = Taxonomy::getNodeByTitle($modifier, $value);

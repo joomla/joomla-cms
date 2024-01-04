@@ -63,7 +63,7 @@ class ExtensionAdapter extends UpdateAdapter
                 $this->currentUpdate->infourl        = '';
                 break;
 
-            // Don't do anything
+                // Don't do anything
             case 'UPDATES':
                 break;
 

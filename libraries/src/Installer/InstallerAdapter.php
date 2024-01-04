@@ -1054,7 +1054,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, $method)) {
             switch ($method) {
-                    // The preflight and postflight take the route as a param
+                // The preflight and postflight take the route as a param
                 case 'preflight':
                 case 'postflight':
                     if ($this->parent->manifestClass->$method($this->route, $this) === false) {
