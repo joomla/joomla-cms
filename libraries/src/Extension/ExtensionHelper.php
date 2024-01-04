@@ -176,10 +176,6 @@ class ExtensionHelper
         ['plugin', 'taggable', 'behaviour', 0],
         ['plugin', 'versionable', 'behaviour', 0],
 
-        // Core plugin extensions - captcha
-        ['plugin', 'recaptcha', 'captcha', 0],
-        ['plugin', 'recaptcha_invisible', 'captcha', 0],
-
         // Core plugin extensions - content
         ['plugin', 'confirmconsent', 'content', 0],
         ['plugin', 'contact', 'content', 0],

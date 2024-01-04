@@ -245,12 +245,12 @@ class CategoriesModel extends ListModel
         $categoryId = $this->getState('filter.category_id', []);
         $level      = $this->getState('filter.level');
 
-        if (!is_array($categoryId)) {
+        if (!\is_array($categoryId)) {
             $categoryId = $categoryId ? [$categoryId] : [];
         }
 
         // Case: Using both categories filter and by level filter
-        if (count($categoryId)) {
+        if (\count($categoryId)) {
             $categoryTable    = Table::getInstance('Category', 'JTable');
             $subCatItemsWhere = [];
 

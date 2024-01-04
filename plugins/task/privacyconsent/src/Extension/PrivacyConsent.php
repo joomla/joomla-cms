@@ -37,7 +37,7 @@ use PHPMailer\PHPMailer\Exception as phpmailerException;
  * A task plugin. Offers 2 task routines Invalidate Expired Consents and Remind Expired Consents
  * {@see ExecuteTaskEvent}.
  *
- * @since __DEPLOY_VERSION__
+ * @since 5.0.0
  */
 final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 {
@@ -47,7 +47,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
     /**
      * @var string[]
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private const TASKS_MAP = [
         'privacy.consent' => [
@@ -60,7 +60,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
     /**
      * @var boolean
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     protected $autoloadLanguage = true;
 
@@ -69,7 +69,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
      *
      * @return string[]
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -87,7 +87,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
      *
      * @return integer  The routine exit code.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @throws \Exception
      */
     private function privacyConsents(ExecuteTaskEvent $event): int
@@ -114,7 +114,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
      *
      * @return integer  The routine exit code.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @throws \Exception
      */
     private function remindExpiringConsents($expire, $remind): int
@@ -127,7 +127,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
         $query->select($db->quoteName(['r.id', 'r.user_id', 'u.email']))
             ->from($db->quoteName('#__privacy_consents', 'r'))
             ->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('r.user_id'))
-            ->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_TASK_PRIVACYCONSENT_SUBJECT'))
+            ->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
             ->where($db->quoteName('remind') . ' = 0')
             ->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'));
 
@@ -202,7 +202,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
      *
      * @return integer  The routine exit code.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @throws \Exception
      */
     private function invalidateExpiredConsents($expire): int
@@ -215,7 +215,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
         $query->select($db->quoteName(['id', 'user_id']))
             ->from($db->quoteName('#__privacy_consents'))
             ->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'))
-            ->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_TASK_PRIVACYCONSENT_SUBJECT'))
+            ->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
             ->where($db->quoteName('state') . ' = 1');
 
         $db->setQuery($query);

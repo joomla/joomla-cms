@@ -24,6 +24,7 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 @import "../../../build/media_source/templates/administrator/atum/scss/variables";
 
 $body-bg: $template-background-light;
+$table-bg: transparent;
 
 @import "../../../media/vendor/bootstrap/scss/variables";
 @import "../../../media/vendor/bootstrap/scss/variables-dark";
@@ -384,6 +385,14 @@ legend {
 .form-control-feedback {
   display: block;
   color: $red;
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .form-control-feedback {
+      color: #d55;
+    }
+  }
 }
 
 // Language Table

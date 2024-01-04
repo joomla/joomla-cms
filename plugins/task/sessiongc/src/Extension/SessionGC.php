@@ -28,7 +28,7 @@ use Joomla\Event\SubscriberInterface;
  * A task plugin. Session data purge task.
  * {@see ExecuteTaskEvent}.
  *
- * @since __DEPLOY_VERSION__
+ * @since 5.0.0
  */
 final class SessionGC extends CMSPlugin implements SubscriberInterface
 {
@@ -45,7 +45,7 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
 
     /**
      * @var string[]
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private const TASKS_MAP = [
         'session.gc' => [
@@ -57,7 +57,7 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
 
     /**
      * @var boolean
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     protected $autoloadLanguage = true;
 
@@ -82,7 +82,7 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
      *
      * @return string[]
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -98,7 +98,7 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
      *
      * @return integer  The routine exit code.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @throws \Exception
      */
     private function sessionGC(ExecuteTaskEvent $event): int
@@ -106,27 +106,13 @@ final class SessionGC extends CMSPlugin implements SubscriberInterface
         $enableGC = (int) $event->getArgument('params')->enable_session_gc ?? 1;
 
         if ($enableGC) {
-            $probability = (int) $event->getArgument('params')->gc_probability ?? 1;
-            $divisor     = (int) $event->getArgument('params')->gc_divisor ?? 100;
-
-            $random = $divisor * lcg_value();
-
-            if ($probability > 0 && $random < $probability) {
-                $this->getApplication()->getSession()->gc();
-            }
+            $this->getApplication()->getSession()->gc();
         }
 
         $enableMetadata = (int) $event->getArgument('params')->enable_session_metadata_gc ?? 1;
 
         if ($this->getApplication()->get('session_handler', 'none') !== 'database' && $enableMetadata) {
-            $probability = (int) $event->getArgument('params')->gc_probability ?? 1;
-            $divisor     = (int) $event->getArgument('params')->gc_divisor ?? 100;
-
-            $random = $divisor * lcg_value();
-
-            if ($probability > 0 && $random < $probability) {
-                $this->metadataManager->deletePriorTo(time() - $this->getApplication()->getSession()->getExpire());
-            }
+            $this->metadataManager->deletePriorTo(time() - $this->getApplication()->getSession()->getExpire());
         }
 
         $this->logTask('SessionGC end');

@@ -22,7 +22,7 @@ use Joomla\Event\SubscriberInterface;
 /**
  * Task plugin with routines to check in a checked out item.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class Globalcheckin extends CMSPlugin implements SubscriberInterface
 {
@@ -31,7 +31,7 @@ class Globalcheckin extends CMSPlugin implements SubscriberInterface
 
     /**
      * @var string[]
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     protected const TASKS_MAP = [
         'plg_task_globalcheckin_task_get' => [
@@ -43,7 +43,7 @@ class Globalcheckin extends CMSPlugin implements SubscriberInterface
 
     /**
      * @var boolean
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     protected $autoloadLanguage = true;
 
@@ -52,7 +52,7 @@ class Globalcheckin extends CMSPlugin implements SubscriberInterface
      *
      * @return string[]
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -70,7 +70,7 @@ class Globalcheckin extends CMSPlugin implements SubscriberInterface
      *
      * @return  integer  The exit code
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function makeCheckin(ExecuteTaskEvent $event): int
     {

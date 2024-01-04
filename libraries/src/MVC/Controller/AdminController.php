@@ -37,7 +37,7 @@ class AdminController extends BaseController
      * The Application. Redeclared to show this class requires a web application.
      *
      * @var    CMSWebApplicationInterface
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $app;
 
@@ -279,13 +279,13 @@ class AdminController extends BaseController
             $this->setRedirect($redirect, $message, 'error');
 
             return false;
-        } else {
-            // Reorder succeeded.
-            $message = Text::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
-            $this->setRedirect($redirect, $message);
-
-            return true;
         }
+
+        // Reorder succeeded.
+        $message = Text::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
+        $this->setRedirect($redirect, $message);
+
+        return true;
     }
 
     /**
@@ -326,13 +326,13 @@ class AdminController extends BaseController
             $this->setRedirect($redirect, $message, 'error');
 
             return false;
-        } else {
-            // Reorder succeeded.
-            $this->setMessage(Text::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
-            $this->setRedirect($redirect);
-
-            return true;
         }
+
+        // Reorder succeeded.
+        $this->setMessage(Text::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
+        $this->setRedirect($redirect);
+
+        return true;
     }
 
     /**
@@ -368,19 +368,19 @@ class AdminController extends BaseController
             );
 
             return false;
-        } else {
-            // Checkin succeeded.
-            $message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', \count($ids));
-            $this->setRedirect(
-                Route::_(
-                    'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(),
-                    false
-                ),
-                $message
-            );
-
-            return true;
         }
+
+        // Checkin succeeded.
+        $message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', \count($ids));
+        $this->setRedirect(
+            Route::_(
+                'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(),
+                false
+            ),
+            $message
+        );
+
+        return true;
     }
 
     /**

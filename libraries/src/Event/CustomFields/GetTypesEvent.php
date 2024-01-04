@@ -21,7 +21,7 @@ use Joomla\CMS\Event\Result\ResultTypeArrayAware;
 /**
  * Class for CustomFields events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class GetTypesEvent extends AbstractImmutableEvent implements ResultAwareInterface
 {

@@ -888,7 +888,7 @@ final class Joomla extends ActionLogPlugin
      */
     protected function checkLoggable($extension)
     {
-        return in_array($extension, $this->loggableExtensions);
+        return \in_array($extension, $this->loggableExtensions);
     }
 
     /**
@@ -1066,7 +1066,7 @@ final class Joomla extends ActionLogPlugin
 
         $verb = $this->getApplication()->getInput()->getMethod();
 
-        if (!in_array($verb, $this->loggableVerbs)) {
+        if (!\in_array($verb, $this->loggableVerbs)) {
             return;
         }
 
@@ -1217,7 +1217,7 @@ final class Joomla extends ActionLogPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function onUserBeforeSave($user, $isnew, $new): void
     {
@@ -1228,7 +1228,5 @@ final class Joomla extends ActionLogPlugin
             $blockunblock = $new['block'] === '1' ? 'block' : 'unblock';
             $session->set('block', $blockunblock);
         }
-
-        return;
     }
 }

@@ -27,7 +27,7 @@ use Joomla\Event\SubscriberInterface;
  * A task plugin. For Delete Action Logs after x days
  * {@see ExecuteTaskEvent}.
  *
- * @since __DEPLOY_VERSION__
+ * @since 5.0.0
  */
 final class DeleteActionLogs extends CMSPlugin implements SubscriberInterface
 {
@@ -36,7 +36,7 @@ final class DeleteActionLogs extends CMSPlugin implements SubscriberInterface
 
     /**
      * @var string[]
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private const TASKS_MAP = [
         'delete.actionlogs' => [
@@ -48,7 +48,7 @@ final class DeleteActionLogs extends CMSPlugin implements SubscriberInterface
 
     /**
      * @var boolean
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     protected $autoloadLanguage = true;
 
@@ -57,7 +57,7 @@ final class DeleteActionLogs extends CMSPlugin implements SubscriberInterface
      *
      * @return string[]
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -73,7 +73,7 @@ final class DeleteActionLogs extends CMSPlugin implements SubscriberInterface
      *
      * @return integer  The routine exit code.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @throws \Exception
      */
     private function deleteLogs(ExecuteTaskEvent $event): int

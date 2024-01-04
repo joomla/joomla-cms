@@ -98,13 +98,13 @@ abstract class Parser
             // Find the last space character if we aren't at the end.
             $ls = (($start + $chunk) < $end ? StringHelper::strrpos($string, ' ') : false);
 
-            // Truncate to the last space character.
+            // Truncate to the last space character (but include it in the string).
             if ($ls !== false) {
                 $string = StringHelper::substr($string, 0, $ls);
             }
 
             // Adjust the start position for the next iteration.
-            $start += ($ls !== false ? ($ls + 1 - $chunk) + $chunk : $chunk);
+            $start += $ls !== false ? $ls + 1 : $chunk;
 
             // Parse the chunk.
             $return .= $this->process($string);

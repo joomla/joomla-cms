@@ -285,7 +285,7 @@ final class Newsfeeds extends Adapter
         $taxonomies = $this->params->get('taxonomies', ['type', 'category', 'language']);
 
         // Add the type taxonomy data.
-        if (in_array('type', $taxonomies)) {
+        if (\in_array('type', $taxonomies)) {
             $item->addTaxonomy('Type', 'News Feed');
         }
 
@@ -298,12 +298,12 @@ final class Newsfeeds extends Adapter
         }
 
         // Add the category taxonomy data.
-        if (in_array('category', $taxonomies)) {
+        if (\in_array('category', $taxonomies)) {
             $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
         }
 
         // Add the language taxonomy data.
-        if (in_array('language', $taxonomies)) {
+        if (\in_array('language', $taxonomies)) {
             $item->addTaxonomy('Language', $item->language);
         }
 

@@ -48,10 +48,16 @@ class ArticleField extends ModalSelectField
      * @return  boolean  True on success.
      *
      * @see     FormField::setup()
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
+        // Check if the value consist with id:alias, extract the id only
+        if ($value && str_contains($value, ':')) {
+            [$id]  = explode(':', $value, 2);
+            $value = (int) $id;
+        }
+
         $result = parent::setup($element, $value, $group);
 
         if (!$result) {
@@ -64,7 +70,7 @@ class ArticleField extends ModalSelectField
         $language  = (string) $this->element['language'];
 
         // Prepare enabled actions
-        $this->canDo['propagate']  = ((string) $this->element['propagate'] == 'true') && count($languages) > 2;
+        $this->canDo['propagate']  = ((string) $this->element['propagate'] == 'true') && \count($languages) > 2;
 
         // Prepare Urls
         $linkArticles = (new Uri())->setPath(Uri::base(true) . '/index.php');
@@ -122,7 +128,7 @@ class ArticleField extends ModalSelectField
      *
      * @return string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getValueTitle()
     {
@@ -153,7 +159,7 @@ class ArticleField extends ModalSelectField
      *
      * @return  array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     protected function getLayoutData()
     {
@@ -170,7 +176,7 @@ class ArticleField extends ModalSelectField
      *
      * @return  FileLayout
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getRenderer($layoutId = 'default')
     {

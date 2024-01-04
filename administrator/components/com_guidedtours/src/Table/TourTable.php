@@ -17,6 +17,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -51,13 +52,14 @@ class TourTable extends Table implements CurrentUserInterface
     /**
      * Constructor
      *
-     * @param   DatabaseDriver $db Database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   4.3.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__guidedtours', 'id', $db);
+        parent::__construct('#__guidedtours', 'id', $db, $dispatcher);
     }
 
     /**
@@ -119,7 +121,7 @@ class TourTable extends Table implements CurrentUserInterface
      *
      * @return  string $uid  Contains the non-empty uid.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function setTourUid()
     {
@@ -169,7 +171,7 @@ class TourTable extends Table implements CurrentUserInterface
      *
      * @return  string $uid  Contains the modified uid.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function ensureUniqueUid()
     {
