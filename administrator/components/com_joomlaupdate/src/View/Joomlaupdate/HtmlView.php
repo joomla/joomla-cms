@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var \stdClass  PHP and database requirements from the update manifest
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.2
      */
     protected $detailsNoDownload;
 
