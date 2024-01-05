@@ -393,7 +393,7 @@ class RequestController extends FormController
                 // A confirmed item can be marked completed or invalid
                 return \in_array($newStatus, ['-1', '2'], true);
 
-            // An item which is already in an invalid or complete state cannot transition, likewise if we don't know the state don't change anything
+                // An item which is already in an invalid or complete state cannot transition, likewise if we don't know the state don't change anything
             case '-1':
             case '2':
             default:

@@ -244,17 +244,17 @@ class SysinfoModel extends BaseDatabaseModel
         }
 
         $this->php_settings = [
-            'memory_limit'        => ini_get('memory_limit'),
-            'upload_max_filesize' => ini_get('upload_max_filesize'),
-            'post_max_size'       => ini_get('post_max_size'),
-            'display_errors'      => ini_get('display_errors') == '1',
-            'short_open_tag'      => ini_get('short_open_tag') == '1',
-            'file_uploads'        => ini_get('file_uploads') == '1',
-            'output_buffering'    => (int) ini_get('output_buffering') !== 0,
-            'open_basedir'        => ini_get('open_basedir'),
-            'session.save_path'   => ini_get('session.save_path'),
-            'session.auto_start'  => ini_get('session.auto_start'),
-            'disable_functions'   => ini_get('disable_functions'),
+            'memory_limit'        => \ini_get('memory_limit'),
+            'upload_max_filesize' => \ini_get('upload_max_filesize'),
+            'post_max_size'       => \ini_get('post_max_size'),
+            'display_errors'      => \ini_get('display_errors') == '1',
+            'short_open_tag'      => \ini_get('short_open_tag') == '1',
+            'file_uploads'        => \ini_get('file_uploads') == '1',
+            'output_buffering'    => (int) \ini_get('output_buffering') !== 0,
+            'open_basedir'        => \ini_get('open_basedir'),
+            'session.save_path'   => \ini_get('session.save_path'),
+            'session.auto_start'  => \ini_get('session.auto_start'),
+            'disable_functions'   => \ini_get('disable_functions'),
             'xml'                 => \extension_loaded('xml'),
             'zlib'                => \extension_loaded('zlib'),
             'zip'                 => \function_exists('zip_open') && \function_exists('zip_read'),
@@ -263,7 +263,7 @@ class SysinfoModel extends BaseDatabaseModel
             'gd'                  => \extension_loaded('gd'),
             'iconv'               => \function_exists('iconv'),
             'intl'                => \function_exists('transliterator_transliterate'),
-            'max_input_vars'      => ini_get('max_input_vars'),
+            'max_input_vars'      => \ini_get('max_input_vars'),
         ];
 
         return $this->php_settings;
@@ -355,7 +355,7 @@ class SysinfoModel extends BaseDatabaseModel
     public function phpinfoEnabled(): bool
     {
         // remove any spaces from the ini value before exploding it
-        $disabledFunctions = str_replace(' ', '', ini_get('disable_functions'));
+        $disabledFunctions = str_replace(' ', '', \ini_get('disable_functions'));
         return !\in_array('phpinfo', explode(',', $disabledFunctions));
     }
 

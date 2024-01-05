@@ -102,7 +102,7 @@ class PluginController extends BaseController
                     $this->setRedirect(Route::_('index.php?option=com_media&view=plugin&action=close', false));
                     break;
 
-                // Redirect browser to any page specified by the user
+                    // Redirect browser to any page specified by the user
                 case 'redirect':
                     if (!isset($eventResults['redirect_uri'])) {
                         throw new \Exception("Redirect URI must be set in the plugin");
@@ -111,12 +111,12 @@ class PluginController extends BaseController
                     $this->setRedirect($eventResults['redirect_uri']);
                     break;
 
-                // Redirect browser to Control Panel
+                    // Redirect browser to Control Panel
                 case 'control-panel':
                     $this->setRedirect(Route::_('index.php', false));
                     break;
 
-                // Redirect browser to Media Manager
+                    // Redirect browser to Media Manager
                 case 'media-manager':
                 default:
                     $this->setRedirect(Route::_('index.php?option=com_media&view=media', false));

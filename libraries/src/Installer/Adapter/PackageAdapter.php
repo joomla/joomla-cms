@@ -599,13 +599,13 @@ class PackageAdapter extends InstallerAdapter
 
                     break;
 
-                // The postflight method takes the route and a results array as params
+                    // The postflight method takes the route and a results array as params
                 case 'postflight':
                     $this->parent->manifestClass->$method($this->route, $this, $this->results);
 
                     break;
 
-                // The install, uninstall, and update methods only pass this object as a param
+                    // The install, uninstall, and update methods only pass this object as a param
                 case 'install':
                 case 'uninstall':
                 case 'update':

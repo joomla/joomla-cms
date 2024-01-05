@@ -92,13 +92,13 @@ final class PageNavigation extends CMSPlugin
                             $db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.modified') . ' END';
                         break;
 
-                    // Use created if publish_up is not set
+                        // Use created if publish_up is not set
                     case 'published':
                         $orderby = 'CASE WHEN ' . $db->quoteName('a.publish_up') . ' IS NULL THEN ' .
                             $db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.publish_up') . ' END';
                         break;
 
-                    // Use created as default
+                        // Use created as default
                     default:
                         $orderby = $db->quoteName('a.created');
                         break;

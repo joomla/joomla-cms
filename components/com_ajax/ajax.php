@@ -210,7 +210,7 @@ switch ($format) {
 
         break;
 
-    // Handle as raw format
+        // Handle as raw format
     default:
         // Output exception
         if ($results instanceof Exception) {
@@ -222,7 +222,7 @@ switch ($format) {
 
             // Echo exception type and message
             $out = \get_class($results) . ': ' . $results->getMessage();
-        } elseif (is_scalar($results)) {
+        } elseif (\is_scalar($results)) {
             // Output string/ null
             $out = (string) $results;
         } else {

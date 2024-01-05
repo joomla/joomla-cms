@@ -926,7 +926,7 @@ abstract class Adapter extends CMSPlugin
             case 1:
                 return 1;
 
-            // Archived items should only show up when option is enabled
+                // Archived items should only show up when option is enabled
             case 2:
                 if ($this->params->get('search_archived', 1) == 0) {
                     return 0;
@@ -934,7 +934,7 @@ abstract class Adapter extends CMSPlugin
 
                 return 1;
 
-            // All other states should return an unpublished state
+                // All other states should return an unpublished state
             default:
                 return 0;
         }

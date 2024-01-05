@@ -745,28 +745,28 @@ final class LanguageFilter extends CMSPlugin
                         unset($languages[$i]);
                         break;
 
-                    // Home page
+                        // Home page
                     case $is_home:
                         $language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $homes[$i]->id);
                         break;
 
-                    // Current language link
+                        // Current language link
                     case $i === $this->current_lang:
                         $language->link = Route::_($currentInternalUrl);
                         break;
 
-                    // Component association
+                        // Component association
                     case isset($cassociations[$i]):
                         $language->link = Route::_($cassociations[$i]);
                         break;
 
-                    // Menu items association
-                    // Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
+                        // Menu items association
+                        // Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
                     case isset($associations[$i]) && ($item = $menu->getItem($associations[$i])):
                         $language->link = Route::_('index.php?Itemid=' . $item->id . '&lang=' . $language->sef);
                         break;
 
-                    // Too bad...
+                        // Too bad...
                     default:
                         unset($languages[$i]);
                 }

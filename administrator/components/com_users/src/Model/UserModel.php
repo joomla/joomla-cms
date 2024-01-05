@@ -703,7 +703,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
         $db = $this->getDatabase();
 
         switch ($action) {
-                // Sets users to a selected group
+            // Sets users to a selected group
             case 'set':
                 $doDelete = 'all';
                 $doAssign = true;
