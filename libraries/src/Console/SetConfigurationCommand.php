@@ -445,9 +445,8 @@ class SetConfigurationCommand extends AbstractCommand
         foreach ($options as $key => $value) {
             $value = $value === 'false' ? false : $value;
             $value = $value === 'true' ? true : $value;
-            
             $value = ctype_digit((string) $value) ? (int) $value : $value;
-            
+
             $options[$key] = $value;
         }
 
