@@ -490,7 +490,7 @@ class Update
      * @param TufMetadata $metadataTable     The metadata table
      * @param string      $url               The repo url
      * @param int         $minimumStability  The minimum stability required for updating the extension {@see Updater}
-     * @param string      $channel           The update channnel
+     * @param string      $channel           The update channel
      *
      * @return  boolean  True on success
      *
