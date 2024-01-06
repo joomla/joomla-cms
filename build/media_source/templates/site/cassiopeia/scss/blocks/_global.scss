@@ -60,6 +60,11 @@ a {
     text-decoration: underline;
   }
 
+  &:not(.btn):hover,
+  &:not(.btn):focus {
+    color: var(--cassiopeia-color-hover);
+  }
+
   &.navbar-brand {
     color: var(--cassiopeia-color-brand);
   }

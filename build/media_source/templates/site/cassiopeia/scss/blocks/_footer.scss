@@ -12,13 +12,8 @@
     padding: 2.5rem ($cassiopeia-grid-gutter * .5);
   }
 
-  a:not(.btn), .btn-link {
+  a {
     color: currentColor;
-
-    &:hover,
-    &:focus {
-      color: var(--gray-200);
-    }
   }
 
   .mod-menu {
