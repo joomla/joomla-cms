@@ -141,6 +141,14 @@ class Router extends RouterBase
             }
         }
 
+        // Check if the active menuitem matches the requested language
+        if (
+            !isset($query['Itemid']) && ($active && $active->component === 'com_tags'
+            && ($language === '*' || \in_array($active->language, array('*', $language)) || !Multilanguage::isEnabled()))
+        ) {
+            $query['Itemid'] = $active->id;
+        }
+
         // If not found, return language specific home link
         if (!isset($query['Itemid'])) {
             $default = $this->menu->getDefault($lang);
@@ -164,7 +172,7 @@ class Router extends RouterBase
      */
     public function build(&$query)
     {
-        $segments = [];
+        $segments = array();
 
         $menuItem = !empty($query['Itemid']) ? $this->menu->getItem($query['Itemid']) : false;
 
@@ -268,6 +276,7 @@ class Router extends RouterBase
 
         if (\count($ids)) {
             $vars['id']   = $ids;
+            $vars['view'] = 'tag';
             $vars['view'] = 'tag';
         }
 
