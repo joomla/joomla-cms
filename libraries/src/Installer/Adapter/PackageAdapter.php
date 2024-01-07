@@ -435,7 +435,7 @@ class PackageAdapter extends InstallerAdapter
                     Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_NOT_PROPER', basename($extension->filename)), Log::WARNING, 'jerror');
                 }
             } else {
-                Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MISSING_EXTENSION', basename($extension->filename)), Log::WARNING, 'jerror');
+                Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_UNKNOWN_EXTENSION'), Log::WARNING, 'jerror');
             }
         }
 
