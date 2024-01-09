@@ -689,7 +689,7 @@ if ($includeExtraTextfiles) {
 
         foreach ($packageHashes as $hashType => $hash) {
             $checksumsContent .= "$hashType: $hash\n";
-            if (strpos($packageName,"Update_Package.zip") !== False) {
+            if (strpos($packageName, 'Update_Package.zip') !== false) {
                 $checksumsContentUpdate .= "<$hashType>$hash</$hashType>\n";
             }
         }
