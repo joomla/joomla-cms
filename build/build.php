@@ -679,21 +679,26 @@ if ($includeExtraTextfiles) {
         }
     }
 
-    echo "Generating checksums.txt file\n";
+    echo "Generating checksums files\n";
 
-    $checksumsContent = '';
+    $checksumsContent       = '';
+    $checksumsContentUpdate = '';
 
     foreach ($checksums as $packageName => $packageHashes) {
         $checksumsContent .= "Filename: $packageName\n";
 
         foreach ($packageHashes as $hashType => $hash) {
             $checksumsContent .= "$hashType: $hash\n";
+            if (strpos($packageName,"Update_Package.zip") !== False) {
+                $checksumsContentUpdate .= "<$hashType>$hash</$hashType>\n";
+            }
         }
 
         $checksumsContent .= "\n";
     }
 
     file_put_contents('checksums.txt', $checksumsContent);
+    file_put_contents('checksums_update.txt', $checksumsContentUpdate);
 
     echo "Generating github_release.txt file\n";
 
