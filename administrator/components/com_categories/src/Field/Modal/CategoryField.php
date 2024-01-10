@@ -48,7 +48,7 @@ class CategoryField extends ModalSelectField
      * @return  boolean  True on success.
      *
      * @see     FormField::setup()
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
@@ -62,6 +62,12 @@ class CategoryField extends ModalSelectField
 
         if (!$result) {
             return $result;
+        }
+
+        if ($this->element['extension']) {
+            $extension = (string) $this->element['extension'];
+        } else {
+            $extension = (string) Factory::getApplication()->getInput()->get('extension', 'com_content');
         }
 
         Factory::getApplication()->getLanguage()->load('com_categories', JPATH_ADMINISTRATOR);
@@ -79,6 +85,7 @@ class CategoryField extends ModalSelectField
             'view'                  => 'categories',
             'layout'                => 'modal',
             'tmpl'                  => 'component',
+            'extension'             => $extension,
             Session::getFormToken() => 1,
         ]);
         $linkItem = clone $linkItems;
@@ -128,7 +135,7 @@ class CategoryField extends ModalSelectField
      *
      * @return string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function getValueTitle()
     {
@@ -159,7 +166,7 @@ class CategoryField extends ModalSelectField
      *
      * @return  array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.1.0
      */
     protected function getLayoutData()
     {
@@ -176,7 +183,7 @@ class CategoryField extends ModalSelectField
      *
      * @return  FileLayout
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function getRenderer($layoutId = 'default')
     {
