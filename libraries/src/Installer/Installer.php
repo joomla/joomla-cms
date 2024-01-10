@@ -531,12 +531,16 @@ class Installer extends Adapter implements DatabaseAwareInterface
             switch ($step['type']) {
                 case 'file':
                     // Remove the file
-                    $stepval = File::delete($step['path']);
+                    if (is_file($step['path']) && !($stepval = File::delete($step['path']))) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $step['path']), Log::WARNING, 'jerror');
+                    }
                     break;
 
                 case 'folder':
                     // Remove the folder
-                    $stepval = Folder::delete($step['path']);
+                    if (Folder::exists($step['path']) && !($stepval = Folder::delete($step['path']))) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $step['path']), Log::WARNING, 'jerror');
+                    }
                     break;
 
                 case 'query':
@@ -1437,11 +1441,19 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 $deletions = $this->findDeletedFiles($oldEntries, $element->children());
 
                 foreach ($deletions['folders'] as $deleted_folder) {
-                    Folder::delete($destination . '/' . $deleted_folder);
+                    $folder = $destination . '/' . $deleted_folder;
+
+                    if (Folder::exists($folder) && !Folder::delete($folder)) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder), Log::WARNING, 'jerror');
+                    }
                 }
 
                 foreach ($deletions['files'] as $deleted_file) {
-                    File::delete($destination . '/' . $deleted_file);
+                    $file = $destination . '/' . $deleted_file;
+
+                    if (is_file($file) && !File::delete($file)) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file), Log::WARNING, 'jerror');
+                    }
                 }
             }
         }
