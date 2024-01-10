@@ -328,7 +328,11 @@ class PackageAdapter extends InstallerAdapter
             $update->delete($uid);
         }
 
-        File::delete(JPATH_MANIFESTS . '/packages/' . $this->extension->element . '.xml');
+        $file = JPATH_MANIFESTS . '/packages/' . $this->extension->element . '.xml';
+
+        if (is_file($file)) {
+            File::delete($file);
+        }
 
         $folder = $this->parent->getPath('extension_root');
 
@@ -431,7 +435,7 @@ class PackageAdapter extends InstallerAdapter
                     Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_NOT_PROPER', basename($extension->filename)), Log::WARNING, 'jerror');
                 }
             } else {
-                Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_UNKNOWN_EXTENSION'), Log::WARNING, 'jerror');
+                Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MISSING_EXTENSION', basename($extension->filename)), Log::WARNING, 'jerror');
             }
         }
 
