@@ -213,7 +213,7 @@
   .mod-finder {
     color: $white;
 
-    a {
+    a:not(.jmodedit) {
       color: $white;
 
       &:hover, &:focus {
