@@ -204,14 +204,14 @@ if (!$format) {
 
 // Return the results in the desired format
 switch ($format) {
-    // JSONinzed
     case 'json':
+        // JSONinzed
         echo new JsonResponse($results, null, false, $input->get('ignoreMessages', true, 'bool'));
 
         break;
 
-        // Handle as raw format
     default:
+        // Handle as raw format
         // Output exception
         if ($results instanceof Exception) {
             // Log an error

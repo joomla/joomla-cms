@@ -259,19 +259,19 @@ class Stream
 
         // Decide which context to use:
         switch ($this->processingmethod) {
-            // Gzip doesn't support contexts or streams
             case 'gz':
+                // Gzip doesn't support contexts or streams
                 $this->fh = gzopen($filename, $mode, $useIncludePath);
                 break;
 
-                // Bzip2 is much like gzip except it doesn't use the include path
             case 'bz':
+                // Bzip2 is much like gzip except it doesn't use the include path
                 $this->fh = bzopen($filename, $mode);
                 break;
 
-                // Fopen can handle streams
             case 'f':
             default:
+                // Fopen can handle streams
                 // One supplied at open; overrides everything
                 if ($context) {
                     $this->fh = fopen($filename, $mode, $useIncludePath, $context);

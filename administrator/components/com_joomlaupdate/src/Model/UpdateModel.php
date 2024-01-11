@@ -88,19 +88,19 @@ class UpdateModel extends BaseDatabaseModel
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
         switch ($params->get('updatesource', 'nochange')) {
-            // "Minor & Patch Release for Current version AND Next Major Release".
             case 'next':
+                // "Minor & Patch Release for Current version AND Next Major Release".
                 $updateURL = 'https://update.joomla.org/core/sts/list_sts.xml';
                 break;
 
-                // "Testing"
             case 'testing':
+                // "Testing"
                 $updateURL = 'https://update.joomla.org/core/test/list_test.xml';
                 break;
 
+            case 'custom':
                 // "Custom"
                 // @todo: check if the customurl is valid and not just "not empty".
-            case 'custom':
                 if (trim($params->get('customurl', '')) != '') {
                     $updateURL = trim($params->get('customurl', ''));
                 } else {
@@ -110,6 +110,7 @@ class UpdateModel extends BaseDatabaseModel
                 }
                 break;
 
+            default:
                 /**
                  * "Minor & Patch Release for Current version (recommended and default)".
                  * The commented "case" below are for documenting where 'default' and legacy options falls
@@ -118,7 +119,6 @@ class UpdateModel extends BaseDatabaseModel
                  * case 'sts': (It's shown as "Default" because that option does not exist any more)
                  * case 'nochange':
                  */
-            default:
                 $updateURL = 'https://update.joomla.org/core/list.xml';
         }
 
