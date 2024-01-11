@@ -205,15 +205,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                         && $user->authorise('core.edit', $component)
                         && $user->authorise('core.edit.state', $component)
                     ) : ?>
-                        <?php echo HTMLHelper::_(
-                            'bootstrap.renderModal',
-                            'collapseModal',
-                            [
-                                    'title' => Text::_('COM_FIELDS_VIEW_FIELDS_BATCH_OPTIONS'),
-                                    'footer' => $this->loadTemplate('batch_footer')
-                                ],
-                            $this->loadTemplate('batch_body')
-                        ); ?>
+                        <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
                     <?php endif; ?>
                 <?php endif; ?>
                 <input type="hidden" name="task" value="">

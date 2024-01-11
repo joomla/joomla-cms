@@ -166,7 +166,7 @@ class StylesRenderer extends DocumentRenderer
         }
 
         // Add "nonce" attribute if exist
-        if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce)) {
+        if ($this->_doc->cspNonce && !\is_null($this->_doc->cspNonce)) {
             $attribs['nonce'] = $this->_doc->cspNonce;
         }
 
@@ -241,7 +241,7 @@ class StylesRenderer extends DocumentRenderer
         }
 
         // Add "nonce" attribute if exist
-        if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce)) {
+        if ($this->_doc->cspNonce && !\is_null($this->_doc->cspNonce)) {
             $attribs['nonce'] = $this->_doc->cspNonce;
         }
 

@@ -81,7 +81,7 @@ class JoomlaInstallerScript
         // The errorCollector are required
         // However when someone already running the script manually the code may fail.
         if ($this->errorCollector) {
-            call_user_func($this->errorCollector, $context, $error);
+            \call_user_func($this->errorCollector, $context, $error);
         } else {
             Log::add($error->getMessage(), Log::ERROR, 'Update');
         }
@@ -104,7 +104,7 @@ class JoomlaInstallerScript
             if (!empty($installer->extension->manifest_cache)) {
                 $manifestValues = json_decode($installer->extension->manifest_cache, true);
 
-                if (array_key_exists('version', $manifestValues)) {
+                if (\array_key_exists('version', $manifestValues)) {
                     $this->fromVersion = $manifestValues['version'];
 
                     return true;
@@ -2173,6 +2173,9 @@ class JoomlaInstallerScript
             '/libraries/vendor/fgrosse/phpasn1/LICENSE',
             '/libraries/vendor/stella-maris/clock/LICENSE.md',
             '/libraries/vendor/stella-maris/clock/src/ClockInterface.php',
+            '/media/com_scheduler/css/admin-view-select-task.css',
+            '/media/com_scheduler/css/admin-view-select-task.min.css',
+            '/media/com_scheduler/css/admin-view-select-task.min.css.gz',
             '/media/system/css/calendar-jos.css',
             '/media/system/css/calendar-jos.min.css',
             '/media/system/css/calendar-jos.min.css.gz',
@@ -2191,6 +2194,16 @@ class JoomlaInstallerScript
             '/media/system/css/sortablelist.css',
             '/media/system/css/sortablelist.min.css',
             '/media/system/css/sortablelist.min.css.gz',
+            // From 5.0.0 to 5.1.0-alpha1
+            '/administrator/components/com_banners/tmpl/banners/default_batch_footer.php',
+            '/administrator/components/com_contact/tmpl/contacts/default_batch_footer.php',
+            '/administrator/components/com_fields/tmpl/fields/default_batch_footer.php',
+            '/administrator/components/com_fields/tmpl/groups/default_batch_footer.php',
+            '/administrator/components/com_menus/tmpl/items/default_batch_footer.php',
+            '/administrator/components/com_modules/tmpl/modules/default_batch_footer.php',
+            '/administrator/components/com_newsfeeds/tmpl/newsfeeds/default_batch_footer.php',
+            '/administrator/components/com_tags/tmpl/tags/default_batch_footer.php',
+            '/administrator/components/com_users/tmpl/users/default_batch_footer.php',
         ];
 
         $folders = [
@@ -2460,11 +2473,11 @@ class JoomlaInstallerScript
 
         $this->fixFilenameCasing();
 
-        if ($suppressOutput === false && count($status['folders_errors'])) {
+        if ($suppressOutput === false && \count($status['folders_errors'])) {
             echo implode('<br>', $status['folders_errors']);
         }
 
-        if ($suppressOutput === false && count($status['files_errors'])) {
+        if ($suppressOutput === false && \count($status['files_errors'])) {
             echo implode('<br>', $status['files_errors']);
         }
 
@@ -2485,6 +2498,10 @@ class JoomlaInstallerScript
         // List all components added since 4.0
         $newComponents = [
             // Components to be added here
+            'com_guidedtours',
+            'com_mails',
+            'com_scheduler',
+            'com_workflow',
         ];
 
         foreach ($newComponents as $component) {
@@ -2769,7 +2786,7 @@ class JoomlaInstallerScript
                 $replace = ['blocks', 'fontfamily', 'fontsize', 'styles'];
 
                 // Don't redo the template
-                if (!in_array('jtemplate', $params['configuration']['toolbars'][$setIdx]['menu'])) {
+                if (!\in_array('jtemplate', $params['configuration']['toolbars'][$setIdx]['menu'])) {
                     $search[]  = 'template';
                     $replace[] = 'jtemplate';
                 }
@@ -2793,7 +2810,7 @@ class JoomlaInstallerScript
                     $replace = ['fontfamily', 'fontsize', 'blocks', 'styles'];
 
                     // Don't redo the template
-                    if (!in_array('jtemplate', $params['configuration']['toolbars'][$setIdx][$toolbarIdx])) {
+                    if (!\in_array('jtemplate', $params['configuration']['toolbars'][$setIdx][$toolbarIdx])) {
                         $search[]  = 'template';
                         $replace[] = 'jtemplate';
                     }
@@ -2929,7 +2946,7 @@ class JoomlaInstallerScript
                 // Check if case-insensitive file system, eg on OSX.
                 if (fileinode($oldRealpath) === fileinode($newRealpath)) {
                     // Check deeper because even realpath or glob might not return the actual case.
-                    if (!in_array($expectedBasename, scandir(dirname($newRealpath)))) {
+                    if (!\in_array($expectedBasename, scandir(\dirname($newRealpath)))) {
                         // Rename the file.
                         File::move(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
                         File::move(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);

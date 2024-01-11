@@ -156,7 +156,7 @@ class LegacyInstallerScript implements InstallerScriptInterface, DatabaseAwareIn
      */
     public function __call(string $name, array $arguments)
     {
-        return call_user_func_array([$this->installerScript, $name], $arguments);
+        return \call_user_func_array([$this->installerScript, $name], $arguments);
     }
 
     /**
