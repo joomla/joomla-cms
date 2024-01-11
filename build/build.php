@@ -512,14 +512,14 @@ for ($num = $release - 1; $num >= 0; $num--) {
 
                 break;
 
-                // Deleted files
             case 'D':
+                // Deleted files
                 $deletedFiles[] = $fileName;
 
                 break;
 
-                // Regular additions and modifications
             default:
+                // Regular additions and modifications
                 $filesArray[$fileName] = true;
 
                 break;
