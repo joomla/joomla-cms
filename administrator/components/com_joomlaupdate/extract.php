@@ -1521,14 +1521,15 @@ class ZIPExtraction
         // Simple compressed files are processed as a whole; we can't do chunk processing
         $zipData = $this->fread($this->fp, $this->fileHeader->compressed);
 
-        while ($this->binStringLength($zipData) < $this->fileHeader->compressed) {
+        if ($this->binStringLength($zipData) < $this->fileHeader->compressed) {
             // End of local file before reading all data?
             if ($this->isEOF()) {
                 $this->debugMsg('EOF reading compressed data', self::LOG_WARNING);
-                $this->setError('The archive file is corrupt or truncated');
-
-                return false;
             }
+
+            $this->setError('The archive file is corrupt or truncated');
+
+            return false;
         }
 
         switch ($this->fileHeader->compression) {
@@ -1548,12 +1549,24 @@ class ZIPExtraction
                 return false;
         }
 
+        if (!\is_string($unzipData)) {
+            $this->setError('Error while decompressing data! The archive file is corrupted');
+
+            return false;
+        }
+
         unset($zipData);
 
         // Write to the file.
         if (\is_resource($outfp)) {
-            @fwrite($outfp, $unzipData, $this->fileHeader->uncompressed);
+            $result = @fwrite($outfp, $unzipData, $this->fileHeader->uncompressed);
             @fclose($outfp);
+
+            if ($result === false) {
+                $this->setError('Could not write ' . $this->fileHeader->realFile . '!');
+
+                return false;
+            }
         }
 
         unset($unzipData);
