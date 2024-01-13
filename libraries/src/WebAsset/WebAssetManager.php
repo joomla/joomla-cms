@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\WebAsset;
 
+use Joomla\CMS\Document\Document;
 use Joomla\CMS\Event\WebAsset\WebAssetRegistryAssetChanged;
 use Joomla\CMS\WebAsset\Exception\InvalidActionException;
 use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
@@ -541,7 +542,7 @@ class WebAssetManager implements WebAssetManagerInterface
      * Get all active assets, optionally sort them to follow the dependency Graph
      *
      * @param   string  $type  The asset type, script or style
-     * @param   bool    $sort  Whether need to sort the assets to follow the dependency Graph
+     * @param   bool    $sort  Whether we need to sort the assets to follow the dependency Graph
      *
      * @return  WebAssetItem[]
      *
@@ -990,5 +991,34 @@ class WebAssetManager implements WebAssetManagerInterface
         }
 
         return $assets;
+    }
+
+    /**
+     * A helper method to call onAttachCallback for script assets that implements WebAssetAttachBehaviorInterface
+     *
+     * @param   array     $assets  Array of assets
+     * @param   Document  $document  Document instance to attach
+     * @param   array     $cache      Array of object ids which callback was already called
+     *
+     * @return  array  Array of object ids for which callback was called
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public static function callOnAttachCallback(array $assets, Document $document, array $cache = []): array
+    {
+        foreach ($assets as $asset) {
+            if (!$asset instanceof WebAssetAttachBehaviorInterface) {
+                continue;
+            }
+
+            $oid = spl_object_id($asset);
+
+            if (empty($cache[$oid])) {
+                $asset->onAttachCallback($document);
+                $cache[$oid] = true;
+            }
+        }
+
+        return $cache;
     }
 }

@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\WebAsset\WebAssetAttachBehaviorInterface;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -51,18 +52,17 @@ class MetasRenderer extends DocumentRenderer
         $app = Factory::getApplication();
         $wa  = $this->_doc->getWebAssetManager();
 
-        // Check for AttachBehavior and web components
-        foreach ($wa->getAssets('script', true) as $asset) {
-            if ($asset instanceof WebAssetAttachBehaviorInterface) {
-                $asset->onAttachCallback($this->_doc);
-            }
-        }
+        // Check for AttachBehavior
+        $onAttachCallCache = WebAssetManager::callOnAttachCallback($wa->getAssets('script', true), $this->_doc);
 
         // Trigger the onBeforeCompileHead event
         $app->getDispatcher()->dispatch(
             'onBeforeCompileHead',
             new BeforeCompileHeadEvent('onBeforeCompileHead', ['subject' => $app, 'document' => $this->_doc])
         );
+
+        // Re-Check for AttachBehavior for newly added assets
+        WebAssetManager::callOnAttachCallback($wa->getAssets('script', true), $this->_doc, $onAttachCallCache);
 
         // Add Script Options as inline asset
         $scriptOptions = $this->_doc->getScriptOptions();
