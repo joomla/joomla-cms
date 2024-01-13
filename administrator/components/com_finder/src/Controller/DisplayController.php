@@ -89,4 +89,3 @@ class DisplayController extends BaseController
         return parent::display();
     }
 }
-
