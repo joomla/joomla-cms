@@ -466,6 +466,8 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             case 'validationtext':
             case 'showon':
             case 'parentclass':
+            case 'renderLayout':
+            case 'renderLabelLayout':
                 return $this->$name;
 
             case 'input':
@@ -529,6 +531,8 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             case 'parentclass':
             case 'default':
             case 'autocomplete':
+            case 'renderLayout':
+            case 'renderLabelLayout':
                 $this->$name = (string) $value;
                 break;
 
