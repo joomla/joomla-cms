@@ -150,7 +150,10 @@ $errorCode = $this->error->getCode();
         <div class="grid-child container-component">
             <?php if ($this->countModules('error-' . $errorCode)) : ?>
                 <div class="container">
-                    <jdoc:include type="modules" name="error-<?php echo $errorCode; ?>" style="none" />
+                    <jdoc:include type="message" />
+                    <main>
+                        <jdoc:include type="modules" name="error-<?php echo $errorCode; ?>" style="none" />
+                    </main>
                 </div>
             <?php else : ?>
             <h1 class="page-header"><?php echo Text::_('JERROR_LAYOUT_PAGE_NOT_FOUND'); ?></h1>
