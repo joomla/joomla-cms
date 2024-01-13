@@ -32,7 +32,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
      *
      * @since 4.1.0
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public static function getSubscribedEvents(): array
     {
@@ -246,7 +246,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
             Text::script($constant);
         }
 
-        /** @var Joomla\CMS\WebAsset\WebAssetManager $wa*/
+        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa*/
         $wa = $document->getWebAssetManager();
 
         $wa->getRegistry()->addRegistryFile('media/plg_system_jooa11y/joomla.asset.json');
