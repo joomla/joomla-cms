@@ -48,23 +48,23 @@ $user = $this->getCurrentUser();
                 </div>
                 <div>
                     <?php
-                            $this->fieldset    = 'description';
-                            $short_description = Text::_($this->item->xml->description);
-                            $long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
+                        $this->fieldset    = 'description';
+                        $short_description = Text::_($this->item->xml->description);
+                        $long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
 
-                            if (!$long_description) {
-                                $truncated = HTMLHelper::_('string.truncate', $short_description, 550, true, false);
+                        if (!$long_description) {
+                            $truncated = HTMLHelper::_('string.truncate', $short_description, 550, true, false);
 
-                                if (strlen($truncated) > 500) {
-                                    $long_description  = $short_description;
-                                    $short_description = HTMLHelper::_('string.truncate', $truncated, 250);
+                            if (strlen($truncated) > 500) {
+                                $long_description  = $short_description;
+                                $short_description = HTMLHelper::_('string.truncate', $truncated, 250);
 
-                                    if ($short_description == $long_description) {
-                                        $long_description = '';
-                                    }
+                                if ($short_description == $long_description) {
+                                    $long_description = '';
                                 }
                             }
-                            ?>
+                        }
+                    ?>
                     <p><?php echo $short_description; ?></p>
                     <?php if ($long_description) : ?>
                     <p class="readmore">
@@ -114,14 +114,14 @@ $user = $this->getCurrentUser();
         ?>
 
         <?php if ($user->authorise('core.edit', 'com_menus') && $this->item->client_id == 0 && $this->canDo->get('core.edit.state')) : ?>
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'assignment', Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT')); ?>
-        <fieldset id="fieldset-assignment" class="options-form">
-            <legend><?php echo Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT'); ?></legend>
-            <div>
-                <?php echo $this->loadTemplate('assignment'); ?>
-            </div>
-        </fieldset>
-        <?php echo HTMLHelper::_('uitab.endTab'); ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'assignment', Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT')); ?>
+            <fieldset id="fieldset-assignment" class="options-form">
+                <legend><?php echo Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT'); ?></legend>
+                <div>
+                    <?php echo $this->loadTemplate('assignment'); ?>
+                </div>
+            </fieldset>
+            <?php echo HTMLHelper::_('uitab.endTab'); ?>
         <?php endif; ?>
 
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
