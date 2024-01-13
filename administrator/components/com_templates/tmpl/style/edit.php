@@ -97,14 +97,14 @@ $user = $this->getCurrentUser();
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
         <?php if (isset($long_description) && $long_description != '') : ?>
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
-        <fieldset id="fieldset-description" class="options-form">
-            <legend><?php echo Text::_('JGLOBAL_FIELDSET_DESCRIPTION'); ?></legend>
-            <div>
-                <?php echo $long_description; ?>
-            </div>
-        </fieldset>
-        <?php echo HTMLHelper::_('uitab.endTab'); ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
+            <fieldset id="fieldset-description" class="options-form">
+                <legend><?php echo Text::_('JGLOBAL_FIELDSET_DESCRIPTION'); ?></legend>
+                <div>
+                    <?php echo $long_description; ?>
+                </div>
+            </fieldset>
+            <?php echo HTMLHelper::_('uitab.endTab'); ?>
         <?php endif; ?>
 
         <?php
