@@ -70,6 +70,15 @@ class WebAssetManager implements WebAssetManagerInterface
     public const ASSET_STATE_DEPENDENCY = 2;
 
     /**
+     * Mark active asset that is enabled as cross dependency to another asset
+     *
+     * @var    integer
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public const ASSET_STATE_CROSS_DEPENDENCY = 3;
+
+    /**
      * The WebAsset Registry instance
      *
      * @var    WebAssetRegistry
@@ -747,7 +756,10 @@ class WebAssetManager implements WebAssetManagerInterface
                     // Set dependency state only when it is inactive, to keep a manually activated Asset in their original state
                     if (empty($this->activeAssets[$depType][$depItem->getName()])) {
                         // Add the dependency at the top of the list of active assets
-                        $this->activeAssets[$depType] = [$depItem->getName() => static::ASSET_STATE_DEPENDENCY] + $this->activeAssets[$depType];
+                        $this->activeAssets[$depType] = [
+                            // Try to distinguish a cross dependency from a regular one, however it not always accurate
+                            $depItem->getName() => $depType === $type ? static::ASSET_STATE_DEPENDENCY : static::ASSET_STATE_CROSS_DEPENDENCY,
+                        ] + $this->activeAssets[$depType];
                     }
                 }
             }
@@ -963,6 +975,7 @@ class WebAssetManager implements WebAssetManagerInterface
         $recursionRoot = $recursionRoot ?? $asset;
         $recursionType = $recursionType ?? $type;
 
+        // Check for regular dependencies
         foreach ($asset->getDependencies() as $depName) {
             $depType = $type;
 
@@ -987,6 +1000,43 @@ class WebAssetManager implements WebAssetManagerInterface
 
             $parentDeps = $this->getDependenciesForAsset($depType, $dep, true, $recursionType, $recursionRoot);
             $assets     = array_replace_recursive($assets, $parentDeps);
+        }
+
+        // Check for cross dependencies
+        if ($asset->getCrossDependencies()) {
+            // Loop through each type
+            foreach ($asset->getCrossDependencies() as $crossType => $crossDependencies) {
+                // Ignore the same type, it should be defined as "dependencies" and not as "crossDependencies"
+                if ($crossType === $type) {
+                    continue;
+                }
+
+                foreach ($crossDependencies as $depName) {
+                    $depType = $crossType;
+
+                    // Skip already loaded in recursion
+                    if ($recursionRoot->getName() === $depName && $recursionType === $depType) {
+                        continue;
+                    }
+
+                    if (!$this->registry->exists($depType, $depName)) {
+                        throw new UnsatisfiedDependencyException(
+                            sprintf('Unsatisfied cross dependency "%s" for an asset "%s" of type "%s"', $depName, $asset->getName(), $depType)
+                        );
+                    }
+
+                    $dep = $this->registry->get($depType, $depName);
+
+                    $assets[$depType][$depName] = $dep;
+
+                    if (!$recursively) {
+                        continue;
+                    }
+
+                    $parentDeps = $this->getDependenciesForAsset($depType, $dep, true, $recursionType, $recursionRoot);
+                    $assets     = array_replace_recursive($assets, $parentDeps);
+                }
+            }
         }
 
         return $assets;

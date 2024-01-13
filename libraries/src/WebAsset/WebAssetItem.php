@@ -25,7 +25,7 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  4.0.0
  */
-class WebAssetItem implements WebAssetItemInterface
+class WebAssetItem implements WebAssetItemInterface, WebAssetItemCrossDependenciesInterface
 {
     /**
      * Asset name
@@ -68,6 +68,14 @@ class WebAssetItem implements WebAssetItemInterface
     protected $dependencies = [];
 
     /**
+     * Asset cross dependencies
+     *
+     * @var    string[]
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $crossDependencies = [];
+
+    /**
      * Asset version
      *
      * @var    string
@@ -78,11 +86,11 @@ class WebAssetItem implements WebAssetItemInterface
     /**
      * Class constructor
      *
-     * @param   string  $name          The asset name
-     * @param   string  $uri           The URI for the asset
-     * @param   array   $options       Additional options for the asset
-     * @param   array   $attributes    Attributes for the asset
-     * @param   array   $dependencies  Asset dependencies
+     * @param   string   $name          The asset name
+     * @param   ?string  $uri           The URI for the asset
+     * @param   array    $options       Additional options for the asset
+     * @param   array    $attributes    Attributes for the asset
+     * @param   array    $dependencies  Asset dependencies
      *
      * @since   4.0.0
      */
@@ -113,6 +121,11 @@ class WebAssetItem implements WebAssetItemInterface
             unset($options['dependencies']);
         } else {
             $this->dependencies = $dependencies;
+        }
+
+        if (\array_key_exists('crossDependencies', $options)) {
+            $this->crossDependencies = (array) $options['crossDependencies'];
+            unset($options['crossDependencies']);
         }
 
         $this->options = $options;
@@ -152,6 +165,19 @@ class WebAssetItem implements WebAssetItemInterface
     public function getDependencies(): array
     {
         return $this->dependencies;
+    }
+
+    /**
+     * Return associative list of dependencies.
+     * Example: ['script' => ['script1', 'script2'], 'style' => ['style1', 'style2']]
+     *
+     * @return  array[]
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getCrossDependencies(): array
+    {
+        return $this->crossDependencies;
     }
 
     /**
