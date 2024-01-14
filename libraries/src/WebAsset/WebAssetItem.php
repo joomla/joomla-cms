@@ -70,7 +70,7 @@ class WebAssetItem implements WebAssetItemInterface, WebAssetItemCrossDependenci
     /**
      * Asset cross dependencies
      *
-     * @var    string[]
+     * @var    array[]
      * @since  __DEPLOY_VERSION__
      */
     protected $crossDependencies = [];
