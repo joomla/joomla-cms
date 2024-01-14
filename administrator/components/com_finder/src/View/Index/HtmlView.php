@@ -70,6 +70,15 @@ class HtmlView extends BaseHtmlView
     protected $finderPluginId = 0;
 
     /**
+     * The finder plugins status
+     *
+     * @var    mixed
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $finderPlugins = true;
+
+    /**
      * The model state
      *
      * @var    mixed
@@ -152,6 +161,11 @@ class HtmlView extends BaseHtmlView
         // Check that the content - finder plugin is enabled
         if (!PluginHelper::isEnabled('content', 'finder')) {
             $this->finderPluginId = FinderHelper::getFinderPluginId();
+        }
+
+        // Check that the finder plugins are enabled
+        if (!PluginHelper::getPlugin('finder')) {
+            $this->finderPlugins = false;
         }
 
         // Configure the toolbar.
