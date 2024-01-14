@@ -168,7 +168,7 @@ class WebAssetItem implements WebAssetItemInterface, WebAssetItemCrossDependenci
     }
 
     /**
-     * Return associative list of dependencies.
+     * Return associative list of cross dependencies.
      * Example: ['script' => ['script1', 'script2'], 'style' => ['style1', 'style2']]
      *
      * @return  array[]

@@ -749,7 +749,7 @@ class WebAssetManager implements WebAssetManagerInterface
 
         if ($asset) {
             // Get all dependencies of given asset recursively
-            $allDependencies = $this->getDependenciesForAsset($type, $asset, true);
+            $allDependencies = $this->getAllDependenciesForAsset($type, $asset, true);
 
             foreach ($allDependencies as $depType => $depItems) {
                 foreach ($depItems as $depItem) {
@@ -963,6 +963,8 @@ class WebAssetManager implements WebAssetManagerInterface
      * @throws  UnsatisfiedDependencyException When Dependency cannot be found
      *
      * @since   4.0.0
+     *
+     * @deprecated  __DEPLOY_VERSION__  Use getAllDependenciesForAsset() instead. Will be removed in 8.0.
      */
     protected function getDependenciesForAsset(
         string $type,
@@ -971,18 +973,40 @@ class WebAssetManager implements WebAssetManagerInterface
         string $recursionType = null,
         WebAssetItem $recursionRoot = null
     ): array {
-        $assets        = [];
-        $recursionRoot = $recursionRoot ?? $asset;
-        $recursionType = $recursionType ?? $type;
+        return $this->getAllDependenciesForAsset($type, $asset, $recursively);
+    }
+
+    /**
+     * Return dependencies for Asset as associative array of WebAssetItem objects, grouped per type
+     *
+     * @param   string                 $type           The asset type, script or style
+     * @param   WebAssetItemInterface  $asset          Asset instance
+     * @param   boolean                $recursively    Whether to search for dependency recursively
+     * @param   array                  $visited        The list of checked assets visited while resolving recursive dependencies
+     *
+     * @return  array
+     *
+     * @throws  UnsatisfiedDependencyException When Dependency cannot be found
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getAllDependenciesForAsset(
+        string $type,
+        WebAssetItemInterface $asset,
+        bool $recursively = false,
+        array &$visited = []
+    ): array {
+        $assets = [];
+
+        if (!empty($visited[$type][$asset->getName()])) {
+            return $assets;
+        }
+
+        $visited[$type][$asset->getName()] = true;
 
         // Check for regular dependencies
         foreach ($asset->getDependencies() as $depName) {
             $depType = $type;
-
-            // Skip already loaded in recursion
-            if ($recursionRoot->getName() === $depName && $recursionType === $depType) {
-                continue;
-            }
 
             if (!$this->registry->exists($depType, $depName)) {
                 throw new UnsatisfiedDependencyException(
@@ -998,12 +1022,12 @@ class WebAssetManager implements WebAssetManagerInterface
                 continue;
             }
 
-            $parentDeps = $this->getDependenciesForAsset($depType, $dep, true, $recursionType, $recursionRoot);
-            $assets     = array_replace_recursive($assets, $parentDeps);
+            $parentDeps = $this->getAllDependenciesForAsset($depType, $dep, true, $visited);
+            $assets     = $parentDeps ? array_replace_recursive($assets, $parentDeps) : $assets;
         }
 
         // Check for cross dependencies
-        if ($asset->getCrossDependencies()) {
+        if ($asset instanceof WebAssetItemCrossDependenciesInterface) {
             // Loop through each type
             foreach ($asset->getCrossDependencies() as $crossType => $crossDependencies) {
                 // Ignore the same type, it should be defined as "dependencies" and not as "crossDependencies"
@@ -1013,11 +1037,6 @@ class WebAssetManager implements WebAssetManagerInterface
 
                 foreach ($crossDependencies as $depName) {
                     $depType = $crossType;
-
-                    // Skip already loaded in recursion
-                    if ($recursionRoot->getName() === $depName && $recursionType === $depType) {
-                        continue;
-                    }
 
                     if (!$this->registry->exists($depType, $depName)) {
                         throw new UnsatisfiedDependencyException(
@@ -1033,8 +1052,8 @@ class WebAssetManager implements WebAssetManagerInterface
                         continue;
                     }
 
-                    $parentDeps = $this->getDependenciesForAsset($depType, $dep, true, $recursionType, $recursionRoot);
-                    $assets     = array_replace_recursive($assets, $parentDeps);
+                    $parentDeps = $this->getAllDependenciesForAsset($depType, $dep, true, $visited);
+                    $assets     = $parentDeps ? array_replace_recursive($assets, $parentDeps) : $assets;
                 }
             }
         }
