@@ -6,7 +6,7 @@ clone:
 
 steps:
   - name: setup
-    image: joomlaprojects/docker-images:php8.2
+    image: joomlaprojects/docker-images:php8.3
     volumes:
       - name: certificates
         path: /certificates
@@ -14,7 +14,7 @@ steps:
       - cp -v tests/certs/* /certificates/
 
   - name: composer
-    image: joomlaprojects/docker-images:php8.2
+    image: joomlaprojects/docker-images:php8.3
     volumes:
       - name: composer-cache
         path: /tmp/composer-cache
@@ -63,6 +63,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
+  - name: php83-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php8.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
   - name: php81-integration
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.1
@@ -77,6 +84,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
 
+  - name: php83-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
   - name: php81-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.1
@@ -87,6 +101,13 @@ steps:
   - name: php82-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+  - name: php83-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.3
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
@@ -145,7 +166,7 @@ steps:
   - name: phpnext-system-mysql
     depends_on:
       - phpmax-system-mysql
-    image: joomlaprojects/docker-images:cypress8.2
+    image: joomlaprojects/docker-images:cypress8.3
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -184,7 +205,7 @@ steps:
   - name: phpnext-system-postgres
     depends_on:
       - phpmax-system-postgres
-    image: joomlaprojects/docker-images:cypress8.2
+    image: joomlaprojects/docker-images:cypress8.3
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -382,6 +403,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 250f08652884d60218c5b280b139d3ff05c068d010791d159993cf87ecbbac0f
+hmac: 0e5edd7d08f5ba19a156ad97cc733ebe28bca4fd63958be1ada1391170e0c327
 
 ...
