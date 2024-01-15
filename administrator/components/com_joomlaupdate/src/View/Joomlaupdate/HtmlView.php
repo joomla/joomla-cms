@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var \stdClass  PHP and database requirements from the update manifest
      *
-     * @since 5.0.2
+     * @since 4.4.2
      */
     protected $detailsNoDownload;
 
@@ -239,26 +239,26 @@ class HtmlView extends BaseHtmlView
                 $this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT');
                 break;
 
-            // "Testing"
+                // "Testing"
             case 'testing':
                 $this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_TESTING';
                 $this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_TESTING');
                 break;
 
-            // "Custom"
+                // "Custom"
             case 'custom':
                 $this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_CUSTOM';
                 $this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM');
                 break;
 
-            /**
-             * "Minor & Patch Release for Current version (recommended and default)".
-             * The commented "case" below are for documenting where 'default' and legacy options falls
-             * case 'default':
-             * case 'sts':
-             * case 'lts':
-             * case 'nochange':
-             */
+                /**
+                 * "Minor & Patch Release for Current version (recommended and default)".
+                 * The commented "case" below are for documenting where 'default' and legacy options falls
+                 * case 'default':
+                 * case 'sts':
+                 * case 'lts':
+                 * case 'nochange':
+                 */
             default:
                 $this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_DEFAULT';
                 $this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT');
