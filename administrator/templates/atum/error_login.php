@@ -124,7 +124,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
                             <div class="main-brand d-flex align-items-center justify-content-center">
                                 <?php echo HTMLHelper::_('image', $loginLogo, $loginLogoAlt, ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                             </div>
-                            <h1><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
+                            <h1 class="text-dark"><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
                             <jdoc:include type="message" />
                             <blockquote class="blockquote">
                                 <span class="badge bg-secondary"><?php echo $this->error->getCode(); ?></span>
