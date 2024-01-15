@@ -631,8 +631,8 @@ class UpdatesitesModel extends InstallerModel
                     $supportedIDs = InstallerHelper::getDownloadKeySupportedSites($enabled);
                     break;
 
-                    // Show Update Sites which are missing Download Keys
                 case -1:
+                    // Show Update Sites which are missing Download Keys
                     $supportedIDs = InstallerHelper::getDownloadKeyExistsSites(false, $enabled);
                     break;
 
