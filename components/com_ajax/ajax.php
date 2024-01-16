@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Event\Plugin\AjaxEvent;
 use Joomla\CMS\Factory;
@@ -100,7 +100,7 @@ if (!$format) {
                 || $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module);
 
                 try {
-                    $results = call_user_func($class . '::' . $method . 'Ajax');
+                    $results = \call_user_func($class . '::' . $method . 'Ajax');
                 } catch (Exception $e) {
                     $results = $e;
                 }
@@ -184,7 +184,7 @@ if (!$format) {
                 || $lang->load('tpl_' . $template, $basePath . '/templates/' . $template);
 
                 try {
-                    $results = call_user_func($class . '::' . $method . 'Ajax');
+                    $results = \call_user_func($class . '::' . $method . 'Ajax');
                 } catch (Exception $e) {
                     $results = $e;
                 }
@@ -221,7 +221,7 @@ switch ($format) {
             $app->setHeader('status', $results->getCode(), true);
 
             // Echo exception type and message
-            $out = get_class($results) . ': ' . $results->getMessage();
+            $out = \get_class($results) . ': ' . $results->getMessage();
         } elseif (is_scalar($results)) {
             // Output string/ null
             $out = (string) $results;

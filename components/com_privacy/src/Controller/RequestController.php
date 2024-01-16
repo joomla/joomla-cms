@@ -15,6 +15,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Privacy\Site\Model\ConfirmModel;
+use Joomla\Component\Privacy\Site\Model\RemindModel;
 use Joomla\Component\Privacy\Site\Model\RequestModel;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -136,7 +137,7 @@ class RequestController extends BaseController
         // Check the request token.
         $this->checkToken('post');
 
-        /** @var ConfirmModel $model */
+        /** @var RemindModel $model */
         $model = $this->getModel('Remind', 'Site');
         $data  = $this->input->post->get('jform', [], 'array');
 

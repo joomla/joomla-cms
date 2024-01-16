@@ -139,7 +139,7 @@ abstract class AbstractEvent extends Event
         // B/C check for numeric access to named argument, eg $event->getArgument('0').
         if (is_numeric($name)) {
             if (key($this->arguments) != 0) {
-                $argNames = \array_keys($this->arguments);
+                $argNames = array_keys($this->arguments);
                 $name     = $argNames[$name] ?? '';
             }
 
@@ -162,7 +162,9 @@ abstract class AbstractEvent extends Event
 
         if (method_exists($this, $methodName1)) {
             return $this->{$methodName1}($value);
-        } elseif (method_exists($this, $methodName2)) {
+        }
+
+        if (method_exists($this, $methodName2)) {
             @trigger_error(
                 sprintf(
                     'Use method "%s" for value pre-processing is deprecated, and will not work in Joomla 6. Use "%s" instead. Event %s',
@@ -202,7 +204,7 @@ abstract class AbstractEvent extends Event
         // B/C check for numeric access to named argument, eg $event->setArgument('0', $value).
         if (is_numeric($name)) {
             if (key($this->arguments) != 0) {
-                $argNames = \array_keys($this->arguments);
+                $argNames = array_keys($this->arguments);
                 $name     = $argNames[$name] ?? '';
             }
 

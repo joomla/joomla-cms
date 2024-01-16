@@ -342,6 +342,7 @@
 					name="searchindex"
 					type="list"
 					label="COM_FIELDS_FIELD_SEARCHINDEX_LABEL"
+					description="COM_FIELDS_FIELD_SEARCHINDEX_DESC"
 					default="0"
 					validate="options"
 					>

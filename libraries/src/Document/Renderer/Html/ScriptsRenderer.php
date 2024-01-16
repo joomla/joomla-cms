@@ -177,7 +177,7 @@ class ScriptsRenderer extends DocumentRenderer
         }
 
         // Add "nonce" attribute if exist
-        if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce)) {
+        if ($this->_doc->cspNonce && !\is_null($this->_doc->cspNonce)) {
             $attribs['nonce'] = $this->_doc->cspNonce;
         }
 
@@ -242,7 +242,7 @@ class ScriptsRenderer extends DocumentRenderer
         }
 
         // Add "nonce" attribute if exist
-        if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce)) {
+        if ($this->_doc->cspNonce && !\is_null($this->_doc->cspNonce)) {
             $attribs['nonce'] = $this->_doc->cspNonce;
         }
 
@@ -382,7 +382,7 @@ class ScriptsRenderer extends DocumentRenderer
             $attribs     = ['type' => 'importmap'];
 
             // Add "nonce" attribute if exist
-            if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce)) {
+            if ($this->_doc->cspNonce && !\is_null($this->_doc->cspNonce)) {
                 $attribs['nonce'] = $this->_doc->cspNonce;
             }
 

@@ -52,12 +52,12 @@ trait ResultAware
     {
         // Ensure this trait is applied to an Event object.
         if (!($this instanceof BaseEvent)) {
-            throw new \LogicException(sprintf('Event class ‘%s‘ must implement %s.', get_class($this), BaseEvent::class));
+            throw new \LogicException(sprintf('Event class ‘%s‘ must implement %s.', \get_class($this), BaseEvent::class));
         }
 
         // Ensure the Event object fully implements the ResultAwareInterface.
         if (!($this instanceof ResultAwareInterface)) {
-            throw new \LogicException(sprintf('Event class ‘%s‘ must implement %s.', get_class($this), ResultAwareInterface::class));
+            throw new \LogicException(sprintf('Event class ‘%s‘ must implement %s.', \get_class($this), ResultAwareInterface::class));
         }
 
         // Make sure the data type is correct
@@ -87,7 +87,7 @@ trait ResultAware
      * @return  array
      * @since   4.2.0
      *
-     * @deprecated 5.0.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 6.0
      *                Use counterpart with onSet prefix
      */
     protected function setResult(array $value)
@@ -121,7 +121,7 @@ trait ResultAware
      * @param   array  $value  The new result array.
      *
      * @return  array
-     * @since   5.0.0
+     * @since   4.4.0
      */
     protected function onSetResult(array $value)
     {

@@ -22,10 +22,6 @@
   transition: all .2s ease 0s;
 }
 
-#dragarea p.lead {
-  color: #999;
-}
-
 #upload-icon {
   width: auto;
   height: auto;
@@ -44,6 +40,12 @@
 #dragarea.hover #upload-icon,
 #dragarea p.lead {
   color: #666;
+}
+
+@media (prefers-color-scheme: dark) {
+  #dragarea p.lead {
+    color: #999;
+  }
 }
 
 .upload-progress, .install-progress {
