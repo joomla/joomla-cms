@@ -308,9 +308,14 @@ final class Joomla extends CMSPlugin
         } elseif (\in_array($view, ['category', 'featured', 'archive'])) {
             $additionalSchemas = $cache->get(function ($view, $id) use ($component, $baseId, $app, $db) {
                 $menu = $app->getMenu()->getActive();
-                $schemaId = $baseId . 'com_content/' . $view . ($view == 'category' ? '/' . $id : '');
 
                 $additionalSchemas = [];
+
+                if (!$menu) {
+                    return $additionalSchemas;
+                }
+
+                $schemaId = $baseId . 'com_content/' . $view . ($view == 'category' ? '/' . $id : '');
 
                 $additionalSchema = [
                     '@type'    => 'Blog',
