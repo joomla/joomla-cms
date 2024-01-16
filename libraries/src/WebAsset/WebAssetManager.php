@@ -1027,7 +1027,7 @@ class WebAssetManager implements WebAssetManagerInterface
         }
 
         // Check for cross dependencies
-        if ($asset instanceof WebAssetItemCrossDependenciesInterface) {
+        if ($asset instanceof WebAssetItemCrossDependenciesInterface && $asset->getCrossDependencies()) {
             // Loop through each type
             foreach ($asset->getCrossDependencies() as $crossType => $crossDependencies) {
                 // Ignore the same type, it should be defined as "dependencies" and not as "crossDependencies"
