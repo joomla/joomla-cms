@@ -114,7 +114,6 @@ Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
 Factory::getApplication()->getDocument()->getWebAssetManager()
-    ->usePreset('choicesjs')
     ->useScript('webcomponent.field-fancy-select');
 
 ?>

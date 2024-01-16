@@ -268,6 +268,9 @@
             "uri": "choices.min.js",
             "attributes": {
               "defer": true
+            },
+            "crossDependencies": {
+              "style": ["choicesjs"]
             }
           },
           {
@@ -276,7 +279,8 @@
             "dependencies": [
               "choicesjs#style",
               "choicesjs#script"
-            ]
+            ],
+            "deprecated": true
           }
         ],
         "dependencies": [],
