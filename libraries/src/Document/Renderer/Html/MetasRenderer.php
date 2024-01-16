@@ -14,7 +14,6 @@ use Joomla\CMS\Event\Application\BeforeCompileHeadEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\WebAsset\WebAssetAttachBehaviorInterface;
 use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Utilities\ArrayHelper;
 
@@ -52,6 +51,10 @@ class MetasRenderer extends DocumentRenderer
         $app = Factory::getApplication();
         $wa  = $this->_doc->getWebAssetManager();
 
+        // Add a dummy asset for script options, this will prevent WebAssetManager from extra re-calculation later on.
+        $soAsset = $wa->addInline('script', '', ['name' => 'joomla.script.options'], [], ['core'])
+            ->getAsset('script', 'joomla.script.options');
+
         // Check for AttachBehavior
         $onAttachCallCache = WebAssetManager::callOnAttachCallback($wa->getAssets('script', true), $this->_doc);
 
@@ -68,16 +71,21 @@ class MetasRenderer extends DocumentRenderer
         $scriptOptions = $this->_doc->getScriptOptions();
 
         if ($scriptOptions) {
+            // Overriding ScriptOptions asset is not allowed
+            if ($soAsset !== $wa->getAsset('script', 'joomla.script.options')) {
+                throw new \RuntimeException('Detected an override for "joomla.script.options" asset');
+            }
+
             $jsonFlags   = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | (JDEBUG ? JSON_PRETTY_PRINT : 0);
             $jsonOptions = json_encode($scriptOptions, $jsonFlags);
-            $jsonOptions = $jsonOptions ?: '{}';
 
-            $wa->addInlineScript(
-                $jsonOptions,
-                ['name' => 'joomla.script.options', 'position' => 'before'],
-                ['type' => 'application/json', 'class' => 'joomla-script-options new'],
-                ['core']
-            );
+            // Set content and update attributes of dummy asset to correct ones
+            $soAsset->setOption('content', $jsonOptions ?: '{}');
+            $soAsset->setOption('position', 'before');
+            $soAsset->setAttribute('type', 'application/json');
+            $soAsset->setAttribute('class', 'joomla-script-options new');
+        } else {
+            $wa->disableScript('joomla.script.options');
         }
 
         // Lock the AssetManager

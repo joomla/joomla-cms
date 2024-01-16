@@ -109,6 +109,16 @@ class WebAssetManager implements WebAssetManagerInterface
     protected $dependenciesIsActual = false;
 
     /**
+     * A cache holder for list of sorted assets, used by getAssets() method
+     * This is emptied when dependencies actualised, see enableDependencies() method
+     *
+     * @var    array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $sortedAssets = [];
+
+    /**
      * Class constructor
      *
      * @param   WebAssetRegistry  $registry  The WebAsset Registry instance
@@ -564,7 +574,19 @@ class WebAssetManager implements WebAssetManagerInterface
 
         // Apply Tree sorting for regular asset items, but return FIFO order for "preset"
         if ($sort && $type !== 'preset') {
-            $assets = $this->calculateOrderOfActiveAssets($type);
+            // Check previous calculations
+            if (!empty($this->sortedAssets[$type])) {
+                $assets = [];
+
+                foreach ($this->sortedAssets[$type] as $name) {
+                    $assets[$name] = $this->registry->get($type, $name);
+                }
+            } else {
+                $assets = $this->calculateOrderOfActiveAssets($type);
+
+                // Cache the result
+                $this->sortedAssets[$type] = array_keys($assets);
+            }
         } else {
             $assets = [];
 
@@ -773,7 +795,9 @@ class WebAssetManager implements WebAssetManagerInterface
                 }
             }
 
+            // Update state flag and clear sorting cache
             $this->dependenciesIsActual = true;
+            $this->sortedAssets         = [];
         }
 
         return $this;
