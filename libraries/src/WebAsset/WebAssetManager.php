@@ -1020,8 +1020,8 @@ class WebAssetManager implements WebAssetManagerInterface
     /**
      * A helper method to call onAttachCallback for script assets that implements WebAssetAttachBehaviorInterface
      *
-     * @param   array     $assets  Array of assets
-     * @param   Document  $document  Document instance to attach
+     * @param   array     $assets     Array of assets
+     * @param   Document  $document   Document instance to attach
      * @param   array     $cache      Array of object ids which callback was already called
      *
      * @return  array  Array of object ids for which callback was called
