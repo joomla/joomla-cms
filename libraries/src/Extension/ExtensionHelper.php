@@ -417,7 +417,8 @@ class ExtensionHelper
                 ],
                 '|'
             ),
-            $values
+            $values,
+            ParameterType::STRING
         );
 
         $db->setQuery($query);
