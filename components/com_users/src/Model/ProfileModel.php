@@ -281,7 +281,7 @@ class ProfileModel extends FormModel
         }
 
         // Destroy all active sessions for the user after changing the password
-        if ($data['password']) {
+        if ($data['password1']) {
             UserHelper::destroyUserSessions($user->id, true);
         }
 
