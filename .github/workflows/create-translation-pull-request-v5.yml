@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 
   schedule:
-    # Run daily at 7:26
-    - cron:  '27 7 * * *'
+    # Run daily at 7:32
+    - cron:  '32 7 * * *'
 
 permissions:
   contents: read
@@ -19,7 +19,7 @@ jobs:
       contents: write  # for Git to git push
     runs-on: ubuntu-latest
     # Only run this action the translation-bot repository in the translation branch
-    if: ${{ github.repository == 'joomla-translation-bot/joomla-cms' && github.ref == 'refs/heads/translation' }}
+    if: ${{ github.repository == 'joomla-translation-bot/joomla-cms' && github.ref == 'refs/heads/translation5' }}
 
     steps:
       - uses: actions/checkout@v3
@@ -28,7 +28,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: Fetch latest cms changes
         run: |
@@ -37,7 +37,7 @@ jobs:
           git remote add upstream https://github.com/joomla/joomla-cms.git
           git fetch upstream
           git checkout --progress --force -B translation refs/remotes/origin/translation
-          git merge upstream/4.4-dev
+          git merge upstream/5.0-dev
 
       - name: Fetch and extract translations
         run: |
@@ -49,7 +49,7 @@ jobs:
         # We use a simple copy paste syntax here if needed customization for different directories
         run: |
           cd ..
-          SYNC_VERSION="v4"
+          SYNC_VERSION="v5"
 
           SYNC_PATH="installation/language/"
           echo ${SYNC_PATH}
@@ -74,4 +74,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
         run: |
           gh pr list -R joomla/joomla-cms --state open --author joomla-translation-bot -S "Translation Update" | grep -v "No pull" || \
-            gh pr create --title "Translation Update" --body "Automatically created pull request based on core-translation repository changes" -R joomla/joomla-cms --base 4.4-dev
+            gh pr create --title "Translation Update" --body "Automatically created pull request based on core-translation repository changes" -R joomla/joomla-cms --base 5.0-dev
