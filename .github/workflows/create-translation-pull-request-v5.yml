@@ -36,7 +36,7 @@ jobs:
           git config user.email release+translation-bot@joomla.org
           git remote add upstream https://github.com/joomla/joomla-cms.git
           git fetch upstream
-          git checkout --progress --force -B translation refs/remotes/origin/translation
+          git checkout --progress --force -B translation5 refs/remotes/origin/translation5
           git merge upstream/5.0-dev
 
       - name: Fetch and extract translations
