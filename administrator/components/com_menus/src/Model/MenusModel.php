@@ -306,7 +306,7 @@ class MenusModel extends ListModel
         $mLanguages = $db->setQuery($query)->loadColumn();
 
         // Check if we have a mod_menu module set to All languages or a mod_menu module for each admin language.
-        if (!in_array('*', $mLanguages) && count($langMissing = array_diff(array_keys($langCodes), $mLanguages))) {
+        if (!\in_array('*', $mLanguages) && \count($langMissing = array_diff(array_keys($langCodes), $mLanguages))) {
             return array_intersect_key($langCodes, array_flip($langMissing));
         }
 
