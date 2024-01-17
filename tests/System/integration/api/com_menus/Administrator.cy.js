@@ -29,7 +29,7 @@ describe('Test that menus administrator API endpoint', () => {
   });
 
   it('can update a administrator menu', () => {
-    cy.db_createMenuType({ title: 'automated test administrator menu' ,client_id: 1 })
+    cy.db_createMenuType({ title: 'automated test administrator menu', client_id: 1 })
       .then((id) => cy.api_patch(`/menus/administrator/${id}`, { title: 'updated automated test administrator menu' }))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('title')
@@ -37,7 +37,7 @@ describe('Test that menus administrator API endpoint', () => {
   });
 
   it('can delete a administrator menu', () => {
-    cy.db_createMenuType({ title: 'automated test administrator menu' ,client_id: 1 })
+    cy.db_createMenuType({ title: 'automated test administrator menu', client_id: 1 })
       .then((id) => cy.api_delete(`/menus/administrator/${id}`));
   });
 });
