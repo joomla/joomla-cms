@@ -207,17 +207,21 @@
 				/>
 
 				<field
-					name="excluded_articles"
-					type="textarea"
-					label="MOD_ARTICLES_CATEGORY_FIELD_EXCLUDEDARTICLES_LABEL"
-					cols="10"
-					rows="3"
-				/>
+					name="articles_filtering_type"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEFILTERINGTYPE_LABEL"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_EXCLUSIVE_VALUE</option>
+					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUSIVE_VALUE</option>
+				</field>
 
 				<field
-					name="included_articles"
+					name="filter_articles"
 					type="textarea"
-					label="MOD_ARTICLES_CATEGORY_FIELD_INCLUDEDARTICLES_LABEL"
+					label="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEIDSFILTERING_LABEL"
 					cols="10"
 					rows="3"
 				/>
