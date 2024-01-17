@@ -199,7 +199,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
             $filter_articles = explode("\r\n", $filter_articles);
             $articles->setState('filter.article_id', $filter_articles);
 
-            // Exclude / Inlcude option
+            // Exclude / Include option
             $articles->setState('filter.article_id.include', \boolval($params->get('articles_filtering_type', 0)));
         }
 
