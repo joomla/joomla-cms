@@ -84,11 +84,11 @@ class ArticlesController extends ApiController
 
         $apiListInfo = $this->input->get('list', [], 'array');
 
-        if (array_key_exists('ordering', $apiListInfo)) {
+        if (\array_key_exists('ordering', $apiListInfo)) {
             $this->modelState->set('list.ordering', $filter->clean($apiListInfo['ordering'], 'STRING'));
         }
 
-        if (array_key_exists('direction', $apiListInfo)) {
+        if (\array_key_exists('direction', $apiListInfo)) {
             $this->modelState->set('list.direction', $filter->clean($apiListInfo['direction'], 'STRING'));
         }
 

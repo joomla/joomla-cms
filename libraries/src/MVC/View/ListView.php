@@ -10,15 +10,15 @@
 namespace Joomla\CMS\MVC\View;
 
 use Doctrine\Inflector\InflectorFactory;
-use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -47,14 +47,14 @@ class ListView extends HtmlView
     /**
      * The model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
     /**
      * The actions the user is authorised to perform
      *
-     * @var  CMSObject
+     * @var  Registry
      */
     protected $canDo;
 
@@ -138,7 +138,8 @@ class ListView extends HtmlView
         }
 
         // Set default value for $canDo to avoid fatal error if child class doesn't set value for this property
-        $this->canDo = new CMSObject();
+        // Return a CanDo object to prevent any BC break, will be changed in 7.0 to Registry
+        $this->canDo = new CanDo();
     }
 
     /**
@@ -184,7 +185,7 @@ class ListView extends HtmlView
                 \call_user_func([$helperClass, 'addSubmenu'], $this->getName());
             }
 
-            $this->sidebar = \JHtmlSidebar::render();
+            $this->sidebar = HTMLHelper::_('sidebar.render');
         }
 
         $this->items         = $this->get('Items');
@@ -204,7 +205,7 @@ class ListView extends HtmlView
     protected function addToolbar()
     {
         $canDo = $this->canDo;
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
 
         // Get the toolbar object instance
         $bar = Toolbar::getInstance('toolbar');

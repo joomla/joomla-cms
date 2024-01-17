@@ -69,7 +69,7 @@ function getCurrentPath() {
     return defaultDisk.drives[0].root;
   }
 
-  // Session missmatch
+  // Session mismatch
   setSession(path);
   return path;
 }

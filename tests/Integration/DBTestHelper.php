@@ -63,14 +63,14 @@ class DBTestHelper
         $files = $test->getSchemasToLoad();
 
         foreach ($files as $file) {
-            if (in_array($file, self::$loadedFiles)) {
+            if (\in_array($file, self::$loadedFiles)) {
                 continue;
             }
 
             $sql     = file_get_contents(JPATH_ROOT . '/tests/Integration/datasets/' . strtolower(JTEST_DB_ENGINE) . '/' . $file);
             $queries = self::splitQueries($sql);
 
-            if (!count($queries)) {
+            if (!\count($queries)) {
                 continue;
             }
 
@@ -112,7 +112,7 @@ class DBTestHelper
         $query = $funct[0];
 
         // Parse the schema file to break up queries.
-        for ($i = 0; $i < strlen($query) - 1; $i++) {
+        for ($i = 0; $i < \strlen($query) - 1; $i++) {
             if ($query[$i] == ';' && !$in_string) {
                 $queries[] = substr($query, 0, $i);
                 $query     = substr($query, $i + 1);
@@ -138,7 +138,7 @@ class DBTestHelper
         }
 
         // Add function part as is.
-        for ($f = 1, $fMax = count($funct); $f < $fMax; $f++) {
+        for ($f = 1, $fMax = \count($funct); $f < $fMax; $f++) {
             $queries[] = 'CREATE OR REPLACE FUNCTION ' . $funct[$f];
         }
 

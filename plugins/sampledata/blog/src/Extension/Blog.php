@@ -427,7 +427,7 @@ final class Blog extends CMSPlugin
             ];
 
             // Create Transitions.
-            for ($i = 0; $i < count($fromTo); $i++) {
+            for ($i = 0; $i < \count($fromTo); $i++) {
                 $trTable = new \Joomla\Component\Workflow\Administrator\Table\TransitionTable($this->getDatabase());
 
                 $trTable->from_stage_id = $fromTo[$i]['from_stage_id'];

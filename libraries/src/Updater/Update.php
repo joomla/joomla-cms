@@ -14,12 +14,13 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -28,8 +29,11 @@ use Joomla\Registry\Registry;
  *
  * @since  1.7.0
  */
-class Update extends CMSObject
+class Update
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
     /**
      * Update manifest `<name>` element
      *
@@ -210,7 +214,7 @@ class Update extends CMSObject
      * Object containing details if the latest update does not meet the PHP and DB version requirements
      *
      * @var    \stdClass
-     * @since  4.4.2
+     * @since  5.0.2
      */
     protected $otherUpdateInfo;
 
@@ -236,6 +240,15 @@ class Update extends CMSObject
      * @since  3.10.2
      */
     protected $compatibleVersions = [];
+    public $downloadurl;
+    protected $tag;
+    protected $stability;
+    protected $supported_databases;
+    protected $php_minimum;
+    public $sha256;
+    public $sha384;
+    public $sha512;
+    protected $section;
 
     /**
      * Gets the reference to the current direct parent
@@ -289,7 +302,7 @@ class Update extends CMSObject
                 $this->currentUpdate = new \stdClass();
                 break;
 
-            // Handle the array of download sources
+                // Handle the array of download sources
             case 'DOWNLOADSOURCE':
                 $source = new DownloadSource();
 
@@ -302,11 +315,11 @@ class Update extends CMSObject
 
                 break;
 
-            // Don't do anything
+                // Don't do anything
             case 'UPDATES':
                 break;
 
-            // For everything else there's...the default!
+                // For everything else there's...the default!
             default:
                 $name = strtolower($name);
 

@@ -17,7 +17,7 @@ use PHPMailer\PHPMailer\Exception as phpmailerException;
 use PHPMailer\PHPMailer\PHPMailer;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -539,11 +539,11 @@ class Mail extends PHPMailer implements MailerInterface
             $this->isSendmail();
 
             return true;
-        } else {
-            $this->isMail();
-
-            return false;
         }
+
+        $this->isMail();
+
+        return false;
     }
 
     /**
@@ -579,11 +579,11 @@ class Mail extends PHPMailer implements MailerInterface
             $this->isSMTP();
 
             return true;
-        } else {
-            $this->isMail();
-
-            return false;
         }
+
+        $this->isMail();
+
+        return false;
     }
 
     /**

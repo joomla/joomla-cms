@@ -8,7 +8,6 @@ const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
-const commonjs = require('@rollup/plugin-commonjs');
 const bsVersion = require('../../../package.json').dependencies.bootstrap.replace(/^\^|~/, '');
 
 const tasks = [];
@@ -48,7 +47,6 @@ const build = async () => {
               targets: {
                 browsers: [
                   '> 1%',
-                  'not ie 11',
                   'not op_mini all',
                 ],
               },
@@ -89,55 +87,6 @@ const build = async () => {
   await bundle.close();
 };
 
-const buildLegacy = async () => {
-  // eslint-disable-next-line no-console
-  console.log('Building Legacy...');
-
-  const bundle = await rollup.rollup({
-    input: resolve(inputFolder, 'index.es6.js'),
-    plugins: [
-      commonjs(),
-      nodeResolve(),
-      replace({
-        preventAssignment: true,
-        'process.env.NODE_ENV': '\'production\'',
-      }),
-      babel({
-        exclude: 'node_modules/core-js/**',
-        babelHelpers: 'bundled',
-        babelrc: false,
-        presets: [
-          [
-            '@babel/preset-env',
-            {
-              corejs: '3.8',
-              useBuiltIns: 'usage',
-              targets: {
-                chrome: '58',
-                ie: '11',
-              },
-              loose: true,
-              bugfixes: true,
-              modules: false,
-            },
-          ],
-        ],
-      }),
-    ],
-    external: [],
-  });
-
-  await bundle.write({
-    format: 'iife',
-    sourcemap: false,
-    name: 'bootstrap',
-    file: resolve(outputFolder, 'bootstrap-es5.js'),
-  });
-
-  // closes the bundle
-  await bundle.close();
-};
-
 module.exports.bootstrapJs = async () => {
   rimraf.sync(resolve(outputFolder));
 
@@ -154,23 +103,7 @@ module.exports.bootstrapJs = async () => {
     tasks.push(createMinified(file));
   });
 
-  return Promise.all(tasks).then(async () => {
-    // eslint-disable-next-line no-console
-    console.log('✅ ES6 components ready');
-
-    try {
-      await buildLegacy(inputFolder, 'index.es6.js');
-      const es5File = await readFile(resolve(outputFolder, 'bootstrap-es5.js'), { encoding: 'utf8' });
-      const mini = await transform(es5File, { minify: true });
-      await writeFile(resolve(outputFolder, 'bootstrap-es5.min.js'), mini.code, { encoding: 'utf8', mode: 0o644 });
-      // eslint-disable-next-line no-console
-      console.log('✅ Legacy done!');
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
-      process.exitCode = 1;
-    }
-  }).catch((er) => {
+  return Promise.all(tasks).catch((er) => {
     // eslint-disable-next-line no-console
     console.log(er);
     process.exitCode = 1;
