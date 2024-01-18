@@ -6,15 +6,25 @@
 			label="PLG_SYSTEM_SCHEMA_FIELD_SCHEMA_LABEL"
 		>
 			<field
-				name="Custom"
+				name="Generic"
 				type="subform"
-				showon="schemaType:Custom"
+				showon="schemaType:Generic"
 			>
 				<form>
 
 				<field
+					name="noteGeneric"
+					type="note"
+					description="PLG_SCHEMAORG_GENERIC_DESCRIPTION_LABEL"
+					class="alert alert-info w-100"
+				/>
+
+				<field
 					name="json"
 					type="textarea"
+					label="PLG_SCHEMAORG_GENERIC_JSON_FIELD_LABEL"
+					description="PLG_SCHEMAORG_GENERIC_JSON_FIELD_DESC"
+					rows="8"
 				/>
 
 				</form>

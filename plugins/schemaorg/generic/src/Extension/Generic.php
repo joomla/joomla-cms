@@ -10,12 +10,9 @@
 
 namespace Joomla\Plugin\Schemaorg\Generic\Extension;
 
-use Joomla\CMS\Event\Application\BeforeCompileHeadEvent as ApplicationBeforeCompileHeadEvent;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
-use Joomla\CMS\Schemaorg\SchemaorgPrepareDateTrait;
-use Joomla\CMS\Schemaorg\SchemaorgPrepareImageTrait;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
@@ -72,7 +69,7 @@ final class Generic extends CMSPlugin implements SubscriberInterface
      *
      * @since   5.0.0
      */
-    public function onSchemaBeforeCompileHead(ApplicationBeforeCompileHeadEvent $event): void
+    public function onSchemaBeforeCompileHead(BeforeCompileHeadEvent $event): void
     {
         $schema = $event->getSchema();
 
