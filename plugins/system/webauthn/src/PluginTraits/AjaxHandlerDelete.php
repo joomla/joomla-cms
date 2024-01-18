@@ -18,7 +18,7 @@ use Joomla\CMS\User\User;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Ajax handler for akaction=savelabel
+ * Ajax handler for akaction=delete
  *
  * Deletes a security key
  *
@@ -36,6 +36,9 @@ trait AjaxHandlerDelete
      */
     public function onAjaxWebauthnDelete(AjaxDelete $event): void
     {
+        // Load plugin language files
+        $this->loadLanguage();
+
         // Initialize objects
         $input      = $this->getApplication()->getInput();
         $repository = $this->authenticationHelper->getCredentialsRepository();

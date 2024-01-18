@@ -78,7 +78,7 @@ use Joomla\Filter\OutputFilter;
             </div>
         <?php endif; ?>
 
-        <?php if (isset($images->image_second) and !empty($images->image_second)) : ?>
+        <?php if (isset($images->image_second) && !empty($images->image_second)) : ?>
             <?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
             <div class="com-newsfeeds-newsfeed__second-image float-<?php echo $this->escape($imgfloat); ?> item-image">
                 <figure>

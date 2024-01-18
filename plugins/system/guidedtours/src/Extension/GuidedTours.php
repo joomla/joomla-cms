@@ -11,9 +11,11 @@
 namespace Joomla\Plugin\System\GuidedTours\Extension;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
+use Joomla\Component\Guidedtours\Administrator\Model\TourModel;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
@@ -74,8 +76,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      */
     public function __construct(DispatcherInterface $dispatcher, array $config = [], bool $enabled = false)
     {
-        $this->autoloadLanguage = $enabled;
-        self::$enabled          = $enabled;
+        self::$enabled = $enabled;
 
         parent::__construct($dispatcher, $config);
     }
@@ -110,6 +111,9 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
 
         $tour = null;
 
+        // Load plugin language files
+        $this->loadLanguage();
+
         if ($tourId > 0) {
             $tour = $this->getTour($tourId);
         } elseif ($tourUid !== '') {
@@ -135,6 +139,9 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $user = $app->getIdentity();
 
         if ($user != null && $user->id > 0) {
+            // Load plugin language files
+            $this->loadLanguage();
+
             Text::script('JCANCEL');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_BACK');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_COMPLETE');
@@ -187,6 +194,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
 
         $factory = $app->bootComponent('com_guidedtours')->getMVCFactory();
 
+        /** @var TourModel $tourModel */
         $tourModel = $factory->createModel(
             'Tour',
             'Administrator',
@@ -201,7 +209,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     /**
      * Return a tour and its steps or null if not found
      *
-     * @param   TourTable  $item  The tour to load
+     * @param   CMSObject  $item  The tour to load
      *
      * @return null|object
      *
@@ -214,7 +222,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $user    = $app->getIdentity();
         $factory = $app->bootComponent('com_guidedtours')->getMVCFactory();
 
-        if (empty($item->id) || $item->published < 1 || !in_array($item->access, $user->getAuthorisedViewLevels())) {
+        if (empty($item->id) || $item->published < 1 || !\in_array($item->access, $user->getAuthorisedViewLevels())) {
             return null;
         }
 

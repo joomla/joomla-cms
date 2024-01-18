@@ -59,7 +59,7 @@ class LibraryHelper
             }
         } else {
             $result          = new \stdClass();
-            $result->enabled = $strict ? false : true;
+            $result->enabled = !$strict;
             $result->params  = new Registry();
         }
 

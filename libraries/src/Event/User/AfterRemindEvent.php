@@ -41,7 +41,7 @@ class AfterRemindEvent extends UserEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(object $value): object
+    protected function onSetSubject(object $value): object
     {
         return $value;
     }

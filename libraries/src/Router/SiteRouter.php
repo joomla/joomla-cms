@@ -68,7 +68,7 @@ class SiteRouter extends Router
         $this->menu = $menu ?: $this->app->getMenu();
 
         // Add core rules
-        if ($this->app->get('force_ssl') === 2) {
+        if ((int) $this->app->get('force_ssl') === 2) {
             $this->attachParseRule([$this, 'parseCheckSSL'], self::PROCESS_BEFORE);
         }
 
@@ -594,8 +594,8 @@ class SiteRouter extends Router
             $this->componentRouters[$component] = $router;
 
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 }

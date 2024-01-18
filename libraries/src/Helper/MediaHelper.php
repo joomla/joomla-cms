@@ -174,11 +174,11 @@ class MediaHelper
         $executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
 
         // Remove allowed executables from array
-        if (count($allowedExecutables)) {
+        if (\count($allowedExecutables)) {
             $executables = array_diff($executables, $allowedExecutables);
         }
 
-        if (in_array($extension, $executables, true)) {
+        if (\in_array($extension, $executables, true)) {
             return false;
         }
 
@@ -236,7 +236,7 @@ class MediaHelper
         $executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
 
         // Remove allowed executables from array
-        if (count($allowedExecutables)) {
+        if (\count($allowedExecutables)) {
             $executables = array_diff($executables, $allowedExecutables);
         }
 
@@ -444,7 +444,7 @@ class MediaHelper
 
             // Do a check if default settings are not saved by user
             // If not initialize them manually
-            if (is_string($directories)) {
+            if (\is_string($directories)) {
                 $directories = json_decode($directories);
             }
 
@@ -514,7 +514,7 @@ class MediaHelper
             }
         }
 
-        if ($isValid === false || count($svgErrors)) {
+        if ($isValid === false || \count($svgErrors)) {
             if ($shouldLogErrors) {
                 Factory::getApplication()->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
             }
