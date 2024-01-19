@@ -16,7 +16,7 @@ describe('Test that menus administrator API endpoint', () => {
         .should('include', 'automated test administrator menu'));
   });
 
-  it('can create a administrator menu', () => {
+  it('can create an administrator menu', () => {
     cy.api_post('/menus/administrator', {
       client_id: 1,
       description: 'The menu for the administrator',
@@ -28,7 +28,7 @@ describe('Test that menus administrator API endpoint', () => {
         .should('include', 'automated test administrator menu'));
   });
 
-  it('can update a administrator menu', () => {
+  it('can update an administrator menu', () => {
     cy.db_createMenuType({ title: 'automated test administrator menu', client_id: 1 })
       .then((id) => cy.api_patch(`/menus/administrator/${id}`, { title: 'updated automated test administrator menu' }))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
@@ -36,7 +36,7 @@ describe('Test that menus administrator API endpoint', () => {
         .should('include', 'updated automated test administrator menu'));
   });
 
-  it('can delete a administrator menu', () => {
+  it('can delete an administrator menu', () => {
     cy.db_createMenuType({ title: 'automated test administrator menu', client_id: 1 })
       .then((id) => cy.api_delete(`/menus/administrator/${id}`));
   });
