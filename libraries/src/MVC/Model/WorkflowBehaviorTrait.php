@@ -11,15 +11,15 @@ namespace Joomla\CMS\MVC\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -76,7 +76,7 @@ trait WorkflowBehaviorTrait
 
         $this->extension = array_shift($parts);
 
-        if (count($parts)) {
+        if (\count($parts)) {
             $this->section = array_shift($parts);
         }
 
@@ -347,7 +347,7 @@ trait WorkflowBehaviorTrait
 
         $key = $table->getKeyName();
 
-        $id = isset($data->$key) ? $data->$key : $form->getValue($key);
+        $id = $data->$key ?? $form->getValue($key);
 
         if ($id) {
             // Transition field
@@ -394,7 +394,7 @@ trait WorkflowBehaviorTrait
             return false;
         }
 
-        $catId = isset(((object) $data)->$catKey) ? ((object) $data)->$catKey : $form->getValue($catKey);
+        $catId = ((object) $data)->$catKey ?? $form->getValue($catKey);
 
         // Try to get the category from the html code of the field
         if (empty($catId)) {

@@ -18,7 +18,7 @@ use Joomla\Session\Session as BaseSession;
 use Joomla\Session\StorageInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -192,7 +192,7 @@ class Session extends BaseSession
         }
 
         if (parent::has($name)) {
-            // Parent is used because of b/c, can be changed in Joomla 5
+            // Parent is used because of b/c, can be changed in Joomla 6
             return parent::get($name, $default);
         }
 
@@ -206,7 +206,7 @@ class Session extends BaseSession
             return parent::get('__' . $name, $default);
         }
 
-        // More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 5
+        // More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 6
         // as no sessions should have this format anymore!
         if (parent::has('__default.' . $name)) {
             return parent::get('__default.' . $name, $default);
@@ -285,7 +285,7 @@ class Session extends BaseSession
             return true;
         }
 
-        // More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 5
+        // More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 6
         // as no sessions should have this format anymore!
         return parent::has('__default.' . $name);
     }

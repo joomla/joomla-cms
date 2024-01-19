@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -66,6 +67,7 @@ class CategoriesModel extends ListModel
                 'level', 'a.level',
                 'path', 'a.path',
                 'tag',
+                'category_id', 'a.id',
             ];
         }
 
@@ -172,7 +174,7 @@ class CategoriesModel extends ListModel
                 'a.id, a.title, a.alias, a.note, a.published, a.access' .
                 ', a.checked_out, a.checked_out_time, a.created_user_id' .
                 ', a.path, a.parent_id, a.level, a.lft, a.rgt' .
-                ', a.language'
+                ', a.language, a.description'
             )
         );
         $query->from($db->quoteName('#__categories', 'a'));
@@ -239,8 +241,31 @@ class CategoriesModel extends ListModel
                 ->bind(':extension', $extension);
         }
 
-        // Filter on the level.
-        if ($level = (int) $this->getState('filter.level')) {
+        // Filter by categories and by level
+        $categoryId = $this->getState('filter.category_id', []);
+        $level      = $this->getState('filter.level');
+
+        if (!\is_array($categoryId)) {
+            $categoryId = $categoryId ? [$categoryId] : [];
+        }
+
+        // Case: Using both categories filter and by level filter
+        if (\count($categoryId)) {
+            $categoryTable    = Table::getInstance('Category', 'JTable');
+            $subCatItemsWhere = [];
+
+            foreach ($categoryId as $filterCatId) {
+                $categoryTable->load($filterCatId);
+                $subCatItemsWhere[] = '(' .
+                    ($level ? 'a.level <= ' . ((int) $level + (int) $categoryTable->level - 1) . ' AND ' : '') .
+                    'a.lft >= ' . (int) $categoryTable->lft . ' AND ' .
+                    'a.rgt <= ' . (int) $categoryTable->rgt . ')';
+            }
+
+            $query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
+
+        // Case: Using only the by level filter
+        } elseif ($level) {
             $query->where($db->quoteName('a.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);
         }
@@ -355,25 +380,25 @@ class CategoriesModel extends ListModel
 
         // Group by on Categories for \JOIN with component tables to count items
         $query->group('a.id,
-				a.title,
-				a.alias,
-				a.note,
-				a.published,
-				a.access,
-				a.checked_out,
-				a.checked_out_time,
-				a.created_user_id,
-				a.path,
-				a.parent_id,
-				a.level,
-				a.lft,
-				a.rgt,
-				a.language,
-				l.title,
-				l.image,
-				uc.name,
-				ag.title,
-				ua.name');
+                a.title,
+                a.alias,
+                a.note,
+                a.published,
+                a.access,
+                a.checked_out,
+                a.checked_out_time,
+                a.created_user_id,
+                a.path,
+                a.parent_id,
+                a.level,
+                a.lft,
+                a.rgt,
+                a.language,
+                l.title,
+                l.image,
+                uc.name,
+                ag.title,
+                ua.name');
 
         return $query;
     }

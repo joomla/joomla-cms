@@ -44,7 +44,7 @@ class OverrideController extends FormController
         $context = "$this->option.edit.$this->context";
 
         // Get the constant name.
-        $recordId = (count($cid) ? $cid[0] : $this->input->get('id'));
+        $recordId = (\count($cid) ? $cid[0] : $this->input->get('id'));
 
         // Access check.
         if (!$this->allowEdit()) {
@@ -108,7 +108,7 @@ class OverrideController extends FormController
             $errors = $model->getErrors();
 
             // Push up to three validation messages out to the user.
-            for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
                     $app->enqueueMessage($errors[$i]->getMessage(), 'warning');
                 } else {

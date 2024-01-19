@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -29,7 +28,7 @@ $wa->useScript('table.columns')
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
-$loggeduser = Factory::getUser();
+$loggeduser = $this->getCurrentUser();
 $mfa        = PluginHelper::isEnabled('multifactorauth');
 
 ?>
@@ -147,14 +146,17 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                     <?php endif; ?>
                                 </td>
                                 <td class="text-center d-md-table-cell">
-                                    <?php
-                                    $activated = empty($item->activation) ? 0 : 1;
-                                    echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.activateStates'), $activated, $i, 'users.', (bool) $activated);
-                                    ?>
+                                    <?php if (empty($item->activation)) : ?>
+                                        <span class="icon-check" aria-hidden="true" aria-describedby="tip-activated<?php echo $i; ?>"></span>
+                                        <div role="tooltip" id="tip-activated<?php echo $i; ?>">
+                                            <?php echo Text::_('COM_USERS_ACTIVATED'); ?>
+                                        </div>
+                                    <?php else : ?>
+                                        <?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.activateStates'), 1, $i, 'users.', true); ?>
+                                    <?php endif; ?>
                                 </td>
                                 <?php if ($mfa) : ?>
                                 <td class="text-center d-none d-md-table-cell">
-                                    <span class="tbody-icon">
                                     <?php if ($item->mfaRecords > 0 || !empty($item->otpKey)) : ?>
                                         <span class="icon-check" aria-hidden="true" aria-describedby="tip-mfa<?php echo $i; ?>"></span>
                                         <div role="tooltip" id="tip-mfa<?php echo $i; ?>">
@@ -166,7 +168,6 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                             <?php echo Text::_('COM_USERS_MFA_NOTACTIVE'); ?>
                                         </div>
                                     <?php endif; ?>
-                                    </span>
                                 </td>
                                 <?php endif; ?>
                                 <td class="d-none d-md-table-cell">

@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Image;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -47,7 +47,7 @@ abstract class ImageFilter
          * @todo: Remove check for resource when we only support PHP 8
          */
         if (
-            !((\is_object($handle) && get_class($handle) == 'GdImage')
+            !((\is_object($handle) && \get_class($handle) == 'GdImage')
             || (\is_resource($handle) && get_resource_type($handle) == 'gd'))
         ) {
             throw new \InvalidArgumentException('The image handle is invalid for the image filter.');

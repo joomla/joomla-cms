@@ -9,10 +9,8 @@
 
 namespace Joomla\CMS\Event\Result;
 
-use InvalidArgumentException;
-
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -50,7 +48,7 @@ trait ResultTypeIntegerAware
      * @param   mixed  $data  The data to type check
      *
      * @return  void
-     * @throws  InvalidArgumentException
+     * @throws  \InvalidArgumentException
      *
      * @internal
      * @since   4.2.0
@@ -65,8 +63,8 @@ trait ResultTypeIntegerAware
             return;
         }
 
-        if (!is_int($data)) {
-            throw new InvalidArgumentException(sprintf('Event %s only accepts Integer results.', $this->getName()));
+        if (!\is_int($data)) {
+            throw new \InvalidArgumentException(sprintf('Event %s only accepts Integer results.', $this->getName()));
         }
     }
 }

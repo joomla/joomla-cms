@@ -173,14 +173,19 @@ class ItemController extends FormController
             $this->app->setUserState($context . '.type', null);
             $this->app->setUserState($context . '.link', null);
 
+
+            // When editing in modal then redirect to modalreturn layout
+            if ($this->input->get('layout') === 'modal') {
+                $id     = $this->input->get('id');
+                $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id)
+                    . '&layout=modalreturn&from-task=cancel';
+            } else {
+                $return = 'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
+                    . '&menutype=' . $this->app->getUserState('com_menus.items.menutype');
+            }
+
             // Redirect to the list screen.
-            $this->setRedirect(
-                Route::_(
-                    'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
-                    . '&menutype=' . $this->app->getUserState('com_menus.items.menutype'),
-                    false
-                )
-            );
+            $this->setRedirect(Route::_($return, false));
         }
 
         return $result;
@@ -334,7 +339,7 @@ class ItemController extends FormController
                     'modem', 'git', 'sms',
                 ];
 
-                if (!in_array($protocol, $scheme)) {
+                if (!\in_array($protocol, $scheme)) {
                     $app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'warning');
                     $this->setRedirect(
                         Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false)
@@ -354,7 +359,7 @@ class ItemController extends FormController
         if ($data['type'] == 'component' && !empty($request)) {
             $removeArgs = [];
 
-            if (!isset($data['request']) || !is_array($data['request'])) {
+            if (!isset($data['request']) || !\is_array($data['request'])) {
                 $data['request'] = [];
             }
 
@@ -387,7 +392,7 @@ class ItemController extends FormController
             $errors = $model->getErrors();
 
             // Push up to three validation messages out to the user.
-            for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
                     $app->enqueueMessage($errors[$i]->getMessage(), 'warning');
                 } else {
@@ -463,14 +468,18 @@ class ItemController extends FormController
                 $app->setUserState('com_menus.edit.item.type', null);
                 $app->setUserState('com_menus.edit.item.link', null);
 
-                // Redirect to the list screen.
-                $this->setRedirect(
-                    Route::_(
-                        'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
-                        . '&menutype=' . $app->getUserState('com_menus.items.menutype'),
-                        false
-                    )
-                );
+                // When editing in modal then redirect to modalreturn layout
+                if ($this->input->get('layout') === 'modal') {
+                    $return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId)
+                        . '&layout=modalreturn&from-task=save';
+                } else {
+                    // Redirect to the list screen.
+                    $return = 'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
+                        . '&menutype=' . $app->getUserState('com_menus.items.menutype');
+                }
+
+
+                $this->setRedirect(Route::_($return, false));
                 break;
         }
 
@@ -502,7 +511,7 @@ class ItemController extends FormController
 
         $specialTypes = ['alias', 'separator', 'url', 'heading', 'container'];
 
-        if (!in_array($title, $specialTypes)) {
+        if (!\in_array($title, $specialTypes)) {
             $title = 'component';
         } else {
             // Set correct component id to ensure proper 404 messages with system links
@@ -537,7 +546,6 @@ class ItemController extends FormController
         // Save the data in the session.
         $app->setUserState('com_menus.edit.item.data', $data);
 
-        $this->type = $type;
         $this->setRedirect(
             Route::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false)
         );
@@ -569,7 +577,7 @@ class ItemController extends FormController
             $results = $model->getItems();
 
             // Pad the option text with spaces using depth level as a multiplier.
-            for ($i = 0, $n = count($results); $i < $n; $i++) {
+            for ($i = 0, $n = \count($results); $i < $n; $i++) {
                 $results[$i]->title = str_repeat(' - ', $results[$i]->level) . $results[$i]->title;
             }
         }
