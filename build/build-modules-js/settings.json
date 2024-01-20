@@ -26,6 +26,9 @@
             "uri": "awesomplete.min.js",
             "attributes": {
               "defer": true
+            },
+            "crossDependencies": {
+              "style": ["awesomplete"]
             }
           },
           {
@@ -34,7 +37,9 @@
             "dependencies": [
               "awesomplete#style",
               "awesomplete#script"
-            ]
+            ],
+            "deprecated": true,
+            "deprecatedMsg": "Use script asset directly. Will be removed in 7.0"
           }
         ],
         "dependencies": [],
@@ -219,7 +224,10 @@
             "name": "cropper-module",
             "type": "script",
             "uri": "cropper.esm.js",
-            "importmap": true
+            "importmap": true,
+            "crossDependencies": {
+              "style": ["cropperjs"]
+            }
           },
           {
             "name": "cropperjs",
@@ -228,6 +236,9 @@
             "uri": "cropper.min.js",
             "attributes": {
               "defer": true
+            },
+            "crossDependencies": {
+              "style": ["cropperjs"]
             }
           },
           {
@@ -236,7 +247,9 @@
             "dependencies": [
               "cropperjs#style",
               "cropperjs#script"
-            ]
+            ],
+            "deprecated": true,
+            "deprecatedMsg": "Use script asset directly. Will be removed in 7.0"
           }
         ],
         "dependencies": [],
@@ -280,7 +293,8 @@
               "choicesjs#style",
               "choicesjs#script"
             ],
-            "deprecated": true
+            "deprecated": true,
+            "deprecatedMsg": "Use script asset directly. Will be removed in 7.0"
           }
         ],
         "dependencies": [],
@@ -326,6 +340,9 @@
             "uri": "dragula.min.js",
             "attributes": {
               "defer": true
+            },
+            "crossDependencies": {
+              "style": ["dragula"]
             }
           },
           {
@@ -334,7 +351,9 @@
             "dependencies": [
               "dragula#style",
               "dragula#script"
-            ]
+            ],
+            "deprecated": true,
+            "deprecatedMsg": "Use script asset directly. Will be removed in 7.0"
           }
         ],
         "dependencies": [],
