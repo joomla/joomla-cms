@@ -194,7 +194,7 @@ class DatetimeField extends FormField
                     $value->setTimezone(new \DateTimeZone($app->get('offset')));
 
                     // Transform the date string.
-                    $data['value'] = $value->format('Y-m-d\TH:i:s', true, false);
+                    $data['value'] = $value->format('Y-m-d\TH:i', true, false);
                     break;
 
                 case 'USER_UTC':
@@ -202,11 +202,11 @@ class DatetimeField extends FormField
                     $value->setTimezone(new \DateTimeZone($app->getIdentity()->getParam('timezone', $app->get('offset'))));
 
                     // Transform the date string.
-                    $data['value'] = $value->format('Y-m-d\TH:i:s', true, false);
+                    $data['value'] = $value->format('Y-m-d\TH:i', true, false);
                     break;
 
                 default:
-                    $data['value'] = $value->format('Y-m-d\TH:i:s', false, false);
+                    $data['value'] = $value->format('Y-m-d\TH:i', false, false);
             }
         }
 
