@@ -214,7 +214,7 @@ class Update
      * Object containing details if the latest update does not meet the PHP and DB version requirements
      *
      * @var    \stdClass
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.2
      */
     protected $otherUpdateInfo;
 
@@ -302,7 +302,7 @@ class Update
                 $this->currentUpdate = new \stdClass();
                 break;
 
-            // Handle the array of download sources
+                // Handle the array of download sources
             case 'DOWNLOADSOURCE':
                 $source = new DownloadSource();
 
@@ -315,11 +315,11 @@ class Update
 
                 break;
 
-            // Don't do anything
+                // Don't do anything
             case 'UPDATES':
                 break;
 
-            // For everything else there's...the default!
+                // For everything else there's...the default!
             default:
                 $name = strtolower($name);
 

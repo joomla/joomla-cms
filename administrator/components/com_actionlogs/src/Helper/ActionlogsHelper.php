@@ -324,6 +324,12 @@ class ActionlogsHelper
         // Load plg_system_actionlogs too
         $lang->load('plg_system_actionlogs', JPATH_ADMINISTRATOR);
 
+        // Load plg_system_privacyconsent too
+        $lang->load('plg_system_privacyconsent', JPATH_ADMINISTRATOR);
+
+        // Load plg_user_terms too
+        $lang->load('plg_user_terms', JPATH_ADMINISTRATOR);
+
         // Load com_privacy too.
         $lang->load('com_privacy', JPATH_ADMINISTRATOR);
     }
