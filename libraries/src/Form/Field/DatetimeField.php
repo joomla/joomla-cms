@@ -9,8 +9,8 @@
 
 namespace Joomla\CMS\Form\Field;
 
-use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormField;
 use Joomla\Registry\Registry;
 
 /**
