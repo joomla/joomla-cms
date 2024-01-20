@@ -47,6 +47,9 @@ trait AjaxHandlerLogin
      */
     public function onAjaxWebauthnLogin(AjaxLogin $event): void
     {
+        // Load plugin language files
+        $this->loadLanguage();
+
         $session   = $this->getApplication()->getSession();
         $returnUrl = $session->get('plg_system_webauthn.returnUrl', Uri::base());
         $userId    = $session->get('plg_system_webauthn.userId', 0);
@@ -74,7 +77,7 @@ trait AjaxHandlerLogin
             // Validate the authenticator response and get the user handle
             $userHandle           = $this->getUserHandleFromResponse($user);
 
-            if (is_null($userHandle)) {
+            if (\is_null($userHandle)) {
                 Log::add('Cannot retrieve the user handle from the request; the browser did not assert our request.', Log::NOTICE, 'webauthn.system');
 
                 throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
@@ -113,7 +116,7 @@ trait AjaxHandlerLogin
             Log::add(sprintf("Received login failure. Message: %s", $e->getMessage()), Log::ERROR, 'webauthn.system');
 
             // This also enqueues the login failure message for display after redirection. Look for JLog in that method.
-            $this->processLoginFailure($response, null, 'system');
+            $this->processLoginFailure($response);
         } finally {
             /**
              * This code needs to run no matter if the login succeeded or failed. It prevents replay attacks and takes
@@ -202,7 +205,7 @@ trait AjaxHandlerLogin
         $results        = !isset($result['result']) || \is_null($result['result']) ? [] : $result['result'];
 
         // If there is no boolean FALSE result from any plugin the login is successful.
-        if (in_array(false, $results, true) === false) {
+        if (\in_array(false, $results, true) === false) {
             // Set the user in the session, letting Joomla! know that we are logged in.
             $this->getApplication()->getSession()->set('user', $user);
 

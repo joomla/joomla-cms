@@ -513,7 +513,7 @@ class LocalAdapter implements AdapterInterface
     {
         if (is_dir($destinationPath)) {
             // If the destination is a folder we create a file with the same name as the source
-            $destinationPath = $destinationPath . '/' . $this->getFileName($sourcePath);
+            $destinationPath .= '/' . $this->getFileName($sourcePath);
         }
 
         if (file_exists($destinationPath) && !$force) {
@@ -618,7 +618,7 @@ class LocalAdapter implements AdapterInterface
     {
         if (is_dir($destinationPath)) {
             // If the destination is a folder we create a file with the same name as the source
-            $destinationPath = $destinationPath . '/' . $this->getFileName($sourcePath);
+            $destinationPath .= '/' . $this->getFileName($sourcePath);
         }
 
         if (!MediaHelper::checkFileExtension(pathinfo($destinationPath, PATHINFO_EXTENSION))) {
@@ -747,7 +747,7 @@ class LocalAdapter implements AdapterInterface
     {
         $files = glob($pattern, $flags);
 
-        foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
+        foreach (glob(\dirname($pattern) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
             $files = array_merge($files, $this->rglob($dir . '/' . $this->getFileName($pattern), $flags));
         }
 
@@ -821,7 +821,7 @@ class LocalAdapter implements AdapterInterface
         $helper = new MediaHelper();
 
         // @todo find a better way to check the input, by not writing the file to the disk
-        $tmpFile = Path::clean(dirname($localPath) . '/' . uniqid() . '.' . File::getExt($name));
+        $tmpFile = Path::clean(\dirname($localPath) . '/' . uniqid() . '.' . File::getExt($name));
 
         if (!File::write($tmpFile, $mediaContent)) {
             throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 500);
@@ -926,7 +926,7 @@ class LocalAdapter implements AdapterInterface
             return $this->getUrl($path);
         }
 
-        $dir = dirname($thumbnailPaths['fs']);
+        $dir = \dirname($thumbnailPaths['fs']);
 
         if (!is_dir($dir)) {
             Folder::create($dir);
@@ -955,7 +955,7 @@ class LocalAdapter implements AdapterInterface
         $image = new Image($path);
 
         try {
-            $image->createThumbnails([$this->thumbnailSize[0] . 'x' . $this->thumbnailSize[1]], $image::SCALE_INSIDE, dirname($thumbnailPath), true);
+            $image->createThumbnails([$this->thumbnailSize[0] . 'x' . $this->thumbnailSize[1]], $image::SCALE_INSIDE, \dirname($thumbnailPath), true);
         } catch (\Exception $e) {
             return false;
         }

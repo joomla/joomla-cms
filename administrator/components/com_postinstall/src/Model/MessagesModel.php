@@ -313,7 +313,7 @@ class MessagesModel extends BaseDatabaseModel
 
         $extension = $db->loadObject();
 
-        if (!is_object($extension)) {
+        if (!\is_object($extension)) {
             return '';
         }
 
@@ -416,7 +416,7 @@ class MessagesModel extends BaseDatabaseModel
                 if (is_file($file)) {
                     require_once $file;
 
-                    $result = call_user_func($item->condition_method);
+                    $result = \call_user_func($item->condition_method);
 
                     if ($result === false) {
                         $unset_keys[] = $key;
@@ -428,7 +428,7 @@ class MessagesModel extends BaseDatabaseModel
             if (!empty($item->language_extension)) {
                 $hash = $item->language_client_id . '-' . $item->language_extension;
 
-                if (!in_array($hash, $language_extensions)) {
+                if (!\in_array($hash, $language_extensions)) {
                     $language_extensions[] = $hash;
                     Factory::getApplication()->getLanguage()->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR);
                 }
@@ -543,7 +543,7 @@ class MessagesModel extends BaseDatabaseModel
     public function addPostInstallationMessage(array $options)
     {
         // Make sure there are options set
-        if (!is_array($options)) {
+        if (!\is_array($options)) {
             throw new \Exception('Post-installation message definitions must be of type array', 500);
         }
 
@@ -593,7 +593,7 @@ class MessagesModel extends BaseDatabaseModel
         }
 
         // Make sure there's a valid type
-        if (!in_array($options['type'], ['message', 'link', 'action'])) {
+        if (!\in_array($options['type'], ['message', 'link', 'action'])) {
             throw new \Exception('Post-installation message definitions need to declare a type of message, link or action', 500);
         }
 

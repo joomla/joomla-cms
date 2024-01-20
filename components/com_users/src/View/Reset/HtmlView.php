@@ -70,7 +70,7 @@ class HtmlView extends BaseHtmlView
         $name = $this->getLayout();
 
         // Check that the name is valid - has an associated model.
-        if (!in_array($name, ['confirm', 'complete'])) {
+        if (!\in_array($name, ['confirm', 'complete'])) {
             $name = 'default';
         }
 
@@ -86,7 +86,7 @@ class HtmlView extends BaseHtmlView
         $this->params = $this->state->params;
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
