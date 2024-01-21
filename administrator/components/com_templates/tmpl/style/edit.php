@@ -48,22 +48,22 @@ $user = $this->getCurrentUser();
                 </div>
                 <div>
                     <?php
-                        $this->fieldset    = 'description';
-                        $short_description = Text::_($this->item->xml->description);
-                        $long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
+                    $this->fieldset    = 'description';
+                    $short_description = Text::_($this->item->xml->description);
+                    $long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
 
-                        if (!$long_description) {
-                            $truncated = HTMLHelper::_('string.truncate', $short_description, 550, true, false);
+                    if (!$long_description) {
+                        $truncated = HTMLHelper::_('string.truncate', $short_description, 550, true, false);
 
-                            if (strlen($truncated) > 500) {
-                                $long_description  = $short_description;
-                                $short_description = HTMLHelper::_('string.truncate', $truncated, 250);
+                        if (strlen($truncated) > 500) {
+                            $long_description  = $short_description;
+                            $short_description = HTMLHelper::_('string.truncate', $truncated, 250);
 
-                                if ($short_description == $long_description) {
-                                    $long_description = '';
-                                }
+                            if ($short_description == $long_description) {
+                                $long_description = '';
                             }
                         }
+                    }
                     ?>
                     <p><?php echo $short_description; ?></p>
                     <?php if ($long_description) : ?>
