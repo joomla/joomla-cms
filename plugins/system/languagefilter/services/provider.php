@@ -41,7 +41,6 @@ return new class () implements ServiceProviderInterface {
                     Factory::getApplication(),
                     $container->get(LanguageFactoryInterface::class)
                 );
-                $plugin->setSiteRouter($container->get(SiteRouter::class));
 
                 return $plugin;
             }

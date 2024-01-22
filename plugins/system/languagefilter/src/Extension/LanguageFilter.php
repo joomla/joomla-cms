@@ -14,6 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Router\AfterInitialiseRouterEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Associations;
@@ -27,6 +28,8 @@ use Joomla\CMS\Router\SiteRouterAwareTrait;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Priority;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -40,7 +43,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-final class LanguageFilter extends CMSPlugin
+final class LanguageFilter extends CMSPlugin implements SubscriberInterface
 {
     use SiteRouterAwareTrait;
 
@@ -158,15 +161,38 @@ final class LanguageFilter extends CMSPlugin
     }
 
     /**
-     * After initialise.
+     * Returns an array of CMS events this plugin will listen to and the respective handlers.
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        /**
+         * Note that onAfterInitialise must be the first handlers to run for this
+         * plugin to operate as expected. These handlers load compatibility code which
+         * might be needed by other plugins
+         */
+        return [
+            'onAfterInitialiseRouter' => ['onAfterInitialiseRouter', Priority::HIGH],
+        ];
+    }
+
+    /**
+     * After initialise router.
      *
      * @return  void
      *
-     * @since   1.6
+     * @since   __DEPLOY_VERSION__
      */
-    public function onAfterInitialise()
+    public function onAfterInitialiseRouter(AfterInitialiseRouterEvent $event)
     {
-        $router = $this->getSiteRouter();
+        $router = $event->getArgument('router');
+
+        if (!is_a($router, 'Joomla\CMS\Router\SiteRouter')) {
+            return;
+        }
 
         // Attach build rules for language SEF.
         $router->attachBuildRule([$this, 'preprocessBuildRule'], Router::PROCESS_BEFORE);

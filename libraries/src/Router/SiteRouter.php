@@ -14,8 +14,10 @@ use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\Router\RouterInterface;
 use Joomla\CMS\Component\Router\RouterLegacy;
 use Joomla\CMS\Component\Router\RouterServiceInterface;
+use Joomla\CMS\Event\Router\AfterInitialiseRouterEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -94,6 +96,12 @@ class SiteRouter extends Router
 
         $this->attachParseRule([$this, 'parseRawRoute'], self::PROCESS_DURING);
         $this->attachBuildRule([$this, 'buildBase'], self::PROCESS_AFTER);
+
+        PluginHelper::importPlugin('system', null, true, $this->app->getDispatcher());
+        $this->app->getDispatcher()->dispatch(
+            'onAfterInitialiseRouter',
+            new AfterInitialiseRouterEvent('onAfterInitialiseRouter', ['router' => $this])
+        );
     }
 
     /**
