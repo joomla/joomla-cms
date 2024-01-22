@@ -12,6 +12,7 @@ namespace Joomla\Component\Menus\Administrator\Model;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Associations;
@@ -1311,15 +1312,16 @@ class ItemModel extends AdminModel
      */
     public function save($data)
     {
-        $pk      = $data['id'] ?? (int) $this->getState('item.id');
-        $isNew   = true;
-        $db      = $this->getDatabase();
-        $query   = $db->getQuery(true);
-        $table   = $this->getTable();
-        $context = $this->option . '.' . $this->name;
+        $pk         = $data['id'] ?? (int) $this->getState('item.id');
+        $isNew      = true;
+        $db         = $this->getDatabase();
+        $query      = $db->getQuery(true);
+        $table      = $this->getTable();
+        $context    = $this->option . '.' . $this->name;
+        $dispatcher = $this->getDispatcher();
 
         // Include the plugins for the on save events.
-        PluginHelper::importPlugin($this->events_map['save']);
+        PluginHelper::importPlugin($this->events_map['save'], null, true, $dispatcher);
 
         // Load the row if saving an existing item.
         if ($pk > 0) {
@@ -1401,7 +1403,13 @@ class ItemModel extends AdminModel
         }
 
         // Trigger the before save event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew, $data]);
+        $beforeSaveEvent = new Model\BeforeSaveEvent($this->event_before_save, [
+            'context' => $context,
+            'subject' => $table,
+            'isNew'   => $isNew,
+            'data'    => $data,
+        ]);
+        $result = $dispatcher->dispatch($this->event_before_save, $beforeSaveEvent)->getArgument('result', []);
 
         // Store the data.
         if (\in_array(false, $result, true) || !$table->store()) {
@@ -1411,7 +1419,12 @@ class ItemModel extends AdminModel
         }
 
         // Trigger the after save event.
-        Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, $isNew]);
+        $dispatcher->dispatch($this->event_after_save, new Model\AfterSaveEvent($this->event_after_save, [
+            'context' => $context,
+            'subject' => $table,
+            'isNew'   => $isNew,
+            'data'    => $data,
+        ]));
 
         // Rebuild the tree path.
         if (!$table->rebuildPath($table->id)) {
