@@ -2205,6 +2205,12 @@ class JoomlaInstallerScript
             '/administrator/components/com_tags/tmpl/tags/default_batch_footer.php',
             '/administrator/components/com_users/tmpl/users/default_batch_footer.php',
             // From 5.1.0-alpha2 to 5.1.0-alpha3
+            '/media/com_cpanel/js/admin-add_module.js',
+            '/media/com_cpanel/js/admin-add_module.min.js',
+            '/media/com_cpanel/js/admin-add_module.min.js.gz',
+            '/media/com_modules/js/admin-module-edit.js',
+            '/media/com_modules/js/admin-module-edit.min.js',
+            '/media/com_modules/js/admin-module-edit.min.js.gz',
             '/media/mod_multilangstatus/js/admin-multilangstatus.js',
             '/media/mod_multilangstatus/js/admin-multilangstatus.min.js',
             '/media/mod_multilangstatus/js/admin-multilangstatus.min.js.gz',
