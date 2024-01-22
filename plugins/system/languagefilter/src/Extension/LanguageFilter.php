@@ -176,7 +176,13 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
          * might be needed by other plugins
          */
         return [
-            'onAfterInitialiseRouter' => ['onAfterInitialiseRouter', Priority::HIGH],
+            'onAfterInitialiseRouter' => 'onAfterInitialiseRouter',
+            'onAfterDispatch'         => 'onAfterDispatch',
+            'onAfterRoute' => 'onAfterRoute',
+            'onPrivacyCollectAdminCapabilities' => 'onPrivacyCollectAdminCapabilities',
+            'onUserAfterSave' => 'onUserAfterSave',
+            'onUserBeforeSave' => 'onUserBeforeSave',
+            'onUserLogin' => 'onUserLogin',
         ];
     }
 
