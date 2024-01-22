@@ -24,6 +24,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
+use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Router\SiteRouterAwareTrait;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
@@ -188,9 +189,9 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      */
     public function onAfterInitialiseRouter(AfterInitialiseRouterEvent $event)
     {
-        $router = $event->getArgument('router');
+        $router = $event->getRouter();
 
-        if (!is_a($router, 'Joomla\CMS\Router\SiteRouter')) {
+        if (!is_a($router, SiteRouter::class)) {
             return;
         }
 
