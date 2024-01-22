@@ -241,6 +241,10 @@ final class Joomla extends CMSPlugin
         } elseif ($extension === 'com_contact' && $this->params->get('schema_contact', 1)) {
             $this->injectContactSchema($context, $schema);
         }
+
+        if ($this->params->get('schema_menus', 1)) {
+            $this->injectMenuSchema($context, $schema);
+        }
     }
 
     /**
@@ -631,6 +635,77 @@ final class Joomla extends CMSPlugin
         }
 
         return $schema;
+    }
+
+    /**
+     * Inject com_content schemas if needed
+     *
+     * @param   string    $context  The com_content context like com_content.article.5
+     * @param   Registry  $schema   The overall schema object to manipulate
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    private function injectMenuSchema(string $context, Registry $schema)
+    {
+        $app         = $this->getApplication();
+        $menu        = $app->getMenu()->getActive();
+        $menuId      = (int) ($menu->id ?? 0);
+
+        // Check if there is already a schema for the item, then skip it
+        $mySchema = $schema->toArray();
+
+        if (!isset($mySchema['@graph']) || !\is_array($mySchema['@graph']) || !$menuId) {
+            return;
+        }
+
+        $baseId   = Uri::root() . '#/schema/';
+        $schemaId = $baseId . 'com_menus/item/' . $menuId;
+
+        foreach ($mySchema['@graph'] as $entry) {
+            // Someone added our context already, no need to add automated data
+            if (isset($entry['@id']) && $entry['@id'] === $schemaId) {
+                return;
+            }
+        }
+
+        $enableCache = $this->params->get('schema_cache', 1);
+
+        $cache = Factory::getContainer()->get(CacheControllerFactory::class)
+            ->createCacheController('Callback', ['lifetime' => $app->get('cachetime'), 'caching' => $enableCache, 'defaultgroup' => 'schemaorg']);
+
+        // Add menu data
+        $additionalSchema = $cache->get(function ($menuId) use ($baseId, $schemaId) {
+            $context = 'com_menus.item';
+            $db      = $this->getDatabase();
+            $query   = $db->getQuery(true)
+                ->select('*')
+                ->from($db->quoteName('#__schemaorg'))
+                ->where($db->quoteName('itemId') . ' = :itemId')
+                ->bind(':itemId', $menuId, ParameterType::INTEGER)
+                ->where($db->quoteName('context') . ' = :context')
+                ->bind(':context', $context, ParameterType::STRING);
+
+            $result = $db->setQuery($query)->loadObject();
+
+            if (!$result) {
+                return [];
+            }
+
+            $localSchema = new Registry($result->schema);
+
+            $localSchema->set('@id', $schemaId);
+            $localSchema->set('isPartOf', ['@id' => $baseId . 'WebPage/base']);
+
+            return $localSchema->toArray();
+        }, [$menuId]);
+
+        if ($additionalSchema) {
+            $mySchema['@graph'][] = $additionalSchema;
+        }
+
+        $schema->set('@graph', $mySchema['@graph']);
     }
 
     /**
