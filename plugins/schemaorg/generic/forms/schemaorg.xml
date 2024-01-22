@@ -12,20 +12,26 @@
 			>
 				<form>
 
-				<field
-					name="noteGeneric"
-					type="note"
-					description="PLG_SCHEMAORG_GENERIC_DESCRIPTION_LABEL"
-					class="alert alert-info w-100"
-				/>
+					<field
+						name="@type"
+						type="hidden"
+						default="Generic"
+					/>
 
-				<field
-					name="json"
-					type="textarea"
-					label="PLG_SCHEMAORG_GENERIC_JSON_FIELD_LABEL"
-					description="PLG_SCHEMAORG_GENERIC_JSON_FIELD_DESC"
-					rows="8"
-				/>
+					<field
+						name="noteGeneric"
+						type="note"
+						description="PLG_SCHEMAORG_GENERIC_DESCRIPTION_LABEL"
+						class="alert alert-info w-100"
+					/>
+
+					<field
+						name="json"
+						type="textarea"
+						label="PLG_SCHEMAORG_GENERIC_JSON_FIELD_LABEL"
+						description="PLG_SCHEMAORG_GENERIC_JSON_FIELD_DESC"
+						rows="8"
+					/>
 
 				</form>
 			</field>
