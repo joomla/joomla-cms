@@ -650,7 +650,8 @@
       "deprecated": true,
       "uri": "",
       "dependencies": [
-        "core", "messages"
+        "core",
+        "messages"
       ],
       "attributes": {
         "nomodule": true,
@@ -1032,19 +1033,6 @@
       "attributes": {
         "nomodule": true,
         "defer": true
-      }
-    },
-    {
-      "name": "plg_system_jooa11y.jooa11y-es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "defer": true,
-        "nomodule": true
       }
     },
     {
