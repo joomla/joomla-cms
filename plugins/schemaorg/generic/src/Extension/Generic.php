@@ -107,7 +107,6 @@ final class Generic extends CMSPlugin implements SubscriberInterface
         $graph = $schema->get('@graph');
 
         foreach ($graph as $i => $entry) {
-
             if (!isset($entry['@type']) || $entry['@type'] !== 'Generic') {
                 continue;
             }
