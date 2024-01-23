@@ -14,7 +14,11 @@ use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
+use Joomla\CMS\Schemaorg\SchemaorgServiceTrait;
 use Joomla\Component\Menus\Administrator\Service\HTML\Menus;
 use Psr\Container\ContainerInterface;
 
@@ -29,10 +33,12 @@ use Psr\Container\ContainerInterface;
  */
 class MenusComponent extends MVCComponent implements
     BootableExtensionInterface,
-    AssociationServiceInterface
+    AssociationServiceInterface,
+    SchemaorgServiceInterface
 {
     use AssociationServiceTrait;
     use HTMLRegistryAwareTrait;
+    use SchemaorgServiceTrait;
 
     /**
      * Booting the extension. This is the function to set up the environment of the extension like
@@ -50,5 +56,23 @@ class MenusComponent extends MVCComponent implements
     public function boot(ContainerInterface $container)
     {
         $this->getRegistry()->register('menus', new Menus());
+    }
+
+    /**
+     * Returns valid contexts for schemaorg
+     *
+     * @return  array
+     *
+     * @since  5.0.0
+     */
+    public function getSchemaorgContexts(): array
+    {
+        Factory::getLanguage()->load('com_menus', JPATH_ADMINISTRATOR);
+
+        $contexts = [
+            'com_menus.item' => Text::_('COM_MENUS'),
+        ];
+
+        return $contexts;
     }
 }
