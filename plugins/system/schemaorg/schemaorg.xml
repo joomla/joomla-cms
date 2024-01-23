@@ -54,6 +54,21 @@
 					type="media"
 					label="PLG_SYSTEM_SCHEMAORG_IMAGE_LABEL"
 				/>
+
+				<field
+					name="menus"
+					type="radio"
+					label="PLG_SYSTEM_SCHEMAORG_MENUS_LABEL"
+					description="PLG_SYSTEM_SCHEMAORG_MENUS_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					required="true"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
 				<field
 					name="socialmedia"
 					type="subform"
