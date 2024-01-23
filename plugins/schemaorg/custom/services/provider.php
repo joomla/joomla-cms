@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Schemaorg.generic
+ * @subpackage  Schemaorg.Custom
  *
  * @copyright   (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -16,7 +16,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\Schemaorg\Generic\Extension\Generic;
+use Joomla\Plugin\Schemaorg\Custom\Extension\Custom;
 
 return new class () implements ServiceProviderInterface {
     /**
@@ -34,9 +34,9 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $dispatcher = $container->get(DispatcherInterface::class);
-                $plugin     = new Generic(
+                $plugin     = new Custom(
                     $dispatcher,
-                    (array) PluginHelper::getPlugin('schemaorg', 'generic')
+                    (array) PluginHelper::getPlugin('schemaorg', 'custom')
                 );
 
                 $plugin->setApplication(Factory::getApplication());

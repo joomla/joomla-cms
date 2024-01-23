@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="schemaorg" method="upgrade">
-	<name>plg_schemaorg_generic</name>
+	<name>plg_schemaorg_custom</name>
 	<author>Joomla! Project</author>
 	<creationDate>2024-01</creationDate>
 	<copyright>(C) 2024 Open Source Matters, Inc.</copyright>
@@ -8,15 +8,15 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>__DEPLOY_VERSION__</version>
-	<description>PLG_SCHEMAORG_GENERIC_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\Schemaorg\Generic</namespace>
+	<description>PLG_SCHEMAORG_CUSTOM_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Schemaorg\Custom</namespace>
 	<files>
-		<folder plugin="generic">services</folder>
+		<folder plugin="custom">services</folder>
 		<folder>src</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/plg_schemaorg_generic.ini</language>
-		<language tag="en-GB">language/en-GB/plg_schemaorg_generic.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_schemaorg_custom.ini</language>
+		<language tag="en-GB">language/en-GB/plg_schemaorg_custom.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

@@ -2,13 +2,13 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Schemaorg.generic
+ * @subpackage  Schemaorg.Custom
  *
  * @copyright   (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Plugin\Schemaorg\Generic\Extension;
+namespace Joomla\Plugin\Schemaorg\Custom\Extension;
 
 use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\PrepareSaveEvent;
@@ -28,7 +28,7 @@ use Joomla\Registry\Registry;
  *
  * @since  	__DEPLOY_VERSION__
  */
-final class Generic extends CMSPlugin implements SubscriberInterface
+final class Custom extends CMSPlugin implements SubscriberInterface
 {
     use SchemaorgPluginTrait;
 
@@ -46,7 +46,7 @@ final class Generic extends CMSPlugin implements SubscriberInterface
      * @var   string
      * @since __DEPLOY_VERSION__
      */
-    protected $pluginName = 'Generic';
+    protected $pluginName = 'Custom';
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -68,7 +68,7 @@ final class Generic extends CMSPlugin implements SubscriberInterface
     {
         $subject = $event->getData();
 
-        if (empty($subject->schemaType) || $subject->schemaType !== 'Generic' || !isset($subject->schema)) {
+        if (empty($subject->schemaType) || $subject->schemaType !== 'Custom' || !isset($subject->schema)) {
             return;
         }
 
@@ -77,11 +77,11 @@ final class Generic extends CMSPlugin implements SubscriberInterface
 
             $json = (new Registry($schema->get('json')))->toArray();
         } catch (\RuntimeException $e) {
-            throw new \RuntimeException('PLG_SCHEMAORG_GENERIC_JSON_ERROR');
+            throw new \RuntimeException('PLG_SCHEMAORG_CUSTOM_JSON_ERROR');
         }
 
         if (!isset($json['@context']) || $json['@context'] !== 'https://schema.org' || !isset($json['@type'])) {
-            throw new \RuntimeException(Text::_('PLG_SCHEMAORG_GENERIC_JSON_ERROR'));
+            throw new \RuntimeException(Text::_('PLG_SCHEMAORG_CUSTOM_JSON_ERROR'));
         }
 
         $schema->set('json', json_encode($json, JSON_PRETTY_PRINT));
@@ -92,7 +92,7 @@ final class Generic extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Cleanup all Generic types
+     * Cleanup all Custom types
      *
      * @param   BeforeCompileHeadEvent  $event  The given event
      *
@@ -107,7 +107,7 @@ final class Generic extends CMSPlugin implements SubscriberInterface
         $graph = $schema->get('@graph');
 
         foreach ($graph as $i => $entry) {
-            if (!isset($entry['@type']) || $entry['@type'] !== 'Generic') {
+            if (!isset($entry['@type']) || $entry['@type'] !== 'Custom') {
                 continue;
             }
 
