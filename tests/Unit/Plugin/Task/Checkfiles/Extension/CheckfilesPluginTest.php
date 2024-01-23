@@ -33,6 +33,15 @@ use Joomla\Tests\Unit\UnitTestCase;
 class CheckfilesPluginTest extends UnitTestCase
 {
     /**
+     * The temporary folder.
+     *
+     * @var string
+     *
+     * @since 4.3.0
+     */
+    private $tmpFolder;
+
+    /**
      * Setup
      *
      * @return  void
@@ -41,13 +50,16 @@ class CheckfilesPluginTest extends UnitTestCase
      */
     public function setUp(): void
     {
-        if (!is_dir(__DIR__ . '/tmp')) {
-            mkdir(__DIR__ . '/tmp');
+        // Dir must be random for parallel automated tests
+        $this->tmpFolder = JPATH_ROOT . '/tmp/' . rand();
+
+        if (!is_dir($this->tmpFolder)) {
+            mkdir($this->tmpFolder);
         }
 
         $image = imagecreate(200, 200);
         imagecolorallocate($image, 255, 255, 0);
-        imagepng($image, __DIR__ . '/tmp/test.png');
+        imagepng($image, $this->tmpFolder . '/test.png');
         imagedestroy($image);
     }
 
@@ -60,8 +72,8 @@ class CheckfilesPluginTest extends UnitTestCase
      */
     public function tearDown(): void
     {
-        if (is_dir(__DIR__ . '/tmp')) {
-            Folder::delete(__DIR__ . '/tmp');
+        if (is_dir($this->tmpFolder)) {
+            Folder::delete($this->tmpFolder);
         }
     }
 
@@ -80,7 +92,7 @@ class CheckfilesPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Checkfiles(new Dispatcher(), [], __DIR__);
+        $plugin = new Checkfiles(new Dispatcher(), [], $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -90,14 +102,14 @@ class CheckfilesPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params' => (object)['path' => '/tmp', 'dimension' => 'width', 'limit' => 20, 'numImages' => 1]
+                'params'  => (object)['path' => '/', 'dimension' => 'width', 'limit' => 20, 'numImages' => 1],
             ]
         );
         $plugin->standardRoutineHandler($event);
 
         $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
 
-        list($width, $height) = getimagesize(__DIR__ . '/tmp/test.png');
+        list($width, $height) = getimagesize($this->tmpFolder . '/test.png');
         $this->assertEquals(20, $width);
         $this->assertEquals(20, $height);
     }
@@ -111,7 +123,7 @@ class CheckfilesPluginTest extends UnitTestCase
      */
     public function testResizeWithLimit()
     {
-        copy(__DIR__ . '/tmp/test.png', __DIR__ . '/tmp/test1.png');
+        copy($this->tmpFolder . '/test.png', $this->tmpFolder . '/test1.png');
 
         $language = $this->createStub(Language::class);
         $language->method('_')->willReturn('test');
@@ -119,7 +131,7 @@ class CheckfilesPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Checkfiles(new Dispatcher(), [], __DIR__);
+        $plugin = new Checkfiles(new Dispatcher(), [], $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -129,18 +141,18 @@ class CheckfilesPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params' => (object)['path' => '/tmp', 'dimension' => 'width', 'limit' => 20, 'numImages' => 1]
+                'params'  => (object)['path' => '/', 'dimension' => 'width', 'limit' => 20, 'numImages' => 1],
             ]
         );
         $plugin->standardRoutineHandler($event);
 
         $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
 
-        list($width, $height) = getimagesize(__DIR__ . '/tmp/test.png');
+        list($width, $height) = getimagesize($this->tmpFolder . '/test.png');
         $this->assertEquals(20, $width);
         $this->assertEquals(20, $height);
 
-        list($width, $height) = getimagesize(__DIR__ . '/tmp/test1.png');
+        list($width, $height) = getimagesize($this->tmpFolder . '/test1.png');
         $this->assertEquals(200, $width);
         $this->assertEquals(200, $height);
     }
@@ -160,7 +172,7 @@ class CheckfilesPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Checkfiles(new Dispatcher(), [], __DIR__);
+        $plugin = new Checkfiles(new Dispatcher(), [], $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -170,14 +182,14 @@ class CheckfilesPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params' => (object)['path' => '/tmp', 'dimension' => 'width', 'limit' => 2000, 'numImages' => 1]
+                'params'  => (object)['path' => '/', 'dimension' => 'width', 'limit' => 2000, 'numImages' => 1],
             ]
         );
         $plugin->standardRoutineHandler($event);
 
         $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
 
-        list($width, $height) = getimagesize(__DIR__ . '/tmp/test.png');
+        list($width, $height) = getimagesize($this->tmpFolder . '/test.png');
         $this->assertEquals(200, $width);
         $this->assertEquals(200, $height);
     }
@@ -197,7 +209,7 @@ class CheckfilesPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Checkfiles(new Dispatcher(), [], __DIR__);
+        $plugin = new Checkfiles(new Dispatcher(), [], $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -207,12 +219,12 @@ class CheckfilesPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params' => (object)['path' => '/invalid', 'dimension' => 'width', 'limit' => 20, 'numImages' => 1]
+                'params'  => (object)['path' => '/invalid', 'dimension' => 'width', 'limit' => 20, 'numImages' => 1],
             ]
         );
         $plugin->standardRoutineHandler($event);
 
-        list($width, $height) = getimagesize(__DIR__ . '/tmp/test.png');
+        list($width, $height) = getimagesize($this->tmpFolder . '/test.png');
         $this->assertEquals(Status::NO_RUN, $event->getResultSnapshot()['status']);
         $this->assertEquals(200, $width);
         $this->assertEquals(200, $height);

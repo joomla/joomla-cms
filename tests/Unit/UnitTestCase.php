@@ -32,8 +32,7 @@ abstract class UnitTestCase extends \PHPUnit\Framework\TestCase
      */
     protected function getQueryStub(DatabaseInterface $db): QueryInterface
     {
-        return new class ($db) extends DatabaseQuery
-        {
+        return new class ($db) extends DatabaseQuery {
             public function groupConcat($expression, $separator = ',')
             {
             }

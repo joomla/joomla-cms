@@ -56,8 +56,8 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
     public function renderHead()
     {
         list($cssFiles, $jsFiles, $inlineCss, $inlineJs, $inlineHead) = $this->getAssets(null, self::RELATIVE_URL);
-        $html = '';
-        $doc  = Factory::getApplication()->getDocument();
+        $html                                                         = '';
+        $doc                                                          = Factory::getApplication()->getDocument();
 
         foreach ($cssFiles as $file) {
             $html .= sprintf('<link rel="stylesheet" type="text/css" href="%s">' . "\n", $file);
@@ -126,8 +126,8 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
 
         if ($this->useRequireJs) {
             return "<script type=\"module\"$nonce>\nrequire(['debugbar'], function(PhpDebugBar){ $js });\n</script>\n";
-        } else {
-            return "<script type=\"module\"$nonce>\n$js\n</script>\n";
         }
+
+        return "<script type=\"module\"$nonce>\n$js\n</script>\n";
     }
 }

@@ -30,14 +30,6 @@ use Joomla\Event\SubscriberInterface;
 final class Shortcut extends CMSPlugin implements SubscriberInterface
 {
     /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     * @since  4.2.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Returns an array of events this subscriber will listen to.
      *
      * The array keys are event names and the value can be:
@@ -75,7 +67,10 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $context = $this->getApplication()->input->get('option') . '.' . $this->getApplication()->input->get('view');
+        // Load translations
+        $this->loadLanguage();
+
+        $context = $this->getApplication()->getInput()->get('option') . '.' . $this->getApplication()->getInput()->get('view');
 
         $shortcuts = [];
 
@@ -99,8 +94,13 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
 
         $document = $this->getApplication()->getDocument();
         $wa       = $document->getWebAssetManager();
-        $wa->useScript('bootstrap.modal');
-        $wa->registerAndUseScript('script', 'plg_system_shortcut/shortcut.min.js', ['dependencies' => ['hotkeysjs']]);
+        $wa->registerAndUseScript(
+            'plg_system_shortcut.shortcut',
+            'plg_system_shortcut/shortcut.min.js',
+            [],
+            ['type' => 'module'],
+            ['hotkeysjs', 'joomla.dialog']
+        );
 
         $timeout = $this->params->get('timeout', 2000);
 
@@ -124,15 +124,15 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
         $shortcuts = array_merge(
             $shortcuts,
             [
-                'applyKey'   => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'shortcut' => 'A', 'title' => Text::_('JAPPLY')],
-                'saveKey'    => (object) ['selector' => 'joomla-toolbar-button .button-save', 'shortcut' => 'S', 'title' => Text::_('JTOOLBAR_SAVE')],
-                'cancelKey'  => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'shortcut' => 'Q', 'title' => Text::_('JCANCEL')],
-                'newKey'     => (object) ['selector' => 'joomla-toolbar-button .button-new', 'shortcut' => 'N', 'title' => Text::_('JTOOLBAR_NEW')],
-                'searchKey'  => (object) ['selector' => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']', 'shortcut' => 'F', 'title' => Text::_('JSEARCH_FILTER')],
-                'optionKey'  => (object) ['selector' => 'joomla-toolbar-button .button-options', 'shortcut' => 'O', 'title' => Text::_('JOPTIONS')],
-                'helpKey'    => (object) ['selector' => 'joomla-toolbar-button .button-help', 'shortcut' => 'H', 'title' => Text::_('JHELP')],
-                'toggleMenu' => (object) ['selector' => '#menu-collapse', 'shortcut' => 'M', 'title' => Text::_('JTOGGLE_SIDEBAR_MENU')],
-                'dashboard'  => (object) ['selector' => (string) new Uri(Route::_('index.php?')), 'shortcut' => 'D', 'title' => Text::_('JHOMEDASHBOARD')],
+                'applyKey'   => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'shortcut' => 'A', 'title' => $this->getApplication()->getLanguage()->_('JAPPLY')],
+                'saveKey'    => (object) ['selector' => 'joomla-toolbar-button .button-save', 'shortcut' => 'S', 'title' => $this->getApplication()->getLanguage()->_('JTOOLBAR_SAVE')],
+                'cancelKey'  => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'shortcut' => 'Q', 'title' => $this->getApplication()->getLanguage()->_('JCANCEL')],
+                'newKey'     => (object) ['selector' => 'joomla-toolbar-button .button-new', 'shortcut' => 'N', 'title' => $this->getApplication()->getLanguage()->_('JTOOLBAR_NEW')],
+                'searchKey'  => (object) ['selector' => 'input[placeholder=' . $this->getApplication()->getLanguage()->_('JSEARCH_FILTER') . ']', 'shortcut' => 'F', 'title' => $this->getApplication()->getLanguage()->_('JSEARCH_FILTER')],
+                'optionKey'  => (object) ['selector' => 'joomla-toolbar-button .button-options', 'shortcut' => 'O', 'title' => $this->getApplication()->getLanguage()->_('JOPTIONS')],
+                'helpKey'    => (object) ['selector' => 'joomla-toolbar-button .button-help', 'shortcut' => 'H', 'title' => $this->getApplication()->getLanguage()->_('JHELP')],
+                'toggleMenu' => (object) ['selector' => '#menu-collapse', 'shortcut' => 'M', 'title' => $this->getApplication()->getLanguage()->_('JTOGGLE_SIDEBAR_MENU')],
+                'dashboard'  => (object) ['selector' => (string) new Uri(Route::_('index.php?')), 'shortcut' => 'D', 'title' => $this->getApplication()->getLanguage()->_('JHOMEDASHBOARD')],
             ]
         );
 

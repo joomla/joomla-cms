@@ -16,6 +16,7 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Privacy\Administrator\Export\Domain;
 use Joomla\Component\Privacy\Administrator\Export\Field;
 use Joomla\Component\Privacy\Administrator\Export\Item;
+use Joomla\Database\DatabaseAwareTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -28,11 +29,14 @@ use Joomla\Component\Privacy\Administrator\Export\Item;
  */
 abstract class PrivacyPlugin extends CMSPlugin
 {
+    use DatabaseAwareTrait;
+
     /**
      * Database object
      *
      * @var    \Joomla\Database\DatabaseDriver
      * @since  3.9.0
+     * @deprecated  4.4.0 will be removed in 6.0 use $this->getDatabase() instead
      */
     protected $db;
 
@@ -75,15 +79,15 @@ abstract class PrivacyPlugin extends CMSPlugin
      */
     protected function createItemFromArray(array $data, $itemId = null)
     {
-        $item = new Item();
+        $item     = new Item();
         $item->id = $itemId;
 
         foreach ($data as $key => $value) {
-            if (is_object($value)) {
+            if (\is_object($value)) {
                 $value = (array) $value;
             }
 
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 $value = print_r($value, true);
             }
 
@@ -127,9 +131,9 @@ abstract class PrivacyPlugin extends CMSPlugin
      *
      * @since   3.9.0
      */
-    protected function createCustomFieldsDomain($context, $items = array())
+    protected function createCustomFieldsDomain($context, $items = [])
     {
-        if (!is_array($items)) {
+        if (!\is_array($items)) {
             $items = [$items];
         }
 
@@ -148,7 +152,7 @@ abstract class PrivacyPlugin extends CMSPlugin
             $fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], $item);
 
             foreach ($fields as $field) {
-                $fieldValue = is_array($field->value) ? implode(', ', $field->value) : $field->value;
+                $fieldValue = \is_array($field->value) ? implode(', ', $field->value) : $field->value;
 
                 $data = [
                     $type . '_id' => $item->id,

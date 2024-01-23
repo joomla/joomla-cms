@@ -10,13 +10,18 @@
 
 namespace Joomla\Module\RelatedItems\Site\Helper;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Component\Content\Site\Model\ArticlesModel;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -27,26 +32,30 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.5
  */
-abstract class RelatedItemsHelper
+class RelatedItemsHelper implements DatabaseAwareInterface
 {
+    use DatabaseAwareTrait;
+
     /**
-     * Get a list of related articles
+     * Retrieve a list of related articles based on the metakey field
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
+     * @param   Registry         $params  The module parameters.
+     * @param   SiteApplication  $app     The current application.
      *
-     * @return  array
+     * @return  \stdClass[]
+     *
+     * @since   4.4.0
      */
-    public static function getList(&$params)
+    public function getRelatedArticles(Registry $params, SiteApplication $app): array
     {
-        $db        = Factory::getDbo();
-        $app       = Factory::getApplication();
-        $input     = $app->input;
-        $groups    = Factory::getUser()->getAuthorisedViewLevels();
+        $db        = $this->getDatabase();
+        $input     = $app->getInput();
+        $groups    = $app->getIdentity()->getAuthorisedViewLevels();
         $maximum   = (int) $params->get('maximum', 5);
         $factory   = $app->bootComponent('com_content')->getMVCFactory();
 
         // Get an instance of the generic articles model
-        /** @var \Joomla\Component\Content\Site\Model\ArticlesModel $articles */
+        /** @var ArticlesModel $articles */
         $articles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
 
         // Set application parameters in model
@@ -80,7 +89,7 @@ abstract class RelatedItemsHelper
             } catch (\RuntimeException $e) {
                 $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-                return array();
+                return [];
             }
 
             // Explode the meta keys on a comma
@@ -125,7 +134,7 @@ abstract class RelatedItemsHelper
                         'AND',
                         [
                             $db->quoteName('a.publish_down') . ' IS NULL',
-                            $db->quoteName('a.publish_down') . ' >= :nowDate2'
+                            $db->quoteName('a.publish_down') . ' >= :nowDate2',
                         ],
                         'OR'
                     )
@@ -133,7 +142,7 @@ abstract class RelatedItemsHelper
 
                 // Filter by language
                 if (Multilanguage::isEnabled()) {
-                    $query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
+                    $query->whereIn($db->quoteName('a.language'), [$app->getLanguage()->getTag(), '*'], ParameterType::STRING);
                 }
 
                 $query->setLimit($maximum);
@@ -166,5 +175,28 @@ abstract class RelatedItemsHelper
         }
 
         return $related;
+    }
+
+    /**
+     * Get a list of related articles
+     *
+     * @param   Registry  &$params  module parameters
+     *
+     * @return  array
+     *
+     * @since   1.6
+     *
+     * @deprecated  4.4.0  will be removed in 6.0
+     *              Use the non-static method getRelatedArticles
+     *              Example: Factory::getApplication()->bootModule('mod_related_items', 'site')
+     *                           ->getHelper('RelatedItemsHelper')
+     *                           ->getRelatedArticles($params, Factory::getApplication())
+     */
+    public static function getList(&$params)
+    {
+        /** @var SiteApplication $app */
+        $app = Factory::getApplication();
+
+        return (new self())->getRelatedArticles($params, $app);
     }
 }

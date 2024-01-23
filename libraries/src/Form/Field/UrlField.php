@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Form\Field;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -70,10 +70,10 @@ class UrlField extends TextField
         // we have to use the input type "text" instead.
         $inputType    = $this->element['relative'] ? 'type="text"' : 'type="url"';
 
-        $extraData = array(
+        $extraData = [
             'maxLength' => $maxLength,
             'inputType' => $inputType,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

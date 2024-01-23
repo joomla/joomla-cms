@@ -52,7 +52,7 @@ $wa->useScript('keepalive')
                     <hr>
                 <?php endif; ?>
 
-                <?php echo HTMLHelper::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
+                <?php echo HTMLHelper::_('filter.slider', ['selected_nodes' => $this->filter->data]); ?>
             </div>
             <div class="col-lg-3">
                 <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
@@ -86,7 +86,7 @@ $wa->useScript('keepalive')
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
         <input type="hidden" name="task" value="">
-        <input type="hidden" name="return" value="<?php echo Factory::getApplication()->input->get('return', '', 'BASE64'); ?>">
+        <input type="hidden" name="return" value="<?php echo Factory::getApplication()->getInput()->get('return', '', 'BASE64'); ?>">
         <?php echo HTMLHelper::_('form.token'); ?>
     </div>
 </form>

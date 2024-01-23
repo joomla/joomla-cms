@@ -41,7 +41,7 @@ class ManageController extends BaseController
      *
      * @since  1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -63,8 +63,8 @@ class ManageController extends BaseController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids    = (array) $this->input->get('cid', array(), 'int');
-        $values = array('publish' => 1, 'unpublish' => 0);
+        $ids    = (array) $this->input->get('cid', [], 'int');
+        $values = ['publish' => 1, 'unpublish' => 0];
         $task   = $this->getTask();
         $value  = ArrayHelper::getValue($values, $task, 0, 'int');
 
@@ -87,7 +87,7 @@ class ManageController extends BaseController
                     $ntext = 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
                 }
 
-                $this->setMessage(Text::plural($ntext, count($ids)));
+                $this->setMessage(Text::plural($ntext, \count($ids)));
             }
         }
 
@@ -108,7 +108,7 @@ class ManageController extends BaseController
         // Check for request forgeries.
         $this->checkToken();
 
-        $eid = (array) $this->input->get('cid', array(), 'int');
+        $eid = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $eid = array_filter($eid);
@@ -137,7 +137,7 @@ class ManageController extends BaseController
         // Check for request forgeries.
         $this->checkToken();
 
-        $uid = (array) $this->input->get('cid', array(), 'int');
+        $uid = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $uid = array_filter($uid);

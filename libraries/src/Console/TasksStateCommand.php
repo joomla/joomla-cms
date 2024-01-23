@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -75,7 +75,7 @@ class TasksStateCommand extends AbstractCommand
         $this->configureIO($input, $output);
         $this->ioStyle->title('Change Task State');
 
-        $id = (string) $input->getOption('id');
+        $id    = (string) $input->getOption('id');
         $state = (string) $input->getOption('state');
 
         // Try to validate and process ID, if passed
@@ -118,7 +118,7 @@ class TasksStateCommand extends AbstractCommand
 
         // Finally, the enumerated state and id in their pure form
         $state = (int) $state;
-        $id = (int) $id;
+        $id    = (int) $id;
 
         /** @var ConsoleApplication $app */
         $app = $this->getApplication();

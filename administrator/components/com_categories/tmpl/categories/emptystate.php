@@ -42,7 +42,7 @@ $displayData = [
     'icon'       => 'icon-folder categories content-categories',
 ];
 
-if (Factory::getApplication()->getIdentity()->authorise('core.create', $extension)) {
+if ($this->getCurrentUser()->authorise('core.create', $extension)) {
     $displayData['createURL'] = 'index.php?option=com_categories&extension=' . $extension . '&task=category.add';
 }
 
