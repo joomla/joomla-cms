@@ -279,7 +279,7 @@ class ApiController extends BaseController
         $modelName = $this->input->get('model', Inflector::singularize($this->contentType));
 
         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
-        $model = $this->getModel($modelName, '', ['ignore_request' => true]);
+        $model = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
 
         if (!$model) {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
