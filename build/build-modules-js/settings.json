@@ -403,7 +403,7 @@
       "hotkeys-js": {
         "name": "hotkeysjs",
         "licenseFilename": "LICENSE",
-        "js" : {
+        "js": {
           "dist/hotkeys.js": "js/hotkeys.js",
           "dist/hotkeys.min.js": "js/hotkeys.min.js"
         },
@@ -457,10 +457,6 @@
           "jquery"
         ],
         "licenseFilename": "LICENSE.txt"
-      },
-      "@joomla/joomla-a11y-checker": {
-        "name": "joomla-a11y-checker",
-        "licenseFilename": "LICENSE.md"
       },
       "joomla-ui-custom-elements": {
         "name": "joomla-custom-elements",
@@ -745,6 +741,213 @@
           }
         ]
       },
+      "sa11y": {
+        "name": "sa11y",
+        "licenseFilename": "LICENSE.md",
+        "js": {
+          "dist/js/sa11y.umd.min.js": "js/sa11y.umd.min.js",
+          "dist/js/lang/bg.umd.js": "js/bg.umd.js",
+          "dist/js/lang/cs.umd.js": "js/cs.umd.js",
+          "dist/js/lang/da.umd.js": "js/da.umd.js",
+          "dist/js/lang/de.umd.js": "js/de.umd.js",
+          "dist/js/lang/el.umd.js": "js/el.umd.js",
+          "dist/js/lang/en.umd.js": "js/en.umd.js",
+          "dist/js/lang/enUS.umd.js": "js/enUS.umd.js",
+          "dist/js/lang/es.umd.js": "js/es.umd.js",
+          "dist/js/lang/et.umd.js": "js/et.umd.js",
+          "dist/js/lang/fi.umd.js": "js/fi.umd.js",
+          "dist/js/lang/fr.umd.js": "js/fr.umd.js",
+          "dist/js/lang/hu.umd.js": "js/hu.umd.js",
+          "dist/js/lang/id.umd.js": "js/id.umd.js",
+          "dist/js/lang/it.umd.js": "js/it.umd.js",
+          "dist/js/lang/ja.umd.js": "js/ja.umd.js",
+          "dist/js/lang/ko.umd.js": "js/ko.umd.js",
+          "dist/js/lang/lt.umd.js": "js/lt.umd.js",
+          "dist/js/lang/lv.umd.js": "js/lv.umd.js",
+          "dist/js/lang/nb.umd.js": "js/nb.umd.js",
+          "dist/js/lang/nl.umd.js": "js/nl.umd.js",
+          "dist/js/lang/pl.umd.js": "js/pl.umd.js",
+          "dist/js/lang/ptBR.umd.js": "js/ptBR.umd.js",
+          "dist/js/lang/ptPT.umd.js": "js/ptPT.umd.js",
+          "dist/js/lang/ro.umd.js": "js/ro.umd.js",
+          "dist/js/lang/sk.umd.js": "js/sk.umd.js",
+          "dist/js/lang/sl.umd.js": "js/sl.umd.js",
+          "dist/js/lang/sv.umd.js": "js/sv.umd.js",
+          "dist/js/lang/tr.umd.js": "js/tr.umd.js",
+          "dist/js/lang/ua.umd.js": "js/ua.umd.js",
+          "dist/js/lang/zh.umd.js": "js/zh.umd.js"
+        },
+        "css": {
+          "dist/css/sa11y.min.css": "css/sa11y.min.css"
+        },
+        "provideAssets": [
+          {
+            "name": "sa11y",
+            "type": "script",
+            "uri": "sa11y.umd.min.js"
+          },
+          {
+            "name": "Sa11yLangEn",
+            "type": "script",
+            "uri": "en.umd.js"
+          },
+          {
+            "name": "Sa11yLangBg",
+            "type": "script",
+            "uri": "bg.umd.js"
+          },
+          {
+            "name": "Sa11yLangCs",
+            "type": "script",
+            "uri": "cs.umd.js"
+          },
+          {
+            "name": "Sa11yLangDa",
+            "type": "script",
+            "uri": "da.umd.js"
+          },
+          {
+            "name": "Sa11yLangDe",
+            "type": "script",
+            "uri": "de.umd.js"
+          },
+          {
+            "name": "Sa11yLangEl",
+            "type": "script",
+            "uri": "el.umd.js"
+          },
+          {
+            "name": "Sa11yLangEn",
+            "type": "script",
+            "uri": "en.umd.js"
+          },
+          {
+            "name": "Sa11yLangEnUS",
+            "type": "script",
+            "uri": "enUS.umd.js"
+          },
+          {
+            "name": "Sa11yLangEs",
+            "type": "script",
+            "uri": "es.umd.js"
+          },
+          {
+            "name": "Sa11yLangEt",
+            "type": "script",
+            "uri": "et.umd.js"
+          },
+          {
+            "name": "Sa11yLangFi",
+            "type": "script",
+            "uri": "fi.umd.js"
+          },
+          {
+            "name": "Sa11yLangFr",
+            "type": "script",
+            "uri": "fr.umd.js"
+          },
+          {
+            "name": "sa11yCSS",
+            "type": "style",
+            "uri": "sa11y.min.css"
+          },
+          {
+            "name": "Sa11yLangHu",
+            "type": "script",
+            "uri": "hu.umd.js"
+          },
+          {
+            "name": "Sa11yLangId",
+            "type": "script",
+            "uri": "id.umd.js"
+          },
+          {
+            "name": "Sa11yLangIt",
+            "type": "script",
+            "uri": "it.umd.js"
+          },
+          {
+            "name": "Sa11yLangJa",
+            "type": "script",
+            "uri": "ja.umd.js"
+          },
+          {
+            "name": "Sa11yLangKo",
+            "type": "script",
+            "uri": "ko.umd.js"
+          },
+          {
+            "name": "Sa11yLangLt",
+            "type": "script",
+            "uri": "lt.umd.js"
+          },
+          {
+            "name": "Sa11yLangLv",
+            "type": "script",
+            "uri": "lv.umd.js"
+          },
+          {
+            "name": "Sa11yLangNb",
+            "type": "script",
+            "uri": "nb.umd.js"
+          },
+          {
+            "name": "Sa11yLangNl",
+            "type": "script",
+            "uri": "nl.umd.js"
+          },
+          {
+            "name": "Sa11yLangPl",
+            "type": "script",
+            "uri": "pl.umd.js"
+          },
+          {
+            "name": "Sa11yLangPtBR",
+            "type": "script",
+            "uri": "ptBR.umd.js"
+          },
+          {
+            "name": "Sa11yLangPtPT",
+            "type": "script",
+            "uri": "ptPT.umd.js"
+          },
+          {
+            "name": "Sa11yLangRo",
+            "type": "script",
+            "uri": "ro.umd.js"
+          },
+          {
+            "name": "Sa11yLangSk",
+            "type": "script",
+            "uri": "sk.umd.js"
+          },
+          {
+            "name": "Sa11yLangSl",
+            "type": "script",
+            "uri": "sl.umd.js"
+          },
+          {
+            "name": "Sa11yLangSv",
+            "type": "script",
+            "uri": "sv.umd.js"
+          },
+          {
+            "name": "Sa11yLangTr",
+            "type": "script",
+            "uri": "tr.umd.js"
+          },
+          {
+            "name": "Sa11yLangUa",
+            "type": "script",
+            "uri": "ua.umd.js"
+          },
+          {
+            "name": "Sa11yLangZh",
+            "type": "script",
+            "uri": "zh.umd.js"
+          }
+        ]
+      },
       "qrcode-generator": {
         "name": "qrcode",
         "js": {
@@ -793,7 +996,9 @@
         "text": "It looks like you are trying to run Joomla! from our git repository. To do so requires you complete a couple of extra steps first.",
         "link": "J4.x:Setting_Up_Your_Local_Environment",
         "linkText": "More Details",
-        "destFile": ["/templates/system/build_incomplete.html"]
+        "destFile": [
+          "/templates/system/build_incomplete.html"
+        ]
       },
       "unsupported": {
         "title": "Joomla: unsupported PHP version",
@@ -801,7 +1006,10 @@
         "text": "Your host needs to use PHP version {{phpversion}} or newer to run this version of Joomla!",
         "link": "J4.x:Unsupported_PHP_Version",
         "linkText": "Help me resolve this",
-        "destFile": ["/templates/system/incompatible.html", "/includes/incompatible.html"]
+        "destFile": [
+          "/templates/system/incompatible.html",
+          "/includes/incompatible.html"
+        ]
       },
       "noxml": {
         "title": "Joomla: Missing PHP-XML library",
@@ -809,7 +1017,9 @@
         "text": "Your host needs to use PHP with support for the XML library to run this version of Joomla!",
         "link": "J4.x:Missing_XML_Library",
         "linkText": "Help me resolve this",
-        "destFile": ["/media/system/html/noxml.html"]
+        "destFile": [
+          "/media/system/html/noxml.html"
+        ]
       },
       "fatal": {
         "title": "An Error Occurred: {{statusText}}",
@@ -817,7 +1027,9 @@
         "text": "The server returned a \"{{statusCode_statusText}}\"",
         "link": "J4.x:FatalError",
         "linkText": "Help me resolve this",
-        "destFile": ["/templates/system/fatal-error.html"]
+        "destFile": [
+          "/templates/system/fatal-error.html"
+        ]
       }
     }
   }
