@@ -10,9 +10,12 @@
 
 namespace Joomla\Plugin\System\Sef\Extension;
 
+use Joomla\CMS\Event\Router\AfterInitialiseRouterEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,8 +26,62 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  1.5
  */
-final class Sef extends CMSPlugin
+final class Sef extends CMSPlugin implements SubscriberInterface
 {
+    /**
+     * Application object.
+     *
+     * @var    \Joomla\CMS\Application\CMSApplication
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $app;
+
+    /**
+     * Returns an array of CMS events this plugin will listen to and the respective handlers.
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        /**
+         * Note that onAfterInitialise must be the first handlers to run for this
+         * plugin to operate as expected. These handlers load compatibility code which
+         * might be needed by other plugins
+         */
+        return [
+            'onAfterInitialiseRouter' => 'onAfterInitialiseRouter',
+            'onAfterDispatch'         => 'onAfterDispatch',
+            'onAfterRender'           => 'onAfterRender',
+        ];
+    }
+
+    /**
+     * After initialise router.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onAfterInitialiseRouter(AfterInitialiseRouterEvent $event)
+    {
+        if (
+            is_a($event->getRouter(), SiteRouter::class)
+            && $this->app->get('sef_rewrite')
+        ) {
+            if ($this->params->get('indexphp')) {
+                // Remove unnecessary index.php
+                $event->getRouter()->attachBuildRule([$this, 'removeIndexphp'], SiteRouter::PROCESS_AFTER);
+
+                if ($this->params->get('indexphp_redirect')) {
+                    // Enforce removed index.php
+                    $event->getRouter()->attachParseRule([$this, 'enforceRemovedIndexphp'], SiteRouter::PROCESS_BEFORE);
+                }
+            }
+        }
+    }
+
     /**
      * Add the canonical uri to the head.
      *
@@ -186,6 +243,51 @@ final class Sef extends CMSPlugin
 
         // Use the replaced HTML body.
         $this->getApplication()->setBody($buffer);
+    }
+
+    /**
+     * Remove unnecessary index.php from URLs built in Joomla
+     *
+     * @param   Router  &$router  Router object.
+     * @param   Uri     &$uri     Uri object.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function removeIndexphp(&$router, &$uri)
+    {
+        $path = $uri->getPath();
+
+        if (substr($path, -9) == 'index.php') {
+            $uri->setPath(substr($path, 0, -9));
+        }
+    }
+
+    /**
+     * Redirect to a URL without unnecessary index.php
+     *
+     * @param   Router  &$router  Router object.
+     * @param   Uri     &$uri     Uri object.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function enforceRemovedIndexphp(&$router, &$uri)
+    {
+        // We only want to redirect on GET requests
+        if ($_SERVER['REQUEST_METHOD'] != 'GET') {
+            return;
+        }
+
+        $origUri = Uri::getInstance();
+
+        if (substr($origUri->getPath(), -9) == 'index.php') {
+            // Remove unnecessary index.php
+            $origUri->setPath(substr($origUri->getPath(), 0, -9));
+            $this->app->redirect($origUri->toString());
+        }
     }
 
     /**
