@@ -2,12 +2,12 @@
 <extension type="plugin" group="schemaorg" method="upgrade">
 	<name>plg_schemaorg_generic</name>
 	<author>Joomla! Project</author>
-	<creationDate>2024-09</creationDate>
-	<copyright>(C) 2023 Open Source Matters, Inc.</copyright>
+	<creationDate>2024-01</creationDate>
+	<copyright>(C) 2024 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>5.0.0</version>
+	<version>__DEPLOY_VERSION__</version>
 	<description>PLG_SCHEMAORG_GENERIC_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Schemaorg\Generic</namespace>
 	<files>

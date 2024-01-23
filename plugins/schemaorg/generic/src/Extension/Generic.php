@@ -4,7 +4,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Schemaorg.generic
  *
- * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ use Joomla\Registry\Registry;
 /**
  * Schemaorg Plugin
  *
- * @since  5.0.0
+ * @since  	__DEPLOY_VERSION__
  */
 final class Generic extends CMSPlugin implements SubscriberInterface
 {
@@ -36,7 +36,7 @@ final class Generic extends CMSPlugin implements SubscriberInterface
      * Load the language file on instantiation.
      *
      * @var    boolean
-     * @since  5.0.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
 
@@ -44,7 +44,7 @@ final class Generic extends CMSPlugin implements SubscriberInterface
      * The name of the schema form
      *
      * @var   string
-     * @since 5.0.0
+     * @since __DEPLOY_VERSION__
      */
     protected $pluginName = 'Generic';
 
@@ -53,7 +53,7 @@ final class Generic extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since   5.0.0
+     * @since   __DEPLOY_VERSION__
      */
     public static function getSubscribedEvents(): array
     {
@@ -98,7 +98,7 @@ final class Generic extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   5.0.0
+     * @since   __DEPLOY_VERSION__
      */
     public function onSchemaBeforeCompileHead(BeforeCompileHeadEvent $event): void
     {
