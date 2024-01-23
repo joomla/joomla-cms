@@ -275,13 +275,14 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $app      = $this->getApplication();
         $baseType = $this->params->get('baseType', 'organization');
 
-        $itemId  = (int) $app->getInput()->getInt('id');
-        $option  = $app->getInput()->get('option');
-        $view    = $app->getInput()->get('view');
-        $context = $option . '.' . $view;
+        $itemId      = (int) $app->getInput()->getInt('id');
+        $option      = $app->getInput()->get('option');
+        $view        = $app->getInput()->get('view');
+        $context     = $option . '.' . $view;
+        $isSupported = $this->isSupported($context);
 
         // We need the plugin configured at least once to add structured data
-        if (!$app->isClient('site') || !\in_array($baseType, ['organization', 'person']) || !$this->isSupported($context)) {
+        if (!$app->isClient('site') || !\in_array($baseType, ['organization', 'person']) || (!$isSupported && !$this->params->get('menus', 1))) {
             return;
         }
 
@@ -393,30 +394,66 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         }
 
         $baseSchema['@graph'][] = $webPageSchema;
+        $menuSchema             = [];
 
-        if ($itemId > 0) {
-            // Load the table data from the database
-            $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
-                ->select('*')
-                ->from($db->quoteName('#__schemaorg'))
-                ->where($db->quoteName('itemId') . ' = :itemId')
-                ->bind(':itemId', $itemId, ParameterType::INTEGER)
-                ->where($db->quoteName('context') . ' = :context')
-                ->bind(':context', $context, ParameterType::STRING);
+        if ($this->params->get('menus', 1)) {
+            $menuId      = (int) ($app->getMenu()->getActive()->id ?? 0);
 
-            $result = $db->setQuery($query)->loadObject();
+            if ($menuId) {
+                // Load the menu schema table data from the database
+                $menuContext = 'com_menus.item';
+                $db          = $this->getDatabase();
+                $query       = $db->getQuery(true)
+                    ->select('*')
+                    ->from($db->quoteName('#__schemaorg'))
+                    ->where($db->quoteName('itemId') . ' = :itemId')
+                    ->bind(':itemId', $menuId, ParameterType::INTEGER)
+                    ->where($db->quoteName('context') . ' = :context')
+                    ->bind(':context', $menuContext, ParameterType::STRING);
 
-            if ($result) {
-                $localSchema = new Registry($result->schema);
+                $result = $db->setQuery($query)->loadObject();
 
-                $localSchema->set('@id', $domain . '#/schema/' . str_replace('.', '/', $context) . '/' . (int) $result->itemId);
-                $localSchema->set('isPartOf', ['@id' => $webPageId]);
+                if ($result) {
+                    $localSchema = new Registry($result->schema);
 
-                $itemSchema = $localSchema->toArray();
+                    $localSchema->set('@id', $domain . '#/schema/com_menus/item/' . (int) $result->itemId);
+                    $localSchema->set('isPartOf', ['@id' => $webPageId]);
 
-                $baseSchema['@graph'][] = $itemSchema;
+                    $menuSchema = $localSchema->toArray();
+
+                    $baseSchema['@graph'][] = $menuSchema;
+                }
             }
+        }
+
+        if ($isSupported) {
+            if ($itemId) {
+                // Load the table data from the database
+                $db    = $this->getDatabase();
+                $query = $db->getQuery(true)
+                    ->select('*')
+                    ->from($db->quoteName('#__schemaorg'))
+                    ->where($db->quoteName('itemId') . ' = :itemId')
+                    ->bind(':itemId', $itemId, ParameterType::INTEGER)
+                    ->where($db->quoteName('context') . ' = :context')
+                    ->bind(':context', $context, ParameterType::STRING);
+
+                $result = $db->setQuery($query)->loadObject();
+
+                if ($result) {
+                    $localSchema = new Registry($result->schema);
+
+                    $localSchema->set('@id', $domain . '#/schema/' . str_replace('.', '/', $context) . '/' . (int) $result->itemId);
+                    $localSchema->set('isPartOf', ['@id' => $webPageId]);
+
+                    $itemSchema = $localSchema->toArray();
+
+                    $baseSchema['@graph'][] = $itemSchema;
+                }
+            }
+        } elseif (! $menuSchema) {
+            // Content isn't explicitly supported and there's no menu schema so don't output schema
+            return;
         }
 
         $schema->loadArray($baseSchema);
