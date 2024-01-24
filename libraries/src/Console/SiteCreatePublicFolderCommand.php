@@ -73,7 +73,7 @@ class SiteCreatePublicFolderCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         // Before we do anything check if the symlink function is available
-        if (!function_exists('symlink')) {
+        if (!\function_exists('symlink')) {
             throw new \Exception('The symlink() function is not enabled on the server. Please enable it to proceed.');
         }
 
