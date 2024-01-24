@@ -347,7 +347,7 @@ class AdminController extends BaseController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids = (array) $this->input->post->get('cid', [], 'int');
+        $ids = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);

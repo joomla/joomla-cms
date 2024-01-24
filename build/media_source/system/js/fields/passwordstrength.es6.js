@@ -50,7 +50,7 @@ class PasswordStrength {
     // eslint-disable-next-line no-useless-escape
     score += this.constructor.calc(
       value,
-      /[$!#?=;:*\-_€%&()`´]/g,
+      /[@$!#?=;:*\-_€%&()`´]/g,
       this.special,
       mods,
     );
