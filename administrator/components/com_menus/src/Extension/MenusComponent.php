@@ -63,7 +63,7 @@ class MenusComponent extends MVCComponent implements
      *
      * @return  array
      *
-     * @since  5.0.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getSchemaorgContexts(): array
     {
