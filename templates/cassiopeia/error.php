@@ -150,6 +150,7 @@ $errorCode = $this->error->getCode();
         <div class="grid-child container-component">
             <?php if ($this->countModules('error-' . $errorCode)) : ?>
                 <div class="container">
+                    <jdoc:include type="message" />
                     <jdoc:include type="modules" name="error-<?php echo $errorCode; ?>" style="none" />
                 </div>
             <?php else : ?>

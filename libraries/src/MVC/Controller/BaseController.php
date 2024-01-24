@@ -1148,7 +1148,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         if (!$valid && $redirect) {
             $referrer = $this->input->server->getString('HTTP_REFERER');
 
-            if (!Uri::isInternal($referrer)) {
+            if (\is_null($referrer) || !Uri::isInternal($referrer)) {
                 $referrer = 'index.php';
             }
 
