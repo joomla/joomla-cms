@@ -26,7 +26,7 @@ use Joomla\Registry\Registry;
 /**
  * Schemaorg Plugin
  *
- * @since  	__DEPLOY_VERSION__
+ * @since   __DEPLOY_VERSION__
  */
 final class Custom extends CMSPlugin implements SubscriberInterface
 {
