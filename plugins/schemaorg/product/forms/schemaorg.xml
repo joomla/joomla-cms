@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="schema">
+		<fieldset
+			name="schema"
+			label="PLG_SYSTEM_SCHEMA_FIELD_SCHEMA_LABEL"
+		>
+			<field
+				name="Product"
+				type="subform"
+				showon="schemaType:Product"
+			>
+				<form>
+
+					<field
+						name="@type"
+						type="hidden"
+						default="Product"
+					/>
+
+					<field
+						name="noteProduct"
+						type="note"
+						description="PLG_SCHEMAORG_PRODUCT_DESCRIPTION_LABEL"
+						class="alert alert-info w-100"
+					/>
+
+					<field
+						name="image"
+						type="media"
+						label="PLG_SCHEMAORG_PRODUCT_FIELD_IMAGE_LABEL"
+					/>
+
+					<field
+						name="name"
+						type="text"
+						label="PLG_SCHEMAORG_PRODUCT_FIELD_NAME_LABEL"
+						filter="string"
+						size="30"
+					/>
+
+					<field
+						name="description"
+						type="text"
+						label="PLG_SCHEMAORG_PRODUCT_FIELD_DESCRIPTION_LABEL"
+						filter="string"
+					/>
+
+					<field
+						name="brand"
+						type="subform"
+						label="PLG_SCHEMAORG_PRODUCT_FIELD_BRAND_LABEL"
+						>
+						<form>
+
+							<field
+								name="@type"
+								type="list"
+								label="PLG_SCHEMAORG_PRODUCT_FIELD_TYPE_LABEL"
+								default="Brand"
+								>
+								<option value="Brand">PLG_SCHEMAORG_PRODUCT_FIELD_BRAND_LABEL</option>
+								<option value="Organization">PLG_SCHEMAORG_PRODUCT_FIELD_ORGANIZATION_LABEL</option>
+							</field>
+
+							<field
+								name="name"
+								type="text"
+								label="PLG_SCHEMAORG_PRODUCT_FIELD_NAME_LABEL"
+								filter="string"
+							/>
+
+							<field
+								name="url"
+								type="url"
+								label="PLG_SCHEMAORG_PRODUCT_FIELD_URL_LABEL"
+								filter="url"
+								validate="url"
+							/>
+
+							<field
+								name="logo"
+								type="subform"
+								label="PLG_SCHEMAORG_PRODUCT_FIELD_LOGO_LABEL"
+							>
+								<form>
+
+									<field
+										name="@type"
+										type="hidden"
+										default="ImageObject"
+									/>
+
+									<field
+										name="url"
+										type="media"
+										label="PLG_SCHEMAORG_PRODUCT_FIELD_URL_LABEL"
+									/>
+
+								</form>
+							</field>
+
+							<field
+								name="email"
+								type="email"
+								label="PLG_SCHEMAORG_PRODUCT_FIELD_EMAIL_LABEL"
+								validate="email"
+								showon="@type:Organization"
+							/>
+
+							<field
+								name="address"
+								type="subform"
+								label="PLG_SCHEMAORG_PRODUCT_FIELD_ADDRESS_LABEL"
+								showon="@type:Organization"
+							>
+								<form>
+
+									<field
+										name="@type"
+										type="hidden"
+										default="PostalAddress"
+									/>
+
+									<field
+										name="addressLocality"
+										type="text"
+										label="PLG_SCHEMAORG_PRODUCT_FIELD_LOCALITY_LABEL"
+									/>
+
+									<field
+										name="postalCode"
+										type="text"
+										label="PLG_SCHEMAORG_PRODUCT_FIELD_POSTAL_CODE_LABEL"
+									/>
+
+									<field
+										name="streetAddress"
+										type="text"
+										label="PLG_SCHEMAORG_PRODUCT_FIELD_STREET_ADDRESS_LABEL"
+									/>
+
+								</form>
+							</field>
+
+						</form>
+					</field>
+
+					<field
+						name="manufacturer"
+						type="subform"
+						label="PLG_SCHEMAORG_PRODUCT_FIELD_MANUFACTURER_LABEL"
+						>
+						<form>
+
+							<field
+								name="@type"
+								type="hidden"
+								default="Organization"
+							/>
+
+							<field
+								name="name"
+								type="text"
+								label="PLG_SCHEMAORG_PRODUCT_FIELD_NAME_LABEL"
+								filter="string"
+							/>
+
+							<field
+								name="url"
+								type="url"
+								label="PLG_SCHEMAORG_PRODUCT_FIELD_URL_LABEL"
+								filter="url"
+								validate="url"
+							/>
+
+							<field
+								name="logo"
+								type="subform"
+								label="PLG_SCHEMAORG_PRODUCT_FIELD_LOGO_LABEL"
+							>
+								<form>
+
+									<field
+										name="@type"
+										type="hidden"
+										default="ImageObject"
+									/>
+
+									<field
+										name="url"
+										type="media"
+										label="PLG_SCHEMAORG_PRODUCT_FIELD_URL_LABEL"
+									/>
+
+								</form>
+							</field>
+
+							<field
+								name="email"
+								type="email"
+								label="PLG_SCHEMAORG_PRODUCT_FIELD_EMAIL_LABEL"
+								validate="email"
+							/>
+
+							<field
+								name="address"
+								type="subform"
+								label="PLG_SCHEMAORG_PRODUCT_FIELD_ADDRESS_LABEL"
+							>
+								<form>
+
+									<field
+										name="@type"
+										type="hidden"
+										default="PostalAddress"
+									/>
+
+									<field
+										name="addressLocality"
+										type="text"
+										label="PLG_SCHEMAORG_PRODUCT_FIELD_LOCALITY_LABEL"
+									/>
+
+									<field
+										name="postalCode"
+										type="text"
+										label="PLG_SCHEMAORG_PRODUCT_FIELD_POSTAL_CODE_LABEL"
+									/>
+
+									<field
+										name="streetAddress"
+										type="text"
+										label="PLG_SCHEMAORG_PRODUCT_FIELD_STREET_ADDRESS_LABEL"
+									/>
+
+								</form>
+							</field>
+
+						</form>
+					</field>
+
+					<field
+						name="offers"
+						type="subform"
+						label="PLG_SCHEMAORG_PRODUCT_FIELD_OFFERS_LABEL"
+					>
+						<form>
+
+								<field
+									name="@type"
+									type="hidden"
+									default="Offer"
+								/>
+
+								<field
+									name="price"
+									type="text"
+									filter="string"
+									label="PLG_SCHEMAORG_PRODUCT_FIELD_VALUE_LABEL"
+								/>
+
+								<field
+									name="priceCurrency"
+									type="text"
+									filter="string"
+									label="PLG_SCHEMAORG_PRODUCT_FIELD_CURRENCY_LABEL"
+								/>
+
+						</form>
+					</field>
+
+					<field
+						name="sku"
+						type="text"
+						label="PLG_SCHEMAORG_PRODUCT_FIELD_SKU_LABEL"
+						filter="string"
+					/>
+
+					<field
+						name="category"
+						type="text"
+						label="PLG_SCHEMAORG_PRODUCT_FIELD_CATEGORY_LABEL"
+						filter="string"
+					/>
+
+					<field
+						name="model"
+						type="text"
+						label="PLG_SCHEMAORG_PRODUCT_FIELD_MODEL_LABEL"
+						filter="string"
+					/>
+
+					<field
+						name="material"
+						type="text"
+						label="PLG_SCHEMAORG_PRODUCT_FIELD_MATERIAL_LABEL"
+						filter="string"
+					/>
+
+					<field
+						name="color"
+						type="text"
+						label="PLG_SCHEMAORG_PRODUCT_FIELD_COLOR_LABEL"
+						filter="string"
+					/>
+
+					<field
+						name="size"
+						type="text"
+						label="PLG_SCHEMAORG_PRODUCT_FIELD_SIZE_LABEL"
+						filter="string"
+					/>
+
+					<field
+						name="depth"
+						type="subform"
+						label="PLG_SCHEMAORG_PRODUCT_FIELD_DEPTH_LABEL"
+					>
+						<form>
+
+								<field
+									name="@type"
+									type="hidden"
+									default="QuantitativeValue"
+								/>
+
+								<field
+									name="value"
+									type="text"
+									filter="string"
+									label="PLG_SCHEMAORG_PRODUCT_FIELD_VALUE_LABEL"
+								/>
+
+						</form>
+					</field>
+
+					<field
+						name="height"
+						type="subform"
+						label="PLG_SCHEMAORG_PRODUCT_FIELD_HEIGHT_LABEL"
+					>
+						<form>
+
+								<field
+									name="@type"
+									type="hidden"
+									default="QuantitativeValue"
+								/>
+
+								<field
+									name="value"
+									type="text"
+									filter="string"
+									label="PLG_SCHEMAORG_PRODUCT_FIELD_VALUE_LABEL"
+								/>
+
+						</form>
+					</field>
+
+					<field
+						name="width"
+						type="subform"
+						label="PLG_SCHEMAORG_PRODUCT_FIELD_WIDTH_LABEL"
+					>
+						<form>
+
+								<field
+									name="@type"
+									type="hidden"
+									default="QuantitativeValue"
+								/>
+
+								<field
+									name="value"
+									type="text"
+									filter="string"
+									label="PLG_SCHEMAORG_PRODUCT_FIELD_VALUE_LABEL"
+								/>
+
+						</form>
+					</field>
+
+					<field
+						name="productionDate"
+						type="calendar"
+						label="PLG_SCHEMAORG_PRODUCT_FIELD_DATE_PRODUCTION_LABEL"
+						class="input-small"
+						filter="user_utc"
+						showtime="false"
+						todaybutton="true"
+						translateformat="true"
+					/>
+
+					<field
+						name="releaseDate"
+						type="calendar"
+						label="PLG_SCHEMAORG_PRODUCT_FIELD_DATE_RELEASE_LABEL"
+						class="input-small"
+						filter="user_utc"
+						showtime="false"
+						todaybutton="true"
+						translateformat="true"
+					/>
+
+					<field
+						name="genericField"
+						type="subform"
+						label="PLG_SCHEMAORG_PRODUCT_FIELD_GENERIC_FIELD_LABEL"
+						multiple="true"
+					>
+						<form>
+							<field
+								name="genericTitle"
+								type="text"
+								label="PLG_SCHEMAORG_PRODUCT_FIELD_GENERIC_TITLE_LABEL"
+								filter="string"
+								size="30"
+							/>
+							<field
+								name="genericValue"
+								type="text"
+								filter="string"
+								size="30"
+								label="PLG_SCHEMAORG_PRODUCT_FIELD_GENERIC_VALUE_LABEL"
+							/>
+						</form>
+
+					</field>
+
+				</form>
+			</field>
+		</fieldset>
+	</fields>
+</form>
