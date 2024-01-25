@@ -285,6 +285,7 @@ class ExtensionHelper
         ['plugin', 'organization', 'schemaorg', 0],
         ['plugin', 'person', 'schemaorg', 0],
         ['plugin', 'recipe', 'schemaorg', 0],
+        ['plugin', 'product', 'schemaorg', 0],
 
         // Core plugin extensions - system
         ['plugin', 'accessibility', 'system', 0],
