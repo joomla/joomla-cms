@@ -1297,11 +1297,6 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      * @return  array
      *
      * @since 3.5
-     *
-     * @deprecated __DEPLOY_VERSION__ use  FormField::collectLayoutData() instead.
-     *             Will be removed in 8.0
-     *
-     * @TODO In 7.0 Move the method code to collectLayoutData() and remove the method in 8.0
      */
     protected function getLayoutData()
     {
