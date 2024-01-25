@@ -154,7 +154,7 @@ class GroupedlistField extends FormField
      */
     protected function getInput()
     {
-        $data = $this->getLayoutData();
+        $data = $this->collectLayoutData();
 
         // Get the field groups.
         $data['groups'] = (array) $this->getGroups();
