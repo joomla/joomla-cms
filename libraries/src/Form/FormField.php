@@ -377,6 +377,14 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     protected $layout;
 
     /**
+     * Cached data for layout rendering
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $layoutData = [];
+
+    /**
      * Layout to render the form field
      *
      * @var  string
@@ -768,7 +776,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
         }
 
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
     /**
@@ -806,7 +814,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             return '';
         }
 
-        $data = $this->getLayoutData();
+        $data = $this->collectLayoutData();
 
         // Forcing the Alias field to display the tip below
         $position = ((string) $this->element['name']) === 'alias' ? ' data-bs-placement="bottom" ' : '';
@@ -976,7 +984,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      */
     public function render($layoutId, $data = [])
     {
-        $data = array_merge($this->getLayoutData(), $data);
+        $data = array_merge($this->collectLayoutData(), $data);
 
         return $this->getRenderer($layoutId)->render($data);
     }
@@ -1047,7 +1055,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
             'options' => $options,
         ];
 
-        $data = array_merge($this->getLayoutData(), $data);
+        $data = array_merge($this->collectLayoutData(), $data);
 
         return $this->getRenderer($this->renderLayout)->render($data);
     }
@@ -1289,6 +1297,11 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      * @return  array
      *
      * @since 3.5
+     *
+     * @deprecated __DEPLOY_VERSION__ use  FormField::collectLayoutData() instead.
+     *             Will be removed in 8.0
+     *
+     * @TODO In 7.0 Move the method code to collectLayoutData() and remove the method in 8.0
      */
     protected function getLayoutData()
     {
@@ -1329,6 +1342,27 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         ];
 
         return $options;
+    }
+
+    /**
+     * Method to get the data to be passed to the layout for rendering.
+     * The data is cached in memory.
+     *
+     * @param  bool  $reset   Reset cached data, and collect fresh one
+     *
+     * @return  array
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected function collectLayoutData(bool $reset = false): array
+    {
+        if ($this->layoutData && !$reset) {
+            return $this->layoutData;
+        }
+
+        $this->layoutData = $this->getLayoutData();
+
+        return $this->layoutData;
     }
 
     /**
