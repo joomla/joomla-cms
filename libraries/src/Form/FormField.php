@@ -1343,15 +1343,13 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      * Method to get the data to be passed to the layout for rendering.
      * The data is cached in memory.
      *
-     * @param  bool  $reset   Reset cached data, and collect fresh one
-     *
      * @return  array
      *
      * @since __DEPLOY_VERSION__
      */
-    protected function collectLayoutData(bool $reset = false): array
+    protected function collectLayoutData(): array
     {
-        if ($this->layoutData && !$reset) {
+        if ($this->layoutData) {
             return $this->layoutData;
         }
 
