@@ -255,13 +255,13 @@ class Router extends RouterBase
 
         $ids = [];
 
-        if ($item && $item->query['view'] == 'tag') {
-            $ids = $item->query['id'];
-        }
-
         while (count($segments)) {
             $id    = array_shift($segments);
             $ids[] = $this->fixSegment($id);
+        }
+
+        if ($item && $item->query['view'] == 'tag') {
+            $ids = array_intersect($ids, $item->query['id']);
         }
 
         if (count($ids)) {
