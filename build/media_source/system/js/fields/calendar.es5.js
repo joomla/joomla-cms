@@ -509,11 +509,10 @@
 	/** Method to handle keyboard click events **/
 	JoomlaCalendar.prototype._handleCalKeyEvent = function (ev) {
 		var self = this,
-			key = ev.key,
 			code = ev.code;
 
 		// Get value from input
-		if (ev.target === this.inputField && (key === 'Enter' || key === 'Tab')) {
+		if (ev.target === this.inputField && (code === 'Enter' || code === 'Tab')) {
 			this.close();
 		}
 
@@ -522,19 +521,19 @@
 			this.cellClick(self._nav_now, ev);
 			self.close();
 		}
-		if (key === 'Escape') {
+		if (code === 'Escape') {
 			this.close();
 		}
-		if (key === 'ArrowUp') {
+		if (code === 'ArrowUp') {
 			this.moveCursorBy(7);
 		}
-		if (key === 'ArrowDown') {
+		if (code === 'ArrowDown') {
 			this.moveCursorBy(-7);
 		}
-		if (key === 'ArrowLeft') {
+		if (code === 'ArrowLeft') {
 			this.moveCursorBy(1);
 		}
-		if (key === 'ArrowRight') {
+		if (code === 'ArrowRight') {
 			this.moveCursorBy(-1);
 		}
 	};
