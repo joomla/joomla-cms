@@ -256,15 +256,15 @@
 								<field
 									name="price"
 									type="text"
-									filter="string"
 									label="PLG_SCHEMAORG_PRODUCT_FIELD_VALUE_LABEL"
+									filter="string"
 								/>
 
 								<field
 									name="priceCurrency"
 									type="text"
-									filter="string"
 									label="PLG_SCHEMAORG_PRODUCT_FIELD_CURRENCY_LABEL"
+									filter="string"
 								/>
 
 						</form>
@@ -328,8 +328,8 @@
 								<field
 									name="value"
 									type="text"
-									filter="string"
 									label="PLG_SCHEMAORG_PRODUCT_FIELD_VALUE_LABEL"
+									filter="string"
 								/>
 
 						</form>
@@ -351,8 +351,8 @@
 								<field
 									name="value"
 									type="text"
-									filter="string"
 									label="PLG_SCHEMAORG_PRODUCT_FIELD_VALUE_LABEL"
+									filter="string"
 								/>
 
 						</form>
@@ -374,8 +374,8 @@
 								<field
 									name="value"
 									type="text"
-									filter="string"
 									label="PLG_SCHEMAORG_PRODUCT_FIELD_VALUE_LABEL"
+									filter="string"
 								/>
 
 						</form>
@@ -420,9 +420,9 @@
 							<field
 								name="genericValue"
 								type="text"
+								label="PLG_SCHEMAORG_PRODUCT_FIELD_GENERIC_VALUE_LABEL"
 								filter="string"
 								size="30"
-								label="PLG_SCHEMAORG_PRODUCT_FIELD_GENERIC_VALUE_LABEL"
 							/>
 						</form>
 
