@@ -509,45 +509,33 @@
 	/** Method to handle keyboard click events **/
 	JoomlaCalendar.prototype._handleCalKeyEvent = function (ev) {
 		var self = this,
-			K = ev.keyCode;
+			key = ev.key,
+			code = ev.code;
 
 		// Get value from input
-		if (ev.target === this.inputField && (K === 13 || K === 9)) {
+		if (ev.target === this.inputField && (key === 'Enter' || key === 'Tab')) {
 			this.close();
 		}
 
-		if (self.params.direction === 'rtl') {
-			if (K === 37) {
-				K = 39;
-			} else if (K === 39) {
-				K = 37;
-			}
+		if (ev.shiftKey && code === 'Space') {
+			ev.preventDefault();
+			this.cellClick(self._nav_now, ev);
+			self.close();
 		}
-
-		if (K === 32) {                                // KEY Shift + space (now)
-			if (ev.shiftKey) {
-				ev.preventDefault();
-				this.cellClick(self._nav_now, ev);
-				self.close();
-			}
-		}
-		if (K === 27) {                                // KEY esc (close);
+		if (key === 'Escape') {
 			this.close();
 		}
-		if (K === 38) {                                // KEY up (previous week)
+		if (key === 'ArrowUp') {
 			this.moveCursorBy(7);
 		}
-		if (K === 40) {                                // KEY down (next week)
-			this.moveCursorBy( -7);
+		if (key === 'ArrowDown') {
+			this.moveCursorBy(-7);
 		}
-		if (K === 37) {                                // KEY left (previous day)
+		if (key === 'ArrowLeft') {
 			this.moveCursorBy(1);
 		}
-		if (K === 39) {                                // KEY right (next day)
-			this.moveCursorBy( -1);
-		}
-		if (ev.target === this.inputField && !(K>48 || K<57 || K===186 || K===189 || K===190 || K===32)) {
-			return stopCalEvent(ev);
+		if (key === 'ArrowRight') {
+			this.moveCursorBy(-1);
 		}
 	};
 
@@ -1058,7 +1046,7 @@
 	};
 
 	/** Helpers **/
-	var stopCalEvent = function (ev) { ev || (ev = window.event);  ev.preventDefault(); ev.stopPropagation(); return false; };
+	var stopCalEvent = function (ev) { console.log('stopped'); ev || (ev = window.event);  ev.preventDefault(); ev.stopPropagation(); return false; };
 	var createElement = function (type, parent) { var el = null; el = document.createElement(type); if (typeof parent !== "undefined") { parent.appendChild(el); } return el; };
 	var isInt = function (input) { return !isNaN(input) && (function(x) { return (x | 0) === x; })(parseFloat(input)) };
 	var getBoundary = function (input, type) { var date = new Date(); var y = date.getLocalFullYear(type); return y + input; };
