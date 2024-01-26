@@ -261,7 +261,17 @@ class Router extends RouterBase
         }
 
         if ($item && $item->query['view'] == 'tag') {
-            $ids = array_intersect($ids, $item->query['id']);
+            $ids = array_filter($ids, function ($id) use ($item) {
+                // Get the id from the segment
+                [$id] = explode(':', $id, 2);
+
+                return in_array($id, $item->query['id']);
+            });
+
+            // If we have no ids, we use the menu item ids
+            if (!count($ids)) {
+                $ids = $item->query['id'];
+            }
         }
 
         if (count($ids)) {
