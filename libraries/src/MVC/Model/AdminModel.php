@@ -191,6 +191,18 @@ abstract class AdminModel extends FormModel
     protected $type = null;
 
     /**
+     * The class of the returned item in the getItem function.
+     *
+     * @var     string
+     * @since   __DEPLOY_VERSION__
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     *             Change this here to \stdClass::class as from 6.0 it will be the default
+     *             and removed without replacement in 7.0
+     */
+    protected $itemClass = CMSObject::class;
+
+    /**
      * Constructor.
      *
      * @param   array                  $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
@@ -977,7 +989,7 @@ abstract class AdminModel extends FormModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  CMSObject|\stdClass|boolean  Object on success, false on failure.
      *
      * @since   1.6
      */
@@ -1005,7 +1017,7 @@ abstract class AdminModel extends FormModel
 
         // Convert to the CMSObject before adding other data.
         $properties = $table->getProperties(1);
-        $item       = ArrayHelper::toObject($properties, CMSObject::class);
+        $item       = ArrayHelper::toObject($properties, $this->itemClass);
 
         if (property_exists($item, 'params')) {
             $registry     = new Registry($item->params);
