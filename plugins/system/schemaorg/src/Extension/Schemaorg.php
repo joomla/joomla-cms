@@ -397,7 +397,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $menuSchema             = [];
 
         if ($this->params->get('menus', 1)) {
-            $menuId      = (int) ($app->getMenu()->getActive()->id ?? 0);
+            $menuId = (int) ($app->getMenu()->getActive()->id ?? 0);
 
             if ($menuId) {
                 // Load the menu schema table data from the database
@@ -451,7 +451,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
                     $baseSchema['@graph'][] = $itemSchema;
                 }
             }
-        } elseif (! $menuSchema) {
+        } elseif (!$menuSchema) {
             // Content isn't explicitly supported and there's no menu schema so don't output schema
             return;
         }
