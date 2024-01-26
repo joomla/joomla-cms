@@ -1046,7 +1046,7 @@
 	};
 
 	/** Helpers **/
-	var stopCalEvent = function (ev) { console.log('stopped'); ev || (ev = window.event);  ev.preventDefault(); ev.stopPropagation(); return false; };
+	var stopCalEvent = function (ev) { ev || (ev = window.event);  ev.preventDefault(); ev.stopPropagation(); return false; };
 	var createElement = function (type, parent) { var el = null; el = document.createElement(type); if (typeof parent !== "undefined") { parent.appendChild(el); } return el; };
 	var isInt = function (input) { return !isNaN(input) && (function(x) { return (x | 0) === x; })(parseFloat(input)) };
 	var getBoundary = function (input, type) { var date = new Date(); var y = date.getLocalFullYear(type); return y + input; };
