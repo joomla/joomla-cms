@@ -191,7 +191,7 @@ class TourModel extends AdminModel
      *
      * @param   integer|string  $pk  The id or uid of the tour.
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   4.3.0
      */
