@@ -15,6 +15,7 @@ use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
+use Joomla\CMS\Console\CoreUpdateChannelCommand;
 use Joomla\CMS\Console\ExtensionDiscoverCommand;
 use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
 use Joomla\CMS\Console\ExtensionDiscoverListCommand;
@@ -159,6 +160,7 @@ class Application implements ServiceProviderInterface
                         ExtensionDiscoverInstallCommand::getDefaultName() => ExtensionDiscoverInstallCommand::class,
                         ExtensionDiscoverListCommand::getDefaultName()    => ExtensionDiscoverListCommand::class,
                         UpdateCoreCommand::getDefaultName()               => UpdateCoreCommand::class,
+                        CoreUpdateChannelCommand::getDefaultName()        => CoreUpdateChannelCommand::class,
                         FinderIndexCommand::getDefaultName()              => FinderIndexCommand::class,
                         TasksListCommand::getDefaultName()                => TasksListCommand::class,
                         TasksRunCommand::getDefaultName()                 => TasksRunCommand::class,
