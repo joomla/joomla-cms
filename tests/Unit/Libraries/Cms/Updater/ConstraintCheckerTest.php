@@ -148,37 +148,37 @@ class ConstraintCheckerTest extends UnitTestCase
             [
                 ['type' => 'mysql', 'version' => '5.7.37-log-cll-lve'],
                 (array) ['mysql' => '5.6', 'mariadb' => '10.3'],
-                true
+                true,
             ],
             [
                 ['type' => 'mysql', 'version' => '5.6.0-log-cll-lve'],
                 (array) ['mysql' => '5.6', 'mariadb' => '10.3'],
-                true
+                true,
             ],
             [
                 ['type' => 'mysql', 'version' => '10.3.34-MariaDB-0+deb10u1'],
                 (array) ['mysql' => '5.6', 'mariadb' => '10.3'],
-                true
+                true,
             ],
             [
                 ['type' => 'mysql', 'version' => '5.7.37-log-cll-lve'],
                 (array) ['mysql' => '5.8', 'mariadb' => '10.3'],
-                false
+                false,
             ],
             [
                 ['type' => 'pgsql', 'version' => '14.3'],
                 (array) ['mysql' => '5.8', 'mariadb' => '10.3'],
-                false
+                false,
             ],
             [
                 ['type' => 'mysql', 'version' => '10.3.34-MariaDB-0+deb10u1'],
                 (array) ['mysql' => '5.6', 'mariadb' => '10.4'],
-                false
+                false,
             ],
             [
                 ['type' => 'mysql', 'version' => '5.5.5-10.3.34-MariaDB-0+deb10u1'],
                 (array) ['mysql' => '5.6', 'mariadb' => '10.3'],
-                true
+                true,
             ],
         ];
     }
@@ -218,7 +218,7 @@ class ConstraintCheckerTest extends UnitTestCase
     protected function getPublicMethod($method)
     {
         $reflectionClass = new \ReflectionClass($this->checker);
-        $method = $reflectionClass->getMethod($method);
+        $method          = $reflectionClass->getMethod($method);
         $method->setAccessible(true);
 
         return $method;

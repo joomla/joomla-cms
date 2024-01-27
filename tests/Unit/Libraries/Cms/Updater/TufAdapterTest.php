@@ -102,8 +102,8 @@ class TufAdapterTest extends UnitTestCase
             'custom' => [
                 'infourl' => [
                     'url' => 'https://example.org',
-                ]
-            ]
+                ],
+            ],
         ]));
 
         $this->assertSame('https://example.org', $result['infourl']);
@@ -158,8 +158,8 @@ class TufAdapterTest extends UnitTestCase
                     'stability'           => 'stable',
                     'supported_databases' => [
                         'mariadb' => '10.4',
-                    ]
-                ]
+                    ],
+                ],
             ],
             $overrides
         );

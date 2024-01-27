@@ -18,8 +18,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Tuf as MetadataTable;
 use Joomla\CMS\TUF\TufFetcher;
-use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Updater\ConstraintChecker;
+use Joomla\CMS\Updater\UpdateAdapter;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tuf\Exception\MetadataException;
 
@@ -55,7 +55,7 @@ class TufAdapter extends UpdateAdapter
             }
         }
 
-        return array('update_sites' => array(), 'updates' => $updates);
+        return ['update_sites' => [], 'updates' => $updates];
     }
 
     /**
@@ -69,14 +69,14 @@ class TufAdapter extends UpdateAdapter
      */
     public function getUpdateTargets($options)
     {
-        $versions = array();
+        $versions = [];
 
         /** @var MetadataTable $metadataTable */
         $metadataTable = new MetadataTable(Factory::getDbo());
         $metadataTable->load(['update_site_id' => $options['update_site_id']]);
 
         $tufFetcher = new TufFetcher($metadataTable, $options['location']);
-        $metaData = $tufFetcher->getValidUpdate();
+        $metaData   = $tufFetcher->getValidUpdate();
 
         $metaData = json_decode($metaData, true);
 
@@ -135,10 +135,10 @@ class TufAdapter extends UpdateAdapter
             }
         }
 
-        if (isset($values['client']) && is_string($values['client'])) {
+        if (isset($values['client']) && \is_string($values['client'])) {
             $client = ApplicationHelper::getClientInfo($values['client'], true);
 
-            if (is_object($client)) {
+            if (\is_object($client)) {
                 $values['client'] = $client->id;
             }
         }
@@ -169,21 +169,21 @@ class TufAdapter extends UpdateAdapter
     {
         $resolver->setDefaults(
             [
-                'name' => null,
-                'description' => '',
-                'element' => '',
-                'type' => null,
-                'client' => 0,
-                'version' => "1",
-                'data' => '',
-                'detailsurl' => '',
-                'infourl' => '',
-                'downloads' => [],
-                'targetplatform' => new \StdClass(),
-                'php_minimum' => null,
-                'channel' => null,
+                'name'                => null,
+                'description'         => '',
+                'element'             => '',
+                'type'                => null,
+                'client'              => 0,
+                'version'             => "1",
+                'data'                => '',
+                'detailsurl'          => '',
+                'infourl'             => '',
+                'downloads'           => [],
+                'targetplatform'      => new \StdClass(),
+                'php_minimum'         => null,
+                'channel'             => null,
                 'supported_databases' => new \StdClass(),
-                'stability' => ''
+                'stability'           => '',
             ]
         )
             ->setAllowedTypes('version', 'string')

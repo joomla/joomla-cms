@@ -30,7 +30,7 @@ class DatabaseStorageTest extends UnitTestCase
      */
     public function testContructorWritesColumnMetadataToInternalStorage()
     {
-        $table = $this->getTableMock(['root' => 'rootfoo']);
+        $table  = $this->getTableMock(['root' => 'rootfoo']);
         $object = new DatabaseStorage($table);
 
         $this->assertEquals('rootfoo', $this->getInternalStorageValue($object)['root']);
@@ -43,7 +43,7 @@ class DatabaseStorageTest extends UnitTestCase
      */
     public function testContructorIgnoresNonMetadataColumns()
     {
-        $table = $this->getTableMock(['foobar' => 'aaa']);
+        $table  = $this->getTableMock(['foobar' => 'aaa']);
         $object = new DatabaseStorage($table);
 
         $this->assertArrayNotHasKey('foobar', $this->getInternalStorageValue($object));

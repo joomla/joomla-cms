@@ -124,8 +124,8 @@ class ConstraintChecker
      */
     protected function checkSupportedDatabases(array $supportedDatabases)
     {
-        $db = Factory::getDbo();
-        $dbType = strtolower($db->getServerType());
+        $db        = Factory::getDbo();
+        $dbType    = strtolower($db->getServerType());
         $dbVersion = $db->getVersion();
 
         // MySQL and MariaDB use the same database driver but not the same version numbers
@@ -134,7 +134,7 @@ class ConstraintChecker
             if (stripos($dbVersion, 'mariadb') !== false) {
                 // MariaDB: Strip off any leading '5.5.5-', if present
                 $dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
-                $dbType = 'mariadb';
+                $dbType    = 'mariadb';
             }
         }
 

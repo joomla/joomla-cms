@@ -19,7 +19,6 @@ use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Table\Tuf as TufMetadata;
 use Joomla\CMS\TUF\TufFetcher;
 use Joomla\CMS\Version;
-use Joomla\Http\Response;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -505,7 +504,7 @@ class Update
 
         $metaData = $tufFetcher->getValidUpdate();
 
-        $data = json_decode($metaData, true);
+        $data              = json_decode($metaData, true);
         $constraintChecker = new ConstraintChecker();
 
         foreach ($data['signed']['targets'] as $target) {
@@ -535,7 +534,7 @@ class Update
                     $source = new DownloadSource();
 
                     foreach ($download as $key => $sourceUrl) {
-                        $key = strtolower($key);
+                        $key          = strtolower($key);
                         $source->$key = $sourceUrl;
                     }
 
@@ -554,8 +553,8 @@ class Update
         if (isset($this->latest)) {
             foreach ($this->downloadSources as $source) {
                 $this->downloadurl = (object) [
-                    '_data' => $source->url,
-                    'type' => $source->type,
+                    '_data'  => $source->url,
+                    'type'   => $source->type,
                     'format' => $source->format,
                 ];
 
@@ -599,7 +598,7 @@ class Update
         }
 
         $this->minimum_stability = $minimumStability;
-        $this->channel = $channel;
+        $this->channel           = $channel;
 
         $this->xmlParser = xml_parser_create('');
         xml_set_object($this->xmlParser, $this);

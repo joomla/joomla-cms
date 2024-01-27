@@ -12,7 +12,6 @@ namespace Joomla\CMS\TUF;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Table\Tuf;
-use Joomla\Database\DatabaseDriver;
 use Tuf\Metadata\StorageBase;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -74,7 +73,7 @@ class DatabaseStorage extends StorageBase
         $data = [];
 
         foreach (self::METADATA_COLUMNS as $column) {
-            if (!array_key_exists($column, $this->container)) {
+            if (!\array_key_exists($column, $this->container)) {
                 continue;
             }
 

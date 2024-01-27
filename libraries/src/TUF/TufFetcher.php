@@ -61,7 +61,7 @@ class TufFetcher
     {
         $this->metadataTable = $metadataTable;
         $this->repositoryUrl = $repositoryUrl;
-        $this->db = $db ?? Factory::getContainer()->get(DatabaseDriver::class);
+        $this->db            = $db ?? Factory::getContainer()->get(DatabaseDriver::class);
     }
 
 
@@ -73,7 +73,7 @@ class TufFetcher
      */
     public function getValidUpdate()
     {
-        $httpLoader = new HttpLoader($this->repositoryUrl);
+        $httpLoader         = new HttpLoader($this->repositoryUrl);
         $sizeCheckingLoader = new SizeCheckingLoader($httpLoader);
 
         $storage = new DatabaseStorage($this->metadataTable);

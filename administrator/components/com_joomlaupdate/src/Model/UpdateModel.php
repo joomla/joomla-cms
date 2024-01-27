@@ -298,7 +298,7 @@ class UpdateModel extends BaseDatabaseModel
 
         $minimumStability      = Updater::STABILITY_STABLE;
         $comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
-        $channel = $comJoomlaupdateParams->get('updatesource', 'default');
+        $channel               = $comJoomlaupdateParams->get('updatesource', 'default');
 
         if (\in_array($channel, ['testing', 'custom'])) {
             $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);

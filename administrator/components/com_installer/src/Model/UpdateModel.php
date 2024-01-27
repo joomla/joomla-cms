@@ -336,8 +336,8 @@ class UpdateModel extends ListModel
                 continue;
             }
 
-            $app = Factory::getApplication();
-            $db = $this->getDatabase();
+            $app   = Factory::getApplication();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->select('type')
                 ->from('#__update_sites')
