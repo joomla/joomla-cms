@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cb54f540e3f4e28bf4163ada9e1d343c",
+    "content-hash": "2b4e1f920883bf2cb2197de50e4bc0dd",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -192,54 +192,6 @@
                 }
             ],
             "time": "2023-08-30T09:31:38+00:00"
-        },
-        {
-            "name": "cweagans/composer-patches",
-            "version": "1.7.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cweagans/composer-patches.git",
-                "reference": "e190d4466fe2b103a55467dfa83fc2fecfcaf2db"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cweagans/composer-patches/zipball/e190d4466fe2b103a55467dfa83fc2fecfcaf2db",
-                "reference": "e190d4466fe2b103a55467dfa83fc2fecfcaf2db",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.0 || ^2.0",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "composer/composer": "~1.0 || ~2.0",
-                "phpunit/phpunit": "~4.6"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "cweagans\\Composer\\Patches"
-            },
-            "autoload": {
-                "psr-4": {
-                    "cweagans\\Composer\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Cameron Eagans",
-                    "email": "me@cweagans.net"
-                }
-            ],
-            "description": "Provides a way to patch Composer packages.",
-            "support": {
-                "issues": "https://github.com/cweagans/composer-patches/issues",
-                "source": "https://github.com/cweagans/composer-patches/tree/1.7.3"
-            },
-            "time": "2022-12-20T22:53:13+00:00"
         },
         {
             "name": "defuse/php-encryption",
@@ -3129,13 +3081,13 @@
             "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php-tuf/php-tuf.git",
-                "reference": "7c2c58c5275618307d6b143ae7b2f09e8bc2b378"
+                "url": "https://github.com/joomla-backports/php-tuf.git",
+                "reference": "1961502dff73cc2d2a3f19b930516a18bc0ccd22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-tuf/php-tuf/zipball/7c2c58c5275618307d6b143ae7b2f09e8bc2b378",
-                "reference": "7c2c58c5275618307d6b143ae7b2f09e8bc2b378",
+                "url": "https://api.github.com/repos/joomla-backports/php-tuf/zipball/1961502dff73cc2d2a3f19b930516a18bc0ccd22",
+                "reference": "1961502dff73cc2d2a3f19b930516a18bc0ccd22",
                 "shasum": ""
             },
             "require": {
@@ -3197,7 +3149,7 @@
                 "MIT"
             ],
             "description": "PHP implementation of The Update Framework (TUF)",
-            "time": "2023-12-07T19:16:22+00:00"
+            "time": "2024-01-26T15:28:14+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
