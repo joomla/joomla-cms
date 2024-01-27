@@ -151,7 +151,9 @@ $errorCode = $this->error->getCode();
             <?php if ($this->countModules('error-' . $errorCode)) : ?>
                 <div class="container">
                     <jdoc:include type="message" />
-                    <jdoc:include type="modules" name="error-<?php echo $errorCode; ?>" style="none" />
+                    <main>
+                        <jdoc:include type="modules" name="error-<?php echo $errorCode; ?>" style="none" />
+                    </main>
                 </div>
             <?php else : ?>
             <h1 class="page-header"><?php echo Text::_('JERROR_LAYOUT_PAGE_NOT_FOUND'); ?></h1>
