@@ -20,7 +20,7 @@ const initModUser = () => {
     buttons.forEach(button => {
         button.addEventListener('click', e => {
             e.preventDefault();
-            console.log(document.cookie);
+
             const docEl = document.documentElement
             const colorScheme = docEl.dataset.colorScheme;
 

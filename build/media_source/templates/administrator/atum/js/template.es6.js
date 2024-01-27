@@ -247,8 +247,7 @@ function darkModeWatch() {
   if (!document.cookie
     .split("; ")
     .find((row) => row.startsWith("colorScheme"))) {
-      alert('bla');
-    // check();
+    check();
   }
 }
 
