@@ -9,8 +9,10 @@
 namespace Joomla\CMS\TUF;
 
 use GuzzleHttp\Promise\Create;
-use Joomla\Http\HttpFactory;
+use Joomla\CMS\Factory;
 use GuzzleHttp\Promise\PromiseInterface;
+use Joomla\CMS\Http\Http;
+use Joomla\CMS\Http\HttpFactoryInterface;
 use Tuf\Exception\RepoFileNotFound;
 use Tuf\Loader\LoaderInterface;
 
@@ -22,9 +24,10 @@ class HttpLoader implements LoaderInterface
 
     public function load(string $locator, int $maxBytes): PromiseInterface
     {
-        $httpFactory = new HttpFactory();
-
         // Get client instance
+        $httpFactory = Factory::getContainer()->get(HttpFactoryInterface::class);
+
+        /** @var Http $client */
         $client = $httpFactory->getHttp([], 'curl');
         $response = $client->get($this->repositoryPath . $locator);
 

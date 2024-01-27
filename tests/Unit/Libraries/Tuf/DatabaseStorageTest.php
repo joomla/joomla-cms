@@ -16,8 +16,6 @@ use Joomla\Tests\Unit\UnitTestCase;
 
 class DatabaseStorageTest extends UnitTestCase
 {
-    protected DatabaseStorage $object;
-
     public function testContructorWritesColumnMetadataToInternalStorage()
     {
         $table = $this->getTableMock(['root' => 'rootfoo']);
