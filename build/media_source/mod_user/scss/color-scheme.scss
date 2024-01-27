@@ -1,0 +1,23 @@
+.mod_user-colorScheme {
+    > span {
+        &.mod_user-colorScheme-dark {
+            display: none;
+        }
+        &.mod_user-colorScheme-light {
+            display: inline;
+        }
+    }
+}
+
+[data-color-scheme="dark"] {
+    .mod_user-colorScheme {
+        > span {
+            &.mod_user-colorScheme-dark {
+                display: inline;
+            }
+            &.mod_user-colorScheme-light {
+                display: none;
+            }
+        }
+    }
+}

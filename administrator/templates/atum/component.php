@@ -50,7 +50,7 @@ $this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alte
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
 
 $darkMode      = $app->getIdentity()->getParam('colorScheme', $this->params->get('colorScheme', 'os'));
-$lastMode      = $app->getInput()->cookie->get('atumColorScheme', $darkMode);
+$lastMode      = $app->getInput()->cookie->get('colorScheme', $darkMode);
 $themeModes    = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
 $themeModeAttr = $themeModes[$lastMode] ?? '';
 ?>
