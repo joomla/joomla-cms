@@ -31,13 +31,10 @@ $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu     = $app->getMenu()->getActive();
 $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
 
-// Template path
-$templatePath = 'media/templates/site/cassiopeia';
-
 // Color Theme
 $paramsColorName = $this->params->get('colorName', 'colors_standard');
 $assetColorName  = 'theme.' . $paramsColorName;
-$wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
+$wa->registerAndUseStyle($assetColorName, 'global/' . $paramsColorName . '.css');
 
 // Use a font scheme if set in the template style options
 $paramsFontScheme = $this->params->get('useFontScheme', false);
@@ -153,6 +150,7 @@ $errorCode = $this->error->getCode();
         <div class="grid-child container-component">
             <?php if ($this->countModules('error-' . $errorCode)) : ?>
                 <div class="container">
+                    <jdoc:include type="message" />
                     <jdoc:include type="modules" name="error-<?php echo $errorCode; ?>" style="none" />
                 </div>
             <?php else : ?>

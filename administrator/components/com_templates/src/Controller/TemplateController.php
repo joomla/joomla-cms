@@ -294,7 +294,9 @@ class TemplateController extends BaseController
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'error');
 
             return;
-        } elseif (str_ends_with(end($explodeArray), Path::clean($data['filename'], '/'))) {
+        }
+
+        if (str_ends_with(end($explodeArray), Path::clean($data['filename'], '/'))) {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'error');
 
             return;
