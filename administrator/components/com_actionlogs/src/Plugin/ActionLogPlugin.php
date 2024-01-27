@@ -67,7 +67,7 @@ abstract class ActionLogPlugin extends CMSPlugin
      */
     protected function addLog($messages, $messageLanguageKey, $context, $userId = null)
     {
-        $app  = $this->getApplication();
+        $app  = $this->getApplication() ?: $this->app;
         $user = $app->getIdentity();
 
         foreach ($messages as $index => $message) {
