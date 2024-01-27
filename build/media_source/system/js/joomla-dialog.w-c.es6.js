@@ -127,8 +127,16 @@ class JoomlaDialog extends HTMLElement {
       }
     });
 
+    // Check class name
     if (config.className) {
       this.classList.add(...config.className.split(' '));
+    }
+
+    // Check dataset properties
+    if (config.data) {
+      Object.entries(config.data).forEach(([k, v]) => {
+        this.dataset[k] = v;
+      });
     }
   }
 
