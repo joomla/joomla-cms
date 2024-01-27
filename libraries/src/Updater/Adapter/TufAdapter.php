@@ -68,13 +68,6 @@ class TufAdapter extends UpdateAdapter
     public function getUpdateTargets($options)
     {
         $versions = array();
-        $resolver = new OptionsResolver();
-
-        try {
-            $this->configureUpdateOptions($resolver);
-            $keys = $resolver->getDefinedOptions();
-        } catch (\Exception $e) {
-        }
 
         /** @var MetadataTable $metadataTable */
         $metadataTable = new MetadataTable(Factory::getDbo());
@@ -90,39 +83,15 @@ class TufAdapter extends UpdateAdapter
         }
 
         foreach ($metaData["signed"]["targets"] as $filename => $target) {
-            $values = [];
+            $version = $this->processTufTarget($filename, $target);
 
-            if (!isset($target["hashes"])) {
-                throw new MetadataException("No trusted hashes are available for '$filename'");
-            }
-
-            foreach ($keys as $key) {
-                if (isset($target["custom"][$key])) {
-                    $values[$key] = $target["custom"][$key];
-                }
-            }
-
-            if (isset($values['client']) && is_string($values['client'])) {
-                $client = ApplicationHelper::getClientInfo($values['client'], true);
-
-                if (is_object($client)) {
-                    $values['client'] = $client->id;
-                }
-            }
-
-            if (isset($values['infourl']) && isset($values['infourl']['url'])) {
-                $values['infourl'] = $values['infourl']['url'];
-            }
-
-            try {
-                $values = $resolver->resolve($values);
-            } catch (\Exception $e) {
+            if (!$version) {
                 continue;
             }
 
-            $values['detailsurl'] = $options['location'];
+            $version['detailsurl'] = $options['location'];
 
-            $versions[$values['version']] = $values;
+            $versions[] = $version;
         }
 
         // We only want the latest version we support
@@ -139,6 +108,50 @@ class TufAdapter extends UpdateAdapter
         }
 
         return false;
+    }
+
+    protected function processTufTarget(string $filename, array $target): bool|array
+    {
+        $resolver = new OptionsResolver();
+
+        try {
+            $this->configureUpdateOptions($resolver);
+            $customKeys = $resolver->getDefinedOptions();
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        $values = [];
+
+        if (!isset($target["hashes"])) {
+            throw new MetadataException("No trusted hashes are available for '$filename'");
+        }
+
+        foreach ($customKeys as $key) {
+            if (isset($target["custom"][$key])) {
+                $values[$key] = $target["custom"][$key];
+            }
+        }
+
+        if (isset($values['client']) && is_string($values['client'])) {
+            $client = ApplicationHelper::getClientInfo($values['client'], true);
+
+            if (is_object($client)) {
+                $values['client'] = $client->id;
+            }
+        }
+
+        if (isset($values['infourl']['url'])) {
+            $values['infourl'] = $values['infourl']['url'];
+        }
+
+        try {
+            $values = $resolver->resolve($values);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return $values;
     }
 
     /**

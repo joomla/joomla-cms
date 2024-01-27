@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Libraries\Cms;
+namespace Joomla\Tests\Unit\Libraries\Cms\Updater;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Updater\ConstraintChecker;
