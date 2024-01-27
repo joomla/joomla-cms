@@ -532,7 +532,7 @@ class Update
 
             if (!empty($this->latest->downloads)) {
                 foreach ($this->latest->downloads as $download) {
-                    $source = new DownloadSource;
+                    $source = new DownloadSource();
 
                     foreach ($download as $key => $sourceUrl) {
                         $key = strtolower($key);
@@ -548,7 +548,6 @@ class Update
             foreach ($target['hashes'] as $hashAlgorithm => $hashSum) {
                 $this->$hashAlgorithm = (object) ['_data' => $hashSum];
             }
-
         }
 
         // If the latest item is set then we transfer it to where we want to

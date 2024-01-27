@@ -19,12 +19,24 @@ use Joomla\Tests\Unit\UnitTestCase;
 use Laminas\Diactoros\Stream;
 use Tuf\Exception\RepoFileNotFound;
 
+/**
+ * Test class for HttpLoader
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Tuf
+ * @since       __DEPLOY_VERSION__
+ */
 class HttpLoaderTest extends UnitTestCase
 {
-    const REPOPATHMOCK = 'https://example.org/tuftest/';
+    protected const REPOPATHMOCK = 'https://example.org/tuftest/';
 
     protected HttpLoader $object;
 
+    /**
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
     public function testLoaderQueriesCorrectUrl()
     {
         $responseBody = $this->createMock(Stream::class);
@@ -37,6 +49,11 @@ class HttpLoaderTest extends UnitTestCase
         $this->object->load('root.json', 2048);
     }
 
+    /**
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
     public function testLoaderForwardsReturnedBodyFromHttpClient()
     {
         $responseBody = $this->createMock(Stream::class);
@@ -52,6 +69,11 @@ class HttpLoaderTest extends UnitTestCase
         );
     }
 
+    /**
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
     public function testLoaderThrowsExceptionForNon200Response()
     {
         $this->expectException(RepoFileNotFound::class);
@@ -66,7 +88,16 @@ class HttpLoaderTest extends UnitTestCase
         $this->object->load('root.json', 2048);
     }
 
-    protected function getHttpFactoryMock($responseCode, $responseBody, $expectedFile)
+    /**
+     * @param int     $responseCode
+     * @param Stream  $responseBody
+     * @param string  $expectedFile
+     *
+     * @since   __DEPLOY_VERSION__
+     *
+     * @return \PHPUnit\Framework\MockObject\MockObject|(\stdClass&\PHPUnit\Framework\MockObject\MockObject)
+     */
+    protected function getHttpFactoryMock(int $responseCode, Stream $responseBody, string $expectedFile)
     {
         $responseMock = $this->createMock(Response::class);
         $responseMock->method('__get')->with('code')->willReturn($responseCode);
@@ -86,6 +117,11 @@ class HttpLoaderTest extends UnitTestCase
         return $httpFactoryMock;
     }
 
+    /**
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
     public function setUp(): void
     {
         $this->object = new HttpLoader(self::REPOPATHMOCK);

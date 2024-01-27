@@ -10,14 +10,25 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Updater;
 
-use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Updater\Adapter\TufAdapter;
 use Joomla\Tests\Unit\UnitTestCase;
 use Joomla\Utilities\ArrayHelper;
 use Tuf\Exception\MetadataException;
 
+/**
+ * Test class for Tuf Adapter.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Updater
+ * @since       __DEPLOY_VERSION__
+ */
 class TufAdapterTest extends UnitTestCase
 {
+    /**
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
     public function testProcessTufTargetThrowsExceptionIfHashesAreMissing()
     {
         $this->expectException(MetadataException::class);
@@ -31,6 +42,11 @@ class TufAdapterTest extends UnitTestCase
         $method->invoke($object, 'nohash.json', []);
     }
 
+    /**
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
     public function testProcesstuftargetAssignsCustomTargetKeys()
     {
         $object = $this->getMockBuilder(TufAdapter::class)
@@ -40,7 +56,7 @@ class TufAdapterTest extends UnitTestCase
         $method = $this->getPublicMethod($object, 'processTufTarget');
         $result = $method->invoke($object, 'targets.json', $this->getMockTarget([
             'custom' => [
-                'name' => 'Testupdate',
+                'name'    => 'Testupdate',
                 'version' => '1.2.3',
             ],
         ]));
@@ -49,6 +65,11 @@ class TufAdapterTest extends UnitTestCase
         $this->assertSame('1.2.3', $result['version']);
     }
 
+    /**
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
     public function testProcesstuftargetAssignsClientId()
     {
         $object = $this->getMockBuilder(TufAdapter::class)
@@ -58,12 +79,17 @@ class TufAdapterTest extends UnitTestCase
 
         $method = $this->getPublicMethod($object, 'processTufTarget');
         $result = $method->invoke($object, 'targets.json', $this->getMockTarget([
-            'client' => 'site'
+            'client' => 'site',
         ]));
 
         $this->assertSame(0, $result['client']);
     }
 
+    /**
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
     public function testProcesstuftargetAssignsInfoUrl()
     {
         $object = $this->getMockBuilder(TufAdapter::class)
@@ -75,7 +101,7 @@ class TufAdapterTest extends UnitTestCase
         $result = $method->invoke($object, 'targets.json', $this->getMockTarget([
             'custom' => [
                 'infourl' => [
-                    'url' => 'https://example.org'
+                    'url' => 'https://example.org',
                 ]
             ]
         ]));
@@ -97,32 +123,41 @@ class TufAdapterTest extends UnitTestCase
     protected function getPublicMethod($object, $method)
     {
         $reflectionClass = new \ReflectionClass($object);
-        $method = $reflectionClass->getMethod($method);
+        $method          = $reflectionClass->getMethod($method);
         $method->setAccessible(true);
 
         return $method;
     }
 
-    protected function getMockTarget($overrides)
+    /**
+     * Target override data
+     *
+     * @param array $overrides
+     *
+     * @return array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function getMockTarget(array $overrides)
     {
         return ArrayHelper::mergeRecursive(
             [
                 'hashes' => [
-                    'sha128' => ''
+                    'sha128' => '',
                 ],
                 'custom' => [
-                    'name' => 'Joomla',
-                    'type' => 'file',
-                    'version' => '1.2.3',
+                    'name'           => 'Joomla',
+                    'type'           => 'file',
+                    'version'        => '1.2.3',
                     'targetplatform' => [
-                        'name' => 'joomla',
-                        'version' => '(5\.[0-4])|^(4\.4)'
+                        'name'    => 'joomla',
+                        'version' => '(5\.[0-4])|^(4\.4)',
                     ],
-                    'php_minimum' => '8.1.0',
-                    'channel' => '5.x',
-                    'stability' => 'stable',
+                    'php_minimum'         => '8.1.0',
+                    'channel'             => '5.x',
+                    'stability'           => 'stable',
                     'supported_databases' => [
-                        'mariadb' => '10.4'
+                        'mariadb' => '10.4',
                     ]
                 ]
             ],

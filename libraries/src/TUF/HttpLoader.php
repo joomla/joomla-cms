@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -16,6 +17,9 @@ use Joomla\CMS\Http\HttpFactoryInterface;
 use Tuf\Exception\RepoFileNotFound;
 use Tuf\Loader\LoaderInterface;
 
+/**
+ * @since  __DEPLOY_VERSION__
+ */
 class HttpLoader implements LoaderInterface
 {
     public function __construct(private readonly string $repositoryPath)

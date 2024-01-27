@@ -17,7 +17,7 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
- * Test class for Version.
+ * Test class for Constraint Checker.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Updater
@@ -58,12 +58,22 @@ class ConstraintCheckerTest extends UnitTestCase
         parent::tearDown();
     }
 
+    /**
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
     public function testCheckMethodReturnsFalseIfPlatformIsMissing()
     {
         $constraint = [];
         $this->assertFalse($this->checker->check($constraint));
     }
 
+    /**
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
     public function testCheckMethodReturnsTrueIfPlatformIsOnlyConstraint()
     {
         $constraint = ['targetplatform' => (array) ["name" => "joomla", "version" => JVERSION]];

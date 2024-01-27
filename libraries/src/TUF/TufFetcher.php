@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -20,7 +21,9 @@ use Tuf\Exception\DownloadSizeException;
 use Tuf\Exception\MetadataException;
 use Tuf\Loader\SizeCheckingLoader;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * @since  __DEPLOY_VERSION__
@@ -83,8 +86,7 @@ class TufFetcher
         $app = Factory::getApplication();
 
         try {
-            try
-            {
+            try {
                 // Refresh the data if needed, it will be written inside the DB, then we fetch it afterwards and return it to
                 // the caller
                 $updater->refresh();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -14,14 +15,16 @@ use Joomla\CMS\Table\Tuf;
 use Joomla\Database\DatabaseDriver;
 use Tuf\Metadata\StorageBase;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects;
 
 /**
  * @since  __DEPLOY_VERSION__
  */
 class DatabaseStorage extends StorageBase
 {
-    const METADATA_COLUMNS = ['root', 'targets', 'snapshot', 'timestamp', 'mirrors'];
+    public const METADATA_COLUMNS = ['root', 'targets', 'snapshot', 'timestamp', 'mirrors'];
 
     /**
      * The Tuf table object
