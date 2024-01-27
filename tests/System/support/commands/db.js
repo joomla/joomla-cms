@@ -1,5 +1,5 @@
-import invalidTufMetadata from '../../fixtures/tuf/invalidMetadata.json'
-import validTufMetadata from '../../fixtures/tuf/validMetadata.json'
+import invalidTufMetadata from '../../fixtures/tuf/invalidMetadata.json';
+import validTufMetadata from '../../fixtures/tuf/validMetadata.json';
 
 /**
  * The global cached default categories
@@ -603,15 +603,14 @@ Cypress.Commands.add('db_getUserId', () => {
     });
 });
 
-
 /**
  * Inserts an invalid tuf metadata set
  *
  * @returns integer
  */
 Cypress.Commands.add('db_setInvalidTufRoot', () => {
-  cy.task('queryDB', 'DELETE FROM #__tuf_metadata WHERE id = 1')
-  cy.task('queryDB', 'DELETE FROM #__updates WHERE update_site_id = 1')
+  cy.task('queryDB', 'DELETE FROM #__tuf_metadata WHERE id = 1');
+  cy.task('queryDB', 'DELETE FROM #__updates WHERE update_site_id = 1');
   cy.task('queryDB', createInsertQuery(
     'tuf_metadata',
     {
@@ -620,11 +619,10 @@ Cypress.Commands.add('db_setInvalidTufRoot', () => {
       root: JSON.stringify(invalidTufMetadata.root),
       targets: '',
       snapshot: '',
-      timestamp: ''
-    }
-  ))
+      timestamp: '',
+    },
+  ));
 });
-
 
 /**
  * Inserts an invalid tuf metadata set
@@ -632,8 +630,8 @@ Cypress.Commands.add('db_setInvalidTufRoot', () => {
  * @returns integer
  */
 Cypress.Commands.add('db_setValidTufRoot', () => {
-  cy.task('queryDB', 'DELETE FROM #__tuf_metadata WHERE id = 1')
-  cy.task('queryDB', 'DELETE FROM #__updates WHERE update_site_id = 1')
+  cy.task('queryDB', 'DELETE FROM #__tuf_metadata WHERE id = 1');
+  cy.task('queryDB', 'DELETE FROM #__updates WHERE update_site_id = 1');
   cy.task('queryDB', createInsertQuery(
     'tuf_metadata',
     {
@@ -642,7 +640,7 @@ Cypress.Commands.add('db_setValidTufRoot', () => {
       root: JSON.stringify(validTufMetadata.root),
       targets: '',
       snapshot: '',
-      timestamp: ''
-    }
-  ))
+      timestamp: '',
+    },
+  ));
 });
