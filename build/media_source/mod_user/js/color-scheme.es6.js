@@ -13,7 +13,7 @@ const initModUser = () => {
       const { colorScheme } = docEl.dataset;
       const newScheme = colorScheme !== 'dark' ? 'dark' : 'light';
       docEl.dataset.colorScheme = newScheme;
-      document.cookie = `colorScheme=${newScheme};`;
+      // document.cookie = `colorScheme=${newScheme};`;
       document.dispatchEvent(new CustomEvent('joomla:color-scheme-change', { bubbles: true }));
     });
   });

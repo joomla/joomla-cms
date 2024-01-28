@@ -240,7 +240,7 @@ function darkModeWatch() {
     if (docEl.dataset.colorScheme === newScheme) return;
     docEl.dataset.colorScheme = newScheme;
     // Store theme in cookies, so php will know the last choice
-    document.cookie = `colorScheme=${newScheme};`;
+    document.cookie = `osColorScheme=${newScheme};`;
     document.dispatchEvent(new CustomEvent('joomla:color-scheme-change', { bubbles: true }));
   };
   mql.addEventListener('change', check);

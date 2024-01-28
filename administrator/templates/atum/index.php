@@ -96,10 +96,13 @@ $colorScheme   = $this->params->get('colorScheme', 'os');
 $themeModeAttr = '';
 
 if ($colorScheme) {
-    $colorScheme   = $app->getIdentity()->getParam('colorScheme', $colorScheme);
-    $lastMode      = $app->getInput()->cookie->get('colorScheme') ?: $colorScheme;
     $themeModes    = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
-    $themeModeAttr = $themeModes[$lastMode] ?? '';
+    // Check parameters first (User and Template), then look if we have detected the OS color scheme, if it set to 'os'
+    $colorScheme   = $app->getIdentity()->getParam('colorScheme', $colorScheme);
+    $lastMode      = $colorScheme === 'os' ? $app->getInput()->cookie->get('osColorScheme', '') : '';
+    $themeModeAttr = ($colorScheme === 'os' ? $themeModes['os'] : '') . ($themeModes[$lastMode] ?? '');
+
+    $app->enqueueMessage(implode(', ', [$colorScheme, $lastMode, $themeModeAttr]));
 }
 
 Text::script('TPL_ATUM_MORE_ELEMENTS');
