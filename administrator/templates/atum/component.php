@@ -49,10 +49,15 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1)
 $this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alternate icon', 'rel', ['type' => 'image/vnd.microsoft.icon']);
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
 
-$darkMode      = $app->getIdentity()->getParam('colorScheme', $this->params->get('colorScheme', 'os'));
-$lastMode      = $app->getInput()->cookie->get('colorScheme', $darkMode);
-$themeModes    = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
-$themeModeAttr = $themeModes[$lastMode] ?? '';
+$colorScheme   = $this->params->get('colorScheme', 'os');
+$themeModeAttr = '';
+
+if ($colorScheme) {
+    $colorScheme   = $app->getIdentity()->getParam('colorScheme', $colorScheme);
+    $lastMode      = $app->getInput()->cookie->get('colorScheme', $colorScheme);
+    $themeModes    = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
+    $themeModeAttr = $themeModes[$lastMode] ?? '';
+}
 ?>
 
 <!DOCTYPE html>

@@ -78,15 +78,21 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
     $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
     $monochrome    = (bool) $this->params->get('monochrome');
-    $darkMode      = $app->getIdentity()->getParam('colorScheme', $this->params->get('colorScheme', 'os'));
-    $lastMode      = $app->getInput()->cookie->get('colorScheme', $darkMode);
-    $themeModes    = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
+    $colorScheme   = $this->params->get('colorScheme', 'os');
+    $themeModeAttr = '';
+
+    if ($colorScheme) {
+        $colorScheme   = $app->getIdentity()->getParam('colorScheme', $colorScheme);
+        $lastMode      = $app->getInput()->cookie->get('colorScheme', $colorScheme);
+        $themeModes    = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
+        $themeModeAttr = $themeModes[$lastMode] ?? '';
+    }
 
 // @see administrator/templates/atum/html/layouts/status.php
     $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
     ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $themeModeAttr; ?>>
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />

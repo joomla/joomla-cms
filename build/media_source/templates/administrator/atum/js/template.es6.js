@@ -234,21 +234,14 @@ function darkModeWatch() {
     const newScheme = mql.matches ? 'dark' : 'light';
     // Check if theme already was set
     if (docEl.dataset.colorScheme === newScheme) return;
-    const expires = new Date();
     docEl.dataset.bsTheme = newScheme;
     docEl.dataset.colorScheme = newScheme;
-    expires.setTime(expires.getTime() + 31536000000);
     // Store theme in cookies, so php will know the last choice
-    document.cookie = `colorScheme=${newScheme}; expires=${expires.toUTCString()};`;
+    document.cookie = `colorScheme=${newScheme};`;
     document.dispatchEvent(new CustomEvent('joomla:color-scheme-change', { bubbles: true }));
   };
   mql.addEventListener('change', check);
-
-  if (!document.cookie
-    .split("; ")
-    .find((row) => row.startsWith("colorScheme"))) {
-    check();
-  }
+  check();
 }
 
 // Initialize
