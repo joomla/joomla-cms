@@ -516,6 +516,14 @@
 			this.close();
 		}
 
+		if (self.params.direction === 'rtl') {
+			if (code === 'ArrowLeft') {
+				code = 'ArrowRight';
+			} else if (code === 'ArrowRight') {
+				code = 'ArrowLeft';
+			}
+		}
+
 		if (ev.shiftKey && code === 'Space') {
 			ev.preventDefault();
 			this.cellClick(self._nav_now, ev);
