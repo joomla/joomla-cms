@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -22,12 +23,21 @@ if ($hideLinks) {
     return;
 }
 
+$app = Factory::getApplication();
+
+$tParams = $app->getTemplate(true)->params;
+
+$document = $app->getDocument();
+$wa = $document->getWebAssetManager();
+$wa->getRegistry()->addExtensionRegistryFile('mod_user');
+$wa->usePreset('mod_user.color-scheme');
+
 // Load the Bootstrap Dropdown
 HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 ?>
 <div class="header-item-content dropdown header-profile">
     <button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button"
-        title="<?php echo Text::_('MOD_USER_MENU'); ?>">
+    data-bs-auto-close="outside" title="<?php echo Text::_('MOD_USER_MENU'); ?>">
         <span class="header-item-icon">
             <span class="icon-user-circle" aria-hidden="true"></span>
         </span>
@@ -47,6 +57,17 @@ HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
             <span class="icon-user icon-fw" aria-hidden="true"></span>
             <?php echo Text::_('MOD_USER_EDIT_ACCOUNT'); ?>
         </a>
+        <?php // Not all templates support a colorScheme ?>
+        <?php if ($tParams->get('colorScheme')) : ?>
+            <button type="button" class="dropdown-item mod_user-colorScheme">
+                <span class="mod_user-colorScheme-light">
+                    <span class="fa fa-sun icon-fw me-2" aria-hidden="true"></span> <?php echo Text::_('MOD_USER_LIGHT_MODE'); ?>
+                </span>
+                <span class="mod_user-colorScheme-dark">
+                    <span class="fa fa-moon icon-fw me-2" aria-hidden="true"></span> <?php echo Text::_('MOD_USER_DARK_MODE'); ?>
+                </span>
+            </button>
+        <?php endif; ?>
         <?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri) . '#attrib-accessibility'; ?>
         <a class="dropdown-item" href="<?php echo Route::_($route); ?>">
             <span class="icon-universal-access icon-fw" aria-hidden="true"></span>

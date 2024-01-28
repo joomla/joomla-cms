@@ -76,10 +76,10 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 $monochrome    = (bool) $this->params->get('monochrome');
-$darkMode      = $this->params->get('colorScheme', 0);
-$lastMode      = !$darkMode ? $app->getInput()->cookie->get('atumColorScheme', '') : false;
-$themeModes    = [0 => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
-$themeModeAttr = ($themeModes[$darkMode] ?? '') . ($lastMode ? ($themeModes[$lastMode] ?? '') : '');
+$darkMode      = $app->getIdentity()->getParam('colorScheme', $this->params->get('colorScheme', 'os'));
+$lastMode      = $app->getInput()->cookie->get('colorScheme', $darkMode);
+$themeModes    = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
+$themeModeAttr = $themeModes[$lastMode] ?? '';
 
 // Add cookie alert message
 Text::script('JGLOBAL_WARNCOOKIES');
@@ -91,7 +91,7 @@ HTMLHelper::_('bootstrap.dropdown');
 
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $themeModeAttr; ?>>
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />

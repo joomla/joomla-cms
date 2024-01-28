@@ -92,10 +92,10 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 $monochrome    = (bool) $this->params->get('monochrome');
-$darkMode      = $this->params->get('colorScheme', 0);
-$lastMode      = !$darkMode ? $app->getInput()->cookie->get('atumColorScheme', '') : false;
-$themeModes    = [0 => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
-$themeModeAttr = ($themeModes[$darkMode] ?? '') . ($lastMode ? ($themeModes[$lastMode] ?? '') : '');
+$darkMode      = $app->getIdentity()->getParam('colorScheme', $this->params->get('colorScheme'));
+$lastMode      = $app->getInput()->cookie->get('colorScheme', $darkMode);
+$themeModes    = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
+$themeModeAttr = $themeModes[$lastMode] ?? '';
 
 Text::script('TPL_ATUM_MORE_ELEMENTS');
 
@@ -110,7 +110,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
     <jdoc:include type="scripts" />
 </head>
 
-<body data-color-scheme-os class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome || $a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : ''); ?>">
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome || $a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : ''); ?>">
 <noscript>
     <div class="alert alert-danger" role="alert">
         <?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
