@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -23,14 +22,14 @@ if ($hideLinks) {
     return;
 }
 
-$app = Factory::getApplication();
-
 $tParams = $app->getTemplate(true)->params;
 
-$document = $app->getDocument();
-$wa = $document->getWebAssetManager();
-$wa->getRegistry()->addExtensionRegistryFile('mod_user');
-$wa->usePreset('mod_user.color-scheme');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $app->getDocument()->getWebAssetManager();
+if (!$wa->assetExists('script', 'mod_user.color-scheme')) {
+    $wa->registerScript('mod_user.color-scheme', 'mod_user/color-scheme.min.js', [], ['type' => 'module'], ['core']);
+}
+$wa->useScript('mod_user.color-scheme');
 
 // Load the Bootstrap Dropdown
 HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
@@ -59,11 +58,11 @@ HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
         </a>
         <?php // Not all templates support a colorScheme ?>
         <?php if ($tParams->get('colorScheme')) : ?>
-            <button type="button" class="dropdown-item mod_user-colorScheme">
-                <span class="mod_user-colorScheme-light">
+            <button type="button" class="dropdown-item mod_user-color-scheme">
+                <span class="d-dark-scheme-none">
                     <span class="fa fa-sun icon-fw me-2" aria-hidden="true"></span> <?php echo Text::_('MOD_USER_LIGHT_MODE'); ?>
                 </span>
-                <span class="mod_user-colorScheme-dark">
+                <span class="d-light-scheme-none">
                     <span class="fa fa-moon icon-fw me-2" aria-hidden="true"></span> <?php echo Text::_('MOD_USER_DARK_MODE'); ?>
                 </span>
             </button>

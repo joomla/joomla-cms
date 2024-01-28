@@ -4,7 +4,7 @@
  */
 
 const initModUser = () => {
-  const buttons = document.querySelectorAll('.mod_user-colorScheme');
+  const buttons = document.querySelectorAll('.mod_user-color-scheme');
 
   buttons.forEach((button) => {
     button.addEventListener('click', (e) => {
