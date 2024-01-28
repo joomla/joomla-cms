@@ -81,7 +81,7 @@ $themeModeAttr = '';
 
 if ($colorScheme) {
     $colorScheme   = $app->getIdentity()->getParam('colorScheme', $colorScheme);
-    $lastMode      = $app->getInput()->cookie->get('colorScheme', $colorScheme);
+    $lastMode      = $app->getInput()->cookie->get('colorScheme') ?: $colorScheme;
     $themeModes    = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
     $themeModeAttr = $themeModes[$lastMode] ?? '';
 }
