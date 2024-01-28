@@ -225,8 +225,12 @@ function subheadScrolling() {
  */
 function darkModeWatch() {
   const docEl = document.documentElement;
-  const { colorSchemeOs } = docEl.dataset;
+  // Update data-bs-theme when scheme has been changed
+  document.addEventListener('joomla:color-scheme-change', () => {
+    docEl.dataset.bsTheme = docEl.dataset.colorScheme;
+  });
   // Look for data-color-scheme-os attribute
+  const { colorSchemeOs } = docEl.dataset;
   if (colorSchemeOs === undefined) return;
   // Watch on media changes
   const mql = window.matchMedia('(prefers-color-scheme: dark)');
@@ -234,7 +238,6 @@ function darkModeWatch() {
     const newScheme = mql.matches ? 'dark' : 'light';
     // Check if theme already was set
     if (docEl.dataset.colorScheme === newScheme) return;
-    docEl.dataset.bsTheme = newScheme;
     docEl.dataset.colorScheme = newScheme;
     // Store theme in cookies, so php will know the last choice
     document.cookie = `colorScheme=${newScheme};`;

@@ -9,14 +9,10 @@ const initModUser = () => {
   buttons.forEach((button) => {
     button.addEventListener('click', (e) => {
       e.preventDefault();
-
       const docEl = document.documentElement;
       const { colorScheme } = docEl.dataset;
       const newScheme = colorScheme !== 'dark' ? 'dark' : 'light';
-
       docEl.dataset.colorScheme = newScheme;
-      docEl.dataset.bsTheme = newScheme;
-
       document.cookie = `colorScheme=${newScheme};`;
       document.dispatchEvent(new CustomEvent('joomla:color-scheme-change', { bubbles: true }));
     });
