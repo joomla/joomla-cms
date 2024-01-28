@@ -12,7 +12,7 @@ describe('Test the update retrieval logic', () => {
 
     cy.visit('/administrator/index.php?option=com_joomlaupdate');
 
-    cy.get('#toolbar joomla-toolbar-button[task="update.purge"] button').click()
+    cy.get('#toolbar joomla-toolbar-button[task="update.purge"] button').click();
 
     cy.get('#system-message-container').contains('Checked for updates.').should('exist');
   });
