@@ -116,6 +116,7 @@
 					type="list"
 					label="TPL_ATUM_COLORSCHEME_LABEL"
 					default="os"
+					validate="options"
 					>
 					<option value="0">JDISABLED</option>
 					<option value="os">TPL_ATUM_COLORSCHEME_OPTION_FOLLOW_OS</option>

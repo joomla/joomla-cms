@@ -191,7 +191,7 @@
 				type="list"
 				label="COM_USERS_USER_COLORSCHEME_LABEL"
 				default=""
-				filter="options"
+				validate="options"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 				<option value="os">COM_USERS_USER_COLORSCHEME_OPTION_FOLLOW_OS</option>
