@@ -86,10 +86,17 @@ $colorScheme   = $this->params->get('colorScheme', 'os');
 $themeModeAttr = '';
 
 if ($colorScheme) {
-    $colorScheme   = $app->getIdentity()->getParam('colorScheme', $colorScheme);
-    $lastMode      = $app->getInput()->cookie->get('colorScheme') ?: $colorScheme;
-    $themeModes    = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
-    $themeModeAttr = $themeModes[$lastMode] ?? '';
+    $themeModes   = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
+    // Check for User choose, for now this have a priority over the parameters
+    $userLastMode = $app->getInput()->cookie->get('userColorScheme', '');
+    if ($userLastMode && !empty($themeModes[$userLastMode])) {
+        $themeModeAttr = $themeModes[$userLastMode];
+    } else {
+        // Check parameters first (User and Template), then look if we have detected the OS color scheme (if it set to 'os')
+        $colorScheme   = $app->getIdentity()->getParam('colorScheme', $colorScheme);
+        $lastMode      = $colorScheme === 'os' ? $app->getInput()->cookie->get('osColorScheme', '') : '';
+        $themeModeAttr = ($colorScheme === 'os' ? $themeModes['os'] : '') . ($themeModes[$lastMode] ?? '');
+    }
 }
 
 // @see administrator/templates/atum/html/layouts/status.php

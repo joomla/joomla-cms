@@ -96,13 +96,17 @@ $colorScheme   = $this->params->get('colorScheme', 'os');
 $themeModeAttr = '';
 
 if ($colorScheme) {
-    $themeModes    = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
-    // Check parameters first (User and Template), then look if we have detected the OS color scheme, if it set to 'os'
-    $colorScheme   = $app->getIdentity()->getParam('colorScheme', $colorScheme);
-    $lastMode      = $colorScheme === 'os' ? $app->getInput()->cookie->get('osColorScheme', '') : '';
-    $themeModeAttr = ($colorScheme === 'os' ? $themeModes['os'] : '') . ($themeModes[$lastMode] ?? '');
-
-    $app->enqueueMessage(implode(', ', [$colorScheme, $lastMode, $themeModeAttr]));
+    $themeModes   = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
+    // Check for User choose, for now this have a priority over the parameters
+    $userColorScheme = $app->getInput()->cookie->get('userColorScheme', '');
+    if ($userColorScheme && !empty($themeModes[$userColorScheme])) {
+        $themeModeAttr = $themeModes[$userColorScheme];
+    } else {
+        // Check parameters first (User and Template), then look if we have detected the OS color scheme (if it set to 'os')
+        $colorScheme   = $app->getIdentity()->getParam('colorScheme', $colorScheme);
+        $osColorScheme = $colorScheme === 'os' ? $app->getInput()->cookie->get('osColorScheme', '') : '';
+        $themeModeAttr = ($themeModes[$colorScheme] ?? '') . ($themeModes[$osColorScheme] ?? '');
+    }
 }
 
 Text::script('TPL_ATUM_MORE_ELEMENTS');
