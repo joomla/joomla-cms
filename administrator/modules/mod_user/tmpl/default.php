@@ -22,14 +22,18 @@ if ($hideLinks) {
     return;
 }
 
-$tParams = $app->getTemplate(true)->params;
+$tParams           = $app->getTemplate(true)->params;
+// Not all templates support a colorScheme
+$colorSchemeSwitch = !!$tParams->get('colorScheme');
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $app->getDocument()->getWebAssetManager();
-if (!$wa->assetExists('script', 'mod_user.color-scheme')) {
-    $wa->registerScript('mod_user.color-scheme', 'mod_user/color-scheme.min.js', [], ['type' => 'module'], ['core']);
+if ($colorSchemeSwitch) {
+    /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+    $wa = $app->getDocument()->getWebAssetManager();
+    if (!$wa->assetExists('script', 'mod_user.color-scheme')) {
+        $wa->registerScript('mod_user.color-scheme', 'mod_user/color-scheme.min.js', [], ['type' => 'module'], ['core']);
+    }
+    $wa->useScript('mod_user.color-scheme');
 }
-$wa->useScript('mod_user.color-scheme');
 
 // Load the Bootstrap Dropdown
 HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
@@ -56,8 +60,7 @@ HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
             <span class="icon-user icon-fw" aria-hidden="true"></span>
             <?php echo Text::_('MOD_USER_EDIT_ACCOUNT'); ?>
         </a>
-        <?php // Not all templates support a colorScheme ?>
-        <?php if ($tParams->get('colorScheme')) : ?>
+        <?php if ($colorSchemeSwitch) : ?>
             <button type="button" class="dropdown-item mod_user-color-scheme">
                 <span class="d-dark-scheme-none">
                     <span class="fa fa-sun icon-fw me-2" aria-hidden="true"></span> <?php echo Text::_('MOD_USER_LIGHT_MODE'); ?>
