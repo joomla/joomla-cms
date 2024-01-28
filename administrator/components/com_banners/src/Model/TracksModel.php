@@ -182,7 +182,7 @@ class TracksModel extends ListModel
     /**
      * Method to delete rows.
      *
-     * @return  boolean  Returns true on success, false on failure.
+     * @return  mixed  Number of deleted tracks on success, false on failure.
      */
     public function delete()
     {
@@ -250,9 +250,12 @@ class TracksModel extends ListModel
             }
         } else {
             Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
+
+            return false;
         }
 
-        return true;
+        // Return the number of deleted tracks
+        return $db->getAffectedRows();
     }
 
     /**

@@ -74,10 +74,10 @@ class TracksController extends BaseController
         $model->setState('list.limit', 0);
         $model->setState('list.start', 0);
 
-        $count = $model->getTotal();
-
         // Remove the items.
-        if (!$model->delete()) {
+        $count = $model->delete();
+
+        if ($count === false) {
             $this->app->enqueueMessage($model->getError(), 'warning');
         } elseif ($count > 0) {
             $this->setMessage(Text::plural('COM_BANNERS_TRACKS_N_ITEMS_DELETED', $count));
