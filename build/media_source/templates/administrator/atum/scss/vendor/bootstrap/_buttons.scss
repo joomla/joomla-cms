@@ -59,6 +59,16 @@
   }
 }
 
+.btn-light {
+  background: var(--btn-light-bg); //#f8f9fa (light)
+  border: var(--btn-light-bg); //#f8f9fa (light)
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: var(--btn-light-bg-hvr); /* var(--template-bg-dark-70); */
+  }
+}
+
 .btn-dark {
   color: var(--btn-dark-color);
   background: var(--btn-dark-bg);

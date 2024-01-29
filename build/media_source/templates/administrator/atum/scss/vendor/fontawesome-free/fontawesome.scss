@@ -20,3 +20,17 @@ $fa-font-path:                     "../../../../../../vendor/fontawesome-free/we
 html[dir=rtl] .float-right {
   float: left;
 }
+
+.icon-check-square {
+  &::before {
+    color: var(--icon-check-square-bg);
+    background: var(--icon-check-square-color);
+  }
+}
+
+.icon-square {
+  &::before {
+    color: var(--icon-square-bg);
+    background: var(--icon-square-color);
+  }
+}

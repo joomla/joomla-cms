@@ -287,6 +287,11 @@ $atum-colors-dark: (
   btn-dark-color:                      #fff,
   btn-dark-color-hvr:                  #fff,
 
+  btn-light-bg:                        $btn-primary-dark,
+  btn-light-border:                    1px solid $btn-primary-dark,
+  btn-light-bg-hvr:                    $btn-primary-bg-hvr,
+
+
   btn-outline-secondary-color:         var(--template-text-light),
   btn-outline-secondary-bg:            #64676c,
   btn-outline-secondary-border:        1px solid var(--btn-secondary-bg),
@@ -301,6 +306,8 @@ $atum-colors-dark: (
   dropdown-header-bg:                  darken($btn-primary-dark, 10%),
   dropdown-item-bg:                    $btn-primary-dark,
   dropdown-item-bg-hvr:                darken($btn-primary-dark, 10%),
+  dropdown-item-border-bottom:         1px solid rgba(255, 255, 255, .1),
+  atum-dropdown-link-hover-bg:         var(--gray-700),
 
   // Input Group
   input-group-text-bg:                 var(--btn-primary-bg),
@@ -431,6 +438,12 @@ $atum-colors-dark: (
 
   // Treeselect
   treeselect-line-color:          rgba(255,255,255,.4),
+  treeselect-dropdown-toggle:     var(--template-text-light),
+  icon-check-square-bg:           $btn-primary-dark,
+  icon-square-bg:                 $btn-primary-dark,
+  icon-check-square-color:        radial-gradient(white 50%, transparent 50%),
+  icon-square-color:              radial-gradient(white 50%, transparent 50%),
+
 
   // Table Row Dragging
   drag-color:                     #151515,
