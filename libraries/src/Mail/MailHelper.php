@@ -238,6 +238,7 @@ abstract class MailHelper
                 self::checkContent($content);
             }
         }
+
         return $content;
     }
 
