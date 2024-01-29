@@ -22,7 +22,6 @@ namespace Joomla\CMS\Object;
  */
 trait PropertyManagementTrait
 {
-
     /**
      * Data array to save former object properties
      *
