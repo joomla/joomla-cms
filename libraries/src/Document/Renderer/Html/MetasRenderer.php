@@ -52,7 +52,7 @@ class MetasRenderer extends DocumentRenderer
         $wa  = $this->_doc->getWebAssetManager();
 
         // Add a dummy asset for script options, this will prevent WebAssetManager from extra re-calculation later on.
-        $soAsset = $wa->addInline('script', '', ['name' => 'joomla.script.options'], [], ['core'])
+        $scriptOptionsAsset = $wa->addInline('script', '', ['name' => 'joomla.script.options'], [], ['core'])
             ->getAsset('script', 'joomla.script.options');
 
         // Check for AttachBehavior
@@ -72,7 +72,7 @@ class MetasRenderer extends DocumentRenderer
 
         if ($scriptOptions) {
             // Overriding ScriptOptions asset is not allowed
-            if ($soAsset !== $wa->getAsset('script', 'joomla.script.options')) {
+            if ($scriptOptionsAsset !== $wa->getAsset('script', 'joomla.script.options')) {
                 throw new \RuntimeException('Detected an override for "joomla.script.options" asset');
             }
 
@@ -80,10 +80,10 @@ class MetasRenderer extends DocumentRenderer
             $jsonOptions = json_encode($scriptOptions, $jsonFlags);
 
             // Set content and update attributes of dummy asset to correct ones
-            $soAsset->setOption('content', $jsonOptions ?: '{}');
-            $soAsset->setOption('position', 'before');
-            $soAsset->setAttribute('type', 'application/json');
-            $soAsset->setAttribute('class', 'joomla-script-options new');
+            $scriptOptionsAsset->setOption('content', $jsonOptions ?: '{}');
+            $scriptOptionsAsset->setOption('position', 'before');
+            $scriptOptionsAsset->setAttribute('type', 'application/json');
+            $scriptOptionsAsset->setAttribute('class', 'joomla-script-options new');
         } else {
             $wa->disableScript('joomla.script.options');
         }
