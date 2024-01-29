@@ -21,15 +21,11 @@ namespace Joomla\CMS\Object;
  *
  * @since       1.7.0
  *
- * @deprecated  4.3 will be removed in 6.0
- *              Use \stdClass or \Joomla\Registry\Registry instead.
- *              Example: new \Joomla\Registry\Registry();
  */
-#[\AllowDynamicProperties]
 class CMSObject
 {
     use LegacyErrorHandlingTrait;
-    use LegacyPropertyManagementTrait;
+    use PropertyManagementTrait;
 
     /**
      * Class constructor, overridden in descendant classes.
