@@ -143,7 +143,7 @@ class HtmlView extends BaseHtmlView
                     . Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>');
         }
 
-        if (!$this->isEmptyState && $canDo->get('core.delete')) {
+        if (!$this->isEmptyState && $canDo->get('core.edit')) {
             $toolbar->delete('tracks.delete', 'COM_BANNERS_TRACKS_DELETE')
                 ->message('COM_BANNERS_DELETE_MSG')
                 ->listCheck(false);

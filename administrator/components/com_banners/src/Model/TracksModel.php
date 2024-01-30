@@ -189,11 +189,11 @@ class TracksModel extends ListModel
         $user       = $this->getCurrentUser();
         $categoryId = (int) $this->getState('category_id');
 
-        // Access checks.
+        // Access checks. Deleting tracks requires manage permission on the banner or category
         if ($categoryId) {
-            $allow = $user->authorise('core.delete', 'com_banners.category.' . $categoryId);
+            $allow = $user->authorise('core.edit', 'com_banners.category.' . $categoryId);
         } else {
-            $allow = $user->authorise('core.delete', 'com_banners');
+            $allow = $user->authorise('core.edit', 'com_banners');
         }
 
         if ($allow) {
@@ -248,10 +248,6 @@ class TracksModel extends ListModel
 
                 return false;
             }
-        } else {
-            Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
-
-            return false;
         }
 
         // Return the number of deleted tracks

@@ -50,7 +50,7 @@ class TracksController extends BaseController
     }
 
     /**
-     * Method to remove a record.
+     * Method to remove tracks and statistic data from banners
      *
      * @return  void
      *
@@ -60,6 +60,10 @@ class TracksController extends BaseController
     {
         // Check for request forgeries.
         $this->checkToken();
+
+        if (!$this->app->getIdentity()->authorise('core.edit', 'com_banners')) {
+            throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
+        }
 
         // Get the model.
         /** @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */
