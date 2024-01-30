@@ -25,38 +25,40 @@ use Joomla\CMS\Helper\HelperFactoryAwareTrait;
  */
 class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareInterface
 {
-    use HelperFactoryAwareTrait;
+	use HelperFactoryAwareTrait;
 
-    /**
-     * Runs the dispatcher.
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function dispatch()
-    {
-        // Check permissions.
-        if (!$this->getApplication()->getIdentity()->authorise('core.login.admin') || !$this->getApplication()->getIdentity()->authorise('core.manage', 'com_messages')) {
-            return;
-        }
+	/**
+	 * Runs the dispatcher.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function dispatch()
+	{
+		// Check permissions.
+		if (!$this->getApplication()->getIdentity()->authorise('core.login.admin')
+			|| !$this->getApplication()->getIdentity()->authorise('core.manage', 'com_messages'))
+		{
+			return;
+		}
 
-        parent::dispatch();
-    }
+		parent::dispatch();
+	}
 
-    /**
-     * Returns the layout data.
-     *
-     * @return  array
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function getLayoutData()
-    {
-        $data = parent::getLayoutData();
+	/**
+	 * Returns the layout data.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
 
-        $data['countUnread'] = $this->getHelperFactory()->getHelper('MessagesHelper')->getUnreadMessagesCount($data['params'], $this->getApplication());
+		$data['countUnread'] = $this->getHelperFactory()->getHelper('MessagesHelper')->getUnreadMessagesCount($data['params'], $this->getApplication());
 
-        return $data;
-    }
+		return $data;
+	}
 }
