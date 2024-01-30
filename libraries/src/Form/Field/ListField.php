@@ -49,6 +49,14 @@ class ListField extends FormField
     protected $layout = 'joomla.form.field.list';
 
     /**
+     * The header.
+     *
+     * @var    mixed
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $header;
+
+    /**
      * Method to get the field input markup for a generic list.
      * Use the multiple attribute to enable multiselect.
      *
@@ -74,8 +82,14 @@ class ListField extends FormField
      */
     protected function getOptions()
     {
+        $header    = $this->header;
         $fieldname = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
         $options   = [];
+        // Add header.
+        if (!empty($header)) {
+            $header_title = Text::_($header);
+            $options[]    = HTMLHelper::_('select.option', '', $header_title);
+        }
 
         foreach ($this->element->xpath('option') as $option) {
             // Filter requirements
@@ -231,5 +245,31 @@ class ListField extends FormField
         }
 
         return parent::__get($name);
+    }
+
+    /**
+     * Method to attach a Form object to the field.
+     *
+     * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+     * @param   mixed              $value    The form field value to validate.
+     * @param   string             $group    The field name group control value. This acts as an array container for the field.
+     *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+     *                                       full field name would end up being "bar[foo]".
+     *
+     * @return  boolean  True on success.
+     *
+     * @see     FormField::setup()
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setup(\SimpleXMLElement $element, $value, $group = null)
+    {
+        $return = parent::setup($element, $value, $group);
+
+        if ($return) {
+            // Check if its using the old way
+            $this->header     = (string) $this->element['header'] ?: false;
+        }
+
+        return $return;
     }
 }
