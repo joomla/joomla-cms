@@ -25,20 +25,20 @@ use Joomla\DI\ServiceProviderInterface;
  */
 return new class implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function register(Container $container)
-	{
-		$container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\Messages'));
-		$container->registerServiceProvider(new HelperFactory('\\Joomla\\Module\\Messages\\Administrator\\Helper'));
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function register(Container $container)
+    {
+        $container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\Messages'));
+        $container->registerServiceProvider(new HelperFactory('\\Joomla\\Module\\Messages\\Administrator\\Helper'));
 
-		$container->registerServiceProvider(new Module);
-	}
+        $container->registerServiceProvider(new Module());
+    }
 };

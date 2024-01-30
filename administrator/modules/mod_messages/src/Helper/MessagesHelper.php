@@ -24,35 +24,36 @@ use Joomla\Registry\Registry;
  */
 class MessagesHelper
 {
-	/**
-	 * Get count of unread messages.
-	 *
-	 * @param   Registry                  $params  Object holding the module parameters
-	 * @param   AdministratorApplication  $app     The application
-	 *
-	 * @return  integer
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function getUnreadMessagesCount(Registry $params, AdministratorApplication $app)
-	{
-		// Try to get the items from the messages model
-		try
-		{
-			/** @var \Joomla\Component\Messages\Administrator\Model\MessagesModel $messagesModel */
-			$messagesModel = $app->bootComponent('com_messages')->getMVCFactory()
-				->createModel('Messages', 'Administrator', ['ignore_request' => true]);
-			$messagesModel->setState('filter.state', 0);
-			$messages = $messagesModel->getItems();
+    /**
+     * Get count of unread messages.
+     *
+     * @param   Registry                  $params  Object holding the module parameters
+     * @param   AdministratorApplication  $app     The application
+     *
+     * @return  integer
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getUnreadMessagesCount(Registry $params, AdministratorApplication $app)
+    {
+        // Try to get the items from the messages model
+        try
+        {
+            /**
+             *  @var \Joomla\Component\Messages\Administrator\Model\MessagesModel $messagesModel
+             *
+             */
+            $messagesModel = $app->bootComponent('com_messages')->getMVCFactory()
+                ->createModel('Messages', 'Administrator', ['ignore_request' => true]);
+            $messagesModel->setState('filter.state', 0);
+            $messages = $messagesModel->getItems();
 
-			return count($messages);
-		}
-		catch (RuntimeException $e)
-		{
-			$messages = [];
+            return count($messages);
+        } catch (RuntimeException $e) {
+            $messages = [];
 
-			// Still render the error message from the Exception object
-			$app->enqueueMessage($e->getMessage(), 'error');
-		}
-	}
+            // Still render the error message from the Exception object
+            $app->enqueueMessage($e->getMessage(), 'error');
+        }
+    }
 }
