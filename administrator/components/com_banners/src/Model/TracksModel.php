@@ -189,65 +189,67 @@ class TracksModel extends ListModel
         $user       = $this->getCurrentUser();
         $categoryId = (int) $this->getState('category_id');
 
-        // Access checks. Deleting tracks requires manage permission on the banner or category
+        // Access checks. Deleting tracks requires edit permission on the banner or category
         if ($categoryId) {
             $allow = $user->authorise('core.edit', 'com_banners.category.' . $categoryId);
         } else {
             $allow = $user->authorise('core.edit', 'com_banners');
         }
 
-        if ($allow) {
-            // Delete tracks from this banner
-            $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
-                ->delete($db->quoteName('#__banner_tracks'));
+        if (!$allow) {
+            return false;
+        }
 
-            // Filter by type
-            if ($type = (int) $this->getState('filter.type')) {
-                $query->where($db->quoteName('track_type') . ' = :type')
-                    ->bind(':type', $type, ParameterType::INTEGER);
-            }
+        // Delete tracks from banners that match the filter
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->delete($db->quoteName('#__banner_tracks'));
 
-            // Filter by begin date
-            if ($begin = $this->getState('filter.begin')) {
-                $query->where($db->quoteName('track_date') . ' >= :begin')
-                    ->bind(':begin', $begin);
-            }
+        // Filter by type
+        if ($type = (int) $this->getState('filter.type')) {
+            $query->where($db->quoteName('track_type') . ' = :type')
+                ->bind(':type', $type, ParameterType::INTEGER);
+        }
 
-            // Filter by end date
-            if ($end = $this->getState('filter.end')) {
-                $query->where($db->quoteName('track_date') . ' <= :end')
-                    ->bind(':end', $end);
-            }
+        // Filter by begin date
+        if ($begin = $this->getState('filter.begin')) {
+            $query->where($db->quoteName('track_date') . ' >= :begin')
+                ->bind(':begin', $begin);
+        }
 
-            $subQuery = $db->getQuery(true);
-            $subQuery->select($db->quoteName('id'))
-                ->from($db->quoteName('#__banners'));
+        // Filter by end date
+        if ($end = $this->getState('filter.end')) {
+            $query->where($db->quoteName('track_date') . ' <= :end')
+                ->bind(':end', $end);
+        }
 
-            // Filter by client
-            if ($clientId = (int) $this->getState('filter.client_id')) {
-                $subQuery->where($db->quoteName('cid') . ' = :clientId');
-                $query->bind(':clientId', $clientId, ParameterType::INTEGER);
-            }
+        $subQuery = $db->getQuery(true);
+        $subQuery->select($db->quoteName('id'))
+            ->from($db->quoteName('#__banners'));
 
-            // Filter by category
-            if ($categoryId) {
-                $subQuery->where($db->quoteName('catid') . ' = :categoryId');
-                $query->bind(':categoryId', $categoryId, ParameterType::INTEGER);
-            }
+        // Filter by client
+        if ($clientId = (int) $this->getState('filter.client_id')) {
+            $subQuery->where($db->quoteName('cid') . ' = :clientId');
+            $query->bind(':clientId', $clientId, ParameterType::INTEGER);
+        }
 
-            $query->where($db->quoteName('banner_id') . ' IN (' . $subQuery . ')');
+        // Filter by category
+        if ($categoryId) {
+            $subQuery->where($db->quoteName('catid') . ' = :categoryId');
+            $query->bind(':categoryId', $categoryId, ParameterType::INTEGER);
+        }
 
-            $db->setQuery($query);
-            $this->setError((string) $query);
+        $query->where($db->quoteName('banner_id') . ' IN (' . $subQuery . ')');
 
-            try {
-                $db->execute();
-            } catch (\RuntimeException $e) {
-                $this->setError($e->getMessage());
+        $db->setQuery($query);
+        $this->setError((string) $query);
 
-                return false;
-            }
+        try {
+            $db->execute();
+        } catch (\RuntimeException $e) {
+            $this->setError($e->getMessage());
+
+            return false;
         }
 
         // Return the number of deleted tracks
