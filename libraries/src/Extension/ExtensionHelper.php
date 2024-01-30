@@ -277,6 +277,7 @@ class ExtensionHelper
         ['plugin', 'multilang', 'sampledata', 0],
 
         // Core plugin extensions - schemaorg
+        ['plugin', 'article', 'schemaorg', 0],
         ['plugin', 'blogposting', 'schemaorg', 0],
         ['plugin', 'book', 'schemaorg', 0],
         ['plugin', 'event', 'schemaorg', 0],
