@@ -12,8 +12,8 @@ namespace Joomla\CMS\Router;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\Router\RouterInterface;
-use Joomla\CMS\Component\Router\RouterLegacy;
 use Joomla\CMS\Component\Router\RouterServiceInterface;
+use Joomla\CMS\Event\Router\AfterInitialiseRouterEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Uri\Uri;
@@ -94,6 +94,11 @@ class SiteRouter extends Router
 
         $this->attachParseRule([$this, 'parseRawRoute'], self::PROCESS_DURING);
         $this->attachBuildRule([$this, 'buildBase'], self::PROCESS_AFTER);
+
+        $this->app->getDispatcher()->dispatch(
+            'onAfterInitialiseRouter',
+            new AfterInitialiseRouterEvent('onAfterInitialiseRouter', ['router' => $this])
+        );
     }
 
     /**
@@ -284,7 +289,13 @@ class SiteRouter extends Router
                 // Handle component route
                 $component = preg_replace('/[^A-Z0-9_\.-]/i', '', $uri->getVar('option'));
                 $crouter   = $this->getComponentRouter($component);
-                $uri->setQuery(array_merge($uri->getQuery(true), $crouter->parse($segments)));
+                $parsed    = [];
+
+                if ($crouter) {
+                    $parsed = $crouter->parse($segments);
+                }
+
+                $uri->setQuery(array_merge($uri->getQuery(true), $parsed));
             }
 
             $route = implode('/', $segments);
@@ -398,7 +409,10 @@ class SiteRouter extends Router
 
         $component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
         $crouter   = $this->getComponentRouter($component);
-        $query     = $crouter->preprocess($query);
+
+        if ($crouter) {
+            $query = $crouter->preprocess($query);
+        }
 
         // Make sure any menu vars are used if no others are specified
         if (
@@ -441,7 +455,12 @@ class SiteRouter extends Router
         // Build the component route
         $component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
         $crouter   = $this->getComponentRouter($component);
-        $parts     = $crouter->build($query);
+        $parts     = [];
+
+        if ($crouter) {
+            $parts = $crouter->build($query);
+        }
+
         $tmp       = trim(implode('/', $parts));
 
         // Build the application route
@@ -566,10 +585,8 @@ class SiteRouter extends Router
 
             if ($componentInstance instanceof RouterServiceInterface) {
                 $this->componentRouters[$component] = $componentInstance->createRouter($this->app, $this->menu);
-            }
-
-            if (!isset($this->componentRouters[$component])) {
-                $this->componentRouters[$component] = new RouterLegacy(ucfirst(substr($component, 4)));
+            } else {
+                $this->componentRouters[$component] = null;
             }
         }
 

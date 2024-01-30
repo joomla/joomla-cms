@@ -92,7 +92,6 @@ JLoader::registerAlias('JComponentRecord', '\\Joomla\\CMS\\Component\\ComponentR
 JLoader::registerAlias('JComponentExceptionMissing', '\\Joomla\\CMS\\Component\\Exception\\MissingComponentException', '6.0');
 JLoader::registerAlias('JComponentRouterBase', '\\Joomla\\CMS\\Component\\Router\\RouterBase', '6.0');
 JLoader::registerAlias('JComponentRouterInterface', '\\Joomla\\CMS\\Component\\Router\\RouterInterface', '6.0');
-JLoader::registerAlias('JComponentRouterLegacy', '\\Joomla\\CMS\\Component\\Router\\RouterLegacy', '6.0');
 JLoader::registerAlias('JComponentRouterView', '\\Joomla\\CMS\\Component\\Router\\RouterView', '6.0');
 JLoader::registerAlias('JComponentRouterViewconfiguration', '\\Joomla\\CMS\\Component\\Router\\RouterViewConfiguration', '6.0');
 JLoader::registerAlias('JComponentRouterRulesMenu', '\\Joomla\\CMS\\Component\\Router\\Rules\\MenuRules', '6.0');

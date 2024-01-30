@@ -15,7 +15,6 @@ use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceTrait;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Component\Router\RouterInterface;
-use Joomla\CMS\Component\Router\RouterLegacy;
 use Joomla\CMS\Component\Router\RouterServiceInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\Dispatcher\LegacyComponentDispatcher;
@@ -218,11 +217,11 @@ class LegacyComponent implements
      * @param   CMSApplicationInterface  $application  The application object
      * @param   AbstractMenu             $menu         The menu object to work with
      *
-     * @return  RouterInterface
+     * @return  ?RouterInterface
      *
      * @since  4.0.0
      */
-    public function createRouter(CMSApplicationInterface $application, AbstractMenu $menu): RouterInterface
+    public function createRouter(CMSApplicationInterface $application, AbstractMenu $menu): ?RouterInterface
     {
         $compname = ucfirst($this->component);
         $class    = $compname . 'Router';
@@ -237,15 +236,11 @@ class LegacyComponent implements
             }
         }
 
-        if (class_exists($class)) {
-            $reflection = new \ReflectionClass($class);
-
-            if (\in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames())) {
-                return new $class($application, $menu);
-            }
+        if (class_exists($class) && is_subclass_of($class, RouterInterface::class)) {
+            return new $class($application, $menu);
         }
 
-        return new RouterLegacy($compname);
+        return null;
     }
 
     /**
