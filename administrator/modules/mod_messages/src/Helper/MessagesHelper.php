@@ -37,8 +37,7 @@ class MessagesHelper
     public function getUnreadMessagesCount(Registry $params, AdministratorApplication $app)
     {
         // Try to get the items from the messages model
-        try
-        {
+        try {
             /**
              *  @var \Joomla\Component\Messages\Administrator\Model\MessagesModel $messagesModel
              *
@@ -48,8 +47,9 @@ class MessagesHelper
             $messagesModel->setState('filter.state', 0);
             $messages = $messagesModel->getItems();
 
-            return count($messages);
-        } catch (RuntimeException $e) {
+            return \count($messages);
+        }
+        catch (RuntimeException $e) {
             $messages = [];
 
             // Still render the error message from the Exception object

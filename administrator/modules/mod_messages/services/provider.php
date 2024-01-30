@@ -23,8 +23,7 @@ use Joomla\DI\ServiceProviderInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-return new class implements ServiceProviderInterface
-{
+return new class () implements ServiceProviderInterface {
     /**
      * Registers the service provider with a DI container.
      *
@@ -39,6 +38,6 @@ return new class implements ServiceProviderInterface
         $container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\Messages'));
         $container->registerServiceProvider(new HelperFactory('\\Joomla\\Module\\Messages\\Administrator\\Helper'));
 
-        $container->registerServiceProvider(new Module());
+        $container->registerServiceProvider(new Module);
     }
 };
