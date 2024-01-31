@@ -267,8 +267,8 @@ class ListField extends FormField
         $return = parent::setup($element, $value, $group);
 
         if ($return) {
-            // Check if its using the old way
-            $this->header     = (string) $this->element['header'] ?: false;
+            // Check if it's using the old way
+            $this->header = (string) $this->element['header'] ?: false;
         }
 
         return $return;
