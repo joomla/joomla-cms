@@ -25,7 +25,7 @@ use Joomla\Event\SubscriberInterface;
 /**
  * Schemaorg Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 final class Article extends CMSPlugin implements SubscriberInterface
 {
@@ -37,7 +37,7 @@ final class Article extends CMSPlugin implements SubscriberInterface
      * Load the language file on instantiation.
      *
      * @var    boolean
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     protected $autoloadLanguage = true;
 
@@ -45,7 +45,7 @@ final class Article extends CMSPlugin implements SubscriberInterface
      * The name of the schema form
      *
      * @var   string
-     * @since __DEPLOY_VERSION__
+     * @since 5.1.0
      */
     protected $pluginName = 'Article';
 
@@ -54,7 +54,7 @@ final class Article extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -71,7 +71,7 @@ final class Article extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function onSchemaBeforeCompileHead(BeforeCompileHeadEvent $event): void
     {
