@@ -14,7 +14,7 @@ use Joomla\CMS\Event\Application\BeforeCompileHeadEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\WebAsset\WebAssetAttachBehaviorInterface;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -51,12 +51,12 @@ class MetasRenderer extends DocumentRenderer
         $app = Factory::getApplication();
         $wa  = $this->_doc->getWebAssetManager();
 
-        // Check for AttachBehavior and web components
-        foreach ($wa->getAssets('script', true) as $asset) {
-            if ($asset instanceof WebAssetAttachBehaviorInterface) {
-                $asset->onAttachCallback($this->_doc);
-            }
-        }
+        // Add a dummy asset for script options, this will prevent WebAssetManager from extra re-calculation later on.
+        $scriptOptionsAsset = $wa->addInline('script', '', ['name' => 'joomla.script.options'], [], ['core'])
+            ->getAsset('script', 'joomla.script.options');
+
+        // Check for AttachBehavior
+        $onAttachCallCache = WebAssetManager::callOnAttachCallback($wa->getAssets('script', true), $this->_doc);
 
         // Trigger the onBeforeCompileHead event
         $app->getDispatcher()->dispatch(
@@ -64,20 +64,28 @@ class MetasRenderer extends DocumentRenderer
             new BeforeCompileHeadEvent('onBeforeCompileHead', ['subject' => $app, 'document' => $this->_doc])
         );
 
+        // Re-Check for AttachBehavior for newly added assets
+        WebAssetManager::callOnAttachCallback($wa->getAssets('script', true), $this->_doc, $onAttachCallCache);
+
         // Add Script Options as inline asset
         $scriptOptions = $this->_doc->getScriptOptions();
 
         if ($scriptOptions) {
+            // Overriding ScriptOptions asset is not allowed
+            if ($scriptOptionsAsset !== $wa->getAsset('script', 'joomla.script.options')) {
+                throw new \RuntimeException('Detected an override for "joomla.script.options" asset');
+            }
+
             $jsonFlags   = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | (JDEBUG ? JSON_PRETTY_PRINT : 0);
             $jsonOptions = json_encode($scriptOptions, $jsonFlags);
-            $jsonOptions = $jsonOptions ?: '{}';
 
-            $wa->addInlineScript(
-                $jsonOptions,
-                ['name' => 'joomla.script.options', 'position' => 'before'],
-                ['type' => 'application/json', 'class' => 'joomla-script-options new'],
-                ['core']
-            );
+            // Set content and update attributes of dummy asset to correct ones
+            $scriptOptionsAsset->setOption('content', $jsonOptions ?: '{}');
+            $scriptOptionsAsset->setOption('position', 'before');
+            $scriptOptionsAsset->setAttribute('type', 'application/json');
+            $scriptOptionsAsset->setAttribute('class', 'joomla-script-options new');
+        } else {
+            $wa->disableScript('joomla.script.options');
         }
 
         // Lock the AssetManager
