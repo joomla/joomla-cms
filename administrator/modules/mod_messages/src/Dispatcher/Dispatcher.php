@@ -4,7 +4,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_messages
  *
- * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,8 +37,10 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
     public function dispatch()
     {
         // Check permissions.
-        if (!$this->getApplication()->getIdentity()->authorise('core.login.admin')
-            || !$this->getApplication()->getIdentity()->authorise('core.manage', 'com_messages')) {
+        if (
+            !$this->getApplication()->getIdentity()->authorise('core.login.admin')
+            || !$this->getApplication()->getIdentity()->authorise('core.manage', 'com_messages')
+        ) {
             return;
         }
 

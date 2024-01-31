@@ -4,7 +4,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_messages
  *
- * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,7 +48,7 @@ class MessagesHelper
             $messages = $messagesModel->getItems();
 
             return \count($messages);
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             $messages = [];
 
             // Still render the error message from the Exception object
