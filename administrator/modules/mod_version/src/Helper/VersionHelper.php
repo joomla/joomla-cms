@@ -4,7 +4,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_version
  *
- * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ use Joomla\CMS\Version;
  *
  * @since  1.6
  */
-abstract class VersionHelper
+class VersionHelper
 {
     /**
      * Get the Joomla version number.
