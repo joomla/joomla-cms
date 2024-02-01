@@ -116,7 +116,7 @@ class UpdateModel extends BaseDatabaseModel
                  * case 'nochange':
                  */
             default:
-                $updateURL = 'https://raw.githubusercontent.com/joomla/updates/dec23-target/repository/';
+                $updateURL = 'https://update.joomla.org/cms/';
         }
 
         $updateType = (pathinfo($updateURL, PATHINFO_EXTENSION) === 'xml') ? 'collection' : 'tuf';
