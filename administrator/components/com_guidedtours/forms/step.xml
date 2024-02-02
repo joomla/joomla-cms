@@ -200,7 +200,8 @@
 					name="notetarget" 
 					type="note" 
 					class="alert alert-info" 
-					description="COM_GUIDEDTOURS_STEP_TARGETNOTE_MESSAGE" />
+					description="COM_GUIDEDTOURS_STEP_TARGETNOTE_MESSAGE"
+					showon=".type!:2[OR].type:2[AND].interactive_type!:2,5,6" />
 
 				<field
 					name="required"
