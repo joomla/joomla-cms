@@ -28,7 +28,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command for managing the update channel for Joomla
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 class CoreUpdateChannelCommand extends AbstractCommand
 {
@@ -36,13 +36,13 @@ class CoreUpdateChannelCommand extends AbstractCommand
      * The default command name
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     protected static $defaultName = 'core:update:channel';
 
     /**
      * @var    DatabaseInterface
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     private $db;
 
@@ -51,7 +51,7 @@ class CoreUpdateChannelCommand extends AbstractCommand
      *
      * @param   DatabaseInterface  $db  Database Instance
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.1.0
      */
     public function __construct(DatabaseInterface $db)
     {
@@ -65,7 +65,7 @@ class CoreUpdateChannelCommand extends AbstractCommand
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function configure(): void
     {
@@ -87,7 +87,7 @@ class CoreUpdateChannelCommand extends AbstractCommand
      *
      * @return  integer  The command exit code
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
