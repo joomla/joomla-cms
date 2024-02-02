@@ -893,7 +893,7 @@ CREATE TABLE IF NOT EXISTS "#__tuf_metadata" (
 "id" serial NOT NULL,
 "update_site_id" bigint DEFAULT 0 NOT NULL,
 "root" text DEFAULT NULL,
-"target" text DEFAULT NULL,
+"targets" text DEFAULT NULL,
 "snapshot" text DEFAULT NULL,
 "timestamp" text DEFAULT NULL,
 "mirrors" text DEFAULT NULL,
