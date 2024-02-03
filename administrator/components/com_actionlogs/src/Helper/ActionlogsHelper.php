@@ -198,6 +198,12 @@ class ActionlogsHelper
             $messageData['type'] = Text::_($messageData['type']);
         }
 
+        // Remove links from the message template, if we should not generate links.
+        if (!$generateLinks) {
+            $message = preg_replace('/<a href=["\'].+?["\']>/', '', $message);
+            $message = str_replace('</a>', '', $message);
+        }
+
         $linkMode = Factory::getApplication()->get('force_ssl', 0) >= 1 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
         foreach ($messageData as $key => $value) {
@@ -323,6 +329,12 @@ class ActionlogsHelper
 
         // Load plg_system_actionlogs too
         $lang->load('plg_system_actionlogs', JPATH_ADMINISTRATOR);
+
+        // Load plg_system_privacyconsent too
+        $lang->load('plg_system_privacyconsent', JPATH_ADMINISTRATOR);
+
+        // Load plg_user_terms too
+        $lang->load('plg_user_terms', JPATH_ADMINISTRATOR);
 
         // Load com_privacy too.
         $lang->load('com_privacy', JPATH_ADMINISTRATOR);

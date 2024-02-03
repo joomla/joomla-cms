@@ -198,9 +198,9 @@ class Form implements CurrentUserInterface
     }
 
     /**
-     * Return all errors, if any.
+     * Return Exceptions thrown during the form validation process.
      *
-     * @return  \Exception[]  Array of error messages or RuntimeException objects.
+     * @return  \Exception[]
      *
      * @since   1.7.0
      */
@@ -1096,8 +1096,8 @@ class Form implements CurrentUserInterface
     /**
      * Method to validate form data.
      *
-     * Validation warnings will be pushed into JForm::errors and should be
-     * retrieved with JForm::getErrors() when validate returns boolean false.
+     * Validation warnings will be pushed into Form::$errors and should be
+     * retrieved with Form::getErrors() when validate returns boolean false.
      *
      * @param   array   $data   An array of field values to validate.
      * @param   string  $group  The optional dot-separated form group path on which to filter the
