@@ -159,7 +159,7 @@ describe('Test in backend that privacy consent component', () => {
     cy.get('.alert').should('contain', 'No Matching Results');
   });
 
-  it('can displays correct number of consents', () => {
+  it('can display correct number of consents', () => {
     cy.db_enableExtension('0', 'plg_system_privacyconsent');
     cy.db_createUser().then((id) => {
       for (let i = 0; i < 550; i += 1) {

@@ -214,7 +214,7 @@ class Update
      * Object containing details if the latest update does not meet the PHP and DB version requirements
      *
      * @var    \stdClass
-     * @since  5.0.2
+     * @since  4.4.2
      */
     protected $otherUpdateInfo;
 
