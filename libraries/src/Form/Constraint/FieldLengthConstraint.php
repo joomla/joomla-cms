@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Checks that a required field has been given a value
+ * Checks that a field's submitted length is less than it's configured maximum length
  *
  * @since  __DEPLOY_VERSION__
  */
