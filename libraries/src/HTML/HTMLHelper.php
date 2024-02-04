@@ -864,6 +864,11 @@ abstract class HTMLHelper
     {
         $app = Factory::getApplication();
 
+        if (!$app->getIdentity()) {
+            // UTC date converted to server time zone.
+            $tz = false;
+        }
+
         // UTC date converted to user time zone.
         if ($tz === true) {
             // Get a date object based on UTC.
