@@ -65,6 +65,6 @@ class FieldLengthConstraint extends AbstractConstraint
      */
     public function getName(): string
     {
-        return 'field-required';
+        return 'field-length';
     }
 }
