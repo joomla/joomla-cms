@@ -29,6 +29,22 @@
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
+			<field
+				name="data-max-results"
+				type="text"
+				default="10"
+				label="JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_MAXRESULTS"
+				filter="integer"
+				showon="form_layout:joomla.form.field.list-fancy-select"
+			/>
+			<field
+				name="data-max-render"
+				type="text"
+				default="-1"
+				label="JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_MAXRENDER"
+				filter="integer"
+				showon="form_layout:joomla.form.field.list-fancy-select"
+			/>
 		</fieldset>
 	</fields>
 	<fields name="params">
