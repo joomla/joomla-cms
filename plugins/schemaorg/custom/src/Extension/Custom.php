@@ -77,11 +77,13 @@ final class Custom extends CMSPlugin implements SubscriberInterface
 
             $json = (new Registry($schema->get('json')))->toArray();
         } catch (\RuntimeException $e) {
-            throw new \RuntimeException('PLG_SCHEMAORG_CUSTOM_JSON_ERROR');
+            $this->getApplication()->enqueueMessage(Text::_('PLG_SCHEMAORG_CUSTOM_JSON_ERROR'), 'error');
+            return;
         }
 
-        if (!isset($json['@context']) || $json['@context'] !== 'https://schema.org' || !isset($json['@type'])) {
-            throw new \RuntimeException(Text::_('PLG_SCHEMAORG_CUSTOM_JSON_ERROR'));
+        if (!isset($json['@context']) || !preg_match('#^https://schema.org/?$#', $json['@context']) || !isset($json['@type'])) {
+            $this->getApplication()->enqueueMessage(Text::_('PLG_SCHEMAORG_CUSTOM_JSON_ERROR'), 'error');
+            return;
         }
 
         $schema->set('json', json_encode($json, JSON_PRETTY_PRINT));
