@@ -315,7 +315,6 @@ class JFormValidator {
         if (tagName !== 'fieldset') {
           element.addEventListener('blur', ({ target }) => this.validate(target));
           element.addEventListener('focus', ({ target }) => this.removeMarking(target));
-          element.addEventListener('change', ({ target }) => this.removeMarking(target));
           if (element.classList.contains('validate-email') && this.inputEmail) {
             element.setAttribute('type', 'email');
           }

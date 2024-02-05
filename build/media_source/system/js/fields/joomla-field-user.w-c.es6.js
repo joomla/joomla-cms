@@ -143,6 +143,9 @@ class JoomlaFieldUser extends HTMLElement {
       window.removeEventListener('message', msgListener);
       dialog.destroy();
       this.dialog = null;
+      // Focus on the input field to re-trigger the validation
+      this.inputName.focus();
+      this.buttonSelect.focus();
     });
 
     this.dialog = dialog;
@@ -161,7 +164,6 @@ class JoomlaFieldUser extends HTMLElement {
     this.inputName.setAttribute('value', name || value);
     // trigger change event both on the input and on the custom element
     this.input.dispatchEvent(new CustomEvent('change'));
-    this.inputName.dispatchEvent(new CustomEvent('change'));
     this.dispatchEvent(new CustomEvent('change', {
       detail: { value, name },
       bubbles: true,
