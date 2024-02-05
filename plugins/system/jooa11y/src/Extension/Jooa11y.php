@@ -152,11 +152,36 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
     // Get the document object
     $document = $this->getApplication()->getDocument();
 
+    // Prepare `extraProps` into JSON.
+    function prepareExtraProps($extraProps)
+    {
+      $pairs = explode(',', $extraProps);
+      $data = [];
+
+      foreach ($pairs as $pair) {
+        list($property, $value) = array_map('trim', explode(':', $pair, 2));
+
+        // Replace single quotes
+        $value = trim($value, "'");
+
+        // Handle booleans
+        $value = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+
+        // Remove special chars
+        $property = preg_replace('/[^a-zA-Z0-9_]/', '', $property);
+        $value = preg_replace('/[^a-zA-Z0-9_]/', '', $value);
+
+        $data[$property] = $value;
+      }
+      return json_encode($data, JSON_NUMERIC_CHECK);
+    }
+    $extraPropsJSON = prepareExtraProps($this->params->get('extraProps'));
+
     // Add plugin settings from the xml
     $document->addScriptOptions(
       'jooa11yOptions',
       [
-        'checkRoot'       => $this->params->get('checkRoot', 'main'),
+        'checkRoot' => $this->params->get('checkRoot', 'main'),
         'readabilityRoot' => $this->params->get('readabilityRoot', 'main'),
         'containerIgnore' => $this->params->get('containerIgnore'),
         'contrastPlugin' => $this->params->get('contrastPlugin'),
@@ -165,7 +190,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         'colourFilterPlugin' => $this->params->get('colourFilterPlugin'),
         'checkAllHideToggles' => $this->params->get('additionalChecks'),
         'shadowComponents' => $this->params->get('shadowComponents'),
-      ]
+      ],
     );
 
     /** @var Joomla\CMS\WebAsset\WebAssetManager $wa*/
@@ -177,12 +202,16 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
     $wa->useStyle('sa11yCSS');
     $wa->addInlineScript(
       <<<EOT
+        (() => {
           Sa11y.Lang.addI18n($sa11yLang.strings);
           const options = Joomla.getOptions('jooa11yOptions');
+          const extraProps = $extraPropsJSON;
+          const allOptions = Object.assign({}, options, extraProps);
           window.addEventListener('load', () => {
-            const sa11y = new Sa11y.Sa11y(options);
+            const sa11y = new Sa11y.Sa11y(allOptions);
           });
-        EOT,
+        })();
+      EOT,
     );
 
     return true;

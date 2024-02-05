@@ -123,6 +123,13 @@
 					description="PLG_SYSTEM_JOOA11Y_FIELD_WEB_COMPONENTS_DESC"
 					filter="string"
 				/>
+        <field
+					name="extraProps"
+					type="textarea"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_EXTRA_PROPS"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_EXTRA_PROPS_DESC"
+					filter="string"
+				/>
 			</fieldset>
 		</fields>
 	</config>
