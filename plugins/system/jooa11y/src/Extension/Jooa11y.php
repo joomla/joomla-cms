@@ -155,27 +155,35 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
     // Prepare `extraProps` into JSON.
     function prepareExtraProps($extraProps)
     {
+
+      // Remove special chars and seperate key/value pairs
+      $extraProps = preg_replace('/[^a-zA-Z0-9_,:]/', '', $extraProps);
       $pairs = explode(',', $extraProps);
       $data = [];
 
       foreach ($pairs as $pair) {
-        list($property, $value) = array_map('trim', explode(':', $pair, 2));
-
-        // Replace single quotes
-        $value = trim($value, "'");
+        // Split the pair into key and value
+        list($property, $value) = array_map('trim', explode(':', $pair, 2)) + [null, null];
 
         // Handle booleans
-        $value = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        $booleanValue = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 
-        // Remove special chars
-        $property = preg_replace('/[^a-zA-Z0-9_]/', '', $property);
-        $value = preg_replace('/[^a-zA-Z0-9_]/', '', $value);
+        // If it's not a boolean, try parsing it as a number
+        $value = ($booleanValue === null)
+          ? (filter_var($value, FILTER_VALIDATE_FLOAT) ?? null)
+          : ($booleanValue ? 1 : 0);
 
+        // Store the property and its value in the data array
         $data[$property] = $value;
       }
+
+      // Encode to JSON, ensuring numeric values are not treated as strings
       return json_encode($data, JSON_NUMERIC_CHECK);
     }
-    $extraPropsJSON = prepareExtraProps($this->params->get('extraProps'));
+
+    // Get extra props
+    $extraProps = $this->params->get('extraProps');
+    $extraPropsJSON = !empty($extraProps) ? prepareExtraProps($extraProps) : '""';
 
     // Add plugin settings from the xml
     $document->addScriptOptions(
