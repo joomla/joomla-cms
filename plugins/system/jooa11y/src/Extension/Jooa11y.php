@@ -205,21 +205,23 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
     $wa = $document->getWebAssetManager();
 
     // Load scripts and instantiate
-    $wa->useScript('sa11y');
-    $wa->useScript($sa11yLang);
     $wa->useStyle('sa11yCSS');
     $wa->addInlineScript(
       <<<EOT
-        (() => {
-          Sa11y.Lang.addI18n($sa11yLang.strings);
-          const options = Joomla.getOptions('jooa11yOptions');
-          const extraProps = $extraPropsJSON;
-          const allOptions = Object.assign({}, options, extraProps);
-          window.addEventListener('load', () => {
-            const sa11y = new Sa11y.Sa11y(allOptions);
-          });
-        })();
+        import { Sa11y, Lang } from '/media/vendor/sa11y/js/sa11y.esm.min.js';
+        import $sa11yLang from '/media/vendor/sa11y/js/$lang.js';
+
+        Lang.addI18n($sa11yLang.strings);
+
+        const options = Joomla.getOptions('jooa11yOptions');
+        const extraProps = $extraPropsJSON;
+        const allOptions = Object.assign({}, options, extraProps);
+        window.addEventListener('load', () => {
+          const sa11y = new Sa11y(allOptions);
+        });
       EOT,
+      [],
+      ['type' => 'module']
     );
 
     return true;

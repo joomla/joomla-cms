@@ -745,37 +745,37 @@
         "name": "sa11y",
         "licenseFilename": "LICENSE.md",
         "js": {
-          "dist/js/sa11y.umd.min.js": "js/sa11y.umd.min.js",
-          "dist/js/lang/bg.umd.js": "js/bg.umd.js",
-          "dist/js/lang/cs.umd.js": "js/cs.umd.js",
-          "dist/js/lang/da.umd.js": "js/da.umd.js",
-          "dist/js/lang/de.umd.js": "js/de.umd.js",
-          "dist/js/lang/el.umd.js": "js/el.umd.js",
-          "dist/js/lang/en.umd.js": "js/en.umd.js",
-          "dist/js/lang/enUS.umd.js": "js/enUS.umd.js",
-          "dist/js/lang/es.umd.js": "js/es.umd.js",
-          "dist/js/lang/et.umd.js": "js/et.umd.js",
-          "dist/js/lang/fi.umd.js": "js/fi.umd.js",
-          "dist/js/lang/fr.umd.js": "js/fr.umd.js",
-          "dist/js/lang/hu.umd.js": "js/hu.umd.js",
-          "dist/js/lang/id.umd.js": "js/id.umd.js",
-          "dist/js/lang/it.umd.js": "js/it.umd.js",
-          "dist/js/lang/ja.umd.js": "js/ja.umd.js",
-          "dist/js/lang/ko.umd.js": "js/ko.umd.js",
-          "dist/js/lang/lt.umd.js": "js/lt.umd.js",
-          "dist/js/lang/lv.umd.js": "js/lv.umd.js",
-          "dist/js/lang/nb.umd.js": "js/nb.umd.js",
-          "dist/js/lang/nl.umd.js": "js/nl.umd.js",
-          "dist/js/lang/pl.umd.js": "js/pl.umd.js",
-          "dist/js/lang/ptBR.umd.js": "js/ptBR.umd.js",
-          "dist/js/lang/ptPT.umd.js": "js/ptPT.umd.js",
-          "dist/js/lang/ro.umd.js": "js/ro.umd.js",
-          "dist/js/lang/sk.umd.js": "js/sk.umd.js",
-          "dist/js/lang/sl.umd.js": "js/sl.umd.js",
-          "dist/js/lang/sv.umd.js": "js/sv.umd.js",
-          "dist/js/lang/tr.umd.js": "js/tr.umd.js",
-          "dist/js/lang/ua.umd.js": "js/ua.umd.js",
-          "dist/js/lang/zh.umd.js": "js/zh.umd.js"
+          "dist/js/sa11y.esm.min.js": "js/sa11y.esm.min.js",
+          "dist/js/lang/bg.js": "js/bg.js",
+          "dist/js/lang/cs.js": "js/cs.js",
+          "dist/js/lang/da.js": "js/da.js",
+          "dist/js/lang/de.js": "js/de.js",
+          "dist/js/lang/el.js": "js/el.js",
+          "dist/js/lang/en.js": "js/en.js",
+          "dist/js/lang/enUS.js": "js/enUS.js",
+          "dist/js/lang/es.js": "js/es.js",
+          "dist/js/lang/et.js": "js/et.js",
+          "dist/js/lang/fi.js": "js/fi.js",
+          "dist/js/lang/fr.js": "js/fr.js",
+          "dist/js/lang/hu.js": "js/hu.js",
+          "dist/js/lang/id.js": "js/id.js",
+          "dist/js/lang/it.js": "js/it.js",
+          "dist/js/lang/ja.js": "js/ja.js",
+          "dist/js/lang/ko.js": "js/ko.js",
+          "dist/js/lang/lt.js": "js/lt.js",
+          "dist/js/lang/lv.js": "js/lv.js",
+          "dist/js/lang/nb.js": "js/nb.js",
+          "dist/js/lang/nl.js": "js/nl.js",
+          "dist/js/lang/pl.js": "js/pl.js",
+          "dist/js/lang/ptBR.js": "js/ptBR.js",
+          "dist/js/lang/ptPT.js": "js/ptPT.js",
+          "dist/js/lang/ro.js": "js/ro.js",
+          "dist/js/lang/sk.js": "js/sk.js",
+          "dist/js/lang/sl.js": "js/sl.js",
+          "dist/js/lang/sv.js": "js/sv.js",
+          "dist/js/lang/tr.js": "js/tr.js",
+          "dist/js/lang/ua.js": "js/ua.js",
+          "dist/js/lang/zh.js": "js/zh.js"
         },
         "css": {
           "dist/css/sa11y.min.css": "css/sa11y.min.css"
@@ -784,67 +784,70 @@
           {
             "name": "sa11y",
             "type": "script",
-            "uri": "sa11y.umd.min.js"
+            "uri": "sa11y.esm.min.js",
+            "attributes": {
+              "type": "module"
+            }
           },
           {
             "name": "Sa11yLangEn",
             "type": "script",
-            "uri": "en.umd.js"
+            "uri": "en.js"
           },
           {
             "name": "Sa11yLangBg",
             "type": "script",
-            "uri": "bg.umd.js"
+            "uri": "bg.js"
           },
           {
             "name": "Sa11yLangCs",
             "type": "script",
-            "uri": "cs.umd.js"
+            "uri": "cs.js"
           },
           {
             "name": "Sa11yLangDa",
             "type": "script",
-            "uri": "da.umd.js"
+            "uri": "da.js"
           },
           {
             "name": "Sa11yLangDe",
             "type": "script",
-            "uri": "de.umd.js"
+            "uri": "de.js"
           },
           {
             "name": "Sa11yLangEl",
             "type": "script",
-            "uri": "el.umd.js"
+            "uri": "el.js"
           },
           {
             "name": "Sa11yLangEn",
             "type": "script",
-            "uri": "en.umd.js"
+            "uri": "en.js"
           },
           {
             "name": "Sa11yLangEnUS",
             "type": "script",
-            "uri": "enUS.umd.js"
+            "uri": "enUS.js"
           },
           {
             "name": "Sa11yLangEs",
             "type": "script",
-            "uri": "es.umd.js"
+            "uri": "es.js"
           },
           {
             "name": "Sa11yLangEt",
             "type": "script",
-            "uri": "et.umd.js"
+            "uri": "et.js"
           },
           {
             "name": "Sa11yLangFi",
             "type": "script",
-            "uri": "fi.umd.js"
+            "uri": "fi.js"
           },
           {
             "name": "Sa11yLangFr",
             "type": "script",
-            "uri": "fr.umd.js"
+            "uri": "fr.js"
           },
           {
             "name": "sa11yCSS",
@@ -854,97 +857,97 @@
           {
             "name": "Sa11yLangHu",
             "type": "script",
-            "uri": "hu.umd.js"
+            "uri": "hu.js"
           },
           {
             "name": "Sa11yLangId",
             "type": "script",
-            "uri": "id.umd.js"
+            "uri": "id.js"
           },
           {
             "name": "Sa11yLangIt",
             "type": "script",
-            "uri": "it.umd.js"
+            "uri": "it.js"
           },
           {
             "name": "Sa11yLangJa",
             "type": "script",
-            "uri": "ja.umd.js"
+            "uri": "ja.js"
           },
           {
             "name": "Sa11yLangKo",
             "type": "script",
-            "uri": "ko.umd.js"
+            "uri": "ko.js"
           },
           {
             "name": "Sa11yLangLt",
             "type": "script",
-            "uri": "lt.umd.js"
+            "uri": "lt.js"
           },
           {
             "name": "Sa11yLangLv",
             "type": "script",
-            "uri": "lv.umd.js"
+            "uri": "lv.js"
           },
           {
             "name": "Sa11yLangNb",
             "type": "script",
-            "uri": "nb.umd.js"
+            "uri": "nb.js"
           },
           {
             "name": "Sa11yLangNl",
             "type": "script",
-            "uri": "nl.umd.js"
+            "uri": "nl.js"
           },
           {
             "name": "Sa11yLangPl",
             "type": "script",
-            "uri": "pl.umd.js"
+            "uri": "pl.js"
           },
           {
             "name": "Sa11yLangPtBR",
             "type": "script",
-            "uri": "ptBR.umd.js"
+            "uri": "ptBR.js"
           },
           {
             "name": "Sa11yLangPtPT",
             "type": "script",
-            "uri": "ptPT.umd.js"
+            "uri": "ptPT.js"
           },
           {
             "name": "Sa11yLangRo",
             "type": "script",
-            "uri": "ro.umd.js"
+            "uri": "ro.js"
           },
           {
             "name": "Sa11yLangSk",
             "type": "script",
-            "uri": "sk.umd.js"
+            "uri": "sk.js"
           },
           {
             "name": "Sa11yLangSl",
             "type": "script",
-            "uri": "sl.umd.js"
+            "uri": "sl.js"
           },
           {
             "name": "Sa11yLangSv",
             "type": "script",
-            "uri": "sv.umd.js"
+            "uri": "sv.js"
           },
           {
             "name": "Sa11yLangTr",
             "type": "script",
-            "uri": "tr.umd.js"
+            "uri": "tr.js"
           },
           {
             "name": "Sa11yLangUa",
             "type": "script",
-            "uri": "ua.umd.js"
+            "uri": "ua.js"
           },
           {
             "name": "Sa11yLangZh",
             "type": "script",
-            "uri": "zh.umd.js"
+            "uri": "zh.js"
           }
         ]
       },
