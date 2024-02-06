@@ -13,6 +13,10 @@ namespace Joomla\Module\RandomImage\Site\Helper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_random_image
  *
@@ -134,6 +138,6 @@ class RandomImageHelper
             $folder = str_replace(JPATH_BASE, '', $folder);
         }
 
-        return str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $folder);
+        return str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $folder);
     }
 }

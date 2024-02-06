@@ -16,6 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Nested;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Map table class for the Finder package.
  *

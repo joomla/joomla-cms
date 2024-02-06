@@ -15,7 +15,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
-use RuntimeException;
 use Webauthn\AttestationStatement\AttestationStatement;
 use Webauthn\AttestedCredentialData;
 use Webauthn\PublicKeyCredentialDescriptor;
@@ -23,6 +22,10 @@ use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
 use Webauthn\TrustPath\EmptyTrustPath;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Implementation of the credentials repository for the WebAuthn library.
@@ -198,7 +201,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
     {
         // I can only create or update credentials for the user this class was created for
         if ($publicKeyCredentialSource->getUserHandle() != $this->userId) {
-            throw new RuntimeException('Cannot create or update WebAuthn credentials for a different user.', 403);
+            throw new \RuntimeException('Cannot create or update WebAuthn credentials for a different user.', 403);
         }
 
         // Do I have an existing record for this credential?
@@ -234,7 +237,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
             $options['pubkeysource'] = $publicKeyCredentialSource;
             $mfaTable->save(
                 [
-                    'options' => $options
+                    'options' => $options,
                 ]
             );
         } else {

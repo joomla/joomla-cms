@@ -11,6 +11,10 @@ namespace Joomla\CMS\Access;
 
 use Joomla\CMS\Object\CMSObject;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Access rules class.
  *
@@ -24,7 +28,7 @@ class Rules
      * @var    array
      * @since  1.7.0
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
      * Constructor.
@@ -186,7 +190,7 @@ class Rules
      */
     public function __toString()
     {
-        $temp = array();
+        $temp = [];
 
         foreach ($this->data as $name => $rule) {
             if ($data = $rule->getData()) {

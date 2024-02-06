@@ -55,7 +55,7 @@ if ($saveOrder && !empty($this->items)) {
             <div id="j-main-container" class="j-main-container">
                 <?php
                 // Search tools bar
-                echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+                echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
                 ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
@@ -181,7 +181,7 @@ if ($saveOrder && !empty($this->items)) {
                                         <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'categories.', $canChange); ?>
                                     </td>
                                     <th scope="row">
-                                        <?php $prefix = LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+                                        <?php $prefix = LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
                                         <?php echo $prefix; ?>
                                         <?php if ($item->checked_out) : ?>
                                             <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'categories.', $canCheckin); ?>
@@ -279,18 +279,19 @@ if ($saveOrder && !empty($this->items)) {
                     <?php echo $this->pagination->getListFooter(); ?>
 
                     <?php // Load the batch processing form. ?>
-                    <?php if (
-                    $user->authorise('core.create', $extension)
+                    <?php
+                    if (
+                        $user->authorise('core.create', $extension)
                         && $user->authorise('core.edit', $extension)
                         && $user->authorise('core.edit.state', $extension)
-) : ?>
+                    ) : ?>
                         <?php echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'collapseModal',
-                            array(
+                            [
                                 'title'  => Text::_('COM_CATEGORIES_BATCH_OPTIONS'),
                                 'footer' => $this->loadTemplate('batch_footer'),
-                            ),
+                            ],
                             $this->loadTemplate('batch_body')
                         ); ?>
                     <?php endif; ?>

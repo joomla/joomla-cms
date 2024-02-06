@@ -12,7 +12,7 @@
 $scriptRoot        = __DIR__;
 $repoRoot          = false;
 $prNumber          = false;
-$createPullRequest = true;
+$createPullRequest = false;
 $php               = 'php';
 $git               = 'git';
 $gh                = 'gh';
@@ -194,6 +194,17 @@ foreach ($list as $pr) {
 
     echo "Run PSR-12 converter script\n";
 
+    $cmd = $git . ' diff --name-only psr12anchor..HEAD';
+    $output = [];
+    exec($cmd, $output, $result);
+    if (count($output) > 500) {
+        var_dump([$cmd, $output, $result]);
+        echo 'Too many files changed between psr12anchor and HEAD pr #' . $pr['number'] ."\n";
+        continue;
+    }
+
+    echo "Run PSR-12 converter script\n";
+
     $cmd = $php . ' ' . $scriptRoot . '/psr12_converter.php --task=branch --repo="' . $repoRoot . '"';
 
     passthru($cmd, $result);
@@ -208,16 +219,28 @@ foreach ($list as $pr) {
     $output = [];
     exec($cmd, $output, $result);
     if ($result !== 0) {
+        echo "Upmerge with strategy ort failed using fallback ours\n";
         var_dump([$cmd, $result]);
-        die('Unable to upmerge to psr-12 pr #' . $pr['number']);
+        $cmd    = $git . ' merge --abort';
+        $output = [];
+        exec($cmd, $output, $result);
+
+        $cmd    = $git . ' merge --strategy=ours psr12final';
+        $output = [];
+        exec($cmd, $output, $result);
+        if ($result !== 0) {
+            var_dump([$cmd, $result]);
+            die('Unable to upmerge to psr-12 pr #' . $pr['number']);
+        }
     }
 
     if (!$createPullRequest && $pr['maintainerCanModify'] === true) {
         echo "Push directly to PR branch\n";
 
         $cmd    = $git . ' push git@github.com:' . $pr['headRepositoryOwner']['login'] . '/' . $pr['headRepository']['name'] . '.git '
-            . 'psr12/merge/' . $pr['number'] . ':' . $pr['headRefName'];
+            . 'psr12/merge/' . $pr['number'] . ':' . str_replace('"', '\"', $pr['headRefName']);
         $output = [];
+
         exec($cmd, $output, $result);
         if ($result !== 0) {
             var_dump([$cmd, $output, $result]);
@@ -236,6 +259,7 @@ foreach ($list as $pr) {
 
         $cmd    = $git . ' push --force -u github HEAD';
         $output = [];
+
         exec($cmd, $output, $result);
         if ($result !== 0) {
             var_dump([$cmd, $output, $result]);
@@ -243,7 +267,7 @@ foreach ($list as $pr) {
         }
 
         $cmd    = $gh . ' pr create --title "PSR-12 conversion" --body "This pull requests converts the branch to the PSR-12 coding standard." '
-            . '-R ' . $pr['headRepositoryOwner']['login'] . '/' . $pr['headRepository']['name'] . ' -B ' . $pr['headRefName'];
+            . '-R ' . $pr['headRepositoryOwner']['login'] . '/' . $pr['headRepository']['name'] . ' -B ' . str_replace('"', '\"', $pr['headRefName']);
         $output = [];
         exec($cmd, $output, $result);
         if ($result !== 0) {

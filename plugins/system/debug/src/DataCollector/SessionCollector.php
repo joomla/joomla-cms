@@ -12,6 +12,12 @@ namespace Joomla\Plugin\System\Debug\DataCollector;
 
 use Joomla\CMS\Factory;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
+use Joomla\Plugin\System\Debug\Extension\Debug;
+use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * SessionDataCollector
@@ -29,21 +35,60 @@ class SessionCollector extends AbstractDataCollector
     private $name = 'session';
 
     /**
+     * Collected data.
+     *
+     * @var   array
+     * @since 4.4.0
+     */
+    protected $sessionData;
+
+    /**
+     * Constructor.
+     *
+     * @param   Registry  $params   Parameters.
+     * @param   bool      $collect  Collect the session data.
+     *
+     * @since 4.4.0
+     */
+    public function __construct($params, $collect = false)
+    {
+        parent::__construct($params);
+
+        if ($collect) {
+            $this->collect();
+        }
+    }
+
+    /**
      * Called by the DebugBar when data needs to be collected
      *
-     * @since  4.0.0
+     * @param   bool  $overwrite  Overwrite the previously collected session data.
      *
      * @return array Collected data
+     *
+     * @since  4.0.0
      */
-    public function collect()
+    public function collect($overwrite = false)
     {
-        $data = [];
+        if ($this->sessionData === null || $overwrite) {
+            $this->sessionData  = [];
+            $data               = Factory::getApplication()->getSession()->all();
 
-        foreach (Factory::getApplication()->getSession()->all() as $key => $value) {
-            $data[$key] = $this->getDataFormatter()->formatVar($value);
+            // redact value of potentially secret keys
+            array_walk_recursive($data, static function (&$value, $key) {
+                if (!preg_match(Debug::PROTECTED_COLLECTOR_KEYS, $key)) {
+                    return;
+                }
+
+                $value = '***redacted***';
+            });
+
+            foreach ($data as $key => $value) {
+                $this->sessionData[$key] = $this->getDataFormatter()->formatVar($value);
+            }
         }
 
-        return ['data' => $data];
+        return ['data' => $this->sessionData];
     }
 
     /**
@@ -70,9 +115,9 @@ class SessionCollector extends AbstractDataCollector
     {
         return [
             'session' => [
-                'icon' => 'key',
-                'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
-                'map' => $this->name . '.data',
+                'icon'    => 'key',
+                'widget'  => 'PhpDebugBar.Widgets.VariableListWidget',
+                'map'     => $this->name . '.data',
                 'default' => '[]',
             ],
         ];

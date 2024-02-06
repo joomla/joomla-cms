@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Form\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Displays options as a list of checkboxes.
@@ -151,11 +155,11 @@ class CheckboxesField extends ListField
         // If a value has been stored, use it. Otherwise, use the defaults.
         $checkedOptions = $hasValue ? $this->value : $this->checkedOptions;
 
-        $extraData = array(
+        $extraData = [
             'checkedOptions' => \is_array($checkedOptions) ? $checkedOptions : explode(',', (string) $checkedOptions),
             'hasValue'       => $hasValue,
             'options'        => $this->getOptions(),
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

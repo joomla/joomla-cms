@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The MVC Model for SelectView.
  *
@@ -41,7 +45,7 @@ class SelectModel extends ListModel
      * @throws \Exception
      * @since  4.1.0
      */
-    public function __construct($config = array(), ?MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         $this->app = Factory::getApplication();
 

@@ -12,6 +12,10 @@ namespace Joomla\Component\Wrapper\Site\Service;
 
 use Joomla\CMS\Component\Router\RouterBase;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Routing class from com_wrapper
  *
@@ -34,7 +38,7 @@ class Router extends RouterBase
             unset($query['view']);
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -48,6 +52,6 @@ class Router extends RouterBase
      */
     public function parse(&$segments)
     {
-        return array('view' => 'wrapper');
+        return ['view' => 'wrapper'];
     }
 }

@@ -115,7 +115,7 @@ const sampledataAjax = (type, steps, step) => {
       }
     },
     onError: () => {
-      Joomla.renderMessages({ error: ['Something went wrong! Please close and reopen the browser and try again!'] });
+      Joomla.renderMessages({ error: [Joomla.Text._('MOD_SAMPLEDATA_ERROR_RESPONSE')] });
       window.scroll({
         top: 0,
         left: 0,
@@ -155,7 +155,7 @@ const sampledataApply = (element) => {
     progressElement.classList.remove('d-none');
   });
 
-  element.getAttribute('data-processed', true);
+  element.setAttribute('data-processed', true);
 
   SampleData.inProgress = true;
   sampledataAjax(type, steps, 1);

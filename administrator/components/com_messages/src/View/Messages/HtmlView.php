@@ -18,6 +18,10 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View class for a list of messages.
  *
@@ -148,8 +152,9 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        $toolbar->appendButton('Link', 'cog', 'COM_MESSAGES_TOOLBAR_MY_SETTINGS', 'index.php?option=com_messages&amp;view=config');
-        ToolbarHelper::divider();
+        $toolbar->linkButton('cog', 'COM_MESSAGES_TOOLBAR_MY_SETTINGS')
+            ->url('index.php?option=com_messages&amp;view=config');
+        $toolbar->divider();
 
         if (!$this->isEmptyState && $this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
             $toolbar->delete('messages.delete')

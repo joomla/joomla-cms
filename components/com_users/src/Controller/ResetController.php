@@ -14,6 +14,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Reset controller class for Users.
  *
@@ -37,7 +41,7 @@ class ResetController extends BaseController
 
         /** @var \Joomla\Component\Users\Site\Model\ResetModel $model */
         $model = $this->getModel('Reset', 'Site');
-        $data  = $this->input->post->get('jform', array(), 'array');
+        $data  = $this->input->post->get('jform', [], 'array');
 
         // Submit the password reset request.
         $return = $model->processResetRequest($data);
@@ -88,7 +92,7 @@ class ResetController extends BaseController
 
         /** @var \Joomla\Component\Users\Site\Model\ResetModel $model */
         $model = $this->getModel('Reset', 'Site');
-        $data  = $this->input->get('jform', array(), 'array');
+        $data  = $this->input->get('jform', [], 'array');
 
         // Confirm the password reset request.
         $return = $model->processResetConfirm($data);
@@ -138,7 +142,7 @@ class ResetController extends BaseController
 
         /** @var \Joomla\Component\Users\Site\Model\ResetModel $model */
         $model = $this->getModel('Reset', 'Site');
-        $data  = $this->input->post->get('jform', array(), 'array');
+        $data  = $this->input->post->get('jform', [], 'array');
 
         // Complete the password reset request.
         $return = $model->processResetComplete($data);

@@ -12,6 +12,10 @@ namespace Joomla\CMS\Table;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *
@@ -74,7 +78,7 @@ class Asset extends Nested
      */
     public function loadByName($name)
     {
-        return $this->load(array('name' => $name));
+        return $this->load(['name' => $name]);
     }
 
     /**

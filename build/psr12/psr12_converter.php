@@ -32,7 +32,7 @@ if (empty($argv)) {
 
         Description:
             The converter has several tasks which can be run separately.
-            You can combine them seperated by a comma (,).
+            You can combine them separated by a comma (,).
 
             --tasks:
               * CBF
@@ -65,7 +65,7 @@ if (empty($argv)) {
             Path:
               Providing a path will only check the directories or files
               specified. It's possible to add multiple files and folder
-              seperated by a comma (,).
+              separated by a comma (,).
 
 
         TEXT;
@@ -93,7 +93,7 @@ foreach ($argv as $arg) {
     }
 }
 
-$tmpDir = $root . '/build/tmp/psr12';
+$tmpDir = __DIR__ . '/../tmp/psr12';
 
 if ($tasks['CMS']) {
     $tasks['CBF']   = true;
@@ -113,7 +113,7 @@ if ($tasks['BRANCH']) {
         die('Unable to find changes for this branch');
     }
 
-    foreach($output as $k => $line) {
+    foreach ($output as $k => $line) {
         if (substr($line, -4) !== '.php') {
             unset($output[$k]);
         }
@@ -149,6 +149,7 @@ if ($checkPath) {
         'modules',
         'plugins',
         'templates',
+        'tests',
     ];
 
     foreach ($baseFolders as $folder) {
@@ -212,7 +213,7 @@ unset($cleanItems, $item);
 
 $cbfOptions = "-p --standard=" . __DIR__ . "/ruleset.xml --extensions=php";
 $csOptions  = "--standard=" . __DIR__ . "/ruleset.xml --extensions=php";
-$csOptions  .= " --report=$root/build/psr12/phpcs.joomla.report.php";
+$csOptions  .= " --report=" . __DIR__ . "/phpcs.joomla.report.php";
 
 foreach ($items as $item) {
     if ($tasks['CBF']) {
@@ -237,12 +238,12 @@ foreach ($items as $item) {
 
 if ($tasks['CMS']) {
     passthru($git . ' add ' . $root);
-    passthru($git . ' commit -m "Phase 1 convert ' . ($tasks['BRANCH'] ? 'BRANCH' : 'CMS') .' to PSR-12"');
+    passthru($git . ' commit -m "Phase 1 convert ' . ($tasks['BRANCH'] ? 'BRANCH' : 'CMS') . ' to PSR-12"');
 }
 
 if ($tasks['CLEAN'] && file_exists($tmpDir . '/cleanup.json')) {
     echo "Cleaning Error\n" .
-        passthru($php . ' ' . $root . '/build/psr12/clean_errors.php', $result);
+        passthru($php . ' ' . __DIR__ . '/clean_errors.php', $result);
 
     foreach ($items as $item) {
         if ($tasks['CBF']) {
@@ -289,4 +290,3 @@ if (!empty($tasks['CMS']) && empty($tasks['BRANCH'])) {
 
         Text;
 }
-

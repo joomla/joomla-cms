@@ -15,6 +15,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Redirect component helper.
  *
@@ -39,7 +43,7 @@ class RedirectHelper
     public static function publishedOptions()
     {
         // Build the active state filter options.
-        $options   = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '*', 'JALL');
         $options[] = HTMLHelper::_('select.option', '1', 'JENABLED');
         $options[] = HTMLHelper::_('select.option', '0', 'JDISABLED');

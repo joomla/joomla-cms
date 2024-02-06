@@ -30,6 +30,10 @@ use Joomla\String\Inflector;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The contact controller
  *
@@ -184,7 +188,7 @@ class ContactController extends ApiController
     {
         $app = $this->app;
 
-        Factory::getLanguage()->load('com_contact', JPATH_SITE, $app->getLanguage()->getTag(), true);
+        $app->getLanguage()->load('com_contact', JPATH_SITE, $app->getLanguage()->getTag(), true);
 
         if ($contact->email_to == '' && $contact->user_id != 0) {
             $contact_user      = User::getInstance($contact->user_id);
@@ -192,13 +196,13 @@ class ContactController extends ApiController
         }
 
         $templateData = [
-            'sitename' => $app->get('sitename'),
-            'name'     => $data['contact_name'],
-            'contactname' => $contact->name,
-            'email'    => PunycodeHelper::emailToPunycode($data['contact_email']),
-            'subject'  => $data['contact_subject'],
-            'body'     => stripslashes($data['contact_message']),
-            'url'      => Uri::base(),
+            'sitename'     => $app->get('sitename'),
+            'name'         => $data['contact_name'],
+            'contactname'  => $contact->name,
+            'email'        => PunycodeHelper::emailToPunycode($data['contact_email']),
+            'subject'      => $data['contact_subject'],
+            'body'         => stripslashes($data['contact_message']),
+            'url'          => Uri::base(),
             'customfields' => '',
         ];
 
@@ -207,11 +211,11 @@ class ContactController extends ApiController
             $output = FieldsHelper::render(
                 'com_contact.mail',
                 'fields.render',
-                array(
+                [
                     'context' => 'com_contact.mail',
                     'item'    => $contact,
                     'fields'  => $fields,
-                )
+                ]
             );
 
             if ($output) {

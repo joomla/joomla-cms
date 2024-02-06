@@ -13,6 +13,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Checks if the com_installer config for the cache Hours are eq 0 and the updatenotification Plugin is enabled
  *
@@ -49,7 +53,7 @@ function updatecachetime_postinstall_action()
     // Save the new parameters back to com_installer
     $table = Table::getInstance('extension');
     $table->load($installer->id);
-    $table->bind(array('params' => $installer->params->toString()));
+    $table->bind(['params' => $installer->params->toString()]);
 
     // Store the changes
     if (!$table->store()) {

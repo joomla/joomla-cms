@@ -11,8 +11,13 @@
 namespace Joomla\Component\Content\Api\Controller;
 
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The article controller
@@ -65,6 +70,14 @@ class ArticlesController extends ApiController
             $this->modelState->set('filter.published', $filter->clean($apiFilterInfo['state'], 'INT'));
         }
 
+        if (\array_key_exists('featured', $apiFilterInfo)) {
+            $this->modelState->set('filter.featured', $filter->clean($apiFilterInfo['featured'], 'INT'));
+        }
+
+        if (\array_key_exists('tag', $apiFilterInfo)) {
+            $this->modelState->set('filter.tag', $filter->clean($apiFilterInfo['tag'], 'INT'));
+        }
+
         if (\array_key_exists('language', $apiFilterInfo)) {
             $this->modelState->set('filter.language', $filter->clean($apiFilterInfo['language'], 'STRING'));
         }
@@ -100,6 +113,12 @@ class ArticlesController extends ApiController
                 $data['com_fields'][$field->name] = $data[$field->name];
                 unset($data[$field->name]);
             }
+        }
+
+        if (($this->input->getMethod() === 'PATCH') && !(\array_key_exists('tags', $data))) {
+            $tags = new TagsHelper();
+            $tags->getTagIds($data['id'], 'com_content.article');
+            $data['tags'] = explode(',', $tags->tags);
         }
 
         return $data;

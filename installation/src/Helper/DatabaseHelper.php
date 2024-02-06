@@ -10,13 +10,17 @@
 namespace Joomla\CMS\Installation\Helper;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Filesystem\File;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla Installation Database Helper Class.
@@ -269,7 +273,7 @@ abstract class DatabaseHelper
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL'));
                 }
 
-                if (!File::exists(Path::clean($options->db_sslca))) {
+                if (!is_file(Path::clean($options->db_sslca))) {
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL'));
                 }
             } else {
@@ -286,7 +290,7 @@ abstract class DatabaseHelper
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_KEY_LABEL'));
                 }
 
-                if (!File::exists(Path::clean($options->db_sslkey))) {
+                if (!is_file(Path::clean($options->db_sslkey))) {
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_KEY_LABEL'));
                 }
 
@@ -294,7 +298,7 @@ abstract class DatabaseHelper
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_CERT_LABEL'));
                 }
 
-                if (!File::exists(Path::clean($options->db_sslcert))) {
+                if (!is_file(Path::clean($options->db_sslcert))) {
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CERT_LABEL'));
                 }
             } else {
@@ -331,8 +335,9 @@ abstract class DatabaseHelper
      */
     public static function checkRemoteDbHost($options)
     {
-        // Security check for remote db hosts: Check env var if disabled
-        $shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1';
+        // Security check for remote db hosts: Check env var if disabled. Also disable in CLI.
+        $shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1'
+            && !defined('_JCLI_INSTALLATION');
 
         // Per default allowed DB hosts: localhost / 127.0.0.1 / ::1 (optionally with port)
         $localhost = '/^(((localhost|127\.0\.0\.1|\[\:\:1\])(\:[1-9]{1}[0-9]{0,4})?)|(\:\:1))$/';
@@ -360,9 +365,10 @@ abstract class DatabaseHelper
 
                     // Get the path
                     $remoteDbPath = JPATH_INSTALLATION . '/' . $remoteDbFile;
+                    $emptyString  = '';
 
                     // When the path is not writable the user needs to create the file manually
-                    if (!File::write($remoteDbPath, '')) {
+                    if (!File::write($remoteDbPath, $emptyString)) {
                         // Request to create the file manually
                         Factory::getApplication()->enqueueMessage(
                             Text::sprintf(
@@ -398,7 +404,7 @@ abstract class DatabaseHelper
 
                 if (
                     Factory::getSession()->get('remoteDbFileWrittenByJoomla', false) === true
-                    && File::exists(JPATH_INSTALLATION . '/' . $remoteDbFile)
+                    && is_file(JPATH_INSTALLATION . '/' . $remoteDbFile)
                 ) {
                     // Add the general message
                     Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
@@ -417,7 +423,7 @@ abstract class DatabaseHelper
                     return false;
                 }
 
-                if (Factory::getSession()->get('remoteDbFileUnwritable', false) === true && !File::exists(JPATH_INSTALLATION . '/' . $remoteDbFile)) {
+                if (Factory::getSession()->get('remoteDbFileUnwritable', false) === true && !is_file(JPATH_INSTALLATION . '/' . $remoteDbFile)) {
                     // Add the general message
                     Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
 

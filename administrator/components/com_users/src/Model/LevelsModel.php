@@ -19,6 +19,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of user access level records.
  *
@@ -35,14 +39,14 @@ class LevelsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'ordering', 'a.ordering',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -97,7 +101,7 @@ class LevelsModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.
@@ -146,8 +150,8 @@ class LevelsModel extends ListModel
     public function reorder($pk, $direction = 0)
     {
         // Sanitize the id and adjustment.
-        $pk = (!empty($pk)) ? $pk : (int) $this->getState('level.id');
-        $user = Factory::getUser();
+        $pk   = (!empty($pk)) ? $pk : (int) $this->getState('level.id');
+        $user = $this->getCurrentUser();
 
         // Get an instance of the record's table.
         $table = Table::getInstance('ViewLevel', 'Joomla\\CMS\Table\\');
@@ -187,9 +191,9 @@ class LevelsModel extends ListModel
      */
     public function saveorder($pks, $order)
     {
-        $table = Table::getInstance('viewlevel', 'Joomla\\CMS\Table\\');
-        $user = Factory::getUser();
-        $conditions = array();
+        $table      = Table::getInstance('viewlevel', 'Joomla\\CMS\Table\\');
+        $user       = $this->getCurrentUser();
+        $conditions = [];
 
         if (empty($pks)) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_ERROR_LEVELS_NOLEVELS_SELECTED'), 'error');

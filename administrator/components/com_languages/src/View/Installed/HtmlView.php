@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Displays a list of the installed languages.
  *
@@ -107,7 +111,8 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo = ContentHelper::getActions('com_languages');
+        $canDo   = ContentHelper::getActions('com_languages');
+        $toolbar = Toolbar::getInstance();
 
         if ((int) $this->state->get('client_id') === 1) {
             ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_ADMIN_TITLE'), 'comments langmanager');
@@ -116,27 +121,27 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($canDo->get('core.edit.state')) {
-            ToolbarHelper::makeDefault('installed.setDefault');
-            ToolbarHelper::divider();
+            $toolbar->makeDefault('installed.setDefault');
+            $toolbar->divider();
         }
 
         if ($canDo->get('core.admin')) {
-            // Add install languages link to the lang installer component.
-            $bar = Toolbar::getInstance('toolbar');
-
             // Switch administrator language
             if ($this->state->get('client_id', 0) == 1) {
-                ToolbarHelper::custom('installed.switchadminlanguage', 'refresh', '', 'COM_LANGUAGES_SWITCH_ADMIN', true);
-                ToolbarHelper::divider();
+                $toolbar->standardButton('switch', 'COM_LANGUAGES_SWITCH_ADMIN', 'installed.switchadminlanguage')
+                    ->icon('icon-refresh')
+                    ->listCheck(true);
+                $toolbar->divider();
             }
 
-            $bar->appendButton('Link', 'upload', 'COM_LANGUAGES_INSTALL', 'index.php?option=com_installer&view=languages');
-            ToolbarHelper::divider();
+            $toolbar->link('COM_LANGUAGES_INSTALL', 'index.php?option=com_installer&view=languages')
+                ->icon('icon-upload');
+            $toolbar->divider();
 
-            ToolbarHelper::preferences('com_languages');
-            ToolbarHelper::divider();
+            $toolbar->preferences('com_languages');
+            $toolbar->divider();
         }
 
-        ToolbarHelper::help('Languages:_Installed');
+        $toolbar->help('Languages:_Installed');
     }
 }

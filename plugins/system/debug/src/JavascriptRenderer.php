@@ -14,6 +14,10 @@ use DebugBar\DebugBar;
 use DebugBar\JavascriptRenderer as DebugBarJavascriptRenderer;
 use Joomla\CMS\Factory;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Custom JavascriptRenderer for DebugBar
  *
@@ -52,8 +56,8 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
     public function renderHead()
     {
         list($cssFiles, $jsFiles, $inlineCss, $inlineJs, $inlineHead) = $this->getAssets(null, self::RELATIVE_URL);
-        $html = '';
-        $doc  = Factory::getApplication()->getDocument();
+        $html                                                         = '';
+        $doc                                                          = Factory::getApplication()->getDocument();
 
         foreach ($cssFiles as $file) {
             $html .= sprintf('<link rel="stylesheet" type="text/css" href="%s">' . "\n", $file);

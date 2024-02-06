@@ -31,7 +31,7 @@ $this->useCoreUI = true;
         <?php echo $this->form->renderField('parent_id'); ?>
     </div>
     <?php echo HTMLHelper::_('uitab.endTab'); ?>
-    <?php $this->ignore_fieldsets = array('group_details'); ?>
+    <?php $this->ignore_fieldsets = ['group_details']; ?>
     <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
     <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 

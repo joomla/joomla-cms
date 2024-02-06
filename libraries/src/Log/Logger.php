@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Log;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Logger Base Class
  *
@@ -25,7 +29,7 @@ abstract class Logger
      * @var    array
      * @since  3.0.1
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * Translation array for LogEntry priorities to text strings.
@@ -33,7 +37,7 @@ abstract class Logger
      * @var    array
      * @since  3.0.1
      */
-    protected $priorities = array(
+    protected $priorities = [
         Log::EMERGENCY => 'EMERGENCY',
         Log::ALERT     => 'ALERT',
         Log::CRITICAL  => 'CRITICAL',
@@ -42,7 +46,7 @@ abstract class Logger
         Log::NOTICE    => 'NOTICE',
         Log::INFO      => 'INFO',
         Log::DEBUG     => 'DEBUG',
-    );
+    ];
 
     /**
      * Constructor.

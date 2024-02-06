@@ -15,6 +15,10 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base controller class for Menu Manager.
  *
@@ -43,7 +47,7 @@ class DisplayController extends BaseController
     public function display($cachable = false, $urlparams = false)
     {
         // Verify menu
-        $menuType = $this->input->post->getCmd('menutype', '');
+        $menuType = $this->input->post->getString('menutype', '');
 
         if ($menuType !== '') {
             $uri = Uri::getInstance();

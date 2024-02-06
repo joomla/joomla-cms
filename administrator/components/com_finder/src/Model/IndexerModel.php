@@ -12,6 +12,10 @@ namespace Joomla\Component\Finder\Administrator\Model;
 
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Indexer model class for Finder.
  *

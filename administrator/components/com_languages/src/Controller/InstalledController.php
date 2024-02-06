@@ -11,11 +11,15 @@
 namespace Joomla\Component\Languages\Administrator\Controller;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Languages Controller.
@@ -40,22 +44,22 @@ class InstalledController extends BaseController
         if ($model->publish($cid)) {
             // Switching to the new administrator language for the message
             if ($model->getState('client_id') == 1) {
-                $language = Factory::getLanguage();
-                $newLang = Language::getInstance($cid);
+                $language          = Factory::getLanguage();
+                $newLang           = Language::getInstance($cid);
                 Factory::$language = $newLang;
                 $this->app->loadLanguage($language = $newLang);
                 $newLang->load('com_languages', JPATH_ADMINISTRATOR);
             }
 
             if (Multilanguage::isEnabled() && $model->getState('client_id') == 0) {
-                $msg = Text::_('COM_LANGUAGES_MSG_DEFAULT_MULTILANG_SAVED');
+                $msg  = Text::_('COM_LANGUAGES_MSG_DEFAULT_MULTILANG_SAVED');
                 $type = 'message';
             } else {
-                $msg = Text::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
+                $msg  = Text::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
                 $type = 'message';
             }
         } else {
-            $msg = $model->getError();
+            $msg  = $model->getError();
             $type = 'error';
         }
 
@@ -87,17 +91,17 @@ class InstalledController extends BaseController
 
         if ($model->switchAdminLanguage($cid)) {
             // Switching to the new language for the message
-            $languageName = $info['nativeName'];
-            $language = Factory::getLanguage();
-            $newLang = Language::getInstance($cid);
+            $languageName      = $info['nativeName'];
+            $language          = Factory::getLanguage();
+            $newLang           = Language::getInstance($cid);
             Factory::$language = $newLang;
             $this->app->loadLanguage($language = $newLang);
             $newLang->load('com_languages', JPATH_ADMINISTRATOR);
 
-            $msg = Text::sprintf('COM_LANGUAGES_MSG_SWITCH_ADMIN_LANGUAGE_SUCCESS', $languageName);
+            $msg  = Text::sprintf('COM_LANGUAGES_MSG_SWITCH_ADMIN_LANGUAGE_SUCCESS', $languageName);
             $type = 'message';
         } else {
-            $msg = $model->getError();
+            $msg  = $model->getError();
             $type = 'error';
         }
 

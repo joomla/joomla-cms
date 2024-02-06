@@ -17,6 +17,10 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The HTML Menus Menu Item Types View.
  *
@@ -53,16 +57,16 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         $app            = Factory::getApplication();
-        $this->recordId = $app->input->getInt('recordId');
+        $this->recordId = $app->getInput()->getInt('recordId');
 
         $types = $this->get('TypeOptions');
 
         $this->addCustomTypes($types);
 
-        $sortedTypes = array();
+        $sortedTypes = [];
 
         foreach ($types as $name => $list) {
-            $tmp = array();
+            $tmp = [];
 
             foreach ($list as $item) {
                 $tmp[Text::_($item->title)] = $item;
@@ -93,15 +97,15 @@ class HtmlView extends BaseHtmlView
         // Add page title
         ToolbarHelper::title(Text::_('COM_MENUS'), 'list menumgr');
 
-        // Get the toolbar object instance
-        $bar = Toolbar::getInstance('toolbar');
+        $toolbar = Toolbar::getInstance();
 
         // Cancel
         $title = Text::_('JTOOLBAR_CANCEL');
         $dhtml = "<button onClick=\"location.href='index.php?option=com_menus&view=items'\" class=\"btn\">
 					<span class=\"icon-times\" title=\"$title\"></span>
 					$title</button>";
-        $bar->appendButton('Custom', $dhtml, 'new');
+        $toolbar->customButton('new')
+            ->html($dhtml);
     }
 
     /**
@@ -116,11 +120,11 @@ class HtmlView extends BaseHtmlView
     protected function addCustomTypes(&$types)
     {
         if (empty($types)) {
-            $types = array();
+            $types = [];
         }
 
         // Adding System Links
-        $list           = array();
+        $list           = [];
         $o              = new CMSObject();
         $o->title       = 'COM_MENUS_TYPE_EXTERNAL_URL';
         $o->type        = 'url';

@@ -19,6 +19,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper class to handle permissions in mod_submenu
  *
@@ -47,7 +51,7 @@ abstract class Menu
          * $children is an array of MenuItem objects. A plugin can traverse the whole tree,
          * but new nodes will only be run through this method if their parents have not been processed yet.
          */
-        $app->triggerEvent('onPreprocessMenuItems', array('administrator.module.mod_submenu', $children));
+        $app->triggerEvent('onPreprocessMenuItems', ['administrator.module.mod_submenu', $children]);
 
         foreach ($children as $item) {
             if (substr($item->link, 0, 8) === 'special:') {
@@ -99,7 +103,7 @@ abstract class Menu
 
             // Populate automatic children for container items
             if ($item->type === 'container') {
-                $exclude    = (array) $itemParams->get('hideitems') ?: array();
+                $exclude    = (array) $itemParams->get('hideitems') ?: [];
                 $components = MenusHelper::getMenuItems('main', false, $exclude);
 
                 // We are adding the nodes first to preprocess them, then sort them and add them again.
@@ -129,7 +133,12 @@ abstract class Menu
                 continue;
             }
 
-            if ($item->element === 'com_fields') {
+            // Exclude item if the component is not authorised
+            $assetName = $item->element;
+
+            if ($item->element === 'com_categories') {
+                $assetName = $query['extension'] ?? 'com_content';
+            } elseif ($item->element === 'com_fields') {
                 parse_str($item->link, $query);
 
                 // Only display Fields menus when enabled in the component
@@ -152,7 +161,7 @@ abstract class Menu
                 if (isset($query['extension'])) {
                     $parts = explode('.', $query['extension']);
 
-                    $workflow = ComponentHelper::getParams($parts[0])->get('workflow_enabled');
+                    $workflow = ComponentHelper::getParams($parts[0])->get('workflow_enabled') && $user->authorise('core.manage.workflow', $parts[0]);
                 }
 
                 if (!$workflow) {
@@ -160,8 +169,8 @@ abstract class Menu
                     continue;
                 }
 
-                [$assetName] = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
-            } elseif (\in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin')) {
+                [$assetName] = isset($query['extension']) ? explode('.', $query['extension'], 2) : ['com_workflow'];
+            } elseif (\in_array($item->element, ['com_config', 'com_privacy', 'com_actionlogs'], true) && !$user->authorise('core.admin')) {
                 // Special case for components which only allow super user access
                 $parent->removeChild($item);
                 continue;
@@ -180,9 +189,6 @@ abstract class Menu
                     $parent->removeChild($item);
                     continue;
                 }
-            } elseif ($item->element && !$user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $item->element)) {
-                $parent->removeChild($item);
-                continue;
             } elseif ($item->element === 'com_menus') {
                 // Get badges for Menus containing a Home page.
                 $iconImage = $item->icon;
@@ -197,6 +203,11 @@ abstract class Menu
 
                     $item->iconImage = $iconImage;
                 }
+            }
+
+            if ($assetName && !$user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $assetName)) {
+                $parent->removeChild($item);
+                continue;
             }
 
             if ($item->hasChildren()) {

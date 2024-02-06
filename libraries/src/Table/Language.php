@@ -12,6 +12,10 @@ namespace Joomla\CMS\Table;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Languages table.
  *
@@ -68,24 +72,24 @@ class Language extends Table
      */
     public function store($updateNulls = false)
     {
-        $table = Table::getInstance('Language', 'JTable', array('dbo' => $this->getDbo()));
+        $table = Table::getInstance('Language', 'JTable', ['dbo' => $this->getDbo()]);
 
         // Verify that the language code is unique
-        if ($table->load(array('lang_code' => $this->lang_code)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0)) {
+        if ($table->load(['lang_code' => $this->lang_code]) && ($table->lang_id != $this->lang_id || $this->lang_id == 0)) {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_LANG_CODE'));
 
             return false;
         }
 
         // Verify that the sef field is unique
-        if ($table->load(array('sef' => $this->sef)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0)) {
+        if ($table->load(['sef' => $this->sef]) && ($table->lang_id != $this->lang_id || $this->lang_id == 0)) {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'));
 
             return false;
         }
 
         // Verify that the image field is unique
-        if ($this->image && $table->load(array('image' => $this->image)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0)) {
+        if ($this->image && $table->load(['image' => $this->image]) && ($table->lang_id != $this->lang_id || $this->lang_id == 0)) {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'));
 
             return false;

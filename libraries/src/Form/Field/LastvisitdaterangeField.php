@@ -12,6 +12,10 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Field to show a list of available date ranges to filter on last visit date.
  *
@@ -38,7 +42,7 @@ class LastvisitdaterangeField extends PredefinedlistField
         $lang->load('com_users', JPATH_ADMINISTRATOR);
 
         // Set the pre-defined options
-        $this->predefinedOptions = array(
+        $this->predefinedOptions = [
             'today'       => 'COM_USERS_OPTION_RANGE_TODAY',
             'past_week'   => 'COM_USERS_OPTION_RANGE_PAST_WEEK',
             'past_1month' => 'COM_USERS_OPTION_RANGE_PAST_1MONTH',
@@ -47,6 +51,6 @@ class LastvisitdaterangeField extends PredefinedlistField
             'past_year'   => 'COM_USERS_OPTION_RANGE_PAST_YEAR',
             'post_year'   => 'COM_USERS_OPTION_RANGE_POST_YEAR',
             'never'       => 'COM_USERS_OPTION_RANGE_NEVER',
-        );
+        ];
     }
 }

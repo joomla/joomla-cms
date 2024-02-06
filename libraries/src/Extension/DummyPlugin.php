@@ -11,6 +11,10 @@ namespace Joomla\CMS\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Placeholder plugin.
  *

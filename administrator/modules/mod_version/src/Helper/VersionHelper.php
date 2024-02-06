@@ -12,6 +12,10 @@ namespace Joomla\Module\Version\Administrator\Helper;
 
 use Joomla\CMS\Version;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_version
  *

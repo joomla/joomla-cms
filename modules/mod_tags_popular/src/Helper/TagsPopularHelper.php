@@ -15,6 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_tags_popular
  *
@@ -178,7 +182,7 @@ abstract class TagsPopularHelper
         try {
             $results = $db->loadObjectList();
         } catch (\RuntimeException $e) {
-            $results = array();
+            $results = [];
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
         }
 

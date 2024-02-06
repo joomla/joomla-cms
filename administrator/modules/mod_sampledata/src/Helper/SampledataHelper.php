@@ -14,6 +14,10 @@ use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_sampledata
  *
@@ -39,7 +43,7 @@ abstract class SampledataHelper
                 AbstractEvent::create(
                     'onSampledataGetOverview',
                     [
-                        'subject'   => new \stdClass(),
+                        'subject' => new \stdClass(),
                     ]
                 )
             )

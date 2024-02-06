@@ -12,6 +12,10 @@ namespace Joomla\CMS\Feed\Parser;
 use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedEntry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Feed Namespace interface.
  *

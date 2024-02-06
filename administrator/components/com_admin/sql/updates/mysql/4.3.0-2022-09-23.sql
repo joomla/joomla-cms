@@ -1,0 +1,1 @@
+-- The SQL statement had to be removed, see https://github.com/joomla/joomla-cms/pull/40535

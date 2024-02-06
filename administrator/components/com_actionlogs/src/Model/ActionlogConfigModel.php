@@ -11,7 +11,10 @@
 namespace Joomla\Component\Actionlogs\Administrator\Model;
 
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use stdClass;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Model to interact with the action log configuration.
@@ -25,11 +28,11 @@ class ActionlogConfigModel extends BaseDatabaseModel
      *
      * @param   string    $context  The context of the content
      *
-     * @return  stdClass|null  An object contains content type parameters, or null if not found
+     * @return  \stdClass|null  An object contains content type parameters, or null if not found
      *
      * @since   4.2.0
      */
-    public function getLogContentTypeParams(string $context): ?stdClass
+    public function getLogContentTypeParams(string $context): ?\stdClass
     {
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)
