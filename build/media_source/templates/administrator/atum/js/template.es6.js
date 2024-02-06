@@ -219,7 +219,7 @@ function subheadScrolling() {
 }
 
 /**
- * Watch for Dark mode changes, when the template is configured to follow OS setting
+ * Watch for Dark mode changes
  *
  * @since   __DEPLOY_VERSION__
  */
@@ -229,6 +229,20 @@ function darkModeWatch() {
   document.addEventListener('joomla:color-scheme-change', () => {
     docEl.dataset.bsTheme = docEl.dataset.colorScheme;
   });
+
+  // Look for User choose with data-color-scheme-switch button
+  const buttons = document.querySelectorAll('button[data-color-scheme-switch]');
+  buttons.forEach((button) => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      const { colorScheme } = docEl.dataset;
+      const newScheme = colorScheme !== 'dark' ? 'dark' : 'light';
+      docEl.dataset.colorScheme = newScheme;
+      document.cookie = `userColorScheme=${newScheme};`;
+      document.dispatchEvent(new CustomEvent('joomla:color-scheme-change', { bubbles: true }));
+    });
+  });
+
   // Look for data-color-scheme-os attribute
   const { colorSchemeOs } = docEl.dataset;
   if (colorSchemeOs === undefined) return;
