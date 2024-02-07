@@ -150,8 +150,8 @@ class TimezoneField extends GroupedlistField
             }
         }
 
-		// Add UTC option.
-		$groups['']['UTC'] = HTMLHelper::_('select.option', 'UTC', Text::_('JLIB_FORM_VALUE_TIMEZONE_UTC'), 'value', 'text', false);
+        // Add UTC option.
+        $groups['']['UTC'] = HTMLHelper::_('select.option', 'UTC', Text::_('JLIB_FORM_VALUE_TIMEZONE_UTC'), 'value', 'text', false);
 
         // Sort the group lists.
         ksort($groups);
