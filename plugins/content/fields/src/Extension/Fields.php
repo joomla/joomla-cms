@@ -68,7 +68,7 @@ final class Fields extends CMSPlugin
         }
 
         // Prepare the full text
-        if (property_exists($item, 'fulltext') && strpos($item->fulltext, 'field') !== false) {
+        if (property_exists($item, 'fulltext') && is_string($item->fulltext) && strpos($item->fulltext, 'field') !== false) {
             $item->fulltext = $this->prepare($item->fulltext, $context, $item);
         }
     }
