@@ -190,7 +190,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 
         // Manually follow redirects if server doesn't allow to follow location using curl
         if ($response->code >= 301 && $response->code < 400 && isset($response->headers['Location']) && (bool) $this->getOption('follow_location', true)) {
-            $redirect_uri = new Uri($response->headers['Location']);
+            $redirect_uri = new Uri($response->headers['Location'][0]);
 
             if (\in_array($redirect_uri->getScheme(), ['file', 'scp'])) {
                 throw new \RuntimeException('Curl redirect cannot be used in file or scp requests.');
