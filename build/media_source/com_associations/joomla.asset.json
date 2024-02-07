@@ -49,10 +49,10 @@
       "type": "script",
       "uri": "com_associations/sidebyside.min.js",
       "dependencies": [
-        "core",
-        "jquery"
+        "core"
       ],
       "attributes": {
+        "type": "module",
         "defer": true
       }
     },
