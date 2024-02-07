@@ -265,7 +265,7 @@ Joomla = window.Joomla || {};
       referlangInput.removeAttribute('disabled');
       referlangInput.value = targetLang;
 
-      window.frames['reference-association'].Joomla.submitbutton(document.getElementById('adminForm').getAttribute('data-associatedview') + '.save2copy');
+      window.frames['reference-association'].Joomla.submitbutton(`${document.getElementById('adminForm').getAttribute('data-associatedview')}.save2copy`);
     } else if (task === 'undo-association') { // Undo association
       const referenceEl   = document.getElementById('reference-association');
       const targetEl      = document.getElementById('target-association');
@@ -343,7 +343,7 @@ Joomla = window.Joomla || {};
       const el = document.getElementById(`${task}-association`)
       const content = el.contentDocument.body || el.contentWindow.document.body;
       content.querySelector('#jform_language').removeAttribute('disabled');
-      window.frames[task + '-association'].Joomla.submitbutton(document.getElementById('adminForm').getAttribute('data-associatedview') + '.apply');
+      window.frames[`${task}-association`].Joomla.submitbutton(`${document.getElementById('adminForm').getAttribute('data-associatedview')}.apply`);
     }
 
     return false;
