@@ -127,7 +127,7 @@ final class MathCaptchaProvider implements CaptchaProviderInterface
         $solution = (int) $this->app->getSession()->get($this->sessionKey);
 
         if (!$solution) {
-            throw new \RuntimeException(Text::_('PLG_CAPTCHA_MATH_EMPTY_SOLUTION'));
+            throw new \RuntimeException(Text::_('PLG_CAPTCHA_MATH_EMPTY_STORE'));
         }
 
         // Clean stored value to prevent F5 Form submission
