@@ -11,8 +11,6 @@
 namespace Joomla\Module\Frontend\Administrator\Dispatcher;
 
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
-use Joomla\CMS\Helper\HelperFactoryAwareInterface;
-use Joomla\CMS\Helper\HelperFactoryAwareTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,10 +21,8 @@ use Joomla\CMS\Helper\HelperFactoryAwareTrait;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareInterface
+class Dispatcher extends AbstractModuleDispatcher
 {
-    use HelperFactoryAwareTrait;
-
     /**
      * Returns the layout data.
      *
