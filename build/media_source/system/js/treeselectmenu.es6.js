@@ -17,7 +17,7 @@ document.querySelectorAll('.treeselect li').forEach((li) => {
     li.querySelector('span.icon-').classList.add('treeselect-toggle', 'icon-chevron-down');
 
     // Append drop down menu in nodes
-	li.querySelector('div.treeselect-item label').insertAdjacentHTML('afterend', treeselectmenu)
+    li.querySelector('div.treeselect-item label').insertAdjacentHTML('afterend', treeselectmenu)
 
     const sub = li.querySelector('ul.treeselect-sub');
     if (!sub.querySelector('ul.treeselect-sub')) {
