@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Editors.tinymce
+ * @subpackage  Cpatcha.match
  *
  * @copyright   (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -12,6 +12,7 @@ namespace Joomla\Plugin\Captcha\Math\Provider;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Captcha\CaptchaProviderInterface;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Layout\LayoutHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,6 +31,24 @@ final class MathCaptchaProvider implements CaptchaProviderInterface
      * @since  __DEPLOY_VERSION__
      */
     protected $app;
+
+    /**
+     * Math formula
+     *
+     * @var   string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected string $formula = '';
+
+    /**
+     * Session key, to store result
+     *
+     * @var   string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected string $sessionKey = 'plg_captcha_math.result';
 
     /**
      * Class constructor
@@ -69,10 +88,21 @@ final class MathCaptchaProvider implements CaptchaProviderInterface
      */
     public function display(string $name = '', array $attributes = []): string
     {
-        $id    = $attributes['id'] ?? '';
-        $class = $attributes['class'] ?? '';
+        // Prepare the numbers and store the result.
+        // They are the same for all captcha on the page, because browser can submit only 1 form at a time.
+        if (!$this->formula) {
+            $numbers       = [rand(10, 90), rand(1, 9)];
+            $this->formula = sprintf('%d + %d =', ...$numbers);
 
-        return 'Enter solution for: <input type="text" value="" size="5" name="' . $name . '" id="' . $id . '" class="' . $class . '"/>';
+            $this->app->getSession()->set($this->sessionKey, array_sum($numbers));
+        }
+
+        return  LayoutHelper::render(
+            'plugins.captcha.math.mathcaptcha',
+            ['name' => $name, 'attributes' => $attributes, 'formula' => $this->formula],
+            null,
+            ['component' => 'none']
+        );
     }
 
     /**
@@ -88,14 +118,28 @@ final class MathCaptchaProvider implements CaptchaProviderInterface
      */
     public function checkAnswer(string $code = null): bool
     {
-        return !$code;
+        if (!$code) {
+            return false;
+        }
+
+        // Get a real solution from session, and compare with answer
+        $solution = (int) $this->app->getSession()->get($this->sessionKey);
+
+        if (!$solution) {
+            throw new \RuntimeException('Captcha Math solution not found, please make sure you did not submit the same form twice');
+        }
+
+        // Clean stored value to prevent F5 Form submission
+        $this->app->getSession()->set($this->sessionKey, null);
+
+        return $solution === (int) $code;
     }
 
     /**
      * Method to react on the setup of a captcha field. Gives the possibility
      * to change the field and/or the XML element for the field.
      *
-     * @param   FormField         $field    Captcha field instance
+     * @param   FormField          $field    Captcha field instance
      * @param   \SimpleXMLElement  $element  XML form definition
      *
      * @return void
