@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="captcha" method="upgrade">
+	<name>plg_captcha_math</name>
+	<version>5.1.0</version>
+	<creationDate>2024-02</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>(C) 2024 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>PLG_CAPTCHA_MATH_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Captcha\Math</namespace>
+	<files>
+		<folder plugin="math">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_captcha_math.ini</language>
+		<language tag="en-GB">language/en-GB/plg_captcha_math.sys.ini</language>
+	</languages>
+	<config/>
+</extension>
