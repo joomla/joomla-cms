@@ -52,8 +52,7 @@
         "core"
       ],
       "attributes": {
-        "type": "module",
-        "defer": true
+        "type": "module"
       }
     },
     {
