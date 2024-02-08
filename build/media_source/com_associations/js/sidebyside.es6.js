@@ -157,12 +157,12 @@ document.getElementById('target-association').addEventListener('load', ({ target
 
     // If we are creating a new association (before save) we need to add the new association.
     if (targetLoadedId === '0') {
-      document.getElementById('select-change-text').innerHTML =  Joomla.sanitizeHtml(document.getElementById('select-change').getAttribute('data-select'));
+      document.getElementById('select-change-text').innerHTML = Joomla.sanitizeHtml(document.getElementById('select-change').getAttribute('data-select'));
     } else {
       // If we are editing an association.
 
       // Show change language button
-      document.getElementById('select-change-text').innerHTML =  Joomla.sanitizeHtml(document.getElementById('select-change').getAttribute('data-change'));
+      document.getElementById('select-change-text').innerHTML = Joomla.sanitizeHtml(document.getElementById('select-change').getAttribute('data-change'));
       document.getElementById('remove-assoc').classList.remove('hidden');
       document.getElementById('remove-assoc').classList.add('toolbar-copy');
 
@@ -230,11 +230,13 @@ document.getElementById('target-association').addEventListener('load', ({ target
       if (typeof parse[1] !== 'undefined' && parse[1] !== '0') {
         // - For modal association selectors.
         const langAssociation = parse[0].replace(/-/, '_');
+        // eslint-disable-next-line prefer-destructuring
         content.querySelector(`#jform_associations_${langAssociation}_id`).value = parse[1];
 
         // - For chosen association selectors (menus).
         chosenField = content.querySelector(`#jform_associations_${langAssociation}`);
         chosenField.appendChild(createOption(parse[1], ''));
+        // eslint-disable-next-line prefer-destructuring
         chosenField.value = parse[1];
       }
     });
