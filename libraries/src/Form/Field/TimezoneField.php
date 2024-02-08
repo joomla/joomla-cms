@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -149,9 +148,6 @@ class TimezoneField extends GroupedlistField
                 }
             }
         }
-
-        // Add UTC option.
-        $groups['']['UTC'] = HTMLHelper::_('select.option', 'UTC', Text::_('JLIB_FORM_VALUE_TIMEZONE_UTC'), 'value', 'text', false);
 
         // Sort the group lists.
         ksort($groups);
