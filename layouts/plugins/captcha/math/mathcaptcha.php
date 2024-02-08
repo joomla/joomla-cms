@@ -10,9 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Document\HtmlDocument;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 
@@ -32,6 +29,6 @@ $class = $attributes['class'] ?? '';
 
 ?>
 <div class="input-group mb-3">
-    <span class="input-group-text">Enter solution for: <b>&nbsp;<?php echo $formula; ?></b></span>
+    <span class="input-group-text"><?php echo Text::_('PLG_CAPTCHA_MATH_ENTER_SOLUTION') ?> <b>&nbsp;<?php echo $formula; ?></b></span>
     <input type="text" value="" size="5" name="<?php echo $name; ?>" id="<?php echo $id; ?>" class="form-control <?php echo $class; ?>"/>
 </div>

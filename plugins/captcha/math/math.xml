@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="captcha" method="upgrade">
-	<name>plg_captcha_math</name>
+	<name>PLG_CAPTCHA_MATH</name>
 	<version>5.1.0</version>
 	<creationDate>2024-02</creationDate>
 	<author>Joomla! Project</author>
