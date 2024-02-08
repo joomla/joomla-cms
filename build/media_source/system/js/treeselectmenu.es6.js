@@ -17,7 +17,7 @@ document.querySelectorAll('.treeselect li').forEach((li) => {
     li.querySelector('span.icon-').classList.add('treeselect-toggle', 'icon-chevron-down');
 
     // Append drop down menu in nodes
-    li.querySelector('div.treeselect-item label').insertAdjacentHTML('afterend', treeselectmenu)
+    li.querySelector('div.treeselect-item label').insertAdjacentHTML('afterend', treeselectmenu);
 
     const sub = li.querySelector('ul.treeselect-sub');
     if (!sub.querySelector('ul.treeselect-sub')) {
@@ -36,7 +36,7 @@ document.querySelectorAll('span.treeselect-toggle').forEach((toggle) => {
     if (parentNode.querySelector('ul.treeselect-sub').classList.contains('hidden')) {
       target.classList.remove(chevron);
       target.classList.add('icon-chevron-down');
-      parentNode.querySelectorAll('ul.treeselect-sub').forEach(item => item.classList.remove('hidden'));
+      parentNode.querySelectorAll('ul.treeselect-sub').forEach((item) => item.classList.remove('hidden'));
       parentNode.querySelectorAll('ul.treeselect-sub i.treeselect-toggle').forEach((item) => {
         item.classList.add('icon-chevron-down');
         item.classList.remove(chevron);
@@ -45,7 +45,7 @@ document.querySelectorAll('span.treeselect-toggle').forEach((toggle) => {
       target.classList.add(chevron);
       target.classList.remove('icon-chevron-down');
 
-      parentNode.querySelectorAll('ul.treeselect-sub').forEach(item => item.classList.add('hidden'));
+      parentNode.querySelectorAll('ul.treeselect-sub').forEach((item) => item.classList.add('hidden'));
       parentNode.querySelectorAll('ul.treeselect-sub i.treeselect-toggle').forEach((item) => {
         item.classList.remove('icon-chevron-down');
         item.classList.add(chevron);
@@ -68,7 +68,7 @@ document.getElementById('treeselectfilter').addEventListener('keyup', ({ target 
       item.classList.remove('d-none');
     } else {
       item.classList.add('d-none');
-      hidden++;
+      hidden += 1;
     }
   });
 
@@ -79,17 +79,17 @@ document.getElementById('treeselectfilter').addEventListener('keyup', ({ target 
 
 // Checks all checkboxes the tree
 document.getElementById('treeCheckAll').addEventListener('click', () => {
-  document.querySelectorAll('.treeselect input').forEach(input => input.setAttribute('checked', 'checked'));
+  document.querySelectorAll('.treeselect input').forEach((input) => input.setAttribute('checked', 'checked'));
 });
 
 // Unchecks all checkboxes the tree
 document.getElementById('treeUncheckAll').addEventListener('click', () => {
-  document.querySelectorAll('.treeselect input').forEach(input => input.removeAttribute('checked'));
+  document.querySelectorAll('.treeselect input').forEach((input) => input.removeAttribute('checked'));
 });
 
 // Expands all subtrees
 document.getElementById('treeExpandAll').addEventListener('click', () => {
-  document.querySelectorAll('ul.treeselect ul.treeselect-sub').forEach(input => input.classList.remove('hidden'));
+  document.querySelectorAll('ul.treeselect ul.treeselect-sub').forEach((input) => input.classList.remove('hidden'));
   document.querySelectorAll('ul.treeselect span.treeselect-toggle').forEach((item) => {
     item.classList.remove('icon-chevron-right');
     item.classList.add('icon-chevron-down');
@@ -98,7 +98,7 @@ document.getElementById('treeExpandAll').addEventListener('click', () => {
 
 // Collapses all subtrees
 document.getElementById('treeCollapseAll').addEventListener('click', () => {
-  document.querySelectorAll('ul.treeselect ul.treeselect-sub').forEach(input => input.classList.add('hidden'));
+  document.querySelectorAll('ul.treeselect ul.treeselect-sub').forEach((input) => input.classList.add('hidden'));
   document.querySelectorAll('ul.treeselect span.treeselect-toggle').forEach((item) => {
     item.classList.remove('icon-chevron-down');
     item.classList.add('icon-chevron-right');
@@ -108,12 +108,12 @@ document.getElementById('treeCollapseAll').addEventListener('click', () => {
 // Take care of children check/uncheck all
 document.querySelectorAll('a.checkall').forEach((item) => {
   item.addEventListener('click', ({ target }) => {
-    target.closest('li').querySelectorAll('ul.treeselect-sub input').forEach(input => input.setAttribute('checked', 'checked'));
+    target.closest('li').querySelectorAll('ul.treeselect-sub input').forEach((input) => input.setAttribute('checked', 'checked'));
   });
 });
 document.querySelectorAll('a.uncheckall').forEach((item) => {
   item.addEventListener('click', ({ target }) => {
-    target.closest('li').querySelectorAll('ul.treeselect-sub input').forEach(input => input.removeAttribute('checked'));
+    target.closest('li').querySelectorAll('ul.treeselect-sub input').forEach((input) => input.removeAttribute('checked'));
   });
 });
 
@@ -121,20 +121,20 @@ document.querySelectorAll('a.uncheckall').forEach((item) => {
 document.querySelectorAll('a.expandall').forEach((item) => {
   item.addEventListener('click', ({ target }) => {
     const parent = target.closest('ul');
-    parent.querySelectorAll('ul.treeselect-sub').forEach(input => input.classList.remove('hidden'));
-    parent.querySelectorAll('ul.treeselect-sub .treeselect-toggle').forEach((item) => {
-      item.classList.remove('icon-chevron-right');
-      item.classList.add('icon-chevron-down');
+    parent.querySelectorAll('ul.treeselect-sub').forEach((input) => input.classList.remove('hidden'));
+    parent.querySelectorAll('ul.treeselect-sub .treeselect-toggle').forEach((toggle) => {
+      toggle.classList.remove('icon-chevron-right');
+      toggle.classList.add('icon-chevron-down');
     });
   });
 });
 document.querySelectorAll('a.collapseall').forEach((item) => {
   item.addEventListener('click', ({ target }) => {
     const parent = target.closest('ul');
-    parent.querySelectorAll('ul.treeselect-sub').forEach(input => input.classList.add('hidden'));
-    parent.querySelectorAll('ul.treeselect-sub .treeselect-toggle').forEach((item) => {
-      item.classList.remove('icon-chevron-down');
-      item.classList.add('icon-chevron-right');
+    parent.querySelectorAll('ul.treeselect-sub').forEach((input) => input.classList.add('hidden'));
+    parent.querySelectorAll('ul.treeselect-sub .treeselect-toggle').forEach((toggle) => {
+      toggle.classList.remove('icon-chevron-down');
+      toggle.classList.add('icon-chevron-right');
     });
   });
 });
