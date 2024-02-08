@@ -4,7 +4,7 @@
  */
 
 const treeselectmenu = document.getElementById('treeselectmenu').innerHTML;
-const direction = (document.dir !== undefined) ? document.dir : document.getElementsByTagName('html')[0].getAttribute('dir');
+const direction = (document.dir !== undefined) ? document.dir : document.documentElement.dir;
 
 document.querySelectorAll('.treeselect li').forEach((li) => {
   // Add icons
