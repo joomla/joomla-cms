@@ -72,9 +72,7 @@
         event.currentTarget.classList.add('selected');
         const ismedia = event.currentTarget.dataset.base === 'media' ? 1 : 0;
 
-        document.querySelectorAll('#folderModal input.address').forEach((element) => {
-          element.value = event.currentTarget.getAttribute('data-id');
-        });
+        document.querySelectorAll('#folderModal input.address').forEach((element) => element.value = event.currentTarget.getAttribute('data-id'));
 
         document.querySelectorAll('#folderModal input[name="isMedia"]').forEach((el) => el.value = ismedia);
       });
