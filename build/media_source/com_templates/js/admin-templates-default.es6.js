@@ -52,9 +52,7 @@
         event.currentTarget.classList.add('selected');
         const ismedia = event.currentTarget.dataset.base === 'media' ? 1 : 0;
 
-        document.querySelectorAll('#fileModal input.address').forEach((element) => {
-          element.value = event.currentTarget.getAttribute('data-id');
-        });
+        document.querySelectorAll('#fileModal input.address').forEach((element) => element.value = event.currentTarget.getAttribute('data-id'));
 
         document.querySelectorAll('#fileModal input[name="isMedia"]').forEach((el) => {
           el.value = ismedia;
