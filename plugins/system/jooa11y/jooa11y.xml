@@ -124,12 +124,17 @@
 					filter="string"
 				/>
         <field
-					name="extraProps"
-					type="textarea"
-					label="PLG_SYSTEM_JOOA11Y_FIELD_EXTRA_PROPS"
-					description="PLG_SYSTEM_JOOA11Y_FIELD_EXTRA_PROPS_DESC"
-					filter="string"
-				/>
+          name="extraProps"
+          type="subform"
+          multiple="true"
+          label="PLG_SYSTEM_JOOA11Y_FIELD_EXTRA_PROPS"
+          description="PLG_SYSTEM_JOOA11Y_FIELD_EXTRA_PROPS_DESC"
+        >
+          <form>
+            <field type="text" name="key" label="PLG_SYSTEM_JOOA11Y_KEY"/>
+            <field type="text" name="value" label="PLG_SYSTEM_JOOA11Y_VALUE"/>
+          </form>
+        </field>
 			</fieldset>
 		</fields>
 	</config>
