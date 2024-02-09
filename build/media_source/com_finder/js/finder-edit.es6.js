@@ -11,9 +11,7 @@ Joomla = window.Joomla || {};
   document.addEventListener('DOMContentLoaded', () => {
     // Handle toggle all
     document.querySelectorAll('.filter-toggle-all').forEach((button) => {
-      button.addEventListener('click', () => {
-        document.querySelectorAll('.filter-node').forEach((node) => node.click());
-      });
+      button.addEventListener('click', () => document.querySelectorAll('.filter-node').forEach((node) => node.click()));
     });
 
     // Update the count
