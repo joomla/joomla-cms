@@ -5,5 +5,5 @@
 
 const helpIndex = document.getElementById('help-index');
 if (helpIndex) {
-  helpIndex.querySelectorAll('a')).forEach((element) => element.addEventListener('click', () => window.scroll(0, 0)));
+  helpIndex.querySelectorAll('a').forEach((element) => element.addEventListener('click', () => window.scroll(0, 0)));
 }
