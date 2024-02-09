@@ -78,9 +78,7 @@
           element.value = event.currentTarget.getAttribute('data-id');
         });
 
-        document.querySelectorAll('#folderModal input[name="isMedia"]').forEach((el) => {
-          el.value = ismedia;
-        });
+        document.querySelectorAll('#folderModal input[name="isMedia"]').forEach((el) => el.value = ismedia);
       });
     });
 
