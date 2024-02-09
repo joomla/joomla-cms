@@ -83,9 +83,7 @@
       }
     });
 
-    document.querySelectorAll('.js-finder-searchform').forEach((form) => {
-      form.addEventListener('submit', onSubmit);
-    });
+    document.querySelectorAll('.js-finder-searchform').forEach((form) => form.addEventListener('submit', onSubmit));
 
     // Cleanup
     document.removeEventListener('DOMContentLoaded', onBoot);
