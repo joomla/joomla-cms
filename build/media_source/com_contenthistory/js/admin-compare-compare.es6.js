@@ -40,8 +40,7 @@
   };
 
   const onBoot = () => {
-    const diffs = [].slice.call(document.querySelectorAll('.original'));
-    diffs.forEach((fragment) => {
+    document.querySelectorAll('.original').forEach((fragment) => {
       compare(fragment, fragment.nextElementSibling);
     });
 

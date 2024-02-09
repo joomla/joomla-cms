@@ -43,6 +43,6 @@ const handleCategoryToggleButtonClick = ({ currentTarget }) => {
   target.toggleAttribute('hidden');
 };
 
-Array.from(document.querySelectorAll(buttonsSelector)).forEach((button) => {
+document.querySelectorAll(buttonsSelector).forEach((button) => {
   button.addEventListener('click', handleCategoryToggleButtonClick);
 });
