@@ -79,9 +79,7 @@
         this.states.searchType = formSearchType.value || 'value';
 
         // Remove the old results
-        document.querySelectorAll('.language-results').forEach((result) => {
-          result.parentNode.removeChild(result);
-        });
+        document.querySelectorAll('.language-results').forEach((result) => result.parentNode.removeChild(result));
       }
 
       if (!this.states.searchString) {
