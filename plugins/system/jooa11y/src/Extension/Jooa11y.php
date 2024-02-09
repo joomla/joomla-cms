@@ -146,82 +146,65 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
       $lang = ($country === "us") ? "enUS" : "en";
     }
 
-    // Sa11y language file name
-    $sa11yLang = 'Sa11yLang' . ucfirst($lang);
-
     // Get the document object
     $document = $this->getApplication()->getDocument();
 
-    // Prepare `extraProps` into JSON.
-    function prepareExtraProps($extraProps)
-    {
+    // Get plugin options from xml
+    $getOptions = [
+      'checkRoot' => $this->params->get('checkRoot', 'main'),
+      'readabilityRoot' => $this->params->get('readabilityRoot', 'main'),
+      'containerIgnore' => $this->params->get('containerIgnore'),
+      'contrastPlugin' => $this->params->get('contrastPlugin'),
+      'formLabelsPlugin' => $this->params->get('formLabelsPlugin'),
+      'linksAdvancedPlugin' => $this->params->get('linksAdvancedPlugin'),
+      'colourFilterPlugin' => $this->params->get('colourFilterPlugin'),
+      'checkAllHideToggles' => $this->params->get('additionalChecks'),
+      'shadowComponents' => $this->params->get('shadowComponents'),
+    ];
+    $getExtraProps = $this->params->get('extraProps');
 
-      // Remove special chars and seperate key/value pairs
-      $extraProps = preg_replace('/[^a-zA-Z0-9_,:]/', '', $extraProps);
-      $pairs = explode(',', $extraProps);
-      $data = [];
-
-      foreach ($pairs as $pair) {
-        // Split the pair into key and value
-        list($property, $value) = array_map('trim', explode(':', $pair, 2)) + [null, null];
-
-        // Handle booleans
-        $booleanValue = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-
-        // If it's not a boolean, try parsing it as a number
-        $value = ($booleanValue === null)
-          ? (filter_var($value, FILTER_VALIDATE_FLOAT) ?? null)
-          : ($booleanValue ? 1 : 0);
-
-        // Store the property and its value in the data array
-        $data[$property] = $value;
+    // Process extra props
+    $extraProps = [];
+    foreach ($getExtraProps as $prop) {
+      $decodedValue = json_decode($prop->value);
+      if (is_numeric($decodedValue) || is_bool($decodedValue)) {
+        $extraProps[$prop->key] = $decodedValue;
+      } else {
+        $extraProps[$prop->key] = "{$prop->value}";
       }
-
-      // Encode to JSON, ensuring numeric values are not treated as strings
-      return json_encode($data, JSON_NUMERIC_CHECK);
     }
 
-    // Get extra props
-    $extraProps = $this->params->get('extraProps');
-    $extraPropsJSON = !empty($extraProps) ? prepareExtraProps($extraProps) : '""';
-
-    // Add plugin settings from the xml
-    $document->addScriptOptions(
-      'jooa11yOptions',
-      [
-        'checkRoot' => $this->params->get('checkRoot', 'main'),
-        'readabilityRoot' => $this->params->get('readabilityRoot', 'main'),
-        'containerIgnore' => $this->params->get('containerIgnore'),
-        'contrastPlugin' => $this->params->get('contrastPlugin'),
-        'formLabelsPlugin' => $this->params->get('formLabelsPlugin'),
-        'linksAdvancedPlugin' => $this->params->get('linksAdvancedPlugin'),
-        'colourFilterPlugin' => $this->params->get('colourFilterPlugin'),
-        'checkAllHideToggles' => $this->params->get('additionalChecks'),
-        'shadowComponents' => $this->params->get('shadowComponents'),
-      ],
-    );
+    // Merge all options together and add to page
+    $allOptions = array_merge($getOptions, $extraProps);
+    $document->addScriptOptions('jooa11yOptions', $allOptions);
 
     /** @var Joomla\CMS\WebAsset\WebAssetManager $wa*/
     $wa = $document->getWebAssetManager();
 
     // Load scripts and instantiate
-    $wa->useStyle('sa11yCSS');
+    $wa->useStyle('sa11y')
+      ->useScript('sa11y')
+      ->registerAndUseScript(
+        'sa11y-lang',
+        'vendor/sa11y/' . $lang . '.js',
+        ['importmap' => true],
+        [],
+        []
+      );
+
     $wa->addInlineScript(
       <<<EOT
-        import { Sa11y, Lang } from '/media/vendor/sa11y/js/sa11y.esm.min.js';
-        import $sa11yLang from '/media/vendor/sa11y/js/$lang.js';
+        import { Sa11y, Lang } from 'sa11y';
+        import Sa11yLang from 'sa11y-lang';
 
-        Lang.addI18n($sa11yLang.strings);
-
-        const options = Joomla.getOptions('jooa11yOptions');
-        const extraProps = $extraPropsJSON;
-        const allOptions = Object.assign({}, options, extraProps);
+        Lang.addI18n(Sa11yLang.strings);
         window.addEventListener('load', () => {
-          const sa11y = new Sa11y(allOptions);
+          new Sa11y(Joomla.getOptions('jooa11yOptions', {}));
         });
       EOT,
-      [],
-      ['type' => 'module']
+      ['name' => 'inline.plg_system_sa11y-init'],
+      ['type' => 'module'],
+      ['core', 'sa11y', 'sa11y-lang']
     );
 
     return true;
