@@ -95,9 +95,7 @@
         // Otherwise it is a new searchstring and we have to remove all previous results first
         this.moreResults.classList.remove('show');
 
-        document.querySelectorAll('#results-container div.language-results').forEach((child) => {
-          child.parentNode.removeChild(child);
-        });
+        document.querySelectorAll('#results-container div.language-results').forEach((child) => child.parentNode.removeChild(child));
 
         this.resultsContainer.classList.add('show');
         this.spinner.classList.add('show');
