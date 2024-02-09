@@ -24,189 +24,186 @@ use Joomla\Event\SubscriberInterface;
  */
 final class Jooa11y extends CMSPlugin implements SubscriberInterface
 {
-  /**
-   * Subscribe to certain events
-   *
-   * @return string[]  An array of event mappings
-   *
-   * @since 4.1.0
-   *
-   * @throws Exception
-   */
-  public static function getSubscribedEvents(): array
-  {
-    return ['onBeforeCompileHead' => 'initJooa11y'];
-  }
-
-  /**
-   * Method to check if the current user is allowed to see the debug information or not.
-   *
-   * @return  boolean  True if access is allowed.
-   *
-   * @since   4.1.0
-   */
-  private function isAuthorisedDisplayChecker(): bool
-  {
-    static $result;
-
-    if (\is_bool($result)) {
-      return $result;
+    /**
+     * Subscribe to certain events
+     *
+     * @return string[]  An array of event mappings
+     *
+     * @since 4.1.0
+     *
+     * @throws Exception
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return ['onBeforeCompileHead' => 'initJooa11y'];
     }
 
-    // If the user is not allowed to view the output then end here.
-    $filterGroups = (array) $this->params->get('filter_groups', []);
+    /**
+     * Method to check if the current user is allowed to see the debug information or not.
+     *
+     * @return  boolean  True if access is allowed.
+     *
+     * @since   4.1.0
+     */
+    private function isAuthorisedDisplayChecker(): bool
+    {
+        static $result;
 
-    if (!empty($filterGroups)) {
-      $userGroups = $this->getApplication()->getIdentity()->get('groups');
+        if (\is_bool($result)) {
+            return $result;
+        }
 
-      if (!array_intersect($filterGroups, $userGroups)) {
-        $result = false;
+        // If the user is not allowed to view the output then end here.
+        $filterGroups = (array) $this->params->get('filter_groups', []);
 
+        if (!empty($filterGroups)) {
+            $userGroups = $this->getApplication()->getIdentity()->get('groups');
+
+            if (!array_intersect($filterGroups, $userGroups)) {
+                $result = false;
+                return $result;
+            }
+        }
+
+        $result = true;
         return $result;
-      }
     }
 
-    $result = true;
+    /**
+     * Add the checker.
+     *
+     * @return  void
+     *
+     * @since   4.1.0
+     */
+    public function initJooa11y()
+    {
+        if (!$this->getApplication()->isClient('site')) {
+            return;
+        }
 
-    return $result;
-  }
+        // Check if we are in a preview modal or the plugin has enforced loading
+        $showJooa11y = $this->getApplication()->getInput()->get('jooa11y', $this->params->get('showAlways', 0));
 
-  /**
-   * Add the checker.
-   *
-   * @return  void
-   *
-   * @since   4.1.0
-   */
-  public function initJooa11y()
-  {
-    if (!$this->getApplication()->isClient('site')) {
-      return;
+        // Load the checker if authorised
+        if (!$showJooa11y || !$this->isAuthorisedDisplayChecker()) {
+            return;
+        }
+
+        // Load translations
+        $this->loadLanguage();
+
+        // Detect the current active language
+        $getLang = $this->getApplication()->getLanguage()->getTag();
+
+        // Get the right locale
+        $splitLang = explode('-', $getLang);
+        $lang = $splitLang[0];
+        $country = isset($parts[1]) ? $parts[1] : '';
+
+        // Sa11y is available in the following languages
+        $supportedLang = [
+          'bg',
+          'cs',
+          'da',
+          'de',
+          'el',
+          'en',
+          'es',
+          'et',
+          'fi',
+          'fr',
+          'hu',
+          'id',
+          'it',
+          'ja',
+          'ko',
+          'lt',
+          'lv',
+          'nb',
+          'nl',
+          'pl',
+          'pt',
+          'ro',
+          'sl',
+          'sk',
+          'sv',
+          'tr',
+          'ua',
+          'zh',
+        ];
+
+        // Check if Sa11y supports language
+        if (!in_array($lang, $supportedLang)) {
+            $lang = "en";
+        } elseif ($lang === "pt") {
+            $lang = ($country === "br") ? "ptBR" : "ptPT";
+        } elseif ($lang === "uk") {
+            $lang = "ua";
+        } elseif ($lang === "en") {
+            $lang = ($country === "us") ? "enUS" : "en";
+        }
+
+        // Get the document object
+        $document = $this->getApplication()->getDocument();
+
+        // Get plugin options from xml
+        $getOptions = [
+          'checkRoot' => $this->params->get('checkRoot', 'main'),
+          'readabilityRoot' => $this->params->get('readabilityRoot', 'main'),
+          'containerIgnore' => $this->params->get('containerIgnore'),
+          'contrastPlugin' => $this->params->get('contrastPlugin'),
+          'formLabelsPlugin' => $this->params->get('formLabelsPlugin'),
+          'linksAdvancedPlugin' => $this->params->get('linksAdvancedPlugin'),
+          'colourFilterPlugin' => $this->params->get('colourFilterPlugin'),
+          'checkAllHideToggles' => $this->params->get('additionalChecks'),
+          'shadowComponents' => $this->params->get('shadowComponents'),
+        ];
+        $getExtraProps = $this->params->get('extraProps');
+
+        // Process extra props
+        $extraProps = [];
+        foreach ($getExtraProps as $prop) {
+            $decodedValue = json_decode($prop->value);
+            if (is_numeric($decodedValue) || is_bool($decodedValue)) {
+                $extraProps[$prop->key] = $decodedValue;
+            } else {
+                $extraProps[$prop->key] = "{$prop->value}";
+            }
+        }
+
+        // Merge all options together and add to page
+        $allOptions = array_merge($getOptions, $extraProps);
+        $document->addScriptOptions('jooa11yOptions', $allOptions);
+
+        /** @var Joomla\CMS\WebAsset\WebAssetManager $wa*/
+        $wa = $document->getWebAssetManager();
+
+        // Load scripts and instantiate
+        $wa->useStyle('sa11y')
+          ->useScript('sa11y')
+          ->registerAndUseScript(
+              'sa11y-lang',
+              'vendor/sa11y/' . $lang . '.js',
+              ['importmap' => true],
+              [],
+              []
+          );
+
+        $wa->addInlineScript(
+            <<<EOT
+              import { Sa11y, Lang } from 'sa11y';
+              import Sa11yLang from 'sa11y-lang';
+
+              Lang.addI18n(Sa11yLang.strings);
+              window.addEventListener('load', () => {
+                new Sa11y(Joomla.getOptions('jooa11yOptions', {}));
+              });
+            EOT,
+            ['name' => 'inline.plg_system_sa11y-init'],
+            ['type' => 'module'],
+            ['core', 'sa11y', 'sa11y-lang']
+        );
+        return true;
     }
-
-    // Check if we are in a preview modal or the plugin has enforced loading
-    $showJooa11y = $this->getApplication()->getInput()->get('jooa11y', $this->params->get('showAlways', 0));
-
-    // Load the checker if authorised
-    if (!$showJooa11y || !$this->isAuthorisedDisplayChecker()) {
-      return;
-    }
-
-    // Load translations
-    $this->loadLanguage();
-
-    // Detect the current active language
-    $getLang = $this->getApplication()->getLanguage()->getTag();
-
-    // Get the right locale
-    $splitLang = explode('-', $getLang);
-    $lang = $splitLang[0];
-    $country = isset($parts[1]) ? $parts[1] : '';
-
-    // Sa11y is available in the following languages
-    $supportedLang = [
-      'bg',
-      'cs',
-      'da',
-      'de',
-      'el',
-      'en',
-      'es',
-      'et',
-      'fi',
-      'fr',
-      'hu',
-      'id',
-      'it',
-      'ja',
-      'ko',
-      'lt',
-      'lv',
-      'nb',
-      'nl',
-      'pl',
-      'pt',
-      'ro',
-      'sl',
-      'sk',
-      'sv',
-      'tr',
-      'ua',
-      'zh',
-    ];
-
-    // Check if Sa11y supports language
-    if (!in_array($lang, $supportedLang)) {
-      $lang = "en";
-    } else if ($lang === "pt") {
-      $lang = ($country === "br") ? "ptBR" : "ptPT";
-    } else if ($lang === "uk") {
-      $lang = "ua";
-    } else if ($lang === "en") {
-      $lang = ($country === "us") ? "enUS" : "en";
-    }
-
-    // Get the document object
-    $document = $this->getApplication()->getDocument();
-
-    // Get plugin options from xml
-    $getOptions = [
-      'checkRoot' => $this->params->get('checkRoot', 'main'),
-      'readabilityRoot' => $this->params->get('readabilityRoot', 'main'),
-      'containerIgnore' => $this->params->get('containerIgnore'),
-      'contrastPlugin' => $this->params->get('contrastPlugin'),
-      'formLabelsPlugin' => $this->params->get('formLabelsPlugin'),
-      'linksAdvancedPlugin' => $this->params->get('linksAdvancedPlugin'),
-      'colourFilterPlugin' => $this->params->get('colourFilterPlugin'),
-      'checkAllHideToggles' => $this->params->get('additionalChecks'),
-      'shadowComponents' => $this->params->get('shadowComponents'),
-    ];
-    $getExtraProps = $this->params->get('extraProps');
-
-    // Process extra props
-    $extraProps = [];
-    foreach ($getExtraProps as $prop) {
-      $decodedValue = json_decode($prop->value);
-      if (is_numeric($decodedValue) || is_bool($decodedValue)) {
-        $extraProps[$prop->key] = $decodedValue;
-      } else {
-        $extraProps[$prop->key] = "{$prop->value}";
-      }
-    }
-
-    // Merge all options together and add to page
-    $allOptions = array_merge($getOptions, $extraProps);
-    $document->addScriptOptions('jooa11yOptions', $allOptions);
-
-    /** @var Joomla\CMS\WebAsset\WebAssetManager $wa*/
-    $wa = $document->getWebAssetManager();
-
-    // Load scripts and instantiate
-    $wa->useStyle('sa11y')
-      ->useScript('sa11y')
-      ->registerAndUseScript(
-        'sa11y-lang',
-        'vendor/sa11y/' . $lang . '.js',
-        ['importmap' => true],
-        [],
-        []
-      );
-
-    $wa->addInlineScript(
-      <<<EOT
-        import { Sa11y, Lang } from 'sa11y';
-        import Sa11yLang from 'sa11y-lang';
-
-        Lang.addI18n(Sa11yLang.strings);
-        window.addEventListener('load', () => {
-          new Sa11y(Joomla.getOptions('jooa11yOptions', {}));
-        });
-      EOT,
-      ['name' => 'inline.plg_system_sa11y-init'],
-      ['type' => 'module'],
-      ['core', 'sa11y', 'sa11y-lang']
-    );
-
-    return true;
-  }
 }
