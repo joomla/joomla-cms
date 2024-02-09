@@ -57,7 +57,9 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         $filterGroups = (array) $this->params->get('filter_groups', []);
 
         if (!empty($filterGroups)) {
-            $userGroups = $this->getApplication()->getIdentity()->get('groups');
+            $userGroups = $this->getApplication()
+                ->getIdentity()
+                ->get('groups');
 
             if (!array_intersect($filterGroups, $userGroups)) {
                 $result = false;
@@ -83,7 +85,9 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         }
 
         // Check if we are in a preview modal or the plugin has enforced loading
-        $showJooa11y = $this->getApplication()->getInput()->get('jooa11y', $this->params->get('showAlways', 0));
+        $showJooa11y = $this->getApplication()
+            ->getInput()
+            ->get('jooa11y', $this->params->get('showAlways', 0));
 
         // Load the checker if authorised
         if (!$showJooa11y || !$this->isAuthorisedDisplayChecker()) {
@@ -94,7 +98,9 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         $this->loadLanguage();
 
         // Detect the current active language
-        $getLang = $this->getApplication()->getLanguage()->getTag();
+        $getLang = $this->getApplication()
+            ->getLanguage()
+            ->getTag();
 
         // Get the right locale
         $splitLang = explode('-', $getLang);
@@ -103,45 +109,45 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
 
         // Sa11y is available in the following languages
         $supportedLang = [
-          'bg',
-          'cs',
-          'da',
-          'de',
-          'el',
-          'en',
-          'es',
-          'et',
-          'fi',
-          'fr',
-          'hu',
-          'id',
-          'it',
-          'ja',
-          'ko',
-          'lt',
-          'lv',
-          'nb',
-          'nl',
-          'pl',
-          'pt',
-          'ro',
-          'sl',
-          'sk',
-          'sv',
-          'tr',
-          'ua',
-          'zh',
+            'bg',
+            'cs',
+            'da',
+            'de',
+            'el',
+            'en',
+            'es',
+            'et',
+            'fi',
+            'fr',
+            'hu',
+            'id',
+            'it',
+            'ja',
+            'ko',
+            'lt',
+            'lv',
+            'nb',
+            'nl',
+            'pl',
+            'pt',
+            'ro',
+            'sl',
+            'sk',
+            'sv',
+            'tr',
+            'ua',
+            'zh',
         ];
 
         // Check if Sa11y supports language
         if (!in_array($lang, $supportedLang)) {
-            $lang = "en";
-        } elseif ($lang === "pt") {
-            $lang = ($country === "br") ? "ptBR" : "ptPT";
-        } elseif ($lang === "uk") {
-            $lang = "ua";
-        } elseif ($lang === "en") {
-            $lang = ($country === "us") ? "enUS" : "en";
+            $lang = 'en';
+        } elseif ($lang === 'pt') {
+            $lang = $country === 'br' ? 'ptBR' : 'ptPT';
+        } elseif ($lang === 'uk') {
+            $lang = 'ua';
+        } elseif ($lang === 'en') {
+            $lang = $country === 'us' ? 'enUS' : 'en';
         }
 
         // Get the document object
@@ -160,6 +166,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
           'shadowComponents' => $this->params->get('shadowComponents'),
         ];
         $getExtraProps = $this->params->get('extraProps');
+
 
         // Process extra props
         $extraProps = [];
@@ -181,23 +188,23 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
 
         // Load scripts and instantiate
         $wa->useStyle('sa11y')
-          ->useScript('sa11y')
-          ->registerAndUseScript(
-              'sa11y-lang',
-              'vendor/sa11y/' . $lang . '.js',
-              ['importmap' => true],
-              [],
-              []
-          );
+            ->useScript('sa11y')
+            ->registerAndUseScript(
+                'sa11y-lang',
+                'vendor/sa11y/' . $lang . '.js',
+                ['importmap' => true],
+                [],
+                []
+            );
 
         $wa->addInlineScript(
             <<<EOT
-              import { Sa11y, Lang } from 'sa11y';
-              import Sa11yLang from 'sa11y-lang';
+              import { Sa11y, Lang } from "sa11y";
+              import Sa11yLang from "sa11y-lang";
 
               Lang.addI18n(Sa11yLang.strings);
-              window.addEventListener('load', () => {
-                new Sa11y(Joomla.getOptions('jooa11yOptions', {}));
+              window.addEventListener("load", () => {
+                new Sa11y(Joomla.getOptions("jooa11yOptions", {}));
               });
             EOT,
             ['name' => 'inline.plg_system_sa11y-init'],
