@@ -16,7 +16,7 @@ Joomla.submitbutton = (task, type) => {
 
       document.getElementById('fieldtype').value = 'type';
     } else {
-      document.querySelectorAll('#item-form input[name="jform[menutype]"]')).forEach((item) => {
+      document.querySelectorAll('#item-form input[name="jform[menutype]"]').forEach((item) => {
         item.value = type;
       });
     }
