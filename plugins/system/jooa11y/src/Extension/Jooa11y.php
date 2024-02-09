@@ -104,7 +104,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
 
         // Get the right locale
         $splitLang = explode('-', $getLang);
-        $lang = $splitLang[0];
+        $lang    = $splitLang[0];
         $country = isset($parts[1]) ? $parts[1] : '';
 
         // Sa11y is available in the following languages
@@ -172,7 +172,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         $extraProps = [];
         foreach ($getExtraProps as $prop) {
             $decodedValue = json_decode($prop->value);
-            if (is_numeric($decodedValue) || is_bool($decodedValue)) {
+            if (\is_numeric($decodedValue) || \is_bool($decodedValue)) {
                 $extraProps[$prop->key] = $decodedValue;
             } else {
                 $extraProps[$prop->key] = "{$prop->value}";
