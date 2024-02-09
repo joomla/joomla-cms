@@ -246,9 +246,7 @@ Joomla = window.Joomla || {};
           el.dataset.state = 'closed';
           el.innerHTML = Joomla.sanitizeHtml(Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION'));
 
-          compatibilityTable.querySelectorAll('table .instver, table .upcomp, table .currcomp').forEach((elem) => {
-            elem.classList.add('hidden');
-          });
+          compatibilityTable.querySelectorAll('table .instver, table .upcomp, table .currcomp').forEach((elem) => elem.classList.add('hidden'));
         }
       });
     });
