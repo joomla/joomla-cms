@@ -172,7 +172,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         $extraProps = [];
         foreach ($getExtraProps as $prop) {
             $decodedValue = json_decode($prop->value);
-            if (\is_numeric($decodedValue) || \is_bool($decodedValue)) {
+            if (is_numeric($decodedValue) || \is_bool($decodedValue)) {
                 $extraProps[$prop->key] = $decodedValue;
             } else {
                 $extraProps[$prop->key] = "{$prop->value}";
