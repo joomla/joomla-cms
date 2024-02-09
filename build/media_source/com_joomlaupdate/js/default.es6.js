@@ -256,13 +256,10 @@ Joomla = window.Joomla || {};
     // Grab all extensions based on the selector set in the config object
     const extensionsInformation = [];
 
-    extensions.forEach((extension) => {
-      const thisInfo = {
+    extensions.forEach((extension) => extensionsInformation.push({
         eid: extension.getAttribute('data-extension-id'),
         version: extension.getAttribute('data-extension-current-version'),
-      };
-      extensionsInformation.push(thisInfo);
-    });
+      }));
 
     PreUpdateChecker.checkNextChunk(extensionsInformation);
   };
