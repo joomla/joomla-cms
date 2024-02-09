@@ -7,8 +7,8 @@
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.article-status').forEach((element) =>
+    document.querySelectorAll('.article-status').forEach((element) => {
       element.addEventListener('click', (event) => event.stopPropagation());
-    );
+    });
   });
 })();
