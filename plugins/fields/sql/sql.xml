@@ -54,7 +54,7 @@
 				</field>
 
 				<field
-					name="form_layout"
+					name="layout"
 					type="list"
 					label="JLIB_FORM_FIELD_PARAM_LAYOUT_LABEL"
 					class="form-select"
@@ -69,7 +69,7 @@
 					default="10"
 					label="JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_MAXRESULTS"
 					filter="integer"
-					showon="form_layout:joomla.form.field.list-fancy-select"
+					showon="layout:joomla.form.field.list-fancy-select"
 				/>
 				<field
 					name="data-max-render"
@@ -77,7 +77,7 @@
 					default="-1"
 					label="JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_MAXRENDER"
 					filter="integer"
-					showon="form_layout:joomla.form.field.list-fancy-select"
+					showon="layout:joomla.form.field.list-fancy-select"
 				/>
 			</fieldset>
 		</fields>
