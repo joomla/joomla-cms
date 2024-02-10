@@ -29,6 +29,6 @@ $class = $attributes['class'] ?? '';
 
 ?>
 <div class="input-group mb-3">
-    <span class="input-group-text"><?php echo Text::_('PLG_CAPTCHA_MATH_ENTER_SOLUTION') ?> <b>&nbsp;<?php echo $this->escape($formula); ?></b></span>
+    <span class="input-group-text"><?php echo Text::_('PLG_CAPTCHA_MATH_ENTER_SOLUTION') ?> <?php echo $this->escape($formula); ?></span>
     <input type="text" value="" size="5" name="<?php echo $name; ?>" id="<?php echo $id; ?>" class="form-control <?php echo $class; ?>"/>
 </div>
