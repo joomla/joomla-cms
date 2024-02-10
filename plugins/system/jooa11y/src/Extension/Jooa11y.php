@@ -105,7 +105,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         // Get the right locale
         $splitLang = explode('-', $getLang);
         $lang      = $splitLang[0];
-        $country   = isset($parts[1]) ? $parts[1] : '';
+        $country   = isset($splitLang[1]) ? $splitLang[1] : '';
 
         // Sa11y is available in the following languages
         $supportedLang = [
@@ -135,6 +135,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
             'sk',
             'sv',
             'tr',
+            'uk',
             'ua',
             'zh',
         ];
@@ -143,11 +144,11 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         if (!\in_array($lang, $supportedLang)) {
             $lang = 'en';
         } elseif ($lang === 'pt') {
-            $lang = $country === 'br' ? 'ptBR' : 'ptPT';
+            $lang = $country === 'BR' ? 'ptBR' : 'ptPT';
         } elseif ($lang === 'uk') {
             $lang = 'ua';
         } elseif ($lang === 'en') {
-            $lang = $country === 'us' ? 'enUS' : 'en';
+            $lang = $country === 'US' ? 'enUS' : 'en';
         }
 
         // Get the document object
@@ -158,11 +159,11 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
             'checkRoot'           => $this->params->get('checkRoot', 'main'),
             'readabilityRoot'     => $this->params->get('readabilityRoot', 'main'),
             'containerIgnore'     => $this->params->get('containerIgnore'),
-            'contrastPlugin'      => $this->params->get('contrastPlugin'),
-            'formLabelsPlugin'    => $this->params->get('formLabelsPlugin'),
-            'linksAdvancedPlugin' => $this->params->get('linksAdvancedPlugin'),
-            'colourFilterPlugin'  => $this->params->get('colourFilterPlugin'),
-            'checkAllHideToggles' => $this->params->get('additionalChecks'),
+            'contrastPlugin'      => $this->params->get('contrastPlugin', 1),
+            'formLabelsPlugin'    => $this->params->get('formLabelsPlugin', 1),
+            'linksAdvancedPlugin' => $this->params->get('linksAdvancedPlugin', 1),
+            'colourFilterPlugin'  => $this->params->get('colourFilterPlugin', 1),
+            'checkAllHideToggles' => $this->params->get('additionalChecks', 0),
             'shadowComponents'    => $this->params->get('shadowComponents'),
         ];
         $getExtraProps = $this->params->get('extraProps', []);
