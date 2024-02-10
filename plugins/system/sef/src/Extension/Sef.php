@@ -67,7 +67,8 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      */
     public function onAfterInitialiseRouter(AfterInitialiseRouterEvent $event)
     {
-        if (!is_a($event->getRouter(), SiteRouter::class)
+        if (
+            !is_a($event->getRouter(), SiteRouter::class)
             || $this->app->get('sef_suffix')
         ) {
             return;
