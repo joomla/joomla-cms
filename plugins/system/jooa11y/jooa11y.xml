@@ -33,7 +33,7 @@
 					<option value="0">JOFF</option>
 					<option value="1">JON</option>
 				</field>
-        <field
+				<field
 					name="contrastPlugin"
 					type="radio"
 					label="PLG_SYSTEM_JOOA11Y_FIELD_CONTRAST"
@@ -45,7 +45,7 @@
 					<option value="0">JOFF</option>
 					<option value="1">JON</option>
 				</field>
-        <field
+				<field
 					name="formLabelsPlugin"
 					type="radio"
 					label="PLG_SYSTEM_JOOA11Y_FIELD_FORM_LABELS"
@@ -57,7 +57,7 @@
 					<option value="0">JOFF</option>
 					<option value="1">JON</option>
 				</field>
-        <field
+				<field
 					name="linksAdvancedPlugin"
 					type="radio"
 					label="PLG_SYSTEM_JOOA11Y_FIELD_LINKS_ADVANCED"
@@ -69,7 +69,7 @@
 					<option value="0">JOFF</option>
 					<option value="1">JON</option>
 				</field>
-        <field
+				<field
 					name="colourFilterPlugin"
 					type="radio"
 					label="PLG_SYSTEM_JOOA11Y_FIELD_COLOUR_FILTER"
@@ -81,7 +81,7 @@
 					<option value="0">JOFF</option>
 					<option value="1">JON</option>
 				</field>
-        <field
+				<field
 					name="additionalChecks"
 					type="radio"
 					label="PLG_SYSTEM_JOOA11Y_FIELD_ADDITIONAL_CHECKS"
@@ -116,25 +116,25 @@
 					description="PLG_SYSTEM_JOOA11Y_FIELD_CONTAINER_IGNORE_DESC"
 					filter="string"
 				/>
-        <field
+				<field
 					name="shadowComponents"
 					type="text"
 					label="PLG_SYSTEM_JOOA11Y_FIELD_WEB_COMPONENTS"
 					description="PLG_SYSTEM_JOOA11Y_FIELD_WEB_COMPONENTS_DESC"
 					filter="string"
 				/>
-        <field
-          name="extraProps"
-          type="subform"
-          multiple="true"
-          label="PLG_SYSTEM_JOOA11Y_FIELD_EXTRA_PROPS"
-          description="PLG_SYSTEM_JOOA11Y_FIELD_EXTRA_PROPS_DESC"
-        >
-          <form>
-            <field type="text" name="key" label="PLG_SYSTEM_JOOA11Y_KEY"/>
-            <field type="text" name="value" label="PLG_SYSTEM_JOOA11Y_VALUE"/>
-          </form>
-        </field>
+				<field
+					name="extraProps"
+					type="subform"
+					multiple="true"
+					label="PLG_SYSTEM_JOOA11Y_FIELD_EXTRA_PROPS"
+					description="PLG_SYSTEM_JOOA11Y_FIELD_EXTRA_PROPS_DESC"
+					>
+					<form>
+						<field type="text" name="key" label="PLG_SYSTEM_JOOA11Y_KEY"/>
+						<field type="text" name="value" label="PLG_SYSTEM_JOOA11Y_VALUE"/>
+					</form>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

@@ -31,7 +31,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
      *
      * @since 4.1.0
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public static function getSubscribedEvents(): array
     {
@@ -183,7 +183,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         $allOptions = array_merge($getOptions, $extraProps);
         $document->addScriptOptions('jooa11yOptions', $allOptions);
 
-        /** @var Joomla\CMS\WebAsset\WebAssetManager $wa*/
+        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa*/
         $wa = $document->getWebAssetManager();
 
         // Load scripts and instantiate
@@ -192,13 +192,11 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
             ->registerAndUseScript(
                 'sa11y-lang',
                 'vendor/sa11y/' . $lang . '.js',
-                ['importmap' => true],
-                [],
-                []
+                ['importmap' => true]
             );
 
         $wa->addInlineScript(
-            <<<EOT
+            '
               import { Sa11y, Lang } from "sa11y";
               import Sa11yLang from "sa11y-lang";
 
@@ -206,11 +204,10 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
               window.addEventListener("load", () => {
                 new Sa11y(Joomla.getOptions("jooa11yOptions", {}));
               });
-            EOT,
+            ',
             ['name' => 'inline.plg_system_sa11y-init'],
             ['type' => 'module'],
             ['core', 'sa11y', 'sa11y-lang']
         );
-        return true;
     }
 }
