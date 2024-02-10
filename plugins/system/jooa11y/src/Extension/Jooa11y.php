@@ -105,7 +105,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         // Get the right locale
         $splitLang = explode('-', $getLang);
         $lang      = $splitLang[0];
-        $country   = isset($splitLang[1]) ? $splitLang[1] : '';
+        $country   = $splitLang[1] ?? '';
 
         // Sa11y is available in the following languages
         $supportedLang = [
