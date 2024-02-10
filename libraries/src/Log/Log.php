@@ -302,8 +302,8 @@ class Log
      */
     public static function setInstance($instance)
     {
-        if (($instance instanceof Log) || $instance === null) {
-            static::$instance = & $instance;
+        if (($instance instanceof self) || $instance === null) {
+            static::$instance =& $instance;
         }
     }
 
