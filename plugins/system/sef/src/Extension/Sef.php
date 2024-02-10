@@ -13,6 +13,7 @@ namespace Joomla\Plugin\System\Sef\Extension;
 use Joomla\CMS\Event\Router\AfterInitialiseRouterEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\Router;
 use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Event\SubscriberInterface;
@@ -71,13 +72,8 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             && $this->app->get('sef_rewrite')
         ) {
             if ($this->params->get('indexphp')) {
-                // Remove unnecessary index.php
-                $event->getRouter()->attachBuildRule([$this, 'removeIndexphp'], SiteRouter::PROCESS_AFTER);
-
-                if ($this->params->get('indexphp_redirect')) {
-                    // Enforce removed index.php
-                    $event->getRouter()->attachParseRule([$this, 'enforceRemovedIndexphp'], SiteRouter::PROCESS_BEFORE);
-                }
+                // Enforce removing index.php with a redirect
+                $event->getRouter()->attachParseRule([$this, 'removeIndexphp'], SiteRouter::PROCESS_BEFORE);
             }
         }
     }
@@ -246,7 +242,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Remove unnecessary index.php from URLs built in Joomla
+     * Enforce removal of index.php with a redirect
      *
      * @param   Router  &$router  Router object.
      * @param   Uri     &$uri     Uri object.
@@ -257,25 +253,6 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      */
     public function removeIndexphp(&$router, &$uri)
     {
-        $path = $uri->getPath();
-
-        if (substr($path, -9) == 'index.php') {
-            $uri->setPath(substr($path, 0, -9));
-        }
-    }
-
-    /**
-     * Redirect to a URL without unnecessary index.php
-     *
-     * @param   Router  &$router  Router object.
-     * @param   Uri     &$uri     Uri object.
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function enforceRemovedIndexphp(&$router, &$uri)
-    {
         // We only want to redirect on GET requests
         if ($_SERVER['REQUEST_METHOD'] != 'GET') {
             return;
@@ -284,8 +261,14 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         $origUri = Uri::getInstance();
 
         if (substr($origUri->getPath(), -9) == 'index.php') {
-            // Remove unnecessary index.php
+            // Remove trailing index.php
             $origUri->setPath(substr($origUri->getPath(), 0, -9));
+            $this->app->redirect($origUri->toString());
+        }
+
+        if (substr($origUri->getPath(), strlen(Uri::base(true)), 11) == '/index.php/') {
+            // Remove leading index.php
+            $origUri->setPath(Uri::base(true) . substr($origUri->getPath(), strlen(Uri::base(true)) + 10));
             $this->app->redirect($origUri->toString());
         }
     }
