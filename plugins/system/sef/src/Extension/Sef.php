@@ -254,7 +254,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     public function removeIndexphp(&$router, &$uri)
     {
         // We only want to redirect on GET requests
-        if ($_SERVER['REQUEST_METHOD'] != 'GET') {
+        if ($this->app->getInput()->getMethod() != 'GET') {
             return;
         }
 
