@@ -95,11 +95,6 @@ class SiteRouter extends Router
 
         $this->attachParseRule([$this, 'parseRawRoute'], self::PROCESS_DURING);
         $this->attachBuildRule([$this, 'buildBase'], self::PROCESS_AFTER);
-
-        $this->app->getDispatcher()->dispatch(
-            'onAfterInitialiseRouter',
-            new AfterInitialiseRouterEvent('onAfterInitialiseRouter', ['router' => $this])
-        );
     }
 
     /**
