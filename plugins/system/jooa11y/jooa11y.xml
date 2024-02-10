@@ -126,9 +126,9 @@
 				<field
 					name="extraProps"
 					type="subform"
-					multiple="true"
 					label="PLG_SYSTEM_JOOA11Y_FIELD_EXTRA_PROPS"
 					description="PLG_SYSTEM_JOOA11Y_FIELD_EXTRA_PROPS_DESC"
+					multiple="true"
 					>
 					<form>
 						<field type="text" name="key" label="PLG_SYSTEM_JOOA11Y_KEY"/>
