@@ -93,10 +93,7 @@ final class MathCaptchaProvider implements CaptchaProviderInterface
         // Prepare the numbers and store the result.
         // They are the same for all captcha on the page, because browser can submit only 1 form at a time.
         if (!$this->formula) {
-            $numbers       = [rand(10, 90), rand(1, 9)];
-            $this->formula = sprintf('%d + %d =', ...$numbers);
-
-            $this->app->getSession()->set($this->sessionKey, array_sum($numbers));
+            $this->createQuiz();
         }
 
         return  LayoutHelper::render(
@@ -105,6 +102,36 @@ final class MathCaptchaProvider implements CaptchaProviderInterface
             null,
             ['component' => 'none']
         );
+    }
+
+    /**
+     * Prepare the quiz
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function createQuiz()
+    {
+        // 2 or 3
+        if (rand(1, 2) === 2) {
+            $numbers  = [rand(110, 980), rand(1, 9)];
+            $solution = array_sum($numbers);
+        } else {
+            $numbers  = [rand(10, 90), rand(1, 9)];
+            $solution = array_sum($numbers);
+        }
+
+        // Full or half
+        if (rand(1, 2) === 2) {
+            $numbers[]     = (int) substr($solution, 0, 1);
+            $solution      = (int) substr($solution, 1);
+            $this->formula = sprintf('%d + %d = %d', ...$numbers);
+        } else {
+            $this->formula = sprintf('%d + %d =', ...$numbers);
+        }
+
+        $this->app->getSession()->set($this->sessionKey, $solution);
     }
 
     /**
