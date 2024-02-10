@@ -67,21 +67,23 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      */
     public function onAfterInitialiseRouter(AfterInitialiseRouterEvent $event)
     {
-        if (is_a($event->getRouter(), SiteRouter::class)
-            && !$this->app->get('sef_suffix')
+        if (!is_a($event->getRouter(), SiteRouter::class)
+            || $this->app->get('sef_suffix')
         ) {
-            if ($this->params->get('trailingslash') == 1) {
-                // Remove trailingslash
-                $event->getRouter()->attachBuildRule([$this, 'removeTrailingSlash'], SiteRouter::PROCESS_AFTER);
-            } elseif ($this->params->get('trailingslash') == 2) {
-                // Add trailingslash
-                $event->getRouter()->attachBuildRule([$this, 'addTrailingSlash'], SiteRouter::PROCESS_AFTER);
-            }
+            return;
+        }
 
-            if ($this->params->get('trailingslash') && $this->params->get('trailingslash_redirect')) {
-                // Enforce trailingslash
-                $event->getRouter()->attachParseRule([$this, 'enforceTrailingSlash'], SiteRouter::PROCESS_BEFORE);
-            }
+        if ($this->params->get('trailingslash') == 1) {
+            // Remove trailingslash
+            $event->getRouter()->attachBuildRule([$this, 'removeTrailingSlash'], SiteRouter::PROCESS_AFTER);
+        } elseif ($this->params->get('trailingslash') == 2) {
+            // Add trailingslash
+            $event->getRouter()->attachBuildRule([$this, 'addTrailingSlash'], SiteRouter::PROCESS_AFTER);
+        }
+
+        if ($this->params->get('trailingslash') && $this->params->get('trailingslash_redirect')) {
+            // Enforce trailingslash
+            $event->getRouter()->attachParseRule([$this, 'enforceTrailingSlash'], SiteRouter::PROCESS_BEFORE);
         }
     }
 
@@ -299,20 +301,20 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     public function enforceTrailingSlash(&$router, &$uri)
     {
         // We only want to redirect on GET requests
-        if ($_SERVER['REQUEST_METHOD'] != 'GET') {
+        if ($this->app->getInput()->getMethod() != 'GET') {
             return;
         }
 
-        $origUri = Uri::getInstance();
+        $originalUri = Uri::getInstance();
 
-        if ($this->params->get('trailingslash') == 1 && substr($origUri->getPath(), -1) == '/') {
+        if ($this->params->get('trailingslash') == 1 && substr($originalUri->getPath(), -1) == '/') {
             // Remove trailingslash
-            $origUri->setPath(substr($origUri->getPath(), 0, -1));
-            $this->app->redirect($origUri->toString());
-        } elseif ($this->params->get('trailingslash') == 2 && substr($origUri->getPath(), -1) != '/') {
+            $originalUri->setPath(substr($originalUri->getPath(), 0, -1));
+            $this->app->redirect($originalUri->toString());
+        } elseif ($this->params->get('trailingslash') == 2 && substr($originalUri->getPath(), -1) != '/') {
             // Add trailingslash
-            $origUri->setPath($origUri->getPath() . '/');
-            $this->app->redirect($origUri->toString());
+            $originalUri->setPath($originalUri->getPath() . '/');
+            $this->app->redirect($originalUri->toString());
         }
     }
 
