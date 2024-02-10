@@ -165,7 +165,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
             'checkAllHideToggles' => $this->params->get('additionalChecks'),
             'shadowComponents'    => $this->params->get('shadowComponents'),
         ];
-        $getExtraProps = $this->params->get('extraProps');
+        $getExtraProps = $this->params->get('extraProps', []);
 
 
         // Process extra props
