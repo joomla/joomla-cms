@@ -44,13 +44,22 @@ final class MathCaptchaProvider implements CaptchaProviderInterface
     protected string $formula = '';
 
     /**
+     * Index of active input
+     *
+     * @var  int
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected int $inputIdx = 0;
+
+    /**
      * Session key, to store result
      *
      * @var   string
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected string $sessionKey = 'plg_captcha_math.result';
+    protected string $sessionKey = 'plg_captcha_math';
 
     /**
      * Class constructor
@@ -98,7 +107,13 @@ final class MathCaptchaProvider implements CaptchaProviderInterface
 
         return  LayoutHelper::render(
             'plugins.captcha.math.mathcaptcha',
-            ['name' => $name, 'attributes' => $attributes, 'formula' => $this->formula],
+            [
+                'name'       => $name,
+                'attributes' => $attributes,
+                'formula'    => $this->formula,
+                'inputIdx'   => $this->inputIdx,
+                'document'   => $this->app->getDocument(),
+            ],
             null,
             ['component' => 'none']
         );
@@ -131,7 +146,10 @@ final class MathCaptchaProvider implements CaptchaProviderInterface
             $this->formula = sprintf('%d + %d =', ...$numbers);
         }
 
-        $this->app->getSession()->set($this->sessionKey, $solution);
+        $this->inputIdx = rand(0, 2);
+
+        $this->app->getSession()->set($this->sessionKey . '.result', $solution);
+        $this->app->getSession()->set($this->sessionKey . '.idx', $this->inputIdx);
     }
 
     /**
@@ -147,21 +165,34 @@ final class MathCaptchaProvider implements CaptchaProviderInterface
      */
     public function checkAnswer(string $code = null): bool
     {
+        $code = $code ? json_decode($code, true) : false;
         if (!$code) {
             return false;
         }
 
         // Get a real solution from session, and compare with answer
-        $solution = (int) $this->app->getSession()->get($this->sessionKey);
+        $solution = (int) $this->app->getSession()->get($this->sessionKey . '.result');
+        $inputIdx = (int) $this->app->getSession()->get($this->sessionKey . '.idx');
 
-        if (!$solution) {
+        if (!$solution || $inputIdx < 0 || $inputIdx > 2) {
             throw new \RuntimeException(Text::_('PLG_CAPTCHA_MATH_EMPTY_STORE'));
         }
 
-        // Clean stored value to prevent F5 Form submission
+        // Clean stored value to prevent repetitive form submission
         $this->app->getSession()->set($this->sessionKey, null);
 
-        return $solution === (int) $code;
+        // Check for correct response
+        $isOk = !empty($code[$inputIdx]) && $solution === (int) $code[$inputIdx];
+        unset($code[$inputIdx]);
+
+        foreach ($code as $r) {
+            if (!$isOk) {
+                break;
+            }
+            $isOk = $r === '';
+        }
+
+        return $isOk;
     }
 
     /**

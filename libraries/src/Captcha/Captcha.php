@@ -193,7 +193,7 @@ class Captcha implements DispatcherAwareInterface
     /**
      * Checks if the answer is correct.
      *
-     * @param   string  $code  The answer.
+     * @param   mixed  $code  The answer.
      *
      * @return  bool    Whether the provided answer was correct
      *
@@ -203,6 +203,9 @@ class Captcha implements DispatcherAwareInterface
     public function checkAnswer($code)
     {
         if ($this->provider) {
+            if (!is_scalar($code)) {
+                $code = json_encode($code);
+            }
             return $this->provider->checkAnswer($code);
         }
 
