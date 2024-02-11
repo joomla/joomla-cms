@@ -13,7 +13,6 @@ namespace Joomla\Component\Menus\Administrator\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ModalSelectField;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Utilities\ArrayHelper;
 
