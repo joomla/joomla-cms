@@ -7,7 +7,9 @@ Joomla = window.Joomla || {};
 
 ((Joomla) => {
   Joomla.toggleAll = () => {
-    document.querySelectorAll('.chk-menulink').forEach((checkBox) => checkBox.checked = !checkBox.checked);
+    document.querySelectorAll('.chk-menulink').forEach((checkBox) => {
+      checkBox.checked = !checkBox.checked;
+    });
   };
 
   Joomla.toggleMenutype = (a) => {

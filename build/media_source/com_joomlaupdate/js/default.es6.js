@@ -255,9 +255,9 @@ Joomla = window.Joomla || {};
     const extensionsInformation = [];
 
     extensions.forEach((extension) => extensionsInformation.push({
-        eid: extension.getAttribute('data-extension-id'),
-        version: extension.getAttribute('data-extension-current-version'),
-      }));
+      eid: extension.getAttribute('data-extension-id'),
+      version: extension.getAttribute('data-extension-current-version'),
+    }));
 
     PreUpdateChecker.checkNextChunk(extensionsInformation);
   };
