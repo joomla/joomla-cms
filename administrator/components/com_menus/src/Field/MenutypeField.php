@@ -59,7 +59,7 @@ class MenutypeField extends ModalSelectField
         $recordId = (int) $this->form->getValue('id');
         $clientId = (int) $this->element['clientid'] ?: 0;
 
-        $url = Route::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId, false);
+        $url = 'index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId;
 
         $this->urls['select']        = $url;
         $this->canDo['clear']        = false;
