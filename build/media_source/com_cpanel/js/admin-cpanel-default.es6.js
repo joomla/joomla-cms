@@ -46,7 +46,7 @@ const debounce = (callback, time = 250, interval) => (...args) => clearTimeout(i
     const cpanelModules = document.getElementById('content');
     if (cpanelModules) {
       cpanelModules.querySelectorAll('.unpublish-module').forEach((link) =>
-        link.addEventListener('click', ({ target }) => Joomla.unpublishModule(target));
+        link.addEventListener('click', ({ target }) => Joomla.unpublishModule(target))
       );
     }
 
