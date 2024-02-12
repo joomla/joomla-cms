@@ -28,7 +28,7 @@ class VersionHelper
      *
      * @return  string  String containing the current Joomla version.
      */
-    public static function getVersion()
+    public function getVersion()
     {
         $version = new Version();
 
