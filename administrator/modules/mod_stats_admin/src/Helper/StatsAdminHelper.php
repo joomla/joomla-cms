@@ -39,7 +39,7 @@ class StatsAdminHelper
      *
      * @since   3.0
      */
-    public static function getStats(Registry $params, CMSApplication $app, DatabaseInterface $db)
+    public function getStats(Registry $params, CMSApplication $app, DatabaseInterface $db)
     {
         $user = $app->getIdentity();
 
