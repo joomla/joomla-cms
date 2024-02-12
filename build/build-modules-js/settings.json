@@ -792,7 +792,7 @@
             "type": "script",
             "uri": "en.js",
             "importmap": true,
-            "description": "A dummy asset which initialise later by a plugin, depending on active language"
+            "description": "A placeholder asset which is later initialised by plugin, depending on active language."
           },
           {
             "name": "sa11y",
