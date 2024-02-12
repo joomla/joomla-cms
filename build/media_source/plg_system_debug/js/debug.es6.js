@@ -30,5 +30,5 @@
     });
   };
 
-  document.addEventListener('DOMContentLoaded', () => registerEvents());
+  document.addEventListener('DOMContentLoaded', registerEvents);
 })(document);
