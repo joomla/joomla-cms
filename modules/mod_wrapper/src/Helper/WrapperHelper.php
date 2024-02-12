@@ -32,7 +32,7 @@ class WrapperHelper
      *
      * @since   1.5
      */
-    public static function getParams(&$params)
+    public function getParams(&$params)
     {
         $params->def('url', '');
         $params->def('scrolling', 'auto');
