@@ -71,11 +71,7 @@ class UpdateController extends BaseController
             $this->app->setUserState('com_joomlaupdate.file', null);
             $this->setRedirect($url, $message, $messageType);
 
-            try {
-                Log::add($message, Log::ERROR, 'Update');
-            } catch (\RuntimeException $exception) {
-                // Informational log only
-            }
+            Log::add($message, Log::ERROR, 'Update');
 
             return;
         }
@@ -89,11 +85,7 @@ class UpdateController extends BaseController
             $this->app->setUserState('com_joomlaupdate.file', null);
             $this->setRedirect($url, $message, $messageType);
 
-            try {
-                Log::add($message, Log::ERROR, 'Update');
-            } catch (\RuntimeException $exception) {
-                // Informational log only
-            }
+            Log::add($message, Log::ERROR, 'Update');
 
             return;
         }
