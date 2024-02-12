@@ -123,9 +123,7 @@ const optionsToExtensions = async (options) => {
       const [module, methods] = extInfo;
       q.push(import(module).then((modObject) => {
         // Call each method
-        methods.forEach((method) => {
-          extensions.push(modObject[method]());
-        });
+        methods.forEach((method) => extensions.push(modObject[method]()));
       }));
     });
   }
