@@ -10,9 +10,11 @@
 namespace Joomla\CMS\TUF;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Http\HttpFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Tuf as MetadataTable;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Http\Http;
 use Tuf\Client\Updater;
 use Tuf\Exception\Attack\FreezeAttackException;
 use Tuf\Exception\Attack\RollbackAttackException;
@@ -52,16 +54,24 @@ class TufFetcher
     protected DatabaseDriver $db;
 
     /**
+     * The http client
+     *
+     * @var Http
+     */
+    protected Http $httpClient;
+
+    /**
      * Validating updates with TUF
      *
      * @param MetadataTable $metadataTable  The table object holding the metadata
      * @param string        $repositoryUrl  The base repo URL
      */
-    public function __construct(MetadataTable $metadataTable, string $repositoryUrl, DatabaseDriver $db = null)
+    public function __construct(MetadataTable $metadataTable, string $repositoryUrl, DatabaseDriver $db = null, Http $httpClient = null)
     {
         $this->metadataTable = $metadataTable;
         $this->repositoryUrl = $repositoryUrl;
         $this->db            = $db ?? Factory::getContainer()->get(DatabaseDriver::class);
+        $this->httpClient    = $httpClient ?? Factory::getContainer()->get(HttpFactoryInterface::class)->getHttp([], 'curl');
     }
 
 
@@ -73,7 +83,7 @@ class TufFetcher
      */
     public function getValidUpdate()
     {
-        $httpLoader         = new HttpLoader($this->repositoryUrl);
+        $httpLoader         = new HttpLoader($this->repositoryUrl, $this->httpClient);
         $sizeCheckingLoader = new SizeCheckingLoader($httpLoader);
 
         $storage = new DatabaseStorage($this->metadataTable);

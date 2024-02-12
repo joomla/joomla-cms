@@ -41,12 +41,12 @@ class HttpLoaderTest extends UnitTestCase
     {
         $responseBody = $this->createMock(Stream::class);
 
-        Factory::getContainer()->set(
-            HttpFactoryInterface::class,
-            $this->getHttpFactoryMock(200, $responseBody, 'root.json')
+        $object = new HttpLoader(
+            self::REPOPATHMOCK,
+            $this->getHttpMock(200, $responseBody, 'root.json')
         );
 
-        $this->object->load('root.json', 2048);
+        $object->load('root.json', 2048);
     }
 
     /**
@@ -58,14 +58,14 @@ class HttpLoaderTest extends UnitTestCase
     {
         $responseBody = $this->createMock(Stream::class);
 
-        Factory::getContainer()->set(
-            HttpFactoryInterface::class,
-            $this->getHttpFactoryMock(200, $responseBody, 'root.json')
+        $object = new HttpLoader(
+            self::REPOPATHMOCK,
+            $this->getHttpMock(200, $responseBody, 'root.json')
         );
 
         $this->assertSame(
             $responseBody,
-            $this->object->load('root.json', 2048)->wait()
+            $object->load('root.json', 2048)->wait()
         );
     }
 
@@ -80,12 +80,12 @@ class HttpLoaderTest extends UnitTestCase
 
         $responseBody = $this->createMock(Stream::class);
 
-        Factory::getContainer()->set(
-            HttpFactoryInterface::class,
-            $this->getHttpFactoryMock(400, $responseBody, 'root.json')
+        $object = new HttpLoader(
+            self::REPOPATHMOCK,
+            $this->getHttpMock(400, $responseBody, 'root.json')
         );
 
-        $this->object->load('root.json', 2048);
+        $object->load('root.json', 2048);
     }
 
     /**
@@ -97,7 +97,7 @@ class HttpLoaderTest extends UnitTestCase
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|(\stdClass&\PHPUnit\Framework\MockObject\MockObject)
      */
-    protected function getHttpFactoryMock(int $responseCode, Stream $responseBody, string $expectedFile)
+    protected function getHttpMock(int $responseCode, Stream $responseBody, string $expectedFile)
     {
         $responseMock = $this->createMock(Response::class);
         $responseMock->method('__get')->with('code')->willReturn($responseCode);
@@ -109,23 +109,6 @@ class HttpLoaderTest extends UnitTestCase
             ->with(self::REPOPATHMOCK . $expectedFile)
             ->willReturn($responseMock);
 
-        $httpFactoryMock = $this->getMockBuilder(\stdClass::class)
-            ->addMethods(['getHttp'])
-            ->getMock();
-        $httpFactoryMock->method('getHttp')->willReturn($httpClientMock);
-
-        return $httpFactoryMock;
-    }
-
-    /**
-     * @return void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function setUp(): void
-    {
-        $this->object = new HttpLoader(self::REPOPATHMOCK);
-
-        parent::setUp();
+        return $httpClientMock;
     }
 }
