@@ -56,7 +56,7 @@ if (!empty($feed) && is_string($feed)) {
             </h2>
         <?php endif;
         // Feed date
-        if ($params->get('rssdate', 1)) : ?>
+        if ($params->get('rssdate', 1) && ($feed->publishedDate !== null)) : ?>
             <h3>
             <?php echo HTMLHelper::_('date', $feed->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
             </h3>
