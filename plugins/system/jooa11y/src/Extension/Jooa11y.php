@@ -186,6 +186,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
 
         /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa*/
         $wa = $document->getWebAssetManager();
+        $wa->getRegistry()->addExtensionRegistryFile('plg_system_jooa11y');
 
         // Load scripts and instantiate
         $wa->useStyle('sa11y')
@@ -194,21 +195,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
                 'sa11y-lang',
                 'vendor/sa11y/' . $lang . '.js',
                 ['importmap' => true]
-            );
-
-        $wa->addInlineScript(
-            '
-              import { Sa11y, Lang } from "sa11y";
-              import Sa11yLang from "sa11y-lang";
-
-              Lang.addI18n(Sa11yLang.strings);
-              window.addEventListener("load", () => {
-                new Sa11y(Joomla.getOptions("jooa11yOptions", {}));
-              });
-            ',
-            ['name' => 'inline.plg_system_sa11y-init'],
-            ['type' => 'module'],
-            ['core', 'sa11y', 'sa11y-lang']
-        );
+            )
+            ->useScript('plg_system_jooa11y.jooa11y');
     }
 }

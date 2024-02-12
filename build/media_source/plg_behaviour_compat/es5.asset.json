@@ -1036,6 +1036,19 @@
       }
     },
     {
+      "name": "plg_system_jooa11y.jooa11y-es5",
+      "type": "script",
+      "deprecated": true,
+      "uri": "",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true,
+        "nomodule": true
+      }
+    },
+    {
       "name": "plg_system_schedulerunner.run-schedule.es5",
       "type": "script",
       "deprecated": true,

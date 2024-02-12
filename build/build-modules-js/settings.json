@@ -788,6 +788,13 @@
             "importmap": true
           },
           {
+            "name": "sa11y-lang",
+            "type": "script",
+            "uri": "en.js",
+            "importmap": true,
+            "description": "A dummy asset which initialise later by a plugin, depending on active language"
+          },
+          {
             "name": "sa11y",
             "type": "style",
             "uri": "sa11y.min.css"
