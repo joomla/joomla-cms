@@ -10,9 +10,7 @@
 
 namespace Joomla\Tests\Unit\Libraries\Tuf;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Http\Http;
-use Joomla\CMS\Http\HttpFactoryInterface;
 use Joomla\CMS\TUF\HttpLoader;
 use Joomla\Http\Response;
 use Joomla\Tests\Unit\UnitTestCase;
