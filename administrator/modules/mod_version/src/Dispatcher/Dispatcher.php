@@ -39,7 +39,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
     {
         $data = parent::getLayoutData();
 
-        $data['version'] = $this->getHelperFactory()->getHelper('VersionHelper')->getVersion();
+        $data['version'] = $this->getHelperFactory()->getHelper('VersionHelper')->getVersionString();
 
         return $data;
     }
