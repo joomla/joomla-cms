@@ -156,7 +156,7 @@ class CaptiveRenderOptions extends DataShapeObject
      */
     protected $help_url = '';
 
-     /**
+    /**
      * Autocomplete default
      *
      * @var   string
