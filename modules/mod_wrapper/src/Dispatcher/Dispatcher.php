@@ -38,7 +38,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
     {
         $data = parent::getLayoutData();
 
-        $params = $this->getHelperFactory()->getHelper('WrapperHelper')->getParams($data['params']);
+        $params = $this->getHelperFactory()->getHelper('WrapperHelper')->getParamsWrapper($data['params'], $this->getApplication());
 
         $data['load']        = $params->get('load');
         $data['url']         = htmlspecialchars($params->get('url', ''), ENT_COMPAT, 'UTF-8');
