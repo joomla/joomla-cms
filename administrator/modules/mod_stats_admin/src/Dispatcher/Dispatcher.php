@@ -42,7 +42,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
 
         $data['serverinfo'] = $data['params']->get('serverinfo');
         $data['siteinfo']   = $data['params']->get('siteinfo');
-        $data['list']       = $this->getHelperFactory()->getHelper('StatsAdminHelper')->getStats($data['params'], $this->getApplication(), Factory::getContainer()->get(DatabaseInterface::class));
+        $data['list']       = $this->getHelperFactory()->getHelper('StatsAdminHelper')->getStatsData($data['params'], $this->getApplication(), Factory::getContainer()->get(DatabaseInterface::class));
 
         return $data;
     }
