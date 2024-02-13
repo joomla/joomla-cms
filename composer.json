@@ -30,6 +30,10 @@
       "type": "vcs",
       "url": "https://github.com/joomla-backports/json-api-php.git",
       "no-api":  true
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/joomla-framework/security-filter.git"
     }
   ],
   "autoload": {
@@ -53,7 +57,7 @@
     "joomla/database": "~3.0",
     "joomla/di": "~3.0",
     "joomla/event": "~3.0",
-    "joomla/filter": "~3.0",
+    "joomla/filter": "dev-3.x-mbstring-issue566 as 3.0.1",
     "joomla/filesystem": "~3.0",
     "joomla/http": "~3.0",
     "joomla/input": "~3.0",
