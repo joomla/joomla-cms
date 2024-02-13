@@ -24,7 +24,7 @@ use Joomla\Plugin\Captcha\Math\Provider\MathCaptchaProvider;
  *
  * @since  __DEPLOY_VERSION__
  */
-final class MathCaptcha extends CMSPlugin implements SubscriberInterface
+final class Math extends CMSPlugin implements SubscriberInterface
 {
     /**
      * Returns an array of events this plugin will listen to.
