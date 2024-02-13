@@ -78,7 +78,7 @@ class TufAdapter extends UpdateAdapter
         $tufFetcher = new TufFetcher($metadataTable, $options['location']);
         $metaData   = $tufFetcher->getValidUpdate();
 
-        $metaData = json_decode($metaData, true);
+        $metaData = json_decode((string) $metaData, true);
 
         if (!isset($metaData["signed"]["targets"])) {
             return false;
