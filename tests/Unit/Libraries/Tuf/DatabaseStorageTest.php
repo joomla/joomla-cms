@@ -28,7 +28,7 @@ class DatabaseStorageTest extends UnitTestCase
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function testContructorWritesColumnMetadataToInternalStorage()
+    public function testConstructorWritesColumnMetadataToInternalStorage()
     {
         $table  = $this->getTableMock(['root' => 'rootfoo']);
         $object = new DatabaseStorage($table);
@@ -41,7 +41,7 @@ class DatabaseStorageTest extends UnitTestCase
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function testContructorIgnoresNonMetadataColumns()
+    public function testConstructorIgnoresNonMetadataColumns()
     {
         $table  = $this->getTableMock(['foobar' => 'aaa']);
         $object = new DatabaseStorage($table);
