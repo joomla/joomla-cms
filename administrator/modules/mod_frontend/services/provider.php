@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\Service\Provider\Module;
 use Joomla\CMS\Extension\Service\Provider\ModuleDispatcherFactory;
@@ -18,7 +18,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * The frontend link module service provider.
  *
- * @since  5.1.0
+ * @since  __DEPLOY_VERSION__
  */
 return new class () implements ServiceProviderInterface {
     /**
@@ -28,7 +28,7 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   5.1.0
+     * @since   __DEPLOY_VERSION__
      */
     public function register(Container $container)
     {
