@@ -41,51 +41,51 @@
 			</field>
 
 			<field
-					name="data-max-results"
-					type="list"
-					default="10"
-					label="JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_SELECT_MAXRESULTS"
-					filter="integer"
-					validate="options"
-					showon="layout:joomla.form.field.list-fancy-select"
-					>
-					<option value="5">J5</option>
-					<option value="10">J10</option>
-					<option value="15">J15</option>
-					<option value="20">J20</option>
-					<option value="25">J25</option>
-					<option value="30">J30</option>
-					<option value="50">J50</option>
-					<option value="100">J100</option>
-					<option value="200">J200</option>
-					<option value="250">J250</option>
-					<option value="300">J300</option>
-					<option value="500">J500</option>
-				</field>
+				name="data-max-results"
+				type="list"
+				default="10"
+				label="JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_SELECT_MAXRESULTS"
+				filter="integer"
+				validate="options"
+				showon="layout:joomla.form.field.list-fancy-select"
+				>
+				<option value="5">J5</option>
+				<option value="10">J10</option>
+				<option value="15">J15</option>
+				<option value="20">J20</option>
+				<option value="25">J25</option>
+				<option value="30">J30</option>
+				<option value="50">J50</option>
+				<option value="100">J100</option>
+				<option value="200">J200</option>
+				<option value="250">J250</option>
+				<option value="300">J300</option>
+				<option value="500">J500</option>
+			</field>
 
-				<field
-					name="data-max-render"
-					type="list"
-					default="-1"
-					label="JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_SELECT_MAXRENDER"
-					filter="integer"
-					validate="options"
-					showon="layout:joomla.form.field.list-fancy-select"
-					>
-					<option value="5">J5</option>
-					<option value="10">J10</option>
-					<option value="15">J15</option>
-					<option value="20">J20</option>
-					<option value="25">J25</option>
-					<option value="30">J30</option>
-					<option value="50">J50</option>
-					<option value="100">J100</option>
-					<option value="200">J200</option>
-					<option value="250">J250</option>
-					<option value="300">J300</option>
-					<option value="500">J500</option>
-					<option value="-1">JALL</option>
-				</field>
+			<field
+				name="data-max-render"
+				type="list"
+				default="-1"
+				label="JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_SELECT_MAXRENDER"
+				filter="integer"
+				validate="options"
+				showon="layout:joomla.form.field.list-fancy-select"
+				>
+				<option value="5">J5</option>
+				<option value="10">J10</option>
+				<option value="15">J15</option>
+				<option value="20">J20</option>
+				<option value="25">J25</option>
+				<option value="30">J30</option>
+				<option value="50">J50</option>
+				<option value="100">J100</option>
+				<option value="200">J200</option>
+				<option value="250">J250</option>
+				<option value="300">J300</option>
+				<option value="500">J500</option>
+				<option value="-1">JALL</option>
+			</field>
 		</fieldset>
 	</fields>
 </form>
