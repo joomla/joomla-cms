@@ -303,6 +303,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
             [
                 new Console\CleanCacheCommand(),
                 new Console\CheckUpdatesCommand(),
+                new Console\CheckJoomlaUpdatesCommand(),
                 new Console\RemoveOldFilesCommand(),
                 new Console\AddUserCommand($this->getDatabase()),
                 new Console\AddUserToGroupCommand($this->getDatabase()),
