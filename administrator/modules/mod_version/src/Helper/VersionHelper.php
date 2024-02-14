@@ -4,7 +4,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_version
  *
- * @copyright   (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,7 +42,7 @@ class VersionHelper
      *
      * @return  string  String containing the current Joomla version.
      *
-     * @deprecated 5.1 will be removed in 6.0
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
      *             Use the non-static method getVersionString
      *             Example: Factory::getApplication()->bootModule('mod_version', 'administrator')
      *                            ->getHelper('VersionHelper')
