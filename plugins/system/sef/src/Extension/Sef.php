@@ -69,7 +69,9 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     {
         if (
             !is_a($event->getRouter(), SiteRouter::class)
+            || !$this->app->get('sef')
             || $this->app->get('sef_suffix')
+            || !$this->params->get('trailingslash')
         ) {
             return;
         }
@@ -82,10 +84,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             $event->getRouter()->attachBuildRule([$this, 'addTrailingSlash'], SiteRouter::PROCESS_AFTER);
         }
 
-        if ($this->params->get('trailingslash') && $this->params->get('trailingslash_redirect')) {
-            // Enforce trailingslash
-            $event->getRouter()->attachParseRule([$this, 'enforceTrailingSlash'], SiteRouter::PROCESS_BEFORE);
-        }
+        $event->getRouter()->attachParseRule([$this, 'enforceTrailingSlash'], SiteRouter::PROCESS_BEFORE);
     }
 
     /**
