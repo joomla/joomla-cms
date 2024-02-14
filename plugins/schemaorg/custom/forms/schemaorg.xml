@@ -29,7 +29,6 @@
 						name="json"
 						type="textarea"
 						label="PLG_SCHEMAORG_CUSTOM_JSON_FIELD_LABEL"
-						description="PLG_SCHEMAORG_CUSTOM_JSON_FIELD_DESC"
 						rows="8"
 					/>
 
