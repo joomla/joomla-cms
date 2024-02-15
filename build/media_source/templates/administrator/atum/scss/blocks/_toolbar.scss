@@ -49,6 +49,10 @@
     background: $white;
     border-color: hsl(var(--hue),20%,80%);
 
+    > * {
+      pointer-events: none;
+    }
+
     > span {
       display: inline-block;
       color: var(--subhead-btn-accent);
