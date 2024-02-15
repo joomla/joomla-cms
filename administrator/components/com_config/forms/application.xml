@@ -684,7 +684,8 @@
 
 	<fieldset
 		name="seo"
-		label="CONFIG_SEO_SETTINGS_LABEL">
+		label="CONFIG_SEO_SETTINGS_LABEL"
+		description="COM_CONFIG_SEO_SETTINGS_DESC">
 
 		<field
 			name="sef"
