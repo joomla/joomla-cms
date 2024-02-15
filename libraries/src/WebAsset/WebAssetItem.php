@@ -86,11 +86,12 @@ class WebAssetItem implements WebAssetItemInterface, WebAssetItemCrossDependenci
     /**
      * Class constructor
      *
-     * @param   string   $name          The asset name
-     * @param   ?string  $uri           The URI for the asset
-     * @param   array    $options       Additional options for the asset
-     * @param   array    $attributes    Attributes for the asset
-     * @param   array    $dependencies  Asset dependencies
+     * @param   string   $name               The asset name
+     * @param   ?string  $uri                The URI for the asset
+     * @param   array    $options            Additional options for the asset
+     * @param   array    $attributes         Attributes for the asset
+     * @param   array    $dependencies       Asset dependencies, from assets of the same type
+     * @param   array    $crossDependencies  Asset dependencies, from assets of another type
      *
      * @since   4.0.0
      */
@@ -99,7 +100,8 @@ class WebAssetItem implements WebAssetItemInterface, WebAssetItemCrossDependenci
         string $uri = null,
         array $options = [],
         array $attributes = [],
-        array $dependencies = []
+        array $dependencies = [],
+        array $crossDependencies = []
     ) {
         $this->name    = $name;
         $this->uri     = $uri;
@@ -124,8 +126,33 @@ class WebAssetItem implements WebAssetItemInterface, WebAssetItemCrossDependenci
         }
 
         if (\array_key_exists('crossDependencies', $options)) {
-            $this->crossDependencies = (array) $options['crossDependencies'];
+            $crossDependencies = (array) $options['crossDependencies'];
             unset($options['crossDependencies']);
+        }
+
+        if ($crossDependencies) {
+            // Parse Cross Dependencies which comes in ["name#type"] or ["type" => ["name"]] format
+            foreach ($crossDependencies as $key => $crossDependency) {
+                if (\is_array($crossDependency)) {
+                    $this->crossDependencies[$key] = $crossDependency;
+                } else {
+                    $pos     = strrpos($crossDependency, '#');
+                    $depType = $pos ? substr($crossDependency, $pos + 1) : '';
+                    $depName = $pos ? substr($crossDependency, 0, $pos) : '';
+
+                    if (!$depType || !$depName) {
+                        throw new \UnexpectedValueException(
+                            sprintf('Incomplete definition for cross dependency, for asset "%s"', $name)
+                        );
+                    }
+
+                    if (empty($this->crossDependencies[$depType])) {
+                        $this->crossDependencies[$depType] = [];
+                    }
+
+                    $this->crossDependencies[$depType][] = $depName;
+                }
+            }
         }
 
         $this->options = $options;

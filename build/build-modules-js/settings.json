@@ -27,9 +27,9 @@
             "attributes": {
               "defer": true
             },
-            "crossDependencies": {
-              "style": ["awesomplete"]
-            }
+            "crossDependencies": [
+              "awesomplete#style"
+            ]
           },
           {
             "name": "awesomplete",
@@ -225,9 +225,9 @@
             "type": "script",
             "uri": "cropper.esm.js",
             "importmap": true,
-            "crossDependencies": {
-              "style": ["cropperjs"]
-            }
+            "crossDependencies": [
+              "cropperjs#style"
+            ]
           },
           {
             "name": "cropperjs",
@@ -237,9 +237,9 @@
             "attributes": {
               "defer": true
             },
-            "crossDependencies": {
-              "style": ["cropperjs"]
-            }
+            "crossDependencies": [
+              "cropperjs#style"
+            ]
           },
           {
             "name": "cropperjs",
@@ -282,9 +282,9 @@
             "attributes": {
               "defer": true
             },
-            "crossDependencies": {
-              "style": ["choicesjs"]
-            }
+            "crossDependencies": [
+              "choicesjs#style"
+            ]
           },
           {
             "name": "choicesjs",
@@ -341,9 +341,9 @@
             "attributes": {
               "defer": true
             },
-            "crossDependencies": {
-              "style": ["dragula"]
-            }
+            "crossDependencies": [
+              "dragula#style"
+            ]
           },
           {
             "name": "dragula",
