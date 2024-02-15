@@ -737,7 +737,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
             $is_home               = false;
 
             // Router can be injected when turned into a DI built plugin
-            $currentInternalUrl    = 'index.php?' . http_build_query($this->getApplication()->getRouter()->getVars());
+            $currentInternalUrl    = 'index.php?' . http_build_query($this->getSiteRouter()->getVars());
 
             if ($active) {
                 $active_link  = Route::_($active->link . '&Itemid=' . $active->id);
