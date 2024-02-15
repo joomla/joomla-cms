@@ -116,6 +116,5 @@ if (!empty($feed) && is_string($feed)) {
         </ul>
         <?php } ?>
     </div>
-        <?php
-    }
+    <?php }
 }
