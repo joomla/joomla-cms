@@ -19,3 +19,5 @@ $this->fieldsname = 'seo';
 $this->formclass = 'options-form';
 
 echo LayoutHelper::render('joomla.content.options_default', $this);
+
+$this->description = '';
