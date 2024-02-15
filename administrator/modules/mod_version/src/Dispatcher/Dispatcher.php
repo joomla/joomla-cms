@@ -23,7 +23,6 @@ use Joomla\CMS\Helper\HelperFactoryAwareTrait;
  *
  * @since  __DEPLOY_VERSION__
  */
-
 class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareInterface
 {
     use HelperFactoryAwareTrait;
