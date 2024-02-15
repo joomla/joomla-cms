@@ -70,11 +70,10 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         if (
             is_a($event->getRouter(), SiteRouter::class)
             && $this->app->get('sef_rewrite')
+            && $this->params->get('indexphp')
         ) {
-            if ($this->params->get('indexphp')) {
-                // Enforce removing index.php with a redirect
-                $event->getRouter()->attachParseRule([$this, 'removeIndexphp'], SiteRouter::PROCESS_BEFORE);
-            }
+            // Enforce removing index.php with a redirect
+            $event->getRouter()->attachParseRule([$this, 'removeIndexphp'], SiteRouter::PROCESS_BEFORE);
         }
     }
 
