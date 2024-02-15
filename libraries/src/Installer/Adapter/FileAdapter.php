@@ -172,7 +172,11 @@ class FileAdapter extends InstallerAdapter
      */
     protected function finaliseUninstall(): bool
     {
-        File::delete(JPATH_MANIFESTS . '/files/' . $this->extension->element . '.xml');
+        $manifest = JPATH_MANIFESTS . '/files/' . $this->extension->element . '.xml';
+
+        if (is_file($manifest)) {
+            File::delete($manifest);
+        }
 
         $extensionId = $this->extension->extension_id;
 
@@ -283,7 +287,10 @@ class FileAdapter extends InstallerAdapter
                         $folderList[] = $targetFolder . '/' . $eFileName;
                     } else {
                         $fileName = $targetFolder . '/' . $eFileName;
-                        File::delete($fileName);
+
+                        if (is_file($fileName)) {
+                            File::delete($fileName);
+                        }
                     }
                 }
             }
@@ -336,6 +343,7 @@ class FileAdapter extends InstallerAdapter
     protected function setupUninstall()
     {
         $manifestFile = JPATH_MANIFESTS . '/files/' . $this->extension->element . '.xml';
+        $this->parent->setPath('manifest', $manifestFile);
 
         // Because libraries may not have their own folders we cannot use the standard method of finding an installation manifest
         if (!file_exists($manifestFile)) {
