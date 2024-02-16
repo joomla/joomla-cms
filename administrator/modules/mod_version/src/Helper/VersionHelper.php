@@ -48,7 +48,7 @@ class VersionHelper
      *                            ->getHelper('VersionHelper')
      *                            ->getVersionString()
      */
-    public function getVersion()
+    public static function getVersion()
     {
         return (new self())->getVersionString();
     }
