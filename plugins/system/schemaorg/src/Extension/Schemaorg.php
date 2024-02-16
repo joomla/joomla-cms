@@ -529,7 +529,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $component = $this->getApplication()->bootComponent($parts[0]);
 
         if ($component instanceof SchemaorgServiceInterface) {
-            return in_array($context, array_keys($component->getSchemaorgContexts()));
+            return \in_array($context, \array_keys($component->getSchemaorgContexts()));
         }
 
         return false;
