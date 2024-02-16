@@ -30,8 +30,10 @@ class FeedHelper
      * @param   \Joomla\Registry\Registry  $params  module parameters
      *
      * @return  \Joomla\CMS\Feed\Feed|string
+     *
+     * @since   __DEPLOY_VERSION__
      */
-    public static function getFeed($params)
+    public function getFeedData($params)
     {
         // Module params
         $rssurl = $params->get('rssurl', '');
@@ -51,5 +53,25 @@ class FeedHelper
         if ($rssDoc) {
             return $rssDoc;
         }
+    }
+
+    /**
+     * Retrieve feed information
+     *
+     * @param   \Joomla\Registry\Registry  $params  module parameters
+     *
+     * @return  \Joomla\CMS\Feed\Feed|string
+     *
+     * @since   1.5
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *             Use the non-static method getFeedData
+     *             Example: Factory::getApplication()->bootModule('mod_feed', 'site')
+     *                          ->getHelper('FeedHelper')
+     *                          ->getFeedData($params)
+     */
+    public static function getFeed($params)
+    {
+        return (new self())->getFeedData($params);
     }
 }
