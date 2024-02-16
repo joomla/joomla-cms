@@ -25,14 +25,16 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  1.6
  */
-abstract class LoginHelper
+class LoginHelper
 {
     /**
      * Get an HTML select list of the available languages.
      *
      * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
      */
-    public static function getLanguageList()
+    public function getLanguages()
     {
         $languages = LanguageHelper::createLanguageList(null, JPATH_ADMINISTRATOR, false, true);
 
@@ -63,8 +65,10 @@ abstract class LoginHelper
      * Get the redirect URI after login.
      *
      * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
      */
-    public static function getReturnUri()
+    public function getReturnUriString()
     {
         $uri    = Uri::getInstance();
         $return = 'index.php' . $uri->toString(['query']);
@@ -74,5 +78,37 @@ abstract class LoginHelper
         }
 
         return base64_encode('index.php');
+    }
+
+    /**
+     * Get an HTML select list of the available languages.
+     *
+     * @return  string
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *             Use the non-static method getLanguages
+     *             Example: Factory::getApplication()->bootModule('mod_login', 'administrator')
+     *                            ->getHelper('LoginHelper')
+     *                            ->getLanguages()
+     */
+    public static function getLanguageList()
+    {
+        return (new self())->getLanguages();
+    }
+
+    /**
+     * Get the redirect URI after login.
+     *
+     * @return  string
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *             Use the non-static method getReturnUriString
+     *             Example: Factory::getApplication()->bootModule('mod_login', 'administrator')
+     *                            ->getHelper('LoginHelper')
+     *                            ->getReturnUriString()
+     */
+    public static function getReturnUri()
+    {
+        return (new self())->getLanguages();
     }
 }
