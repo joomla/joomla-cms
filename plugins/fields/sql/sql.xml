@@ -67,8 +67,8 @@
 				<field
 					name="data-max-results"
 					type="list"
-					default="10"
 					label="JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_SELECT_MAXRESULTS"
+					default="10"
 					filter="integer"
 					validate="options"
 					showon="layout:joomla.form.field.list-fancy-select"
@@ -90,8 +90,8 @@
 				<field
 					name="data-max-render"
 					type="list"
-					default="-1"
 					label="JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_SELECT_MAXRENDER"
+					default="-1"
 					filter="integer"
 					validate="options"
 					showon="layout:joomla.form.field.list-fancy-select"
