@@ -14,7 +14,7 @@
 	<customContent />
 
 	<files>
-		<folder>services</folder>
+		<folder module="mod_custom">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
