@@ -44,7 +44,7 @@ class ConstraintChecker
      */
     public function __construct()
     {
-        $this->failedEnvironmentConstraintsstraints = new \stdClass();
+        $this->failedEnvironmentConstraints = new \stdClass();
     }
 
     /**
