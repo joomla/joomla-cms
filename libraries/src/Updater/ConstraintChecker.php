@@ -25,6 +25,21 @@ use Joomla\CMS\Version;
  */
 class ConstraintChecker
 {
+    protected \stdClass $failedConstraints;
+
+
+    /**
+     * Constructor, used to populate the failed
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct()
+    {
+        $this->failedConstraints = new \stdClass();
+    }
+
     /**
      * Checks whether the passed constraints are matched
      *
@@ -74,6 +89,18 @@ class ConstraintChecker
     }
 
     /**
+     * Gets the failed contraints for further proccesing
+     *
+     * @return  \stdClass
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getFailedConstraints(): \stdClass
+    {
+        return $this->failedConstraints;
+    }
+
+    /**
      * Check the targetPlatform
      *
      * @param array $targetPlatform
@@ -110,7 +137,17 @@ class ConstraintChecker
     protected function checkPhpMinimum(string $phpMinimum)
     {
         // Check if PHP version supported via <php_minimum> tag
-        return version_compare(PHP_VERSION, $phpMinimum, '>=');
+        $result = version_compare(PHP_VERSION, $phpMinimum, '>=');
+
+        if (!$result) {
+            $this->failedConstraints->php           = new \stdClass();
+            $this->failedConstraints->php->required = $phpMinimum;
+            $this->failedConstraints->php->used     = PHP_VERSION;
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -142,7 +179,18 @@ class ConstraintChecker
         if (!empty($supportedDatabases["$dbType"])) {
             $minimumVersion = $supportedDatabases["$dbType"];
 
-            return version_compare($dbVersion, $minimumVersion, '>=');
+            $result = version_compare($dbVersion, $minimumVersion, '>=');
+
+            if (!$result) {
+                $this->failedConstraints->db           = new \stdClass();
+                $this->failedConstraints->db->type     = $dbType;
+                $this->failedConstraints->db->required = $minimumVersion;
+                $this->failedConstraints->db->used     = $dbVersion;
+
+                return false;
+            }
+
+            return true;
         }
 
         return false;
@@ -164,6 +212,10 @@ class ConstraintChecker
         $stabilityInt = $this->stabilityToInteger($stability);
 
         if (($stabilityInt < $minimumStability)) {
+            $this->failedConstraints->stability            = new \stdClass();
+            $this->failedConstraints->stability->required  = $stability;
+            $this->failedConstraints->stability->used      = $minimumStability;
+
             return false;
         }
 
