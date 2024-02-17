@@ -96,7 +96,7 @@ class ConstraintChecker
     }
 
     /**
-     * Gets the failed contraints for further proccesing
+     * Gets the failed constraints for further proccesing
      *
      * @return  \stdClass
      *
