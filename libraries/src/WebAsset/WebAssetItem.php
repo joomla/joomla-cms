@@ -68,6 +68,14 @@ class WebAssetItem implements WebAssetItemInterface, WebAssetItemCrossDependenci
     protected $dependencies = [];
 
     /**
+     * Unparsed cross dependencies
+     *
+     * @var    array[]
+     * @since  __DEPLOY_VERSION__
+     */
+    private $rawCrossDependencies = [];
+
+    /**
      * Asset cross dependencies
      *
      * @var    array[]
@@ -126,33 +134,10 @@ class WebAssetItem implements WebAssetItemInterface, WebAssetItemCrossDependenci
         }
 
         if (\array_key_exists('crossDependencies', $options)) {
-            $crossDependencies = (array) $options['crossDependencies'];
+            $this->rawCrossDependencies = (array) $options['crossDependencies'];
             unset($options['crossDependencies']);
-        }
-
-        if ($crossDependencies) {
-            // Parse Cross Dependencies which comes in ["name#type"] or ["type" => ["name"]] format
-            foreach ($crossDependencies as $key => $crossDependency) {
-                if (\is_array($crossDependency)) {
-                    $this->crossDependencies[$key] = $crossDependency;
-                } else {
-                    $pos     = strrpos($crossDependency, '#');
-                    $depType = $pos ? substr($crossDependency, $pos + 1) : '';
-                    $depName = $pos ? substr($crossDependency, 0, $pos) : '';
-
-                    if (!$depType || !$depName) {
-                        throw new \UnexpectedValueException(
-                            sprintf('Incomplete definition for cross dependency, for asset "%s"', $name)
-                        );
-                    }
-
-                    if (empty($this->crossDependencies[$depType])) {
-                        $this->crossDependencies[$depType] = [];
-                    }
-
-                    $this->crossDependencies[$depType][] = $depName;
-                }
-            }
+        } else {
+            $this->rawCrossDependencies = $crossDependencies;
         }
 
         $this->options = $options;
@@ -204,6 +189,28 @@ class WebAssetItem implements WebAssetItemInterface, WebAssetItemCrossDependenci
      */
     public function getCrossDependencies(): array
     {
+        if ($this->rawCrossDependencies && !$this->crossDependencies) {
+            // Parse Cross Dependencies which comes in ["name#type"] format
+            foreach ($this->rawCrossDependencies as $crossDependency) {
+                $pos     = strrpos($crossDependency, '#');
+                $depType = $pos ? substr($crossDependency, $pos + 1) : '';
+                $depName = $pos ? substr($crossDependency, 0, $pos) : '';
+
+                if (!$depType || !$depName) {
+                    throw new \UnexpectedValueException(
+                        sprintf('Incomplete definition for cross dependency, for asset "%s"', $this->getName())
+                    );
+                }
+
+                if (empty($this->crossDependencies[$depType])) {
+                    $this->crossDependencies[$depType] = [];
+                }
+
+                $this->crossDependencies[$depType][] = $depName;
+            }
+            $this->rawCrossDependencies = [];
+        }
+
         return $this->crossDependencies;
     }
 
