@@ -614,6 +614,7 @@ abstract class Factory
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form())
+            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Http())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Input())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Logger())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Language())
@@ -625,8 +626,7 @@ abstract class Factory
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\WebAssetRegistry())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Router())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\User())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Http());
+            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\User());
 
         return $container;
     }
