@@ -25,8 +25,15 @@ use Joomla\CMS\Version;
  */
 class ConstraintChecker
 {
-    protected \stdClass $failedConstraints;
-
+    /**
+     * This property holds information about failed environment constraints.
+     * It b/c reasons to make sure the TUF implementation mirrors the XML update behaviors
+     *
+     * @var \stdClass
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected \stdClass $failedEnvironmentConstraints;
 
     /**
      * Constructor, used to populate the failed
@@ -37,7 +44,7 @@ class ConstraintChecker
      */
     public function __construct()
     {
-        $this->failedConstraints = new \stdClass();
+        $this->failedEnvironmentConstraintsstraints = new \stdClass();
     }
 
     /**
@@ -95,9 +102,9 @@ class ConstraintChecker
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getFailedConstraints(): \stdClass
+    public function getFailedEnvironmentConstraints(): \stdClass
     {
-        return $this->failedConstraints;
+        return $this->failedEnvironmentConstraints;
     }
 
     /**
@@ -140,9 +147,9 @@ class ConstraintChecker
         $result = version_compare(PHP_VERSION, $phpMinimum, '>=');
 
         if (!$result) {
-            $this->failedConstraints->php           = new \stdClass();
-            $this->failedConstraints->php->required = $phpMinimum;
-            $this->failedConstraints->php->used     = PHP_VERSION;
+            $this->failedEnvironmentConstraints->php           = new \stdClass();
+            $this->failedEnvironmentConstraints->php->required = $phpMinimum;
+            $this->failedEnvironmentConstraints->php->used     = PHP_VERSION;
 
             return false;
         }
@@ -182,10 +189,10 @@ class ConstraintChecker
             $result = version_compare($dbVersion, $minimumVersion, '>=');
 
             if (!$result) {
-                $this->failedConstraints->db           = new \stdClass();
-                $this->failedConstraints->db->type     = $dbType;
-                $this->failedConstraints->db->required = $minimumVersion;
-                $this->failedConstraints->db->used     = $dbVersion;
+                $this->failedEnvironmentConstraintsstraints->db           = new \stdClass();
+                $this->failedEnvironmentConstraintsstraints->db->type     = $dbType;
+                $this->failedEnvironmentConstraintsstraints->db->required = $minimumVersion;
+                $this->failedEnvironmentConstraintsstraints->db->used     = $dbVersion;
 
                 return false;
             }
@@ -212,9 +219,9 @@ class ConstraintChecker
         $stabilityInt = $this->stabilityToInteger($stability);
 
         if (($stabilityInt < $minimumStability)) {
-            $this->failedConstraints->stability            = new \stdClass();
-            $this->failedConstraints->stability->required  = $stability;
-            $this->failedConstraints->stability->used      = $minimumStability;
+            $this->failedEnvironmentConstraintsstraints->stability            = new \stdClass();
+            $this->failedEnvironmentConstraintsstraints->stability->required  = $stability;
+            $this->failedEnvironmentConstraintsstraints->stability->used      = $minimumStability;
 
             return false;
         }

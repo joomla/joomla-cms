@@ -554,7 +554,7 @@ class Update
             }
 
             if (!$constraintChecker->check($target['custom'])) {
-                $this->otherUpdateInfo = $constraintChecker->getFailedConstraints();
+                $this->otherUpdateInfo = $constraintChecker->getFailedEnvironmentConstraints();
 
                 continue;
             }
