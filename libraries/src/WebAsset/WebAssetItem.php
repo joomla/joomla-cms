@@ -190,23 +190,28 @@ class WebAssetItem implements WebAssetItemInterface, WebAssetItemCrossDependenci
     public function getCrossDependencies(): array
     {
         if ($this->rawCrossDependencies && !$this->crossDependencies) {
-            // Parse Cross Dependencies which comes in ["name#type"] format
-            foreach ($this->rawCrossDependencies as $crossDependency) {
-                $pos     = strrpos($crossDependency, '#');
-                $depType = $pos ? substr($crossDependency, $pos + 1) : '';
-                $depName = $pos ? substr($crossDependency, 0, $pos) : '';
+            // Cross Dependencies as an associative array
+            if (!\is_int(key($this->rawCrossDependencies))) {
+                $this->crossDependencies = $this->rawCrossDependencies;
+            } else {
+                // Parse Cross Dependencies which comes in ["name#type"] format
+                foreach ($this->rawCrossDependencies as $crossDependency) {
+                    $pos     = strrpos($crossDependency, '#');
+                    $depType = $pos ? substr($crossDependency, $pos + 1) : '';
+                    $depName = $pos ? substr($crossDependency, 0, $pos) : '';
 
-                if (!$depType || !$depName) {
-                    throw new \UnexpectedValueException(
-                        sprintf('Incomplete definition for cross dependency, for asset "%s"', $this->getName())
-                    );
+                    if (!$depType || !$depName) {
+                        throw new \UnexpectedValueException(
+                            sprintf('Incomplete definition for cross dependency, for asset "%s"', $this->getName())
+                        );
+                    }
+
+                    if (empty($this->crossDependencies[$depType])) {
+                        $this->crossDependencies[$depType] = [];
+                    }
+
+                    $this->crossDependencies[$depType][] = $depName;
                 }
-
-                if (empty($this->crossDependencies[$depType])) {
-                    $this->crossDependencies[$depType] = [];
-                }
-
-                $this->crossDependencies[$depType][] = $depName;
             }
             $this->rawCrossDependencies = [];
         }
