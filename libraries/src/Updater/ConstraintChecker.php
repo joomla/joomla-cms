@@ -19,7 +19,7 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Version;
 
 /**
- * ConstrainChecker Class
+ * ConstraintChecker Class
  *
  * @since  __DEPLOY_VERSION__
  */
