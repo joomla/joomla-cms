@@ -12,9 +12,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Language\Text;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+
+$fieldsets = $displayData->form->getFieldsets();
 
 ?>
 
@@ -26,6 +29,12 @@ $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
     <?php $fieldsnames = explode(',', $displayData->fieldsname); ?>
         <div class="form-grid">
         <?php foreach ($fieldsnames as $fieldname) : ?>
+            <?php if (array_key_exists($fieldname, $fieldsets) && (property_exists($fieldsets[$fieldname], 'description') && (!empty($fieldsets[$fieldname]->description)))) : ?>
+                <div class="tab-description alert alert-info">
+                    <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+                    <?php echo Text::_($fieldsets[$fieldname]->description); ?>
+                </div>
+            <?php endif; ?>
             <?php foreach ($displayData->form->getFieldset($fieldname) as $field) : ?>
                 <?php $datashowon = ''; ?>
                 <?php $groupClass = $field->type === 'Spacer' ? ' field-spacer' : ''; ?>
