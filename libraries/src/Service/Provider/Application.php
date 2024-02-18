@@ -21,6 +21,7 @@ use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
 use Joomla\CMS\Console\ExtensionDiscoverListCommand;
 use Joomla\CMS\Console\ExtensionInstallCommand;
 use Joomla\CMS\Console\ExtensionRemoveCommand;
+use Joomla\CMS\Console\ExtensionUpdateCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
 use Joomla\CMS\Console\FinderIndexCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
@@ -159,6 +160,7 @@ class Application implements ServiceProviderInterface
                         ExtensionDiscoverCommand::getDefaultName()        => ExtensionDiscoverCommand::class,
                         ExtensionDiscoverInstallCommand::getDefaultName() => ExtensionDiscoverInstallCommand::class,
                         ExtensionDiscoverListCommand::getDefaultName()    => ExtensionDiscoverListCommand::class,
+                        ExtensionDiscoverUpdateCommand::getDefaultName()  => ExtensionUpdateCommand::class,
                         UpdateCoreCommand::getDefaultName()               => UpdateCoreCommand::class,
                         CoreUpdateChannelCommand::getDefaultName()        => CoreUpdateChannelCommand::class,
                         FinderIndexCommand::getDefaultName()              => FinderIndexCommand::class,

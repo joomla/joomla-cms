@@ -186,6 +186,14 @@ class Console implements ServiceProviderInterface
         );
 
         $container->share(
+            ExtensionUpdateCommand::class,
+            function (Container $container) {
+                return new ExtensionUpdateCommand($container->get(DatabaseInterface::class));
+            },
+            true
+        );
+
+        $container->share(
             UpdateCoreCommand::class,
             function (Container $container) {
                 return new UpdateCoreCommand($container->get(DatabaseInterface::class));
