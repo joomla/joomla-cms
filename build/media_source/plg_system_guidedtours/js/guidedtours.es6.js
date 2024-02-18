@@ -148,7 +148,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
           const secondaryButton = element.querySelector('.shepherd-button-secondary');
 
           // Check to see if the 'next' button should be enabled before showing the step based on being required or
-          // matcching the required value
+          // matching the required value
           switch (this.options.attachTo.interactive_type) {
             case 'text':
               if (
