@@ -29,7 +29,7 @@ $fieldsets = $displayData->form->getFieldsets();
     <?php $fieldsnames = explode(',', $displayData->fieldsname); ?>
         <div class="form-grid">
         <?php foreach ($fieldsnames as $fieldname) : ?>
-            <?php if (array_key_exists($fieldname, $fieldsets) && property_exists($fieldsets[$fieldname], 'description') && !empty($fieldsets[$fieldname]->description)) : ?>
+            <?php if (!empty($fieldsets[$fieldname]->description)) : ?>
                 <div class="tab-description alert alert-info">
                     <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
                     <?php echo Text::_($fieldsets[$fieldname]->description); ?>
