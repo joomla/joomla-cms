@@ -307,7 +307,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
 
         $originalUri = Uri::getInstance();
 
-        if ($this->params->get('trailingslash') == 1 && substr($originalUri->getPath(), -1) == '/') {
+        if ($this->params->get('trailingslash') == 1 && substr($originalUri->getPath(), -1) == '/' && $originalUri->toString() != Uri::root()) {
             // Remove trailingslash
             $originalUri->setPath(substr($originalUri->getPath(), 0, -1));
             $this->app->redirect($originalUri->toString());
