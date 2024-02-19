@@ -11,7 +11,7 @@
 	<description>MOD_FRONTEND_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Frontend</namespace>
 	<files>
-		<folder>services</folder>
+		<folder module="mod_frontend">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
