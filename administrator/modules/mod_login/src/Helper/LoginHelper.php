@@ -109,6 +109,6 @@ class LoginHelper
      */
     public static function getReturnUri()
     {
-        return (new self())->getLanguages();
+        return (new self())->getReturnUriString();
     }
 }
