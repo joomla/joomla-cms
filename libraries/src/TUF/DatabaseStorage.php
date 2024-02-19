@@ -26,7 +26,7 @@ class DatabaseStorage extends StorageBase
     public const METADATA_COLUMNS = ['root', 'targets', 'snapshot', 'timestamp', 'mirrors'];
 
     /**
-     * The Tuf table object
+     * The TUF table object
      *
      * @var Table
      */

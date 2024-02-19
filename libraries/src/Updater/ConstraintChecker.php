@@ -19,7 +19,7 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Version;
 
 /**
- * ConstrainChecker Class
+ * ConstraintChecker Class
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -96,7 +96,7 @@ class ConstraintChecker
     }
 
     /**
-     * Gets the failed contraints for further proccesing
+     * Gets the failed constraints for further proccesing
      *
      * @return  \stdClass
      *
@@ -189,10 +189,10 @@ class ConstraintChecker
             $result = version_compare($dbVersion, $minimumVersion, '>=');
 
             if (!$result) {
-                $this->failedEnvironmentConstraintsstraints->db           = new \stdClass();
-                $this->failedEnvironmentConstraintsstraints->db->type     = $dbType;
-                $this->failedEnvironmentConstraintsstraints->db->required = $minimumVersion;
-                $this->failedEnvironmentConstraintsstraints->db->used     = $dbVersion;
+                $this->failedEnvironmentConstraints->db           = new \stdClass();
+                $this->failedEnvironmentConstraints->db->type     = $dbType;
+                $this->failedEnvironmentConstraints->db->required = $minimumVersion;
+                $this->failedEnvironmentConstraints->db->used     = $dbVersion;
 
                 return false;
             }
@@ -219,9 +219,9 @@ class ConstraintChecker
         $stabilityInt = $this->stabilityToInteger($stability);
 
         if (($stabilityInt < $minimumStability)) {
-            $this->failedEnvironmentConstraintsstraints->stability            = new \stdClass();
-            $this->failedEnvironmentConstraintsstraints->stability->required  = $stability;
-            $this->failedEnvironmentConstraintsstraints->stability->used      = $minimumStability;
+            $this->failedEnvironmentConstraints->stability            = new \stdClass();
+            $this->failedEnvironmentConstraints->stability->required  = $stability;
+            $this->failedEnvironmentConstraints->stability->used      = $minimumStability;
 
             return false;
         }
