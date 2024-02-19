@@ -107,7 +107,7 @@ class UpdateModel extends BaseDatabaseModel
                 break;
 
                 /**
-                 * All "non-testing" releases of the official project hosted in the TUF repo.
+                 * All "non-testing" releases of the official project hosted in Joomla's TUF-based update repo.
                  * The commented "case" below are for documenting where 'default' and legacy options falls
                  * case 'default':
                  * case 'next':
