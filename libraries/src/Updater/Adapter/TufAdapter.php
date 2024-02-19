@@ -106,7 +106,8 @@ class TufAdapter extends UpdateAdapter
         foreach ($versions as $version) {
             // Return the version as a match if either all constraints are matched
             // or "only" env related constraints fail - the later one is the existing behavior of the XML updater
-            if ($constraintChecker->check($version) === true
+            if (
+                $constraintChecker->check($version) === true
                 || !empty((array) $constraintChecker->getFailedEnvironmentConstraints())
             ) {
                 return [$version];
