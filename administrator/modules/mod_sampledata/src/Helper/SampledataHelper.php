@@ -30,7 +30,7 @@ class SampledataHelper
      *
      * @return  mixed  An array of sampledata, or false on error.
      *
-     * @since  3.8.0
+     * @since  __DEPLOY_VERSION__
      */
     public function getSampledataList()
     {
