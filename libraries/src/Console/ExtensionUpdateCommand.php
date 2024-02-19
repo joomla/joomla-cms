@@ -25,7 +25,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command for perform extension update
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class ExtensionUpdateCommand extends AbstractCommand
 {
@@ -33,7 +33,7 @@ class ExtensionUpdateCommand extends AbstractCommand
      * The default command name
      *
      * @var    string
-     * @since  4.0.0
+     * @since  __DEPLOY_VERSION__
      */
     protected static $defaultName = 'extension:update';
 
@@ -45,7 +45,7 @@ class ExtensionUpdateCommand extends AbstractCommand
      *
      * @return  integer  The command exit code
      *
-     * @since   4.0.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
@@ -110,7 +110,7 @@ class ExtensionUpdateCommand extends AbstractCommand
      *
      * @return array
      *
-     * @since 4.0.0
+     * @since __DEPLOY_VERSION__
      */
     protected function getExtensionsNameAndId($extensions): array
     {
@@ -137,7 +137,7 @@ class ExtensionUpdateCommand extends AbstractCommand
      *
      * @return  void
      *
-     * @since   4.0.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function configure(): void
     {
