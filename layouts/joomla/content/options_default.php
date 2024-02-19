@@ -17,24 +17,19 @@ use Joomla\CMS\Language\Text;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
-$fieldsets = $displayData->form->getFieldsets();
-
 ?>
 
 <fieldset class="<?php echo !empty($displayData->formclass) ? $displayData->formclass : ''; ?>">
     <legend><?php echo $displayData->name; ?></legend>
     <?php if (!empty($displayData->description)) : ?>
-        <p><?php echo $displayData->description; ?></p>
+        <div class="alert alert-info">
+            <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+            <?php echo $displayData->description; ?>
+        </div>
     <?php endif; ?>
     <?php $fieldsnames = explode(',', $displayData->fieldsname); ?>
         <div class="form-grid">
         <?php foreach ($fieldsnames as $fieldname) : ?>
-            <?php if (!empty($fieldsets[$fieldname]->description)) : ?>
-                <div class="tab-description alert alert-info">
-                    <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                    <?php echo Text::_($fieldsets[$fieldname]->description); ?>
-                </div>
-            <?php endif; ?>
             <?php foreach ($displayData->form->getFieldset($fieldname) as $field) : ?>
                 <?php $datashowon = ''; ?>
                 <?php $groupClass = $field->type === 'Spacer' ? ' field-spacer' : ''; ?>
