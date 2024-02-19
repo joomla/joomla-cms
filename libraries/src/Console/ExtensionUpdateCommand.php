@@ -50,7 +50,7 @@ class ExtensionUpdateCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $symfonyStyle = new SymfonyStyle($input, $output);
-        
+
         $symfonyStyle->title('Extension Updates');
 
         if ($eid = $input->getOption('eid')) {
@@ -81,7 +81,7 @@ class ExtensionUpdateCommand extends AbstractCommand
 
             $extensions = $this->getExtensionsNameAndId($update);
             $symfonyStyle->table(['Extension ID', 'Name', 'Location', 'Type', 'Installed','Available', 'Folder'], $extensions);
-            
+
             // Get the minimum stability.
             $params            = ComponentHelper::getComponent('com_installer')->getParams();
             $minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
