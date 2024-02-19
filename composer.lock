@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "186d1c75ba657af1ae5b59e4bfdafe01",
+    "content-hash": "00e01144155a50c968a51bf9692b2b0c",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1702,16 +1702,16 @@
         },
         {
             "name": "joomla/filter",
-            "version": "2.0.3",
+            "version": "dev-2.x-mbstring-issue566",
             "source": {
                 "type": "git",
-                "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "9102630f9069351c1259b6f585a704fde7029d2a"
+                "url": "git@github.com:joomla-framework/security-filter.git",
+                "reference": "72881a29e90beed6d043af228b64df6850bbfeff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/9102630f9069351c1259b6f585a704fde7029d2a",
-                "reference": "9102630f9069351c1259b6f585a704fde7029d2a",
+                "url": "https://api.github.com/repos/joomla-framework/security-filter/zipball/72881a29e90beed6d043af228b64df6850bbfeff",
+                "reference": "72881a29e90beed6d043af228b64df6850bbfeff",
                 "shasum": ""
             },
             "require": {
@@ -1729,6 +1729,7 @@
             "suggest": {
                 "joomla/language": "Required only if you want to use `OutputFilter::stringURLSafe`."
             },
+            "default-branch": true,
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
@@ -1740,7 +1741,11 @@
                     "Joomla\\Filter\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Joomla\\Filter\\Tests\\": "Tests/"
+                }
+            },
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -1752,20 +1757,20 @@
                 "joomla"
             ],
             "support": {
-                "issues": "https://github.com/joomla-framework/filter/issues",
-                "source": "https://github.com/joomla-framework/filter/tree/2.0.3"
+                "source": "https://github.com/joomla-framework/security-filter/tree/2.x-mbstring-issue566",
+                "issues": "https://github.com/joomla-framework/security-filter/issues"
             },
             "funding": [
                 {
-                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
-                    "type": "custom"
+                    "type": "github",
+                    "url": "https://github.com/joomla"
                 },
                 {
-                    "url": "https://github.com/joomla",
-                    "type": "github"
+                    "type": "custom",
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html"
                 }
             ],
-            "time": "2023-08-26T07:57:54+00:00"
+            "time": "2024-02-10T14:19:54+00:00"
         },
         {
             "name": "joomla/http",
@@ -9899,6 +9904,12 @@
     ],
     "aliases": [
         {
+            "package": "joomla/filter",
+            "version": "dev-2.x-mbstring-issue566",
+            "alias": "2.0.4",
+            "alias_normalized": "2.0.4.0"
+        },
+        {
             "package": "voku/portable-utf8",
             "version": "6.0.12.0",
             "alias": "5.4.0",
@@ -9907,6 +9918,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "joomla/filter": 20,
         "tobscure/json-api": 20
     },
     "prefer-stable": false,
@@ -9921,5 +9933,5 @@
     "platform-overrides": {
         "php": "7.2.5"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }
