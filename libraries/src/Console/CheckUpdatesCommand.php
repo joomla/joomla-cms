@@ -88,7 +88,6 @@ class CheckUpdatesCommand extends AbstractCommand
         $extInfo = [];
 
         foreach ($extensions as $key => $extension) {
-
             $extInfo[] = [
                 $extension->extension_id,
                 $extension->name,

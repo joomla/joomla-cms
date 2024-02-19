@@ -25,7 +25,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command for perform extension update
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ExtensionUpdateCommand extends AbstractCommand
 {
@@ -33,7 +33,7 @@ class ExtensionUpdateCommand extends AbstractCommand
      * The default command name
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.0.0
      */
     protected static $defaultName = 'extension:update';
 
@@ -45,13 +45,13 @@ class ExtensionUpdateCommand extends AbstractCommand
      *
      * @return  integer  The command exit code
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.0.0
      */
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $symfonyStyle = new SymfonyStyle($input, $output);
         
-        $symfonyStyle->title('Fetching Extension Updates');
+        $symfonyStyle->title('Extension Updates');
 
         if ($eid = $input->getOption('eid')) {
             // Find updates.
@@ -86,8 +86,16 @@ class ExtensionUpdateCommand extends AbstractCommand
             $params            = ComponentHelper::getComponent('com_installer')->getParams();
             $minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
             $model->update([$update[0]->update_id], $minimum_stability);
-            $b = $model->getState('result');
-            return Command::SUCCESS;
+
+            if ($model->getState('result')) {
+                $symfonyStyle->note($update[0]->name . ' has been updated to ' . $update[0]->version);
+
+                return Command::SUCCESS;
+            }
+
+            $symfonyStyle->error($update[0]->name . ' has not been updated to ' . $update[0]->version);
+
+            return Command::FAILURE;
         }
 
         $symfonyStyle->error('Invalid argument supplied for command.');
@@ -102,7 +110,7 @@ class ExtensionUpdateCommand extends AbstractCommand
      *
      * @return array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.0.0
      */
     protected function getExtensionsNameAndId($extensions): array
     {
@@ -129,7 +137,7 @@ class ExtensionUpdateCommand extends AbstractCommand
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.0.0
      */
     protected function configure(): void
     {
