@@ -210,9 +210,6 @@ final class MathCaptchaProvider implements CaptchaProviderInterface
      */
     public function setupField(FormField $field, \SimpleXMLElement $element): void
     {
-        // Hide the label for this captcha type
-        $element['hiddenLabel'] = 'true';
-
         // Custom message
         if (!$element['message']) {
             $element['message'] = 'PLG_CAPTCHA_MATH_WRONG_SOLUTION';
