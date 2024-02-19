@@ -148,8 +148,8 @@ final class MathCaptchaProvider implements CaptchaProviderInterface
 
         $this->inputIdx = rand(0, 2);
 
-        $this->app->getSession()->set($this->sessionKey . '.result', $solution);
-        $this->app->getSession()->set($this->sessionKey . '.idx', $this->inputIdx);
+        $this->app->getSession()->set($this->sessionKey . '.pwd', $solution);
+        $this->app->getSession()->set($this->sessionKey . '.secret', $this->inputIdx);
     }
 
     /**
@@ -171,8 +171,8 @@ final class MathCaptchaProvider implements CaptchaProviderInterface
         }
 
         // Get a real solution from session, and compare with answer
-        $solution = (int) $this->app->getSession()->get($this->sessionKey . '.result');
-        $inputIdx = (int) $this->app->getSession()->get($this->sessionKey . '.idx');
+        $solution = (int) $this->app->getSession()->get($this->sessionKey . '.pwd');
+        $inputIdx = (int) $this->app->getSession()->get($this->sessionKey . '.secret');
 
         if (!$solution || $inputIdx < 0 || $inputIdx > 2) {
             throw new \RuntimeException(Text::_('PLG_CAPTCHA_MATH_EMPTY_STORE'));
