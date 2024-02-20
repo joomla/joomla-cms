@@ -310,11 +310,11 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         if ($this->params->get('trailingslash') == 1 && substr($originalUri->getPath(), -1) == '/' && $originalUri->toString() != Uri::root()) {
             // Remove trailingslash
             $originalUri->setPath(substr($originalUri->getPath(), 0, -1));
-            $this->app->redirect($originalUri->toString());
+            $this->app->redirect($originalUri->toString(), 301);
         } elseif ($this->params->get('trailingslash') == 2 && substr($originalUri->getPath(), -1) != '/') {
             // Add trailingslash
             $originalUri->setPath($originalUri->getPath() . '/');
-            $this->app->redirect($originalUri->toString());
+            $this->app->redirect($originalUri->toString(), 301);
         }
     }
 
