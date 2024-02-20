@@ -70,11 +70,10 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         if (
             is_a($event->getRouter(), SiteRouter::class)
             && $this->app->get('sef_rewrite')
+            && $this->params->get('indexphp')
         ) {
-            if ($this->params->get('indexphp')) {
-                // Enforce removing index.php with a redirect
-                $event->getRouter()->attachParseRule([$this, 'removeIndexphp'], SiteRouter::PROCESS_BEFORE);
-            }
+            // Enforce removing index.php with a redirect
+            $event->getRouter()->attachParseRule([$this, 'removeIndexphp'], SiteRouter::PROCESS_BEFORE);
         }
     }
 
@@ -254,19 +253,19 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     public function removeIndexphp(&$router, &$uri)
     {
         // We only want to redirect on GET requests
-        if ($this->app->getInput()->getMethod() != 'GET') {
+        if ($this->app->getInput()->getMethod() !== 'GET') {
             return;
         }
 
         $origUri = Uri::getInstance();
 
-        if (substr($origUri->getPath(), -9) == 'index.php') {
+        if (substr($origUri->getPath(), -9) === 'index.php') {
             // Remove trailing index.php
             $origUri->setPath(substr($origUri->getPath(), 0, -9));
             $this->app->redirect($origUri->toString(), 301);
         }
 
-        if (substr($origUri->getPath(), \strlen(Uri::base(true)), 11) == '/index.php/') {
+        if (substr($origUri->getPath(), \strlen(Uri::base(true)), 11) === '/index.php/') {
             // Remove leading index.php
             $origUri->setPath(Uri::base(true) . substr($origUri->getPath(), \strlen(Uri::base(true)) + 10));
             $this->app->redirect($origUri->toString(), 301);
