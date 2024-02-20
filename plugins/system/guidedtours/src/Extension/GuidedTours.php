@@ -50,10 +50,12 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      * @since  4.3.0
      */
     protected $stepInteractiveType = [
-        GuidedtoursComponent::STEP_INTERACTIVETYPE_FORM_SUBMIT => 'submit',
-        GuidedtoursComponent::STEP_INTERACTIVETYPE_TEXT        => 'text',
-        GuidedtoursComponent::STEP_INTERACTIVETYPE_OTHER       => 'other',
-        GuidedtoursComponent::STEP_INTERACTIVETYPE_BUTTON      => 'button',
+        GuidedtoursComponent::STEP_INTERACTIVETYPE_FORM_SUBMIT    => 'submit',
+        GuidedtoursComponent::STEP_INTERACTIVETYPE_TEXT           => 'text',
+        GuidedtoursComponent::STEP_INTERACTIVETYPE_OTHER          => 'other',
+        GuidedtoursComponent::STEP_INTERACTIVETYPE_BUTTON         => 'button',
+        GuidedtoursComponent::STEP_INTERACTIVETYPE_CHECKBOX_RADIO => 'checkbox_radio',
+        GuidedtoursComponent::STEP_INTERACTIVETYPE_SELECT         => 'select',
     ];
 
     /**
@@ -248,6 +250,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
             $temp->target           = $step->target;
             $temp->type             = $this->stepType[$step->type];
             $temp->interactive_type = $this->stepInteractiveType[$step->interactive_type];
+            $temp->params           = $step->params;
             $temp->url              = $step->url;
             $temp->tour_id          = $step->tour_id;
             $temp->step_id          = $step->id;
