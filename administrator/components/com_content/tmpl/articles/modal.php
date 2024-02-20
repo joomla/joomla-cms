@@ -32,7 +32,7 @@ $wa->useScript('core')
     ->useScript('modal-content-select')
     ->useScript('com_content.admin-articles-modal');
 
-// TODO: Use of Function and Editor is deprecated and should be removed in 6.0. It stays only for backward compatibility.
+// @todo: Use of Function and Editor is deprecated and should be removed in 6.0. It stays only for backward compatibility.
 $function  = $app->getInput()->getCmd('function', 'jSelectArticle');
 $editor    = $app->getInput()->getCmd('editor', '');
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -94,6 +94,7 @@ if (!empty($editor)) {
                     -2 => 'icon-trash',
                     0  => 'icon-times',
                     1  => 'icon-check',
+                    2  => 'icon-archive',
                 ];
                 ?>
                 <?php foreach ($this->items as $i => $item) : ?>
@@ -109,7 +110,7 @@ if (!empty($editor)) {
                     }
 
                     $link     = RouteHelper::getArticleRoute($item->id, $item->catid, $item->language);
-                    $itemHtml = '<a href="' . $link . '"' . ($lang ? ' hreflang="' . $lang . '"' : '') . '>' . $item->title . '</a>';
+                    $itemHtml = '<a href="' . $this->escape($link) . '"' . ($lang ? ' hreflang="' . $lang . '"' : '') . '>' . $item->title . '</a>';
                     ?>
                     <tr class="row<?php echo $i % 2; ?>">
                         <td class="text-center">

@@ -313,7 +313,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
 
         PluginHelper::importPlugin($this->events_map['delete']);
 
-        if (in_array($user->id, $pks)) {
+        if (\in_array($user->id, $pks)) {
             $this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_DELETE_SELF'));
 
             return false;
@@ -339,10 +339,10 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
                         $this->setError($table->getError());
 
                         return false;
-                    } else {
-                        // Trigger the after delete event.
-                        Factory::getApplication()->triggerEvent($this->event_after_delete, [$user_to_delete->getProperties(), true, $this->getError()]);
                     }
+
+                    // Trigger the after delete event.
+                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$user_to_delete->getProperties(), true, $this->getError()]);
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
@@ -424,7 +424,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
                         // Trigger the before save event.
                         $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$old, false, $table->getProperties()]);
 
-                        if (in_array(false, $result, true)) {
+                        if (\in_array(false, $result, true)) {
                             // Plugin will have to raise its own error or throw an exception.
                             return false;
                         }
@@ -511,7 +511,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
                         // Trigger the before save event.
                         $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$old, false, $table->getProperties()]);
 
-                        if (in_array(false, $result, true)) {
+                        if (\in_array(false, $result, true)) {
                             // Plugin will have to raise it's own error or throw an exception.
                             return false;
                         }
@@ -804,7 +804,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
             $groups = false;
 
             foreach ($userIds as $id) {
-                if (!in_array($id, $users)) {
+                if (!\in_array($id, $users)) {
                     $query->values($id . ',' . $groupId);
                     $groups = true;
                 }
@@ -849,9 +849,9 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
                 ->getMVCFactory()->createModel('Groups', 'Administrator', ['ignore_request' => true]);
 
             return $model->getItems();
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**

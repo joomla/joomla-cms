@@ -24,7 +24,7 @@ use Joomla\Component\Privacy\Administrator\Table\RequestTable;
  * Example:
  *     new CanRemoveDataEvent('onEventName', ['subject' => $requestTable, 'user' => $user]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class CanRemoveDataEvent extends PrivacyEvent implements ResultAwareInterface
 {
@@ -35,7 +35,7 @@ class CanRemoveDataEvent extends PrivacyEvent implements ResultAwareInterface
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject', 'user'];
@@ -48,7 +48,7 @@ class CanRemoveDataEvent extends PrivacyEvent implements ResultAwareInterface
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -70,9 +70,9 @@ class CanRemoveDataEvent extends PrivacyEvent implements ResultAwareInterface
      *
      * @return  RequestTable
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
-    protected function setSubject(RequestTable $value): RequestTable
+    protected function onSetSubject(RequestTable $value): RequestTable
     {
         return $value;
     }
@@ -84,9 +84,9 @@ class CanRemoveDataEvent extends PrivacyEvent implements ResultAwareInterface
      *
      * @return  ?User
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
-    protected function setUser(?User $value): ?User
+    protected function onSetUser(?User $value): ?User
     {
         return $value;
     }
@@ -100,7 +100,7 @@ class CanRemoveDataEvent extends PrivacyEvent implements ResultAwareInterface
      * @throws  \InvalidArgumentException
      *
      * @internal
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function typeCheckResult($data): void
     {
@@ -114,7 +114,7 @@ class CanRemoveDataEvent extends PrivacyEvent implements ResultAwareInterface
      *
      * @return  RequestTable
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getRequest(): RequestTable
     {
@@ -126,7 +126,7 @@ class CanRemoveDataEvent extends PrivacyEvent implements ResultAwareInterface
      *
      * @return  ?User
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getUser(): ?User
     {

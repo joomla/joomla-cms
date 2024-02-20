@@ -46,6 +46,7 @@ extract($displayData);
  * @var   array    $canDo
  * @var   string[] $urls
  * @var   string[] $modalTitles
+ * @var   string[] $buttonIcons
  */
 
 // Add the field script

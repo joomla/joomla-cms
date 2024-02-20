@@ -117,8 +117,8 @@ class Html extends Parser
     {
         $return         = '';
         $offset         = 0;
-        $startTagLength = strlen($startTag);
-        $endTagLength   = strlen($endTag);
+        $startTagLength = \strlen($startTag);
+        $endTagLength   = \strlen($endTag);
 
         // Find the first start tag.
         $start = stripos($input, $startTag);

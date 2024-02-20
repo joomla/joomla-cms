@@ -222,7 +222,7 @@ class ContactsModel extends ListModel
         // Filter by featured.
         $featured = (string) $this->getState('filter.featured');
 
-        if (in_array($featured, ['0','1'])) {
+        if (\in_array($featured, ['0','1'])) {
             $query->where($db->quoteName('a.featured') . ' = ' . (int) $featured);
         }
 
@@ -316,12 +316,12 @@ class ContactsModel extends ListModel
         $categoryId = $this->getState('filter.category_id', []);
         $level      = $this->getState('filter.level');
 
-        if (!is_array($categoryId)) {
+        if (!\is_array($categoryId)) {
             $categoryId = $categoryId ? [$categoryId] : [];
         }
 
         // Case: Using both categories filter and by level filter
-        if (count($categoryId)) {
+        if (\count($categoryId)) {
             $categoryId       = ArrayHelper::toInteger($categoryId);
             $categoryTable    = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
             $subCatItemsWhere = [];

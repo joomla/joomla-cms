@@ -55,7 +55,7 @@ class LinksController extends AdminController
             if (!$model->activate($ids, $newUrl, $comment)) {
                 $this->app->enqueueMessage($model->getError(), 'warning');
             } else {
-                $this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
+                $this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_UPDATED', \count($ids)));
             }
         }
 
@@ -92,7 +92,7 @@ class LinksController extends AdminController
             if (!$model->duplicateUrls($ids, $newUrl, $comment)) {
                 $this->app->enqueueMessage($model->getError(), 'warning');
             } else {
-                $this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
+                $this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_UPDATED', \count($ids)));
             }
         }
 
@@ -155,7 +155,7 @@ class LinksController extends AdminController
 
             // Execute the batch process
             if ($model->batchProcess($batch_urls)) {
-                $this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_ADDED', count($batch_urls)));
+                $this->setMessage(Text::plural('COM_REDIRECT_N_LINKS_ADDED', \count($batch_urls)));
             }
         }
 

@@ -148,8 +148,8 @@ trait ImmutableNodeTrait
     {
         if ($right) {
             return $this->_rightSibling;
-        } else {
-            return $this->_leftSibling;
         }
+
+        return $this->_leftSibling;
     }
 }

@@ -13,8 +13,10 @@ namespace Joomla\Component\Guidedtours\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -170,7 +172,7 @@ class StepsModel extends ListModel
             $tourId = (int) $tourId;
             $query->where($db->quoteName('a.tour_id') . ' = :tour_id')
                 ->bind(':tour_id', $tourId, ParameterType::INTEGER);
-        } elseif (is_array($tourId)) {
+        } elseif (\is_array($tourId)) {
             $tourId = ArrayHelper::toInteger($tourId);
             $query->whereIn($db->quoteName('a.tour_id'), $tourId);
         }
@@ -228,11 +230,32 @@ class StepsModel extends ListModel
     {
         $items = parent::getItems();
 
-        Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
-
+        $tourLanguageLoaded = false;
         foreach ($items as $item) {
+            if (!$tourLanguageLoaded) {
+                $app    = Factory::getApplication();
+                $tourId = $item->tour_id;
+
+                /** @var \Joomla\Component\Guidedtours\Administrator\Model\TourModel $tourModel */
+                $tourModel = $app->bootComponent('com_guidedtours')
+                                 ->getMVCFactory()->createModel('Tour', 'Administrator', [ 'ignore_request' => true ]);
+
+                $tour = $tourModel->getItem($tourId);
+
+                GuidedtoursHelper::loadTranslationFiles($tour->uid, true);
+
+                $tourLanguageLoaded = true;
+            }
+
             $item->title       = Text::_($item->title);
             $item->description = Text::_($item->description);
+
+            if (isset($item->params)) {
+                $params = new Registry($item->params);
+                if (!empty($item->params->requiredvalue)) {
+                    $item->params->requiredvalue = Text::_($item->params->requiredvalue);
+                }
+            }
         }
 
         return $items;

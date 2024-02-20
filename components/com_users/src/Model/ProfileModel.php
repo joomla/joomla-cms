@@ -131,7 +131,7 @@ class ProfileModel extends FormModel
 
         if ($username) {
             $isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username)
-                || strlen(mb_convert_encoding($username, 'ISO-8859-1', 'UTF-8')) < 2
+                || \strlen(mb_convert_encoding($username, 'ISO-8859-1', 'UTF-8')) < 2
                 || trim($username) !== $username);
         }
 
@@ -281,7 +281,7 @@ class ProfileModel extends FormModel
         }
 
         // Destroy all active sessions for the user after changing the password
-        if ($data['password']) {
+        if ($data['password1']) {
             UserHelper::destroyUserSessions($user->id, true);
         }
 

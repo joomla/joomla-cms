@@ -20,7 +20,7 @@ use Joomla\CMS\MVC\Model\BaseModel;
 /**
  * Class for Installer events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 abstract class InstallerEvent extends AbstractImmutableEvent
 {
@@ -31,7 +31,7 @@ abstract class InstallerEvent extends AbstractImmutableEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['subject', 'package'];
@@ -44,7 +44,7 @@ abstract class InstallerEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -65,7 +65,7 @@ abstract class InstallerEvent extends AbstractImmutableEvent
         }
 
         // For backward compatibility make sure the package is referenced
-        // TODO: Remove in Joomla 6
+        // @todo: Remove in Joomla 6
         // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
         if (key($arguments) === 0) {
             $this->arguments['package'] = &$arguments[1];
@@ -81,9 +81,9 @@ abstract class InstallerEvent extends AbstractImmutableEvent
      *
      * @return  BaseModel
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
-    protected function setSubject(BaseModel $value): BaseModel
+    protected function onSetSubject(BaseModel $value): BaseModel
     {
         return $value;
     }
@@ -91,13 +91,13 @@ abstract class InstallerEvent extends AbstractImmutableEvent
     /**
      * Setter for the package argument.
      *
-     * @param   array|\ArrayAccess|null  $value  The value to set
+     * @param   ?array  $value  The value to set
      *
-     * @return  array|\ArrayAccess|null
+     * @return  ?array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
-    protected function setPackage(array|\ArrayAccess|null $value): array|\ArrayAccess|null
+    protected function onSetPackage(?array $value): ?array
     {
         return $value;
     }
@@ -107,7 +107,7 @@ abstract class InstallerEvent extends AbstractImmutableEvent
      *
      * @return  BaseModel
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getModel(): BaseModel
     {
@@ -117,11 +117,11 @@ abstract class InstallerEvent extends AbstractImmutableEvent
     /**
      * Getter for the package.
      *
-     * @return  array|\ArrayAccess|null
+     * @return  ?array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
-    public function getPackage(): array|\ArrayAccess|null
+    public function getPackage(): ?array
     {
         return $this->arguments['package'] ?? null;
     }
@@ -129,15 +129,15 @@ abstract class InstallerEvent extends AbstractImmutableEvent
     /**
      * Update the package.
      *
-     * @param   array|\ArrayAccess|null  $value  The value to set
+     * @param   ?array  $value  The value to set
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
-    public function updatePackage(array|\ArrayAccess|null $value): static
+    public function updatePackage(?array $value): static
     {
-        $this->arguments['package'] = $value;
+        $this->arguments['package'] = $this->onSetPackage($value);
 
         return $this;
     }

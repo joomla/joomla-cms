@@ -20,6 +20,7 @@ use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\QueryTypeAlreadyDefinedException;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -76,15 +77,16 @@ class TaskTable extends Table implements CurrentUserInterface
     /**
      * TaskTable constructor override, needed to pass the DB table name and primary key to {@see Table::__construct()}.
      *
-     * @param  DatabaseDriver  $db  A database connector object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
-     * @since  4.1.0
+     * @since   4.1.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
         $this->setColumnAlias('published', 'state');
 
-        parent::__construct('#__scheduler_tasks', 'id', $db);
+        parent::__construct('#__scheduler_tasks', 'id', $db, $dispatcher);
     }
 
     /**
@@ -101,7 +103,7 @@ class TaskTable extends Table implements CurrentUserInterface
         try {
             parent::check();
         } catch (\Exception $e) {
-            Factory::getApplication()->enqueueMessage($e->getMessage());
+            $this->setError($e->getMessage());
 
             return false;
         }

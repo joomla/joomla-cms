@@ -153,7 +153,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 
         $results = $this->getApplication()->triggerEvent('onPageCacheSetCaching');
 
-        $this->getCacheController()->setCaching(!in_array(false, $results, true));
+        $this->getCacheController()->setCaching(!\in_array(false, $results, true));
 
         $data = $this->getCacheController()->get($this->getCacheKey());
 
@@ -315,7 +315,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
             // Get the current menu item.
             $active = $this->getApplication()->getMenu()->getActive();
 
-            if ($active && $active->id && in_array((int) $active->id, (array) $excludedMenuItems)) {
+            if ($active && $active->id && \in_array((int) $active->id, (array) $excludedMenuItems)) {
                 return true;
             }
         }
@@ -358,7 +358,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 
         $results = $this->getApplication()->triggerEvent('onPageCacheIsExcluded');
 
-        return in_array(true, $results, true);
+        return \in_array(true, $results, true);
     }
 
     /**

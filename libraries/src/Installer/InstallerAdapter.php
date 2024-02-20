@@ -1128,7 +1128,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
             Log::add(Text::_('JLIB_INSTALLER_ERROR_UNINSTALL_LOCKED_EXTENSION'), Log::WARNING, 'jerror');
 
             return false;
-        } elseif (!isset($this->extension->locked) && $this->extension->protected) {
+        }
+
+        if (!isset($this->extension->locked) && $this->extension->protected) {
             // Joomla 3 ('locked' property does not exist yet): Protected extensions cannot be removed.
             Log::add(Text::_('JLIB_INSTALLER_ERROR_UNINSTALL_PROTECTED_EXTENSION'), Log::WARNING, 'jerror');
 
@@ -1141,7 +1143,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
          */
         if ($this->extension->package_id && !$this->parent->isPackageUninstall() && !$this->canUninstallPackageChild($this->extension->package_id)) {
             Log::add(
-                Text::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name),
+                Text::sprintf('JLIB_INSTALLER_ERROR_CANNOT_UNINSTALL_CHILD_OF_PACKAGE', $this->extension->name, $this->extension->package_id),
                 Log::WARNING,
                 'jerror'
             );

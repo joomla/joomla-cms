@@ -124,12 +124,12 @@ final class Override extends CMSPlugin
         $before = $session->get('override.beforeEventFiles');
         $result = [];
 
-        if (!is_array($after) || !is_array($before)) {
+        if (!\is_array($after) || !\is_array($before)) {
             return $result;
         }
 
-        $size1  = count($after);
-        $size2  = count($before);
+        $size1  = \count($after);
+        $size2  = \count($before);
 
         if ($size1 === $size2) {
             for ($i = 0; $i < $size1; $i++) {
@@ -173,7 +173,7 @@ final class Override extends CMSPlugin
      */
     public function finalize($result)
     {
-        $num  = count($result);
+        $num  = \count($result);
         $link = 'index.php?option=com_templates&view=templates';
 
         if ($num != 0) {
@@ -291,7 +291,7 @@ final class Override extends CMSPlugin
         $db->setQuery($query);
         $results = $db->loadObjectList();
 
-        if (count($results) === 1) {
+        if (\count($results) === 1) {
             return true;
         }
 

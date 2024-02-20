@@ -21,6 +21,14 @@
 				<option value="None">JNONE</option>
 			</field>
 
+			<field
+				name="extendJed"
+				type="note"
+				class="alert alert-info d-block w-100"
+				parentclass="order-last"
+				description="PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_EXTEND_JED_DESC"
+			/>
+
 		</fieldset>
 	</fields>
 </form>

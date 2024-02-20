@@ -16,7 +16,7 @@ namespace Joomla\CMS\Event\CustomFields;
 /**
  * Class for CustomFields events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class AfterPrepareFieldEvent extends AbstractPrepareFieldEvent
 {
@@ -25,7 +25,7 @@ class AfterPrepareFieldEvent extends AbstractPrepareFieldEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
     protected $legacyArgumentsOrder = ['context', 'item', 'subject', 'value'];
@@ -38,7 +38,7 @@ class AfterPrepareFieldEvent extends AbstractPrepareFieldEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -49,7 +49,7 @@ class AfterPrepareFieldEvent extends AbstractPrepareFieldEvent
         }
 
         // For backward compatibility make sure the value is referenced
-        // TODO: Remove in Joomla 6
+        // @todo: Remove in Joomla 6
         // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
         if (key($arguments) === 0 && \count($arguments) >= 4) {
             $this->arguments['value'] = &$arguments[3];
@@ -63,7 +63,7 @@ class AfterPrepareFieldEvent extends AbstractPrepareFieldEvent
      *
      * @return  mixed
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function getValue(): mixed
     {
@@ -75,7 +75,7 @@ class AfterPrepareFieldEvent extends AbstractPrepareFieldEvent
      *
      * @return  mixed
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public function updateValue(mixed $value): static
     {

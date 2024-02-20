@@ -19,7 +19,6 @@ use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
@@ -174,23 +173,35 @@ class ContactController extends FormController implements UserFactoryAwareInterf
         }
 
         // Validation succeeded, continue with custom handlers
-        $eventData = new ArrayProxy($data);
-        $results   = $this->getDispatcher()->dispatch('onValidateContact', new ValidateContactEvent('onValidateContact', [
+        $results = $this->getDispatcher()->dispatch('onValidateContact', new ValidateContactEvent('onValidateContact', [
             'subject' => $contact,
-            'data'    => $eventData,
+            'data'    => &$data, // @todo: Remove reference in Joomla 6, @deprecated: Data modification onValidateContact is not allowed, use onSubmitContact instead
         ]))->getArgument('result', []);
+
+        $passValidation = true;
 
         foreach ($results as $result) {
             if ($result instanceof \Exception) {
-                return false;
+                $passValidation = false;
+                $app->enqueueMessage($result->getMessage(), 'error');
             }
         }
 
+        if (!$passValidation) {
+            $app->setUserState('com_contact.contact.data', $data);
+
+            $this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $id . '&catid=' . $contact->catid, false));
+
+            return false;
+        }
+
         // Passed Validation: Process the contact plugins to integrate with other applications
-        $this->getDispatcher()->dispatch('onSubmitContact', new SubmitContactEvent('onSubmitContact', [
+        $event = $this->getDispatcher()->dispatch('onSubmitContact', new SubmitContactEvent('onSubmitContact', [
             'subject' => $contact,
-            'data'    => $eventData,
+            'data'    => &$data, // @todo: Remove reference in Joomla 6, see SubmitContactEvent::__constructor()
         ]));
+        // Get the final data
+        $data = $event->getArgument('data', $data);
 
         // Send the email
         $sent = false;
