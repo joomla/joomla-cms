@@ -88,6 +88,9 @@
 			<field
 				name="tag_list_image"
 				type="media"
+				schemes="http,https,ftp,ftps,data,file"
+				validate="url"
+				relative="true"
 				label="COM_TAGS_TAG_LIST_MEDIA_LABEL"
 			/>
 

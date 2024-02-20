@@ -103,14 +103,14 @@ class GuidedtoursComponent extends MVCComponent implements BootableExtensionInte
     /**
      * An interactive step for checkbox/radio fields
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.1.0
      */
     public const STEP_INTERACTIVETYPE_CHECKBOX_RADIO = 5;
 
     /**
      * An interactive step for select element fields
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.1.0
      */
     public const STEP_INTERACTIVETYPE_SELECT = 6;
 
