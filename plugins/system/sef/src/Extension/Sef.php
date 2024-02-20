@@ -263,13 +263,13 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         if (substr($origUri->getPath(), -9) == 'index.php') {
             // Remove trailing index.php
             $origUri->setPath(substr($origUri->getPath(), 0, -9));
-            $this->app->redirect($origUri->toString());
+            $this->app->redirect($origUri->toString(), 301);
         }
 
         if (substr($origUri->getPath(), \strlen(Uri::base(true)), 11) == '/index.php/') {
             // Remove leading index.php
             $origUri->setPath(Uri::base(true) . substr($origUri->getPath(), \strlen(Uri::base(true)) + 10));
-            $this->app->redirect($origUri->toString());
+            $this->app->redirect($origUri->toString(), 301);
         }
     }
 
