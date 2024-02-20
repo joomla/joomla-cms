@@ -5,7 +5,6 @@
 
 joomla-editor-codemirror {
   display: block;
-  background-color: #fff;
 }
 .cm-editor {
   margin-bottom: 16px;
@@ -28,6 +27,7 @@ joomla-editor-codemirror.fullscreen {
 joomla-editor-codemirror.fullscreen .cm-editor {
   width: auto !important;
   height: 90vh !important;
+  background-color: var(--body-bg);
 }
 
 

@@ -87,7 +87,7 @@ class ManageController extends BaseController
                     $ntext = 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
                 }
 
-                $this->setMessage(Text::plural($ntext, count($ids)));
+                $this->setMessage(Text::plural($ntext, \count($ids)));
             }
         }
 
@@ -153,7 +153,7 @@ class ManageController extends BaseController
     }
 
     /**
-     * Load the changelog for a given extension.
+     * Load the changelog for a given extension. Outputs HTML encoded in JSON.
      *
      * @return  void
      *
@@ -174,5 +174,27 @@ class ManageController extends BaseController
         $output = $model->loadChangelog($eid, $source);
 
         echo (new JsonResponse($output));
+    }
+
+    /**
+     * Load the changelog for a given extension. Outputs HTML.
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     */
+    public function loadChangelogRaw()
+    {
+        /** @var ManageModel $model */
+        $model = $this->getModel('manage');
+
+        $eid    = $this->input->get('eid', 0, 'int');
+        $source = $this->input->get('source', 'manage', 'string');
+
+        if (!$eid) {
+            return;
+        }
+
+        echo $model->loadChangelog($eid, $source);
     }
 }

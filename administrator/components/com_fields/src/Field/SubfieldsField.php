@@ -95,7 +95,7 @@ class SubfieldsField extends ListField
             }
         );
 
-        if (count($options) == 0) {
+        if (\count($options) == 0) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_NO_FIELDS_TO_CREATE_SUBFORM_FIELD_WARNING'), 'warning');
         }
 

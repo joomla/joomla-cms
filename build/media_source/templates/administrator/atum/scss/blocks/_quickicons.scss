@@ -60,6 +60,13 @@
         border-radius: $border-radius;
         transition: all .25s ease;
         margin-inline-start: .5rem;
+        @if $enable-dark-mode {
+          /* stylelint-disable max-nesting-depth */
+          @include color-mode(dark) {
+            /* stylelint-enable max-nesting-depth */
+            color: var(--template-bg-dark-80);
+          }
+        }
       }
 
       .j-links-link {

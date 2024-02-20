@@ -52,7 +52,7 @@ final class Checkboxes extends FieldsListPlugin
             return;
         }
 
-        if (is_array($field->value)) {
+        if (\is_array($field->value)) {
             foreach ($field->value as $key => $value) {
                 $field->apivalue[$value] = $options[$value];
             }

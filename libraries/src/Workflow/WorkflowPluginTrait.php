@@ -44,7 +44,7 @@ trait WorkflowPluginTrait
         }
 
         // Load XML file from "parent" plugin
-        $path = dirname((new \ReflectionClass(static::class))->getFileName());
+        $path = \dirname((new \ReflectionClass(static::class))->getFileName());
 
         if (!is_file($path . '/forms/action.xml')) {
             $path = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name;
@@ -71,7 +71,7 @@ trait WorkflowPluginTrait
         $app        = $this->getApplication() ?? $this->app;
         $workflowId = !empty($workflowId) ? $workflowId : $app->getInput()->getInt('workflow_id');
 
-        if (is_array($workflowId)) {
+        if (\is_array($workflowId)) {
             return false;
         }
 
@@ -104,8 +104,8 @@ trait WorkflowPluginTrait
      */
     protected function checkAllowedAndForbiddenlist($context)
     {
-        $allowedlist   = \array_filter((array) $this->params->get('allowedlist', []));
-        $forbiddenlist = \array_filter((array) $this->params->get('forbiddenlist', []));
+        $allowedlist   = array_filter((array) $this->params->get('allowedlist', []));
+        $forbiddenlist = array_filter((array) $this->params->get('forbiddenlist', []));
 
         if (!empty($allowedlist)) {
             foreach ($allowedlist as $allowed) {
