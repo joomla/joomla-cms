@@ -26,6 +26,39 @@ use Joomla\CMS\Uri\Uri;
 final class Sef extends CMSPlugin
 {
     /**
+     * Application object.
+     *
+     * @var    \Joomla\CMS\Application\CMSApplication
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $app;
+
+    /**
+     * Enforce the SEF URL with a redirect
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onAfterRoute()
+    {
+        $input = $this->app->getInput();
+
+        // We only want to redirect on GET requests
+        if (!$this->app->isClient('site') || !$this->params->get('enforcesef') || $input->getMethod() !== 'GET') {
+            return;
+        }
+
+        $origUri  = Uri::getInstance();
+        $route    = $origUri->toString(['path','query']);
+        $newRoute = Route::_($input->getArray(), false);
+
+        if ($route !== $newRoute) {
+            $this->app->redirect($newRoute, 301);
+        }
+    }
+
+    /**
      * Add the canonical uri to the head.
      *
      * @return  void
