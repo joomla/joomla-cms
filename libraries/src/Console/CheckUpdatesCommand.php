@@ -62,7 +62,7 @@ class CheckUpdatesCommand extends AbstractCommand
         $extensions = $model->getItems();
 
         if (0 === \count($extensions)) {
-            $symfonyStyle->success('There are no available updates');
+            $symfonyStyle->success('There are no updates available.');
             return Command::SUCCESS;
         }
 
