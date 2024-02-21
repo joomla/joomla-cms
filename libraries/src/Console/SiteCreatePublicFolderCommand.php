@@ -72,11 +72,6 @@ class SiteCreatePublicFolderCommand extends AbstractCommand
      */
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
-        // Before we do anything check if the symlink function is available
-        if (!\function_exists('symlink')) {
-            throw new \Exception('The symlink() function is not enabled on the server. Please enable it to proceed.');
-        }
-
         $this->configureIO($input, $output);
         $this->ioStyle->title('Create a public folder');
 
@@ -85,6 +80,12 @@ class SiteCreatePublicFolderCommand extends AbstractCommand
         // Remove the last (Windows || NIX) slash
         $this->publicFolder = rtrim((new InputFilter())->clean($this->publicFolder, 'PATH'), '/');
         $this->publicFolder = rtrim($this->publicFolder, '\\');
+
+        // Check if the symlink function is available
+        if (!\function_exists('symlink')) {
+            $this->ioStyle->error('symlink() function is not enabled on the server. Please enable it to proceed.');
+            return Command::FAILURE;
+        }
 
         try {
             (new PublicFolderGeneratorHelper())->createPublicFolder($this->publicFolder);
