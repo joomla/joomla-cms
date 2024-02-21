@@ -400,7 +400,12 @@ class WebAssetManager implements WebAssetManagerInterface
                     // Make sure dependency exists
                     if (!$this->registry->exists($depType, $depName)) {
                         throw new UnsatisfiedDependencyException(
-                            sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $depName, $name, 'preset')
+                            sprintf(
+                                'Unsatisfied dependency "%s" for an asset "%s" of type "%s"',
+                                $depName . '#' . $depType,
+                                $name,
+                                'preset'
+                            )
                         );
                     }
 
