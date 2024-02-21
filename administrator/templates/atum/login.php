@@ -81,10 +81,10 @@ $monochrome = (bool) $this->params->get('monochrome');
 // Add cookie alert message
 Text::script('JGLOBAL_WARNCOOKIES');
 
+HTMLHelper::_('bootstrap.dropdown');
+
 // @see administrator/templates/atum/html/layouts/status.php
 $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
-
-HTMLHelper::_('bootstrap.dropdown');
 
 ?>
 <!DOCTYPE html>
