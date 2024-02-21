@@ -177,6 +177,11 @@ abstract class Folder
         // Check to make sure the path valid and clean
         $path = Path::clean($path);
 
+        // Check if dir already exists
+        if (self::exists($path)) {
+            return true;
+        }
+
         // Check if parent dir exists
         $parent = \dirname($path);
 
@@ -201,11 +206,6 @@ abstract class Folder
 
             // OK, parent directory has been created
             $nested--;
-        }
-
-        // Check if dir already exists
-        if (self::exists($path)) {
-            return true;
         }
 
         // Check for safe mode
