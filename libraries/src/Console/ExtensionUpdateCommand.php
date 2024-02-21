@@ -79,7 +79,7 @@ class ExtensionUpdateCommand extends AbstractCommand
 
             $symfonyStyle->note('There are available updates to apply');
 
-            $extensions = $this->getExtensionsNameAndId($update);
+            $extensions = $this->getExtensionInfo($update);
             $symfonyStyle->table(['Extension ID', 'Name', 'Location', 'Type', 'Installed','Available', 'Folder'], $extensions);
 
             // Get the minimum stability.
@@ -112,7 +112,7 @@ class ExtensionUpdateCommand extends AbstractCommand
      *
      * @since __DEPLOY_VERSION__
      */
-    protected function getExtensionsNameAndId($extensions): array
+    protected function getExtensionInfo($extensions): array
     {
         $extInfo = [];
 
