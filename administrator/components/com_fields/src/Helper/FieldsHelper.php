@@ -98,11 +98,11 @@ class FieldsHelper
      * The values of the fields can be overridden by an associative array where the keys
      * have to be a name and its corresponding value.
      *
-     * @param   string      $context              The context of the content passed to the helper
-     * @param   null        $item                 The item being edited in the form
-     * @param   int|bool    $prepareValue         (if int is display event): 1 - AfterTitle, 2 - BeforeDisplay, 3 - AfterDisplay, 0 - OFF
-     * @param   array|null  $valuesToOverride     The values to override
-     * @param   bool        $includeSubformFields Should I include fields marked as Only Use In Subform?
+     * @param   string             $context              The context of the content passed to the helper
+     * @param   object|array|null  $item                 The item being edited in the form
+     * @param   int|bool           $prepareValue         (if int is display event): 1 - AfterTitle, 2 - BeforeDisplay, 3 - AfterDisplay, 0 - OFF
+     * @param   array|null         $valuesToOverride     The values to override
+     * @param   bool               $includeSubformFields Should I include fields marked as Only Use In Subform?
      *
      * @return  array
      *
@@ -227,7 +227,10 @@ class FieldsHelper
                     ]))->getArgument('result', []);
 
                     if (\is_array($value)) {
-                        $value = implode(' ', $value);
+                        $value = array_filter($value, function ($v) {
+                            return $v !== '' && $v !== null;
+                        });
+                        $value = $value ? implode(' ', $value) : '';
                     }
 
                     /*
