@@ -111,7 +111,7 @@ abstract class Credentials
             $publicKeyCredentialCreationOptions = null;
         }
 
-        if (!is_object($publicKeyCredentialCreationOptions) || !($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialCreationOptions)) {
+        if (!\is_object($publicKeyCredentialCreationOptions) || !($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialCreationOptions)) {
             throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_CREATE_NO_PK'));
         }
 
@@ -208,7 +208,7 @@ abstract class Credentials
         $publicKeyCredentialRequestOptions = unserialize($serializedOptions);
 
         if (
-            !is_object($publicKeyCredentialRequestOptions)
+            !\is_object($publicKeyCredentialRequestOptions)
             || empty($publicKeyCredentialRequestOptions)
             || !($publicKeyCredentialRequestOptions instanceof PublicKeyCredentialRequestOptions)
         ) {
@@ -294,7 +294,7 @@ abstract class Credentials
         $refConstructor = $refClass->getConstructor();
         $params         = $refConstructor->getParameters();
 
-        if (count($params) === 3) {
+        if (\count($params) === 3) {
             // WebAuthn library 2, 3
             $server = new Server($rpEntity, $repository, null);
         } else {
@@ -303,7 +303,7 @@ abstract class Credentials
         }
 
         // Ed25519 is only available with libsodium
-        if (!function_exists('sodium_crypto_sign_seed_keypair')) {
+        if (!\function_exists('sodium_crypto_sign_seed_keypair')) {
             $server->setSelectedAlgorithms(['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512']);
         }
 

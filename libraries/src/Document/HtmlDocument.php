@@ -704,7 +704,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     {
         $active = CmsFactory::getApplication()->getMenu()->getActive();
 
-        return $active ? count($active->getChildren()) : 0;
+        return $active ? \count($active->getChildren()) : 0;
     }
 
     /**
