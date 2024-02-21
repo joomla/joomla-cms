@@ -186,7 +186,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                     </a>
                                 </td>
                                 <td class="d-none d-xl-table-cell break-word">
-                                    <?php echo PunycodeHelper::emailToUTF8($this->escape($item->email)); ?>
+                                    <?php echo $this->escape(PunycodeHelper::emailToUTF8($item->email)); ?>
                                 </td>
                                 <td class="d-none d-xl-table-cell">
                                     <?php if ($item->lastvisitDate !== null) : ?>
@@ -216,15 +216,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                         && $loggeduser->authorise('core.edit', 'com_users')
                         && $loggeduser->authorise('core.edit.state', 'com_users')
                     ) : ?>
-                        <?php echo HTMLHelper::_(
-                            'bootstrap.renderModal',
-                            'collapseModal',
-                            [
-                                'title'  => Text::_('COM_USERS_BATCH_OPTIONS'),
-                                'footer' => $this->loadTemplate('batch_footer'),
-                            ],
-                            $this->loadTemplate('batch_body')
-                        ); ?>
+                        <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
                     <?php endif; ?>
                 <?php endif; ?>
 

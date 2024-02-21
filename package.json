@@ -1,6 +1,6 @@
 {
   "name": "joomla",
-  "version": "5.0.3",
+  "version": "5.1.0",
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "repository": {
@@ -53,7 +53,7 @@
     "@codemirror/state": "^6.2.1",
     "@codemirror/theme-one-dark": "^6.1.2",
     "@codemirror/view": "^6.17.1",
-    "@fortawesome/fontawesome-free": "^6.4.2",
+    "@fortawesome/fontawesome-free": "^6.5.1",
     "@joomla/joomla-a11y-checker": "^1.0.0",
     "@popperjs/core": "^2.11.8",
     "@webcomponents/webcomponentsjs": "^2.8.0",
@@ -78,6 +78,7 @@
     "punycode": "^2.3.0",
     "qrcode-generator": "^1.4.4",
     "roboto-fontface": "^0.10.0",
+    "sa11y": "^3.0.8",
     "shepherd.js": "^11.2.0",
     "short-and-sweet": "^1.0.4",
     "skipto": "^4.1.7",
