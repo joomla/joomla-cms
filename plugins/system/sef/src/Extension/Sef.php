@@ -259,20 +259,20 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         }
 
         $origUri = Uri::getInstance();
-        $route = $origUri->getPath();
+        $route   = $origUri->getPath();
 
         if (substr($route, -9) === 'index.php' || substr($route, -1) === '/') {
             // We don't want suffixes when the URL ends in index.php or with a /
             return;
         }
 
-        $suffix = pathinfo($route, PATHINFO_EXTENSION);
+        $suffix       = pathinfo($route, PATHINFO_EXTENSION);
         $nonSEFSuffix = $origUri->getVar('format');
 
         if ($nonSEFSuffix && $suffix !== $nonSEFSuffix) {
             // There is a URL query parameter named "format", which isn't the same to the suffix
             $origUri->delVar('format');
-            $origUri->setPath(substr($route, 0, -(strlen($suffix))) . $nonSEFSuffix);
+            $origUri->setPath(substr($route, 0, -(\strlen($suffix))) . $nonSEFSuffix);
             $this->app->redirect($origUri->toString(), 301);
         }
 
