@@ -16,7 +16,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * The user module service provider.
+ * The user menu module service provider.
  *
  * @since  __DEPLOY_VERSION__
  */
