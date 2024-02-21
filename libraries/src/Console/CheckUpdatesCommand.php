@@ -66,7 +66,7 @@ class CheckUpdatesCommand extends AbstractCommand
             return Command::SUCCESS;
         }
 
-        $symfonyStyle->note('There are available updates to apply');
+        $symfonyStyle->note('There are updates available.');
 
         $extensions = $this->getExtensionInfo($extensions);
         $symfonyStyle->table(['Extension ID', 'Name', 'Location', 'Type', 'Installed', 'Available', 'Folder'], $extensions);
