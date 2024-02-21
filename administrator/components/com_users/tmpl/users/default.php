@@ -187,7 +187,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                     </a>
                                 </td>
                                 <td class="d-none d-xl-table-cell break-word">
-                                    <?php echo PunycodeHelper::emailToUTF8($this->escape($item->email)); ?>
+                                    <?php echo $this->escape(PunycodeHelper::emailToUTF8($item->email)); ?>
                                 </td>
                                 <td class="d-none d-xl-table-cell">
                                     <?php if ($item->lastvisitDate !== null) : ?>
