@@ -393,6 +393,22 @@ class WebAssetManager implements WebAssetManagerInterface
             $this->useAsset($depType, $depName);
         }
 
+        // Call useAsset() to each of its crossDependency
+        if ($asset instanceof WebAssetItemCrossDependenciesInterface && $asset->getCrossDependencies()) {
+            foreach ($asset->getCrossDependencies() as $depType => $depItems) {
+                foreach ($depItems as $depName) {
+                    // Make sure dependency exists
+                    if (!$this->registry->exists($depType, $depName)) {
+                        throw new UnsatisfiedDependencyException(
+                            sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $depName, $name, 'preset')
+                        );
+                    }
+
+                    $this->useAsset($depType, $depName);
+                }
+            }
+        }
+
         return $this;
     }
 
