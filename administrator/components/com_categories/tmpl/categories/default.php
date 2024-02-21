@@ -170,7 +170,7 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php if ($this->state->get('list.limit') === 0) : ?>
                                         <td>
                                             <?php if (($item->rgt - $item->lft) > 1) : ?>
-                                                <button class="btn btn-link tablerows__button " type="button">
+                                                <button class="btn btn-link tablerows__button" type="button">
                                                     <span class="tablerows__icon icon-arrow-down" aria-hidden="true"></span>
                                                     <span class="visually-hidden"><?php echo Text::_('JTOGGLE_TABLE_COLLAPSE_CHILD_ROWS'); ?></span>
                                                 </button>
