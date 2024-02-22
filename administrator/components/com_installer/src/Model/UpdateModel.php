@@ -390,6 +390,15 @@ class UpdateModel extends ListModel
             return false;
         }
 
+        // Check if the extension can be updated from cli
+        if ($app->isClient('cli')) {
+            if (!isset($update->get('updatefromcli')->_data) || ($update->get('updatefromcli')->_data !== 'true')) {
+                Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_NOCLI_EXTENSION_UPDATE'), 'error');
+
+                return false;
+            }
+        }
+
         $url     = trim($update->downloadurl->_data);
         $sources = $update->get('downloadSources', []);
 
