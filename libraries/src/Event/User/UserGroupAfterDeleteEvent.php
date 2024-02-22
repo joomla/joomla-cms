@@ -20,7 +20,7 @@ use Joomla\CMS\Event\Model\AfterDeleteEvent as ModelAfterDeleteEvent;
  * Example:
  *  new UserGroupAfterDeleteEvent('onEventName', ['context' => 'com_example.example', 'subject' => $itemObjectToDelete]);
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 final class UserGroupAfterDeleteEvent extends ModelAfterDeleteEvent
 {
@@ -29,7 +29,7 @@ final class UserGroupAfterDeleteEvent extends ModelAfterDeleteEvent
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      *
      * @TODO: In Joomla 6 the event should use 'context', 'subject' only

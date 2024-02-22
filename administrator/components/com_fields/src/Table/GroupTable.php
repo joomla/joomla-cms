@@ -71,14 +71,14 @@ class GroupTable extends Table implements CurrentUserInterface
      */
     public function bind($src, $ignore = '')
     {
-        if (isset($src['params']) && is_array($src['params'])) {
+        if (isset($src['params']) && \is_array($src['params'])) {
             $registry = new Registry();
             $registry->loadArray($src['params']);
             $src['params'] = (string) $registry;
         }
 
         // Bind the rules.
-        if (isset($src['rules']) && is_array($src['rules'])) {
+        if (isset($src['rules']) && \is_array($src['rules'])) {
             $rules = new Rules($src['rules']);
             $this->setRules($rules);
         }

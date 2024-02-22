@@ -21,7 +21,7 @@ $wa  = $this->getWebAssetManager();
 // Color Theme
 $paramsColorName = $this->params->get('colorName', 'colors_standard');
 $assetColorName  = 'theme.' . $paramsColorName;
-$wa->registerAndUseStyle($assetColorName, 'media/templates/site/cassiopeia/css/global/' . $paramsColorName . '.css');
+$wa->registerAndUseStyle($assetColorName, 'global/' . $paramsColorName . '.css');
 
 // Use a font scheme if set in the template style options
 $paramsFontScheme = $this->params->get('useFontScheme', false);
@@ -81,7 +81,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
     <jdoc:include type="styles" />
     <jdoc:include type="scripts" />
 </head>
-<body class="<?php echo $this->direction === 'rtl' ? 'rtl' : ''; ?>">
+<body class="contentpane component <?php echo $this->direction === 'rtl' ? 'rtl' : ''; ?>">
     <jdoc:include type="message" />
     <jdoc:include type="component" />
 </body>
