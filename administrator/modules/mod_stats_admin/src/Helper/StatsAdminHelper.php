@@ -156,7 +156,7 @@ class StatsAdminHelper
      *
      * @since   3.0
      *
-     * @deprecated 5.1 will be removed in 6.0
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
      *             Use the non-static method getStatsData
      *             Example: Factory::getApplication()->bootModule('mod_stats_admin', 'site')
      *                          ->getHelper('StatsAdminHelper')
