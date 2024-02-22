@@ -403,6 +403,18 @@ Cypress.Commands.add('db_createTag', (tag) => {
   return cy.task('queryDB', createInsertQuery('tags', { ...defaultTagOptions, ...tag })).then(async (info) => info.insertId);
 });
 
+Cypress.Commands.add('db_createMenuType', (menuTypeData) => {
+  const defaultMenuTypeOptions = {
+    title: 'test menu',
+    menutype: 'test-menu',
+    description: '',
+    client_id: 0,
+    asset_id: 0,
+  };
+
+  return cy.task('queryDB', createInsertQuery('menu_types', { ...defaultMenuTypeOptions, ...menuTypeData })).then(async (info) => info.insertId);
+});
+
 /**
  * Creates an menu item in the database with the given data. The menu item contains some default values when
  * not all required fields are passed in the given data. The id of the inserted menu item is returned.

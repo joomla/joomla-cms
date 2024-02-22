@@ -22,6 +22,7 @@ use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
+use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
@@ -87,6 +88,10 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      */
     public function onContentPrepareForm(EventInterface $event)
     {
+        if (!$event instanceof Event) {
+            return;
+        }
+
         [$form, $data] = array_values($event->getArguments());
 
         $context = $form->getName();
@@ -352,7 +357,11 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      */
     public function onContentBeforeChangeState(EventInterface $event)
     {
-        [$form, $pks] = array_values($event->getArguments());
+        if (!$event instanceof Event) {
+            return;
+        }
+
+        [$context, $pks] = array_values($event->getArguments());
 
         if (!$this->isSupported($context)) {
             return true;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_tinymce</name>
-	<version>5.10.7</version>
+	<version>5.10.9</version>
 	<creationDate>2005-08</creationDate>
 	<author>Tiny Technologies, Inc</author>
 	<authorEmail>N/A</authorEmail>
