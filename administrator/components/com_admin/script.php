@@ -2204,6 +2204,9 @@ class JoomlaInstallerScript
             '/administrator/components/com_newsfeeds/tmpl/newsfeeds/default_batch_footer.php',
             '/administrator/components/com_tags/tmpl/tags/default_batch_footer.php',
             '/administrator/components/com_users/tmpl/users/default_batch_footer.php',
+            // From 5.1.0-alpha3 to 5.1.0-alpha4
+            '/administrator/components/com_redirect/tmpl/links/default_batch_footer.php',
+            '/modules/mod_banners/mod_banners.php',
         ];
 
         $folders = [
