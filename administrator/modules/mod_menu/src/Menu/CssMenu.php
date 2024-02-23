@@ -231,7 +231,7 @@ class CssMenu
             $uri = clone Uri::getInstance();
             $uri->setVar('recover_menu', 1);
 
-            $table    = Table::getInstance('MenuType');
+            $table    = $this->application->bootComponent('com_menu')->getMVCFactory()->createTable('MenuType');
             $menutype = $params->get('menutype');
 
             $table->load(['menutype' => $menutype]);
