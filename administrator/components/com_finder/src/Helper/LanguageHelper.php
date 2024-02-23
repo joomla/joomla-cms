@@ -58,8 +58,9 @@ class LanguageHelper
     {
         $return   = preg_replace('/[^a-zA-Z0-9]+/', '_', strtoupper($branchName));
         $language = Factory::getApplication()->getLanguage();
+        $debug    = Factory::getApplication()->get('debug_lang');
 
-        if ($language->hasKey('PLG_FINDER_QUERY_FILTER_BRANCH_S_' . $return) || JDEBUG) {
+        if ($language->hasKey('PLG_FINDER_QUERY_FILTER_BRANCH_S_' . $return) || $debug) {
             return 'PLG_FINDER_QUERY_FILTER_BRANCH_S_' . $return;
         }
 
