@@ -1068,8 +1068,8 @@ class ComponentAdapter extends InstallerAdapter
             $data['menutype']     = 'main';
             $data['client_id']    = 1;
             $data['title']        = (string) trim($child);
-            $data['alias']        = (string) $child;
-            $data['type']         = 'component';
+            $data['alias']        = ((string) $child->attributes()->alias) ?: (string) $child;
+            $data['type']         = ((string) $child->attributes()->type) ?: 'component';
             $data['published']    = 1;
             $data['parent_id']    = $parent_id;
             $data['component_id'] = $componentId;

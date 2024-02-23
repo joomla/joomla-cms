@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "186d1c75ba657af1ae5b59e4bfdafe01",
+    "content-hash": "ca2cb7d978f989ce1eb25dcef54db239",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1702,16 +1702,16 @@
         },
         {
             "name": "joomla/filter",
-            "version": "2.0.3",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "9102630f9069351c1259b6f585a704fde7029d2a"
+                "reference": "3539f6dcc8d4e9db7194db8f90bf60550a804d04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/9102630f9069351c1259b6f585a704fde7029d2a",
-                "reference": "9102630f9069351c1259b6f585a704fde7029d2a",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/3539f6dcc8d4e9db7194db8f90bf60550a804d04",
+                "reference": "3539f6dcc8d4e9db7194db8f90bf60550a804d04",
                 "shasum": ""
             },
             "require": {
@@ -1753,7 +1753,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/filter/issues",
-                "source": "https://github.com/joomla-framework/filter/tree/2.0.3"
+                "source": "https://github.com/joomla-framework/filter/tree/2.0.4"
             },
             "funding": [
                 {
@@ -1765,7 +1765,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-26T07:57:54+00:00"
+            "time": "2024-02-20T16:35:20+00:00"
         },
         {
             "name": "joomla/http",
@@ -3193,16 +3193,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.23",
+            "version": "3.0.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "866cc78fbd82462ffd880e3f65692afe928bed50"
+                "reference": "56c79f16a6ae17e42089c06a2144467acc35348a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/866cc78fbd82462ffd880e3f65692afe928bed50",
-                "reference": "866cc78fbd82462ffd880e3f65692afe928bed50",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/56c79f16a6ae17e42089c06a2144467acc35348a",
+                "reference": "56c79f16a6ae17e42089c06a2144467acc35348a",
                 "shasum": ""
             },
             "require": {
@@ -3283,7 +3283,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.23"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.34"
             },
             "funding": [
                 {
@@ -3299,7 +3299,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-09-18T17:22:01+00:00"
+            "time": "2023-11-27T11:13:31+00:00"
         },
         {
             "name": "psr/container",
@@ -9921,5 +9921,5 @@
     "platform-overrides": {
         "php": "7.2.5"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }
