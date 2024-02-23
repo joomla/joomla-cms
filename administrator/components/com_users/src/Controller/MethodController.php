@@ -391,6 +391,9 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
             return;
         }
 
+        // Method updated, destroy other active sessions
+        UserHelper::destroyUserSessions($userId, true);
+
         $this->setRedirect($url);
     }
 
