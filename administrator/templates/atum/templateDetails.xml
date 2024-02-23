@@ -111,6 +111,9 @@
 					<field
 						name="loginLogo"
 						type="media"
+						schemes="http,https,ftp,ftps,data,file"
+						validate="url"
+						relative="true"
 						label="TPL_ATUM_IMAGE_LABEL"
 					/>
 					<field
@@ -129,6 +132,9 @@
 					<field
 						name="logoBrandLarge"
 						type="media"
+						schemes="http,https,ftp,ftps,data,file"
+						validate="url"
+						relative="true"
 						label="TPL_ATUM_IMAGE_LABEL"
 					/>
 					<field
@@ -147,6 +153,9 @@
 					<field
 						name="logoBrandSmall"
 						type="media"
+						schemes="http,https,ftp,ftps,data,file"
+						validate="url"
+						relative="true"
 						label="TPL_ATUM_IMAGE_LABEL"
 					/>
 					<field
