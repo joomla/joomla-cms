@@ -56,7 +56,7 @@ class SchemaorgComponentSectionsField extends ComponentsField
             }
 
             foreach ($component->getSchemaorgContexts() as $extension => $text) {
-                $options[] = HTMLHelper::_('select.option', $extension, Text::sprintf('JSCHEMAORG_FIELD_COMPONENT_SECTIONS_TEXT', $item->text, $text));
+                $options[] = HTMLHelper::_('select.option', $extension, $text);
             }
         }
 
