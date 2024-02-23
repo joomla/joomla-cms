@@ -62,6 +62,10 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        if (\is_null($item->text)) {
+            return;
+        }
+
         $text = $this->cloak($item->text);
 
         if ($text) {
