@@ -156,7 +156,7 @@ class ModulesController extends BaseController
     }
 
     /**
-     * Method to get redirect URL after saving or cancel editing a module fromfrontend
+     * Method to get redirect URL after saving or cancel editing a module from frontend
      *
      * @return  string
      *
