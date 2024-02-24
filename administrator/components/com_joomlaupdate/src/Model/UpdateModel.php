@@ -89,14 +89,14 @@ class UpdateModel extends BaseDatabaseModel
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
         switch ($params->get('updatesource', 'default')) {
-                // "Testing"
             case 'testing':
+                // "Testing"
                 $updateURL = 'https://update.joomla.org/core/test/list_test.xml';
                 break;
 
+            case 'custom':
                 // "Custom"
                 // @todo: check if the customurl is valid and not just "not empty".
-            case 'custom':
                 if (trim($params->get('customurl', '')) != '') {
                     $updateURL = trim($params->get('customurl', ''));
                 } else {
