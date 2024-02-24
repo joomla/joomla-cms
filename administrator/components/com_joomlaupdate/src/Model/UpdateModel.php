@@ -324,7 +324,7 @@ class UpdateModel extends BaseDatabaseModel
             $update->loadFromTuf($metadata, $updateObject->detailsurl, $minimumStability, $updateChannel);
         } else {
             // We are using the legacy XML method
-            $update->loadFromXml($updateObject->location, $minimumStability, $channel);
+            $update->loadFromXml($updateObject->detailsurl, $minimumStability, $channel);
         }
 
         // Make sure we use the current information we got from the detailsurl
