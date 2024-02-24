@@ -59,8 +59,8 @@ class ModulesController extends BaseController
      */
     public function cancel()
     {
-        // Redirect back to home(base) page
-        $this->setRedirect(Uri::base());
+        // Redirect back to preview page
+        $this->setRedirect($this->getRedirectUrl());
     }
 
     /**
@@ -150,19 +150,33 @@ class ModulesController extends BaseController
 
             case 'save':
             default:
-                if (!empty($returnUri)) {
-                    $redirect = base64_decode(urldecode($returnUri));
-
-                    // Don't redirect to an external URL.
-                    if (!Uri::isInternal($redirect)) {
-                        $redirect = Uri::base();
-                    }
-                } else {
-                    $redirect = Uri::base();
-                }
-
-                $this->setRedirect($redirect);
+                $this->setRedirect($this->getRedirectUrl());
                 break;
         }
+    }
+
+    /**
+     * Method to get redirect URL after saving or cancel editing a module fromfrontend
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION_
+     */
+    private function getRedirectUrl(): string
+    {
+        $returnUri = $this->input->post->get('return', null, 'base64');
+
+        if (!empty($returnUri)) {
+            $redirect = base64_decode(urldecode($returnUri));
+
+            // Don't redirect to an external URL.
+            if (!Uri::isInternal($redirect)) {
+                $redirect = Uri::base();
+            }
+        } else {
+            $redirect = Uri::base();
+        }
+
+        return $redirect;
     }
 }
