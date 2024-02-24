@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 use Joomla\Registry\Registry;
@@ -31,14 +32,7 @@ use Joomla\Registry\Registry;
  */
 class Icon
 {
-    /**
-     * The user factory
-     *
-     * @var    UserFactoryInterface
-     *
-     * @since  4.2.0
-     */
-    private $userFactory;
+    use UserFactoryAwareTrait;
 
     /**
      * Service constructor
@@ -49,7 +43,7 @@ class Icon
      */
     public function __construct(UserFactoryInterface $userFactory)
     {
-        $this->userFactory = $userFactory;
+        $this->setUserFactory($userFactory);
     }
 
     /**
@@ -126,7 +120,7 @@ class Icon
             && !is_null($contact->checked_out)
             && $contact->checked_out !== $user->get('id')
         ) {
-            $checkoutUser = $this->userFactory->loadUserById($contact->checked_out);
+            $checkoutUser = $this->getUserFactory()->loadUserById($contact->checked_out);
             $date         = HTMLHelper::_('date', $contact->checked_out_time);
             $tooltip      = Text::sprintf('COM_CONTACT_CHECKED_OUT_BY', $checkoutUser->name)
                 . ' <br> ' . $date;

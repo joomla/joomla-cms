@@ -109,8 +109,7 @@ trait TaskPluginTrait
     {
         if ($context instanceof EventInterface) {
             /** @var Form $form */
-            $form = $context->getArgument('0');
-            $data = $context->getArgument('1');
+            [$form, $data] = array_values($context->getArguments());
         } elseif ($context instanceof Form) {
             $form = $context;
         } else {

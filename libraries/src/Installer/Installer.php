@@ -12,7 +12,6 @@ namespace Joomla\CMS\Installer;
 use Joomla\CMS\Adapter\Adapter;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
@@ -22,11 +21,11 @@ use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\DI\ContainerAwareInterface;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -526,12 +525,16 @@ class Installer extends Adapter implements DatabaseAwareInterface
             switch ($step['type']) {
                 case 'file':
                     // Remove the file
-                    $stepval = File::delete($step['path']);
+                    if (is_file($step['path']) && !($stepval = File::delete($step['path']))) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $step['path']), Log::WARNING, 'jerror');
+                    }
                     break;
 
                 case 'folder':
                     // Remove the folder
-                    $stepval = Folder::delete($step['path']);
+                    if (Folder::exists($step['path']) && !($stepval = Folder::delete($step['path']))) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $step['path']), Log::WARNING, 'jerror');
+                    }
                     break;
 
                 case 'query':
@@ -1327,8 +1330,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     protected function updateSchemaTable(int $eid, string $version, bool $update = false): void
     {
-        /** @var DatabaseDriver $db */
-        $db    = Factory::getContainer()->get('DatabaseDriver');
+        $db = $this->getDatabase();
 
         $o = (object) [
             'extension_id' => $eid,
@@ -1431,11 +1433,19 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 $deletions = $this->findDeletedFiles($oldEntries, $element->children());
 
                 foreach ($deletions['folders'] as $deleted_folder) {
-                    Folder::delete($destination . '/' . $deleted_folder);
+                    $folder = $destination . '/' . $deleted_folder;
+
+                    if (Folder::exists($folder) && !Folder::delete($folder)) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder), Log::WARNING, 'jerror');
+                    }
                 }
 
                 foreach ($deletions['files'] as $deleted_file) {
-                    File::delete($destination . '/' . $deleted_file);
+                    $file = $destination . '/' . $deleted_file;
+
+                    if (is_file($file) && !File::delete($file)) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file), Log::WARNING, 'jerror');
+                    }
                 }
             }
         }

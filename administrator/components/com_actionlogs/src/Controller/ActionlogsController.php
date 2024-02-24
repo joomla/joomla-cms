@@ -10,9 +10,6 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\Controller;
 
-use DateTimeZone;
-use Exception;
-use InvalidArgumentException;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
@@ -48,7 +45,7 @@ class ActionlogsController extends AdminController
      *
      * @since   3.9.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
@@ -64,7 +61,7 @@ class ActionlogsController extends AdminController
      *
      * @since   3.9.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function exportLogs()
     {
@@ -89,7 +86,7 @@ class ActionlogsController extends AdminController
         if (\count($data)) {
             try {
                 $rows = ActionlogsHelper::getCsvData($data);
-            } catch (InvalidArgumentException $exception) {
+            } catch (\InvalidArgumentException $exception) {
                 $this->setMessage(Text::_('COM_ACTIONLOGS_ERROR_COULD_NOT_EXPORT_DATA'), 'error');
                 $this->setRedirect(Route::_('index.php?option=com_actionlogs&view=actionlogs', false));
 
@@ -99,7 +96,7 @@ class ActionlogsController extends AdminController
             // Destroy the iterator now
             unset($data);
 
-            $date     = new Date('now', new DateTimeZone('UTC'));
+            $date     = new Date('now', new \DateTimeZone('UTC'));
             $filename = 'logs_' . $date->format('Y-m-d_His_T');
 
             $csvDelimiter = ComponentHelper::getComponent('com_actionlogs')->getParams()->get('csv_delimiter', ',');

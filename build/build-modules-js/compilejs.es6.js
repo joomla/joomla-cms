@@ -35,7 +35,7 @@ module.exports.scripts = async (options, path) => {
     } else {
       // eslint-disable-next-line no-console
       console.error(`Unknown path ${path}`);
-      process.exit(1);
+      process.exitCode = 1;
     }
   } else {
     folders = [

@@ -146,7 +146,7 @@ class MediaHelper
             );
 
             // Get the mime type configuration
-            $allowedMime = array_map('trim', explode(',', $allowedMime));
+            $allowedMime = array_map('trim', explode(',', str_replace('\\', '', $allowedMime)));
 
             // Mime should be available and in the allowed list
             return !empty($mime) && \in_array($mime, $allowedMime);
@@ -196,9 +196,9 @@ class MediaHelper
     /**
      * Checks if the file can be uploaded
      *
-     * @param   array   $file                File information
-     * @param   string  $component           The option name for the component storing the parameters
-     * @param   string  $allowedExecutables  Array of executable file types that shall be whitelisted
+     * @param   array     $file                File information
+     * @param   string    $component           The option name for the component storing the parameters
+     * @param   string[]  $allowedExecutables  Array of executable file types that shall be whitelisted
      *
      * @return  boolean
      *

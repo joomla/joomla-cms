@@ -23,7 +23,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\Event\SubscriberInterface;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -249,7 +248,7 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
         $tagsHelper->typeAlias = $table->getTypeAlias();
 
         if (!$tagsHelper->postStoreProcess($table, $newTags, $replaceTags)) {
-            throw new RuntimeException($table->getError());
+            throw new \RuntimeException($table->getError());
         }
     }
 

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event\Result;
 
-use InvalidArgumentException;
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -50,7 +48,7 @@ trait ResultTypeFloatAware
      * @param   mixed  $data  The data to type check
      *
      * @return  void
-     * @throws  InvalidArgumentException
+     * @throws  \InvalidArgumentException
      *
      * @internal
      * @since   4.2.0
@@ -66,7 +64,7 @@ trait ResultTypeFloatAware
         }
 
         if (!is_float($data)) {
-            throw new InvalidArgumentException(sprintf('Event %s only accepts Float results.', $this->getName()));
+            throw new \InvalidArgumentException(sprintf('Event %s only accepts Float results.', $this->getName()));
         }
     }
 }
