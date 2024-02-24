@@ -90,9 +90,9 @@ class TemplateModel extends FormModel
     /**
      * Method to store file information.
      *
-     * @param   string    $path      The base path.
-     * @param   string    $name      The file name.
-     * @param   stdClass  $template  The std class object of template.
+     * @param   string     $path      The base path.
+     * @param   string     $name      The file name.
+     * @param   \stdClass  $template  The std class object of template.
      *
      * @return  object  stdClass object.
      *
@@ -470,7 +470,9 @@ class TemplateModel extends FormModel
             $coreFile = Path::find($htmlPath, $fileName);
 
             return $coreFile;
-        } elseif (stristr($type, 'com_') !== false) {
+        }
+
+        if (stristr($type, 'com_') !== false) {
             // For components
             $folder    = $explodeArray['2'];
             $subFolder = $explodeArray['3'];
@@ -488,7 +490,9 @@ class TemplateModel extends FormModel
             }
 
             return $coreFile;
-        } elseif (stristr($type, 'layouts') !== false) {
+        }
+
+        if (stristr($type, 'layouts') !== false) {
             // For Layouts
             $subtype = $explodeArray['3'];
 
@@ -501,8 +505,11 @@ class TemplateModel extends FormModel
                 $coreFile  = Path::find($htmlPath, $fileName);
 
                 return $coreFile;
-            } elseif (stristr($subtype, 'joomla') || stristr($subtype, 'libraries') || stristr($subtype, 'plugins')) {
+            }
+
+            if (stristr($subtype, 'joomla') || stristr($subtype, 'libraries') || stristr($subtype, 'plugins')) {
                 $subFolder = \array_slice($explodeArray, 3, -1);
+
                 $subFolder = implode(DIRECTORY_SEPARATOR, $subFolder);
                 $htmlPath  = Path::clean($layoutPath . $subFolder);
                 $fileName  = $this->getSafeName($fileName);
@@ -879,8 +886,8 @@ class TemplateModel extends FormModel
             $fileName = str_replace('//', '/', $fileName);
             $isMedia  = $input->getInt('isMedia', 0);
 
-            $fileName = $isMedia ? Path::clean(JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . $fileName)
-            : Path::clean(JPATH_ROOT . ($this->template->client_id === 0 ? '' : '/administrator') . '/templates/' . $this->template->element . $fileName);
+            $fileName = $isMedia ? Path::clean(JPATH_ROOT . '/media/templates/' . ((int) $this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . $fileName)
+            : Path::clean(JPATH_ROOT . ((int) $this->template->client_id === 0 ? '' : '/administrator') . '/templates/' . $this->template->element . $fileName);
 
             try {
                 $filePath = Path::check($fileName);

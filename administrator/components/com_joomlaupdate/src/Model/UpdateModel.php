@@ -88,19 +88,19 @@ class UpdateModel extends BaseDatabaseModel
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
         switch ($params->get('updatesource', 'nochange')) {
-                // "Minor & Patch Release for Current version AND Next Major Release".
             case 'next':
+                // "Minor & Patch Release for Current version AND Next Major Release".
                 $updateURL = 'https://update.joomla.org/core/sts/list_sts.xml';
                 break;
 
-                // "Testing"
             case 'testing':
+                // "Testing"
                 $updateURL = 'https://update.joomla.org/core/test/list_test.xml';
                 break;
 
+            case 'custom':
                 // "Custom"
                 // @todo: check if the customurl is valid and not just "not empty".
-            case 'custom':
                 if (trim($params->get('customurl', '')) != '') {
                     $updateURL = trim($params->get('customurl', ''));
                 } else {
@@ -110,6 +110,7 @@ class UpdateModel extends BaseDatabaseModel
                 }
                 break;
 
+            default:
                 /**
                  * "Minor & Patch Release for Current version (recommended and default)".
                  * The commented "case" below are for documenting where 'default' and legacy options falls
@@ -118,7 +119,6 @@ class UpdateModel extends BaseDatabaseModel
                  * case 'sts': (It's shown as "Default" because that option does not exist any more)
                  * case 'nochange':
                  */
-            default:
                 $updateURL = 'https://update.joomla.org/core/list.xml';
         }
 
@@ -930,7 +930,7 @@ ENDDATA;
         $userfile = $input->files->get('install_package', null, 'raw');
 
         // Make sure that file uploads are enabled in php.
-        if (!(bool) ini_get('file_uploads')) {
+        if (!(bool) \ini_get('file_uploads')) {
             throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 500);
         }
 
@@ -1103,7 +1103,7 @@ ENDDATA;
             // Check for default MB language.
             $option         = new \stdClass();
             $option->label  = Text::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
-            $option->state  = strtolower(ini_get('mbstring.language')) === 'neutral';
+            $option->state  = strtolower(\ini_get('mbstring.language')) === 'neutral';
             $option->notice = $option->state ? null : Text::_('INSTL_NOTICEMBLANGNOTDEFAULT');
             $options[]      = $option;
         }
@@ -1159,28 +1159,28 @@ ENDDATA;
         // Check for display errors.
         $setting              = new \stdClass();
         $setting->label       = Text::_('INSTL_DISPLAY_ERRORS');
-        $setting->state       = (bool) ini_get('display_errors');
+        $setting->state       = (bool) \ini_get('display_errors');
         $setting->recommended = false;
         $settings[]           = $setting;
 
         // Check for file uploads.
         $setting              = new \stdClass();
         $setting->label       = Text::_('INSTL_FILE_UPLOADS');
-        $setting->state       = (bool) ini_get('file_uploads');
+        $setting->state       = (bool) \ini_get('file_uploads');
         $setting->recommended = true;
         $settings[]           = $setting;
 
         // Check for output buffering.
         $setting              = new \stdClass();
         $setting->label       = Text::_('INSTL_OUTPUT_BUFFERING');
-        $setting->state       = (int) ini_get('output_buffering') !== 0;
+        $setting->state       = (int) \ini_get('output_buffering') !== 0;
         $setting->recommended = false;
         $settings[]           = $setting;
 
         // Check for session auto-start.
         $setting              = new \stdClass();
         $setting->label       = Text::_('INSTL_SESSION_AUTO_START');
-        $setting->state       = (bool) ini_get('session.auto_start');
+        $setting->state       = (bool) \ini_get('session.auto_start');
         $setting->recommended = false;
         $settings[]           = $setting;
 
@@ -1291,7 +1291,7 @@ ENDDATA;
      */
     public function getIniParserAvailability()
     {
-        $disabledFunctions = ini_get('disable_functions');
+        $disabledFunctions = \ini_get('disable_functions');
 
         if (!empty($disabledFunctions)) {
             // Attempt to detect them in the PHP INI disable_functions variable.
@@ -1656,7 +1656,7 @@ ENDDATA;
      */
     protected function translateExtensionName(&$item)
     {
-        // @todo: Cleanup duplicated code. from com_installer/models/extension.php
+        // @todo: Cleanup duplicated code. from com_installer/src/Model/InstallerModel.php
         $lang = Factory::getLanguage();
         $path = $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
 

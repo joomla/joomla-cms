@@ -141,7 +141,7 @@ class HtmlView extends BaseHtmlView
                 case 'component':
                 default:
                     // Load language
-                        $lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR)
+                    $lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR)
                     || $lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->componentname);
 
                     if (!empty($item->componentname)) {
@@ -355,9 +355,12 @@ class HtmlView extends BaseHtmlView
                 && $user->authorise('core.edit', 'com_menus')
                 && $user->authorise('core.edit.state', 'com_menus')
             ) {
-                $childBar->popupButton('batch')
-                    ->text('JTOOLBAR_BATCH')
-                    ->selector('collapseModal')
+                $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
+                    ->popupType('inline')
+                    ->textHeader(Text::_('COM_MENUS_BATCH_OPTIONS'))
+                    ->url('#joomla-dialog-batch')
+                    ->modalWidth('800px')
+                    ->modalHeight('fit-content')
                     ->listCheck(true);
             }
         }

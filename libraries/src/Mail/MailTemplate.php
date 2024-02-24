@@ -63,6 +63,13 @@ class MailTemplate
     /**
      *
      * @var    string[]
+     * @since  5.1.0
+     */
+    protected $plain_data = [];
+
+    /**
+     *
+     * @var    string[]
      * @since  4.0.0
      */
     protected $attachments = [];
@@ -164,14 +171,19 @@ class MailTemplate
      * Add data to replace in the template
      *
      * @param   array  $data  Associative array of strings to replace
+     * @param   bool   $plain Only use the data for plain-text emails.
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function addTemplateData($data)
+    public function addTemplateData($data, $plain = false)
     {
-        $this->data = array_merge($this->data, $data);
+        if (!$plain) {
+            $this->data = array_merge($this->data, $data);
+        } else {
+            $this->plain_data = array_merge($this->plain_data, $data);
+        }
     }
 
     /**
@@ -233,7 +245,9 @@ class MailTemplate
         $this->mailer->setSubject($subject);
 
         $mailStyle = $config->get('mail_style', 'plaintext');
-        $plainBody = $this->replaceTags(Text::_($mail->body), $this->data);
+        // Use the plain-text replacement data, if specified.
+        $plainData = $this->plain_data ?: $this->data;
+        $plainBody = $this->replaceTags(Text::_($mail->body), $plainData);
         $htmlBody  = $this->replaceTags(Text::_($mail->htmlbody), $this->data);
 
         if ($mailStyle === 'plaintext' || $mailStyle === 'both') {
@@ -325,6 +339,11 @@ class MailTemplate
     protected function replaceTags($text, $tags)
     {
         foreach ($tags as $key => $value) {
+            // If the value is NULL, replace with an empty string. NULL itself throws notices
+            if (\is_null($value)) {
+                $value = '';
+            }
+
             if (\is_array($value)) {
                 $matches = [];
                 $pregKey = preg_quote(strtoupper($key), '/');

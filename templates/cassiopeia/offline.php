@@ -25,13 +25,10 @@ $wa               = $this->getWebAssetManager();
 
 $fullWidth = 1;
 
-// Template path
-$templatePath = 'media/templates/site/cassiopeia';
-
 // Color Theme
 $paramsColorName = $this->params->get('colorName', 'colors_standard');
 $assetColorName  = 'theme.' . $paramsColorName;
-$wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
+$wa->registerAndUseStyle($assetColorName, 'global/' . $paramsColorName . '.css');
 
 // Use a font scheme if set in the template style options
 $paramsFontScheme = $this->params->get('useFontScheme', false);
