@@ -208,8 +208,25 @@ class Log
      * @return  void
      *
      * @since   4.0.0
+     * @deprecated 6.0.0 Use Log::registerCustomLogger() instead
      */
     public function registerLogger(string $key, string $class, bool $replace = false)
+    {
+        static::registerCustomLogger($key, $class, $replace);
+    }
+
+    /**
+     * Register a logger to the registry
+     *
+     * @param   string   $key      The service key to be registered
+     * @param   string   $class    The class name of the logger
+     * @param   boolean  $replace  Flag indicating the service key may replace an existing definition
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
+    public static function registerCustomLogger(string $key, string $class, bool $replace = false)
     {
         // Automatically instantiate the singleton object if not already done.
         if (empty(static::$instance)) {
