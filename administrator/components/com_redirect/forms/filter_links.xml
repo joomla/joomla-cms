@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Redirect\Administrator\Field">
 	<fields name="filter">
 		<field
@@ -11,7 +11,7 @@
 		/>
 		<field
 			name="state"
-			type="redirect_status"
+			type="RedirectStatus"
 			label="JSTATUS"
 			class="js-select-submit-on-change"
 			>

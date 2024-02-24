@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
@@ -41,7 +40,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      * @since  4.1.0
      */
     protected $state;
@@ -53,14 +52,6 @@ class HtmlView extends BaseHtmlView
      * @since  4.1.0
      */
     protected $items;
-
-    /**
-     * A suffix for links for modal use [?]
-     *
-     * @var  string
-     * @since  4.1.0
-     */
-    protected $modalLink;
 
     /**
      * HtmlView constructor.
@@ -97,7 +88,6 @@ class HtmlView extends BaseHtmlView
     {
         $this->state     = $this->get('State');
         $this->items     = $this->get('Items');
-        $this->modalLink = '';
 
         // Check for errors.
         if (\count($errors = $this->get('Errors'))) {
@@ -126,6 +116,6 @@ class HtmlView extends BaseHtmlView
             ->url('index.php?option=com_scheduler')
             ->buttonClass('btn btn-danger')
             ->icon('icon-times')
-            ->text(Text::_('JCANCEL'));
+            ->text('JCANCEL');
     }
 }

@@ -81,7 +81,7 @@ $wa->useScript('com_finder.maps')
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $canChange = Factory::getApplication()->getIdentity()->authorise('core.manage', 'com_finder'); ?>
+                        <?php $canChange = $this->getCurrentUser()->authorise('core.manage', 'com_finder'); ?>
                         <?php foreach ($this->items as $i => $item) : ?>
                         <tr class="row<?php echo $i % 2; ?>">
                             <td class="text-center">

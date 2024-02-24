@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
 	<layout title="COM_TAGS_TAG_VIEW_DEFAULT_TITLE" option="COM_TAGS_TAG_VIEW_DEFAULT_OPTION">
 		<help
@@ -88,6 +88,9 @@
 			<field
 				name="tag_list_image"
 				type="media"
+				schemes="http,https,ftp,ftps,data,file"
+				validate="url"
+				relative="true"
 				label="COM_TAGS_TAG_LIST_MEDIA_LABEL"
 			/>
 

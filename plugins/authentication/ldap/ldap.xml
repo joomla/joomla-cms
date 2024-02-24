@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="authentication" method="upgrade">
 	<name>plg_authentication_ldap</name>
 	<author>Joomla! Project</author>

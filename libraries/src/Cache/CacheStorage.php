@@ -11,7 +11,7 @@ namespace Joomla\CMS\Cache;
 
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -100,7 +100,7 @@ class CacheStorage
     {
         $app = Factory::getApplication();
 
-        $this->_hash        = md5($app->get('secret'));
+        $this->_hash        = md5($app->get('secret', ''));
         $this->_application = $options['application'] ?? md5(JPATH_CONFIGURATION);
         $this->_language    = $options['language'] ?? 'en-GB';
         $this->_locking     = $options['locking'] ?? true;

@@ -165,6 +165,14 @@
 		/>
 
 		<menuitem
+			title="MOD_MENU_MANAGE_GUIDEDTOURS"
+			type="component"
+			element="com_guidedtours"
+			link="index.php?option=com_guidedtours&amp;view=tours"
+			permission="core.manage;com_guidedtours"
+		/>
+
+		<menuitem
 			title="MOD_MENU_MANAGE_SCHEDULED_TASKS"
 			type="component"
 			element="com_scheduler"

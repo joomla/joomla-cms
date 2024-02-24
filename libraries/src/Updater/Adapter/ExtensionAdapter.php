@@ -19,7 +19,7 @@ use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Version;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -29,6 +29,9 @@ use Joomla\CMS\Version;
  */
 class ExtensionAdapter extends UpdateAdapter
 {
+    protected $currentUpdate;
+    protected $latest;
+
     /**
      * Start element parser callback.
      *
@@ -60,8 +63,8 @@ class ExtensionAdapter extends UpdateAdapter
                 $this->currentUpdate->infourl        = '';
                 break;
 
-            // Don't do anything
             case 'UPDATES':
+                // Don't do anything
                 break;
 
             default:
@@ -300,7 +303,14 @@ class ExtensionAdapter extends UpdateAdapter
 
         if (isset($this->latest)) {
             if (isset($this->latest->client) && \strlen($this->latest->client)) {
-                $this->latest->client_id = ApplicationHelper::getClientInfo($this->latest->client, true)->id;
+                /**
+                 * The client_id in the update XML manifest can be either an integer (backwards
+                 * compatible with Joomla 1.6–3.10) or a string. Backwards compatibility with the
+                 * integer key is provided as update servers with the legacy, numeric IDs cause PHP notices
+                 * during update retrieval. The proper string key is one of 'site' or 'administrator'.
+                 */
+                $this->latest->client_id = is_numeric($this->latest->client) ? $this->latest->client
+                    : ApplicationHelper::getClientInfo($this->latest->client, true)->id;
 
                 unset($this->latest->client);
             }

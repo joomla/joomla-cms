@@ -13,7 +13,7 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Session\Session;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -43,7 +43,7 @@ class ModuleorderField extends FormField
      * The linked property
      *
      * @var    string
-     * @since  __DEPLOY_VERSION_
+     * @since  4.2.7
      */
     protected $linked;
 

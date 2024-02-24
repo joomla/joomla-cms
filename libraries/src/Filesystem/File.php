@@ -17,13 +17,15 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * A File handling class
  *
  * @since  1.7.0
+ * @deprecated  4.4 will be removed in 6.0
+ *              Use Joomla\Filesystem\File instead.
  */
 class File
 {
@@ -69,6 +71,8 @@ class File
      * @return  string  The file name without the extension
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::stripExt() instead.
      */
     public static function stripExt($file)
     {
@@ -83,6 +87,8 @@ class File
      * @return  string  The sanitised string
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::makeSafe() instead.
      */
     public static function makeSafe($file)
     {
@@ -90,7 +96,7 @@ class File
         $file = rtrim($file, '.');
 
         // Try transliterating the file name using the native php function
-        if (function_exists('transliterator_transliterate') && function_exists('iconv')) {
+        if (\function_exists('transliterator_transliterate') && \function_exists('iconv')) {
             // Using iconv to ignore characters that can't be transliterated
             $file = iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII', $file));
         }
@@ -111,6 +117,9 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::copy() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function copy($src, $dest, $path = null, $useStreams = false)
     {
@@ -122,7 +131,7 @@ class File
 
         // Check src path
         if (!is_readable($src)) {
-            Log::add(Text::sprintf('LIB_FILESYSTEM_ERROR_JFILE_FIND_COPY', __METHOD__, $src), Log::WARNING, 'jerror');
+            Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_FILE_FIND_COPY', __METHOD__, $src), Log::WARNING, 'jerror');
 
             return false;
         }
@@ -139,41 +148,37 @@ class File
             self::invalidateFileCache($dest);
 
             return true;
-        } else {
-            $FTPOptions = ClientHelper::getCredentials('ftp');
+        }
 
-            if ($FTPOptions['enabled'] == 1) {
-                // Connect the FTP client
-                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
+        $FTPOptions = ClientHelper::getCredentials('ftp');
 
-                // If the parent folder doesn't exist we must create it
-                if (!file_exists(\dirname($dest))) {
-                    Folder::create(\dirname($dest));
-                }
+        if ($FTPOptions['enabled'] == 1) {
+            // Connect the FTP client
+            $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
 
-                // Translate the destination path for the FTP account
-                $dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
-
-                if (!$ftp->store($src, $dest)) {
-                    // FTP connector throws an error
-                    return false;
-                }
-
-                $ret = true;
-            } else {
-                if (!@ copy($src, $dest)) {
-                    Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_COPY_FAILED_ERR01', $src, $dest), Log::WARNING, 'jerror');
-
-                    return false;
-                }
-
-                $ret = true;
+            // If the parent folder doesn't exist we must create it
+            if (!file_exists(\dirname($dest))) {
+                Folder::create(\dirname($dest));
             }
 
-            self::invalidateFileCache($dest);
+            // Translate the destination path for the FTP account
+            $dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
-            return $ret;
+            if (!$ftp->store($src, $dest)) {
+                // FTP connector throws an error
+                return false;
+            }
+        } else {
+            if (!@ copy($src, $dest)) {
+                Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_COPY_FAILED_ERR01', $src, $dest), Log::WARNING, 'jerror');
+
+                return false;
+            }
         }
+
+        self::invalidateFileCache($dest);
+
+        return true;
     }
 
     /**
@@ -187,6 +192,8 @@ class File
      *                 FALSE from opcache_invalidate (like file not found).
      *
      * @since 4.0.1
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::invalidateFileCache() instead.
      */
     public static function invalidateFileCache($filepath, $force = true)
     {
@@ -210,6 +217,9 @@ class File
      * @return boolean TRUE if we can proceed to use opcache_invalidate to flush a file from the OPCache
      *
      * @since 4.0.1
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::invalidateFileCache() instead.
+     *              This method will be removed without replacement.
      */
     public static function canFlushFileCache()
     {
@@ -218,9 +228,9 @@ class File
         }
 
         if (
-            ini_get('opcache.enable')
-            && function_exists('opcache_invalidate')
-            && (!ini_get('opcache.restrict_api') || stripos(realpath($_SERVER['SCRIPT_FILENAME']), ini_get('opcache.restrict_api')) === 0)
+            \ini_get('opcache.enable')
+            && \function_exists('opcache_invalidate')
+            && (!\ini_get('opcache.restrict_api') || stripos(realpath($_SERVER['SCRIPT_FILENAME']), \ini_get('opcache.restrict_api')) === 0)
         ) {
             static::$canFlushFileCache = true;
         } else {
@@ -238,6 +248,9 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::delete() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function delete($file)
     {
@@ -270,8 +283,8 @@ class File
 
             /**
              * Invalidate the OPCache for the file before actually deleting it
-             * @see https://github.com/joomla/joomla-cms/pull/32915#issuecomment-812865635
-             * @see https://www.php.net/manual/en/function.opcache-invalidate.php#116372
+             * @link https://github.com/joomla/joomla-cms/pull/32915#issuecomment-812865635
+             * @link https://www.php.net/manual/en/function.opcache-invalidate.php#116372
              */
             self::invalidateFileCache($file);
 
@@ -311,6 +324,9 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::move() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function move($src, $dest, $path = '', $useStreams = false)
     {
@@ -338,38 +354,38 @@ class File
             self::invalidateFileCache($dest);
 
             return true;
-        } else {
-            $FTPOptions = ClientHelper::getCredentials('ftp');
-
-            // Invalidate the compiled OPCache of the old file so it's no longer used.
-            self::invalidateFileCache($src);
-
-            if ($FTPOptions['enabled'] == 1) {
-                // Connect the FTP client
-                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
-
-                // Translate path for the FTP account
-                $src  = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
-                $dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
-
-                // Use FTP rename to simulate move
-                if (!$ftp->rename($src, $dest)) {
-                    Log::add(Text::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE'), Log::WARNING, 'jerror');
-
-                    return false;
-                }
-            } else {
-                if (!@ rename($src, $dest)) {
-                    Log::add(Text::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE'), Log::WARNING, 'jerror');
-
-                    return false;
-                }
-            }
-
-            self::invalidateFileCache($dest);
-
-            return true;
         }
+
+        $FTPOptions = ClientHelper::getCredentials('ftp');
+
+        // Invalidate the compiled OPCache of the old file so it's no longer used.
+        self::invalidateFileCache($src);
+
+        if ($FTPOptions['enabled'] == 1) {
+            // Connect the FTP client
+            $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
+
+            // Translate path for the FTP account
+            $src  = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
+            $dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+
+            // Use FTP rename to simulate move
+            if (!$ftp->rename($src, $dest)) {
+                Log::add(Text::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE'), Log::WARNING, 'jerror');
+
+                return false;
+            }
+        } else {
+            if (!@ rename($src, $dest)) {
+                Log::add(Text::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE'), Log::WARNING, 'jerror');
+
+                return false;
+            }
+        }
+
+        self::invalidateFileCache($dest);
+
+        return true;
     }
 
     /**
@@ -382,10 +398,14 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::write() instead.
      */
     public static function write($file, $buffer, $useStreams = false)
     {
-        @set_time_limit(ini_get('max_execution_time'));
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(\ini_get('max_execution_time'));
+        }
 
         // If the destination directory doesn't exist we need to create it
         if (!file_exists(\dirname($file))) {
@@ -409,25 +429,25 @@ class File
             self::invalidateFileCache($file);
 
             return true;
-        } else {
-            $FTPOptions = ClientHelper::getCredentials('ftp');
-
-            if ($FTPOptions['enabled'] == 1) {
-                // Connect the FTP client
-                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
-
-                // Translate path for the FTP account and use FTP write buffer to file
-                $file = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
-                $ret  = $ftp->write($file, $buffer);
-            } else {
-                $file = Path::clean($file);
-                $ret  = \is_int(file_put_contents($file, $buffer));
-            }
-
-            self::invalidateFileCache($file);
-
-            return $ret;
         }
+
+        $FTPOptions = ClientHelper::getCredentials('ftp');
+
+        if ($FTPOptions['enabled'] == 1) {
+            // Connect the FTP client
+            $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
+
+            // Translate path for the FTP account and use FTP write buffer to file
+            $file = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
+            $ret  = $ftp->write($file, $buffer);
+        } else {
+            $file = Path::clean($file);
+            $ret  = \is_int(file_put_contents($file, $buffer));
+        }
+
+        self::invalidateFileCache($file);
+
+        return $ret;
     }
 
     /**
@@ -440,10 +460,13 @@ class File
      * @return  boolean  True on success
      *
      * @since   3.6.0
+     *
      */
     public static function append($file, $buffer, $useStreams = false)
     {
-        @set_time_limit(ini_get('max_execution_time'));
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(\ini_get('max_execution_time'));
+        }
 
         // If the file doesn't exist, just write instead of append
         if (!file_exists($file)) {
@@ -465,26 +488,26 @@ class File
             Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_WRITE_STREAMS', __METHOD__, $file, $stream->getError()), Log::WARNING, 'jerror');
 
             return false;
-        } else {
-            // Initialise variables.
-            $FTPOptions = ClientHelper::getCredentials('ftp');
-
-            if ($FTPOptions['enabled'] == 1) {
-                // Connect the FTP client
-                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
-
-                // Translate path for the FTP account and use FTP write buffer to file
-                $file = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
-                $ret  = $ftp->append($file, $buffer);
-            } else {
-                $file = Path::clean($file);
-                $ret  = \is_int(file_put_contents($file, $buffer, FILE_APPEND));
-            }
-
-            self::invalidateFileCache($file);
-
-            return $ret;
         }
+
+        // Initialise variables.
+        $FTPOptions = ClientHelper::getCredentials('ftp');
+
+        if ($FTPOptions['enabled'] == 1) {
+            // Connect the FTP client
+            $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
+
+            // Translate path for the FTP account and use FTP write buffer to file
+            $file = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
+            $ret  = $ftp->append($file, $buffer);
+        } else {
+            $file = Path::clean($file);
+            $ret  = \is_int(file_put_contents($file, $buffer, FILE_APPEND));
+        }
+
+        self::invalidateFileCache($file);
+
+        return $ret;
     }
 
     /**
@@ -499,6 +522,9 @@ class File
      * @return  boolean  True on success
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::upload() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function upload($src, $dest, $useStreams = false, $allowUnsafe = false, $safeFileOptions = [])
     {
@@ -540,44 +566,44 @@ class File
             }
 
             return true;
+        }
+
+        $FTPOptions = ClientHelper::getCredentials('ftp');
+        $ret        = false;
+
+        if ($FTPOptions['enabled'] == 1) {
+            // Connect the FTP client
+            $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
+
+            // Translate path for the FTP account
+            $dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+
+            // Copy the file to the destination directory
+            if (is_uploaded_file($src) && $ftp->store($src, $dest)) {
+                self::invalidateFileCache($src);
+                unlink($src);
+                $ret = true;
+            } else {
+                Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR04', $src, $dest), Log::WARNING, 'jerror');
+            }
         } else {
-            $FTPOptions = ClientHelper::getCredentials('ftp');
-            $ret        = false;
+            self::invalidateFileCache($src);
 
-            if ($FTPOptions['enabled'] == 1) {
-                // Connect the FTP client
-                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
-
-                // Translate path for the FTP account
-                $dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
-
-                // Copy the file to the destination directory
-                if (is_uploaded_file($src) && $ftp->store($src, $dest)) {
-                    self::invalidateFileCache($src);
-                    unlink($src);
+            if (is_writable($baseDir) && move_uploaded_file($src, $dest)) {
+                // Short circuit to prevent file permission errors
+                if (Path::setPermissions($dest)) {
                     $ret = true;
                 } else {
-                    Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR04', $src, $dest), Log::WARNING, 'jerror');
+                    Log::add(Text::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR01'), Log::WARNING, 'jerror');
                 }
             } else {
-                self::invalidateFileCache($src);
-
-                if (is_writable($baseDir) && move_uploaded_file($src, $dest)) {
-                    // Short circuit to prevent file permission errors
-                    if (Path::setPermissions($dest)) {
-                        $ret = true;
-                    } else {
-                        Log::add(Text::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR01'), Log::WARNING, 'jerror');
-                    }
-                } else {
-                    Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR04', $src, $dest), Log::WARNING, 'jerror');
-                }
+                Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR04', $src, $dest), Log::WARNING, 'jerror');
             }
-
-            self::invalidateFileCache($dest);
-
-            return $ret;
         }
+
+        self::invalidateFileCache($dest);
+
+        return $ret;
     }
 
     /**
@@ -588,6 +614,8 @@ class File
      * @return  boolean  True if path is a file
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use is_file() instead.
      */
     public static function exists($file)
     {

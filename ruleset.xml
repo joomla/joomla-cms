@@ -38,6 +38,8 @@
         <exclude-pattern type="relative">administrator/components/com_fields/src/Table/GroupTable\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_finder/src/Table/FilterTable\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_finder/src/Table/LinkTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_guidedtours/src/Table/StepTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_guidedtours/src/Table/TourTable\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_installer/src/Model/DatabaseModel\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_installer/src/Model/InstallModel\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_installer/src/Table/UpdatesiteTable\.php</exclude-pattern>
@@ -93,6 +95,7 @@
         <exclude-pattern type="relative">libraries/src/Encrypt/Totp\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Form/Field/CaptchaField\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Input/Json\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Installer/Manifest\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/MVC/Model/DatabaseAwareTrait\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/MVC/Model/FormBehaviorTrait\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/MVC/Model/ItemModel\.php</exclude-pattern>
@@ -117,8 +120,6 @@
         <exclude-pattern type="relative">libraries/src/Tree/ImmutableNodeTrait\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Updater/UpdateAdapter\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/User/User\.php</exclude-pattern>
-        <exclude-pattern type="relative">plugins/editors/tinymce/tinymce\.php</exclude-pattern>
-        <exclude-pattern type="relative">plugins/system/cache/cache\.php</exclude-pattern>
     </rule>
 
     <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
@@ -233,12 +234,6 @@
         <exclude-pattern type="relative">libraries/src/Updater/Update\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Updater/UpdateAdapter\.php</exclude-pattern>
         <exclude-pattern type="relative">modules/mod_articles_category/src/Helper/ArticlesCategoryHelper\.php</exclude-pattern>
-        <exclude-pattern type="relative">plugins/content/emailcloak/emailcloak\.php</exclude-pattern>
-        <exclude-pattern type="relative">plugins/content/joomla/joomla\.php</exclude-pattern>
-        <exclude-pattern type="relative">plugins/content/loadmodule/loadmodule\.php</exclude-pattern>
-        <exclude-pattern type="relative">plugins/content/pagebreak/pagebreak\.php</exclude-pattern>
-        <exclude-pattern type="relative">plugins/editors/none/none\.php</exclude-pattern>
-        <exclude-pattern type="relative">plugins/user/joomla/joomla\.php</exclude-pattern>
         <exclude-pattern type="relative">tests/</exclude-pattern>
     </rule>
 
@@ -258,7 +253,6 @@
         <exclude-pattern type="relative">index\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/index\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_joomlaupdate/extract\.php</exclude-pattern>
-        <exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore_finalisation\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/includes/app\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/includes/defines\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/includes/framework\.php</exclude-pattern>

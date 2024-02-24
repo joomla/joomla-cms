@@ -11,7 +11,6 @@
 namespace Joomla\Component\Messages\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Database\ParameterType;
@@ -144,7 +143,7 @@ class ConfigModel extends FormModel
                 return false;
             }
 
-            if (count($data)) {
+            if (\count($data)) {
                 $query = $db->getQuery(true)
                     ->insert($db->quoteName('#__messages_cfg'))
                     ->columns(
@@ -179,10 +178,10 @@ class ConfigModel extends FormModel
             }
 
             return true;
-        } else {
-            $this->setError('COM_MESSAGES_ERR_INVALID_USER');
-
-            return false;
         }
+
+        $this->setError('COM_MESSAGES_ERR_INVALID_USER');
+
+        return false;
     }
 }

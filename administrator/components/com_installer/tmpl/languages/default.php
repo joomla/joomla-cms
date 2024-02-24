@@ -19,7 +19,8 @@ use Joomla\CMS\Version;
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
-    ->useScript('multiselect');
+    ->useScript('multiselect')
+    ->useScript('webcomponent.core-loader');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -72,7 +73,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 <td>
                                     <?php $buttonText = (isset($this->installedLang[0][$language->code]) || isset($this->installedLang[1][$language->code])) ? 'REINSTALL' : 'INSTALL'; ?>
                                     <?php $buttonClass = (isset($this->installedLang[0][$language->code]) || isset($this->installedLang[1][$language->code])) ? 'btn btn-success btn-sm' : 'btn btn-primary btn-sm'; ?>
-                                    <?php $onclick = 'document.getElementById(\'install_url\').value = \'' . $language->detailsurl . '\'; Joomla.submitbutton(\'install.install\');'; ?>
+                                    <?php $onclick = 'document.getElementById(\'install_url\').value = \'' . $language->detailsurl . '\'; Joomla.submitbutton(\'install.install\'); document.body.appendChild(document.createElement(\'joomla-core-loader\'));'; ?>
                                     <input type="button"
                                         class="<?php echo $buttonClass; ?>"
                                         value="<?php echo Text::_('COM_INSTALLER_' . $buttonText . '_BUTTON'); ?>"
@@ -100,7 +101,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                         <?php endif; ?>
                                 </td>
                                 <td class="small d-none d-md-table-cell">
-                                    <a href="<?php echo $language->detailsurl; ?>" target="_blank"><?php echo $language->detailsurl; ?></a>
+                                    <a href="<?php echo $language->detailsurl; ?>" target="_blank" rel="noopener noreferrer"><?php echo $language->detailsurl; ?></a>
                                 </td>
                             </tr>
                             <?php $i++; ?>

@@ -10,7 +10,6 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Toolbar;
 
-use InvalidArgumentException;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarButton;
 use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
@@ -80,7 +79,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
     {
         $toolbar = $this->createToolbar();
 
-        $this->assertTrue(is_array($toolbar->getItems()));
+        $this->assertTrue(\is_array($toolbar->getItems()));
     }
 
     /**
@@ -195,7 +194,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
         $toolbarFactoryMock
             ->expects($this->once())
             ->method('createButton')
-            ->willThrowException(new InvalidArgumentException());
+            ->willThrowException(new \InvalidArgumentException());
 
         $toolbar = new Toolbar('my-toolbar', $toolbarFactoryMock);
 
@@ -236,7 +235,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
         $toolbarFactoryMock
             ->expects($this->once())
             ->method('createButton')
-            ->willThrowException(new InvalidArgumentException());
+            ->willThrowException(new \InvalidArgumentException());
 
         $toolbar = new Toolbar('my-toolbar', $toolbarFactoryMock);
 
@@ -255,7 +254,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
         $toolbar = $this->createToolbar();
 
         $initialValue = $toolbar->getButtonPath();
-        $initialCount = count($initialValue);
+        $initialCount = \count($initialValue);
         $toolbar->addButtonPath(['MyTestPath1', 'MyTestPath2']);
         $newValue = $toolbar->getButtonPath();
 
@@ -279,7 +278,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
         $toolbar = $this->createToolbar();
 
         $initialValue = $toolbar->getButtonPath();
-        $initialCount = count($initialValue);
+        $initialCount = \count($initialValue);
         $toolbar->addButtonPath('MyTestPath');
         $newValue = $toolbar->getButtonPath();
 

@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Client;
 
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -84,6 +84,22 @@ if (!\defined('FTP_NATIVE')) {
  */
 class FtpClient
 {
+    /**
+     * The response code
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $_responseCode;
+
+    /**
+     * The response message
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $_responseMsg;
+
     /**
      * @var    resource  Socket resource
      * @since  1.5
@@ -192,7 +208,7 @@ class FtpClient
      */
     public function __destruct()
     {
-        if (\is_resource($this->_conn)) {
+        if ($this->_conn) {
             $this->quit();
         }
     }
@@ -277,7 +293,7 @@ class FtpClient
         $err   = null;
 
         // If already connected, return
-        if (\is_resource($this->_conn)) {
+        if ($this->_conn) {
             return true;
         }
 
@@ -285,7 +301,7 @@ class FtpClient
         if (FTP_NATIVE) {
             $this->_conn = @ftp_connect($host, $port, $this->_timeout);
 
-            if ($this->_conn === false) {
+            if (!$this->_conn) {
                 Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_NO_CONNECT', __METHOD__, $host, $port), Log::WARNING, 'jerror');
 
                 return false;
@@ -307,7 +323,7 @@ class FtpClient
         }
 
         // Set the timeout for this connection
-        socket_set_timeout($this->_conn, $this->_timeout, 0);
+        stream_set_timeout($this->_conn, $this->_timeout, 0);
 
         // Check for welcome response code
         if (!$this->_verifyResponse(220)) {
@@ -328,7 +344,7 @@ class FtpClient
      */
     public function isConnected()
     {
-        return \is_resource($this->_conn);
+        return ($this->_conn);
     }
 
     /**
@@ -1479,7 +1495,7 @@ class FtpClient
         // Here is where it is going to get dirty....
         if ($osType === 'UNIX' || $osType === 'MAC') {
             foreach ($contents as $file) {
-                $tmp_array = null;
+                $tmp_array = [];
 
                 if (@preg_match($regexp, $file, $regs)) {
                     $fType = (int) strpos('-dl', $regs[1][0]);
@@ -1507,13 +1523,13 @@ class FtpClient
                     continue;
                 }
 
-                if (\is_array($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..') {
+                if (\count($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..') {
                     $dir_list[] = $tmp_array;
                 }
             }
         } else {
             foreach ($contents as $file) {
-                $tmp_array = null;
+                $tmp_array = [];
 
                 if (@preg_match($regexp, $file, $regs)) {
                     $fType     = (int) ($regs[7] === '<DIR>');
@@ -1542,7 +1558,7 @@ class FtpClient
                     continue;
                 }
 
-                if (\is_array($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..') {
+                if (\count($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..') {
                     $dir_list[] = $tmp_array;
                 }
             }
@@ -1564,7 +1580,7 @@ class FtpClient
     protected function _putCmd($cmd, $expectedResponse)
     {
         // Make sure we have a connection to the server
-        if (!\is_resource($this->_conn)) {
+        if (!$this->_conn) {
             Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_PUTCMD_UNCONNECTED', __METHOD__), Log::WARNING, 'jerror');
 
             return false;
@@ -1643,7 +1659,7 @@ class FtpClient
         $err   = null;
 
         // Make sure we have a connection to the server
-        if (!\is_resource($this->_conn)) {
+        if (!$this->_conn) {
             Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_NO_CONNECT', __METHOD__), Log::WARNING, 'jerror');
 
             return false;
@@ -1702,7 +1718,7 @@ class FtpClient
         }
 
         // Set the timeout for this connection
-        socket_set_timeout($this->_conn, $this->_timeout, 0);
+        stream_set_timeout($this->_conn, $this->_timeout, 0);
 
         return true;
     }

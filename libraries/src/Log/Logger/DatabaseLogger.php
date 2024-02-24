@@ -15,7 +15,7 @@ use Joomla\CMS\Log\Logger;
 use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -68,6 +68,14 @@ class DatabaseLogger extends Logger
      * @since  1.7.0
      */
     protected $database = 'logging';
+
+    /**
+     * The database table prefix of the database store logging entries.
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    protected $prefix;
 
     /**
      * The database table to use for logging entries.

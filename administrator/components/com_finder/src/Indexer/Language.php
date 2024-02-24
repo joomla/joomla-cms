@@ -75,7 +75,12 @@ class Language
         }
 
         try {
-            $this->stemmer = StemmerFactory::create($this->language);
+            foreach (StemmerFactory::LANGS as $classname => $isoCodes) {
+                if (\in_array($this->language, $isoCodes)) {
+                    $this->stemmer = StemmerFactory::create($this->language);
+                    break;
+                }
+            }
         } catch (NotFoundException $e) {
             // We don't have a stemmer for the language
         }
@@ -132,7 +137,7 @@ class Language
          *
          * Regexes:
          *  1. Remove everything except letters, numbers, quotes, apostrophe, plus, dash, period, and comma.
-         *  2. Remove plus, dash, period, and comma characters located before letter characters.
+         *  2. Remove plus, dash, and comma characters located before letter characters.
          *  3. Remove plus, dash, period, and comma characters located after other characters.
          *  4. Remove plus, period, and comma characters enclosed in alphabetical characters. Ungreedy.
          *  5. Remove orphaned apostrophe, plus, dash, period, and comma characters.
@@ -142,7 +147,7 @@ class Language
          */
         $input = StringHelper::strtolower($input);
         $input = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,]+#mui', ' ', $input);
-        $input = preg_replace('#(^|\s)[+-.,]+([\pL\pM]+)#mui', ' $1', $input);
+        $input = preg_replace('#(^|\s)[+-,]+([\pL\pM]+)#mui', ' $1', $input);
         $input = preg_replace('#([\pL\pM\pN]+)[+-.,]+(\s|$)#mui', '$1 ', $input);
         $input = preg_replace('#([\pL\pM]+)[+.,]+([\pL\pM]+)#muiU', '$1 $2', $input);
         $input = preg_replace('#(^|\s)[\'+-.,]+(\s|$)#mui', ' ', $input);

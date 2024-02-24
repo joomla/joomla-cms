@@ -15,10 +15,11 @@ use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -58,7 +59,7 @@ class LibraryHelper
             }
         } else {
             $result          = new \stdClass();
-            $result->enabled = $strict ? false : true;
+            $result->enabled = !$strict;
             $result->params  = new Registry();
         }
 
@@ -110,7 +111,7 @@ class LibraryHelper
     {
         if (static::isEnabled($element)) {
             // Save params in DB
-            $db           = Factory::getDbo();
+            $db           = Factory::getContainer()->get(DatabaseInterface::class);
             $paramsString = $params->toString();
             $query        = $db->getQuery(true)
                 ->update($db->quoteName('#__extensions'))
@@ -146,7 +147,7 @@ class LibraryHelper
     protected static function loadLibrary($element)
     {
         $loader = function ($element) {
-            $db    = Factory::getDbo();
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
                 ->from($db->quoteName('#__extensions'))

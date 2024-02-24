@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="filesystem" method="upgrade">
 	<name>plg_filesystem_local</name>
 	<author>Joomla! Project</author>
@@ -11,7 +11,7 @@
 	<description>PLG_FILESYSTEM_LOCAL_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Filesystem\Local</namespace>
 	<files>
-		<filename plugin="local">local.php</filename>
+		<folder plugin="local">services</folder>
 		<folder>src</folder>
 	</files>
 

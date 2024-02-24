@@ -12,15 +12,15 @@ namespace Joomla\CMS\Mail;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -59,6 +59,13 @@ class MailTemplate
      * @since  4.0.0
      */
     protected $data = [];
+
+    /**
+     *
+     * @var    string[]
+     * @since  5.1.0
+     */
+    protected $plain_data = [];
 
     /**
      *
@@ -164,14 +171,19 @@ class MailTemplate
      * Add data to replace in the template
      *
      * @param   array  $data  Associative array of strings to replace
+     * @param   bool   $plain Only use the data for plain-text emails.
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function addTemplateData($data)
+    public function addTemplateData($data, $plain = false)
     {
-        $this->data = array_merge($this->data, $data);
+        if (!$plain) {
+            $this->data = array_merge($this->data, $data);
+        } else {
+            $this->plain_data = array_merge($this->plain_data, $data);
+        }
     }
 
     /**
@@ -196,8 +208,10 @@ class MailTemplate
         }
 
         /** @var Registry $params */
-        $params = $mail->params;
-        $app    = Factory::getApplication();
+        $params      = $mail->params;
+        $app         = Factory::getApplication();
+        $replyTo     = $app->get('replyto', '');
+        $replyToName = $app->get('replytoname', '');
 
         if ((int) $config->get('alternative_mailconfig', 0) === 1 && (int) $params->get('alternative_mailconfig', 0) === 1) {
             if ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp') {
@@ -220,6 +234,9 @@ class MailTemplate
             if (MailHelper::isEmailAddress($mailfrom)) {
                 $this->mailer->setFrom(MailHelper::cleanLine($mailfrom), MailHelper::cleanLine($fromname), false);
             }
+
+            $replyTo     = $params->get('replyto', $replyTo);
+            $replyToName = $params->get('replytoname', $replyToName);
         }
 
         $app->triggerEvent('onMailBeforeRendering', [$this->template_id, &$this]);
@@ -228,7 +245,9 @@ class MailTemplate
         $this->mailer->setSubject($subject);
 
         $mailStyle = $config->get('mail_style', 'plaintext');
-        $plainBody = $this->replaceTags(Text::_($mail->body), $this->data);
+        // Use the plain-text replacement data, if specified.
+        $plainData = $this->plain_data ?: $this->data;
+        $plainBody = $this->replaceTags(Text::_($mail->body), $plainData);
         $htmlBody  = $this->replaceTags(Text::_($mail->htmlbody), $this->data);
 
         if ($mailStyle === 'plaintext' || $mailStyle === 'both') {
@@ -278,6 +297,8 @@ class MailTemplate
 
         if ($this->replyto) {
             $this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
+        } elseif ($replyTo) {
+            $this->mailer->addReplyTo($replyTo, $replyToName);
         }
 
         if (trim($config->get('attachment_folder', ''))) {
@@ -318,17 +339,25 @@ class MailTemplate
     protected function replaceTags($text, $tags)
     {
         foreach ($tags as $key => $value) {
-            if (is_array($value)) {
-                $matches = [];
+            // If the value is NULL, replace with an empty string. NULL itself throws notices
+            if (\is_null($value)) {
+                $value = '';
+            }
 
-                if (preg_match_all('/{' . strtoupper($key) . '}(.*?){\/' . strtoupper($key) . '}/s', $text, $matches)) {
+            if (\is_array($value)) {
+                $matches = [];
+                $pregKey = preg_quote(strtoupper($key), '/');
+
+                if (preg_match_all('/{' . $pregKey . '}(.*?){\/' . $pregKey . '}/s', $text, $matches)) {
                     foreach ($matches[0] as $i => $match) {
                         $replacement = '';
 
                         foreach ($value as $name => $subvalue) {
-                            if (is_array($subvalue) && $name == $matches[1][$i]) {
+                            if (\is_array($subvalue) && $name == $matches[1][$i]) {
                                 $replacement .= implode("\n", $subvalue);
-                            } elseif (is_string($subvalue) && $name == $matches[1][$i]) {
+                            } elseif (\is_array($subvalue)) {
+                                $replacement .= $this->replaceTags($matches[1][$i], $subvalue);
+                            } elseif (\is_string($subvalue) && $name == $matches[1][$i]) {
                                 $replacement .= $subvalue;
                             }
                         }
@@ -397,9 +426,10 @@ class MailTemplate
         $template->subject     = $subject;
         $template->body        = $body;
         $template->htmlbody    = $htmlbody;
+        $template->extension   = explode('.', $key, 2)[0] ?? '';
         $template->attachments = '';
         $params                = new \stdClass();
-        $params->tags          = [$tags];
+        $params->tags          = (array) $tags;
         $template->params      = json_encode($params);
 
         return $db->insertObject('#__mail_templates', $template);
@@ -429,7 +459,7 @@ class MailTemplate
         $template->body        = $body;
         $template->htmlbody    = $htmlbody;
         $params                = new \stdClass();
-        $params->tags          = [$tags];
+        $params->tags          = (array) $tags;
         $template->params      = json_encode($params);
 
         return $db->updateObject('#__mail_templates', $template, ['template_id', 'language']);

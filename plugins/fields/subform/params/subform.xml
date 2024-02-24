@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<field
 		name="default_value"
@@ -67,7 +67,7 @@
 				<field
 					name="form_layout"
 					type="list"
-					label="COM_FIELDS_FIELD_FORM_LAYOUT_LABEL"
+					label="JLIB_FORM_FIELD_PARAM_LAYOUT_LABEL"
 					default=""
 					class="form-select"
 					showon="repeat:1"

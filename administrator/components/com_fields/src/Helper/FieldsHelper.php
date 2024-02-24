@@ -10,6 +10,11 @@
 
 namespace Joomla\Component\Fields\Administrator\Helper;
 
+use Joomla\CMS\Event\CustomFields\AfterPrepareFieldEvent;
+use Joomla\CMS\Event\CustomFields\BeforePrepareFieldEvent;
+use Joomla\CMS\Event\CustomFields\GetTypesEvent;
+use Joomla\CMS\Event\CustomFields\PrepareDomEvent;
+use Joomla\CMS\Event\CustomFields\PrepareFieldEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Form\Form;
@@ -18,9 +23,10 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Fields\Administrator\Model\FieldsModel;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
+use Joomla\Component\Fields\Administrator\Model\FieldsModel;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -56,9 +62,13 @@ class FieldsHelper
      */
     public static function extract($contextString, $item = null)
     {
+        if ($contextString === null) {
+            return null;
+        }
+
         $parts = explode('.', $contextString, 2);
 
-        if (count($parts) < 2) {
+        if (\count($parts) < 2) {
             return null;
         }
 
@@ -88,11 +98,11 @@ class FieldsHelper
      * The values of the fields can be overridden by an associative array where the keys
      * have to be a name and its corresponding value.
      *
-     * @param   string      $context              The context of the content passed to the helper
-     * @param   null        $item                 The item being edited in the form
-     * @param   int|bool    $prepareValue         (if int is display event): 1 - AfterTitle, 2 - BeforeDisplay, 3 - AfterDisplay, 0 - OFF
-     * @param   array|null  $valuesToOverride     The values to override
-     * @param   bool        $includeSubformFields Should I include fields marked as Only Use In Subform?
+     * @param   string             $context              The context of the content passed to the helper
+     * @param   object|array|null  $item                 The item being edited in the form
+     * @param   int|bool           $prepareValue         (if int is display event): 1 - AfterTitle, 2 - BeforeDisplay, 3 - AfterDisplay, 0 - OFF
+     * @param   array|null         $valuesToOverride     The values to override
+     * @param   bool               $includeSubformFields Should I include fields marked as Only Use In Subform?
      *
      * @return  array
      *
@@ -121,7 +131,7 @@ class FieldsHelper
             self::$fieldsCache->setState('filter.only_use_in_subform', 0);
         }
 
-        if (is_array($item)) {
+        if (\is_array($item)) {
             $item = (object) $item;
         }
 
@@ -139,7 +149,7 @@ class FieldsHelper
         if ($item && (isset($item->catid) || isset($item->fieldscatid))) {
             $assignedCatIds = $item->catid ?? $item->fieldscatid;
 
-            if (!is_array($assignedCatIds)) {
+            if (!\is_array($assignedCatIds)) {
                 $assignedCatIds = explode(',', $assignedCatIds);
             }
 
@@ -161,6 +171,10 @@ class FieldsHelper
                     ->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true]);
             }
 
+            /** @var DispatcherInterface $dispatcher */
+            $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+            PluginHelper::importPlugin('fields', null, true, $dispatcher);
+
             $fieldIds = array_map(
                 function ($f) {
                     return $f->id;
@@ -179,11 +193,11 @@ class FieldsHelper
                  */
                 $field = clone $original;
 
-                if ($valuesToOverride && array_key_exists($field->name, $valuesToOverride)) {
+                if ($valuesToOverride && \array_key_exists($field->name, $valuesToOverride)) {
                     $field->value = $valuesToOverride[$field->name];
-                } elseif ($valuesToOverride && array_key_exists($field->id, $valuesToOverride)) {
+                } elseif ($valuesToOverride && \array_key_exists($field->id, $valuesToOverride)) {
                     $field->value = $valuesToOverride[$field->id];
-                } elseif (array_key_exists($field->id, $fieldValues)) {
+                } elseif (\array_key_exists($field->id, $fieldValues)) {
                     $field->value = $fieldValues[$field->id];
                 }
 
@@ -194,27 +208,43 @@ class FieldsHelper
                 $field->rawvalue = $field->value;
 
                 // If boolean prepare, if int, it is the event type: 1 - After Title, 2 - Before Display Content, 3 - After Display Content, 0 - Do not prepare
-                if ($prepareValue && (is_bool($prepareValue) || $prepareValue === (int) $field->params->get('display', '2'))) {
-                    PluginHelper::importPlugin('fields');
-
+                if ($prepareValue && (\is_bool($prepareValue) || $prepareValue === (int) $field->params->get('display', '2'))) {
                     /*
                      * On before field prepare
                      * Event allow plugins to modify the output of the field before it is prepared
                      */
-                    Factory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', [$context, $item, &$field]);
+                    $dispatcher->dispatch('onCustomFieldsBeforePrepareField', new BeforePrepareFieldEvent('onCustomFieldsBeforePrepareField', [
+                        'context' => $context,
+                        'item'    => $item,
+                        'subject' => $field,
+                    ]));
 
                     // Gathering the value for the field
-                    $value = Factory::getApplication()->triggerEvent('onCustomFieldsPrepareField', [$context, $item, &$field]);
+                    $value = $dispatcher->dispatch('onCustomFieldsPrepareField', new PrepareFieldEvent('onCustomFieldsPrepareField', [
+                        'context' => $context,
+                        'item'    => $item,
+                        'subject' => $field,
+                    ]))->getArgument('result', []);
 
-                    if (is_array($value)) {
-                        $value = implode(' ', $value);
+                    if (\is_array($value)) {
+                        $value = array_filter($value, function ($v) {
+                            return $v !== '' && $v !== null;
+                        });
+                        $value = $value ? implode(' ', $value) : '';
                     }
 
                     /*
                      * On after field render
                      * Event allows plugins to modify the output of the prepared field
                      */
-                    Factory::getApplication()->triggerEvent('onCustomFieldsAfterPrepareField', [$context, $item, $field, &$value]);
+                    $eventAfter = new AfterPrepareFieldEvent('onCustomFieldsAfterPrepareField', [
+                        'context' => $context,
+                        'item'    => $item,
+                        'subject' => $field,
+                        'value'   => &$value, // @todo: Remove reference in Joomla 6, see AfterPrepareFieldEvent::__constructor()
+                    ]);
+                    $dispatcher->dispatch('onCustomFieldsAfterPrepareField', $eventAfter);
+                    $value = $eventAfter->getValue();
 
                     // Assign the value
                     $field->value = $value;
@@ -300,7 +330,7 @@ class FieldsHelper
         $assignedCatids = $data->catid ?? $data->fieldscatid ?? $form->getValue('catid');
 
         // Account for case that a submitted form has a multi-value category id field (e.g. a filtering form), just use the first category
-        $assignedCatids = is_array($assignedCatids)
+        $assignedCatids = \is_array($assignedCatids)
             ? (int) reset($assignedCatids)
             : (int) $assignedCatids;
 
@@ -350,12 +380,12 @@ class FieldsHelper
         $fieldsPerGroup = [0 => []];
 
         foreach ($fields as $field) {
-            if (!array_key_exists($field->type, $fieldTypes)) {
+            if (!\array_key_exists($field->type, $fieldTypes)) {
                 // Field type is not available
                 continue;
             }
 
-            if (!array_key_exists($field->group_id, $fieldsPerGroup)) {
+            if (!\array_key_exists($field->group_id, $fieldsPerGroup)) {
                 $fieldsPerGroup[$field->group_id] = [];
             }
 
@@ -375,6 +405,8 @@ class FieldsHelper
         $model = Factory::getApplication()->bootComponent('com_fields')
             ->getMVCFactory()->createModel('Groups', 'Administrator', ['ignore_request' => true]);
         $model->setState('filter.context', $context);
+        /** @var DispatcherInterface $dispatcher */
+        $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
 
         /**
          * $model->getItems() would only return existing groups, but we also
@@ -427,7 +459,11 @@ class FieldsHelper
             // Looping through the fields for that context
             foreach ($fieldsPerGroup[$group->id] as $field) {
                 try {
-                    Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', [$field, $fieldset, $form]);
+                    $dispatcher->dispatch('onCustomFieldsPrepareDom', new PrepareDomEvent('onCustomFieldsPrepareDom', [
+                        'subject'  => $field,
+                        'fieldset' => $fieldset,
+                        'form'     => $form,
+                    ]));
 
                     /*
                      * If the field belongs to an assigned_cat_id but the assigned_cat_ids in the data
@@ -473,7 +509,7 @@ class FieldsHelper
                 continue;
             }
 
-            if (!is_array($value) && $value !== '') {
+            if (!\is_array($value) && $value !== '') {
                 // Function getField doesn't cache the fields, so we try to do it only when necessary
                 $formField = $form->getField($field->name, 'com_fields');
 
@@ -521,7 +557,9 @@ class FieldsHelper
         // Detect if the field should be shown at all
         if ($field->params->get('show_on') == 1 && $app->isClient('administrator')) {
             return false;
-        } elseif ($field->params->get('show_on') == 2 && $app->isClient('site')) {
+        }
+
+        if ($field->params->get('show_on') == 2 && $app->isClient('site')) {
             return false;
         }
 
@@ -647,18 +685,20 @@ class FieldsHelper
      */
     public static function getFieldTypes()
     {
-        PluginHelper::importPlugin('fields');
-        $eventData = Factory::getApplication()->triggerEvent('onCustomFieldsGetTypes');
+        /** @var DispatcherInterface $dispatcher */
+        $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+        PluginHelper::importPlugin('fields', null, true, $dispatcher);
+        $eventData = $dispatcher->dispatch('onCustomFieldsGetTypes', new GetTypesEvent('onCustomFieldsGetTypes'))->getArgument('result', []);
 
         $data = [];
 
         foreach ($eventData as $fields) {
             foreach ($fields as $fieldDescription) {
-                if (!array_key_exists('path', $fieldDescription)) {
+                if (!\array_key_exists('path', $fieldDescription)) {
                     $fieldDescription['path'] = null;
                 }
 
-                if (!array_key_exists('rules', $fieldDescription)) {
+                if (!\array_key_exists('rules', $fieldDescription)) {
                     $fieldDescription['rules'] = null;
                 }
 
