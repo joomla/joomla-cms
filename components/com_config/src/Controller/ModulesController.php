@@ -59,7 +59,7 @@ class ModulesController extends BaseController
      */
     public function cancel()
     {
-        // Redirect back to preview page
+        // Redirect back to previous page
         $this->setRedirect($this->getReturnUrl());
     }
 
