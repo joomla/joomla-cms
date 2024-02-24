@@ -309,7 +309,7 @@ class UpdateModel extends BaseDatabaseModel
         $updateType = (pathinfo($updateObject->detailsurl, PATHINFO_EXTENSION) === 'xml') ? 'collection' : 'tuf';
 
         // Check if we have a local JSON string with update metadata
-        if (!empty($updateType === 'tuf')) {
+        if ($updateType === 'tuf') {
             // Use the correct identifier for the update channel
             $updateChannel = Version::MAJOR_VERSION . '.x';
 
