@@ -106,6 +106,7 @@ class UpdateModel extends BaseDatabaseModel
                 }
                 break;
 
+            default:
                 /**
                  * All "non-testing" releases of the official project hosted in Joomla's TUF-based update repo.
                  * The commented "case" below are for documenting where 'default' and legacy options falls
@@ -115,7 +116,6 @@ class UpdateModel extends BaseDatabaseModel
                  * case 'sts': (It's shown as "Default" because that option does not exist any more)
                  * case 'nochange':
                  */
-            default:
                 $updateURL = 'https://update.joomla.org/cms/';
         }
 
@@ -156,7 +156,7 @@ class UpdateModel extends BaseDatabaseModel
     /**
      * Makes sure that the Joomla! update cache is up-to-date.
      *
-     * @param boolean $force Force reload, ignoring the cache timeout.
+     * @param   boolean  $force  Force reload, ignoring the cache timeout.
      *
      * @return  void
      *
@@ -947,7 +947,7 @@ ENDDATA;
         $userfile = $input->files->get('install_package', null, 'raw');
 
         // Make sure that file uploads are enabled in php.
-        if (!(bool) ini_get('file_uploads')) {
+        if (!(bool) \ini_get('file_uploads')) {
             throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 500);
         }
 
@@ -1120,7 +1120,7 @@ ENDDATA;
             // Check for default MB language.
             $option         = new \stdClass();
             $option->label  = Text::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
-            $option->state  = strtolower(ini_get('mbstring.language')) === 'neutral';
+            $option->state  = strtolower(\ini_get('mbstring.language')) === 'neutral';
             $option->notice = $option->state ? null : Text::_('INSTL_NOTICEMBLANGNOTDEFAULT');
             $options[]      = $option;
         }
@@ -1176,28 +1176,28 @@ ENDDATA;
         // Check for display errors.
         $setting              = new \stdClass();
         $setting->label       = Text::_('INSTL_DISPLAY_ERRORS');
-        $setting->state       = (bool) ini_get('display_errors');
+        $setting->state       = (bool) \ini_get('display_errors');
         $setting->recommended = false;
         $settings[]           = $setting;
 
         // Check for file uploads.
         $setting              = new \stdClass();
         $setting->label       = Text::_('INSTL_FILE_UPLOADS');
-        $setting->state       = (bool) ini_get('file_uploads');
+        $setting->state       = (bool) \ini_get('file_uploads');
         $setting->recommended = true;
         $settings[]           = $setting;
 
         // Check for output buffering.
         $setting              = new \stdClass();
         $setting->label       = Text::_('INSTL_OUTPUT_BUFFERING');
-        $setting->state       = (int) ini_get('output_buffering') !== 0;
+        $setting->state       = (int) \ini_get('output_buffering') !== 0;
         $setting->recommended = false;
         $settings[]           = $setting;
 
         // Check for session auto-start.
         $setting              = new \stdClass();
         $setting->label       = Text::_('INSTL_SESSION_AUTO_START');
-        $setting->state       = (bool) ini_get('session.auto_start');
+        $setting->state       = (bool) \ini_get('session.auto_start');
         $setting->recommended = false;
         $settings[]           = $setting;
 
@@ -1308,7 +1308,7 @@ ENDDATA;
      */
     public function getIniParserAvailability()
     {
-        $disabledFunctions = ini_get('disable_functions');
+        $disabledFunctions = \ini_get('disable_functions');
 
         if (!empty($disabledFunctions)) {
             // Attempt to detect them in the PHP INI disable_functions variable.
