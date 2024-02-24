@@ -32,7 +32,7 @@ class Http implements ServiceProviderInterface
      *
      * @return  void
      *
-     * @since   4.0.0
+     * @since   __DEPLOY_VERSION__
      */
     public function register(Container $container)
     {
