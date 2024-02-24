@@ -62,7 +62,7 @@ class StepTable extends Table implements CurrentUserInterface
      * @return  mixed   Null if operation was satisfactory, otherwise returns an error
      *
      * @see     Table::bind()
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function bind($array, $ignore = '')
     {
