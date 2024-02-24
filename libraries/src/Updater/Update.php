@@ -214,7 +214,7 @@ class Update
      * Object containing details if the latest update does not meet the PHP and DB version requirements
      *
      * @var    \stdClass
-     * @since  5.0.2
+     * @since  4.4.2
      */
     protected $otherUpdateInfo;
 
@@ -297,13 +297,13 @@ class Update
         }
 
         switch ($name) {
-            // This is a new update; create a current update
             case 'UPDATE':
+                // This is a new update; create a current update
                 $this->currentUpdate = new \stdClass();
                 break;
 
-                // Handle the array of download sources
             case 'DOWNLOADSOURCE':
+                // Handle the array of download sources
                 $source = new DownloadSource();
 
                 foreach ($attrs as $key => $data) {
@@ -315,12 +315,12 @@ class Update
 
                 break;
 
-                // Don't do anything
             case 'UPDATES':
+                // Don't do anything
                 break;
 
-                // For everything else there's...the default!
             default:
+                // For everything else there's...the default!
                 $name = strtolower($name);
 
                 if (!isset($this->currentUpdate->$name)) {
