@@ -626,18 +626,18 @@ class UpdatesitesModel extends InstallerModel
 
         if (is_numeric($supported)) {
             switch ($supported) {
-                // Show Update Sites which support Download Keys
                 case 1:
+                    // Show Update Sites which support Download Keys
                     $supportedIDs = InstallerHelper::getDownloadKeySupportedSites($enabled);
                     break;
 
-                // Show Update Sites which are missing Download Keys
                 case -1:
+                    // Show Update Sites which are missing Download Keys
                     $supportedIDs = InstallerHelper::getDownloadKeyExistsSites(false, $enabled);
                     break;
 
-                // Show Update Sites which have valid Download Keys
                 case 2:
+                    // Show Update Sites which have valid Download Keys
                     $supportedIDs = InstallerHelper::getDownloadKeyExistsSites(true, $enabled);
                     break;
             }

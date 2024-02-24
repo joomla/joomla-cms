@@ -203,12 +203,20 @@ class Update
     protected $currentUpdate;
 
     /**
-     * Object containing the latest update data
+     * Object containing the latest update data which meets the PHP and DB version requirements
      *
      * @var    \stdClass
      * @since  3.0.0
      */
     protected $latest;
+
+    /**
+     * Object containing details if the latest update does not meet the PHP and DB version requirements
+     *
+     * @var    \stdClass
+     * @since  4.4.2
+     */
+    protected $otherUpdateInfo;
 
     /**
      * The minimum stability required for updates to be taken into account. The possible values are:
@@ -237,6 +245,10 @@ class Update
     protected $stability;
     protected $supported_databases;
     protected $php_minimum;
+    public $sha256;
+    public $sha384;
+    public $sha512;
+    protected $section;
 
     /**
      * Gets the reference to the current direct parent
@@ -285,13 +297,13 @@ class Update
         }
 
         switch ($name) {
-            // This is a new update; create a current update
             case 'UPDATE':
+                // This is a new update; create a current update
                 $this->currentUpdate = new \stdClass();
                 break;
 
-            // Handle the array of download sources
             case 'DOWNLOADSOURCE':
+                // Handle the array of download sources
                 $source = new DownloadSource();
 
                 foreach ($attrs as $key => $data) {
@@ -303,12 +315,12 @@ class Update
 
                 break;
 
-            // Don't do anything
             case 'UPDATES':
+                // Don't do anything
                 break;
 
-            // For everything else there's...the default!
             default:
+                // For everything else there's...the default!
                 $name = strtolower($name);
 
                 if (!isset($this->currentUpdate->$name)) {
@@ -351,11 +363,21 @@ class Update
                     && $product == $this->currentUpdate->targetplatform->name
                     && preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->get('jversion.full', JVERSION))
                 ) {
+                    // Collect information on updates which do not meet PHP and DB version requirements
+                    $otherUpdateInfo          = new \stdClass();
+                    $otherUpdateInfo->version = $this->currentUpdate->version->_data;
+
                     $phpMatch = false;
 
                     // Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
                     if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum->_data, '>=')) {
                         $phpMatch = true;
+                    }
+
+                    if (!$phpMatch) {
+                        $otherUpdateInfo->php           = new \stdClass();
+                        $otherUpdateInfo->php->required = $this->currentUpdate->php_minimum->_data;
+                        $otherUpdateInfo->php->used     = PHP_VERSION;
                     }
 
                     $dbMatch = false;
@@ -381,6 +403,13 @@ class Update
                         if (isset($supportedDbs->$dbType)) {
                             $minimumVersion = $supportedDbs->$dbType;
                             $dbMatch        = version_compare($dbVersion, $minimumVersion, '>=');
+
+                            if (!$dbMatch) {
+                                $otherUpdateInfo->db           = new \stdClass();
+                                $otherUpdateInfo->db->type     = $dbType;
+                                $otherUpdateInfo->db->required = $minimumVersion;
+                                $otherUpdateInfo->db->used     = $dbVersion;
+                            }
                         }
                     } else {
                         // Set to true if the <supported_databases> tag is not set
@@ -405,6 +434,11 @@ class Update
                         ) {
                             $this->latest = $this->currentUpdate;
                         }
+                    } elseif (
+                        !isset($this->otherUpdateInfo)
+                        || version_compare($otherUpdateInfo->version, $this->otherUpdateInfo->version, '>')
+                    ) {
+                        $this->otherUpdateInfo = $otherUpdateInfo;
                     }
                 }
                 break;
