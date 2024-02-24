@@ -400,7 +400,7 @@ class LocalAdapter implements AdapterInterface
             return $obj;
         }
 
-        if (MediaHelper::isImage($obj->name)) {
+        if (!$isDir && MediaHelper::isImage($obj->name)) {
             // Get the image properties
             try {
                 $props       = Image::getImageFileProperties($path);
