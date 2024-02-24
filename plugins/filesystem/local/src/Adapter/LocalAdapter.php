@@ -385,7 +385,7 @@ class LocalAdapter implements AdapterInterface
         $obj->path      = str_replace($this->rootPath, '', $path);
         $obj->extension = !$isDir ? File::getExt($obj->name) : '';
         $obj->size      = !$isDir ? filesize($path) : '';
-        $obj->mime_type = !$isDir ? MediaHelper::getMimeType($path, MediaHelper::isImage($obj->name)) : false;
+        $obj->mime_type = !$isDir ? (string) MediaHelper::getMimeType($path, MediaHelper::isImage($obj->name)) : '';
         $obj->width     = 0;
         $obj->height    = 0;
 
