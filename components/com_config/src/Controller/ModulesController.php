@@ -60,7 +60,7 @@ class ModulesController extends BaseController
     public function cancel()
     {
         // Redirect back to preview page
-        $this->setRedirect($this->getRedirectUrl());
+        $this->setRedirect($this->getReturnUrl());
     }
 
     /**
@@ -150,7 +150,7 @@ class ModulesController extends BaseController
 
             case 'save':
             default:
-                $this->setRedirect($this->getRedirectUrl());
+                $this->setRedirect($this->getReturnUrl());
                 break;
         }
     }
@@ -162,21 +162,17 @@ class ModulesController extends BaseController
      *
      * @since   __DEPLOY_VERSION_
      */
-    private function getRedirectUrl(): string
+    private function getReturnUrl(): string
     {
-        $returnUri = $this->input->post->get('return', null, 'base64');
-
-        if (!empty($returnUri)) {
-            $redirect = base64_decode(urldecode($returnUri));
+        if ($return = $this->input->post->get('return', '', 'BASE64')) {
+            $return = base64_decode(urldecode($return));
 
             // Don't redirect to an external URL.
-            if (!Uri::isInternal($redirect)) {
-                $redirect = Uri::base();
+            if (Uri::isInternal($return)) {
+                return $return;
             }
-        } else {
-            $redirect = Uri::base();
         }
 
-        return $redirect;
+        return Uri::base();
     }
 }
