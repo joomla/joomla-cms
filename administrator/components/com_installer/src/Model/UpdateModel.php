@@ -341,7 +341,7 @@ class UpdateModel extends ListModel
             $query = $db->getQuery(true)
                 ->select('type')
                 ->from('#__update_sites')
-                ->where($db->quoteName('id') . ' = :id')
+                ->where($db->quoteName('update_site_id') . ' = :id')
                 ->bind(':id', $instance->update_site_id, ParameterType::INTEGER);
 
             $updateSiteType = (string) $db->setQuery($query)->loadResult();
