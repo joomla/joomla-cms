@@ -18,7 +18,6 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Utility\Utility;
-use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -686,35 +685,16 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * @return  integer  Number of child menu items
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0
+     *              Load the active menu item directly and count the children with the php count function
+     *              `$children = count($app->getMenu()->getActive()->getChildren())` beware getActive could be `null`
      */
     public function countMenuChildren()
     {
-        static $children;
+        $active = CmsFactory::getApplication()->getMenu()->getActive();
 
-        if (!isset($children)) {
-            $db       = CmsFactory::getDbo();
-            $app      = CmsFactory::getApplication();
-            $menu     = $app->getMenu();
-            $active   = $menu->getActive();
-            $children = 0;
-
-            if ($active) {
-                $query = $db->getQuery(true)
-                    ->select('COUNT(*)')
-                    ->from($db->quoteName('#__menu'))
-                    ->where(
-                        [
-                            $db->quoteName('parent_id') . ' = :id',
-                            $db->quoteName('published') . ' = 1',
-                        ]
-                    )
-                    ->bind(':id', $active->id, ParameterType::INTEGER);
-                $db->setQuery($query);
-                $children = $db->loadResult();
-            }
-        }
-
-        return $children;
+        return $active ? count($active->getChildren()) : 0;
     }
 
     /**

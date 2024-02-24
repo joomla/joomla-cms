@@ -58,7 +58,7 @@ class HelpModel extends BaseDatabaseModel
      * @var    array
      * @since  1.6
      */
-    protected $toc = null;
+    protected $toc = [];
 
     /**
      * URL for the latest version check
@@ -128,7 +128,7 @@ class HelpModel extends BaseDatabaseModel
      */
     public function &getToc()
     {
-        if (!\is_null($this->toc)) {
+        if (\count($this->toc)) {
             return $this->toc;
         }
 
@@ -152,8 +152,7 @@ class HelpModel extends BaseDatabaseModel
         }
 
         // Get Help files
-        $files     = Folder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
-        $this->toc = [];
+        $files = Folder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
 
         foreach ($files as $file) {
             $buffer = file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/' . $file);

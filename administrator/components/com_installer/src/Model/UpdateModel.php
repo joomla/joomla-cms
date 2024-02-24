@@ -12,7 +12,6 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
@@ -563,7 +562,7 @@ class UpdateModel extends ListModel
 
                 $path = JPATH_ADMINISTRATOR . '/components/' . $table->element . '/helpers/' . $fname;
 
-                if (File::exists($path)) {
+                if (is_file($path)) {
                     require_once $path;
 
                     if (class_exists($cname) && is_callable([$cname, 'prepareUpdate'])) {
@@ -578,7 +577,7 @@ class UpdateModel extends ListModel
                 $cname = str_replace('_', '', $table->element) . 'Helper';
                 $path  = ($table->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $table->element . '/helper.php';
 
-                if (File::exists($path)) {
+                if (is_file($path)) {
                     require_once $path;
 
                     if (class_exists($cname) && is_callable([$cname, 'prepareUpdate'])) {

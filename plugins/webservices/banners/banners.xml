@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_WEBSERVICES_BANNERS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\WebServices\Banners</namespace>
 	<files>
-		<filename plugin="banners">banners.php</filename>
+		<folder plugin="banners">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_webservices_banners.ini</language>

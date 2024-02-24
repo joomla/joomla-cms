@@ -13,6 +13,7 @@ defined('_JEXEC') || die;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
@@ -38,6 +39,7 @@ return new class () implements ServiceProviderInterface {
 
                 $plugin = new Totp($subject, $config);
                 $plugin->setApplication(Factory::getApplication());
+                $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
             }

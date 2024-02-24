@@ -47,10 +47,10 @@ class ContactModel extends FormModel
     /**
      * A loaded item
      *
-     * @var    \stdClass
+     * @var    \stdClass[]
      * @since  1.6
      */
-    protected $_item = null;
+    protected $_item = [];
 
     /**
      * Model context string.
@@ -104,14 +104,14 @@ class ContactModel extends FormModel
      */
     public function getForm($data = [], $loadData = true)
     {
-        $form = $this->loadForm('com_contact.contact', 'contact', ['control' => 'jform', 'load_data' => true]);
+        $form = $this->loadForm('com_contact.contact', 'contact', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
         }
 
         $temp    = clone $this->getState('params');
-        $contact = $this->_item[$this->getState('contact.id')];
+        $contact = $this->getItem($this->getState('contact.id'));
         $active  = Factory::getContainer()->get(SiteApplication::class)->getMenu()->getActive();
 
         if ($active) {
@@ -176,10 +176,6 @@ class ContactModel extends FormModel
     public function getItem($pk = null)
     {
         $pk = $pk ?: (int) $this->getState('contact.id');
-
-        if ($this->_item === null) {
-            $this->_item = [];
-        }
 
         if (!isset($this->_item[$pk])) {
             try {
@@ -335,7 +331,7 @@ class ContactModel extends FormModel
 
             // Filter per language if plugin published
             if (Multilanguage::isEnabled()) {
-                $language = [Factory::getLanguage()->getTag(), $db->quote('*')];
+                $language = [Factory::getLanguage()->getTag(), '*'];
                 $query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
             }
 
