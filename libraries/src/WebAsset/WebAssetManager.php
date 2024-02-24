@@ -114,7 +114,7 @@ class WebAssetManager implements WebAssetManagerInterface
      *
      * @var    array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     protected $sortedAssets = [];
 
@@ -1026,7 +1026,7 @@ class WebAssetManager implements WebAssetManagerInterface
      *
      * @return  array  Array of object ids for which callback was called
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.1.0
      */
     public static function callOnAttachCallback(array $assets, Document $document, array $cache = []): array
     {

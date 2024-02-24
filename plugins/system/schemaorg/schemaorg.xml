@@ -52,6 +52,9 @@
 				<field
 					name="image"
 					type="media"
+					schemes="http,https,ftp,ftps,data,file"
+					validate="url"
+					relative="true"
 					label="PLG_SYSTEM_SCHEMAORG_IMAGE_LABEL"
 				/>
 				<field
