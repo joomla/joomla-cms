@@ -738,36 +738,36 @@ final class LanguageFilter extends CMSPlugin
             // For each language...
             foreach ($languages as $i => $language) {
                 switch (true) {
-                    // Language without frontend UI || Language without specific home menu || Language without authorized access level
                     case !\array_key_exists($i, LanguageHelper::getInstalledLanguages(0)):
                     case !isset($homes[$i]):
                     case isset($language->access) && $language->access && !\in_array($language->access, $levels):
+                        // Language without frontend UI || Language without specific home menu || Language without authorized access level
                         unset($languages[$i]);
                         break;
 
-                    // Home page
                     case $is_home:
+                        // Home page
                         $language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $homes[$i]->id);
                         break;
 
-                    // Current language link
                     case $i === $this->current_lang:
+                        // Current language link
                         $language->link = Route::_($currentInternalUrl);
                         break;
 
-                    // Component association
                     case isset($cassociations[$i]):
+                        // Component association
                         $language->link = Route::_($cassociations[$i]);
                         break;
 
-                    // Menu items association
-                    // Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
                     case isset($associations[$i]) && ($item = $menu->getItem($associations[$i])):
+                        // Menu items association
+                        // Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
                         $language->link = Route::_('index.php?Itemid=' . $item->id . '&lang=' . $language->sef);
                         break;
 
-                    // Too bad...
                     default:
+                        // Too bad...
                         unset($languages[$i]);
                 }
             }
