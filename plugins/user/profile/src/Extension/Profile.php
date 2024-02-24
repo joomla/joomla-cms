@@ -138,7 +138,7 @@ final class Profile extends CMSPlugin
             return HTMLHelper::_('users.value', $value);
         } else {
             // Convert website URL to utf8 for display
-            $value = PunycodeHelper::urlToUTF8(htmlspecialchars($value));
+            $value = htmlspecialchars(PunycodeHelper::urlToUTF8($value), ENT_QUOTES, 'UTF-8');
 
             if (strpos($value, 'http') === 0) {
                 return '<a href="' . $value . '">' . $value . '</a>';
