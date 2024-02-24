@@ -6,7 +6,7 @@ clone:
 
 steps:
   - name: setup
-    image: joomlaprojects/docker-images:php8.2
+    image: joomlaprojects/docker-images:php8.3
     volumes:
       - name: certificates
         path: /certificates
@@ -14,7 +14,7 @@ steps:
       - cp -v tests/certs/* /certificates/
 
   - name: composer
-    image: joomlaprojects/docker-images:php8.2
+    image: joomlaprojects/docker-images:php8.3
     volumes:
       - name: composer-cache
         path: /tmp/composer-cache
@@ -39,7 +39,7 @@ steps:
       - ./libraries/vendor/bin/phan
 
   - name: npm
-    image: node:18-bullseye-slim
+    image: node:20-bullseye-slim
     depends_on: [ phpcs ]
     volumes:
       - name: npm-cache
@@ -91,6 +91,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
+  - name: php83-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php8.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
   - name: php72-integration
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.2
@@ -133,6 +140,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
 
+  - name: php83-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
   - name: php72-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.2
@@ -171,6 +185,13 @@ steps:
   - name: php82-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+  - name: php83-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.3
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
@@ -230,7 +251,7 @@ steps:
     depends_on:
       - phpmin-system-mysql
       - phpmin-system-postgres
-    image: joomlaprojects/docker-images:cypress8.1
+    image: joomlaprojects/docker-images:cypress8.3
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -243,7 +264,7 @@ steps:
     depends_on:
       - phpmin-system-mysql
       - phpmin-system-postgres
-    image: joomlaprojects/docker-images:cypress8.1
+    image: joomlaprojects/docker-images:cypress8.3
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -269,7 +290,7 @@ steps:
     depends_on:
       - phpmax-system-mysql
       - phpmax-system-postgres
-    image: joomlaprojects/docker-images:cypress8.1
+    image: joomlaprojects/docker-images:cypress8.3
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -376,29 +397,39 @@ steps:
   - name: packager
     image: joomlaprojects/docker-images:packager
     environment:
-      FTP_USERNAME:
-        from_secret: ftpusername
-      FTP_PASSWORD:
-        from_secret: ftppassword
-      FTP_HOSTNAME: ci.joomla.org
-      FTP_PORT: "21"
-      FTP_DEST_DIR: /artifacts
-      FTP_VERIFY: "false"
-      FTP_SECURE: "true"
-      HTTP_ROOT: "https://ci.joomla.org/artifacts"
+      HTTP_ROOT: "https://artifacts.joomla.org/drone"
       DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
       DRONE_COMMIT: DRONE_COMMIT
+    commands:
+      - /bin/drone_prepare_package.sh
+
+  - name: upload
+    image: joomlaprojects/docker-images:packager
+    environment:
+      package_key:
+        from_secret: package_key
+      package_user:
+        from_secret: package_user
+      package_host:
+        from_secret: package_host
+      package_root:
+        from_secret: package_root
       GITHUB_TOKEN:
         from_secret: github_token
     commands:
-      - if [ $DRONE_REPO_NAME != 'joomla-cms' ]; then echo "The packager only runs on the joomla/joomla-cms repo"; exit 0; fi
-      - /bin/drone_build.sh
-    volumes:
-      - name: reference
-        path: /reference
-    when:
-      branch:
-        - 4.4-dev
+      - mkdir -p ~/.ssh
+      - eval $(ssh-agent -s)
+      - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+      - echo "$package_key" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - ssh-add
+      - rclone config create package sftp host $package_host user $package_user port 22
+      - rclone copy ./upload/ package:$package_root/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/downloads/$DRONE_BUILD_NUMBER
+      - /bin/add_github_status.sh "Download" "Prebuilt packages are available for download." "https://artifacts.joomla.org/drone/${DRONE_REPO}/${DRONE_BRANCH}/${DRONE_PULL_REQUEST}/downloads/${DRONE_BUILD_NUMBER}"
+
+trigger:
+  repo:
+    - joomla/joomla-cms
 
 ---
 kind: pipeline
@@ -425,8 +456,8 @@ steps:
         from_secret: nightly_user
       nightly_host:
         from_secret: nightly_host
-      RINGCENTRAL_WEBHOOK:
-        from_secret: notification_url
+      MATTERMOST_NIGHTLY_HOOK:
+        from_secret: mattermost_nightly_hook
     commands:
       - export MINORVERSION=${DRONE_BRANCH%-*}
       - mkdir -p ~/.ssh
@@ -439,19 +470,18 @@ steps:
       - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
       - rclone delete nightly:/home/devj/public_html/cache/com_content/
       - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
-      - /bin/notify
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 4.4](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
 
   - name: buildfailure
     image: joomlaprojects/docker-images:packager
     environment:
-      RINGCENTRAL_WEBHOOK:
-        from_secret: notification_url
+      MATTERMOST_NIGHTLY_HOOK:
+        from_secret: mattermost_nightly_hook
     commands:
-      - /bin/notify
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 4.4](https://developer.joomla.org/nightly-builds.html) FAILED to built."}' $MATTERMOST_NIGHTLY_HOOK
     when:
       status:
         - failure
-
 
 trigger:
   event:
@@ -462,6 +492,6 @@ trigger:
 
 ---
 kind: signature
-hmac: c80f54f77ce8c648018d3946dc20d86bf3491484662a0e5defd8d9453f33cd92
+hmac: 2b23d4286790b54215c985c85304ddd24818802bab49b3afec2144d28dce1f5f
 
 ...
