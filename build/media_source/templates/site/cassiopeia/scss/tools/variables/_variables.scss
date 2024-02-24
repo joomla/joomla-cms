@@ -1,3 +1,9 @@
+// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
+$prefix: "";
+
+// Disable dark mode in J4.4 - it's going to cause major b/c breaks to introduce. We will enable it in 5.0
+$enable-dark-mode: false;
+
 // Global
 $cassiopeia-container-main-bg:        hsl(0, 0%, 95%) !default;
 $cassiopeia-border-color:             hsl(210, 14%, 89%) !default;
@@ -56,6 +62,7 @@ $cyan:                                hsl(207, 49%, 37%) !default;
 
 $colors: (
   "blue":                             $blue,
+  "black":                            $black,
   "indigo":                           $indigo,
   "purple":                           $purple,
   "pink":                             $pink,
@@ -135,8 +142,8 @@ $cassiopeia-colors: (
 ) !default;
 
 // Links
-$link-color:                          var(--cassiopeia-color-link) !default;
-$link-hover-color:                    var(--cassiopeia-color-hover) !default;
+$link-color:                          $standard-color-link !default;
+$link-hover-color:                    $standard-color-hover !default;
 
 // Breadcrumbs
 $breadcrumb-active-color:             $gray-700 !default;
@@ -182,14 +189,12 @@ $table-variants: (
 ) !default;
 
 // Forms
+$input-border-color:                  $gray-400 !default;
 $input-padding:                       .6rem 1rem !default;
-$input-border:                        solid 1px $gray-400 !default;
 $input-btn-padding-y:                 .6rem !default;
 $input-btn-padding-x:                 1rem !default;
 $input-max-width:                     100% !default;
 $input-focus-border-color:            tint-color($standard-color-primary, 50%) !default;
-
-$cassiopeia-input-focus-shadow:       0 0 0 .2rem hsla(0, 0%, 0%, .1) !default;
 
 $form-select-indicator-padding:     3rem !default;
 $form-select-bg:                    $gray-200 !default;
@@ -205,7 +210,7 @@ $form-select-multiple-padding-y:    .3rem !default;
 
 $form-range-thumb-active-bg:        tint-color($standard-color-primary, 70%) !default;
 
-// Z-index master list
+// Z-index source list
 $zindex-negative:                     -1 !default;
 $zindex-actions:                      auto !default;
 $zindex-toolbar:                      1000 !default;
@@ -267,6 +272,7 @@ $state-danger-bg:                     $danger !default;
 $state-danger-border:                 scale-color($danger, $lightness: -5%) !default;
 
 // Mark element
+$mark-padding: .1875em 0;
 $mark-bg: #fbeea8 !default;
 
 // scss-docs-start border-radius-variables

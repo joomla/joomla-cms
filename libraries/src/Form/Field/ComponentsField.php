@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -35,7 +35,7 @@ class ComponentsField extends ListField
     /**
      * Method to get a list of options for a list input.
      *
-     * @return  array  An array of JHtml options.
+     * @return  object[]  An array of JHtml options.
      *
      * @since   2.5.0
      */

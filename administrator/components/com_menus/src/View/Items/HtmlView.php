@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Menus\Administrator\View\Items;
 
+use Joomla\CMS\Event\Menu\BeforeRenderMenuItemsViewEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -56,7 +57,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -96,7 +97,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $lang = Factory::getLanguage();
+        $lang                = $this->getLanguage();
         $this->items         = $this->get('Items');
         $this->pagination    = $this->get('Pagination');
         $this->total         = $this->get('Total');
@@ -105,11 +106,11 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters = $this->get('ActiveFilters');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        $this->ordering = array();
+        $this->ordering = [];
 
         // Preprocess the list of items to find ordering divisions.
         foreach ($this->items as $item) {
@@ -140,11 +141,11 @@ class HtmlView extends BaseHtmlView
                 case 'component':
                 default:
                     // Load language
-                        $lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR)
+                    $lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR)
                     || $lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->componentname);
 
                     if (!empty($item->componentname)) {
-                        $titleParts   = array();
+                        $titleParts   = [];
                         $titleParts[] = Text::_($item->componentname);
                         $vars         = null;
 
@@ -184,7 +185,7 @@ class HtmlView extends BaseHtmlView
 
                                 // Load template language file
                                 $lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE)
-                                ||  $lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0]);
+                                || $lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0]);
                             } else {
                                 $base = $this->state->get('filter.client_id') == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
 
@@ -219,7 +220,7 @@ class HtmlView extends BaseHtmlView
                             unset($xml);
 
                             // Special case if neither a view nor layout title is found
-                            if (count($titleParts) == 1) {
+                            if (\count($titleParts) == 1) {
                                 $titleParts[] = $vars['view'];
                             }
                         }
@@ -240,7 +241,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Levels filter.
-        $options   = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '1', Text::_('J1'));
         $options[] = HTMLHelper::_('select.option', '2', Text::_('J2'));
         $options[] = HTMLHelper::_('select.option', '3', Text::_('J3'));
@@ -276,7 +277,9 @@ class HtmlView extends BaseHtmlView
         }
 
         // Allow a system plugin to insert dynamic menu types to the list shown in menus:
-        Factory::getApplication()->triggerEvent('onBeforeRenderMenuItems', array($this));
+        $this->getDispatcher()->dispatch('onBeforeRenderMenuItems', new BeforeRenderMenuItemsViewEvent('onBeforeRenderMenuItems', [
+            'subject' => $this,
+        ]));
 
         parent::display($tpl);
     }
@@ -352,9 +355,12 @@ class HtmlView extends BaseHtmlView
                 && $user->authorise('core.edit', 'com_menus')
                 && $user->authorise('core.edit.state', 'com_menus')
             ) {
-                $childBar->popupButton('batch')
-                    ->text('JTOOLBAR_BATCH')
-                    ->selector('collapseModal')
+                $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
+                    ->popupType('inline')
+                    ->textHeader(Text::_('COM_MENUS_BATCH_OPTIONS'))
+                    ->url('#joomla-dialog-batch')
+                    ->modalWidth('800px')
+                    ->modalHeight('fit-content')
                     ->listCheck(true);
             }
         }

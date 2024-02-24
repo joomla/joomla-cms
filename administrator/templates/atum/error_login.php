@@ -48,9 +48,18 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
     ? ''
     : htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8');
 
+$loginLogo = $this->params->get('loginLogo')
+    ? Uri::root(false) . $this->params->get('loginLogo')
+    : Uri::root(false) . 'media/templates/administrator/atum/images/logos/login.svg';
+$loginLogoAlt = empty($this->params->get('loginLogoAlt')) && empty($this->params->get('emptyLoginLogoAlt'))
+    ? ''
+    : htmlspecialchars($this->params->get('loginLogoAlt', ''), ENT_COMPAT, 'UTF-8');
 
     // Get the hue value
 preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
+
+$linkColor = $this->params->get('link-color', '#2a69b8');
+list($r, $g, $b) = sscanf($linkColor, "#%02x%02x%02x");
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
@@ -61,7 +70,8 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 		--template-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
 		--template-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
 		--template-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
-		--template-link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
+		--link-color: ' . $linkColor . ';
+        --link-color-rgb: ' . $r . ',' . $g . ',' . $b . ';
 		--template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
 	}');
 
@@ -112,9 +122,9 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
                     <div id="element-box" class="card">
                         <div class="card-body">
                             <div class="main-brand d-flex align-items-center justify-content-center">
-                                <img src="<?php echo $loginLogo; ?>" <?php echo $loginLogoAlt; ?>>
+                                <?php echo HTMLHelper::_('image', $loginLogo, $loginLogoAlt, ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                             </div>
-                            <h1><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
+                            <h1 class="text-dark"><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
                             <jdoc:include type="message" />
                             <blockquote class="blockquote">
                                 <span class="badge bg-secondary"><?php echo $this->error->getCode(); ?></span>

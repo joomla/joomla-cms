@@ -7,7 +7,7 @@
  * @license GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -78,11 +78,11 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
                             <?php if ($this->debug) : ?>
                                 <div>
                                     <?php echo $this->renderBacktrace(); ?>
-                                    <?php // Check if there are more Exceptions and render their data as well ?>
+                                    <?php // Check if there are more Exceptions and render their data as well?>
                                     <?php if ($this->error->getPrevious()) : ?>
                                         <?php $loop = true; ?>
-                                        <?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly ?>
-                                        <?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
+                                        <?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly?>
+                                        <?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions?>
                                         <?php $this->setError($this->_error->getPrevious()); ?>
                                         <?php while ($loop === true) : ?>
                                             <p><strong><?php echo Text::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
@@ -90,7 +90,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
                                             <?php echo $this->renderBacktrace(); ?>
                                             <?php $loop = $this->setError($this->_error->getPrevious()); ?>
                                         <?php endwhile; ?>
-                                        <?php // Reset the main error object to the base error ?>
+                                        <?php // Reset the main error object to the base error?>
                                         <?php $this->setError($this->error); ?>
                                     <?php endif; ?>
                                 </div>

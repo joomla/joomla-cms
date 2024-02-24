@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -34,10 +34,10 @@ class RegistrationdaterangeField extends PredefinedlistField
     /**
      * Available options
      *
-     * @var  array
+     * @var  string[]
      * @since  3.2
      */
-    protected $predefinedOptions = array(
+    protected $predefinedOptions = [
         'today'       => 'COM_USERS_OPTION_RANGE_TODAY',
         'past_week'   => 'COM_USERS_OPTION_RANGE_PAST_WEEK',
         'past_1month' => 'COM_USERS_OPTION_RANGE_PAST_1MONTH',
@@ -45,7 +45,7 @@ class RegistrationdaterangeField extends PredefinedlistField
         'past_6month' => 'COM_USERS_OPTION_RANGE_PAST_6MONTH',
         'past_year'   => 'COM_USERS_OPTION_RANGE_PAST_YEAR',
         'post_year'   => 'COM_USERS_OPTION_RANGE_POST_YEAR',
-    );
+    ];
 
     /**
      * Method to instantiate the form field object.

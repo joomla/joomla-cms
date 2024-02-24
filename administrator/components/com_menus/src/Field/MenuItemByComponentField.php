@@ -18,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * MenuItem by Component field.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
 class MenuItemByComponentField extends ListField
 {
@@ -26,7 +26,7 @@ class MenuItemByComponentField extends ListField
      * The form field type.
      *
      * @var     string
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected $type = 'MenuItemByComponent';
 
@@ -35,7 +35,7 @@ class MenuItemByComponentField extends ListField
      *
      * @return    array  An array of JHtml options.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected function getOptions()
     {

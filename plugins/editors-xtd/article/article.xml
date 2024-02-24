@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="editors-xtd" method="upgrade">
 	<name>plg_editors-xtd_article</name>
 	<author>Joomla! Project</author>
@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_ARTICLE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\EditorsXtd\Article</namespace>
 	<files>
-		<filename plugin="article">article.php</filename>
+		<folder plugin="article">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_editors-xtd_article.ini</language>

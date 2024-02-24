@@ -89,10 +89,10 @@ class ClientModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_banners.client', 'client', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_banners.client', 'client', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -111,7 +111,7 @@ class ClientModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_banners.edit.client.data', array());
+        $data = Factory::getApplication()->getUserState('com_banners.edit.client.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();

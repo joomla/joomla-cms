@@ -5,7 +5,7 @@
  * @subpackage  com_finder
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Finder\Administrator\Helper;
@@ -56,10 +56,11 @@ class LanguageHelper
      */
     public static function branchSingular($branchName)
     {
-        $return = preg_replace('/[^a-zA-Z0-9]+/', '_', strtoupper($branchName));
+        $return   = preg_replace('/[^a-zA-Z0-9]+/', '_', strtoupper($branchName));
         $language = Factory::getApplication()->getLanguage();
+        $debug    = Factory::getApplication()->get('debug_lang');
 
-        if ($language->hasKey('PLG_FINDER_QUERY_FILTER_BRANCH_S_' . $return) || JDEBUG) {
+        if ($language->hasKey('PLG_FINDER_QUERY_FILTER_BRANCH_S_' . $return) || $debug) {
             return 'PLG_FINDER_QUERY_FILTER_BRANCH_S_' . $return;
         }
 
@@ -123,9 +124,9 @@ class LanguageHelper
         $loaded = true;
 
         // Get array of all the enabled Smart Search plugin names.
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
-            ->select(array($db->quoteName('name'), $db->quoteName('element')))
+            ->select([$db->quoteName('name'), $db->quoteName('element')])
             ->from($db->quoteName('#__extensions'))
             ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
             ->where($db->quoteName('folder') . ' = ' . $db->quote('finder'))

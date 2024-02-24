@@ -189,6 +189,10 @@ class JsonapiView extends BaseApiView
      */
     protected function prepareItem($item)
     {
+        if (!$item) {
+            return $item;
+        }
+
         $item->text = $item->introtext . ' ' . $item->fulltext;
 
         // Process the content plugins.
@@ -215,24 +219,21 @@ class JsonapiView extends BaseApiView
         }
 
         if (!empty($item->tags->tags)) {
-            $tagsIds   = explode(',', $item->tags->tags);
-            $tagsNames = $item->tagsHelper->getTagNames($tagsIds);
-
-            $item->tags = array_combine($tagsIds, $tagsNames);
+            $tagsIds    = explode(',', $item->tags->tags);
+            $item->tags = $item->tagsHelper->getTags($tagsIds);
         } else {
             $item->tags = [];
-            $tags = new TagsHelper();
-            $tagsIds = $tags->getTagIds($item->id, 'com_content.article');
+            $tags       = new TagsHelper();
+            $tagsIds    = $tags->getTagIds($item->id, 'com_content.article');
 
             if (!empty($tagsIds)) {
                 $tagsIds    = explode(',', $tagsIds);
-                $tagsNames  = $tags->getTagNames($tagsIds);
-                $item->tags = array_combine($tagsIds, $tagsNames);
+                $item->tags = $tags->getTags($tagsIds);
             }
         }
 
         if (isset($item->images)) {
-            $registry = new Registry($item->images);
+            $registry     = new Registry($item->images);
             $item->images = $registry->toArray();
 
             if (!empty($item->images['image_intro'])) {

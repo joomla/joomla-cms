@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\Service\Provider\HelperFactory;
 use Joomla\CMS\Extension\Service\Provider\Module;
@@ -19,10 +19,9 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * The popular articles module service provider.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.3.0
  */
-return new class implements ServiceProviderInterface
-{
+return new class () implements ServiceProviderInterface {
     /**
      * Registers the service provider with a DI container.
      *
@@ -30,7 +29,7 @@ return new class implements ServiceProviderInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function register(Container $container)
     {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,9 +9,11 @@
 
 namespace Joomla\CMS\Cache\Storage;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Cache\CacheStorage;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * APCu cache storage handler
@@ -64,38 +67,28 @@ class ApcuStorage extends CacheStorage
         $keys    = $allinfo['cache_list'];
         $secret  = $this->_hash;
 
-        $data = array();
+        $data = [];
 
-        foreach ($keys as $key)
-        {
-            if (isset($key['info']))
-            {
+        foreach ($keys as $key) {
+            if (isset($key['info'])) {
                 // The internal key name changed with APCu 4.0.7 from key to info
                 $name = $key['info'];
-            }
-            elseif (isset($key['entry_name']))
-            {
+            } elseif (isset($key['entry_name'])) {
                 // Some APCu modules changed the internal key name from key to entry_name
                 $name = $key['entry_name'];
-            }
-            else
-            {
+            } else {
                 // A fall back for the old internal key name
                 $name = $key['key'];
             }
 
             $namearr = explode('-', $name);
 
-            if ($namearr !== false && $namearr[0] == $secret && $namearr[1] === 'cache')
-            {
+            if ($namearr !== false && $namearr[0] == $secret && $namearr[1] === 'cache') {
                 $group = $namearr[2];
 
-                if (!isset($data[$group]))
-                {
+                if (!isset($data[$group])) {
                     $item = new CacheStorageHelper($group);
-                }
-                else
-                {
+                } else {
                     $item = $data[$group];
                 }
 
@@ -139,8 +132,7 @@ class ApcuStorage extends CacheStorage
         $cache_id = $this->_getCacheId($id, $group);
 
         // The apcu_delete function returns false if the ID does not exist
-        if (apcu_exists($cache_id))
-        {
+        if (apcu_exists($cache_id)) {
             return apcu_delete($cache_id);
         }
 
@@ -166,26 +158,19 @@ class ApcuStorage extends CacheStorage
         $keys    = $allinfo['cache_list'];
         $secret  = $this->_hash;
 
-        foreach ($keys as $key)
-        {
-            if (isset($key['info']))
-            {
+        foreach ($keys as $key) {
+            if (isset($key['info'])) {
                 // The internal key name changed with APCu 4.0.7 from key to info
                 $internalKey = $key['info'];
-            }
-            elseif (isset($key['entry_name']))
-            {
+            } elseif (isset($key['entry_name'])) {
                 // Some APCu modules changed the internal key name from key to entry_name
                 $internalKey = $key['entry_name'];
-            }
-            else
-            {
+            } else {
                 // A fall back for the old internal key name
                 $internalKey = $key['key'];
             }
 
-            if (strpos($internalKey, $secret . '-cache-' . $group . '-') === 0 xor $mode !== 'group')
-            {
+            if (strpos($internalKey, $secret . '-cache-' . $group . '-') === 0 xor $mode !== 'group') {
                 apcu_delete($internalKey);
             }
         }
@@ -206,26 +191,19 @@ class ApcuStorage extends CacheStorage
         $keys    = $allinfo['cache_list'];
         $secret  = $this->_hash;
 
-        foreach ($keys as $key)
-        {
-            if (isset($key['info']))
-            {
+        foreach ($keys as $key) {
+            if (isset($key['info'])) {
                 // The internal key name changed with APCu 4.0.7 from key to info
                 $internalKey = $key['info'];
-            }
-            elseif (isset($key['entry_name']))
-            {
+            } elseif (isset($key['entry_name'])) {
                 // Some APCu modules changed the internal key name from key to entry_name
                 $internalKey = $key['entry_name'];
-            }
-            else
-            {
+            } else {
                 // A fall back for the old internal key name
                 $internalKey = $key['key'];
             }
 
-            if (strpos($internalKey, $secret . '-cache-'))
-            {
+            if (strpos($internalKey, $secret . '-cache-')) {
                 apcu_fetch($internalKey);
             }
         }
@@ -242,12 +220,11 @@ class ApcuStorage extends CacheStorage
      */
     public static function isSupported()
     {
-        $supported = \extension_loaded('apcu') && ini_get('apc.enabled');
+        $supported = \extension_loaded('apcu') && \ini_get('apc.enabled');
 
         // If on the CLI interface, the `apc.enable_cli` option must also be enabled
-        if ($supported && PHP_SAPI === 'cli')
-        {
-            $supported = ini_get('apc.enable_cli');
+        if ($supported && PHP_SAPI === 'cli') {
+            $supported = \ini_get('apc.enable_cli');
         }
 
         return (bool) $supported;
@@ -266,7 +243,7 @@ class ApcuStorage extends CacheStorage
      */
     public function lock($id, $group, $locktime)
     {
-        $returning = new \stdClass;
+        $returning             = new \stdClass();
         $returning->locklooped = false;
 
         $looptime = $locktime * 10;
@@ -275,17 +252,14 @@ class ApcuStorage extends CacheStorage
 
         $data_lock = apcu_add($cache_id, 1, $locktime);
 
-        if ($data_lock === false)
-        {
+        if ($data_lock === false) {
             $lock_counter = 0;
 
             // Loop until you find that the lock has been released.
             // That implies that data get from other thread has finished
-            while ($data_lock === false)
-            {
-                if ($lock_counter > $looptime)
-                {
-                    $returning->locked = false;
+            while ($data_lock === false) {
+                if ($lock_counter > $looptime) {
+                    $returning->locked     = false;
                     $returning->locklooped = true;
                     break;
                 }
@@ -316,8 +290,7 @@ class ApcuStorage extends CacheStorage
         $cache_id = $this->_getCacheId($id, $group) . '_lock';
 
         // The apcu_delete function returns false if the ID does not exist
-        if (apcu_exists($cache_id))
-        {
+        if (apcu_exists($cache_id)) {
             return apcu_delete($cache_id);
         }
 

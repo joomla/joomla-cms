@@ -16,7 +16,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -59,7 +58,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  3.7.0
      */
@@ -318,7 +317,7 @@ class HtmlView extends BaseHtmlView
              * Let's put the target src into a variable to use in the javascript code
              * to avoid race conditions when the reference iframe loads.
              */
-            $this->document->addScriptOptions('targetSrc', Route::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId));
+            $this->getDocument()->addScriptOptions('targetSrc', Route::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId));
             $this->form->setValue('itemlanguage', '', $this->targetLanguage . ':' . $this->targetId . ':' . $this->targetAction);
         }
 
@@ -359,29 +358,24 @@ class HtmlView extends BaseHtmlView
             'language assoc'
         );
 
-        $bar = Toolbar::getInstance();
-
-        $bar->appendButton(
-            'Custom',
-            '<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'reference\')" '
+        $toolbar = Toolbar::getInstance();
+        $toolbar->customButton('reference')
+            ->html('<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'reference\')" '
             . 'class="btn btn-success"><span class="icon-save" aria-hidden="true"></span>'
-            . Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button></joomla-toolbar-button>',
-            'reference'
-        );
+            . Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button></joomla-toolbar-button>');
 
-        $bar->appendButton(
-            'Custom',
-            '<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'target\')" '
+        $toolbar->customButton('target')
+            ->html('<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'target\')" '
             . 'class="btn btn-success"><span class="icon-save" aria-hidden="true"></span>'
-            . Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button></joomla-toolbar-button>',
-            'target'
-        );
+            . Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button></joomla-toolbar-button>');
 
         if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->save2copy === true) {
-            ToolbarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
+            $toolbar->standardButton('', 'COM_ASSOCIATIONS_COPY_REFERENCE', 'copy')
+                ->icon('icon-copy')
+                ->listCheck(false);
         }
 
-        ToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
-        ToolbarHelper::help('Multilingual_Associations:_Edit');
+        $toolbar->cancel('association.cancel');
+        $toolbar->help('Multilingual_Associations:_Edit');
     }
 }

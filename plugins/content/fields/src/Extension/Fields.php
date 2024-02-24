@@ -48,7 +48,7 @@ final class Fields extends CMSPlugin
         }
 
         // This plugin only works if $item is an object
-        if (!is_object($item)) {
+        if (!\is_object($item)) {
             return;
         }
 
@@ -63,8 +63,13 @@ final class Fields extends CMSPlugin
         }
 
         // Prepare the intro text
-        if (property_exists($item, 'introtext') && is_string($item->introtext) && strpos($item->introtext, 'field') !== false) {
+        if (property_exists($item, 'introtext') && \is_string($item->introtext) && strpos($item->introtext, 'field') !== false) {
             $item->introtext = $this->prepare($item->introtext, $context, $item);
+        }
+
+        // Prepare the full text
+        if (!empty($item->fulltext) && strpos($item->fulltext, 'field') !== false) {
+            $item->fulltext = $this->prepare($item->fulltext, $context, $item);
         }
     }
 
@@ -91,14 +96,14 @@ final class Fields extends CMSPlugin
 
         $parts = FieldsHelper::extract($context);
 
-        if (count($parts) < 2) {
+        if (!$parts || \count($parts) < 2) {
             return $string;
         }
 
         $context    = $parts[0] . '.' . $parts[1];
         $fields     = FieldsHelper::getFields($context, $item, true);
-        $fieldsById = array();
-        $groups     = array();
+        $fieldsById = [];
+        $groups     = [];
 
         // Rearranging fields in arrays for easier lookup later.
         foreach ($fields as $field) {
@@ -118,11 +123,11 @@ final class Fields extends CMSPlugin
                     $output = FieldsHelper::render(
                         $context,
                         'field.' . $layout,
-                        array(
+                        [
                             'item'    => $item,
                             'context' => $context,
                             'field'   => $fieldsById[$id],
-                        )
+                        ]
                     );
                 }
             } else {
@@ -138,11 +143,11 @@ final class Fields extends CMSPlugin
                     $output = FieldsHelper::render(
                         $context,
                         'fields.' . $layout,
-                        array(
+                        [
                             'item'    => $item,
                             'context' => $context,
                             'fields'  => $renderFields,
-                        )
+                        ]
                     );
                 }
             }

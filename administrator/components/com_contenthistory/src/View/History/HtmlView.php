@@ -48,9 +48,16 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
+
+    /**
+     * The toolbar for the history modal. Note this is rendered inside the modal rather than using the regular module
+     *
+     * @var  Toolbar
+     */
+    protected $toolbar;
 
     /**
      * Method to display the view.
@@ -63,12 +70,12 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state = $this->get('State');
-        $this->items = $this->get('Items');
+        $this->state      = $this->get('State');
+        $this->items      = $this->get('Items');
         $this->pagination = $this->get('Pagination');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -111,37 +118,29 @@ class HtmlView extends BaseHtmlView
         $previewUrl = Route::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . $token . '=1');
         $compareUrl = Route::_('index.php?option=com_contenthistory&view=compare&layout=compare&tmpl=component&' . $token . '=1');
 
-        $toolbar->basicButton('load')
+        $toolbar->basicButton('load', 'COM_CONTENTHISTORY_BUTTON_LOAD')
             ->attributes(['data-url' => $loadUrl])
             ->icon('icon-upload')
             ->buttonClass('btn btn-success')
-            ->text('COM_CONTENTHISTORY_BUTTON_LOAD')
             ->listCheck(true);
 
-        $toolbar->basicButton('preview')
+        $toolbar->basicButton('preview', 'COM_CONTENTHISTORY_BUTTON_PREVIEW')
             ->attributes(['data-url' => $previewUrl])
             ->icon('icon-search')
-            ->text('COM_CONTENTHISTORY_BUTTON_PREVIEW')
             ->listCheck(true);
 
-        $toolbar->basicButton('compare')
+        $toolbar->basicButton('compare', 'COM_CONTENTHISTORY_BUTTON_COMPARE')
             ->attributes(['data-url' => $compareUrl])
             ->icon('icon-search-plus')
-            ->text('COM_CONTENTHISTORY_BUTTON_COMPARE')
             ->listCheck(true);
 
-        $toolbar->basicButton('keep')
-            ->task('history.keep')
-            ->buttonClass('btn btn-inverse')
+        $toolbar->basicButton('keep', 'COM_CONTENTHISTORY_BUTTON_KEEP', 'history.keep')
             ->icon('icon-lock')
-            ->text('COM_CONTENTHISTORY_BUTTON_KEEP')
             ->listCheck(true);
 
-        $toolbar->basicButton('delete')
-            ->task('history.delete')
+        $toolbar->basicButton('delete', 'COM_CONTENTHISTORY_BUTTON_DELETE', 'history.delete')
             ->buttonClass('btn btn-danger')
             ->icon('icon-times')
-            ->text('COM_CONTENTHISTORY_BUTTON_DELETE')
             ->listCheck(true);
 
         return $toolbar;

@@ -21,7 +21,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -68,42 +68,42 @@ class ListField extends FormField
     /**
      * Method to get the field options.
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.7.0
      */
     protected function getOptions()
     {
         $fieldname = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
-        $options   = array();
+        $options   = [];
 
         foreach ($this->element->xpath('option') as $option) {
             // Filter requirements
-            if ($requires = explode(',', (string) $option['requires'])) {
-                // Requires multilanguage
-                if (\in_array('multilanguage', $requires) && !Multilanguage::isEnabled()) {
-                    continue;
-                }
+            $requires = explode(',', (string) $option['requires']);
 
-                // Requires associations
-                if (\in_array('associations', $requires) && !Associations::isEnabled()) {
-                    continue;
-                }
+            // Requires multilanguage
+            if (\in_array('multilanguage', $requires) && !Multilanguage::isEnabled()) {
+                continue;
+            }
 
-                // Requires adminlanguage
-                if (\in_array('adminlanguage', $requires) && !ModuleHelper::isAdminMultilang()) {
-                    continue;
-                }
+            // Requires associations
+            if (\in_array('associations', $requires) && !Associations::isEnabled()) {
+                continue;
+            }
 
-                // Requires vote plugin
-                if (\in_array('vote', $requires) && !PluginHelper::isEnabled('content', 'vote')) {
-                    continue;
-                }
+            // Requires adminlanguage
+            if (\in_array('adminlanguage', $requires) && !ModuleHelper::isAdminMultilang()) {
+                continue;
+            }
 
-                // Requires record hits
-                if (\in_array('hits', $requires) && !ComponentHelper::getParams('com_content')->get('record_hits', 1)) {
-                    continue;
-                }
+            // Requires vote plugin
+            if (\in_array('vote', $requires) && !PluginHelper::isEnabled('content', 'vote')) {
+                continue;
+            }
+
+            // Requires record hits
+            if (\in_array('hits', $requires) && !ComponentHelper::getParams('com_content')->get('record_hits', 1)) {
+                continue;
             }
 
             $value = (string) $option['value'];
@@ -119,14 +119,14 @@ class ListField extends FormField
             $selected = (string) $option['selected'];
             $selected = ($selected === 'true' || $selected === 'selected' || $selected === '1');
 
-            $tmp = array(
+            $tmp = [
                     'value'    => $value,
                     'text'     => Text::alt($text, $fieldname),
                     'disable'  => $disabled,
                     'class'    => (string) $option['class'],
                     'selected' => ($checked || $selected),
                     'checked'  => ($checked || $selected),
-            );
+            ];
 
             // Set some event handler attributes. But really, should be using unobtrusive js.
             $tmp['onclick']  = (string) $option['onclick'];
@@ -195,14 +195,14 @@ class ListField extends FormField
     /**
      * Method to add an option to the list field.
      *
-     * @param   string  $text        Text/Language variable of the option.
-     * @param   array   $attributes  Array of attributes ('name' => 'value' format)
+     * @param   string    $text        Text/Language variable of the option.
+     * @param   string[]  $attributes  Array of attributes ('name' => 'value') format
      *
      * @return  ListField  For chaining.
      *
      * @since   3.7.0
      */
-    public function addOption($text, $attributes = array())
+    public function addOption($text, $attributes = [])
     {
         if ($text && $this->element instanceof \SimpleXMLElement) {
             $child = $this->element->addChild('option', $text);

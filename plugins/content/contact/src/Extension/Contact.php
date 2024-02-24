@@ -43,9 +43,9 @@ final class Contact extends CMSPlugin
      */
     public function onContentPrepare($context, &$row, $params, $page = 0)
     {
-        $allowed_contexts = array('com_content.category', 'com_content.article', 'com_content.featured');
+        $allowed_contexts = ['com_content.category', 'com_content.article', 'com_content.featured'];
 
-        if (!in_array($context, $allowed_contexts)) {
+        if (!\in_array($context, $allowed_contexts)) {
             return;
         }
 
@@ -91,14 +91,14 @@ final class Contact extends CMSPlugin
      *
      * @param   int  $userId  Id of the user who created the article
      *
-     * @return  stdClass|null  Object containing contact details or null if not found
+     * @return  \stdClass|null  Object containing contact details or null if not found
      */
     private function getContactData($userId)
     {
-        static $contacts = array();
+        static $contacts = [];
 
         // Note: don't use isset() because value could be null.
-        if (array_key_exists($userId, $contacts)) {
+        if (\array_key_exists($userId, $contacts)) {
             return $contacts[$userId];
         }
 

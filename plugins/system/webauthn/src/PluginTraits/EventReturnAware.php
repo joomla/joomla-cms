@@ -1,15 +1,16 @@
 <?php
 
 /**
- * @package         Joomla.Plugin
- * @subpackage      System.Webauthn
+ * @package     Joomla.Plugin
+ * @subpackage  System.Webauthn
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
+use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -34,9 +35,14 @@ trait EventReturnAware
      */
     private function returnFromEvent(Event $event, $value = null): void
     {
+        if ($event instanceof ResultAwareInterface) {
+            $event->addResult($value);
+            return;
+        }
+
         $result = $event->getArgument('result') ?: [];
 
-        if (!is_array($result)) {
+        if (!\is_array($result)) {
             $result = [$result];
         }
 

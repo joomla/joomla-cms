@@ -55,7 +55,7 @@ class SubfieldsField extends ListField
      *
      * @since 4.0.0
      */
-    protected static $customFieldsCache = array();
+    protected static $customFieldsCache = [];
 
     /**
      * Method to get the field options.
@@ -95,7 +95,7 @@ class SubfieldsField extends ListField
             }
         );
 
-        if (count($options) == 0) {
+        if (\count($options) == 0) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_NO_FIELDS_TO_CREATE_SUBFORM_FIELD_WARNING'), 'warning');
         }
 

@@ -17,12 +17,12 @@ use Joomla\CMS\Application\CliApplication;
 use Joomla\CMS\Factory;
 
 // Load system defines
-if (file_exists(dirname(__DIR__) . '/defines.php')) {
-    require_once dirname(__DIR__) . '/defines.php';
+if (file_exists(\dirname(__DIR__) . '/defines.php')) {
+    require_once \dirname(__DIR__) . '/defines.php';
 }
 
-if (!defined('_JDEFINES')) {
-    define('JPATH_BASE', dirname(__DIR__));
+if (!\defined('_JDEFINES')) {
+    \define('JPATH_BASE', \dirname(__DIR__));
     require_once JPATH_BASE . '/includes/defines.php';
 }
 
@@ -94,7 +94,7 @@ PHP;
 
             $fileContents .= "\t$modifier$type $className extends \\$newName {}\n\n";
 
-            if (!array_key_exists($targetNamespace, $contentsByNamespace)) {
+            if (!\array_key_exists($targetNamespace, $contentsByNamespace)) {
                 $contentsByNamespace[$targetNamespace] = '';
             }
 
@@ -135,7 +135,7 @@ PHP;
      *
      * @since   4.0.0
      */
-    public function getMenu($name = null, $options = array())
+    public function getMenu($name = null, $options = [])
     {
         throw new \BadMethodCallException('CLI Application has no menu');
     }
@@ -156,6 +156,6 @@ Factory::getContainer()->share(
     true
 );
 
-$app = Factory::getContainer()->get('StubGenerator');
+$app                  = Factory::getContainer()->get('StubGenerator');
 Factory::$application = $app;
 $app->execute();

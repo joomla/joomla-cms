@@ -34,7 +34,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  3.1
      */
@@ -146,7 +146,7 @@ class HtmlView extends BaseHtmlView
         // Flag indicates to not add limitstart=0 to URL
         $this->pagination->hideEmptyLimitstart = true;
 
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -162,7 +162,7 @@ class HtmlView extends BaseHtmlView
             $temp = new Registry($itemElement->params);
 
             // If the current view is the active item and a tag view for at least this tag, then the menu item params take priority
-            if ($query['option'] == 'com_tags' && $query['view'] == 'tag' && in_array($itemElement->id, $query['id'])) {
+            if ($query['option'] == 'com_tags' && $query['view'] == 'tag' && \in_array($itemElement->id, $query['id'])) {
                 // Merge so that the menu item params take priority
                 $itemElement->params = $temp;
                 $itemElement->params->merge($this->params);
@@ -190,7 +190,7 @@ class HtmlView extends BaseHtmlView
             $itemElement->event = new \stdClass();
 
             // For some plugins.
-            $itemElement->text = !empty($itemElement->core_body) ? $itemElement->core_body : null;
+            $itemElement->text = !empty($itemElement->core_body) ? $itemElement->core_body : '';
 
             $itemElement->core_params = new Registry($itemElement->core_params);
 
@@ -222,10 +222,10 @@ class HtmlView extends BaseHtmlView
             // Categories store the images differently so lets re-map it so the display is correct
             if ($itemElement->type_alias === 'com_content.category') {
                 $itemElement->core_images = json_encode(
-                    array(
-                        'image_intro' => $itemElement->core_params->get('image', ''),
-                        'image_intro_alt' => $itemElement->core_params->get('image_alt', '')
-                    )
+                    [
+                        'image_intro'     => $itemElement->core_params->get('image', ''),
+                        'image_intro_alt' => $itemElement->core_params->get('image_alt', ''),
+                    ]
                 );
             }
         }
@@ -265,34 +265,44 @@ class HtmlView extends BaseHtmlView
         }
 
         $this->setDocumentTitle($title);
-        $pathway->addItem($title);
+
+        if (
+            $menu
+            && isset($menu->query['option'], $menu->query['view'])
+            && $menu->query['option'] === 'com_tags'
+            && $menu->query['view'] === 'tag'
+        ) {
+            // No need to alter pathway if the active menu item links directly to tag view
+        } else {
+            $pathway->addItem($title);
+        }
 
         foreach ($this->item as $itemElement) {
             if ($itemElement->metadesc) {
-                $this->document->setDescription($itemElement->metadesc);
+                $this->getDocument()->setDescription($itemElement->metadesc);
             } elseif ($this->params->get('menu-meta_description')) {
-                $this->document->setDescription($this->params->get('menu-meta_description'));
+                $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
             }
 
             if ($this->params->get('robots')) {
-                $this->document->setMetaData('robots', $this->params->get('robots'));
+                $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
             }
         }
 
-        if (count($this->item) === 1) {
+        if (\count($this->item) === 1) {
             foreach ($this->item[0]->metadata->toArray() as $k => $v) {
                 if ($v) {
-                    $this->document->setMetaData($k, $v);
+                    $this->getDocument()->setMetaData($k, $v);
                 }
             }
         }
 
         if ($this->params->get('show_feed_link', 1) == 1) {
             $link    = '&format=feed&limitstart=';
-            $attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-            $this->document->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
-            $attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-            $this->document->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
+            $attribs = ['type' => 'application/rss+xml', 'title' => htmlspecialchars($this->getDocument()->getTitle())];
+            $this->getDocument()->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
+            $attribs = ['type' => 'application/atom+xml', 'title' => htmlspecialchars($this->getDocument()->getTitle())];
+            $this->getDocument()->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
         }
     }
 
@@ -305,7 +315,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function getTagsTitle()
     {
-        $tags_title = array();
+        $tags_title = [];
 
         foreach ($this->item as $item) {
             $tags_title[] = $item->title;

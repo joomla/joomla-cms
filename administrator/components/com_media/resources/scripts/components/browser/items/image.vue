@@ -39,7 +39,7 @@
       :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
       :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
     />
-    <media-browser-action-items-container
+    <MediaBrowserActionItemsContainer
       ref="container"
       :item="item"
       :edit="editItem"
@@ -52,10 +52,14 @@
 </template>
 
 <script>
-import { api } from '../../../app/Api.es6';
+import api from '../../../app/Api.es6';
+import MediaBrowserActionItemsContainer from '../actionItems/actionItemsContainer.vue';
 
 export default {
   name: 'MediaBrowserItemImage',
+  components: {
+    MediaBrowserActionItemsContainer,
+  },
   props: {
     item: { type: Object, required: true },
     focused: { type: Boolean, required: true, default: false },
@@ -73,7 +77,7 @@ export default {
       }
 
       return this.item.thumb_path.split(Joomla.getOptions('system.paths').rootFull).length > 1
-        ? `${this.item.thumb_path}?${api.mediaVersion}`
+        ? `${this.item.thumb_path}?${this.item.modified_date ? new Date(this.item.modified_date).valueOf() : api.mediaVersion}`
         : `${this.item.thumb_path}`;
     },
     width() {
@@ -96,7 +100,9 @@ export default {
     },
     /* Hide actions dropdown */
     hideActions() {
-      this.$refs.container.hideActions();
+      if (this.$refs.container) {
+        this.$refs.container.hideActions();
+      }
     },
     /* Preview an item */
     openPreview() {

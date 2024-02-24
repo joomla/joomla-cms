@@ -10,21 +10,26 @@
 namespace Joomla\CMS\Adapter;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Adapter Instance Class
  *
  * @since       1.6
- * @deprecated  5.0 Will be removed without replacement
+ * @deprecated  4.3 will be removed in 6.0
+ *              Will be removed without replacement
  */
-class AdapterInstance extends CMSObject
+class AdapterInstance
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
     /**
      * Parent
      *
@@ -50,7 +55,7 @@ class AdapterInstance extends CMSObject
      *
      * @since   1.6
      */
-    public function __construct(Adapter $parent, DatabaseDriver $db, array $options = array())
+    public function __construct(Adapter $parent, DatabaseDriver $db, array $options = [])
     {
         // Set the properties from the options array that is passed in
         $this->setProperties($options);

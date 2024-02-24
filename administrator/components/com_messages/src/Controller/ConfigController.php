@@ -38,7 +38,7 @@ class ConfigController extends BaseController
         $this->checkToken();
 
         $model = $this->getModel('Config');
-        $data  = $this->input->post->get('jform', array(), 'array');
+        $data  = $this->input->post->get('jform', [], 'array');
 
         // Validate the posted data.
         $form = $model->getForm();
@@ -55,7 +55,7 @@ class ConfigController extends BaseController
             $errors = $model->getErrors();
 
             // Push up to three validation messages out to the user.
-            for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
                     $this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
                 } else {

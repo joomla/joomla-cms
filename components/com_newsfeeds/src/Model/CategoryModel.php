@@ -90,16 +90,16 @@ class CategoryModel extends ListModel
      * @see    \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
                 'numarticles', 'a.numarticles',
                 'link', 'a.link',
                 'ordering', 'a.ordering',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -125,7 +125,7 @@ class CategoryModel extends ListModel
 
             // Some contexts may not use tags data at all, so we allow callers to disable loading tag data
             if ($this->getState('load_tags', true)) {
-                $item->tags = new TagsHelper();
+                $item->tags             = new TagsHelper();
                 $taggedItems[$item->id] = $item;
             }
         }
@@ -133,7 +133,7 @@ class CategoryModel extends ListModel
         // Load tags of all items.
         if ($taggedItems) {
             $tagsHelper = new TagsHelper();
-            $itemIds = \array_keys($taggedItems);
+            $itemIds    = array_keys($taggedItems);
 
             foreach ($tagsHelper->getMultipleItemTags('com_newsfeeds.newsfeed', $itemIds) as $id => $tags) {
                 $taggedItems[$id]->tags->itemTags = $tags;
@@ -260,7 +260,7 @@ class CategoryModel extends ListModel
 
         $orderCol = $input->get('filter_order', 'ordering');
 
-        if (!in_array($orderCol, $this->filter_fields)) {
+        if (!\in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'ordering';
         }
 
@@ -268,7 +268,7 @@ class CategoryModel extends ListModel
 
         $listOrder = $input->get('filter_order_Dir', 'ASC');
 
-        if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+        if (!\in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
@@ -299,9 +299,9 @@ class CategoryModel extends ListModel
      */
     public function getCategory()
     {
-        if (!is_object($this->_item)) {
-            $app = Factory::getApplication();
-            $menu = $app->getMenu();
+        if (!\is_object($this->_item)) {
+            $app    = Factory::getApplication();
+            $menu   = $app->getMenu();
             $active = $menu->getActive();
 
             if ($active) {
@@ -310,24 +310,24 @@ class CategoryModel extends ListModel
                 $params = new Registry();
             }
 
-            $options = array();
+            $options               = [];
             $options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
-            $categories = Categories::getInstance('Newsfeeds', $options);
-            $this->_item = $categories->get($this->getState('category.id', 'root'));
+            $categories            = Categories::getInstance('Newsfeeds', $options);
+            $this->_item           = $categories->get($this->getState('category.id', 'root'));
 
-            if (is_object($this->_item)) {
+            if (\is_object($this->_item)) {
                 $this->_children = $this->_item->getChildren();
-                $this->_parent = false;
+                $this->_parent   = false;
 
                 if ($this->_item->getParent()) {
                     $this->_parent = $this->_item->getParent();
                 }
 
                 $this->_rightsibling = $this->_item->getSibling();
-                $this->_leftsibling = $this->_item->getSibling(false);
+                $this->_leftsibling  = $this->_item->getSibling(false);
             } else {
                 $this->_children = false;
-                $this->_parent = false;
+                $this->_parent   = false;
             }
         }
 
@@ -341,7 +341,7 @@ class CategoryModel extends ListModel
      */
     public function getParent()
     {
-        if (!is_object($this->_item)) {
+        if (!\is_object($this->_item)) {
             $this->getCategory();
         }
 
@@ -355,7 +355,7 @@ class CategoryModel extends ListModel
      */
     public function &getLeftSibling()
     {
-        if (!is_object($this->_item)) {
+        if (!\is_object($this->_item)) {
             $this->getCategory();
         }
 
@@ -369,7 +369,7 @@ class CategoryModel extends ListModel
      */
     public function &getRightSibling()
     {
-        if (!is_object($this->_item)) {
+        if (!\is_object($this->_item)) {
             $this->getCategory();
         }
 
@@ -383,7 +383,7 @@ class CategoryModel extends ListModel
      */
     public function &getChildren()
     {
-        if (!is_object($this->_item)) {
+        if (!\is_object($this->_item)) {
             $this->getCategory();
         }
 
@@ -404,7 +404,7 @@ class CategoryModel extends ListModel
 
         if ($hitcount) {
             $pk    = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
-            $table = Table::getInstance('Category', 'JTable');
+            $table = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
             $table->hit($pk);
         }
 

@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 $params             = $this->item->params;
 
 $displayGroups      = $params->get('show_user_custom_fields');
-$userFieldGroups    = array();
+$userFieldGroups    = [];
 ?>
 
 <?php if (!$displayGroups || !$this->contactUser) : ?>
