@@ -160,7 +160,7 @@ class ModulesController extends BaseController
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION_
+     * @since   __DEPLOY_VERSION__
      */
     private function getReturnUrl(): string
     {
