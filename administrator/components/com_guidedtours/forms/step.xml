@@ -120,6 +120,8 @@
 		>
 		<option value="1">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_FORM_SUBMIT</option>
 		<option value="2">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_TEXT_FIELD</option>
+		<option value="5">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_CHECKBOX_RADIO_FIELD</option>
+		<option value="6">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_SELECT_LIST</option>
 		<option value="4">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_BUTTON</option>
 		<option value="3">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_OTHER</option>
 	</field>
@@ -188,5 +190,48 @@
 		label="COM_GUIDEDTOURS_FIELD_NOTE_LABEL"
 		maxlength="255"
 	/>
+
+	<fields name="params">
+
+		<fieldset name="options">
+
+			<fieldset name="targetvalues" label="COM_GUIDEDTOURS_STEP_TARGETVALUES_HEADING">
+				<field 
+					name="notetarget" 
+					type="note" 
+					class="alert alert-info" 
+					description="COM_GUIDEDTOURS_STEP_TARGETNOTE_MESSAGE"
+					showon=".type!:2[OR].interactive_type!:2,5,6" />
+
+				<field
+					name="required"
+					type="radio"
+					label="COM_GUIDEDTOURS_TYPE_INPUT_REQUIRED_LABEL"
+					description="COM_GUIDEDTOURS_TYPE_INPUT_REQUIRED_DESC"
+					showon=".type:2[AND].interactive_type:2,5,6"
+					layout="joomla.form.field.radio.switcher"
+					filter="integer"
+					validate="options"
+					default="1"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="requiredvalue"
+					type="textarea"
+					label="COM_GUIDEDTOURS_TYPE_INPUT_REQUIREDVALUE_LABEL"
+					description="COM_GUIDEDTOURS_TYPE_INPUT_REQUIREDVALUE_DESC"
+					showon=".type:2[AND].interactive_type:2,6[AND]required:1"
+					filter="safehtml"
+					cols="80"
+					rows="3"
+					default=""
+				/>
+
+			</fieldset>
+		</fieldset>
+	</fields>
 
 </form>
