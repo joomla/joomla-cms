@@ -13,6 +13,10 @@ namespace Joomla\Plugin\System\Stats\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Unique ID Field class for the Stats Plugin.
  *
@@ -49,9 +53,9 @@ class DataField extends AbstractStatsField
 
         PluginHelper::importPlugin('system', 'stats');
 
-        $result = Factory::getApplication()->triggerEvent('onGetStatsData', array('stats.field.data'));
+        $result = Factory::getApplication()->triggerEvent('onGetStatsData', ['stats.field.data']);
 
-        $data['statsData'] = $result ? reset($result) : array();
+        $data['statsData'] = $result ? reset($result) : [];
 
         return $data;
     }

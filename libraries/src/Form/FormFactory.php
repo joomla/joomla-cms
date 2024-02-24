@@ -11,6 +11,10 @@ namespace Joomla\CMS\Form;
 
 use Joomla\Database\DatabaseAwareTrait;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Default factory for creating Form objects
  *
@@ -30,7 +34,7 @@ class FormFactory implements FormFactoryInterface
      *
      * @since   4.0.0
      */
-    public function createForm(string $name, array $options = array()): Form
+    public function createForm(string $name, array $options = []): Form
     {
         $form = new Form($name, $options);
 

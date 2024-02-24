@@ -16,12 +16,13 @@
 			</field>
 			<field
 				name="actionlogsExtensions"
-				type="logtype"
+				type="userlogtype"
 				label="PLG_SYSTEM_ACTIONLOGS_EXTENSIONS_NOTIFICATIONS"
 				multiple="true"
 				validate="options"
 				layout="joomla.form.field.list-fancy-select"
 				showon="actionlogsNotify:1"
+				default="com_content"
 			/>
 		</fields>
 	</fieldset>

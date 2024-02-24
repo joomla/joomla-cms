@@ -16,6 +16,10 @@ use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * FormRule for com_contact to make sure the subject contains no banned word.
  *
@@ -43,6 +47,7 @@ class ContactEmailSubjectRule extends FormRule
 
         if ($banned) {
             foreach (explode(';', $banned) as $item) {
+                $item = trim($item);
                 if ($item != '' && StringHelper::stristr($value, $item) !== false) {
                     return false;
                 }

@@ -4,12 +4,16 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Error\Renderer;
 
 use Joomla\CMS\Error\AbstractRenderer;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Cli error renderer

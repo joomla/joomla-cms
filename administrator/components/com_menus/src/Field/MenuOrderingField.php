@@ -15,6 +15,10 @@ use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Menu Ordering field.
  *
@@ -40,7 +44,7 @@ class MenuOrderingField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         // Get the parent
         $parent_id = (int) $this->form->getValue('parent_id', 0);
@@ -49,7 +53,7 @@ class MenuOrderingField extends ListField
             return false;
         }
 
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -90,9 +94,9 @@ class MenuOrderingField extends ListField
         }
 
         $options = array_merge(
-            array(array('value' => '-1', 'text' => Text::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_FIRST'))),
+            [['value' => '-1', 'text' => Text::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_FIRST')]],
             $options,
-            array(array('value' => '-2', 'text' => Text::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_LAST')))
+            [['value' => '-2', 'text' => Text::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_LAST')]]
         );
 
         // Merge any additional options in the XML definition.
@@ -112,8 +116,8 @@ class MenuOrderingField extends ListField
     {
         if ($this->form->getValue('id', 0) == 0) {
             return '<span class="readonly">' . Text::_('COM_MENUS_ITEM_FIELD_ORDERING_TEXT') . '</span>';
-        } else {
-            return parent::getInput();
         }
+
+        return parent::getInput();
     }
 }

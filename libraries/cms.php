@@ -18,14 +18,19 @@ trigger_error(
     E_USER_DEPRECATED
 );
 
-// Set the platform root path as a constant if necessary
+/**
+ * Set the platform root path as a constant if necessary.
+ *
+ * @deprecated 4.4.0 will be removed in 6.0
+ *             Use defined('_JEXEC') or die; to detect if the CMS is loaded correctly
+ **/
 if (!defined('JPATH_PLATFORM')) {
     define('JPATH_PLATFORM', __DIR__);
 }
 
 // Import the library loader if necessary
 if (!class_exists('JLoader')) {
-    require_once JPATH_PLATFORM . '/loader.php';
+    require_once JPATH_LIBRARIES . '/loader.php';
 }
 
 // Make sure that the Joomla Platform has been successfully loaded
@@ -42,10 +47,7 @@ class_exists('\\Joomla\\CMS\\Autoload\\ClassLoader');
 $loader->unregister();
 
 // Decorate Composer autoloader
-spl_autoload_register(array(new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'), true, true);
-
-// Register the class aliases for Framework classes that have replaced their Platform equivalents
-require_once JPATH_LIBRARIES . '/classmap.php';
+spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
 // Suppress phar stream wrapper for non .phar files
 $behavior = new \TYPO3\PharStreamWrapper\Behavior();
@@ -64,12 +66,12 @@ if (!defined('JVERSION')) {
 }
 
 // Register a handler for uncaught exceptions that shows a pretty error page when possible
-set_exception_handler(array('Joomla\CMS\Exception\ExceptionHandler', 'handleException'));
+set_exception_handler(['Joomla\CMS\Exception\ExceptionHandler', 'handleException']);
 
 // Set up the message queue logger for web requests
 if (array_key_exists('REQUEST_METHOD', $_SERVER)) {
-    \Joomla\CMS\Log\Log::addLogger(array('logger' => 'messagequeue'), \Joomla\CMS\Log\Log::ALL, ['jerror']);
+    \Joomla\CMS\Log\Log::addLogger(['logger' => 'messagequeue'], \Joomla\CMS\Log\Log::ALL, ['jerror']);
 }
 
 // Register the Crypto lib
-JLoader::register('Crypto', JPATH_PLATFORM . '/php-encryption/Crypto.php');
+JLoader::register('Crypto', JPATH_LIBRARIES . '/php-encryption/Crypto.php');

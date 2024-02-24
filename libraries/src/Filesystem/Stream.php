@@ -10,7 +10,12 @@
 namespace Joomla\CMS\Filesystem;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Stream Interface
@@ -26,9 +31,14 @@ use Joomla\CMS\Object\CMSObject;
  * @link   https://www.php.net/manual/en/filters.php Stream Filters
  * @link   https://www.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
  * @since  1.7.0
+ * @deprecated  4.4 will be removed in 6.0
+ *              Use Joomla\Filesystem\Stream instead.
  */
-class Stream extends CMSObject
+class Stream
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
     /**
      * File Mode
      *
@@ -92,7 +102,7 @@ class Stream extends CMSObject
      * @var    array
      * @since  1.7.0
      */
-    protected $filters = array();
+    protected $filters = [];
 
     /**
      * File Handle
@@ -142,11 +152,13 @@ class Stream extends CMSObject
      * @param   array   $context      The context options (optional).
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::__construct() instead.
      */
-    public function __construct($writeprefix = '', $readprefix = '', $context = array())
+    public function __construct($writeprefix = '', $readprefix = '', $context = [])
     {
-        $this->writeprefix = $writeprefix;
-        $this->readprefix = $readprefix;
+        $this->writeprefix    = $writeprefix;
+        $this->readprefix     = $readprefix;
         $this->contextOptions = $context;
         $this->_buildContext();
     }
@@ -155,6 +167,8 @@ class Stream extends CMSObject
      * Destructor
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::__destruct() instead.
      */
     public function __destruct()
     {
@@ -181,6 +195,9 @@ class Stream extends CMSObject
      * @return  boolean
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::open() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function open(
         $filename,
@@ -202,7 +219,7 @@ class Stream extends CMSObject
         $this->filename = $filename;
         $this->openmode = $mode;
 
-        $url = parse_url($filename);
+        $url    = parse_url($filename);
         $retval = false;
 
         if (isset($url['scheme'])) {
@@ -237,24 +254,24 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = 'Error Unknown whilst opening a file';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         // Decide which context to use:
         switch ($this->processingmethod) {
-            // Gzip doesn't support contexts or streams
             case 'gz':
+                // Gzip doesn't support contexts or streams
                 $this->fh = gzopen($filename, $mode, $useIncludePath);
                 break;
 
-            // Bzip2 is much like gzip except it doesn't use the include path
             case 'bz':
+                // Bzip2 is much like gzip except it doesn't use the include path
                 $this->fh = bzopen($filename, $mode);
                 break;
 
-            // Fopen can handle streams
             case 'f':
             default:
+                // Fopen can handle streams
                 // One supplied at open; overrides everything
                 if ($context) {
                     $this->fh = fopen($filename, $mode, $useIncludePath, $context);
@@ -291,6 +308,9 @@ class Stream extends CMSObject
      * @return  boolean
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::close() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function close()
     {
@@ -304,7 +324,7 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = 'Error Unknown';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         switch ($this->processingmethod) {
@@ -327,7 +347,7 @@ class Stream extends CMSObject
         } else {
             // Reset this
             $this->fh = null;
-            $retval = true;
+            $retval   = true;
         }
 
         // If we wrote, chmod the file after it's closed
@@ -348,6 +368,9 @@ class Stream extends CMSObject
      * @return  boolean
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::eof() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function eof()
     {
@@ -359,7 +382,7 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         switch ($this->processingmethod) {
@@ -391,6 +414,9 @@ class Stream extends CMSObject
      * @return  mixed
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::filesize() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function filesize()
     {
@@ -404,7 +430,7 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
         $res = @filesize($this->filename);
 
@@ -429,11 +455,11 @@ class Stream extends CMSObject
                 }
             } else {
                 $this->filesize = $res;
-                $retval = $res;
+                $retval         = $res;
             }
         } else {
             $this->filesize = $res;
-            $retval = $res;
+            $retval         = $res;
         }
 
         // Restore error tracking to what it was before.
@@ -451,6 +477,9 @@ class Stream extends CMSObject
      * @return  mixed
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::gets() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function gets($length = 0)
     {
@@ -464,7 +493,7 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = 'Error Unknown';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         switch ($this->processingmethod) {
@@ -503,6 +532,9 @@ class Stream extends CMSObject
      *
      * @link    https://www.php.net/manual/en/function.fread.php
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::read() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function read($length = 0)
     {
@@ -528,7 +560,7 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = 'Error Unknown';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
         $remaining = $length;
 
@@ -567,7 +599,7 @@ class Stream extends CMSObject
                 } else {
                     // If it's the end of the file then we've nothing left to read; reset remaining and len
                     $remaining = 0;
-                    $length = \strlen($retval);
+                    $length    = \strlen($retval);
                 }
             }
         } while ($remaining || !$length);
@@ -591,6 +623,9 @@ class Stream extends CMSObject
      *
      * @link    https://www.php.net/manual/en/function.fseek.php
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::seek() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function seek($offset, $whence = SEEK_SET)
     {
@@ -604,7 +639,7 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         switch ($this->processingmethod) {
@@ -639,6 +674,9 @@ class Stream extends CMSObject
      * @return  mixed
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::tell() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function tell()
     {
@@ -650,7 +688,7 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         switch ($this->processingmethod) {
@@ -696,6 +734,9 @@ class Stream extends CMSObject
      *
      * @link    https://www.php.net/manual/en/function.fwrite.php
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::write() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function write(&$string, $length = 0, $chunk = 0)
     {
@@ -719,21 +760,21 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
         $remaining = $length;
-        $start = 0;
+        $start     = 0;
 
         do {
             // If the amount remaining is greater than the chunk size, then use the chunk
             $amount = ($remaining > $chunk) ? $chunk : $remaining;
-            $res = fwrite($this->fh, substr($string, $start), $amount);
+            $res    = fwrite($this->fh, substr($string, $start), $amount);
 
             // Returns false on error or the number of bytes written
             if ($res === false) {
                 // Returned error
                 $this->setError($php_errormsg);
-                $retval = false;
+                $retval    = false;
                 $remaining = 0;
             } elseif ($res === 0) {
                 // Wrote nothing?
@@ -762,6 +803,9 @@ class Stream extends CMSObject
      * @return  boolean
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::chmod() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function chmod($filename = '', $mode = 0)
     {
@@ -784,7 +828,7 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
         $sch = parse_url($filename, PHP_URL_SCHEME);
 
@@ -821,6 +865,9 @@ class Stream extends CMSObject
      *
      * @link    https://www.php.net/manual/en/function.stream-get-meta-data.php
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::get_meta_data() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function get_meta_data()
     {
@@ -837,9 +884,11 @@ class Stream extends CMSObject
      * Stream contexts
      * Builds the context from the array
      *
-     * @return  mixed
+     * @return  void
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::_buildContext() instead.
      */
     public function _buildContext()
     {
@@ -862,6 +911,8 @@ class Stream extends CMSObject
      *
      * @link    https://www.php.net/stream_context_create
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::setContextOptions() instead.
      */
     public function setContextOptions($context)
     {
@@ -881,6 +932,8 @@ class Stream extends CMSObject
      * @link    https://www.php.net/stream_context_create Stream Context Creation
      * @link    https://www.php.net/manual/en/context.php Context Options for various streams
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::addContextEntry() instead.
      */
     public function addContextEntry($wrapper, $name, $value)
     {
@@ -898,6 +951,8 @@ class Stream extends CMSObject
      *
      * @link    https://www.php.net/stream_context_create
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::deleteContextEntry() instead.
      */
     public function deleteContextEntry($wrapper, $name)
     {
@@ -928,6 +983,9 @@ class Stream extends CMSObject
      * @return  mixed
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::applyContextToStream() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function applyContextToStream()
     {
@@ -936,7 +994,7 @@ class Stream extends CMSObject
         if ($this->fh) {
             // Capture PHP errors
             $php_errormsg = 'Unknown error setting context option';
-            $track_errors = ini_get('track_errors');
+            $track_errors = \ini_get('track_errors');
             ini_set('track_errors', true);
             $retval = @stream_context_set_option($this->fh, $this->contextOptions);
 
@@ -963,15 +1021,18 @@ class Stream extends CMSObject
      *
      * @link    https://www.php.net/manual/en/function.stream-filter-append.php
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::appendFilter() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
-    public function appendFilter($filterName, $readWrite = STREAM_FILTER_READ, $params = array())
+    public function appendFilter($filterName, $readWrite = STREAM_FILTER_READ, $params = [])
     {
         $res = false;
 
         if ($this->fh) {
             // Capture PHP errors
             $php_errormsg = '';
-            $track_errors = ini_get('track_errors');
+            $track_errors = \ini_get('track_errors');
             ini_set('track_errors', true);
 
             $res = @stream_filter_append($this->fh, $filterName, $readWrite, $params);
@@ -1000,15 +1061,18 @@ class Stream extends CMSObject
      *
      * @link    https://www.php.net/manual/en/function.stream-filter-prepend.php
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::prependFilter() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
-    public function prependFilter($filterName, $readWrite = STREAM_FILTER_READ, $params = array())
+    public function prependFilter($filterName, $readWrite = STREAM_FILTER_READ, $params = [])
     {
         $res = false;
 
         if ($this->fh) {
             // Capture PHP errors
             $php_errormsg = '';
-            $track_errors = ini_get('track_errors');
+            $track_errors = \ini_get('track_errors');
             ini_set('track_errors', true);
             $res = @stream_filter_prepend($this->fh, $filterName, $readWrite, $params);
 
@@ -1037,12 +1101,15 @@ class Stream extends CMSObject
      * @return  boolean   Result of operation
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::removeFilter() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function removeFilter(&$resource, $byindex = false)
     {
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         if ($byindex) {
@@ -1073,19 +1140,22 @@ class Stream extends CMSObject
      * @return  mixed
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::copy() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function copy($src, $dest, $context = null, $usePrefix = true, $relative = false)
     {
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         $chmodDest = $this->_getFilename($dest, 'w', $usePrefix, $relative);
 
         // Since we're going to open the file directly we need to get the filename.
         // We need to use the same prefix so force everything to write.
-        $src = $this->_getFilename($src, 'w', $usePrefix, $relative);
+        $src  = $this->_getFilename($src, 'w', $usePrefix, $relative);
         $dest = $this->_getFilename($dest, 'w', $usePrefix, $relative);
 
         if ($context) {
@@ -1123,15 +1193,18 @@ class Stream extends CMSObject
      * @return  mixed
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::move() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function move($src, $dest, $context = null, $usePrefix = true, $relative = false)
     {
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
-        $src = $this->_getFilename($src, 'w', $usePrefix, $relative);
+        $src  = $this->_getFilename($src, 'w', $usePrefix, $relative);
         $dest = $this->_getFilename($dest, 'w', $usePrefix, $relative);
 
         if ($context) {
@@ -1168,12 +1241,15 @@ class Stream extends CMSObject
      * @return  mixed
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::delete() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function delete($filename, $context = null, $usePrefix = true, $relative = false)
     {
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         $filename = $this->_getFilename($filename, 'w', $usePrefix, $relative);
@@ -1211,17 +1287,20 @@ class Stream extends CMSObject
      * @return  mixed
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::upload() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public function upload($src, $dest, $context = null, $usePrefix = true, $relative = false)
     {
         if (is_uploaded_file($src)) {
             // Make sure it's an uploaded file
             return $this->copy($src, $dest, $context, $usePrefix, $relative);
-        } else {
-            $this->setError(Text::_('JLIB_FILESYSTEM_ERROR_STREAMS_NOT_UPLOADED_FILE'));
-
-            return false;
         }
+
+        $this->setError(Text::_('JLIB_FILESYSTEM_ERROR_STREAMS_NOT_UPLOADED_FILE'));
+
+        return false;
     }
 
     /**
@@ -1233,6 +1312,8 @@ class Stream extends CMSObject
      * @return  boolean
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::writeFile() instead.
      */
     public function writeFile($filename, &$buffer)
     {
@@ -1258,6 +1339,8 @@ class Stream extends CMSObject
      * @return  string
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::_getFilename() instead.
      */
     public function _getFilename($filename, $mode, $usePrefix, $relative)
     {
@@ -1291,6 +1374,8 @@ class Stream extends CMSObject
      * @return  resource  File handler
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Stream::getFileHandle() instead.
      */
     public function getFileHandle()
     {

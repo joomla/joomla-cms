@@ -39,23 +39,11 @@
       "description": "A file where a user can add their own css.",
       "type": "style",
       "uri": "user.css",
+      "weight": 500,
       "dependencies": [
         "template.active",
         "template.active.language"
       ]
-    },
-    {
-      "name": "template.atum-es5",
-      "description": "The file containing the javascript for this template.",
-      "type": "script",
-      "uri": "media/templates/administrator/atum/js/template-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
     },
     {
       "name": "template.atum",
@@ -63,7 +51,7 @@
       "type": "script",
       "uri": "media/templates/administrator/atum/js/template.min.js",
       "dependencies": [
-        "template.atum-es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -106,6 +94,31 @@
       "name": "searchtools",
       "type": "style",
       "uri": "system/searchtools/searchtools.min.css"
+    },
+    {
+      "name": "awesomplete",
+      "type": "style",
+      "uri": "vendor/awesomplete/awesomplete.min.css"
+    },
+    {
+      "name": "choicesjs",
+      "type": "style",
+      "uri": "vendor/choicesjs/choices.min.css"
+    },
+    {
+      "name": "webcomponent.joomla-alert",
+      "type": "style",
+      "uri": "vendor/joomla-custom-elements/joomla-alert.min.css"
+    },
+    {
+      "name": "webcomponent.joomla-tab",
+      "type": "style",
+      "uri": "vendor/joomla-custom-elements/joomla-tab.min.css"
+    },
+    {
+      "name": "minicolors",
+      "type": "style",
+      "uri": "vendor/minicolors/jquery.minicolors.css"
     }
   ]
 }

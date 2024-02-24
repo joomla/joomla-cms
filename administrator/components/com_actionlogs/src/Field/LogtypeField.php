@@ -16,8 +16,12 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
- * Field to load a list of all users that have logged actions
+ * Field to load a list of all extensions that have logged actions
  *
  * @since  3.9.0
  */
@@ -51,7 +55,7 @@ class LogtypeField extends ListField
 
         foreach ($extensions as $extension) {
             ActionlogsHelper::loadTranslationFiles($extension);
-            $extensionName = Text::_($extension);
+            $extensionName                                                                = Text::_($extension);
             $options[ApplicationHelper::stringURLSafe($extensionName) . '_' . $extension] = HTMLHelper::_('select.option', $extension, $extensionName);
         }
 

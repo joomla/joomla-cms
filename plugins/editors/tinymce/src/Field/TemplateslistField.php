@@ -14,6 +14,10 @@ use Joomla\CMS\Form\Field\FolderlistField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Generates the list of directories available for template snippets.
  *
@@ -59,18 +63,13 @@ class TemplatesListField extends FolderlistField
      */
     public function getOptions()
     {
-        $def         = new \stdClass();
-        $def->value  = '';
-        $def->text   = Text::_('JOPTION_DO_NOT_USE');
-        $options     = [0 => $def];
-        $directories = [JPATH_ROOT . '/templates', JPATH_ROOT . '/media/templates/site'];
+        $def             = new \stdClass();
+        $def->value      = '';
+        $def->text       = Text::_('JOPTION_DO_NOT_USE');
+        $options         = [0 => $def];
+        $this->directory = JPATH_ROOT . '/templates';
 
-        foreach ($directories as $directory) {
-            $this->directory = $directory;
-            $options         = array_merge($options, parent::getOptions());
-        }
-
-        return $options;
+        return array_merge($options, parent::getOptions());
     }
 
     /**

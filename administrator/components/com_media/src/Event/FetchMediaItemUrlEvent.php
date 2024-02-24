@@ -12,6 +12,10 @@ namespace Joomla\Component\Media\Administrator\Event;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event object to set an url.
  *
@@ -29,10 +33,10 @@ final class FetchMediaItemUrlEvent extends AbstractImmutableEvent
      *
      * @since  4.1.0
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         // Check for required arguments
-        if (!\array_key_exists('adapter', $arguments) || !is_string($arguments['adapter'])) {
+        if (!\array_key_exists('adapter', $arguments) || !\is_string($arguments['adapter'])) {
             throw new \BadMethodCallException("Argument 'adapter' of event $name is not of the expected type");
         }
 
@@ -40,7 +44,7 @@ final class FetchMediaItemUrlEvent extends AbstractImmutableEvent
         unset($arguments['adapter']);
 
         // Check for required arguments
-        if (!\array_key_exists('path', $arguments) || !is_string($arguments['path'])) {
+        if (!\array_key_exists('path', $arguments) || !\is_string($arguments['path'])) {
             throw new \BadMethodCallException("Argument 'path' of event $name is not of the expected type");
         }
 
@@ -48,8 +52,8 @@ final class FetchMediaItemUrlEvent extends AbstractImmutableEvent
         unset($arguments['path']);
 
         // Check for required arguments
-        if (!\array_key_exists('url', $arguments) || !is_string($arguments['url'])) {
-                throw new \BadMethodCallException("Argument 'url' of event $name is not of the expected type");
+        if (!\array_key_exists('url', $arguments) || !\is_string($arguments['url'])) {
+            throw new \BadMethodCallException("Argument 'url' of event $name is not of the expected type");
         }
 
         parent::__construct($name, $arguments);

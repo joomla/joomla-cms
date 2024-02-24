@@ -141,16 +141,9 @@
       align-items: center;
       justify-content: center;
       width: 2rem;
-      font-family: "Font Awesome 5 Free";
+      font-family: "Font Awesome 6 Free";
       font-weight: 900;
-
-      [dir="ltr"] & {
-        content: "\f054";
-      }
-
-      [dir="rtl"] & {
-        content: "\f053";
-      }
+      content: "\f054" #{"/*!rtl:\"\f053\"*/"};
     }
   }
 
@@ -256,18 +249,13 @@
     z-index: $zindex-mobile-toggle;
     padding: 10px 15px;
 
-    [dir="rtl"] & {
-      right: auto;
-      left: 0;
-    }
-
     &:focus {
       box-shadow: none;
     }
 
     .navbar-toggler-icon::before {
       display: inline-block;
-      font: normal normal 900 28px/1 "Font Awesome 5 Free";
+      font: normal normal 900 28px/1 "Font Awesome 6 Free";
       color: var(--toggle-color);
       content: "\f00d";
     }

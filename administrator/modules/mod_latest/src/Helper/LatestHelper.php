@@ -17,6 +17,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Model\ArticlesModel;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_latest
  *
@@ -27,12 +31,12 @@ abstract class LatestHelper
     /**
      * Get a list of articles.
      *
-     * @param   Registry       &$params  The module parameters.
-     * @param   ArticlesModel  $model    The model.
+     * @param   Registry       $params  The module parameters.
+     * @param   ArticlesModel  $model   The model.
      *
      * @return  mixed  An array of articles, or false on error.
      */
-    public static function getList(Registry &$params, ArticlesModel $model)
+    public static function getList(Registry $params, ArticlesModel $model)
     {
         $user = Factory::getUser();
 

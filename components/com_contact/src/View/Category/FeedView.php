@@ -12,6 +12,10 @@ namespace Joomla\Component\Contact\Site\View\Category;
 
 use Joomla\CMS\MVC\View\CategoryFeedView;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML View class for the Contact component
  *

@@ -14,6 +14,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Response\JsonResponse;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugins list controller class.
  *
@@ -32,7 +36,7 @@ class PluginsController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Plugin', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Plugin', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -56,7 +60,7 @@ class PluginsController extends AdminController
 
         $result['amount'] = $amount;
         $result['sronly'] = Text::plural('COM_PLUGINS_N_QUICKICON_SRONLY', $amount);
-        $result['name'] = Text::plural('COM_PLUGINS_N_QUICKICON', $amount);
+        $result['name']   = Text::plural('COM_PLUGINS_N_QUICKICON', $amount);
 
         echo new JsonResponse($result);
     }

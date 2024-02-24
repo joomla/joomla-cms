@@ -16,6 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Html helper class.
  *
@@ -27,17 +31,18 @@ class Templates
      * Display the thumb for the template.
      *
      * @param   string|object  $template  The name of the template or the template object.
-     * @param   integer        $clientId  The application client ID the template applies to
+     *                                    @deprecated   4.3 will be removed in 6.0
+     *                                    The argument $template must be an object only
+     * @param   integer        $clientId  No longer used, will be removed without replacement
+     *                                    @deprecated   4.3 will be removed in 6.0
      *
      * @return  string  The html string
      *
      * @since   1.6
-     *
-     * @deprecated  5.0  The argument $template should be object and $clientId will be removed
      */
     public function thumb($template, $clientId = 0)
     {
-        if (is_string($template)) {
+        if (\is_string($template)) {
             return HTMLHelper::_('image', 'template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'), [], true, -1);
         }
 
@@ -84,17 +89,18 @@ class Templates
      * Renders the html for the modal linked to thumb.
      *
      * @param   string|object  $template  The name of the template or the template object.
-     * @param   integer        $clientId  The application client ID the template applies to
+     *                                    @deprecated   4.3 will be removed in 6.0
+     *                                    The argument $template must be an object only
+     * @param   integer        $clientId  No longer used, will be removed without replacement
+     *                                    @deprecated   4.3 will be removed in 6.0
      *
      * @return  string  The html string
      *
      * @since   3.4
-     *
-     * @deprecated  5.0  The argument $template should be object and $clientId will be removed
      */
     public function thumbModal($template, $clientId = 0)
     {
-        if (is_string($template)) {
+        if (\is_string($template)) {
             return HTMLHelper::_('image', 'template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'), [], true, -1);
         }
 
@@ -139,17 +145,17 @@ class Templates
 
         if ($thumb !== '' && $preview !== '') {
             $footer = '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
-            . Text::_('JTOOLBAR_CLOSE') . '</button>';
+                . Text::_('JTOOLBAR_CLOSE') . '</button>';
 
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
-                $template->name . '-Modal',
-                array(
+                $template->element . '-Modal',
+                [
                     'title'  => Text::sprintf('COM_TEMPLATES_SCREENSHOT', ucfirst($template->name)),
                     'height' => '500px',
                     'width'  => '800px',
                     'footer' => $footer,
-                ),
+                ],
                 '<div><img src="' . $preview . '" class="mw-100" alt="' . $template->name . '"></div>'
             );
         }

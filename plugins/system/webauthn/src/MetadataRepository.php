@@ -1,24 +1,23 @@
 <?php
 
 /**
- * @package         Joomla.Plugin
- * @subpackage      System.Webauthn
+ * @package     Joomla.Plugin
+ * @subpackage  System.Webauthn
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn;
 
-use Exception;
-use Joomla\CMS\Date\Date;
-use Joomla\CMS\Http\HttpFactory;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Token\Plain;
-use Webauthn\MetadataService\MetadataStatement;
 use Webauthn\MetadataService\MetadataStatementRepository;
+use Webauthn\MetadataService\Statement\MetadataStatement;
 
-use function defined;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Authenticator metadata repository.
@@ -26,8 +25,8 @@ use function defined;
  * This repository contains the metadata of all FIDO authenticators as published by the FIDO
  * Alliance in their MDS version 3.0.
  *
- * @see   https://fidoalliance.org/metadata/
- * @since __DEPLOY_VERSION__
+ * @link  https://fidoalliance.org/metadata/
+ * @since 4.2.0
  */
 final class MetadataRepository implements MetadataStatementRepository
 {
@@ -35,7 +34,7 @@ final class MetadataRepository implements MetadataStatementRepository
      * Cache of authenticator metadata statements
      *
      * @var   MetadataStatement[]
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     private $mdsCache = [];
 
@@ -43,19 +42,17 @@ final class MetadataRepository implements MetadataStatementRepository
      * Map of AAGUID to $mdsCache index
      *
      * @var   array
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     private $mdsMap = [];
 
     /**
-     * Public constructor.
+     * Have I already tried to load the metadata cache?
      *
-     * @since __DEPLOY_VERSION__
+     * @var   bool
+     * @since 4.2.2
      */
-    public function __construct()
-    {
-        $this->load();
-    }
+    private $loaded = false;
 
     /**
      * Find an authenticator metadata statement given an AAGUID
@@ -63,10 +60,12 @@ final class MetadataRepository implements MetadataStatementRepository
      * @param   string  $aaguid  The AAGUID to find
      *
      * @return  MetadataStatement|null  The metadata statement; null if the AAGUID is unknown
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function findOneByAAGUID(string $aaguid): ?MetadataStatement
     {
+        $this->load();
+
         $idx = $this->mdsMap[$aaguid] ?? null;
 
         return $idx ? $this->mdsCache[$idx] : null;
@@ -76,10 +75,12 @@ final class MetadataRepository implements MetadataStatementRepository
      * Get basic information of the known FIDO authenticators by AAGUID
      *
      * @return  object[]
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function getKnownAuthenticators(): array
     {
+        $this->load();
+
         $mapKeys = function (MetadataStatement $meta) {
             return $meta->getAaguid();
         };
@@ -103,61 +104,31 @@ final class MetadataRepository implements MetadataStatementRepository
     /**
      * Load the authenticator metadata cache
      *
-     * @param   bool  $force  Force reload from the web service
-     *
      * @return  void
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
-    private function load(bool $force = false): void
+    private function load(): void
     {
+        if ($this->loaded) {
+            return;
+        }
+
+        $this->loaded = true;
+
         $this->mdsCache = [];
         $this->mdsMap   = [];
-        $jwtFilename    = JPATH_CACHE . '/fido.jwt';
 
-        // If the file exists and it's over one month old do retry loading it.
-        if (file_exists($jwtFilename) && filemtime($jwtFilename) < (time() - 2592000)) {
-            $force = true;
-        }
+        $jwtFilename = JPATH_PLUGINS . '/system/webauthn/fido.jwt';
+        $rawJwt      = file_get_contents($jwtFilename);
 
-        /**
-         * Try to load the MDS source from the FIDO Alliance and cache it.
-         *
-         * We use a short timeout limit to avoid delaying the page load for way too long. If we fail
-         * to download the file in a reasonable amount of time we write an empty string in the
-         * file which causes this method to not proceed any further.
-         */
-        if (!file_exists($jwtFilename) || $force) {
-            // Only try to download anything if we can actually cache it!
-            if ((file_exists($jwtFilename) && is_writable($jwtFilename)) || (!file_exists($jwtFilename) && is_writable(JPATH_CACHE))) {
-                $http     = HttpFactory::getHttp();
-                $response = $http->get('https://mds.fidoalliance.org/', [], 5);
-                $content  = ($response->code < 200 || $response->code > 299) ? '' : $response->body;
-            }
-
-            /**
-             * If we could not download anything BUT a non-empty file already exists we must NOT
-             * overwrite it.
-             *
-             * This allows, for example, the site owner to manually place the FIDO MDS cache file
-             * in administrator/cache/fido.jwt. This would be useful for high security sites which
-             * require attestation BUT are behind a firewall (or disconnected from the Internet),
-             * therefore cannot download the MDS cache!
-             */
-            if (!empty($content) || !file_exists($jwtFilename) || filesize($jwtFilename) <= 1024) {
-                file_put_contents($jwtFilename, $content);
-            }
-        }
-
-        $rawJwt = file_get_contents($jwtFilename);
-
-        if (!is_string($rawJwt) || strlen($rawJwt) < 1024) {
+        if (!\is_string($rawJwt) || \strlen($rawJwt) < 1024) {
             return;
         }
 
         try {
             $jwtConfig = Configuration::forUnsecuredSigner();
             $token     = $jwtConfig->parser()->parse($rawJwt);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return;
         }
 
@@ -166,19 +137,6 @@ final class MetadataRepository implements MetadataStatementRepository
         }
 
         unset($rawJwt);
-
-        // Do I need to forcibly update the cache? The JWT has the nextUpdate claim to tell us when to do that.
-        try {
-            $nextUpdate = new Date($token->claims()->get('nextUpdate', '2020-01-01'));
-
-            if (!$force && !$nextUpdate->diff(new Date())->invert) {
-                $this->load(true);
-
-                return;
-            }
-        } catch (Exception $e) {
-            // OK, don't worry if don't know when the next update is.
-        }
 
         $entriesMapper = function (object $entry) {
             try {
@@ -195,7 +153,7 @@ final class MetadataRepository implements MetadataStatementRepository
                 }
 
                 return MetadataStatement::createFromArray($array);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 return null;
             }
         };

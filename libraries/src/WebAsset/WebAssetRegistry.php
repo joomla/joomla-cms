@@ -10,11 +10,16 @@
 namespace Joomla\CMS\WebAsset;
 
 use Joomla\CMS\Event\AbstractEvent;
-use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Event\WebAsset\WebAssetRegistryAssetChanged;
 use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\Event\Dispatcher as EventDispatcher;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Filesystem\Path;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Web Asset Registry class
@@ -147,9 +152,12 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
     {
         $type = strtolower($type);
 
-        if (!array_key_exists($type, $this->assets)) {
+        if (!\array_key_exists($type, $this->assets)) {
             $this->assets[$type] = [];
         }
+
+        // Check if any new file was added
+        $this->parseRegistryFiles();
 
         $eventChange = 'new';
         $eventAsset  = $asset;
@@ -179,6 +187,9 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
      */
     public function remove(string $type, string $name): WebAssetRegistryInterface
     {
+        // Check if any new file was added
+        $this->parseRegistryFiles();
+
         if (!empty($this->assets[$type][$name])) {
             $asset = $this->assets[$type][$name];
 
@@ -202,6 +213,9 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
      */
     public function exists(string $type, string $name): bool
     {
+        // Check if any new file was added
+        $this->parseRegistryFiles();
+
         return !empty($this->assets[$type][$name]);
     }
 
@@ -328,7 +342,11 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
             return;
         }
 
-        foreach ($this->dataFilesNew as $path) {
+        $paths = $this->dataFilesNew;
+
+        $this->dataFilesNew = [];
+
+        foreach ($paths as $path) {
             // Parse only if the file was not parsed already
             if (empty($this->dataFilesParsed[$path])) {
                 $this->parseRegistryFile($path);
@@ -336,9 +354,6 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
                 // Mark the file as parsed
                 $this->dataFilesParsed[$path] = $path;
             }
-
-            // Remove the file from queue
-            unset($this->dataFilesNew[$path]);
         }
     }
 
@@ -390,9 +405,9 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 
             $item['type'] = strtolower($item['type']);
 
-            $name    = $item['name'];
-            $uri     = $item['uri'] ?? '';
-            $options = $item;
+            $name                   = $item['name'];
+            $uri                    = $item['uri'] ?? '';
+            $options                = $item;
             $options['assetSource'] = $assetSource;
 
             unset($options['uri'], $options['name']);
@@ -428,7 +443,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
         $event = AbstractEvent::create(
             'onWebAssetRegistryChangedAsset' . ucfirst($change),
             [
-                'eventClass' => 'Joomla\\CMS\\Event\\WebAsset\\WebAssetRegistryAssetChanged',
+                'eventClass' => WebAssetRegistryAssetChanged::class,
                 'subject'    => $this,
                 'assetType'  => $type,
                 'asset'      => $asset,

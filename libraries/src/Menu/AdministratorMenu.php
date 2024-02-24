@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Menu;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Menu class.
  *
@@ -25,6 +29,6 @@ class AdministratorMenu extends AbstractMenu
      */
     public function load()
     {
-        return array();
+        return [];
     }
 }

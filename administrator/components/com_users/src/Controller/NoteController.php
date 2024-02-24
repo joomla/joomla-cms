@@ -13,6 +13,10 @@ namespace Joomla\Component\Users\Administrator\Controller;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * User note controller class.
  *

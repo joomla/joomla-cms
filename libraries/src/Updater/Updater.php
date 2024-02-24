@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Updater Class
  *
@@ -127,7 +131,7 @@ class Updater extends Adapter
 
         $now              = time();
         $earliestTime     = $now - $cacheTimeout;
-        $sitesWithUpdates = array();
+        $sitesWithUpdates = [];
 
         if ($cacheTimeout > 0) {
             $sitesWithUpdates = $this->getSitesWithUpdates($earliestTime);
@@ -150,7 +154,7 @@ class Updater extends Adapter
             }
 
             // Make sure there is no update left over in the database.
-            $db = $this->getDbo();
+            $db    = $this->getDbo();
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__updates'))
                 ->where($db->quoteName('update_site_id') . ' = :id')
@@ -224,7 +228,7 @@ class Updater extends Adapter
         $result = $db->loadAssocList();
 
         if (!\is_array($result)) {
-            return array();
+            return [];
         }
 
         return $result;
@@ -243,7 +247,7 @@ class Updater extends Adapter
      */
     private function getUpdateObjectsForSite($updateSite, $minimumStability = self::STABILITY_STABLE, $includeCurrent = false)
     {
-        $retVal = array();
+        $retVal = [];
 
         $this->setAdapter($updateSite['type']);
 
@@ -298,22 +302,22 @@ class Updater extends Adapter
 
                     $uid = $update
                         ->find(
-                            array(
+                            [
                                 'element'   => $current_update->get('element'),
                                 'type'      => $current_update->get('type'),
                                 'client_id' => $current_update->get('client_id'),
                                 'folder'    => $current_update->get('folder'),
-                            )
+                            ]
                         );
 
                     $eid = $extension
                         ->find(
-                            array(
+                            [
                                 'element'   => $current_update->get('element'),
                                 'type'      => $current_update->get('type'),
                                 'client_id' => $current_update->get('client_id'),
                                 'folder'    => $current_update->get('folder'),
-                            )
+                            ]
                         );
 
                     if (!$uid) {
@@ -325,7 +329,7 @@ class Updater extends Adapter
 
                             if (version_compare($current_update->version, $data['version'], $operator) == 1) {
                                 $current_update->extension_id = $eid;
-                                $retVal[] = $current_update;
+                                $retVal[]                     = $current_update;
                             }
                         } else {
                             // A potentially new extension to be installed
@@ -390,7 +394,7 @@ class Updater extends Adapter
         $retVal = $db->setQuery($query)->loadColumn(0);
 
         if (empty($retVal)) {
-            return array();
+            return [];
         }
 
         return $retVal;

@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\WebAsset;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Web Asset Item interface
  *

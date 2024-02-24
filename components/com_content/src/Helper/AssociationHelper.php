@@ -16,6 +16,10 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Component\Categories\Administrator\Helper\CategoryAssociationHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content Component Association Helper
  *
@@ -36,7 +40,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
      */
     public static function getAssociations($id = 0, $view = null, $layout = null)
     {
-        $jinput    = Factory::getApplication()->input;
+        $jinput    = Factory::getApplication()->getInput();
         $view      = $view ?? $jinput->get('view');
         $component = $jinput->getCmd('option');
         $id        = empty($id) ? $jinput->getInt('id') : $id;
@@ -50,7 +54,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
                 $user      = Factory::getUser();
                 $groups    = implode(',', $user->getAuthorisedViewLevels());
                 $db        = Factory::getDbo();
-                $advClause = array();
+                $advClause = [];
 
                 // Filter by user groups
                 $advClause[] = 'c2.access IN (' . $groups . ')';
@@ -82,7 +86,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
                     $advClause
                 );
 
-                $return = array();
+                $return = [];
 
                 foreach ($associations as $tag => $item) {
                     $return[$tag] = RouteHelper::getArticleRoute($item->id, (int) $item->catid, $item->language, $layout);
@@ -96,7 +100,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
             return self::getCategoryAssociations($id, 'com_content', $layout);
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -110,7 +114,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
      */
     public static function displayAssociations($id)
     {
-        $return = array();
+        $return = [];
 
         if ($associations = self::getAssociations($id, 'article')) {
             $levels    = Factory::getUser()->getAuthorisedViewLevels();
@@ -123,21 +127,21 @@ abstract class AssociationHelper extends CategoryAssociationHelper
                 }
 
                 // Do not display language without frontend UI
-                if (!array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0))) {
+                if (!\array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0))) {
                     continue;
                 }
 
                 // Do not display language without specific home menu
-                if (!array_key_exists($language->lang_code, Multilanguage::getSiteHomePages())) {
+                if (!\array_key_exists($language->lang_code, Multilanguage::getSiteHomePages())) {
                     continue;
                 }
 
                 // Do not display language without authorized access level
-                if (isset($language->access) && $language->access && !in_array($language->access, $levels)) {
+                if (isset($language->access) && $language->access && !\in_array($language->access, $levels)) {
                     continue;
                 }
 
-                $return[$language->lang_code] = array('item' => $associations[$language->lang_code], 'language' => $language);
+                $return[$language->lang_code] = ['item' => $associations[$language->lang_code], 'language' => $language];
             }
         }
 

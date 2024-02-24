@@ -13,6 +13,10 @@ namespace Joomla\Component\Modules\Administrator\Field;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Modules Position field.
  *

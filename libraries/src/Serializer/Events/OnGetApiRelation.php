@@ -12,6 +12,10 @@ namespace Joomla\CMS\Serializer\Events;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Tobscure\JsonApi\Relationship;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event for getting information on an API Relationship
  *
@@ -41,7 +45,7 @@ final class OnGetApiRelation extends AbstractImmutableEvent
      * @since   4.0.0
      * @throws  \BadMethodCallException
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('model', $arguments)) {
             throw new \BadMethodCallException("Argument 'model' is required for event $name");

@@ -11,19 +11,21 @@
 namespace Joomla\Component\Menus\Administrator\Field;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Field\ListField;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Form\Field\ModalSelectField;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Menu Type field.
  *
  * @since  1.6
  */
-class MenutypeField extends ListField
+class MenutypeField extends ModalSelectField
 {
     /**
      * The form field type.
@@ -34,85 +36,113 @@ class MenutypeField extends ListField
     protected $type = 'menutype';
 
     /**
-     * Method to get the field input markup.
+     * Method to attach a Form object to the field.
      *
-     * @return  string  The field input markup.
+     * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+     * @param   mixed              $value    The form field value to validate.
+     * @param   string             $group    The field name group control value.
      *
-     * @since   1.6
+     * @return  boolean  True on success.
+     *
+     * @see     FormField::setup()
+     * @since   5.0.0
      */
-    protected function getInput()
+    public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
-        $html     = array();
+        $result = parent::setup($element, $value, $group);
+
+        if (!$result) {
+            return $result;
+        }
+
         $recordId = (int) $this->form->getValue('id');
-        $size     = (string) ($v = $this->element['size']) ? ' size="' . $v . '"' : '';
-        $class    = (string) ($v = $this->element['class']) ? ' class="form-control ' . $v . '"' : ' class="form-control"';
-        $required = (string) $this->element['required'] ? ' required="required"' : '';
+        $clientId = (int) $this->element['clientid'] ?: 0;
+
+        $url = 'index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId;
+
+        $this->urls['select']        = $url;
+        $this->canDo['clear']        = false;
+        $this->modalTitles['select'] = Text::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL');
+        $this->buttonIcons['select'] = 'icon-list';
+
+        return $result;
+    }
+
+    /**
+     * Method to retrieve the title of selected item.
+     *
+     * @return string
+     *
+     * @since   5.0.0
+     */
+    protected function getValueTitle()
+    {
+        $title    = '';
         $clientId = (int) $this->element['clientid'] ?: 0;
 
         // Get a reverse lookup of the base link URL to Title
         switch ($this->value) {
             case 'url':
-                $value = Text::_('COM_MENUS_TYPE_EXTERNAL_URL');
+                $title = Text::_('COM_MENUS_TYPE_EXTERNAL_URL');
                 break;
 
             case 'alias':
-                $value = Text::_('COM_MENUS_TYPE_ALIAS');
+                $title = Text::_('COM_MENUS_TYPE_ALIAS');
                 break;
 
             case 'separator':
-                $value = Text::_('COM_MENUS_TYPE_SEPARATOR');
+                $title = Text::_('COM_MENUS_TYPE_SEPARATOR');
                 break;
 
             case 'heading':
-                $value = Text::_('COM_MENUS_TYPE_HEADING');
+                $title = Text::_('COM_MENUS_TYPE_HEADING');
                 break;
 
             case 'container':
-                $value = Text::_('COM_MENUS_TYPE_CONTAINER');
+                $title = Text::_('COM_MENUS_TYPE_CONTAINER');
                 break;
 
             default:
                 $link = $this->form->getValue('link');
-                $value = '';
 
                 if ($link !== null) {
+                    /** @var \Joomla\Component\Menus\Administrator\Model\MenutypesModel $model */
                     $model = Factory::getApplication()->bootComponent('com_menus')
-                        ->getMVCFactory()->createModel('Menutypes', 'Administrator', array('ignore_request' => true));
+                        ->getMVCFactory()->createModel('Menutypes', 'Administrator', ['ignore_request' => true]);
                     $model->setState('client_id', $clientId);
 
                     $rlu   = $model->getReverseLookup();
 
                     // Clean the link back to the option, view and layout
-                    $value = Text::_(ArrayHelper::getValue($rlu, MenusHelper::getLinkKey($link)));
+                    $title = Text::_(ArrayHelper::getValue($rlu, MenusHelper::getLinkKey($link)));
                 }
                 break;
         }
 
-        $link = Route::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
-        $html[] = '<span class="input-group"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
-            . '" value="' . $value . '"' . $size . $class . '>';
-        $html[] = '<button type="button" data-bs-target="#menuTypeModal" class="btn btn-primary" data-bs-toggle="modal">'
-            . '<span class="icon-list icon-white" aria-hidden="true"></span> '
-            . Text::_('JSELECT') . '</button></span>';
-        $html[] = HTMLHelper::_(
-            'bootstrap.renderModal',
-            'menuTypeModal',
-            array(
-                'url'        => $link,
-                'title'      => Text::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL'),
-                'width'      => '800px',
-                'height'     => '300px',
-                'modalWidth' => 80,
-                'bodyHeight' => 70,
-                'footer'     => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
-                        . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-            )
-        );
+        return $title;
+    }
 
-        // This hidden field has an ID so it can be used for showon attributes
-        $html[] = '<input type="hidden" name="' . $this->name . '" value="'
-            . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" id="' . $this->id . '_val">';
+    /**
+     * Method to get the field input markup.
+     *
+     * @return  string  The field input markup.
+     *
+     * @since   5.0.0
+     */
+    protected function getInput()
+    {
+        // Get the layout data
+        $data = $this->getLayoutData();
 
-        return implode("\n", $html);
+        // Load the content title here to avoid a double DB Query
+        $data['valueTitle'] = $this->getValueTitle();
+
+        // On new item creation the model forces the value to be 'component',
+        // However this is need to be empty in the input for correct validation and rendering.
+        if ($data['value'] === 'component' && !$data['valueTitle'] && !$this->form->getValue('link')) {
+            $data['value'] = '';
+        }
+
+        return $this->getRenderer($this->layout)->render($data);
     }
 }

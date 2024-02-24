@@ -11,6 +11,10 @@ namespace Joomla\CMS\Categories;
 
 use Joomla\CMS\Form\Form;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Access to component specific categories.
  *

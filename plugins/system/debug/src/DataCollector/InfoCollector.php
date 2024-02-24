@@ -20,6 +20,10 @@ use Joomla\Plugin\System\Debug\AbstractDataCollector;
 use Joomla\Registry\Registry;
 use Psr\Http\Message\ResponseInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * InfoDataCollector
  *
@@ -80,8 +84,8 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
     {
         return [
             'info' => [
-                'icon' => 'info-circle',
-                'title' => 'J! Info',
+                'icon'    => 'info-circle',
+                'title'   => 'J! Info',
                 'widget'  => 'PhpDebugBar.Widgets.InfoWidget',
                 'map'     => $this->name,
                 'default' => '{}',
@@ -102,7 +106,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
     public function getAssets(): array
     {
         return [
-            'js' => Uri::root(true) . '/media/plg_system_debug/widgets/info/widget.min.js',
+            'js'  => Uri::root(true) . '/media/plg_system_debug/widgets/info/widget.min.js',
             'css' => Uri::root(true) . '/media/plg_system_debug/widgets/info/widget.min.css',
         ];
     }
@@ -123,13 +127,13 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
             ->getMVCFactory()->createModel('Sysinfo', 'Administrator');
 
         return [
-            'phpVersion' => PHP_VERSION,
+            'phpVersion'    => PHP_VERSION,
             'joomlaVersion' => JVERSION,
-            'requestId' => $this->requestId,
-            'identity' => $this->getIdentityInfo($application->getIdentity()),
-            'response' => $this->getResponseInfo($application->getResponse()),
-            'template' => $this->getTemplateInfo($application->getTemplate(true)),
-            'database' => $this->getDatabaseInfo($model->getInfo()),
+            'requestId'     => $this->requestId,
+            'identity'      => $this->getIdentityInfo($application->getIdentity()),
+            'response'      => $this->getResponseInfo($application->getResponse()),
+            'template'      => $this->getTemplateInfo($application->getTemplate(true)),
+            'database'      => $this->getDatabaseInfo($model->getInfo()),
         ];
     }
 
@@ -149,9 +153,9 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
         }
 
         return [
-            'type' => 'user',
-            'id' => $identity->id,
-            'name' => $identity->name,
+            'type'     => 'user',
+            'id'       => $identity->id,
+            'name'     => $identity->name,
             'username' => $identity->username,
         ];
     }
@@ -185,8 +189,8 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
     {
         return [
             'template' => $template->template ?? '',
-            'home' => $template->home ?? '',
-            'id' => $template->id ?? '',
+            'home'     => $template->home ?? '',
+            'id'       => $template->id ?? '',
         ];
     }
 
@@ -202,10 +206,10 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
     private function getDatabaseInfo(array $info): array
     {
         return [
-            'dbserver' => $info['dbserver'] ?? '',
-            'dbversion' => $info['dbversion'] ?? '',
-            'dbcollation' => $info['dbcollation'] ?? '',
-            'dbconnectioncollation' => $info['dbconnectioncollation'] ?? '',
+            'dbserver'               => $info['dbserver'] ?? '',
+            'dbversion'              => $info['dbversion'] ?? '',
+            'dbcollation'            => $info['dbcollation'] ?? '',
+            'dbconnectioncollation'  => $info['dbconnectioncollation'] ?? '',
             'dbconnectionencryption' => $info['dbconnectionencryption'] ?? '',
             'dbconnencryptsupported' => $info['dbconnencryptsupported'] ?? '',
         ];

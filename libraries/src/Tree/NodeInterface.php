@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Tree;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Interface for a node class
  *
@@ -21,7 +25,7 @@ interface NodeInterface extends ImmutableNodeInterface
      *
      * If the node already has a parent, the link is unset
      *
-     * @param   NodeInterface|null  $parent  NodeInterface for the parent to be set or null
+     * @param   NodeInterface  $parent  NodeInterface for the parent to be set
      *
      * @return  void
      *

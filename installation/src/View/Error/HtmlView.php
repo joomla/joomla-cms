@@ -12,6 +12,10 @@ namespace Joomla\CMS\Installation\View\Error;
 
 use Joomla\CMS\Installation\View\DefaultView;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The HTML Joomla Core Install Error View
  *

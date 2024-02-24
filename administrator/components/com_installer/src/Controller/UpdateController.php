@@ -20,6 +20,10 @@ use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Installer\Administrator\Model\UpdateModel;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Installer Update Controller
  *
@@ -42,13 +46,13 @@ class UpdateController extends BaseController
         /** @var UpdateModel $model */
         $model = $this->getModel('update');
 
-        $uid = (array) $this->input->get('cid', array(), 'int');
+        $uid = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $uid = array_filter($uid);
 
         // Get the minimum stability.
-        $params        = ComponentHelper::getComponent('com_installer')->getParams();
+        $params            = ComponentHelper::getComponent('com_installer')->getParams();
         $minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
 
         $model->update($uid, $minimum_stability);
@@ -57,7 +61,7 @@ class UpdateController extends BaseController
         $redirect_url = $app->getUserState('com_installer.redirect_url');
 
         // Don't redirect to an external URL.
-        if (!Uri::isInternal($redirect_url)) {
+        if ($redirect_url && !Uri::isInternal($redirect_url)) {
             $redirect_url = '';
         }
 
@@ -137,7 +141,7 @@ class UpdateController extends BaseController
         $app->getSession()->abort();
 
         $eid               = $this->input->getInt('eid', 0);
-        $skip              = $this->input->get('skip', array(), 'array');
+        $skip              = $this->input->get('skip', [], 'array');
         $cache_timeout     = $this->input->getInt('cache_timeout', 0);
         $minimum_stability = $this->input->getInt('minimum_stability', -1);
 
@@ -167,10 +171,10 @@ class UpdateController extends BaseController
 
         if (!empty($skip)) {
             $unfiltered_updates = $updates;
-            $updates            = array();
+            $updates            = [];
 
             foreach ($unfiltered_updates as $update) {
-                if (!in_array($update->extension_id, $skip)) {
+                if (!\in_array($update->extension_id, $skip)) {
                     $updates[] = $update;
                 }
             }

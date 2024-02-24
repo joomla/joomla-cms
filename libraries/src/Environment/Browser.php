@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Environment;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Browser class, provides capability information about the current web client.
  *
@@ -62,7 +66,7 @@ class Browser
      * @var    array  Parsed HTTP_ACCEPT string
      * @since  3.0.0
      */
-    protected $acceptParsed = array();
+    protected $acceptParsed = [];
 
     /**
      * @var    string  Platform the browser is running on
@@ -74,7 +78,7 @@ class Browser
      * @var    array  Known robots.
      * @since  3.0.0
      */
-    protected $robots = array(
+    protected $robots = [
         'Googlebot\/',
         'Googlebot-Mobile',
         'Googlebot-Image',
@@ -440,7 +444,7 @@ class Browser
         'axios',
         'Amazon CloudFront',
         'Pulsepoint',
-    );
+    ];
 
     /**
      * @var    boolean  Is this a mobile browser?
@@ -455,13 +459,13 @@ class Browser
      * @var    array
      * @since  3.0.0
      */
-    protected $images = array('jpeg', 'gif', 'png', 'pjpeg', 'x-png', 'bmp');
+    protected $images = ['jpeg', 'gif', 'png', 'pjpeg', 'x-png', 'bmp'];
 
     /**
      * @var    array  Browser instances container.
      * @since  1.7.3
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Create a browser instance (constructor).
@@ -489,7 +493,7 @@ class Browser
      */
     public static function getInstance($userAgent = null, $accept = null)
     {
-        $signature = serialize(array($userAgent, $accept));
+        $signature = serialize([$userAgent, $accept]);
 
         if (empty(self::$instances[$signature])) {
             self::$instances[$signature] = new static($userAgent, $accept);
@@ -844,7 +848,7 @@ class Browser
      */
     public function isViewable($mimetype)
     {
-        $mimetype = strtolower($mimetype);
+        $mimetype             = strtolower($mimetype);
         list($type, $subtype) = explode('/', $mimetype);
 
         if (!empty($this->accept)) {

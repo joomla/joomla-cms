@@ -11,23 +11,32 @@
 namespace Joomla\Component\Privacy\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Privacy\CanRemoveDataEvent;
+use Joomla\CMS\Event\Privacy\RemoveDataEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\Component\Privacy\Administrator\Removal\Status;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Remove model class.
  *
  * @since  3.9.0
  */
-class RemoveModel extends BaseDatabaseModel
+class RemoveModel extends BaseDatabaseModel implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Remove the user data.
      *
@@ -80,14 +89,18 @@ class RemoveModel extends BaseDatabaseModel
                 ->setLimit(1)
         )->loadResult();
 
-        $user = $userId ? User::getInstance($userId) : null;
+        $user = $userId ? $this->getUserFactory()->loadUserById($userId) : null;
 
-        $canRemove = true;
+        $canRemove  = true;
+        $dispatcher = $this->getDispatcher();
 
-        PluginHelper::importPlugin('privacy');
+        PluginHelper::importPlugin('privacy', null, true, $dispatcher);
 
         /** @var Status[] $pluginResults */
-        $pluginResults = Factory::getApplication()->triggerEvent('onPrivacyCanRemoveData', [$table, $user]);
+        $pluginResults = $dispatcher->dispatch('onPrivacyCanRemoveData', new CanRemoveDataEvent('onPrivacyCanRemoveData', [
+            'subject' => $table,
+            'user'    => $user,
+        ]))->getArgument('result', []);
 
         foreach ($pluginResults as $status) {
             if (!$status->canRemove) {
@@ -106,7 +119,10 @@ class RemoveModel extends BaseDatabaseModel
         // Log the removal
         $this->logRemove($table);
 
-        Factory::getApplication()->triggerEvent('onPrivacyRemoveData', [$table, $user]);
+        $dispatcher->dispatch('onPrivacyRemoveData', new RemoveDataEvent('onPrivacyRemoveData', [
+            'subject' => $table,
+            'user'    => $user,
+        ]));
 
         return true;
     }
@@ -139,7 +155,7 @@ class RemoveModel extends BaseDatabaseModel
      */
     public function logRemove(RequestTable $request)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $message = [
             'action'      => 'remove',
@@ -165,7 +181,7 @@ class RemoveModel extends BaseDatabaseModel
      */
     public function logRemoveBlocked(RequestTable $request, array $reasons)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $message = [
             'action'      => 'remove-blocked',
@@ -190,7 +206,7 @@ class RemoveModel extends BaseDatabaseModel
     protected function populateState()
     {
         // Get the pk of the record from the request.
-        $this->setState($this->getName() . '.request_id', Factory::getApplication()->input->getUint('id'));
+        $this->setState($this->getName() . '.request_id', Factory::getApplication()->getInput()->getUint('id'));
 
         // Load the parameters.
         $this->setState('params', ComponentHelper::getParams('com_privacy'));

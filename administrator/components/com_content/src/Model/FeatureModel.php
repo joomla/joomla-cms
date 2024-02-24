@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Content\Administrator\Model;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Feature model.
  *
@@ -28,7 +32,7 @@ class FeatureModel extends ArticleModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'Featured', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Featured', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }

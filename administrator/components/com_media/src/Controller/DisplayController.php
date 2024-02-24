@@ -12,6 +12,10 @@ namespace Joomla\Component\Media\Administrator\Controller;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Media Manager Component Controller
  *

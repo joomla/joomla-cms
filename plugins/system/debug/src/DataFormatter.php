@@ -12,6 +12,10 @@ namespace Joomla\Plugin\System\Debug;
 
 use DebugBar\DataFormatter\DataFormatter as DebugBarDataFormatter;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * DataFormatter
  *
@@ -69,7 +73,16 @@ class DataFormatter extends DebugBarDataFormatter
 
             $string = rtrim($string, ', ') . ')';
         } elseif (isset($call['args'][0])) {
-            $string .= htmlspecialchars($call['function']) . ' ' . $call['args'][0];
+            $string .= htmlspecialchars($call['function']) . '(';
+
+            if (\is_scalar($call['args'][0])) {
+                $string .= $call['args'][0];
+            } elseif (\is_object($call['args'][0])) {
+                $string .= \get_class($call['args'][0]);
+            } else {
+                $string .= \gettype($call['args'][0]);
+            }
+            $string .= ')';
         } else {
             // It's a function.
             $string .= htmlspecialchars($call['function']) . '()';

@@ -4,12 +4,14 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Model;
 
-use Joomla\CMS\Object\CMSObject;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Trait which supports state behavior
@@ -29,7 +31,7 @@ trait StateBehaviorTrait
     /**
      * A state object
      *
-     * @var    CMSObject
+     * @var    State
      * @since  4.0.0
      */
     protected $state = null;
@@ -47,7 +49,7 @@ trait StateBehaviorTrait
     public function getState($property = null, $default = null)
     {
         if ($this->state === null) {
-            $this->state = new CMSObject();
+            $this->state = new State();
         }
 
         if (!$this->__state_set) {
@@ -74,7 +76,7 @@ trait StateBehaviorTrait
     public function setState($property, $value = null)
     {
         if ($this->state === null) {
-            $this->state = new CMSObject();
+            $this->state = new State();
         }
 
         return $this->state->set($property, $value);

@@ -17,6 +17,10 @@ use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * User notes model class.
  *
@@ -33,11 +37,11 @@ class NotesModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         // Set the list ordering fields.
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'user_id', 'a.user_id',
                 'u.name',
@@ -49,7 +53,7 @@ class NotesModel extends ListModel
                 'publish_up', 'a.publish_up',
                 'publish_down', 'a.publish_down',
                 'level', 'c.level',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -64,7 +68,7 @@ class NotesModel extends ListModel
      */
     protected function getListQuery()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.
@@ -218,7 +222,7 @@ class NotesModel extends ListModel
     protected function populateState($ordering = 'a.review_time', $direction = 'desc')
     {
         // Adjust the context to support modal layouts.
-        if ($layout = Factory::getApplication()->input->get('layout')) {
+        if ($layout = Factory::getApplication()->getInput()->get('layout')) {
             $this->context .= '.' . $layout;
         }
 
