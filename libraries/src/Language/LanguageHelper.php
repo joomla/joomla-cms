@@ -412,7 +412,7 @@ class LanguageHelper
 
         // This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
         // issue it is solving
-        $disabledFunctions      = explode(',', ini_get('disable_functions'));
+        $disabledFunctions      = explode(',', \ini_get('disable_functions'));
         $isParseIniFileDisabled = \in_array('parse_ini_file', array_map('trim', $disabledFunctions));
 
         // Capture hidden PHP errors from the parsing.
