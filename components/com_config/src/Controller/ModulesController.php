@@ -167,7 +167,7 @@ class ModulesController extends BaseController
         if ($return = $this->input->post->get('return', '', 'BASE64')) {
             $return = base64_decode(urldecode($return));
 
-            // Don't redirect to an external URL.
+            // Only redirect to if it is an internal URL
             if (Uri::isInternal($return)) {
                 return $return;
             }
