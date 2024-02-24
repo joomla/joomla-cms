@@ -6,7 +6,7 @@ clone:
 
 steps:
   - name: setup
-    image: joomlaprojects/docker-images:php8.2
+    image: joomlaprojects/docker-images:php8.3
     volumes:
       - name: certificates
         path: /certificates
@@ -14,7 +14,7 @@ steps:
       - cp -v tests/certs/* /certificates/
 
   - name: composer
-    image: joomlaprojects/docker-images:php8.2
+    image: joomlaprojects/docker-images:php8.3
     volumes:
       - name: composer-cache
         path: /tmp/composer-cache
@@ -39,7 +39,7 @@ steps:
       - ./libraries/vendor/bin/phan
 
   - name: npm
-    image: node:18-bullseye-slim
+    image: node:20-bullseye-slim
     depends_on: [ phpcs ]
     volumes:
       - name: npm-cache
@@ -91,6 +91,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
+  - name: php83-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php8.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
   - name: php72-integration
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.2
@@ -133,6 +140,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
 
+  - name: php83-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
   - name: php72-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.2
@@ -171,6 +185,13 @@ steps:
   - name: php82-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+  - name: php83-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.3
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
@@ -230,7 +251,7 @@ steps:
     depends_on:
       - phpmin-system-mysql
       - phpmin-system-postgres
-    image: joomlaprojects/docker-images:cypress8.1
+    image: joomlaprojects/docker-images:cypress8.3
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -243,7 +264,7 @@ steps:
     depends_on:
       - phpmin-system-mysql
       - phpmin-system-postgres
-    image: joomlaprojects/docker-images:cypress8.1
+    image: joomlaprojects/docker-images:cypress8.3
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -269,7 +290,7 @@ steps:
     depends_on:
       - phpmax-system-mysql
       - phpmax-system-postgres
-    image: joomlaprojects/docker-images:cypress8.1
+    image: joomlaprojects/docker-images:cypress8.3
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -380,7 +401,7 @@ steps:
       DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
       DRONE_COMMIT: DRONE_COMMIT
     commands:
-      - /bin/drone_build.sh
+      - /bin/drone_prepare_package.sh
 
   - name: upload
     image: joomlaprojects/docker-images:packager
@@ -471,6 +492,6 @@ trigger:
 
 ---
 kind: signature
-hmac: aba8f50a67f4c8a11e5e179dd2313fdd9a884111f594e21a6b921daa60133534
+hmac: 2b23d4286790b54215c985c85304ddd24818802bab49b3afec2144d28dce1f5f
 
 ...
