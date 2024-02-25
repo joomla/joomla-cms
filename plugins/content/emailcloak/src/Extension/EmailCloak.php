@@ -465,9 +465,7 @@ final class EmailCloak extends CMSPlugin
         * The '<[^<]*(?<!\/(?:src))>(*SKIP)(*F)|' exclude image files with @ in filename
         */
 
-
         $pattern = '~<[^<]*(?<!\/(?:src))>(*SKIP)(*F)|' . $searchEmail . '~iu';
-
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail        = $regs[1][0];
