@@ -11,10 +11,10 @@ namespace Joomla\CMS\Form;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Form\Field\SubformField;
-use Joomla\CMS\Form\Rule\FormRuleInterface;
 use Joomla\CMS\Form\Constraint\FieldRequiredConstraint;
 use Joomla\CMS\Form\Constraint\LegacyRuleConstraint;
+use Joomla\CMS\Form\Field\SubformField;
+use Joomla\CMS\Form\Rule\FormRuleInterface;
 use Joomla\CMS\Form\Validation\FieldValidationResponse;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;

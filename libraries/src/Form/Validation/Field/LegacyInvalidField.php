@@ -11,7 +11,6 @@ namespace Joomla\CMS\Form\Validation\Field;
 
 use Joomla\CMS\Form\Constraint\ConstraintInterface;
 use Joomla\CMS\Form\Validation\FieldValidationResponseInterface;
-use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

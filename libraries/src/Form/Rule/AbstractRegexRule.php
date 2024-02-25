@@ -9,7 +9,9 @@
 
 namespace Joomla\CMS\Form\Rule;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Form\Form;
 use Joomla\Registry\Registry;

@@ -11,8 +11,8 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Form\Constraint\FieldLengthConstraint;
+use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;

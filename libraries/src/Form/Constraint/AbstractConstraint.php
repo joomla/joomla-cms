@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Form\Constraint;
 
-use Joomla\CMS\Form\Constraint\ConstraintInterface;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 

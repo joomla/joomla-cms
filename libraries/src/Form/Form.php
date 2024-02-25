@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Form;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Exception\ValidationException;
 use Joomla\CMS\Form\Validation\Field\DisabledResponseField;
 use Joomla\CMS\Form\Validation\Field\LegacyInvalidField;
 use Joomla\CMS\Form\Validation\Field\LegacyValidField;
