@@ -14,5 +14,7 @@ defined('_JEXEC') or die;
  * Finder Indexer Query class.
  *
  * @since       2.5
- * @deprecated  5.0 Use \Joomla\Component\Finder\Administrator\Indexer\Query instead
+ *
+ * @deprecated  4.3 will be removed in 6.0
+ *              Use \Joomla\Component\Finder\Administrator\Indexer\Query instead
  */

@@ -33,7 +33,7 @@ class SuggestionsController extends BaseController
      */
     public function suggest()
     {
-        $app = $this->app;
+        $app           = $this->app;
         $app->mimeType = 'application/json';
 
         // Ensure caching is disabled as it depends on the query param in the model
@@ -56,10 +56,10 @@ class SuggestionsController extends BaseController
      */
     public function opensearchsuggest()
     {
-        $app = $this->app;
+        $app           = $this->app;
         $app->mimeType = 'application/json';
-        $result = [];
-        $result[] = $app->input->request->get('q', '', 'string');
+        $result        = [];
+        $result[]      = $app->getInput()->request->get('q', '', 'string');
 
         $result[] = $this->getSuggestions();
 
@@ -87,7 +87,7 @@ class SuggestionsController extends BaseController
 
         if ($params->get('show_autosuggest', 1)) {
             // Get the suggestions.
-            $model = $this->getModel('Suggestions');
+            $model  = $this->getModel('Suggestions');
             $return = $model->getItems();
         }
 

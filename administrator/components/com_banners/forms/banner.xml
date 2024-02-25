@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Banners\Administrator\Field">
 	<fieldset name="details">
 
@@ -301,6 +301,9 @@
 			<field
 				name="imageurl"
 				type="media"
+				schemes="http,https,ftp,ftps,data,file"
+				validate="url"
+				relative="true"
 				label="COM_BANNERS_FIELD_IMAGE_LABEL"
 				directory="banners"
 				hide_none="1"

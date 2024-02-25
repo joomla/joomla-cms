@@ -168,14 +168,14 @@ abstract class ModulesHelper
 
         $db->setQuery($query);
         $modules = $db->loadObjectList();
-        $lang = Factory::getLanguage();
+        $lang    = Factory::getLanguage();
 
         foreach ($modules as $i => $module) {
             $extension = $module->value;
-            $path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
-            $source = $path . "/modules/$extension";
-                $lang->load("$extension.sys", $path)
-            ||  $lang->load("$extension.sys", $source);
+            $path      = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
+            $source    = $path . "/modules/$extension";
+            $lang->load("$extension.sys", $path)
+            || $lang->load("$extension.sys", $source);
             $modules[$i]->text = Text::_($module->text);
         }
 
@@ -193,7 +193,7 @@ abstract class ModulesHelper
      */
     public static function getAssignmentOptions($clientId)
     {
-        $options = [];
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '0', 'COM_MODULES_OPTION_MENU_ALL');
         $options[] = HTMLHelper::_('select.option', '-', 'COM_MODULES_OPTION_MENU_NONE');
 
@@ -227,19 +227,19 @@ abstract class ModulesHelper
         // Only load the template's language file if it hasn't been already
         if (!$loaded) {
             $lang->load('tpl_' . $template . '.sys', $path, null, false, false)
-            ||  $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, null, false, false)
-            ||  $lang->load('tpl_' . $template . '.sys', $path, $lang->getDefault(), false, false)
-            ||  $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, $lang->getDefault(), false, false);
+            || $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, null, false, false)
+            || $lang->load('tpl_' . $template . '.sys', $path, $lang->getDefault(), false, false)
+            || $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, $lang->getDefault(), false, false);
         }
 
         $langKey = strtoupper('TPL_' . $template . '_POSITION_' . $position);
-        $text = Text::_($langKey);
+        $text    = Text::_($langKey);
 
         // Avoid untranslated strings
         if (!self::isTranslatedText($langKey, $text)) {
             // Modules component translation
             $langKey = strtoupper('COM_MODULES_POSITION_' . $position);
-            $text = Text::_($langKey);
+            $text    = Text::_($langKey);
 
             // Avoid untranslated strings
             if (!self::isTranslatedText($langKey, $text)) {
@@ -283,7 +283,7 @@ abstract class ModulesHelper
             $text = $value;
         }
 
-        $option = new \stdClass();
+        $option        = new \stdClass();
         $option->value = $value;
         $option->text  = $text;
 
@@ -302,7 +302,7 @@ abstract class ModulesHelper
      */
     public static function createOptionGroup($label = '', $options = [])
     {
-        $group = [];
+        $group          = [];
         $group['value'] = $label;
         $group['text']  = $label;
         $group['items'] = $options;

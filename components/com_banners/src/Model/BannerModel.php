@@ -55,7 +55,7 @@ class BannerModel extends BaseDatabaseModel
         $id = (int) $this->getState('banner.id');
 
         // Update click count
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->update($db->quoteName('#__banners'))
@@ -79,7 +79,7 @@ class BannerModel extends BaseDatabaseModel
         }
 
         if ($trackClicks < 0) {
-            $config = ComponentHelper::getParams('com_banners');
+            $config      = ComponentHelper::getParams('com_banners');
             $trackClicks = $config->get('track_clicks');
         }
 
@@ -211,7 +211,7 @@ class BannerModel extends BaseDatabaseModel
     public function getUrl()
     {
         $item = $this->getItem();
-        $url = $item->clickurl;
+        $url  = $item->clickurl;
 
         // Check for links
         if (!preg_match('#http[s]?://|index[2]?\.php#', $url)) {

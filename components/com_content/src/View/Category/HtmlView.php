@@ -110,13 +110,13 @@ class HtmlView extends CategoryView
             // Old plugins: Use processed text as introtext
             $item->introtext = $item->text;
 
-            $results = $app->triggerEvent('onContentAfterTitle', ['com_content.category', &$item, &$item->params, 0]);
+            $results                        = $app->triggerEvent('onContentAfterTitle', ['com_content.category', &$item, &$item->params, 0]);
             $item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-            $results = $app->triggerEvent('onContentBeforeDisplay', ['com_content.category', &$item, &$item->params, 0]);
+            $results                           = $app->triggerEvent('onContentBeforeDisplay', ['com_content.category', &$item, &$item->params, 0]);
             $item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-            $results = $app->triggerEvent('onContentAfterDisplay', ['com_content.category', &$item, &$item->params, 0]);
+            $results                          = $app->triggerEvent('onContentAfterDisplay', ['com_content.category', &$item, &$item->params, 0]);
             $item->event->afterDisplayContent = trim(implode("\n", $results));
         }
 
@@ -154,13 +154,13 @@ class HtmlView extends CategoryView
         $this->setDocumentTitle($title);
 
         if ($this->category->metadesc) {
-            $this->document->setDescription($this->category->metadesc);
+            $this->getDocument()->setDescription($this->category->metadesc);
         } elseif ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
 
         if (!is_object($this->category->metadata)) {
@@ -168,14 +168,14 @@ class HtmlView extends CategoryView
         }
 
         if (($app->get('MetaAuthor') == '1') && $this->category->get('author', '')) {
-            $this->document->setMetaData('author', $this->category->get('author', ''));
+            $this->getDocument()->setMetaData('author', $this->category->get('author', ''));
         }
 
         $mdata = $this->category->metadata->toArray();
 
         foreach ($mdata as $k => $v) {
             if ($v) {
-                $this->document->setMetaData($k, $v);
+                $this->getDocument()->setMetaData($k, $v);
             }
         }
 

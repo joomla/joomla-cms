@@ -61,7 +61,7 @@ class RegistrationModel extends FormModel
     {
         $config = array_merge(
             [
-                'events_map' => ['validate' => 'user']
+                'events_map' => ['validate' => 'user'],
             ],
             $config
         );
@@ -134,10 +134,10 @@ class RegistrationModel extends FormModel
             $linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
             // Compile the admin notification mail values.
-            $data = $user->getProperties();
+            $data               = $user->getProperties();
             $data['activation'] = ApplicationHelper::getHash(UserHelper::genRandomPassword());
             $user->set('activation', $data['activation']);
-            $data['siteurl'] = Uri::base();
+            $data['siteurl']  = Uri::base();
             $data['activate'] = Route::link(
                 'site',
                 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
@@ -152,7 +152,7 @@ class RegistrationModel extends FormModel
             $user->setParam('activate', 1);
 
             // Get all admin users
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->select($db->quoteName(['name', 'email', 'sendEmail', 'id']))
                 ->from($db->quoteName('#__users'))
@@ -210,8 +210,8 @@ class RegistrationModel extends FormModel
             $data['fromname'] = $app->get('fromname');
             $data['mailfrom'] = $app->get('mailfrom');
             $data['sitename'] = $app->get('sitename');
-            $data['siteurl'] = Uri::base();
-            $mailer = new MailTemplate('com_users.registration.user.admin_activated', $app->getLanguage()->getTag());
+            $data['siteurl']  = Uri::base();
+            $mailer           = new MailTemplate('com_users.registration.user.admin_activated', $app->getLanguage()->getTag());
             $mailer->addTemplateData($data);
             $mailer->addRecipient($data['email']);
 
@@ -265,8 +265,8 @@ class RegistrationModel extends FormModel
     {
         if ($this->data === null) {
             $this->data = new \stdClass();
-            $app = Factory::getApplication();
-            $params = ComponentHelper::getParams('com_users');
+            $app        = Factory::getApplication();
+            $params     = ComponentHelper::getParams('com_users');
 
             // Override the base user data with any data in the session.
             $temp = (array) $app->getUserState('com_users.registration.data', []);
@@ -398,7 +398,7 @@ class RegistrationModel extends FormModel
     protected function populateState()
     {
         // Get the application object.
-        $app = Factory::getApplication();
+        $app    = Factory::getApplication();
         $params = $app->getParams('com_users');
 
         // Load the parameters.
@@ -429,15 +429,15 @@ class RegistrationModel extends FormModel
         }
 
         // Prepare the data for the user object.
-        $data['email'] = PunycodeHelper::emailToPunycode($data['email1']);
+        $data['email']    = PunycodeHelper::emailToPunycode($data['email1']);
         $data['password'] = $data['password1'];
-        $useractivation = $params->get('useractivation');
-        $sendpassword = $params->get('sendpassword', 1);
+        $useractivation   = $params->get('useractivation');
+        $sendpassword     = $params->get('sendpassword', 1);
 
         // Check if the user needs to activate their account.
         if (($useractivation == 1) || ($useractivation == 2)) {
             $data['activation'] = ApplicationHelper::getHash(UserHelper::genRandomPassword());
-            $data['block'] = 1;
+            $data['block']      = 1;
         }
 
         // Bind the data.
@@ -457,16 +457,16 @@ class RegistrationModel extends FormModel
             return false;
         }
 
-        $app = Factory::getApplication();
-        $db = $this->getDatabase();
+        $app   = Factory::getApplication();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Compile the notification mail values.
-        $data = $user->getProperties();
+        $data             = $user->getProperties();
         $data['fromname'] = $app->get('fromname');
         $data['mailfrom'] = $app->get('mailfrom');
         $data['sitename'] = $app->get('sitename');
-        $data['siteurl'] = Uri::root();
+        $data['siteurl']  = Uri::root();
 
         // Handle account activation/confirmation emails.
         if ($useractivation == 2) {

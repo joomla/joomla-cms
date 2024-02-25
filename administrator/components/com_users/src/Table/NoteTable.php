@@ -60,7 +60,7 @@ class NoteTable extends Table implements VersionableTableInterface
      */
     public function store($updateNulls = true)
     {
-        $date = Factory::getDate()->toSql();
+        $date   = Factory::getDate()->toSql();
         $userId = Factory::getUser()->get('id');
 
         if (!((int) $this->review_time)) {

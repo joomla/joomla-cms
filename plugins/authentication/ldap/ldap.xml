@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="authentication" method="upgrade">
 	<name>plg_authentication_ldap</name>
 	<author>Joomla! Project</author>
@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_LDAP_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Authentication\Ldap</namespace>
 	<files>
-		<filename plugin="ldap">ldap.php</filename>
+		<folder plugin="ldap">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_authentication_ldap.ini</language>
@@ -23,6 +25,7 @@
 					name="host"
 					type="text"
 					label="PLG_LDAP_FIELD_HOST_LABEL"
+					required="true"
 				/>
 
 				<field
@@ -42,7 +45,7 @@
 					type="radio"
 					layout="joomla.form.field.radio.switcher"
 					label="PLG_LDAP_FIELD_V3_LABEL"
-					default="0"
+					default="1"
 					filter="integer"
 					>
 					<option value="0">JNO</option>
@@ -50,16 +53,38 @@
 				</field>
 
 				<field
-					name="negotiate_tls"
+					name="encryption"
+					type="list"
+					label="PLG_LDAP_FIELD_ENCRYPTION_LABEL"
+					default="none"
+					validate="options"
+					>
+					<option value="none">PLG_LDAP_FIELD_VALUE_ENCRYPTIONNONE</option>
+					<option value="tls">PLG_LDAP_FIELD_VALUE_ENCRYPTIONTLS</option>
+					<option value="ssl">PLG_LDAP_FIELD_VALUE_ENCRYPTIONSSL</option>
+				</field>
+
+				<field
+					name="ignore_reqcert_tls"
 					type="radio"
-					label="PLG_LDAP_FIELD_NEGOCIATE_LABEL"
-					default="0"
-					filter="integer"
+					label="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_LABEL"
 					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="boolean"
+					showon="encryption!:none"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+
+				<field
+					name="cacert"
+					type="text"
+					label="PLG_LDAP_FIELD_CACERT_LABEL"
+					description="PLG_LDAP_FIELD_CACERT_DESC"
+					required="false"
+					showon="encryption!:none[AND]ignore_reqcert_tls:0"
+				/>
 
 				<field
 					name="no_referrals"
@@ -88,6 +113,7 @@
 					name="base_dn"
 					type="text"
 					label="PLG_LDAP_FIELD_BASEDN_LABEL"
+					required="true"
 				/>
 
 				<field
@@ -95,6 +121,7 @@
 					type="text"
 					label="PLG_LDAP_FIELD_SEARCHSTRING_LABEL"
 					description="PLG_LDAP_FIELD_SEARCHSTRING_DESC"
+					required="true"
 				/>
 
 				<field

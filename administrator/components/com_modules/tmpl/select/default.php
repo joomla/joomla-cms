@@ -17,7 +17,7 @@ use Joomla\CMS\Router\Route;
 
 $app = Factory::getApplication();
 
-$function  = $app->input->getCmd('function');
+$function  = $app->getInput()->getCmd('function');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();

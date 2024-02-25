@@ -14,5 +14,6 @@ defined('_JEXEC') or die;
  * Finder Indexer Taxonomy class.
  *
  * @since       2.5
- * @deprecated  5.0 Use \Joomla\Component\Finder\Administrator\Indexer\Taxonomy instead
+ * @deprecated  4.3 will be removed in 6.0
+ *              Use \Joomla\Component\Finder\Administrator\Indexer\Taxonomy instead
  */

@@ -68,6 +68,7 @@ class PrivacyStatusHelper
             'published' => false,
             'link'      => '',
         ];
+        $lang = '';
 
         $db    = Factory::getDbo();
         $query = $db->getQuery(true)
@@ -102,8 +103,6 @@ class PrivacyStatusHelper
             // Add language to the url if the site is multilingual
             if (Multilanguage::isEnabled() && $menuItem->language && $menuItem->language !== '*') {
                 $lang = '&lang=' . $menuItem->language;
-            } else {
-                $lang = '';
             }
         }
 
@@ -112,7 +111,7 @@ class PrivacyStatusHelper
         if (!$menuItem) {
             if (Multilanguage::isEnabled()) {
                 // Find the Itemid of the home menu item tagged to the site default language
-                $params = ComponentHelper::getParams('com_languages');
+                $params              = ComponentHelper::getParams('com_languages');
                 $defaultSiteLanguage = $params->get('site');
 
                 $db    = Factory::getDbo();

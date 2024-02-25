@@ -120,7 +120,7 @@ class StageController extends FormController
     protected function allowEdit($data = [], $key = 'id')
     {
         $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
-        $user = $this->app->getIdentity();
+        $user     = $this->app->getIdentity();
 
         $record = $this->getModel()->getItem($recordId);
 

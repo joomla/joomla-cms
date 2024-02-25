@@ -58,6 +58,7 @@
 }
 
 .media-browser-item-info {
+  max-width: 250px;
   padding: 0 2px;
   overflow: hidden;
   font-size: .9rem;
@@ -125,8 +126,7 @@
   &.active {
     top: 0;
     z-index: 1;
-    width: max-content;
-    min-width: 100%;
+    width: 100%;
     background-color: var(--template-bg-dark-3);
     border: 1px solid hsl(var(--hue), 35%, 95%);
     border-radius: .25rem;
@@ -159,6 +159,9 @@
   .media-browser-actions-item-name {
     padding: 2px;
     margin-block-end: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   button, a {
     position: relative;

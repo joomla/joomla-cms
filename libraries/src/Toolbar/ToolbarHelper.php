@@ -44,9 +44,9 @@ abstract class ToolbarHelper
         $layout = new FileLayout('joomla.toolbar.title');
         $html   = $layout->render(['title' => $title, 'icon' => $icon]);
 
-        $app = Factory::getApplication();
+        $app                  = Factory::getApplication();
         $app->JComponentTitle = $html;
-        $title = strip_tags($title) . ' - ' . $app->get('sitename');
+        $title                = strip_tags($title) . ' - ' . $app->get('sitename');
 
         if ($app->isClient('administrator')) {
             $title .= ' - ' . Text::_('JADMINISTRATION');
@@ -92,7 +92,7 @@ abstract class ToolbarHelper
      *
      * @param   string  $task        The task to perform (picked up by the switch($task) blocks).
      * @param   string  $icon        The image to display.
-     * @param   string  $iconOver    @deprecated 5.0
+     * @param   string  $iconOver    @deprecated 4.3 will be removed in 6.0
      * @param   string  $alt         The alt text for the icon image.
      * @param   bool    $listSelect  True if required to check that a standard list item is checked.
      * @param   string  $formId      The id of action form.
@@ -191,11 +191,7 @@ abstract class ToolbarHelper
     public static function inlinehelp(string $class = "hide-aware-inline-help")
     {
         $bar = Toolbar::getInstance('toolbar');
-
-        // Add a help button.
-        $bar->inlinehelpButton('inlinehelp')
-            ->targetclass($class)
-            ->icon('fa fa-question-circle');
+        $bar->inlinehelp($class);
     }
 
     /**
@@ -645,10 +641,10 @@ abstract class ToolbarHelper
     public static function preferences($component, $height = 550, $width = 875, $alt = 'JTOOLBAR_OPTIONS', $path = '')
     {
         $component = urlencode($component);
-        $path = urlencode($path);
-        $bar = Toolbar::getInstance('toolbar');
+        $path      = urlencode($path);
+        $bar       = Toolbar::getInstance('toolbar');
 
-        $uri = (string) Uri::getInstance();
+        $uri    = (string) Uri::getInstance();
         $return = urlencode(base64_encode($uri));
 
         // Add a button linking to config for component.
@@ -710,7 +706,7 @@ abstract class ToolbarHelper
             'apply'     => 'JTOOLBAR_APPLY',
             'save'      => 'JTOOLBAR_SAVE',
             'save2new'  => 'JTOOLBAR_SAVE_AND_NEW',
-            'save2copy' => 'JTOOLBAR_SAVE_AS_COPY'
+            'save2copy' => 'JTOOLBAR_SAVE_AS_COPY',
         ];
 
         $bar = Toolbar::getInstance('toolbar');
@@ -724,7 +720,6 @@ abstract class ToolbarHelper
                         continue;
                     }
 
-                    $options['group'] = true;
                     $altText = $button[2] ?? $validOptions[$button[0]];
 
                     $childBar->{$button[0]}($button[1])

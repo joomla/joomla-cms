@@ -22,7 +22,7 @@
     }
 
     a {
-      color: var(--template-link-color);
+      color: var(--#{$prefix}link-color);
     }
 
     h2 {
@@ -49,7 +49,7 @@
     }
 
     a {
-      color: var(--template-link-color);
+      color: var(--#{$prefix}link-color);
     }
 
     h2 {
@@ -82,6 +82,7 @@
     .table {
       padding: 0;
       margin-bottom: unset;
+      border-top: 1px solid var(--border-color);
     }
 
   }
@@ -92,7 +93,7 @@
     padding: 1rem 1rem .75rem;
     font-weight: $font-weight-bold;
     color: var(--template-bg-dark);
-    background: var(--card-bg);
+    background: hsla(0, 0%, 100%, .7); // default: var(--card-bg);
 
     > [class^="icon-"],
     > img {
@@ -186,11 +187,11 @@
         display: block;
         padding: .5rem;
         color: rgba(255, 255, 255, .9);
-        background: var(--template-link-color);
+        background: var(--#{$prefix}link-color);
         box-shadow: $atum-box-shadow;
 
         &:hover {
-          background: var(--template-link-hover-color);
+          background: var(--#{$prefix}link-hover-color);
         }
       }
     }

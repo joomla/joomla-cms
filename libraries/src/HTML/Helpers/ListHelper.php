@@ -52,7 +52,7 @@ abstract class ListHelper
         }
 
         $imageFiles = new \DirectoryIterator(JPATH_SITE . '/' . $directory);
-        $images = [HTMLHelper::_('select.option', '', Text::_('JOPTION_SELECT_IMAGE'))];
+        $images     = [HTMLHelper::_('select.option', '', Text::_('JOPTION_SELECT_IMAGE'))];
 
         foreach ($imageFiles as $file) {
             $fileName = $file->getFilename();
@@ -71,7 +71,7 @@ abstract class ListHelper
             $images,
             $name,
             [
-                'list.attr' => 'size="1" ' . $javascript,
+                'list.attr'   => 'size="1" ' . $javascript,
                 'list.select' => $active,
             ]
         );
@@ -91,7 +91,7 @@ abstract class ListHelper
      */
     public static function genericordering($query, $chop = 30)
     {
-        $db = Factory::getDbo();
+        $db      = Factory::getDbo();
         $options = [];
         $db->setQuery($query);
 
@@ -178,7 +178,7 @@ abstract class ListHelper
      */
     public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name')
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -195,7 +195,7 @@ abstract class ListHelper
 
         if ($nouser) {
             $users[] = HTMLHelper::_('select.option', '0', Text::_('JOPTION_NO_USER'));
-            $users = array_merge($users, $db->loadObjectList());
+            $users   = array_merge($users, $db->loadObjectList());
         } else {
             $users = $db->loadObjectList();
         }
@@ -205,7 +205,7 @@ abstract class ListHelper
             $users,
             $name,
             [
-                'list.attr' => 'size="1" ' . $javascript,
+                'list.attr'   => 'size="1" ' . $javascript,
                 'list.select' => $active,
             ]
         );
@@ -262,10 +262,10 @@ abstract class ListHelper
             $pos,
             $name,
             [
-                'id' => $id,
-                'list.attr' => 'size="1"' . $javascript,
+                'id'          => $id,
+                'list.attr'   => 'size="1"' . $javascript,
                 'list.select' => $active,
-                'option.key' => null,
+                'option.key'  => null,
             ]
         );
 

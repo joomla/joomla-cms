@@ -38,7 +38,7 @@ $this->useCoreUI = true;
 $params = clone $this->state->get('params');
 $params->merge(new Registry($this->item->attribs));
 
-$input = Factory::getApplication()->input;
+$input = Factory::getApplication()->getInput();
 
 $assoc              = Associations::isEnabled();
 $showArticleOptions = $params->get('show_article_options', 1);

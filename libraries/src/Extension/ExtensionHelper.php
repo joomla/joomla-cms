@@ -20,8 +20,6 @@ use Joomla\Database\ParameterType;
  * Extension Helper class.
  *
  * @since       3.7.4
- *
- * @deprecated  4.0  Replace class with a non static methods for better testing
  */
 class ExtensionHelper
 {
@@ -68,6 +66,7 @@ class ExtensionHelper
         ['component', 'com_cpanel', '', 1],
         ['component', 'com_fields', '', 1],
         ['component', 'com_finder', '', 1],
+        ['component', 'com_guidedtours', '', 1],
         ['component', 'com_installer', '', 1],
         ['component', 'com_joomlaupdate', '', 1],
         ['component', 'com_languages', '', 1],
@@ -109,6 +108,7 @@ class ExtensionHelper
         ['module', 'mod_custom', '', 1],
         ['module', 'mod_feed', '', 1],
         ['module', 'mod_frontend', '', 1],
+        ['module', 'mod_guidedtours', '', 1],
         ['module', 'mod_latest', '', 1],
         ['module', 'mod_latestactions', '', 1],
         ['module', 'mod_logged', '', 1],
@@ -172,6 +172,7 @@ class ExtensionHelper
         ['plugin', 'ldap', 'authentication', 0],
 
         // Core plugin extensions - behaviour
+        ['plugin', 'compat', 'behaviour', 0],
         ['plugin', 'taggable', 'behaviour', 0],
         ['plugin', 'versionable', 'behaviour', 0],
 
@@ -273,6 +274,7 @@ class ExtensionHelper
         ['plugin', 'overridecheck', 'quickicon', 0],
         ['plugin', 'phpversioncheck', 'quickicon', 0],
         ['plugin', 'privacycheck', 'quickicon', 0],
+        ['plugin', 'eos', 'quickicon', 0],
 
         // Core plugin extensions - sample data
         ['plugin', 'blog', 'sampledata', 0],
@@ -284,6 +286,7 @@ class ExtensionHelper
         ['plugin', 'cache', 'system', 0],
         ['plugin', 'debug', 'system', 0],
         ['plugin', 'fields', 'system', 0],
+        ['plugin', 'guidedtours', 'system', 0],
         ['plugin', 'highlight', 'system', 0],
         ['plugin', 'httpheaders', 'system', 0],
         ['plugin', 'jooa11y', 'system', 0],
@@ -390,14 +393,25 @@ class ExtensionHelper
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'));
 
+        $values = [];
+
         foreach (self::$coreExtensions as $extension) {
-            $values = $query->bindArray($extension, [ParameterType::STRING, ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER]);
-            $query->where(
-                '(' . $db->quoteName('type') . ' = ' . $values[0] . ' AND ' . $db->quoteName('element') . ' = ' . $values[1]
-                . ' AND ' . $db->quoteName('folder') . ' = ' . $values[2] . ' AND ' . $db->quoteName('client_id') . ' = ' . $values[3] . ')',
-                'OR'
-            );
+            $values[] = $extension[0] . '|' . $extension[1] . '|' . $extension[2] . '|' . $extension[3];
         }
+
+        $query->whereIn(
+            $query->concatenate(
+                [
+                    $db->quoteName('type'),
+                    $db->quoteName('element'),
+                    $db->quoteName('folder'),
+                    $db->quoteName('client_id'),
+                ],
+                '|'
+            ),
+            $values,
+            ParameterType::STRING
+        );
 
         $db->setQuery($query);
         self::$coreExtensionIds = $db->loadColumn();
@@ -450,7 +464,7 @@ class ExtensionHelper
         $key = $element . '.' . $type . '.' . $clientId . '.' . $folder;
 
         if (!\array_key_exists($key, self::$loadedExtensions)) {
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select('*')
                 ->from($db->quoteName('#__extensions'))

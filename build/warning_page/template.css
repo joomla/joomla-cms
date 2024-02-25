@@ -4,7 +4,7 @@ html {
   background: -webkit-radial-gradient(center, ellipse cover, rgba(241, 241, 241, 1) 0, rgb(238, 42, 0) 100%);
   background: radial-gradient(ellipse at center, rgba(241, 241, 241, 1) 0, rgb(238, 42, 0) 100%);
   background-repeat: no-repeat;
-  background-attachment: fixed
+  background-attachment: fixed;
 }
 
 body {
@@ -12,13 +12,13 @@ body {
   padding: 0;
   font: 14px / 18px sans-serif;
   color: #555;
-  background-color: transparent
+  background-color: transparent;
 }
 
 ol, ul {
   padding: 0;
   margin: 0;
-  list-style: none
+  list-style: none;
 }
 
 a {
@@ -27,11 +27,11 @@ a {
 }
 
 a:hover, a:focus {
-  text-decoration: underline
+  text-decoration: underline;
 }
 
 p a {
-  line-height: inherit
+  line-height: inherit;
 }
 
 .container {
@@ -70,7 +70,7 @@ h1, p {
   position: relative;
   z-index: 10;
   text-align: center;
-  text-rendering: optimizeLegibility
+  text-rendering: optimizeLegibility;
 }
 
 h1 {
@@ -78,7 +78,7 @@ h1 {
   font-size: 40px;
   font-weight: 200;
   line-height: 1;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, .2)
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .2);
 }
 
 p, label {
@@ -86,12 +86,12 @@ p, label {
   font-size: 18px;
   font-weight: 300;
   line-height: 25px;
-  color: #777
+  color: #777;
 }
 
 p a {
   font-weight: bold;
-  color: #1C3D5C
+  color: #1C3D5C;
 }
 
 .link-help {
@@ -111,7 +111,7 @@ p a {
 .footer {
   margin: 8px 20px;
   text-align: left;
-  font-size: 11px
+  font-size: 11px;
 }
 
 .footer ul {
@@ -121,15 +121,15 @@ p a {
 .footer li {
   display: inline;
   margin: 0 5px;
-  line-height: 20px
+  line-height: 20px;
 }
 
 .footer li, .footer a {
-  color: #1C3D5C
+  color: #1C3D5C;
 }
 
 .footer a:hover {
-  color: #59B0FF
+  color: #59B0FF;
 }
 
 .links {
@@ -138,7 +138,7 @@ p a {
   margin-top: 4rem;
   margin-left: auto;
   margin-right: auto;
-  font-size: 1rem
+  font-size: 1rem;
 }
 .links li {
   display: inline-block;
@@ -152,7 +152,7 @@ p a {
     padding-bottom: 20px;
   }
   h1 {
-    font-size: 30px
+    font-size: 30px;
   }
 
   .link-help {

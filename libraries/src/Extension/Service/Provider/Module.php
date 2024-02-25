@@ -42,7 +42,7 @@ class Module implements ServiceProviderInterface
             function (Container $container) {
                 return new \Joomla\CMS\Extension\Module(
                     $container->get(ModuleDispatcherFactoryInterface::class),
-                    $container->get(HelperFactoryInterface::class)
+                    $container->has(HelperFactoryInterface::class) ? $container->get(HelperFactoryInterface::class) : null
                 );
             }
         );

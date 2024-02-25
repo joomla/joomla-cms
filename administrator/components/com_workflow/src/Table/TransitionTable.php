@@ -42,7 +42,7 @@ class TransitionTable extends Table
      * @since  4.0.0
      */
     protected $_jsonEncode = [
-        'options'
+        'options',
     ];
 
     /**
@@ -90,7 +90,7 @@ class TransitionTable extends Table
      */
     protected function _getAssetName()
     {
-        $k = $this->_tbl_key;
+        $k        = $this->_tbl_key;
         $workflow = new WorkflowTable($this->getDbo());
         $workflow->load($this->workflow_id);
 

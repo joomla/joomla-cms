@@ -28,8 +28,8 @@ if ($app->isClient('site')) {
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_menus.admin-items-modal');
 
-$function  = $app->input->get('function', 'jSelectMenuItem', 'cmd');
-$editor    = $app->input->getCmd('editor', '');
+$function  = $app->getInput()->get('function', 'jSelectMenuItem', 'cmd');
+$editor    = $app->getInput()->getCmd('editor', '');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $link      = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&' . Session::getFormToken() . '=1';
@@ -87,7 +87,6 @@ if (!empty($editor)) {
                 </thead>
                 <tbody>
                 <?php foreach ($this->items as $i => $item) : ?>
-                    <?php $uselessMenuItem = in_array($item->type, ['separator', 'heading', 'alias', 'url', 'container']); ?>
                     <?php if ($item->language && $multilang) {
                         if ($item->language !== '*') {
                             $language = $item->language;
@@ -105,12 +104,8 @@ if (!empty($editor)) {
                         <th scope="row">
                             <?php $prefix = LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
                             <?php echo $prefix; ?>
-                            <?php if (!$uselessMenuItem) : ?>
-                                <a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>" data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
-                                    <?php echo $this->escape($item->title); ?></a>
-                            <?php else : ?>
-                                <?php echo $this->escape($item->title); ?>
-                            <?php endif; ?>
+                            <a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>" data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
+                            <?php echo $this->escape($item->title); ?></a>
                             <?php echo HTMLHelper::_('menus.visibility', $item->params); ?>
                             <div>
                                 <?php echo $prefix; ?>
@@ -182,7 +177,7 @@ if (!empty($editor)) {
         <input type="hidden" name="task" value="">
         <input type="hidden" name="boxchecked" value="0">
         <input type="hidden" name="function" value="<?php echo $function; ?>">
-        <input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'cmd'); ?>">
+        <input type="hidden" name="forcedLanguage" value="<?php echo $app->getInput()->get('forcedLanguage', '', 'cmd'); ?>">
         <?php echo HTMLHelper::_('form.token'); ?>
 
     </form>

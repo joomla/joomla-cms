@@ -15,6 +15,7 @@ use Joomla\Application\SessionAwareWebApplicationInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
@@ -25,8 +26,7 @@ use Joomla\Plugin\System\Webauthn\MetadataRepository;
 use Webauthn\MetadataService\MetadataStatementRepository;
 use Webauthn\PublicKeyCredentialSourceRepository;
 
-return new class implements ServiceProviderInterface
-{
+return new class () implements ServiceProviderInterface {
     /**
      * Registers the service provider with a DI container.
      *
@@ -47,7 +47,7 @@ return new class implements ServiceProviderInterface
                 $app     = Factory::getApplication();
                 $session = $container->has('session') ? $container->get('session') : $this->getSession($app);
 
-                $db                    = $container->get('DatabaseDriver');
+                $db                    = $container->get(DatabaseInterface::class);
                 $credentialsRepository = $container->has(PublicKeyCredentialSourceRepository::class)
                     ? $container->get(PublicKeyCredentialSourceRepository::class)
                     : new CredentialRepository($db);

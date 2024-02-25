@@ -848,7 +848,7 @@ class Browser
      */
     public function isViewable($mimetype)
     {
-        $mimetype = strtolower($mimetype);
+        $mimetype             = strtolower($mimetype);
         list($type, $subtype) = explode('/', $mimetype);
 
         if (!empty($this->accept)) {

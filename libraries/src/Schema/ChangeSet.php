@@ -69,9 +69,9 @@ class ChangeSet
      */
     public function __construct($db, $folder = null)
     {
-        $this->db = $db;
+        $this->db     = $db;
         $this->folder = $folder;
-        $updateFiles = $this->getUpdateFiles();
+        $updateFiles  = $this->getUpdateFiles();
 
         // If no files were found nothing more we can do - continue
         if ($updateFiles === false) {
@@ -232,7 +232,7 @@ class ChangeSet
     {
         $updateFiles = $this->getUpdateFiles();
 
-        // No schema files found - abort and return empty string
+        // No schema files found - stop and return empty string
         if (empty($updateFiles)) {
             return '';
         }
@@ -304,10 +304,10 @@ class ChangeSet
             $queries = DatabaseDriver::splitSql($buffer);
 
             foreach ($queries as $query) {
-                $fileQueries = new \stdClass();
-                $fileQueries->file = $file;
+                $fileQueries              = new \stdClass();
+                $fileQueries->file        = $file;
                 $fileQueries->updateQuery = $query;
-                $result[] = $fileQueries;
+                $result[]                 = $fileQueries;
             }
         }
 

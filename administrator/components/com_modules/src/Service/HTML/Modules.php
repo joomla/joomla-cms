@@ -56,7 +56,7 @@ class Modules
      */
     public function types()
     {
-        $options = [];
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', 'user', 'COM_MODULES_OPTION_POSITION_USER_DEFINED');
         $options[] = HTMLHelper::_('select.option', 'template', 'COM_MODULES_OPTION_POSITION_TEMPLATE_DEFINED');
 
@@ -70,7 +70,7 @@ class Modules
      */
     public function templateStates()
     {
-        $options = [];
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '1', 'JENABLED');
         $options[] = HTMLHelper::_('select.option', '0', 'JDISABLED');
 
@@ -93,7 +93,7 @@ class Modules
     public function state($value, $i, $enabled = true, $checkbox = 'cb')
     {
         $states = [
-            1  => [
+            1 => [
                 'unpublish',
                 'COM_MODULES_EXTENSION_PUBLISHED_ENABLED',
                 'COM_MODULES_HTML_UNPUBLISH_ENABLED',
@@ -102,7 +102,7 @@ class Modules
                 'publish',
                 'publish',
             ],
-            0  => [
+            0 => [
                 'publish',
                 'COM_MODULES_EXTENSION_UNPUBLISHED_ENABLED',
                 'COM_MODULES_HTML_PUBLISH_ENABLED',
@@ -151,7 +151,7 @@ class Modules
         $templateGroups = [];
 
         // Add an empty value to be able to deselect a module position
-        $option = ModulesHelper::createOption('', Text::_('COM_MODULES_NONE'));
+        $option             = ModulesHelper::createOption('', Text::_('COM_MODULES_NONE'));
         $templateGroups[''] = ModulesHelper::createOptionGroup('', [$option]);
 
         // Add positions from templates
@@ -164,7 +164,7 @@ class Modules
 
             if (is_array($positions)) {
                 foreach ($positions as $position) {
-                    $text = ModulesHelper::getTranslatedModulePosition($clientId, $template, $position) . ' [' . $position . ']';
+                    $text      = ModulesHelper::getTranslatedModulePosition($clientId, $template, $position) . ' [' . $position . ']';
                     $options[] = ModulesHelper::createOption($position, $text);
 
                     if (!$isTemplatePosition && $selectedPosition === $position) {
@@ -208,7 +208,7 @@ class Modules
         // Create the copy/move options.
         $options = [
             HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
-            HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
+            HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE')),
         ];
 
         echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm');
@@ -223,7 +223,8 @@ class Modules
      *
      * @since   2.5
      *
-     * @deprecated  5.0 Will be removed with no replacement
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed with no replacement
      */
     public function positionList($clientId = 0)
     {

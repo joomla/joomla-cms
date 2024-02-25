@@ -1,15 +1,13 @@
-const { access } = require('fs').promises;
+const { access, writeFile } = require('fs').promises;
 const { constants } = require('fs');
-const Autoprefixer = require('autoprefixer');
-const CssNano = require('cssnano');
 const { basename, sep, resolve } = require('path');
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
-const Postcss = require('postcss');
-const { renderSync } = require('sass');
-const { minifyJs } = require('./minify.es6.js');
+const LightningCSS = require('lightningcss');
+const { renderSync } = require('sass-embedded');
+const { minifyJsCode } = require('./minify.es6.js');
 const { handleESMToLegacy } = require('./compile-to-es5.es6.js');
 
 const getWcMinifiedCss = async (file) => {
@@ -35,8 +33,11 @@ const getWcMinifiedCss = async (file) => {
     }
 
     if (typeof compiled === 'object' && compiled.css) {
-      return Postcss([Autoprefixer(), CssNano()])
-        .process(compiled.css.toString(), { from: undefined });
+      const { code } = LightningCSS.transform({
+        code: Buffer.from(compiled.css.toString()),
+        minify: true,
+      });
+      return code;
     }
   }
 
@@ -49,8 +50,6 @@ const getWcMinifiedCss = async (file) => {
  * @param file the full path to the file + filename + extension
  */
 module.exports.handleESMFile = async (file) => {
-  // eslint-disable-next-line no-console
-  console.log(`Transpiling ES2017 file: ${basename(file).replace('.es6.js', '.js')}...`);
   const newPath = file.replace(/\.w-c\.es6\.js$/, '').replace(/\.es6\.js$/, '').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
   const minifiedCss = await getWcMinifiedCss(file);
   const bundle = await rollup.rollup({
@@ -89,15 +88,24 @@ module.exports.handleESMFile = async (file) => {
     external: [],
   });
 
-  await bundle.write({
+  bundle.write({
     format: 'es',
     sourcemap: false,
     file: resolve(`${newPath}.js`),
-  });
+  })
+    .then((value) => minifyJsCode(value.output[0].code))
+    .then((content) => {
+      // eslint-disable-next-line no-console
+      console.log(`✅ ES2017 file: ${basename(file).replace('.es6.js', '.js')}: transpiled`);
 
-  // eslint-disable-next-line no-console
-  console.log(`ES2017 file: ${basename(file).replace('.es6.js', '.js')}: ✅ transpiled`);
+      return writeFile(resolve(`${newPath}.min.js`), content.code, { encoding: 'utf8', mode: 0o644 });
+    })
+    .then(() => handleESMToLegacy(resolve(`${newPath}.js`)))
+    .catch((error) => {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    });
 
-  await handleESMToLegacy(resolve(`${newPath}.js`));
-  await minifyJs(resolve(`${newPath}.js`));
+  // closes the bundle
+  await bundle.close();
 };

@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn\Field;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
@@ -42,7 +41,7 @@ class WebauthnField extends FormField
      * Returns the input field's HTML
      *
      * @return  string
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since   4.0.0
      */
@@ -60,6 +59,7 @@ class WebauthnField extends FormField
         Text::script('PLG_SYSTEM_WEBAUTHN_MSG_SAVED_LABEL', true);
         Text::script('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED', true);
         Text::script('PLG_SYSTEM_WEBAUTHN_ERR_XHR_INITCREATE', true);
+        Text::script('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED', true);
 
         $app                  = Factory::getApplication();
         /** @var Webauthn $plugin */
@@ -71,7 +71,7 @@ class WebauthnField extends FormField
         $layoutFile  = new FileLayout('plugins.system.webauthn.manage');
 
         return $layoutFile->render([
-                'user'                => Factory::getContainer()
+                'user' => Factory::getContainer()
                     ->get(UserFactoryInterface::class)
                     ->loadUserById($userId),
                 'allow_add'           => $userId == $app->getIdentity()->id,

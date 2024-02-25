@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldprefix="Joomla\Component\Guidedtours\Administrator\Field">
+	<config>
+		<inlinehelp button="show"/>
+	</config>
+	<field
+		name="id"
+		type="text"
+		label="JGLOBAL_FIELD_ID_LABEL"
+		default="0"
+		class="readonly"
+		readonly="true"
+	/>
+
+	<field
+		name="position"
+		type="list"
+		label="COM_GUIDEDTOURS_STEP_POSITION_LABEL"
+		description="COM_GUIDEDTOURS_STEP_POSITION_DESC"
+		default="center"
+		validate="options"
+		>
+		<option value="bottom">JGLOBAL_BOTTOM</option>
+		<option value="center">JGLOBAL_CENTER</option>
+		<option value="left">JGLOBAL_LEFT</option>
+		<option value="right">JGLOBAL_RIGHT</option>
+		<option value="top">JGLOBAL_TOP</option>
+	</field>
+
+	<field
+		name="target"
+		type="text"
+		label="COM_GUIDEDTOURS_STEP_TARGET_LABEL"
+		description="COM_GUIDEDTOURS_STEP_TARGET_DESC"
+	/>
+
+	<field
+		name="tour_id"
+		type="hidden"
+		class="readonly"
+		readonly="true"
+	/>
+
+	<field
+		name="title"
+		type="text"
+		label="COM_GUIDEDTOURS_STEP_TITLE"
+		required="true"
+	/>
+
+	<field
+		name="title_translation"
+		type="text"
+		label="JGLOBAL_TITLE"
+		readonly="true"
+	/>
+
+	<field
+		name="description"
+		type="editor"
+		label="JGLOBAL_DESCRIPTION"
+		filter="JComponentHelper::filterText"
+		buttons="true"
+		hide="readmore,pagebreak,module,menu,fields,contact,article"
+	/>
+
+	<field
+		name="description_translation"
+		type="editor"
+		label="JGLOBAL_DESCRIPTION"
+		filter="JComponentHelper::filterText"
+		buttons="false"
+		readonly="true"
+	/>
+
+	<field
+		name="published"
+		type="list"
+		label="JSTATUS"
+		default="1"
+		class="form-select-color-state"
+		validate="options"
+		>
+		<option value="1">JPUBLISHED</option>
+		<option value="0">JUNPUBLISHED</option>
+		<option value="2">JARCHIVED</option>
+		<option value="-2">JTRASHED</option>
+	</field>
+
+	<field
+		name="type"
+		type="list"
+		label="COM_GUIDEDTOURS_STEP_TYPE_LABEL"
+		description="COM_GUIDEDTOURS_STEP_TYPE_DESC"
+		default="0"
+		validate="options"
+		>
+		<option value="0">COM_GUIDEDTOURS_FIELD_VALUE_STEP_TYPE_NEXT</option>
+		<option value="1">COM_GUIDEDTOURS_FIELD_VALUE_STEP_TYPE_REDIRECT</option>
+		<option value="2">COM_GUIDEDTOURS_FIELD_VALUE_STEP_TYPE_INTERACTIVE</option>
+	</field>
+
+	<field
+		name="url"
+		type="url"
+		label="COM_GUIDEDTOURS_TYPE_REDIRECT_URL_LABEL"
+		description="COM_GUIDEDTOURS_TYPE_REDIRECT_URL_DESC"
+		showon="type:1"
+		filter="string"
+	/>
+
+	<field
+		name="interactive_type"
+		type="list"
+		label="COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_LABEL"
+		description="COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_DESC"
+		showon="type:2"
+		filter="string"
+		validate="options"
+		>
+		<option value="1">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_FORM_SUBMIT</option>
+		<option value="2">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_TEXT_FIELD</option>
+		<option value="4">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_BUTTON</option>
+		<option value="3">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_OTHER</option>
+	</field>
+
+	<field
+		name="checked_out"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="checked_out_time"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="created_by"
+		type="user"
+		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+		validate="UserId"
+	/>
+
+	<field
+		name="created"
+		type="calendar"
+		label="JGLOBAL_CREATED_DATE"
+		translateformat="true"
+		showtime="true"
+		filter="user_utc"
+	/>
+
+	<field
+		name="modified_by"
+		type="user"
+		label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+		class="readonly"
+		readonly="true"
+		filter="unset"
+		validate="UserId"
+	/>
+
+	<field
+		name="modified"
+		type="calendar"
+		label="JGLOBAL_FIELD_MODIFIED_LABEL"
+		class="readonly"
+		readonly="true"
+		translateformat="true"
+		showtime="true"
+		filter="user_utc"
+	/>
+
+	<field
+		name="language"
+		type="contentlanguage"
+		label="JFIELD_LANGUAGE_LABEL"
+		default="*"
+		>
+		<option value="*">JALL</option>
+	</field>
+
+	<field
+		name="note"
+		type="text"
+		label="COM_GUIDEDTOURS_FIELD_NOTE_LABEL"
+		maxlength="255"
+	/>
+
+</form>

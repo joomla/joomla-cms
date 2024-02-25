@@ -127,34 +127,25 @@ class HtmlView extends BaseHtmlView
     {
         ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_CONSENTS'), 'lock');
 
-        $bar = Toolbar::getInstance('toolbar');
+        $toolbar = Toolbar::getInstance();
 
         // Add a button to invalidate a consent
         if (!$this->isEmptyState) {
-            $bar->appendButton(
-                'Confirm',
-                'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE_CONFIRM_MSG',
-                'trash',
-                'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE',
-                'consents.invalidate',
-                true
-            );
+            $toolbar->confirmButton('trash', 'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE', 'consents.invalidate')
+                ->message('COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE')
+                ->icon('icon-trash')
+                ->listCheck(true);
         }
 
         // If the filter is restricted to a specific subject, show the "Invalidate all" button
         if ($this->state->get('filter.subject') != '') {
-            $bar->appendButton(
-                'Confirm',
-                'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE_ALL_CONFIRM_MSG',
-                'cancel',
-                'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE_ALL',
-                'consents.invalidateAll',
-                false
-            );
+            $toolbar->confirmButton('cancel', 'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE_ALL', 'consents.invalidateAll')
+                ->message('COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE_ALL_CONFIRM_MSG')
+                ->icon('icon-cancel')
+                ->listCheck(false);
         }
 
-        ToolbarHelper::preferences('com_privacy');
-
-        ToolbarHelper::help('Privacy:_Consents');
+        $toolbar->preferences('com_privacy');
+        $toolbar->help('Privacy:_Consents');
     }
 }

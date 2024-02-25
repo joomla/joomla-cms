@@ -110,11 +110,12 @@ class MenusController extends BaseController
      *
      * @since   1.6
      *
-     * @deprecated  5.0 Will be removed without replacement as it was only used for the 1.5 to 1.6 upgrade
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement as it was only used for the 1.5 to 1.6 upgrade
      */
     public function resync()
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true);
         $parts = null;
 
@@ -146,7 +147,7 @@ class MenusController extends BaseController
         )
             ->from($db->quoteName('#__menu'))
             ->where($db->quoteName('type') . ' = ' . $db->quote('component.item'));
-            $db->setQuery($query);
+        $db->setQuery($query);
 
         try {
             $items = $db->loadObjectList();
