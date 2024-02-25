@@ -31,6 +31,7 @@ use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -47,7 +48,6 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
-use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -168,7 +168,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * Class constructor.
      *
      * @param   ?Input      $input      An optional argument to provide dependency injection for the application's input
-     *                                  object.  If the argument is a Input object that object will become the
+     *                                  object.  If the argument is a JInput object that object will become the
      *                                  application's input object, otherwise a default input object is created.
      * @param   ?Registry   $config     An optional argument to provide dependency injection for the application's config
      *                                  object.  If the argument is a Registry object that object will become the
@@ -312,7 +312,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             }
 
             // If gzip compression is enabled in configuration and the server is compliant, compress the output.
-            if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler') {
+            if ($this->get('gzip') && !\ini_get('zlib.output_compression') && \ini_get('output_handler') !== 'ob_gzhandler') {
                 $this->compress();
 
                 // Trigger the onAfterCompress event.
@@ -1190,7 +1190,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     public function toString($compress = false)
     {
         // Don't compress something if the server is going to do it anyway. Waste of time.
-        if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler') {
+        if ($compress && !\ini_get('zlib.output_compression') && \ini_get('output_handler') !== 'ob_gzhandler') {
             $this->compress();
         }
 
