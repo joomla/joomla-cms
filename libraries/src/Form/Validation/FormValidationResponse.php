@@ -59,7 +59,8 @@ class FormValidationResponse implements FormValidationResponseInterface
     /**
      * List of validation properties tested that returned a negative result
      *
-     * @return  string[]
+     * @return  string[][]  An array of fields that failed validation. Each field contains a name and group
+     * *                    key that can be used in the getField method.
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -96,7 +97,7 @@ class FormValidationResponse implements FormValidationResponseInterface
     {
         if (!$field->isValid()) {
             $this->valid           = false;
-            $this->invalidFields[] = $field->getGroup() . '.' . $field->getName();
+            $this->invalidFields[] = ['name' => $field->getName(), 'group' => $field->getGroup()];
         }
 
         $this->fields[$field->getGroup() . '.' . $field->getName()] = $field;

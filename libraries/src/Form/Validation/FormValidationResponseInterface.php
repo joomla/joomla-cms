@@ -35,7 +35,8 @@ interface FormValidationResponseInterface extends \Countable
      * List of invalid fields. The names here are not human friendly names but the location of fields that can be
      * resolved by {@link Form::getField()} or through {@link static::getFieldValidation()}.
      *
-     * @return  string[]
+     * @return  string[][]  An array of fields that failed validation. Each field contains a name and group
+     *                      key that can be used in the getField method.
      *
      * @since   __DEPLOY_VERSION__
      */
