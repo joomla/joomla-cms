@@ -82,7 +82,7 @@ class TufAdapterTest extends UnitTestCase
             'client' => 'site',
         ]));
 
-        $this->assertSame(0, $result['client']);
+        $this->assertSame(0, $result['client_id']);
     }
 
     /**
