@@ -14,7 +14,6 @@ namespace Joomla\CMS\Updater\Adapter;
 // phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Tuf as MetadataTable;
 use Joomla\CMS\TUF\TufFetcher;
