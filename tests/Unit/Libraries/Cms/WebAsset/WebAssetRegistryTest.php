@@ -33,7 +33,7 @@ class WebAssetRegistryTest extends UnitTestCase
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function testAddGet()
+    public function testAddGet(): void
     {
         $r = new WebAssetRegistry();
         $a = new WebAssetItem('test', 'test.js');
@@ -53,7 +53,7 @@ class WebAssetRegistryTest extends UnitTestCase
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function testExists()
+    public function testExists(): void
     {
         $r = new WebAssetRegistry();
         $a = new WebAssetItem('test', 'test.js');
@@ -71,7 +71,7 @@ class WebAssetRegistryTest extends UnitTestCase
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function testRemove()
+    public function testRemove(): void
     {
         $r = new WebAssetRegistry();
         $a = new WebAssetItem('test', 'test.js');
@@ -93,7 +93,7 @@ class WebAssetRegistryTest extends UnitTestCase
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function testEvents()
+    public function testEvents(): void
     {
         $r  = new WebAssetRegistry();
         $d  = $r->getDispatcher();
@@ -155,7 +155,7 @@ class WebAssetRegistryTest extends UnitTestCase
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function testCreateAsset()
+    public function testCreateAsset(): void
     {
         $r = new WebAssetRegistry();
         $a = $r->createAsset('test', 'test.js', ['foo' => 'bar'], ['type' => 'module'], ['core']);
@@ -185,7 +185,7 @@ class WebAssetRegistryTest extends UnitTestCase
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function testParseRegistryFiles()
+    public function testParseRegistryFiles(): void
     {
         $r = new WebAssetRegistry();
         $r->addRegistryFile('tests/Unit/Libraries/Cms/WebAsset/asset.registry.json');
