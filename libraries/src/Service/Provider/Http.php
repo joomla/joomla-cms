@@ -36,7 +36,7 @@ class Http implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container->alias('http', HttpFactoryInterface::class)
+        $container->alias('http.factory', HttpFactoryInterface::class)
             ->share(
                 HttpFactoryInterface::class,
                 function (Container $container) {

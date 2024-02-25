@@ -72,7 +72,7 @@ class TufAdapter extends UpdateAdapter
         $versions = [];
 
         /** @var MetadataTable $metadataTable */
-        $metadataTable = new MetadataTable(Factory::getDbo());
+        $metadataTable = new MetadataTable($this->db);
         $metadataTable->load(['update_site_id' => $options['update_site_id']]);
 
         $tufFetcher = new TufFetcher($metadataTable, $options['location']);
