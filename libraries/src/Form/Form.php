@@ -1023,7 +1023,9 @@ class Form implements CurrentUserInterface
      * @param   array   $data   An array of field values to filter.
      * @param   string  $group  The dot-separated form group path on which to filter the fields.
      *
-     * @return  array|boolean   array or false.
+     * @return  array|boolean|FormValidationResponse   array of valid data. If modern validation response enabled then
+     *                                                 the form validation response object when the form isn't valid
+     *                                                 or when disabled boolean false.
      *
      * @since   4.0.0
      */
@@ -1033,8 +1035,15 @@ class Form implements CurrentUserInterface
 
         $valid = $this->validate($data, $group);
 
-        if (!$valid) {
-            return $valid;
+        if ($this->modernValidationResponse) {
+            /** @var  $valid  FormValidationResponse */
+            if (!$valid->isValid()) {
+                return $valid;
+            }
+        } else {
+            if (!$valid) {
+                return $valid;
+            }
         }
 
         return $this->postProcess($data, $group);
