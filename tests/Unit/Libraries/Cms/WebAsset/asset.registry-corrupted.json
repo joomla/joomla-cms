@@ -1,0 +1,15 @@
+{
+  "",
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "joomla",
+  "version": "5.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "test1",
+      "type": "script",
+      "uri": "test1.js"
+    },
+  ]
+}
