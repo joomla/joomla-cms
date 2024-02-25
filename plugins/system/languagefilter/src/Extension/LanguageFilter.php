@@ -14,6 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Router\AfterInitialiseRouterEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Associations;
@@ -23,10 +24,12 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
+use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Router\SiteRouterAwareTrait;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -40,7 +43,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-final class LanguageFilter extends CMSPlugin
+final class LanguageFilter extends CMSPlugin implements SubscriberInterface
 {
     use SiteRouterAwareTrait;
 
@@ -158,15 +161,44 @@ final class LanguageFilter extends CMSPlugin
     }
 
     /**
-     * After initialise.
+     * Returns an array of CMS events this plugin will listen to and the respective handlers.
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        /**
+         * Note that onAfterInitialise must be the first handlers to run for this
+         * plugin to operate as expected. These handlers load compatibility code which
+         * might be needed by other plugins
+         */
+        return [
+            'onAfterInitialiseRouter'           => 'onAfterInitialiseRouter',
+            'onAfterDispatch'                   => 'onAfterDispatch',
+            'onAfterRoute'                      => 'onAfterRoute',
+            'onPrivacyCollectAdminCapabilities' => 'onPrivacyCollectAdminCapabilities',
+            'onUserAfterSave'                   => 'onUserAfterSave',
+            'onUserBeforeSave'                  => 'onUserBeforeSave',
+            'onUserLogin'                       => 'onUserLogin',
+        ];
+    }
+
+    /**
+     * After initialise router.
      *
      * @return  void
      *
-     * @since   1.6
+     * @since   __DEPLOY_VERSION__
      */
-    public function onAfterInitialise()
+    public function onAfterInitialiseRouter(AfterInitialiseRouterEvent $event)
     {
-        $router = $this->getSiteRouter();
+        $router = $event->getRouter();
+
+        if (!is_a($router, SiteRouter::class)) {
+            return;
+        }
 
         // Attach build rules for language SEF.
         $router->attachBuildRule([$this, 'preprocessBuildRule'], Router::PROCESS_BEFORE);
@@ -180,6 +212,8 @@ final class LanguageFilter extends CMSPlugin
 
         // Attach parse rule.
         $router->attachParseRule([$this, 'parseRule'], Router::PROCESS_BEFORE);
+
+        $this->setSiteRouter($router);
     }
 
     /**
@@ -738,36 +772,36 @@ final class LanguageFilter extends CMSPlugin
             // For each language...
             foreach ($languages as $i => $language) {
                 switch (true) {
-                    // Language without frontend UI || Language without specific home menu || Language without authorized access level
                     case !\array_key_exists($i, LanguageHelper::getInstalledLanguages(0)):
                     case !isset($homes[$i]):
                     case isset($language->access) && $language->access && !\in_array($language->access, $levels):
+                        // Language without frontend UI || Language without specific home menu || Language without authorized access level
                         unset($languages[$i]);
                         break;
 
-                    // Home page
                     case $is_home:
+                        // Home page
                         $language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $homes[$i]->id);
                         break;
 
-                    // Current language link
                     case $i === $this->current_lang:
+                        // Current language link
                         $language->link = Route::_($currentInternalUrl);
                         break;
 
-                    // Component association
                     case isset($cassociations[$i]):
+                        // Component association
                         $language->link = Route::_($cassociations[$i]);
                         break;
 
-                    // Menu items association
-                    // Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
                     case isset($associations[$i]) && ($item = $menu->getItem($associations[$i])):
+                        // Menu items association
+                        // Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
                         $language->link = Route::_('index.php?Itemid=' . $item->id . '&lang=' . $language->sef);
                         break;
 
-                    // Too bad...
                     default:
+                        // Too bad...
                         unset($languages[$i]);
                 }
             }

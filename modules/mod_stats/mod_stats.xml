@@ -11,7 +11,7 @@
 	<description>MOD_STATS_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Stats</namespace>
 	<files>
-		<filename module="mod_stats">mod_stats.php</filename>
+		<folder module="mod_stats">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
