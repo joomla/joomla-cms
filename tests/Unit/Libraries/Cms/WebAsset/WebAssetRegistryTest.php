@@ -198,5 +198,7 @@ class WebAssetRegistryTest extends UnitTestCase
 
         $this->expectException(\RuntimeException::class);
         $r->exists('script', 'test1');
+
+        // @TODO: Test that parsing happens only once per registry file
     }
 }
