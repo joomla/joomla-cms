@@ -466,7 +466,7 @@ final class EmailCloak extends CMSPlugin
         */
 
 
-        $pattern = '~<[^<]*(?<!\/)>(*SKIP)(*F)|' . $searchEmail . '~iu';
+        $pattern = '~<[^<]*(?<!\/(?:src))>(*SKIP)(*F)|' . $searchEmail . '~iu';
 
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
