@@ -143,8 +143,10 @@ class TufAdapter extends UpdateAdapter
             $client = ApplicationHelper::getClientInfo($values['client'], true);
 
             if (\is_object($client)) {
-                $values['client'] = $client->id;
+                $values['client_id'] = $client->id;
             }
+
+            unset($values['client']);
         }
 
         if (isset($values['infourl']['url'])) {
@@ -177,7 +179,7 @@ class TufAdapter extends UpdateAdapter
                 'description'         => '',
                 'element'             => '',
                 'type'                => null,
-                'client'              => 0,
+                'client_id'           => 0,
                 'version'             => "1",
                 'data'                => '',
                 'detailsurl'          => '',
@@ -198,7 +200,7 @@ class TufAdapter extends UpdateAdapter
             ->setAllowedTypes('type', 'string')
             ->setAllowedTypes('detailsurl', 'string')
             ->setAllowedTypes('infourl', 'string')
-            ->setAllowedTypes('client', 'int')
+            ->setAllowedTypes('client_id', 'int')
             ->setAllowedTypes('downloads', 'array')
             ->setAllowedTypes('targetplatform', 'array')
             ->setAllowedTypes('php_minimum', 'string')
