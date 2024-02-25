@@ -1190,11 +1190,15 @@ class Form implements CurrentUserInterface
                     @trigger_error(sprintf('From 7.0 fields must return a class implementing %s.', FieldValidationResponseInterface::class), E_USER_DEPRECATED);
                 } elseif ($fieldValidationResponse instanceof FieldValidationResponseInterface) {
                     $validationResponse->addField($fieldValidationResponse);
+                } else {
+                    throw new \UnexpectedValueException(
+                        sprintf(
+                            'Unexpected response from %s::validate, received %s',
+                            $fieldObj::class,
+                            $fieldValidationResponse::class
+                        )
+                    );
                 }
-
-                throw new \UnexpectedValueException(
-                    sprintf('Unexpected response from %s::validate', $fieldObj::class)
-                );
             } elseif ($input->exists($key)) {
                 // The field returned false from setup and shouldn't be included in the page body - yet we received
                 // a value for it. This is probably some sort of injection attack and should be rejected
