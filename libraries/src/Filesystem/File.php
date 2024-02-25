@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\Filesystem\File as FrameworkFile;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -27,7 +28,7 @@ use Joomla\CMS\Log\Log;
  * @deprecated  4.4 will be removed in 6.0
  *              Use Joomla\Filesystem\File instead.
  */
-class File
+class File extends FrameworkFile
 {
     /**
      * @var    boolean  true if OPCache enabled, and we have permission to invalidate files

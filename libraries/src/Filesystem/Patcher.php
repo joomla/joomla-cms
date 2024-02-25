@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Filesystem;
 
 use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\Patcher as FrameworkPatcher;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,7 +24,7 @@ use Joomla\CMS\Language\Text;
  * @deprecated  4.4 will be removed in 6.0
  *              Use Joomla\Filesystem\Patcher instead.
  */
-class Patcher
+class Patcher extends FrameworkPatcher
 {
     /**
      * Regular expression for searching source files

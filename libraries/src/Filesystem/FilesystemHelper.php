@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Filesystem;
 
+use Joomla\Filesystem\Helper;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -22,7 +24,7 @@ namespace Joomla\CMS\Filesystem;
  * @deprecated  4.4 will be removed in 6.0
  *              Use Joomla\Filesystem\Helper instead.
  */
-class FilesystemHelper
+class FilesystemHelper extends Helper
 {
     /**
      * Remote file size function for streams that don't support it

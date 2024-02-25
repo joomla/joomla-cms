@@ -14,6 +14,7 @@ use Joomla\CMS\Client\FtpClient;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\Filesystem\Folder as FrameworkFolder;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -26,7 +27,7 @@ use Joomla\CMS\Log\Log;
  * @deprecated  4.4 will be removed in 6.0
  *              Use Joomla\Filesystem\Folder instead.
  */
-abstract class Folder
+abstract class Folder extends FrameworkFolder
 {
     /**
      * Copy a folder.
