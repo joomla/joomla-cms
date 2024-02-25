@@ -2,9 +2,9 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.languagefilter
+ * @subpackage  Schemaorg.Custom
  *
- * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,12 +12,11 @@
 
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\System\LanguageFilter\Extension\LanguageFilter;
+use Joomla\Plugin\Schemaorg\Custom\Extension\Custom;
 
 return new class () implements ServiceProviderInterface {
     /**
@@ -27,19 +26,20 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   4.4.0
+     * @since   __DEPLOY_VERSION__
      */
-    public function register(Container $container): void
+    public function register(Container $container)
     {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $plugin = new LanguageFilter(
-                    $container->get(DispatcherInterface::class),
-                    (array) PluginHelper::getPlugin('system', 'languagefilter'),
-                    Factory::getApplication(),
-                    $container->get(LanguageFactoryInterface::class)
+                $dispatcher = $container->get(DispatcherInterface::class);
+                $plugin     = new Custom(
+                    $dispatcher,
+                    (array) PluginHelper::getPlugin('schemaorg', 'custom')
                 );
+
+                $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
             }
