@@ -26,14 +26,19 @@ class FieldLengthConstraint extends AbstractConstraint
     /**
      * Method to instantiate the object.
      *
-     * @param   FormField  $field      The form field object being inspected
-     * @param   string     $value      Was the result of the constraint valid or not?
-     * @param   int        $maxLength  Was the result of the constraint valid or not?
+     * @param   FormField   $field      The form field object being inspected
+     * @param   ?string     $value      Was the result of the constraint valid or not?
+     * @param   int         $maxLength  Was the result of the constraint valid or not?
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function __construct(FormField $field, string $value, int $maxLength)
+    public function __construct(FormField $field, ?string $value, int $maxLength)
     {
+        // For the purposes of a max-length check no value is the same as an empty string
+        if ($value === null && $maxLength > 0) {
+            $value = '';
+        }
+
         $valid = ($maxLength === 0) || (\strlen($value) <= $maxLength);
 
         parent::__construct($valid, $field);
