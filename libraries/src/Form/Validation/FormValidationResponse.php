@@ -71,15 +71,16 @@ class FormValidationResponse implements FormValidationResponseInterface
     /**
      * Method to get a constraint result for the field.
      *
-     * @param   string  $name  The name of the field
+     * @param   string  $name   The name of the field to get the result for
+     * @param   string  $group  The group of the field to get the result for
      *
      * @return  FieldValidationResponseInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getField(string $name): FieldValidationResponseInterface
+    public function getField(string $name, string $group): FieldValidationResponseInterface
     {
-        return $this->fields[$name];
+        return $this->fields[$group . '.' . $name];
     }
 
     /**

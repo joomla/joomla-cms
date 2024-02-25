@@ -44,11 +44,12 @@ interface FormValidationResponseInterface extends \Countable
     /**
      * Get the field validation result for a named field.
      *
-     * @param   string  $name  The name of the field to get the result for
+     * @param   string  $name   The name of the field to get the result for
+     * @param   string  $group  The group of the field to get the result for
      *
      * @return  FieldValidationResponseInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getField(string $name): FieldValidationResponseInterface;
+    public function getField(string $name, string $group): FieldValidationResponseInterface;
 }
