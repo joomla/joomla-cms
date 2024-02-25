@@ -1210,7 +1210,7 @@ class Form implements CurrentUserInterface
 
             if (!$isValid) {
                 foreach ($validationResponse->getInvalidFields() as $invalidFieldName) {
-                    $invalidField = $validationResponse->getField($invalidFieldName);
+                    $invalidField = $validationResponse->getField($invalidFieldName['name'], $invalidFieldName['group']);
 
                     foreach ($invalidField->getInvalidConstraints() as $invalidConstraintName) {
                         $this->errors[] = new \RuntimeException(
