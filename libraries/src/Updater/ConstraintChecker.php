@@ -68,12 +68,14 @@ class ConstraintChecker
             return false;
         }
 
+        $result = true;
+
         // Check php_minimum, assume true when not set
         if (
             isset($candidate['php_minimum'])
             && !$this->checkPhpMinimum($candidate['php_minimum'])
         ) {
-            return false;
+            $result = false;
         }
 
         // Check supported databases, assume true when not set
@@ -81,7 +83,7 @@ class ConstraintChecker
             isset($candidate['supported_databases'])
             && !$this->checkSupportedDatabases($candidate['supported_databases'])
         ) {
-            return false;
+            $result = false;
         }
 
         // Check stability, assume true when not set
@@ -89,10 +91,10 @@ class ConstraintChecker
             isset($candidate['stability'])
             && !$this->checkStability($candidate['stability'])
         ) {
-            return false;
+            $result = false;
         }
 
-        return true;
+        return $result;
     }
 
     /**
