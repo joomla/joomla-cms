@@ -104,14 +104,14 @@ class InstallerScript
     /**
      * Function called before extension installation/update/removal procedure commences
      *
-     * @param   string            $type    The type of change (install, update or discover_install, not uninstall)
-     * @param   InstallerAdapter  $parent  The class calling this method
+     * @param   string            $type     The type of change (install, update or discover_install, not uninstall)
+     * @param   InstallerAdapter  $adapter  The class calling this method
      *
      * @return  boolean  True on success
      *
      * @since   3.6
      */
-    public function preflight(string $type, InstallerAdapter $parent)
+    public function preflight(string $type, InstallerAdapter $adapter): bool
     {
         // Check for the minimum PHP version before continuing
         if (!empty($this->minimumPhp) && version_compare(PHP_VERSION, $this->minimumPhp, '<')) {
@@ -128,8 +128,8 @@ class InstallerScript
         }
 
         // Extension manifest file version
-        $this->extension = $parent->getName();
-        $this->release   = $parent->getManifest()->version;
+        $this->extension = $adapter->getName();
+        $this->release   = $adapter->getManifest()->version;
         $extensionType   = substr($this->extension, 0, 3);
 
         // Modules parameters are located in the module table - else in the extension table
