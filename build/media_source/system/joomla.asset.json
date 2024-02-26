@@ -102,7 +102,7 @@
       ],
       "uri": "system/multiselect.min.js",
       "attributes": {
-        "defer": true
+        "type": "module"
       }
     },
     {
