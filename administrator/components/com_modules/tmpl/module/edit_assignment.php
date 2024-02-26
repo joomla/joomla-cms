@@ -123,7 +123,7 @@ $this->document->getWebAssetManager()
                     <?php endif; ?>
                 <?php endforeach; ?>
             </ul>
-            <joomla-alert id="noresultsfound" type="warning" style="display:none"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+            <joomla-alert id="noresultsfound" type="warning" class="hidden"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
             <div class="hidden" id="treeselectmenu">
                 <div class="nav-hover treeselect-menu">
                     <div class="dropdown">
@@ -132,14 +132,14 @@ $this->document->getWebAssetManager()
                             <span class="visually-hidden"><?php echo Text::sprintf('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
                         </button>
                         <div class="dropdown-menu">
-                            <h1 class="dropdown-header"><?php echo Text::_('COM_MODULES_SUBITEMS'); ?></h1>
+                            <div class="dropdown-header"><?php echo Text::_('COM_MODULES_SUBITEMS'); ?></div>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item checkall" href="javascript://"><span class="icon-check-square" aria-hidden="true"></span> <?php echo Text::_('JSELECT'); ?></a>
-                            <a class="dropdown-item uncheckall" href="javascript://"><span class="icon-square" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_DESELECT'); ?></a>
+                            <a class="dropdown-item checkall"><span class="icon-check-square" aria-hidden="true"></span> <?php echo Text::_('JSELECT'); ?></a>
+                            <a class="dropdown-item uncheckall"><span class="icon-square" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_DESELECT'); ?></a>
                             <div class="treeselect-menu-expand">
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item expandall" href="javascript://"><span class="icon-plus" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_EXPAND'); ?></a>
-                                <a class="dropdown-item collapseall" href="javascript://"><span class="icon-minus" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_COLLAPSE'); ?></a>
+                                <a class="dropdown-item expandall"><span class="icon-plus" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_EXPAND'); ?></a>
+                                <a class="dropdown-item collapseall"><span class="icon-minus" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_COLLAPSE'); ?></a>
                             </div>
                         </div>
                     </div>
