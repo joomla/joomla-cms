@@ -17,7 +17,8 @@
       "name": "joomla.treeselectmenu",
       "type": "script",
       "dependencies": [
-        "jquery"
+        "jquery",
+        "bootstrap.dropdown"
       ],
       "uri": "legacy/treeselectmenu.min.js",
       "attributes": {
