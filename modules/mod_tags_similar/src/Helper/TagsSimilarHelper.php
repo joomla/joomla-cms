@@ -40,6 +40,8 @@ class TagsSimilarHelper implements DatabaseAwareInterface
      * @param   Registry  &$params  Module parameters
      *
      * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
      */
     public function getItems(&$params)
     {
