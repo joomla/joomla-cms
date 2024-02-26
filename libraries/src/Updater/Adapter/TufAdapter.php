@@ -14,6 +14,7 @@ namespace Joomla\CMS\Updater\Adapter;
 // phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Tuf as MetadataTable;
 use Joomla\CMS\TUF\TufFetcher;
@@ -74,7 +75,7 @@ class TufAdapter extends UpdateAdapter
         $metadataTable = new MetadataTable($this->db);
         $metadataTable->load(['update_site_id' => $options['update_site_id']]);
 
-        $tufFetcher = new TufFetcher($metadataTable, $options['location']);
+        $tufFetcher = new TufFetcher($metadataTable, $options['location'], $this->db, Factory::getApplication());
         $metaData   = $tufFetcher->getValidUpdate();
 
         $metaData = json_decode((string) $metaData, true);

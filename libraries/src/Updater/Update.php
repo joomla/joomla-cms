@@ -539,7 +539,9 @@ class Update
     {
         $tufFetcher = new TufFetcher(
             $metadataTable,
-            $url
+            $url,
+            Factory::getDbo(),
+            Factory::getApplication(),
         );
 
         $metaData = $tufFetcher->getValidUpdate();
