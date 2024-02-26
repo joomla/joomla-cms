@@ -1022,6 +1022,7 @@ CREATE TABLE IF NOT EXISTS `#__guidedtour_steps` (
   `checked_out` int unsigned,
   `language` varchar(7) NOT NULL,
   `note` varchar(255) NOT NULL DEFAULT '',
+  `params` text,
   PRIMARY KEY (`id`),
   KEY `idx_tour` (`tour_id`),
   KEY `idx_state` (`published`),
