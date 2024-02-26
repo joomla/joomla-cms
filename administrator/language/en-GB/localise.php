@@ -48,6 +48,8 @@ abstract class En_GBLocalise
      * @return  array  An array of ignored search words.
      *
      * @since   1.6
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public static function getIgnoredSearchWords()
     {
@@ -60,6 +62,8 @@ abstract class En_GBLocalise
      * @return  integer  The lower length limit of search words.
      *
      * @since   1.6
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public static function getLowerLimitSearchWord()
     {
@@ -72,6 +76,8 @@ abstract class En_GBLocalise
      * @return  integer  The upper length limit of search words.
      *
      * @since   1.6
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public static function getUpperLimitSearchWord()
     {
@@ -84,6 +90,8 @@ abstract class En_GBLocalise
      * @return  integer  The number of chars to display when searching.
      *
      * @since   1.6
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public static function getSearchDisplayedCharactersNumber()
     {
