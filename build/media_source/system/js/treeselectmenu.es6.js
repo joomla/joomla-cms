@@ -79,12 +79,16 @@ document.getElementById('treeselectfilter').addEventListener('keyup', ({ target 
 
 // Checks all checkboxes the tree
 document.getElementById('treeCheckAll').addEventListener('click', () => {
-  document.querySelectorAll('.treeselect input').forEach((input) => input.setAttribute('checked', 'checked'));
+  document.querySelectorAll('.treeselect input').forEach((input) => {
+    input.checked = true;
+  });
 });
 
 // Unchecks all checkboxes the tree
 document.getElementById('treeUncheckAll').addEventListener('click', () => {
-  document.querySelectorAll('.treeselect input').forEach((input) => input.removeAttribute('checked'));
+  document.querySelectorAll('.treeselect input').forEach((input) => {
+    input.checked = false;
+  });
 });
 
 // Expands all subtrees
@@ -108,12 +112,16 @@ document.getElementById('treeCollapseAll').addEventListener('click', () => {
 // Take care of children check/uncheck all
 document.querySelectorAll('a.checkall').forEach((item) => {
   item.addEventListener('click', ({ target }) => {
-    target.closest('li').querySelectorAll('ul.treeselect-sub input').forEach((input) => input.setAttribute('checked', 'checked'));
+    target.closest('li').querySelectorAll('ul.treeselect-sub input').forEach((input) => {
+      input.checked = true;
+    });
   });
 });
 document.querySelectorAll('a.uncheckall').forEach((item) => {
   item.addEventListener('click', ({ target }) => {
-    target.closest('li').querySelectorAll('ul.treeselect-sub input').forEach((input) => input.removeAttribute('checked'));
+    target.closest('li').querySelectorAll('ul.treeselect-sub input').forEach((input) => {
+      input.checked = false;
+    });
   });
 });
 
