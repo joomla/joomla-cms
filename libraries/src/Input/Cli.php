@@ -7,7 +7,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Input;
+namespace Joomla\Input;
 
 use Joomla\CMS\Filter\InputFilter;
 
