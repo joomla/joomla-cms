@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Service\Provider;
 
-use Joomla\CMS\Input\Input as CMSInput;
+use Joomla\Input\Input as CMSInput;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 

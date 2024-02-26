@@ -11,7 +11,7 @@
 namespace Joomla\CMS\Installation\Service\Provider;
 
 use Joomla\CMS\Error\Renderer\JsonRenderer;
-use Joomla\CMS\Input\Input as CMSInput;
+use Joomla\Input\Input as CMSInput;
 use Joomla\CMS\Installation\Application\CliInstallationApplication;
 use Joomla\CMS\Installation\Application\InstallationApplication;
 use Joomla\CMS\Language\LanguageFactoryInterface;

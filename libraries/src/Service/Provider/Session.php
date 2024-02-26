@@ -13,7 +13,7 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Input\Input as CMSInput;
+use Joomla\Input\Input as CMSInput;
 use Joomla\CMS\Installation\Application\InstallationApplication;
 use Joomla\CMS\Session\EventListener\MetadataManagerListener;
 use Joomla\CMS\Session\MetadataManager;

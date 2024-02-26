@@ -35,7 +35,7 @@ use Joomla\CMS\Console\TasksListCommand;
 use Joomla\CMS\Console\TasksRunCommand;
 use Joomla\CMS\Console\TasksStateCommand;
 use Joomla\CMS\Console\UpdateCoreCommand;
-use Joomla\CMS\Input\Input as CMSInput;
+use Joomla\Input\Input as CMSInput;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Menu\MenuFactoryInterface;
 use Joomla\CMS\User\UserFactoryInterface;
