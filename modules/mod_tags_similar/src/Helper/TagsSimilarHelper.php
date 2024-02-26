@@ -16,6 +16,8 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -28,16 +30,18 @@ use Joomla\Registry\Registry;
  *
  * @since  3.1
  */
-abstract class TagsSimilarHelper
+class TagsSimilarHelper implements DatabaseAwareInterface
 {
+    use DatabaseAwareTrait;
+
     /**
-     * Get a list of tags
+     * Get a list of items with similar tags
      *
      * @param   Registry  &$params  Module parameters
      *
      * @return  array
      */
-    public static function getList(&$params)
+    public function getItems(&$params)
     {
         $app    = Factory::getApplication();
         $option = $app->getInput()->get('option');
@@ -49,8 +53,8 @@ abstract class TagsSimilarHelper
             return [];
         }
 
-        $db         = Factory::getDbo();
-        $user       = Factory::getUser();
+        $db         = $this->getDatabase();
+        $user       = $app->getIdentity();
         $groups     = $user->getAuthorisedViewLevels();
         $matchtype  = $params->get('matchtype', 'all');
         $ordering   = $params->get('ordering', 'count');
@@ -217,5 +221,23 @@ abstract class TagsSimilarHelper
         }
 
         return $results;
+    }
+
+    /**
+     * Get a list of items with similar tags
+     *
+     * @param   Registry  &$params  Module parameters
+     *
+     * @return  array
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *             Use the non-static method getItems
+     *             Example: Factory::getApplication()->bootModule('mod_tags_similar', 'site')
+     *                          ->getHelper('TagsSimilarHelper')
+     *                          ->getItems($params)
+     */
+    public static function getList(&$params)
+    {
+        return (new self())->getItems($params);
     }
 }
