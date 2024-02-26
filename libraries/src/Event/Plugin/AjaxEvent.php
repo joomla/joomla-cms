@@ -86,7 +86,7 @@ class AjaxEvent extends AbstractImmutableEvent implements ResultAwareInterface
 
         if (\is_array($this->arguments['result'])) {
             $this->arguments['result'][] = $data;
-        } elseif (is_scalar($this->arguments['result']) && is_scalar($data)) {
+        } elseif (\is_scalar($this->arguments['result']) && \is_scalar($data)) {
             $this->arguments['result'] .= $data;
         } else {
             throw new \UnexpectedValueException('Mixed data in the result for the event ' . $this->getName());

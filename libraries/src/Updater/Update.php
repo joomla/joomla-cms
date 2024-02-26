@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
+use Joomla\CMS\Table\Tuf as TufMetadata;
+use Joomla\CMS\TUF\TufFetcher;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 
@@ -203,12 +205,20 @@ class Update
     protected $currentUpdate;
 
     /**
-     * Object containing the latest update data
+     * Object containing the latest update data which meets the requirements
      *
      * @var    \stdClass
      * @since  3.0.0
      */
     protected $latest;
+
+    /**
+     * Object containing details if the latest update does not meet the PHP and DB version requirements
+     *
+     * @var    \stdClass
+     * @since  4.4.2
+     */
+    protected $otherUpdateInfo;
 
     /**
      * The minimum stability required for updates to be taken into account. The possible values are:
@@ -224,6 +234,14 @@ class Update
      * @see    Updater
      */
     protected $minimum_stability = Updater::STABILITY_STABLE;
+
+    /**
+     * Current release channel
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $channel;
 
     /**
      * Array with compatible versions used by the pre-update check
@@ -289,13 +307,13 @@ class Update
         }
 
         switch ($name) {
-            // This is a new update; create a current update
             case 'UPDATE':
+                // This is a new update; create a current update
                 $this->currentUpdate = new \stdClass();
                 break;
 
-            // Handle the array of download sources
             case 'DOWNLOADSOURCE':
+                // Handle the array of download sources
                 $source = new DownloadSource();
 
                 foreach ($attrs as $key => $data) {
@@ -307,12 +325,12 @@ class Update
 
                 break;
 
-            // Don't do anything
             case 'UPDATES':
+                // Don't do anything
                 break;
 
-            // For everything else there's...the default!
             default:
+                // For everything else there's...the default!
                 $name = strtolower($name);
 
                 if (!isset($this->currentUpdate->$name)) {
@@ -355,11 +373,34 @@ class Update
                     && $product == $this->currentUpdate->targetplatform->name
                     && preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->get('jversion.full', JVERSION))
                 ) {
+                    // Collect information on updates which do not meet PHP and DB version requirements
+                    $otherUpdateInfo          = new \stdClass();
+                    $otherUpdateInfo->version = $this->currentUpdate->version->_data;
+
                     $phpMatch = false;
 
                     // Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
                     if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum->_data, '>=')) {
                         $phpMatch = true;
+                    }
+
+                    if (!$phpMatch) {
+                        $otherUpdateInfo->php           = new \stdClass();
+                        $otherUpdateInfo->php->required = $this->currentUpdate->php_minimum->_data;
+                        $otherUpdateInfo->php->used     = PHP_VERSION;
+                    }
+
+                    $channelMatch = false;
+
+                    // Check if the release channel matches, assume true if tag isn't present
+                    if (!$this->channel || !isset($this->currentUpdate->channel) || preg_match('/' . $this->channel . '/', $this->currentUpdate->channel->_data)) {
+                        $channelMatch = true;
+                    }
+
+                    if (!$channelMatch) {
+                        $otherUpdateInfo->channel           = new \stdClass();
+                        $otherUpdateInfo->channel->required = $this->currentUpdate->channel->_data;
+                        $otherUpdateInfo->channel->used     = $this->channel;
                     }
 
                     $dbMatch = false;
@@ -385,6 +426,13 @@ class Update
                         if (isset($supportedDbs->$dbType)) {
                             $minimumVersion = $supportedDbs->$dbType;
                             $dbMatch        = version_compare($dbVersion, $minimumVersion, '>=');
+
+                            if (!$dbMatch) {
+                                $otherUpdateInfo->db           = new \stdClass();
+                                $otherUpdateInfo->db->type     = $dbType;
+                                $otherUpdateInfo->db->required = $minimumVersion;
+                                $otherUpdateInfo->db->used     = $dbVersion;
+                            }
                         }
                     } else {
                         // Set to true if the <supported_databases> tag is not set
@@ -398,7 +446,7 @@ class Update
                         $stabilityMatch = false;
                     }
 
-                    if ($phpMatch && $stabilityMatch && $dbMatch) {
+                    if ($phpMatch && $stabilityMatch && $dbMatch && $channelMatch) {
                         if (!empty($this->currentUpdate->downloadurl) && !empty($this->currentUpdate->downloadurl->_data)) {
                             $this->compatibleVersions[] = $this->currentUpdate->version->_data;
                         }
@@ -409,6 +457,11 @@ class Update
                         ) {
                             $this->latest = $this->currentUpdate;
                         }
+                    } elseif (
+                        !isset($this->otherUpdateInfo)
+                        || version_compare($otherUpdateInfo->version, $this->otherUpdateInfo->version, '>')
+                    ) {
+                        $this->otherUpdateInfo = $otherUpdateInfo;
                     }
                 }
                 break;
@@ -470,7 +523,94 @@ class Update
     }
 
     /**
-     * Loads an XML file from a URL.
+     * Loads update information from a TUF repo.
+     *
+     *
+     * @param TufMetadata $metadataTable     The metadata table
+     * @param string      $url               The repo url
+     * @param int         $minimumStability  The minimum stability required for updating the extension {@see Updater}
+     * @param string      $channel           The update channel
+     *
+     * @return  boolean  True on success
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function loadFromTuf(TufMetadata $metadataTable, string $url, $minimumStability = Updater::STABILITY_STABLE, $channel = null)
+    {
+        $tufFetcher = new TufFetcher(
+            $metadataTable,
+            $url
+        );
+
+        $metaData = $tufFetcher->getValidUpdate();
+
+        $data              = json_decode($metaData, true);
+        $constraintChecker = new ConstraintChecker();
+
+        foreach ($data['signed']['targets'] as $target) {
+            // Check if this target is newer than the current version
+            if (isset($this->latest) && version_compare($target['custom']['version'], $this->latest->version, '<')) {
+                continue;
+            }
+
+            if (!$constraintChecker->check($target['custom'])) {
+                $this->otherUpdateInfo = $constraintChecker->getFailedEnvironmentConstraints();
+
+                continue;
+            }
+
+            if (!empty($target['custom']['downloads'])) {
+                $this->compatibleVersions[] = $target['custom']['version'];
+            }
+
+            $this->latest = new \stdClass();
+
+            foreach ($target['custom'] as $key => $val) {
+                $this->latest->$key = $val;
+            }
+
+            $this->downloadSources = [];
+
+            if (!empty($this->latest->downloads)) {
+                foreach ($this->latest->downloads as $download) {
+                    $source = new DownloadSource();
+
+                    foreach ($download as $key => $sourceUrl) {
+                        $key          = strtolower($key);
+                        $source->$key = $sourceUrl;
+                    }
+
+                    $this->downloadSources[] = $source;
+                }
+            }
+
+            $this->client = $this->latest->client;
+
+            foreach ($target['hashes'] as $hashAlgorithm => $hashSum) {
+                $this->$hashAlgorithm = (object) ['_data' => $hashSum];
+            }
+        }
+
+        // If the latest item is set then we transfer it to where we want to
+        if (isset($this->latest)) {
+            foreach ($this->downloadSources as $source) {
+                $this->downloadurl = (object) [
+                    '_data'  => $source->url,
+                    'type'   => $source->type,
+                    'format' => $source->format,
+                ];
+
+                break;
+            }
+
+            unset($this->latest);
+        }
+
+        return true;
+    }
+
+    /**
+     * Loads a XML file from a URL.
      *
      * @param   string  $url               The URL.
      * @param   int     $minimumStability  The minimum stability required for updating the extension {@see Updater}
@@ -479,7 +619,7 @@ class Update
      *
      * @since   1.7.0
      */
-    public function loadFromXml($url, $minimumStability = Updater::STABILITY_STABLE)
+    public function loadFromXml($url, $minimumStability = Updater::STABILITY_STABLE, $channel = null)
     {
         $version    = new Version();
         $httpOption = new Registry();
@@ -500,6 +640,7 @@ class Update
         }
 
         $this->minimum_stability = $minimumStability;
+        $this->channel           = $channel;
 
         $this->xmlParser = xml_parser_create('');
         xml_set_object($this->xmlParser, $this);
