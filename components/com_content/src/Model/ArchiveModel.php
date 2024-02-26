@@ -82,7 +82,7 @@ class ArchiveModel extends ArticlesModel
     }
 
     /**
-     * Get the master query for retrieving a list of articles subject to the model state.
+     * Get the main query for retrieving a list of articles subject to the model state.
      *
      * @return  \Joomla\Database\DatabaseQuery
      *

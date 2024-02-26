@@ -17,7 +17,6 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Input\Input;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -65,7 +64,7 @@ class CallbackController extends BaseController
         $method = $this->input->getCmd('method', '');
 
         if (empty($method)) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         PluginHelper::importPlugin('multifactorauth');
@@ -77,6 +76,6 @@ class CallbackController extends BaseController
          * The first plugin to handle the request should either redirect or close the application. If we are still here
          * no plugin handled the request successfully. Show an error.
          */
-        throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+        throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
     }
 }

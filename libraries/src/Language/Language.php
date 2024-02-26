@@ -148,6 +148,8 @@ class Language
      *
      * @var    callable
      * @since  1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     protected $ignoredSearchWordsCallback = null;
 
@@ -156,6 +158,8 @@ class Language
      *
      * @var    callable
      * @since  1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     protected $lowerLimitSearchWordCallback = null;
 
@@ -164,6 +168,8 @@ class Language
      *
      * @var    callable
      * @since  1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     protected $upperLimitSearchWordCallback = null;
 
@@ -172,6 +178,8 @@ class Language
      *
      * @var    callable
      * @since  1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     protected $searchDisplayedCharactersNumberCallback = null;
 
@@ -282,7 +290,10 @@ class Language
      * @return  Language  The Language object.
      *
      * @since       1.7.0
-     * @deprecated  5.0 Use the language factory instead
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the language factory instead
+     *              Example: Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($lang, $debug);
      */
     public static function getInstance($lang, $debug = false)
     {
@@ -481,6 +492,8 @@ class Language
      * @return  array  The array of ignored search words.
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function getIgnoredSearchWords()
     {
@@ -497,6 +510,8 @@ class Language
      * @return  callable  Function name or the actual function.
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function getIgnoredSearchWordsCallback()
     {
@@ -511,6 +526,8 @@ class Language
      * @return  callable  The previous function.
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function setIgnoredSearchWordsCallback(callable $function)
     {
@@ -526,6 +543,8 @@ class Language
      * @return  integer  The lower limit integer for length of search words (3 if no value was set for a specific language).
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function getLowerLimitSearchWord()
     {
@@ -542,6 +561,8 @@ class Language
      * @return  callable  Function name or the actual function.
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function getLowerLimitSearchWordCallback()
     {
@@ -556,6 +577,8 @@ class Language
      * @return  callable  The previous function.
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function setLowerLimitSearchWordCallback(callable $function)
     {
@@ -571,6 +594,8 @@ class Language
      * @return  integer  The upper limit integer for length of search words (200 if no value was set or if default value is < 200).
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function getUpperLimitSearchWord()
     {
@@ -587,6 +612,8 @@ class Language
      * @return  callable  Function name or the actual function.
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function getUpperLimitSearchWordCallback()
     {
@@ -601,6 +628,8 @@ class Language
      * @return  callable  The previous function.
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function setUpperLimitSearchWordCallback(callable $function)
     {
@@ -616,6 +645,8 @@ class Language
      * @return  integer  The number of characters displayed (200 if no value was set for a specific language).
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function getSearchDisplayedCharactersNumber()
     {
@@ -632,6 +663,8 @@ class Language
      * @return  callable  Function name or the actual function.
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function getSearchDisplayedCharactersNumberCallback()
     {
@@ -646,6 +679,8 @@ class Language
      * @return  callable  The previous function.
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     public function setSearchDisplayedCharactersNumberCallback(callable $function)
     {
@@ -907,17 +942,17 @@ class Language
 
         while ($continue && next($backtrace)) {
             $step  = current($backtrace);
-            $class = @ $step['class'];
+            $class = @$step['class'];
 
             // We're looking for something outside of language.php
             if ($class != self::class && $class != Text::class) {
-                $info['function'] = @ $step['function'];
+                $info['function'] = @$step['function'];
                 $info['class']    = $class;
                 $info['step']     = prev($backtrace);
 
                 // Determine the file and name of the file
-                $info['file'] = @ $step['file'];
-                $info['line'] = @ $step['line'];
+                $info['file'] = @$step['file'];
+                $info['line'] = @$step['line'];
 
                 $continue = false;
             }

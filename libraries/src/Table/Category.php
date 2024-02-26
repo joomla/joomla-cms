@@ -50,8 +50,11 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
      */
     public function __construct(DatabaseDriver $db)
     {
-        // @deprecated 5.0 This format was used by tags and versioning before 4.0 before the introduction of the
-        //                 getTypeAlias function. This notation with the {} will be removed in Joomla 5
+        /**
+         * @deprecated  4.0 will be removed in 6.0
+         *              This format was used by tags and versioning before 4.0 before
+         *              the introduction of the getTypeAlias function.
+         */
         $this->typeAlias = '{extension}.category';
         parent::__construct('#__categories', 'id', $db);
         $this->access = (int) Factory::getApplication()->get('access');

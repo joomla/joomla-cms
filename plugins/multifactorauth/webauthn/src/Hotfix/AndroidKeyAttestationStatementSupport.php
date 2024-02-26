@@ -57,7 +57,9 @@ use Webauthn\TrustPath\CertificateTrustPath;
  *
  * @since   4.2.0
  *
- * @deprecated 5.0 We will upgrade the WebAuthn library to version 3 or later and this will go away.
+ * @deprecated  4.2 will be removed in 6.0
+ *              Will be removed without replacement
+ *              We will upgrade the WebAuthn library to version 3 or later and this will go away.
  */
 final class AndroidKeyAttestationStatementSupport implements AttestationStatementSupport
 {

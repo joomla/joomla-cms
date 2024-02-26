@@ -128,7 +128,7 @@ class HtmlView extends InstallerViewDefault
                 ->icon('icon-upload');
         }
 
-        $toolbar->standardButton('search', 'COM_INSTALLER_TOOLBAR_UPDATE', 'update.find')
+        $toolbar->standardButton('search', 'COM_INSTALLER_TOOLBAR_FIND_UPDATES', 'update.find')
             ->listCheck(false)
             ->icon('icon-refresh');
 

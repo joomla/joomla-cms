@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Application\ApplicationInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;

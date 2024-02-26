@@ -217,6 +217,9 @@
 			<field
 				name="image_intro"
 				type="media"
+				schemes="http,https,ftp,ftps,data,file"
+				validate="url"
+				relative="true"
 				label="COM_CONTENT_FIELD_INTRO_LABEL"
 			/>
 
@@ -247,12 +250,16 @@
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 				size="20"
 				useglobal="true"
+				validate="CssIdentifier"
 			/>
 		</fieldset>
 		<fieldset name="image-full">
 			<field
 				name="image_fulltext"
 				type="media"
+				schemes="http,https,ftp,ftps,data,file"
+				validate="url"
+				relative="true"
 				label="COM_CONTENT_FIELD_FULL_LABEL"
 			/>
 
@@ -283,6 +290,7 @@
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 				size="20"
 				useglobal="true"
+				validate="CssIdentifier"
 			/>
 		</fieldset>
 	</fields>

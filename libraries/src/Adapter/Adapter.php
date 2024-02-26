@@ -23,7 +23,8 @@ use Joomla\Database\DatabaseAwareInterface;
  * Class harvested from joomla.installer.installer
  *
  * @since       1.6
- * @deprecated  5.0 Will be removed without replacement
+ * @deprecated  4.3 will be removed in 6.0
+ *              Will be removed without replacement
  */
 class Adapter extends CMSObject
 {

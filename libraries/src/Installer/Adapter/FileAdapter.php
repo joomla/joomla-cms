@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Installer\Installer;
@@ -18,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -47,6 +47,22 @@ class FileAdapter extends InstallerAdapter
      * @since  3.4
      */
     protected $supportsDiscoverInstall = false;
+
+    /**
+     * List of processed folders
+     *
+     * @var    array
+     * @since  3.4
+     */
+    protected $folderList;
+
+    /**
+     * List of processed files
+     *
+     * @var    array
+     * @since  3.4
+     */
+    protected $fileList;
 
     /**
      * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
@@ -156,7 +172,11 @@ class FileAdapter extends InstallerAdapter
      */
     protected function finaliseUninstall(): bool
     {
-        File::delete(JPATH_MANIFESTS . '/files/' . $this->extension->element . '.xml');
+        $manifest = JPATH_MANIFESTS . '/files/' . $this->extension->element . '.xml';
+
+        if (is_file($manifest)) {
+            File::delete($manifest);
+        }
 
         $extensionId = $this->extension->extension_id;
 
@@ -200,7 +220,7 @@ class FileAdapter extends InstallerAdapter
     public function getElement($element = null)
     {
         if (!$element) {
-            $manifestPath = Path::clean($this->parent->getPath('manifest'));
+            $manifestPath = Path::clean($this->parent->getPath('manifest', ''));
             $element      = preg_replace('/\.xml/', '', basename($manifestPath));
         }
 
@@ -267,7 +287,10 @@ class FileAdapter extends InstallerAdapter
                         $folderList[] = $targetFolder . '/' . $eFileName;
                     } else {
                         $fileName = $targetFolder . '/' . $eFileName;
-                        File::delete($fileName);
+
+                        if (is_file($fileName)) {
+                            File::delete($fileName);
+                        }
                     }
                 }
             }

@@ -38,7 +38,7 @@
       "type": "script",
       "uri": "com_media/media-manager-es5.min.js",
       "dependencies": [
-        "core"
+        "core", "messages"
       ],
       "attributes": {
         "nomodule": true,

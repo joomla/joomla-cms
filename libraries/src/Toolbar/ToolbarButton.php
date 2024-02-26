@@ -249,7 +249,8 @@ abstract class ToolbarButton
      *
      * @since   3.0
      *
-     * @deprecated  5.0 Use render() instead.
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use render() instead.
      */
     abstract public function fetchButton();
 

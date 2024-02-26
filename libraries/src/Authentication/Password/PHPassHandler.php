@@ -19,7 +19,9 @@ use Joomla\Authentication\Password\HandlerInterface;
  * Password handler for PHPass hashed passwords
  *
  * @since       4.0.0
- * @deprecated  5.0  Support for PHPass hashed passwords will be removed
+ *
+ * @deprecated  4.0 will be removed in 6.0
+ *              Support for PHPass hashed passwords will be removed without replacement
  */
 class PHPassHandler implements HandlerInterface, CheckIfRehashNeededHandlerInterface
 {

@@ -105,9 +105,6 @@ class UserController extends BaseController
 
         $this->app->setUserState('users.login.form.data', []);
 
-        // Show a message when a user is logged in.
-        $this->app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGIN_SUCCESS'), 'message');
-
         $this->app->redirect(Route::_($this->app->getUserState('users.login.form.return'), false));
     }
 
@@ -206,7 +203,7 @@ class UserController extends BaseController
         }
 
         // Logout and redirect
-        $this->setRedirect('index.php?option=com_users&task=user.logout&' . Session::getFormToken() . '=1&return=' . base64_encode($url));
+        $this->setRedirect(Route::_('index.php?option=com_users&task=user.logout&' . Session::getFormToken() . '=1&return=' . base64_encode($url), false));
     }
 
     /**

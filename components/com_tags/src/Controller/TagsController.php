@@ -35,8 +35,8 @@ class TagsController extends BaseController
 
         // Receive request data
         $filters = [
-            'like'      => trim($this->input->get('like', null, 'string')),
-            'title'     => trim($this->input->get('title', null, 'string')),
+            'like'      => trim($this->input->get('like', '', 'string')),
+            'title'     => trim($this->input->get('title', '', 'string')),
             'flanguage' => $this->input->get('flanguage', null, 'word'),
             'published' => $this->input->get('published', 1, 'int'),
             'parent_id' => $this->input->get('parent_id', 0, 'int'),
