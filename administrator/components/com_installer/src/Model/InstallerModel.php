@@ -176,7 +176,7 @@ class InstallerModel extends ListModel
                     break;
                 case 'file':
                     $extension = 'files_' . $item->element;
-                        $lang->load("$extension.sys", JPATH_SITE);
+                    $lang->load("$extension.sys", JPATH_SITE);
                     break;
                 case 'library':
                     $parts     = explode('/', $item->element);
