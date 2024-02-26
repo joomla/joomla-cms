@@ -111,7 +111,7 @@ class InstallerScript
      *
      * @since   3.6
      */
-    public function preflight($type, $parent)
+    public function preflight(string $type, InstallerAdapter $parent)
     {
         // Check for the minimum PHP version before continuing
         if (!empty($this->minimumPhp) && version_compare(PHP_VERSION, $this->minimumPhp, '<')) {
@@ -173,7 +173,7 @@ class InstallerScript
     {
         $extension = $this->extension;
 
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get('DatabaseDriver');
         $query = $db->getQuery(true);
 
         // Select the item(s) and retrieve the id
@@ -257,7 +257,7 @@ class InstallerScript
         // Store the combined new and existing values back as a JSON string
         $paramsString = json_encode($params);
 
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get('DatabaseDriver');
         $query = $db->getQuery(true)
             ->update($db->quoteName($this->paramTable))
             ->set('params = :params')
