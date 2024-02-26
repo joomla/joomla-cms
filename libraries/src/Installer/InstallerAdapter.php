@@ -1054,9 +1054,9 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, $method)) {
             switch ($method) {
-                    // The preflight and postflight take the route as a param
                 case 'preflight':
                 case 'postflight':
+                    // The preflight and postflight take the route as a param
                     if ($this->parent->manifestClass->$method($this->route, $this) === false) {
                         if ($method !== 'postflight') {
                             // Clean and close the output buffer
@@ -1073,10 +1073,10 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
                     }
                     break;
 
-                    // The install, uninstall, and update methods only pass this object as a param
                 case 'install':
                 case 'uninstall':
                 case 'update':
+                    // The install, uninstall, and update methods only pass this object as a param
                     if ($this->parent->manifestClass->$method($this) === false) {
                         if ($method !== 'uninstall') {
                             // Clean and close the output buffer
