@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\Filter\OutputFilter as BaseOutputFilter;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Filter\OutputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -38,7 +39,7 @@ class OutputFilter extends BaseOutputFilter
     {
         $regex = 'href="([^"]*(&(amp;){0})[^"]*)*?"';
 
-        return preg_replace_callback("#$regex#i", ['\\Joomla\\CMS\\Filter\\OutputFilter', 'ampReplaceCallback'], $input);
+        return preg_replace_callback("#$regex#i", [static::class, 'ampReplaceCallback'], $input);
     }
 
     /**

@@ -382,7 +382,7 @@ class Workflow
             AbstractEvent::create(
                 'onWorkflowBeforeTransition',
                 [
-                    'eventClass'     => 'Joomla\CMS\Event\Workflow\WorkflowTransitionEvent',
+                    'eventClass'     => WorkflowTransitionEvent::class,
                     'subject'        => $this,
                     'extension'      => $this->extension,
                     'pks'            => $pks,

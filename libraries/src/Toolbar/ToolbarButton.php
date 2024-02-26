@@ -450,7 +450,7 @@ abstract class ToolbarButton
                     throw new \InvalidArgumentException(
                         sprintf(
                             '%s::%s() miss first argument.',
-                            \get_called_class(),
+                            static::class,
                             $name
                         )
                     );

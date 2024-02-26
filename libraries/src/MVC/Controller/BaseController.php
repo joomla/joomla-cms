@@ -36,6 +36,7 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -391,7 +392,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         }
 
         // Determine the methods to exclude from the base class.
-        $xMethods = get_class_methods('\\Joomla\\CMS\\MVC\\Controller\\BaseController');
+        $xMethods = get_class_methods(BaseController::class);
 
         // Get the public methods in this class using reflection.
         $r        = new \ReflectionClass($this);

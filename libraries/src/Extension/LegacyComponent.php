@@ -240,7 +240,7 @@ class LegacyComponent implements
         if (class_exists($class)) {
             $reflection = new \ReflectionClass($class);
 
-            if (\in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames())) {
+            if (\in_array(RouterInterface::class, $reflection->getInterfaceNames())) {
                 return new $class($application, $menu);
             }
         }

@@ -590,7 +590,7 @@ class SiteRouter extends Router
     {
         $reflection = new \ReflectionClass($router);
 
-        if (\in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames())) {
+        if (\in_array(RouterInterface::class, $reflection->getInterfaceNames())) {
             $this->componentRouters[$component] = $router;
 
             return true;
