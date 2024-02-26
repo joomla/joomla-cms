@@ -297,6 +297,9 @@ class WebAssetManager implements WebAssetManagerInterface
             $this->dependenciesIsActual = false;
         }
 
+        // To re-order assets
+        $this->sortedAssets[$type] = [];
+
         return $this;
     }
 
@@ -326,6 +329,9 @@ class WebAssetManager implements WebAssetManagerInterface
 
         // To re-check dependencies
         $this->dependenciesIsActual = false;
+
+        // To re-order assets
+        $this->sortedAssets[$type] = [];
 
         // For Preset case
         if ($type === 'preset') {

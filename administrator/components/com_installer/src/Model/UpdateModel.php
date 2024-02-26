@@ -336,6 +336,23 @@ class UpdateModel extends ListModel
                 continue;
             }
 
+            $app   = Factory::getApplication();
+            $db    = $this->getDatabase();
+            $query = $db->getQuery(true)
+                ->select('type')
+                ->from('#__update_sites')
+                ->where($db->quoteName('update_site_id') . ' = :id')
+                ->bind(':id', $instance->update_site_id, ParameterType::INTEGER);
+
+            $updateSiteType = (string) $db->setQuery($query)->loadResult();
+
+            // TUF is currently only supported for Joomla core
+            if ($updateSiteType === 'tuf') {
+                $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_NOT_AVAILABLE'), 'error');
+
+                return;
+            }
+
             $update->loadFromXml($instance->detailsurl, $minimumStability);
 
             // Find and use extra_query from update_site if available
