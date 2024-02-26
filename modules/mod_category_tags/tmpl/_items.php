@@ -40,11 +40,9 @@ $items = $item->items;
             $item->params = new Registry($item->params);
             $item->images = json_decode($item->images, false);
 
-            $src = htmlspecialchars($item->images->image_intro, ENT_COMPAT, 'UTF-8');
-
-            if ($src) {
+            if ($item->images->image_intro ?? false) {
                 $layoutAttr = [
-                    'src'   => $src,
+                    'src'   => $item->images->image_intro,
                     'class' => 'tag-image ' . (empty($item->images->float_intro) ? $item->params->get('float_intro', false) : $item->images->float_intro),
                     'alt'   => empty($item->images->image_intro_alt) && empty($item->images->image_intro_alt_empty) ? false : $item->images->image_intro_alt
                 ];
