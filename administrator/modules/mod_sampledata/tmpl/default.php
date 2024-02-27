@@ -14,8 +14,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
 $app->getDocument()->getWebAssetManager()
-    ->registerAndUseScript('mod_sampledata', 'mod_sampledata/sampledata-process.js', [], ['type' => 'module'], ['core'])
-    ->useScript('webcomponent.core-loader');
+    ->useScript('webcomponent.core-loader')
+    ->registerAndUseScript('mod_sampledata', 'mod_sampledata/sampledata-process.js', [], ['type' => 'module'], ['core']);
 
 Text::script('MOD_SAMPLEDATA_COMPLETED');
 Text::script('MOD_SAMPLEDATA_CONFIRM_START');
