@@ -14,20 +14,14 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
 $app->getDocument()->getWebAssetManager()
-    ->registerAndUseScript('mod_sampledata', 'mod_sampledata/sampledata-process.js', [], ['type' => 'module'], ['core']);
+    ->registerAndUseScript('mod_sampledata', 'mod_sampledata/sampledata-process.js', [], ['type' => 'module'], ['core'])
+    ->useScript('webcomponent.core-loader');
 
 Text::script('MOD_SAMPLEDATA_COMPLETED');
 Text::script('MOD_SAMPLEDATA_CONFIRM_START');
 Text::script('MOD_SAMPLEDATA_ERROR_RESPONSE');
 Text::script('MOD_SAMPLEDATA_INVALID_RESPONSE');
 Text::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');
-
-$app->getDocument()->addScriptOptions(
-    'sample-data',
-    [
-        'icon' => Uri::root(true) . '/media/system/images/ajax-loader.gif',
-    ]
-);
 ?>
 <?php if ($items) : ?>
     <ul id="sample-data-wrapper" class="list-group list-group-flush sample-data">
