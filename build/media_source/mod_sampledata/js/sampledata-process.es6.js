@@ -38,8 +38,8 @@ const sampledataAjax = (type, steps, step) => {
     perform: true,
     onSuccess: (resp) => {
       // Remove loader image
-      //const loader = list.querySelector('.loader-image');
-      //loader.parentNode.removeChild(loader);
+      const loader = list.querySelector('.loader-image');
+      loader.parentNode.removeChild(loader);
 
       let response = {};
 
