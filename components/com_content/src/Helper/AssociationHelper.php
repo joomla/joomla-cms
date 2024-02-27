@@ -132,12 +132,12 @@ abstract class AssociationHelper extends CategoryAssociationHelper
                     }
 
                     // Do not display language without frontend UI
-                    if (!array_key_exists($language->lang_code, $installedLanguages)) {
+                    if (!\array_key_exists($language->lang_code, $installedLanguages)) {
                         continue;
                     }
 
                     // Do not display language without specific home menu
-                    if (!array_key_exists($language->lang_code, $siteHomePages)) {
+                    if (!\array_key_exists($language->lang_code, $siteHomePages)) {
                         continue;
                     }
 
