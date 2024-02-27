@@ -94,7 +94,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
                     }
                 }
 
-                return is_array($id) ? $return : ($return[$id] ?? []);
+                return \is_array($id) ? $return : ($return[$id] ?? []);
             }
         }
 
