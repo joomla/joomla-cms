@@ -111,6 +111,9 @@
 		<field
 			name="image"
 			type="media"
+			schemes="http,https,ftp,ftps,data,file"
+			validate="url"
+			relative="true"
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
 			hide_none="1"
 		/>

@@ -112,7 +112,7 @@ module.exports.createErrorPages = async (options) => {
   await Promise.all(iniFilesProcess).catch((err) => {
     // eslint-disable-next-line no-console
     console.error(err);
-    process.exit(-1);
+    process.exitCode = -1;
   });
 
   const processPage = async (name) => {
@@ -163,6 +163,6 @@ module.exports.createErrorPages = async (options) => {
   return Promise.all(processPages).catch((err) => {
     // eslint-disable-next-line no-console
     console.error(err);
-    process.exit(-1);
+    process.exitCode = -1;
   });
 };
