@@ -249,8 +249,8 @@ class CategoriesModel extends ListModel
             $categoryId = $categoryId ? [$categoryId] : [];
         }
 
-        // Case: Using both categories filter and by level filter
         if (\count($categoryId)) {
+            // Case: Using both categories filter and by level filter
             $categoryTable    = Table::getInstance('Category', 'JTable');
             $subCatItemsWhere = [];
 
@@ -263,9 +263,8 @@ class CategoriesModel extends ListModel
             }
 
             $query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
-
-        // Case: Using only the by level filter
         } elseif ($level) {
+            // Case: Using only the by level filter
             $query->where($db->quoteName('a.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);
         }
