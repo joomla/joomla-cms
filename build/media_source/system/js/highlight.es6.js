@@ -29,9 +29,7 @@ if (Joomla.getOptions && typeof Joomla.getOptions === 'function' && Joomla.getOp
         const instance = new Mark(element);
 
         // Loop through the terms
-        options.highLight.forEach((term) => {
-          instance.mark(term, options);
-        });
+        options.highLight.forEach((term) => instance.mark(term, options));
       }
     } else {
       const start = document.querySelector(`#${options.start}`);
