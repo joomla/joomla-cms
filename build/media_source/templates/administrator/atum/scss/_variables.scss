@@ -360,6 +360,11 @@ $atum-colors: (
   input-group-text-bg:              var(--template-bg-dark),
   input-group-text-border:          1px solid var(--template-bg-dark),
 
+  //search
+  js-stools-btn-clear-bg:              var(--template-bg-dark),
+  js-stools-btn-clear-disabled-bg:     var(--btn-disabled-bg),
+  js-stools-btn-clear-disabled-border: rgba($gray-300, .8),
+
   // cpanel
   cpanel-addmodule-hover:           var(--template-bg-dark),
 
@@ -692,6 +697,11 @@ $btn-outline-secondary-bg:         var(--btn-outline-secondary-bg);
 $btn-outline-secondary-border:     var(--btn-outline-secondary-border);
 $input-group-text-bg:              var(--input-group-text-bg);
 $input-group-text-border:          var(--input-group-text-border);
+
+// Search
+$js-stools-btn-clear-bg:              var(--template-bg-dark);
+$js-stools-btn-clear-disabled-bg:     var(--btn-disabled-bg);
+$js-stools-btn-clear-disabled-border: var(--js-stools-btn-clear-disabled-border);
 
 // Dropdown
 $dropdown-header-bg:               var(--dropdown-header-bg);

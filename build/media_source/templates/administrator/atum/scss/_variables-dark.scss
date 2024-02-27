@@ -314,6 +314,11 @@ $atum-colors-dark: (
   input-group-text-border:             1px solid var(--btn-primary-border),
   input-group-text-color:              var(--btn-primary-color),
 
+  // Search
+  js-stools-btn-clear-bg:              var(--body-bg),
+  js-stools-btn-clear-disabled-bg:     var(--body-bg),
+  js-stools-btn-clear-disabled-border: var(--form-select-border),
+
   // Alerts
   states-link-color:                   #fff,
   states-btn-primary-bg:               rgba(0,0,0,.5),

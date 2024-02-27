@@ -27,11 +27,11 @@
     }
 
     .js-stools-btn-clear {
-      background-color: var(--template-bg-dark);
+      background-color: $js-stools-btn-clear-bg;
       &[disabled],
       &.dropdown-toggle[disabled] {
-        background: var(--body-bg); // TODO: unified variables for light and dark mode
-        border: rgba($gray-300, .8); // TODO: unified variables for light and dark mode
+        background: $js-stools-btn-clear-disabled-bg;
+        border: $js-stools-btn-clear-disabled-border;
         opacity: .5;
 
         &:hover,
