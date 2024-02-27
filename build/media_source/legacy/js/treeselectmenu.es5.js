@@ -78,7 +78,10 @@ jQuery(function($)
 	$('#treeCheckAll').click(function()
 	{
 		$('.treeselect input').each(function() {
-      $(this).prop('checked', true);
+      var self = $(this);
+      if (!self.prop('disabled')) {
+        self.prop('checked', true);
+      }
 	  });
 	});
 
@@ -86,7 +89,10 @@ jQuery(function($)
 	$('#treeUncheckAll').click(function()
 	{
 		$('.treeselect input').each(function() {
-      $(this).prop('checked', false);
+      var self = $(this);
+      if (!self.prop('disabled')) {
+        self.prop('checked', false);
+      }
 	  });
 	});
 
@@ -107,13 +113,19 @@ jQuery(function($)
 	$('a.checkall').click(function()
 	{
 		$(this).parents().eq(4).find('input').each(function() {
-      $(this).prop('checked', true);
+      var self = $(this);
+      if (!self.prop('disabled')) {
+        self.prop('checked', true);
+      }
 	  });
 	});
 	$('a.uncheckall').click(function()
 	{
 		$(this).parents().eq(4).find('input').each(function() {
-      $(this).prop('checked', false);
+      var self = $(this);
+      if (!self.prop('disabled')) {
+        self.prop('checked', false);
+      }
 	  });
 	});
 
