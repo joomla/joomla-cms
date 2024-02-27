@@ -772,7 +772,7 @@ class ArticlesModel extends ListModel
         // Load tags of all items.
         if ($taggedItems) {
             $tagsHelper = new TagsHelper();
-            $itemIds    = array_keys($taggedItems);
+            $itemIds    = \array_keys($taggedItems);
 
             foreach ($tagsHelper->getMultipleItemTags('com_content.article', $itemIds) as $id => $tags) {
                 $items[$taggedItems[$id]]->tags->itemTags = $tags;
