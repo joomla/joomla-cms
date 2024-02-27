@@ -64,7 +64,7 @@ class CategoriesHelper
             }
         }
 
-        return is_array($pk) ? $multilanguageAssociations[$queryKey] : ($multilanguageAssociations[$queryKey][$pk] ?? []);
+        return \is_array($pk) ? $multilanguageAssociations[$queryKey] : ($multilanguageAssociations[$queryKey][$pk] ?? []);
     }
 
     /**
