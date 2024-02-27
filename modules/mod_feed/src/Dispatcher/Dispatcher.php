@@ -40,7 +40,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
 
         $data['rssurl'] = $data['params']->get('rssurl', '');
         $data['rssrtl'] = $data['params']->get('rssrtl', 0);
-        $data['feed']   = $this->getHelperFactory()->getHelper('FeedHelper')->getFeed($data['params']);
+        $data['feed']   = $this->getHelperFactory()->getHelper('FeedHelper')->getFeedInformation($data['params']);
 
         return $data;
     }
