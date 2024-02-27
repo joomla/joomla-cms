@@ -593,7 +593,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      */
     public function onUserAfterSave(AfterSaveEvent $event): void
     {
-        $user = $event->getUser();
+        $user    = $event->getUser();
         $success = $event->getSavingResult();
 
         if ($success && \array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1) {
