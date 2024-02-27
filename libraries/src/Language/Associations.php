@@ -139,7 +139,7 @@ class Associations
 
             $db->setQuery($query);
 
-            if (is_array($id)) {
+            if (\is_array($id)) {
                 try {
                     $items = $db->loadObjectList();
                 } catch (\RuntimeException $e) {
