@@ -14,7 +14,11 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Application\AfterRouteEvent;
 use Joomla\CMS\Event\Router\AfterInitialiseRouterEvent;
+use Joomla\CMS\Event\User\AfterSaveEvent;
+use Joomla\CMS\Event\User\BeforeSaveEvent;
+use Joomla\CMS\Event\User\LoginEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Associations;
@@ -559,8 +563,10 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      *
      * @since   1.6
      */
-    public function onUserBeforeSave($user, $isnew, $new)
+    public function onUserBeforeSave(BeforeSaveEvent $event)
     {
+        $user = $event->getUser();
+
         if (\array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1) {
             $registry             = new Registry($user['params']);
             $this->user_lang_code = $registry->get('language');
@@ -585,8 +591,11 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      *
      * @since   1.6
      */
-    public function onUserAfterSave($user, $isnew, $success, $msg): void
+    public function onUserAfterSave(AfterSaveEvent $event): void
     {
+        $user = $event->getUser();
+        $success = $event->getSavingResult();
+
         if ($success && \array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1) {
             $registry  = new Registry($user['params']);
             $lang_code = $registry->get('language');
@@ -621,8 +630,10 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      *
      * @since   1.5
      */
-    public function onUserLogin($user, $options = [])
+    public function onUserLogin(LoginEvent $event)
     {
+        $user = $event->getArgument('subject');
+
         if ($this->getApplication()->isClient('site')) {
             $menu = $this->getApplication()->getMenu();
 
