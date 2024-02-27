@@ -147,9 +147,7 @@ const sampledataApply = (element) => {
   }
 
   // Turn on the progress container
-  const progressElements = [].slice.call(document.querySelectorAll(`.sampledata-progress-${type}`));
-
-  progressElements.forEach((progressElement) => {
+  document.querySelectorAll(`.sampledata-progress-${type}`).forEach((progressElement) => {
     progressElement.classList.remove('d-none');
   });
 
@@ -165,8 +163,7 @@ const sampledataApply = (element) => {
 const sampleDataWrapper = document.getElementById('sample-data-wrapper');
 
 if (sampleDataWrapper) {
-  const links = [].slice.call(sampleDataWrapper.querySelectorAll('.apply-sample-data'));
-  links.forEach((link) => {
+  sampleDataWrapper.querySelectorAll('.apply-sample-data').forEach((link) => {
     link.addEventListener('click', ({ currentTarget }) => sampledataApply(currentTarget));
   });
 }
