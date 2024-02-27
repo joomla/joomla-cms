@@ -1,10 +1,10 @@
 :host {
   z-index: 10000;
-  opacity: .8;
-  align-items: center;
   display: flex;
-  overflow: hidden;
+  align-items: center;
   justify-content: center;
+  overflow: hidden;
+  opacity: .8;
 }
 
 :host(.fullscreen) {
@@ -16,7 +16,7 @@
 
   svg {
     width: 345px;
-	height: 345px;
+    height: 345px;
   }
 }
 

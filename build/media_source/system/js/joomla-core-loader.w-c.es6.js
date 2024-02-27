@@ -2,10 +2,6 @@
  * Creates a custom element with the default spinner of the Joomla logo
  */
 class JoomlaCoreLoader extends HTMLElement {
-  constructor() {
-    super();
-  }
-
   connectedCallback() {
     this.style.backgroundColor = this.color;
 
