@@ -540,7 +540,7 @@ class Update
         $tufFetcher = new TufFetcher(
             $metadataTable,
             $url,
-            Factory::getDbo(),
+            Factory::getContainer()->get(DatabaseDriver::class),
             Factory::getApplication(),
         );
 
