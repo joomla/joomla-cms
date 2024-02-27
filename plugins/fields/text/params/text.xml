@@ -21,6 +21,95 @@
 			</field>
 
 			<field
+				name="validate"
+				type="list"
+				label="PLG_FIELDS_TEXT_PARAMS_VALIDATE_LABEL"
+				class="list"
+				validate="options"
+			>
+				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
+				<option value="0">JNO</option>
+				<option value="email">JLIB_FILTER_PARAMS_EMAIL</option>
+				<option value="tel">JLIB_FILTER_PARAMS_TEL</option>
+				<option value="url">JLIB_FILTER_PARAMS_URL</option>
+				<option value="regex">JLIB_FILTER_PARAMS_REGEX</option>
+				<option value="equals">JLIB_FILTER_PARAMS_EQUALS</option>
+				<option value="notequals">JLIB_FILTER_PARAMS_NOTEQUALS</option>
+			</field>
+
+			<field
+				name="validDomains"
+				type="text"
+				label="PLG_FIELDS_TEXT_PARAMS_VALIDATE_EMAIL_VALIDDOMAINS_LABEL"
+				showon="validate:email"
+			/>
+
+			<field
+				name="plan"
+				type="list"
+				label="PLG_FIELDS_TEXT_PARAMS_VALIDATE_TEL_LABEL"
+				showon="validate:tel"
+			>
+				<option value="">JNONE</option>
+				<option value="us">PLG_FIELDS_TEXT_PARAMS_VALIDATE_TEL_US_OPTION</option>
+				<option value="int">PLG_FIELDS_TEXT_PARAMS_VALIDATE_TEL_INT_OPTION</option>
+				<option value="IETF">PLG_FIELDS_TEXT_PARAMS_VALIDATE_TEL_IETF_OPTION</option>
+			</field>
+
+			<field
+				name="schemes"
+				type="list"
+				label="PLG_FIELDS_TEXT_PARAMS_VALIDATE_SCHEMES_LABEL"
+				multiple="true"
+				showon="validate:url"
+			>
+				<option value="http">HTTP</option>
+				<option value="https">HTTPS</option>
+				<option value="ftp">FTP</option>
+				<option value="ftps">FTPS</option>
+				<option value="gopher">GOPHER</option>
+				<option value="mailto">Mailto</option>
+				<option value="news">NEWS</option>
+				<option value="prospero">prospero</option>
+				<option value="telnet">TelNet</option>
+				<option value="rlogin">rlogin</option>
+				<option value="sftp">SFTP</option>
+				<option value="tn3270">tn3270</option>
+				<option value="wais">wais</option>
+				<option value="mid">mid</option>
+				<option value="cid">cid</option>
+				<option value="nntp">NNTP</option>
+				<option value="tel">tel</option>
+				<option value="urn">URN</option>
+				<option value="ldap">LDAP</option>
+				<option value="file">File</option>
+				<option value="fax">fax</option>
+				<option value="modem">modem</option>
+				<option value="git">git</option>
+			</field>
+
+			<field
+				name="validate_regex"
+				type="text"
+				label="PLG_FIELDS_TEXT_PARAMS_VALIDATE_REGEX_LABEL"
+				showon="validate:regex"
+			/>
+
+			<field
+				name="field"
+				type="text"
+				label="PLG_FIELDS_TEXT_PARAMS_VALIDATE_EQUALS_LABEL"
+				showon="validate:equals[OR]validate:notequals"
+			/>
+
+			<field
+				name="message"
+				type="text"
+				label="PLG_FIELDS_TEXT_PARAMS_MESSAGE_LABEL"
+				showon="validate!:"
+			/>
+
+			<field
 				name="maxlength"
 				type="number"
 				label="PLG_FIELDS_TEXT_PARAMS_MAXLENGTH_LABEL"
