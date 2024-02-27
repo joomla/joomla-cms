@@ -70,6 +70,6 @@ abstract class CategoryAssociationHelper
             }
         }
 
-        return is_array($id) ? $return : ($return[$id] ?? []);
+        return \is_array($id) ? $return : ($return[$id] ?? []);
     }
 }
