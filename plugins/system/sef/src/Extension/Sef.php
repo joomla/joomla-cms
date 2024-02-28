@@ -76,6 +76,25 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             // Enforce adding a suffix with a redirect
             $event->getRouter()->attachParseRule([$this, 'enforceSuffix'], SiteRouter::PROCESS_BEFORE);
         }
+
+        if (
+            !is_a($event->getRouter(), SiteRouter::class)
+            || !$this->app->get('sef')
+            || $this->app->get('sef_suffix')
+            || !$this->params->get('trailingslash')
+        ) {
+            return;
+        }
+
+        if ($this->params->get('trailingslash') == 1) {
+            // Remove trailingslash
+            $event->getRouter()->attachBuildRule([$this, 'removeTrailingSlash'], SiteRouter::PROCESS_AFTER);
+        } elseif ($this->params->get('trailingslash') == 2) {
+            // Add trailingslash
+            $event->getRouter()->attachBuildRule([$this, 'addTrailingSlash'], SiteRouter::PROCESS_AFTER);
+        }
+
+        $event->getRouter()->attachParseRule([$this, 'enforceTrailingSlash'], SiteRouter::PROCESS_BEFORE);
     }
 
     /**
@@ -286,6 +305,74 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             // We don't have a suffix, so we default to .html at the end
             $origUri->setPath($route . '.html');
             $this->app->redirect($origUri->toString(), 301);
+        }
+    }
+
+    /**
+     * Remove any trailing slash from URLs built in Joomla
+     *
+     * @param   Router  &$router  Router object.
+     * @param   Uri     &$uri     Uri object.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function removeTrailingSlash(&$router, &$uri)
+    {
+        $path = $uri->getPath();
+
+        if (substr($path, -1) == '/') {
+            $uri->setPath(substr($path, 0, -1));
+        }
+    }
+
+    /**
+     * Add trailing slash to URLs built in Joomla
+     *
+     * @param   Router  &$router  Router object.
+     * @param   Uri     &$uri     Uri object.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function addTrailingSlash(&$router, &$uri)
+    {
+        $path = $uri->getPath();
+
+        if (substr($path, -1) !== '/') {
+            $uri->setPath($path . '/');
+        }
+    }
+
+    /**
+     * Redirect to a URL with or without trailing slash
+     *
+     * @param   Router  &$router  Router object.
+     * @param   Uri     &$uri     Uri object.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function enforceTrailingSlash(&$router, &$uri)
+    {
+        // We only want to redirect on GET requests
+        if ($this->app->getInput()->getMethod() != 'GET') {
+            return;
+        }
+
+        $originalUri = Uri::getInstance();
+
+        if ($this->params->get('trailingslash') == 1 && substr($originalUri->getPath(), -1) == '/' && $originalUri->toString() != Uri::root()) {
+            // Remove trailingslash
+            $originalUri->setPath(substr($originalUri->getPath(), 0, -1));
+            $this->app->redirect($originalUri->toString(), 301);
+        } elseif ($this->params->get('trailingslash') == 2 && substr($originalUri->getPath(), -1) != '/') {
+            // Add trailingslash
+            $originalUri->setPath($originalUri->getPath() . '/');
+            $this->app->redirect($originalUri->toString(), 301);
         }
     }
 
