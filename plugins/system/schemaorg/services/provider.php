@@ -43,7 +43,7 @@ return new class () implements ServiceProviderInterface {
                 );
 
                 $plugin->setApplication(Factory::getApplication());
-                $plugin->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
+                $plugin->setDatabase($container->get(DatabaseInterface::class));
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
