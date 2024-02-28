@@ -327,7 +327,7 @@ class CalendarField extends FormField
             $this->value = '';
         }
 
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
     /**
@@ -415,8 +415,8 @@ class CalendarField extends FormField
                 $return = Factory::getDate($value, $app->get('offset'))->toSql();
                 break;
 
-            // Convert a date to UTC based on the user timezone offset.
             case 'USER_UTC':
+                // Convert a date to UTC based on the user timezone offset.
                 // Get the user timezone setting defaulting to the server timezone setting.
                 $offset = $app->getIdentity()->getParam('timezone', $app->get('offset'));
 
