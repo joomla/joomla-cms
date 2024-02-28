@@ -927,7 +927,7 @@ abstract class Table implements TableInterface, DispatcherAwareInterface
                 $asset->rules = (string) $this->_rules;
             }
 
-            if (!$asset->check() || !$asset->store($updateNulls)) {
+            if (!$asset->check() || !$asset->store()) {
                 $this->setError($asset->getError());
 
                 return false;
