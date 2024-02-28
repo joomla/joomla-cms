@@ -27,8 +27,7 @@
 				class="list"
 				validate="options"
 			>
-				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
-				<option value="0">JNO</option>
+				<option value="">JNO</option>
 				<option value="email">JLIB_FILTER_PARAMS_EMAIL</option>
 				<option value="tel">JLIB_FILTER_PARAMS_TEL</option>
 				<option value="url">JLIB_FILTER_PARAMS_URL</option>
