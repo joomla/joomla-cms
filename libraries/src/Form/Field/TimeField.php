@@ -173,7 +173,7 @@ class TimeField extends FormField
      */
     protected function getInput()
     {
-        $data = $this->getLayoutData();
+        $data = $this->collectLayoutData();
 
         if ($this->value) {
             $app   = Factory::getApplication();

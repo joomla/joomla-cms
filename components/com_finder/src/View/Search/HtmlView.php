@@ -242,7 +242,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
 
         // Create hidden input elements for each part of the URI.
         foreach ($elements as $n => $v) {
-            if (is_scalar($v)) {
+            if (\is_scalar($v)) {
                 $fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '">';
             }
         }
