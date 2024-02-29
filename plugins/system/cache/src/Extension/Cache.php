@@ -153,7 +153,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 
         // Import "pagecache" plugins
         $dispatcher = $this->getDispatcher();
-        PluginHelper::importPlugin('pagecache', null, true, $this->getDispatcher());
+        PluginHelper::importPlugin('pagecache', null, true, $dispatcher);
 
         // If any onPageCacheSetCaching listener return false, do not use the cache.
         $results = $dispatcher->dispatch('onPageCacheSetCaching', new SetCachingEvent('onPageCacheSetCaching'))
