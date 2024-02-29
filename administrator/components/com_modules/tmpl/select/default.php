@@ -15,6 +15,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Modules\Administrator\View\Select\HtmlView $this */
+
 $app = Factory::getApplication();
 
 $function  = $app->getInput()->getCmd('function');

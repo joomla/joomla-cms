@@ -15,6 +15,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
 
+/** @var \Joomla\Component\Cpanel\Administrator\View\Cpanel\HtmlView $this */
+
 // Load JavaScript message titles
 Text::script('ERROR');
 Text::script('WARNING');
