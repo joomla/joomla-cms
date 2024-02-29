@@ -57,7 +57,7 @@ class BeforeReorderEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated 5.0.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 6.0
      *                Use counterpart with onSet prefix
      */
     protected function setQuery($value)
@@ -78,7 +78,7 @@ class BeforeReorderEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @deprecated 5.0.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 6.0
      *                Use counterpart with onSet prefix
      */
     protected function setWhere($value)
@@ -99,7 +99,7 @@ class BeforeReorderEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @since  5.0.0
+     * @since  4.4.0
      */
     protected function onSetQuery($value)
     {
@@ -115,7 +115,7 @@ class BeforeReorderEvent extends AbstractEvent
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
-     * @since  5.0.0
+     * @since  4.4.0
      */
     protected function onSetWhere($value)
     {

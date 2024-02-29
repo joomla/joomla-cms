@@ -254,6 +254,7 @@ abstract class AdminModel extends FormModel
                 'save'         => 'content',
                 'change_state' => 'content',
                 'validate'     => 'content',
+                'batch'        => 'content',
             ],
             $config['events_map']
         );
@@ -295,6 +296,7 @@ abstract class AdminModel extends FormModel
         }
 
         $done = false;
+        PluginHelper::importPlugin($this->events_map['batch']);
 
         // Initialize re-usable member properties
         $this->initBatch();
@@ -975,7 +977,7 @@ abstract class AdminModel extends FormModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   1.6
      */
@@ -1675,7 +1677,7 @@ abstract class AdminModel extends FormModel
          * load directly the associated target item in the side by side view
          * otherwise select already the target language
          */
-        if (count($languages) === 2) {
+        if (\count($languages) === 2) {
             $lang_code = [];
 
             foreach ($languages as $language) {
