@@ -10,9 +10,13 @@
 
 namespace Joomla\Plugin\System\Sef\Extension;
 
+use Joomla\CMS\Event\Router\AfterInitialiseRouterEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\Router;
+use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,8 +27,73 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  1.5
  */
-final class Sef extends CMSPlugin
+final class Sef extends CMSPlugin implements SubscriberInterface
 {
+    /**
+     * Application object.
+     *
+     * @var    \Joomla\CMS\Application\CMSApplication
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $app;
+
+    /**
+     * Returns an array of CMS events this plugin will listen to and the respective handlers.
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        /**
+         * Note that onAfterInitialise must be the first handlers to run for this
+         * plugin to operate as expected. These handlers load compatibility code which
+         * might be needed by other plugins
+         */
+        return [
+            'onAfterInitialiseRouter' => 'onAfterInitialiseRouter',
+            'onAfterDispatch'         => 'onAfterDispatch',
+            'onAfterRender'           => 'onAfterRender',
+        ];
+    }
+
+    /**
+     * After initialise router.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onAfterInitialiseRouter(AfterInitialiseRouterEvent $event)
+    {
+        if (
+            is_a($event->getRouter(), SiteRouter::class)
+            && $this->app->get('sef_rewrite')
+            && $this->params->get('indexphp')
+        ) {
+            // Enforce removing index.php with a redirect
+            $event->getRouter()->attachParseRule([$this, 'removeIndexphp'], SiteRouter::PROCESS_BEFORE);
+        }
+
+        if (
+            is_a($event->getRouter(), SiteRouter::class)
+            && $this->app->get('sef')
+            && !$this->app->get('sef_suffix')
+            && $this->params->get('trailingslash')
+        ) {
+            if ($this->params->get('trailingslash') == 1) {
+                // Remove trailingslash
+                $event->getRouter()->attachBuildRule([$this, 'removeTrailingSlash'], SiteRouter::PROCESS_AFTER);
+            } elseif ($this->params->get('trailingslash') == 2) {
+                // Add trailingslash
+                $event->getRouter()->attachBuildRule([$this, 'addTrailingSlash'], SiteRouter::PROCESS_AFTER);
+            }
+
+            $event->getRouter()->attachParseRule([$this, 'enforceTrailingSlash'], SiteRouter::PROCESS_BEFORE);
+        }
+    }
+
     /**
      * Add the canonical uri to the head.
      *
@@ -186,6 +255,106 @@ final class Sef extends CMSPlugin
 
         // Use the replaced HTML body.
         $this->getApplication()->setBody($buffer);
+    }
+
+    /**
+     * Enforce removal of index.php with a redirect
+     *
+     * @param   Router  &$router  Router object.
+     * @param   Uri     &$uri     Uri object.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function removeIndexphp(&$router, &$uri)
+    {
+        // We only want to redirect on GET requests
+        if ($this->app->getInput()->getMethod() !== 'GET') {
+            return;
+        }
+
+        $origUri = Uri::getInstance();
+
+        if (substr($origUri->getPath(), -9) === 'index.php') {
+            // Remove trailing index.php
+            $origUri->setPath(substr($origUri->getPath(), 0, -9));
+            $this->app->redirect($origUri->toString(), 301);
+        }
+
+        if (substr($origUri->getPath(), \strlen(Uri::base(true)), 11) === '/index.php/') {
+            // Remove leading index.php
+            $origUri->setPath(Uri::base(true) . substr($origUri->getPath(), \strlen(Uri::base(true)) + 10));
+            $this->app->redirect($origUri->toString(), 301);
+        }
+    }
+
+    /**
+     * Remove any trailing slash from URLs built in Joomla
+     *
+     * @param   Router  &$router  Router object.
+     * @param   Uri     &$uri     Uri object.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function removeTrailingSlash(&$router, &$uri)
+    {
+        $path = $uri->getPath();
+
+        if (substr($path, -1) == '/') {
+            $uri->setPath(substr($path, 0, -1));
+        }
+    }
+
+    /**
+     * Add trailing slash to URLs built in Joomla
+     *
+     * @param   Router  &$router  Router object.
+     * @param   Uri     &$uri     Uri object.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function addTrailingSlash(&$router, &$uri)
+    {
+        $path = $uri->getPath();
+
+        if (substr($path, -1) !== '/') {
+            $uri->setPath($path . '/');
+        }
+    }
+
+    /**
+     * Redirect to a URL with or without trailing slash
+     *
+     * @param   Router  &$router  Router object.
+     * @param   Uri     &$uri     Uri object.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function enforceTrailingSlash(&$router, &$uri)
+    {
+        // We only want to redirect on GET requests
+        if ($this->app->getInput()->getMethod() != 'GET') {
+            return;
+        }
+
+        $originalUri = Uri::getInstance();
+
+        if ($this->params->get('trailingslash') == 1 && substr($originalUri->getPath(), -1) == '/' && $originalUri->toString() != Uri::root()) {
+            // Remove trailingslash
+            $originalUri->setPath(substr($originalUri->getPath(), 0, -1));
+            $this->app->redirect($originalUri->toString(), 301);
+        } elseif ($this->params->get('trailingslash') == 2 && substr($originalUri->getPath(), -1) != '/') {
+            // Add trailingslash
+            $originalUri->setPath($originalUri->getPath() . '/');
+            $this->app->redirect($originalUri->toString(), 301);
+        }
     }
 
     /**

@@ -14,6 +14,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 defined('_JEXEC') or die;
 
 $this->name = Text::_('COM_CONFIG_CACHE_SETTINGS');
+$this->description = '';
 $this->fieldsname = 'cache';
 $this->formclass = 'options-form';
 
