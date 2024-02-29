@@ -174,7 +174,7 @@ final class PrivacyConsent extends CMSPlugin
             // Create the user note
             $userNote = (object) [
                 'user_id' => $userId,
-                'subject' => 'PLG_SYSTEM_PRIVACYCONSENT_SUBJECT',
+                'subject' => Text::_('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'),
                 'body'    => Text::sprintf('PLG_SYSTEM_PRIVACYCONSENT_BODY', $ip, $userAgent),
                 'created' => Factory::getDate()->toSql(),
             ];
