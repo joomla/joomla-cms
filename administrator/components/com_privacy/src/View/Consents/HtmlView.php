@@ -131,7 +131,7 @@ class HtmlView extends BaseHtmlView
         // Add a button to invalidate a consent
         if (!$this->isEmptyState) {
             $toolbar->confirmButton('trash', 'COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE', 'consents.invalidate')
-                ->message('COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE')
+                ->message('COM_PRIVACY_CONSENTS_TOOLBAR_INVALIDATE_CONFIRM_MSG')
                 ->icon('icon-trash')
                 ->listCheck(true);
         }
