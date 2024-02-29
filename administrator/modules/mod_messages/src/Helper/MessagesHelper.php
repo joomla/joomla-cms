@@ -49,10 +49,10 @@ class MessagesHelper
 
             return \count($messages);
         } catch (\RuntimeException $e) {
-            $messages = [];
-
             // Still render the error message from the Exception object
             $app->enqueueMessage($e->getMessage(), 'error');
+
+            return 0;
         }
     }
 }
