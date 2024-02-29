@@ -68,23 +68,30 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     public function onAfterInitialiseRouter(AfterInitialiseRouterEvent $event)
     {
         if (
-            !is_a($event->getRouter(), SiteRouter::class)
-            || !$this->app->get('sef')
-            || $this->app->get('sef_suffix')
-            || !$this->params->get('trailingslash')
+            is_a($event->getRouter(), SiteRouter::class)
+            && $this->app->get('sef_rewrite')
+            && $this->params->get('indexphp')
         ) {
-            return;
+            // Enforce removing index.php with a redirect
+            $event->getRouter()->attachParseRule([$this, 'removeIndexphp'], SiteRouter::PROCESS_BEFORE);
         }
 
-        if ($this->params->get('trailingslash') == 1) {
-            // Remove trailingslash
-            $event->getRouter()->attachBuildRule([$this, 'removeTrailingSlash'], SiteRouter::PROCESS_AFTER);
-        } elseif ($this->params->get('trailingslash') == 2) {
-            // Add trailingslash
-            $event->getRouter()->attachBuildRule([$this, 'addTrailingSlash'], SiteRouter::PROCESS_AFTER);
-        }
+        if (
+            is_a($event->getRouter(), SiteRouter::class)
+            && $this->app->get('sef')
+            && !$this->app->get('sef_suffix')
+            && $this->params->get('trailingslash')
+        ) {
+            if ($this->params->get('trailingslash') == 1) {
+                // Remove trailingslash
+                $event->getRouter()->attachBuildRule([$this, 'removeTrailingSlash'], SiteRouter::PROCESS_AFTER);
+            } elseif ($this->params->get('trailingslash') == 2) {
+                // Add trailingslash
+                $event->getRouter()->attachBuildRule([$this, 'addTrailingSlash'], SiteRouter::PROCESS_AFTER);
+            }
 
-        $event->getRouter()->attachParseRule([$this, 'enforceTrailingSlash'], SiteRouter::PROCESS_BEFORE);
+            $event->getRouter()->attachParseRule([$this, 'enforceTrailingSlash'], SiteRouter::PROCESS_BEFORE);
+        }
     }
 
     /**
@@ -248,6 +255,38 @@ final class Sef extends CMSPlugin implements SubscriberInterface
 
         // Use the replaced HTML body.
         $this->getApplication()->setBody($buffer);
+    }
+
+    /**
+     * Enforce removal of index.php with a redirect
+     *
+     * @param   Router  &$router  Router object.
+     * @param   Uri     &$uri     Uri object.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function removeIndexphp(&$router, &$uri)
+    {
+        // We only want to redirect on GET requests
+        if ($this->app->getInput()->getMethod() !== 'GET') {
+            return;
+        }
+
+        $origUri = Uri::getInstance();
+
+        if (substr($origUri->getPath(), -9) === 'index.php') {
+            // Remove trailing index.php
+            $origUri->setPath(substr($origUri->getPath(), 0, -9));
+            $this->app->redirect($origUri->toString(), 301);
+        }
+
+        if (substr($origUri->getPath(), \strlen(Uri::base(true)), 11) === '/index.php/') {
+            // Remove leading index.php
+            $origUri->setPath(Uri::base(true) . substr($origUri->getPath(), \strlen(Uri::base(true)) + 10));
+            $this->app->redirect($origUri->toString(), 301);
+        }
     }
 
     /**
