@@ -69,11 +69,11 @@
 				<option value="gopher">GOPHER</option>
 				<option value="mailto">Mailto</option>
 				<option value="news">NEWS</option>
-				<option value="prospero">prospero</option>
+				<option value="prospero">Prospero</option>
 				<option value="telnet">TelNet</option>
 				<option value="rlogin">rlogin</option>
 				<option value="sftp">SFTP</option>
-				<option value="tn3270">tn3270</option>
+				<option value="tn3270">Tn3270</option>
 				<option value="wais">wais</option>
 				<option value="mid">mid</option>
 				<option value="cid">cid</option>
