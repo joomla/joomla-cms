@@ -85,7 +85,7 @@ class LoginHelper
      *
      * @return  string
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
      *             Use the non-static method getLanguages
      *             Example: Factory::getApplication()->bootModule('mod_login', 'administrator')
      *                            ->getHelper('LoginHelper')
@@ -101,7 +101,7 @@ class LoginHelper
      *
      * @return  string
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
      *             Use the non-static method getReturnUriString
      *             Example: Factory::getApplication()->bootModule('mod_login', 'administrator')
      *                            ->getHelper('LoginHelper')
