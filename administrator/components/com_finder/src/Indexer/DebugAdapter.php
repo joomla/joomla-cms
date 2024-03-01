@@ -920,13 +920,13 @@ abstract class DebugAdapter extends CMSPlugin
 
         // Translate the state
         switch ($item) {
-            // Published and archived items only should return a published state
             case 1:
             case 2:
+                // Published and archived items only should return a published state
                 return 1;
 
-            // All other states should return an unpublished state
             default:
+                // All other states should return an unpublished state
                 return 0;
         }
     }
