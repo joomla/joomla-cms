@@ -275,7 +275,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function removeIndexphp()
+    protected function removeIndexphp()
     {
         $origUri = Uri::getInstance();
 
