@@ -2207,6 +2207,31 @@ class JoomlaInstallerScript
             // From 5.1.0-alpha3 to 5.1.0-alpha4
             '/administrator/components/com_redirect/tmpl/links/default_batch_footer.php',
             '/modules/mod_banners/mod_banners.php',
+            // From 5.1.0-alpha4 to 5.1.0-beta1
+            '/administrator/modules/mod_custom/mod_custom.php',
+            '/administrator/modules/mod_frontend/mod_frontend.php',
+            '/administrator/modules/mod_latestactions/mod_latestactions.php',
+            '/administrator/modules/mod_loginsupport/mod_loginsupport.php',
+            '/administrator/modules/mod_messages/mod_messages.php',
+            '/administrator/modules/mod_multilangstatus/mod_multilangstatus.php',
+            '/administrator/modules/mod_sampledata/mod_sampledata.php',
+            '/administrator/modules/mod_stats_admin/mod_stats_admin.php',
+            '/administrator/modules/mod_title/mod_title.php',
+            '/administrator/modules/mod_toolbar/mod_toolbar.php',
+            '/administrator/modules/mod_user/mod_user.php',
+            '/administrator/modules/mod_version/mod_version.php',
+            '/media/plg_system_jooa11y/css/jooa11y.css',
+            '/media/plg_system_jooa11y/css/jooa11y.min.css',
+            '/media/plg_system_jooa11y/css/jooa11y.min.css.gz',
+            '/media/plg_system_jooa11y/scss/jooa11y.scss',
+            '/media/vendor/joomla-a11y-checker/LICENSE.md',
+            '/modules/mod_feed/mod_feed.php',
+            '/modules/mod_languages/mod_languages.php',
+            '/modules/mod_stats/mod_stats.php',
+            '/modules/mod_syndicate/mod_syndicate.php',
+            '/modules/mod_tags_popular/mod_tags_popular.php',
+            '/modules/mod_tags_similar/mod_tags_similar.php',
+            '/modules/mod_wrapper/mod_wrapper.php',
         ];
 
         $folders = [
@@ -2441,6 +2466,10 @@ class JoomlaInstallerScript
             '/libraries/vendor/fgrosse/phpasn1/lib',
             '/libraries/vendor/fgrosse/phpasn1',
             '/libraries/vendor/fgrosse',
+            // From 5.1.0-alpha4 to 5.1.0-beta1
+            '/media/vendor/joomla-a11y-checker',
+            '/media/plg_system_jooa11y/scss',
+            '/media/plg_system_jooa11y/css',
         ];
 
         $status['files_checked']   = $files;
