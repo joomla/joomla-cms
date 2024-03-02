@@ -4,12 +4,12 @@
  *
  * https://github.com/cypress-io/cypress/issues/6575
  */
+import { registerCommands } from 'joomla-cypress';
 
-import './commands/api';
-import './commands/config';
-import './commands/db';
+import './commands/api.mjs';
+import './commands/config.mjs';
+import './commands/db.mjs';
 
-const { registerCommands } = require('../../../node_modules/joomla-cypress/src/index.js');
 
 registerCommands();
 

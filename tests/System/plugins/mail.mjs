@@ -1,4 +1,4 @@
-const mailTester = require('smtp-tester');
+import mailTester from 'smtp-tester';
 
 // The mail server instance
 let mailServer = null;
@@ -64,4 +64,4 @@ function startMailServer(config) {
   return null;
 }
 
-module.exports = { getMails, clearEmails, startMailServer };
+export { getMails, clearEmails, startMailServer };
