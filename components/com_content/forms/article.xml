@@ -217,6 +217,9 @@
 			<field
 				name="image_intro"
 				type="media"
+				schemes="http,https,ftp,ftps,data,file"
+				validate="url"
+				relative="true"
 				label="COM_CONTENT_FIELD_INTRO_LABEL"
 			/>
 
@@ -254,6 +257,9 @@
 			<field
 				name="image_fulltext"
 				type="media"
+				schemes="http,https,ftp,ftps,data,file"
+				validate="url"
+				relative="true"
 				label="COM_CONTENT_FIELD_FULL_LABEL"
 			/>
 
