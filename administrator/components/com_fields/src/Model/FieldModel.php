@@ -15,7 +15,7 @@ use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\CustomFields\PrepareDomEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Fields\FieldsFormServiceInterface;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
@@ -1111,7 +1111,7 @@ class FieldModel extends AdminModel
 
         $componentBooted = Factory::getApplication()->bootComponent($component);
 
-        if ($componentBooted instanceof FieldsServiceInterface) {
+        if ($componentBooted instanceof FieldsFormServiceInterface) {
             $componentBooted->prepareForm($form, $data);
         }
 

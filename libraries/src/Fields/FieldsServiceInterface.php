@@ -43,16 +43,4 @@ interface FieldsServiceInterface
      * @since   4.0.0
      */
     public function getContexts(): array;
-
-    /**
-     * Prepares the field form
-     *
-     * @param   Form          $form  The form to change
-     * @param   array|object  $data  The form data
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function prepareForm(Form $form, $data);
 }
