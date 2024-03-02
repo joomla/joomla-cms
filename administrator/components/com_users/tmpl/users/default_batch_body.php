@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Users\Administrator\View\Users\HtmlView $this */
+
 // Create the copy/move options.
 $options = [
     HTMLHelper::_('select.option', 'add', Text::_('COM_USERS_BATCH_ADD')),
