@@ -25,6 +25,7 @@ use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Event\Event;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -336,7 +337,7 @@ class PackageAdapter extends InstallerAdapter
 
         $folder = $this->parent->getPath('extension_root');
 
-        if (Folder::exists($folder)) {
+        if (is_dir(Path::clean($folder))) {
             Folder::delete($folder);
         }
 

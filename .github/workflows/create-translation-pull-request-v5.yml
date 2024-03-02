@@ -73,5 +73,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
         run: |
-          gh pr list -R joomla/joomla-cms --state open --author joomla-translation-bot -S "Translation Update" | grep -v "No pull" || \
-            gh pr create --title "Translation Update" --body "Automatically created pull request based on core-translation repository changes" -R joomla/joomla-cms --base 5.0-dev
+          gh pr list -R joomla/joomla-cms --state open --author joomla-translation-bot -S "[5.x] Translation Update" | grep -v "No pull" || \
+            gh pr create --title "[5.x] Translation Update" --body "Automatically created pull request based on core-translation repository changes" -R joomla/joomla-cms --base 5.0-dev

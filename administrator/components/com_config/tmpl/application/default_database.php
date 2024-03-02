@@ -14,6 +14,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 defined('_JEXEC') or die;
 
 $this->name = Text::_('COM_CONFIG_DATABASE_SETTINGS');
+$this->description = '';
 $this->fieldsname = 'database';
 $this->formclass = 'options-form';
 
