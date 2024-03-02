@@ -90,9 +90,9 @@ class TemplateModel extends FormModel
     /**
      * Method to store file information.
      *
-     * @param   string    $path      The base path.
-     * @param   string    $name      The file name.
-     * @param   stdClass  $template  The std class object of template.
+     * @param   string     $path      The base path.
+     * @param   string     $name      The file name.
+     * @param   \stdClass  $template  The std class object of template.
      *
      * @return  object  stdClass object.
      *
@@ -693,7 +693,7 @@ class TemplateModel extends FormModel
             // Delete new folder if it exists
             $toPath = $this->getState('to_path');
 
-            if (Folder::exists($toPath)) {
+            if (is_dir(Path::clean($toPath))) {
                 if (!Folder::delete($toPath)) {
                     $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
 
@@ -886,8 +886,8 @@ class TemplateModel extends FormModel
             $fileName = str_replace('//', '/', $fileName);
             $isMedia  = $input->getInt('isMedia', 0);
 
-            $fileName = $isMedia ? Path::clean(JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . $fileName)
-            : Path::clean(JPATH_ROOT . ($this->template->client_id === 0 ? '' : '/administrator') . '/templates/' . $this->template->element . $fileName);
+            $fileName = $isMedia ? Path::clean(JPATH_ROOT . '/media/templates/' . ((int) $this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . $fileName)
+            : Path::clean(JPATH_ROOT . ((int) $this->template->client_id === 0 ? '' : '/administrator') . '/templates/' . $this->template->element . $fileName);
 
             try {
                 $filePath = Path::check($fileName);
@@ -1145,7 +1145,7 @@ class TemplateModel extends FormModel
             }
 
             // Check Html folder, create if not exist
-            if (!Folder::exists($htmlPath) && !Folder::create($htmlPath)) {
+            if (!is_dir(Path::clean($htmlPath)) && !Folder::create($htmlPath)) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
 
                 return false;
@@ -1203,7 +1203,7 @@ class TemplateModel extends FormModel
             foreach ($folders as $folder) {
                 $htmlFolder = $htmlPath . str_replace($overridePath, '', $folder);
 
-                if (!Folder::exists($htmlFolder)) {
+                if (!is_dir(Path::clean($htmlFolder))) {
                     Folder::create($htmlFolder);
                 }
             }
@@ -1864,7 +1864,7 @@ class TemplateModel extends FormModel
         // Delete new folder if it exists
         $toPath = $this->getState('to_path');
 
-        if (Folder::exists($toPath)) {
+        if (is_dir(Path::clean($toPath))) {
             if (!Folder::delete($toPath)) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
 

@@ -22,6 +22,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -387,10 +388,10 @@ class JoomlaInstallerScript
             return;
         }
 
-        /** @var SchedulerComponent $component */
+        /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
 
-        /** @var TaskModel $model */
+        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
 
         // Get the timeout, as configured in plg_system_logrotation
@@ -433,10 +434,10 @@ class JoomlaInstallerScript
         // Get the plugin parameters
         $params = new Registry($data->params);
 
-        /** @var SchedulerComponent $component */
+        /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
 
-        /** @var TaskModel $model */
+        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
             'title'           => 'Session GC',
@@ -478,10 +479,10 @@ class JoomlaInstallerScript
         $params       = new Registry($data->params);
         $lastrun      = (int) $params->get('lastrun', time());
 
-        /** @var SchedulerComponent $component */
+        /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
 
-        /** @var TaskModel $model */
+        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
             'title'           => 'Update Notification',
@@ -2204,6 +2205,9 @@ class JoomlaInstallerScript
             '/administrator/components/com_newsfeeds/tmpl/newsfeeds/default_batch_footer.php',
             '/administrator/components/com_tags/tmpl/tags/default_batch_footer.php',
             '/administrator/components/com_users/tmpl/users/default_batch_footer.php',
+            // From 5.1.0-alpha3 to 5.1.0-alpha4
+            '/administrator/components/com_redirect/tmpl/links/default_batch_footer.php',
+            '/modules/mod_banners/mod_banners.php',
         ];
 
         $folders = [
@@ -2458,7 +2462,7 @@ class JoomlaInstallerScript
         }
 
         foreach ($folders as $folder) {
-            if ($folderExists = Folder::exists(JPATH_ROOT . $folder)) {
+            if ($folderExists = is_dir(Path::clean(JPATH_ROOT . $folder))) {
                 $status['folders_exist'][] = $folder;
 
                 if ($dryRun === false) {
@@ -2632,10 +2636,10 @@ class JoomlaInstallerScript
             return true;
         }
 
-        /** @var SchedulerComponent $component */
+        /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
 
-        /** @var TaskModel $model */
+        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
             'title'           => 'Delete Action Logs',
@@ -2701,10 +2705,10 @@ class JoomlaInstallerScript
             return true;
         }
 
-        /** @var SchedulerComponent $component */
+        /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
 
-        /** @var TaskModel $model */
+        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
             'title'           => 'Privacy Consent',
