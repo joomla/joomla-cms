@@ -67,6 +67,7 @@ $previousReleaseExclude = [
     $options['from'] . '/installation',
     $options['from'] . '/media/com_cpanel/js',
     $options['from'] . '/media/com_modules/js',
+    $options['from'] . '/media/legacy/js',
     $options['from'] . '/media/mod_multilangstatus',
     $options['from'] . '/media/plg_quickicon_eos310',
     $options['from'] . '/media/system/images',
