@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Newsfeeds\Administrator\View\Newsfeed\HtmlView $this */
+
 $icon     = 'icon-check';
 $title    = $this->item ? $this->item->name : '';
 $content  = $this->item ? $this->item->alias : '';

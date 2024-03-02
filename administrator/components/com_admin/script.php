@@ -22,6 +22,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -2461,7 +2462,7 @@ class JoomlaInstallerScript
         }
 
         foreach ($folders as $folder) {
-            if ($folderExists = Folder::exists(JPATH_ROOT . $folder)) {
+            if ($folderExists = is_dir(Path::clean(JPATH_ROOT . $folder))) {
                 $status['folders_exist'][] = $folder;
 
                 if ($dryRun === false) {
