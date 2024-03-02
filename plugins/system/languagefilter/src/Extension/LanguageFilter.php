@@ -14,6 +14,10 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Router\AfterInitialiseRouterEvent;
+use Joomla\CMS\Event\User\AfterSaveEvent;
+use Joomla\CMS\Event\User\BeforeSaveEvent;
+use Joomla\CMS\Event\User\LoginEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Associations;
@@ -23,10 +27,12 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
+use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Router\SiteRouterAwareTrait;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -40,7 +46,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-final class LanguageFilter extends CMSPlugin
+final class LanguageFilter extends CMSPlugin implements SubscriberInterface
 {
     use SiteRouterAwareTrait;
 
@@ -158,15 +164,44 @@ final class LanguageFilter extends CMSPlugin
     }
 
     /**
-     * After initialise.
+     * Returns an array of CMS events this plugin will listen to and the respective handlers.
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        /**
+         * Note that onAfterInitialise must be the first handlers to run for this
+         * plugin to operate as expected. These handlers load compatibility code which
+         * might be needed by other plugins
+         */
+        return [
+            'onAfterInitialiseRouter'           => 'onAfterInitialiseRouter',
+            'onAfterDispatch'                   => 'onAfterDispatch',
+            'onAfterRoute'                      => 'onAfterRoute',
+            'onPrivacyCollectAdminCapabilities' => 'onPrivacyCollectAdminCapabilities',
+            'onUserAfterSave'                   => 'onUserAfterSave',
+            'onUserBeforeSave'                  => 'onUserBeforeSave',
+            'onUserLogin'                       => 'onUserLogin',
+        ];
+    }
+
+    /**
+     * After initialise router.
      *
      * @return  void
      *
-     * @since   1.6
+     * @since   __DEPLOY_VERSION__
      */
-    public function onAfterInitialise()
+    public function onAfterInitialiseRouter(AfterInitialiseRouterEvent $event)
     {
-        $router = $this->getSiteRouter();
+        $router = $event->getRouter();
+
+        if (!is_a($router, SiteRouter::class)) {
+            return;
+        }
 
         // Attach build rules for language SEF.
         $router->attachBuildRule([$this, 'preprocessBuildRule'], Router::PROCESS_BEFORE);
@@ -180,6 +215,8 @@ final class LanguageFilter extends CMSPlugin
 
         // Attach parse rule.
         $router->attachParseRule([$this, 'parseRule'], Router::PROCESS_BEFORE);
+
+        $this->setSiteRouter($router);
     }
 
     /**
@@ -525,8 +562,10 @@ final class LanguageFilter extends CMSPlugin
      *
      * @since   1.6
      */
-    public function onUserBeforeSave($user, $isnew, $new)
+    public function onUserBeforeSave(BeforeSaveEvent $event)
     {
+        $user = $event->getUser();
+
         if (\array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1) {
             $registry             = new Registry($user['params']);
             $this->user_lang_code = $registry->get('language');
@@ -551,8 +590,11 @@ final class LanguageFilter extends CMSPlugin
      *
      * @since   1.6
      */
-    public function onUserAfterSave($user, $isnew, $success, $msg): void
+    public function onUserAfterSave(AfterSaveEvent $event): void
     {
+        $user    = $event->getUser();
+        $success = $event->getSavingResult();
+
         if ($success && \array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1) {
             $registry  = new Registry($user['params']);
             $lang_code = $registry->get('language');
@@ -587,8 +629,10 @@ final class LanguageFilter extends CMSPlugin
      *
      * @since   1.5
      */
-    public function onUserLogin($user, $options = [])
+    public function onUserLogin(LoginEvent $event)
     {
+        $user = $event->getArgument('subject');
+
         if ($this->getApplication()->isClient('site')) {
             $menu = $this->getApplication()->getMenu();
 

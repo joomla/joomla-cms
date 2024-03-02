@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Multifactorauth\Webauthn\Helper;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
