@@ -164,6 +164,9 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
             $form->setFieldAttribute('schemainfo', 'description', $infoText, 'schema');
 
+            $form->setFieldAttribute('extendJed', 'type', 'hidden', 'schema');
+            $form->setFieldAttribute('extendJed', 'class', 'hidden', 'schema');
+
             return;
         }
 
