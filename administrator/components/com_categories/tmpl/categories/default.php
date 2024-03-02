@@ -126,7 +126,7 @@ if ($saveOrder && !empty($this->items)) {
                         </thead>
                         <tbody <?php if ($saveOrder) :
                                 ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false" <?php
-                                                                                                                                                                        endif; ?>>
+                                   endif; ?>>
                             <?php foreach ($this->items as $i => $item) : ?>
                                 <?php
                                 $canEdit    = $user->authorise('core.edit', $extension . '.category.' . $item->id);
@@ -264,11 +264,11 @@ if ($saveOrder && !empty($this->items)) {
                         </tbody>
                     </table>
 
-                    <?php // load the pagination. 
+                    <?php // load the pagination.
                     ?>
                     <?php echo $this->pagination->getListFooter(); ?>
 
-                    <?php // Load the batch processing form. 
+                    <?php // Load the batch processing form.
                     ?>
                     <?php
                     if (
