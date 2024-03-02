@@ -15,6 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -189,7 +190,7 @@ class ChromestyleField extends GroupedlistField
         foreach ($templates as $template) {
             $chromeLayoutPath = $path . '/templates/' . $template->element . '/html/layouts/chromes';
 
-            if (!is_dir($chromeLayoutPath)) {
+            if (!is_dir(Path::clean($chromeLayoutPath))) {
                 continue;
             }
 

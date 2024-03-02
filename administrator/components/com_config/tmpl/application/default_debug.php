@@ -14,6 +14,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 defined('_JEXEC') or die;
 
 $this->name = Text::_('COM_CONFIG_DEBUG_SETTINGS');
+$this->description = '';
 $this->fieldsname = 'debug';
 $this->formclass = 'options-form';
 
