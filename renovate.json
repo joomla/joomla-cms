@@ -11,6 +11,16 @@
   "composerIgnorePlatformReqs": ["ext-*", "lib-*"],
   "rangeStrategy": "update-lockfile",
   "baseBranches": ["4.2-dev", "4.3-dev", "5.0-dev"],
+  "packageRules": [
+    {
+      "enabled": false,
+      "matchBaseBranches": "4.2-dev",
+      "matchPackagePatterns": ["*"]
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true
+  },
   "constraints": {
     "composer": "> 2.3",
     "npm": "> 8.0"

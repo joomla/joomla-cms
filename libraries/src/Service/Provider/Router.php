@@ -11,14 +11,16 @@ namespace Joomla\CMS\Service\Provider;
 
 use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Event\Router\AfterInitialiseRouterEvent;
 use Joomla\CMS\Router\AdministratorRouter;
 use Joomla\CMS\Router\ApiRouter;
 use Joomla\CMS\Router\SiteRouter;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -44,7 +46,12 @@ class Router implements ServiceProviderInterface
             ->share(
                 SiteRouter::class,
                 function (Container $container) {
-                    return new SiteRouter($container->get(SiteApplication::class));
+                    $router = new SiteRouter($container->get(SiteApplication::class));
+                    $container->get(DispatcherInterface::class)->dispatch(
+                        'onAfterInitialiseRouter',
+                        new AfterInitialiseRouterEvent('onAfterInitialiseRouter', ['router' => $router])
+                    );
+                    return $router;
                 },
                 true
             );

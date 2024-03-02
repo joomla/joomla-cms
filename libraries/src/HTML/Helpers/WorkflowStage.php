@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -56,23 +56,23 @@ abstract class WorkflowStage
         // Set the query and load the options.
         $stages = $db->setQuery($query)->loadObjectList();
 
-        $workflowStages = array();
+        $workflowStages = [];
 
         // Grouping the stages by workflow
         foreach ($stages as $stage) {
             // Using workflow ID to differentiate workflows having same title
             $workflowStageKey = Text::_($stage->workflow_title) . ' (' . $stage->workflow_id . ')';
 
-            if (!array_key_exists($workflowStageKey, $workflowStages)) {
-                $workflowStages[$workflowStageKey] = array();
+            if (!\array_key_exists($workflowStageKey, $workflowStages)) {
+                $workflowStages[$workflowStageKey] = [];
             }
 
             $workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $stage->workflow_stage_id, Text::_($stage->workflow_stage_title));
         }
 
-        $prefix[] = array(
-            HTMLHelper::_('select.option', '', $options['title'])
-        );
+        $prefix = [[
+            HTMLHelper::_('select.option', '', $options['title']),
+        ]];
 
         return array_merge($prefix, $workflowStages);
     }

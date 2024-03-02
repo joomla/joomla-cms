@@ -20,7 +20,7 @@ use Joomla\CMS\Uri\Uri;
 /** @var \Joomla\CMS\Document\HtmlDocument $this */
 
 $app   = Factory::getApplication();
-$input = $app->input;
+$input = $app->getInput();
 $wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
@@ -29,7 +29,7 @@ $view         = $input->get('view', '');
 $layout       = $input->get('layout', 'default');
 $task         = $input->get('task', 'display');
 $cpanel       = $option === 'com_cpanel' || ($option === 'com_admin' && $view === 'help');
-$hiddenMenu   = $app->input->get('hidemainmenu');
+$hiddenMenu   = $app->getInput()->get('hidemainmenu');
 $sidebarState = $input->cookie->get('atumSidebarState', '');
 
 // Getting user accessibility settings
@@ -45,21 +45,27 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], t
 
 // Template params
 $logoBrandLarge  = $this->params->get('logoBrandLarge')
-    ? Uri::root() . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
-    : Uri::root() . 'media/templates/administrator/atum/images/logos/brand-large.svg';
+    ? Uri::root(false) . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
+    : Uri::root(false) . 'media/templates/administrator/atum/images/logos/brand-large.svg';
 $logoBrandSmall = $this->params->get('logoBrandSmall')
-    ? Uri::root() . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
-    : Uri::root() . 'media/templates/administrator/atum/images/logos/brand-small.svg';
+    ? Uri::root(false) . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
+    : Uri::root(false) . 'media/templates/administrator/atum/images/logos/brand-small.svg';
 
 $logoBrandLargeAlt = empty($this->params->get('logoBrandLargeAlt')) && empty($this->params->get('emptyLogoBrandLargeAlt'))
-    ? 'alt=""'
-    : 'alt="' . htmlspecialchars($this->params->get('logoBrandLargeAlt', ''), ENT_COMPAT, 'UTF-8') . '"';
+    ? ''
+    : htmlspecialchars($this->params->get('logoBrandLargeAlt', ''), ENT_COMPAT, 'UTF-8');
 $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($this->params->get('emptyLogoBrandSmallAlt'))
-    ? 'alt=""'
-    : 'alt="' . htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8') . '"';
+    ? ''
+    : htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8');
 
 // Get the hue value
 preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
+
+$linkColor = $this->params->get('link-color', '#2a69b8');
+list($r, $g, $b) = sscanf($linkColor, "#%02x%02x%02x");
+
+$linkColorDark = $this->params->get('link-color-dark', '#7fa5d4');
+list($rd, $gd, $bd) = sscanf($linkColorDark, "#%02x%02x%02x");
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
@@ -70,9 +76,14 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 		--template-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
 		--template-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
 		--template-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
-		--template-link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
+		--link-color: ' . $linkColor . ';
+		--link-color-rgb: ' . $r . ',' . $g . ',' . $b . ';
 		--template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
-	}');
+	}')
+    ->addInlineStyle('@media (prefers-color-scheme: dark) { :root {
+		--link-color: ' . $linkColorDark . ';
+		--link-color-rgb: ' . $rd . ',' . $gd . ',' . $bd . ';
+	}}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
@@ -95,7 +106,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
     <jdoc:include type="scripts" />
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome || $a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : ''); ?>">
+<body data-color-scheme-os class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome || $a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : ''); ?>">
 <noscript>
     <div class="alert alert-danger" role="alert">
         <?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
@@ -112,13 +123,13 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
                 <?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
                 <?php if ($hiddenMenu || $cpanel) : ?>
                     <div class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>">
-                    <img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
-                    <img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
+                        <?php echo HTMLHelper::_('image', $logoBrandLarge, $logoBrandLargeAlt, ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
+                        <?php echo HTMLHelper::_('image', $logoBrandSmall, $logoBrandSmallAlt, ['class' => 'logo-collapsed', 'loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                     </div>
                 <?php else : ?>
                     <a class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>" href="<?php echo Route::_('index.php'); ?>">
-                        <img src="<?php echo $logoBrandLarge; ?>" alt="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
-                        <img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" alt="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
+                        <?php echo HTMLHelper::_('image', $logoBrandLarge, Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'), ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
+                        <?php echo HTMLHelper::_('image', $logoBrandSmall, Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'), ['class' => 'logo-collapsed', 'loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                     </a>
                 <?php endif; ?>
             </div>

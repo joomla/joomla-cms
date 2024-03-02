@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Menu\Site\Helper\MenuHelper;
@@ -23,6 +23,8 @@ $path       = $base->tree;
 $showAll    = $params->get('showAllChildren', 1);
 $class_sfx  = htmlspecialchars($params->get('class_sfx', ''), ENT_COMPAT, 'UTF-8');
 
-if (count($list)) {
-    require ModuleHelper::getLayoutPath('mod_menu', $params->get('layout', 'default'));
+if (!$list) {
+    return;
 }
+
+require ModuleHelper::getLayoutPath('mod_menu', $params->get('layout', 'default'));

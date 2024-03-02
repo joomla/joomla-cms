@@ -2,7 +2,6 @@
 .media-browser {
   position: relative;
   min-height: 70vh;
-  border-inline-start: 1px solid $border-color;
   transition: width .3s cubic-bezier(.4, 0, .2, 1);
 }
 
@@ -58,6 +57,7 @@
 }
 
 .media-browser-item-info {
+  max-width: 250px;
   padding: 0 2px;
   overflow: hidden;
   font-size: .9rem;
@@ -88,7 +88,7 @@
     left: 0;
     width: calc(#{$grid-item-icon-size} * 1.3);
     height: calc(#{$grid-item-icon-size} * 1.3);
-    font-family: "Font Awesome 5 Free";
+    font-family: "Font Awesome 6 Free";
     font-size: $grid-item-icon-size;
     font-weight: 900;
     line-height: calc(#{$grid-item-icon-size} * 1.3);
@@ -125,12 +125,11 @@
   &.active {
     top: 0;
     z-index: 1;
-    width: max-content;
-    min-width: 100%;
-    background-color: var(--template-bg-dark-3);
+    width: 100%;
+    background-color: $browser-background-color;
     border: 1px solid hsl(var(--hue), 35%, 95%);
     border-radius: .25rem;
-    box-shadow: 0 2px 10px -8px var(--template-bg-dark-50);
+    box-shadow: 0 2px 10px -8px $box-shadow-color;
     > button {
       display: none;
     }
@@ -144,7 +143,7 @@
           width: 100%;
           height: 100%;
           overflow: auto;
-          background-color: var(--template-bg-dark-3);
+          background-color: $browser-background-color;
         }
       }
 
@@ -159,6 +158,9 @@
   .media-browser-actions-item-name {
     padding: 2px;
     margin-block-end: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   button, a {
     position: relative;
@@ -180,7 +182,8 @@
       opacity: 1;
       transition-duration: .2s;
       &:hover, &:focus {
-        background-color: var(--template-bg-dark-10);
+        color: $grid-item-icon-color-hover;
+        background-color: $grid-item-icon-bg-color-hover;
         &.action-delete {
           color: $grid-item-icon-color;
           background-color: $grid-item-icon-warning-icon-bg;
@@ -354,7 +357,7 @@
       transition: all .2s cubic-bezier(.4, 0, .2, 1);
     }
     &::before {
-      font-family: "Font Awesome 5 Free";
+      font-family: "Font Awesome 6 Free";
       color: $table-item-icon-color;
       .selected & {
         color: $table-item-icon-color-selected;
@@ -372,6 +375,16 @@
     }
     span {
       visibility: hidden;
+    }
+  }
+
+  .selected {
+    background-color: $table-item-icon-bg-selected;
+
+    > td,
+    > th {
+      color: #fff;
+      background-color: $table-item-icon-bg-selected;
     }
   }
 }

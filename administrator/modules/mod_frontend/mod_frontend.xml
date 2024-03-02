@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_frontend</name>
 	<author>Joomla! Project</author>
@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>MOD_FRONTEND_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\Frontend</namespace>
 	<files>
-		<filename module="mod_frontend">mod_frontend.php</filename>
+		<folder module="mod_frontend">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

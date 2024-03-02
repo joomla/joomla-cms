@@ -19,6 +19,7 @@
           :loading="loading"
           :width="width"
           :height="height"
+          @load="setSize"
         >
         <span
           v-if="!getURL"
@@ -38,7 +39,7 @@
       :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
       :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
     />
-    <media-browser-action-items-container
+    <MediaBrowserActionItemsContainer
       ref="container"
       :item="item"
       :edit="editItem"
@@ -51,10 +52,14 @@
 </template>
 
 <script>
-import { api } from '../../../app/Api.es6';
+import api from '../../../app/Api.es6';
+import MediaBrowserActionItemsContainer from '../actionItems/actionItemsContainer.vue';
 
 export default {
   name: 'MediaBrowserItemImage',
+  components: {
+    MediaBrowserActionItemsContainer,
+  },
   props: {
     item: { type: Object, required: true },
     focused: { type: Boolean, required: true, default: false },
@@ -72,7 +77,7 @@ export default {
       }
 
       return this.item.thumb_path.split(Joomla.getOptions('system.paths').rootFull).length > 1
-        ? `${this.item.thumb_path}?${api.mediaVersion}`
+        ? `${this.item.thumb_path}?${this.item.modified_date ? new Date(this.item.modified_date).valueOf() : api.mediaVersion}`
         : `${this.item.thumb_path}`;
     },
     width() {
@@ -95,7 +100,9 @@ export default {
     },
     /* Hide actions dropdown */
     hideActions() {
-      this.$refs.container.hideActions();
+      if (this.$refs.container) {
+        this.$refs.container.hideActions();
+      }
     },
     /* Preview an item */
     openPreview() {
@@ -110,6 +117,15 @@ export default {
     },
     toggleSettings(bool) {
       this.$emit('toggle-settings', bool);
+    },
+    setSize(event) {
+      if (this.item.mime_type === 'image/svg+xml') {
+        const image = event.target;
+        // Update the item properties
+        this.$store.dispatch('updateItemProperties', { item: this.item, width: image.naturalWidth ? image.naturalWidth : 300, height: image.naturalHeight ? image.naturalHeight : 150 });
+        // @TODO Remove the fallback size (300x150) when https://bugzilla.mozilla.org/show_bug.cgi?id=1328124 is fixed
+        // Also https://github.com/whatwg/html/issues/3510
+      }
     },
   },
 };

@@ -34,17 +34,17 @@ $context = $this->escape($this->state->get('filter.context'));
         <?php endif; ?>
         <div class="form-group col-md-6">
             <div class="controls">
-                <?php echo LayoutHelper::render('joomla.html.batch.access', array()); ?>
+                <?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="form-group col-md-6">
             <div class="controls">
-                <?php $options = array(
+                <?php $options = [
                     HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
                     HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
-                );
+                ];
 ?>
                 <label id="batch-choose-action-lbl" for="batch-group-id">
                     <?php echo Text::_('COM_FIELDS_BATCH_GROUP_LABEL'); ?>
@@ -63,4 +63,9 @@ $context = $this->escape($this->state->get('filter.context'));
             </div>
         </div>
     </div>
+</div>
+<div class="btn-toolbar p-3">
+    <joomla-toolbar-button task="field.batch" class="ms-auto">
+        <button type="button" class="btn btn-success"><?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?></button>
+    </joomla-toolbar-button>
 </div>

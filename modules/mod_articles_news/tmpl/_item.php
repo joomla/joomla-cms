@@ -55,5 +55,5 @@ use Joomla\CMS\Layout\LayoutHelper;
 <?php echo $item->afterDisplayContent; ?>
 
 <?php if (isset($item->link) && $item->readmore != 0 && $params->get('readmore')) : ?>
-    <?php echo LayoutHelper::render('joomla.content.readmore', array('item' => $item, 'params' => $item->params, 'link' => $item->link)); ?>
+    <?php echo LayoutHelper::render('joomla.content.readmore', ['item' => $item, 'params' => $item->params, 'link' => $item->link]); ?>
 <?php endif; ?>

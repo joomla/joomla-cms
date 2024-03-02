@@ -14,7 +14,6 @@ use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -48,7 +47,7 @@ class MessagesModel extends BaseDatabaseModel
     {
         parent::populateState();
 
-        $eid = (int) Factory::getApplication()->input->getInt('eid');
+        $eid = (int) Factory::getApplication()->getInput()->getInt('eid');
 
         if ($eid) {
             $this->setState('eid', $eid);
@@ -187,7 +186,7 @@ class MessagesModel extends BaseDatabaseModel
         // Build a cache ID for the resulting data object
         $cacheId = 'postinstall_messages.' . $eid;
 
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
         $query->select(
             [
@@ -219,15 +218,15 @@ class MessagesModel extends BaseDatabaseModel
             /** @var CallbackController $cache */
             $cache = $this->getCacheControllerFactory()->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
 
-            $result = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
+            $result = $cache->get([$db, 'loadObjectList'], [], md5($cacheId), false);
         } catch (\RuntimeException $e) {
             $app = Factory::getApplication();
             $app->getLogger()->warning(
                 Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
-                array('category' => 'jerror')
+                ['category' => 'jerror']
             );
 
-            return array();
+            return [];
         }
 
         $this->onProcessList($result);
@@ -244,7 +243,7 @@ class MessagesModel extends BaseDatabaseModel
      */
     public function getItemsCount()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
         $query->select(
             [
@@ -266,12 +265,12 @@ class MessagesModel extends BaseDatabaseModel
                 ->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
 
             // Get the resulting data object for cache ID 'all.1' from com_postinstall group.
-            $result = $cache->get(array($db, 'loadObjectList'), array(), md5('all.1'), false);
+            $result = $cache->get([$db, 'loadObjectList'], [], md5('all.1'), false);
         } catch (\RuntimeException $e) {
             $app = Factory::getApplication();
             $app->getLogger()->warning(
                 Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
-                array('category' => 'jerror')
+                ['category' => 'jerror']
             );
 
             return 0;
@@ -314,7 +313,7 @@ class MessagesModel extends BaseDatabaseModel
 
         $extension = $db->loadObject();
 
-        if (!is_object($extension)) {
+        if (!\is_object($extension)) {
             return '';
         }
 
@@ -402,8 +401,8 @@ class MessagesModel extends BaseDatabaseModel
      */
     protected function onProcessList(&$resultArray)
     {
-        $unset_keys          = array();
-        $language_extensions = array();
+        $unset_keys          = [];
+        $language_extensions = [];
 
         // Order the results DESC so the newest is on the top.
         $resultArray = array_reverse($resultArray);
@@ -412,12 +411,12 @@ class MessagesModel extends BaseDatabaseModel
             // Filter out messages based on dynamically loaded programmatic conditions.
             if (!empty($item->condition_file) && !empty($item->condition_method)) {
                 $helper = new PostinstallHelper();
-                $file = $helper->parsePath($item->condition_file);
+                $file   = $helper->parsePath($item->condition_file);
 
-                if (File::exists($file)) {
+                if (is_file($file)) {
                     require_once $file;
 
-                    $result = call_user_func($item->condition_method);
+                    $result = \call_user_func($item->condition_method);
 
                     if ($result === false) {
                         $unset_keys[] = $key;
@@ -429,7 +428,7 @@ class MessagesModel extends BaseDatabaseModel
             if (!empty($item->language_extension)) {
                 $hash = $item->language_client_id . '-' . $item->language_extension;
 
-                if (!in_array($hash, $language_extensions)) {
+                if (!\in_array($hash, $language_extensions)) {
                     $language_extensions[] = $hash;
                     Factory::getApplication()->getLanguage()->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR);
                 }
@@ -461,7 +460,7 @@ class MessagesModel extends BaseDatabaseModel
         $db->setQuery($query);
         $extension_ids = $db->loadColumn();
 
-        $options = array();
+        $options = [];
 
         Factory::getApplication()->getLanguage()->load('files_joomla.sys', JPATH_SITE, null, false, false);
 
@@ -475,8 +474,9 @@ class MessagesModel extends BaseDatabaseModel
     /**
      * Adds or updates a post-installation message (PIM) definition. You can use this in your post-installation script using this code:
      *
-     * require_once JPATH_LIBRARIES . '/fof/include.php';
-     * FOFModel::getTmpInstance('Messages', 'PostinstallModel')->addPostInstallationMessage($options);
+     * Factory::getApplication()->bootComponent('com_postinstall')
+     * ->getMVCFactory()->createModel('Messages', 'Administrator', ['ignore_request' => true])
+     * ->addPostInstallationMessage($options);
      *
      * The $options array contains the following mandatory keys:
      *
@@ -526,8 +526,8 @@ class MessagesModel extends BaseDatabaseModel
      *
      * When type=action the following additional keys are required:
      *
-     * action_file  The RAD path to a PHP file containing a PHP function which performs the action of this PIM. @see FOFTemplateUtils::parsePath()
-     *              for RAD path format. Joomla! will include this file before calling the function defined in the action key below.
+     * action_file  The RAD path to a PHP file containing a PHP function which performs the action of this PIM.
+     *              Joomla! will include this file before calling the function defined in the action key below.
      *              Example:   admin://components/com_foobar/helpers/postinstall.php
      *
      * action       The name of a PHP function which will be used to run the action of this PIM. This must be a simple PHP user function
@@ -543,12 +543,12 @@ class MessagesModel extends BaseDatabaseModel
     public function addPostInstallationMessage(array $options)
     {
         // Make sure there are options set
-        if (!is_array($options)) {
+        if (!\is_array($options)) {
             throw new \Exception('Post-installation message definitions must be of type array', 500);
         }
 
         // Initialise array keys
-        $defaultOptions = array(
+        $defaultOptions = [
             'extension_id'       => '',
             'type'               => '',
             'title_key'          => '',
@@ -562,7 +562,7 @@ class MessagesModel extends BaseDatabaseModel
             'condition_method'   => '',
             'version_introduced' => '',
             'enabled'            => '1',
-        );
+        ];
 
         $options = array_merge($defaultOptions, $options);
 
@@ -583,7 +583,7 @@ class MessagesModel extends BaseDatabaseModel
         $options['enabled']            = (int) $options['enabled'];
 
         // Normalisation of 0/1 values
-        foreach (array('language_client_id', 'enabled') as $key) {
+        foreach (['language_client_id', 'enabled'] as $key) {
             $options[$key] = $options[$key] ? 1 : 0;
         }
 
@@ -593,7 +593,7 @@ class MessagesModel extends BaseDatabaseModel
         }
 
         // Make sure there's a valid type
-        if (!in_array($options['type'], array('message', 'link', 'action'))) {
+        if (!\in_array($options['type'], ['message', 'link', 'action'])) {
             throw new \Exception('Post-installation message definitions need to declare a type of message, link or action', 500);
         }
 
@@ -623,7 +623,7 @@ class MessagesModel extends BaseDatabaseModel
                 throw new \Exception('Post-installation message definitions need an action file when they are of type "action"', 500);
             }
 
-            $helper = new PostinstallHelper();
+            $helper    = new PostinstallHelper();
             $file_path = $helper->parsePath($options['action_file']);
 
             if (!@is_file($file_path)) {
@@ -647,7 +647,7 @@ class MessagesModel extends BaseDatabaseModel
                 throw new \Exception('Post-installation message definitions need a condition file when they are of type "' . $options['type'] . '"', 500);
             }
 
-            $helper = new PostinstallHelper();
+            $helper    = new PostinstallHelper();
             $file_path = $helper->parsePath($options['condition_file']);
 
             if (!@is_file($file_path)) {

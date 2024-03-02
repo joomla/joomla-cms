@@ -8,20 +8,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
-$cacheparams = new \stdClass();
-$cacheparams->cachemode = 'safeuri';
-$cacheparams->class = 'Joomla\Module\TagsPopular\Site\Helper\TagsPopularHelper';
-$cacheparams->method = 'getList';
+$cacheparams               = new \stdClass();
+$cacheparams->cachemode    = 'safeuri';
+$cacheparams->class        = 'Joomla\Module\TagsPopular\Site\Helper\TagsPopularHelper';
+$cacheparams->method       = 'getList';
 $cacheparams->methodparams = $params;
-$cacheparams->modeparams = array('id' => 'array', 'Itemid' => 'int');
+$cacheparams->modeparams   = ['id' => 'array', 'Itemid' => 'int'];
 
 $list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 
-if (!count($list) && !$params->get('no_results_text')) {
+if (!\count($list) && !$params->get('no_results_text')) {
     return;
 }
 

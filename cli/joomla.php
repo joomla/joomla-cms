@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 /**
@@ -24,12 +25,12 @@ if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
 }
 
 // Load system defines
-if (file_exists(dirname(__DIR__) . '/defines.php')) {
-    require_once dirname(__DIR__) . '/defines.php';
+if (file_exists(\dirname(__DIR__) . '/defines.php')) {
+    require_once \dirname(__DIR__) . '/defines.php';
 }
 
-if (!defined('_JDEFINES')) {
-    define('JPATH_BASE', dirname(__DIR__));
+if (!\defined('_JDEFINES')) {
+    \define('JPATH_BASE', \dirname(__DIR__));
     require_once JPATH_BASE . '/includes/defines.php';
 }
 
@@ -71,6 +72,6 @@ $container->alias('session', 'session.cli')
     ->alias(\Joomla\Session\Session::class, 'session.cli')
     ->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
 
-$app = \Joomla\CMS\Factory::getContainer()->get(\Joomla\Console\Application::class);
+$app                              = \Joomla\CMS\Factory::getContainer()->get(\Joomla\Console\Application::class);
 \Joomla\CMS\Factory::$application = $app;
 $app->execute();

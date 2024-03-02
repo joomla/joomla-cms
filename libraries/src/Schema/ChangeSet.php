@@ -13,7 +13,7 @@ use Joomla\CMS\Filesystem\Folder;
 use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -32,7 +32,7 @@ class ChangeSet
      * @var    ChangeItem[]
      * @since  2.5
      */
-    protected $changeItems = array();
+    protected $changeItems = [];
 
     /**
      * DatabaseDriver object
@@ -69,9 +69,9 @@ class ChangeSet
      */
     public function __construct($db, $folder = null)
     {
-        $this->db = $db;
+        $this->db     = $db;
         $this->folder = $folder;
-        $updateFiles = $this->getUpdateFiles();
+        $updateFiles  = $this->getUpdateFiles();
 
         // If no files were found nothing more we can do - continue
         if ($updateFiles === false) {
@@ -115,7 +115,7 @@ class ChangeSet
      */
     public function check()
     {
-        $errors = array();
+        $errors = [];
 
         foreach ($this->changeItems as $item) {
             if ($item->check() === -2) {
@@ -152,7 +152,7 @@ class ChangeSet
      */
     public function getStatus()
     {
-        $result = array('unchecked' => array(), 'ok' => array(), 'error' => array(), 'skipped' => array());
+        $result = ['unchecked' => [], 'ok' => [], 'error' => [], 'skipped' => []];
 
         foreach ($this->changeItems as $item) {
             switch ($item->checkStatus) {
@@ -188,7 +188,7 @@ class ChangeSet
     {
         $updateFiles = $this->getUpdateFiles();
 
-        // No schema files found - abort and return empty string
+        // No schema files found - stop and return empty string
         if (empty($updateFiles)) {
             return '';
         }
@@ -210,11 +210,6 @@ class ChangeSet
         // Get the folder from the database name
         $sqlFolder = $this->db->getServerType();
 
-        // For `mssql` server types, convert the type to `sqlazure`
-        if ($sqlFolder === 'mssql') {
-            $sqlFolder = 'sqlazure';
-        }
-
         // Default folder to core com_admin
         if (!$this->folder) {
             $this->folder = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
@@ -231,8 +226,8 @@ class ChangeSet
             '\.sql$',
             1,
             true,
-            array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
-            array('^\..*', '.*~'),
+            ['.svn', 'CVS', '.DS_Store', '__MACOSX'],
+            ['^\..*', '.*~'],
             true
         );
     }
@@ -251,7 +246,7 @@ class ChangeSet
     private function getUpdateQueries(array $sqlfiles)
     {
         // Hold results as array of objects
-        $result = array();
+        $result = [];
 
         foreach ($sqlfiles as $file) {
             $buffer = file_get_contents($file);
@@ -260,10 +255,10 @@ class ChangeSet
             $queries = DatabaseDriver::splitSql($buffer);
 
             foreach ($queries as $query) {
-                $fileQueries = new \stdClass();
-                $fileQueries->file = $file;
+                $fileQueries              = new \stdClass();
+                $fileQueries->file        = $file;
                 $fileQueries->updateQuery = $query;
-                $result[] = $fileQueries;
+                $result[]                 = $fileQueries;
             }
         }
 

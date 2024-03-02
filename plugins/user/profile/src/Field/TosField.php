@@ -20,7 +20,7 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -62,7 +62,7 @@ class TosField extends RadioField
 
         // Build the class for the label.
         $class = !empty($this->description) ? 'hasPopover' : '';
-        $class = $class . ' required';
+        $class .= ' required';
         $class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
 
         // Add the opening label tag and main attributes attributes.
@@ -85,7 +85,7 @@ class TosField extends RadioField
         $tosArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
 
         if ($tosArticle) {
-            $attribs                = [];
+            $attribs                   = [];
             $attribs['data-bs-toggle'] = 'modal';
             $attribs['data-bs-target'] = '#tosModal';
 
@@ -122,13 +122,13 @@ class TosField extends RadioField
                 'bootstrap.renderModal',
                 'tosModal',
                 [
-                    'url'    => Route::_($url . '&tmpl=component'),
-                    'title'  => $text,
-                    'height' => '100%',
-                    'width'  => '100%',
-                    'modalWidth'  => '800',
-                    'bodyHeight'  => '500',
-                    'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
+                    'url'        => Route::_($url . '&tmpl=component'),
+                    'title'      => $text,
+                    'height'     => '100%',
+                    'width'      => '100%',
+                    'modalWidth' => '800',
+                    'bodyHeight' => '500',
+                    'footer'     => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
                         . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
                 ]
             );

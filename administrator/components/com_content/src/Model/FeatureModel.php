@@ -32,7 +32,7 @@ class FeatureModel extends ArticleModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'Featured', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Featured', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }

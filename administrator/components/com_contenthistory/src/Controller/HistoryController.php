@@ -37,7 +37,7 @@ class HistoryController extends AdminController
      *
      * @since   3.2
      */
-    public function getModel($name = 'History', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'History', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -54,7 +54,7 @@ class HistoryController extends AdminController
         $this->checkToken();
 
         // Get items to toggle keep forever from the request.
-        $cid = (array) $this->input->get('cid', array(), 'int');
+        $cid = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
@@ -67,7 +67,7 @@ class HistoryController extends AdminController
 
             // Toggle keep forever status of the selected items.
             if ($model->keep($cid)) {
-                $this->setMessage(Text::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', count($cid)));
+                $this->setMessage(Text::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', \count($cid)));
             } else {
                 $this->setMessage($model->getError(), 'error');
             }
