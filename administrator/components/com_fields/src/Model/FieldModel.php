@@ -1109,10 +1109,10 @@ class FieldModel extends AdminModel
             }
         }
 
-        $componentInterface = Factory::getApplication()->bootComponent($component);
+        $componentBooted = Factory::getApplication()->bootComponent($component);
 
-        if ($componentInterface instanceof FieldsServiceInterface) {
-            $componentInterface->prepareForm($form, $data);
+        if ($componentBooted instanceof FieldsServiceInterface) {
+            $componentBooted->prepareForm($form, $data);
         }
 
         // Trigger the default form events.
