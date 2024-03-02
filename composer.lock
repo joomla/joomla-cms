@@ -1046,16 +1046,16 @@
         },
         {
             "name": "joomla/application",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/application.git",
-                "reference": "96d279d19d7551746f97f7702cf92ad050eac01f"
+                "reference": "608393d09e355180e858b33f3c49d188c22d279c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/application/zipball/96d279d19d7551746f97f7702cf92ad050eac01f",
-                "reference": "96d279d19d7551746f97f7702cf92ad050eac01f",
+                "url": "https://api.github.com/repos/joomla-framework/application/zipball/608393d09e355180e858b33f3c49d188c22d279c",
+                "reference": "608393d09e355180e858b33f3c49d188c22d279c",
                 "shasum": ""
             },
             "require": {
@@ -1139,7 +1139,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-05T19:13:13+00:00"
+            "time": "2024-01-18T17:13:50+00:00"
         },
         {
             "name": "joomla/archive",
