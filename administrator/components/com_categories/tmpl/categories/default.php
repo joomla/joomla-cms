@@ -85,25 +85,25 @@ if ($saveOrder && !empty($this->items)) {
                                 <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
                                     <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                         <span class="icon-check" aria-hidden="true"></span>
-                                        <span class="d-none d-md-inline"><?php echo Text::_('COM_CATEGORIES_HEADING_PUBLISHED'); ?></span>
+                                        <span class="d-none d-lg-inline"><?php echo Text::_('COM_CATEGORIES_HEADING_PUBLISHED'); ?></span>
                                     </th>
                                 <?php endif; ?>
                                 <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
                                     <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                         <span class="icon-times" aria-hidden="true"></span>
-                                        <span class="d-none d-md-inline"><?php echo Text::_('COM_CATEGORIES_HEADING_UNPUBLISHED'); ?></span>
+                                        <span class="d-none d-lg-inline"><?php echo Text::_('COM_CATEGORIES_HEADING_UNPUBLISHED'); ?></span>
                                     </th>
                                 <?php endif; ?>
                                 <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
                                     <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                         <span class="icon-folder icon-fw" aria-hidden="true"></span>
-                                        <span class="d-none d-md-inline"><?php echo Text::_('COM_CATEGORIES_HEADING_ARCHIVED'); ?></span>
+                                        <span class="d-none d-lg-inline"><?php echo Text::_('COM_CATEGORIES_HEADING_ARCHIVED'); ?></span>
                                     </th>
                                 <?php endif; ?>
                                 <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
                                     <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                         <span class="icon-trash" aria-hidden="true"></span>
-                                        <span class="d-none d-md-inline"><?php echo Text::_('COM_CATEGORIES_HEADING_TRASHED'); ?></span>
+                                        <span class="d-none d-lg-inline"><?php echo Text::_('COM_CATEGORIES_HEADING_TRASHED'); ?></span>
                                     </th>
                                 <?php endif; ?>
                                 <th scope="col" class="w-10 d-none d-md-table-cell">
@@ -125,8 +125,8 @@ if ($saveOrder && !empty($this->items)) {
                             </tr>
                         </thead>
                         <tbody <?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php
-                               endif; ?>>
+                                ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false" <?php
+                                                                                                                                                                        endif; ?>>
                             <?php foreach ($this->items as $i => $item) : ?>
                                 <?php
                                 $canEdit    = $user->authorise('core.edit', $extension . '.category.' . $item->id);
@@ -154,9 +154,7 @@ if ($saveOrder && !empty($this->items)) {
                                     $parentsStr = '';
                                 }
                                 ?>
-                                <tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->parent_id; ?>"
-                                    data-item-id="<?php echo $item->id ?>" data-parents="<?php echo $parentsStr ?>"
-                                    data-level="<?php echo $item->level ?>">
+                                <tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->parent_id; ?>" data-item-id="<?php echo $item->id ?>" data-parents="<?php echo $parentsStr ?>" data-level="<?php echo $item->level ?>">
                                     <td class="text-center">
                                         <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
                                     </td>
@@ -192,7 +190,7 @@ if ($saveOrder && !empty($this->items)) {
                                             <?php echo $this->escape($item->title); ?>
                                         <?php endif; ?>
                                         <div>
-                                        <?php echo $prefix; ?>
+                                            <?php echo $prefix; ?>
                                             <span class="small">
                                                 <?php if (empty($item->note)) : ?>
                                                     <?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
@@ -204,9 +202,7 @@ if ($saveOrder && !empty($this->items)) {
                                     </th>
                                     <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
                                         <td class="text-center btns d-none d-md-table-cell itemnumber">
-                                            <a class="btn <?php echo ($item->count_published > 0) ? 'btn-success' : 'btn-secondary'; ?>"
-                                                href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1&filter[level]=1'); ?>"
-                                                aria-describedby="tip-publish<?php echo $i; ?>">
+                                            <a class="btn <?php echo ($item->count_published > 0) ? 'btn-success' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1&filter[level]=1'); ?>" aria-describedby="tip-publish<?php echo $i; ?>">
                                                 <?php echo $item->count_published; ?>
                                             </a>
                                             <div role="tooltip" id="tip-publish<?php echo $i; ?>">
@@ -216,9 +212,7 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php endif; ?>
                                     <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
                                         <td class="text-center btns d-none d-md-table-cell itemnumber">
-                                            <a class="btn <?php echo ($item->count_unpublished > 0) ? 'btn-danger' : 'btn-secondary'; ?>"
-                                                href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0&filter[level]=1'); ?>"
-                                                aria-describedby="tip-unpublish<?php echo $i; ?>">
+                                            <a class="btn <?php echo ($item->count_unpublished > 0) ? 'btn-danger' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0&filter[level]=1'); ?>" aria-describedby="tip-unpublish<?php echo $i; ?>">
                                                 <?php echo $item->count_unpublished; ?>
                                             </a>
                                             <div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
@@ -228,9 +222,7 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php endif; ?>
                                     <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
                                         <td class="text-center btns d-none d-md-table-cell itemnumber">
-                                            <a class="btn <?php echo ($item->count_archived > 0) ? 'btn-info' : 'btn-secondary'; ?>"
-                                                href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2&filter[level]=1'); ?>"
-                                                aria-describedby="tip-archive<?php echo $i; ?>">
+                                            <a class="btn <?php echo ($item->count_archived > 0) ? 'btn-info' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2&filter[level]=1'); ?>" aria-describedby="tip-archive<?php echo $i; ?>">
                                                 <?php echo $item->count_archived; ?>
                                             </a>
                                             <div role="tooltip" id="tip-archive<?php echo $i; ?>">
@@ -240,9 +232,7 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php endif; ?>
                                     <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
                                         <td class="text-center btns d-none d-md-table-cell itemnumber">
-                                            <a class="btn <?php echo ($item->count_trashed > 0) ? 'btn-dark' : 'btn-secondary'; ?>"
-                                                href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2&filter[level]=1'); ?>"
-                                                aria-describedby="tip-trash<?php echo $i; ?>">
+                                            <a class="btn <?php echo ($item->count_trashed > 0) ? 'btn-dark' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2&filter[level]=1'); ?>" aria-describedby="tip-trash<?php echo $i; ?>">
                                                 <?php echo $item->count_trashed; ?>
                                             </a>
                                             <div role="tooltip" id="tip-trash<?php echo $i; ?>">
@@ -274,10 +264,12 @@ if ($saveOrder && !empty($this->items)) {
                         </tbody>
                     </table>
 
-                    <?php // load the pagination. ?>
+                    <?php // load the pagination. 
+                    ?>
                     <?php echo $this->pagination->getListFooter(); ?>
 
-                    <?php // Load the batch processing form. ?>
+                    <?php // Load the batch processing form. 
+                    ?>
                     <?php
                     if (
                         $user->authorise('core.create', $extension)

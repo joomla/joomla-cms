@@ -74,25 +74,25 @@ $params     = $this->state->get('params') ?? new Registry();
                                 <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
                                     <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                         <span class="icon-check" aria-hidden="true"></span>
-                                        <span class="d-none d-md-inline"><?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?></span>
+                                        <span class="d-none d-lg-inline"><?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?></span>
                                     </th>
                                 <?php endif; ?>
                                 <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
                                     <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                         <span class="icon-times" aria-hidden="true"></span>
-                                        <span class="d-none d-md-inline"><?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
+                                        <span class="d-none d-lg-inline"><?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
                                     </th>
                                 <?php endif; ?>
                                 <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
                                     <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                         <span class="icon-folder icon-fw" aria-hidden="true"></span>
-                                        <span class="d-none d-md-inline"><?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span>
+                                        <span class="d-none d-lg-inline"><?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span>
                                     </th>
                                 <?php endif; ?>
                                 <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
                                     <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                         <span class="icon-trash" aria-hidden="true"></span>
-                                        <span class="d-none d-md-inline"><?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span>
+                                        <span class="d-none d-lg-inline"><?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span>
                                     </th>
                                 <?php endif; ?>
                                 <th scope="col" class="w-10 d-none d-md-table-cell">
