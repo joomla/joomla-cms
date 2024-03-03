@@ -140,27 +140,26 @@ final class Vote extends CMSPlugin
     public function onSchemaBeforeCompileHead($schema, $context): void
     {
         $graph = $schema->get('@graph');
-		
+
         $need_vote = PluginHelper::isEnabled('content', 'vote');
 
-		if (!$need_vote) {
-			return;
-		}
+        if (!$need_vote) {
+           return;
+        }
         foreach ($graph as $key => &$entry) {
             if (!isset($entry['@type']))  {
                 continue;
             }
-			if ($entry['@type'] == 'Recipe') {
-				$rating = $this->prepareRecipeAggregateRating($ontext);
-				continue;
-			}	
-			$rating = $this->prepareProductAggregateRating($context);
-		}
+            if ($entry['@type'] == 'Recipe') {
+                $rating = $this->prepareRecipeAggregateRating($ontext);
+                continue;
+            }
+            $rating = $this->prepareProductAggregateRating($context);
+        }
 
-	    if ($rating) { 
-			$graph[] = $rating;
-			$schema->set('@graph', $graph);
-		}
+        if ($rating) { 
+            $graph[] = $rating;
+            $schema->set('@graph', $graph);
+        }
     }
-	
 }
