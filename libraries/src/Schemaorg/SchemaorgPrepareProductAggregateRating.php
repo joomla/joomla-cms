@@ -27,7 +27,7 @@ trait SchemaorgPrepareProductAggregateRating
      *
      * @return  ?string
      *
-     * @since   5.0.0
+ * @since  __DEPLOY_VERSION__
      */
     protected function prepareProductAggregateRating($context)
     {
