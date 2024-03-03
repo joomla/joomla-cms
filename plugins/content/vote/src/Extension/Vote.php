@@ -157,7 +157,7 @@ final class Vote extends CMSPlugin
             $rating = $this->prepareProductAggregateRating($context);
         }
 
-        if ($rating) { 
+        if ($rating) {
             $graph[] = $rating;
             $schema->set('@graph', $graph);
         }
