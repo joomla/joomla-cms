@@ -15,6 +15,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView $this */
+
 $hadErrors    = $this->state->get('update_finished_with_error');
 $errors       = $this->state->get('update_errors');
 $logFile      = $this->state->get('log_file');

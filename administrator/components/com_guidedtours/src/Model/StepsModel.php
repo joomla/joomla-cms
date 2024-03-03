@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -248,6 +249,13 @@ class StepsModel extends ListModel
 
             $item->title       = Text::_($item->title);
             $item->description = Text::_($item->description);
+
+            if (isset($item->params)) {
+                $params = new Registry($item->params);
+                if (!empty($item->params->requiredvalue)) {
+                    $item->params->requiredvalue = Text::_($item->params->requiredvalue);
+                }
+            }
         }
 
         return $items;

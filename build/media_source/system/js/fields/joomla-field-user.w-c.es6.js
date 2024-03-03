@@ -143,6 +143,9 @@ class JoomlaFieldUser extends HTMLElement {
       window.removeEventListener('message', msgListener);
       dialog.destroy();
       this.dialog = null;
+      // Focus on the input field to re-trigger the validation
+      this.inputName.focus();
+      this.buttonSelect.focus();
     });
 
     this.dialog = dialog;

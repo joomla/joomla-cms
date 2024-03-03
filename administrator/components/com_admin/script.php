@@ -22,6 +22,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -387,10 +388,10 @@ class JoomlaInstallerScript
             return;
         }
 
-        /** @var SchedulerComponent $component */
+        /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
 
-        /** @var TaskModel $model */
+        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
 
         // Get the timeout, as configured in plg_system_logrotation
@@ -433,10 +434,10 @@ class JoomlaInstallerScript
         // Get the plugin parameters
         $params = new Registry($data->params);
 
-        /** @var SchedulerComponent $component */
+        /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
 
-        /** @var TaskModel $model */
+        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
             'title'           => 'Session GC',
@@ -478,10 +479,10 @@ class JoomlaInstallerScript
         $params       = new Registry($data->params);
         $lastrun      = (int) $params->get('lastrun', time());
 
-        /** @var SchedulerComponent $component */
+        /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
 
-        /** @var TaskModel $model */
+        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
             'title'           => 'Update Notification',
@@ -2194,6 +2195,44 @@ class JoomlaInstallerScript
             '/media/system/css/sortablelist.css',
             '/media/system/css/sortablelist.min.css',
             '/media/system/css/sortablelist.min.css.gz',
+            // From 5.0.0 to 5.1.0-alpha1
+            '/administrator/components/com_banners/tmpl/banners/default_batch_footer.php',
+            '/administrator/components/com_contact/tmpl/contacts/default_batch_footer.php',
+            '/administrator/components/com_fields/tmpl/fields/default_batch_footer.php',
+            '/administrator/components/com_fields/tmpl/groups/default_batch_footer.php',
+            '/administrator/components/com_menus/tmpl/items/default_batch_footer.php',
+            '/administrator/components/com_modules/tmpl/modules/default_batch_footer.php',
+            '/administrator/components/com_newsfeeds/tmpl/newsfeeds/default_batch_footer.php',
+            '/administrator/components/com_tags/tmpl/tags/default_batch_footer.php',
+            '/administrator/components/com_users/tmpl/users/default_batch_footer.php',
+            // From 5.1.0-alpha3 to 5.1.0-alpha4
+            '/administrator/components/com_redirect/tmpl/links/default_batch_footer.php',
+            '/modules/mod_banners/mod_banners.php',
+            // From 5.1.0-alpha4 to 5.1.0-beta1
+            '/administrator/modules/mod_custom/mod_custom.php',
+            '/administrator/modules/mod_frontend/mod_frontend.php',
+            '/administrator/modules/mod_latestactions/mod_latestactions.php',
+            '/administrator/modules/mod_loginsupport/mod_loginsupport.php',
+            '/administrator/modules/mod_messages/mod_messages.php',
+            '/administrator/modules/mod_multilangstatus/mod_multilangstatus.php',
+            '/administrator/modules/mod_sampledata/mod_sampledata.php',
+            '/administrator/modules/mod_stats_admin/mod_stats_admin.php',
+            '/administrator/modules/mod_title/mod_title.php',
+            '/administrator/modules/mod_toolbar/mod_toolbar.php',
+            '/administrator/modules/mod_user/mod_user.php',
+            '/administrator/modules/mod_version/mod_version.php',
+            '/media/plg_system_jooa11y/css/jooa11y.css',
+            '/media/plg_system_jooa11y/css/jooa11y.min.css',
+            '/media/plg_system_jooa11y/css/jooa11y.min.css.gz',
+            '/media/plg_system_jooa11y/scss/jooa11y.scss',
+            '/media/vendor/joomla-a11y-checker/LICENSE.md',
+            '/modules/mod_feed/mod_feed.php',
+            '/modules/mod_languages/mod_languages.php',
+            '/modules/mod_stats/mod_stats.php',
+            '/modules/mod_syndicate/mod_syndicate.php',
+            '/modules/mod_tags_popular/mod_tags_popular.php',
+            '/modules/mod_tags_similar/mod_tags_similar.php',
+            '/modules/mod_wrapper/mod_wrapper.php',
         ];
 
         $folders = [
@@ -2428,6 +2467,10 @@ class JoomlaInstallerScript
             '/libraries/vendor/fgrosse/phpasn1/lib',
             '/libraries/vendor/fgrosse/phpasn1',
             '/libraries/vendor/fgrosse',
+            // From 5.1.0-alpha4 to 5.1.0-beta1
+            '/media/vendor/joomla-a11y-checker',
+            '/media/plg_system_jooa11y/scss',
+            '/media/plg_system_jooa11y/css',
         ];
 
         $status['files_checked']   = $files;
@@ -2448,7 +2491,7 @@ class JoomlaInstallerScript
         }
 
         foreach ($folders as $folder) {
-            if ($folderExists = Folder::exists(JPATH_ROOT . $folder)) {
+            if ($folderExists = is_dir(Path::clean(JPATH_ROOT . $folder))) {
                 $status['folders_exist'][] = $folder;
 
                 if ($dryRun === false) {
@@ -2622,10 +2665,10 @@ class JoomlaInstallerScript
             return true;
         }
 
-        /** @var SchedulerComponent $component */
+        /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
 
-        /** @var TaskModel $model */
+        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
             'title'           => 'Delete Action Logs',
@@ -2691,10 +2734,10 @@ class JoomlaInstallerScript
             return true;
         }
 
-        /** @var SchedulerComponent $component */
+        /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
 
-        /** @var TaskModel $model */
+        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
             'title'           => 'Privacy Consent',
