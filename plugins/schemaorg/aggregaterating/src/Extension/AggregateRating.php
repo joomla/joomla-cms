@@ -25,7 +25,7 @@ use Joomla\Event\SubscriberInterface;
 /**
  * Schemaorg Plugin
  *
- * @since  5.0.0
+ * @since  __DEPLOY_VERSION__
  */
 final class AggregateRating extends CMSPlugin implements SubscriberInterface
 {
