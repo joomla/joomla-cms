@@ -48,6 +48,7 @@ $wa->useScript('joomla.batch-copymove');
                 </label>
                 <select class="form-select" name="batch[tag_id]" id="batch-tag-copy-move-id">
                     <option value=""><?php echo Text::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
+                    <option value="1"><?php echo Text::_('JGLOBAL_ROOT'); ?></option>
                     <?php echo HTMLHelper::_('select.options', HTMLHelper::_('tag.tags')); ?>
                 </select>
             </div>
