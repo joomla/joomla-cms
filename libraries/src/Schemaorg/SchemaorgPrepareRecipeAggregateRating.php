@@ -16,7 +16,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Prepare Recipe AggregateRating to be valid for JSON-LD output
  *
- * @since  5.0.0
+ * @since  __DEPLOY_VERSION__
  */
 trait SchemaorgPrepareRecipeAggregateRating
 {
