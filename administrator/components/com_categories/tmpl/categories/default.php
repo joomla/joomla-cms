@@ -238,7 +238,7 @@ if ($saveOrder && !empty($this->items)) {
                                                 <?php echo $item->count_trashed; ?>
                                             </a>
                                             <div role="tooltip" id="tip-trash<?php echo $i; ?>">
-                                                <?php echo Text::_('COM_CATEGORIES_COUNT_TRASHED_ARTICLES'); ?>
+                                                <?php echo Text::_('COM_CATEGORIES_COUNT_TRASHED_ITEMS'); ?>
                                             </div>
                                         </td>
                                     <?php endif; ?>
