@@ -2,7 +2,7 @@
 <extension type="plugin" group="schemaorg" method="upgrade">
 	<name>plg_schemaorg_aggregaterating</name>
 	<author>Joomla! Project</author>
-	<creationDate>2023-07</creationDate>
+	<creationDate>2024-03</creationDate>
 	<copyright>(C) 2024 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
