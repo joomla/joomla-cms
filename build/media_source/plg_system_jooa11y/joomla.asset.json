@@ -10,7 +10,9 @@
       "type": "script",
       "uri": "plg_system_jooa11y/jooa11y.min.js",
       "dependencies": [
-        "core"
+        "core",
+        "sa11y",
+        "sa11y-lang"
       ],
       "attributes": {
         "type": "module"
@@ -19,7 +21,12 @@
     {
       "name": "plg_system_jooa11y.jooa11y",
       "type": "style",
-      "uri": "plg_system_jooa11y/jooa11y.min.css"
+      "uri": "",
+      "deprecated": true,
+      "deprecatedMsg": "Use 'sa11y' style asset instead",
+      "dependencies": [
+        "sa11y"
+      ]
     }
   ]
 }

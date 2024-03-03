@@ -14,6 +14,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 defined('_JEXEC') or die;
 
 $this->name = Text::_('COM_CONFIG_SEO_SETTINGS');
+$this->description = Text::_('COM_CONFIG_SEO_SETTINGS_DESC');
 $this->fieldsname = 'seo';
 $this->formclass = 'options-form';
 
