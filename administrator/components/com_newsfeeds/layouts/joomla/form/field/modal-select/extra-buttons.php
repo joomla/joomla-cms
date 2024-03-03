@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\CMS\Layout\FileLayout $this */
+
 extract($displayData);
 
 /**
