@@ -17,6 +17,9 @@ namespace Joomla\CMS\Component\Router;
  * Default routing class for missing or legacy component routers
  *
  * @since  3.3
+ * @deprecated  5.1 will be removed in 7.0
+ *              Will be removed without replacement. Use the class based router
+ *              implementing the RouterInterface
  */
 class RouterLegacy implements RouterInterface
 {

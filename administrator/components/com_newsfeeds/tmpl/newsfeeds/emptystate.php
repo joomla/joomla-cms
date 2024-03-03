@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Newsfeeds\Administrator\View\Newsfeeds\HtmlView $this */
+
 $displayData = [
     'textPrefix' => 'COM_NEWSFEEDS',
     'formURL'    => 'index.php?option=com_newsfeeds&view=newsfeeds',
