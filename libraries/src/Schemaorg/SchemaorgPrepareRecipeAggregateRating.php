@@ -28,7 +28,7 @@ trait SchemaorgPrepareRecipeAggregateRating
      *
      * @return  ?string
      *
- * @since  __DEPLOY_VERSION__
+     * @since  __DEPLOY_VERSION__
      */
     protected function prepareRecipeAggregateRating($context)
     {
