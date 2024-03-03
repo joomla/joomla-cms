@@ -79,6 +79,7 @@ for ($i = $stars; $i < 5; $i++) {
 ?>
 <div class="content_rating" role="img" aria-label="<?php echo Text::sprintf('PLG_VOTE_STAR_RATING', $rating); ?>">
     <?php if ($rcount) : ?>
+        <?php echo Text::sprintf('PLG_VOTE_USER_RATING', $rating, 5); ?>
         <?php if ($this->params->get('show_total_votes', 0)) : ?>
             <?php echo Text::sprintf('PLG_VOTE_TOTAL_VOTES', $rcount); ?>
         <?php endif; ?>
