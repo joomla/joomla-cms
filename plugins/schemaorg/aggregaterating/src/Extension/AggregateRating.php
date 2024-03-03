@@ -36,7 +36,7 @@ final class AggregateRating extends CMSPlugin implements SubscriberInterface
      * Load the language file on instantiation.
      *
      * @var    boolean
-     * @since  5.0.0
+ * @since  __DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
 
