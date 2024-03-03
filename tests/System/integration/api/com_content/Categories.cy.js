@@ -1,14 +1,14 @@
 describe('Test that content categories API endpoint', () => {
   afterEach(() => cy.task('queryDB', "DELETE FROM #__categories WHERE title = 'automated test content category'"));
 
-  it('can display a list of categories', () => {
+  it('can deliver a list of categories', () => {
     cy.db_createCategory({ title: 'automated test content category', extension: 'com_content' })
       .then((id) => cy.db_createArticle({ title: 'automated test article', catid: id }))
       .then(() => cy.api_get('/content/categories'))
       .then((response) => cy.api_responseContains(response, 'title', 'automated test content category'));
   });
 
-  it('can display a single category', () => {
+  it('can deliver a single category', () => {
     cy.db_createCategory({ title: 'automated test content category', extension: 'com_content' })
       .then((id) => cy.api_get(`/content/categories/${id}`))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
