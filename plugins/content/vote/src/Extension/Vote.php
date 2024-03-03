@@ -147,14 +147,17 @@ final class Vote extends CMSPlugin
         if (!$need_vote) {
             return;
         }
+
         foreach ($graph as $key => &$entry) {
             if (!isset($entry['@type'])) {
                 continue;
             }
-            if ($entry['@type'] == 'Recipe') {
+
+            if ($entry['@type'] === 'Recipe') {
                 $rating = $this->prepareRecipeAggregateRating($ontext);
                 continue;
             }
+
             $rating = $this->prepareProductAggregateRating($context);
         }
 
