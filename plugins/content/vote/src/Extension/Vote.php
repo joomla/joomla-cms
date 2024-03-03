@@ -131,7 +131,7 @@ final class Vote extends CMSPlugin
      * Create SchemaOrg AggregateRating 
      *
      * @param   object   $schema  The schema of the content being passed to the plugin
-     * @param   string   $context  The context of the content being passed to the plugin
+     * @param   string   $context The context of the content being passed to the plugin
      *
      * @return  void
      *
@@ -147,7 +147,7 @@ final class Vote extends CMSPlugin
            return;
         }
         foreach ($graph as $key => &$entry) {
-            if (!isset($entry['@type']))  {
+            if (!isset($entry['@type'])) {
                 continue;
             }
             if ($entry['@type'] == 'Recipe') {
