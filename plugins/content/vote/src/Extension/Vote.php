@@ -28,6 +28,7 @@ final class Vote extends CMSPlugin
 {
     use SchemaorgPrepareProductAggregateRating;
     use SchemaorgPrepareRecipeAggregateRating;
+
     /**
      * @var    \Joomla\CMS\Application\CMSApplication
      *
