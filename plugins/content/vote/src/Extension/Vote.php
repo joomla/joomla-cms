@@ -12,6 +12,8 @@ namespace Joomla\Plugin\Content\Vote\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Schemaorg\SchemaorgPrepareProductAggregateRating;
+use Joomla\CMS\Schemaorg\SchemaorgPrepareRecipeAggregateRating;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -24,6 +26,8 @@ use Joomla\CMS\Plugin\PluginHelper;
  */
 final class Vote extends CMSPlugin
 {
+	use SchemaorgPrepareProductAggregateRating;
+	use SchemaorgPrepareRecipeAggregateRating;
     /**
      * @var    \Joomla\CMS\Application\CMSApplication
      *
@@ -123,4 +127,40 @@ final class Vote extends CMSPlugin
 
         return $html;
     }
+    /**
+     * Create SchemaOrg AggregateRating 
+     *
+     * @param   object   $schema  The schema of the content being passed to the plugin
+     * @param   string   $context  The context of the content being passed to the plugin
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onSchemaBeforeCompileHead($schema, $context): void
+    {
+        $graph = $schema->get('@graph');
+		
+        $need_vote = PluginHelper::isEnabled('content', 'vote');
+
+		if (!$need_vote) {
+			return;
+		}
+        foreach ($graph as $key => &$entry) {
+            if (!isset($entry['@type']))  {
+                continue;
+            }
+			if ($entry['@type'] == 'Recipe') {
+				$rating = $this->prepareRecipeAggregateRating($ontext);
+				continue;
+			}	
+			$rating = $this->prepareProductAggregateRating($context);
+		}
+
+	    if ($rating) { 
+			$graph[] = $rating;
+			$schema->set('@graph', $graph);
+		}
+    }
+	
 }
