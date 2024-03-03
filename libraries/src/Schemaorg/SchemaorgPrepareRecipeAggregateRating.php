@@ -21,9 +21,9 @@ use Joomla\CMS\Uri\Uri;
 trait SchemaorgPrepareRecipeAggregateRating
 {
     /**
-     * Prepare duration
+     * Prepare Recipe AggregateRating
      *
-     * @param   array $duration
+     * @param   array $context
      *
      * @return  ?string
      *
