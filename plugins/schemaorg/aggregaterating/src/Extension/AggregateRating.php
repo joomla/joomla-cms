@@ -69,7 +69,7 @@ final class AggregateRating extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   5.0.0
+     * @since  __DEPLOY_VERSION__
      */
     public function onSchemaBeforeCompileHead(BeforeCompileHeadEvent $event): void
     {
