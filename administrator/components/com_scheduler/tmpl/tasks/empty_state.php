@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView $this */
+
 $displayData = [
     'textPrefix' => 'COM_SCHEDULER',
     'formURL' => 'index.php?option=com_scheduler&task=task.add',
