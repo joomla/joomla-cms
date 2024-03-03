@@ -31,16 +31,16 @@ trait SchemaorgPrepareRecipeAggregateRating
      */
     protected function prepareRecipeAggregateRating($context)
     {
-		[$extension, $view, $id] = explode('.', $context);
-		if ($view ==  'article') {
-	        $baseId   = Uri::root() . '#/schema/';
-			$schemaId = $baseId . str_replace('.', '/', $context);
-			
-			$component = $this->getApplication()->bootComponent('com_content')->getMVCFactory();
-			$model = $component->createModel('Article', 'Site');
+        [$extension, $view, $id] = explode('.', $context);
+        if ($view ==  'article') {
+            $baseId   = Uri::root() . '#/schema/';
+            $schemaId = $baseId . str_replace('.', '/', $context);
+
+            $component = $this->getApplication()->bootComponent('com_content')->getMVCFactory();
+            $model = $component->createModel('Article', 'Site');
             $article = $model->getItem($id);
-			return ['@isPartOf' => ['@id' => $schemaId,'aggregateRating' => ['@type'=> "AggregateRating","ratingCount" => (string)$article->rating_count,"ratingValue" => (string)$article->rating]]];
-		}
-		return false;
+            return ['@isPartOf' => ['@id' => $schemaId,'aggregateRating' => ['@type'=> "AggregateRating","ratingCount" => (string)$article->rating_count,"ratingValue" => (string)$article->rating]]];
+        }
+        return false;
     }
 }
