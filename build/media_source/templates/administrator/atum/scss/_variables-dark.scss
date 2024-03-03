@@ -269,7 +269,7 @@ $atum-colors-dark: (
   // Buttons
   btn-primary-color:                   var(--text-normal),
   btn-primary-bg:                      $btn-primary-dark,
-  btn-primary-border:                  1px solid var(--btn-primary-bg),
+  btn-primary-border:                  1px solid lighten($btn-primary-dark, 10%),
   btn-primary-bg-hvr:                  darken($btn-primary-dark, 10%),
   btn-primary-border-hvr:              1px solid darken($btn-primary-dark, 15%),
   btn-primary-toggle-bg:               var(--template-bg-dark),
@@ -277,7 +277,7 @@ $atum-colors-dark: (
 
   btn-secondary-color:                   var(--template-text-light),
   btn-secondary-bg:                      $info-dark,
-  btn-secondary-border:                  1px solid $info-dark,
+  btn-secondary-border:                  1px solid lighten($info-dark, 10%),
   btn-secondary-bg-hvr:                  darken($info-dark, 10%),
   btn-secondary-border-hvr:              1px solid darken($info-dark, 10%),
 
@@ -288,17 +288,17 @@ $atum-colors-dark: (
   btn-dark-color-hvr:                  #fff,
 
   btn-light-bg:                        $btn-primary-dark,
-  btn-light-border:                    1px solid $btn-primary-dark,
+  btn-light-border:                    1px solid lighten($btn-primary-dark, 10%),
   btn-light-bg-hvr:                    $btn-primary-bg-hvr,
 
 
   btn-outline-secondary-color:         var(--template-text-light),
   btn-outline-secondary-bg:            #64676c,
-  btn-outline-secondary-border:        1px solid var(--btn-secondary-bg),
+  btn-outline-secondary-border:        1px solid lighten(#64676c, 10%),
 
   btn-info-color:                      var(--template-text-light),
   btn-info-bg:                         $info-dark,
-  btn-info-border:                     1px solid $info-dark,
+  btn-info-border:                     1px solid lighten($info-dark, 10%),
   btn-info-bg-hvr:                     darken($info-dark, 10%),
   btn-info-border-hvr:                 1px solid darken($info-dark, 10%),
 
@@ -398,7 +398,7 @@ $atum-colors-dark: (
   atum-btn-danger-icon-hvr:       var(--atum-btn-danger-hvr),
   atum-btn-danger-bg:             $danger,
   atum-btn-danger-bg-hvr:         darken($danger, 15%),
-  atum-btn-danger-border:         1px solid $danger,
+  atum-btn-danger-border:         1px solid lighten($danger, 10%),
   atum-btn-danger-hvr:            var(--template-text-light),
 
   atum-btn-info:                  lighten($info-dark, 50%),
@@ -406,7 +406,7 @@ $atum-colors-dark: (
   atum-btn-info-icon-hvr:         var(--template-text-dark),
   atum-btn-info-bg:               $info-dark,
   atum-btn-info-bg-hvr:           darken($info-dark, 15%),
-  atum-btn-info-border:           1px solid var(--atum-btn-info-bg),
+  atum-btn-info-border:           1px solid lighten($info-dark, 10%),
   atum-btn-info-hvr:              var(--template-text-dark),
 
   atum-btn-primary:               lighten($btn-primary-dark, 25%),
@@ -414,7 +414,7 @@ $atum-colors-dark: (
   atum-btn-primary-icon-hvr:      var(--template-text-dark),
   atum-btn-primary-bg:            $btn-primary-dark, //var(--template-bg-dark),
   atum-btn-primary-bg-hvr:        darken($btn-primary-dark, 15%),
-  atum-btn-primary-border:        1px solid $btn-primary-dark,
+  atum-btn-primary-border:        1px solid lighten($btn-primary-dark, 10%),
   atum-btn-primary-hvr:           var(--template-text-light),
 
   atum-btn-secondary:             #f0f4fb,
@@ -424,7 +424,7 @@ $atum-colors-dark: (
   atum-btn-action-icon-hvr:       var(--atum-btn-action-hvr),
   atum-btn-action-bg:             $info-dark,
   atum-btn-action-bg-hvr:         darken($info-dark, 15%),
-  atum-btn-action-border:         1px solid var(--atum-btn-action-bg),
+  atum-btn-action-border:         1px solid lighten($info-dark, 10%),
 
   atum-list-group-bg:             var(--template-sidebar-bg),
 
