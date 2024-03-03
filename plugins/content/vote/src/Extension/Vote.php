@@ -26,8 +26,8 @@ use Joomla\CMS\Schemaorg\SchemaorgPrepareRecipeAggregateRating;
  */
 final class Vote extends CMSPlugin
 {
-	use SchemaorgPrepareProductAggregateRating;
-	use SchemaorgPrepareRecipeAggregateRating;
+    use SchemaorgPrepareProductAggregateRating;
+    use SchemaorgPrepareRecipeAggregateRating;
     /**
      * @var    \Joomla\CMS\Application\CMSApplication
      *
@@ -128,7 +128,7 @@ final class Vote extends CMSPlugin
         return $html;
     }
     /**
-     * Create SchemaOrg AggregateRating 
+     * Create SchemaOrg AggregateRating
      *
      * @param   object   $schema  The schema of the content being passed to the plugin
      * @param   string   $context The context of the content being passed to the plugin
@@ -144,7 +144,7 @@ final class Vote extends CMSPlugin
         $need_vote = PluginHelper::isEnabled('content', 'vote');
 
         if (!$need_vote) {
-           return;
+            return;
         }
         foreach ($graph as $key => &$entry) {
             if (!isset($entry['@type'])) {

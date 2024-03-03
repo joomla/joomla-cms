@@ -13,6 +13,7 @@ namespace Joomla\CMS\Schemaorg;
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 use Joomla\CMS\Uri\Uri;
+
 /**
  * Prepare Recipe AggregateRating to be valid for JSON-LD output
  *
