@@ -349,7 +349,7 @@ $atum-colors-dark: (
   state-warning-text-hvr:         var(--text-normal),
   state-warning-bg:               $warning-dark,
   state-warning-bg-hvr:           darken($warning-dark, 15%),
-  state-warning-border:           var(--warning),
+  state-warning-border:           darken($warning-dark, 15%),
   state-warning-icon:             var(--text-normal),
   state-warning-heading-bg:       darken($warning-dark, 15%),
 
