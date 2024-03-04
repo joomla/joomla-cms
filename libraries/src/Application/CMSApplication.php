@@ -236,9 +236,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             'type'    => $inputFilter->clean(strtolower($type), 'cmd'),
         ];
 
-        // For empty queue, if messages exists in the session, enqueue them first.
-        $messages = $this->getMessageQueue();
-
         if (!\in_array($message, $this->messageQueue)) {
             // Enqueue the message.
             $this->messageQueue[] = $message;
