@@ -12,9 +12,9 @@ namespace Joomla\Plugin\Content\Vote\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Schemaorg\SchemaorgPrepareAggregateRating;
 use Joomla\CMS\Schemaorg\SchemaorgPrepareProductAggregateRating;
+use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -149,8 +149,8 @@ final class Vote extends CMSPlugin
             return;
         }
 
-        $baseId   = Uri::root() . '#/schema/';
-        $schemaId = $baseId . str_replace('.', '/', $context);
+        $baseId          = Uri::root() . '#/schema/';
+        $schemaId        = $baseId . str_replace('.', '/', $context);
         $schemaid_exists = false;
 
         foreach ($graph as $key => &$entry) {
@@ -164,12 +164,13 @@ final class Vote extends CMSPlugin
             }
 
             switch ($entry['@type']) {
-                case 'Recipe' :
-                case 'Book' :
-                case 'Event' :
+                case 'Book':
+                case 'Event':
+                case 'Organization':
+                case 'Recipe':
                      $rating = $this->prepareAggregateRating($context);
                      break;
-                case 'BlogPosting' :
+                case 'BlogPosting':
                      $rating = $this->prepareProductAggregateRating($context);
                      break;
             }
