@@ -34,7 +34,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -56,7 +56,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function onAfterInitialiseRouter(AfterInitialiseRouterEvent $event)
     {
@@ -83,7 +83,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function onAfterRoute()
     {
@@ -273,7 +273,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function removeIndexphp()
     {
@@ -300,7 +300,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function removeTrailingSlash(&$router, &$uri)
     {
@@ -319,7 +319,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function addTrailingSlash(&$router, &$uri)
     {
@@ -335,7 +335,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function enforceTrailingSlash()
     {
