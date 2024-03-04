@@ -12,8 +12,9 @@ namespace Joomla\Plugin\Content\Vote\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Schemaorg\SchemaorgPrepareAggregateRating;
 use Joomla\CMS\Schemaorg\SchemaorgPrepareProductAggregateRating;
-use Joomla\CMS\Schemaorg\SchemaorgPrepareRecipeAggregateRating;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -26,8 +27,8 @@ use Joomla\CMS\Schemaorg\SchemaorgPrepareRecipeAggregateRating;
  */
 final class Vote extends CMSPlugin
 {
+    use SchemaorgPrepareAggregateRating;
     use SchemaorgPrepareProductAggregateRating;
-    use SchemaorgPrepareRecipeAggregateRating;
 
     /**
      * @var    \Joomla\CMS\Application\CMSApplication
@@ -148,17 +149,31 @@ final class Vote extends CMSPlugin
             return;
         }
 
+        $baseId   = Uri::root() . '#/schema/';
+        $schemaId = $baseId . str_replace('.', '/', $context);
+        $schemaid_exists = false;
+
         foreach ($graph as $key => &$entry) {
-            if (!isset($entry['@type'])) {
+
+            if (isset($entry['@id']) && ($entry['@id'] === $schemaId)) {
+                $schemaid_exists = true;
+            }
+
+            if (!$schemaid_exists || (!isset($entry['@type']))) {
                 continue;
             }
 
-            if ($entry['@type'] === 'Recipe') {
-                $rating = $this->prepareRecipeAggregateRating($ontext);
-                continue;
+            switch ($entry['@type']) {
+                case 'Recipe' :
+                case 'Book' :
+                case 'Event' :
+                     $rating = $this->prepareAggregateRating($context);
+                     break;
+                case 'BlogPosting' :
+                     $rating = $this->prepareProductAggregateRating($context);
+                     break;
             }
 
-            $rating = $this->prepareProductAggregateRating($context);
         }
 
         if ($rating) {
