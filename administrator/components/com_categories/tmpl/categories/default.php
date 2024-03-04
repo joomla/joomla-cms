@@ -208,7 +208,7 @@ if ($saveOrder && !empty($this->items)) {
                                                 <?php echo $item->count_published; ?>
                                             </a>
                                             <div role="tooltip" id="tip-publish<?php echo $i; ?>">
-                                                <?php echo Text::_('COM_CATEGORIES_COUNT_PUBLISHED_ARTICLES'); ?>
+                                                <?php echo Text::_('COM_CATEGORIES_COUNT_PUBLISHED_ITEMS'); ?>
                                             </div>
                                         </td>
                                     <?php endif; ?>
@@ -218,7 +218,7 @@ if ($saveOrder && !empty($this->items)) {
                                                 <?php echo $item->count_unpublished; ?>
                                             </a>
                                             <div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
-                                                <?php echo Text::_('COM_CATEGORIES_COUNT_UNPUBLISHED_ARTICLES'); ?>
+                                                <?php echo Text::_('COM_CATEGORIES_COUNT_UNPUBLISHED_ITEMS'); ?>
                                             </div>
                                         </td>
                                     <?php endif; ?>
@@ -228,7 +228,7 @@ if ($saveOrder && !empty($this->items)) {
                                                 <?php echo $item->count_archived; ?>
                                             </a>
                                             <div role="tooltip" id="tip-archive<?php echo $i; ?>">
-                                                <?php echo Text::_('COM_CATEGORIES_COUNT_ARCHIVED_ARTICLES'); ?>
+                                                <?php echo Text::_('COM_CATEGORIES_COUNT_ARCHIVED_ITEMS'); ?>
                                             </div>
                                         </td>
                                     <?php endif; ?>
@@ -238,7 +238,7 @@ if ($saveOrder && !empty($this->items)) {
                                                 <?php echo $item->count_trashed; ?>
                                             </a>
                                             <div role="tooltip" id="tip-trash<?php echo $i; ?>">
-                                                <?php echo Text::_('COM_CATEGORIES_COUNT_TRASHED_ARTICLES'); ?>
+                                                <?php echo Text::_('COM_CATEGORIES_COUNT_TRASHED_ITEMS'); ?>
                                             </div>
                                         </td>
                                     <?php endif; ?>
