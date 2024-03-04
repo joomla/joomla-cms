@@ -508,7 +508,7 @@ class Filter
      *
      * @since   __DEPLOY_VERSION__
      */
-    private function reduce($array)
+    private function reduce(array $array)
     {
         $return = [];
 
