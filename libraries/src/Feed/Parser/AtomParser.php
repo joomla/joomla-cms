@@ -238,7 +238,7 @@ class AtomParser extends FeedParser
     /**
      * If there is more than one <link> in the feed entry, find the most appropriate one and return it.
      *
-     * @param   \SimpleXMLElement  $links  Array of <link> elements from the feed entry.
+     * @param   \SimpleXMLElement  $links  XML node with links from the feed entry.
      *
      * @return  \SimpleXMLElement
      */
