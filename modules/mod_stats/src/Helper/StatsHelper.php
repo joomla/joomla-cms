@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\Stats\Site\Helper;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -17,6 +18,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -34,15 +36,15 @@ class StatsHelper implements DatabaseAwareInterface
     /**
      * Get list of stats
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
+     * @param   Registry  &$params  module parameters
+     * @param   CMSApplication  $app  The application
      *
      * @return  array
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getStats(&$params)
+    public function getStats(Registry &$params, CMSApplication $app)
     {
-        $app        = Factory::getApplication();
         $db         = $this->getDatabase();
         $rows       = [];
         $query      = $db->getQuery(true);
@@ -168,18 +170,18 @@ class StatsHelper implements DatabaseAwareInterface
     /**
      * Get list of stats
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
+     * @param   Registry  &$params  module parameters
      *
      * @return  array
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
      *             Use the non-static method getStats
      *             Example: Factory::getApplication()->bootModule('mod_stats', 'site')
      *                          ->getHelper('StatsHelper')
      *                          ->getStats($params)
      */
-    public static function &getList(&$params)
+    public static function &getList(Registry &$params)
     {
-        return (new self())->getStats($params);
+        return (new self())->getStats($params, Factory::getApplication());
     }
 }
