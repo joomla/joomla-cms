@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Plugins\Administrator\View\Plugin\HtmlView $this */
+
 $icon     = 'icon-check';
 $title    = $this->item ? Text::_($this->item->name) : '';
 $content  = $this->item ? $this->item->folder . '/' . $this->item->element : '';
