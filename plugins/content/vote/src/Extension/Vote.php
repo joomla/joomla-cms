@@ -156,6 +156,7 @@ final class Vote extends CMSPlugin
             if (!isset($entry['@type']) || !isset($entry['@id'])) {
                 continue;
             }
+
             if ($entry['@id'] !== $schemaId) {
                 continue;
             }
