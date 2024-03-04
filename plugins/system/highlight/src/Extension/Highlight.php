@@ -111,7 +111,7 @@ final class Highlight extends CMSPlugin
     {
         static $params;
 
-        if (is_null($params)) {
+        if (\is_null($params)) {
             $params = ComponentHelper::getParams('com_finder');
         }
 

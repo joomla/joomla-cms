@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Fields\Administrator\View\Field\HtmlView $this */
+
 $app = Factory::getApplication();
 $input = $app->getInput();
 
@@ -80,6 +82,7 @@ $wa->useScript('keepalive')
             <legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
             <div>
             <?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+            <?php echo $this->form->renderField('searchindexing'); ?>
             </div>
         </fieldset>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>

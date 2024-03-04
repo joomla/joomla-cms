@@ -9,12 +9,12 @@
 
 namespace Joomla\CMS\Helper;
 
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Event\User\LoginButtonsEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -89,28 +89,28 @@ abstract class AuthenticationHelper
      */
     public static function getLoginButtons(string $formId): array
     {
-        // Get all the User plugins.
-        PluginHelper::importPlugin('user');
-
-        // Trigger the onUserLoginButtons event and return the button definitions.
         try {
-            /** @var CMSApplication $app */
-            $app = Factory::getApplication();
+            // Get all the User plugins.
+            $dispatcher = Factory::getApplication()->getDispatcher();
+            PluginHelper::importPlugin('user', null, true, $dispatcher);
         } catch (\Exception $e) {
             return [];
         }
 
-        $results        = $app->triggerEvent('onUserLoginButtons', [$formId]);
-        $buttons        = [];
+        // Trigger the onUserLoginButtons event and return the button definitions.
+        $btnEvent = new LoginButtonsEvent('onUserLoginButtons', ['subject' => $formId]);
+        $dispatcher->dispatch('onUserLoginButtons', $btnEvent);
+        $results = $btnEvent['result'] ?? [];
+        $buttons = [];
 
         foreach ($results as $result) {
             // Did we get garbage back from the plugin?
-            if (!is_array($result) || empty($result)) {
+            if (!\is_array($result) || empty($result)) {
                 continue;
             }
 
             // Did the developer accidentally return a single button definition instead of an array?
-            if (array_key_exists('label', $result)) {
+            if (\array_key_exists('label', $result)) {
                 $result = [$result];
             }
 
@@ -135,7 +135,7 @@ abstract class AuthenticationHelper
                         continue;
                     }
 
-                    if (!in_array($key, ['label', 'tooltip', 'icon', 'image', 'svg', 'class', 'id', 'onclick'])) {
+                    if (!\in_array($key, ['label', 'tooltip', 'icon', 'image', 'svg', 'class', 'id', 'onclick'])) {
                         unset($button[$key]);
                     }
                 }

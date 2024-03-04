@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Users\Administrator\View\Users\HtmlView $this */
+
 // Create the copy/move options.
 $options = [
     HTMLHelper::_('select.option', 'add', Text::_('COM_USERS_BATCH_ADD')),
@@ -63,4 +65,9 @@ $wa->useScript('joomla.batch-copymove');
             </fieldset>
         </div>
     </form>
+</div>
+<div class="btn-toolbar p-3">
+    <joomla-toolbar-button task="user.batch" class="ms-auto">
+        <button type="button" class="btn btn-success"><?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?></button>
+    </joomla-toolbar-button>
 </div>

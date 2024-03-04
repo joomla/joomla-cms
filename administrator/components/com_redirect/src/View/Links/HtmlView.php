@@ -71,7 +71,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -205,7 +205,11 @@ class HtmlView extends BaseHtmlView
 
         if ($canDo->get('core.create')) {
             $toolbar->popupButton('batch', 'JTOOLBAR_BULK_IMPORT')
-                ->selector('collapseModal')
+                ->popupType('inline')
+                ->textHeader(Text::_('COM_REDIRECT_BATCH_OPTIONS'))
+                ->url('#joomla-dialog-batch')
+                ->modalWidth('800px')
+                ->modalHeight('fit-content')
                 ->listCheck(false);
         }
 

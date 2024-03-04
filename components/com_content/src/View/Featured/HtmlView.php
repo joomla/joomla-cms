@@ -31,7 +31,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state = null;
 
@@ -125,7 +125,7 @@ class HtmlView extends BaseHtmlView
         $pagination->hideEmptyLimitstart = true;
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -173,7 +173,7 @@ class HtmlView extends BaseHtmlView
 
         // Preprocess the breakdown of leading, intro and linked articles.
         // This makes it much easier for the designer to just integrate the arrays.
-        $max = count($items);
+        $max = \count($items);
 
         // The first group is the leading articles.
         $limit = $numLeading;

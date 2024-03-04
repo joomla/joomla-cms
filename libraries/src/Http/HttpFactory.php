@@ -13,7 +13,7 @@ use Joomla\CMS\Version;
 use Joomla\Http\TransportInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -21,7 +21,7 @@ use Joomla\Http\TransportInterface;
  *
  * @since  3.0.0
  */
-class HttpFactory
+class HttpFactory implements HttpFactoryInterface
 {
     /**
      * Method to create a JHttp instance.

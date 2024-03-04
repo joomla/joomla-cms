@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Service\Provider;
 
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
+use Joomla\CMS\Console\CoreUpdateChannelCommand;
 use Joomla\CMS\Console\ExtensionDiscoverCommand;
 use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
 use Joomla\CMS\Console\ExtensionDiscoverListCommand;
@@ -36,7 +37,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -225,6 +226,13 @@ class Console implements ServiceProviderInterface
             TasksStateCommand::class,
             function (Container $container) {
                 return new TasksStateCommand();
+            }
+        );
+
+        $container->share(
+            CoreUpdateChannelCommand::class,
+            function (Container $container) {
+                return new CoreUpdateChannelCommand($container->get(DatabaseInterface::class));
             }
         );
     }

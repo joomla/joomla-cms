@@ -17,6 +17,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Menus\Administrator\View\Item\HtmlView $this */
+
 $this->useCoreUI = true;
 
 Text::script('ERROR');
@@ -37,7 +39,8 @@ $input = Factory::getApplication()->getInput();
 // In case of modal
 $isModal  = $input->get('layout') === 'modal';
 $layout   = $isModal ? 'modal' : 'edit';
-$tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+$tmpl     = $input->get('tmpl');
+$tmpl     = $tmpl ? '&tmpl=' . $tmpl : '';
 $clientId = $this->state->get('item.client_id', 0);
 $lang     = $this->getLanguage()->getTag();
 

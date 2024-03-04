@@ -10,8 +10,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
+
+/** @var \Joomla\Component\Users\Administrator\View\Notes\HtmlView $this */
 
 $displayData = [
     'textPrefix' => 'COM_USERS_NOTES',
@@ -20,7 +21,7 @@ $displayData = [
     'icon'       => 'icon-users user',
 ];
 
-if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_users')) {
+if ($this->getCurrentUser()->authorise('core.create', 'com_users')) {
     $displayData['createURL'] = 'index.php?option=com_users&task=note.add';
 }
 

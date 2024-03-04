@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Multifactorauth\Yubikey\Extension;
 
-use Exception;
 use Joomla\CMS\Event\MultiFactor\Captive;
 use Joomla\CMS\Event\MultiFactor\GetMethod;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
@@ -28,7 +27,6 @@ use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -253,14 +251,14 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
          */
         $code = $input->getString('code');
 
-        if ($isKeyAlreadySetup || ((strlen($code) == 12) && ($code == $keyID))) {
+        if ($isKeyAlreadySetup || ((\strlen($code) == 12) && ($code == $keyID))) {
             $event->addResult($options);
 
             return;
         }
 
         // If an empty code or something other than 44 characters was submitted I'm not having any of this!
-        if (empty($code) || (strlen($code) != 44)) {
+        if (empty($code) || (\strlen($code) != 44)) {
             throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 500);
         }
 
@@ -434,7 +432,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
             $line  = trim($line);
             $parts = explode('=', $line, 2);
 
-            if (count($parts) < 2) {
+            if (\count($parts) < 2) {
                 continue;
             }
 
@@ -484,7 +482,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
      * @return  void
      * @since   4.2.0
      *
-     * @see     https://developers.yubico.com/yubikey-val/Validation_Protocol_V2.0.html
+     * @link    https://developers.yubico.com/yubikey-val/Validation_Protocol_V2.0.html
      */
     private function signRequest(Uri $uri, string $secret): void
     {
@@ -496,18 +494,18 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
         }
 
         // I will need base64 encoding and decoding
-        if (!function_exists('base64_encode') || !function_exists('base64_decode')) {
+        if (!\function_exists('base64_encode') || !\function_exists('base64_decode')) {
             return;
         }
 
         // I need HMAC-SHA-1 support. Therefore I check for HMAC and SHA1 support in the PHP 'hash' extension.
-        if (!function_exists('hash_hmac') || !function_exists('hash_algos')) {
+        if (!\function_exists('hash_hmac') || !\function_exists('hash_algos')) {
             return;
         }
 
         $algos = hash_algos();
 
-        if (!in_array('sha1', $algos)) {
+        if (!\in_array('sha1', $algos)) {
             return;
         }
 
@@ -608,7 +606,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
         }
 
         // If the submitted code length is wrong throw an error
-        if (strlen($code) != 44) {
+        if (\strlen($code) != 44) {
             return false;
         }
 

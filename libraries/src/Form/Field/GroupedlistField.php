@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -59,8 +59,8 @@ class GroupedlistField extends FormField
 
         foreach ($this->element->children() as $element) {
             switch ($element->getName()) {
-                // The element is an <option />
                 case 'option':
+                    // The element is an <option />
                     // Initialize the group if necessary.
                     if (!isset($groups[$label])) {
                         $groups[$label] = [];
@@ -89,8 +89,8 @@ class GroupedlistField extends FormField
                     $groups[$label][] = $tmp;
                     break;
 
-                // The element is a <group />
                 case 'group':
+                    // The element is a <group />
                     // Get the group label.
                     if ($groupLabel = (string) $element['label']) {
                         $label = Text::_($groupLabel);
@@ -136,8 +136,8 @@ class GroupedlistField extends FormField
                     }
                     break;
 
-                // Unknown element type.
                 default:
+                    // Unknown element type.
                     throw new \UnexpectedValueException(sprintf('Unsupported element %s in GroupedlistField', $element->getName()), 500);
             }
         }
@@ -157,7 +157,7 @@ class GroupedlistField extends FormField
      */
     protected function getInput()
     {
-        $data = $this->getLayoutData();
+        $data = $this->collectLayoutData();
 
         // Get the field groups.
         $data['groups'] = (array) $this->getGroups();

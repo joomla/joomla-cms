@@ -13,6 +13,7 @@
  * node build.js --com-media        will compile the media manager Vue application
  * node build.js --watch-com-media  will watch and compile the media manager Vue application
  * node build.js --gzip             will create gzip files for all the minified stylesheets and scripts.
+ * node build.js --cssversioning    will update all the url entries providing accurate versions for stylesheets.
  * node build.js --versioning       will update all the joomla.assets.json files providing accurate versions for stylesheets and scripts.
  */
 
@@ -32,8 +33,10 @@ const { recreateMediaFolder } = require('./build-modules-js/init/recreate-media.
 const { watching } = require('./build-modules-js/watch.es6.js');
 const { mediaManager, watchMediaManager } = require('./build-modules-js/javascript/build-com_media-js.es6');
 const { compressFiles } = require('./build-modules-js/compress.es6.js');
+const { cssVersioning } = require('./build-modules-js/css-versioning.es6.js');
 const { versioning } = require('./build-modules-js/versioning.es6.js');
 const { Timer } = require('./build-modules-js/utils/timer.es6.js');
+const { compileCodemirror } = require('./build-modules-js/javascript/build-codemirror.es6.js');
 
 // The settings
 const options = require('../package.json');
@@ -72,11 +75,13 @@ Program
   .option('--compile-js, --compile-js path', 'Handles ES6, ES5 and web component scripts')
   .option('--compile-css, --compile-css path', 'Compiles all the scss files to css')
   .option('--compile-bs', 'Compiles all the Bootstrap component scripts.')
+  .option('--compile-codemirror', 'Compiles all the codemirror modules.')
   .option('--watch', 'Watch file changes and re-compile (ATM only works for the js in the media_source).')
   .option('--com-media', 'Compile the Media Manager client side App.')
   .option('--watch-com-media', 'Watch and Compile the Media Manager client side App.')
   .option('--gzip', 'Compress all the minified stylesheets and scripts.')
   .option('--prepare', 'Run all the needed tasks to initialise the repo')
+  .option('--cssversioning', 'Update all the url() versions on their relative stylesheet files')
   .option('--versioning', 'Update all the .js/.css versions on their relative joomla.assets.json')
 
   .addHelpText('after', `
@@ -126,6 +131,11 @@ if (cliOptions.compileBs) {
   bootstrapJs();
 }
 
+// Compile codemirror
+if (cliOptions.compileCodemirror) {
+  compileCodemirror();
+}
+
 // Gzip js/css files
 if (cliOptions.gzip) {
   compressFiles();
@@ -148,6 +158,12 @@ if (cliOptions.versioning) {
     .catch((err) => handleError(err, 1));
 }
 
+// Update the url() versions in the .css files
+if (cliOptions.cssversioning) {
+  cssVersioning()
+    .catch((err) => handleError(err, 1));
+}
+
 // Prepare the repo for dev work
 if (cliOptions.prepare) {
   const bench = new Timer('Build');
@@ -156,16 +172,13 @@ if (cliOptions.prepare) {
     .then(() => cleanVendors())
     .then(() => localisePackages(options))
     .then(() => patchPackages(options))
-    .then(() => Promise.all(
-      [
-        minifyVendor(),
-        createErrorPages(options),
-        stylesheets(options, Program.args[0]),
-        scripts(options, Program.args[0]),
-        bootstrapJs(),
-        mediaManager(true),
-      ],
-    ))
+    .then(() => minifyVendor())
+    .then(() => createErrorPages(options))
+    .then(() => stylesheets(options, Program.args[0]))
+    .then(() => scripts(options, Program.args[0]))
+    .then(() => mediaManager())
+    .then(() => bootstrapJs())
+    .then(() => compileCodemirror())
     .then(() => bench.stop('Build'))
     .catch((err) => handleError(err, -1));
 }

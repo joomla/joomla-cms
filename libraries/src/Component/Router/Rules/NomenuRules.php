@@ -12,7 +12,7 @@ namespace Joomla\CMS\Component\Router\Rules;
 use Joomla\CMS\Component\Router\RouterView;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -88,7 +88,7 @@ class NomenuRules implements RulesInterface
                         if ($view->nestable) {
                             $vars[$view->key] = 0;
 
-                            while (count($segments)) {
+                            while (\count($segments)) {
                                 $segment = array_shift($segments);
                                 $result  = \call_user_func_array([$this->router, 'get' . ucfirst($view->name) . 'Id'], [$segment, $vars]);
 
@@ -152,7 +152,7 @@ class NomenuRules implements RulesInterface
                         if ($view->nestable) {
                             array_pop($result);
 
-                            while (count($result)) {
+                            while (\count($result)) {
                                 $segments[] = str_replace(':', '-', array_pop($result));
                             }
                         } else {

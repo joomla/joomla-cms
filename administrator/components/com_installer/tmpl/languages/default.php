@@ -16,6 +16,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Version;
 
+/** @var \Joomla\Component\Installer\Administrator\View\Languages\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
@@ -101,7 +103,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                         <?php endif; ?>
                                 </td>
                                 <td class="small d-none d-md-table-cell">
-                                    <a href="<?php echo $language->detailsurl; ?>" target="_blank"><?php echo $language->detailsurl; ?></a>
+                                    <a href="<?php echo $language->detailsurl; ?>" target="_blank" rel="noopener noreferrer"><?php echo $language->detailsurl; ?></a>
                                 </td>
                             </tr>
                             <?php $i++; ?>

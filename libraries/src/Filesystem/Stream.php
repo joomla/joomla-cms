@@ -10,10 +10,11 @@
 namespace Joomla\CMS\Filesystem;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -33,8 +34,11 @@ use Joomla\CMS\Object\CMSObject;
  * @deprecated  4.4 will be removed in 6.0
  *              Use Joomla\Filesystem\Stream instead.
  */
-class Stream extends CMSObject
+class Stream
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
     /**
      * File Mode
      *
@@ -250,24 +254,24 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = 'Error Unknown whilst opening a file';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         // Decide which context to use:
         switch ($this->processingmethod) {
-            // Gzip doesn't support contexts or streams
             case 'gz':
+                // Gzip doesn't support contexts or streams
                 $this->fh = gzopen($filename, $mode, $useIncludePath);
                 break;
 
-            // Bzip2 is much like gzip except it doesn't use the include path
             case 'bz':
+                // Bzip2 is much like gzip except it doesn't use the include path
                 $this->fh = bzopen($filename, $mode);
                 break;
 
-            // Fopen can handle streams
             case 'f':
             default:
+                // Fopen can handle streams
                 // One supplied at open; overrides everything
                 if ($context) {
                     $this->fh = fopen($filename, $mode, $useIncludePath, $context);
@@ -320,7 +324,7 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = 'Error Unknown';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         switch ($this->processingmethod) {
@@ -378,7 +382,7 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         switch ($this->processingmethod) {
@@ -426,7 +430,7 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
         $res = @filesize($this->filename);
 
@@ -489,7 +493,7 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = 'Error Unknown';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         switch ($this->processingmethod) {
@@ -556,7 +560,7 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = 'Error Unknown';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
         $remaining = $length;
 
@@ -635,7 +639,7 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         switch ($this->processingmethod) {
@@ -684,7 +688,7 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         switch ($this->processingmethod) {
@@ -756,7 +760,7 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
         $remaining = $length;
         $start     = 0;
@@ -824,7 +828,7 @@ class Stream extends CMSObject
 
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
         $sch = parse_url($filename, PHP_URL_SCHEME);
 
@@ -990,7 +994,7 @@ class Stream extends CMSObject
         if ($this->fh) {
             // Capture PHP errors
             $php_errormsg = 'Unknown error setting context option';
-            $track_errors = ini_get('track_errors');
+            $track_errors = \ini_get('track_errors');
             ini_set('track_errors', true);
             $retval = @stream_context_set_option($this->fh, $this->contextOptions);
 
@@ -1028,7 +1032,7 @@ class Stream extends CMSObject
         if ($this->fh) {
             // Capture PHP errors
             $php_errormsg = '';
-            $track_errors = ini_get('track_errors');
+            $track_errors = \ini_get('track_errors');
             ini_set('track_errors', true);
 
             $res = @stream_filter_append($this->fh, $filterName, $readWrite, $params);
@@ -1068,7 +1072,7 @@ class Stream extends CMSObject
         if ($this->fh) {
             // Capture PHP errors
             $php_errormsg = '';
-            $track_errors = ini_get('track_errors');
+            $track_errors = \ini_get('track_errors');
             ini_set('track_errors', true);
             $res = @stream_filter_prepend($this->fh, $filterName, $readWrite, $params);
 
@@ -1105,7 +1109,7 @@ class Stream extends CMSObject
     {
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         if ($byindex) {
@@ -1144,7 +1148,7 @@ class Stream extends CMSObject
     {
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         $chmodDest = $this->_getFilename($dest, 'w', $usePrefix, $relative);
@@ -1197,7 +1201,7 @@ class Stream extends CMSObject
     {
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         $src  = $this->_getFilename($src, 'w', $usePrefix, $relative);
@@ -1245,7 +1249,7 @@ class Stream extends CMSObject
     {
         // Capture PHP errors
         $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
+        $track_errors = \ini_get('track_errors');
         ini_set('track_errors', true);
 
         $filename = $this->_getFilename($filename, 'w', $usePrefix, $relative);
@@ -1292,11 +1296,11 @@ class Stream extends CMSObject
         if (is_uploaded_file($src)) {
             // Make sure it's an uploaded file
             return $this->copy($src, $dest, $context, $usePrefix, $relative);
-        } else {
-            $this->setError(Text::_('JLIB_FILESYSTEM_ERROR_STREAMS_NOT_UPLOADED_FILE'));
-
-            return false;
         }
+
+        $this->setError(Text::_('JLIB_FILESYSTEM_ERROR_STREAMS_NOT_UPLOADED_FILE'));
+
+        return false;
     }
 
     /**

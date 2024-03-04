@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -148,9 +148,9 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
         } else {
             if ($jInstaller->discover_install($eid)) {
                 return 1;
-            } else {
-                return -1;
             }
+
+            return -1;
         }
 
         return $count;
@@ -170,19 +170,29 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
     {
         if ($count < 0 && $eid >= 0) {
             return 'Unable to install the extension with ID ' . $eid;
-        } elseif ($count < 0 && $eid < 0) {
-            return 'Unable to install discovered extensions.';
-        } elseif ($count === 0) {
-            return 'There are no pending discovered extensions for install. Perhaps you need to run extension:discover first?';
-        } elseif ($count === 1 && $eid > 0) {
-            return 'Extension with ID ' . $eid . ' installed successfully.';
-        } elseif ($count === 1 && $eid < 0) {
-            return $count . ' discovered extension has been installed.';
-        } elseif ($count > 1 && $eid < 0) {
-            return $count . ' discovered extensions have been installed.';
-        } else {
-            return 'The return value is not possible and has to be checked.';
         }
+
+        if ($count < 0 && $eid < 0) {
+            return 'Unable to install discovered extensions.';
+        }
+
+        if ($count === 0) {
+            return 'There are no pending discovered extensions for install. Perhaps you need to run extension:discover first?';
+        }
+
+        if ($count === 1 && $eid > 0) {
+            return 'Extension with ID ' . $eid . ' installed successfully.';
+        }
+
+        if ($count === 1 && $eid < 0) {
+            return $count . ' discovered extension has been installed.';
+        }
+
+        if ($count > 1 && $eid < 0) {
+            return $count . ' discovered extensions have been installed.';
+        }
+
+        return 'The return value is not possible and has to be checked.';
     }
 
     /**
@@ -207,27 +217,29 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
                 $this->ioStyle->error($this->getNote($result, $eid));
 
                 return Command::FAILURE;
-            } else {
-                $this->ioStyle->success($this->getNote($result, $eid));
-
-                return Command::SUCCESS;
             }
-        } else {
-            $result = $this->processDiscover(-1);
 
-            if ($result < 0) {
-                $this->ioStyle->error($this->getNote($result, -1));
+            $this->ioStyle->success($this->getNote($result, $eid));
 
-                return Command::FAILURE;
-            } elseif ($result === 0) {
-                $this->ioStyle->note($this->getNote($result, -1));
-
-                return Command::SUCCESS;
-            } else {
-                $this->ioStyle->note($this->getNote($result, -1));
-
-                return Command::SUCCESS;
-            }
+            return Command::SUCCESS;
         }
+
+        $result = $this->processDiscover(-1);
+
+        if ($result < 0) {
+            $this->ioStyle->error($this->getNote($result, -1));
+
+            return Command::FAILURE;
+        }
+
+        if ($result === 0) {
+            $this->ioStyle->note($this->getNote($result, -1));
+
+            return Command::SUCCESS;
+        }
+
+        $this->ioStyle->note($this->getNote($result, -1));
+
+        return Command::SUCCESS;
     }
 }

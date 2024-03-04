@@ -11,10 +11,10 @@
 namespace Joomla\Component\Config\Site\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -187,7 +187,7 @@ class ModulesModel extends FormModel
 
         try {
             $positions = $db->loadColumn();
-            $positions = is_array($positions) ? $positions : [];
+            $positions = \is_array($positions) ? $positions : [];
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 

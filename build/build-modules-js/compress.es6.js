@@ -1,6 +1,19 @@
-const { getFiles } = require('@dgrammatiko/compress/src/getFiles.js');
-const { compressFile } = require('@dgrammatiko/compress/src/compressFile.js');
+const { readdir } = require('fs').promises;
+const { extname } = require('path');
+const { compressFile } = require('./utils/compressFile.es6.js');
 const { Timer } = require('./utils/timer.es6.js');
+
+/**
+ * Get files recursively
+ *
+ * @param {string} path The path
+ */
+async function getFiles(path) {
+  // Get files within the current directory
+  return (await readdir(path, { withFileTypes: true, recursive: true }))
+    .filter((file) => (!file.isDirectory() && ['.js', '.css'].includes(extname(file.name))))
+    .map((file) => `${file.path}/${file.name}`);
+}
 
 /**
  * Method that will pre compress (gzip) all .css/.js files
@@ -15,11 +28,8 @@ module.exports.compressFiles = async (enableBrotli = false) => {
     `${process.cwd()}/administrator/templates`,
   ];
 
-  const tasks = [];
   const compressTasks = [];
-  paths.map((path) => tasks.push(getFiles(`${path}/`)));
-
-  const files = await Promise.all(tasks);
+  const files = await Promise.all(paths.map((path) => getFiles(`${path}`)));
   [].concat(...files).map((file) => compressTasks.push(compressFile(file, enableBrotli)));
 
   await Promise.all(compressTasks);

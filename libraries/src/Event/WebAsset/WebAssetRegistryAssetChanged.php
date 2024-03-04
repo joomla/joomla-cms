@@ -13,7 +13,7 @@ use Joomla\CMS\WebAsset\WebAssetItemInterface;
 use Joomla\CMS\WebAsset\WebAssetRegistryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -42,11 +42,11 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
             throw new \BadMethodCallException("Argument 'asset' of event $name is not of the expected type");
         }
 
-        if (!\array_key_exists('assetType', $arguments) || !is_string($arguments['assetType'])) {
+        if (!\array_key_exists('assetType', $arguments) || !\is_string($arguments['assetType'])) {
             throw new \BadMethodCallException("Argument 'assetType' of event $name is not of the expected type");
         }
 
-        if (!\array_key_exists('change', $arguments) || !is_string($arguments['change'])) {
+        if (!\array_key_exists('change', $arguments) || !\is_string($arguments['change'])) {
             throw new \BadMethodCallException("Argument 'change' of event $name is not of the expected type");
         }
     }

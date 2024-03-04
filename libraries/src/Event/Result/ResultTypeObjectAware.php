@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Event\Result;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -73,7 +73,7 @@ trait ResultTypeObjectAware
             return;
         }
 
-        if (!is_object($data)) {
+        if (!\is_object($data)) {
             throw new \InvalidArgumentException(sprintf('Event %s only accepts object results.', $this->getName()));
         }
 

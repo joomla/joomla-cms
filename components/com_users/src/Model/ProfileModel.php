@@ -131,7 +131,7 @@ class ProfileModel extends FormModel
 
         if ($username) {
             $isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username)
-                || strlen(mb_convert_encoding($username, 'ISO-8859-1', 'UTF-8')) < 2
+                || \strlen(mb_convert_encoding($username, 'ISO-8859-1', 'UTF-8')) < 2
                 || trim($username) !== $username);
         }
 
