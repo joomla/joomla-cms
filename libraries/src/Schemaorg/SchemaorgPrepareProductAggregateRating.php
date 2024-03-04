@@ -25,7 +25,7 @@ trait SchemaorgPrepareProductAggregateRating
     /**
      * Prepare Product AggregateRating
      *
-     * @param   array $context
+     * @param   string $context
      *
      * @return  ?string
      *
