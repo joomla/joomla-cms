@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "8e007402fa924214020cb0e4ebf8c129",
+=======
+    "content-hash": "9b5b78703b392b8cdef0cc0673b21748",
+>>>>>>> upstream/5.1-dev
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -3083,7 +3087,7 @@
         },
         {
             "name": "php-tuf/php-tuf",
-            "version": "dev-main",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-backports/php-tuf.git",
@@ -3116,7 +3120,6 @@
             "suggest": {
                 "ext-sodium": "Provides faster verification of updates"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -10476,8 +10479,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "tobscure/json-api": 20,
-        "php-tuf/php-tuf": 20
+        "tobscure/json-api": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -10492,5 +10494,5 @@
     "platform-overrides": {
         "php": "8.1.0"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }

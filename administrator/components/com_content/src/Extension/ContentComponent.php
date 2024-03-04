@@ -19,7 +19,8 @@ use Joomla\CMS\Component\Router\RouterServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Fields\FieldsFormServiceInterface;
+use Joomla\CMS\Fields\FieldsServiceTrait;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper as LibraryContentHelper;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
@@ -47,7 +48,7 @@ use Psr\Container\ContainerInterface;
 class ContentComponent extends MVCComponent implements
     BootableExtensionInterface,
     CategoryServiceInterface,
-    FieldsServiceInterface,
+    FieldsFormServiceInterface,
     AssociationServiceInterface,
     SchemaorgServiceInterface,
     WorkflowServiceInterface,
@@ -59,9 +60,10 @@ class ContentComponent extends MVCComponent implements
     use HTMLRegistryAwareTrait;
     use WorkflowServiceTrait;
     use SchemaorgServiceTrait;
-    use CategoryServiceTrait, TagServiceTrait {
+    use CategoryServiceTrait, TagServiceTrait, FieldsServiceTrait {
         CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
         CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
+        CategoryServiceTrait::prepareForm insteadof FieldsServiceTrait;
     }
 
     /** @var array Supported functionality */
