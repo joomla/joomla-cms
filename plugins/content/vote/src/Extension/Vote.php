@@ -151,14 +151,12 @@ final class Vote extends CMSPlugin
 
         $baseId          = Uri::root() . '#/schema/';
         $schemaId        = $baseId . str_replace('.', '/', $context);
-        $schemaid_exists = false;
 
-        foreach ($graph as $key => &$entry) {
-            if (isset($entry['@id']) && ($entry['@id'] === $schemaId)) {
-                $schemaid_exists = true;
+        foreach ($graph as &$entry) {
+            if (!isset($entry['@type']) || !isset($entry['@id'])) {
+                continue;
             }
-
-            if (!$schemaid_exists || (!isset($entry['@type']))) {
+            if ($entry['@id'] !== $schemaId) {
                 continue;
             }
 
