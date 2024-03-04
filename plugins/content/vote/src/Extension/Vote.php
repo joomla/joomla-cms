@@ -154,7 +154,6 @@ final class Vote extends CMSPlugin
         $schemaid_exists = false;
 
         foreach ($graph as $key => &$entry) {
-
             if (isset($entry['@id']) && ($entry['@id'] === $schemaId)) {
                 $schemaid_exists = true;
             }
@@ -174,7 +173,6 @@ final class Vote extends CMSPlugin
                     $rating = $this->prepareProductAggregateRating($context);
                     break;
             }
-
         }
 
         if ($rating) {
