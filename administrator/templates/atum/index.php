@@ -19,24 +19,24 @@ use Joomla\CMS\Uri\Uri;
 
 /** @var \Joomla\CMS\Document\HtmlDocument $this */
 
-$app   = Factory::getApplication();
+$app = Factory::getApplication();
 $input = $app->getInput();
-$wa    = $this->getWebAssetManager();
+$wa = $this->getWebAssetManager();
 
 // Detecting Active Variables
-$option       = $input->get('option', '');
-$view         = $input->get('view', '');
-$layout       = $input->get('layout', 'default');
-$task         = $input->get('task', 'display');
-$cpanel       = $option === 'com_cpanel' || ($option === 'com_admin' && $view === 'help');
-$hiddenMenu   = $app->getInput()->get('hidemainmenu');
+$option = $input->get('option', '');
+$view = $input->get('view', '');
+$layout = $input->get('layout', 'default');
+$task = $input->get('task', 'display');
+$cpanel = $option === 'com_cpanel' || ($option === 'com_admin' && $view === 'help');
+$hiddenMenu = $app->getInput()->get('hidemainmenu');
 $sidebarState = $input->cookie->get('atumSidebarState', '');
 
 // Getting user accessibility settings
-$a11y_mono      = (bool) $app->getIdentity()->getParam('a11y_mono', '');
-$a11y_contrast  = (bool) $app->getIdentity()->getParam('a11y_contrast', '');
-$a11y_highlight = (bool) $app->getIdentity()->getParam('a11y_highlight', '');
-$a11y_font      = (bool) $app->getIdentity()->getParam('a11y_font', '');
+$a11y_mono = (bool)$app->getIdentity()->getParam('a11y_mono', '');
+$a11y_contrast = (bool)$app->getIdentity()->getParam('a11y_contrast', '');
+$a11y_highlight = (bool)$app->getIdentity()->getParam('a11y_highlight', '');
+$a11y_font = (bool)$app->getIdentity()->getParam('a11y_font', '');
 
 // Browsers support SVG favicons
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
@@ -44,7 +44,7 @@ $this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alte
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
 
 // Template params
-$logoBrandLarge  = $this->params->get('logoBrandLarge')
+$logoBrandLarge = $this->params->get('logoBrandLarge')
     ? Uri::root(false) . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
     : Uri::root(false) . 'media/templates/administrator/atum/images/logos/brand-large.svg';
 $logoBrandSmall = $this->params->get('logoBrandSmall')
@@ -92,7 +92,7 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
-$monochrome = (bool) $this->params->get('monochrome');
+$monochrome = (bool)$this->params->get('monochrome');
 
 Text::script('TPL_ATUM_MORE_ELEMENTS');
 
@@ -100,21 +100,23 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $a11y_font ? ' class="a11y_font"' : ''; ?>>
+<html lang="<?php echo $this->language; ?>"
+      dir="<?php echo $this->direction; ?>"<?php echo $a11y_font ? ' class="a11y_font"' : ''; ?>>
 <head>
-    <jdoc:include type="metas" />
-    <jdoc:include type="styles" />
-    <jdoc:include type="scripts" />
+    <jdoc:include type="metas"/>
+    <jdoc:include type="styles"/>
+    <jdoc:include type="scripts"/>
 </head>
 
-<body data-color-scheme-os class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome || $a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : ''); ?>">
+<body data-color-scheme-os
+      class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome || $a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : ''); ?>">
 <noscript>
     <div class="alert alert-danger" role="alert">
         <?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
     </div>
 </noscript>
 
-<jdoc:include type="modules" name="customtop" style="none" />
+<jdoc:include type="modules" name="customtop" style="none"/>
 
 <?php // Header ?>
 <header id="header" class="header">
@@ -128,13 +130,14 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
                         <?php echo HTMLHelper::_('image', $logoBrandSmall, $logoBrandSmallAlt, ['class' => 'logo-collapsed', 'loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                     </div>
                 <?php else : ?>
-                    <a class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>" href="<?php echo Route::_('index.php'); ?>">
+                    <a class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>"
+                       href="<?php echo Route::_('index.php'); ?>">
                         <?php echo HTMLHelper::_('image', $logoBrandLarge, Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'), ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                         <?php echo HTMLHelper::_('image', $logoBrandSmall, Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'), ['class' => 'logo-collapsed', 'loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                     </a>
                 <?php endif; ?>
             </div>
-            <jdoc:include type="modules" name="title" />
+            <jdoc:include type="modules" name="title"/>
         </div>
         <?php echo $statusModules; ?>
     </div>
@@ -145,19 +148,24 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
     <?php // Sidebar ?>
     <?php if (!$hiddenMenu) : ?>
         <?php HTMLHelper::_('bootstrap.collapse', '.toggler-burger'); ?>
-        <button class="navbar-toggler toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
+        <button class="navbar-toggler toggler-burger collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false"
+                aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div id="sidebar-wrapper" class="sidebar-wrapper sidebar-menu" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
+        <div id="sidebar-wrapper"
+             class="sidebar-wrapper sidebar-menu" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
             <div id="sidebarmenu" class="sidebar-sticky">
                 <div class="sidebar-toggle item item-level-1">
                     <a id="menu-collapse" href="#" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
-                        <span id="menu-collapse-icon" class="<?php echo $sidebarState === 'closed' ? 'icon-toggle-on' : 'icon-toggle-off'; ?> icon-fw" aria-hidden="true"></span>
+                        <span id="menu-collapse-icon"
+                              class="<?php echo $sidebarState === 'closed' ? 'icon-toggle-on' : 'icon-toggle-off'; ?> icon-fw"
+                              aria-hidden="true"></span>
                         <span class="sidebar-item-title"><?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?></span>
                     </a>
                 </div>
-                <jdoc:include type="modules" name="menu" style="none" />
+                <jdoc:include type="modules" name="menu" style="none"/>
             </div>
         </div>
     <?php endif; ?>
@@ -167,35 +175,91 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
         <?php if (!$cpanel) : ?>
             <?php // Subheader ?>
             <?php HTMLHelper::_('bootstrap.collapse', '.toggler-toolbar'); ?>
-            <button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#subhead-container" aria-controls="subhead-container" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
+            <button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#subhead-container" aria-controls="subhead-container"
+                    aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
                 <span class="toggler-toolbar-icon"></span>
             </button>
             <div id="subhead-container" class="subhead mb-3">
                 <div class="row">
                     <div class="col-md-12">
-                        <jdoc:include type="modules" name="toolbar" style="none" />
+                        <jdoc:include type="modules" name="toolbar" style="none"/>
                     </div>
                 </div>
             </div>
         <?php endif; ?>
         <section id="content" class="content">
+
+            <div id="system-message-container" aria-live="polite">
+                <joomla-alert type="danger" close-text="Close" dismiss="true"
+                              style="animation-name: joomla-alert-fade-in;" role="alert">
+                    <button type="button" class="joomla-alert--close" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <div class="alert-heading"><span class="error"></span><span class="visually-hidden">Error</span>
+                    </div>
+                    <div class="alert-wrapper">
+                        <div class="alert-message">The form cannot be submitted as it's missing required data. <br>
+                            Please correct the marked fields and try again.
+                        </div>
+                    </div>
+                </joomla-alert>
+                <joomla-alert type="warning" close-text="Close" dismiss="true"
+                              style="animation-name: joomla-alert-fade-in;" role="alert">
+                    <button type="button" class="joomla-alert--close" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <div class="alert-heading"><span class="error"></span><span class="visually-hidden">Error</span>
+                    </div>
+                    <div class="alert-wrapper">
+                        <div class="alert-message">The form cannot be submitted as it's missing required data. <br>
+                            Please correct the marked fields and try again.
+                        </div>
+                    </div>
+                </joomla-alert>
+                <joomla-alert type="info" close-text="Close" dismiss="true"
+                              style="animation-name: joomla-alert-fade-in;" role="alert">
+                    <button type="button" class="joomla-alert--close" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <div class="alert-heading"><span class="error"></span><span class="visually-hidden">Error</span>
+                    </div>
+                    <div class="alert-wrapper">
+                        <div class="alert-message">The form cannot be submitted as it's missing required data. <br>
+                            Please correct the marked fields and try again.
+                        </div>
+                    </div>
+                </joomla-alert>
+                <joomla-alert type="success" close-text="Close" dismiss="true"
+                              style="animation-name: joomla-alert-fade-in;" role="alert">
+                    <button type="button" class="joomla-alert--close" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <div class="alert-heading"><span class="error"></span><span class="visually-hidden">Error</span>
+                    </div>
+                    <div class="alert-wrapper">
+                        <div class="alert-message">The form cannot be submitted as it's missing required data. <br>
+                            Please correct the marked fields and try again.
+                        </div>
+                    </div>
+                </joomla-alert>
+
+            </div>
+
             <?php // Begin Content ?>
-            <jdoc:include type="modules" name="top" style="html5" />
+            <jdoc:include type="modules" name="top" style="html5"/>
             <div class="row">
                 <div class="col-md-12">
                     <main>
-                        <jdoc:include type="message" />
-                        <jdoc:include type="component" />
+                        <jdoc:include type="message"/>
+                        <jdoc:include type="component"/>
                     </main>
                 </div>
                 <?php if ($this->countModules('bottom')) : ?>
-                    <jdoc:include type="modules" name="bottom" style="html5" />
+                    <jdoc:include type="modules" name="bottom" style="html5"/>
                 <?php endif; ?>
             </div>
+
             <?php // End Content ?>
         </section>
     </div>
 </div>
-<jdoc:include type="modules" name="debug" style="none" />
+<jdoc:include type="modules" name="debug" style="none"/>
 </body>
 </html>
