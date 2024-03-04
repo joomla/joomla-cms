@@ -333,7 +333,7 @@ class LocalAdapter implements AdapterInterface
 
             $success = File::delete($localPath);
         } else {
-            if (!Folder::exists($localPath)) {
+            if (!is_dir(Path::clean($localPath))) {
                 throw new FileNotFoundException();
             }
 
