@@ -25,7 +25,6 @@ use Joomla\CMS\Uri\Uri;
  */
 final class Vote extends CMSPlugin
 {
-
     /**
      * @var    \Joomla\CMS\Application\CMSApplication
      *
