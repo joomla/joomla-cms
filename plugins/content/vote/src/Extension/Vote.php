@@ -223,8 +223,9 @@ final class Vote extends CMSPlugin
             $component = $this->getApplication()->bootComponent('com_content')->getMVCFactory();
             $model     = $component->createModel('Article', 'Site');
             $article   = $model->getItem($id);
-
-            return ['@isPartOf' => ['@id' => $schemaId, '@type' => 'Product', 'name' => $article->title, 'aggregateRating' => ['@type' => 'AggregateRating', 'ratingCount' => (string) $article->rating_count, 'ratingValue' => (string) $article->rating]]];
+            if ($article->rating_count > 0) {
+                return ['@isPartOf' => ['@id' => $schemaId, '@type' => 'Product', 'name' => $article->title, 'aggregateRating' => ['@type' => 'AggregateRating', 'ratingCount' => (string) $article->rating_count, 'ratingValue' => (string) $article->rating]]];
+            }
         }
 
         return false;
