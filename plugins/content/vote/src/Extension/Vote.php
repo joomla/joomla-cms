@@ -168,11 +168,11 @@ final class Vote extends CMSPlugin
                 case 'Event':
                 case 'Organization':
                 case 'Recipe':
-                     $rating = $this->prepareAggregateRating($context);
-                     break;
+                    $rating = $this->prepareAggregateRating($context);
+                    break;
                 case 'BlogPosting':
-                     $rating = $this->prepareProductAggregateRating($context);
-                     break;
+                    $rating = $this->prepareProductAggregateRating($context);
+                    break;
             }
 
         }
