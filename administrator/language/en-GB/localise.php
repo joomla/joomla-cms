@@ -51,7 +51,7 @@ abstract class En_GBLocalise
      *
      * @since   1.6
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  5.1 will be removed in 7.0 without replacement
      */
     public static function getIgnoredSearchWords()
     {
@@ -65,7 +65,7 @@ abstract class En_GBLocalise
      *
      * @since   1.6
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  5.1 will be removed in 7.0 without replacement
      */
     public static function getLowerLimitSearchWord()
     {
@@ -79,7 +79,7 @@ abstract class En_GBLocalise
      *
      * @since   1.6
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  5.1 will be removed in 7.0 without replacement
      */
     public static function getUpperLimitSearchWord()
     {
@@ -93,7 +93,7 @@ abstract class En_GBLocalise
      *
      * @since   1.6
      *
-     * @deprecated  4.4 will be removed in 6.0 without replacement
+     * @deprecated  5.1 will be removed in 7.0 without replacement
      */
     public static function getSearchDisplayedCharactersNumber()
     {
