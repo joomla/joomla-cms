@@ -51,7 +51,7 @@ class Dispatcher extends AbstractModuleDispatcher
     {
         $data = parent::getLayoutData();
 
-        $app = Factory::getApplication();
+        $app = $this->getApplication();
 
         // Try to get the items from the post-installation model
         try {
