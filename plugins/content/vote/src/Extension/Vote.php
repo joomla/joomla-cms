@@ -149,8 +149,8 @@ final class Vote extends CMSPlugin
             return;
         }
 
-        $baseId          = Uri::root() . '#/schema/';
-        $schemaId        = $baseId . str_replace('.', '/', $context);
+        $baseId   = Uri::root() . '#/schema/';
+        $schemaId = $baseId . str_replace('.', '/', $context);
 
         foreach ($graph as &$entry) {
             if (!isset($entry['@type']) || !isset($entry['@id'])) {
