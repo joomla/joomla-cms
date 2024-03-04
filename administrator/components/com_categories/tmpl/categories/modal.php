@@ -19,6 +19,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Categories\Administrator\View\Categories\HtmlView $this */
+
 $app = Factory::getApplication();
 
 if ($app->isClient('site')) {
