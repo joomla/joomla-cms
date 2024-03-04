@@ -230,17 +230,17 @@ class BackupcodesModel extends BaseDatabaseModel
         $realLength = \count($codes);
         $restLength = 10 - $realLength;
 
-        for ($i = 0; $i < $realLength; $i++) {
-            if (hash_equals($codes[$i], $code)) {
+        foreach ($codes as $value) {
+            if (hash_equals($value, $code)) {
                 // This may seem redundant but makes sure both branches of the if-block are isochronous
                 $result       = $result || true;
                 $newArray[]   = '';
-                $dummyArray[] = $codes[$i];
+                $dummyArray[] = $value;
             } else {
                 // This may seem redundant but makes sure both branches of the if-block are isochronous
                 $result       = $result || false;
                 $dummyArray[] = '';
-                $newArray[]   = $codes[$i];
+                $newArray[]   = $value;
             }
         }
 

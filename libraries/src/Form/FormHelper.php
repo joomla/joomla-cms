@@ -244,9 +244,9 @@ class FormHelper
         // If the type is complex, add the base type to the paths.
         if ($pos = strpos($type, '_')) {
             // Add the complex type prefix to the paths.
-            for ($i = 0, $n = \count($paths); $i < $n; $i++) {
+            foreach ($paths as $value) {
                 // Derive the new path.
-                $path = $paths[$i] . '/' . strtolower(substr($type, 0, $pos));
+                $path = $value . '/' . strtolower(substr($type, 0, $pos));
 
                 // If the path does not exist, add it.
                 if (!\in_array($path, $paths)) {

@@ -105,8 +105,7 @@ class HtmlView extends BaseHtmlView
 
         // Prepare the data.
         // Compute the contact slug.
-        for ($i = 0, $n = \count($items); $i < $n; $i++) {
-            $item         = &$items[$i];
+        foreach ($items as $item) {
             $item->slug   = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
             $temp         = $item->params;
             $item->params = clone $params;
