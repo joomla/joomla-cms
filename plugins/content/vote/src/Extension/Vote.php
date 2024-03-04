@@ -169,7 +169,7 @@ final class Vote extends CMSPlugin
             }
         }
 
-        if (isset($rating) && ($rating)) {
+        if (isset($rating) && $rating) {
             $graph[] = $rating;
             $schema->set('@graph', $graph);
         }
