@@ -236,7 +236,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             'type'    => $inputFilter->clean(strtolower($type), 'cmd'),
         ];
 
-        if (!\in_array($message, $this->messageQueue)) {
+        if (!\in_array($message, $this->getMessageQueue())) {
             // Enqueue the message.
             $this->messageQueue[] = $message;
         }
