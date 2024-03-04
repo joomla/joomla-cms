@@ -35,7 +35,7 @@ trait SchemaorgPrepareAggregateRating
     {
         [$extension, $view, $id] = explode('.', $context);
 
-        if ($view == 'article') {
+        if ($view === 'article') {
             $baseId   = Uri::root() . '#/schema/';
             $schemaId = $baseId . str_replace('.', '/', $context);
 
