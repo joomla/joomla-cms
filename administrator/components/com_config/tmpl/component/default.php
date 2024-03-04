@@ -16,6 +16,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Config\Administrator\View\Component\HtmlView $this */
+
 $app = Factory::getApplication();
 $template = $app->getTemplate();
 

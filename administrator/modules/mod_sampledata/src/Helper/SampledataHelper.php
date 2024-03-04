@@ -57,7 +57,7 @@ class SampledataHelper
      *
      * @since  3.8.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
      *             Use the non-static method getSampledataList
      *             Example: Factory::getApplication()->bootModule('mod_sampledata', 'administrator')
      *                            ->getHelper('SampledataHelper')

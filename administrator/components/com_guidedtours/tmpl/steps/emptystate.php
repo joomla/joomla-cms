@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Guidedtours\Administrator\View\Steps\HtmlView $this */
+
 $displayData = [
     'textPrefix' => 'COM_GUIDEDTOURS_STEPS',
     'formURL'    => 'index.php?option=com_guidedtours&view=steps',
