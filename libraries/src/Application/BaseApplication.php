@@ -11,8 +11,6 @@ namespace Joomla\CMS\Application;
 
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Input\Input;
-use Joomla\Event\DispatcherAwareInterface;
-use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -30,9 +28,8 @@ use Joomla\Registry\Registry;
  *              Application classes should directly be based on \Joomla\Application\AbstractApplication
  *              don't use this class anymore
  */
-abstract class BaseApplication extends AbstractApplication implements DispatcherAwareInterface
+abstract class BaseApplication extends AbstractApplication
 {
-    use DispatcherAwareTrait;
     use EventAware;
     use IdentityAware;
 

@@ -232,7 +232,7 @@ class TagsSimilarHelper implements DatabaseAwareInterface
      *
      * @return  array
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
      *             Use the non-static method getItems
      *             Example: Factory::getApplication()->bootModule('mod_tags_similar', 'site')
      *                          ->getHelper('TagsSimilarHelper')
