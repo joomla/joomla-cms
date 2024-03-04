@@ -54,7 +54,6 @@
     "@codemirror/theme-one-dark": "^6.1.2",
     "@codemirror/view": "^6.25.0",
     "@fortawesome/fontawesome-free": "^6.5.1",
-    "@joomla/joomla-a11y-checker": "^1.0.0",
     "@popperjs/core": "^2.11.8",
     "@webcomponents/webcomponentsjs": "^2.8.0",
     "accessibility": "^3.0.17",
