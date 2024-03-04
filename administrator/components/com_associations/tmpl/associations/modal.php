@@ -18,6 +18,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
+/** @var Joomla\Component\Associations\Administrator\View\Associations\HtmlView $this */
+
 $app = Factory::getApplication();
 
 if ($app->isClient('site')) {
@@ -32,7 +34,7 @@ $wa->useScript('multiselect')
 $function         = $app->getInput()->getCmd('function', 'jSelectAssociation');
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
-$canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
+$canManageCheckin = $this->getCurrentUser()->authorise('core.manage', 'com_checkin');
 
 $iconStates = [
     -2 => 'icon-trash',

@@ -5,8 +5,17 @@
 
   &:disabled,
   &[readonly] {
-    background-color: #e8e8e8;
+    background-color: var(--gray-200);
     opacity: 1;
+  }
+
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      &:disabled,
+      &[readonly] {
+        background-color: var(--gray-800);
+      }
+    }
   }
 
   &:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
@@ -185,12 +194,26 @@ div.subform-repeatable-group {
         top: 50%;
         right: 100%;
         padding: 0;
-        margin-top: -27px;
         border-radius: $border-radius 0 0 $border-radius;
+        transform: translateY(-50%);
 
         span {
           padding: 1.5rem .5rem;
         }
+      }
+      &.group-move-up {
+        top: 50%;
+        right: 100%;
+        margin-top: -45px;
+        border-radius: 0;
+        transform: translateY(-50%);
+      }
+      &.group-move-down {
+        top: 50%;
+        right: 100%;
+        margin-top: 45px;
+        border-radius: 0;
+        transform: translateY(-50%);
       }
     }
   }

@@ -12,12 +12,14 @@ namespace Joomla\Plugin\ApiAuthentication\Token\Extension;
 
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Crypt\Crypt;
+use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Plugins\Administrator\Model\PluginModel;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Filter\InputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -29,7 +31,7 @@ use Joomla\Filter\InputFilter;
  *
  * @since  4.0.0
  */
-final class Token extends CMSPlugin
+final class Token extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
@@ -59,6 +61,18 @@ final class Token extends CMSPlugin
     private $filter;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.0.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return ['onUserAuthenticate' => 'onUserAuthenticate'];
+    }
+
+    /**
      * Constructor.
      *
      * @param   DispatcherInterface   $dispatcher   The dispatcher
@@ -77,16 +91,16 @@ final class Token extends CMSPlugin
     /**
      * This method should handle any authentication and report back to the subject
      *
-     * @param   array   $credentials  Array holding the user credentials
-     * @param   array   $options      Array of extra options
-     * @param   object  $response     Authentication response object
+     * @param   AuthenticationEvent  $event    Authentication event
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onUserAuthenticate($credentials, $options, &$response): void
+    public function onUserAuthenticate(AuthenticationEvent $event): void
     {
+        $response = $event->getAuthenticationResponse();
+
         // Default response is authentication failure.
         $response->type          = 'Token';
         $response->status        = Authentication::STATUS_FAILURE;
@@ -104,11 +118,11 @@ final class Token extends CMSPlugin
         // Apache specific fixes. See https://github.com/symfony/symfony/issues/19693
         if (
             empty($authHeader) && \PHP_SAPI === 'apache2handler'
-            && function_exists('apache_request_headers') && apache_request_headers() !== false
+            && \function_exists('apache_request_headers') && apache_request_headers() !== false
         ) {
             $apacheHeaders = array_change_key_case(apache_request_headers(), CASE_LOWER);
 
-            if (array_key_exists('authorization', $apacheHeaders)) {
+            if (\array_key_exists('authorization', $apacheHeaders)) {
                 $authHeader = $this->filter->clean($apacheHeaders['authorization'], 'STRING');
             }
         }
@@ -141,7 +155,7 @@ final class Token extends CMSPlugin
          */
         $parts = explode(':', $authString, 3);
 
-        if (count($parts) != 3) {
+        if (\count($parts) != 3) {
             return;
         }
 
@@ -150,7 +164,7 @@ final class Token extends CMSPlugin
         /**
          * Verify the HMAC algorithm requested in the token string is allowed
          */
-        $allowedAlgo = in_array($algo, $this->allowedAlgos);
+        $allowedAlgo = \in_array($algo, $this->allowedAlgos);
 
         /**
          * Make sure the user ID is an integer
@@ -236,6 +250,9 @@ final class Token extends CMSPlugin
         $response->fullname      = $user->name;
         $response->timezone      = $user->get('timezone');
         $response->language      = $user->get('language');
+
+        // Stop event propagation when status is STATUS_SUCCESS
+        $event->stopPropagation();
     }
 
     /**
@@ -337,7 +354,7 @@ final class Token extends CMSPlugin
             return [];
         }
 
-        if (!is_array($userGroups)) {
+        if (!\is_array($userGroups)) {
             $userGroups = [$userGroups];
         }
 

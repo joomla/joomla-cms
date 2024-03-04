@@ -19,13 +19,15 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\String\Inflector;
 
+/** @var \Joomla\Component\Tags\Administrator\View\Tags\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
 $app       = Factory::getApplication();
-$user      = Factory::getUser();
+$user      = $this->getCurrentUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -257,15 +259,7 @@ if ($saveOrder && !empty($this->items)) {
                 && $user->authorise('core.edit', 'com_tags')
                 && $user->authorise('core.edit.state', 'com_tags')
             ) : ?>
-                <?php echo HTMLHelper::_(
-                    'bootstrap.renderModal',
-                    'collapseModal',
-                    [
-                        'title'  => Text::_('COM_TAGS_BATCH_OPTIONS'),
-                        'footer' => $this->loadTemplate('batch_footer'),
-                    ],
-                    $this->loadTemplate('batch_body')
-                ); ?>
+                <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
             <?php endif; ?>
         <?php endif; ?>
 

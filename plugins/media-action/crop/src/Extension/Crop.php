@@ -39,7 +39,7 @@ final class Crop extends MediaActionPlugin
             return;
         }
 
-        $this->getApplication()->getDocument()->getWebAssetManager()->useScript('cropperjs');
+        $this->getApplication()->getDocument()->getWebAssetManager()->useScript('cropper-module');
     }
 
     /**

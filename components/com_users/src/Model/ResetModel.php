@@ -21,6 +21,8 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -32,8 +34,10 @@ use Joomla\CMS\User\UserHelper;
  *
  * @since  1.5
  */
-class ResetModel extends FormModel
+class ResetModel extends FormModel implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Method to get the password reset request form.
      *
@@ -99,9 +103,9 @@ class ResetModel extends FormModel
 
         if (empty($form)) {
             return false;
-        } else {
-            $form->setValue('token', '', Factory::getApplication()->getInput()->get('token'));
         }
+
+        $form->setValue('token', '', Factory::getApplication()->getInput()->get('token'));
 
         return $form;
     }
@@ -193,7 +197,7 @@ class ResetModel extends FormModel
         }
 
         // Get the user object.
-        $user = User::getInstance($userId);
+        $user = $this->getUserFactory()->loadUserById($userId);
 
         $event = AbstractEvent::create(
             'onUserBeforeResetComplete',
@@ -417,7 +421,7 @@ class ResetModel extends FormModel
         }
 
         // Get the user object.
-        $user = User::getInstance($userId);
+        $user = $this->getUserFactory()->loadUserById($userId);
 
         // Make sure the user isn't blocked.
         if ($user->block) {

@@ -405,7 +405,7 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
      */
     private function assertValidRecordId($id, ?User $user = null): MfaTable
     {
-        if (is_null($user)) {
+        if (\is_null($user)) {
             $user = $this->app->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
         }
 
@@ -416,7 +416,7 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
 
         $record = $model->getRecord($user);
 
-        if (is_null($record) || ($record->id != $id) || ($record->user_id != $user->id)) {
+        if (\is_null($record) || ($record->id != $id) || ($record->user_id != $user->id)) {
             throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 

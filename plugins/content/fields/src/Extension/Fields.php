@@ -48,7 +48,7 @@ final class Fields extends CMSPlugin
         }
 
         // This plugin only works if $item is an object
-        if (!is_object($item)) {
+        if (!\is_object($item)) {
             return;
         }
 
@@ -63,7 +63,7 @@ final class Fields extends CMSPlugin
         }
 
         // Prepare the intro text
-        if (property_exists($item, 'introtext') && is_string($item->introtext) && strpos($item->introtext, 'field') !== false) {
+        if (property_exists($item, 'introtext') && \is_string($item->introtext) && strpos($item->introtext, 'field') !== false) {
             $item->introtext = $this->prepare($item->introtext, $context, $item);
         }
 
@@ -96,7 +96,7 @@ final class Fields extends CMSPlugin
 
         $parts = FieldsHelper::extract($context);
 
-        if (!$parts || count($parts) < 2) {
+        if (!$parts || \count($parts) < 2) {
             return $string;
         }
 

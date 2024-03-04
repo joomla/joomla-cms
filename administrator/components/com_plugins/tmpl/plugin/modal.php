@@ -10,11 +10,11 @@
 
 defined('_JEXEC') or die;
 
+/** @var \Joomla\Component\Plugins\Administrator\View\Plugin\HtmlView $this */
 ?>
-<button id="applyBtn" type="button" class="hidden" onclick="Joomla.submitbutton('plugin.apply');"></button>
-<button id="saveBtn" type="button" class="hidden" onclick="Joomla.submitbutton('plugin.save');"></button>
-<button id="closeBtn" type="button" class="hidden" onclick="Joomla.submitbutton('plugin.cancel');"></button>
-
+<div class="subhead noshadow mb-3">
+    <?php echo $this->document->getToolbar('toolbar')->render(); ?>
+</div>
 <div class="container-popup">
     <?php $this->setLayout('edit'); ?>
     <?php echo $this->loadTemplate(); ?>

@@ -10,11 +10,11 @@
 namespace Joomla\CMS\Event\Table;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onAfterBind event
+ * Event class for \Joomla\CMS\Table\Table onAfterBind event
  *
  * @since  4.0.0
  */

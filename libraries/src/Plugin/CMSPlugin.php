@@ -25,7 +25,7 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -101,14 +101,14 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
     /**
      * Constructor
      *
-     * @param   DispatcherInterface  &$subject  The object to observe
-     * @param   array                $config    An optional associative array of configuration settings.
-     *                                          Recognized key values include 'name', 'group', 'params', 'language'
-     *                                         (this list is not meant to be comprehensive).
+     * @param   DispatcherInterface  $dispatcher  The event dispatcher
+     * @param   array                $config      An optional associative array of configuration settings.
+     *                                            Recognized key values include 'name', 'group', 'params', 'language'
+     *                                            (this list is not meant to be comprehensive).
      *
      * @since   1.5
      */
-    public function __construct(&$subject, $config = [])
+    public function __construct(DispatcherInterface $dispatcher, array $config = [])
     {
         // Get the parameters.
         if (isset($config['params'])) {
@@ -155,7 +155,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         }
 
         // Set the dispatcher we are to register our listeners with
-        $this->setDispatcher($subject);
+        $this->setDispatcher($dispatcher);
     }
 
     /**
@@ -284,7 +284,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
                 }
 
                 // Convert to indexed array for unpacking.
-                $arguments = \array_values($arguments);
+                $arguments = array_values($arguments);
 
                 $result = $this->{$methodName}(...$arguments);
 
@@ -344,13 +344,13 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
 
         // Handle standard typehints.
         if ($reflectionType instanceof \ReflectionNamedType) {
-            return \is_a($reflectionType->getName(), EventInterface::class, true);
+            return is_a($reflectionType->getName(), EventInterface::class, true);
         }
 
         // Handle PHP 8 union types.
         if ($reflectionType instanceof \ReflectionUnionType) {
             foreach ($reflectionType->getTypes() as $type) {
-                if (!\is_a($type->getName(), EventInterface::class, true)) {
+                if (!is_a($type->getName(), EventInterface::class, true)) {
                     return false;
                 }
             }

@@ -15,7 +15,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -260,7 +260,7 @@ class Updater extends Adapter
 
         // Get the update information from the remote update XML document
         /** @var UpdateAdapter $adapter */
-        $adapter       = $this->_adapters[ $updateSite['type']];
+        $adapter       = $this->_adapters[$updateSite['type']];
         $update_result = $adapter->findUpdate($updateSite);
 
         // Version comparison operator.

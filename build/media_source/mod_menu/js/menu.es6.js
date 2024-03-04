@@ -27,10 +27,9 @@
       menuHoverClass: 'show-menu',
       dir: 'ltr',
     };
-    const topLevelChilds = nav.querySelectorAll(':scope > li');
 
     // Set tabIndex to -1 so that top_level_childs can't receive focus until menu is open
-    topLevelChilds.forEach((topLevelEl) => {
+    nav.querySelectorAll(':scope > li').forEach((topLevelEl) => {
       const linkEl = topLevelEl.querySelector('a');
       if (linkEl) {
         linkEl.tabIndex = '0';
@@ -139,9 +138,6 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    const navs = document.querySelectorAll('.nav');
-    [].forEach.call(navs, (nav) => {
-      setupNavigation(nav);
-    });
+    document.querySelectorAll('.nav').forEach((nav) => setupNavigation(nav));
   });
 })();

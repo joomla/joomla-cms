@@ -14,7 +14,7 @@ use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -80,9 +80,9 @@ class OptionsRule extends FormRule
             $diff = array_diff($value, $options);
 
             return empty($diff);
-        } else {
-            // In this case value must be a string
-            return \in_array((string) $value, $options);
         }
+
+        // In this case value must be a string
+        return \in_array((string) $value, $options);
     }
 }

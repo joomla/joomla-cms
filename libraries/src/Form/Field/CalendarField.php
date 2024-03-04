@@ -9,14 +9,13 @@
 
 namespace Joomla\CMS\Form\Field;
 
-use DateTime;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -327,7 +326,7 @@ class CalendarField extends FormField
             $this->value = '';
         }
 
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
     /**
@@ -415,8 +414,8 @@ class CalendarField extends FormField
                 $return = Factory::getDate($value, $app->get('offset'))->toSql();
                 break;
 
-            // Convert a date to UTC based on the user timezone offset.
             case 'USER_UTC':
+                // Convert a date to UTC based on the user timezone offset.
                 // Get the user timezone setting defaulting to the server timezone setting.
                 $offset = $app->getIdentity()->getParam('timezone', $app->get('offset'));
 
