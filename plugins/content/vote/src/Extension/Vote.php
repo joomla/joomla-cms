@@ -12,8 +12,6 @@ namespace Joomla\Plugin\Content\Vote\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Schemaorg\SchemaorgPrepareAggregateRating;
-use Joomla\CMS\Schemaorg\SchemaorgPrepareProductAggregateRating;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -27,8 +25,6 @@ use Joomla\CMS\Uri\Uri;
  */
 final class Vote extends CMSPlugin
 {
-    use SchemaorgPrepareAggregateRating;
-    use SchemaorgPrepareProductAggregateRating;
 
     /**
      * @var    \Joomla\CMS\Application\CMSApplication
@@ -129,6 +125,7 @@ final class Vote extends CMSPlugin
 
         return $html;
     }
+
     /**
      * Create SchemaOrg AggregateRating
      *
@@ -141,14 +138,7 @@ final class Vote extends CMSPlugin
      */
     public function onSchemaBeforeCompileHead($schema, $context): void
     {
-        $graph = $schema->get('@graph');
-
-        $need_vote = PluginHelper::isEnabled('content', 'vote');
-
-        if (!$need_vote) {
-            return;
-        }
-
+        $graph    = $schema->get('@graph');
         $baseId   = Uri::root() . '#/schema/';
         $schemaId = $baseId . str_replace('.', '/', $context);
 
@@ -156,16 +146,21 @@ final class Vote extends CMSPlugin
             if (!isset($entry['@type']) || !isset($entry['@id'])) {
                 continue;
             }
-
             if ($entry['@id'] !== $schemaId) {
                 continue;
             }
 
             switch ($entry['@type']) {
                 case 'Book':
+                case 'Brand':
+                case 'CreativeWork':
                 case 'Event':
+                case 'Offer':
                 case 'Organization':
+                case 'Place':
+                case 'Product':
                 case 'Recipe':
+                case 'Service':
                     $rating = $this->prepareAggregateRating($context);
                     break;
                 case 'Article':
@@ -179,5 +174,60 @@ final class Vote extends CMSPlugin
             $graph[] = $rating;
             $schema->set('@graph', $graph);
         }
+    }
+
+    /**
+     * Prepare AggregateRating
+     *
+     * @param   string $context
+     *
+     * @return  ?string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function prepareAggregateRating($context)
+    {
+        [$extension, $view, $id] = explode('.', $context);
+
+        if ($view === 'article') {
+            $baseId   = Uri::root() . '#/schema/';
+            $schemaId = $baseId . str_replace('.', '/', $context);
+
+            $component = $this->getApplication()->bootComponent('com_content')->getMVCFactory();
+            $model     = $component->createModel('Article', 'Site');
+            $article   = $model->getItem($id);
+            if ($article->rating_count > 0) {
+                return ['@isPartOf' => ['@id' => $schemaId, 'aggregateRating' => ['@type' => 'AggregateRating','ratingCount' => (string) $article->rating_count,'ratingValue' => (string) $article->rating]]];
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Prepare Product AggregateRating
+     *
+     * @param   string $context
+     *
+     * @return  ?string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function prepareProductAggregateRating($context)
+    {
+        [$extension, $view, $id] = explode('.', $context);
+
+        if ($view === 'article') {
+            $baseId   = Uri::root() . '#/schema/';
+            $schemaId = $baseId . str_replace('.', '/', $context);
+
+            $component = $this->getApplication()->bootComponent('com_content')->getMVCFactory();
+            $model     = $component->createModel('Article', 'Site');
+            $article   = $model->getItem($id);
+
+            return ['@isPartOf' => ['@id' => $schemaId, '@type' => 'Product', 'name' => $article->title, 'aggregateRating' => ['@type' => 'AggregateRating', 'ratingCount' => (string) $article->rating_count, 'ratingValue' => (string) $article->rating]]];
+        }
+
+        return false;
     }
 }
