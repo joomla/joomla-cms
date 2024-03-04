@@ -77,13 +77,23 @@ jQuery(function($)
 	// Checks all checkboxes the tree
 	$('#treeCheckAll').click(function()
 	{
-		$('.treeselect input').attr('checked', 'checked');
+		$('.treeselect input').each(function() {
+      var self = $(this);
+      if (!self.prop('disabled')) {
+        self.prop('checked', true);
+      }
+	  });
 	});
 
 	// Unchecks all checkboxes the tree
 	$('#treeUncheckAll').click(function()
 	{
-		$('.treeselect input').attr('checked', false);
+		$('.treeselect input').each(function() {
+      var self = $(this);
+      if (!self.prop('disabled')) {
+        self.prop('checked', false);
+      }
+	  });
 	});
 
 	// Checks all checkboxes the tree
@@ -102,11 +112,21 @@ jQuery(function($)
 	// Take care of children check/uncheck all
 	$('a.checkall').click(function()
 	{
-		$(this).parents().eq(4).find('ul.treeselect-sub input').attr('checked', 'checked');
+		$(this).parents().eq(4).find('input').each(function() {
+      var self = $(this);
+      if (!self.prop('disabled')) {
+        self.prop('checked', true);
+      }
+	  });
 	});
 	$('a.uncheckall').click(function()
 	{
-		$(this).parents().eq(4).find('ul.treeselect-sub input').attr('checked', false);
+		$(this).parents().eq(4).find('input').each(function() {
+      var self = $(this);
+      if (!self.prop('disabled')) {
+        self.prop('checked', false);
+      }
+	  });
 	});
 
 	// Take care of children toggle all
