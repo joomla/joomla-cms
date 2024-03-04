@@ -20,8 +20,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
-use Joomla\Event\DispatcherAwareInterface;
-use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
@@ -39,9 +37,8 @@ use Joomla\Session\SessionInterface;
  * @deprecated  4.0 will be removed in 6.0
  *              Use the ConsoleApplication instead
  */
-abstract class CliApplication extends AbstractApplication implements DispatcherAwareInterface, CMSApplicationInterface
+abstract class CliApplication extends AbstractApplication implements CMSApplicationInterface
 {
-    use DispatcherAwareTrait;
     use EventAware;
     use IdentityAware;
     use ContainerAwareTrait;

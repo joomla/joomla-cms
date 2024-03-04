@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Contact\Administrator\View\Contacts\HtmlView $this */
+
 $displayData = [
     'textPrefix' => 'COM_CONTACT',
     'formURL'    => 'index.php?option=com_contact',

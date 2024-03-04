@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Installer\Administrator\View\Update\HtmlView $this */
+
 $displayData = [
     'textPrefix' => 'COM_INSTALLER',
     'formURL'    => 'index.php?option=com_installer&view=update',

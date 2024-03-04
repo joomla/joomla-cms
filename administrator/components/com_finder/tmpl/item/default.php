@@ -11,6 +11,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+
+/** @var \Joomla\Component\Finder\Administrator\View\Item\HtmlView $this */
 ?>
 <div role="main">
     <h1 class="mb-3"><?php echo $this->item->title; ?></h1>
