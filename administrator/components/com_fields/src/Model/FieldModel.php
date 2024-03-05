@@ -122,13 +122,11 @@ class FieldModel extends AdminModel
                 if ($data['params']['searchindex'] > 0) {
                     Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
                 }
-            } else {
-                if (
-                    $field->params['searchindex'] != $data['params']['searchindex']
-                    || ($data['params']['searchindex'] > 0 && ($field->state != $data['state'] || $field->access != $data['access']))
-                ) {
-                    Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
-                }
+            } elseif (
+                $field->params['searchindex'] != $data['params']['searchindex']
+                || ($data['params']['searchindex'] > 0 && ($field->state != $data['state'] || $field->access != $data['access']))
+            ) {
+                Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
             }
         }
 
