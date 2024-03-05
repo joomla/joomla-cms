@@ -28,7 +28,7 @@ class VersionHelper
      *
      * @return  string  String containing the current Joomla version.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     public function getVersionString()
     {
@@ -42,7 +42,7 @@ class VersionHelper
      *
      * @return  string  String containing the current Joomla version.
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.1.0 will be removed in 7.0
      *             Use the non-static method getVersionString
      *             Example: Factory::getApplication()->bootModule('mod_version', 'administrator')
      *                            ->getHelper('VersionHelper')

@@ -18,9 +18,9 @@ use Joomla\CMS\Form\Form;
 /**
  * The fields service.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  *
- * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+ * @deprecated  5.1.0 will be removed in 7.0
  */
 interface FieldsFormServiceInterface extends FieldsServiceInterface
 {
@@ -32,11 +32,11 @@ interface FieldsFormServiceInterface extends FieldsServiceInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      *
      * @todo    7.0 Move to FieldsServiceInterface
      *
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated  5.1.0 will be removed in 7.0
      *              Use the FieldServiceInterface instead
      *
      */

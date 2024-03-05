@@ -21,7 +21,7 @@ use Joomla\Http\HttpFactory;
 /**
  * Service provider for the application's PSR-3 logger dependency
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 class Http implements ServiceProviderInterface
 {
@@ -32,7 +32,7 @@ class Http implements ServiceProviderInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function register(Container $container)
     {

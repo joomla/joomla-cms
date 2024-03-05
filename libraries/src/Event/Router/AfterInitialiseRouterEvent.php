@@ -17,7 +17,7 @@ namespace Joomla\CMS\Event\Router;
 /**
  * Event class for AfterInitialiseRouter event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 class AfterInitialiseRouterEvent extends RouterEvent
 {
