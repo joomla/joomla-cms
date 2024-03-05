@@ -10,7 +10,7 @@
 
 namespace Joomla\Module\Stats\Site\Helper;
 
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -37,13 +37,13 @@ class StatsHelper implements DatabaseAwareInterface
      * Get list of stats
      *
      * @param   Registry  &$params  module parameters
-     * @param   CMSApplication  $app  The application
+     * @param   CMSApplicationInterface  $app  The application
      *
      * @return  array
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getStats(Registry &$params, CMSApplication $app)
+    public function getStats(Registry &$params, CMSApplicationInterface $app)
     {
         $db         = $this->getDatabase();
         $rows       = [];
@@ -178,7 +178,7 @@ class StatsHelper implements DatabaseAwareInterface
      *             Use the non-static method getStats
      *             Example: Factory::getApplication()->bootModule('mod_stats', 'site')
      *                          ->getHelper('StatsHelper')
-     *                          ->getStats($params)
+     *                          ->getStats($params, Factory::getApplication())
      */
     public static function &getList(Registry &$params)
     {
