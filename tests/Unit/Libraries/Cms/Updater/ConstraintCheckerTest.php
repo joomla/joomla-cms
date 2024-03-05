@@ -12,7 +12,6 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Updater;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Updater\ConstraintChecker;
-use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Tests\Unit\UnitTestCase;
 
