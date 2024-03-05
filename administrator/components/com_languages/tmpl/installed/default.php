@@ -17,6 +17,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Version;
 
+/** @var \Joomla\Component\Languages\Administrator\View\Installed\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns');
@@ -119,7 +121,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 <?php echo $this->escape($row->author); ?>
                             </td>
                             <td class="d-none d-md-table-cell text-center">
-                                <?php echo PunycodeHelper::emailToUTF8($this->escape($row->authorEmail)); ?>
+                                <?php echo $this->escape(PunycodeHelper::emailToUTF8($row->authorEmail)); ?>
                             </td>
                             <td class="d-none d-md-table-cell text-center">
                                 <?php echo $this->escape($row->extension_id); ?>

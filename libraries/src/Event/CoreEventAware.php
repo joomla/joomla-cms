@@ -193,6 +193,10 @@ trait CoreEventAware
         'onPrivacyExportRequest'               => Privacy\ExportRequestEvent::class,
         'onPrivacyCanRemoveData'               => Privacy\CanRemoveDataEvent::class,
         'onPrivacyRemoveData'                  => Privacy\RemoveDataEvent::class,
+        // PageCache
+        'onPageCacheSetCaching' => PageCache\SetCachingEvent::class,
+        'onPageCacheGetKey'     => PageCache\GetKeyEvent::class,
+        'onPageCacheIsExcluded' => PageCache\IsExcludedEvent::class,
     ];
 
     /**

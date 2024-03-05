@@ -18,6 +18,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 
+/** @var \Joomla\Component\Redirect\Administrator\View\Link\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
@@ -170,15 +172,7 @@ if (!$redirectPluginId && $collectUrlsEnabled) {
                 && $user->authorise('core.edit', 'com_redirect')
                 && $user->authorise('core.edit.state', 'com_redirect')
             ) : ?>
-                <?php echo HTMLHelper::_(
-                    'bootstrap.renderModal',
-                    'collapseModal',
-                    [
-                        'title'  => Text::_('COM_REDIRECT_BATCH_OPTIONS'),
-                        'footer' => $this->loadTemplate('batch_footer'),
-                    ],
-                    $this->loadTemplate('batch_body')
-                ); ?>
+                <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
             <?php endif; ?>
 
         <input type="hidden" name="task" value="">

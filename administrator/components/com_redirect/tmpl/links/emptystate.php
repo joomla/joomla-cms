@@ -17,6 +17,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 
+/** @var \Joomla\Component\Redirect\Administrator\View\Links\HtmlView $this */
+
 $displayData = [
     'textPrefix' => 'COM_REDIRECT',
     'formURL'    => 'index.php?option=com_redirect&view=links',
@@ -36,15 +38,7 @@ if (
     && $user->authorise('core.edit', 'com_redirect')
     && $user->authorise('core.edit.state', 'com_redirect')
 ) {
-    $displayData['formAppend'] = HTMLHelper::_(
-        'bootstrap.renderModal',
-        'collapseModal',
-        [
-            'title'  => Text::_('COM_REDIRECT_BATCH_OPTIONS'),
-            'footer' => $this->loadTemplate('batch_footer'),
-        ],
-        $this->loadTemplate('batch_body')
-    );
+    $displayData['formAppend'] = '<template id="joomla-dialog-batch">' . $this->loadTemplate('batch_body') . '</template>';
 }
 
 $collectUrlsEnabled = RedirectHelper::collectUrlsEnabled();
