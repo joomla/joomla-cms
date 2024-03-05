@@ -37,7 +37,7 @@ class LanguagesHelper
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function getLanguages(&$params)
     {
@@ -145,7 +145,7 @@ class LanguagesHelper
      *
      * @return  array
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.1.0 will be removed in 7.0
      *             Use the non-static method getLanguages
      *             Example: Factory::getApplication()->bootModule('mod_languages', 'site')
      *                          ->getHelper('LanguagesHelper')

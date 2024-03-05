@@ -19,7 +19,7 @@ use Tuf\Metadata\StorageBase;
 // phpcs:enable PSR1.Files.SideEffects;
 
 /**
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 class DatabaseStorage extends StorageBase
 {

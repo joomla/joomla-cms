@@ -167,7 +167,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -192,7 +192,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function onAfterInitialiseRouter(AfterInitialiseRouterEvent $event)
     {

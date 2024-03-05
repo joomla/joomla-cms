@@ -30,7 +30,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public static function getSubscribedEvents(): array
     {
