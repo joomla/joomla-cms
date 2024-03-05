@@ -182,6 +182,7 @@
 				name="timezone"
 				type="timezone"
 				label="COM_USERS_USER_FIELD_TIMEZONE_LABEL"
+				layout="joomla.form.field.groupedlist-fancy-select"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
