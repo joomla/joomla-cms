@@ -14,6 +14,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
+/** @var \Joomla\Component\Templates\Administrator\View\Style\HtmlView $this */
+
 // Initialise related data.
 $menuTypes = MenusHelper::getMenuLinks();
 $user      = $this->getCurrentUser();

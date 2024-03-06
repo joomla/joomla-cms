@@ -30,19 +30,11 @@ use Joomla\Event\SubscriberInterface;
 final class Sef extends CMSPlugin implements SubscriberInterface
 {
     /**
-     * Application object.
-     *
-     * @var    \Joomla\CMS\Application\CMSApplication
-     * @since  __DEPLOY_VERSION__
-     */
-    protected $app;
-
-    /**
      * Returns an array of CMS events this plugin will listen to and the respective handlers.
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -53,34 +45,10 @@ final class Sef extends CMSPlugin implements SubscriberInterface
          */
         return [
             'onAfterInitialiseRouter' => 'onAfterInitialiseRouter',
+            'onAfterRoute'            => 'onAfterRoute',
             'onAfterDispatch'         => 'onAfterDispatch',
             'onAfterRender'           => 'onAfterRender',
         ];
-    }
-
-    /**
-     * Enforce the SEF URL with a redirect
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function onAfterRoute()
-    {
-        $input = $this->app->getInput();
-
-        // We only want to redirect on GET requests
-        if (!$this->app->isClient('site') || !$this->params->get('enforcesef') || $input->getMethod() !== 'GET') {
-            return;
-        }
-
-        $origUri  = Uri::getInstance();
-        $route    = $origUri->toString(['path','query']);
-        $newRoute = Route::_($input->getArray(), false);
-
-        if ($route !== $newRoute) {
-            $this->app->redirect($newRoute, 301);
-        }
     }
 
     /**
@@ -88,38 +56,59 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function onAfterInitialiseRouter(AfterInitialiseRouterEvent $event)
     {
-        if (
-            is_a($event->getRouter(), SiteRouter::class)
-            && $this->app->get('sef')
-            && $this->app->get('sef_suffix')
-            && $this->params->get('enforcesuffix')
-        ) {
-            // Enforce adding a suffix with a redirect
-            $event->getRouter()->attachParseRule([$this, 'enforceSuffix'], SiteRouter::PROCESS_BEFORE);
-        }
+        $app = $this->getApplication();
 
         if (
-            !is_a($event->getRouter(), SiteRouter::class)
-            || !$this->app->get('sef')
-            || $this->app->get('sef_suffix')
-            || !$this->params->get('trailingslash')
+            is_a($event->getRouter(), SiteRouter::class)
+            && $app->get('sef')
+            && !$app->get('sef_suffix')
+            && $this->params->get('trailingslash')
         ) {
+            if ($this->params->get('trailingslash') == 1) {
+                // Remove trailingslash
+                $event->getRouter()->attachBuildRule([$this, 'removeTrailingSlash'], SiteRouter::PROCESS_AFTER);
+            } elseif ($this->params->get('trailingslash') == 2) {
+                // Add trailingslash
+                $event->getRouter()->attachBuildRule([$this, 'addTrailingSlash'], SiteRouter::PROCESS_AFTER);
+            }
+        }
+    }
+
+    /**
+     * OnAfterRoute listener
+     *
+     * @return void
+     *
+     * @since   5.1.0
+     */
+    public function onAfterRoute()
+    {
+        $app = $this->getApplication();
+
+        // Following code only for Site application and GET requests
+        if (!$app->isClient('site') || $app->getInput()->getMethod() !== 'GET') {
             return;
         }
 
-        if ($this->params->get('trailingslash') == 1) {
-            // Remove trailingslash
-            $event->getRouter()->attachBuildRule([$this, 'removeTrailingSlash'], SiteRouter::PROCESS_AFTER);
-        } elseif ($this->params->get('trailingslash') == 2) {
-            // Add trailingslash
-            $event->getRouter()->attachBuildRule([$this, 'addTrailingSlash'], SiteRouter::PROCESS_AFTER);
+        // Enforce removing index.php with a redirect
+        if ($app->get('sef_rewrite') && $this->params->get('indexphp')) {
+            $this->removeIndexphp();
         }
 
-        $event->getRouter()->attachParseRule([$this, 'enforceTrailingSlash'], SiteRouter::PROCESS_BEFORE);
+        // Check for trailing slash
+        if ($app->get('sef') && !$app->get('sef_suffix') && $this->params->get('trailingslash')) {
+            $this->enforceTrailingSlash();
+        }
+
+        // Enforce adding a suffix with a redirect
+        if ($app->get('sef') && $app->get('sef_suffix') && $this->params->get('enforcesuffix')) {
+            $this->enforceSuffix();
+        }
+
     }
 
     /**
@@ -297,11 +286,6 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      */
     public function enforceSuffix(&$router, &$uri)
     {
-        // We only want to redirect on GET requests
-        if ($this->app->getInput()->getMethod() !== 'GET') {
-            return;
-        }
-
         $origUri = Uri::getInstance();
         $route   = $origUri->getPath();
 
@@ -317,19 +301,43 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             // There is a URL query parameter named "format", which isn't the same to the suffix
             $origUri->delVar('format');
             $origUri->setPath(substr($route, 0, -(\strlen($suffix))) . $nonSEFSuffix);
-            $this->app->redirect($origUri->toString(), 301);
+            $this->getApplication()->redirect($origUri->toString(), 301);
         }
 
         if ($suffix && $suffix == $nonSEFSuffix) {
             // There is a URL query parameter named "format", which is identical to the suffix
             $origUri->delVar('format');
-            $this->app->redirect($origUri->toString(), 301);
+            $this->getApplication()->redirect($origUri->toString(), 301);
         }
 
         if (!$suffix) {
             // We don't have a suffix, so we default to .html at the end
             $origUri->setPath($route . '.html');
-            $this->app->redirect($origUri->toString(), 301);
+            $this->getApplication()->redirect($origUri->toString(), 301);
+        }
+    }
+
+    /**
+     * Enforce removal of index.php with a redirect
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     */
+    protected function removeIndexphp()
+    {
+        $origUri = Uri::getInstance();
+
+        if (substr($origUri->getPath(), -9) === 'index.php') {
+            // Remove trailing index.php
+            $origUri->setPath(substr($origUri->getPath(), 0, -9));
+            $this->getApplication()->redirect($origUri->toString(), 301);
+        }
+
+        if (substr($origUri->getPath(), \strlen(Uri::base(true)), 11) === '/index.php/') {
+            // Remove leading index.php
+            $origUri->setPath(Uri::base(true) . substr($origUri->getPath(), \strlen(Uri::base(true)) + 10));
+            $this->getApplication()->redirect($origUri->toString(), 301);
         }
     }
 
@@ -341,13 +349,13 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function removeTrailingSlash(&$router, &$uri)
     {
         $path = $uri->getPath();
 
-        if (substr($path, -1) == '/') {
+        if (str_ends_with($path, '/')) {
             $uri->setPath(substr($path, 0, -1));
         }
     }
@@ -360,13 +368,13 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function addTrailingSlash(&$router, &$uri)
     {
         $path = $uri->getPath();
 
-        if (substr($path, -1) !== '/') {
+        if (!str_ends_with($path, '/')) {
             $uri->setPath($path . '/');
         }
     }
@@ -374,30 +382,22 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     /**
      * Redirect to a URL with or without trailing slash
      *
-     * @param   Router  &$router  Router object.
-     * @param   Uri     &$uri     Uri object.
-     *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
-    public function enforceTrailingSlash(&$router, &$uri)
+    protected function enforceTrailingSlash()
     {
-        // We only want to redirect on GET requests
-        if ($this->app->getInput()->getMethod() != 'GET') {
-            return;
-        }
-
         $originalUri = Uri::getInstance();
 
-        if ($this->params->get('trailingslash') == 1 && substr($originalUri->getPath(), -1) == '/' && $originalUri->toString() != Uri::root()) {
+        if ((int)$this->params->get('trailingslash') === 1 && str_ends_with($originalUri->getPath(), '/') && $originalUri->toString() !== Uri::root()) {
             // Remove trailingslash
             $originalUri->setPath(substr($originalUri->getPath(), 0, -1));
-            $this->app->redirect($originalUri->toString(), 301);
-        } elseif ($this->params->get('trailingslash') == 2 && substr($originalUri->getPath(), -1) != '/') {
+            $this->getApplication()->redirect($originalUri->toString(), 301);
+        } elseif ((int)$this->params->get('trailingslash') === 2 && !str_ends_with($originalUri->getPath(), '/')) {
             // Add trailingslash
             $originalUri->setPath($originalUri->getPath() . '/');
-            $this->app->redirect($originalUri->toString(), 301);
+            $this->getApplication()->redirect($originalUri->toString(), 301);
         }
     }
 

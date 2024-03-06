@@ -37,7 +37,7 @@ class StatsAdminHelper
      *
      * @return  array  Array containing site information
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function getStatsData(Registry $params, CMSApplication $app, DatabaseInterface $db)
     {
@@ -156,7 +156,7 @@ class StatsAdminHelper
      *
      * @since   3.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 5.1.0 will be removed in 7.0
      *             Use the non-static method getStatsData
      *             Example: Factory::getApplication()->bootModule('mod_stats_admin', 'administrator')
      *                          ->getHelper('StatsAdminHelper')
