@@ -108,7 +108,6 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         if ($app->get('sef') && $app->get('sef_suffix') && $this->params->get('enforcesuffix')) {
             $this->enforceSuffix();
         }
-
     }
 
     /**
