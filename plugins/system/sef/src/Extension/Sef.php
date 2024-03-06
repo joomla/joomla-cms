@@ -277,14 +277,11 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     /**
      * Enforce the URL suffix with a redirect
      *
-     * @param   Router  &$router  Router object.
-     * @param   Uri     &$uri     Uri object.
-     *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function enforceSuffix(&$router, &$uri)
+    public function enforceSuffix()
     {
         $origUri = Uri::getInstance();
         $route   = $origUri->getPath();
