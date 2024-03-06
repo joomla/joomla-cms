@@ -232,7 +232,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
         }
 
         if (empty($this->hits)) {
-            $this->hits =0;
+            $this->hits = 0;
         }
 
         return true;
