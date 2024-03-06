@@ -10,9 +10,13 @@
 
 namespace Joomla\Plugin\System\Sef\Extension;
 
+use Joomla\CMS\Event\Router\AfterInitialiseRouterEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\Router;
+use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,7 +27,7 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  1.5
  */
-final class Sef extends CMSPlugin
+final class Sef extends CMSPlugin implements SubscriberInterface
 {
     /**
      * Application object.
@@ -32,6 +36,27 @@ final class Sef extends CMSPlugin
      * @since  __DEPLOY_VERSION__
      */
     protected $app;
+
+    /**
+     * Returns an array of CMS events this plugin will listen to and the respective handlers.
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        /**
+         * Note that onAfterInitialise must be the first handlers to run for this
+         * plugin to operate as expected. These handlers load compatibility code which
+         * might be needed by other plugins
+         */
+        return [
+            'onAfterInitialiseRouter' => 'onAfterInitialiseRouter',
+            'onAfterDispatch'         => 'onAfterDispatch',
+            'onAfterRender'           => 'onAfterRender',
+        ];
+    }
 
     /**
      * Enforce the SEF URL with a redirect
@@ -56,6 +81,45 @@ final class Sef extends CMSPlugin
         if ($route !== $newRoute) {
             $this->app->redirect($newRoute, 301);
         }
+    }
+
+    /**
+     * After initialise router.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onAfterInitialiseRouter(AfterInitialiseRouterEvent $event)
+    {
+        if (
+            is_a($event->getRouter(), SiteRouter::class)
+            && $this->app->get('sef')
+            && $this->app->get('sef_suffix')
+            && $this->params->get('enforcesuffix')
+        ) {
+            // Enforce adding a suffix with a redirect
+            $event->getRouter()->attachParseRule([$this, 'enforceSuffix'], SiteRouter::PROCESS_BEFORE);
+        }
+
+        if (
+            !is_a($event->getRouter(), SiteRouter::class)
+            || !$this->app->get('sef')
+            || $this->app->get('sef_suffix')
+            || !$this->params->get('trailingslash')
+        ) {
+            return;
+        }
+
+        if ($this->params->get('trailingslash') == 1) {
+            // Remove trailingslash
+            $event->getRouter()->attachBuildRule([$this, 'removeTrailingSlash'], SiteRouter::PROCESS_AFTER);
+        } elseif ($this->params->get('trailingslash') == 2) {
+            // Add trailingslash
+            $event->getRouter()->attachBuildRule([$this, 'addTrailingSlash'], SiteRouter::PROCESS_AFTER);
+        }
+
+        $event->getRouter()->attachParseRule([$this, 'enforceTrailingSlash'], SiteRouter::PROCESS_BEFORE);
     }
 
     /**
@@ -219,6 +283,122 @@ final class Sef extends CMSPlugin
 
         // Use the replaced HTML body.
         $this->getApplication()->setBody($buffer);
+    }
+
+    /**
+     * Enforce the URL suffix with a redirect
+     *
+     * @param   Router  &$router  Router object.
+     * @param   Uri     &$uri     Uri object.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function enforceSuffix(&$router, &$uri)
+    {
+        // We only want to redirect on GET requests
+        if ($this->app->getInput()->getMethod() !== 'GET') {
+            return;
+        }
+
+        $origUri = Uri::getInstance();
+        $route   = $origUri->getPath();
+
+        if (substr($route, -9) === 'index.php' || substr($route, -1) === '/') {
+            // We don't want suffixes when the URL ends in index.php or with a /
+            return;
+        }
+
+        $suffix       = pathinfo($route, PATHINFO_EXTENSION);
+        $nonSEFSuffix = $origUri->getVar('format');
+
+        if ($nonSEFSuffix && $suffix !== $nonSEFSuffix) {
+            // There is a URL query parameter named "format", which isn't the same to the suffix
+            $origUri->delVar('format');
+            $origUri->setPath(substr($route, 0, -(\strlen($suffix))) . $nonSEFSuffix);
+            $this->app->redirect($origUri->toString(), 301);
+        }
+
+        if ($suffix && $suffix == $nonSEFSuffix) {
+            // There is a URL query parameter named "format", which is identical to the suffix
+            $origUri->delVar('format');
+            $this->app->redirect($origUri->toString(), 301);
+        }
+
+        if (!$suffix) {
+            // We don't have a suffix, so we default to .html at the end
+            $origUri->setPath($route . '.html');
+            $this->app->redirect($origUri->toString(), 301);
+        }
+    }
+
+    /**
+     * Remove any trailing slash from URLs built in Joomla
+     *
+     * @param   Router  &$router  Router object.
+     * @param   Uri     &$uri     Uri object.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function removeTrailingSlash(&$router, &$uri)
+    {
+        $path = $uri->getPath();
+
+        if (substr($path, -1) == '/') {
+            $uri->setPath(substr($path, 0, -1));
+        }
+    }
+
+    /**
+     * Add trailing slash to URLs built in Joomla
+     *
+     * @param   Router  &$router  Router object.
+     * @param   Uri     &$uri     Uri object.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function addTrailingSlash(&$router, &$uri)
+    {
+        $path = $uri->getPath();
+
+        if (substr($path, -1) !== '/') {
+            $uri->setPath($path . '/');
+        }
+    }
+
+    /**
+     * Redirect to a URL with or without trailing slash
+     *
+     * @param   Router  &$router  Router object.
+     * @param   Uri     &$uri     Uri object.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function enforceTrailingSlash(&$router, &$uri)
+    {
+        // We only want to redirect on GET requests
+        if ($this->app->getInput()->getMethod() != 'GET') {
+            return;
+        }
+
+        $originalUri = Uri::getInstance();
+
+        if ($this->params->get('trailingslash') == 1 && substr($originalUri->getPath(), -1) == '/' && $originalUri->toString() != Uri::root()) {
+            // Remove trailingslash
+            $originalUri->setPath(substr($originalUri->getPath(), 0, -1));
+            $this->app->redirect($originalUri->toString(), 301);
+        } elseif ($this->params->get('trailingslash') == 2 && substr($originalUri->getPath(), -1) != '/') {
+            // Add trailingslash
+            $originalUri->setPath($originalUri->getPath() . '/');
+            $this->app->redirect($originalUri->toString(), 301);
+        }
     }
 
     /**

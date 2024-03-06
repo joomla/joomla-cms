@@ -14,6 +14,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 defined('_JEXEC') or die;
 
 $this->name = Text::_('COM_CONFIG_LOCATION_SETTINGS');
+$this->description = '';
 $this->fieldsname = 'locale';
 $this->formclass = 'options-form';
 
