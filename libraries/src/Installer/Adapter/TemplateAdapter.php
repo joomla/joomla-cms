@@ -19,6 +19,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -392,7 +393,7 @@ class TemplateAdapter extends InstallerAdapter
         $this->parent->removeFiles($this->getManifest()->languages, $this->extension->client_id);
 
         // Delete the template directory
-        if (Folder::exists($this->parent->getPath('extension_root'))) {
+        if (is_dir(Path::clean($this->parent->getPath('extension_root')))) {
             Folder::delete($this->parent->getPath('extension_root'));
         } else {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DIRECTORY'), Log::WARNING, 'jerror');

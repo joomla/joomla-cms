@@ -173,8 +173,8 @@ class HtmlView extends BaseHtmlView
 
                     break;
 
-                // Item is in a "locked" state and cannot transition
                 default:
+                    // Item is in a "locked" state and cannot transition
                     break;
             }
 
