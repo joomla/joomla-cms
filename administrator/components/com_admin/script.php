@@ -573,8 +573,6 @@ class JoomlaInstallerScript
             'folders_deleted' => [],
             'files_errors'    => [],
             'folders_errors'  => [],
-            'folders_checked' => [],
-            'files_checked'   => [],
         ];
 
         $files = [
@@ -2540,7 +2538,7 @@ class JoomlaInstallerScript
         $status['folders_checked'] = $folders;
 
         foreach ($files as $file) {
-            if ($fileExists = is_file(JPATH_ROOT . $file)) {
+            if (is_file(JPATH_ROOT . $file)) {
                 $status['files_exist'][] = $file;
 
                 if ($dryRun === false) {
@@ -2554,7 +2552,7 @@ class JoomlaInstallerScript
         }
 
         foreach ($folders as $folder) {
-            if ($folderExists = is_dir(Path::clean(JPATH_ROOT . $folder))) {
+            if (is_dir(JPATH_ROOT . $folder)) {
                 $status['folders_exist'][] = $folder;
 
                 if ($dryRun === false) {
