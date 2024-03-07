@@ -28,7 +28,7 @@ use Tuf\Loader\SizeCheckingLoader;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 class TufFetcher
 {

@@ -380,7 +380,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      * Cached data for layout rendering
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     protected $layoutData = [];
 
@@ -1345,7 +1345,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
      *
      * @return  array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.1.0
      */
     protected function collectLayoutData(): array
     {
