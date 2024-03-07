@@ -15,6 +15,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Menus\Administrator\View\Menutypes\HtmlView $this */
+
 $input = Factory::getApplication()->getInput();
 
 // Checking if loaded via index.php or component.php

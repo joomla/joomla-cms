@@ -13,7 +13,6 @@ namespace Joomla\Component\Guidedtours\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 
@@ -232,7 +231,7 @@ class StepModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   4.3.0
      */

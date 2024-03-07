@@ -259,7 +259,7 @@ class Updater extends Adapter
 
         // Get the update information from the remote update XML document
         /** @var UpdateAdapter $adapter */
-        $adapter       = $this->_adapters[ $updateSite['type']];
+        $adapter       = $this->_adapters[$updateSite['type']];
         $update_result = $adapter->findUpdate($updateSite);
 
         // Version comparison operator.

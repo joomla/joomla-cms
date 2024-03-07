@@ -81,7 +81,7 @@ class TagField extends ListField
      */
     protected function getInput()
     {
-        $data = $this->getLayoutData();
+        $data = $this->collectLayoutData();
 
         if (!\is_array($this->value) && !empty($this->value)) {
             if ($this->value instanceof TagsHelper) {

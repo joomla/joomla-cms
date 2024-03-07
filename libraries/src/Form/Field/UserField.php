@@ -98,7 +98,7 @@ class UserField extends FormField
             throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
         }
 
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
     /**

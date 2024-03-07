@@ -977,7 +977,7 @@ abstract class AdminModel extends FormModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   1.6
      */
