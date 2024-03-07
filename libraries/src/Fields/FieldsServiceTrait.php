@@ -7,28 +7,30 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Table;
+namespace Joomla\CMS\Fields;
+
+use Joomla\CMS\Form\Form;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * TUF map table
+ * Trait for component fields service.
  *
  * @since  5.1.0
  */
-class Tuf extends Table
+trait FieldsServiceTrait
 {
     /**
-     * Constructor
+     * Prepares the fields form
      *
-     * @param   \Joomla\Database\DatabaseDriver  $db  A database connector object
+     * @param   Form          $form  The form to change
+     * @param   array|object  $data  The form data
      *
-     * @since   5.1.0
+     * @return void
      */
-    public function __construct($db)
+    public function prepareForm(Form $form, $data)
     {
-        parent::__construct('#__tuf_metadata', 'id', $db);
     }
 }
