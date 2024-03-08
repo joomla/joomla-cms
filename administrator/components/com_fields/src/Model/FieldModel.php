@@ -953,7 +953,7 @@ class FieldModel extends AdminModel
                 $data->access = $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
 
                 // Set the type if available from the request
-                $data->type = $input->getWord('type', $this->state->get('field.type', $data->get('type')));
+                $data->type = $input->getWord('type', $this->state->get('field.type', $data->type));
             }
 
             if ($data->label && !isset($data->params['label'])) {
