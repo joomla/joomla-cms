@@ -131,33 +131,6 @@ class ArchiveModel extends ArticlesModel
     }
 
     /**
-     * Method to get the archived article list
-     *
-     * @access public
-     * @return array
-     */
-    public function getData()
-    {
-        $app = Factory::getApplication();
-
-        // Lets load the content if it doesn't already exist
-        if (empty($this->_data)) {
-            // Get the page/component configuration
-            $params = $app->getParams();
-
-            // Get the pagination request variables
-            $limit      = $app->getInput()->get('limit', $params->get('display_num', 20), 'uint');
-            $limitstart = $app->getInput()->get('limitstart', 0, 'uint');
-
-            $query = $this->_buildQuery();
-
-            $this->_data = $this->_getList($query, $limitstart, $limit);
-        }
-
-        return $this->_data;
-    }
-
-    /**
      * Gets the archived articles years
      *
      * @return   array
