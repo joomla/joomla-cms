@@ -572,8 +572,6 @@ class JoomlaInstallerScript
             'folders_deleted' => [],
             'files_errors'    => [],
             'folders_errors'  => [],
-            'folders_checked' => [],
-            'files_checked'   => [],
         ];
 
         $files = [
