@@ -385,11 +385,11 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
             $url = Route::_($nonSefUrl, false);
             $this->setRedirect($url, $record->getError(), 'error');
 
-            // Method updated, destroy other active sessions
-            UserHelper::destroyUserSessions($userId, true);
-
             return;
         }
+
+        // Method updated, destroy other active sessions
+        UserHelper::destroyUserSessions($userId, true);
 
         $this->setRedirect($url);
     }
