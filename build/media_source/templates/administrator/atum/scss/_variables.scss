@@ -36,6 +36,18 @@ $cyan:                             #107d8e; //used in bootstrap
 $darkblue:                         #132f53;
 $base-color:                       $darkblue;
 
+// Accessible alert colors
+$success-bg:                       #f3f9f3;
+$success-bg-hover:                 #e2ffe2;
+$success-icon-color:               #457d54;
+$danger-bg:                        #f4f0f0;
+$danger-bg-hover:                  #ffe9e9;
+$danger-icon-color:                #c52927;
+$warning-bg:                       #fbf7ef;
+$warning-bg-hover:                 #fff3d9;
+$warning-border-hover:             #af7d0f;
+$warning-icon-color:               #f1a505;
+
 // Atum colours defined as scss variables for use in scss functions
 $atum-text-dark:                   $gray-700;
 $success:                          $green;
