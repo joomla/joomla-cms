@@ -295,7 +295,7 @@ class LanguageHelper
                     continue;
                 }
 
-                $languages[$cId] = ArrayHelper::sortObjects($languages[$cId], $orderField, $orderDirection, true, true);
+                $languages[$cId] = ArrayHelper::sortObjects($language, $orderField, $orderDirection, true, true);
             }
         }
 
@@ -307,7 +307,7 @@ class LanguageHelper
                     continue;
                 }
 
-                $languages[$cId] = ArrayHelper::pivot($languages[$cId], $pivot);
+                $languages[$cId] = ArrayHelper::pivot($language, $pivot);
             }
         }
 

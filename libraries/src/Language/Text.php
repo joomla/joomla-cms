@@ -124,8 +124,8 @@ class Text
         $string = $final_string;
 
         if ($script) {
-            foreach ($string_parts as $i => $str) {
-                static::$strings[$str] = $string_parts[$i];
+            foreach ($string_parts as $str) {
+                static::$strings[$str] = $str;
             }
         }
 
