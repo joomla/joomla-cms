@@ -72,7 +72,7 @@
 @if $enable-dark-mode {
   @include color-mode(dark) {
     .form-select:disabled, .custom-select:disabled {
-      border: map-get($atum-colors-dark, 'form-control-border-disabled');
+      border: map-get($atum-colors-dark, "form-control-border-disabled");
       opacity: .5;
     }
   }
