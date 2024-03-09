@@ -78,3 +78,11 @@
     border-radius: 0;
   }
 }
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .dropdown-divider {
+      border-top: map-get($atum-colors-dark, 'dropdown-divider-bg');
+    }
+  }
+}

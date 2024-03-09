@@ -304,6 +304,7 @@ $atum-colors-dark: (
 
   // Dropdown
   dropdown-header-bg:                  darken($btn-primary-dark, 10%),
+  dropdown-divider-bg:                 1px solid #fff,
   dropdown-item-bg:                    $btn-primary-dark,
   dropdown-item-bg-hvr:                darken($btn-primary-dark, 10%),
   dropdown-item-border-bottom:         1px solid rgba(255, 255, 255, .1),
