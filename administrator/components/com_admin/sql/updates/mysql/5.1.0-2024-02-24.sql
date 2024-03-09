@@ -20,7 +20,7 @@ VALUES ((SELECT ue.`update_site_id` FROM `#__update_sites_extensions` AS ue JOIN
 -----------------------------------------------------------
 -- The following UPDATE statement has been modified to avoid an SQL error
 -- when there is more than 1 update site for the Joomla core.
--- See https://github.com/joomla/joomla-cms/pull/xxxxx for details.
+-- See https://github.com/joomla/joomla-cms/pull/42988 for details.
 --
 UPDATE `#__update_sites`
    SET `type` = 'tuf', `location` = 'https://update.joomla.org/cms/'
