@@ -44,7 +44,7 @@ $atum-text-dark:                   $gray-700;
 $success:                          $green;
 $danger:                           $red;
 $info:                             $light-blue;
-$warning:                          #c1571c;
+$warning:                          #ffb514;
 $featured:                         #c78800;
 
 $theme-colors: (
@@ -542,7 +542,7 @@ $atum-colors: (
   darkdanger:                        $danger,
   darkdangerhvr:                     darken($danger, 15%),
 
-  warning-text:                      $warning,
+  warning-text:                      #000,
   warning:                           $warning,
   warninghvr:                        darken($warning, 15%),
 
