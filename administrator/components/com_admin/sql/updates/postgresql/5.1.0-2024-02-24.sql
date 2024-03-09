@@ -20,7 +20,7 @@ VALUES ((SELECT ue."update_site_id" FROM "#__update_sites_extensions" AS ue JOIN
 
 -----------------------------------------------------------
 -- The following UPDATE statement has been modified to avoid an SQL error
--- when there is more than 1 row for joomla files in the extensions table.
+-- when there is more than 1 update site for the Joomla core.
 -- See https://github.com/joomla/joomla-cms/pull/xxxxx for details.
 --
 UPDATE "#__update_sites"
