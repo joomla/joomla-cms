@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 class RegexRule extends FormRule
 {
@@ -37,7 +37,7 @@ class RegexRule extends FormRule
      *
      * @return  boolean  True if the value is valid, false otherwise.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      * @throws  \UnexpectedValueException if rule is invalid.
      */
     public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)

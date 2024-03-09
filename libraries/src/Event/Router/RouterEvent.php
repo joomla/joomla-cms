@@ -19,7 +19,7 @@ use Joomla\CMS\Router\Router;
 /**
  * Class for Application's Router events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 abstract class RouterEvent extends AbstractImmutableEvent
 {
@@ -31,7 +31,7 @@ abstract class RouterEvent extends AbstractImmutableEvent
      *
      * @throws  \BadMethodCallException
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function __construct($name, array $arguments = [])
     {
@@ -49,7 +49,7 @@ abstract class RouterEvent extends AbstractImmutableEvent
      *
      * @return  Router
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     protected function onSetRouter(Router $value): Router
     {
@@ -61,7 +61,7 @@ abstract class RouterEvent extends AbstractImmutableEvent
      *
      * @return  Router
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     public function getRouter(): Router
     {
