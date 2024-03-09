@@ -22,7 +22,7 @@ preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$
 $linkColor = $this->params->get('link-color', '#2a69b8');
 list($r, $g, $b) = sscanf($linkColor, "#%02x%02x%02x");
 
-$linkColorDark = $this->params->get('link-color-dark', '#249ec8');
+$linkColorDark = $this->params->get('link-color-dark', '#6fbfdb');
 list($rd, $gd, $bd) = sscanf($linkColorDark, "#%02x%02x%02x");
 
 // Enable assets
