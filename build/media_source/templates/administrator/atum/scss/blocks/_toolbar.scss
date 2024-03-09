@@ -243,8 +243,8 @@
 @if $enable-dark-mode {
   @include color-mode(dark) {
     .subhead {
-      border-top: 1px solid rgba(255,255,255,.2);
-      border-bottom: 1px solid rgba(255,255,255,.2);
+      border-top: 1px solid rgba(255,255,255,.05);
+      border-bottom: 1px solid rgba(255,255,255,.05);
     }
   }
 }

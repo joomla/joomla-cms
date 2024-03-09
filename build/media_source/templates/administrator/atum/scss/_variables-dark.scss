@@ -7,7 +7,7 @@ $warning-dark:                       #c1571c; // contrast ratio: 4.51 with #fff 
 $featured-dark:                      #f0ad4e; // contrast ratio: 9.42 on dark backgrounds (icons,etc.)
 $danger-dark:                        #c62a25; // contrast ratio: 5.59 with #fff text
 $error-dark:                         $danger-dark; // contrast ratio: 5.59 with #fff text
-$info-dark:                          #494d53; // contrast ratio: 8.59 with #fff text
+$info-dark:                          #33383f; // contrast ratio: 8.59 with #fff text
 
 $template-bg-dark:                   #0c1a2b;
 
@@ -21,7 +21,7 @@ $atum-colors-dark: (
   body-bg:                           #0f151d,
   body-color:                        rgba(255,255,255,.85),
   template-bg-dark:                  $template-bg-dark,
-  main-bg:                           #151b22,
+  main-bg:                           #171c24,
 
   admin-background:                  var(--body-bg),
 
@@ -150,9 +150,9 @@ $atum-colors-dark: (
   sidebar-item-color:                  $white,
   sidebar-item-color-hvr:              var(--template-text-light),
   sidebar-item-bg-hvr:                 $btn-primary-dark,
-  sidebar-toggle-bg:                   rgba(255, 255, 255, .1),
+  sidebar-toggle-bg:                   #20262d,
   sidebar-toggle-link:                 $white,
-  main-nav-ul-bg:                      rgba(255, 255, 255, .1),
+  main-nav-ul-bg:                      #20262d,
   main-nav-divider-bg:                 #495057,
   main-nav-item-title:                 var(--template-bg-dark-30),
   main-nav-mm-active-bg:               $btn-primary-dark,
@@ -165,13 +165,13 @@ $atum-colors-dark: (
   sidebar-accent-bg:                   #2667bb,
 
   // Header content
-  header-bg:                           var(--body-bg),
+  header-bg:                           #0a0e13,
   header-item-content-bg:              $btn-primary-dark,
   header-item-content-bg-hvr:          darken($btn-primary-dark, 10%),
   header-item-content-border-radius:   22px,
   header-item-content-jversion-color:  var(--dark-mode-text-light),
   header-item-content-jversion-bg:     transparent,
-  header-logo-bg:                      var(--body-bg),
+  header-logo-bg:                      var(--header-bg),
 
   // Alerts
   alert-accent-color:                  #479a59, // ??

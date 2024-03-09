@@ -81,11 +81,11 @@
         background: var(--body-bg);
         border: var(--btn-secondary-border);
         opacity: .5;
-         &:hover,
-         &:active,
-         &:focus {
-           cursor: not-allowed;
-         }
+        &:hover,
+        &:active,
+        &:focus {
+          cursor: not-allowed;
+        }
       }
     }
   }

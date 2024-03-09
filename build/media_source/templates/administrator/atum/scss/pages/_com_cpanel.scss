@@ -183,3 +183,28 @@
   padding-inline-start: 1rem;
   margin-inline-start: 8px;
 }
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .com_cpanel {
+      .card {
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, .05);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .2);
+        .list-group-item {
+          &:hover {
+            background: rgba(0,0,0,.1);
+          }
+        }
+      }
+
+      .cpanel-add-module {
+        &:hover,
+        &:focus,
+        &:active {
+          background: var(--btn-primary-bg-hvr);
+        }
+      }
+    }
+  }
+}
