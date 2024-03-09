@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Banners\Administrator\View\Clients\HtmlView $this */
+
 $displayData = [
     'textPrefix' => 'COM_BANNERS_CLIENT',
     'formURL'    => 'index.php?option=com_banners&view=clients',

@@ -17,6 +17,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 
+/** @var \Joomla\Component\Redirect\Administrator\View\Links\HtmlView $this */
+
 $displayData = [
     'textPrefix' => 'COM_REDIRECT',
     'formURL'    => 'index.php?option=com_redirect&view=links',
