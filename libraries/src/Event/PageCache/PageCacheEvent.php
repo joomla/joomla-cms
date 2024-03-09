@@ -18,7 +18,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 /**
  * Class for PageCache events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 abstract class PageCacheEvent extends AbstractImmutableEvent
 {

@@ -37,7 +37,7 @@ class TagsPopularHelper implements DatabaseAwareInterface
      *
      * @return  mixed
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function getTags(&$params)
     {
@@ -82,7 +82,7 @@ class TagsPopularHelper implements DatabaseAwareInterface
             'INNER',
             $db->quoteName('#__ucm_content', 'ucm'),
             $db->quoteName('m.content_item_id') . ' = ' . $db->quoteName('ucm.core_content_item_id') .
-            ' AND ' . $db->quoteName('m.type_id') . ' = ' . $db->quoteName('ucm.core_type_id')
+                ' AND ' . $db->quoteName('m.type_id') . ' = ' . $db->quoteName('ucm.core_type_id')
         );
 
         $query->join(
@@ -121,17 +121,17 @@ class TagsPopularHelper implements DatabaseAwareInterface
         $query->where($db->quoteName('c.core_state') . ' = 1')
             ->where(
                 '(' . $db->quoteName('c.core_access') . ' IN (' . implode(',', $query->bindArray($groups)) . ')'
-                . ' OR ' . $db->quoteName('c.core_access') . ' = 0)'
+                    . ' OR ' . $db->quoteName('c.core_access') . ' = 0)'
             )
             ->where(
                 '(' . $db->quoteName('c.core_publish_up') . ' IS NULL'
-                . ' OR ' . $db->quoteName('c.core_publish_up') . ' = :nullDate2'
-                . ' OR ' . $db->quoteName('c.core_publish_up') . ' <= :nowDate2)'
+                    . ' OR ' . $db->quoteName('c.core_publish_up') . ' = :nullDate2'
+                    . ' OR ' . $db->quoteName('c.core_publish_up') . ' <= :nowDate2)'
             )
             ->where(
                 '(' . $db->quoteName('c.core_publish_down') . ' IS NULL'
-                . ' OR ' . $db->quoteName('c.core_publish_down') . ' = :nullDate3'
-                . ' OR ' . $db->quoteName('c.core_publish_down') . ' >= :nowDate3)'
+                    . ' OR ' . $db->quoteName('c.core_publish_down') . ' = :nullDate3'
+                    . ' OR ' . $db->quoteName('c.core_publish_down') . ' >= :nowDate3)'
             )
             ->bind([':nullDate2', ':nullDate3'], $nullDate)
             ->bind([':nowDate2', ':nowDate3'], $nowDate);
@@ -203,7 +203,7 @@ class TagsPopularHelper implements DatabaseAwareInterface
      *
      * @since   3.1
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 5.1.0 will be removed in 7.0
      *             Use the non-static method getTags
      *             Example: Factory::getApplication()->bootModule('mod_tags_popular', 'site')
      *                          ->getHelper('TagsPopularHelper')

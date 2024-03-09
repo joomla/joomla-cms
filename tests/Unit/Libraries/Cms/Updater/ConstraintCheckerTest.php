@@ -12,7 +12,6 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Updater;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Updater\ConstraintChecker;
-use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Tests\Unit\UnitTestCase;
 
@@ -21,13 +20,13 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Updater
- * @since       __DEPLOY_VERSION__
+ * @since       5.1.0
  */
 class ConstraintCheckerTest extends UnitTestCase
 {
     /**
      * @var    ConstraintChecker
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     protected $checker;
 
@@ -37,7 +36,7 @@ class ConstraintCheckerTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function setUp(): void
     {
@@ -50,7 +49,7 @@ class ConstraintCheckerTest extends UnitTestCase
      * @return  void
      *
      * @see     \PHPUnit\Framework\TestCase::tearDown()
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function tearDown(): void
     {
@@ -61,7 +60,7 @@ class ConstraintCheckerTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testCheckMethodReturnsFalseIfPlatformIsMissing()
     {
@@ -72,7 +71,7 @@ class ConstraintCheckerTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testCheckMethodReturnsTrueIfPlatformIsOnlyConstraint()
     {
@@ -85,7 +84,7 @@ class ConstraintCheckerTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      *
      * @dataProvider supportedDatabasesDataProvider
      */
@@ -107,7 +106,7 @@ class ConstraintCheckerTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      *
      * @dataProvider targetplatformDataProvider
      */
@@ -123,7 +122,7 @@ class ConstraintCheckerTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      *
      * @dataProvider targetplatformDataProvider
      */
@@ -138,7 +137,7 @@ class ConstraintCheckerTest extends UnitTestCase
     /**
      * Data provider for testCheckSupportedDatabases method
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      *
      * @return array[]
      */
@@ -186,7 +185,7 @@ class ConstraintCheckerTest extends UnitTestCase
     /**
      * Data provider for testCheckTargetplatform method
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      *
      * @return array[]
      */
@@ -208,7 +207,7 @@ class ConstraintCheckerTest extends UnitTestCase
     /**
      * Internal helper method to get access to protected methods
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      *
      * @param $method
      *
