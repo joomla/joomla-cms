@@ -12,7 +12,6 @@ namespace Joomla\Module\PostInstallationMessages\Administrator\Dispatcher;
 
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
 use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\Factory;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -35,7 +34,7 @@ class Dispatcher extends AbstractModuleDispatcher
     public function dispatch()
     {
         // Load the com_postinstall language file
-        Factory::getApplication()->getLanguage()->load('com_postinstall', JPATH_ADMINISTRATOR);
+        $this->getApplication()->getLanguage()->load('com_postinstall', JPATH_ADMINISTRATOR);
 
         parent::dispatch();
     }
