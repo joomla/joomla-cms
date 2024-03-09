@@ -9,6 +9,11 @@
   &[readonly] {
     background-color: $form-control-bg-disabled;
     opacity: 1;
+     &:hover,
+     &:active,
+     &:focus {
+       cursor: not-allowed;
+     }
   }
 
   &:focus:not(:disabled):not([readonly]) {
