@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\Login\Administrator\Helper;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
@@ -30,11 +31,13 @@ class LoginHelper
     /**
      * Get an HTML select list of the available languages.
      *
+     * @param   CMSApplicationInterface  $app  The application
+     *
      * @return  string
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getLanguages()
+    public function getLanguages(CMSApplicationInterface $app)
     {
         $languages = LanguageHelper::createLanguageList(null, JPATH_ADMINISTRATOR, false, true);
 
@@ -50,7 +53,7 @@ class LoginHelper
         );
 
         // Fix wrongly set parentheses in RTL languages
-        if (Factory::getApplication()->getLanguage()->isRtl()) {
+        if ($app->getLanguage()->isRtl()) {
             foreach ($languages as &$language) {
                 $language['text'] .= '&#x200E;';
             }
@@ -89,11 +92,11 @@ class LoginHelper
      *             Use the non-static method getLanguages
      *             Example: Factory::getApplication()->bootModule('mod_login', 'administrator')
      *                            ->getHelper('LoginHelper')
-     *                            ->getLanguages()
+     *                            ->getLanguages(Factory::getApplication())
      */
     public static function getLanguageList()
     {
-        return (new self())->getLanguages();
+        return (new self())->getLanguages(Factory::getApplication());
     }
 
     /**
