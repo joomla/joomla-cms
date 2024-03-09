@@ -19,14 +19,14 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Tuf
- * @since       __DEPLOY_VERSION__
+ * @since       5.1.0
  */
 class DatabaseStorageTest extends UnitTestCase
 {
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testConstructorWritesColumnMetadataToInternalStorage()
     {
@@ -39,7 +39,7 @@ class DatabaseStorageTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testConstructorIgnoresNonMetadataColumns()
     {
@@ -52,7 +52,7 @@ class DatabaseStorageTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testReadReturnsStorageValueForExistingColumns()
     {
@@ -63,7 +63,7 @@ class DatabaseStorageTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testReadReturnsNullForNonexistentColumns()
     {
@@ -74,7 +74,7 @@ class DatabaseStorageTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testWriteUpdatesGivenInternalStorageValue()
     {
@@ -87,7 +87,7 @@ class DatabaseStorageTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testWriteCreatesNewInternalStorageValue()
     {
@@ -100,7 +100,7 @@ class DatabaseStorageTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testDeleteRemovesRowFromInternalStorage()
     {
@@ -113,7 +113,7 @@ class DatabaseStorageTest extends UnitTestCase
     /**
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function testPersistUpdatesTableObjectState()
     {
@@ -132,7 +132,7 @@ class DatabaseStorageTest extends UnitTestCase
     /**
      * @param array $mockData
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      *
      * @return Tuf|(Tuf&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
      */
@@ -151,7 +151,7 @@ class DatabaseStorageTest extends UnitTestCase
     /**
      * @param $class
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      *
      * @return mixed
      */

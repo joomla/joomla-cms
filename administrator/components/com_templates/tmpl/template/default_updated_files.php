@@ -15,6 +15,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Templates\Administrator\View\Template\HtmlView $this */
+
 HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */

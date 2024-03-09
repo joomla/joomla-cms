@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Modules\Administrator\View\Module\HtmlView $this */
+
 HTMLHelper::_('behavior.combobox');
 
 $hasContent          = isset($this->item->xml->customContent);

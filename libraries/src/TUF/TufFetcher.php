@@ -24,11 +24,11 @@ use Tuf\Exception\MetadataException;
 use Tuf\Loader\SizeCheckingLoader;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 class TufFetcher
 {
