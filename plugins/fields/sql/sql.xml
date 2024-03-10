@@ -75,16 +75,9 @@
 					>
 					<option value="5">J5</option>
 					<option value="10">J10</option>
-					<option value="15">J15</option>
-					<option value="20">J20</option>
 					<option value="25">J25</option>
-					<option value="30">J30</option>
 					<option value="50">J50</option>
 					<option value="100">J100</option>
-					<option value="200">J200</option>
-					<option value="250">J250</option>
-					<option value="300">J300</option>
-					<option value="500">J500</option>
 				</field>
 
 				<field
@@ -98,16 +91,9 @@
 					>
 					<option value="5">J5</option>
 					<option value="10">J10</option>
-					<option value="15">J15</option>
-					<option value="20">J20</option>
 					<option value="25">J25</option>
-					<option value="30">J30</option>
 					<option value="50">J50</option>
 					<option value="100">J100</option>
-					<option value="200">J200</option>
-					<option value="250">J250</option>
-					<option value="300">J300</option>
-					<option value="500">J500</option>
 					<option value="-1">JALL</option>
 				</field>
 			</fieldset>
