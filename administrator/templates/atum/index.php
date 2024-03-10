@@ -70,8 +70,9 @@ list($lighterRd, $lighterGd, $lighterBd) = adjustColorLightness($rd, $gd, $bd, 1
 
 $linkColorDarkHvr = sprintf("%d, %d, %d", $lighterRd, $lighterGd, $lighterBd);
 
-function adjustColorLightness($r, $g, $b, $percent) {
-    $adjust = function($color) use ($percent) {
+function adjustColorLightness($r, $g, $b, $percent)
+{
+    $adjust = function ($color) use ($percent) {
         $newColor = $color + ($color * $percent / 100);
         return min(max(0, $newColor), 255);
     };
@@ -94,7 +95,7 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
     ->addInlineStyle('@media (prefers-color-scheme: dark) { :root {
 		--link-color: ' . $linkColorDark . ';
 		--link-color-rgb: ' . $rd . ',' . $gd . ',' . $bd . ';
-        --link-color-rgb-hvr: '. $linkColorDarkHvr . ';
+        --link-color-rgb-hvr: ' . $linkColorDarkHvr . ';
 		--template-special-color: #6fbfdb;
 	}}');
 
