@@ -4,6 +4,13 @@ label {
   margin-bottom: 0;
 }
 
+.form-control {
+  &::placeholder {
+    font-size: .8rem;
+    font-style: italic;
+  }
+}
+
 td .form-control {
   display: inline-block;
   width: auto;
