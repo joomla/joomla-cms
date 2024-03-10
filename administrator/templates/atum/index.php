@@ -63,13 +63,11 @@ preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$
 
 $linkColor = $this->params->get('link-color', '#2a69b8');
 list($r, $g, $b) = sscanf($linkColor, "#%02x%02x%02x");
-// list($darkerR, $darkerG, $darkerB) = adjustColorLightness($r, $g, $b, -10);
 
 $linkColorDark = $this->params->get('link-color-dark', '#6fbfdb');
 list($rd, $gd, $bd) = sscanf($linkColorDark, "#%02x%02x%02x");
 list($lighterRd, $lighterGd, $lighterBd) = adjustColorLightness($rd, $gd, $bd, 10);
 
-// $linkColorHvr = sprintf("%d, %d, %d", $darkerR, $darkerG, $darkerB);
 $linkColorDarkHvr = sprintf("%d, %d, %d", $lighterRd, $lighterGd, $lighterBd);
 
 function adjustColorLightness($r, $g, $b, $percent) {

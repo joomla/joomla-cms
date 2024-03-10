@@ -101,7 +101,7 @@
     }
 
     a:not(.btn):hover {
-      color: $template-link-hover-color;
+      color: rgb(var(--link-color-rgb-hvr));
     }
 
     a {
