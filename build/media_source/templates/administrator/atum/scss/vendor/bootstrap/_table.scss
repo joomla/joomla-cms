@@ -23,6 +23,9 @@
     a {
       font-weight: $table-link-font-weight;
       color: rgb(var(--link-color-rgb, $table-link-color));
+      &:hover {
+        color: rgb(var(--link-color-rgb-hvr));
+      }
 
       &#sorted {
         font-weight: $table-link-font-weight-sorted; /* $medium-weight */
@@ -70,6 +73,9 @@
       font-weight: $table-link-font-weight;
       color: rgb(var(--link-color-rgb, $table-link-color));
       text-decoration: underline;
+      &:hover {
+        color: rgb(var(--link-color-rgb-hvr));
+      }
     }
 
     .badge.bg-info {

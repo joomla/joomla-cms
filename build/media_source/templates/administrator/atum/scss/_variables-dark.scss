@@ -80,6 +80,7 @@ $atum-colors-dark: (
   link-color-rgb:                    (36,158,200),
   link-color:                        $link-color-dark,
   template-link-hover-color:         lighten($link-color-dark, 10%),
+  link-color-rgb-hvr:                var(--template-link-hover-color),
 
   template-quickicon-bg:             rgba(255, 255, 255, .1),
   template-quickicon-bg-hvr:         rgba(255, 255, 255, .15),
