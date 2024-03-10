@@ -347,8 +347,8 @@ joomla-tab[view=accordion] {
 
     [dir=rtl] joomla-tab {
       div[role="tablist"] > button[role="tab"][aria-expanded="true"]::after {
-        left: 0;
         right: auto;
+        left: 0;
       }
     }
   }
