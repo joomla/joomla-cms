@@ -90,3 +90,21 @@
   }
 }
 
+// dark
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .btn-info {
+      color: var(--btn-info-color);
+      background: var(--btn-info-bg);
+      border: var(--btn-info-border);
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: var(--atum-btn-info-color-hvr);
+        background: var(--btn-info-bg-hvr);
+        border: var(--btn-info-border);
+      }
+    }
+  }
+}

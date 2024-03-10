@@ -395,7 +395,7 @@ joomla-dialog dialog[open] {
 
           &:disabled {
             background: map-get($atum-colors-dark, "body-bg");
-            border:  map-get($atum-colors-dark, "form-control-border-disabled");
+            border: map-get($atum-colors-dark, "form-control-border-disabled");
             opacity: .5;
           }
         }
@@ -435,7 +435,11 @@ joomla-dialog dialog[open] {
       }
 
     }
+    .joomla-dialog-container .changelog .changelog__item .changelog__tag {
+      background: map-get($atum-colors-dark, "body-bg");
+    }
   }
 }
+
 
 
