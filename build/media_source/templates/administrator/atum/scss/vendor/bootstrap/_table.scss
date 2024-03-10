@@ -22,7 +22,7 @@
 
     a {
       font-weight: $table-link-font-weight;
-      color: $table-link-color;
+      color: rgb(var(--link-color-rgb, $table-link-color));
 
       &#sorted {
         font-weight: $table-link-font-weight-sorted; /* $medium-weight */
@@ -68,7 +68,7 @@
 
     a:not(.badge):not(.btn):not(.dropdown-item) {
       font-weight: $table-link-font-weight;
-      color: $table-link-color;
+      color: rgb(var(--link-color-rgb, $table-link-color));
       text-decoration: underline;
     }
 

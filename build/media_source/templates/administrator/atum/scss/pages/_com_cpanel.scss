@@ -97,7 +97,7 @@
     --list-group-bg: #{$atum-list-group-bg};
 
     a:not(.btn) {
-      color: $template-link-color;
+      color: rgb(var(--link-color-rgb, $table-link-color));
     }
 
     a:not(.btn):hover {
