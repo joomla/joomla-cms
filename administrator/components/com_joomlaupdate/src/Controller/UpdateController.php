@@ -63,7 +63,7 @@ class UpdateController extends BaseController
         $messageType = null;
 
         // The versions mismatch
-        if ($result['version'] !== $this->input->get('targetVersion')) {
+        if ($result['version'] !== $this->input->get('targetVersion', null, 'string')) {
             $message     = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_VERSION_WRONG');
             $messageType = 'error';
             $url         = 'index.php?option=com_joomlaupdate';
