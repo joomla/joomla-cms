@@ -352,3 +352,74 @@ joomla-dialog dialog[open] {
 .modal-content {
   background-color: var(--body-bg);
 }
+
+// dark
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .modal {
+
+      .btn {
+        color: map-get($atum-colors-dark, "btn-primary-color");
+        background: map-get($atum-colors-dark, "btn-primary-bg");
+        border: map-get($atum-colors-dark, "btn-primary-border");
+        box-shadow: none;
+
+        &.btn-primary, &.btn-primary:not([href]) {
+          color: map-get($atum-colors-dark, "btn-primary-color");
+          background: map-get($atum-colors-dark, "btn-primary-bg");
+          border: map-get($atum-colors-dark, "btn-primary-border");
+
+          &:hover {
+            color: map-get($atum-colors-dark, "btn-primary-color");
+            background: map-get($atum-colors-dark, "btn-primary-bg-hvr");
+            border: map-get($atum-colors-dark, "btn-primary-border-hvr");
+            box-shadow: none;
+          }
+        }
+
+        &.btn-success, &.btn-success:not([href]) {
+          color: map-get($atum-colors-dark, "btn-success-color");
+          background: map-get($atum-colors-dark, "btn-success-bg");
+          border: map-get($atum-colors-dark, "btn-success-border");
+          box-shadow: none;
+
+          &:hover {
+            color: map-get($atum-colors-dark, "btn-success-color");
+            background: map-get($atum-colors-dark, "btn-success-bg-hvr");
+            border: map-get($atum-colors-dark, "btn-success-border-hvr");
+            box-shadow: none;
+          }
+        }
+
+        &.btn-danger, &.btn-danger:not([href]) {
+          color: map-get($atum-colors-dark, "atum-btn-danger-color");
+          background: map-get($atum-colors-dark, "atum-btn-danger-bg");
+          border: map-get($atum-colors-dark, "atum-btn-danger-border");
+          box-shadow: none;
+
+          &:hover {
+            color: map-get($atum-colors-dark, "atum-btn-danger-color");
+            background: map-get($atum-colors-dark, "atum-btn-danger-bg-hvr");
+            border: map-get($atum-colors-dark, "atum-btn-danger-border-hvr");
+            box-shadow: none;
+          }
+        }
+
+        &.btn-secondary, &.btn-secondary:not([href]) {
+          color: map-get($atum-colors-dark, "btn-secondary-color");
+          background: map-get($atum-colors-dark, "btn-secondary-bg");
+          border: map-get($atum-colors-dark, "btn-secondary-border");
+          box-shadow: none;
+
+          &:hover {
+            color: map-get($atum-colors-dark, "btn-secondary-color");
+            background: map-get($atum-colors-dark, "btn-secondary-bg-hvr");
+            border: map-get($atum-colors-dark, "btn-secondary-border-hvr");
+            box-shadow: none;
+          }
+        }
+      }
+    }
+  }
+}
+

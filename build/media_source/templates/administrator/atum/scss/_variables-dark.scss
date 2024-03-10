@@ -280,7 +280,7 @@ $atum-colors-dark: (
   btn-secondary-bg:                      $info-dark,
   btn-secondary-border:                  1px solid lighten($info-dark, 10%),
   btn-secondary-bg-hvr:                  darken($info-dark, 10%),
-  btn-secondary-border-hvr:              1px solid darken($info-dark, 10%),
+  btn-secondary-border-hvr:              1px solid lighten($info-dark, 10%),
 
   btn-dark-border:                     1px solid rgba(0,0,0,.85),
   btn-dark-bg:                         rgba(0,0,0,.9),
@@ -396,6 +396,7 @@ $atum-colors-dark: (
   atum-btn-success-hvr:           var(--template-text-light),
 
   atum-btn-danger:                var(--dangerhvr),
+  atum-btn-danger-color:          var(--template-text-light),
   atum-btn-danger-icon:           var(--template-text-light),
   atum-btn-danger-icon-hvr:       var(--atum-btn-danger-hvr),
   atum-btn-danger-bg:             $danger,
