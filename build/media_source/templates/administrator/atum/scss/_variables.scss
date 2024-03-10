@@ -828,8 +828,8 @@ $atum-calendar-buttons-color:      var(--atum-calendar-buttons-color);
 $atum-calendar-disabled-color:     var(--atum-calendar-disabled-color);
 $atum-calendar-disabled-bg:        var(--atum-calendar-disabled-bg);
 $atum-calendar-select-bg:          var(--atum-calendar-select-bg);
-$atum-calendar-select-bg-url:      var(--atum-calendar-select-bg-url);
-$atum-calendar-select-bg-url-rtl:  var(--atum-calendar-select-bg-url-rtl);
+$atum-calendar-select-bg-url:       url("../images/calendar/select-bg.svg");
+$atum-calendar-select-bg-url-rtl:  url("../images/calendar/select-bg-rtl.svg");
 
 // Permissions
 $permissions-sliders-oddCol-bg:    var(--permissions-sliders-oddCol);

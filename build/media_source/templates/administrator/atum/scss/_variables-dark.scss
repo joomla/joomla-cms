@@ -439,8 +439,8 @@ $atum-colors-dark: (
   atum-calendar-disabled-color:   #4b4b4b,
   atum-calendar-disabled-bg:      rgba(0,0,0,.5),
   atum-calendar-select-bg:          $form-select-bg-dark,
-  atum-calendar-select-bg-url:      url("../../images/select-bg-dark.svg"),
-  atum-calendar-select-bg-url-rtl:  url("../../images/select-bg-dark-rtl.svg"),
+  atum-calendar-select-bg-url:      url("../images/calendar/select-bg-dark.svg"),
+  atum-calendar-select-bg-url-rtl:  url("../images/calendar/select-bg-dark-rtl.svg"),
 
   // Permissions
   permissions-sliders-oddCol-bg:  var(--template-bg-dark),
