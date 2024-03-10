@@ -323,3 +323,23 @@ joomla-tab[view=accordion] {
   }
 
 }
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    joomla-tab {
+      > button[role=region] {
+        color: var(--btn-primary-color);
+        background-color: var(--btn-primary-bg);
+        border: var(--btn-primary-border);
+
+        &[aria-expanded=true],
+        &:hover,
+        &:focus {
+          color: var(--btn-primary-color);
+          background-color: var(--btn-primary-bg-hvr);
+        }
+
+      }
+    }
+  }
+}
