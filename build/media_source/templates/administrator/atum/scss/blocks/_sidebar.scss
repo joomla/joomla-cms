@@ -294,6 +294,12 @@
       overflow: hidden;
       border: 1px solid rgba(255, 255, 255, .05);
       box-shadow: none;
+      .main-nav {
+        .badge {
+          color: map-get($atum-colors-dark, "btn-primary-color");
+          background-color: map-get($atum-colors-dark, "btn-primary-bg");
+        }
+      }
     }
   }
 }

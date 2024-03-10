@@ -270,6 +270,7 @@ $atum-colors-dark: (
   // Buttons
   btn-primary-color:                   var(--text-normal),
   btn-primary-bg:                      $btn-primary-dark,
+  primary:                             $btn-primary-dark,
   btn-primary-border:                  1px solid lighten($btn-primary-dark, 10%),
   btn-primary-bg-hvr:                  darken($btn-primary-dark, 10%),
   btn-primary-border-hvr:              1px solid lighten($btn-primary-dark, 10%),
