@@ -96,5 +96,33 @@
       background: #131313;
     }
 
+    .media-infobar {
+      background-color: var(--main-bg);
+
+      h2 {
+        background-color: var(--body-bg);
+      }
+
+      dt {
+        color: rgba(255,255,255,0.9);
+        font-weight: bold;
+      }
+
+      dd {
+        color: rgba(255,255,255,0.7);
+      }
+
+      .infobar-close {
+        color: #fff;
+        &:hover {
+          color: #efefef;
+        }
+      }
+    }
+
+
+
+
+
   }
 }
