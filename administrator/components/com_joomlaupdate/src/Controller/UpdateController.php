@@ -62,7 +62,7 @@ class UpdateController extends BaseController
         $message     = null;
         $messageType = null;
 
-        // The versions mismatch
+        // The versions mismatch (Use \JVERSION as target version when not set in case of reinstall core files)
         if ($result['version'] !== $this->input->get('targetVersion', \JVERSION, 'string')) {
             $message     = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_VERSION_WRONG');
             $messageType = 'error';
