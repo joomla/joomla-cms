@@ -153,6 +153,7 @@ joomla-tab[orientation=vertical] {
 
     > button[role=tab] {
       text-align: start;
+
       &[aria-expanded=true] {
         color: $joomla-tablist-btn-aria-exp; //var(--template-text-light);
         background-color: $joomla-tablist-btn-aria-exp-bg; //var(--template-bg-dark-60);
@@ -195,6 +196,7 @@ joomla-tab[orientation=vertical] {
           color: $text-muted-hvr-color;
         }
       }
+
       .text-muted {
         color: $text-muted-color;
       }
@@ -340,6 +342,16 @@ joomla-tab[view=accordion] {
         }
 
       }
+
+    }
+
+    [dir=rtl] joomla-tab {
+      div[role="tablist"] > button[role="tab"][aria-expanded="true"]::after {
+        left: 0;
+        right: auto;
+      }
     }
   }
 }
+
+
