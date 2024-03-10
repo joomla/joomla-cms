@@ -15,3 +15,11 @@
   --calendar-select-bg-url: #{$atum-calendar-select-bg-url} #{"/* rtl:"}$atum-calendar-select-bg-url-rtl#{"*/"};
 
 }
+
+.calendar-container {
+  tr.time {
+    &:hover, &:focus, &:active {
+      background-color: transparent;
+    }
+  }
+}
