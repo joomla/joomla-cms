@@ -189,6 +189,12 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
   appearance: none;
 }
 
+/* Fix select dropdown background rtl / ltr */
+html:not([dir="rtl"]) .calendar-container .time td select {
+  background-image: var(--calendar-select-bg-url, var(--fallback-url));
+  background-position: right center;
+}
+
 .buttons-wrapper {
   width: 100%;
   padding: 5px;
