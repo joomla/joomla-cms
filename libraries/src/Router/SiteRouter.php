@@ -14,6 +14,7 @@ use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\Router\RouterInterface;
 use Joomla\CMS\Component\Router\RouterLegacy;
 use Joomla\CMS\Component\Router\RouterServiceInterface;
+use Joomla\CMS\Event\Router\AfterInitialiseRouterEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Uri\Uri;
@@ -55,6 +56,15 @@ class SiteRouter extends Router
     protected $menu;
 
     /**
+     * Internal flag to track weather the "initialise" even was dispatched.
+     *
+     * @var bool
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $initDispatched = false;
+
+    /**
      * Class constructor
      *
      * @param   CMSApplication  $app   Application Object
@@ -66,6 +76,10 @@ class SiteRouter extends Router
     {
         $this->app  = $app ?: Factory::getContainer()->get(SiteApplication::class);
         $this->menu = $menu ?: $this->app->getMenu();
+
+        // A method to dispatch the router "on initialise" event
+        $this->attachParseRule([$this, 'dispatchOnInitialise'], self::PROCESS_BEFORE);
+        $this->attachBuildRule([$this, 'dispatchOnInitialise'], self::PROCESS_BEFORE);
 
         // Add core rules
         if ((int) $this->app->get('force_ssl') === 2) {
@@ -94,6 +108,26 @@ class SiteRouter extends Router
 
         $this->attachParseRule([$this, 'parseRawRoute'], self::PROCESS_DURING);
         $this->attachBuildRule([$this, 'buildBase'], self::PROCESS_AFTER);
+    }
+
+    /**
+     * Dispatch on initialise event. Once per class instance.
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function dispatchOnInitialise()
+    {
+        if ($this->initDispatched) {
+            return;
+        }
+        $this->initDispatched = true;
+
+        $this->app->getDispatcher()->dispatch(
+            'onAfterInitialiseRouter',
+            new AfterInitialiseRouterEvent('onAfterInitialiseRouter', ['router' => $this])
+        );
     }
 
     /**

@@ -47,10 +47,10 @@ class Router implements ServiceProviderInterface
                 SiteRouter::class,
                 function (Container $container) {
                     $router = new SiteRouter($container->get(SiteApplication::class));
-                    $container->get(DispatcherInterface::class)->dispatch(
-                        'onAfterInitialiseRouter',
-                        new AfterInitialiseRouterEvent('onAfterInitialiseRouter', ['router' => $router])
-                    );
+//                    $container->get(DispatcherInterface::class)->dispatch(
+//                        'onAfterInitialiseRouter',
+//                        new AfterInitialiseRouterEvent('onAfterInitialiseRouter', ['router' => $router])
+//                    );
                     return $router;
                 },
                 true
