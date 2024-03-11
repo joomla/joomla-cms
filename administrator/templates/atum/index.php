@@ -92,7 +92,7 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 		--link-color-rgb: ' . $r . ',' . $g . ',' . $b . ';
 		--template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
 	}')
-    ->addInlineStyle('@media (prefers-color-scheme: dark) { :root {
+    ->addInlineStyle(':root[data-color-scheme="dark"] {
 		--link-color: ' . $linkColorDark . ';
 		--link-color-rgb: ' . $rd . ',' . $gd . ',' . $bd . ';
         --link-color-rgb-hvr: ' . $linkColorDarkHvr . ';
@@ -105,7 +105,23 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
-$monochrome = (bool) $this->params->get('monochrome');
+$monochrome    = (bool) $this->params->get('monochrome');
+$colorScheme   = $this->params->get('colorScheme', 'os');
+$themeModeAttr = '';
+
+if ($colorScheme) {
+    $themeModes   = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
+    // Check for User choose, for now this have a priority over the parameters
+    $userColorScheme = $app->getInput()->cookie->get('userColorScheme', '');
+    if ($userColorScheme && !empty($themeModes[$userColorScheme])) {
+        $themeModeAttr = $themeModes[$userColorScheme];
+    } else {
+        // Check parameters first (User and Template), then look if we have detected the OS color scheme (if it set to 'os')
+        $colorScheme   = $app->getIdentity()->getParam('colorScheme', $colorScheme);
+        $osColorScheme = $colorScheme === 'os' ? $app->getInput()->cookie->get('osColorScheme', '') : '';
+        $themeModeAttr = ($themeModes[$colorScheme] ?? '') . ($themeModes[$osColorScheme] ?? '');
+    }
+}
 
 Text::script('TPL_ATUM_MORE_ELEMENTS');
 
@@ -113,14 +129,14 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $a11y_font ? ' class="a11y_font"' : ''; ?>>
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $a11y_font ? ' class="a11y_font"' : ''; ?><?php echo $themeModeAttr; ?>>
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />
     <jdoc:include type="scripts" />
 </head>
 
-<body data-color-scheme-os class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome || $a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : ''); ?>">
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome || $a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : ''); ?>">
 <noscript>
     <div class="alert alert-danger" role="alert">
         <?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>

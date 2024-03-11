@@ -111,6 +111,18 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+				<field
+					name="colorScheme"
+					type="list"
+					label="TPL_ATUM_COLORSCHEME_LABEL"
+					default="os"
+					validate="options"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="os">TPL_ATUM_COLORSCHEME_OPTION_FOLLOW_OS</option>
+					<option value="light">TPL_ATUM_COLORSCHEME_OPTION_LIGHT</option>
+					<option value="dark">TPL_ATUM_COLORSCHEME_OPTION_DARK</option>
+				</field>
 			</fieldset>
 
 			<fieldset name="images" label="TPL_ATUM_IMAGE_SETTINGS_LABEL">

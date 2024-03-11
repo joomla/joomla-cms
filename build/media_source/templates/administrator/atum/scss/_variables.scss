@@ -1,8 +1,8 @@
 // Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
 $prefix: "";
 
-// Use dark mode conditionally based on media queries from the browser to match the desktop theme
-$color-mode-type: media-query;
+// Use dark mode conditionally based on data-bs-theme attribute
+$color-mode-type: data;
 
 // Enable dark mode in J5.0
 $enable-dark-mode: true;
