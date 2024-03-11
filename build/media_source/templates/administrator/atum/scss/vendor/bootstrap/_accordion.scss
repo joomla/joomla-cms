@@ -1,0 +1,9 @@
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .accordion-button:not(.collapsed) {
+      color: map-get($atum-colors-dark, body-color);
+      background: $btn-primary-dark;
+    }
+  }
+}
+
