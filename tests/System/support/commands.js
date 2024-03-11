@@ -39,7 +39,7 @@ Cypress.Commands.overwrite('doFrontendLogout', (originalFn) => {
   Cypress.session.clearAllSavedSessions();
 });
 
-Cypress.Commands.overwrite('doAdministratorLogin', (originalFn, username, password, useSnapshot = true) => {
+/* Cypress.Commands.overwrite('doAdministratorLogin', (originalFn, username, password, useSnapshot = true) => {
   // Ensure there are valid credentials
   const user = username ?? Cypress.env('username');
   const pw = password ?? Cypress.env('password');
@@ -63,7 +63,7 @@ Cypress.Commands.overwrite('doAdministratorLogout', (originalFn) => {
 
   // Clear the session data
   Cypress.session.clearAllSavedSessions();
-});
+}); */
 
 // Click Joomla Dialog Confirm, isOkay: true = push "ok" button, false = push "cancel" button
 Cypress.Commands.add('clickDialogConfirm', (isOkay) => {
