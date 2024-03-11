@@ -22,6 +22,9 @@ preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$
 $linkColor = $this->params->get('link-color', '#2a69b8');
 list($r, $g, $b) = sscanf($linkColor, "#%02x%02x%02x");
 
+$linkColorDark = $this->params->get('link-color-dark', '#6fbfdb');
+list($rd, $gd, $bd) = sscanf($linkColorDark, "#%02x%02x%02x");
+
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
     ->useStyle('template.active.language')
@@ -34,7 +37,11 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 		--link-color: ' . $linkColor . ';
         --link-color-rgb: ' . $r . ',' . $g . ',' . $b . ';
 		--template-special-color: ' . $this->params->get('special-color', 'var(--template-special-color)') . ';
-	}');
+	}')
+   ->addInlineStyle('@media (prefers-color-scheme: dark) { :root {
+		--link-color: ' . $linkColorDark . ';
+		--link-color-rgb: ' . $rd . ',' . $gd . ',' . $bd . ';
+	}}');
 
 // No template.js for modals
 $wa->disableScript('template.atum');
