@@ -73,8 +73,8 @@ class TufFetcher
      * @param   MetadataTable            $metadataTable  The table object holding the metadata
      * @param   string                   $repositoryUrl  The repo url
      * @param   DatabaseInterface        $db             The database driver
+     * @param   Http                     $httpClient     A client for sending Http requests
      * @param   CMSApplicationInterface  $app            The application object for sending errors to users
-     * @param   ?Http                    $httpClient     A client for sending Http requests
      */
     public function __construct(
         MetadataTable $metadataTable,
