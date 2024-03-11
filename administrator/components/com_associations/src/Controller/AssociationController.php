@@ -51,7 +51,7 @@ class AssociationController extends FormController
             return false;
         }
 
-        return parent::display();
+        return $this->display();
     }
 
     /**
