@@ -113,7 +113,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                         <?php echo $item->type_translated; ?>
                                     </td>
                                     <td>
-                                        <span class="badge bg-warning text-dark"><?php echo $item->current_version; ?></span>
+                                        <span class="badge bg-warning"><?php echo $item->current_version; ?></span>
                                     </td>
                                     <td>
                                         <span class="badge bg-success"><?php echo $item->version; ?></span>

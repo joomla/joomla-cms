@@ -21,7 +21,7 @@ use Joomla\CMS\Version;
 /**
  * ConstraintChecker Class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 class ConstraintChecker
 {
@@ -31,7 +31,7 @@ class ConstraintChecker
      *
      * @var \stdClass
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected \stdClass $failedEnvironmentConstraints;
 
@@ -40,7 +40,7 @@ class ConstraintChecker
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function __construct()
     {
@@ -54,7 +54,7 @@ class ConstraintChecker
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function check(array $candidate)
     {
@@ -102,7 +102,7 @@ class ConstraintChecker
      *
      * @return  \stdClass
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function getFailedEnvironmentConstraints(): \stdClass
     {
@@ -116,7 +116,7 @@ class ConstraintChecker
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function checkTargetplatform(array $targetPlatform)
     {
@@ -141,7 +141,7 @@ class ConstraintChecker
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function checkPhpMinimum(string $phpMinimum)
     {
@@ -166,7 +166,7 @@ class ConstraintChecker
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function checkSupportedDatabases(array $supportedDatabases)
     {
@@ -212,7 +212,7 @@ class ConstraintChecker
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function checkStability(string $stability)
     {
@@ -239,7 +239,7 @@ class ConstraintChecker
      *
      * @return  integer
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function stabilityToInteger($tag)
     {
