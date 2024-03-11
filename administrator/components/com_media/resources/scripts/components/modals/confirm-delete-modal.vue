@@ -1,5 +1,5 @@
 <template>
-  <media-modal
+  <MediaModal
     v-if="$store.state.showConfirmDeleteModal"
     :size="'md'"
     :show-close="false"
@@ -38,14 +38,18 @@
         </button>
       </div>
     </template>
-  </media-modal>
+  </MediaModal>
 </template>
 
 <script>
 import * as types from '../../store/mutation-types.es6';
+import MediaModal from './modal.vue';
 
 export default {
   name: 'MediaShareModal',
+  components: {
+    MediaModal,
+  },
   computed: {
     item() {
       return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1];

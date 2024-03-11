@@ -24,7 +24,7 @@ use Joomla\CMS\Router\Route;
     <?php echo Text::_('JASSOCIATIONS'); ?>
     <?php foreach ($associations as $association) : ?>
         <?php if ($displayData['item']->params->get('flags', 1) && $association['language']->image) : ?>
-            <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
+            <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, ['title' => $association['language']->title_native], true); ?>
             <a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
         <?php else : ?>
             <?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>

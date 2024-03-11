@@ -43,8 +43,7 @@ class DatabaseModelTest extends UnitTestCase
         $db         = $this->createStub(DatabaseInterface::class);
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
 
-        $model = new class (['dbo' => $db], $mvcFactory) extends BaseDatabaseModel
-        {
+        $model = new class (['dbo' => $db], $mvcFactory) extends BaseDatabaseModel {
             public function getDatabase(): DatabaseInterface
             {
                 return parent::getDatabase();
@@ -73,8 +72,7 @@ class DatabaseModelTest extends UnitTestCase
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn($table);
 
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel {
         };
 
         $this->assertEquals($table, $model->getTable());
@@ -92,11 +90,10 @@ class DatabaseModelTest extends UnitTestCase
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn(null);
 
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel {
         };
 
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
         $model->getTable();
     }
 
@@ -112,8 +109,7 @@ class DatabaseModelTest extends UnitTestCase
         $db = $this->createStub(DatabaseInterface::class);
         $db->method('loadObjectList')->willReturn([1]);
 
-        $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel
-        {
+        $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel {
             public function _getList($query, $limitstart = 0, $limit = 0)
             {
                 return parent::_getList($query, $limitstart, $limit);
@@ -136,8 +132,7 @@ class DatabaseModelTest extends UnitTestCase
         $db->method('loadObjectList')->willReturn([1]);
         $db->method('getQuery')->willReturn($this->getQueryStub($db));
 
-        $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel
-        {
+        $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel {
             public function _getList($query, $limitstart = 0, $limit = 0)
             {
                 return parent::_getList($query, $limitstart, $limit);
@@ -159,8 +154,7 @@ class DatabaseModelTest extends UnitTestCase
         $db = $this->createStub(DatabaseInterface::class);
         $db->method('getNumRows')->willReturn(5);
 
-        $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel
-        {
+        $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel {
             public function _getListCount($query)
             {
                 return parent::_getListCount($query);
@@ -182,8 +176,7 @@ class DatabaseModelTest extends UnitTestCase
         $db = $this->createStub(DatabaseInterface::class);
         $db->method('loadResult')->willReturn(5);
 
-        $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel
-        {
+        $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel {
             public function _getListCount($query)
             {
                 return parent::_getListCount($query);
@@ -208,8 +201,7 @@ class DatabaseModelTest extends UnitTestCase
         $db = $this->createStub(DatabaseInterface::class);
         $db->method('getNumRows')->willReturn(5);
 
-        $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel
-        {
+        $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel {
             public function _getListCount($query)
             {
                 return parent::_getListCount($query);
@@ -234,8 +226,7 @@ class DatabaseModelTest extends UnitTestCase
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn($table);
 
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel {
         };
 
         $this->assertFalse($model->isCheckedOut(new \stdClass()));
@@ -256,11 +247,10 @@ class DatabaseModelTest extends UnitTestCase
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn($table);
 
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel {
         };
 
-        $user = new User();
+        $user     = new User();
         $user->id = 1;
         $model->setCurrentUser($user);
 
@@ -282,11 +272,10 @@ class DatabaseModelTest extends UnitTestCase
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn($table);
 
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel {
         };
 
-        $user = new User();
+        $user     = new User();
         $user->id = 2;
         $model->setCurrentUser($user);
 
@@ -308,54 +297,11 @@ class DatabaseModelTest extends UnitTestCase
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn($table);
 
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel {
         };
         $model->setCurrentUser(new User());
 
         $this->assertTrue($model->isCheckedOut((object)['checked_out' => 1]));
-    }
-
-    /**
-     * @testdox  that all function calls go over deprecated getDbo function
-     *
-     * @return  void
-     *
-     * @since   4.2.1
-     *
-     * @deprecated  5.0 Must be removed when database calls are changed to getDatabase in libraries models
-     */
-    public function testOverrideOldDboFunction()
-    {
-        $db = $this->createMock(DatabaseInterface::class);
-        $db->expects($this->never())->method('setQuery');
-
-        $query = $this->getQueryStub($db);
-        $newDb = $this->createMock(DatabaseInterface::class);
-        $newDb->expects($this->once())->method('setQuery')->with($this->equalTo($query));
-
-        $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class), $newDb) extends BaseDatabaseModel
-        {
-            private $newDb;
-
-            public function __construct(array $config, MVCFactoryInterface $factory, DatabaseInterface $newDb)
-            {
-                parent::__construct($config, $factory);
-
-                $this->newDb = $newDb;
-            }
-
-            public function _getList($query, $limitstart = 0, $limit = 0)
-            {
-                return parent::_getList($query, $limitstart, $limit);
-            }
-
-            public function getDbo()
-            {
-                return $this->newDb;
-            }
-        };
-        $model->_getList($query, 0, 1);
     }
 
     /**
@@ -371,8 +317,7 @@ class DatabaseModelTest extends UnitTestCase
     {
         $db = $this->createStub(DatabaseInterface::class);
 
-        $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel
-        {
+        $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel {
             use DatabaseAwareTrait;
         };
 
@@ -390,8 +335,7 @@ class DatabaseModelTest extends UnitTestCase
      */
     public function testNotDeclaredVariable()
     {
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel {
             public function cache($key, $value)
             {
                 if (!isset($this->test[$key])) {

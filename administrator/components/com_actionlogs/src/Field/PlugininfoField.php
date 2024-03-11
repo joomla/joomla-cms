@@ -57,7 +57,7 @@ class PlugininfoField extends FormField
             'link',
             Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $result),
             Text::_('PLG_SYSTEM_ACTIONLOGS_JOOMLA_ACTIONLOG_DISABLED'),
-            array('class' => 'alert-link')
+            ['class' => 'alert-link']
         );
 
         return '<div class="alert alert-info">'

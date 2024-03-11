@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<help key="Joomla_Update:_Options"/>
 	<inlinehelp button="show"/>
@@ -16,7 +16,6 @@
 			validate="options"
 			>
 			<!-- Note: Changed the values lts to default and sts to next with 3.4.0 -->
-			<!--       Eliminated the 'nochange' option with 3.4.0 -->
 			<!--       All invalid/unsupported/obsolete options equated to default in code with 3.4.0 -->
 			<option value="default">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT</option>
 			<option value="next">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT</option>

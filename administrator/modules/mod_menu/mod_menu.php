@@ -8,15 +8,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Menu\Administrator\Menu\CssMenu;
 
-$enabled = !$app->input->getBool('hidemainmenu');
+$enabled = !$app->getInput()->getBool('hidemainmenu');
 
-$menu = new CssMenu($app);
-$root = $menu->load($params, $enabled);
+$menu        = new CssMenu($app);
+$root        = $menu->load($params, $enabled);
 $root->level = 0;
 
 // Render the module layout

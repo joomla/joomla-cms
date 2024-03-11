@@ -1,17 +1,18 @@
-// Variables
-@import "../../../build/media_source/templates/administrator/atum/scss/variables";
 $jicon-css-prefix: icon;
 $fa-css-prefix: fa;
 $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 
 // Font Awesome
-@import "../../../build/media_source/templates/administrator/atum/scss/vendor/fontawesome-free/fontawesome";
+@import "../../../media/templates/administrator/atum/scss/vendor/fontawesome-free/fontawesome";
 
-// "Font Awesome 5 Free"
+// "Font Awesome 6 Free"
 @import "../../../media/vendor/fontawesome-free/scss/fontawesome";
 @import "../../../media/vendor/fontawesome-free/scss/regular";
 @import "../../../media/vendor/fontawesome-free/scss/solid";
 @import "../../../media/vendor/fontawesome-free/scss/brands"; // order of loading is important.
+
+// B/C with Font Awesome 5
+@import "../../../media/vendor/fontawesome-free/scss/shims";
 
 // B/C for Icomoon
 @import "../../../build/media_source/system/scss/icomoon";
@@ -21,31 +22,195 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 
 // Variables from the Atum template
 @import "../../../build/media_source/templates/administrator/atum/scss/variables";
+@import "../../../build/media_source/templates/administrator/atum/scss/variables-dark";
 
-// Bootstrap with the root.scss overridden
-@import "../../../build/media_source/templates/administrator/atum/scss/vendor/bootstrap";
+$table-bg: transparent;
+
+@import "../../../media/vendor/bootstrap/scss/variables";
+@import "../../../media/vendor/bootstrap/scss/variables-dark";
+@import "../../../media/vendor/bootstrap/scss/maps";
+@import "../../../media/vendor/bootstrap/scss/mixins";
+@import "../../../media/vendor/bootstrap/scss/utilities";
+@import "../../../media/vendor/bootstrap/scss/bootstrap";
 
 // Backend Template stuff
-@import "../../../build/media_source/templates/administrator/atum/scss/blocks/global";
-@import "../../../build/media_source/templates/administrator/atum/scss/blocks/header";
-@import "../../../build/media_source/templates/administrator/atum/scss/vendor/bootstrap/custom-forms";
-@import "../../../build/media_source/templates/administrator/atum/scss/vendor/joomla-custom-elements/joomla-alert";
+@import "../../../media/templates/administrator/atum/scss/blocks/global";
+@import "../../../media/templates/administrator/atum/scss/blocks/header";
+@import "../../../media/templates/administrator/atum/scss/vendor/bootstrap/custom-forms";
+@import "../../../media/templates/administrator/atum/scss/vendor/joomla-custom-elements/joomla-alert";
 
 // Safari fix
-@import "../../../build/media_source/templates/administrator/atum/scss/vendor/bootstrap/reboot";
+@import "../../../media/templates/administrator/atum/scss/vendor/bootstrap/reboot";
 
-body {
-  background: var(--template-bg-light);
+// Custom Atum colors
+:root {
+  @each $color, $value in $atum-colors {
+    --#{$prefix}#{$color}: #{$value};
+  }
 }
 
-.form-select {
-  @extend .form-select;
+@if $enable-dark-mode {
+  @include color-mode(dark, true) {
+    @each $color, $value in $atum-colors-dark {
+      --#{$prefix}#{$color}: #{$value};
+    }
+  }
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark, true) {
+    @each $color, $value in $atum-colors-dark {
+      --#{$prefix}#{$color}: #{$value};
+    }
+  }
+}
+
+.border-primary {
+  border-color: var(--primary) !important;
+}
+
+.border-secondary {
+  border-color: var(--secondary) !important;
+}
+
+.border-success {
+  border-color: var(--success) !important;
+}
+
+.border-info {
+  border-color: var(--info) !important;
+}
+
+.border-warning {
+  border-color: var(--warning) !important;
+}
+
+.border-danger {
+  border-color: var(--danger) !important;
+}
+
+.border-light {
+  border-color: var(--light) !important;
+}
+
+.border-dark {
+  border-color: var(--dark) !important;
+}
+
+.border-white {
+  border-color: var(--white) !important;
+}
+
+.text-primary {
+  color: var(--primary) !important;
+}
+
+.text-secondary {
+  color: var(--secondary) !important;
+}
+
+.text-success {
+  color: var(--success) !important;
+}
+
+.text-info {
+  color: var(--info) !important;
+}
+
+.text-warning {
+  color: var(--warning) !important;
+}
+
+.text-danger {
+  color: var(--danger) !important;
+}
+
+.text-light {
+  color: var(--light) !important;
+}
+
+.text-dark {
+  color: var(--dark) !important;
+}
+
+.text-black {
+  color: var(--black) !important;
+}
+
+.text-white {
+  color: var(--white) !important;
+}
+
+.text-body {
+  color: var(--body-color) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary) !important;
+}
+
+.bg-secondary {
+  background-color: var(--secondary) !important;
+}
+
+.bg-success {
+  background-color: var(--success) !important;
+}
+
+.bg-info {
+  background-color: var(--info) !important;
+}
+
+.bg-warning {
+  background-color: var(--warning) !important;
+}
+
+.bg-danger {
+  background-color: var(--danger) !important;
+}
+
+.bg-light {
+  background-color: var(--light) !important;
+}
+
+.bg-dark {
+  background-color: var(--dark) !important;
+}
+
+.bg-black {
+  background-color: var(--black) !important;
+}
+
+.bg-white {
+  background-color: var(--white) !important;
+}
+
+.bg-body {
+  background-color: var(--body-bg) !important;
 }
 
 *,
 *::after,
 *::before {
   box-sizing: border-box;
+}
+
+body {
+  background: var(--body-bg);
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    body {
+      background: var(--main-bg);
+    }
+  }
+}
+
+.header {
+  .h2 {
+    margin-bottom: 0;
+  }
 }
 
 .j-install {
@@ -67,7 +232,7 @@ body {
     color: $white;
 
     &:hover {
-      color: var(--template-link-color);
+      color: var(--#{$prefix}link-color);
     }
   }
 }
@@ -75,7 +240,7 @@ body {
 .j-container {
   width: 100%;
   max-width: 40rem;
-  margin: 0 auto;
+  margin: 1rem auto;
 
   h1 {
     color: $dark-blue;
@@ -115,6 +280,21 @@ body {
   }
 }
 
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .j-install-step {
+      background-color: var(--secondary-bg);
+    }
+
+    // For now in dark mode we swap the color and the background around. But this probably is too much
+    // emphasis than we require for the header
+    .j-install-step-header {
+      color: #fff;
+      background-color: var(--secondary-bg);
+    }
+  }
+}
+
 .j-install-step-form {
   padding: .65rem 1.2rem;
 
@@ -150,23 +330,40 @@ body {
   display: none;
 }
 
+.btn-primary {
+  color: var(--btn-primary-color);
+  background-color: var(--btn-primary-bg);
+  border: var(--btn-primary-border);
+
+  &:hover, &:focus, &:active {
+    background-color: var(--btn-primary-bg-hvr);
+    border: var(--btn-primary-border-hvr);
+  }
+
+}
+
 .btn-success {
   color: #fff;
   background-color: #75b544;
   border-color: #75b544;
 }
 
-
 // Form
 
 .form-control {
-  background-color: var(--white-offset);
-
   &.input-full {
     max-width: 100%;
   }
-
 }
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .form-control {
+      background-color: var(--form-control-bg);
+    }
+  }
+}
+
 
 label {
   margin-bottom: .5rem;
@@ -232,13 +429,31 @@ legend {
   color: $red;
 }
 
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .form-control-feedback {
+      color: #d55;
+    }
+  }
+}
+
 // Language Table
 caption {
+  padding: 0;
+  margin: 0 1rem 0 0;
   caption-side: top;
 }
 
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    caption {
+      color: #fff;
+    }
+  }
+}
+
 .bg-warning {
-  color: #292b2c;
+  color: #fff;
 }
 
 // footer
@@ -251,6 +466,31 @@ caption {
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, .25);
 }
 
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .footer {
+      background: var(--header-bg);
+      box-shadow: none;
+      a {
+        color: var(--table-link-color);
+      }
+    }
+  }
+}
+
 .table > :not(:last-child) > :last-child > * {
   border-bottom-color: $table-border-color;
+}
+
+// Installation progress
+.progresslabel {width: 100%;}
+
+progress {
+  display: block;
+  width: 100%;
+  height: 25px;
+  margin: 1rem auto;
+  background: linear-gradient(#ccc 0%, #eee 50%, #eee 50%, #ccc 100%);
+  border: 0 none;
+  border-radius: 4px;
 }

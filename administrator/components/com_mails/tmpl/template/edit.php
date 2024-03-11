@@ -18,6 +18,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
 
+/** @var \Joomla\Component\Mails\Administrator\View\Template\HtmlView $this */
+
 $app = Factory::getApplication();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -28,7 +30,7 @@ $wa->useScript('keepalive')
 
 $this->useCoreUI = true;
 
-$input = $app->input;
+$input = $app->getInput();
 list($component, $sub_id) = explode('.', $this->master->template_id, 2);
 $sub_id = str_replace('.', '_', $sub_id);
 

@@ -43,8 +43,29 @@ class GroupsController extends AdminController
      *
      * @since   3.7.0
      */
-    public function getModel($name = 'Group', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Group', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
+    }
+
+    /**
+     * Append context variable to list redirect so that parent menu item stays open after an
+     * admin action like publish, un-publish... field groups
+     *
+     * @return  string  The arguments to append to the redirect URL.
+     *
+     * @since   4.2.9
+     */
+    protected function getRedirectToListAppend()
+    {
+        $append = parent::getRedirectToListAppend();
+
+        $context = $this->input->getString('context');
+
+        if ($context) {
+            $append .= '&context=' . $context;
+        }
+
+        return $append;
     }
 }

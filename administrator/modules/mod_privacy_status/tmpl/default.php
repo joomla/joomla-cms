@@ -15,6 +15,9 @@ use Joomla\CMS\Router\Route;
 
 ?>
 <table class="table">
+    <caption class="visually-hidden">
+        <?php echo Text::_('MOD_PRIVACY_STATUS'); ?>
+    </caption>
     <thead>
         <tr>
             <th scope="col" class="w-20"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_STATUS'); ?></th>
@@ -30,12 +33,12 @@ use Joomla\CMS\Router\Route;
                         <?php echo Text::_('JPUBLISHED'); ?>
                     </span>
                 <?php elseif ($privacyPolicyInfo['published'] && !$privacyPolicyInfo['articlePublished']) : ?>
-                    <span class="badge bg-warning text-dark">
+                    <span class="badge bg-warning">
                         <span class="icon-exclamation-triangle" aria-hidden="true"></span>
                         <?php echo Text::_('JUNPUBLISHED'); ?>
                     </span>
                 <?php else : ?>
-                    <span class="badge bg-warning text-dark">
+                    <span class="badge bg-warning">
                         <span class="icon-exclamation-triangle" aria-hidden="true"></span>
                         <?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
                     </span>
@@ -59,12 +62,12 @@ use Joomla\CMS\Router\Route;
                         <?php echo Text::_('JPUBLISHED'); ?>
                     </span>
                 <?php elseif (!$requestFormPublished['published'] && $requestFormPublished['exists']) : ?>
-                    <span class="badge bg-warning text-dark">
+                    <span class="badge bg-warning">
                         <span class="icon-exclamation-triangle" aria-hidden="true"></span>
                         <?php echo Text::_('JUNPUBLISHED'); ?>
                     </span>
                 <?php else : ?>
-                    <span class="badge bg-warning text-dark">
+                    <span class="badge bg-warning">
                         <span class="icon-exclamation-triangle" aria-hidden="true"></span>
                         <?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
                     </span>
@@ -130,7 +133,7 @@ use Joomla\CMS\Router\Route;
                         <?php echo Text::_('JENABLED'); ?>
                     </span>
                 <?php else : ?>
-                    <span class="badge bg-warning text-dark">
+                    <span class="badge bg-warning">
                         <span class="icon-exclamation-triangle" aria-hidden="true"></span>
                         <?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
                     </span>

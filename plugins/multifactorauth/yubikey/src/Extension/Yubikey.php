@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Multifactorauth\Yubikey\Extension;
 
-use Exception;
 use Joomla\CMS\Event\MultiFactor\Captive;
 use Joomla\CMS\Event\MultiFactor\GetMethod;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
@@ -28,7 +27,6 @@ use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -58,12 +56,21 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
     private $mfaMethodName = 'yubikey';
 
     /**
-     * Should I try to detect and register legacy event listeners?
+     * Should I try to detect and register legacy event listeners, i.e. methods which accept unwrapped arguments? While
+     * this maintains a great degree of backwards compatibility to Joomla! 3.x-style plugins it is much slower. You are
+     * advised to implement your plugins using proper Listeners, methods accepting an AbstractEvent as their sole
+     * parameter, for best performance. Also bear in mind that Joomla! 5.x onwards will only allow proper listeners,
+     * removing support for legacy Listeners.
      *
-     * @var   boolean
-     * @since 4.2.0
+     * @var    boolean
+     * @since  4.2.0
      *
-     * @deprecated
+     * @deprecated  4.3 will be removed in 6.0
+     *              Implement your plugin methods accepting an AbstractEvent object
+     *              Example:
+     *              onEventTriggerName(AbstractEvent $event) {
+     *                  $context = $event->getArgument(...);
+     *              }
      */
     protected $allowLegacyListeners = false;
 
@@ -134,19 +141,19 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
             new CaptiveRenderOptions(
                 [
                     // Custom HTML to display above the MFA form
-                    'pre_message'        => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_CAPTIVE_PROMPT'),
+                    'pre_message' => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_CAPTIVE_PROMPT'),
                     // How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
-                    'field_type'         => 'input',
+                    'field_type' => 'input',
                     // The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
-                    'input_type'         => 'text',
+                    'input_type' => 'text',
                     // Placeholder text for the HTML input box. Leave empty if you don't need it.
-                    'placeholder'        => '',
+                    'placeholder' => '',
                     // Label to show above the HTML input box. Leave empty if you don't need it.
-                    'label'              => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_CODE_LABEL'),
+                    'label' => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_CODE_LABEL'),
                     // Custom HTML. Only used when field_type = custom.
-                    'html'               => '',
+                    'html' => '',
                     // Custom HTML to display below the MFA form
-                    'post_message'       => '',
+                    'post_message' => '',
                     // Allow authentication against all entries of this MFA Method.
                     'allowEntryBatching' => 1,
                 ]
@@ -216,7 +223,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
      * @param   SaveSetup  $event  The event we are handling
      *
      * @return  void The configuration data to save to the database
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public function onUserMultifactorSaveSetup(SaveSetup $event): void
@@ -244,22 +251,22 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
          */
         $code = $input->getString('code');
 
-        if ($isKeyAlreadySetup || ((strlen($code) == 12) && ($code == $keyID))) {
+        if ($isKeyAlreadySetup || ((\strlen($code) == 12) && ($code == $keyID))) {
             $event->addResult($options);
 
             return;
         }
 
         // If an empty code or something other than 44 characters was submitted I'm not having any of this!
-        if (empty($code) || (strlen($code) != 44)) {
-            throw new RuntimeException(Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 500);
+        if (empty($code) || (\strlen($code) != 44)) {
+            throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 500);
         }
 
         // Validate the code
         $isValid = $this->validateYubikeyOtp($code);
 
         if (!$isValid) {
-            throw new RuntimeException(Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 500);
+            throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 500);
         }
 
         // The code is valid. Keep the Yubikey ID (first twelve characters)
@@ -276,7 +283,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
      * @param   Validate  $event  The event we are handling
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public function onUserMultifactorValidate(Validate $event): void
@@ -312,7 +319,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
                     return $rec->method === $record->method;
                 }
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $records = [];
         }
 
@@ -334,7 +341,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
      * @param   string  $otp  The OTP generated by your Yubikey
      *
      * @return  boolean  True if it's a valid OTP
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     private function validateYubikeyOtp(string $otp): bool
@@ -402,7 +409,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
                 } else {
                     continue;
                 }
-            } catch (Exception $exc) {
+            } catch (\Exception $exc) {
                 // No response, continue with the next server
                 continue;
             }
@@ -425,7 +432,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
             $line  = trim($line);
             $parts = explode('=', $line, 2);
 
-            if (count($parts) < 2) {
+            if (\count($parts) < 2) {
                 continue;
             }
 
@@ -475,7 +482,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
      * @return  void
      * @since   4.2.0
      *
-     * @see     https://developers.yubico.com/yubikey-val/Validation_Protocol_V2.0.html
+     * @link    https://developers.yubico.com/yubikey-val/Validation_Protocol_V2.0.html
      */
     private function signRequest(Uri $uri, string $secret): void
     {
@@ -487,18 +494,18 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
         }
 
         // I will need base64 encoding and decoding
-        if (!function_exists('base64_encode') || !function_exists('base64_decode')) {
+        if (!\function_exists('base64_encode') || !\function_exists('base64_decode')) {
             return;
         }
 
         // I need HMAC-SHA-1 support. Therefore I check for HMAC and SHA1 support in the PHP 'hash' extension.
-        if (!function_exists('hash_hmac') || !function_exists('hash_algos')) {
+        if (!\function_exists('hash_hmac') || !\function_exists('hash_algos')) {
             return;
         }
 
         $algos = hash_algos();
 
-        if (!in_array('sha1', $algos)) {
+        if (!\in_array('sha1', $algos)) {
             return;
         }
 
@@ -579,7 +586,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
      * @param   string    $code    The code given to us by the user
      *
      * @return  boolean
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     private function validateAgainstRecord(MfaTable $record, string $code): bool
@@ -599,7 +606,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
         }
 
         // If the submitted code length is wrong throw an error
-        if (strlen($code) != 44) {
+        if (\strlen($code) != 44) {
             return false;
         }
 

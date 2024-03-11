@@ -64,7 +64,7 @@ class DisplayController extends BaseController
      * @since   4.0.0
      * @throws  \InvalidArgumentException when no extension is set
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -90,20 +90,21 @@ class DisplayController extends BaseController
      * Method to display a view.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+     * @param   array    $urlparams  An array of safe URL parameters and their variable types.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  BaseController|boolean  This object to support chaining.
      *
      * @since   1.5
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         $view   = $this->input->get('view');
         $layout = $this->input->get('layout');
         $id     = $this->input->getInt('id');
 
         // Check for edit form.
-        if (in_array($view, ['workflow', 'stage', 'transition']) && $layout == 'edit' && !$this->checkEditId('com_workflow.edit.' . $view, $id)) {
+        if (\in_array($view, ['workflow', 'stage', 'transition']) && $layout == 'edit' && !$this->checkEditId('com_workflow.edit.' . $view, $id)) {
             // Somehow the person just went to the form - we don't allow that.
             if (!\count($this->app->getMessageQueue())) {
                 $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');

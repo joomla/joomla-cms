@@ -28,7 +28,7 @@ use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
  *
  * @since  1.6
  */
-abstract class LanguagesHelper
+class LanguagesHelper
 {
     /**
      * Gets a list of available languages
@@ -36,13 +36,16 @@ abstract class LanguagesHelper
      * @param   \Joomla\Registry\Registry  &$params  module params
      *
      * @return  array
+     *
+     * @since   5.1.0
      */
-    public static function getList(&$params)
+    public function getLanguages(&$params)
     {
-        $user       = Factory::getUser();
-        $lang       = Factory::getLanguage();
-        $languages  = LanguageHelper::getLanguages();
         $app        = Factory::getApplication();
+        $user       = $app->getIdentity();
+        $lang       = $app->getLanguage();
+        $languages  = LanguageHelper::getLanguages();
+
         $menu       = $app->getMenu();
         $active     = $menu->getActive();
 
@@ -66,7 +69,7 @@ abstract class LanguagesHelper
                 $associations = MenusHelper::getAssociations($active->id);
             }
 
-            $option = $app->input->get('option');
+            $option    = $app->getInput()->get('option');
             $component = $app->bootComponent($option);
 
             if ($component instanceof AssociationServiceInterface) {
@@ -76,8 +79,8 @@ abstract class LanguagesHelper
                 $class = str_replace('com_', '', $option) . 'HelperAssociation';
                 \JLoader::register($class, JPATH_SITE . '/components/' . $option . '/helpers/association.php');
 
-                if (class_exists($class) && \is_callable(array($class, 'getAssociations'))) {
-                    $cassociations = \call_user_func(array($class, 'getAssociations'));
+                if (class_exists($class) && \is_callable([$class, 'getAssociations'])) {
+                    $cassociations = \call_user_func([$class, 'getAssociations']);
                 }
             }
         }
@@ -114,15 +117,15 @@ abstract class LanguagesHelper
                     if (isset($cassociations[$language->lang_code])) {
                         $language->link = Route::_($cassociations[$language->lang_code]);
                     } elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code])) {
-                        $itemid = $associations[$language->lang_code];
+                        $itemid         = $associations[$language->lang_code];
                         $language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
                     } elseif ($active && $active->language === '*') {
                         $language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $active->id);
                     } else {
                         if ($language->active) {
-                            $language->link = Uri::getInstance()->toString(array('path', 'query'));
+                            $language->link = Uri::getInstance()->toString(['path', 'query']);
                         } else {
-                            $itemid = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
+                            $itemid         = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
                             $language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
                         }
                     }
@@ -133,5 +136,23 @@ abstract class LanguagesHelper
         }
 
         return $languages;
+    }
+
+    /**
+     * Gets a list of available languages
+     *
+     * @param   \Joomla\Registry\Registry  &$params  module params
+     *
+     * @return  array
+     *
+     * @deprecated 5.1.0 will be removed in 7.0
+     *             Use the non-static method getLanguages
+     *             Example: Factory::getApplication()->bootModule('mod_languages', 'site')
+     *                          ->getHelper('LanguagesHelper')
+     *                          ->getLanguages($params)
+     */
+    public static function getList(&$params)
+    {
+        return (new self())->getLanguages($params);
     }
 }

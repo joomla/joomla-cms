@@ -22,8 +22,8 @@ use Joomla\CMS\Language\Text;
         'batch[assetgroup_id]',
         '',
         'class="form-select"',
-        array(
+        [
             'title' => Text::_('JLIB_HTML_BATCH_NOCHANGE'),
             'id'    => 'batch-access'
-        )
+        ]
     );

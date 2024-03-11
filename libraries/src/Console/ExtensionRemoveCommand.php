@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -124,8 +124,8 @@ class ExtensionRemoveCommand extends AbstractCommand
     private function configureIO(InputInterface $input, OutputInterface $output): void
     {
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
-        $language = Factory::getLanguage();
+        $this->ioStyle  = new SymfonyStyle($input, $output);
+        $language       = Factory::getLanguage();
         $language->load('', JPATH_ADMINISTRATOR, null, false, false) ||
         $language->load('', JPATH_ADMINISTRATOR, null, true);
         $language->load('com_installer', JPATH_ADMINISTRATOR, null, false, false) ||
@@ -206,7 +206,9 @@ class ExtensionRemoveCommand extends AbstractCommand
             }
 
             return self::REMOVE_INVALID_TYPE;
-        } elseif (strtolower($response) === 'no') {
+        }
+
+        if (strtolower($response) === 'no') {
             $this->ioStyle->note('Extension not removed.');
 
             return self::REMOVE_ABORT;

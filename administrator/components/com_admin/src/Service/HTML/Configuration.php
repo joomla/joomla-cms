@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -9,7 +10,9 @@
 
 namespace Joomla\Component\Admin\Administrator\Service\HTML;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class for rendering configuration values
@@ -18,27 +21,25 @@ namespace Joomla\Component\Admin\Administrator\Service\HTML;
  */
 class Configuration
 {
-	/**
-	 * Method to generate a string for a value
-	 *
-	 * @param   mixed  $value  The configuration value
-	 *
-	 * @return  string  Formatted and escaped string
-	 *
-	 * @since  4.0.0
-	 */
-	public function value($value): string
-	{
-		if (\is_bool($value))
-		{
-			return $value ? 'true' : 'false';
-		}
+    /**
+     * Method to generate a string for a value
+     *
+     * @param   mixed  $value  The configuration value
+     *
+     * @return  string  Formatted and escaped string
+     *
+     * @since  4.0.0
+     */
+    public function value($value): string
+    {
+        if (\is_bool($value)) {
+            return $value ? 'true' : 'false';
+        }
 
-		if (\is_array($value))
-		{
-			$value = implode(', ', $value);
-		}
+        if (\is_array($value)) {
+            $value = implode(', ', $value);
+        }
 
-		return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-	}
+        return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+    }
 }

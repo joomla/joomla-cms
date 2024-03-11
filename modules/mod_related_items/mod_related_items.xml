@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="site" method="upgrade">
 	<name>mod_related_items</name>
 	<author>Joomla! Project</author>
@@ -11,7 +11,7 @@
 	<description>MOD_RELATED_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\RelatedItems</namespace>
 	<files>
-		<filename module="mod_related_items">mod_related_items.php</filename>
+		<folder module="mod_related_items">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

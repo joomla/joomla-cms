@@ -19,13 +19,15 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\String\Inflector;
 
+/** @var \Joomla\Component\Tags\Administrator\View\Tags\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
 $app       = Factory::getApplication();
-$user      = Factory::getUser();
+$user      = $this->getCurrentUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -60,7 +62,7 @@ if ($saveOrder && !empty($this->items)) {
     <div id="j-main-container" class="j-main-container">
         <?php
         // Search tools bar
-        echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+        echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
         ?>
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
@@ -183,7 +185,7 @@ if ($saveOrder && !empty($this->items)) {
                                 <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'tags.', $canChange); ?>
                             </td>
                             <th scope="row">
-                                <?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+                                <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
                                 <?php if ($item->checked_out) : ?>
                                     <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'tags.', $canCheckin); ?>
                                 <?php endif; ?>
@@ -216,7 +218,7 @@ if ($saveOrder && !empty($this->items)) {
                         <?php endif; ?>
                         <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
                             <td class="text-center btns d-none d-md-table-cell itemnumber">
-                                <a class="btn <?php echo $item->count_archived > 0 ? 'btn-info' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=2'); ?>">
+                                <a class="btn <?php echo $item->count_archived > 0 ? 'btn-primary' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=2'); ?>">
                                     <?php echo $item->count_archived; ?></a>
                             </td>
                         <?php endif; ?>
@@ -257,15 +259,7 @@ if ($saveOrder && !empty($this->items)) {
                 && $user->authorise('core.edit', 'com_tags')
                 && $user->authorise('core.edit.state', 'com_tags')
             ) : ?>
-                <?php echo HTMLHelper::_(
-                    'bootstrap.renderModal',
-                    'collapseModal',
-                    array(
-                        'title'  => Text::_('COM_TAGS_BATCH_OPTIONS'),
-                        'footer' => $this->loadTemplate('batch_footer'),
-                    ),
-                    $this->loadTemplate('batch_body')
-                ); ?>
+                <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
             <?php endif; ?>
         <?php endif; ?>
 

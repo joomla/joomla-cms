@@ -12,7 +12,7 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -33,22 +33,22 @@ class LimitboxField extends ListField
     /**
      * Cached array of the category items.
      *
-     * @var    array
+     * @var    array[]
      * @since  3.2
      */
-    protected static $options = array();
+    protected static $options = [];
 
     /**
      * Default options
      *
-     * @var  array
+     * @var  int[]
      */
-    protected $defaultLimits = array(5, 10, 15, 20, 25, 30, 50, 100, 200, 500);
+    protected $defaultLimits = [5, 10, 15, 20, 25, 30, 50, 100, 200, 500];
 
     /**
      * Method to get the options to populate to populate list
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.2
      */
@@ -60,8 +60,8 @@ class LimitboxField extends ListField
         if (!isset(static::$options[$hash])) {
             static::$options[$hash] = parent::getOptions();
 
-            $options = array();
-            $limits = $this->defaultLimits;
+            $options = [];
+            $limits  = $this->defaultLimits;
 
             // Limits manually specified
             if (isset($this->element['limits'])) {
@@ -82,7 +82,7 @@ class LimitboxField extends ListField
             asort($limits);
 
             // Add an option to show all?
-            $showAll = isset($this->element['showall']) ? (string) $this->element['showall'] === 'true' : true;
+            $showAll = !isset($this->element['showall']) || (string) $this->element['showall'] === 'true';
 
             if ($showAll) {
                 $limits[] = 0;
@@ -90,10 +90,10 @@ class LimitboxField extends ListField
 
             if (!empty($limits)) {
                 foreach ($limits as $value) {
-                    $options[] = (object) array(
+                    $options[] = (object) [
                         'value' => $value,
-                        'text' => ($value != 0) ? Text::_('J' . $value) : Text::_('JALL'),
-                    );
+                        'text'  => ($value != 0) ? Text::_('J' . $value) : Text::_('JALL'),
+                    ];
                 }
 
                 static::$options[$hash] = array_merge(static::$options[$hash], $options);
