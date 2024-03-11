@@ -1848,16 +1848,16 @@
         },
         {
             "name": "joomla/http",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/http.git",
-                "reference": "ec389a64def1d71d145fdcc06895cbd960f5d805"
+                "reference": "3379b5a0c68524685b89d6997e5fec56c6ad3d43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/http/zipball/ec389a64def1d71d145fdcc06895cbd960f5d805",
-                "reference": "ec389a64def1d71d145fdcc06895cbd960f5d805",
+                "url": "https://api.github.com/repos/joomla-framework/http/zipball/3379b5a0c68524685b89d6997e5fec56c6ad3d43",
+                "reference": "3379b5a0c68524685b89d6997e5fec56c6ad3d43",
                 "shasum": ""
             },
             "require": {
@@ -1903,7 +1903,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/http/issues",
-                "source": "https://github.com/joomla-framework/http/tree/3.0.0"
+                "source": "https://github.com/joomla-framework/http/tree/3.0.1"
             },
             "funding": [
                 {
@@ -1915,7 +1915,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-07T21:22:46+00:00"
+            "time": "2024-03-11T18:42:37+00:00"
         },
         {
             "name": "joomla/input",
@@ -9987,5 +9987,5 @@
     "platform-overrides": {
         "php": "8.1.0"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
