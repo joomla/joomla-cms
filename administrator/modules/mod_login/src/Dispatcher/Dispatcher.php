@@ -41,9 +41,9 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
 
         $loginHelper = $this->getHelperFactory()->getHelper('LoginHelper');
 
-        $data['langs']            = $loginHelper->getLanguages($this->getApplication());
-        $data['extraButtons']     = AuthenticationHelper::getLoginButtons('form-login');
-        $data['return']           = $loginHelper->getReturnUriString();
+        $data['langs']        = $loginHelper->getLanguages($this->getApplication());
+        $data['extraButtons'] = AuthenticationHelper::getLoginButtons('form-login');
+        $data['return']       = $loginHelper->getReturnUriString();
 
         return $data;
     }
