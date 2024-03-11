@@ -80,16 +80,15 @@ class TufFetcher
         MetadataTable $metadataTable,
         string $repositoryUrl,
         DatabaseInterface $db,
-        CMSApplicationInterface $app,
-        Http $httpClient
+        Http $httpClient,
+        CMSApplicationInterface $app
     ) {
         $this->metadataTable = $metadataTable;
         $this->repositoryUrl = $repositoryUrl;
         $this->db            = $db;
-        $this->app           = $app;
         $this->httpClient    = $httpClient;
+        $this->app           = $app;
     }
-
 
     /**
      * Checks for updates and writes it into the database if they are valid. Then it gets the targets.json content and

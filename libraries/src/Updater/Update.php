@@ -542,6 +542,7 @@ class Update
             $metadataTable,
             $url,
             Factory::getContainer()->get(DatabaseDriver::class),
+            (new HttpFactory())->getHttp(),
             Factory::getApplication(),
         );
 
