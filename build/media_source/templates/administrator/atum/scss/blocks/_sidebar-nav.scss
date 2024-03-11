@@ -15,7 +15,7 @@
       display: block;
       padding: .25rem;
       font-weight: $font-weight-normal;
-      color: var(--template-text-dark);
+      color: $text-normal;
       text-decoration: none;
 
       &::before {
@@ -26,19 +26,11 @@
       }
     }
 
-    @if $enable-dark-mode {
-      @include color-mode(dark) {
-        a {
-          color: var(--template-text-light);
-        }
-      }
-    }
-
     &.item:hover, &.active {
-      background-color: var(--template-bg-dark-60);
+      background-color: var(--sidebar-item-bg-hvr);
 
       a {
-        color: var(--template-text-light);
+        color: var(--sidebar-item-color);
       }
     }
   }
