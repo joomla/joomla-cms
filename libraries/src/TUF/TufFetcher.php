@@ -13,7 +13,7 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Tuf as MetadataTable;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Http\Http;
 use Tuf\Client\Updater;
 use Tuf\Exception\Attack\FreezeAttackException;
@@ -49,9 +49,9 @@ class TufFetcher
     /**
      * The database driver
      *
-     * @var DatabaseDriver
+     * @var DatabaseInterface
      */
-    protected DatabaseDriver $db;
+    protected DatabaseInterface $db;
 
     /**
      * The web application object
@@ -72,24 +72,22 @@ class TufFetcher
      *
      * @param   MetadataTable            $metadataTable  The table object holding the metadata
      * @param   string                   $repositoryUrl  The repo url
-     * @param   DatabaseDriver           $db             The database driver
+     * @param   DatabaseInterface        $db             The database driver
      * @param   CMSApplicationInterface  $app            The application object for sending errors to users
      * @param   ?Http                    $httpClient     A client for sending Http requests
      */
     public function __construct(
         MetadataTable $metadataTable,
         string $repositoryUrl,
-        DatabaseDriver $db,
+        DatabaseInterface $db,
         CMSApplicationInterface $app,
-        Http $httpClient = null
+        Http $httpClient
     ) {
         $this->metadataTable = $metadataTable;
         $this->repositoryUrl = $repositoryUrl;
         $this->db            = $db;
         $this->app           = $app;
-
-        // TODO: Understand why we only accept curl rather than the best server match
-        $this->httpClient    = $httpClient ?? (new HttpFactory())->getHttp([], 'curl');
+        $this->httpClient    = $httpClient;
     }
 
 
