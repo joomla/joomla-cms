@@ -26,7 +26,7 @@ use Tuf\Exception\MetadataException;
 /**
  * TUF Update Adapter Class
  *
- * @since   __DEPLOY_VERSION__
+ * @since   5.1.0
  */
 class TufAdapter extends UpdateAdapter
 {
@@ -37,7 +37,7 @@ class TufAdapter extends UpdateAdapter
      *
      * @return  array|boolean  Array containing the array of update sites and array of updates. False on failure
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function findUpdate($options)
     {
@@ -65,7 +65,7 @@ class TufAdapter extends UpdateAdapter
      *
      * @return  array|boolean  Array containing the array of update sites and array of updates. False on failure
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function getUpdateTargets($options)
     {
@@ -170,7 +170,7 @@ class TufAdapter extends UpdateAdapter
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     protected function configureUpdateOptions(OptionsResolver $resolver)
     {

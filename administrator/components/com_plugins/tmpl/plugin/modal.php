@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+/** @var \Joomla\Component\Plugins\Administrator\View\Plugin\HtmlView $this */
 ?>
 <div class="subhead noshadow mb-3">
     <?php echo $this->document->getToolbar('toolbar')->render(); ?>

@@ -16,7 +16,7 @@ Joomla.toggleInlineHelp = (toggleClass) => {
       // The ID of the description whose visibility is toggled.
       const myId = elDiv.id;
       // The ID of the control described by this node (same ID, minus the '-desc' suffix).
-      const controlId = myId ? myId.substr(0, myId.length - 5) : null;
+      const controlId = myId ? myId.substring(0, myId.length - 5) : null;
       // Get the control described by this node.
       const elControl = controlId ? document.getElementById(controlId) : null;
       // Is this node hidden?
