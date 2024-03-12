@@ -65,7 +65,7 @@
 				</field>
 
 				<field
-					name="data-max-results"
+					name="data_max_results"
 					type="list"
 					label="JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_SELECT_MAXRESULTS"
 					default="10"
@@ -81,7 +81,7 @@
 				</field>
 
 				<field
-					name="data-max-render"
+					name="data_max_render"
 					type="list"
 					label="JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_SELECT_MAXRENDER"
 					default="-1"
