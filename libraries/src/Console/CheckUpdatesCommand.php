@@ -81,7 +81,7 @@ class CheckUpdatesCommand extends AbstractCommand
      *
      * @return array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.1.0
      */
     protected function getExtensionInfo($extensions): array
     {
