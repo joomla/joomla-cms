@@ -11,7 +11,6 @@ namespace Joomla\CMS\Service\Provider;
 
 use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Event\Router\AfterInitialiseRouterEvent;
 use Joomla\CMS\Router\AdministratorRouter;
 use Joomla\CMS\Router\ApiRouter;
 use Joomla\CMS\Router\SiteRouter;
