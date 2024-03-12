@@ -55,7 +55,7 @@
     "joomla/event": "^2.0.2",
     "joomla/filter": "^2.0.4",
     "joomla/filesystem": "^2.0.2",
-    "joomla/http": "^2.0.2",
+    "joomla/http": "^2.0.4",
     "joomla/input": "^2.0.4",
     "joomla/ldap": "~2.0.0",
     "joomla/oauth1": "^2.0.2",
