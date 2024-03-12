@@ -147,16 +147,16 @@ class Route
             } catch (KeyNotFoundException $e) {
                 self::$_router[$client] = Factory::getApplication()::getRouter($client);
             }
+
+            // Make sure custom rules are initialised
+            if (self::$_router[$client] && self::$_router[$client] instanceof Router) {
+                self::$_router[$client]->initialiseCustomRules();
+            }
         }
 
         // Make sure that we have our router
         if (!isset(self::$_router[$client])) {
             throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
-        }
-
-        // Make sure custom rules are initialised
-        if (self::$_router[$client] instanceof Router) {
-            self::$_router[$client]->initialiseCustomRules();
         }
 
         // Build route.
