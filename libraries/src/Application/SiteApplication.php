@@ -751,7 +751,8 @@ final class SiteApplication extends CMSApplication
 
         // It is not possible to inject the SiteRouter as it requires a SiteApplication
         // and we would end in an infinite loop
-        $result = $this->getContainer()->get(SiteRouter::class)->parse($uri, true);
+        $result = $this->getContainer()->get(SiteRouter::class)
+            ->initialiseCustomRules()->parse($uri, true);
 
         $active = $this->getMenu()->getActive();
 

@@ -77,10 +77,6 @@ class SiteRouter extends Router
         $this->app  = $app ?: Factory::getContainer()->get(SiteApplication::class);
         $this->menu = $menu ?: $this->app->getMenu();
 
-        // A method to dispatch the router "on initialise" event
-        $this->attachParseRule([$this, 'dispatchOnInitialise'], self::PROCESS_BEFORE);
-        $this->attachBuildRule([$this, 'dispatchOnInitialise'], self::PROCESS_BEFORE);
-
         // Add core rules
         if ((int) $this->app->get('force_ssl') === 2) {
             $this->attachParseRule([$this, 'parseCheckSSL'], self::PROCESS_BEFORE);
@@ -111,23 +107,29 @@ class SiteRouter extends Router
     }
 
     /**
-     * Dispatch on initialise event. Once per class instance.
+     * Dispatch onAfterInitialiseRouter event, to allow plugin register custom rules.
      *
-     * @return void
+     * Method to allow to register custom rules, before processing.
+     * Note: Should be done once per class instance.
+     *
+     * @return static
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function dispatchOnInitialise()
+    public function initialiseCustomRules(): static
     {
         if ($this->initDispatched) {
-            return;
+            return $this;
         }
         $this->initDispatched = true;
+        parent::initialiseCustomRules();
 
         $this->app->getDispatcher()->dispatch(
             'onAfterInitialiseRouter',
             new AfterInitialiseRouterEvent('onAfterInitialiseRouter', ['router' => $this])
         );
+
+        return $this;
     }
 
     /**

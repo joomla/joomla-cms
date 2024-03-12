@@ -132,6 +132,14 @@ class Route
             return $url;
         }
 
+        // The feature available only when Application is fully initialised
+        if (!Factory::getApplication()->getLanguage()) {
+            @trigger_error(
+                sprintf('Use of %s before the Application are initialised is discouraged. This will throw an exception in 7.0', __METHOD__),
+                E_USER_DEPRECATED
+            );
+        }
+
         // Get the router instance, only attempt when a client name is given.
         if ($client && !isset(self::$_router[$client])) {
             try {
@@ -144,6 +152,11 @@ class Route
         // Make sure that we have our router
         if (!isset(self::$_router[$client])) {
             throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
+        }
+
+        // Make sure custom rules are initialised
+        if (self::$_router[$client] instanceof Router) {
+            self::$_router[$client]->initialiseCustomRules();
         }
 
         // Build route.

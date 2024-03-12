@@ -127,6 +127,19 @@ class Router
     }
 
     /**
+     * Method to allow to register custom rules, before processing.
+     * Note: Should be done once per class instance.
+     *
+     * @return static
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function initialiseCustomRules(): static
+    {
+        return $this;
+    }
+
+    /**
      * Function to convert a route to an internal URI
      *
      * @param   Uri   &$uri     The uri.
