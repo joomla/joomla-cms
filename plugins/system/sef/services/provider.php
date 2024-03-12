@@ -38,6 +38,7 @@ return new class () implements ServiceProviderInterface {
                     (array) PluginHelper::getPlugin('system', 'sef')
                 );
                 $plugin->setApplication(Factory::getApplication());
+                $plugin->setSiteRouter($container->get(SiteRouter::class));
 
                 return $plugin;
             }
