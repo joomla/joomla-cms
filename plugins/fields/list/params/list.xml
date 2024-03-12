@@ -68,7 +68,7 @@
 					filter="integer"
 					validate="options"
 					showon="form_layout:joomla.form.field.list-fancy-select"
-				>
+					>
 					<option value="5">J5</option>
 					<option value="10">J10</option>
 					<option value="25">J25</option>
@@ -83,7 +83,7 @@
 					filter="integer"
 					validate="options"
 					showon="form_layout:joomla.form.field.list-fancy-select"
-				>
+					>
 					<option value="5">J5</option>
 					<option value="10">J10</option>
 					<option value="25">J25</option>
