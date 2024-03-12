@@ -10,7 +10,6 @@
 namespace Joomla\CMS\TUF;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Tuf as MetadataTable;
 use Joomla\Database\DatabaseInterface;
