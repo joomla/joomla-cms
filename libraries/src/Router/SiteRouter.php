@@ -14,7 +14,7 @@ use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\Router\RouterInterface;
 use Joomla\CMS\Component\Router\RouterLegacy;
 use Joomla\CMS\Component\Router\RouterServiceInterface;
-use Joomla\CMS\Event\Router\AfterInitialiseRouterEvent;
+use Joomla\CMS\Event\Router\RouterInitialiseEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Uri\Uri;
@@ -107,7 +107,7 @@ class SiteRouter extends Router
     }
 
     /**
-     * Dispatch onAfterInitialiseRouter event, to allow plugin register custom rules.
+     * Dispatch onRouterInitialise event, to allow plugin register custom rules.
      *
      * Method to allow to register custom rules, before processing.
      * Note: Should be done once per class instance.
@@ -132,8 +132,8 @@ class SiteRouter extends Router
         }
 
         $this->app->getDispatcher()->dispatch(
-            'onAfterInitialiseRouter',
-            new AfterInitialiseRouterEvent('onAfterInitialiseRouter', ['router' => $this])
+            'onRouterInitialise',
+            new RouterInitialiseEvent('onRouterInitialise', ['router' => $this])
         );
 
         return $this;

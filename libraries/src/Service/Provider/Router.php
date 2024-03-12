@@ -46,12 +46,7 @@ class Router implements ServiceProviderInterface
             ->share(
                 SiteRouter::class,
                 function (Container $container) {
-                    $router = new SiteRouter($container->get(SiteApplication::class));
-//                    $container->get(DispatcherInterface::class)->dispatch(
-//                        'onAfterInitialiseRouter',
-//                        new AfterInitialiseRouterEvent('onAfterInitialiseRouter', ['router' => $router])
-//                    );
-                    return $router;
+                    return new SiteRouter($container->get(SiteApplication::class));
                 },
                 true
             );

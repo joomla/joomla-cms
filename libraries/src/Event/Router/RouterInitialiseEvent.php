@@ -15,10 +15,10 @@ namespace Joomla\CMS\Event\Router;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for AfterInitialiseRouter event
+ * Event class for RouterInitialiseEvent event
  *
  * @since  5.1.0
  */
-class AfterInitialiseRouterEvent extends RouterEvent
+class RouterInitialiseEvent extends RouterEvent
 {
 }
