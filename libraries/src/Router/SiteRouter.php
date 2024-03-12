@@ -124,6 +124,13 @@ class SiteRouter extends Router
         $this->initDispatched = true;
         parent::initialiseCustomRules();
 
+        if (!$this->app->getLanguage()) {
+            @trigger_error(
+                sprintf('Use of %s before the Application are initialised is discouraged. This will throw an exception in 7.0', __METHOD__),
+                E_USER_DEPRECATED
+            );
+        }
+
         $this->app->getDispatcher()->dispatch(
             'onAfterInitialiseRouter',
             new AfterInitialiseRouterEvent('onAfterInitialiseRouter', ['router' => $this])
