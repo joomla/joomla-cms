@@ -7,13 +7,10 @@
 ##
 # READ THIS COMPLETELY IF YOU CHOOSE TO USE THIS FILE!
 #
-# The line 'Options +FollowSymLinks' may cause problems with some server configurations.
-# It is required for the use of Apache mod_rewrite, but it may have already been set by
-# your server administrator in a way that disallows changing it in this .htaccess file.
+# The line 'Options +FollowSymLinks' may cause problems (Internal Server Error)
+# with some server configurations.
 # If using it causes your site to produce an error, comment it out (add # to the
-# beginning of the line), reload your site in your browser and test your sef urls. If
-# they work, then it has been set by your server administrator and you do not need to
-# set it here.
+# beginning of the line), reload your site in your browser and test your sef urls. 
 ##
 
 ## MISSING CSS OR JAVASCRIPT ERRORS
@@ -28,8 +25,11 @@
 # not take effect until you have restarted the web server.
 ##
 
-## Can be commented out if causes errors, see notes above.
-Options +SymLinksIfOwnerMatch
+## Can cause errors, see notes at the top.
+# If you want to run Joomla from outside your webroot then you need to uncomment one (and only one) of 
+# the following lines depending on your hosting environment 
+#Options +FollowSymLinks
+#Options +SymLinksIfOwnerMatch
 Options -Indexes
 
 ## No directory listings
