@@ -1,7 +1,7 @@
-const { defineConfig } = require('cypress');
-const setupPlugins = require('./tests/System/plugins/index');
+import { defineConfig } from 'cypress';
+import setupPlugins from './tests/System/plugins/index.mjs';
 
-module.exports = defineConfig({
+export default defineConfig({
   fixturesFolder: 'tests/System/fixtures',
   videosFolder: 'tests/System/output/videos',
   screenshotsFolder: 'tests/System/output/screenshots',

@@ -1,5 +1,5 @@
-const fs = require('fs');
-const fspath = require('path');
+import { chmod, writeFileSync, mkdirSync, rmSync } from "fs";
+import { dirname } from "path";
 
 /**
  * Deletes a folder with the given path recursive.
@@ -10,7 +10,7 @@ const fspath = require('path');
  * @returns null
  */
 function deleteFolder(path, config) {
-  fs.rmSync(`${config.env.cmsPath}/${path}`, { recursive: true, force: true });
+  rmSync(`${config.env.cmsPath}/${path}`, { recursive: true, force: true });
 
   return null;
 }
@@ -25,12 +25,12 @@ function deleteFolder(path, config) {
  * @returns null
  */
 function writeFile(path, content, config) {
-  fs.mkdirSync(fspath.dirname(`${config.env.cmsPath}/${path}`), { recursive: true, mode: 0o777 });
-  fs.chmod(fspath.dirname(`${config.env.cmsPath}/${path}`), 0o777);
-  fs.writeFileSync(`${config.env.cmsPath}/${path}`, content);
-  fs.chmod(`${config.env.cmsPath}/${path}`, 0o777);
+  mkdirSync(dirname(`${config.env.cmsPath}/${path}`), { recursive: true, mode: 0o777 });
+  chmod(dirname(`${config.env.cmsPath}/${path}`), 0o777);
+  writeFileSync(`${config.env.cmsPath}/${path}`, content);
+  chmod(`${config.env.cmsPath}/${path}`, 0o777);
 
   return null;
 }
 
-module.exports = { writeFile, deleteFolder };
+export { writeFile, deleteFolder };
