@@ -344,6 +344,7 @@
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
+
 			</fieldset>
 
 			<fieldset name="category" label="JCATEGORY">
@@ -592,6 +593,18 @@
 				name="show_urls_images_frontend"
 				type="list"
 				label="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_LABEL"
+				useglobal="true"
+				default=""
+				validate="options"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="show_imported_modules"
+				type="list"
+				label="COM_CONTENT_SHOW_IMPORTED_MODULES"
 				useglobal="true"
 				default=""
 				validate="options"

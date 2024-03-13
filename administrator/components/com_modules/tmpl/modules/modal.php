@@ -37,6 +37,10 @@ if (!empty($editor)) {
 }
 ?>
 <div class="container-popup">
+    <a class="button-new btn btn-success" id="importnewmodule" href="index.php?option=com_modules&view=select&tmpl=component&client_id=0">
+        <span class="icon-new" aria-hidden="true"></span>
+        <?php echo Text::_('JTOOLBAR_NEW'); ?>
+    </a>
 
     <form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm">
 
@@ -46,8 +50,8 @@ if (!empty($editor)) {
         <table class="table" id="moduleList">
             <caption class="visually-hidden">
                 <?php echo Text::_('COM_MODULES_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+                <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
             </caption>
             <thead>
                 <tr>
