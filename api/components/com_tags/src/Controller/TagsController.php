@@ -45,7 +45,7 @@ class TagsController extends ApiController
      *
      * @return  static  A \JControllerLegacy object to support chaining.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function displayList()
     {
