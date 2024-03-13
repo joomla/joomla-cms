@@ -19,7 +19,6 @@ use Joomla\CMS\Event\User\AfterSaveEvent;
 use Joomla\CMS\Event\User\BeforeSaveEvent;
 use Joomla\CMS\Event\User\LoginEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\LanguageHelper;
@@ -168,7 +167,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -193,7 +192,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function onAfterInitialiseRouter(AfterInitialiseRouterEvent $event)
     {
@@ -650,7 +649,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                 if (
                     !\array_key_exists($lang_code, $this->lang_codes)
                     || !\array_key_exists($lang_code, Multilanguage::getSiteHomePages())
-                    || !Folder::exists(JPATH_SITE . '/language/' . $lang_code)
+                    || !is_dir(JPATH_SITE . '/language/' . $lang_code)
                 ) {
                     $lang_code = $this->current_lang;
                 }

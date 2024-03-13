@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Form\Field;
 
-use DateTime;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;

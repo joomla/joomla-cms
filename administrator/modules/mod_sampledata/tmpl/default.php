@@ -31,7 +31,7 @@ Text::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');
                         <span class="sample-data__icon icon-<?php echo $item->icon; ?> me-1" aria-hidden="true"></span>
                         <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
                     </div>
-                    <button type="button" class="btn btn-secondary btn-sm apply-sample-data" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
+                    <button type="button" class="btn btn-primary btn-sm apply-sample-data" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
                         <span class="icon-upload" aria-hidden="true"></span> <?php echo Text::_('JLIB_INSTALLER_INSTALL'); ?>
                         <span class="visually-hidden"><?php echo $item->title; ?></span>
                     </button>
@@ -46,7 +46,7 @@ Text::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');
             </li>
         <?php endforeach; ?>
     </ul>
-    <a href="index.php?option=com_plugins&filter[folder]=sampledata" class="btn btn-secondary btn-sm manage-sample-data float-end m-3">
+    <a href="index.php?option=com_plugins&filter[folder]=sampledata" class="btn btn-primary btn-sm manage-sample-data float-end m-3">
         <span class="icon-tasks" aria-hidden="true"></span> <?php echo Text::_('MOD_SAMPLEDATA_MANAGE_SAMPLEDATA'); ?>
     </a>
 <?php endif; ?>
