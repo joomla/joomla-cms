@@ -191,3 +191,15 @@
 .editor-xtd-buttons .btn {
   margin-bottom: 5px;
 }
+
+// Visibility depend from ColorScheme
+@include color-mode(dark) {
+  .d-dark-scheme-none {
+    display: none;
+  }
+}
+@include color-mode(light) {
+  .d-light-scheme-none {
+    display: none;
+  }
+}

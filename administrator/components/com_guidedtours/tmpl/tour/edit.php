@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Guidedtours\Administrator\View\Tour\HtmlView $this */
+
 $app   = Factory::getApplication();
 $user  = $app->getIdentity();
 $input = $app->getInput();
