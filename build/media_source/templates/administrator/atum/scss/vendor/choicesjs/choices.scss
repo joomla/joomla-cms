@@ -71,6 +71,16 @@
   }
 }
 
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .choices__list--multiple .choices__item {
+      &.is-highlighted {
+        background-color: var(--gray-800);
+      }
+    }
+  }
+}
+
 .choices .choices__list--dropdown {
   background-color: var(--body-bg);
 
@@ -82,9 +92,13 @@
     &::after {
       display: none;
     }
+  }
+}
 
-    @if $enable-dark-mode {
-      @include color-mode(dark) {
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .choices .choices__list--dropdown {
+      .choices__item--selectable {
         &.is-highlighted {
           background-color: var(--gray-800);
         }
@@ -139,9 +153,12 @@
       background-color: $form-select-bg;
     }
   }
+}
 
-  @if $enable-dark-mode {
-    @include color-mode(dark) {
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .choices[data-type*="select-one"],
+    .choices[data-type*="select-multiple"] {
       .choices__inner {
         background: url("../../../images/select-bg-dark.svg") no-repeat 100%/116rem;
         background-color: $form-select-bg-dark;
@@ -150,6 +167,18 @@
           background: url("../../../images/select-bg-rtl-dark.svg") no-repeat 0/116rem;
           background-color: $form-select-bg-dark;
         }
+      }
+    }
+  }
+}
+
+@if $enable-dark-mode {
+  [dir="rtl"][data-bs-theme="dark"] {
+    .choices[data-type*="select-one"],
+    .choices[data-type*="select-multiple"] {
+      .choices__inner {
+        background: url("../../../images/select-bg-rtl-dark.svg") no-repeat 0/116rem;
+        background-color: $form-select-bg-dark;
       }
     }
   }
@@ -201,4 +230,12 @@
 
 .choices__heading {
   font-size: 1.2rem;
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .choices__heading {
+      color: var(--gray-500);
+    }
+  }
 }
