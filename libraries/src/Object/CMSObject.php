@@ -25,8 +25,7 @@ namespace Joomla\CMS\Object;
  *              Use \stdClass or \Joomla\Registry\Registry instead.
  *              Example: new \Joomla\Registry\Registry();
  */
-#[\AllowDynamicProperties]
-class CMSObject
+class CMSObject extends \stdClass
 {
     use LegacyErrorHandlingTrait;
     use LegacyPropertyManagementTrait;
