@@ -110,7 +110,7 @@ class SiteRouter extends Router
      * Dispatch onAfterInitialiseRouter event, to allow plugin register custom rules.
      *
      * Method to allow to register custom rules, before processing.
-     * Note: Should be done once per class instance.
+     * Note: Should be done only once per class instance.
      *
      * @return static
      *
