@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "83b305bd9267a11c4b499d2bcdbdea4e",
+    "content-hash": "46bb31ea65a45346eaa1f0639fe10f0b",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1848,16 +1848,16 @@
         },
         {
             "name": "joomla/http",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/http.git",
-                "reference": "ec389a64def1d71d145fdcc06895cbd960f5d805"
+                "reference": "3379b5a0c68524685b89d6997e5fec56c6ad3d43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/http/zipball/ec389a64def1d71d145fdcc06895cbd960f5d805",
-                "reference": "ec389a64def1d71d145fdcc06895cbd960f5d805",
+                "url": "https://api.github.com/repos/joomla-framework/http/zipball/3379b5a0c68524685b89d6997e5fec56c6ad3d43",
+                "reference": "3379b5a0c68524685b89d6997e5fec56c6ad3d43",
                 "shasum": ""
             },
             "require": {
@@ -1903,7 +1903,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/http/issues",
-                "source": "https://github.com/joomla-framework/http/tree/3.0.0"
+                "source": "https://github.com/joomla-framework/http/tree/3.0.1"
             },
             "funding": [
                 {
@@ -1915,7 +1915,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-07T21:22:46+00:00"
+            "time": "2024-03-11T18:42:37+00:00"
         },
         {
             "name": "joomla/input",
@@ -3083,16 +3083,16 @@
         },
         {
             "name": "php-tuf/php-tuf",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-backports/php-tuf.git",
-                "reference": "1961502dff73cc2d2a3f19b930516a18bc0ccd22"
+                "reference": "ca2039924ddc6ccd510c67e88e3b337b2395989f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-backports/php-tuf/zipball/1961502dff73cc2d2a3f19b930516a18bc0ccd22",
-                "reference": "1961502dff73cc2d2a3f19b930516a18bc0ccd22",
+                "url": "https://api.github.com/repos/joomla-backports/php-tuf/zipball/ca2039924ddc6ccd510c67e88e3b337b2395989f",
+                "reference": "ca2039924ddc6ccd510c67e88e3b337b2395989f",
                 "shasum": ""
             },
             "require": {
@@ -3153,7 +3153,7 @@
                 "MIT"
             ],
             "description": "PHP implementation of The Update Framework (TUF)",
-            "time": "2024-01-26T15:28:14+00:00"
+            "time": "2024-03-11T19:10:07+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -9987,5 +9987,5 @@
     "platform-overrides": {
         "php": "8.1.0"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
