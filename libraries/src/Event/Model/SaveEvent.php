@@ -39,7 +39,7 @@ abstract class SaveEvent extends ModelEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(object $value): object
+    protected function onSetSubject(object $value): object
     {
         return $value;
     }
@@ -53,7 +53,7 @@ abstract class SaveEvent extends ModelEvent
      *
      * @since  5.0.0
      */
-    protected function setIsNew($value): bool
+    protected function onSetIsNew($value): bool
     {
         return (bool) $value;
     }

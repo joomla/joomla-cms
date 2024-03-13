@@ -81,13 +81,29 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
-$monochrome = (bool) $this->params->get('monochrome');
+$monochrome    = (bool) $this->params->get('monochrome');
+$colorScheme   = $this->params->get('colorScheme', 'os');
+$themeModeAttr = '';
+
+if ($colorScheme) {
+    $themeModes   = ['os' => ' data-color-scheme-os', 'light' => ' data-bs-theme="light" data-color-scheme="light"', 'dark' => ' data-bs-theme="dark" data-color-scheme="dark"'];
+    // Check for User choose, for now this have a priority over the parameters
+    $userLastMode = $app->getInput()->cookie->get('userColorScheme', '');
+    if ($userLastMode && !empty($themeModes[$userLastMode])) {
+        $themeModeAttr = $themeModes[$userLastMode];
+    } else {
+        // Check parameters first (User and Template), then look if we have detected the OS color scheme (if it set to 'os')
+        $colorScheme   = $app->getIdentity()->getParam('colorScheme', $colorScheme);
+        $lastMode      = $colorScheme === 'os' ? $app->getInput()->cookie->get('osColorScheme', '') : '';
+        $themeModeAttr = ($colorScheme === 'os' ? $themeModes['os'] : '') . ($themeModes[$lastMode] ?? '');
+    }
+}
 
 // @see administrator/templates/atum/html/layouts/status.php
 $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $themeModeAttr; ?>>
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />
@@ -124,7 +140,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
                             <div class="main-brand d-flex align-items-center justify-content-center">
                                 <?php echo HTMLHelper::_('image', $loginLogo, $loginLogoAlt, ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                             </div>
-                            <h1><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
+                            <h1 class="text-dark"><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
                             <jdoc:include type="message" />
                             <blockquote class="blockquote">
                                 <span class="badge bg-secondary"><?php echo $this->error->getCode(); ?></span>

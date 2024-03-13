@@ -1,9 +1,66 @@
 /**
- * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+// eslint-disable-next-line import/no-unresolved, max-classes-per-file
+import { JoomlaEditor, JoomlaEditorDecorator } from 'editor-api';
 // eslint-disable-next-line import/no-unresolved
 import { createFromTextarea, EditorState, keymap } from 'codemirror';
+
+/**
+ * Codemirror Decorator for JoomlaEditor
+ */
+// eslint-disable-next-line max-classes-per-file
+class CodemirrorDecorator extends JoomlaEditorDecorator {
+  /**
+   * @returns {string}
+   */
+  getValue() {
+    return this.instance.state.doc.toString();
+  }
+
+  /**
+   * @param {String} value
+   * @returns {CodemirrorDecorator}
+   */
+  setValue(value) {
+    const editor = this.instance;
+    editor.dispatch({
+      changes: { from: 0, to: editor.state.doc.length, insert: value },
+    });
+    return this;
+  }
+
+  /**
+   * @returns {string}
+   */
+  getSelection() {
+    const { state } = this.instance;
+    return state.sliceDoc(
+      state.selection.main.from,
+      state.selection.main.to,
+    );
+  }
+
+  replaceSelection(value) {
+    const v = this.instance.state.replaceSelection(value);
+    this.instance.dispatch(v);
+    return this;
+  }
+
+  disable(enable) {
+    const editor = this.instance;
+    editor.state.config.compartments.forEach((facet, compartment) => {
+      if (compartment.$j_name === 'readOnly') {
+        editor.dispatch({
+          effects: compartment.reconfigure(EditorState.readOnly.of(!enable)),
+        });
+      }
+    });
+    return this;
+  }
+}
 
 class CodemirrorEditor extends HTMLElement {
   constructor() {
@@ -22,6 +79,10 @@ class CodemirrorEditor extends HTMLElement {
     this.closeFullScreen = () => {
       this.classList.remove('fullscreen');
       document.documentElement.style.overflow = '';
+    };
+
+    this.interactionCallback = () => {
+      JoomlaEditor.setActive(this.element.id);
     };
   }
 
@@ -47,41 +108,14 @@ class CodemirrorEditor extends HTMLElement {
       });
     }
 
-    // Create an editor instance
+    // Create and register the Editor
     this.element = this.querySelector('textarea');
-    const editor = await createFromTextarea(this.element, options);
-    this.instance = editor;
+    this.instance = await createFromTextarea(this.element, options);
+    this.jEditor = new CodemirrorDecorator(this.instance, 'codemirror', this.element.id);
+    JoomlaEditor.register(this.jEditor);
 
-    // Register Editor for Joomla api
-    Joomla.editors.instances[this.element.id] = {
-      id: () => this.element.id,
-      element: () => this.element,
-      getValue: () => editor.state.doc.toString(),
-      setValue: (text) => {
-        editor.dispatch({
-          changes: { from: 0, to: editor.state.doc.length, insert: text },
-        });
-      },
-      getSelection: () => editor.state.sliceDoc(
-        editor.state.selection.main.from,
-        editor.state.selection.main.to,
-      ),
-      replaceSelection: (text) => {
-        const v = editor.state.replaceSelection(text);
-        editor.dispatch(v);
-      },
-      disable: (disabled) => {
-        editor.state.config.compartments.forEach((facet, compartment) => {
-          if (compartment.$j_name === 'readOnly') {
-            editor.dispatch({
-              effects: compartment.reconfigure(EditorState.readOnly.of(disabled)),
-            });
-          }
-        });
-      },
-      onSave: () => {},
-      refresh: () => {},
-    };
+    // Find out when editor is interacted
+    this.addEventListener('click', this.interactionCallback);
   }
 
   disconnectedCallback() {
@@ -90,7 +124,8 @@ class CodemirrorEditor extends HTMLElement {
       this.instance.destroy();
     }
     // Remove from the Joomla API
-    delete Joomla.editors.instances[this.element.id];
+    JoomlaEditor.unregister(this.element.id);
+    this.removeEventListener('click', this.interactionCallback);
 
     // Restore modals
     if (this.bsModals && this.bsModals.length) {

@@ -72,7 +72,7 @@ abstract class ModelEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    protected function setContext(string $value): string
+    protected function onSetContext(string $value): string
     {
         return $value;
     }

@@ -15,7 +15,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Proxy\ArrayProxy;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
@@ -158,17 +157,15 @@ trait FormBehaviorTrait
         // Get the dispatcher and load the users plugins.
         PluginHelper::importPlugin($group, null, true, $dispatcher);
 
-        // When the data is an array wrap it in to an array-access object
-        $eventData = $data;
-        if (is_array($data)) {
-            $eventData = new ArrayProxy($data);
-        }
-
         // Trigger the data preparation event.
-        $dispatcher->dispatch(
+        $data = $dispatcher->dispatch(
             'onContentPrepareData',
-            new Model\PrepareDataEvent('onContentPrepareData', ['context' => $context, 'subject' => $eventData])
-        );
+            new Model\PrepareDataEvent('onContentPrepareData', [
+                'context' => $context,
+                'data'    => &$data, // @todo: Remove reference in Joomla 6, see PrepareDataEvent::__constructor()
+                'subject' => new \stdClass(),
+            ])
+        )->getArgument('data', $data);
     }
 
     /**

@@ -40,7 +40,7 @@
 
               elem.classList.add('float-end');
               elem.classList.add('badge');
-              elem.classList.add('bg-warning', 'text-dark');
+              elem.classList.add('bg-warning');
               elem.innerHTML = Joomla.sanitizeHtml(response.data);
 
               element.parentNode.replaceChild(elem, element);

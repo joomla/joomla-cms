@@ -30,7 +30,7 @@ class AfterRenderModulesEvent extends ModuleEvent
      * @since  5.0.0
      * @deprecated 5.0 will be removed in 6.0
      */
-    protected $legacyArgumentsOrder = ['subject', 'attributes'];
+    protected $legacyArgumentsOrder = ['content', 'attributes', 'subject'];
 
     /**
      * Constructor.
@@ -44,15 +44,31 @@ class AfterRenderModulesEvent extends ModuleEvent
      */
     public function __construct($name, array $arguments = [])
     {
+        // This event has a dummy subject for now
+        $this->arguments['subject'] = $this->arguments['subject'] ?? new \stdClass();
+
         parent::__construct($name, $arguments);
+
+        if (!\array_key_exists('content', $this->arguments)) {
+            throw new \BadMethodCallException("Argument 'content' of event {$name} is required but has not been provided");
+        }
 
         if (!\array_key_exists('attributes', $this->arguments)) {
             throw new \BadMethodCallException("Argument 'attributes' of event {$name} is required but has not been provided");
         }
+
+        // For backward compatibility make sure the content is referenced
+        // @todo: Remove in Joomla 6
+        // @deprecated: Passing argument by reference is deprecated, and will not work in Joomla 6
+        if (key($arguments) === 0) {
+            $this->arguments['content'] = &$arguments[0];
+        } elseif (\array_key_exists('content', $arguments)) {
+            $this->arguments['content'] = &$arguments['content'];
+        }
     }
 
     /**
-     * Setter for the subject argument.
+     * Setter for the content argument.
      *
      * @param   string  $value  The value to set
      *
@@ -60,7 +76,7 @@ class AfterRenderModulesEvent extends ModuleEvent
      *
      * @since  5.0.0
      */
-    protected function setSubject(string $value): string
+    protected function onSetContent(string $value): string
     {
         return $value;
     }
@@ -68,13 +84,13 @@ class AfterRenderModulesEvent extends ModuleEvent
     /**
      * Setter for the attributes argument.
      *
-     * @param   array|\ArrayAccess  $value  The value to set
+     * @param   array  $value  The value to set
      *
-     * @return  array|\ArrayAccess
+     * @return  array
      *
      * @since  5.0.0
      */
-    protected function setAttributes(array|\ArrayAccess $value): array|\ArrayAccess
+    protected function onSetAttributes(array $value): array
     {
         return $value;
     }
@@ -88,7 +104,7 @@ class AfterRenderModulesEvent extends ModuleEvent
      */
     public function getContent(): string
     {
-        return $this->arguments['subject'];
+        return $this->arguments['content'];
     }
 
     /**
@@ -96,13 +112,13 @@ class AfterRenderModulesEvent extends ModuleEvent
      *
      * @param   string  $value  The value to set
      *
-     * @return  self
+     * @return  static
      *
      * @since  5.0.0
      */
-    public function setContent(string $value): self
+    public function updateContent(string $value): static
     {
-        $this->arguments['subject'] = $value;
+        $this->arguments['content'] = $this->onSetContent($value);
 
         return $this;
     }
@@ -110,11 +126,11 @@ class AfterRenderModulesEvent extends ModuleEvent
     /**
      * Getter for the attributes argument.
      *
-     * @return  array|\ArrayAccess
+     * @return  array
      *
      * @since  5.0.0
      */
-    public function getAttributes(): array|\ArrayAccess
+    public function getAttributes(): array
     {
         return $this->arguments['attributes'];
     }

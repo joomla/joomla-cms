@@ -452,7 +452,7 @@ class ItemsModel extends ListModel
                     $query->where(0);
                 }
             }
-        } elseif (strlen($menuType)) {
+        } elseif (\strlen($menuType)) {
             // Default behavior => load all items from a specific menu
             $query->where($db->quoteName('a.menutype') . ' = :menuType')
                 ->bind(':menuType', $menuType);
@@ -547,7 +547,9 @@ class ItemsModel extends ListModel
                 Log::add(Text::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'), Log::ERROR, 'jerror');
 
                 return false;
-            } elseif (!$this->getCurrentUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id)) {
+            }
+
+            if (!$this->getCurrentUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id)) {
                 // Check if menu type is valid against ACL.
                 Log::add(Text::_('JERROR_ALERTNOAUTHOR'), Log::ERROR, 'jerror');
 

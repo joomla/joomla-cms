@@ -54,12 +54,6 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
     private const TASK_NOTIFICATION_FORM = 'task_notification';
 
     /**
-     * @var boolean
-     * @since 4.1.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * @inheritDoc
      *
      * @return array
@@ -93,6 +87,9 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         if ($form->getName() !== 'com_scheduler.task') {
             return true;
         }
+
+        // Load translations
+        $this->loadLanguage();
 
         $formFile = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/' . self::TASK_NOTIFICATION_FORM . '.xml';
 
@@ -131,6 +128,9 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        // Load translations
+        $this->loadLanguage();
+
         // @todo safety checks, multiple files [?]
         $outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
         $data    = $this->getDataFromTask($event->getArgument('subject'));
@@ -158,6 +158,9 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
             return;
         }
 
+        // Load translations
+        $this->loadLanguage();
+
         $data = $this->getDataFromTask($event->getArgument('subject'));
         $this->sendMail('plg_system_tasknotification.orphan_mail', $data);
     }
@@ -180,6 +183,9 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         if (!(int) $task->get('params.notifications.success_mail', 0)) {
             return;
         }
+
+        // Load translations
+        $this->loadLanguage();
 
         // @todo safety checks, multiple files [?]
         $outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
@@ -210,6 +216,9 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         if (!(int) $task->get('params.notifications.fatal_failure_mail', 1)) {
             return;
         }
+
+        // Load translations
+        $this->loadLanguage();
 
         $data = $this->getDataFromTask($event->getArgument('subject'));
         $this->sendMail('plg_system_tasknotification.fatal_recovery_mail', $data);

@@ -161,12 +161,12 @@ class StylesRenderer extends DocumentRenderer
             }
         } else {
             $attribs     = $item;
-            $version     = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
+            $version     = $attribs['options']['version'] ?? '';
             $conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
         }
 
         // Add "nonce" attribute if exist
-        if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce)) {
+        if ($this->_doc->cspNonce && !\is_null($this->_doc->cspNonce)) {
             $attribs['nonce'] = $this->_doc->cspNonce;
         }
 
@@ -185,7 +185,7 @@ class StylesRenderer extends DocumentRenderer
             $buffer .= '<!--[if ' . $conditional . ']>';
         }
 
-        $relation = isset($attribs['rel']) ? $attribs['rel'] : 'stylesheet';
+        $relation = $attribs['rel'] ?? 'stylesheet';
 
         if (isset($attribs['rel'])) {
             unset($attribs['rel']);
@@ -241,7 +241,7 @@ class StylesRenderer extends DocumentRenderer
         }
 
         // Add "nonce" attribute if exist
-        if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce)) {
+        if ($this->_doc->cspNonce && !\is_null($this->_doc->cspNonce)) {
             $attribs['nonce'] = $this->_doc->cspNonce;
         }
 
@@ -313,7 +313,7 @@ class StylesRenderer extends DocumentRenderer
 
             if (!($this->_doc->isHtml5() && $isNoValueAttrib)) {
                 // Json encode value if it's an array.
-                $value = !is_scalar($value) ? json_encode($value) : $value;
+                $value = !\is_scalar($value) ? json_encode($value) : $value;
 
                 $buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
             }

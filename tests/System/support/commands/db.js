@@ -1,3 +1,6 @@
+import invalidTufMetadata from '../../fixtures/tuf/invalidMetadata.json';
+import validTufMetadata from '../../fixtures/tuf/validMetadata.json';
+
 /**
  * The global cached default categories
  */
@@ -44,6 +47,45 @@ function createInsertQuery(table, values) {
 }
 
 /**
+ * Creates a privacy consent in the database with the given data.
+ * The privacy consent contains some default values when not all required fields are passed in the given data.
+ * The id of the inserted privacy consent is returned
+ *
+ * @param {Object} privacyConsent The consent data to insert
+ *
+ * @returns integer
+ */
+Cypress.Commands.add('db_createPrivacyConsent', (privacyConsent) => {
+  const defaultPrivacyConsentOptions = {
+    state: '0',
+    created: '2023-01-01 20:00:00',
+    subject: 'PLG_SYSTEM_PRIVACYCONSENT_SUBJECT',
+    body: '',
+  };
+
+  return cy.task('queryDB', createInsertQuery('privacy_consents', { ...defaultPrivacyConsentOptions, ...privacyConsent })).then(async (info) => info.insertId);
+});
+
+/**
+ * Creates a privacy request in the database with the given data.
+ * The privacy request contains some default values when not all required fields are passed in the given data.
+ * The id of the inserted privacy request is returned
+ *
+ * @param {Object} privacyRequest The request data to insert
+ *
+ * @returns integer
+ */
+Cypress.Commands.add('db_createPrivacyRequest', (privacyRequest) => {
+  const defaultPrivacyRequestOptions = {
+    email: 'test@example.com',
+    requested_at: '2023-01-01 20:00:00',
+    status: '0',
+  };
+
+  return cy.task('queryDB', createInsertQuery('privacy_requests', { ...defaultPrivacyRequestOptions, ...privacyRequest })).then(async (info) => info.insertId);
+});
+
+/**
  * Creates an article in the database with the given data. The article contains some default values when
  * not all required fields are passed in the given data. The id of the inserted article is returned.
  *
@@ -63,6 +105,7 @@ Cypress.Commands.add('db_createArticle', (articleData) => {
     language: '*',
     created: '2023-01-01 20:00:00',
     modified: '2023-01-01 20:00:00',
+    publish_up: '2023-01-01 20:00:00',
     images: '',
     urls: '',
     attribs: '',
@@ -364,6 +407,18 @@ Cypress.Commands.add('db_createTag', (tag) => {
   return cy.task('queryDB', createInsertQuery('tags', { ...defaultTagOptions, ...tag })).then(async (info) => info.insertId);
 });
 
+Cypress.Commands.add('db_createMenuType', (menuTypeData) => {
+  const defaultMenuTypeOptions = {
+    title: 'test menu',
+    menutype: 'test-menu',
+    description: '',
+    client_id: 0,
+    asset_id: 0,
+  };
+
+  return cy.task('queryDB', createInsertQuery('menu_types', { ...defaultMenuTypeOptions, ...menuTypeData })).then(async (info) => info.insertId);
+});
+
 /**
  * Creates an menu item in the database with the given data. The menu item contains some default values when
  * not all required fields are passed in the given data. The id of the inserted menu item is returned.
@@ -465,6 +520,54 @@ Cypress.Commands.add('db_createUser', (userData) => {
 });
 
 /**
+ * Creates an user group in the database with the given data. The group contains some default values when
+ * not all required fields are passed in the given data. The data of the inserted group is returned.
+ *
+ * @param {Object} groupData The user group data to insert
+ *
+ * @returns Object
+ */
+Cypress.Commands.add('db_createUserGroup', (groupData) => {
+  const defaultGroupOptions = {
+    title: 'test group',
+    parent_id: 1,
+    lft: 1,
+    rgt: 1,
+  };
+  const group = { ...defaultGroupOptions, ...groupData };
+
+  return cy.task('queryDB', createInsertQuery('usergroups', group))
+    .then(async (info) => {
+      group.id = info.insertId;
+
+      return group;
+    });
+});
+
+/**
+ * Creates an user access level in the database with the given data. The level contains some default values when
+ * not all required fields are passed in the given data. The data of the inserted level is returned.
+ *
+ * @param {Object} levelData The user access level data to insert
+ *
+ * @returns Object
+ */
+Cypress.Commands.add('db_createUserLevel', (levelData) => {
+  const defaultLevelOptions = {
+    title: 'test level',
+    rules: '[1]',
+  };
+  const level = { ...defaultLevelOptions, ...levelData };
+
+  return cy.task('queryDB', createInsertQuery('viewlevels', level))
+    .then(async (info) => {
+      level.id = info.insertId;
+
+      return level;
+    });
+});
+
+/**
  * Sets the parameter for the given extension.
  *
  * @param {string} key The key
@@ -476,6 +579,14 @@ Cypress.Commands.add('db_updateExtensionParameter', (key, value, extension) => c
   params[key] = value;
   return cy.task('queryDB', `UPDATE #__extensions SET params = '${JSON.stringify(params)}' WHERE name = '${extension}'`);
 }));
+
+/**
+ * Sets the enabled status for the given extension.
+ *
+ * @param {string} value The value
+ * @param {string} extension The extension
+ */
+Cypress.Commands.add('db_enableExtension', (value, extension) => cy.task('queryDB', `UPDATE #__extensions SET enabled ='${value}' WHERE name = '${extension}'`));
 
 /**
  * Returns the id of the currently logged in user.
@@ -491,4 +602,46 @@ Cypress.Commands.add('db_getUserId', () => {
 
       return id[0].id;
     });
+});
+
+/**
+ * Inserts an invalid tuf metadata set
+ *
+ * @returns integer
+ */
+Cypress.Commands.add('db_setInvalidTufRoot', () => {
+  cy.task('queryDB', 'DELETE FROM #__tuf_metadata WHERE id = 1');
+  cy.task('queryDB', 'DELETE FROM #__updates WHERE update_site_id = 1');
+  cy.task('queryDB', createInsertQuery(
+    'tuf_metadata',
+    {
+      id: 1,
+      update_site_id: 1,
+      root: JSON.stringify(invalidTufMetadata.root),
+      targets: '',
+      snapshot: '',
+      timestamp: '',
+    },
+  ));
+});
+
+/**
+ * Inserts an invalid tuf metadata set
+ *
+ * @returns integer
+ */
+Cypress.Commands.add('db_setValidTufRoot', () => {
+  cy.task('queryDB', 'DELETE FROM #__tuf_metadata WHERE id = 1');
+  cy.task('queryDB', 'DELETE FROM #__updates WHERE update_site_id = 1');
+  cy.task('queryDB', createInsertQuery(
+    'tuf_metadata',
+    {
+      id: 1,
+      update_site_id: 1,
+      root: JSON.stringify(validTufMetadata.root),
+      targets: '',
+      snapshot: '',
+      timestamp: '',
+    },
+  ));
 });

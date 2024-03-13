@@ -10,6 +10,7 @@
 namespace Joomla\CMS\MVC\View;
 
 use Doctrine\Inflector\InflectorFactory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -184,7 +185,7 @@ class ListView extends HtmlView
                 \call_user_func([$helperClass, 'addSubmenu'], $this->getName());
             }
 
-            $this->sidebar = \JHtmlSidebar::render();
+            $this->sidebar = HTMLHelper::_('sidebar.render');
         }
 
         $this->items         = $this->get('Items');

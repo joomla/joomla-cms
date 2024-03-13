@@ -444,7 +444,7 @@ class TaskModel extends AdminModel
                 return null;
             }
 
-            if (count($ids) === 0) {
+            if (\count($ids) === 0) {
                 $db->unlockTables();
 
                 return null;

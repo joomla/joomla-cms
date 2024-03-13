@@ -10,12 +10,16 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\Extension;
 
-use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Event\Editor\EditorSetupEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Plugin\Editors\TinyMCE\PluginTraits\DisplayTrait;
+use Joomla\Event\SubscriberInterface;
+use Joomla\Filesystem\Folder;
+use Joomla\Plugin\Editors\TinyMCE\PluginTraits\KnownButtons;
+use Joomla\Plugin\Editors\TinyMCE\PluginTraits\ToolbarPresets;
+use Joomla\Plugin\Editors\TinyMCE\Provider\TinyMCEProvider;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -26,18 +30,45 @@ use Joomla\Plugin\Editors\TinyMCE\PluginTraits\DisplayTrait;
  *
  * @since  1.5
  */
-final class TinyMCE extends CMSPlugin
+final class TinyMCE extends CMSPlugin implements SubscriberInterface
 {
-    use DisplayTrait;
     use DatabaseAwareTrait;
 
+    // @todo: KnownButtons, ToolbarPresets for backward compatibility. Remove in Joomla 6
+    use KnownButtons;
+    use ToolbarPresets;
+
     /**
-     * Load the language file on instantiation.
+     * Returns an array of events this subscriber will listen to.
      *
-     * @var    boolean
-     * @since  3.1
+     * @return array
+     *
+     * @since   5.0.0
      */
-    protected $autoloadLanguage = true;
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onEditorSetup' => 'onEditorSetup',
+            'onAjaxTinymce' => 'onAjaxTinymce',
+        ];
+    }
+
+    /**
+     * Register Editor instance
+     *
+     * @param EditorSetupEvent $event
+     *
+     * @return void
+     *
+     * @since   5.0.0
+     */
+    public function onEditorSetup(EditorSetupEvent $event)
+    {
+        $this->loadLanguage();
+
+        $event->getEditorsRegistry()
+            ->add(new TinyMCEProvider($this->params, $this->getApplication(), $this->getDispatcher(), $this->getDatabase()));
+    }
 
     /**
      * Returns the templates
@@ -53,6 +84,8 @@ final class TinyMCE extends CMSPlugin
             exit();
         }
 
+        $this->loadLanguage();
+
         $templates = [];
         $language  = $this->getApplication()->getLanguage();
         $template  = $this->getApplication()->getInput()->getPath('template', '');
@@ -62,7 +95,7 @@ final class TinyMCE extends CMSPlugin
             exit();
         }
 
-        $filepaths = Folder::exists(JPATH_ROOT . '/templates/' . $template)
+        $filepaths = is_dir(JPATH_ROOT . '/templates/' . $template)
             ? Folder::files(JPATH_ROOT . '/templates/' . $template, '\.(html|txt)$', false, true)
             : [];
 
