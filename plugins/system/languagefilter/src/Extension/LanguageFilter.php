@@ -14,7 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\Router\RouterInitialiseEvent;
+use Joomla\CMS\Event\Router\AfterInitialiseRouterEvent;
 use Joomla\CMS\Event\User\AfterSaveEvent;
 use Joomla\CMS\Event\User\BeforeSaveEvent;
 use Joomla\CMS\Event\User\LoginEvent;
@@ -177,7 +177,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
          * might be needed by other plugins
          */
         return [
-            'onRouterInitialise'                => 'onRouterInitialise',
+            'onAfterInitialiseRouter'           => 'onAfterInitialiseRouter',
             'onAfterDispatch'                   => 'onAfterDispatch',
             'onAfterRoute'                      => 'onAfterRoute',
             'onPrivacyCollectAdminCapabilities' => 'onPrivacyCollectAdminCapabilities',
@@ -194,7 +194,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      *
      * @since   5.1.0
      */
-    public function onRouterInitialise(RouterInitialiseEvent $event)
+    public function onAfterInitialiseRouter(AfterInitialiseRouterEvent $event)
     {
         $router = $event->getRouter();
 

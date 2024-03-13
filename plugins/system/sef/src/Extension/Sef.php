@@ -10,7 +10,7 @@
 
 namespace Joomla\Plugin\System\Sef\Extension;
 
-use Joomla\CMS\Event\Router\RouterInitialiseEvent;
+use Joomla\CMS\Event\Router\AfterInitialiseRouterEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
@@ -44,10 +44,10 @@ final class Sef extends CMSPlugin implements SubscriberInterface
          * might be needed by other plugins
          */
         return [
-            'onRouterInitialise' => 'onRouterInitialise',
-            'onAfterRoute'       => 'onAfterRoute',
-            'onAfterDispatch'    => 'onAfterDispatch',
-            'onAfterRender'      => 'onAfterRender',
+            'onAfterInitialiseRouter' => 'onAfterInitialiseRouter',
+            'onAfterRoute'            => 'onAfterRoute',
+            'onAfterDispatch'         => 'onAfterDispatch',
+            'onAfterRender'           => 'onAfterRender',
         ];
     }
 
@@ -58,7 +58,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @since   5.1.0
      */
-    public function onRouterInitialise(RouterInitialiseEvent $event)
+    public function onAfterInitialiseRouter(AfterInitialiseRouterEvent $event)
     {
         $app = $this->getApplication();
 
