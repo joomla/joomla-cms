@@ -12,15 +12,18 @@
 }
 
 .dropdown-menu {
-  box-shadow: $atum-box-shadow;
+  box-shadow: var(--atum-box-shadow);
 }
 
 .dropdown-item {
   text-align: start;
-  border-bottom: 1px solid rgba(0, 0, 0, .1);
+  border-bottom: var(--dropdown-item-border-bottom);
 
   &:hover,
   &:focus {
+    --dropdown-link-hover-bg: var(--atum-dropdown-link-hover-bg);
+    --dropdown-link-hover-color: var(--atum-dropdown-link-hover-color);
+
     .btn-primary + .dropdown-menu & {
       background-color: var(--template-bg-dark);
     }
@@ -46,16 +49,6 @@
     .dropdown-save-group .dropdown-menu &:not(.disabled) {
       color: var(--template-text-light);
       background-color: var(--success);
-    }
-  }
-
-  @if $enable-dark-mode {
-    @include color-mode(dark) {
-      &:hover,
-      &:focus {
-        --dropdown-link-hover-bg: var(--gray-700);
-        --dropdown-link-hover-color: var(--body-color);
-      }
     }
   }
 
@@ -88,9 +81,8 @@
 
 @if $enable-dark-mode {
   @include color-mode(dark) {
-    .dropdown-item {
-      border-bottom: 1px solid rgba(255, 255, 255, .1);
+    .dropdown-divider {
+      border-top: map-get($atum-colors-dark, "dropdown-divider-bg");
     }
   }
 }
-

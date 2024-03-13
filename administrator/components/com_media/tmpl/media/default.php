@@ -15,6 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
+/** @var \Joomla\Component\Media\Administrator\View\Media\HtmlView $this */
+
 $app    = Factory::getApplication();
 $params = ComponentHelper::getParams('com_media');
 $input  = $app->getInput();

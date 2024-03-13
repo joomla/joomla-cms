@@ -59,7 +59,7 @@ $extension-types: (
       &.active {
         color: $white;
         text-decoration: none;
-        background-color: #33608f;
+        background-color: var(--btn-primary-bg);
       }
     }
   }
