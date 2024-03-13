@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Content\Administrator\View\Article\HtmlView $this */
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_content.admin-article-pagebreak');
