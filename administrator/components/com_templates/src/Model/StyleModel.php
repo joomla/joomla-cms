@@ -396,8 +396,10 @@ class StyleModel extends AdminModel
 
         // Load the core and/or local language file(s).
         // Default to using parent template language constants
-        $lang->load('tpl_' . $data->parent, $client->path)
-            || $lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent);
+        if (!empty($data->parent)) {
+            $lang->load('tpl_' . $data->parent, $client->path)
+                || $lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent);
+        }
 
         // Apply any, optional, overrides for child template language constants
         $lang->load('tpl_' . $template, $client->path)
