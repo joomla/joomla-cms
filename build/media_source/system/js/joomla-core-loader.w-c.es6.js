@@ -19,15 +19,13 @@ const getColorScheme = () => {
  */
 class JoomlaCoreLoader extends HTMLElement {
   get inline() { return this.hasAttribute('inline'); }
-
   get size() { return this.getAttribute('size') || '345'; }
-
+  set size(value) { this.setAttribute('size', value); }
   get color() { return this.getAttribute('color'); }
-
   set color(value) { this.setAttribute('color', value); }
 
   static get observedAttributes() {
-    return ['color'];
+    return ['color', 'size'];
   }
 
   constructor() {
@@ -68,6 +66,13 @@ class JoomlaCoreLoader extends HTMLElement {
       case 'color':
         if (newValue && newValue !== oldValue) {
           this.style.backgroundColor = this.color;
+        }
+        break;
+      case 'size':
+        if (newValue && newValue !== oldValue) {
+          const svg = this.shadowRoot.querySelector('svg');
+          svg.setAttribute('width', newValue);
+          svg.setAttribute('height', newValue);
         }
         break;
       default:
