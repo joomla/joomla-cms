@@ -100,7 +100,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         }
 
         // Check for trailing slash
-        if ($app->get('sef') && !$app->get('sef_suffix') && $this->params->get('trailingslash')) {
+        if ($app->get('sef') && !$app->get('sef_suffix') && $this->params->get('trailingslash', '-1') != '-1') {
             $this->enforceTrailingSlash();
         }
     }
@@ -341,11 +341,11 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     {
         $originalUri = Uri::getInstance();
 
-        if ((int)$this->params->get('trailingslash') === 1 && str_ends_with($originalUri->getPath(), '/') && $originalUri->toString() !== Uri::root()) {
+        if ((int)$this->params->get('trailingslash') === 0 && str_ends_with($originalUri->getPath(), '/') && $originalUri->toString() !== Uri::root()) {
             // Remove trailingslash
             $originalUri->setPath(substr($originalUri->getPath(), 0, -1));
             $this->getApplication()->redirect($originalUri->toString(), 301);
-        } elseif ((int)$this->params->get('trailingslash') === 2 && !str_ends_with($originalUri->getPath(), '/')) {
+        } elseif ((int)$this->params->get('trailingslash') === 1 && !str_ends_with($originalUri->getPath(), '/')) {
             // Add trailingslash
             $originalUri->setPath($originalUri->getPath() . '/');
             $this->getApplication()->redirect($originalUri->toString(), 301);
