@@ -1,6 +1,6 @@
 {
   "name": "joomla",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "repository": {
@@ -108,7 +108,7 @@
     "fs-extra": "^10.1.0",
     "ini": "^2.0.0",
     "jasmine-core": "^3.99.1",
-    "joomla-cypress": "^0.0.16",
+    "joomla-cypress": "^1.0.3",
     "lightningcss": "^1.24.0",
     "mysql": "^2.18.1",
     "postcss-scss": "^4.0.9",
