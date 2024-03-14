@@ -109,6 +109,8 @@ class HtmlView extends InstallerViewDefault
         if ($canDo->get('core.manage')) {
             $toolbar->linkButton('upload', 'COM_INSTALLER_TOOLBAR_INSTALL_EXTENSIONS')
                 ->url('index.php?option=com_installer&view=install');
+            $toolbar->linkButton('refresh', 'COM_INSTALLER_TOOLBAR_FIND_UPDATES')
+                ->url('index.php?option=com_installer&view=update');
             $toolbar->divider();
         }
 
