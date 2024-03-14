@@ -15,6 +15,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Installer\Administrator\View\Update\HtmlView $this */
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('multiselect')
@@ -111,7 +113,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                         <?php echo $item->type_translated; ?>
                                     </td>
                                     <td>
-                                        <span class="badge bg-warning text-dark"><?php echo $item->current_version; ?></span>
+                                        <span class="badge bg-warning"><?php echo $item->current_version; ?></span>
                                     </td>
                                     <td>
                                         <span class="badge bg-success"><?php echo $item->version; ?></span>

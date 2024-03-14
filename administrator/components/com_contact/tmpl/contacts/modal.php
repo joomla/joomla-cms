@@ -19,6 +19,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Contact\Administrator\View\Contacts\HtmlView $this */
+
 $app = Factory::getApplication();
 
 if ($app->isClient('site')) {
