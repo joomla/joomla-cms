@@ -178,7 +178,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             foreach ($matches[1] as $urlQueryString) {
                 $buffer = str_replace(
                     'href="' . $prefix . 'index.php?' . $urlQueryString . '"',
-                    'href="' . trim($prefix, '/') . Route::_('index.php?' . $urlQueryString) . '"',
+                    'href="' . $prefix . Route::_('index.php?' . $urlQueryString) . '"',
                     $buffer
                 );
             }
