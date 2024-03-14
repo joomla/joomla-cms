@@ -92,6 +92,12 @@ class HtmlView extends BaseHtmlView
         $this->canDo = ContentHelper::getActions($this->state->get('category.component'), $section . 'category', $this->item->id);
         $this->assoc = $this->get('Assoc');
 
+        if ($this->getLayout() === 'modalreturn') {
+            parent::display($tpl);
+
+            return;
+        }
+
         // Check for errors.
         if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
@@ -119,6 +125,8 @@ class HtmlView extends BaseHtmlView
 
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();
+        } else {
+            $this->addModalToolbar();
         }
 
         parent::display($tpl);
@@ -291,5 +299,62 @@ class HtmlView extends BaseHtmlView
         }
 
         $toolbar->help($ref_key, $componentParams->exists('helpURL'), $url, $component);
+    }
+
+    /**
+     * Add the modal toolbar.
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     *
+     * @throws  \Exception
+     */
+    protected function addModalToolbar()
+    {
+        $extension  = Factory::getApplication()->getInput()->get('extension');
+        $user       = $this->getCurrentUser();
+        $userId     = $user->id;
+        $isNew      = ($this->item->id == 0);
+        $toolbar    = Toolbar::getInstance();
+
+        // Avoid nonsense situation.
+        if ($extension == 'com_categories') {
+            return;
+        }
+
+        // The extension can be in the form com_foo.section
+        $parts     = explode('.', $extension);
+        $component = $parts[0];
+
+        // Need to load the menu language file as mod_menu hasn't been loaded yet.
+        $lang = $this->getLanguage();
+        $lang->load($component, JPATH_BASE)
+            || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+
+        // Build the actions for new and existing records.
+        $canDo = $this->canDo;
+
+        // Load specific css component
+        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        $wa = $this->getDocument()->getWebAssetManager();
+        $wa->getRegistry()->addExtensionRegistryFile($component);
+
+        if ($wa->assetExists('style', $component . '.admin-categories')) {
+            $wa->useStyle($component . '.admin-categories');
+        } else {
+            $wa->registerAndUseStyle($component . '.admin-categories', $component . '/administrator/categories.css');
+        }
+
+        $canCreate = $isNew;
+        $canEdit   = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId);
+
+        // For new records, check the create permission.
+        if ($canCreate || $canEdit) {
+            $toolbar->apply('category.apply');
+            $toolbar->save('category.save');
+        }
+
+        $toolbar->cancel('category.cancel');
     }
 }

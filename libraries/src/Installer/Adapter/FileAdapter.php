@@ -79,7 +79,7 @@ class FileAdapter extends InstallerAdapter
 
         // Now that we have folder list, lets start creating them
         foreach ($this->folderList as $folder) {
-            if (!Folder::exists($folder)) {
+            if (!is_dir(Path::clean($folder))) {
                 if (!$created = Folder::create($folder)) {
                     throw new \RuntimeException(
                         Text::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $folder)
@@ -172,7 +172,11 @@ class FileAdapter extends InstallerAdapter
      */
     protected function finaliseUninstall(): bool
     {
-        File::delete(JPATH_MANIFESTS . '/files/' . $this->extension->element . '.xml');
+        $manifest = JPATH_MANIFESTS . '/files/' . $this->extension->element . '.xml';
+
+        if (is_file($manifest)) {
+            File::delete($manifest);
+        }
 
         $extensionId = $this->extension->extension_id;
 
@@ -283,7 +287,10 @@ class FileAdapter extends InstallerAdapter
                         $folderList[] = $targetFolder . '/' . $eFileName;
                     } else {
                         $fileName = $targetFolder . '/' . $eFileName;
-                        File::delete($fileName);
+
+                        if (is_file($fileName)) {
+                            File::delete($fileName);
+                        }
                     }
                 }
             }
@@ -301,7 +308,7 @@ class FileAdapter extends InstallerAdapter
         // Lastly, remove the extension_root
         $folder = $this->parent->getPath('extension_root');
 
-        if (Folder::exists($folder)) {
+        if (is_dir(Path::clean($folder))) {
             Folder::delete($folder);
         }
 
@@ -336,6 +343,7 @@ class FileAdapter extends InstallerAdapter
     protected function setupUninstall()
     {
         $manifestFile = JPATH_MANIFESTS . '/files/' . $this->extension->element . '.xml';
+        $this->parent->setPath('manifest', $manifestFile);
 
         // Because libraries may not have their own folders we cannot use the standard method of finding an installation manifest
         if (!file_exists($manifestFile)) {
@@ -508,7 +516,7 @@ class FileAdapter extends InstallerAdapter
                 $folderName .= '/' . $dir;
 
                 // Check if folder exists, if not then add to the array for folder creation
-                if (!Folder::exists($folderName)) {
+                if (!is_dir(Path::clean($folderName))) {
                     $this->folderList[] = $folderName;
                 }
             }
@@ -518,7 +526,7 @@ class FileAdapter extends InstallerAdapter
             $targetFolder = empty($target) ? $jRootPath : $jRootPath . '/' . $target;
 
             // Check if source folder exists
-            if (!Folder::exists($sourceFolder)) {
+            if (!is_dir(Path::clean($sourceFolder))) {
                 Log::add(Text::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $sourceFolder), Log::WARNING, 'jerror');
 
                 // If installation fails, rollback
