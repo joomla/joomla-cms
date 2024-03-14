@@ -18,6 +18,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
+/** @var \Joomla\Component\Finder\Administrator\View\Index\HtmlView $this */
+
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $lang      = $this->getLanguage();
