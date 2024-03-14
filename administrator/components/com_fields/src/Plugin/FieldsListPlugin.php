@@ -56,14 +56,8 @@ class FieldsListPlugin extends FieldsPlugin
         // Set data attributes
         $dataMaxResult = $field->params->get('data_max_results', 10);
         $dataMaxRender = $field->params->get('data_max_render', -1);
-
-        if ($dataMaxResult) {
-            $fieldNode->setAttribute('data-max-results', (string) $dataMaxResult);
-        }
-
-        if ($dataMaxRender) {
-            $fieldNode->setAttribute('data-max-render', (string) $dataMaxRender);
-        }
+        $fieldNode->setAttribute('data-max-results', (string) $dataMaxResult);
+        $fieldNode->setAttribute('data-max-render', (string) $dataMaxRender);
 
         return $fieldNode;
     }
