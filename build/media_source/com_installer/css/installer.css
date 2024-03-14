@@ -42,12 +42,12 @@
   color: #666;
 }
 
-[data-bs-theme=dark] #dragarea.hover #upload-icon,
-[data-bs-theme=dark] #dragarea p.lead {
-    color: #eee;
+[data-color-scheme=dark] #dragarea.hover #upload-icon,
+[data-color-scheme=dark] #dragarea p.lead {
+  color: #eee;
 }
 
-[data-bs-theme=dark] #dragarea.hover {
+[data-color-scheme=dark] #dragarea.hover {
   background-color: #666;
   border-color: #eee;
 }
