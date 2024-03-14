@@ -81,7 +81,7 @@ class HtmlView extends BaseHtmlView
         $this->form   = $this->get('Form');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -110,7 +110,7 @@ class HtmlView extends BaseHtmlView
         ];
 
         foreach ($fields as $field) {
-            if (is_null($this->item->$field) || $this->item->$field == '') {
+            if (\is_null($this->item->$field) || $this->item->$field == '') {
                 $this->item->$field = $this->master->$field;
                 $this->form->setValue($field, null, $this->item->$field);
             }

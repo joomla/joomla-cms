@@ -10,9 +10,13 @@
 
 namespace Joomla\Plugin\System\Sef\Extension;
 
+use Joomla\CMS\Event\Router\AfterInitialiseRouterEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\Router;
+use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,8 +27,84 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  1.5
  */
-final class Sef extends CMSPlugin
+final class Sef extends CMSPlugin implements SubscriberInterface
 {
+    /**
+     * Returns an array of CMS events this plugin will listen to and the respective handlers.
+     *
+     * @return  array
+     *
+     * @since  5.1.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        /**
+         * Note that onAfterInitialise must be the first handlers to run for this
+         * plugin to operate as expected. These handlers load compatibility code which
+         * might be needed by other plugins
+         */
+        return [
+            'onAfterInitialiseRouter' => 'onAfterInitialiseRouter',
+            'onAfterRoute'            => 'onAfterRoute',
+            'onAfterDispatch'         => 'onAfterDispatch',
+            'onAfterRender'           => 'onAfterRender',
+        ];
+    }
+
+    /**
+     * After initialise router.
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     */
+    public function onAfterInitialiseRouter(AfterInitialiseRouterEvent $event)
+    {
+        $app = $this->getApplication();
+
+        if (
+            is_a($event->getRouter(), SiteRouter::class)
+            && $app->get('sef')
+            && !$app->get('sef_suffix')
+            && $this->params->get('trailingslash')
+        ) {
+            if ($this->params->get('trailingslash') == 1) {
+                // Remove trailingslash
+                $event->getRouter()->attachBuildRule([$this, 'removeTrailingSlash'], SiteRouter::PROCESS_AFTER);
+            } elseif ($this->params->get('trailingslash') == 2) {
+                // Add trailingslash
+                $event->getRouter()->attachBuildRule([$this, 'addTrailingSlash'], SiteRouter::PROCESS_AFTER);
+            }
+        }
+    }
+
+    /**
+     * OnAfterRoute listener
+     *
+     * @return void
+     *
+     * @since   5.1.0
+     */
+    public function onAfterRoute()
+    {
+        $app = $this->getApplication();
+
+        // Following code only for Site application and GET requests
+        if (!$app->isClient('site') || $app->getInput()->getMethod() !== 'GET') {
+            return;
+        }
+
+        // Enforce removing index.php with a redirect
+        if ($app->get('sef_rewrite') && $this->params->get('indexphp')) {
+            $this->removeIndexphp();
+        }
+
+        // Check for trailing slash
+        if ($app->get('sef') && !$app->get('sef_suffix') && $this->params->get('trailingslash')) {
+            $this->enforceTrailingSlash();
+        }
+    }
+
     /**
      * Add the canonical uri to the head.
      *
@@ -186,6 +266,90 @@ final class Sef extends CMSPlugin
 
         // Use the replaced HTML body.
         $this->getApplication()->setBody($buffer);
+    }
+
+    /**
+     * Enforce removal of index.php with a redirect
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     */
+    protected function removeIndexphp()
+    {
+        $origUri = Uri::getInstance();
+
+        if (substr($origUri->getPath(), -9) === 'index.php') {
+            // Remove trailing index.php
+            $origUri->setPath(substr($origUri->getPath(), 0, -9));
+            $this->getApplication()->redirect($origUri->toString(), 301);
+        }
+
+        if (substr($origUri->getPath(), \strlen(Uri::base(true)), 11) === '/index.php/') {
+            // Remove leading index.php
+            $origUri->setPath(Uri::base(true) . substr($origUri->getPath(), \strlen(Uri::base(true)) + 10));
+            $this->getApplication()->redirect($origUri->toString(), 301);
+        }
+    }
+
+    /**
+     * Remove any trailing slash from URLs built in Joomla
+     *
+     * @param   Router  &$router  Router object.
+     * @param   Uri     &$uri     Uri object.
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     */
+    public function removeTrailingSlash(&$router, &$uri)
+    {
+        $path = $uri->getPath();
+
+        if (str_ends_with($path, '/')) {
+            $uri->setPath(substr($path, 0, -1));
+        }
+    }
+
+    /**
+     * Add trailing slash to URLs built in Joomla
+     *
+     * @param   Router  &$router  Router object.
+     * @param   Uri     &$uri     Uri object.
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     */
+    public function addTrailingSlash(&$router, &$uri)
+    {
+        $path = $uri->getPath();
+
+        if (!str_ends_with($path, '/')) {
+            $uri->setPath($path . '/');
+        }
+    }
+
+    /**
+     * Redirect to a URL with or without trailing slash
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     */
+    protected function enforceTrailingSlash()
+    {
+        $originalUri = Uri::getInstance();
+
+        if ((int)$this->params->get('trailingslash') === 1 && str_ends_with($originalUri->getPath(), '/') && $originalUri->toString() !== Uri::root()) {
+            // Remove trailingslash
+            $originalUri->setPath(substr($originalUri->getPath(), 0, -1));
+            $this->getApplication()->redirect($originalUri->toString(), 301);
+        } elseif ((int)$this->params->get('trailingslash') === 2 && !str_ends_with($originalUri->getPath(), '/')) {
+            // Add trailingslash
+            $originalUri->setPath($originalUri->getPath() . '/');
+            $this->getApplication()->redirect($originalUri->toString(), 301);
+        }
     }
 
     /**

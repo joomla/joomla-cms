@@ -273,7 +273,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $invalidInputVariables = array_filter(
             ['option', 'view', 'format', 'lang', 'Itemid', 'template', 'templateStyle', 'task'],
             function ($systemVariable) use ($input) {
-                return $input->exists($systemVariable) && is_array($input->getRaw($systemVariable));
+                return $input->exists($systemVariable) && \is_array($input->getRaw($systemVariable));
             }
         );
 
@@ -312,7 +312,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             }
 
             // If gzip compression is enabled in configuration and the server is compliant, compress the output.
-            if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler') {
+            if ($this->get('gzip') && !\ini_get('zlib.output_compression') && \ini_get('output_handler') !== 'ob_gzhandler') {
                 $this->compress();
 
                 // Trigger the onAfterCompress event.
@@ -531,7 +531,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $options['app'] = $this;
         }
 
-        if (array_key_exists($name, $this->menus)) {
+        if (\array_key_exists($name, $this->menus)) {
             return $this->menus[$name];
         }
 
@@ -1190,7 +1190,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     public function toString($compress = false)
     {
         // Don't compress something if the server is going to do it anyway. Waste of time.
-        if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler') {
+        if ($compress && !\ini_get('zlib.output_compression') && \ini_get('output_handler') !== 'ob_gzhandler') {
             $this->compress();
         }
 
@@ -1329,8 +1329,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             foreach ($this->get('log_priorities', ['all']) as $p) {
                 $const = '\\Joomla\\CMS\\Log\\Log::' . strtoupper($p);
 
-                if (defined($const)) {
-                    $priority |= constant($const);
+                if (\defined($const)) {
+                    $priority |= \constant($const);
                 }
             }
 

@@ -120,7 +120,7 @@
       ],
       "uri": "system/multiselect.min.js",
       "attributes": {
-        "defer": true
+        "type": "module"
       }
     },
     {
@@ -667,6 +667,14 @@
         "joomla.dialog"
       ],
       "uri": "system/fields/modal-content-select-field.min.js",
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "joomla.treeselectmenu",
+      "type": "script",
+      "uri": "system/treeselectmenu.min.js",
       "attributes": {
         "type": "module"
       }

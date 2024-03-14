@@ -18,7 +18,7 @@ $sidebar-tree-line-color:           $border-color;
 $sidebar-tree-icon-color:           var(--template-bg-dark-60);
 $sidebar-tree-line-height:          26px;
 $sidebar-tree-folder-icon:          "\f07b";
-$sidebar-tree-item-hover-bg:        #e1e1e1;
+$sidebar-tree-item-hover-bg:        var(--com-media-manager-tree-item-hover-bg, #e1e1e1);
 $sidebar-active-icon-color:         $highlight-color;
 $sidebar-disk-name-color:           var(--com-media-manager-disk-name-color, var(--template-bg-dark));
 
@@ -26,7 +26,7 @@ $sidebar-disk-name-color:           var(--com-media-manager-disk-name-color, var
 $toolbar-height:                     46px;
 $toolbar-bg:                         var(--com-media-manager-content-bg, #fff);
 $toolbar-icon-width:                 50px;
-$toolbar-icon-color:                 var(--template-bg-dark-60);
+$toolbar-icon-color:                 var(--com-media-manager-toolbar-icon-color, var(--template-bg-dark-60));
 $toolbar-icon-bg-hover:              #f0f0f0;
 $toolbar-loader-color:               linear-gradient(to right, #59afff 0, #59daff 100%);
 $toolbar-loader-height:              2px;
@@ -36,6 +36,7 @@ $toolbar-icon-active-bg-color-hover: var(--template-bg-dark-80);
 // Breadcrumbs
 $breadcrumbs-bg:                    var(--com-media-manager-overlay-bg, var(--template-bg-dark-3));
 $breadcrumbs-current-bg:            var(--com-media-manager-content-bg, #fff);
+$breadcrumbs-color:                 var(--com-media-manager-content-color, var(--link-color));
 
 // Media Browser
 $browser-background-color:          var(--com-media-manager-overlay-bg, var(--template-bg-dark-3));
@@ -81,7 +82,7 @@ $icon-type-folder:                  "\f07b";
 $icon-type-images:                  "\f1c5";
 $icon-type-video:                   "\f1c8";
 $icon-type-audio:                   "\f1c7";
-$icon-type-docs:                    "\f1c1";
+$icon-type-docs:                    "\f15b";
 $icon-type-code:                    "\f1c9";
 
 // Drag n Drop Upload
