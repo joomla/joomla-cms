@@ -5,6 +5,12 @@
 
 @import "../../../../node_modules/shepherd.js/dist/css/shepherd";
 
+.shepherd-content {
+    border: 1px solid var(--border-color-translucent);
+    box-shadow: var(--modal-joomla-dialog-box-shadow);
+    border-radius: .3rem;
+}
+
 .shepherd-content img {
   max-width: 100%;
   height: auto;
