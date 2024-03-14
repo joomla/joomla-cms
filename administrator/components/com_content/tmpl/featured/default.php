@@ -25,6 +25,8 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Utilities\ArrayHelper;
 
+/** @var \Joomla\Component\Content\Administrator\View\Featured\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
@@ -356,7 +358,7 @@ $assoc = Associations::isEnabled();
                                         </span>
                                     </td>
                                     <td class="d-none d-md-table-cell text-center">
-                                        <span class="badge bg-warning text-dark">
+                                        <span class="badge bg-warning">
                                             <?php echo (int) $item->rating; ?>
                                         </span>
                                     </td>

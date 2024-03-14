@@ -43,7 +43,7 @@ class Callback extends AbstractImmutableEvent
      * @throws  \DomainException
      * @since   4.2.0
      *
-     * @deprecated 5.0.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 6.0
      *                Use counterpart with onSet prefix
      */
     public function setMethod(string $value): string
@@ -62,7 +62,7 @@ class Callback extends AbstractImmutableEvent
      *
      * @return  string
      * @throws  \DomainException
-     * @since   5.0.0
+     * @since   4.4.0
      */
     protected function onSetMethod(string $value): string
     {

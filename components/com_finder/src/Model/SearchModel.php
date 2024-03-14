@@ -114,7 +114,7 @@ class SearchModel extends ListModel
         // Convert the rows to result objects.
         foreach ($items as $rk => $row) {
             // Build the result object.
-            if (is_resource($row->object)) {
+            if (\is_resource($row->object)) {
                 $result = unserialize(stream_get_contents($row->object));
             } else {
                 $result = unserialize($row->object);
@@ -191,13 +191,13 @@ class SearchModel extends ListModel
         if (!empty($this->searchquery->filters)) {
             // Convert the associative array to a numerically indexed array.
             $groups     = array_values($this->searchquery->filters);
-            $taxonomies = call_user_func_array('array_merge', array_values($this->searchquery->filters));
+            $taxonomies = \call_user_func_array('array_merge', array_values($this->searchquery->filters));
 
             $query->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t ON t.link_id = l.link_id')
                 ->where('t.node_id IN (' . implode(',', array_unique($taxonomies)) . ')');
 
             // Iterate through each taxonomy group.
-            for ($i = 0, $c = count($groups); $i < $c; $i++) {
+            for ($i = 0, $c = \count($groups); $i < $c; $i++) {
                 $query->having('SUM(CASE WHEN t.node_id IN (' . implode(',', $groups[$i]) . ') THEN 1 ELSE 0 END) > 0');
             }
         }
@@ -289,12 +289,12 @@ class SearchModel extends ListModel
             return $query;
         }
 
-        $included = call_user_func_array('array_merge', array_values($this->includedTerms));
+        $included = \call_user_func_array('array_merge', array_values($this->includedTerms));
         $query->join('INNER', $db->quoteName('#__finder_links_terms') . ' AS m ON m.link_id = l.link_id')
             ->where('m.term_id IN (' . implode(',', $included) . ')');
 
         // Check if there are any excluded terms to deal with.
-        if (count($this->excludedTerms)) {
+        if (\count($this->excludedTerms)) {
             $query2 = $db->getQuery(true);
             $query2->select('e.link_id')
                 ->from($db->quoteName('#__finder_links_terms', 'e'))
@@ -305,9 +305,9 @@ class SearchModel extends ListModel
         /*
          * The query contains required search terms.
          */
-        if (count($this->requiredTerms)) {
+        if (\count($this->requiredTerms)) {
             foreach ($this->requiredTerms as $terms) {
-                if (count($terms)) {
+                if (\count($terms)) {
                     $query->having('SUM(CASE WHEN m.term_id IN (' . implode(',', $terms) . ') THEN 1 ELSE 0 END) > 0');
                 } else {
                     $query->where('false');
@@ -341,7 +341,7 @@ class SearchModel extends ListModel
             $queryUri              = Uri::getInstance($this->getQuery()->toUri());
 
             // If the default field is not included in the shown sort fields, add it.
-            if (!in_array($defaultSortFieldValue, $sortOrderFieldValues)) {
+            if (!\in_array($defaultSortFieldValue, $sortOrderFieldValues)) {
                 array_unshift($sortOrderFieldValues, $defaultSortFieldValue);
             }
 
@@ -390,7 +390,7 @@ class SearchModel extends ListModel
         $currentOrderingDirection = $app->getInput()->getWord('od', $app->getParams()->get('sort_direction', 'desc'));
 
         // Validate the sorting direction and add it only if it is different than the set in the params.
-        if (in_array($direction, ['asc', 'desc']) && $direction != $app->getParams()->get('sort_direction', 'desc')) {
+        if (\in_array($direction, ['asc', 'desc']) && $direction != $app->getParams()->get('sort_direction', 'desc')) {
             $queryUri->setVar('od', StringHelper::strtolower($direction));
         }
 

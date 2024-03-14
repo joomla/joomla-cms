@@ -191,7 +191,7 @@ class TourModel extends AdminModel
      *
      * @param   integer|string  $pk  The id or uid of the tour.
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   4.3.0
      */
@@ -200,7 +200,7 @@ class TourModel extends AdminModel
         $pk    = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
 
         $table = $this->getTable();
-        if (is_integer($pk)) {
+        if (\is_integer($pk)) {
             $result = $table->load((int) $pk);
         } else {
             // Attempt to load the row by uid.
@@ -371,6 +371,7 @@ class TourModel extends AdminModel
                                 'checked_out_time',
                                 'checked_out',
                                 'language',
+                                'params',
                                 'note',
                             ]
                         )
@@ -400,6 +401,7 @@ class TourModel extends AdminModel
                             $db->quoteName('modified'),
                             $db->quoteName('modified_by'),
                             $db->quoteName('language'),
+                            $db->quoteName('params'),
                             $db->quoteName('note'),
                         ]
                     );
@@ -419,6 +421,7 @@ class TourModel extends AdminModel
                         ParameterType::INTEGER,
                         ParameterType::STRING,
                         ParameterType::INTEGER,
+                        ParameterType::STRING,
                         ParameterType::STRING,
                         ParameterType::STRING,
                     ];
@@ -442,6 +445,7 @@ class TourModel extends AdminModel
                                     $date,
                                     $user->id,
                                     $step->language,
+                                    $step->params,
                                     $step->note,
                                 ],
                                 $dataTypes
@@ -496,5 +500,28 @@ class TourModel extends AdminModel
 
         return $db->setQuery($query)
             ->execute();
+    }
+
+    /**
+     * Sets a tour's autostart value
+     *
+     * @param   int  $id         Id of a tour
+     * @param   int  $autostart  The autostart value of a tour
+     *
+     * @since  5.0.0
+     */
+    public function setAutostart($id, $autostart)
+    {
+        $db = $this->getDatabase();
+
+        $query = $db->getQuery(true)
+            ->update($db->quoteName('#__guidedtours'))
+            ->set($db->quoteName('autostart') . ' = :autostart')
+            ->where($db->quoteName('id') . ' = :tourId')
+            ->bind(':autostart', $autostart, ParameterType::INTEGER)
+            ->bind(':tourId', $id, ParameterType::INTEGER);
+
+        $db->setQuery($query);
+        $db->execute();
     }
 }

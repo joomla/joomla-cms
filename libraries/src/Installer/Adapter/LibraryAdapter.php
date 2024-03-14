@@ -19,6 +19,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -274,11 +275,15 @@ class LibraryAdapter extends InstallerAdapter
     protected function removeExtensionFiles()
     {
         $this->parent->removeFiles($this->getManifest()->files, -1);
-        File::delete(JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml');
+        $manifest = JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml';
+
+        if (is_file($manifest)) {
+            File::delete($manifest);
+        }
 
         // @todo: Change this so it walked up the path backwards so we clobber multiple empties
         // If the folder is empty, let's delete it
-        if (Folder::exists($this->parent->getPath('extension_root'))) {
+        if (is_dir(Path::clean($this->parent->getPath('extension_root')))) {
             if (is_dir($this->parent->getPath('extension_root'))) {
                 $files = Folder::files($this->parent->getPath('extension_root'));
 
@@ -323,7 +328,7 @@ class LibraryAdapter extends InstallerAdapter
         // Don't install libraries which would override core folders
         $restrictedFolders = ['php-encryption', 'phpass', 'src', 'vendor'];
 
-        if (in_array($group, $restrictedFolders)) {
+        if (\in_array($group, $restrictedFolders)) {
             throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_CORE_FOLDER'));
         }
 

@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Menus\Administrator\View\Items\HtmlView $this */
+
 $options = [
     HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
     HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
@@ -86,3 +88,11 @@ if ($clientId == 1) {
     </div>
     <?php endif; ?>
 </div>
+<?php if ((strlen($menuType) && $menuType != '*' && $clientId == 0) || ($published >= 0 && $clientId == 1)) : ?>
+<div class="btn-toolbar p-3">
+    <joomla-toolbar-button task="item.batch" class="ms-auto">
+        <button type="button" class="btn btn-success"><?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?></button>
+    </joomla-toolbar-button>
+</div>
+<?php endif; ?>
+

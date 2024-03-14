@@ -92,7 +92,7 @@ final class Fields extends CMSPlugin
     public function onContentAfterSave($context, $item, $isNew, $data = []): void
     {
         // Check if data is an array and the item has an id
-        if (!is_array($data) || empty($item->id) || empty($data['com_fields'])) {
+        if (!\is_array($data) || empty($item->id) || empty($data['com_fields'])) {
             return;
         }
 
@@ -130,7 +130,7 @@ final class Fields extends CMSPlugin
         // Loop over the fields
         foreach ($fields as $field) {
             // Determine the value if it is (un)available from the data
-            if (array_key_exists($field->name, $data['com_fields'])) {
+            if (\array_key_exists($field->name, $data['com_fields'])) {
                 $value = $data['com_fields'][$field->name] === false ? null : $data['com_fields'][$field->name];
             } else {
                 // Field not available on form, use stored value
@@ -138,12 +138,12 @@ final class Fields extends CMSPlugin
             }
 
             // If no value set (empty) remove value from database
-            if (is_array($value) ? !count($value) : !strlen($value)) {
+            if (\is_array($value) ? !\count($value) : !\strlen($value)) {
                 $value = null;
             }
 
             // JSON encode value for complex fields
-            if (is_array($value) && (count($value, COUNT_NORMAL) !== count($value, COUNT_RECURSIVE) || !count(array_filter(array_keys($value), 'is_numeric')))) {
+            if (\is_array($value) && (\count($value, COUNT_NORMAL) !== \count($value, COUNT_RECURSIVE) || !\count(array_filter(array_keys($value), 'is_numeric')))) {
                 $value = json_encode($value);
             }
 
@@ -177,7 +177,7 @@ final class Fields extends CMSPlugin
         $task = $this->getApplication()->getInput()->getCmd('task');
 
         // Skip fields save when we activate a user, because we will lose the saved data
-        if (in_array($task, ['activate', 'block', 'unblock'])) {
+        if (\in_array($task, ['activate', 'block', 'unblock'])) {
             return;
         }
 
@@ -256,11 +256,11 @@ final class Fields extends CMSPlugin
             $data    = $data ?: $this->getApplication()->getInput()->get('jform', [], 'array');
 
             // Set the catid on the category to get only the fields which belong to this category
-            if (is_array($data) && array_key_exists('id', $data)) {
+            if (\is_array($data) && \array_key_exists('id', $data)) {
                 $data['catid'] = $data['id'];
             }
 
-            if (is_object($data) && isset($data->id)) {
+            if (\is_object($data) && isset($data->id)) {
                 $data->catid = $data->id;
             }
         }
@@ -280,7 +280,7 @@ final class Fields extends CMSPlugin
             $data = $jformData;
         }
 
-        if (is_array($data)) {
+        if (\is_array($data)) {
             $data = (object) $data;
         }
 
@@ -364,7 +364,7 @@ final class Fields extends CMSPlugin
             $item = $this->prepareTagItem($item);
         }
 
-        if (is_string($params) || !$params) {
+        if (\is_string($params) || !$params) {
             $params = new Registry($params);
         }
 

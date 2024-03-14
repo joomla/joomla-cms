@@ -312,7 +312,7 @@ class Toolbar
             $html[] = $layout->render(['id' => $this->_name]);
         }
 
-        $len = count($this->_bar);
+        $len = \count($this->_bar);
 
         // Render each button in the toolbar.
         foreach ($this->_bar as $i => $button) {

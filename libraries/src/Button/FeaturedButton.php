@@ -73,11 +73,11 @@ class FeaturedButton extends ActionButton
 
             $tz       = Factory::getUser()->getTimezone();
 
-            if (!is_null($featuredUp)) {
+            if (!\is_null($featuredUp)) {
                 $featuredUp = Factory::getDate($featuredUp, 'UTC')->setTimezone($tz);
             }
 
-            if (!is_null($featuredDown)) {
+            if (!\is_null($featuredDown)) {
                 $featuredDown = Factory::getDate($featuredDown, 'UTC')->setTimezone($tz);
             }
 
