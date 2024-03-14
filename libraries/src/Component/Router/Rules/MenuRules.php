@@ -61,8 +61,8 @@ class MenuRules implements RulesInterface
      */
     public function __construct(RouterView $router)
     {
-        $this->router = $router;
-        $sefPlugin = PluginHelper::getPlugin('system', 'sef');
+        $this->router    = $router;
+        $sefPlugin       = PluginHelper::getPlugin('system', 'sef');
         $this->sefparams = new Registry($sefPlugin->params);
 
         $this->buildLookup();
