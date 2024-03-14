@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Mail;
 
-use Exception;
 use Joomla\CMS\Log\Log;
 use Joomla\Registry\Registry;
 
@@ -54,7 +53,7 @@ class MailerFactory implements MailerFactoryInterface
      */
     public function createMailer(?Registry $settings = null): MailerInterface
     {
-        $configuration = clone $this->defaultConfiguration;
+        $configuration = new Registry($this->defaultConfiguration);
 
         if ($settings) {
             $configuration->merge($settings);

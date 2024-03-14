@@ -1,3 +1,6 @@
+import invalidTufMetadata from '../../fixtures/tuf/invalidMetadata.json';
+import validTufMetadata from '../../fixtures/tuf/validMetadata.json';
+
 /**
  * The global cached default categories
  */
@@ -102,6 +105,7 @@ Cypress.Commands.add('db_createArticle', (articleData) => {
     language: '*',
     created: '2023-01-01 20:00:00',
     modified: '2023-01-01 20:00:00',
+    publish_up: '2023-01-01 20:00:00',
     images: '',
     urls: '',
     attribs: '',
@@ -403,6 +407,18 @@ Cypress.Commands.add('db_createTag', (tag) => {
   return cy.task('queryDB', createInsertQuery('tags', { ...defaultTagOptions, ...tag })).then(async (info) => info.insertId);
 });
 
+Cypress.Commands.add('db_createMenuType', (menuTypeData) => {
+  const defaultMenuTypeOptions = {
+    title: 'test menu',
+    menutype: 'test-menu',
+    description: '',
+    client_id: 0,
+    asset_id: 0,
+  };
+
+  return cy.task('queryDB', createInsertQuery('menu_types', { ...defaultMenuTypeOptions, ...menuTypeData })).then(async (info) => info.insertId);
+});
+
 /**
  * Creates an menu item in the database with the given data. The menu item contains some default values when
  * not all required fields are passed in the given data. The id of the inserted menu item is returned.
@@ -586,4 +602,46 @@ Cypress.Commands.add('db_getUserId', () => {
 
       return id[0].id;
     });
+});
+
+/**
+ * Inserts an invalid tuf metadata set
+ *
+ * @returns integer
+ */
+Cypress.Commands.add('db_setInvalidTufRoot', () => {
+  cy.task('queryDB', 'DELETE FROM #__tuf_metadata WHERE id = 1');
+  cy.task('queryDB', 'DELETE FROM #__updates WHERE update_site_id = 1');
+  cy.task('queryDB', createInsertQuery(
+    'tuf_metadata',
+    {
+      id: 1,
+      update_site_id: 1,
+      root: JSON.stringify(invalidTufMetadata.root),
+      targets: '',
+      snapshot: '',
+      timestamp: '',
+    },
+  ));
+});
+
+/**
+ * Inserts an invalid tuf metadata set
+ *
+ * @returns integer
+ */
+Cypress.Commands.add('db_setValidTufRoot', () => {
+  cy.task('queryDB', 'DELETE FROM #__tuf_metadata WHERE id = 1');
+  cy.task('queryDB', 'DELETE FROM #__updates WHERE update_site_id = 1');
+  cy.task('queryDB', createInsertQuery(
+    'tuf_metadata',
+    {
+      id: 1,
+      update_site_id: 1,
+      root: JSON.stringify(validTufMetadata.root),
+      targets: '',
+      snapshot: '',
+      timestamp: '',
+    },
+  ));
 });
