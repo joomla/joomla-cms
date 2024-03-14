@@ -19,13 +19,25 @@ const getColorScheme = () => {
  */
 class JoomlaCoreLoader extends HTMLElement {
   get inline() { return this.hasAttribute('inline'); }
+
+  set inline(value) {
+    if (value !== null) {
+      this.setAttribute('inline', '');
+    } else {
+      this.removeAttribute('inline');
+    }
+  }
+
   get size() { return this.getAttribute('size') || '345'; }
+
   set size(value) { this.setAttribute('size', value); }
+
   get color() { return this.getAttribute('color'); }
+
   set color(value) { this.setAttribute('color', value); }
 
   static get observedAttributes() {
-    return ['color', 'size'];
+    return ['color', 'size', 'inline'];
   }
 
   constructor() {
@@ -65,7 +77,7 @@ class JoomlaCoreLoader extends HTMLElement {
     switch (attr) {
       case 'color':
         if (newValue && newValue !== oldValue) {
-          this.style.backgroundColor = this.color;
+          this.style.backgroundColor = newValue;
         }
         break;
       case 'size':
@@ -75,8 +87,15 @@ class JoomlaCoreLoader extends HTMLElement {
           svg.setAttribute('height', newValue);
         }
         break;
+      case 'inline':
+        if (this.hasAttribute('inline')) {
+          this.classList.remove('fullscreen');
+        } else {
+          this.classList.add('fullscreen');
+        }
+        break;
       default:
-      // Do nothing
+        break;
     }
   }
 
