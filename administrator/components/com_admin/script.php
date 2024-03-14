@@ -2287,6 +2287,13 @@ class JoomlaInstallerScript
             '/modules/mod_tags_popular/mod_tags_popular.php',
             '/modules/mod_tags_similar/mod_tags_similar.php',
             '/modules/mod_wrapper/mod_wrapper.php',
+            // From 5.1.0-beta1 to 5.1.0-beta2
+            '/libraries/vendor/web-token/jwt-signature-algorithm-ecdsa/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-eddsa/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-experimental/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-hmac/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-none/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-rsa/LICENSE',
         ];
 
         $folders = [
@@ -2531,6 +2538,14 @@ class JoomlaInstallerScript
             '/libraries/vendor/web-token/jwt-signature',
             '/libraries/vendor/web-token/jwt-core/Util',
             '/libraries/vendor/web-token/jwt-core',
+            // From 5.1.0-beta1 to 5.1.0-beta2
+            '/libraries/vendor/web-token/signature-pack',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-rsa',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-none',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-hmac',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-experimental',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-eddsa',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-ecdsa',
         ];
 
         $status['files_checked']   = $files;
