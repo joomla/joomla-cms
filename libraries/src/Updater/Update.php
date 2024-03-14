@@ -19,6 +19,7 @@ use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Table\Tuf as TufMetadata;
 use Joomla\CMS\TUF\TufFetcher;
 use Joomla\CMS\Version;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -539,7 +540,10 @@ class Update
     {
         $tufFetcher = new TufFetcher(
             $metadataTable,
-            $url
+            $url,
+            Factory::getContainer()->get(DatabaseDriver::class),
+            (new HttpFactory())->getHttp(),
+            Factory::getApplication(),
         );
 
         $metaData = $tufFetcher->getValidUpdate();
