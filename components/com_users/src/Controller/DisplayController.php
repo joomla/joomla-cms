@@ -73,8 +73,8 @@ class DisplayController extends BaseController
                     $model = $this->getModel('Registration');
                     break;
 
-                // Handle view specific models.
                 case 'profile':
+                    // Handle view specific models.
                     // If the user is a guest, redirect to the login page.
                     $user = $this->app->getIdentity();
 
@@ -88,8 +88,8 @@ class DisplayController extends BaseController
                     $model = $this->getModel($vName);
                     break;
 
-                // Handle the default views.
                 case 'login':
+                    // Handle the default views.
                     $model = $this->getModel($vName);
                     break;
 

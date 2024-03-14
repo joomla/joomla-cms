@@ -312,7 +312,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             }
 
             // If gzip compression is enabled in configuration and the server is compliant, compress the output.
-            if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler') {
+            if ($this->get('gzip') && !\ini_get('zlib.output_compression') && \ini_get('output_handler') !== 'ob_gzhandler') {
                 $this->compress();
 
                 // Trigger the onAfterCompress event.
@@ -1190,7 +1190,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     public function toString($compress = false)
     {
         // Don't compress something if the server is going to do it anyway. Waste of time.
-        if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler') {
+        if ($compress && !\ini_get('zlib.output_compression') && \ini_get('output_handler') !== 'ob_gzhandler') {
             $this->compress();
         }
 
