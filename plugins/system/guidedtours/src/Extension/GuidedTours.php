@@ -221,7 +221,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
             $temp->title            = $this->getApplication()->getLanguage()->_($step->title);
             $temp->description      = $this->getApplication()->getLanguage()->_($step->description);
             $temp->position         = $step->position;
-            $temp->target           = $step->target;
+            $temp->target           = trim($step->target);
             $temp->type             = $this->stepType[$step->type];
             $temp->interactive_type = $this->stepInteractiveType[$step->interactive_type];
             $temp->url              = $step->url;
