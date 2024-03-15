@@ -309,6 +309,10 @@ steps:
       - phpmin-system-mysql8
       - phpmin-system-postgres
     environment:
+      WEB_SERVER:
+        from_secret: webserver
+      FTP_SERVER:
+        from_secret: ftpserver
       FTP_USERNAME:
         from_secret: ftpusername
       FTP_PASSWORD:
@@ -317,11 +321,11 @@ steps:
         from_secret: github_token
     commands:
       - export PLUGIN_DEST_DIR=/artifacts/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
-      - echo https://ci.joomla.org$PLUGIN_DEST_DIR
-      - rclone config create artifacts ftp host ci.joomla.org user $FTP_USERNAME port 21 pass $FTP_PASSWORD
+      - echo https://$WEB_SERVER$PLUGIN_DEST_DIR
+      - rclone config create artifacts ftp host $FTP_SERVER user $FTP_USERNAME port 21 pass $FTP_PASSWORD
       - rclone mkdir artifacts:$PLUGIN_DEST_DIR
       - rclone copy tests/System/output/ artifacts:$PLUGIN_DEST_DIR
-      - 'curl -X POST "https://api.github.com/repos/$DRONE_REPO/statuses/$DRONE_COMMIT" -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -d "{\"state\":\"failure\", \"context\": \"Artifacts from Failure\", \"description\": \"You can find artifacts from the failure of the build here:\", \"target_url\": \"https://ci.joomla.org$PLUGIN_DEST_DIR\"}" > /dev/null'
+      - 'curl -X POST "https://api.github.com/repos/$DRONE_REPO/statuses/$DRONE_COMMIT" -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -d "{\"state\":\"failure\", \"context\": \"Artifacts from Failure\", \"description\": \"You can find artifacts from the failure of the build here:\", \"target_url\": \"https://$WEB_SERVER$PLUGIN_DEST_DIR\"}" > /dev/null'
     when:
       status:
         - failure
@@ -492,6 +496,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 2b23d4286790b54215c985c85304ddd24818802bab49b3afec2144d28dce1f5f
+hmac: ca3d5f3a6e39270f147f8f02ca4bc4cca7050f7ab2bcaf0258426e0089cfef5b
 
 ...
