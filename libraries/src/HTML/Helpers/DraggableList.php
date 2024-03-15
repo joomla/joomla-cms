@@ -54,7 +54,7 @@ abstract class DraggableList
         bool $nestedList = false
     ) {
         // Only load once
-        if (isset(static::$loaded[__METHOD__])) {
+        if (isset(static::$loaded[$tableId][$formId][$sortDir][$saveOrderingUrl])) {
             return;
         }
 
@@ -62,16 +62,17 @@ abstract class DraggableList
 
         // Please consider using data attributes instead of passing arguments here!
         if (!empty($tableId) && !empty($saveOrderingUrl) && !empty($formId) && !empty($sortDir)) {
-            $doc->addScriptOptions(
-                'draggable-list',
-                [
+            $options = $doc->getScriptOptions('draggable-list');
+
+            $options[] = [
                     'id'        => '#' . $tableId . ' tbody',
                     'formId'    => $formId,
                     'direction' => $sortDir,
                     'url'       => $saveOrderingUrl . '&' . Session::getFormToken() . '=1',
                     'nested'    => $nestedList,
-                ]
-            );
+                ];
+
+            $doc->addScriptOptions('draggable-list', $options);
         }
 
         $doc->getWebAssetManager()
@@ -79,6 +80,6 @@ abstract class DraggableList
             ->useScript('joomla.draggable');
 
         // Set static array
-        static::$loaded[__METHOD__] = true;
+        static::$loaded[$tableId][$formId][$sortDir][$saveOrderingUrl] = true;
     }
 }
