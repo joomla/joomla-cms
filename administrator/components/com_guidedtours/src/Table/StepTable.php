@@ -92,7 +92,7 @@ class StepTable extends Table
      * @return  boolean  True on success, false on failure
      *
      * @see     \Joomla\CMS\Table\Table::check
-     * @since   1.5
+     * @since   __DEPLOY_VERSION__
      */
     public function check()
     {
