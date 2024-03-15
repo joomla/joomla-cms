@@ -109,7 +109,8 @@ class TourTable extends Table implements CurrentUserInterface
             $this->setTourUid();
         }
 
-        // set autostart - won't be needed once we add autostart to the user interface
+        // set autostart
+        // @todo: remove once autostart has been added to the tour form
         if (empty($this->autostart)) {
             $this->autostart = 0;
         }
