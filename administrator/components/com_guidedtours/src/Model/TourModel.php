@@ -350,7 +350,6 @@ class TourModel extends AdminModel
                 $rows = $db->loadObjectList();
 
                 if ($rows) {
-
                     $query = $db->getQuery(true)
                         ->insert($db->quoteName('#__guidedtour_steps'))
                         ->columns(
