@@ -157,7 +157,7 @@ Options -Indexes
 	RewriteCond "%{REQUEST_FILENAME}\.gz" -s
 	RewriteRule "^(.*)\.js" "$1\.js\.gz" [QSA]
 
-	# Serve correct content types, and prevent mod_deflate double gzip.
+	# Serve correct content types, and prevent mod_deflate double compression.
 	RewriteRule "\.css\.gz$" "-" [T=text/css,E=no-gzip:1,E=no-brotli:1]
 	RewriteRule "\.js\.gz$" "-" [T=text/javascript,E=no-gzip:1,E=no-brotli:1]
 
