@@ -248,7 +248,7 @@ class Helper
         $db->execute();
 
         // Cache the result
-        $type = new \stdClass;
+        $type        = new \stdClass;
         $type->title = $title;
         $type->mime  = $mime ?? '';
         $type->id    = (int) $db->insertid();
