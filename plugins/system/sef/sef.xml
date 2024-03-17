@@ -32,6 +32,13 @@
 				/>
 
 				<field
+					name="experimental"
+					type="spacer"
+					label="PLG_SEF_EXPERIMENTAL_LABEL"
+					class="fw-bold fst-italic"
+				/>
+
+				<field
 					name="indexphp"
 					type="radio"
 					label="PLG_SEF_INDEXPHP_LABEL"
