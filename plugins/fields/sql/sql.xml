@@ -54,7 +54,7 @@
 				</field>
 
 				<field
-					name="layout"
+					name="form_layout"
 					type="list"
 					label="JLIB_FORM_FIELD_PARAM_LAYOUT_LABEL"
 					class="form-select"
@@ -71,7 +71,7 @@
 					default="10"
 					filter="integer"
 					validate="options"
-					showon="layout:joomla.form.field.list-fancy-select"
+					showon="form_layout:joomla.form.field.list-fancy-select"
 					>
 					<option value="5">J5</option>
 					<option value="10">J10</option>
@@ -87,7 +87,7 @@
 					default="-1"
 					filter="integer"
 					validate="options"
-					showon="layout:joomla.form.field.list-fancy-select"
+					showon="form_layout:joomla.form.field.list-fancy-select"
 					>
 					<option value="5">J5</option>
 					<option value="10">J10</option>
