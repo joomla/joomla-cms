@@ -9,16 +9,13 @@
 
 namespace Joomla\CMS\MVC\View;
 
-use Joomla\CMS\Factory;
 use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Component\ComponentHelper;
 
 
 // phpcs:disable PSR1.Files.SideEffects
