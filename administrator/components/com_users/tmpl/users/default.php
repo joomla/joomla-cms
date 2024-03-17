@@ -131,7 +131,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                     </div>
                                     <?php echo HTMLHelper::_('users.notesModal', $item->note_count, $item->id); ?>
                                     <?php if ($item->requireReset == '1') : ?>
-                                        <span class="badge bg-warning text-dark"><?php echo Text::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
+                                        <span class="badge bg-warning"><?php echo Text::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
                                     <?php endif; ?>
                                 </th>
                                 <td class="break-word d-none d-md-table-cell">
@@ -186,7 +186,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                     </a>
                                 </td>
                                 <td class="d-none d-xl-table-cell break-word">
-                                    <?php echo PunycodeHelper::emailToUTF8($this->escape($item->email)); ?>
+                                    <?php echo $this->escape(PunycodeHelper::emailToUTF8($item->email)); ?>
                                 </td>
                                 <td class="d-none d-xl-table-cell">
                                     <?php if ($item->lastvisitDate !== null) : ?>
@@ -216,15 +216,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                         && $loggeduser->authorise('core.edit', 'com_users')
                         && $loggeduser->authorise('core.edit.state', 'com_users')
                     ) : ?>
-                        <?php echo HTMLHelper::_(
-                            'bootstrap.renderModal',
-                            'collapseModal',
-                            [
-                                'title'  => Text::_('COM_USERS_BATCH_OPTIONS'),
-                                'footer' => $this->loadTemplate('batch_footer'),
-                            ],
-                            $this->loadTemplate('batch_body')
-                        ); ?>
+                        <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
                     <?php endif; ?>
                 <?php endif; ?>
 

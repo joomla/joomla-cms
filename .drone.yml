@@ -227,6 +227,10 @@ steps:
       - phpmin-system-mysql
       - phpmin-system-postgres
     environment:
+      WEB_SERVER:
+        from_secret: webserver
+      FTP_SERVER:
+        from_secret: ftpserver
       FTP_USERNAME:
         from_secret: ftpusername
       FTP_PASSWORD:
@@ -235,11 +239,11 @@ steps:
         from_secret: github_token
     commands:
       - export PLUGIN_DEST_DIR=/artifacts/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
-      - echo https://ci.joomla.org$PLUGIN_DEST_DIR
-      - rclone config create artifacts ftp host ci.joomla.org user $FTP_USERNAME port 21 pass $FTP_PASSWORD
+      - echo https://$WEB_SERVER$PLUGIN_DEST_DIR
+      - rclone config create artifacts ftp host $FTP_SERVER user $FTP_USERNAME port 21 pass $FTP_PASSWORD
       - rclone mkdir artifacts:$PLUGIN_DEST_DIR
       - rclone copy tests/System/output/ artifacts:$PLUGIN_DEST_DIR
-      - 'curl -X POST "https://api.github.com/repos/$DRONE_REPO/statuses/$DRONE_COMMIT" -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -d "{\"state\":\"failure\", \"context\": \"Artifacts from Failure\", \"description\": \"You can find artifacts from the failure of the build here:\", \"target_url\": \"https://ci.joomla.org$PLUGIN_DEST_DIR\"}" > /dev/null'
+      - 'curl -X POST "https://api.github.com/repos/$DRONE_REPO/statuses/$DRONE_COMMIT" -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -d "{\"state\":\"failure\", \"context\": \"Artifacts from Failure\", \"description\": \"You can find artifacts from the failure of the build here:\", \"target_url\": \"https://$WEB_SERVER$PLUGIN_DEST_DIR\"}" > /dev/null'
     when:
       status:
         - failure
@@ -354,7 +358,7 @@ steps:
       - mkdir -p transfer
       - date +%s > transfer/$MINORVERSION-time.txt
       - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
-      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --exclude-bzip2 --disable-patch-packages
+      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --disable-patch-packages
       - mv build/tmp/packages/* transfer/
 
   - name: upload
@@ -380,8 +384,7 @@ steps:
       - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
       - rclone delete nightly:/home/devj/public_html/cache/com_content/
       - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
-      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.0](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
-
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.2](https://developer.joomla.org/nightly-builds.html) successfully built."}' $MATTERMOST_NIGHTLY_HOOK
 
   - name: buildfailure
     image: joomlaprojects/docker-images:packager
@@ -389,10 +392,11 @@ steps:
       MATTERMOST_NIGHTLY_HOOK:
         from_secret: mattermost_nightly_hook
     commands:
-      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.0](https://developer.joomla.org/nightly-builds.html) FAILED to built."}' $MATTERMOST_NIGHTLY_HOOK
+      - curl -i -X POST -H 'Content-Type:application/json' -d '{"text":"Nightly Build for [Joomla 5.2](https://developer.joomla.org/nightly-builds.html) FAILED to built."}' $MATTERMOST_NIGHTLY_HOOK
     when:
       status:
         - failure
+
 
 trigger:
   event:
@@ -403,6 +407,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 0e5edd7d08f5ba19a156ad97cc733ebe28bca4fd63958be1ada1391170e0c327
+hmac: 6ff990776397b763388e15c484c14359c5fab51fa2f9e51b9542cb4ae4f936d0
 
 ...
