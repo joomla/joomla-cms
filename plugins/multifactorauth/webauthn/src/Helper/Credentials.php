@@ -89,7 +89,7 @@ abstract class Credentials
      *
      * @param   string   $data   The JSON-encoded data returned by the browser during the authentication flow
      *
-     * @return  AttestedCredentialData|null
+     * @return  ?PublicKeyCredentialSource
      * @throws  \Exception  When something does not check out
      * @since   4.2.0
      */
