@@ -79,11 +79,7 @@
         this.states.searchType = formSearchType.value || 'value';
 
         // Remove the old results
-        const oldResults = [].slice.call(document.querySelectorAll('.language-results'));
-
-        oldResults.forEach((result) => {
-          result.parentNode.removeChild(result);
-        });
+        document.querySelectorAll('.language-results').forEach((result) => result.parentNode.removeChild(result));
       }
 
       if (!this.states.searchString) {
@@ -99,10 +95,7 @@
         // Otherwise it is a new searchstring and we have to remove all previous results first
         this.moreResults.classList.remove('show');
 
-        const childs = [].slice.call(document.querySelectorAll('#results-container div.language-results'));
-        childs.forEach((child) => {
-          child.parentNode.removeChild(child);
-        });
+        document.querySelectorAll('#results-container div.language-results').forEach((child) => child.parentNode.removeChild(child));
 
         this.resultsContainer.classList.add('show');
         this.spinner.classList.add('show');
@@ -168,20 +161,14 @@
       // Create a container into which all the results will be inserted
       const resultsDiv = document.createElement('div');
       resultsDiv.setAttribute('id', `language-results${this.states.counter}`);
-      resultsDiv.classList.add('language-results');
-      resultsDiv.classList.add('list-group');
-      resultsDiv.classList.add('mb-2');
-      resultsDiv.classList.add('show');
+      resultsDiv.classList.add('language-results', 'list-group', 'mb-2', 'show');
 
       // Create some elements for each result and insert it into the container
       results.forEach((item, index) => {
         const a = document.createElement('a');
         a.setAttribute('onclick', `Joomla.overrider.selectString(${this.states.counter}${index});`);
         a.setAttribute('href', '#');
-        a.classList.add('list-group-item');
-        a.classList.add('list-group-item-action');
-        a.classList.add('flex-column');
-        a.classList.add('align-items-start');
+        a.classList.add('list-group-item', 'list-group-item-action', 'flex-column', 'align-items-start');
 
         const key = document.createElement('div');
         key.setAttribute('id', `override_key${this.states.counter}${index}`);
