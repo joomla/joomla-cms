@@ -32,12 +32,9 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $plugin     = PluginHelper::getPlugin('task', 'globalcheckin');
-                $dispatcher = $container->get(DispatcherInterface::class);
-
                 $checkin = new Globalcheckin(
-                    $dispatcher,
-                    (array) $plugin
+                    $container->get(DispatcherInterface::class),
+                    (array) PluginHelper::getPlugin('task', 'globalcheckin')
                 );
                 $checkin->setDatabase($container->get(DatabaseInterface::class));
 
