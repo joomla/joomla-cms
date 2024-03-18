@@ -105,7 +105,7 @@ class JoomlaDialog extends HTMLElement {
     this.popupType = this.getAttribute('type') || 'inline';
     this.textHeader = this.getAttribute('text-header') || '';
     this.iconHeader = '';
-    this.textClose = 'Close';
+    this.textClose = Joomla.Text._('JCLOSE', 'Close');
     this.popupContent = '';
     this.src = this.getAttribute('src') || '';
     this.popupButtons = [];
