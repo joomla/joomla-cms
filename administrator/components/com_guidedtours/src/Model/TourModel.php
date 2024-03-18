@@ -346,7 +346,7 @@ class TourModel extends AdminModel
                 // Reset the id to create a new record.
                 $table->id = 0;
 
-                $table->published   = 0;
+                $table->published = 0;
 
                 if (!$table->check() || !$table->store()) {
                     throw new \Exception($table->getError());
@@ -383,28 +383,29 @@ class TourModel extends AdminModel
                 $db->setQuery($query);
                 $rows = $db->loadObjectList();
 
-                $query = $db->getQuery(true)
-                    ->insert($db->quoteName('#__guidedtour_steps'))
-                    ->columns(
-                        [
-                            $db->quoteName('tour_id'),
-                            $db->quoteName('title'),
-                            $db->quoteName('description'),
-                            $db->quoteName('ordering'),
-                            $db->quoteName('position'),
-                            $db->quoteName('target'),
-                            $db->quoteName('type'),
-                            $db->quoteName('interactive_type'),
-                            $db->quoteName('url'),
-                            $db->quoteName('created'),
-                            $db->quoteName('created_by'),
-                            $db->quoteName('modified'),
-                            $db->quoteName('modified_by'),
-                            $db->quoteName('language'),
-                            $db->quoteName('params'),
-                            $db->quoteName('note'),
-                        ]
-                    );
+                if ($rows) {
+                    $query = $db->getQuery(true)
+                        ->insert($db->quoteName('#__guidedtour_steps'))
+                        ->columns(
+                            [
+                                $db->quoteName('tour_id'),
+                                $db->quoteName('title'),
+                                $db->quoteName('description'),
+                                $db->quoteName('ordering'),
+                                $db->quoteName('position'),
+                                $db->quoteName('target'),
+                                $db->quoteName('type'),
+                                $db->quoteName('interactive_type'),
+                                $db->quoteName('url'),
+                                $db->quoteName('created'),
+                                $db->quoteName('created_by'),
+                                $db->quoteName('modified'),
+                                $db->quoteName('modified_by'),
+                                $db->quoteName('language'),
+                                $db->quoteName('params'),
+                                $db->quoteName('note'),
+                            ]
+                        );
 
                 foreach ($rows as $step) {
                     $dataTypes = [
@@ -454,14 +455,15 @@ class TourModel extends AdminModel
                     );
                 }
 
-                $db->setQuery($query);
+                    $db->setQuery($query);
 
-                try {
-                    $db->execute();
-                } catch (\RuntimeException $e) {
-                    Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+                    try {
+                        $db->execute();
+                    } catch (\RuntimeException $e) {
+                        Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-                    return false;
+                        return false;
+                    }
                 }
             } else {
                 throw new \Exception($table->getError());
