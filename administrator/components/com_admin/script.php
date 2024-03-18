@@ -14,15 +14,14 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
-use Joomla\Filesystem\Path;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -573,8 +572,6 @@ class JoomlaInstallerScript
             'folders_deleted' => [],
             'files_errors'    => [],
             'folders_errors'  => [],
-            'folders_checked' => [],
-            'files_checked'   => [],
         ];
 
         $files = [
@@ -2290,6 +2287,13 @@ class JoomlaInstallerScript
             '/modules/mod_tags_popular/mod_tags_popular.php',
             '/modules/mod_tags_similar/mod_tags_similar.php',
             '/modules/mod_wrapper/mod_wrapper.php',
+            // From 5.1.0-beta1 to 5.1.0-beta2
+            '/libraries/vendor/web-token/jwt-signature-algorithm-ecdsa/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-eddsa/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-experimental/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-hmac/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-none/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-rsa/LICENSE',
         ];
 
         $folders = [
@@ -2534,13 +2538,21 @@ class JoomlaInstallerScript
             '/libraries/vendor/web-token/jwt-signature',
             '/libraries/vendor/web-token/jwt-core/Util',
             '/libraries/vendor/web-token/jwt-core',
+            // From 5.1.0-beta1 to 5.1.0-beta2
+            '/libraries/vendor/web-token/signature-pack',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-rsa',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-none',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-hmac',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-experimental',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-eddsa',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-ecdsa',
         ];
 
         $status['files_checked']   = $files;
         $status['folders_checked'] = $folders;
 
         foreach ($files as $file) {
-            if ($fileExists = is_file(JPATH_ROOT . $file)) {
+            if (is_file(JPATH_ROOT . $file)) {
                 $status['files_exist'][] = $file;
 
                 if ($dryRun === false) {
@@ -2554,7 +2566,7 @@ class JoomlaInstallerScript
         }
 
         foreach ($folders as $folder) {
-            if ($folderExists = is_dir(Path::clean(JPATH_ROOT . $folder))) {
+            if (is_dir(JPATH_ROOT . $folder)) {
                 $status['folders_exist'][] = $folder;
 
                 if ($dryRun === false) {

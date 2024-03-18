@@ -10,11 +10,11 @@
 
 namespace Joomla\Plugin\System\Sef\Extension;
 
-use Joomla\CMS\Event\Router\AfterInitialiseRouterEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
 use Joomla\CMS\Router\SiteRouter;
+use Joomla\CMS\Router\SiteRouterAwareTrait;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Event\SubscriberInterface;
 
@@ -29,12 +29,14 @@ use Joomla\Event\SubscriberInterface;
  */
 final class Sef extends CMSPlugin implements SubscriberInterface
 {
+    use SiteRouterAwareTrait;
+
     /**
      * Returns an array of CMS events this plugin will listen to and the respective handlers.
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -44,36 +46,36 @@ final class Sef extends CMSPlugin implements SubscriberInterface
          * might be needed by other plugins
          */
         return [
-            'onAfterInitialiseRouter' => 'onAfterInitialiseRouter',
-            'onAfterRoute'            => 'onAfterRoute',
-            'onAfterDispatch'         => 'onAfterDispatch',
-            'onAfterRender'           => 'onAfterRender',
+            'onAfterInitialise' => 'onAfterInitialise',
+            'onAfterRoute'      => 'onAfterRoute',
+            'onAfterDispatch'   => 'onAfterDispatch',
+            'onAfterRender'     => 'onAfterRender',
         ];
     }
 
     /**
-     * After initialise router.
+     * After initialise.
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
-    public function onAfterInitialiseRouter(AfterInitialiseRouterEvent $event)
+    public function onAfterInitialise()
     {
-        $app = $this->getApplication();
+        $router = $this->getSiteRouter();
+        $app    = $this->getApplication();
 
         if (
-            is_a($event->getRouter(), SiteRouter::class)
-            && $app->get('sef')
+            $app->get('sef')
             && !$app->get('sef_suffix')
             && $this->params->get('trailingslash')
         ) {
             if ($this->params->get('trailingslash') == 1) {
                 // Remove trailingslash
-                $event->getRouter()->attachBuildRule([$this, 'removeTrailingSlash'], SiteRouter::PROCESS_AFTER);
+                $router->attachBuildRule([$this, 'removeTrailingSlash'], SiteRouter::PROCESS_AFTER);
             } elseif ($this->params->get('trailingslash') == 2) {
                 // Add trailingslash
-                $event->getRouter()->attachBuildRule([$this, 'addTrailingSlash'], SiteRouter::PROCESS_AFTER);
+                $router->attachBuildRule([$this, 'addTrailingSlash'], SiteRouter::PROCESS_AFTER);
             }
         }
     }
@@ -83,7 +85,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function onAfterRoute()
     {
@@ -178,7 +180,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
             foreach ($matches[1] as $urlQueryString) {
                 $buffer = str_replace(
                     'href="' . $prefix . 'index.php?' . $urlQueryString . '"',
-                    'href="' . trim($prefix, '/') . Route::_('index.php?' . $urlQueryString) . '"',
+                    'href="' . $prefix . Route::_('index.php?' . $urlQueryString) . '"',
                     $buffer
                 );
             }
@@ -273,7 +275,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function removeIndexphp()
     {
@@ -300,7 +302,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function removeTrailingSlash(&$router, &$uri)
     {
@@ -319,7 +321,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function addTrailingSlash(&$router, &$uri)
     {
@@ -335,13 +337,17 @@ final class Sef extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function enforceTrailingSlash()
     {
         $originalUri = Uri::getInstance();
 
-        if ((int)$this->params->get('trailingslash') === 1 && str_ends_with($originalUri->getPath(), '/') && $originalUri->toString() !== Uri::root()) {
+        if (
+            (int)$this->params->get('trailingslash') === 1
+            && str_ends_with($originalUri->getPath(), '/')
+            && $originalUri->toString(['scheme', 'host', 'port', 'path']) !== Uri::root()
+        ) {
             // Remove trailingslash
             $originalUri->setPath(substr($originalUri->getPath(), 0, -1));
             $this->getApplication()->redirect($originalUri->toString(), 301);

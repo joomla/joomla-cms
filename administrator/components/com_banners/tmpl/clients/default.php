@@ -152,7 +152,7 @@ $params     = $this->state->get('params') ?? new Registry();
                                         </div>
                                     </td>
                                     <td class="text-center btns d-none d-md-table-cell itemnumber">
-                                        <a class="btn <?php echo ($item->count_archived > 0) ? 'btn-info' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=2'); ?>"
+                                        <a class="btn <?php echo ($item->count_archived > 0) ? 'btn-primary' : 'btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=2'); ?>"
                                         aria-describedby="tip-archived<?php echo $i; ?>">
                                             <?php echo $item->count_archived; ?>
                                         </a>
