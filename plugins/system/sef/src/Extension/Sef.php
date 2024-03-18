@@ -91,8 +91,12 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     {
         $app = $this->getApplication();
 
-        // Following code only for Site application and GET requests
-        if (!$app->isClient('site') || $app->getInput()->getMethod() !== 'GET') {
+        // Following code only for Site application, GET requests and HTML documents
+        if (
+            !$app->isClient('site')
+            || $app->getInput()->getMethod() !== 'GET'
+            || $app->getInput()->get('format', 'html') !== 'html'
+        ) {
             return;
         }
 
@@ -308,7 +312,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     {
         $path = $uri->getPath();
 
-        if (str_ends_with($path, '/')) {
+        if ($path != '/' && str_ends_with($path, '/')) {
             $uri->setPath(substr($path, 0, -1));
         }
     }
