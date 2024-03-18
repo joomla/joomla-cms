@@ -407,53 +407,53 @@ class TourModel extends AdminModel
                             ]
                         );
 
-                foreach ($rows as $step) {
-                    $dataTypes = [
-                        ParameterType::INTEGER,
-                        ParameterType::STRING,
-                        ParameterType::STRING,
-                        ParameterType::INTEGER,
-                        ParameterType::STRING,
-                        ParameterType::STRING,
-                        ParameterType::INTEGER,
-                        ParameterType::INTEGER,
-                        ParameterType::STRING,
-                        ParameterType::STRING,
-                        ParameterType::INTEGER,
-                        ParameterType::STRING,
-                        ParameterType::INTEGER,
-                        ParameterType::STRING,
-                        ParameterType::STRING,
-                        ParameterType::STRING,
-                    ];
+                    foreach ($rows as $step) {
+                        $dataTypes = [
+                            ParameterType::INTEGER,
+                            ParameterType::STRING,
+                            ParameterType::STRING,
+                            ParameterType::INTEGER,
+                            ParameterType::STRING,
+                            ParameterType::STRING,
+                            ParameterType::INTEGER,
+                            ParameterType::INTEGER,
+                            ParameterType::STRING,
+                            ParameterType::STRING,
+                            ParameterType::INTEGER,
+                            ParameterType::STRING,
+                            ParameterType::INTEGER,
+                            ParameterType::STRING,
+                            ParameterType::STRING,
+                            ParameterType::STRING,
+                        ];
 
-                    $query->values(
-                        implode(
-                            ',',
-                            $query->bindArray(
-                                [
-                                    $table->id,
-                                    $step->title,
-                                    $step->description,
-                                    $step->ordering,
-                                    $step->position,
-                                    $step->target,
-                                    $step->type,
-                                    $step->interactive_type,
-                                    $step->url,
-                                    $date,
-                                    $user->id,
-                                    $date,
-                                    $user->id,
-                                    $step->language,
-                                    $step->params,
-                                    $step->note,
-                                ],
-                                $dataTypes
+                        $query->values(
+                            implode(
+                                ',',
+                                $query->bindArray(
+                                    [
+                                        $table->id,
+                                        $step->title,
+                                        $step->description,
+                                        $step->ordering,
+                                        $step->position,
+                                        $step->target,
+                                        $step->type,
+                                        $step->interactive_type,
+                                        $step->url,
+                                        $date,
+                                        $user->id,
+                                        $date,
+                                        $user->id,
+                                        $step->language,
+                                        $step->params,
+                                        $step->note,
+                                    ],
+                                    $dataTypes
+                                )
                             )
-                        )
-                    );
-                }
+                        );
+                    }
 
                     $db->setQuery($query);
 
