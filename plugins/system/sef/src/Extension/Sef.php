@@ -281,6 +281,11 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     {
         $origUri = Uri::getInstance();
 
+        // Only redirect when we are in an HTML document, thus excluding all AJAX, XML, feed or json documents
+        if ($this->getApplication()->getInput()->get('format', 'html') !== 'html') {
+            return;
+        }
+
         if (substr($origUri->getPath(), -9) === 'index.php') {
             // Remove trailing index.php
             $origUri->setPath(substr($origUri->getPath(), 0, -9));
@@ -342,6 +347,11 @@ final class Sef extends CMSPlugin implements SubscriberInterface
     protected function enforceTrailingSlash()
     {
         $originalUri = Uri::getInstance();
+
+        // Only redirect when we are in an HTML document, thus excluding all AJAX, XML, feed or json documents
+        if ($this->getApplication()->getInput()->get('format', 'html') !== 'html') {
+            return;
+        }
 
         if (
             (int)$this->params->get('trailingslash') === 1
