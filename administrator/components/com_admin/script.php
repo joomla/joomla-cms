@@ -2289,6 +2289,7 @@ class JoomlaInstallerScript
             '/modules/mod_wrapper/mod_wrapper.php',
             // From 5.1.0-beta1 to 5.1.0-beta2
             '/administrator/modules/mod_login/mod_login.php',
+            '/administrator/modules/mod_post_installation_messages/mod_post_installation_messages.php',
             '/libraries/src/Event/Router/AfterInitialiseRouterEvent.php',
             '/libraries/src/Event/Router/RouterEvent.php',
             '/libraries/src/Http/HttpFactoryInterface.php',
