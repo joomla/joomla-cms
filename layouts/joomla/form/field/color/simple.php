@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Utilities\ArrayHelper;
 
 extract($displayData);
 
@@ -51,22 +52,34 @@ extract($displayData);
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
-
-$class    = ' class="form-select ' . trim($class) . '"';
-$disabled = $disabled ? ' disabled' : '';
-$readonly = $readonly ? ' readonly' : '';
-
 Factory::getDocument()->getWebAssetManager()
     ->useStyle('webcomponent.field-simple-color')
     ->useScript('webcomponent.field-simple-color');
 
+Text::script('JCLOSE');
+Text::script('JNONE');
+
+$slots = [];
+$attr  = [
+    'name'  => $name,
+    'id'    => $id,
+    'class' => '' . trim($class),
+    'value' => trim($color),
+];
+
+if ($disabled) {
+    $attr['disabled'] = '';
+}
+
+if ($readonly) {
+    $attr['readonly'] = '';
+}
+
+foreach ($colors as $key => $val) {
+    $slots[] = '<button slot="colors" value="' . trim($val) . '" aria-pressed="' . (trim($val) === $color ? 'true' : 'false') . '" type="button"></button>';
+}
 ?>
-<joomla-field-simple-color text-select="<?php echo Text::_('JFIELD_COLOR_SELECT'); ?>" text-color="<?php echo Text::_('JFIELD_COLOR_VALUE'); ?>" text-close="<?php echo Text::_('JLIB_HTML_BEHAVIOR_CLOSE'); ?>" text-transparent="<?php echo Text::_('JFIELD_COLOR_TRANSPARENT'); ?>">
-    <select name="<?php echo $name; ?>" id="<?php echo $id; ?>"<?php
-    echo $disabled; ?><?php echo $readonly; ?><?php echo $dataAttribute; ?><?php echo $required; ?><?php echo $class; ?><?php echo $position; ?><?php
-    echo $onchange; ?><?php echo $autofocus; ?> style="visibility:hidden;width:22px;height:1px">
-        <?php foreach ($colors as $i => $c) : ?>
-            <option<?php echo ($c === $color ? ' selected="selected"' : ''); ?> value="<?php echo $c; ?>"></option>
-        <?php endforeach; ?>
-    </select>
+<joomla-field-simple-color <?php echo ArrayHelper::toString($attr); ?>>
+    <?php echo implode('', $slots); ?>
+    <input type="hidden" name="<?php echo $name; ?>" value="<?php echo $color; ?>" />
 </joomla-field-simple-color>
