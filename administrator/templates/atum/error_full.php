@@ -176,6 +176,11 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
                             <a href="<?php echo $this->baseurl; ?>" class="btn btn-secondary">
                                 <span class="icon-dashboard" aria-hidden="true"></span>
                                 <?php echo Text::_('JGLOBAL_TPL_CPANEL_LINK_TEXT'); ?></a>
+                            <?php if (!is_null($app->getUserState('exceptionhandler.culprit_name', null)) && !is_null($app->getUserState('exceptionhandler.restore_link', null))) : ?>
+                                <a class="btn btn-danger" href="<?php print htmlspecialchars($app->getUserState('exceptionhandler.restore_link', null), ENT_QUOTES, 'UTF-8'); ?>">
+                                    <?php echo Text::sprintf('JERROR_LAYOUT_DISABLE_PLUGIN', $app->getUserState('exceptionhandler.culprit_name', null)); ?>
+                                </a>
+                            <?php endif; ?>
                         </p>
                     </div>
 
