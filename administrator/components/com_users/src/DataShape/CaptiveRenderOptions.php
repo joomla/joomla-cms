@@ -157,6 +157,14 @@ class CaptiveRenderOptions extends DataShapeObject
     protected $help_url = '';
 
     /**
+     * Autocomplete default
+     *
+     * @var   string
+     * @since __DEPLOY_VERSION__
+     */
+    protected $autocomplete = 'off';
+
+    /**
      * Setter for the field_type property
      *
      * @param   string  $value  One of self::FIELD_INPUT, self::FIELD_CUSTOM

@@ -14,15 +14,14 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
-use Joomla\Filesystem\Path;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -573,8 +572,6 @@ class JoomlaInstallerScript
             'folders_deleted' => [],
             'files_errors'    => [],
             'folders_errors'  => [],
-            'folders_checked' => [],
-            'files_checked'   => [],
         ];
 
         $files = [
@@ -2290,6 +2287,40 @@ class JoomlaInstallerScript
             '/modules/mod_tags_popular/mod_tags_popular.php',
             '/modules/mod_tags_similar/mod_tags_similar.php',
             '/modules/mod_wrapper/mod_wrapper.php',
+            // From 5.1.0-beta1 to 5.1.0-beta2
+            '/administrator/modules/mod_login/mod_login.php',
+            '/libraries/src/Event/Router/AfterInitialiseRouterEvent.php',
+            '/libraries/src/Event/Router/RouterEvent.php',
+            '/libraries/src/Http/HttpFactoryInterface.php',
+            '/libraries/src/Service/Provider/Http.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A128CCM_16_128.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A128CCM_16_64.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A128CCM_64_128.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A128CCM_64_64.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A256CCM_16_128.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A256CCM_16_64.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A256CCM_64_128.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A256CCM_64_64.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/AESCCM.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/A128CTR.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/A192CTR.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/A256CTR.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/AESCTR.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/Chacha20Poly1305.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/RSAOAEP384.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/RSAOAEP512.php',
+            '/libraries/vendor/web-token/jwt-experimental/LICENSE',
+            '/libraries/vendor/web-token/jwt-experimental/Signature/Blake2b.php',
+            '/libraries/vendor/web-token/jwt-experimental/Signature/ES256K.php',
+            '/libraries/vendor/web-token/jwt-experimental/Signature/HS1.php',
+            '/libraries/vendor/web-token/jwt-experimental/Signature/HS256_64.php',
+            '/libraries/vendor/web-token/jwt-experimental/Signature/RS1.php',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-ecdsa/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-eddsa/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-experimental/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-hmac/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-none/LICENSE',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-rsa/LICENSE',
         ];
 
         $folders = [
@@ -2534,13 +2565,26 @@ class JoomlaInstallerScript
             '/libraries/vendor/web-token/jwt-signature',
             '/libraries/vendor/web-token/jwt-core/Util',
             '/libraries/vendor/web-token/jwt-core',
+            // From 5.1.0-beta1 to 5.1.0-beta2
+            '/libraries/vendor/web-token/signature-pack',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-rsa',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-none',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-hmac',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-experimental',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-eddsa',
+            '/libraries/vendor/web-token/jwt-signature-algorithm-ecdsa',
+            '/libraries/vendor/web-token/jwt-experimental/Signature',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption',
+            '/libraries/vendor/web-token/jwt-experimental',
+            '/libraries/src/Event/Router',
         ];
 
         $status['files_checked']   = $files;
         $status['folders_checked'] = $folders;
 
         foreach ($files as $file) {
-            if ($fileExists = is_file(JPATH_ROOT . $file)) {
+            if (is_file(JPATH_ROOT . $file)) {
                 $status['files_exist'][] = $file;
 
                 if ($dryRun === false) {
@@ -2554,7 +2598,7 @@ class JoomlaInstallerScript
         }
 
         foreach ($folders as $folder) {
-            if ($folderExists = is_dir(Path::clean(JPATH_ROOT . $folder))) {
+            if (is_dir(JPATH_ROOT . $folder)) {
                 $status['folders_exist'][] = $folder;
 
                 if ($dryRun === false) {
