@@ -315,18 +315,9 @@ class GroupModel extends AdminModel
                 $context = substr($app->getUserState('com_fields.groups.filter.context', ''), 4);
                 $filters = (array) $app->getUserState('com_fields.groups.' . $context . '.filter');
 
-                $data->set(
-                    'state',
-                    $input->getInt('state', (!empty($filters['state']) ? $filters['state'] : null))
-                );
-                $data->set(
-                    'language',
-                    $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null))
-                );
-                $data->set(
-                    'access',
-                    $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
-                );
+                $data->state    = $input->getInt('state', (!empty($filters['state']) ? $filters['state'] : null));
+                $data->language = $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null));
+                $data->access   = $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')));
             }
         }
 

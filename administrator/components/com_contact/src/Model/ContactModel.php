@@ -258,7 +258,7 @@ class ContactModel extends AdminModel
 
             // Prime some default values.
             if ($this->getState('contact.id') == 0) {
-                $data->set('catid', $app->getInput()->get('catid', $app->getUserState('com_contact.contacts.filter.category_id'), 'int'));
+                $data->catid = $app->getInput()->get('catid', $app->getUserState('com_contact.contacts.filter.category_id'), 'int');
             }
         }
 
