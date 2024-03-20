@@ -63,7 +63,7 @@ $slots = [];
 $attr  = [
     'name'  => $name,
     'id'    => $id,
-    'class' => '' . trim($class),
+    'class' => trim($class),
     'value' => trim($color),
 ];
 
