@@ -50,12 +50,10 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
-$uri = new Uri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
-$uri->setVar('field', $this->escape($id));
+$uri = new Uri('index.php?option=com_users&view=users&layout=modal&tmpl=component');
 
-if ($required) {
-    $uri->setVar('required', 1);
-}
+$uri->setVar('field', $this->escape($id));
+$uri->setVar('required', $required ? 1 : 0);
 
 if (!empty($groups)) {
     $uri->setVar('groups', base64_encode(json_encode($groups)));
@@ -65,56 +63,29 @@ if (!empty($excluded)) {
     $uri->setVar('excluded', base64_encode(json_encode($excluded)));
 }
 
-// Invalidate the input value if no user selected
-if ($this->escape($userName) === Text::_('JLIB_FORM_SELECT_USER')) {
-    $userName = '';
-}
-
-$inputAttributes = [
-    'type'  => 'text',
-    'id'    => $id,
-    'class' => 'form-control field-user-input-name',
-    'value' => $this->escape($userName),
+$attr = [
+    'class'    => (string) $class,
+    'id'       => (string) $id,
+    'name'     => (string) $name,
+    'value'    => $this->escape($value),
+    'username' => $this->escape($userName),
+    'url'      => (string) $uri
 ];
 
-if ($class) {
-    $inputAttributes['class'] .= ' ' . $class;
-}
-if ($size) {
-    $inputAttributes['size'] = (int) $size;
-}
 if ($required) {
-    $inputAttributes['required'] = 'required';
-}
-if (!$readonly) {
-    $inputAttributes['placeholder'] = Text::_('JLIB_FORM_SELECT_USER');
+    $attr['required'] = '';
 }
 
-if (!$readonly) {
-    Factory::getApplication()->getDocument()->getWebAssetManager()
-        ->useScript('webcomponent.field-user');
+if ($readonly) {
+    $attr['readonly'] = '';
 }
+
+Text::script('JLIB_FORM_CHANGE_USER');
+
+Factory::getApplication()->getDocument()->getWebAssetManager()
+    ->useStyle('webcomponent.field-user')
+    ->useScript('webcomponent.field-user');
 ?>
-<?php // Create a dummy text field with the user name. ?>
-<joomla-field-user class="field-user-wrapper"
-        url="<?php echo (string) $uri; ?>"
-        modal-title="<?php echo $this->escape(Text::_('JLIB_FORM_CHANGE_USER')); ?>"
-        input=".field-user-input"
-        input-name=".field-user-input-name"
-        button-select=".button-select">
-    <div class="input-group">
-        <input <?php echo ArrayHelper::toString($inputAttributes), $dataAttribute; ?> readonly>
-        <?php if (!$readonly) : ?>
-            <button type="button" class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?>">
-                <span class="icon-user icon-white" aria-hidden="true"></span>
-                <span class="visually-hidden"><?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?></span>
-            </button>
-        <?php endif; ?>
-    </div>
-    <?php // Create the real field, hidden, that stored the user id. ?>
-    <?php if (!$readonly) : ?>
-        <input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo $this->escape($value); ?>"
-            class="field-user-input <?php echo $class ? (string) $class : ''?>"
-            data-onchange="<?php echo $this->escape($onchange); ?>">
-    <?php endif; ?>
+<joomla-field-user <?php echo ArrayHelper::toString($attr); ?>>
+    <input type="hidden" name="<?php echo $name; ?>" value="<?php echo $value; ?>">
 </joomla-field-user>

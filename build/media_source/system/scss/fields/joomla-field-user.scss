@@ -1,0 +1,57 @@
+joomla-field-user {
+  --border-color: var(--bs-input-border-color, var(--input-border-color, #ced4da));
+  --opener-padding-x: 1rem;
+  --opener-padding-y: .5rem;
+
+  display: flex;
+
+  &.valid {
+    --border-color: var(--bs-success, var(--success, green));
+  }
+
+  &.invalid {
+    --border-color: var(--bs-danger, var(--danger, red));
+  }
+
+  &::part(name) {
+    display: block;
+    width: 100%;
+    height: 1.5rem;
+    padding: .5rem 1rem;
+    font-family: inherit;
+    line-height: 1.5;
+    color: var(--body-color);
+    background-color: var(--body-bg);
+    background-clip: padding-box;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--border-radius);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    appearance: none;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  }
+
+  &::part(opener) {
+    display: inline-block;
+    padding: var(--opener-padding-y) var(--opener-padding-x);
+    margin-left: calc(var(--border-width) * -1);
+    color: var(--btn-primary-color);
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-color: var(--btn-primary-bg);
+    border: var(--btn-primary-border);
+    border-radius: var(--border-radius);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    appearance: none;
+  }
+
+  &::part(opener):focus,
+  &::part(opener):hover {
+    background-color: var(--btn-primary-bg-hvr);
+    border: var(--btn-primary-border-hvr);
+  }
+}

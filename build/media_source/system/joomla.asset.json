@@ -544,6 +544,11 @@
       ]
     },
     {
+      "name": "webcomponent.field-user",
+      "type": "style",
+      "uri": "system/fields/joomla-field-user.min.css"
+    },
+    {
       "name": "webcomponent.core-loader-legacy",
       "type": "script",
       "deprecated": true,
