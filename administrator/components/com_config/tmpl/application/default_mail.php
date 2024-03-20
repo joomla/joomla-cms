@@ -15,6 +15,8 @@ use Joomla\CMS\Router\Route;
 
 defined('_JEXEC') or die;
 
+/** @var \Joomla\Component\Config\Administrator\View\Application\HtmlView $this */
+
 HTMLHelper::_('form.csrf');
 $this->document->getWebAssetManager()
     ->useScript('webcomponent.field-send-test-mail');

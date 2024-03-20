@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
+/** @var \Joomla\Component\Modules\Administrator\View\Modules\HtmlView $this */
+
 $clientId  = $this->state->get('client_id');
 
 // Show only Module Positions of published Templates
