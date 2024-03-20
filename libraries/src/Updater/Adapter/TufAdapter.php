@@ -14,6 +14,8 @@ namespace Joomla\CMS\Updater\Adapter;
 // phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Tuf as MetadataTable;
 use Joomla\CMS\TUF\TufFetcher;
@@ -25,7 +27,7 @@ use Tuf\Exception\MetadataException;
 /**
  * TUF Update Adapter Class
  *
- * @since   __DEPLOY_VERSION__
+ * @since   5.1.0
  */
 class TufAdapter extends UpdateAdapter
 {
@@ -36,7 +38,7 @@ class TufAdapter extends UpdateAdapter
      *
      * @return  array|boolean  Array containing the array of update sites and array of updates. False on failure
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function findUpdate($options)
     {
@@ -64,7 +66,7 @@ class TufAdapter extends UpdateAdapter
      *
      * @return  array|boolean  Array containing the array of update sites and array of updates. False on failure
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function getUpdateTargets($options)
     {
@@ -74,7 +76,7 @@ class TufAdapter extends UpdateAdapter
         $metadataTable = new MetadataTable($this->db);
         $metadataTable->load(['update_site_id' => $options['update_site_id']]);
 
-        $tufFetcher = new TufFetcher($metadataTable, $options['location']);
+        $tufFetcher = new TufFetcher($metadataTable, $options['location'], $this->db, (new HttpFactory())->getHttp(), Factory::getApplication());
         $metaData   = $tufFetcher->getValidUpdate();
 
         $metaData = json_decode((string) $metaData, true);
@@ -169,7 +171,7 @@ class TufAdapter extends UpdateAdapter
      *
      * @return void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     protected function configureUpdateOptions(OptionsResolver $resolver)
     {
