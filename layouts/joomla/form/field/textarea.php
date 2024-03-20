@@ -49,6 +49,9 @@ extract($displayData);
  * @var   boolean  $charcounter     Does this field support a character counter?
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
+ * @var   integer  $rows            Rows attribute for the field.
+ * @var   integer  $cols            Cols attribute for the field.
+ * @var   integer  $maxlength       Maxlength attribute for the field.
  */
 
 // Initialize some field attributes.
@@ -65,8 +68,8 @@ if ($charcounter) {
 }
 
 $attributes = [
-    $columns ?: '',
-    $rows ?: '',
+    $columns ? (is_numeric($columns) ? 'cols="' . $columns . '"' : $columns) : '',
+    $rows ? (is_numeric($rows) ? 'rows="' . $rows . '"' : $rows) : '',
     !empty($class) ? 'class="form-control ' . $class . $charcounter . '"' : 'class="form-control' . $charcounter . '"',
     !empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
     strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
@@ -78,7 +81,7 @@ $attributes = [
     !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
     $autofocus ? 'autofocus' : '',
     $spellcheck ? '' : 'spellcheck="false"',
-    $maxlength ?: '',
+    $maxlength ? (is_numeric($maxlength) ? 'maxlength="' . $maxlength . '"' : $maxlength) : '',
     !empty($counterlabel) ? $counterlabel : '',
     $dataAttribute,
 ];
