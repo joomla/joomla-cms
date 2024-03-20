@@ -75,7 +75,7 @@ if ($readonly) {
     $attr['readonly'] = '';
 }
 
-foreach ($colors as $key => $val) {
+foreach ($colors as $val) {
     $slots[] = '<button slot="colors" value="' . trim($val) . '" aria-pressed="' . (trim($val) === $color ? 'true' : 'false') . '" type="button"></button>';
 }
 ?>
