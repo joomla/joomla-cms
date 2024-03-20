@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca2cb7d978f989ce1eb25dcef54db239",
+    "content-hash": "8827e815417f1cda4554b7748d884cea",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1769,16 +1769,16 @@
         },
         {
             "name": "joomla/http",
-            "version": "2.0.2",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/http.git",
-                "reference": "abcd087d83d317434457a79755cdde1d57fde8c6"
+                "reference": "b20fe5c8c3a30d7660ac6e032640a11d84cf29a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/http/zipball/abcd087d83d317434457a79755cdde1d57fde8c6",
-                "reference": "abcd087d83d317434457a79755cdde1d57fde8c6",
+                "url": "https://api.github.com/repos/joomla-framework/http/zipball/b20fe5c8c3a30d7660ac6e032640a11d84cf29a1",
+                "reference": "b20fe5c8c3a30d7660ac6e032640a11d84cf29a1",
                 "shasum": ""
             },
             "require": {
@@ -1821,7 +1821,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/http/issues",
-                "source": "https://github.com/joomla-framework/http/tree/2.0.2"
+                "source": "https://github.com/joomla-framework/http/tree/2.0.4"
             },
             "funding": [
                 {
@@ -1833,7 +1833,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-01-31T21:23:35+00:00"
+            "time": "2024-03-12T10:38:28+00:00"
         },
         {
             "name": "joomla/input",
@@ -9921,5 +9921,5 @@
     "platform-overrides": {
         "php": "7.2.5"
     },
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
