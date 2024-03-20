@@ -37,6 +37,18 @@
 				/>
 
 				<field
+					name="orderby_pri"
+					type="list"
+					label="MOD_ARTICLES_CATEGORIES_CATEGORY_ORDER_LABEL"
+					useglobal="true"
+					>
+					<option value="none">JGLOBAL_NO_ORDER</option>
+					<option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+					<option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+					<option value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
+				</field>
+
+				<field
 					name="show_description"
 					type="radio"
 					layout="joomla.form.field.radio.switcher"
