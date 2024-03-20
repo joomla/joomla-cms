@@ -10,7 +10,7 @@ joomla-field-simple-color button {
   border: var(--border-width) solid var(--input-border-color);
   border-radius: var(--border-radius);
   margin-inline: .5rem;
-  margin-block-end: .2rem;
+  margin-block-end: .24rem;
 }
 
 joomla-field-simple-color::part(close) {
@@ -29,7 +29,7 @@ joomla-field-simple-color::part(opener) {
   border: var(--border-width) solid var(--input-border-color);
   border-radius: var(--border-radius);
   appearance: none;
-  margin-block: .68rem;
+  margin-block: .7rem;
 }
 
 joomla-field-simple-color::part(opener):focus-visible,
