@@ -9,11 +9,10 @@
 
 namespace Joomla\CMS\TUF;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Http\HttpFactoryInterface;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Tuf as MetadataTable;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Http\Http;
 use Tuf\Client\Updater;
 use Tuf\Exception\Attack\FreezeAttackException;
@@ -49,9 +48,16 @@ class TufFetcher
     /**
      * The database driver
      *
-     * @var DatabaseDriver
+     * @var DatabaseInterface
      */
-    protected DatabaseDriver $db;
+    protected DatabaseInterface $db;
+
+    /**
+     * The web application object
+     *
+     * @var CMSApplicationInterface
+     */
+    protected CMSApplicationInterface $app;
 
     /**
      * The http client
@@ -63,17 +69,25 @@ class TufFetcher
     /**
      * Validating updates with TUF
      *
-     * @param MetadataTable $metadataTable  The table object holding the metadata
-     * @param string        $repositoryUrl  The base repo URL
+     * @param   MetadataTable            $metadataTable  The table object holding the metadata
+     * @param   string                   $repositoryUrl  The repo url
+     * @param   DatabaseInterface        $db             The database driver
+     * @param   Http                     $httpClient     A client for sending Http requests
+     * @param   CMSApplicationInterface  $app            The application object for sending errors to users
      */
-    public function __construct(MetadataTable $metadataTable, string $repositoryUrl, DatabaseDriver $db = null, Http $httpClient = null)
-    {
+    public function __construct(
+        MetadataTable $metadataTable,
+        string $repositoryUrl,
+        DatabaseInterface $db,
+        Http $httpClient,
+        CMSApplicationInterface $app
+    ) {
         $this->metadataTable = $metadataTable;
         $this->repositoryUrl = $repositoryUrl;
-        $this->db            = $db ?? Factory::getContainer()->get(DatabaseDriver::class);
-        $this->httpClient    = $httpClient ?? Factory::getContainer()->get(HttpFactoryInterface::class)->getHttp([], 'curl');
+        $this->db            = $db;
+        $this->httpClient    = $httpClient;
+        $this->app           = $app;
     }
-
 
     /**
      * Checks for updates and writes it into the database if they are valid. Then it gets the targets.json content and
@@ -93,8 +107,6 @@ class TufFetcher
             $storage
         );
 
-        $app = Factory::getApplication();
-
         try {
             try {
                 // Refresh the data if needed, it will be written inside the DB, then we fetch it afterwards and return it to
@@ -107,20 +119,20 @@ class TufFetcher
                 return $storage->read('targets');
             } catch (\Exception $e) {
                 if (JDEBUG && $message = $e->getMessage()) {
-                    $app->enqueueMessage(Text::sprintf('JLIB_INSTALLER_TUF_DEBUG_MESSAGE', $message), 'error');
+                    $this->app->enqueueMessage(Text::sprintf('JLIB_INSTALLER_TUF_DEBUG_MESSAGE', $message), CMSApplicationInterface::MSG_ERROR);
                 }
                 throw $e;
             }
         } catch (DownloadSizeException $e) {
-            $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_DOWNLOAD_SIZE'), 'error');
+            $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_DOWNLOAD_SIZE'), CMSApplicationInterface::MSG_ERROR);
         } catch (MetadataException $e) {
-            $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_INVALID_METADATA'), 'error');
+            $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_INVALID_METADATA'), CMSApplicationInterface::MSG_ERROR);
         } catch (FreezeAttackException $e) {
-            $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_FREEZE_ATTACK'), 'error');
+            $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_FREEZE_ATTACK'), CMSApplicationInterface::MSG_ERROR);
         } catch (RollbackAttackException $e) {
-            $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_ROLLBACK_ATTACK'), 'error');
+            $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_ROLLBACK_ATTACK'), CMSApplicationInterface::MSG_ERROR);
         } catch (SignatureThresholdException $e) {
-            $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_SIGNATURE_THRESHOLD'), 'error');
+            $this->app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_SIGNATURE_THRESHOLD'), CMSApplicationInterface::MSG_ERROR);
         }
 
         $this->rollBackTufMetadata();
