@@ -75,6 +75,29 @@
       }
     },
     {
+      "name": "com_scheduler.config-helper.es5",
+      "type": "script",
+      "uri": "com_scheduler/admin-view-config-helper-es5.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_scheduler.config-helper",
+      "type": "script",
+      "uri": "com_scheduler/admin-view-config-helper.js",
+      "dependencies": [
+        "com_scheduler.config-helper.es5"
+      ],
+      "attributes": {
+        "type" : "module"
+      }
+    },
+    {
       "name": "com_scheduler.admin-view-select-task-css",
       "type": "style",
       "uri": "com_scheduler/admin-view-select-task.css"
