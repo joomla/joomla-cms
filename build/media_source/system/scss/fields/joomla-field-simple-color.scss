@@ -1,0 +1,52 @@
+joomla-field-simple-color {
+  display: block;
+
+  button {
+    width: 2rem;
+    height: 2rem;
+    appearance: none;
+    background: none;
+    border: var(--border-width, 1px) solid var(--input-border-color, #ccc);
+    border-radius: var(--border-radius, .25rem);
+    margin-inline: .5rem;
+    margin-block-end: .24rem;
+  }
+
+  &::part(close) {
+    appearance: none;
+    background: none;
+    border: 0;
+    margin-inline: .5rem;
+    margin-block-end: .2rem;
+  }
+
+  &::part(opener) {
+    width: 2rem;
+    height: 2rem;
+    overflow: hidden;
+    vertical-align: middle;
+    border: var(--border-width, 1px) solid var(--input-border-color, #ccc);
+    border-radius: var(--border-radius, .25rem);
+    appearance: none;
+    margin-block: .7rem;
+  }
+
+  &::part(opener):focus,
+  &::part(opener):hover,
+  button[aria-pressed=true] {
+    border: 2px solid var(--template-link-color, rgba(82 168 236 / .8));
+    box-shadow: 0 0 0 .25rem #2a69b740;
+  }
+
+  &::part(panel) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    float: inline-start;
+    padding: .64rem 0 .4rem;
+    background-color: var(--body-bg, #fff);
+    background-clip: padding-box;
+    border: var(--border-width, 1px) solid var(--input-border-color, #ccc);
+    border-radius: var(--border-radius, .25rem);
+    box-shadow: 0 5px 10px rgba(0 0 0 / .2);
+  }
+}
