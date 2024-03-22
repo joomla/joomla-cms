@@ -149,10 +149,13 @@ class Router
         // Do the postprocess stage of the URL parse process
         $this->processParseRules($uri, self::PROCESS_AFTER);
 
-        // Check if all parts of the URL have been parsed.
-        // Otherwise we have an invalid URL
+        // Check if all parts of the URL have been parsed. Otherwise we have an invalid URL
         if (\strlen($uri->getPath()) > 0) {
-            throw new RouteNotFoundException(Text::_('JERROR_PAGE_NOT_FOUND'));
+            if ($setVars) {
+                throw new RouteNotFoundException(Text::_('JERROR_PAGE_NOT_FOUND'));
+            } else {
+                return [];
+            }
         }
 
         if ($setVars) {
