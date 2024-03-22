@@ -9,7 +9,7 @@ const direction = (document.dir !== undefined) ? document.dir : document.documen
 document.querySelectorAll('.treeselect li').forEach((li) => {
   // Add icons
   const icon = document.createElement('span');
-// add tabindex to the span
+  // add tabindex to the span
   icon.setAttribute('tabindex', '0');
 
   icon.classList.add('icon-');
