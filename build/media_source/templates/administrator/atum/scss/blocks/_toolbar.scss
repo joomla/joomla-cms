@@ -23,11 +23,7 @@
 
   joomla-toolbar-button,
   .btn-group {
-    margin-inline-start: .75rem;
-
-    &:first-child {
-      margin-inline-start: 0;
-    }
+    margin-inline-end: .75rem;
   }
 
   joomla-toolbar-button {
