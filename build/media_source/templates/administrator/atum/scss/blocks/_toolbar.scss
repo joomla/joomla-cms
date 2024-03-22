@@ -24,6 +24,10 @@
   joomla-toolbar-button,
   .btn-group {
     margin-inline-end: .75rem;
+
+    &:last-of-type {
+      margin-inline-end: 0;
+    }
   }
 
   joomla-toolbar-button {
