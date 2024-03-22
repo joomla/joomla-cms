@@ -210,6 +210,9 @@ class JoomlaFieldSimpleColor extends HTMLElement {
     this.colorSelect = this.colorSelect.bind(this);
     this.getActiveElement = this.getActiveElement.bind(this);
     this.onDocumentClick = this.onDocumentClick.bind(this);
+
+    // Create a dummy div for the validation of the colors
+    this.div = document.createElement('div');
   }
 
   connectedCallback() {
@@ -246,6 +249,10 @@ class JoomlaFieldSimpleColor extends HTMLElement {
     this.closeButton.addEventListener('click', this.hide);
     this.closeButton.setAttribute('aria-label', Joomla.Text._('JCLOSE'));
     this.slotted.assignedElements().forEach((element) => {
+      if (!this.validateColor(element.value)) {
+        element.remove();
+      }
+
       element.style.background = element.value === 'none' ? checker : element.value;
       element.setAttribute('label', getColorName(element.value));
       element.addEventListener('click', this.colorSelect);
@@ -322,6 +329,11 @@ class JoomlaFieldSimpleColor extends HTMLElement {
     }
 
     return activeEl.shadowRoot ? this.getActiveElement(activeEl.shadowRoot) : activeEl;
+  }
+
+  validateColor(color) {
+    this.div.style.color = color;
+    return this.div.style.color !== '';
   }
 }
 
