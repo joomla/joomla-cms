@@ -1217,7 +1217,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         /** @var Session $session */
         $session = $this->getSession();
 
-        return $session->getFormToken($forceNew);
+        return $session::getFormToken($forceNew);
     }
 
     /**
@@ -1236,7 +1236,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         /** @var Session $session */
         $session = $this->getSession();
 
-        return $session->checkToken($method);
+        return $session::checkToken($method);
     }
 
     /**
