@@ -7,26 +7,23 @@ if (!Joomla) {
 }
 
 const checker = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3ggRDQENU0dyawAAACZJREFUGNNjPHXqDAMSMDY2ROYyMeAFNJVm/Pv3LzL/7Nnzg8VpAKebCGpIIxHBAAAAAElFTkSuQmCC")';
-const template = document.createElement('template');
-template.innerHTML = `
-<style>
-[part=close] svg {
-  padding-block-start: .2rem;
-}
-</style>
-<button type="button" part="opener" aria-expanded="false"></button>
-<div part="panel">
-  <slot name="colors"></slot>
-  <button type="button" aria-label="Close" part="close">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="16" height="16" fill="currentColor"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>
-  </button>
-</div>`;
+const template = Object.assign(document.createElement('template'), {
+  innerHTML: `
+    <style>[part=close] svg { padding-block-start: .2rem; }</style>
+    <button type="button" part="opener" aria-expanded="false"></button>
+    <div part="panel">
+      <slot name="colors"></slot>
+      <button type="button" aria-label="Close" part="close">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="16" height="16" fill="currentColor"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>
+      </button>
+    </div>`,
+});
 
 // Expand any short code
 function getColorName(value) {
   let newValue = value;
   if (newValue === 'none') return Joomla.Text._('JNONE');
-  if (value.length === 4) {
+  if (value.startsWith('#') && value.length === 4) {
     const tmpValue = value.split('');
     newValue = tmpValue[0] + tmpValue[1] + tmpValue[1] + tmpValue[2] + tmpValue[2] + tmpValue[3] + tmpValue[3];
   }
@@ -98,7 +95,7 @@ class JoomlaFieldSimpleColor extends HTMLElement {
       }
 
       element.style.background = element.value === 'none' ? checker : element.value;
-      element.setAttribute('label', getColorName(element.value));
+      element.setAttribute('aria-label', getColorName(element.value));
       element.addEventListener('click', this.colorSelect);
       if (element.getAttribute('aria-pressed') === 'true') {
         focused = element;
