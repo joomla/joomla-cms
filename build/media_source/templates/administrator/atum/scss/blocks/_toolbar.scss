@@ -219,13 +219,15 @@
     .btn-group,
     .btn {
       width: 100%;
-      margin-left: 0;
+      margin-inline-start: 0;
+      margin-inline-end: 0;
       text-align: left;
     }
 
     .btn-toolbar > .btn-group,
     .btn-toolbar > joomla-toolbar-button {
-      margin-left: 0;
+      margin-inline-start: 0;
+      margin-inline-end: 0;
     }
 
     .btn.btn-action::after {
