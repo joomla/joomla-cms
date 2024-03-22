@@ -30,11 +30,11 @@ abstract class AssociationHelper extends CategoryAssociationHelper
     /**
      * Method to get the associations for a given item
      *
-     * @param   integer  $id      Id of the item
-     * @param   string   $view    Name of the view
-     * @param   string   $layout  View layout
+     * @param   int|int[]  $id      ID of the item or array of IDs.
+     * @param   string     $view    Name of the view
+     * @param   string     $layout  View layout
      *
-     * @return  array   Array of associations for the item
+     * @return  array   Array of associations for the item, optionally grouped by ID
      *
      * @since  3.0
      */
@@ -79,7 +79,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
                     'com_content',
                     '#__content',
                     'com_content.item',
-                    $id,
+                    (array) $id,
                     'id',
                     'alias',
                     'catid',
@@ -88,11 +88,13 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 
                 $return = [];
 
-                foreach ($associations as $tag => $item) {
-                    $return[$tag] = RouteHelper::getArticleRoute($item->id, (int) $item->catid, $item->language, $layout);
+                foreach ($associations as $itemId => $itemAssociations) {
+                    foreach ($itemAssociations as $tag => $item) {
+                        $return[$itemId][$tag] = RouteHelper::getArticleRoute($item->id, (int) $item->catid, $item->language, $layout);
+                    }
                 }
 
-                return $return;
+                return \is_array($id) ? $return : ($return[$id] ?? []);
             }
         }
 
@@ -106,9 +108,9 @@ abstract class AssociationHelper extends CategoryAssociationHelper
     /**
      * Method to display in frontend the associations for a given article
      *
-     * @param   integer  $id  Id of the article
+     * @param   int|int[]  $id  ID of the article or array of IDs
      *
-     * @return  array  An array containing the association URL and the related language object
+     * @return  array  An array containing the association URL and the related language object, optionally grouped by article ID
      *
      * @since  3.7.0
      */
@@ -116,35 +118,39 @@ abstract class AssociationHelper extends CategoryAssociationHelper
     {
         $return = [];
 
-        if ($associations = self::getAssociations($id, 'article')) {
-            $levels    = Factory::getUser()->getAuthorisedViewLevels();
-            $languages = LanguageHelper::getLanguages();
+        if ($associations = self::getAssociations((array) $id, 'article')) {
+            $levels             = Factory::getUser()->getAuthorisedViewLevels();
+            $languages          = LanguageHelper::getLanguages();
+            $installedLanguages = LanguageHelper::getInstalledLanguages(0);
+            $siteHomePages      = Multilanguage::getSiteHomePages();
 
-            foreach ($languages as $language) {
-                // Do not display language when no association
-                if (empty($associations[$language->lang_code])) {
-                    continue;
+            foreach ($associations as $itemId => $itemAssociations) {
+                foreach ($languages as $language) {
+                    // Do not display language when no association
+                    if (empty($itemAssociations[$language->lang_code])) {
+                        continue;
+                    }
+
+                    // Do not display language without frontend UI
+                    if (!\array_key_exists($language->lang_code, $installedLanguages)) {
+                        continue;
+                    }
+
+                    // Do not display language without specific home menu
+                    if (!\array_key_exists($language->lang_code, $siteHomePages)) {
+                        continue;
+                    }
+
+                    // Do not display language without authorized access level
+                    if (isset($language->access) && $language->access && !\in_array($language->access, $levels)) {
+                        continue;
+                    }
+
+                    $return[$itemId][$language->lang_code] = ['item' => $itemAssociations[$language->lang_code], 'language' => $language];
                 }
-
-                // Do not display language without frontend UI
-                if (!\array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0))) {
-                    continue;
-                }
-
-                // Do not display language without specific home menu
-                if (!\array_key_exists($language->lang_code, Multilanguage::getSiteHomePages())) {
-                    continue;
-                }
-
-                // Do not display language without authorized access level
-                if (isset($language->access) && $language->access && !\in_array($language->access, $levels)) {
-                    continue;
-                }
-
-                $return[$language->lang_code] = ['item' => $associations[$language->lang_code], 'language' => $language];
             }
         }
 
-        return $return;
+        return \is_array($id) ? $return : ($return[$id] ?? []);
     }
 }

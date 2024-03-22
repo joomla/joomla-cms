@@ -11,8 +11,8 @@ namespace Joomla\CMS\Language;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -28,16 +28,16 @@ class Associations
     /**
      * Get the associations.
      *
-     * @param   string   $extension   The name of the component.
-     * @param   string   $tablename   The name of the table.
-     * @param   string   $context     The context
-     * @param   integer  $id          The primary key value.
-     * @param   string   $pk          The name of the primary key in the given $table.
-     * @param   string   $aliasField  If the table has an alias field set it here. Null to not use it
-     * @param   string   $catField    If the table has a catid field set it here. Null to not use it
-     * @param   array    $advClause   Additional advanced 'where' clause; use c as parent column key, c2 as associations column key
+     * @param   string     $extension   The name of the component.
+     * @param   string     $tablename   The name of the table.
+     * @param   string     $context     The context
+     * @param   int|int[]  $id          The primary key value or array of primary keys.
+     * @param   string     $pk          The name of the primary key in the given $table.
+     * @param   string     $aliasField  If the table has an alias field set it here. Null to not use it
+     * @param   string     $catField    If the table has a catid field set it here. Null to not use it
+     * @param   array      $advClause   Additional advanced 'where' clause; use c as parent column key, c2 as associations column key
      *
-     * @return  array  The associated items
+     * @return  array  The associated items, optionally grouped by primary key.
      *
      * @since   3.1
      *
@@ -56,11 +56,8 @@ class Associations
         // To avoid doing duplicate database queries.
         static $multilanguageAssociations = [];
 
-        // Cast before creating cache key.
-        $id = (int) $id;
-
         // Multilanguage association array key. If the key is already in the array we don't need to run the query again, just return it.
-        $queryKey = md5(serialize(array_merge([$extension, $tablename, $context, $id], $advClause)));
+        $queryKey = md5(serialize(array_merge([$extension, $tablename, $context, print_r($id, true)], $advClause)));
 
         if (!isset($multilanguageAssociations[$queryKey])) {
             $multilanguageAssociations[$queryKey] = [];
@@ -74,7 +71,7 @@ class Associations
                 $query->bind(':extension1', $extension);
             }
 
-            $query->select($db->quoteName('c2.language'))
+            $query->select([$db->quoteName('c2.language'), $db->quoteName('c.' . $pk) . ' AS ' . $db->quoteName('pk')])
                 ->from($db->quoteName($tablename, 'c'))
                 ->join(
                     'INNER',
@@ -124,8 +121,9 @@ class Associations
                     );
             }
 
-            $query->where($db->quoteName('c.' . $pk) . ' = :id')
-                ->bind(':id', $id, ParameterType::INTEGER);
+            $ids = ArrayHelper::toInteger((array) $id);
+
+            $query->where($db->quoteName('c.' . $pk) . 'IN(' . implode(',', $query->bindArray($ids)) . ')');
 
             if ($tablename === '#__categories') {
                 $query->where($db->quoteName('c.extension') . ' = :extension3')
@@ -141,17 +139,33 @@ class Associations
 
             $db->setQuery($query);
 
-            try {
-                $items = $db->loadObjectList('language');
-            } catch (\RuntimeException $e) {
-                throw new \Exception($e->getMessage(), 500, $e);
-            }
+            if (\is_array($id)) {
+                try {
+                    $items = $db->loadObjectList();
+                } catch (\RuntimeException $e) {
+                    throw new \Exception($e->getMessage(), 500, $e);
+                }
 
-            if ($items) {
-                foreach ($items as $tag => $item) {
+                // Group by id
+                foreach ($items as $item) {
                     // Do not return itself as result
                     if ((int) $item->{$pk} !== $id) {
-                        $multilanguageAssociations[$queryKey][$tag] = $item;
+                        $multilanguageAssociations[$queryKey][$item->pk][$item->language] = $item;
+                    }
+                }
+            } else {
+                try {
+                    $items = $db->loadObjectList('language');
+                } catch (\RuntimeException $e) {
+                    throw new \Exception($e->getMessage(), 500, $e);
+                }
+
+                if ($items) {
+                    foreach ($items as $tag => $item) {
+                        // Do not return itself as result
+                        if ((int) $item->{$pk} !== $id) {
+                            $multilanguageAssociations[$queryKey][$tag] = $item;
+                        }
                     }
                 }
             }
@@ -176,17 +190,17 @@ class Associations
         // Status of language filter parameter.
         static $enabled = false;
 
-        if (Multilanguage::isEnabled()) {
-            // If already tested, don't test again.
-            if (!$tested) {
+        // If already tested, don't test again.
+        if (!$tested) {
+            $tested = true;
+
+            if (Multilanguage::isEnabled()) {
                 $plugin = PluginHelper::getPlugin('system', 'languagefilter');
 
                 if (!empty($plugin)) {
                     $params   = new Registry($plugin->params);
                     $enabled  = (bool) $params->get('item_associations', true);
                 }
-
-                $tested = true;
             }
         }
 
