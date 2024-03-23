@@ -315,6 +315,73 @@ final class Subform extends FieldsPlugin
     }
 
     /**
+     * Modify the raw value of a field before saving it
+     *
+     * @param   \stdClass   $field   The field
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onCustomFieldsBeforeSave($field)
+    {
+        // Check if the field should be processed by us
+        if (!$this->isTypeSupported($field->type)) {
+            return;
+        }
+
+        if (empty($field->rawvalue)) {
+            return;
+        }
+
+        if (is_array($field->rawvalue)) {
+            return;
+        }
+
+        $decoded_value = json_decode($field->rawvalue, true);
+
+        if (!$decoded_value || !is_array($decoded_value)) {
+            return;
+        }
+
+        $subform_rows = [];
+
+        // Iterate over each row of the data
+        foreach ($decoded_value as $key => $row) {
+            $row_subfields = [];
+
+            // For each row, iterate over all the subfields
+            foreach ($this->getSubfieldsFromField($field) as $subfield) {
+                foreach ($row as $fieldId => $rawValue) {
+                    if ($subfield->id === (int)str_replace('field', '', $fieldId)) {
+                        $subfield->rawvalue                  = $rawValue;
+                        $row_subfields[$subfield->fieldname] = $subfield;
+                    }
+                }
+            }
+
+            $subform_rows[$key] = [];
+
+            // Check conditions on fields (through the showon attribute)
+            foreach ($row_subfields as $subfield) {
+                $showOn = $subfield->params->get('showon', '');
+
+                $subform_rows[$key]['field' . $subfield->id] = $subfield->rawvalue;
+
+                if (empty($showOn)) {
+                    continue;
+                }
+
+                if (!FieldsHelper::matchShowon($showOn, $row_subfields)) {
+                    unset($subform_rows[$key]['field' . $subfield->id]);
+                }
+            }
+        }
+
+        $field->rawvalue = json_encode($subform_rows);
+    }
+
+    /**
      * Returns an array of all options configured for this field.
      *
      * @param   \stdClass  $field  The field

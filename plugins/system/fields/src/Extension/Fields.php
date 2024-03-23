@@ -12,6 +12,7 @@ namespace Joomla\Plugin\System\Fields\Extension;
 
 use Joomla\CMS\Event\Content;
 use Joomla\CMS\Event\Model;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
@@ -129,6 +130,14 @@ final class Fields extends CMSPlugin
 
         // Loop over the fields
         foreach ($fields as $field) {
+            // Empty fields that are hidden so that their values will be removed if they exist
+            $showOn = $field->params->get('showon', '');
+            if (!empty($showOn) && !FieldsHelper::matchShowon($showOn, $fields)) {
+                // Remove value from database
+                $model->setFieldValue($field->id, $item->id, null);
+                continue;
+            }
+
             // Determine the value if it is (un)available from the data
             if (\array_key_exists($field->name, $data['com_fields'])) {
                 $value = $data['com_fields'][$field->name] === false ? null : $data['com_fields'][$field->name];
@@ -147,8 +156,11 @@ final class Fields extends CMSPlugin
                 $value = json_encode($value);
             }
 
+            $field->rawvalue = $value;
+            Factory::getApplication()->triggerEvent('onCustomFieldsBeforeSave', [&$field]);
+
             // Setting the value for the field and the item
-            $model->setFieldValue($field->id, $item->id, $value);
+            $model->setFieldValue($field->id, $item->id, $field->rawvalue);
         }
     }
 

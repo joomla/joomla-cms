@@ -512,6 +512,10 @@ class FormHelper
             $compareEqual     = strpos($showOnPart, '!:') === false;
             $showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
 
+            if (count($showOnPartBlocks) !== 2) {
+                continue;
+            }
+
             $dotPos = strpos($showOnPartBlocks[0], '.');
 
             if ($dotPos === false) {
