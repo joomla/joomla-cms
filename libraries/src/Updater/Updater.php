@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Updater;
 
 use Joomla\CMS\Adapter\Adapter;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 
@@ -368,7 +367,7 @@ class Updater extends Adapter
      */
     private function getSitesWithUpdates($timestamp = 0)
     {
-        $db        = Factory::getDbo();
+        $db        = $this->getDbo();
         $timestamp = (int) $timestamp;
 
         $query = $db->getQuery(true)
@@ -412,7 +411,7 @@ class Updater extends Adapter
     private function updateLastCheckTimestamp($updateSiteId)
     {
         $timestamp    = time();
-        $db           = Factory::getDbo();
+        $db           = $this->getDbo();
         $updateSiteId = (int) $updateSiteId;
 
         $query = $db->getQuery(true)
