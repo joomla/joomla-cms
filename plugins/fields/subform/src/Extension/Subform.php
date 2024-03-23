@@ -10,9 +10,6 @@
 
 namespace Joomla\Plugin\Fields\Subform\Extension;
 
-use DOMDocument;
-use DOMElement;
-use DOMXPath;
 use Joomla\CMS\Form\Form;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;

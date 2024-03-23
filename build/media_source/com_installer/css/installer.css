@@ -42,10 +42,14 @@
   color: #666;
 }
 
-@media (prefers-color-scheme: dark) {
-  #dragarea p.lead {
-    color: #999;
-  }
+[data-color-scheme=dark] #dragarea.hover #upload-icon,
+[data-color-scheme=dark] #dragarea p.lead {
+  color: #eee;
+}
+
+[data-color-scheme=dark] #dragarea.hover {
+  background-color: #666;
+  border-color: #eee;
 }
 
 .upload-progress, .install-progress {
