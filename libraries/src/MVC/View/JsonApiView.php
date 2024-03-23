@@ -209,14 +209,24 @@ abstract class JsonApiView extends JsonView
      */
     public function displayItem($item = null)
     {
+         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+        $model = $this->getModel();
+        $media = ['medium', 'adapter'];
+
         if ($item === null) {
-            /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
-            $model = $this->getModel();
             $item  = $this->prepareItem($model->getItem());
         }
 
-        if ($item->id === null) {
-            throw new RouteNotFoundException('Item does not exist');
+        if (!\in_array($model->getName(), $media)) {
+            $primaryKey = $model->getTable()->getKeyName();
+
+            if (empty($item->{$primaryKey}) || $item->{$primaryKey} === null) {
+                throw new RouteNotFoundException('Item does not exist');
+            }
+        } else {
+            if ($item->id === null) {
+                throw new RouteNotFoundException('Item does not exist');
+            }
         }
 
         // Check for errors.
