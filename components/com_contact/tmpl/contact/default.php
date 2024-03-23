@@ -111,6 +111,16 @@ $htag2   = ($tparams->get('show_page_heading') && $tparams->get('show_name')) ? 
                         ]
                     ); ?>
                 </div>
+            <?php elseif ($this->params->get('image') && $this->params->get('show_image')) : ?>
+                <div class="com-contact__thumbnail thumbnail">
+                    <?php echo LayoutHelper::render(
+                        'joomla.html.image',
+                        [
+                            'src'      => $this->params->get('image'),
+                            'alt'      => $this->item->name,
+                        ]
+                    ); ?>
+                </div>
             <?php endif; ?>
 
             <?php if ($this->item->con_position && $tparams->get('show_position')) : ?>
