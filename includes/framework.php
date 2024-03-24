@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 use Joomla\Utilities\IpHelper;
 
@@ -22,7 +23,7 @@ if (
     || (file_exists(JPATH_INSTALLATION . '/index.php') && (false === (new Version())->isInDevelopmentState()))
 ) {
     if (file_exists(JPATH_INSTALLATION . '/index.php')) {
-        header('Location: ' . substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php')) . 'installation/index.php');
+        header('Location: ' . Uri::base() . 'installation/index.php');
 
         exit;
     } else {
