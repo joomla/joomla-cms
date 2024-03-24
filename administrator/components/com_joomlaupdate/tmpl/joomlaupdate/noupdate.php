@@ -15,18 +15,20 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView $this */
+
 $uploadLink       = 'index.php?option=com_joomlaupdate&view=upload';
 $reasonNoDownload = '';
 
 if (!empty($this->reasonNoDownload)) {
-    $reasonNoDownload = Text::_($this->reasonNoDownload);
+    $reasonNoDownload = Text::_($this->reasonNoDownload) . '<br>';
 
     if (isset($this->detailsNoDownload->php)) {
         $reasonNoDownload .= Text::sprintf(
             'COM_JOOMLAUPDATE_NODOWNLOAD_EMPTYSTATE_REASON_PHP',
             $this->detailsNoDownload->php->used,
             $this->detailsNoDownload->php->required
-        );
+        ) . '<br>';
     }
 
     if (isset($this->detailsNoDownload->db)) {
@@ -35,10 +37,10 @@ if (!empty($this->reasonNoDownload)) {
             Text::_('JLIB_DB_SERVER_TYPE_' . $this->detailsNoDownload->db->type),
             $this->detailsNoDownload->db->used,
             $this->detailsNoDownload->db->required
-        );
+        ) . '<br>';
     }
 
-    $reasonNoDownload .= Text::_('COM_JOOMLAUPDATE_NODOWNLOAD_EMPTYSTATE_REASON_ACTION');
+    $reasonNoDownload .= Text::_('COM_JOOMLAUPDATE_NODOWNLOAD_EMPTYSTATE_REASON_ACTION') . '<br>';
 }
 
 $displayData = [

@@ -18,9 +18,9 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
- * @var  PlgSystemStats  $plugin        Plugin rendering this layout
- * @var  Registry        $pluginParams  Plugin parameters
- * @var  array           $statsData     Array containing the data that will be sent to the stats server
+ * @var  \Joomla\Plugin\System\Stats\Extension\Stats  $plugin        Plugin rendering this layout
+ * @var  Registry                                     $pluginParams  Plugin parameters
+ * @var  array                                        $statsData     Array containing the data that will be sent to the stats server
  */
 ?>
 
