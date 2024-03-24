@@ -45,8 +45,7 @@ const debounce = (callback, time = 250, interval) => (...args) => clearTimeout(i
   const onBoot = () => {
     const cpanelModules = document.getElementById('content');
     if (cpanelModules) {
-      const links = [].slice.call(cpanelModules.querySelectorAll('.unpublish-module'));
-      links.forEach((link) => {
+      cpanelModules.querySelectorAll('.unpublish-module').forEach((link) => {
         link.addEventListener('click', ({ target }) => Joomla.unpublishModule(target));
       });
     }
@@ -79,9 +78,7 @@ const debounce = (callback, time = 250, interval) => (...args) => clearTimeout(i
     resizeAllGridItems() {
       const $gridCells = [].slice.call(this.$gridBox.children);
 
-      $gridCells.forEach(($cell) => {
-        this.resizeGridItem($cell, this.gridAutoRows, this.gridRowGap);
-      });
+      $gridCells.forEach(($cell) => this.resizeGridItem($cell, this.gridAutoRows, this.gridRowGap));
     },
 
     initialise() {
