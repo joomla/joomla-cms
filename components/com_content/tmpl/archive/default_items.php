@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Content\Site\View\Archive\HtmlView $this */
 $params = $this->params;
 ?>
 <div id="archive-items" class="com-content-archive__items">

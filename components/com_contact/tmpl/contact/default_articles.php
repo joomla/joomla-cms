@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Contact\Site\View\Contact\HtmlView $this */
 ?>
 <?php if ($this->params->get('show_articles')) : ?>
 <div class="com-contact__articles contact-articles">

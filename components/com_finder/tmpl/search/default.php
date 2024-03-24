@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+/** @var \Joomla\Component\Finder\Site\View\Search\HtmlView $this */
 $this->document->getWebAssetManager()
     ->useStyle('com_finder.finder')
     ->useScript('com_finder.finder');

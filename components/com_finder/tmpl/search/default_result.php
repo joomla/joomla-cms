@@ -19,6 +19,7 @@ use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
 use Joomla\String\StringHelper;
 
+/** @var \Joomla\Component\Finder\Site\View\Search\HtmlView $this */
 $user             = $this->getCurrentUser();
 $show_description = $this->params->get('show_description', 1);
 

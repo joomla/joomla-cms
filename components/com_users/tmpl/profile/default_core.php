@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Users\Site\View\Profile\HtmlView $this */
 ?>
 <fieldset id="users-profile-core" class="com-users-profile__core">
     <legend>

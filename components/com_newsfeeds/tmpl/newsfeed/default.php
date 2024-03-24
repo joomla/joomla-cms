@@ -16,6 +16,7 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Filter\OutputFilter;
 
+/** @var \Joomla\Component\Newsfeeds\Site\View\Newsfeed\HtmlView $this */
 ?>
 
 <?php if (!empty($this->msg)) : ?>

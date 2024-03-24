@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Content\Site\View\Categories\HtmlView $this */
 if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
     ?>
     <div class="com-content-categories__items">
