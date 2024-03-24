@@ -48,7 +48,9 @@
           "dist/css/bootstrap-grid.css": "css/bootstrap-grid.css",
           "dist/css/bootstrap-grid.min.css": "css/bootstrap-grid.min.css",
           "dist/css/bootstrap-reboot.css": "css/bootstrap-reboot.css",
-          "dist/css/bootstrap-reboot.min.css": "css/bootstrap-reboot.min.css"
+          "dist/css/bootstrap-reboot.min.css": "css/bootstrap-reboot.min.css",
+          "dist/css/bootstrap.rtl.css": "css/boostrap.rtl.css",
+          "dist/css/bootstrap.rtl.min.css": "css/boostrap.rtl.min.css"
         },
         "filesExtra": {
           "dist/css/bootstrap.css.map": "css/bootstrap.css.map",
@@ -57,6 +59,8 @@
           "dist/css/bootstrap-grid.min.css.map": "css/bootstrap-grid.min.css.map",
           "dist/css/bootstrap-reboot.css.map": "css/bootstrap-reboot.css.map",
           "dist/css/bootstrap-reboot.min.css.map": "css/bootstrap-reboot.min.css.map",
+          "dist/css/bootstrap.rtl.css.map": "css/boostrap.rtl.css.map",
+          "dist/css/bootstrap.rtl.min.css.map": "css/boostrap.rtl.min.css.map",
           "scss": "scss"
         },
         "provideAssets": [
