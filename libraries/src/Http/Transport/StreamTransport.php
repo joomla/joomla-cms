@@ -89,6 +89,15 @@ class StreamTransport extends AbstractTransport implements TransportInterface
             $options[$key] = $value;
         }
 
+        if (!\array_key_exists('protocol_version', $options)) {
+            $options['protocol_version'] = '1.1';
+        }
+
+        // HTTP/1.1 streams using the PHP stream wrapper require a Connection: close header
+        if ($options['protocol_version'] == '1.1' && !isset($headers['Connection'])) {
+            $headers['Connection'] = 'close';
+        }
+
         // Add the proxy configuration, if any.
         $app = Factory::getApplication();
 

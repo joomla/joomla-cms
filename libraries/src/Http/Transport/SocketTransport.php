@@ -86,7 +86,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 
         // Build the request payload.
         $request   = [];
-        $request[] = strtoupper($method) . ' ' . ((empty($path)) ? '/' : $path) . ' HTTP/1.0';
+        $request[] = strtoupper($method) . ' ' . ((empty($path)) ? '/' : $path) . ' HTTP/1.1';
         $request[] = 'Host: ' . $uri->getHost();
 
         // If an explicit user agent is given use it.
@@ -99,6 +99,11 @@ class SocketTransport extends AbstractTransport implements TransportInterface
             foreach ($headers as $k => $v) {
                 $request[] = $k . ': ' . $v;
             }
+        }
+
+        // HTTP/1.1 streams using the socket wrapper require a Connection: close header
+        if (!isset($headers['Connection'])) {
+            $headers['Connection'] = 'close';
         }
 
         // Set any custom transport options
