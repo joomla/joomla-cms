@@ -81,11 +81,11 @@ class TufAdapter extends UpdateAdapter
 
         $metaData = json_decode((string) $metaData, true);
 
-        if (!isset($metaData["signed"]["targets"])) {
+        if (!isset($metaData['signed']['targets'])) {
             return false;
         }
 
-        foreach ($metaData["signed"]["targets"] as $filename => $target) {
+        foreach ($metaData['signed']['targets'] as $filename => $target) {
             $version = $this->processTufTarget($filename, $target);
 
             if (!$version) {

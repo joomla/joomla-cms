@@ -89,10 +89,6 @@ class UpdateModel extends BaseDatabaseModel
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
         switch ($params->get('updatesource', 'default')) {
-            case 'testing':
-                // "Testing"
-                $updateURL = 'https://update.joomla.org/core/test/list_test.xml';
-                break;
 
             case 'custom':
                 // "Custom"
@@ -176,9 +172,7 @@ class UpdateModel extends BaseDatabaseModel
         $minimumStability      = Updater::STABILITY_STABLE;
         $comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
 
-        if (\in_array($comJoomlaupdateParams->get('updatesource', 'default'), ['testing', 'custom'])) {
-            $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
-        }
+        $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
 
         $reflection       = new \ReflectionObject($updater);
         $reflectionMethod = $reflection->getMethod('findUpdates');

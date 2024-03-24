@@ -216,14 +216,11 @@ class ConstraintChecker
      */
     protected function checkStability(string $stability)
     {
-        $minimumStability = ComponentHelper::getParams('com_installer')->get('minimum_stability', Updater::STABILITY_STABLE);
+        $minimumStability = ComponentHelper::getParams('com_joomlaupdate')->get('minimum_stability', Updater::STABILITY_STABLE);
 
         $stabilityInt = $this->stabilityToInteger($stability);
 
         if (($stabilityInt < $minimumStability)) {
-            $this->failedEnvironmentConstraints->stability            = new \stdClass();
-            $this->failedEnvironmentConstraints->stability->required  = $stability;
-            $this->failedEnvironmentConstraints->stability->used      = $minimumStability;
 
             return false;
         }
