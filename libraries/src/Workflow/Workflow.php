@@ -105,7 +105,7 @@ class Workflow
      *
      * @since   4.0.0
      */
-    public function __construct(string $extension, AbstractApplication $app = null, ?DatabaseDriver $db = null)
+    public function __construct(string $extension, ?AbstractApplication $app = null, ?DatabaseDriver $db = null)
     {
         $this->extension = $extension;
 
