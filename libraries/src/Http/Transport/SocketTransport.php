@@ -165,7 +165,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         $headers = explode("\r\n", $response[0]);
 
         // Set the body for the response.
-        $body = empty($response[1]) ? '' : \http_chunked_decode($response[1]);
+        $body = empty($response[1]) ? '' : $response[1];
 
         // Get the response code from the first offset of the response headers.
         preg_match('/[0-9]{3}/', array_shift($headers), $matches);
@@ -178,6 +178,12 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 
         $statusCode      = (int) $code;
         $verifiedHeaders = $this->processHeaders($headers);
+
+        // If we have a HTTP 1.1 Response with chunked encoding then we have to decode the message
+        if (\array_key_exists('Transfer-Encoding', $verifiedHeaders) &&
+            $verifiedHeaders['Transfer-Encoding'][0] === 'chunked') {
+            $body = static::http_chunked_decode($body);
+        }
 
         $streamInterface = new StreamResponse('php://memory', 'rw');
         $streamInterface->write($body);
@@ -282,8 +288,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
     }
 
     /**
-     * De-chunks a http 'transfer-encoding: chunked' message. This polyfills when the native PHP extension ext-http is
-     * not present on a server.
+     * De-chunks a http 'transfer-encoding: chunked' message for when decoding a HTTP 1.1 server message.
      *
      * @param   string  $chunk  The encoded message
      *
@@ -297,7 +302,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 
         while (($pos < $len)
             && ($chunkLenHex = substr($chunk, $pos, ($newlineAt = strpos($chunk, "\n", $pos + 1)) - $pos))) {
-            if (!static::is_hex($chunkLenHex)) {
+            if (!static::is_hex(rtrim($chunkLenHex))) {
                 trigger_error('Value is not properly chunk encoded', E_USER_WARNING);
                 return $chunk;
             }
@@ -320,12 +325,10 @@ class SocketTransport extends AbstractTransport implements TransportInterface
      */
     private static function is_hex($hex)
     {
-        $value = trim($hex);
-
-        if (empty($value)) {
+        if (empty($hex)) {
             return true;
         }
 
-        return @preg_match("/^[a-f0-9]{2,}$/i", $value) && !(strlen($value) & 1);
+        return @preg_match("/^[a-f0-9]{2,}$/i", $hex) && !(\strlen($hex) & 1);
     }
 }
