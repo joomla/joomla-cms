@@ -193,14 +193,14 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
         $articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
         $articles->setState('filter.author_alias', $params->get('created_by_alias', []));
         $articles->setState('filter.author_alias.include', $params->get('author_alias_filtering_type', 1));
-        $excluded_articles = $params->get('excluded_articles', '');
+        $filter_articles = $params->get('filter_articles', '');
 
-        if ($excluded_articles) {
-            $excluded_articles = explode("\r\n", $excluded_articles);
-            $articles->setState('filter.article_id', $excluded_articles);
+        if ($filter_articles) {
+            $filter_articles = explode("\r\n", $filter_articles);
+            $articles->setState('filter.article_id', $filter_articles);
 
-            // Exclude
-            $articles->setState('filter.article_id.include', false);
+            // Exclude / Include option
+            $articles->setState('filter.article_id.include', \boolval($params->get('articles_filtering_type', 0)));
         }
 
         $date_filtering = $params->get('date_filtering', 'off');
