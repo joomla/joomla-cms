@@ -63,6 +63,10 @@ class HtmlView extends BaseHtmlView
         $dashboard = $app->getInput()->getCmd('dashboard', '');
         $toolbar   = Toolbar::getInstance();
 
+        $http = \Joomla\CMS\Http\HttpFactory::getHttp([], 'socket');
+        $response = $http->get('https://jigsaw.w3.org/HTTP/ChunkedScript');
+        var_dump((string) $response->getBody());die;
+
         $position = OutputFilter::stringURLSafe($dashboard);
 
         // Generate a title for the view cpanel

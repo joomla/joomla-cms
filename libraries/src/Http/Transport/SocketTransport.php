@@ -135,8 +135,8 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         $content = $this->getResponse($content);
 
         // Follow Http redirects
-        if ($content->code >= 301 && $content->code < 400 && isset($content->headers['Location'])) {
-            return $this->request($method, new Uri($content->headers['Location']), $data, $headers, $timeout, $userAgent);
+        if ($content->code >= 301 && $content->code < 400 && isset($content->headers['location'][0])) {
+            return $this->request($method, new Uri($content->headers['location'][0]), $data, $headers, $timeout, $userAgent);
         }
 
         return $content;
@@ -325,10 +325,6 @@ class SocketTransport extends AbstractTransport implements TransportInterface
      */
     private static function is_hex($hex)
     {
-        if (empty($hex)) {
-            return true;
-        }
-
-        return @preg_match("/^[a-f0-9]{2,}$/i", $hex) && !(\strlen($hex) & 1);
+        return empty($hex) || (@preg_match("/^[a-f0-9]{2,}$/i", $hex) && !(\strlen($hex) & 1));
     }
 }
