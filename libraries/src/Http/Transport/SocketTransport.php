@@ -165,7 +165,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         $headers = explode("\r\n", $response[0]);
 
         // Set the body for the response.
-        $body = empty($response[1]) ? '' : $response[1];
+        $body = empty($response[1]) ? '' : \http_chunked_decode($response[1]);
 
         // Get the response code from the first offset of the response headers.
         preg_match('/[0-9]{3}/', array_shift($headers), $matches);
@@ -279,5 +279,55 @@ class SocketTransport extends AbstractTransport implements TransportInterface
     public static function isSupported()
     {
         return \function_exists('fsockopen') && \is_callable('fsockopen') && !Factory::getApplication()->get('proxy_enable');
+    }
+
+    /**
+     * De-chunks a http 'transfer-encoding: chunked' message. This polyfills when the native PHP extension ext-http is
+     * not present on a server.
+     *
+     * @param   string  $chunk  The encoded message
+     *
+     * @return  string  The decoded message.  If $chunk wasn't encoded properly it will be returned unmodified.
+     */
+    public static function http_chunked_decode($chunk)
+    {
+        $pos  = 0;
+        $len  = \strlen($chunk);
+        $resp = null;
+
+        while (($pos < $len)
+            && ($chunkLenHex = substr($chunk, $pos, ($newlineAt = strpos($chunk, "\n", $pos + 1)) - $pos))) {
+            if (!static::is_hex($chunkLenHex)) {
+                trigger_error('Value is not properly chunk encoded', E_USER_WARNING);
+                return $chunk;
+            }
+
+            $pos      = $newlineAt++;
+            $chunkLen = hexdec(rtrim($chunkLenHex, "\r\n"));
+            $resp .= substr($chunk, $pos, $chunkLen);
+            $pos = strpos($chunk, "\n", $pos + $chunkLen) + 1;
+        }
+
+        return $resp;
+    }
+
+    /**
+     * Determine if a string can represent a number in hexadecimal
+     *
+     * @param   string  $hex
+     *
+     * @return  boolean
+     */
+    private static function is_hex($hex)
+    {
+        $hex = strtolower(trim($hex, "0"));
+
+        if (empty($hex)) {
+            $hex = 0;
+        }
+
+        $dec = hexdec($hex);
+
+        return ($hex == dechex($dec));
     }
 }
