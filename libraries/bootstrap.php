@@ -88,5 +88,8 @@ JLoader::register('Crypto', JPATH_LIBRARIES . '/php-encryption/Crypto.php');
 JLoader::register('PasswordHash', JPATH_LIBRARIES . '/phpass/PasswordHash.php');
 
 if (!\function_exists('http-chunked-decode')) {
-    function http_chunked_decode($chunk) { return \Joomla\CMS\Http\Transport\SocketTransport::http_chunked_decode($chunk); }
+    function http_chunked_decode(string $chunk): string
+    {
+        return \Joomla\CMS\Http\Transport\SocketTransport::http_chunked_decode($chunk);
+    }
 }

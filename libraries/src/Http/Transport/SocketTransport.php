@@ -289,11 +289,11 @@ class SocketTransport extends AbstractTransport implements TransportInterface
      *
      * @return  string  The decoded message.  If $chunk wasn't encoded properly it will be returned unmodified.
      */
-    public static function http_chunked_decode($chunk)
+    public static function http_chunked_decode(string $chunk): string
     {
         $pos  = 0;
         $len  = \strlen($chunk);
-        $resp = null;
+        $resp = '';
 
         while (($pos < $len)
             && ($chunkLenHex = substr($chunk, $pos, ($newlineAt = strpos($chunk, "\n", $pos + 1)) - $pos))) {
@@ -320,14 +320,12 @@ class SocketTransport extends AbstractTransport implements TransportInterface
      */
     private static function is_hex($hex)
     {
-        $hex = strtolower(trim($hex, "0"));
+        $value = trim($hex);
 
-        if (empty($hex)) {
-            $hex = 0;
+        if (empty($value)) {
+            return true;
         }
 
-        $dec = hexdec($hex);
-
-        return ($hex == dechex($dec));
+        return @preg_match("/^[a-f0-9]{2,}$/i", $value) && !(strlen($value) & 1);
     }
 }
