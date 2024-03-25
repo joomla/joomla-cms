@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Workflow;
 
+use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
@@ -99,12 +100,12 @@ class Workflow
      * Class constructor
      *
      * @param   string           $extension  The extension name
-     * @param   ?CMSApplication  $app        Application Object
+     * @param   ?AbstractApplication  $app        Application Object
      * @param   ?DatabaseDriver  $db         Database Driver Object
      *
      * @since   4.0.0
      */
-    public function __construct(string $extension, ?CMSApplication $app = null, ?DatabaseDriver $db = null)
+    public function __construct(string $extension, AbstractApplication $app = null, ?DatabaseDriver $db = null)
     {
         $this->extension = $extension;
 
