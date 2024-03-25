@@ -221,7 +221,6 @@ class ConstraintChecker
         $stabilityInt = $this->stabilityToInteger($stability);
 
         if (($stabilityInt < $minimumStability)) {
-
             return false;
         }
 
