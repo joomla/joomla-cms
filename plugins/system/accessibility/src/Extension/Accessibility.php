@@ -63,6 +63,16 @@ final class Accessibility extends CMSPlugin
         * Add strings for translations in Javascript.
         * Reference  https://ranbuch.github.io/accessibility/
         */
+        $iframeModals = [];
+        $accessibilityArticle = $this->params->get('accessibility_article');
+
+        if (!empty($accessibilityArticle)) {
+            $iframeModals[] = [
+                'iframeUrl'  => '/index.php?option=com_content&view=article&id=' . $accessibilityArticle . '&tmpl=component',
+                'buttonText' => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_STATEMENT'),
+            ];
+        }
+
         $document->addScriptOptions(
             'accessibility-options',
             [
@@ -100,10 +110,7 @@ final class Accessibility extends CMSPlugin
                 ],
                 'textToSpeechLang' => [$lang],
                 'speechToTextLang' => [$lang],
-                'iframeModals' => [[
-                    'iframeUrl'  => '/index.php?option=com_content&view=article&id=' . $this->params->get('accessibility_article') . '&tmpl=component',
-                    'buttonText' => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_STATEMENT'),
-                ]]
+                'iframeModals' => $iframeModals,
             ]
         );
 
