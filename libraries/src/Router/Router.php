@@ -153,9 +153,9 @@ class Router
         if (\strlen($uri->getPath()) > 0) {
             if ($setVars) {
                 throw new RouteNotFoundException(Text::_('JERROR_PAGE_NOT_FOUND'));
-            } else {
-                return [];
             }
+
+            return [];
         }
 
         if ($setVars) {
