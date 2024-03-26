@@ -100,6 +100,10 @@ final class Accessibility extends CMSPlugin
                 ],
                 'textToSpeechLang' => [$lang],
                 'speechToTextLang' => [$lang],
+                'iframeModals' => [[
+                    'iframeUrl'  => '/index.php?option=com_content&view=article&id=' . $this->params->get('accessibility_article') . '&tmpl=component',
+                    'buttonText' => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_STATEMENT'),
+                ]]
             ]
         );
 
