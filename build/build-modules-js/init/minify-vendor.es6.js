@@ -19,7 +19,7 @@ const folders = [
 let allFiles = [];
 
 const noMinified = [
-  'main.bundle.js',
+  'accessibility.js',
   'short-and-sweet.min.js',
 ];
 

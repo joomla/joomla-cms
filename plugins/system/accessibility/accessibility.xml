@@ -42,6 +42,18 @@
 					<option value="true">PLG_SYSTEM_ACCESSIBILITY_EMOJIS_TRUE</option>
 					<option value="false">PLG_SYSTEM_ACCESSIBILITY_EMOJIS_FALSE</option>
 				</field>
+				<field
+					name="accessibility_article"
+					type="modal_article"
+					label="PLG_SYSTEM_ACCESSIBILITY_STATEMENT_LABEL"
+					description="PLG_SYSTEM_ACCESSIBILITY_STATEMENT_DESC"
+					addfieldprefix="Joomla\Component\Content\Administrator\Field"
+					select="true"
+					new="true"
+					edit="true"
+					clear="true"
+					filter="integer"
+				/>
 			</fieldset>
 		</fields>
 	</config>
