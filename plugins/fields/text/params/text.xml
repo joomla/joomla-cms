@@ -21,6 +21,40 @@
 			</field>
 
 			<field
+				name="validate"
+				type="list"
+				label="PLG_FIELDS_TEXT_PARAMS_VALIDATE_LABEL"
+				class="list"
+				validate="options"
+			>
+				<option value="">JNO</option>
+				<option value="regex">JLIB_FILTER_PARAMS_REGEX</option>
+				<option value="equals">JLIB_FILTER_PARAMS_EQUALS</option>
+				<option value="notequals">JLIB_FILTER_PARAMS_NOTEQUALS</option>
+			</field>
+
+			<field
+				name="validate_regex"
+				type="text"
+				label="PLG_FIELDS_TEXT_PARAMS_VALIDATE_REGEX_LABEL"
+				showon="validate:regex"
+			/>
+
+			<field
+				name="field"
+				type="text"
+				label="PLG_FIELDS_TEXT_PARAMS_VALIDATE_EQUALS_LABEL"
+				showon="validate:equals[OR]validate:notequals"
+			/>
+
+			<field
+				name="message"
+				type="text"
+				label="PLG_FIELDS_TEXT_PARAMS_MESSAGE_LABEL"
+				showon="validate!:"
+			/>
+
+			<field
 				name="maxlength"
 				type="number"
 				label="PLG_FIELDS_TEXT_PARAMS_MAXLENGTH_LABEL"
