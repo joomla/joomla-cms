@@ -43,6 +43,16 @@
 					<option value="false">PLG_SYSTEM_ACCESSIBILITY_EMOJIS_FALSE</option>
 				</field>
 				<field
+					name="icon_position"
+					type="list"
+					label="PLG_SYSTEM_ACCESSIBILITY_ICON_POSITION"
+					default="left"
+					validate="options"
+					>
+					<option value="left">PLG_SYSTEM_ACCESSIBILITY_ICON_POSITION_LEFT</option>
+					<option value="right">PLG_SYSTEM_ACCESSIBILITY_ICON_POSITION_RIGHT</option>
+				</field>
+				<field
 					name="accessibility_article"
 					type="modal_article"
 					label="PLG_SYSTEM_ACCESSIBILITY_STATEMENT_LABEL"
