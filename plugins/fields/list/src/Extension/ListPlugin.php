@@ -63,7 +63,7 @@ final class ListPlugin extends FieldsListPlugin
      * @param   \stdclass  $item     The item.
      * @param   \stdclass  $field    The field.
      *
-     * @return  object
+     * @return  ?string
      *
      * @since   3.9.2
      */
