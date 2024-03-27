@@ -168,11 +168,9 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         $updater               = Updater::getInstance();
-        $minimumStability      = Updater::STABILITY_STABLE;
         $comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
 
         $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
-
         $reflection       = new \ReflectionObject($updater);
         $reflectionMethod = $reflection->getMethod('findUpdates');
         $methodParameters = $reflectionMethod->getParameters();
@@ -289,13 +287,9 @@ class UpdateModel extends BaseDatabaseModel
             return $this->updateInformation;
         }
 
-        $minimumStability      = Updater::STABILITY_STABLE;
         $comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
         $channel               = $comJoomlaupdateParams->get('updatesource', 'default');
-
-        if (\in_array($channel, ['testing', 'custom'])) {
-            $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
-        }
+        $minimumStability      = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
 
         $update = new Update();
 

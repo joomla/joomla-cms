@@ -557,7 +557,7 @@ class Update
                 continue;
             }
 
-            if (!$constraintChecker->check($target['custom'])) {
+            if (!$constraintChecker->check($target['custom'], $minimumStability)) {
                 $this->otherUpdateInfo = $constraintChecker->getFailedEnvironmentConstraints();
 
                 continue;
