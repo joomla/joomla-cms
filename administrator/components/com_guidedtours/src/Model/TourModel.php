@@ -510,7 +510,7 @@ class TourModel extends AdminModel
      * @param   int  $id         Id of a tour
      * @param   int  $autostart  The autostart value of a tour
      *
-     * @since  5.1.0
+     * @since  5.0.0
      */
     public function setAutostart($id, $autostart)
     {
@@ -532,7 +532,7 @@ class TourModel extends AdminModel
      *
      * @param   string  $uid  the uid of a tour
      *
-     * @since  5.1.0
+     * @since  __DEPLOY_VERSION__
      */
     public function isAutostart($uid)
     {
