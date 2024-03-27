@@ -297,7 +297,7 @@ class Filter
                     ->where('t.rgt < :rgt')
                     ->where('t.state = 1')
                     ->whereIn('t.access', $user->getAuthorisedViewLevels())
-                    ->order('t.title')
+                    ->order('t.level, t.parent_id, t.title')
                     ->bind(':lft', $bv->lft, ParameterType::INTEGER)
                     ->bind(':rgt', $bv->rgt, ParameterType::INTEGER);
 
@@ -327,6 +327,7 @@ class Filter
 
                 // Translate branch nodes if possible.
                 $language = Factory::getLanguage();
+                $root     = [];
 
                 foreach ($branches[$bk]->nodes as $node_id => $node) {
                     if (trim($node->parent_title, '*') === 'Language') {
@@ -340,8 +341,18 @@ class Filter
                         $branches[$bk]->nodes[$node_id]->title = str_repeat('-', $node->level - 2) . $title;
                     } else {
                         $branches[$bk]->nodes[$node_id]->title = $title;
+                        $root[]                                = $branches[$bk]->nodes[$node_id];
+                    }
+
+                    if ($node->parent_id && isset($branches[$bk]->nodes[$node->parent_id])) {
+                        if (!isset($branches[$bk]->nodes[$node->parent_id]->children)) {
+                            $branches[$bk]->nodes[$node->parent_id]->children = [];
+                        }
+                        $branches[$bk]->nodes[$node->parent_id]->children[] = $node;
                     }
                 }
+
+                $branches[$bk]->nodes = $this->reduce($root);
 
                 // Add the Search All option to the branch.
                 array_unshift($branches[$bk]->nodes, ['id' => null, 'title' => Text::_('COM_FINDER_FILTER_SELECT_ALL_LABEL')]);
@@ -492,5 +503,28 @@ class Filter
         }
 
         return $html;
+    }
+
+    /**
+     * Method to flatten a tree to a sorted array
+     *
+     * @param   \stdClass[]  $array
+     *
+     * @return  \stdClass[]  Flat array of all nodes of a tree with the children after each parent
+     *
+     * @since   5.1.0
+     */
+    private function reduce(array $array)
+    {
+        $return = [];
+
+        foreach ($array as $item) {
+            $return[] = $item;
+            if (isset($item->children)) {
+                $return = array_merge($return, $this->reduce($item->children));
+            }
+        }
+
+        return $return;
     }
 }
