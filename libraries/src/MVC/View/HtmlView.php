@@ -9,7 +9,8 @@
 
 namespace Joomla\CMS\MVC\View;
 
-use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Factory;
@@ -72,7 +73,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
      * @var    array
      * @since  3.0
      */
-    protected $_path = ['template' => [], 'helper' => []];
+    protected $_path = ['template' => []];
 
     /**
      * The name of the default template source file.
@@ -99,16 +100,17 @@ class HtmlView extends AbstractView implements CurrentUserInterface
     protected $_charset = 'UTF-8';
 
     /**
+     * The base URL of the site for building links
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $baseurl = '';
+
+    /**
      * Constructor
      *
-     * @param   array  $config  A named configuration array for object construction.
-     *                          name: the name (optional) of the view (defaults to the view class name suffix).
-     *                          charset: the character set to use for display
-     *                          escape: the name (optional) of the function to use for escaping strings
-     *                          base_path: the parent path (optional) of the views directory (defaults to the component folder)
-     *                          template_plath: the path (optional) of the layout directory (defaults to base_path + /views/ + view name
-     *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)
-     *                          layout: the layout (optional) to use to display the view
+     * @param   array  $config  The active document object
      *
      * @since   3.0
      */
@@ -116,27 +118,13 @@ class HtmlView extends AbstractView implements CurrentUserInterface
     {
         parent::__construct($config);
 
-        // Set the charset (used by the variable escaping functions)
-        if (\array_key_exists('charset', $config)) {
-            @trigger_error(
-                'Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.',
-                E_USER_DEPRECATED
-            );
-            $this->_charset = $config['charset'];
-        }
-
-        // Set a base path for use by the view
-        if (\array_key_exists('base_path', $config)) {
-            $this->_basePath = $config['base_path'];
-        } else {
+        // Set a default base path for use by the view
+        if ($this->_basePath === null) {
             $this->_basePath = JPATH_COMPONENT;
         }
 
         // Set the default template search path
-        if (\array_key_exists('template_path', $config)) {
-            // User-defined dirs
-            $this->_setPath('template', $config['template_path']);
-        } elseif (is_dir($this->_basePath . '/tmpl/' . $this->getName())) {
+        if (is_dir($this->_basePath . '/tmpl/' . $this->getName())) {
             $this->_setPath('template', $this->_basePath . '/tmpl/' . $this->getName());
         } elseif (is_dir($this->_basePath . '/View/' . $this->getName() . '/tmpl')) {
             $this->_setPath('template', $this->_basePath . '/View/' . $this->getName() . '/tmpl');
@@ -148,22 +136,24 @@ class HtmlView extends AbstractView implements CurrentUserInterface
             $this->_setPath('template', $this->_basePath . '/views/' . $this->getName());
         }
 
-        // Set the default helper search path
-        if (\array_key_exists('helper_path', $config)) {
-            // User-defined dirs
-            $this->_setPath('helper', $config['helper_path']);
-        } else {
-            $this->_setPath('helper', $this->_basePath . '/helpers');
-        }
-
-        // Set the layout
-        if (\array_key_exists('layout', $config)) {
-            $this->setLayout($config['layout']);
-        } else {
-            $this->setLayout('default');
-        }
-
         $this->baseurl = Uri::base(true);
+    }
+
+    /**
+     * Method to set the document object
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \InvalidArgumentException
+     */
+    public function setDocument(Document $document): void
+    {
+        if (!$document instanceof HtmlDocument) {
+            throw new \InvalidArgumentException(sprintf('%s requires an instance of %s', static::class, HtmlDocument::class));
+        }
+
+        parent::setDocument($document);
     }
 
     /**
@@ -174,47 +164,35 @@ class HtmlView extends AbstractView implements CurrentUserInterface
      * @return  void
      *
      * @throws  \Exception
-     * @see     \JViewLegacy::loadTemplate()
+     * @see     static::loadTemplate()
      * @since   3.0
      */
     public function display($tpl = null)
     {
-        $app = Factory::getApplication();
-
-        if ($this->option) {
-            $component = $this->option;
-        } else {
-            $component = ApplicationHelper::getComponentName();
-        }
-
-        $context = $component . '.' . $this->getName();
-
-        $app->getDispatcher()->dispatch(
+        $context            = $this->getComponentName() . '.' . $this->getName();
+        $beforeDisplayEvent = AbstractEvent::create(
             'onBeforeDisplay',
-            AbstractEvent::create(
-                'onBeforeDisplay',
-                [
-                    'eventClass' => DisplayEvent::class,
-                    'subject'    => $this,
-                    'extension'  => $context,
-                ]
-            )
+            [
+                'eventClass' => DisplayEvent::class,
+                'subject'    => $this,
+                'extension'  => $context
+            ]
         );
+        $this->dispatchEvent($beforeDisplayEvent);
 
         $result = $this->loadTemplate($tpl);
 
-        $eventResult = $app->getDispatcher()->dispatch(
+        $afterDisplayEvent = AbstractEvent::create(
             'onAfterDisplay',
-            AbstractEvent::create(
-                'onAfterDisplay',
-                [
-                    'eventClass' => DisplayEvent::class,
-                    'subject'    => $this,
-                    'extension'  => $context,
-                    'source'     => $result,
-                ]
-            )
+            [
+                'eventClass' => DisplayEvent::class,
+                'subject'    => $this,
+                'extension'  => $context,
+                'source'     => $result
+            ]
         );
+
+        $eventResult = $this->dispatchEvent($afterDisplayEvent);
 
         $eventResult->getArgument('used', false);
 
@@ -330,20 +308,6 @@ class HtmlView extends AbstractView implements CurrentUserInterface
     }
 
     /**
-     * Adds to the stack of helper script paths in LIFO order.
-     *
-     * @param   mixed  $path  A directory path or an array of paths.
-     *
-     * @return  void
-     *
-     * @since   3.0
-     */
-    public function addHelperPath($path)
-    {
-        $this->_addPath('helper', $path);
-    }
-
-    /**
      * Load a template file -- first look in the templates folder for an override
      *
      * @param   string  $tpl  The name of the template source file; automatically searches the template paths and compiles as needed.
@@ -426,29 +390,6 @@ class HtmlView extends AbstractView implements CurrentUserInterface
     }
 
     /**
-     * Load a helper file
-     *
-     * @param   string  $hlp  The name of the helper source file automatically searches the helper paths and compiles as needed.
-     *
-     * @return  void
-     *
-     * @since   3.0
-     */
-    public function loadHelper($hlp = null)
-    {
-        // Clean the file name
-        $file = preg_replace('/[^A-Z0-9_\.-]/i', '', $hlp);
-
-        // Load the template script
-        $helper = Path::find($this->_path['helper'], $this->_createFileName('helper', ['name' => $file]));
-
-        if ($helper != false) {
-            // Include the requested template filename in the local scope
-            include_once $helper;
-        }
-    }
-
-    /**
      * Sets an entire array of search paths for templates or resources.
      *
      * @param   string  $type  The type of path to set, typically 'template'.
@@ -460,13 +401,8 @@ class HtmlView extends AbstractView implements CurrentUserInterface
      */
     protected function _setPath($type, $path)
     {
-        if ($this->option) {
-            $component = $this->option;
-        } else {
-            $component = ApplicationHelper::getComponentName();
-        }
-
-        $app = Factory::getApplication();
+        $component = $this->getComponentName();
+        $app       = Factory::getApplication();
 
         // Clear out the prior search dirs
         $this->_path[$type] = [];
@@ -560,14 +496,14 @@ class HtmlView extends AbstractView implements CurrentUserInterface
     /**
      * Returns the form object
      *
-     * @return  mixed  A \JForm object on success, false on failure
+     * @return  \Joomla\CMS\Form\Form|boolean
      *
      * @since   3.2
      */
     public function getForm()
     {
         if (!\is_object($this->form)) {
-            $this->form = $this->get('Form');
+            $this->form = $this->get('Form', false);
         }
 
         return $this->form;
