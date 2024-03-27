@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Event;
 
+use Joomla\Event\AbstractEvent;
 use BadMethodCallException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -56,10 +57,25 @@ class AbstractImmutableEvent extends AbstractEvent
 
         // Same setter logic as in \Joomla\CMS\Event\AbstractEvent::setArgument
         foreach ($arguments as $argumentName => $value) {
-            $methodName = 'set' . ucfirst($name);
+            // Look for the method for the value pre-processing/validation
+            $ucfirst     = ucfirst($name);
+            $methodName1 = 'onSet' . $ucfirst;
+            $methodName2 = 'set' . $ucfirst;
 
-            if (method_exists($this, $methodName)) {
-                $value = $this->{$methodName}($value);
+            if (method_exists($this, $methodName1)) {
+                $value = $this->{$methodName1}($value);
+            } elseif (method_exists($this, $methodName2)) {
+                @trigger_error(
+                    sprintf(
+                        'Use method "%s" for value pre-processing is deprecated, and will not work in Joomla 6. Use "%s" instead. Event %s',
+                        $methodName2,
+                        $methodName1,
+                        \get_class($this)
+                    ),
+                    E_USER_DEPRECATED
+                );
+
+                $value = $this->{$methodName2}($value);
             }
 
             $this->arguments[$argumentName] = $value;
@@ -81,7 +97,7 @@ class AbstractImmutableEvent extends AbstractEvent
     {
         // B/C check for plugins which use $event['result'] = $result;
         if ($name === 'result') {
-            parent::offsetSet($name, $value);
+            $this->arguments[$name] = $value;
 
             @trigger_error(
                 'Setting a result in an immutable event is deprecated, and will not work in Joomla 6. Event ' . $this->getName(),
@@ -115,31 +131,6 @@ class AbstractImmutableEvent extends AbstractEvent
         throw new \BadMethodCallException(
             sprintf(
                 'Cannot remove the argument %s of the immutable event %s.',
-                $name,
-                $this->name
-            )
-        );
-    }
-
-    /**
-     * Set an event argument.
-     *
-     * @param   string  $name  The argument name.
-     *
-     * @return  $this
-     *
-     * @since   __DEPLOY__VERSION__
-     * @throws  BadMethodCallException
-     */
-    public function setArgument($name, $value)
-    {
-        if (!$this->constructed) {
-            return parent::setArgument($name, $value);
-        }
-
-        throw new BadMethodCallException(
-            sprintf(
-                'Cannot set the argument %s of the immutable event %s.',
                 $name,
                 $this->name
             )
