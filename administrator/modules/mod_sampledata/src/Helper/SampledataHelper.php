@@ -10,7 +10,7 @@
 
 namespace Joomla\Module\Sampledata\Administrator\Helper;
 
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\EventFactory;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 
@@ -40,7 +40,7 @@ class SampledataHelper
             ->getDispatcher()
             ->dispatch(
                 'onSampledataGetOverview',
-                AbstractEvent::create(
+                EventFactory::create(
                     'onSampledataGetOverview',
                     [
                         'subject' => new \stdClass(),

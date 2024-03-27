@@ -25,7 +25,7 @@ use Joomla\String\Normalise;
  *
  * You can create a new Event with something like this:
  *
- * $event = AbstractEvent::create('onModelBeforeSomething', $myModel, $arguments);
+ * $event = \Joomla\CMS\Event\EventFactory::create('onModelBeforeSomething', $myModel, $arguments);
  *
  * You can access the subject object from your event Listener using $event['subject']. It is up to your listener to
  * determine whether it should apply its functionality against the subject.
@@ -52,7 +52,8 @@ abstract class AbstractEvent extends Event
      * @return  static
      *
      * @since   4.0.0
-     * @throws  \BadMethodCallException  If you do not provide a subject argument
+     * @throws      \BadMethodCallException  If you do not provide a subject argument
+     * @deprecated  6.0  Use \Joomla\CMS\Event\EventFactory::create instead
      */
     public static function create(string $eventName, array $arguments = [])
     {
@@ -109,7 +110,7 @@ abstract class AbstractEvent extends Event
      */
     public function __construct(string $name, array $arguments = [])
     {
-        parent::__construct($name, $arguments);
+        parent::__construct($name);
 
         foreach ($arguments as $argumentName => $value) {
             $this->setArgument($argumentName, $value);

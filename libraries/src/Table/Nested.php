@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\EventFactory;
 use Joomla\Event\Dispatcher;
 use Joomla\Event\Event;
 use Joomla\Utilities\ArrayHelper;
@@ -698,7 +699,7 @@ class Nested extends Table
         $k = $this->_tbl_key;
 
         // Pre-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableBeforeStore',
             [
                 'subject'     => $this,
@@ -839,7 +840,7 @@ class Nested extends Table
         }
 
         // Post-processing by observers
-        $event = AbstractEvent::create(
+        $event = EventFactory::create(
             'onTableAfterStore',
             [
                 'subject' => $this,
