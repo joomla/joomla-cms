@@ -110,6 +110,7 @@ class UpdateModel extends BaseDatabaseModel
                  * case 'lts':
                  * case 'sts': (It's shown as "Default" because that option does not exist any more)
                  * case 'nochange':
+                 * case 'testing':
                  */
                 $updateURL = 'https://update.joomla.org/cms/';
         }
