@@ -5,21 +5,21 @@
 // eslint-disable-next-line import/no-unresolved
 import JoomlaDialog from 'joomla.dialog';
 
-if (!Joomla) {
-  throw new Error('Joomla API is not properly initiated');
-}
-
 function getText(translateableText, fallbackText) {
-  const translatedText = Joomla.Text._(translateableText);
+  const translatedText = typeof Joomla?.Text?._ === 'function' ? Joomla.Text._(translateableText) : '';
 
   return translatedText !== translateableText ? translatedText : fallbackText;
+}
+
+const texts = {
+  selectUser: ['JLIB_FORM_CHANGE_USER', 'Select User'],
 }
 
 const template = Object.assign(document.createElement('template'), {
   innerHTML: `
       <style>svg { width: 1em; height: 1rem; vertical-align: text-bottom; }</style>
       <input part="name" readonly>
-      <button type="button" part="opener" aria-label="${getText('JLIB_FORM_CHANGE_USER', 'Select User')}">
+      <button type="button" part="opener" aria-label="${getText(texts.selectUser[0], texts.selectUser[1])}">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
           <path fill="currentColor" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
         </svg>
@@ -87,7 +87,7 @@ class JoomlaFieldUser extends HTMLElement {
     this.form = this.internals.form;
     this.internals.setFormValue(this.value);
     this.input.value = this.value ? this.username : '';
-    this.input.placeholder = this.value ? '' : getText('JLIB_FORM_CHANGE_USER', 'Select User');
+    this.input.placeholder = this.value ? '' : getText(texts.selectUser[0], texts.selectUser[1]);
   }
 
   disconnectedCallback() {
@@ -102,7 +102,7 @@ class JoomlaFieldUser extends HTMLElement {
     const dialog = new JoomlaDialog({
       popupType: 'iframe',
       src: this.url,
-      textHeader: getText('JLIB_FORM_CHANGE_USER', 'Select User'),
+      textHeader: getText(texts.selectUser[0], texts.selectUser[1]),
     });
     dialog.classList.add('joomla-dialog-user-field');
     dialog.show();
@@ -143,7 +143,7 @@ class JoomlaFieldUser extends HTMLElement {
     this.value = value;
     this.username = name;
     this.input.value = this.value ? this.username : '';
-    this.input.placeholder = this.value ? '' : getText('JLIB_FORM_CHANGE_USER', 'Select User');
+    this.input.placeholder = this.value ? '' : getText(texts.selectUser[0], texts.selectUser[1]);
 
     if (this.hasAttribute('required')){
       // if (this.value === '') {
