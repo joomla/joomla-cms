@@ -58,11 +58,7 @@ final class EmailCloak extends CMSPlugin implements SubscriberInterface
         $item = $event->getItem();
 
         // If the item does not have a text property there is nothing to do
-        if (!property_exists($item, 'text')) {
-            return;
-        }
-
-        if (\is_null($item->text)) {
+        if (!isset($item->text)) {
             return;
         }
 
