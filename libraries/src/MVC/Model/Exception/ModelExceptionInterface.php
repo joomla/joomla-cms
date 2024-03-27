@@ -18,7 +18,7 @@ namespace Joomla\CMS\MVC\Model\Exception;
  * It is expected that the controller should catch all exceptions that implement this interface and then
  * make a decision as to whether the exception can be recovered from or not.
  *
- * @since  5.0.0
+ * @since  4.4.0
  */
 interface ModelExceptionInterface extends \Throwable
 {

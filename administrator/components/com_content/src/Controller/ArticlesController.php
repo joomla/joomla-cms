@@ -110,9 +110,9 @@ class ArticlesController extends AdminController
         }
 
         if ($value == 1) {
-            $message = Text::plural('COM_CONTENT_N_ITEMS_FEATURED', count($ids));
+            $message = Text::plural('COM_CONTENT_N_ITEMS_FEATURED', \count($ids));
         } else {
-            $message = Text::plural('COM_CONTENT_N_ITEMS_UNFEATURED', count($ids));
+            $message = Text::plural('COM_CONTENT_N_ITEMS_UNFEATURED', \count($ids));
         }
 
         $this->setRedirect(Route::_($redirectUrl, false), $message);

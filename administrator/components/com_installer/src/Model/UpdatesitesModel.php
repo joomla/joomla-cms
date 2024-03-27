@@ -86,7 +86,7 @@ class UpdatesitesModel extends InstallerModel
         $result = true;
 
         // Ensure eid is an array of extension ids
-        if (!is_array($eid)) {
+        if (!\is_array($eid)) {
             $eid = [$eid];
         }
 
@@ -125,7 +125,7 @@ class UpdatesitesModel extends InstallerModel
         }
 
         // Ensure eid is an array of extension ids
-        if (!is_array($ids)) {
+        if (!\is_array($ids)) {
             $ids = [$ids];
         }
 
@@ -148,7 +148,7 @@ class UpdatesitesModel extends InstallerModel
         // Enable the update site in the table and store it in the database
         foreach ($ids as $i => $id) {
             // Don't allow to delete Joomla Core update sites.
-            if (in_array((int) $id, $joomlaUpdateSitesIds)) {
+            if (\in_array((int) $id, $joomlaUpdateSitesIds)) {
                 $app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_CANNOT_DELETE', $updateSitesNames[$id]->name), 'error');
                 continue;
             }
@@ -609,7 +609,7 @@ class UpdatesitesModel extends InstallerModel
                 ->bind(':clientId', $clientId, ParameterType::INTEGER);
         }
 
-        if ($folder !== '' && in_array($type, ['plugin', 'library', ''], true)) {
+        if ($folder !== '' && \in_array($type, ['plugin', 'library', ''], true)) {
             $folderForBinding = $folder === '*' ? '' : $folder;
             $query->where($db->quoteName('e.folder') . ' = :folder')
                 ->bind(':folder', $folderForBinding);
@@ -626,18 +626,18 @@ class UpdatesitesModel extends InstallerModel
 
         if (is_numeric($supported)) {
             switch ($supported) {
-                // Show Update Sites which support Download Keys
                 case 1:
+                    // Show Update Sites which support Download Keys
                     $supportedIDs = InstallerHelper::getDownloadKeySupportedSites($enabled);
                     break;
 
-                // Show Update Sites which are missing Download Keys
                 case -1:
+                    // Show Update Sites which are missing Download Keys
                     $supportedIDs = InstallerHelper::getDownloadKeyExistsSites(false, $enabled);
                     break;
 
-                // Show Update Sites which have valid Download Keys
                 case 2:
+                    // Show Update Sites which have valid Download Keys
                     $supportedIDs = InstallerHelper::getDownloadKeyExistsSites(true, $enabled);
                     break;
             }

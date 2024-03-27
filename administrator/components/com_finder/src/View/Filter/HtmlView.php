@@ -94,7 +94,7 @@ class HtmlView extends BaseHtmlView
         $this->total  = $this->get('Total');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -116,7 +116,7 @@ class HtmlView extends BaseHtmlView
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $isNew      = ($this->item->filter_id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $this->getCurrentUser()->id);
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $this->getCurrentUser()->id);
         $canDo      = ContentHelper::getActions('com_finder');
         $toolbar    = Toolbar::getInstance();
 

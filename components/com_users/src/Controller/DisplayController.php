@@ -73,8 +73,8 @@ class DisplayController extends BaseController
                     $model = $this->getModel('Registration');
                     break;
 
-                // Handle view specific models.
                 case 'profile':
+                    // Handle view specific models.
                     // If the user is a guest, redirect to the login page.
                     $user = $this->app->getIdentity();
 
@@ -88,8 +88,8 @@ class DisplayController extends BaseController
                     $model = $this->getModel($vName);
                     break;
 
-                // Handle the default views.
                 case 'login':
+                    // Handle the default views.
                     $model = $this->getModel($vName);
                     break;
 
@@ -122,7 +122,7 @@ class DisplayController extends BaseController
             }
 
             // Make sure we don't send a referer
-            if (in_array($vName, ['remind', 'reset'])) {
+            if (\in_array($vName, ['remind', 'reset'])) {
                 $this->app->setHeader('Referrer-Policy', 'no-referrer', true);
             }
 

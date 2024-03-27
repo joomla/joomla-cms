@@ -153,7 +153,7 @@ abstract class MultilangstatusHelper
     public static function getContacts()
     {
         $db        = Factory::getDbo();
-        $languages = count(LanguageHelper::getLanguages());
+        $languages = \count(LanguageHelper::getLanguages());
 
         // Get the number of contact with all as language
         $alang = $db->getQuery(true)

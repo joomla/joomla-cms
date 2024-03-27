@@ -122,7 +122,7 @@ final class CodeMirrorProvider extends AbstractEditorProvider
         $options->mode = $modeAlias[$options->mode] ?? $options->mode;
 
         // Special options for non-tagged modes.
-        if (!in_array($options->mode, ['xml', 'html'])) {
+        if (!\in_array($options->mode, ['xml', 'html'])) {
             // Autogenerate closing brackets.
             $options->autoCloseBrackets = (bool) $this->params->get('autoCloseBrackets', 1);
         }

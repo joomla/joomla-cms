@@ -102,7 +102,7 @@ class HtmlView extends BaseHtmlView
         $this->params = $this->state->get('params');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

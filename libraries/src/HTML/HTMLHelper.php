@@ -718,7 +718,7 @@ abstract class HTMLHelper
         }
 
         // When it is a string, we need convert it to an array
-        if (is_string($attribs)) {
+        if (\is_string($attribs)) {
             $attributes = [];
 
             // Go through each argument

@@ -529,7 +529,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
-                    get_class($this->app)
+                    \get_class($this->app)
                 )
             );
         }
@@ -643,7 +643,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
-                    get_class($this->app)
+                    \get_class($this->app)
                 )
             );
         }
@@ -910,7 +910,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
-                    get_class($this->app)
+                    \get_class($this->app)
                 )
             );
         }
@@ -953,7 +953,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
-                    get_class($this->app)
+                    \get_class($this->app)
                 )
             );
         }
@@ -1039,7 +1039,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
-                    get_class($this->app)
+                    \get_class($this->app)
                 )
             );
         }
@@ -1144,7 +1144,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
                     'The %s method requires an instance of %s but instead %s was supplied',
                     __METHOD__,
                     CMSWebApplicationInterface::class,
-                    get_class($this->app)
+                    \get_class($this->app)
                 )
             );
         }
@@ -1154,7 +1154,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         if (!$valid && $redirect) {
             $referrer = $this->input->server->getString('HTTP_REFERER');
 
-            if (!Uri::isInternal($referrer)) {
+            if (\is_null($referrer) || !Uri::isInternal($referrer)) {
                 $referrer = 'index.php';
             }
 
