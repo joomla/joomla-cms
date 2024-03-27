@@ -309,7 +309,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 
             $pos      = $newlineAt++;
             $chunkLen = hexdec(rtrim($chunkLenHex, "\r\n"));
-            $resp .= substr($chunk, $pos, $chunkLen);
+            $resp .= substr($chunk, $pos + 1, $chunkLen);
             $pos = strpos($chunk, "\n", $pos + $chunkLen) + 1;
         }
 
@@ -323,7 +323,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
      *
      * @return  boolean
      */
-    private static function is_hex($hex)
+    private static function is_hex(string $hex): bool
     {
         return empty($hex) || (@preg_match("/^[a-f0-9]{2,}$/i", $hex) && !(\strlen($hex) & 1));
     }
