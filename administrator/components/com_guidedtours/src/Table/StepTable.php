@@ -85,4 +85,28 @@ class StepTable extends Table
 
         return parent::store($updateNulls);
     }
+
+    /**
+     * Overloaded check function
+     *
+     * @return  boolean  True on success, false on failure
+     *
+     * @see     \Joomla\CMS\Table\Table::check
+     * @since   __DEPLOY_VERSION__
+     */
+    public function check()
+    {
+        try {
+            parent::check();
+        } catch (\Exception $e) {
+            $this->setError($e->getMessage());
+
+            return false;
+        }
+
+        // Make sure the target is trimmed to avoid tours failing to start
+        $this->target = trim($this->target);
+
+        return true;
+    }
 }
