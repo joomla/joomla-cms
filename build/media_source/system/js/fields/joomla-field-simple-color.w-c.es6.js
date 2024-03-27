@@ -2,9 +2,17 @@
  * @copyright  (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-if (!Joomla) {
-  throw new Error('Joomla API is not properly initiated');
+
+function getText(translateableText, fallbackText) {
+  const translatedText = typeof Joomla?.Text?._ === 'function' ? Joomla.Text._(translateableText) : '';
+
+  return translatedText !== translateableText ? translatedText : fallbackText;
 }
+
+const texts = {
+  none: ['JNONE', 'None'],
+  close: ['JCLOSE', 'Close'],
+};
 
 const checker = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3ggRDQENU0dyawAAACZJREFUGNNjPHXqDAMSMDY2ROYyMeAFNJVm/Pv3LzL/7Nnzg8VpAKebCGpIIxHBAAAAAElFTkSuQmCC")';
 const template = Object.assign(document.createElement('template'), {
@@ -22,7 +30,7 @@ const template = Object.assign(document.createElement('template'), {
 // Expand any short code
 function getColorName(value) {
   let newValue = value;
-  if (newValue === 'none') return Joomla.Text._('JNONE');
+  if (newValue === 'none') return getText(texts.none[0], texts.none[1]);
   if (value.startsWith('#') && value.length === 4) {
     const tmpValue = value.split('');
     newValue = tmpValue[0] + tmpValue[1] + tmpValue[1] + tmpValue[2] + tmpValue[2] + tmpValue[3] + tmpValue[3];
@@ -88,7 +96,7 @@ class JoomlaFieldSimpleColor extends HTMLElement {
     this.slotted = this.shadowRoot.querySelector('slot[name=colors]');
     this.addEventListener('keydown', this.keys);
     this.closeButton.addEventListener('click', this.hide);
-    this.closeButton.setAttribute('aria-label', Joomla.Text._('JCLOSE'));
+    this.closeButton.setAttribute('aria-label', getText(texts.close[0], texts.close[1]));
     this.slotted.assignedElements().forEach((element) => {
       if (!this.validateColor(element.value)) {
         element.remove();
