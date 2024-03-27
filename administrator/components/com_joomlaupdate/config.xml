@@ -44,7 +44,6 @@
 			default=""
 			length="50"
 			showon="updatesource:custom"
-			filter="url"
 			validate="url"
 		/>
 
