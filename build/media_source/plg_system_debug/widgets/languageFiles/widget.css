@@ -13,3 +13,10 @@ table.phpdebugbar-widgets-languageFiles th {
     font-weight: bold;
     padding: 5px;
 }
+
+.phpdebugbar-widgets-languageFiles .alert-success,
+.phpdebugbar-widgets-languageFiles .alert-warning {
+  color: var(--alert-color);
+  background-color: var(--alert-bg);
+  border-color: var(--alert-border-color);
+}

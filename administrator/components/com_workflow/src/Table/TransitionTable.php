@@ -42,7 +42,7 @@ class TransitionTable extends Table
      * @since  4.0.0
      */
     protected $_jsonEncode = [
-        'options'
+        'options',
     ];
 
     /**
@@ -68,7 +68,7 @@ class TransitionTable extends Table
      * @since   4.0.0
      * @throws  \InvalidArgumentException
      */
-    public function bind($src, $ignore = array())
+    public function bind($src, $ignore = [])
     {
         // Bind the rules.
         if (isset($src['rules']) && \is_array($src['rules'])) {
@@ -90,7 +90,7 @@ class TransitionTable extends Table
      */
     protected function _getAssetName()
     {
-        $k = $this->_tbl_key;
+        $k        = $this->_tbl_key;
         $workflow = new WorkflowTable($this->getDbo());
         $workflow->load($this->workflow_id);
 
@@ -125,7 +125,7 @@ class TransitionTable extends Table
      */
     protected function _getAssetParentId(Table $table = null, $id = null)
     {
-        $asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+        $asset = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
 
         $workflow = new WorkflowTable($this->getDbo());
         $workflow->load($this->workflow_id);

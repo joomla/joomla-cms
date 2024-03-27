@@ -29,6 +29,6 @@ class AdministratorMenu extends AbstractMenu
      */
     public function load()
     {
-        return array();
+        return [];
     }
 }

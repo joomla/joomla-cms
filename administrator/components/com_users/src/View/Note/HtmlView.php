@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -97,45 +98,49 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
+        $toolbar    = Toolbar::getInstance();
 
         // Since we don't track these assets at the item level, use the category id.
         $canDo = ContentHelper::getActions('com_users', 'category', $this->item->catid);
 
         ToolbarHelper::title(Text::_('COM_USERS_NOTES'), 'users user');
 
-        $toolbarButtons = [];
-
         // If not checked out, can save the item.
         if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_users', 'core.create')))) {
-            ToolbarHelper::apply('note.apply');
-            $toolbarButtons[] = ['save', 'note.save'];
+            $toolbar->apply('note.apply');
         }
 
-        if (!$checkedOut && count($user->getAuthorisedCategories('com_users', 'core.create'))) {
-            $toolbarButtons[] = ['save2new', 'note.save2new'];
-        }
+        $saveGroup = $toolbar->dropdownButton('save-group');
 
-        // If an existing item, can save to a copy.
-        if (!$isNew && (count($user->getAuthorisedCategories('com_users', 'core.create')) > 0)) {
-            $toolbarButtons[] = ['save2copy', 'note.save2copy'];
-        }
+        $saveGroup->configure(
+            function (Toolbar $childBar) use ($checkedOut, $canDo, $user, $isNew) {
+                // If not checked out, can save the item.
+                if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_users', 'core.create')))) {
+                    $childBar->save('note.save');
+                }
 
-        ToolbarHelper::saveGroup(
-            $toolbarButtons,
-            'btn-success'
+                if (!$checkedOut && count($user->getAuthorisedCategories('com_users', 'core.create'))) {
+                    $childBar->save2new('note.save2new');
+                }
+
+                // If an existing item, can save to a copy.
+                if (!$isNew && (count($user->getAuthorisedCategories('com_users', 'core.create')) > 0)) {
+                    $childBar->save2copy('note.save2copy');
+                }
+            }
         );
 
         if (empty($this->item->id)) {
-            ToolbarHelper::cancel('note.cancel');
+            $toolbar->cancel('note.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            ToolbarHelper::cancel('note.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('note.cancel');
 
             if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit')) {
-                ToolbarHelper::versions('com_users.note', $this->item->id);
+                $toolbar->versions('com_users.note', $this->item->id);
             }
         }
 
-        ToolbarHelper::divider();
-        ToolbarHelper::help('User_Notes:_New_or_Edit');
+        $toolbar->divider();
+        $toolbar->help('User_Notes:_New_or_Edit');
     }
 }

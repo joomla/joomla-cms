@@ -56,7 +56,7 @@ abstract class WorkflowStage
         // Set the query and load the options.
         $stages = $db->setQuery($query)->loadObjectList();
 
-        $workflowStages = array();
+        $workflowStages = [];
 
         // Grouping the stages by workflow
         foreach ($stages as $stage) {
@@ -64,15 +64,15 @@ abstract class WorkflowStage
             $workflowStageKey = Text::_($stage->workflow_title) . ' (' . $stage->workflow_id . ')';
 
             if (!array_key_exists($workflowStageKey, $workflowStages)) {
-                $workflowStages[$workflowStageKey] = array();
+                $workflowStages[$workflowStageKey] = [];
             }
 
             $workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $stage->workflow_stage_id, Text::_($stage->workflow_stage_title));
         }
 
-        $prefix[] = array(
-            HTMLHelper::_('select.option', '', $options['title'])
-        );
+        $prefix = [[
+            HTMLHelper::_('select.option', '', $options['title']),
+        ]];
 
         return array_merge($prefix, $workflowStages);
     }

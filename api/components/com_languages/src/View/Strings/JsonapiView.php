@@ -77,7 +77,7 @@ class JsonapiView extends BaseApiView
             ->fields([$this->type => $this->fieldsToRenderList]);
 
         // Set the data into the document and render it
-        $this->document->setData($collection);
+        $this->getDocument()->setData($collection);
     }
 
     /**

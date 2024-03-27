@@ -10,8 +10,12 @@
 namespace Joomla\CMS\Plugin;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Event\AbstractImmutableEvent;
+use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageAwareInterface;
+use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -29,9 +33,10 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
+abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, LanguageAwareInterface
 {
     use DispatcherAwareTrait;
+    use LanguageAwareTrait;
 
     /**
      * A Registry object holding the parameters for the plugin
@@ -75,7 +80,12 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
      * @var    boolean
      * @since  4.0.0
      *
-     * @deprecated
+     * @deprecated  4.3 will be removed in 6.0
+     *              Implement your plugin methods accepting an AbstractEvent object
+     *              Example:
+     *              onEventTriggerName(AbstractEvent $event) {
+     *                  $context = $event->getArgument(...);
+     *              }
      */
     protected $allowLegacyListeners = true;
 
@@ -98,7 +108,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
      *
      * @since   1.5
      */
-    public function __construct(&$subject, $config = array())
+    public function __construct(&$subject, $config = [])
     {
         // Get the parameters.
         if (isset($config['params'])) {
@@ -126,7 +136,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
         if (property_exists($this, 'app')) {
             @trigger_error('The application should be injected through setApplication() and requested through getApplication().', E_USER_DEPRECATED);
-            $reflection = new \ReflectionClass($this);
+            $reflection  = new \ReflectionClass($this);
             $appProperty = $reflection->getProperty('app');
 
             if ($appProperty->isPrivate() === false && \is_null($this->app)) {
@@ -201,7 +211,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
         }
 
         $reflectedObject = new \ReflectionObject($this);
-        $methods = $reflectedObject->getMethods(\ReflectionMethod::IS_PUBLIC);
+        $methods         = $reflectedObject->getMethods(\ReflectionMethod::IS_PUBLIC);
 
         /** @var \ReflectionMethod $method */
         foreach ($methods as $method) {
@@ -227,7 +237,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
             }
 
             /** @var \ReflectionParameter $param */
-            $param = array_shift($parameters);
+            $param     = array_shift($parameters);
             $paramName = $param->getName();
 
             // No type hint / type hint class not an event or parameter name is not "event"? It's a legacy listener.
@@ -283,9 +293,13 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
                     return;
                 }
 
-                // Restore the old results and add the new result from our method call
-                $allResults[]    = $result;
-                $event['result'] = $allResults;
+                if ($event instanceof ResultAwareInterface) {
+                    $event->addResult($result);
+                } elseif (!$event instanceof AbstractImmutableEvent) {
+                    // Restore the old results and add the new result from our method call
+                    $allResults[]    = $result;
+                    $event['result'] = $allResults;
+                }
             }
         );
     }
@@ -371,5 +385,9 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
     public function setApplication(CMSApplicationInterface $application): void
     {
         $this->application = $application;
+
+        if ($application->getLanguage()) {
+            $this->setLanguage($application->getLanguage());
+        }
     }
 }

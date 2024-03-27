@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -36,15 +37,15 @@ class MenusModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'menutype', 'a.menutype',
                 'client_id', 'a.client_id',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -72,14 +73,14 @@ class MenusModel extends ListModel
 
         // If empty or an error, just return.
         if (empty($items)) {
-            return array();
+            return [];
         }
 
         // Getting the following metric by joins is WAY TOO SLOW.
         // Faster to do three queries for very large menu trees.
 
         // Get the menu types of menus in the list.
-        $db = $this->getDatabase();
+        $db        = $this->getDatabase();
         $menuTypes = array_column((array) $items, 'menutype');
 
         $query = $db->getQuery(true)
@@ -143,7 +144,7 @@ class MenusModel extends ListModel
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return  string  An SQL query
+     * @return  DatabaseQuery  An SQL query
      *
      * @since   1.6
      */
@@ -268,7 +269,7 @@ class MenusModel extends ListModel
      *
      * @return  array
      *
-     * @since   _DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function getMissingModuleLanguages(): array
     {

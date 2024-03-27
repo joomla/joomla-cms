@@ -27,11 +27,11 @@ $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_contenthistory.admin-history-versions');
 
-$this->configFieldsets  = array('editorConfig');
-$this->hiddenFieldsets  = array('basic-limited');
+$this->configFieldsets  = ['editorConfig'];
+$this->hiddenFieldsets  = ['basic-limited'];
 $fieldsetsInImages = ['image-intro', 'image-full'];
 $fieldsetsInLinks = ['linka', 'linkb', 'linkc'];
-$this->ignore_fieldsets = array_merge(array('jmetadata', 'item_associations'), $fieldsetsInImages, $fieldsetsInLinks);
+$this->ignore_fieldsets = array_merge(['jmetadata', 'item_associations'], $fieldsetsInImages, $fieldsetsInLinks);
 $this->useCoreUI = true;
 
 // Create shortcut to parameters.

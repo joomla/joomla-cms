@@ -25,9 +25,9 @@ $positions['']['items'][] = ModulesHelper::createOption('nochange', Text::_('COM
 $positions['']['items'][] = ModulesHelper::createOption('noposition', Text::_('COM_MODULES_BATCH_POSITION_NOPOSITION'));
 
 // Build field
-$attr = array(
+$attr = [
     'id' => 'batch-position-id',
-);
+];
 
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
@@ -45,13 +45,13 @@ $this->document->getWebAssetManager()
         <?php if ($clientId != 1) : ?>
             <div class="form-group col-md-6">
                 <div class="controls">
-                    <?php echo LayoutHelper::render('joomla.html.batch.language', array()); ?>
+                    <?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
                 </div>
             </div>
         <?php elseif ($clientId == 1 && ModuleHelper::isAdminMultilang()) : ?>
             <div class="form-group col-md-6">
                 <div class="controls">
-                    <?php echo LayoutHelper::render('joomla.html.batch.adminlanguage', array()); ?>
+                    <?php echo LayoutHelper::render('joomla.html.batch.adminlanguage', []); ?>
                 </div>
             </div>
         <?php endif; ?>

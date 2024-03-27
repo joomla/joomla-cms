@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -43,7 +44,7 @@ class Filter
      *
      * @since   2.5
      */
-    public function slider($options = array())
+    public function slider($options = [])
     {
         $db     = $this->getDatabase();
         $query  = $db->getQuery(true);
@@ -54,7 +55,7 @@ class Filter
 
         // Get the configuration options.
         $filterId    = $options['filter_id'] ?? null;
-        $activeNodes = array_key_exists('selected_nodes', $options) ? $options['selected_nodes'] : array();
+        $activeNodes = array_key_exists('selected_nodes', $options) ? $options['selected_nodes'] : [];
         $classSuffix = array_key_exists('class_suffix', $options) ? $options['class_suffix'] : '';
 
         // Load the predefined filter if specified.
@@ -109,7 +110,7 @@ class Filter
         }
 
         $branch_keys = array_keys($branches);
-        $html .= HTMLHelper::_('bootstrap.startAccordion', 'accordion', array('active' => 'accordion-' . $branch_keys[0]));
+        $html .= HTMLHelper::_('bootstrap.startAccordion', 'accordion', ['active' => 'accordion-' . $branch_keys[0]]);
 
         // Load plugin language files.
         LanguageHelper::loadPluginLanguage();
@@ -151,7 +152,7 @@ class Filter
                 if (trim($nv->parent_title, '*') === 'Language') {
                     $title = LanguageHelper::branchLanguageTitle($nv->title);
                 } else {
-                    $key = LanguageHelper::branchPlural($nv->title);
+                    $key   = LanguageHelper::branchPlural($nv->title);
                     $title = $lang->hasKey($key) ? Text::_($key) : $nv->title;
                 }
 
@@ -198,10 +199,10 @@ class Filter
     /**
      * Method to generate filters using select box dropdown controls.
      *
-     * @param   Query  $idxQuery  A Query object.
-     * @param   array  $options   An array of options.
+     * @param   Query     $idxQuery  A Query object.
+     * @param   Registry  $options   An array of options.
      *
-     * @return  mixed  A rendered HTML widget on success, null otherwise.
+     * @return  string|null  A rendered HTML widget on success, null otherwise.
      *
      * @since   2.5
      */
@@ -217,7 +218,7 @@ class Filter
 
         // Try to load the results from cache.
         $cache   = Factory::getCache('com_finder', '');
-        $cacheId = 'filter_select_' . serialize(array($idxQuery->filter, $options, $groups, Factory::getLanguage()->getTag()));
+        $cacheId = 'filter_select_' . serialize([$idxQuery->filter, $options, $groups, Factory::getLanguage()->getTag()]);
 
         // Check the cached results.
         if ($cache->contains($cacheId)) {
@@ -292,11 +293,19 @@ class Filter
                 $query->clear()
                     ->select('t.*')
                     ->from($db->quoteName('#__finder_taxonomy') . ' AS t')
-                    ->where('t.lft > ' . (int) $bv->lft)
-                    ->where('t.rgt < ' . (int) $bv->rgt)
+                    ->where('t.lft > :lft')
+                    ->where('t.rgt < :rgt')
                     ->where('t.state = 1')
-                    ->where('t.access IN (' . $groups . ')')
-                    ->order('t.title');
+                    ->whereIn('t.access', $user->getAuthorisedViewLevels())
+                    ->order('t.level, t.parent_id, t.title')
+                    ->bind(':lft', $bv->lft, ParameterType::INTEGER)
+                    ->bind(':rgt', $bv->rgt, ParameterType::INTEGER);
+
+                // Apply multilanguage filter
+                if (Multilanguage::isEnabled()) {
+                    $language = [Factory::getLanguage()->getTag(), '*'];
+                    $query->whereIn($db->quoteName('t.language'), $language, ParameterType::STRING);
+                }
 
                 // Self-join to get the parent title.
                 $query->select('e.title AS parent_title')
@@ -304,7 +313,7 @@ class Filter
 
                 // Limit the nodes to a predefined filter.
                 if (!empty($filter->data)) {
-                    $query->where('t.id IN(' . $filter->data . ')');
+                    $query->whereIn('t.id', explode(",", $filter->data));
                 }
 
                 // Load the branches.
@@ -318,12 +327,13 @@ class Filter
 
                 // Translate branch nodes if possible.
                 $language = Factory::getLanguage();
+                $root     = [];
 
                 foreach ($branches[$bk]->nodes as $node_id => $node) {
                     if (trim($node->parent_title, '*') === 'Language') {
                         $title = LanguageHelper::branchLanguageTitle($node->title);
                     } else {
-                        $key = LanguageHelper::branchPlural($node->title);
+                        $key   = LanguageHelper::branchPlural($node->title);
                         $title = $language->hasKey($key) ? Text::_($key) : $node->title;
                     }
 
@@ -331,11 +341,21 @@ class Filter
                         $branches[$bk]->nodes[$node_id]->title = str_repeat('-', $node->level - 2) . $title;
                     } else {
                         $branches[$bk]->nodes[$node_id]->title = $title;
+                        $root[]                                = $branches[$bk]->nodes[$node_id];
+                    }
+
+                    if ($node->parent_id && isset($branches[$bk]->nodes[$node->parent_id])) {
+                        if (!isset($branches[$bk]->nodes[$node->parent_id]->children)) {
+                            $branches[$bk]->nodes[$node->parent_id]->children = [];
+                        }
+                        $branches[$bk]->nodes[$node->parent_id]->children[] = $node;
                     }
                 }
 
+                $branches[$bk]->nodes = $this->reduce($root);
+
                 // Add the Search All option to the branch.
-                array_unshift($branches[$bk]->nodes, array('id' => null, 'title' => Text::_('COM_FINDER_FILTER_SELECT_ALL_LABEL')));
+                array_unshift($branches[$bk]->nodes, ['id' => null, 'title' => Text::_('COM_FINDER_FILTER_SELECT_ALL_LABEL')]);
             }
 
             // Store the data in cache.
@@ -363,7 +383,7 @@ class Filter
             // Check if the branch is in the filter.
             if (array_key_exists($bv->title, $idxQuery->filters)) {
                 // Get the request filters.
-                $temp   = Factory::getApplication()->getInput()->request->get('t', array(), 'array');
+                $temp   = Factory::getApplication()->getInput()->request->get('t', [], 'array');
 
                 // Search for active nodes in the branch and get the active node.
                 $active = array_intersect($temp, $idxQuery->filters[$bv->title]);
@@ -400,10 +420,10 @@ class Filter
     /**
      * Method to generate fields for filtering dates
      *
-     * @param   Query  $idxQuery  A Query object.
-     * @param   array  $options   An array of options.
+     * @param   Query     $idxQuery  A Query object.
+     * @param   Registry  $options   An array of options.
      *
-     * @return  mixed  A rendered HTML widget on success, null otherwise.
+     * @return  string  A rendered HTML widget.
      *
      * @since   2.5
      */
@@ -418,7 +438,7 @@ class Filter
 
         if (!empty($showDates)) {
             // Build the date operators options.
-            $operators   = array();
+            $operators   = [];
             $operators[] = HTMLHelper::_('select.option', 'before', Text::_('COM_FINDER_FILTER_DATE_BEFORE'));
             $operators[] = HTMLHelper::_('select.option', 'exact', Text::_('COM_FINDER_FILTER_DATE_EXACTLY'));
             $operators[] = HTMLHelper::_('select.option', 'after', Text::_('COM_FINDER_FILTER_DATE_AFTER'));
@@ -477,5 +497,28 @@ class Filter
         }
 
         return $html;
+    }
+
+    /**
+     * Method to flatten a tree to a sorted array
+     *
+     * @param   \stdClass[]  $array
+     *
+     * @return  \stdClass[]  Flat array of all nodes of a tree with the children after each parent
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function reduce(array $array)
+    {
+        $return = [];
+
+        foreach ($array as $item) {
+            $return[] = $item;
+            if (isset($item->children)) {
+                $return = array_merge($return, $this->reduce($item->children));
+            }
+        }
+
+        return $return;
     }
 }

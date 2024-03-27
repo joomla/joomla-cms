@@ -10,14 +10,12 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Exception;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxChallenge;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -41,7 +39,7 @@ trait AjaxHandlerChallenge
      *
      * @return  void
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.0.0
      */
     public function onAjaxWebauthnChallenge(AjaxChallenge $event): void
@@ -76,7 +74,7 @@ trait AjaxHandlerChallenge
         // Is the username valid?
         try {
             $userId = UserHelper::getUserId($username);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $userId = 0;
         }
 
@@ -88,7 +86,7 @@ trait AjaxHandlerChallenge
 
         try {
             $myUser = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $myUser = new User();
         }
 

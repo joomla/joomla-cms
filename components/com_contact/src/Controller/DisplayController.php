@@ -36,7 +36,7 @@ class DisplayController extends BaseController
      *
      * @since   3.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         // Contact frontpage Editor contacts proxying.
         $input = Factory::getApplication()->getInput();
@@ -58,7 +58,7 @@ class DisplayController extends BaseController
      *
      * @since   1.5
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         if ($this->app->getUserState('com_contact.contact.data') === null) {
             $cachable = true;
@@ -72,10 +72,23 @@ class DisplayController extends BaseController
             $cachable = false;
         }
 
-        $safeurlparams = array('catid' => 'INT', 'id' => 'INT', 'cid' => 'ARRAY', 'year' => 'INT', 'month' => 'INT',
-            'limit' => 'UINT', 'limitstart' => 'UINT', 'showall' => 'INT', 'return' => 'BASE64', 'filter' => 'STRING',
-            'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'filter-search' => 'STRING', 'print' => 'BOOLEAN',
-            'lang' => 'CMD');
+        $safeurlparams = [
+            'catid'            => 'INT',
+            'id'               => 'INT',
+            'cid'              => 'ARRAY',
+            'year'             => 'INT',
+            'month'            => 'INT',
+            'limit'            => 'UINT',
+            'limitstart'       => 'UINT',
+            'showall'          => 'INT',
+            'return'           => 'BASE64',
+            'filter'           => 'STRING',
+            'filter_order'     => 'CMD',
+            'filter_order_Dir' => 'CMD',
+            'filter-search'    => 'STRING',
+            'print'            => 'BOOLEAN',
+            'lang'             => 'CMD',
+        ];
 
         parent::display($cachable, $safeurlparams);
 

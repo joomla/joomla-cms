@@ -74,7 +74,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
      *
      * @since  4.0.0
      */
-    private $userGroups = array();
+    private $userGroups = [];
 
     /**
      * Command constructor.
@@ -214,7 +214,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
         }
 
         $groupList = [];
-        $option = explode(',', $option);
+        $option    = explode(',', $option);
 
         foreach ($option as $group) {
             $groupId = $this->getGroupId($group);
@@ -287,7 +287,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
     private function configureIO(InputInterface $input, OutputInterface $output)
     {
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
+        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 
     /**

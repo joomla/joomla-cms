@@ -38,7 +38,7 @@ class ConfigController extends BaseController
         $this->checkToken();
 
         $model = $this->getModel('Config');
-        $data  = $this->input->post->get('jform', array(), 'array');
+        $data  = $this->input->post->get('jform', [], 'array');
 
         // Validate the posted data.
         $form = $model->getForm();

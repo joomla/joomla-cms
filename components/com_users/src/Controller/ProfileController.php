@@ -91,7 +91,7 @@ class ProfileController extends BaseController
         $userId = (int) $user->get('id');
 
         // Get the user data.
-        $requestData = $app->getInput()->post->get('jform', array(), 'array');
+        $requestData = $app->getInput()->post->get('jform', [], 'array');
 
         // Force the ID to this user.
         $requestData['id'] = $userId;
@@ -107,7 +107,7 @@ class ProfileController extends BaseController
         $objData = (object) $requestData;
         $app->triggerEvent(
             'onContentNormaliseRequestData',
-            array('com_users.user', $objData, $form)
+            ['com_users.user', $objData, $form]
         );
         $requestData = (array) $objData;
 
@@ -166,7 +166,7 @@ class ProfileController extends BaseController
                 // Redirect back to the edit screen.
                 $this->setMessage(Text::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
 
-                $redirect = $app->getUserState('com_users.edit.profile.redirect');
+                $redirect = $app->getUserState('com_users.edit.profile.redirect', '');
 
                 // Don't redirect to an external URL.
                 if (!Uri::isInternal($redirect)) {
@@ -184,7 +184,7 @@ class ProfileController extends BaseController
                 // Clear the profile id from the session.
                 $app->setUserState('com_users.edit.profile.id', null);
 
-                $redirect = $app->getUserState('com_users.edit.profile.redirect');
+                $redirect = $app->getUserState('com_users.edit.profile.redirect', '');
 
                 // Don't redirect to an external URL.
                 if (!Uri::isInternal($redirect)) {

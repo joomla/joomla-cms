@@ -48,13 +48,13 @@ class DisplayController extends BaseController
      * @since   3.0
      * @throws  \Exception
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         $component = $this->input->get('component', '');
 
         // Make sure com_joomlaupdate and com_privacy can only be accessed by SuperUser
         if (
-            in_array(strtolower($component), array('com_joomlaupdate', 'com_privacy'))
+            in_array(strtolower($component), ['com_joomlaupdate', 'com_privacy'])
             && !$this->app->getIdentity()->authorise('core.admin')
         ) {
             $this->setRedirect(Route::_('index.php'), Text::_('JERROR_ALERTNOAUTHOR'), 'error');

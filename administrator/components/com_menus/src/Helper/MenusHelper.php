@@ -13,7 +13,6 @@ namespace Joomla\Component\Menus\Administrator\Helper;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
@@ -23,6 +22,7 @@ use Joomla\CMS\Menu\AdministratorMenuItem;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -41,7 +41,7 @@ class MenusHelper extends ContentHelper
      *
      * @var     array
      */
-    protected static $_filter = array('option', 'view', 'layout');
+    protected static $_filter = ['option', 'view', 'layout'];
 
     /**
      * List of preset include paths
@@ -69,7 +69,7 @@ class MenusHelper extends ContentHelper
 
         // Check if the link is in the form of index.php?...
         if (is_string($request)) {
-            $args = array();
+            $args = [];
 
             if (strpos($request, 'index.php') === 0) {
                 parse_str(parse_url(htmlspecialchars_decode($request), PHP_URL_QUERY), $args);
@@ -104,7 +104,7 @@ class MenusHelper extends ContentHelper
      */
     public static function getMenuTypes($clientId = 0)
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select($db->quoteName('a.menutype'))
             ->from($db->quoteName('#__menu_types', 'a'));
@@ -135,12 +135,12 @@ class MenusHelper extends ContentHelper
      *
      * @since   1.6
      */
-    public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published = array(), $languages = array(), $clientId = 0)
+    public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published = [], $languages = [], $clientId = 0)
     {
         $hasClientId = $clientId !== null;
         $clientId    = (int) $clientId;
 
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -242,11 +242,11 @@ class MenusHelper extends ContentHelper
             }
 
             // Create a reverse lookup and aggregate the links.
-            $rlu = array();
+            $rlu = [];
 
             foreach ($menuTypes as &$type) {
                 $rlu[$type->menutype] = & $type;
-                $type->links = array();
+                $type->links          = [];
             }
 
             // Loop through the list of menu links.
@@ -277,7 +277,7 @@ class MenusHelper extends ContentHelper
     public static function getAssociations($pk)
     {
         $langAssociations = Associations::getAssociations('com_menus', '#__menu', 'com_menus.item', $pk, 'id', '', '');
-        $associations     = array();
+        $associations     = [];
 
         foreach ($langAssociations as $langAssociation) {
             $associations[$langAssociation->language] = $langAssociation->id;
@@ -297,7 +297,7 @@ class MenusHelper extends ContentHelper
      *
      * @since   4.0.0
      */
-    public static function getMenuItems($menutype, $enabledOnly = false, $exclude = array())
+    public static function getMenuItems($menutype, $enabledOnly = false, $exclude = [])
     {
         $root  = new AdministratorMenuItem();
         $db    = Factory::getContainer()->get(DatabaseInterface::class);
@@ -364,8 +364,8 @@ class MenusHelper extends ContentHelper
                     static::resolveAlias($menuitem);
                 }
 
-                if ($menuitem->link = in_array($menuitem->type, array('separator', 'heading', 'container')) ? '#' : trim($menuitem->link)) {
-                    $menuitem->submenu = array();
+                if ($menuitem->link = in_array($menuitem->type, ['separator', 'heading', 'container']) ? '#' : trim($menuitem->link)) {
+                    $menuitem->submenu = [];
                     $menuitem->class   = $menuitem->img ?? '';
                     $menuitem->scope   = $menuitem->scope ?? null;
                     $menuitem->target  = $menuitem->browserNav ? '_blank' : '';
@@ -430,7 +430,7 @@ class MenusHelper extends ContentHelper
         $query = $db->getQuery(true);
         $items = $node->getChildren();
 
-        static $components = array();
+        static $components = [];
 
         if (!$components) {
             $query->select(
@@ -445,7 +445,7 @@ class MenusHelper extends ContentHelper
             $components = array_column((array) $components, 'element', 'extension_id');
         }
 
-        Factory::getApplication()->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.import', &$items, null, true));
+        Factory::getApplication()->triggerEvent('onPreprocessMenuItems', ['com_menus.administrator.import', &$items, null, true]);
 
         foreach ($items as $item) {
             /** @var \Joomla\CMS\Table\Menu $table */
@@ -464,13 +464,13 @@ class MenusHelper extends ContentHelper
                 $item->alias = microtime(true);
             } elseif ($item->type == 'heading' || $item->type == 'container') {
                 // Try to match an existing record to have minimum collision for a heading
-                $keys  = array(
+                $keys  = [
                     'menutype'  => $menutype,
                     'type'      => $item->type,
                     'title'     => $item->title,
                     'parent_id' => (int) $item->getParent()->id,
                     'client_id' => 1,
-                );
+                ];
                 $table->load($keys);
             } elseif ($item->type == 'url' || $item->type == 'component') {
                 if (substr($item->link, 0, 8) === 'special:') {
@@ -484,13 +484,13 @@ class MenusHelper extends ContentHelper
                 }
 
                 // Try to match an existing record to have minimum collision for a link
-                $keys  = array(
+                $keys  = [
                     'menutype'  => $menutype,
                     'type'      => $item->type,
                     'link'      => $item->link,
                     'parent_id' => (int) $item->getParent()->id,
                     'client_id' => 1,
-                );
+                ];
                 $table->load($keys);
             }
 
@@ -511,7 +511,7 @@ class MenusHelper extends ContentHelper
                 $item->getParams()->set('hideitems', $hideitems);
             }
 
-            $record = array(
+            $record = [
                 'menutype'     => $menutype,
                 'title'        => $item->title,
                 'alias'        => $item->alias,
@@ -527,7 +527,7 @@ class MenusHelper extends ContentHelper
                 'language'     => '*',
                 'home'         => 0,
                 'params'       => (string) $item->getParams(),
-            );
+            ];
 
             if (!$table->bind($record)) {
                 throw new \Exception($table->getError());
@@ -596,7 +596,7 @@ class MenusHelper extends ContentHelper
     {
         if (static::$presets === null) {
             // Important: 'null' will cause infinite recursion.
-            static::$presets = array();
+            static::$presets = [];
 
             $components = ComponentHelper::getComponents();
             $lang       = Factory::getApplication()->getLanguage();
@@ -689,7 +689,7 @@ class MenusHelper extends ContentHelper
         while ($obj->type == 'alias') {
             $aliasTo = (int) $obj->getParams()->get('aliasoptions');
 
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true);
             $query->select(
                 [
@@ -741,7 +741,7 @@ class MenusHelper extends ContentHelper
             static::resolveAlias($item);
         }
 
-        if ($item->link = in_array($item->type, array('separator', 'heading', 'container')) ? '#' : trim($item->link)) {
+        if ($item->link = in_array($item->type, ['separator', 'heading', 'container']) ? '#' : trim($item->link)) {
             $item->class  = $item->img ?? '';
             $item->scope  = $item->scope ?? null;
             $item->target = $item->browserNav ? '_blank' : '';
@@ -759,7 +759,7 @@ class MenusHelper extends ContentHelper
      *
      * @since  4.0.0
      */
-    protected static function loadXml($elements, $parent, $replace = array())
+    protected static function loadXml($elements, $parent, $replace = [])
     {
         foreach ($elements as $element) {
             if ($element->getName() != 'menuitem') {
@@ -848,7 +848,7 @@ class MenusHelper extends ContentHelper
      *
      * @since   4.0.0
      */
-    protected static function parseXmlNode($node, $replace = array())
+    protected static function parseXmlNode($node, $replace = [])
     {
         $item = new AdministratorMenuItem();
 
@@ -891,7 +891,7 @@ class MenusHelper extends ContentHelper
             $item->link    = str_replace("{sql:$var}", $val, $item->link);
             $item->class   = str_replace("{sql:$var}", $val, $item->class);
             $item->icon    = str_replace("{sql:$var}", $val, $item->icon);
-            $params->set('menu-quicktask', str_replace("{sql:$var}", $val, $params->get('menu-quicktask')));
+            $params->set('menu-quicktask', str_replace("{sql:$var}", $val, $params->get('menu-quicktask', '')));
         }
 
         $item->setParams($params);

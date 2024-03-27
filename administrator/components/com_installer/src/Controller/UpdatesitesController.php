@@ -49,7 +49,7 @@ class UpdatesitesController extends AdminController
      *
      * @since  1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -70,7 +70,7 @@ class UpdatesitesController extends AdminController
      *
      * @since   4.0.0
      */
-    public function getModel($name = 'Updatesite', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Updatesite', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -89,8 +89,8 @@ class UpdatesitesController extends AdminController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids    = (array) $this->input->get('cid', array(), 'int');
-        $values = array('publish' => 1, 'unpublish' => 0);
+        $ids    = (array) $this->input->get('cid', [], 'int');
+        $values = ['publish' => 1, 'unpublish' => 0];
         $task   = $this->getTask();
         $value  = ArrayHelper::getValue($values, $task, 0, 'int');
 
@@ -131,7 +131,7 @@ class UpdatesitesController extends AdminController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids = (array) $this->input->get('cid', array(), 'int');
+        $ids = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);

@@ -6,6 +6,19 @@
 ((tinyMCE, Joomla, window, document) => {
   'use strict';
 
+  // Debounce ReInit per editor ID
+  const reInitQueue = {};
+  const debounceReInit = (editor, element, pluginOptions) => {
+    if (reInitQueue[element.id]) {
+      clearTimeout(reInitQueue[element.id]);
+    }
+    reInitQueue[element.id] = setTimeout(() => {
+      editor.remove();
+      Joomla.editors.instances[element.id] = null;
+      Joomla.JoomlaTinyMCE.setupEditor(element, pluginOptions);
+    }, 500);
+  };
+
   Joomla.JoomlaTinyMCE = {
     /**
      * Find all TinyMCE elements and initialize TinyMCE instance for each
@@ -150,6 +163,36 @@
       // Create a new instance
       // eslint-disable-next-line no-undef
       const ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
+
+      // Work around iframe behavior, when iframe element changes location in DOM and losing its content.
+      // Re init editor when iframe is reloaded.
+      if (!ed.inline) {
+        let isReady = false;
+        let isRendered = false;
+        const listenIframeReload = () => {
+          const $iframe = ed.getContentAreaContainer().querySelector('iframe');
+
+          $iframe.addEventListener('load', () => {
+            debounceReInit(ed, element, pluginOptions);
+          });
+        };
+
+        // Make sure iframe is fully loaded.
+        // This works differently in different browsers, so have to listen both "load" and "PostRender" events.
+        ed.on('load', () => {
+          isReady = true;
+          if (isRendered) {
+            listenIframeReload();
+          }
+        });
+        ed.on('PostRender', () => {
+          isRendered = true;
+          if (isReady) {
+            listenIframeReload();
+          }
+        });
+      }
+
       ed.render();
 
       /** Register the editor's instance to Joomla Object */

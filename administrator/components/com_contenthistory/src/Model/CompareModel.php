@@ -59,7 +59,7 @@ class CompareModel extends ListModel
             return false;
         }
 
-        $result = array();
+        $result = [];
 
         if (!$table1->load($id1) || !$table2->load($id2)) {
             $this->setError(Text::_('COM_CONTENTHISTORY_ERROR_VERSION_NOT_FOUND'));
@@ -75,7 +75,7 @@ class CompareModel extends ListModel
         array_pop($typeAlias);
         $typeAlias        = implode('.', $typeAlias);
 
-        if (!$contentTypeTable->load(array('type_alias' => $typeAlias))) {
+        if (!$contentTypeTable->load(['type_alias' => $typeAlias])) {
             $this->setError(Text::_('COM_CONTENTHISTORY_ERROR_FAILED_LOADING_CONTENT_TYPE'));
 
             // Assume a failure to load the content type means broken data, abort mission
@@ -91,15 +91,15 @@ class CompareModel extends ListModel
 
         $nullDate = $this->getDatabase()->getNullDate();
 
-        foreach (array($table1, $table2) as $table) {
-            $object = new \stdClass();
-            $object->data = ContenthistoryHelper::prepareData($table);
+        foreach ([$table1, $table2] as $table) {
+            $object               = new \stdClass();
+            $object->data         = ContenthistoryHelper::prepareData($table);
             $object->version_note = $table->version_note;
 
             // Let's use custom calendars when present
             $object->save_date = HTMLHelper::_('date', $table->save_date, Text::_('DATE_FORMAT_LC6'));
 
-            $dateProperties = array (
+            $dateProperties = [
                 'modified_time',
                 'created_time',
                 'modified',
@@ -107,7 +107,7 @@ class CompareModel extends ListModel
                 'checked_out_time',
                 'publish_up',
                 'publish_down',
-            );
+            ];
 
             foreach ($dateProperties as $dateProperty) {
                 if (
@@ -140,7 +140,7 @@ class CompareModel extends ListModel
      *
      * @since   3.2
      */
-    public function getTable($type = 'Contenthistory', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
+    public function getTable($type = 'Contenthistory', $prefix = 'Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
@@ -172,11 +172,11 @@ class CompareModel extends ListModel
                 $contentTypeTable = $this->getTable('ContentType');
 
                 $typeAlias        = explode('.', $record->item_id);
-                $id = array_pop($typeAlias);
+                $id               = array_pop($typeAlias);
                 $typeAlias        = implode('.', $typeAlias);
-                $contentTypeTable->load(array('type_alias' => $typeAlias));
+                $contentTypeTable->load(['type_alias' => $typeAlias]);
                 $typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
-                $result = in_array((int) $id, $typeEditables);
+                $result        = in_array((int) $id, $typeEditables);
             }
         }
 

@@ -29,7 +29,7 @@ abstract class Dropdown
      * @var    array  Array containing information for loaded files
      * @since  3.0
      */
-    protected static $loaded = array();
+    protected static $loaded = [];
 
     /**
      * @var    string  HTML markup for the dropdown list
@@ -99,7 +99,7 @@ abstract class Dropdown
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">';
-        static::$dropDownList = $dropDownList;
+        static::$dropDownList       = $dropDownList;
         static::$loaded[__METHOD__] = true;
     }
 
@@ -115,7 +115,7 @@ abstract class Dropdown
         $dropDownList  = static::$dropDownList;
         $dropDownList .= '</ul></div>';
 
-        static::$dropDownList = null;
+        static::$dropDownList                  = null;
         static::$loaded[__CLASS__ . '::start'] = false;
 
         return $dropDownList;
@@ -138,7 +138,7 @@ abstract class Dropdown
 
         if (!$customLink) {
             $option = Factory::getApplication()->getInput()->getCmd('option');
-            $link = 'index.php?option=' . $option;
+            $link   = 'index.php?option=' . $option;
         } else {
             $link = $customLink;
         }

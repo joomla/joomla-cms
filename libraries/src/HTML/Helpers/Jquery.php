@@ -29,7 +29,7 @@ abstract class Jquery
      * @var    array
      * @since  3.0
      */
-    protected static $loaded = array();
+    protected static $loaded = [];
 
     /**
      * Method to load the jQuery JavaScript framework into the document head
@@ -44,7 +44,13 @@ abstract class Jquery
      *
      * @since   3.0
      *
-     * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::useAsset();
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use webasset manager instead
+     *              Example:
+     *              $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+     *              $wa->useScript('jquery');
+     *              $wa->useScript('jquery-noconflict');
+     *              $wa->useScript('jquery-migrate');
      */
     public static function framework($noConflict = true, $debug = null, $migrate = false)
     {

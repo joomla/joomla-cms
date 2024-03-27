@@ -75,7 +75,7 @@ class JoomlaSerializer extends AbstractSerializer
         $event = new Events\OnGetApiAttributes('onGetApiAttributes', ['attributes' => $post, 'context' => $this->type]);
 
         /** @var Events\OnGetApiAttributes $eventResult */
-        $eventResult = Factory::getApplication()->getDispatcher()->dispatch('onGetApiAttributes', $event);
+        $eventResult  = Factory::getApplication()->getDispatcher()->dispatch('onGetApiAttributes', $event);
         $combinedData = array_merge($post, $eventResult->getAttributes());
 
         return \is_array($fields) ? array_intersect_key($combinedData, array_flip($fields)) : $combinedData;
@@ -87,7 +87,7 @@ class JoomlaSerializer extends AbstractSerializer
      * @param   mixed   $model  The model of the entity being rendered
      * @param   string  $name   The name of the relationship to return
      *
-     * @return \Tobscure\JsonApi\Relationship|void
+     * @return \Tobscure\JsonApi\Relationship|null
      *
      * @since   4.0.0
      */
@@ -111,5 +111,7 @@ class JoomlaSerializer extends AbstractSerializer
         if ($relationship instanceof Relationship) {
             return $relationship;
         }
+
+        return null;
     }
 }

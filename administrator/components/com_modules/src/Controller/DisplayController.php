@@ -20,7 +20,7 @@ use Joomla\CMS\Uri\Uri;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Modules manager master display controller.
+ * Modules manager display controller.
  *
  * @since  1.6
  */

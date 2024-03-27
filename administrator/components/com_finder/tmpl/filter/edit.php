@@ -52,7 +52,7 @@ $wa->useScript('keepalive')
                     <hr>
                 <?php endif; ?>
 
-                <?php echo HTMLHelper::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
+                <?php echo HTMLHelper::_('filter.slider', ['selected_nodes' => $this->filter->data]); ?>
             </div>
             <div class="col-lg-3">
                 <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>

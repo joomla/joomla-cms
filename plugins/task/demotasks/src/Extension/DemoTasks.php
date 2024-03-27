@@ -36,12 +36,12 @@ final class DemoTasks extends CMSPlugin implements SubscriberInterface
      * @since 4.1.0
      */
     private const TASKS_MAP = [
-        'demoTask_r1.sleep'                    => [
+        'demoTask_r1.sleep' => [
             'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_TASK_SLEEP',
             'method'          => 'sleep',
             'form'            => 'testTaskForm',
         ],
-        'demoTask_r2.memoryStressTest'         => [
+        'demoTask_r2.memoryStressTest' => [
             'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_STRESS_MEMORY',
             'method'          => 'stressMemory',
         ],

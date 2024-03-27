@@ -55,25 +55,25 @@ $wa->useScript('keepalive')
             <div class="col-lg-3">
                 <?php $this->set(
                     'fields',
-                    array(
-                            array(
+                    [
+                            [
                                 'published',
                                 'state',
                                 'enabled',
-                            ),
+                            ],
                             'group_id',
                             'assigned_cat_ids',
                             'access',
                             'language',
                             'note',
-                        )
+                        ]
                 ); ?>
                 <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
                 <?php $this->set('fields', null); ?>
             </div>
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
-        <?php $this->set('ignore_fieldsets', array('fieldparams')); ?>
+        <?php $this->set('ignore_fieldsets', ['fieldparams']); ?>
         <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
         <fieldset id="fieldset-publishingdata" class="options-form">

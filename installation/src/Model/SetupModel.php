@@ -37,8 +37,8 @@ class SetupModel extends BaseInstallationModel
      */
     public function getOptions()
     {
-        if (!empty(Factory::getSession()->get('setup.options', array()))) {
-            return Factory::getSession()->get('setup.options', array());
+        if (!empty(Factory::getSession()->get('setup.options', []))) {
+            return Factory::getSession()->get('setup.options', []);
         }
     }
 
@@ -62,7 +62,7 @@ class SetupModel extends BaseInstallationModel
         }
 
         // Store passwords as a separate key that is not used in the forms
-        foreach (array('admin_password', 'db_pass') as $passwordField) {
+        foreach (['admin_password', 'db_pass'] as $passwordField) {
             if (isset($options[$passwordField])) {
                 $plainTextKey = $passwordField . '_plain';
 
@@ -73,7 +73,7 @@ class SetupModel extends BaseInstallationModel
         }
 
         // Get the session
-        $session = Factory::getSession();
+        $session            = Factory::getSession();
         $options['helpurl'] = $session->get('setup.helpurl', null);
 
         // Merge the new setup options into the current ones and store in the session.
@@ -102,7 +102,7 @@ class SetupModel extends BaseInstallationModel
         Form::addFormPath(JPATH_COMPONENT . '/forms');
 
         try {
-            $form = Form::getInstance('jform', $view, array('control' => 'jform'));
+            $form = Form::getInstance('jform', $view, ['control' => 'jform']);
         } catch (\Exception $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
@@ -132,7 +132,7 @@ class SetupModel extends BaseInstallationModel
     public function checkForm($page = 'setup')
     {
         // Get the posted values from the request and validate them.
-        $data   = Factory::getApplication()->getInput()->post->get('jform', array(), 'array');
+        $data   = Factory::getApplication()->getInput()->post->get('jform', [], 'array');
         $return = $this->validate($data, $page);
 
         // Attempt to save the data before validation.
@@ -177,7 +177,7 @@ class SetupModel extends BaseInstallationModel
         $list = LanguageHelper::createLanguageList($native);
 
         if (!$list || $list instanceof \Exception) {
-            $list = array();
+            $list = [];
         }
 
         return $list;
@@ -249,7 +249,7 @@ class SetupModel extends BaseInstallationModel
         $options = ArrayHelper::toObject($options);
 
         // Load the backend language files so that the DB error messages work.
-        $lang = Factory::getLanguage();
+        $lang        = Factory::getLanguage();
         $currentLang = $lang->getTag();
 
         // Load the selected language

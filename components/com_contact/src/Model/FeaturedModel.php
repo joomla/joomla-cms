@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -35,10 +36,10 @@ class FeaturedModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
                 'con_position', 'a.con_position',
@@ -46,7 +47,7 @@ class FeaturedModel extends ListModel
                 'state', 'a.state',
                 'country', 'a.country',
                 'ordering', 'a.ordering',
-            );
+            ];
         }
 
         parent::__construct($config);
@@ -77,13 +78,13 @@ class FeaturedModel extends ListModel
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return  string    An SQL query
+     * @return  DatabaseQuery    An SQL query
      *
      * @since   1.6
      */
     protected function getListQuery()
     {
-        $user = $this->getCurrentUser();
+        $user   = $this->getCurrentUser();
         $groups = $user->getAuthorisedViewLevels();
 
         // Create a new query object.
@@ -160,8 +161,8 @@ class FeaturedModel extends ListModel
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $app   = Factory::getApplication();
-        $input = $app->getInput();
+        $app    = Factory::getApplication();
+        $input  = $app->getInput();
         $params = ComponentHelper::getParams('com_contact');
 
         // List state information
@@ -184,7 +185,7 @@ class FeaturedModel extends ListModel
 
         $listOrder = $input->get('filter_order_Dir', 'ASC');
 
-        if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+        if (!in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 

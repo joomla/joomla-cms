@@ -21,7 +21,8 @@ use Joomla\Database\DatabaseDriver;
  * Adapter Instance Class
  *
  * @since       1.6
- * @deprecated  5.0 Will be removed without replacement
+ * @deprecated  4.3 will be removed in 6.0
+ *              Will be removed without replacement
  */
 class AdapterInstance extends CMSObject
 {
@@ -50,7 +51,7 @@ class AdapterInstance extends CMSObject
      *
      * @since   1.6
      */
-    public function __construct(Adapter $parent, DatabaseDriver $db, array $options = array())
+    public function __construct(Adapter $parent, DatabaseDriver $db, array $options = [])
     {
         // Set the properties from the options array that is passed in
         $this->setProperties($options);

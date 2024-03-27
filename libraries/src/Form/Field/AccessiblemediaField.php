@@ -175,10 +175,10 @@ class AccessiblemediaField extends SubformField
             return false;
         }
 
-        $this->directory = (string) $this->element['directory'];
-        $this->preview = (string) $this->element['preview'];
+        $this->directory     = (string) $this->element['directory'];
+        $this->preview       = (string) $this->element['preview'];
         $this->previewHeight = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
-        $this->previewWidth = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
+        $this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
 
         $xml = <<<XML
 <?xml version="1.0" encoding="utf-8"?>

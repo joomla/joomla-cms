@@ -19,7 +19,7 @@ use Joomla\CMS\Router\Route;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Newsfeeds master display controller.
+ * Newsfeeds display controller.
  *
  * @since  1.6
  */
@@ -43,7 +43,7 @@ class DisplayController extends BaseController
      *
      * @since   1.5
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         $view   = $this->input->get('view', 'newsfeeds');
         $layout = $this->input->get('layout', 'default');

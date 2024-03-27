@@ -139,21 +139,4 @@ class JoomlatokenField extends TextField
 
         return $data;
     }
-
-    /**
-     * Get the layout paths
-     *
-     * @return  array
-     *
-     * @since   4.0.0
-     */
-    protected function getLayoutPaths()
-    {
-        $template = Factory::getApplication()->getTemplate();
-
-        return [
-            JPATH_THEMES . '/' . $template . '/html/layouts',
-            JPATH_SITE . '/layouts',
-        ];
-    }
 }

@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Model;
@@ -33,7 +33,7 @@ trait FormBehaviorTrait
      * @var    Form[]
      * @since  4.0.0
      */
-    protected $_forms = array();
+    protected $_forms = [];
 
     /**
      * Method to get a form object.
@@ -50,7 +50,7 @@ trait FormBehaviorTrait
      * @since   4.0.0
      * @throws  \Exception
      */
-    protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = null)
+    protected function loadForm($name, $source = null, $options = [], $clear = false, $xpath = null)
     {
         // Handle the optional arguments.
         $options['control'] = ArrayHelper::getValue((array) $options, 'control', false);
@@ -99,7 +99,7 @@ trait FormBehaviorTrait
             // Get the data for the form.
             $data = $this->loadFormData();
         } else {
-            $data = array();
+            $data = [];
         }
 
         // Allow for additional modification of the form, and events to be triggered.
@@ -144,7 +144,7 @@ trait FormBehaviorTrait
         PluginHelper::importPlugin($group);
 
         // Trigger the data preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareData', array($context, &$data));
+        Factory::getApplication()->triggerEvent('onContentPrepareData', [$context, &$data]);
     }
 
     /**
@@ -166,7 +166,7 @@ trait FormBehaviorTrait
         PluginHelper::importPlugin($group);
 
         // Trigger the form preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
+        Factory::getApplication()->triggerEvent('onContentPrepareForm', [$form, $data]);
     }
 
     /**

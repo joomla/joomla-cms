@@ -15,8 +15,10 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -59,10 +61,38 @@ class BannerModel extends AdminModel
      *
      * @var  array
      */
-    protected $batch_commands = array(
+    protected $batch_commands = [
         'client_id'   => 'batchClient',
-        'language_id' => 'batchLanguage'
-    );
+        'language_id' => 'batchLanguage',
+    ];
+
+    /**
+     * Data cleanup after batch copying data
+     *
+     * @param   TableInterface  $table  The table object containing the newly created item
+     * @param   integer         $newId  The id of the new item
+     * @param   integer         $oldId  The original item id
+     *
+     * @return  void
+     *
+     * @since  4.3.2
+     */
+    protected function cleanupPostBatchCopy(TableInterface $table, $newId, $oldId)
+    {
+        // Initialise clicks and impmade
+        $db    = $this->getDatabase();
+
+        $query = $db->getQuery(true)
+                ->update($db->quoteName('#__banners'))
+                ->set($db->quoteName('clicks') . ' = 0')
+                ->set($db->quoteName('impmade') . ' = 0')
+                ->where($db->quoteName('id') . ' = :newId')
+                ->bind(':newId', $newId, ParameterType::INTEGER);
+
+        $db->setQuery($query);
+        $db->execute();
+    }
+
 
     /**
      * Batch client changes for a group of banners.
@@ -143,8 +173,8 @@ class BannerModel extends AdminModel
     public function generateTitle($categoryId, $table)
     {
         // Alter the title & alias
-        $data = $this->generateNewTitle($categoryId, $table->alias, $table->name);
-        $table->name = $data['0'];
+        $data         = $this->generateNewTitle($categoryId, $table->alias, $table->name);
+        $table->name  = $data['0'];
         $table->alias = $data['1'];
     }
 
@@ -178,10 +208,10 @@ class BannerModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_banners.banner', 'banner', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_banners.banner', 'banner', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -224,7 +254,7 @@ class BannerModel extends AdminModel
     {
         // Check the session for previously entered form data.
         $app  = Factory::getApplication();
-        $data = $app->getUserState('com_banners.edit.banner.data', array());
+        $data = $app->getUserState('com_banners.edit.banner.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -320,7 +350,7 @@ class BannerModel extends AdminModel
 
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
-                $db = $this->getDatabase();
+                $db    = $this->getDatabase();
                 $query = $db->getQuery(true)
                     ->select('MAX(' . $db->quoteName('ordering') . ')')
                     ->from($db->quoteName('#__banners'));
@@ -427,6 +457,11 @@ class BannerModel extends AdminModel
             }
 
             $data['state'] = 0;
+        }
+
+        if ($input->get('task') == 'save2copy' || $input->get('task') == 'copy') {
+            $data['clicks']  = 0;
+            $data['impmade'] = 0;
         }
 
         return parent::save($data);

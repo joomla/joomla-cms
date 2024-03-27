@@ -115,8 +115,8 @@ class CategoriesModel extends ListModel
     public function getItems()
     {
         if ($this->_items === null) {
-            $app = Factory::getApplication();
-            $menu = $app->getMenu();
+            $app    = Factory::getApplication();
+            $menu   = $app->getMenu();
             $active = $menu->getActive();
 
             if ($active) {
@@ -125,10 +125,10 @@ class CategoriesModel extends ListModel
                 $params = new Registry();
             }
 
-            $options = array();
+            $options               = [];
             $options['countItems'] = $params->get('show_cat_items_cat', 1) || !$params->get('show_empty_categories_cat', 0);
-            $categories = Categories::getInstance('Newsfeeds', $options);
-            $this->_parent = $categories->get($this->getState('filter.parentId', 'root'));
+            $categories            = Categories::getInstance('Newsfeeds', $options);
+            $this->_parent         = $categories->get($this->getState('filter.parentId', 'root'));
 
             if (is_object($this->_parent)) {
                 $this->_items = $this->_parent->getChildren();

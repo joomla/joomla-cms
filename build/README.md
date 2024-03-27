@@ -46,6 +46,7 @@ There are three options here:
 - `npm run build:css -- templates/cassiopeia`: compiles ALL the SCSS ONLY in the folder `templates/cassiopeia`.
 - `npm run build:bs5`: Builds the Bootstrap Javascript components.
 - `npm run build:com_media`: Builds the Media Manager Vue Application.
+- `npm run build:com_media:dev`: Builds the Media Manager Vue Application but in DEV mode, (no minification, no es5 and all flags for the vue devtools)
 - `npm run lint:js`: Checks the code style for all the Javascript/Vue files.
 - `npm run lint:js -- --fix`: Checks and fixes the code style for all the Javascript/Vue files (might not fix everything).
 - `npm run lint:css`: Checks the code style for all SCSS files.
