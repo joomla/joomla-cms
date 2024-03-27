@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 $form = $displayData->getForm();
 
-$fields = $displayData->get('fields') ?: [
+$fields = $displayData->get('edit_publishingdata_fields') ?: [
     'publish_up',
     'publish_down',
     'featured_up',

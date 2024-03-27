@@ -26,7 +26,7 @@ if ($component == 'com_categories') {
 
 $saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
 
-$fields = $displayData->get('fields') ?: [
+$fields = $displayData->get('menu_edit_modules_fields') ?: [
     ['parent', 'parent_id'],
     ['published', 'state', 'enabled'],
     ['category', 'catid'],
