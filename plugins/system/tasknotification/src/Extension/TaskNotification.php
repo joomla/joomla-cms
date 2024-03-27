@@ -12,13 +12,16 @@ namespace Joomla\Plugin\System\TaskNotification\Extension;
 
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
+use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\ParameterType;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\Path;
@@ -63,11 +66,12 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onContentPrepareForm'  => 'injectTaskNotificationFieldset',
-            'onTaskExecuteSuccess'  => 'notifySuccess',
-            'onTaskExecuteFailure'  => 'notifyFailure',
-            'onTaskRoutineNotFound' => 'notifyOrphan',
-            'onTaskRecoverFailure'  => 'notifyFatalRecovery',
+            'onContentPrepareForm'    => 'injectTaskNotificationFieldset',
+            'onTaskExecuteSuccess'    => 'notifySuccess',
+            'onTaskRoutineWillResume' => 'notifyWillResume',
+            'onTaskExecuteFailure'    => 'notifyFailure',
+            'onTaskRoutineNotFound'   => 'notifyOrphan',
+            'onTaskRecoverFailure'    => 'notifyFatalRecovery',
         ];
     }
 
@@ -124,6 +128,11 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         /** @var Task $task */
         $task = $event->getArgument('subject');
 
+        // @todo safety checks, multiple files [?]
+        $outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
+        $data    = $this->getDataFromTask($event->getArgument('subject'));
+        $this->logTask($data);
+
         if (!(int) $task->get('params.notifications.failure_mail', 1)) {
             return;
         }
@@ -131,9 +140,6 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         // Load translations
         $this->loadLanguage();
 
-        // @todo safety checks, multiple files [?]
-        $outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
-        $data    = $this->getDataFromTask($event->getArgument('subject'));
         $this->sendMail('plg_system_tasknotification.failure_mail', $data, $outFile);
     }
 
@@ -180,17 +186,36 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         /** @var Task $task */
         $task = $event->getArgument('subject');
 
+        // @todo safety checks, multiple files [?]
+        $outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
+        $data    = $this->getDataFromTask($event->getArgument('subject'));
+
+        $this->logTask($data);
+
         if (!(int) $task->get('params.notifications.success_mail', 0)) {
             return;
         }
 
         // Load translations
         $this->loadLanguage();
-
-        // @todo safety checks, multiple files [?]
-        $outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
-        $data    = $this->getDataFromTask($event->getArgument('subject'));
         $this->sendMail('plg_system_tasknotification.success_mail', $data, $outFile);
+    }
+
+    /**
+     * Log Task execution will resume.
+     *
+     * @param   Event  $event  The onTaskRoutineWillResume event.
+     *
+     * @return void
+     *
+     * @since __DEPLOY_VERSION__
+     * @throws \Exception
+     */
+    public function notifyWillResume(Event $event): void
+    {
+        $data = $this->getDataFromTask($event->getArgument('subject'));
+
+        $this->logTask($data);
     }
 
     /**
@@ -217,9 +242,6 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        // Load translations
-        $this->loadLanguage();
-
         $data = $this->getDataFromTask($event->getArgument('subject'));
         $this->sendMail('plg_system_tasknotification.fatal_recovery_mail', $data);
     }
@@ -238,9 +260,12 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         return [
             'TASK_ID'        => $task->get('id'),
             'TASK_TITLE'     => $task->get('title'),
+            'TASK_TYPE'      => $task->get('type'),
             'EXIT_CODE'      => $task->getContent()['status'] ?? Status::NO_EXIT,
             'EXEC_DATE_TIME' => $lockOrExecTime,
             'TASK_OUTPUT'    => $task->getContent()['output_body'] ?? '',
+            'TASK_TIMES'     => $task->get('times_executed'),
+            'TASK_DURATION'  => $task->getContent()['duration'],
         ];
     }
 
@@ -313,5 +338,70 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         if (!$mailSent) {
             Log::add($this->getApplication()->getLanguage()->_('PLG_SYSTEM_TASK_NOTIFICATION_NO_MAIL_SENT'), Log::WARNING);
         }
+    }
+
+    /**
+     * @param   array   $data        The task execution data.
+     *
+     * @return void
+     *
+     * @since __DEPLOY_VERSION__
+     * @throws Exception
+     */
+    private function logTask(array $data): void
+    {
+        $app = $this->getApplication();
+        $db  = $this->getDatabase();
+
+        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
+        $model = $app->bootComponent('com_scheduler')
+            ->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+        $taskInfo = $model->getItem($data['TASK_ID']);
+
+        $taskOptions   = SchedulerHelper::getTaskOptions();
+        $safeTypeTitle = $taskOptions->findOption($taskInfo->type)->title ?? '';
+
+        // Log the execution of the task.
+        $query = $db->getQuery(true);
+
+        $created = Factory::getDate()->toSql();
+
+        $columns = [
+            'tasktype',
+            'taskname',
+            'duration',
+            'jobid',
+            'taskid',
+            'exitcode',
+            'lastdate',
+            'nextdate',
+        ];
+
+        $values = [
+            ':tasktype',
+            ':taskname',
+            ':duration',
+            ':jobid',
+            ':taskid',
+            ':exitcode',
+            ':lastdate',
+            ':nextdate',
+        ];
+        $duration = ($data['TASK_DURATION'] ?? 0);
+        $query
+            ->insert($db->quoteName('#__scheduler_logs'), false)
+            ->columns($db->quoteName($columns))
+            ->values(implode(', ', $values))
+            ->bind(':tasktype', $safeTypeTitle)
+            ->bind(':taskname', $data['TASK_TITLE'])
+            ->bind(':duration', $duration)
+            ->bind(':jobid', $data['TASK_ID'], ParameterType::INTEGER)
+            ->bind(':taskid', $data['TASK_TIMES'], ParameterType::INTEGER)
+            ->bind(':exitcode', $data['EXIT_CODE'], ParameterType::INTEGER)
+            ->bind(':lastdate', $created)
+            ->bind(':nextdate', $taskInfo->next_execution);
+
+        $db->setQuery($query);
+        $db->execute();
     }
 }
