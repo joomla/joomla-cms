@@ -14,6 +14,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\CMS\Layout\FileLayout $this */
+
 extract($displayData);
 
 /**
@@ -50,8 +52,8 @@ extract($displayData);
  * @var   string   $customPrefix    Optional prefix for new categories.
  */
 
-$html    = array();
-$classes = array();
+$html    = [];
+$classes = [];
 $attr    = '';
 $attr2   = '';
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="fields" method="upgrade">
 	<name>plg_fields_text</name>
 	<author>Joomla! Project</author>
@@ -9,9 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.7.0</version>
 	<description>PLG_FIELDS_TEXT_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Fields\Text</namespace>
 	<files>
-		<filename plugin="text">text.php</filename>
 		<folder>params</folder>
+		<folder plugin="text">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
@@ -26,13 +28,13 @@
 					type="list"
 					label="PLG_FIELDS_TEXT_PARAMS_FILTER_LABEL"
 					class="list"
-					default="JComponentHelper::filterText"
+					default="\Joomla\CMS\Component\ComponentHelper::filterText"
 					validate="options"
 					>
 					<option value="0">JNO</option>
 					<option value="raw">JLIB_FILTER_PARAMS_RAW</option>
 					<option value="safehtml">JLIB_FILTER_PARAMS_SAFEHTML</option>
-					<option value="JComponentHelper::filterText">JLIB_FILTER_PARAMS_TEXT</option>
+					<option value="\Joomla\CMS\Component\ComponentHelper::filterText">JLIB_FILTER_PARAMS_TEXT</option>
 					<option value="alnum">JLIB_FILTER_PARAMS_ALNUM</option>
 					<option value="integer">JLIB_FILTER_PARAMS_INTEGER</option>
 					<option value="float">JLIB_FILTER_PARAMS_FLOAT</option>

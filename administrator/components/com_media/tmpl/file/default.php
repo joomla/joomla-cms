@@ -15,8 +15,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
+
+/** @var \Joomla\Component\Media\Administrator\View\File\HtmlView $this */
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
@@ -35,13 +36,6 @@ $form = $this->form;
 $tmpl = $input->getCmd('tmpl');
 
 $input->set('hidemainmenu', true);
-
-// Load the toolbar when we are in an iframe
-if ($tmpl == 'component') {
-    echo '<div class="subhead noshadow">';
-    echo Toolbar::getInstance('toolbar')->render();
-    echo '</div>';
-}
 
 $mediaTypes = $input->getString('mediatypes', '0');
 
@@ -63,6 +57,11 @@ $this->document->addScriptOptions('com_media', $config);
 
 $this->useCoreUI = true;
 ?>
+<?php if ($tmpl === 'component') : ?>
+<div class="subhead noshadow mb-3">
+    <?php echo $this->document->getToolbar('toolbar')->render(); ?>
+</div>
+<?php endif; ?>
 <form action="#" method="post" name="adminForm" id="media-form" class="form-validate main-card media-form mt-3">
     <?php $fieldSets = $form->getFieldsets(); ?>
     <?php if ($fieldSets) : ?>
@@ -71,6 +70,6 @@ $this->useCoreUI = true;
         <?php echo '<div id="media-manager-edit-container" class="media-manager-edit"></div>'; ?>
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
     <?php endif; ?>
-    <input type="hidden" name="mediatypes" value="<?php echo $mediaTypes; ?>">
+    <input type="hidden" name="mediatypes" value="<?php echo $this->escape($mediaTypes); ?>">
 </form>
 <script type="module" src="<?php echo $script . '?' . $this->document->getMediaVersion(); ?>"></script>

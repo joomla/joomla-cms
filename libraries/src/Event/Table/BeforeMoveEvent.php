@@ -4,20 +4,19 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Event\Table;
 
-use BadMethodCallException;
 use Joomla\Database\DatabaseQuery;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onBeforeMove event
+ * Event class for \Joomla\CMS\Table\Table onBeforeMove event
  *
  * @since  4.0.0
  */
@@ -27,28 +26,28 @@ class BeforeMoveEvent extends AbstractEvent
      * Constructor.
      *
      * Mandatory arguments:
-     * subject      JTableInterface The table we are operating on
-     * query        DatabaseQuery   The query to get the primary keys and ordering values for the selection.
-     * delta        int             The direction and magnitude to move the row in the ordering sequence.
-     * where        string          WHERE clause to use for limiting the selection of rows to compact the ordering values.
+     * subject      \Joomla\CMS\Table\TableInterface The table we are operating on
+     * query        DatabaseQuery                    The query to get the primary keys and ordering values for the selection.
+     * delta        int                              The direction and magnitude to move the row in the ordering sequence.
+     * where        string                           WHERE clause to use for limiting the selection of rows to compact the ordering values.
      *
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.
      *
-     * @throws  BadMethodCallException
+     * @throws  \BadMethodCallException
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('query', $arguments)) {
-            throw new BadMethodCallException("Argument 'query' is required for event $name");
+            throw new \BadMethodCallException("Argument 'query' is required for event $name");
         }
 
         if (!\array_key_exists('delta', $arguments)) {
-            throw new BadMethodCallException("Argument 'delta' is required for event $name");
+            throw new \BadMethodCallException("Argument 'delta' is required for event $name");
         }
 
         if (!\array_key_exists('where', $arguments)) {
-            throw new BadMethodCallException("Argument 'where' is required for event $name");
+            throw new \BadMethodCallException("Argument 'where' is required for event $name");
         }
 
         parent::__construct($name, $arguments);
@@ -61,12 +60,15 @@ class BeforeMoveEvent extends AbstractEvent
      *
      * @return  mixed
      *
-     * @throws  BadMethodCallException  if the argument is not of the expected type
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setQuery($value)
     {
         if (!($value instanceof DatabaseQuery)) {
-            throw new BadMethodCallException("Argument 'query' of event {$this->name} must be of DatabaseQuery type");
+            throw new \BadMethodCallException("Argument 'query' of event {$this->name} must be of DatabaseQuery type");
         }
 
         return $value;
@@ -79,12 +81,15 @@ class BeforeMoveEvent extends AbstractEvent
      *
      * @return  integer
      *
-     * @throws  BadMethodCallException  if the argument is not of the expected type
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setDelta($value)
     {
         if (!is_numeric($value)) {
-            throw new BadMethodCallException("Argument 'delta' of event {$this->name} must be an integer");
+            throw new \BadMethodCallException("Argument 'delta' of event {$this->name} must be an integer");
         }
 
         return (int) $value;
@@ -97,14 +102,65 @@ class BeforeMoveEvent extends AbstractEvent
      *
      * @return  mixed
      *
-     * @throws  BadMethodCallException  if the argument is not of the expected type
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setWhere($value)
     {
         if (!empty($value) && !\is_string($value)) {
-            throw new BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string");
+            throw new \BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string");
         }
 
         return $value;
+    }
+
+    /**
+     * Setter for the query argument
+     *
+     * @param   DatabaseQuery  $value  The value to set
+     *
+     * @return  mixed
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetQuery($value)
+    {
+        return $this->setQuery($value);
+    }
+
+    /**
+     * Setter for the delta argument
+     *
+     * @param   int  $value  The value to set
+     *
+     * @return  integer
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetDelta($value)
+    {
+        return $this->setDelta($value);
+    }
+
+    /**
+     * Setter for the where argument
+     *
+     * @param   string|null  $value  The value to set
+     *
+     * @return  mixed
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetWhere($value)
+    {
+        return $this->setWhere($value);
     }
 }

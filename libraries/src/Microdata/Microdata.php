@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Microdata;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -115,7 +115,7 @@ class Microdata
     {
         // Load the JSON
         if (!static::$types) {
-            $path = __DIR__ . '/types.json';
+            $path          = __DIR__ . '/types.json';
             static::$types = json_decode(file_get_contents($path), true);
         }
     }
@@ -252,7 +252,7 @@ class Microdata
      */
     public function content($content, $machineContent = null)
     {
-        $this->content = $content;
+        $this->content        = $content;
         $this->machineContent = $machineContent;
 
         return $this;
@@ -397,7 +397,7 @@ class Microdata
                 switch (static::getExpectedDisplayType($this->type, $this->property)) {
                     case 'nested':
                         // Retrieve the expected 'nested' Type of the $Property
-                        $nestedType = static::getExpectedTypes($this->type, $this->property);
+                        $nestedType     = static::getExpectedTypes($this->type, $this->property);
                         $nestedProperty = '';
 
                         // If there is a Fallback Type then probably it could be the expectedType
@@ -630,7 +630,7 @@ class Microdata
             return static::getExpectedTypes($extendedType, $property);
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -793,9 +793,9 @@ class Microdata
 
         // Depending on the case, the $scope must precede the $property, or otherwise
         if ($invert) {
-            $tmp = implode(' ', array($property, $scope));
+            $tmp = implode(' ', [$property, $scope]);
         } else {
-            $tmp = implode(' ', array($scope, $property));
+            $tmp = implode(' ', [$scope, $property]);
         }
 
         $tmp = trim($tmp);

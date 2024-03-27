@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -34,13 +34,13 @@ class UseractiveField extends PredefinedlistField
     /**
      * Available statuses
      *
-     * @var  array
+     * @var  string[]
      * @since  3.2
      */
-    protected $predefinedOptions = array(
-        '0'  => 'COM_USERS_ACTIVATED',
-        '1'  => 'COM_USERS_UNACTIVATED',
-    );
+    protected $predefinedOptions = [
+        '0' => 'COM_USERS_ACTIVATED',
+        '1' => 'COM_USERS_UNACTIVATED',
+    ];
 
     /**
      * Method to instantiate the form field object.

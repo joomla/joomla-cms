@@ -12,7 +12,7 @@ namespace Joomla\CMS\Encrypt\AES;
 use Joomla\CMS\Encrypt\Randval;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -59,19 +59,19 @@ class OpenSSL extends AbstractAES implements AesInterface
      * @param   string  $mode      Choose between CBC (recommended) or ECB
      * @param   int     $strength  Bit strength of the key (128, 192 or 256 bits). DEPRECATED. READ NOTES ABOVE.
      *
-     * @return  mixed
+     * @return  void
      */
     public function setEncryptionMode($mode = 'cbc', $strength = 128)
     {
         static $availableAlgorithms = null;
-        static $defaultAlgo = 'aes-128-cbc';
+        static $defaultAlgo         = 'aes-128-cbc';
 
         if (!\is_array($availableAlgorithms)) {
             $availableAlgorithms = openssl_get_cipher_methods();
 
             foreach (
-                array('aes-256-cbc', 'aes-256-ecb', 'aes-192-cbc',
-                'aes-192-ecb', 'aes-128-cbc', 'aes-128-ecb') as $algo
+                ['aes-256-cbc', 'aes-256-ecb', 'aes-192-cbc',
+                'aes-192-ecb', 'aes-128-cbc', 'aes-128-ecb', ] as $algo
             ) {
                 if (\in_array($algo, $availableAlgorithms)) {
                     $defaultAlgo = $algo;
@@ -83,11 +83,11 @@ class OpenSSL extends AbstractAES implements AesInterface
         $strength = (int) $strength;
         $mode     = strtolower($mode);
 
-        if (!\in_array($strength, array(128, 192, 256))) {
+        if (!\in_array($strength, [128, 192, 256])) {
             $strength = 256;
         }
 
-        if (!\in_array($mode, array('cbc', 'ebc'))) {
+        if (!\in_array($mode, ['cbc', 'ebc'])) {
             $mode = 'cbc';
         }
 

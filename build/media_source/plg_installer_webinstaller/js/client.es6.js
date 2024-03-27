@@ -103,8 +103,8 @@ class WebInstaller {
           const jedContainer = document.getElementById('jed-container');
           jedContainer.innerHTML = Joomla.sanitizeHtml(response.data.html, allowList);
 
-          document.getElementById('com-apps-searchbox').addEventListener('keypress', ({ which }) => {
-            if (which === 13) {
+          document.getElementById('com-apps-searchbox').addEventListener('keydown', ({ code }) => {
+            if (code === 'Enter') {
               this.initiateSearch();
             }
           });
@@ -404,7 +404,7 @@ customElements.whenDefined('joomla-tab').then(() => {
   const installerTabs = document.getElementById('myTab');
   const link = installerTabs.querySelector('button[aria-controls=web]');
 
-  // Abort if the IFW tab cannot be found
+  // Stop if the IFW tab cannot be found
   if (!link) {
     return;
   }

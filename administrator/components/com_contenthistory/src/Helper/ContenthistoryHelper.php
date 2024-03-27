@@ -12,13 +12,13 @@ namespace Joomla\Component\Contenthistory\Administrator\Helper;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -42,7 +42,7 @@ class ContenthistoryHelper
      */
     public static function createObjectArray($object)
     {
-        $result = array();
+        $result = [];
 
         if ($object === null) {
             return $result;
@@ -51,7 +51,7 @@ class ContenthistoryHelper
         foreach ($object as $name => $value) {
             $result[$name] = $value;
 
-            if (is_object($value)) {
+            if (\is_object($value)) {
                 foreach ($value as $subName => $subValue) {
                     $result[$subName] = $subValue;
                 }
@@ -74,9 +74,9 @@ class ContenthistoryHelper
     {
         $object = json_decode($jsonString);
 
-        if (is_object($object)) {
+        if (\is_object($object)) {
             foreach ($object as $name => $value) {
-                if ($subObject = json_decode($value)) {
+                if (!\is_null($value) && $subObject = json_decode($value)) {
                     $object->$name = $subObject;
                 }
             }
@@ -102,8 +102,8 @@ class ContenthistoryHelper
      */
     public static function getFormValues($object, ContentType $typesTable)
     {
-        $labels = array();
-        $values = array();
+        $labels              = [];
+        $values              = [];
         $expandedObjectArray = static::createObjectArray($object);
         static::loadLanguageFiles($typesTable->type_alias);
 
@@ -130,7 +130,7 @@ class ContenthistoryHelper
 
                         $valueText = null;
 
-                        if (is_array($optionFieldArray) && count($optionFieldArray)) {
+                        if (\is_array($optionFieldArray) && \count($optionFieldArray)) {
                             $valueText = trim((string) $optionFieldArray[0]);
                         }
 
@@ -140,7 +140,7 @@ class ContenthistoryHelper
             }
         }
 
-        $result = new \stdClass();
+        $result         = new \stdClass();
         $result->labels = $labels;
         $result->values = $values;
 
@@ -161,15 +161,15 @@ class ContenthistoryHelper
         // First, see if we have a file name in the $typesTable
         $options = json_decode($typesTable->content_history_options);
 
-        if (is_object($options) && isset($options->formFile) && File::exists(JPATH_ROOT . '/' . $options->formFile)) {
+        if (\is_object($options) && isset($options->formFile) && is_file(JPATH_ROOT . '/' . $options->formFile)) {
             $result = JPATH_ROOT . '/' . $options->formFile;
         } else {
             $aliasArray = explode('.', $typesTable->type_alias);
-            $component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
-            $path  = Folder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
+            $component  = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
+            $path       = Folder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
             array_shift($aliasArray);
-            $file = File::makeSafe(implode('.', $aliasArray) . '.xml');
-            $result = File::exists($path . $file) ? $path . $file : false;
+            $file   = File::makeSafe(implode('.', $aliasArray) . '.xml');
+            $result = is_file($path . $file) ? $path . $file : false;
         }
 
         return $result;
@@ -223,7 +223,7 @@ class ContenthistoryHelper
     public static function hideFields($object, ContentType $typeTable)
     {
         if ($options = json_decode($typeTable->content_history_options)) {
-            if (isset($options->hideFields) && is_array($options->hideFields)) {
+            if (isset($options->hideFields) && \is_array($options->hideFields)) {
                 foreach ($options->hideFields as $field) {
                     unset($object->$field);
                 }
@@ -246,9 +246,9 @@ class ContenthistoryHelper
     {
         $aliasArray = explode('.', $typeAlias);
 
-        if (is_array($aliasArray) && count($aliasArray) == 2) {
+        if (\is_array($aliasArray) && \count($aliasArray) == 2) {
             $component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
-            $lang = Factory::getLanguage();
+            $lang      = Factory::getLanguage();
 
             /**
              * Loading language file from the administrator/language directory then
@@ -287,20 +287,20 @@ class ContenthistoryHelper
         $valuesArray = $formValues->values;
 
         foreach ($object as $name => $value) {
-            $result->$name = new \stdClass();
-            $result->$name->name = $name;
+            $result->$name        = new \stdClass();
+            $result->$name->name  = $name;
             $result->$name->value = $valuesArray[$name] ?? $value;
             $result->$name->label = $labelsArray[$name] ?? $name;
 
-            if (is_object($value)) {
+            if (\is_object($value)) {
                 $subObject = new \stdClass();
 
                 foreach ($value as $subName => $subValue) {
-                    $subObject->$subName = new \stdClass();
-                    $subObject->$subName->name = $subName;
+                    $subObject->$subName        = new \stdClass();
+                    $subObject->$subName->name  = $subName;
                     $subObject->$subName->value = $valuesArray[$subName] ?? $subValue;
                     $subObject->$subName->label = $labelsArray[$subName] ?? $subName;
-                    $result->$name->value = $subObject;
+                    $result->$name->value       = $subObject;
                 }
             }
         }
@@ -319,15 +319,15 @@ class ContenthistoryHelper
      */
     public static function prepareData(ContentHistory $table)
     {
-        $object = static::decodeFields($table->version_data);
+        $object     = static::decodeFields($table->version_data);
         $typesTable = Table::getInstance('ContentType', 'Joomla\\CMS\\Table\\');
-        $typeAlias = explode('.', $table->item_id);
+        $typeAlias  = explode('.', $table->item_id);
         array_pop($typeAlias);
-        $typesTable->load(array('type_alias' => implode('.', $typeAlias)));
+        $typesTable->load(['type_alias' => implode('.', $typeAlias)]);
         $formValues = static::getFormValues($object, $typesTable);
-        $object = static::mergeLabels($object, $formValues);
-        $object = static::hideFields($object, $typesTable);
-        $object = static::processLookupFields($object, $typesTable);
+        $object     = static::mergeLabels($object, $formValues);
+        $object     = static::hideFields($object, $typesTable);
+        $object     = static::processLookupFields($object, $typesTable);
 
         return $object;
     }
@@ -346,10 +346,10 @@ class ContenthistoryHelper
     public static function processLookupFields($object, ContentType $typesTable)
     {
         if ($options = json_decode($typesTable->content_history_options)) {
-            if (isset($options->displayLookup) && is_array($options->displayLookup)) {
+            if (isset($options->displayLookup) && \is_array($options->displayLookup)) {
                 foreach ($options->displayLookup as $lookup) {
                     $sourceColumn = $lookup->sourceColumn ?? false;
-                    $sourceValue = $object->$sourceColumn->value ?? false;
+                    $sourceValue  = $object->$sourceColumn->value ?? false;
 
                     if ($sourceColumn && $sourceValue && ($lookupValue = static::getLookupValue($lookup, $sourceValue))) {
                         $object->$sourceColumn->value = $lookupValue;

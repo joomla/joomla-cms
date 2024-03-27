@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Session;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -29,7 +29,7 @@ abstract class DraggableList
      * @var    array
      * @since  4.0.0
      */
-    protected static $loaded = array();
+    protected static $loaded = [];
 
     /**
      * Method to load the Dragula script and make table sortable

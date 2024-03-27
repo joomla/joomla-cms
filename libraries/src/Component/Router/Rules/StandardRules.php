@@ -12,7 +12,7 @@ namespace Joomla\CMS\Component\Router\Rules;
 use Joomla\CMS\Component\Router\RouterView;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -87,8 +87,8 @@ class StandardRules implements RulesInterface
         foreach ($tempSegments as $segment) {
             // Our current view is nestable. We need to check first if the segment fits to that
             if ($views[$vars['view']]->nestable) {
-                if (\is_callable(array($this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id'))) {
-                    $key = \call_user_func_array(array($this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id'), array($segment, $vars));
+                if (\is_callable([$this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id'])) {
+                    $key = \call_user_func_array([$this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id'], [$segment, $vars]);
 
                     // Did we get a proper key? If not, we need to look in the child-views
                     if ($key) {
@@ -124,9 +124,9 @@ class StandardRules implements RulesInterface
 
                         break;
                     }
-                } elseif (\is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Id'))) {
+                } elseif (\is_callable([$this->router, 'get' . ucfirst($view->name) . 'Id'])) {
                     // Hand the data over to the router specific method and see if there is a content item that fits
-                    $key = \call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Id'), array($segment, $vars));
+                    $key = \call_user_func_array([$this->router, 'get' . ucfirst($view->name) . 'Id'], [$segment, $vars]);
 
                     if ($key) {
                         // Found the right view and the right item
@@ -184,7 +184,10 @@ class StandardRules implements RulesInterface
         }
 
         // Get menu item layout
-        $mLayout = isset($item->query['layout']) ? $item->query['layout'] : null;
+        $mLayout = $item->query['layout'] ?? null;
+
+        // Get menu item filter_tag
+        $mFilterTag = $item->query['filter_tag'] ?? null;
 
         // Get all views for this component
         $views = $this->router->getViews();
@@ -198,6 +201,10 @@ class StandardRules implements RulesInterface
 
                 if (isset($query['layout']) && $mLayout === $query['layout']) {
                     unset($query['layout']);
+                }
+
+                if (isset($query['filter_tag']) && $mFilterTag === $query['filter_tag']) {
+                    unset($query['filter_tag']);
                 }
 
                 return;
@@ -216,6 +223,10 @@ class StandardRules implements RulesInterface
 
                 if (isset($query['layout']) && $mLayout === $query['layout']) {
                     unset($query['layout']);
+                }
+
+                if (isset($query['filter_tag']) && $mFilterTag === $query['filter_tag']) {
+                    unset($query['filter_tag']);
                 }
 
                 return;
@@ -273,6 +284,10 @@ class StandardRules implements RulesInterface
 
             if (isset($query['layout']) && $mLayout === $query['layout']) {
                 unset($query['layout']);
+            }
+
+            if (isset($query['filter_tag']) && $mFilterTag === $query['filter_tag']) {
+                unset($query['filter_tag']);
             }
         }
     }

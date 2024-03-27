@@ -16,9 +16,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Modules\Administrator\View\Module\HtmlView $this */
+
 HTMLHelper::_('behavior.combobox');
 
-$hasContent = isset($this->item->xml->customContent);
+$hasContent          = isset($this->item->xml->customContent);
 $hasContentFieldName = 'content';
 
 // For a later improvement
@@ -40,8 +42,7 @@ $this->document->addScriptOptions('module-edit', ['itemId' => $this->item->id, '
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
-    ->useScript('form.validate')
-    ->useScript('com_modules.admin-module-edit');
+    ->useScript('form.validate');
 
 $input = Factory::getApplication()->getInput();
 
@@ -126,7 +127,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
             <div class="col-lg-3">
                 <?php
                 // Set main fields.
-                $this->fields = array(
+                $this->fields = [
                     'showtitle',
                     'position',
                     'published',
@@ -136,7 +137,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
                     'ordering',
                     'language',
                     'note'
-                );
+                ];
 
                 ?>
                 <?php if ($this->item->client_id == 0) : ?>
@@ -170,8 +171,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
         <?php endif; ?>
 
         <?php
-        $this->fieldsets        = array();
-        $this->ignore_fieldsets = array('basic', 'description');
+        $this->fieldsets        = [];
+        $this->ignore_fieldsets = ['basic', 'description'];
         echo LayoutHelper::render('joomla.edit.params', $this);
         ?>
 

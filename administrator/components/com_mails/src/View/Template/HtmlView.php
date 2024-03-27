@@ -75,20 +75,20 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state = $this->get('State');
-        $this->item = $this->get('Item');
+        $this->state  = $this->get('State');
+        $this->item   = $this->get('Item');
         $this->master = $this->get('Master');
-        $this->form = $this->get('Form');
+        $this->form   = $this->get('Form');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         list($component, $template_id) = explode('.', $this->item->template_id, 2);
-        $fields = array('subject', 'body', 'htmlbody');
-        $this->templateData = array();
-        $language = Factory::getLanguage();
+        $fields                        = ['subject', 'body', 'htmlbody'];
+        $this->templateData            = [];
+        $language                      = $this->getLanguage();
         $language->load($component, JPATH_SITE, $this->item->language, true);
         $language->load($component, JPATH_SITE . '/components/' . $component, $this->item->language, true);
         $language->load($component, JPATH_ADMINISTRATOR, $this->item->language, true);
@@ -110,7 +110,7 @@ class HtmlView extends BaseHtmlView
         ];
 
         foreach ($fields as $field) {
-            if (is_null($this->item->$field) || $this->item->$field == '') {
+            if (\is_null($this->item->$field) || $this->item->$field == '') {
                 $this->item->$field = $this->master->$field;
                 $this->form->setValue($field, null, $this->item->$field);
             }

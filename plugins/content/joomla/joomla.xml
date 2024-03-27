@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="content" method="upgrade">
 	<name>plg_content_joomla</name>
 	<author>Joomla! Project</author>
@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_CONTENT_JOOMLA_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Content\Joomla</namespace>
 	<files>
-		<filename plugin="joomla">joomla.php</filename>
+		<folder plugin="joomla">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_content_joomla.ini</language>
@@ -40,6 +42,32 @@
 					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="schema_content"
+					type="radio"
+					label="PLG_CONTENT_JOOMLA_SCHEMA_CONTENT_LABEL"
+					description="PLG_CONTENT_JOOMLA_SCHEMA_CONTENT_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					required="true"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="schema_contact"
+					type="radio"
+					label="PLG_CONTENT_JOOMLA_SCHEMA_CONTACT_LABEL"
+					description="PLG_CONTENT_JOOMLA_SCHEMA_CONTACT_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					required="true"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

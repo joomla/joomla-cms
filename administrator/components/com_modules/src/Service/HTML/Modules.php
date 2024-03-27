@@ -39,7 +39,7 @@ class Modules
      */
     public function templates($clientId = 0, $state = '')
     {
-        $options   = array();
+        $options   = [];
         $templates = ModulesHelper::getTemplates($clientId, $state);
 
         foreach ($templates as $template) {
@@ -56,7 +56,7 @@ class Modules
      */
     public function types()
     {
-        $options = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', 'user', 'COM_MODULES_OPTION_POSITION_USER_DEFINED');
         $options[] = HTMLHelper::_('select.option', 'template', 'COM_MODULES_OPTION_POSITION_TEMPLATE_DEFINED');
 
@@ -70,7 +70,7 @@ class Modules
      */
     public function templateStates()
     {
-        $options = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '1', 'JENABLED');
         $options[] = HTMLHelper::_('select.option', '0', 'JDISABLED');
 
@@ -92,8 +92,8 @@ class Modules
      */
     public function state($value, $i, $enabled = true, $checkbox = 'cb')
     {
-        $states = array(
-            1  => array(
+        $states = [
+            1 => [
                 'unpublish',
                 'COM_MODULES_EXTENSION_PUBLISHED_ENABLED',
                 'COM_MODULES_HTML_UNPUBLISH_ENABLED',
@@ -101,8 +101,8 @@ class Modules
                 true,
                 'publish',
                 'publish',
-            ),
-            0  => array(
+            ],
+            0 => [
                 'publish',
                 'COM_MODULES_EXTENSION_UNPUBLISHED_ENABLED',
                 'COM_MODULES_HTML_PUBLISH_ENABLED',
@@ -110,8 +110,8 @@ class Modules
                 true,
                 'unpublish',
                 'unpublish',
-            ),
-            -1 => array(
+            ],
+            -1 => [
                 'unpublish',
                 'COM_MODULES_EXTENSION_PUBLISHED_DISABLED',
                 'COM_MODULES_HTML_UNPUBLISH_DISABLED',
@@ -119,8 +119,8 @@ class Modules
                 true,
                 'warning',
                 'warning',
-            ),
-            -2 => array(
+            ],
+            -2 => [
                 'publish',
                 'COM_MODULES_EXTENSION_UNPUBLISHED_DISABLED',
                 'COM_MODULES_HTML_PUBLISH_DISABLED',
@@ -128,8 +128,8 @@ class Modules
                 true,
                 'unpublish',
                 'unpublish',
-            ),
-        );
+            ],
+        ];
 
         return HTMLHelper::_('jgrid.state', $states, $value, $i, 'modules.', $enabled, true, $checkbox);
     }
@@ -148,23 +148,23 @@ class Modules
     public function positions($clientId, $state = 1, $selectedPosition = '')
     {
         $templates      = array_keys(ModulesHelper::getTemplates($clientId, $state));
-        $templateGroups = array();
+        $templateGroups = [];
 
         // Add an empty value to be able to deselect a module position
-        $option = ModulesHelper::createOption('', Text::_('COM_MODULES_NONE'));
-        $templateGroups[''] = ModulesHelper::createOptionGroup('', array($option));
+        $option             = ModulesHelper::createOption('', Text::_('COM_MODULES_NONE'));
+        $templateGroups[''] = ModulesHelper::createOptionGroup('', [$option]);
 
         // Add positions from templates
         $isTemplatePosition = false;
 
         foreach ($templates as $template) {
-            $options = array();
+            $options = [];
 
             $positions = TemplatesHelper::getPositions($clientId, $template);
 
-            if (is_array($positions)) {
+            if (\is_array($positions)) {
                 foreach ($positions as $position) {
-                    $text = ModulesHelper::getTranslatedModulePosition($clientId, $template, $position) . ' [' . $position . ']';
+                    $text      = ModulesHelper::getTranslatedModulePosition($clientId, $template, $position) . ' [' . $position . ']';
                     $options[] = ModulesHelper::createOption($position, $text);
 
                     if (!$isTemplatePosition && $selectedPosition === $position) {
@@ -206,10 +206,10 @@ class Modules
     public function batchOptions()
     {
         // Create the copy/move options.
-        $options = array(
+        $options = [
             HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
-            HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
-        );
+            HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE')),
+        ];
 
         echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm');
     }
@@ -223,7 +223,8 @@ class Modules
      *
      * @since   2.5
      *
-     * @deprecated  5.0 Will be removed with no replacement
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed with no replacement
      */
     public function positionList($clientId = 0)
     {
@@ -247,8 +248,8 @@ class Modules
         }
 
         // Pop the first item off the array if it's blank
-        if (count($options)) {
-            if (strlen($options[0]->text) < 1) {
+        if (\count($options)) {
+            if (\strlen($options[0]->text) < 1) {
                 array_shift($options);
             }
         }

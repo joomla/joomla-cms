@@ -6,23 +6,11 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_menus.admin-item-edit.es5",
-      "type": "script",
-      "uri": "com_menus/admin-item-edit-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_menus.admin-item-edit",
       "type": "script",
       "uri": "com_menus/admin-item-edit.min.js",
       "dependencies": [
-        "com_menus.admin-item-edit.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -34,38 +22,14 @@
       "uri": "com_menus/admin-item-edit_container.min.css"
     },
     {
-      "name": "com_menus.admin-item-edit-container.es5",
-      "type": "script",
-      "uri": "com_menus/admin-item-edit_container-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_menus.admin-item-edit-container",
       "type": "script",
       "uri": "com_menus/admin-item-edit_container.min.js",
       "dependencies": [
-        "com_menus.admin-item-edit-container.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_menus.admin-item-edit-modules.es5",
-      "type": "script",
-      "uri": "com_menus/admin-item-edit_modules-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       }
     },
     {
@@ -73,22 +37,10 @@
       "type": "script",
       "uri": "com_menus/admin-item-edit_modules.min.js",
       "dependencies": [
-        "com_menus.admin-item-edit-modules.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_menus.admin-item-modal.es5",
-      "type": "script",
-      "uri": "com_menus/admin-item-modal-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       }
     },
     {
@@ -96,68 +48,36 @@
       "type": "script",
       "uri": "com_menus/admin-item-modal.min.js",
       "dependencies": [
-        "com_menus.admin-item-modal.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_menus.admin-items-modal.es5",
-      "type": "script",
-      "uri": "com_menus/admin-items-modal-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
+        "type": "module"
+      },
+      "deprecated": true,
+      "deprecatedMsg": "Replaced with [modal-content-select-field] asset. To be removed in Joomla 6."
     },
     {
       "name": "com_menus.admin-items-modal",
       "type": "script",
       "uri": "com_menus/admin-items-modal.min.js",
       "dependencies": [
-        "com_menus.admin-items-modal.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_menus.admin-menus.es5",
-      "type": "script",
-      "uri": "com_menus/admin-menus-default-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
+        "type": "module"
+      },
+      "deprecated": true,
+      "deprecatedMsg": "Replaced with [modal-content-select-field] asset. To be removed in Joomla 6."
     },
     {
       "name": "com_menus.admin-menus",
       "type": "script",
       "uri": "com_menus/admin-menus-default.min.js",
       "dependencies": [
-        "com_menus.admin-menus.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
-      "name": "com_menus.batch-body.es5",
-      "type": "script",
-      "uri": "com_menus/default-batch-body-es5.min.js",
-      "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       }
     },
     {
@@ -165,7 +85,7 @@
       "type": "script",
       "uri": "com_menus/default-batch-body.min.js",
       "dependencies": [
-        "com_menus.batch-body.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

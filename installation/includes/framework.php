@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 // Ensure sensible default for JDEBUG is set.
 const JDEBUG = false;
@@ -31,7 +31,7 @@ if (JDEBUG) {
     $errorHandler->setExceptionHandler(
         [
             new \Symfony\Component\ErrorHandler\ErrorHandler(null, true),
-            'renderException'
+            'renderException',
         ]
     );
 }
