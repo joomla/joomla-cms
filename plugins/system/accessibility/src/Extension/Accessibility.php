@@ -53,8 +53,11 @@ final class Accessibility extends CMSPlugin
         // Load language file.
         $this->loadLanguage();
 
-        // Determine if it is an LTR or RTL language
-        $direction = $this->getApplication()->getLanguage()->isRtl() ? 'right' : 'left';
+        // Determine if it is an LTR or RTL language and set the default position of the icon.
+        $position = $this->getApplication()->getLanguage()->isRtl() ? 'right' : 'left';
+
+        // Change the position of the icon if it is set in the plugin parameters.
+        $position = $this->params->get('icon_position', $position);
 
         // Detect the current active language
         $lang = $this->getApplication()->getLanguage()->getTag();
@@ -63,28 +66,41 @@ final class Accessibility extends CMSPlugin
         * Add strings for translations in Javascript.
         * Reference  https://ranbuch.github.io/accessibility/
         */
+        $iframeModals = [];
+        $accessibilityArticle = $this->params->get('accessibility_article');
+
+        if (!empty($accessibilityArticle)) {
+            $iframeModals[] = [
+                'iframeUrl'  => '/index.php?option=com_content&view=article&id=' . $accessibilityArticle . '&tmpl=component',
+                'buttonText' => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_STATEMENT'),
+            ];
+        }
+
         $document->addScriptOptions(
             'accessibility-options',
             [
                 'labels' => [
-                    'menuTitle'           => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_MENU_TITLE'),
-                    'increaseText'        => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_TEXT'),
-                    'decreaseText'        => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_DECREASE_TEXT'),
-                    'increaseTextSpacing' => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_SPACING'),
-                    'decreaseTextSpacing' => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_DECREASE_SPACING'),
-                    'invertColors'        => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_INVERT_COLORS'),
-                    'grayHues'            => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_GREY'),
-                    'underlineLinks'      => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_UNDERLINE'),
                     'bigCursor'           => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_CURSOR'),
-                    'readingGuide'        => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_READING'),
-                    'textToSpeech'        => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_TTS'),
-                    'speechToText'        => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_STT'),
-                    'resetTitle'          => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_RESET'),
                     'closeTitle'          => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_CLOSE'),
+                    'decreaseLineHeight'  => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_DECREASE_LINE_HEIGHT'),
+                    'decreaseText'        => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_DECREASE_TEXT'),
+                    'decreaseTextSpacing' => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_DECREASE_SPACING'),
+                    'disableAnimations'   => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_DISABLE_ANIMATIONS'),
+                    'grayHues'            => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_GREY'),
+                    'increaseLineHeight'  => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_LINE_HEIGHT'),
+                    'increaseText'        => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_TEXT'),
+                    'increaseTextSpacing' => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_SPACING'),
+                    'invertColors'        => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_INVERT_COLORS'),
+                    'menuTitle'           => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_MENU_TITLE'),
+                    'readingGuide'        => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_READING'),
+                    'resetTitle'          => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_RESET'),
+                    'speechToText'        => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_STT'),
+                    'textToSpeech'        => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_TTS'),
+                    'underlineLinks'      => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_UNDERLINE'),
                 ],
                 'icon' => [
                     'position' => [
-                        $direction => [
+                        $position => [
                             'size'  => '0',
                             'units' => 'px',
                         ],
@@ -97,6 +113,7 @@ final class Accessibility extends CMSPlugin
                 ],
                 'textToSpeechLang' => [$lang],
                 'speechToTextLang' => [$lang],
+                'iframeModals' => $iframeModals,
             ]
         );
 

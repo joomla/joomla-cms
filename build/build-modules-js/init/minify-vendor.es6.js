@@ -6,7 +6,6 @@ const { transform } = require('esbuild');
 const RootPath = process.cwd();
 
 const folders = [
-  'media/vendor/accessibility/js',
   'media/vendor/chosen/js',
   'media/vendor/codemirror',
   'media/vendor/debugbar',
@@ -20,7 +19,7 @@ const folders = [
 let allFiles = [];
 
 const noMinified = [
-  'accessibility.min.js',
+  'accessibility.js',
   'short-and-sweet.min.js',
 ];
 
