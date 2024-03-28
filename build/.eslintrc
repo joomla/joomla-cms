@@ -6,8 +6,9 @@
     "plugin:vue/vue3-recommended"
   ],
   "parserOptions": {
-    "sourceType": "module"
-  },
+		"sourceType": "module",
+		"ecmaVersion": 2022
+	},
   // ESLint will not look in parent folders for eslint configs
   "root": true,
   // An environment defines global variables that are predefined.
