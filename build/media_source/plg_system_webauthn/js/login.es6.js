@@ -256,12 +256,7 @@ window.Joomla = window.Joomla || {};
   };
 
   // Initialization. Runs on DOM content loaded since this script is always loaded deferred.
-  const loginButtons = [].slice.call(document.querySelectorAll('.plg_system_webauthn_login_button'));
-  if (loginButtons.length) {
-    loginButtons.forEach((button) => {
-      button.addEventListener('click', ({ currentTarget }) => {
-        Joomla.plgSystemWebauthnLogin(currentTarget.getAttribute('data-webauthn-form'));
-      });
-    });
-  }
+  document.querySelectorAll('.plg_system_webauthn_login_button').forEach((button) => {
+    button.addEventListener('click', ({ currentTarget }) => Joomla.plgSystemWebauthnLogin(currentTarget.getAttribute('data-webauthn-form')));
+  });
 })(Joomla, document);
