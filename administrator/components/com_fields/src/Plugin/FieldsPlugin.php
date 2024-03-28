@@ -269,7 +269,7 @@ abstract class FieldsPlugin extends CMSPlugin
             $node->setAttribute('showon', $showon_attribute);
         }
 
-        if ($field->default_value !== '') {
+        if ($field->default_value !== null && $field->default_value !== '') {
             $defaultNode = $node->appendChild(new \DOMElement('default'));
             $defaultNode->appendChild(new \DOMCdataSection($field->default_value));
         }
