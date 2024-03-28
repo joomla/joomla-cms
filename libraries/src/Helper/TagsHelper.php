@@ -817,12 +817,13 @@ class TagsHelper extends CMSHelper
      * @param   TableInterface  $table    Table being processed
      * @param   array           $newTags  Array of new tags
      * @param   boolean         $replace  Flag indicating if all existing tags should be replaced
+     * @param   boolean         $remove   Flag indicating if the tags in $newTags should be removed
      *
      * @return  boolean
      *
      * @since   3.1
      */
-    public function postStoreProcess(TableInterface $table, $newTags = [], $replace = true)
+    public function postStoreProcess(TableInterface $table, $newTags = [], $replace = true, $remove = false)
     {
         if (!empty($table->newTags) && empty($newTags)) {
             $newTags = $table->newTags;
@@ -856,7 +857,11 @@ class TagsHelper extends CMSHelper
                 $ucmId     = $ucmContentTable->core_content_id;
 
                 // Store the tag data if the article data was saved and run related methods.
-                $result = $result && $this->tagItem($ucmId, $table, $newTags, $replace);
+                if ($remove) {
+                    $result = $result && $this->unTagItem($ucmId, $table, $newTags);
+                } else {
+                    $result = $result && $this->tagItem($ucmId, $table, $newTags, $replace);
+                }
             }
         }
 
