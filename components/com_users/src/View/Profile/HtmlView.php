@@ -19,7 +19,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\Mfa;
-use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -61,18 +60,6 @@ class HtmlView extends BaseHtmlView
     protected $state;
 
     /**
-     * An instance of DatabaseDriver.
-     *
-     * @var    DatabaseDriver
-     * @since  3.6.3
-     *
-     * @deprecated  4.3 will be removed in 6.0
-     *              Will be removed without replacement use database from the container instead
-     *              Example: Factory::getContainer()->get(DatabaseInterface::class);
-     */
-    protected $db;
-
-    /**
      * The page class suffix
      *
      * @var    string
@@ -108,7 +95,6 @@ class HtmlView extends BaseHtmlView
         $this->state              = $this->get('State');
         $this->params             = $this->state->get('params');
         $this->mfaConfigurationUI = Mfa::getConfigurationInterface($user);
-        $this->db                 = Factory::getDbo();
 
         // Check for errors.
         if (\count($errors = $this->get('Errors'))) {
