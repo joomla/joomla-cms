@@ -60,6 +60,37 @@
 					<option value="joomla.form.field.list">JLIB_FORM_FIELD_PARAM_LAYOUT_BASIC_SELECT</option>
 					<option value="joomla.form.field.list-fancy-select">JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_SELECT</option>
 				</field>
+				<field
+					name="data_max_results"
+					type="list"
+					label="JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_SELECT_MAXRESULTS"
+					default="10"
+					filter="integer"
+					validate="options"
+					showon="form_layout:joomla.form.field.list-fancy-select"
+					>
+					<option value="5">J5</option>
+					<option value="10">J10</option>
+					<option value="25">J25</option>
+					<option value="50">J50</option>
+					<option value="100">J100</option>
+				</field>
+				<field
+					name="data_max_render"
+					type="list"
+					label="JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_SELECT_MAXRENDER"
+					default="-1"
+					filter="integer"
+					validate="options"
+					showon="form_layout:joomla.form.field.list-fancy-select"
+					>
+					<option value="5">J5</option>
+					<option value="10">J10</option>
+					<option value="25">J25</option>
+					<option value="50">J50</option>
+					<option value="100">J100</option>
+					<option value="-1">JALL</option>
+				</field>
 			</fieldset>
 		</fieldset>
 	</fields>
