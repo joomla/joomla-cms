@@ -23,7 +23,7 @@ interface MailerInterface
     /**
      * Send the mail. Throws an exception when something goes wrong.
      *
-     * @return  void
+     * @return  boolean  Boolean true if successful, false if exception throwing is disabled.
      *
      * @since   4.4.0
      *
