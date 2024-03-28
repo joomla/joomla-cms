@@ -219,7 +219,7 @@ final class Fields extends CMSPlugin
     /**
      * The user delete event.
      *
-     * @param   \stdClass  $user    The context
+     * @param   array     $user    The context
      * @param   boolean   $success Is success
      * @param   string    $msg     The message
      *
