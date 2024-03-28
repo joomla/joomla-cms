@@ -16,7 +16,7 @@
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Notifies users of a change in the default .htaccess file regarding Brotli compression
+ * Notifies users of a change in the default .htaccess file regarding setting for brotli to prevent double compression
  *
  * This check returns true regardless of condition.
  *
