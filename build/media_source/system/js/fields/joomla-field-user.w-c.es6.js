@@ -5,110 +5,94 @@
 // eslint-disable-next-line import/no-unresolved
 import JoomlaDialog from 'joomla.dialog';
 
+function getText(translateableText, fallbackText) {
+  const translatedText = typeof Joomla?.Text?._ === 'function' ? Joomla.Text._(translateableText) : '';
+
+  return translatedText !== translateableText ? translatedText : fallbackText;
+}
+
+const texts = {
+  selectUser: ['JLIB_FORM_CHANGE_USER', 'Select User'],
+}
+
+const template = Object.assign(document.createElement('template'), {
+  innerHTML: `
+      <style>svg { width: 1em; height: 1rem; vertical-align: text-bottom; }</style>
+      <input part="name" readonly>
+      <button type="button" part="opener" aria-label="${getText(texts.selectUser[0], texts.selectUser[1])}">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+          <path fill="currentColor" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
+        </svg>
+      </button>`,
+});
+
 class JoomlaFieldUser extends HTMLElement {
+  static formAssociated = true;
+
   constructor() {
     super();
 
-    this.onUserSelect = '';
-    this.onchangeStr = '';
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     // Bind context
     this.modalClose = this.modalClose.bind(this);
     this.setValue = this.setValue.bind(this);
     this.modalOpen = this.modalOpen.bind(this);
+
+    this.input = this.shadowRoot.querySelector('[part=name]');
+    this.button = this.shadowRoot.querySelector('[part=opener]');
   }
 
   static get observedAttributes() {
-    return ['url', 'modal', 'modal-width', 'modal-height', 'modal-title', 'input', 'input-name', 'button-select'];
+    return ['url', 'name'];
   }
 
-  get url() {
-    return this.getAttribute('url');
-  }
+  get value() { return this.getAttribute('value'); }
 
-  set url(value) {
-    this.setAttribute('url', value);
-  }
+  set value(value) { this.setAttribute('value', value); }
 
-  get modalWidth() {
-    return this.getAttribute('modal-width');
-  }
+  get username() { return this.getAttribute('username'); }
 
-  set modalWidth(value) {
-    this.setAttribute('modal-width', value);
-  }
+  set username(value) { this.setAttribute('username', value); }
 
-  get modalTitle() {
-    return this.getAttribute('modal-title');
-  }
+  get url() { return this.getAttribute('url'); }
 
-  set modalTitle(value) {
-    this.setAttribute('modal-title', value);
-  }
-
-  get modalHeight() {
-    return this.getAttribute('modal-height');
-  }
-
-  set modalHeight(value) {
-    this.setAttribute('modal-height', value);
-  }
-
-  get inputId() {
-    return this.getAttribute('input');
-  }
-
-  set inputId(value) {
-    this.setAttribute('input', value);
-  }
-
-  get inputNameClass() {
-    return this.getAttribute('input-name');
-  }
-
-  set inputNameClass(value) {
-    this.setAttribute('input-name', value);
-  }
-
-  get buttonSelectClass() {
-    return this.getAttribute('button-select');
-  }
-
-  set buttonSelectClass(value) {
-    this.setAttribute('button-select', value);
-  }
+  set url(value) { this.setAttribute('url', value); }
 
   connectedCallback() {
-    // Set up elements
-    this.input = this.querySelector(this.inputId);
-    this.inputName = this.querySelector(this.inputNameClass);
-    this.buttonSelect = this.querySelector(this.buttonSelectClass);
-
-    if (this.buttonSelect) {
-      this.buttonSelect.addEventListener('click', this.modalOpen.bind(this));
-      // this.modal.addEventListener('hide', this.removeIframe.bind(this));
-
-      // Check for onchange callback,
-      this.onchangeStr = this.input.getAttribute('data-onchange');
-      if (this.onchangeStr) {
-        // eslint-disable-next-line no-new-func
-        this.onUserSelect = new Function(this.onchangeStr);
-        this.input.addEventListener('change', this.onUserSelect);
-      }
+    try {
+      this.internals = this.attachInternals();
+      this.form = this.internals.form;
+    } catch (error) {
+      throw new Error('Unsupported browser');
     }
+
+    if (this.internals && this.internals.labels.length && !(this.hasAttribute('readonly') || this.hasAttribute('disabled'))) {
+      this.internals.labels.forEach((label) => label.addEventListener('click', this.modalOpen));
+    }
+
+    if (this.internals) {
+      this.querySelector('input[type=hidden]')?.remove();
+    }
+
+    if (!(this.hasAttribute('readonly') || this.hasAttribute('disabled'))) {
+      this.button.addEventListener('click', this.modalOpen);
+      this.input.addEventListener('click', this.modalOpen);
+    }
+    if (this.hasAttribute('readonly')) {
+      this.button.remove();
+    }
+
+    this.form = this.internals.form;
+    this.internals.setFormValue(this.value);
+    this.input.value = this.value ? this.username : '';
+    this.input.placeholder = this.value ? '' : getText(texts.selectUser[0], texts.selectUser[1]);
   }
 
   disconnectedCallback() {
-    if (this.onUserSelect && this.input) {
-      this.input.removeEventListener('change', this.onUserSelect);
-    }
-
-    if (this.buttonSelect) {
-      this.buttonSelect.removeEventListener('click', this.modalOpen);
-    }
-
-    if (this.modal) {
-      this.modal.removeEventListener('hide', this);
+    if (this.internals && this.internals.labels.length) {
+      this.internals.labels.forEach((label) => label.removeEventListener('click', this.modalOpen));
     }
   }
 
@@ -118,9 +102,7 @@ class JoomlaFieldUser extends HTMLElement {
     const dialog = new JoomlaDialog({
       popupType: 'iframe',
       src: this.url,
-      textHeader: this.modalTitle,
-      width: this.modalWidth,
-      height: this.modalHeight,
+      textHeader: getText(texts.selectUser[0], texts.selectUser[1]),
     });
     dialog.classList.add('joomla-dialog-user-field');
     dialog.show();
@@ -143,9 +125,6 @@ class JoomlaFieldUser extends HTMLElement {
       window.removeEventListener('message', msgListener);
       dialog.destroy();
       this.dialog = null;
-      // Focus on the input field to re-trigger the validation
-      this.inputName.focus();
-      this.buttonSelect.focus();
     });
 
     this.dialog = dialog;
@@ -160,14 +139,25 @@ class JoomlaFieldUser extends HTMLElement {
 
   // Sets the value
   setValue(value, name) {
-    this.input.setAttribute('value', value);
-    this.inputName.setAttribute('value', name || value);
-    // trigger change event both on the input and on the custom element
-    this.input.dispatchEvent(new CustomEvent('change'));
-    this.dispatchEvent(new CustomEvent('change', {
-      detail: { value, name },
-      bubbles: true,
-    }));
+    this.internals.setFormValue(parseInt(value, 10));
+    this.value = value;
+    this.username = name;
+    this.input.value = this.value ? this.username : '';
+    this.input.placeholder = this.value ? '' : getText(texts.selectUser[0], texts.selectUser[1]);
+
+    if (this.hasAttribute('required')){
+      // if (this.value === '') {
+      //   this.internals.setValidity({ valueMissing: true }, 'User needs to be selected');
+      // } else {
+      //   this.internals.setValidity({});
+      // }
+    }
+
+    const event = new Event('change', { bubbles: true });
+    event.name = name;
+    event.value = value;
+
+    this.dispatchEvent(event);
   }
 }
 
