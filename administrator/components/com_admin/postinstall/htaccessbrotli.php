@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains post-installation message handling for notifying users of a change
- * in the default .htaccess file regarding setting the Content-Encoding header.
+ * in the default .htaccess file regarding Brotli compression.
  */
 
 // phpcs:disable PSR1.Files.SideEffects
