@@ -460,7 +460,7 @@ trait DisplayTrait
                 'promotion' => false,
 
                 // Hardened security
-                'sandbox_iframes' => true,
+                'sandbox_iframes'       => true,
                 'convert_unsafe_embeds' => true,
 
                 // Specify the attributes to be used when previewing a style. This prevents white text on a white background making the preview invisible.
