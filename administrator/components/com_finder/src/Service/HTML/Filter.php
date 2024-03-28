@@ -512,7 +512,7 @@ class Filter
      *
      * @return  \stdClass[]  Flat array of all nodes of a tree with the children after each parent
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     private function reduce(array $array)
     {

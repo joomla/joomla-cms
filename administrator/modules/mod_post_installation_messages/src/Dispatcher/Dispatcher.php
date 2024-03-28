@@ -20,7 +20,7 @@ use Joomla\CMS\Extension\ExtensionHelper;
 /**
  * Dispatcher class for mod_post_installation_messages
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 class Dispatcher extends AbstractModuleDispatcher
 {
@@ -29,7 +29,7 @@ class Dispatcher extends AbstractModuleDispatcher
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function dispatch()
     {
@@ -44,7 +44,7 @@ class Dispatcher extends AbstractModuleDispatcher
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function getLayoutData()
     {

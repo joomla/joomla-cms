@@ -160,7 +160,7 @@ class CaptiveRenderOptions extends DataShapeObject
      * Autocomplete default
      *
      * @var   string
-     * @since __DEPLOY_VERSION__
+     * @since 5.1.0
      */
     protected $autocomplete = 'off';
 
