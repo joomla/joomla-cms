@@ -105,14 +105,17 @@ final class Accessibility extends CMSPlugin
                             'units' => 'px',
                         ],
                     ],
-                    'useEmojis' => $this->params->get('useEmojis', 'true') === 'true',
+                    'useEmojis'  => $this->params->get('useEmojis', 'true') === 'true',
+                    'fontFamily' => "FontAwesome",
                 ],
                 'hotkeys' => [
                     'enabled'    => true,
                     'helpTitles' => true,
                 ],
-                'textToSpeechLang' => [$lang],
-                'speechToTextLang' => [$lang],
+                'language' => [
+                    'textToSpeechLang' => $lang,
+                    'speechToTextLang' => $lang,
+                ],
                 'iframeModals' => $iframeModals,
             ]
         );
