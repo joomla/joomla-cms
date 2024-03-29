@@ -182,9 +182,9 @@ class Form implements CurrentUserInterface
     }
 
     /**
-     * Return all errors, if any.
+     * Return Exceptions thrown during the form validation process.
      *
-     * @return  \Exception[]  Array of error messages or RuntimeException objects.
+     * @return  \Exception[]
      *
      * @since   1.7.0
      */
@@ -200,7 +200,7 @@ class Form implements CurrentUserInterface
      * @param   string  $group  The optional dot-separated form group path on which to find the field.
      * @param   mixed   $value  The optional value to use as the default for the field.
      *
-     * @return  FormField|boolean  The FormField object for the field or boolean false on error.
+     * @return  FormField|false  The FormField object for the field or boolean false on error.
      *
      * @since   1.7.0
      */
@@ -1055,8 +1055,8 @@ class Form implements CurrentUserInterface
     /**
      * Method to validate form data.
      *
-     * Validation warnings will be pushed into JForm::errors and should be
-     * retrieved with JForm::getErrors() when validate returns boolean false.
+     * Validation warnings will be pushed into Form::$errors and should be
+     * retrieved with Form::getErrors() when validate returns boolean false.
      *
      * @param   array   $data   An array of field values to validate.
      * @param   string  $group  The optional dot-separated form group path on which to filter the
@@ -1134,6 +1134,7 @@ class Form implements CurrentUserInterface
                 // The field returned false from setup and shouldn't be included in the page body - yet we received
                 // a value for it. This is probably some sort of injection attack and should be rejected
                 $this->errors[] = new \RuntimeException(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $key));
+                $return         = false;
             }
         }
 
@@ -1377,7 +1378,7 @@ class Form implements CurrentUserInterface
         // Make sure there is actually a group to find.
         $group = explode('.', $group);
 
-        if (count($group)) {
+        if (\count($group)) {
             // Get any fields elements with the correct group name.
             $elements = $this->xml->xpath('//fields[@name="' . (string) $group[0] . '" and not(ancestor::field/form/*)]');
 

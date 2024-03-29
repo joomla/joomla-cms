@@ -182,7 +182,7 @@ class ArticleController extends FormController
                 $lang = '';
 
                 if (Multilanguage::isEnabled()) {
-                    $lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+                    $lang = !\is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
                 }
 
                 // Redirect to the user specified return page.
@@ -199,7 +199,7 @@ class ArticleController extends FormController
                 $item = $app->getMenu()->getItem($menuitemId);
 
                 if (Multilanguage::isEnabled()) {
-                    $lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+                    $lang = !\is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
                 }
 
                 // Redirect to the general (redirect_menuitem) user specified return page.
@@ -359,7 +359,7 @@ class ArticleController extends FormController
 
             if (Multilanguage::isEnabled()) {
                 $item = $app->getMenu()->getItem($menuitem);
-                $lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+                $lang = !\is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
             }
 
             // If ok, redirect to the return page.

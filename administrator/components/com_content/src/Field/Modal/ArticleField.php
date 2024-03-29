@@ -52,6 +52,12 @@ class ArticleField extends ModalSelectField
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
+        // Check if the value consist with id:alias, extract the id only
+        if ($value && str_contains($value, ':')) {
+            [$id]  = explode(':', $value, 2);
+            $value = (int) $id;
+        }
+
         $result = parent::setup($element, $value, $group);
 
         if (!$result) {
@@ -64,7 +70,7 @@ class ArticleField extends ModalSelectField
         $language  = (string) $this->element['language'];
 
         // Prepare enabled actions
-        $this->canDo['propagate']  = ((string) $this->element['propagate'] == 'true') && count($languages) > 2;
+        $this->canDo['propagate']  = ((string) $this->element['propagate'] == 'true') && \count($languages) > 2;
 
         // Prepare Urls
         $linkArticles = (new Uri())->setPath(Uri::base(true) . '/index.php');

@@ -127,17 +127,17 @@ abstract class AssociationHelper extends CategoryAssociationHelper
                 }
 
                 // Do not display language without frontend UI
-                if (!array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0))) {
+                if (!\array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0))) {
                     continue;
                 }
 
                 // Do not display language without specific home menu
-                if (!array_key_exists($language->lang_code, Multilanguage::getSiteHomePages())) {
+                if (!\array_key_exists($language->lang_code, Multilanguage::getSiteHomePages())) {
                     continue;
                 }
 
                 // Do not display language without authorized access level
-                if (isset($language->access) && $language->access && !in_array($language->access, $levels)) {
+                if (isset($language->access) && $language->access && !\in_array($language->access, $levels)) {
                     continue;
                 }
 

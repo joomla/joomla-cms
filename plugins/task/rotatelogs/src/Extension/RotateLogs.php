@@ -11,14 +11,13 @@
 namespace Joomla\Plugin\Task\RotateLogs\Extension;
 
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
-use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -165,7 +164,7 @@ final class RotateLogs extends CMSPlugin implements SubscriberInterface
              * Rotated log file has this filename format [VERSION].[FILENAME].php. So if $parts has at least 3 elements
              * and the first element is a number, we know that it's a rotated file and can get it's current version
              */
-            if (count($parts) >= 3 && is_numeric($parts[0])) {
+            if (\count($parts) >= 3 && is_numeric($parts[0])) {
                 $version = (int) $parts[0];
             } else {
                 $version = 0;

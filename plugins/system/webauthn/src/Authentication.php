@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn;
 
-use Exception;
 use Joomla\Application\ApplicationInterface;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -213,7 +212,7 @@ final class Authentication
      *
      * @param   User  $user  The Joomla user to get the PK request options for
      *
-     * @return  PublicKeyCredentialRequestOptions
+     * @return  ?PublicKeyCredentialRequestOptions
      *
      * @throws  \Exception
      * @since   4.2.0
@@ -254,7 +253,7 @@ final class Authentication
         $publicKeyCredentialRequestOptions = unserialize($serializedOptions);
 
         if (
-            !is_object($publicKeyCredentialRequestOptions)
+            !\is_object($publicKeyCredentialRequestOptions)
             || empty($publicKeyCredentialRequestOptions)
             || !($publicKeyCredentialRequestOptions instanceof PublicKeyCredentialRequestOptions)
         ) {
@@ -290,7 +289,7 @@ final class Authentication
      *
      * @param   string  $data  The data
      *
-     * @return  PublicKeyCredentialSource|null
+     * @return  PublicKeyCredentialSource
      *
      * @throws  \Exception
      * @since   4.2.0
@@ -314,7 +313,7 @@ final class Authentication
             $publicKeyCredentialCreationOptions = null;
         }
 
-        if (!is_object($publicKeyCredentialCreationOptions) || !($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialCreationOptions)) {
+        if (!\is_object($publicKeyCredentialCreationOptions) || !($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialCreationOptions)) {
             throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_NO_PK'));
         }
 
@@ -509,7 +508,7 @@ final class Authentication
             throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
         }
 
-        if (!is_object($publicKeyCredentialRequestOptions) || !($publicKeyCredentialRequestOptions instanceof PublicKeyCredentialRequestOptions)) {
+        if (!\is_object($publicKeyCredentialRequestOptions) || !($publicKeyCredentialRequestOptions instanceof PublicKeyCredentialRequestOptions)) {
             throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
         }
 
@@ -540,7 +539,7 @@ final class Authentication
         $server = new Server($rpEntity, $repository, $this->metadataRepository);
 
         // Ed25519 is only available with libsodium
-        if (!function_exists('sodium_crypto_sign_seed_keypair')) {
+        if (!\function_exists('sodium_crypto_sign_seed_keypair')) {
             $server->setSelectedAlgorithms(['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512']);
         }
 

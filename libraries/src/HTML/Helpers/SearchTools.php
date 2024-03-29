@@ -73,7 +73,7 @@ abstract class SearchTools
     private static function optionsToRegistry($options)
     {
         // Support options array
-        if (is_array($options)) {
+        if (\is_array($options)) {
             $options = new Registry($options);
         }
 

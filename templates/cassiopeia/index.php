@@ -39,7 +39,6 @@ $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
 // Color Theme
 $paramsColorName = $this->params->get('colorName', 'colors_standard');
 $assetColorName  = 'theme.' . $paramsColorName;
-$wa->registerAndUseStyle($assetColorName, 'media/templates/site/cassiopeia/css/global/' . $paramsColorName . '.css');
 
 // Use a font scheme if set in the template style options
 $paramsFontScheme = $this->params->get('useFontScheme', false);
@@ -79,6 +78,7 @@ if ($paramsFontScheme) {
 // Enable assets
 $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
     ->useStyle('template.active.language')
+    ->registerAndUseStyle($assetColorName, 'global/' . $paramsColorName . '.css')
     ->useStyle('template.user')
     ->useScript('template.user')
     ->addInlineStyle(":root {
