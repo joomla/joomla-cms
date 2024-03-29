@@ -39,17 +39,4 @@ class HiddenField extends FormField
      * @since  3.7
      */
     protected $layout = 'joomla.form.field.hidden';
-
-    /**
-     * Method to get the field input markup.
-     *
-     * @return  string  The field input markup.
-     *
-     * @since   1.7.0
-     */
-    protected function getInput()
-    {
-        // Trim the trailing line in the layout file
-        return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
-    }
 }
