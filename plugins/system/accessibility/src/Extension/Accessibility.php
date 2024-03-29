@@ -105,8 +105,8 @@ final class Accessibility extends CMSPlugin
                             'units' => 'px',
                         ],
                     ],
-                    'useEmojis'  => $this->params->get('useEmojis', 'true') === 'true',
-                    'fontFamily' => "FontAwesome",
+                    'useEmojis'   => $this->params->get('useEmojis', 'true') === 'true',
+                    'fontFamily' => '"fontawesome"',
                 ],
                 'hotkeys' => [
                     'enabled'    => true,
@@ -129,6 +129,11 @@ final class Accessibility extends CMSPlugin
                 ['name' => 'inline.plg.system.accessibility'],
                 ['type' => 'module'],
                 ['accessibility']
+            )
+            ->addInlineStyle(':root {
+                --_access-menu-item-icon-increase-text: "\f062";
+                --_access-menu-item-icon-decrease-text: "\f063";
+                }'
             );
     }
 }
