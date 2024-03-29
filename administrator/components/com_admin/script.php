@@ -2323,6 +2323,7 @@ class JoomlaInstallerScript
             '/libraries/vendor/web-token/jwt-signature-algorithm-rsa/LICENSE',
             // From 5.1.0-beta2 to 5.1.0-rc1
             '/administrator/modules/mod_post_installation_messages/mod_post_installation_messages.php',
+            '/media/vendor/punycode/LICENSE-MIT.txt',
         ];
 
         $folders = [
@@ -2580,6 +2581,8 @@ class JoomlaInstallerScript
             '/libraries/vendor/web-token/jwt-experimental/ContentEncryption',
             '/libraries/vendor/web-token/jwt-experimental',
             '/libraries/src/Event/Router',
+            // From 5.1.0-beta2 to 5.1.0-rc1
+            '/media/vendor/punycode',
         ];
 
         $status['files_checked']   = $files;
