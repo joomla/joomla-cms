@@ -510,7 +510,7 @@ class TourModel extends AdminModel
      * @param   int  $id         Id of a tour
      * @param   int  $autostart  The autostart value of a tour
      *
-     * @since  5.0.0
+     * @since  __DEPLOY_VERSION__
      */
     public function setAutostart($id, $autostart)
     {
@@ -525,5 +525,37 @@ class TourModel extends AdminModel
 
         $db->setQuery($query);
         $db->execute();
+    }
+
+    /**
+     * Retrieve a tour's autostart value
+     *
+     * @param   string  $uid  the uid of a tour
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function isAutostart($uid)
+    {
+        $db = $this->getDatabase();
+
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('autostart'))
+            ->from($db->quoteName('#__guidedtours'))
+            ->where($db->quoteName('published') . ' = 1')
+            ->where($db->quoteName('uid') . ' = :uid')
+            ->bind(':uid', $uid, ParameterType::STRING);
+
+        $db->setQuery($query);
+
+        try {
+            $result = $db->loadResult();
+            if ($result === null) {
+                return false;
+            }
+        } catch (\RuntimeException $e) {
+            return false;
+        }
+
+        return $result;
     }
 }
