@@ -54,7 +54,7 @@ final class Accessibility extends CMSPlugin
         $this->loadLanguage();
 
         // Determine if it is an LTR or RTL language and set the default position of the icon.
-        $position = $this->getApplication()->getLanguage()->isRtl() ? 'right' : 'left';
+        $position = $this->getApplication()->getLanguage()->isRtl() ? 'bottom_right' : 'bottom_left';
 
         // Change the position of the icon if it is set in the plugin parameters.
         $position = $this->params->get('icon_position', $position);

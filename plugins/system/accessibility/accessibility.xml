@@ -46,11 +46,13 @@
 					name="icon_position"
 					type="list"
 					label="PLG_SYSTEM_ACCESSIBILITY_ICON_POSITION"
-					default="left"
+					default="bottom_left"
 					validate="options"
 					>
-					<option value="left">PLG_SYSTEM_ACCESSIBILITY_ICON_POSITION_LEFT</option>
-					<option value="right">PLG_SYSTEM_ACCESSIBILITY_ICON_POSITION_RIGHT</option>
+					<option value="bottom_left">PLG_SYSTEM_ACCESSIBILITY_ICON_POSITION_BOTTOM_LEFT</option>
+					<option value="bottom_right">PLG_SYSTEM_ACCESSIBILITY_ICON_POSITION_BOTTOM_RIGHT</option>
+					<option value="top_left">PLG_SYSTEM_ACCESSIBILITY_ICON_POSITION_TOP_LEFT</option>
+					<option value="top_right">PLG_SYSTEM_ACCESSIBILITY_ICON_POSITION_TOP_RIGHT</option>
 				</field>
 				<field
 					name="accessibility_article"
