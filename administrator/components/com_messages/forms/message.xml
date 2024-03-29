@@ -21,7 +21,7 @@
 			type="editor"
 			label="COM_MESSAGES_FIELD_MESSAGE_LABEL"
 			required="true"
-			filter="JComponentHelper::filterText"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 			buttons="false"
 		/>
 	</fieldset>

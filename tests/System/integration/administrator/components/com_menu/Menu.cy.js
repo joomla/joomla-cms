@@ -1,22 +1,16 @@
-// type definitions for Cypress object "cy"
-// <reference types="cypress" />
+describe('Test in backend that the user form', () => {
+  beforeEach(() => cy.doAdministratorLogin());
+  afterEach(() => cy.task('queryDB', "DELETE FROM #__menu_types WHERE menutype = 'test'"));
 
-describe('Test com_menu features', () => {
-  beforeEach(() => {
-    cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password'));
-  });
+  it('can create a new menu', () => {
+    cy.visit('/administrator/index.php?option=com_menus&task=menu.add');
 
-  it('creates a new menu', () => {
-    cy.visit('administrator/index.php?option=com_menus&view=menus');
-    cy.checkForPhpNoticesOrWarnings();
-    cy.get('h1.page-title').should('contain', 'Menus');
-    cy.clickToolbarButton('New');
-    cy.get('h1.page-title').should('contain', 'Menus: Add');
-    cy.checkForPhpNoticesOrWarnings();
-    cy.get('#jform_title').type('Test Menu');
-    cy.get('#jform_menutype').type('Test');
-    cy.get('#jform_menudescription').type('Automated Testing');
-    cy.clickToolbarButton('Save');
+    cy.get('#jform_title').clear().type('test menu');
+    cy.get('#jform_menutype').clear().type('test');
+    cy.get('#jform_menudescription').clear().type('test description');
+    cy.clickToolbarButton('Save & Close');
+
     cy.get('#system-message-container').contains('Menu saved').should('exist');
+    cy.contains('test menu');
   });
 });

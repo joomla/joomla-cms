@@ -10,8 +10,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
+
+/** @var \Joomla\Component\Guidedtours\Administrator\View\Steps\HtmlView $this */
 
 $displayData = [
     'textPrefix' => 'COM_GUIDEDTOURS_STEPS',
@@ -20,7 +21,7 @@ $displayData = [
     'icon'       => 'icon-map-signs',
 ];
 
-$user = Factory::getApplication()->getIdentity();
+$user = $this->getCurrentUser();
 
 if ($user->authorise('core.create', 'com_guidedtours')) {
     $displayData['createURL'] = 'index.php?option=com_guidedtours&task=step.add';

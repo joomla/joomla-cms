@@ -10,7 +10,7 @@
 namespace Joomla\CMS\MVC\View;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -96,6 +96,6 @@ class JsonView extends AbstractView
         $result = json_encode($this->_output);
 
         // Pushing output to the document
-        $this->document->setBuffer($result);
+        $this->getDocument()->setBuffer($result);
     }
 }

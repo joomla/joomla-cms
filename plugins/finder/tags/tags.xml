@@ -18,4 +18,33 @@
 		<language tag="en-GB">language/en-GB/plg_finder_tags.ini</language>
 		<language tag="en-GB">language/en-GB/plg_finder_tags.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Finder\Administrator\Field">
+				<field
+					name="search_archived"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="PLG_FINDER_TAGS_FIELD_SEARCH_ARCHIVED_LABEL"
+					description="PLG_FINDER_TAGS_FIELD_SEARCH_ARCHIVED_DESC"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="taxonomies"
+					type="taxonomytypes"
+					label="PLG_FINDER_TAGS_TAXONOMIES_LABEL"
+					default="type,language,author"
+					multiple="true"
+					>
+					<option value="author">PLG_FINDER_TAGS_TAXONOMIES_AUTHOR</option>
+					<option value="language">PLG_FINDER_TAGS_TAXONOMIES_LANGUAGE</option>
+					<option value="type">PLG_FINDER_TAGS_TAXONOMIES_TYPE</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

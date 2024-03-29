@@ -5,7 +5,7 @@
  *
  * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
-
+ *
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
@@ -249,7 +249,7 @@ class JNamespacePsr4Map
     }
 
     /**
-     * Returns an array of with extension paths as keys and manifest paths as values.
+     * Returns an array of extensions with their respective paths as keys and manifest paths as values.
      *
      * @param   string  $type  The extension type
      *

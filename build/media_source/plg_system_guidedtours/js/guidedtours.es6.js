@@ -56,6 +56,27 @@ function addProgressIndicator(stepElement, index, total) {
   header.insertBefore(progress, stepElement.querySelector('.shepherd-cancel-icon'));
 }
 
+function setFocus(primaryButton, secondaryButton, cancelButton) {
+  if (primaryButton && !primaryButton.disabled) {
+    primaryButton.focus();
+  } else if (secondaryButton && !secondaryButton.disabled) {
+    secondaryButton.focus();
+  } else {
+    cancelButton.focus();
+  }
+}
+
+function enableButton(eventElement) {
+  const element = eventElement instanceof Event ? document.querySelector(`.step-next-button-${eventElement.currentTarget.step_id}`) : eventElement;
+  element.removeAttribute('disabled');
+  element.classList.remove('disabled');
+}
+function disableButton(eventElement) {
+  const element = eventElement instanceof Event ? document.querySelector(`.step-next-button-${eventElement.currentTarget.step_id}`) : eventElement;
+  element.setAttribute('disabled', 'disabled');
+  element.classList.add('disabled');
+}
+
 function addStepToTourButton(tour, stepObj, buttons) {
   const step = new Shepherd.Step(tour, {
     title: stepObj.title,
@@ -64,6 +85,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
     buttons,
     id: stepObj.id,
     arrow: true,
+    params: stepObj.params,
     beforeShowPromise() {
       return new Promise((resolve) => {
         // Set graceful fallbacks in case there is an issue with the target.
@@ -97,14 +119,22 @@ function addStepToTourButton(tour, stepObj, buttons) {
         } else {
           resolve();
         }
-      }).catch((error) => {
-        console.log(`Exception error - ${error.message} - Bypass Shepherd target`);
+      }).catch(() => {
+        // Ignore
       });
     },
     when: {
       show() {
         const element = this.getElement();
         const target = this.getTarget();
+
+        // if target element doesn't exist e.g. because we have navigated to a new page mid-tour then end the tour here!
+        // Take care though since some steps have no target to we check for these too
+        if (!target && this.options.attachTo.element) {
+          emptyStorage();
+          this.cancel();
+          return;
+        }
 
         // Force the screen reader to only read the content of the popup after a refresh
         element.setAttribute('aria-live', 'assertive');
@@ -117,51 +147,116 @@ function addStepToTourButton(tour, stepObj, buttons) {
           const primaryButton = element.querySelector('.shepherd-button-primary');
           const secondaryButton = element.querySelector('.shepherd-button-secondary');
 
-          // The 'next' button should always be enabled if the target input field of type 'text' has a value
-          if (
-            target.tagName.toLowerCase() === 'input'
-            && target.hasAttribute('required')
-            && (['email', 'password', 'search', 'tel', 'text', 'url'].includes(target.type))
-          ) {
-            if (target.value.trim().length) {
-              primaryButton.removeAttribute('disabled');
-              primaryButton.classList.remove('disabled');
-            } else {
-              primaryButton.setAttribute('disabled', 'disabled');
-              primaryButton.classList.add('disabled');
-            }
+          // Check to see if the 'next' button should be enabled before showing the step based on being required or
+          // matching the required value
+          switch (this.options.attachTo.interactive_type) {
+            case 'text':
+              if (
+                (target.hasAttribute('required') || (this.options.params.required || 0))
+                && (
+                  (target.tagName.toLowerCase() === 'input' && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(target.type))
+                    || target.tagName.toLowerCase() === 'textarea'
+                )
+              ) {
+                if ((this.options.params.requiredvalue || '') !== '') {
+                  if (target.value.trim() === this.options.params.requiredvalue) {
+                    enableButton(primaryButton);
+                  } else {
+                    disableButton(primaryButton);
+                  }
+                } else if (target.value.trim().length) {
+                  enableButton(primaryButton);
+                } else {
+                  disableButton(primaryButton);
+                }
+              }
+              break;
+
+            case 'checkbox_radio':
+              if (
+                target.tagName.toLowerCase() === 'input'
+                && (target.hasAttribute('required') || (this.options.params.required || 0))
+                && ['checkbox', 'radio'].includes(target.type)
+              ) {
+                if (target.checked) {
+                  enableButton(primaryButton);
+                } else {
+                  disableButton(primaryButton);
+                }
+              }
+              break;
+
+            case 'select':
+              if (
+                target.tagName.toLowerCase() === 'select'
+                && (target.hasAttribute('required') || (this.options.params.required || 0))
+              ) {
+                if ((this.options.params.requiredvalue || '') !== '') {
+                  if (target.value.trim() === this.options.params.requiredvalue) {
+                    enableButton(primaryButton);
+                  } else {
+                    disableButton(primaryButton);
+                  }
+                } else if (target.value.trim().length) {
+                  enableButton(primaryButton);
+                } else {
+                  disableButton(primaryButton);
+                }
+              }
+              break;
+
+            default:
+              break;
           }
 
           cancelButton.addEventListener('keydown', (event) => {
             if (event.key === 'Tab') {
-              target.focus();
-              event.preventDefault();
+              if (target.tagName.toLowerCase() === 'joomla-field-fancy-select') {
+                target.querySelector('.choices').click();
+                target.querySelector('.choices input').focus();
+              } else if (target.parentElement.tagName.toLowerCase() === 'joomla-field-fancy-select') {
+                target.click();
+                target.querySelector('input').focus();
+              } else {
+                target.focus();
+                event.preventDefault();
+              }
             }
           });
 
           if (target.tagName.toLowerCase() === 'iframe') {
             // Give blur to the content of the iframe, as iframes don't have blur events
             target.contentWindow.document.body.addEventListener('blur', (event) => {
+              if (!sessionStorage.getItem('tourId')) {
+                return;
+              }
               setTimeout(() => {
-                if (primaryButton && !primaryButton.disabled) {
-                  primaryButton.focus();
-                } else if (secondaryButton && !secondaryButton.disabled) {
-                  secondaryButton.focus();
-                } else {
-                  cancelButton.focus();
-                }
+                setFocus(primaryButton, secondaryButton, cancelButton);
               }, 1);
+              event.preventDefault();
+            });
+          } else if (target.tagName.toLowerCase() === 'joomla-field-fancy-select') {
+            target.querySelector('.choices input').addEventListener('blur', (event) => {
+              if (!sessionStorage.getItem('tourId')) {
+                return;
+              }
+              setFocus(primaryButton, secondaryButton, cancelButton);
+              event.preventDefault();
+            });
+          } else if (target.parentElement.tagName.toLowerCase() === 'joomla-field-fancy-select') {
+            target.querySelector('input').addEventListener('blur', (event) => {
+              if (!sessionStorage.getItem('tourId')) {
+                return;
+              }
+              setFocus(primaryButton, secondaryButton, cancelButton);
               event.preventDefault();
             });
           } else {
             target.addEventListener('blur', (event) => {
-              if (primaryButton && !primaryButton.disabled) {
-                primaryButton.focus();
-              } else if (secondaryButton && !secondaryButton.disabled) {
-                secondaryButton.focus();
-              } else {
-                cancelButton.focus();
+              if (!sessionStorage.getItem('tourId')) {
+                return;
               }
+              setFocus(primaryButton, secondaryButton, cancelButton);
               event.preventDefault();
             });
           }
@@ -178,6 +273,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
         url: stepObj.url,
         type: stepObj.type,
         interactive_type: stepObj.interactive_type,
+        params: stepObj.params,
       },
     });
   } else {
@@ -186,6 +282,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
         url: stepObj.url,
         type: stepObj.type,
         interactive_type: stepObj.interactive_type,
+        params: stepObj.params,
       },
     });
   }
@@ -264,17 +361,6 @@ function addBackButton(buttons, step) {
   });
 }
 
-function enableButton(event) {
-  const element = document.querySelector(`.step-next-button-${event.currentTarget.step_id}`);
-  element.removeAttribute('disabled');
-  element.classList.remove('disabled');
-}
-function disableButton(event) {
-  const element = document.querySelector(`.step-next-button-${event.currentTarget.step_id}`);
-  element.setAttribute('disabled', 'disabled');
-  element.classList.add('disabled');
-}
-
 function startTour(obj) {
   // We store the tour id to restart on site refresh
   sessionStorage.setItem('tourId', obj.id);
@@ -314,7 +400,7 @@ function startTour(obj) {
     ind = 1;
   }
 
-  // Now let's add all follow up steps
+  // Now let's add all followup steps
   const len = obj.steps.length;
   let buttons;
 
@@ -334,21 +420,84 @@ function startTour(obj) {
       && obj.steps[index].target
       && obj.steps[index].type === 'interactive'
     ) {
+      if (typeof obj.steps[index].params === 'string' && obj.steps[index].params !== '') {
+        obj.steps[index].params = JSON.parse(obj.steps[index].params);
+      } else {
+        obj.steps[index].params = [];
+      }
+
       const ele = document.querySelector(obj.steps[index].target);
       if (ele) {
         if (obj && obj.steps && obj.steps[index] && obj.steps[index].interactive_type) {
           switch (obj.steps[index].interactive_type) {
             case 'submit':
               ele.addEventListener('click', () => {
+                if (!sessionStorage.getItem('tourId')) {
+                  return;
+                }
                 sessionStorage.setItem('currentStepId', obj.steps[index].id + 1);
               });
               break;
 
             case 'text':
               ele.step_id = index;
-              if (ele.hasAttribute('required') && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(ele.type)) {
+              if (
+                (ele.hasAttribute('required') || (obj.steps[index].params.required || 0))
+                && (
+                  (ele.tagName.toLowerCase() === 'input' && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(ele.type))
+                  || ele.tagName.toLowerCase() === 'textarea'
+                )
+              ) {
                 ['input', 'focus'].forEach((eventName) => ele.addEventListener(eventName, (event) => {
-                  if (event.target.value.trim().length) {
+                  if (!sessionStorage.getItem('tourId')) {
+                    return;
+                  }
+                  if ((obj.steps[index].params.requiredvalue || '') !== '') {
+                    if (event.target.value.trim() === obj.steps[index].params.requiredvalue) {
+                      enableButton(event);
+                    } else {
+                      disableButton(event);
+                    }
+                  } else if (event.target.value.trim().length) {
+                    enableButton(event);
+                  } else {
+                    disableButton(event);
+                  }
+                }));
+              }
+              break;
+
+            case 'checkbox_radio':
+              ele.step_id = index;
+              if (
+                ele.tagName.toLowerCase() === 'input'
+                && (ele.hasAttribute('required') || (obj.steps[index].params.required || 0))
+                && ['checkbox', 'radio'].includes(ele.type)
+              ) {
+                ['click'].forEach((eventName) => ele.addEventListener(eventName, (event) => {
+                  if (event.target.checked) {
+                    enableButton(event);
+                  } else {
+                    disableButton(event);
+                  }
+                }));
+              }
+              break;
+
+            case 'select':
+              ele.step_id = index;
+              if (
+                ele.tagName.toLowerCase() === 'select'
+                && (ele.hasAttribute('required') || (obj.steps[index].params.required || 0))
+              ) {
+                ['change'].forEach((eventName) => ele.addEventListener(eventName, (event) => {
+                  if ((obj.steps[index].params.requiredvalue || '') !== '') {
+                    if (event.target.value.trim() === obj.steps[index].params.requiredvalue) {
+                      enableButton(event);
+                    } else {
+                      disableButton(event);
+                    }
+                  } else if (event.target.value.trim().length) {
                     enableButton(event);
                   } else {
                     disableButton(event);
@@ -358,7 +507,11 @@ function startTour(obj) {
               break;
 
             case 'button':
-              tour.next();
+              ele.addEventListener('click', () => {
+                // the button may submit a form so record the currentStepId in the session storage
+                sessionStorage.setItem('currentStepId', obj.steps[index].id + 1);
+                tour.next();
+              });
               break;
 
             case 'other':
@@ -372,8 +525,7 @@ function startTour(obj) {
     if (index < len - 1) {
       if (
         (obj && obj.steps[index].type !== 'interactive')
-        || (obj && obj.steps[index].interactive_type === 'text')
-        || (obj && obj.steps[index].interactive_type === 'other')
+        || (obj && ['text', 'checkbox_radio', 'select', 'other'].includes(obj.steps[index].interactive_type))
       ) {
         pushNextButton(buttons, obj.steps[index]);
       }
@@ -389,8 +541,16 @@ function startTour(obj) {
 }
 
 function loadTour(tourId) {
-  if (tourId > 0) {
-    const url = `${Joomla.getOptions('system.paths').rootFull}administrator/index.php?option=com_ajax&plugin=guidedtours&group=system&format=json&id=${tourId}`;
+  const tourUid = Number.parseInt(tourId, 10) > 0 ? '' : encodeURI(tourId);
+  const tourNumber = Number.parseInt(tourId, 10) > 0 ? Number.parseInt(tourId, 10) : 0;
+
+  if (tourNumber > 0 || tourUid !== '') {
+    let url = `${Joomla.getOptions('system.paths').rootFull}administrator/index.php?option=com_ajax&plugin=guidedtours&group=system&format=json`;
+    if (tourNumber > 0) {
+      url += `&id=${tourNumber}`;
+    } else {
+      url += `&uid=${tourUid}`;
+    }
     fetch(url)
       .then((response) => response.json())
       .then((result) => {
@@ -424,19 +584,28 @@ document.querySelector('body').addEventListener('click', (event) => {
   }
 
   // Click button but missing data-id
-  if (typeof event.target.getAttribute('data-id') === 'undefined' || event.target.getAttribute('data-id') <= 0) {
-    Joomla.renderMessages([Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR')]);
+  if (
+    (!event.target.hasAttribute('data-id') || event.target.getAttribute('data-id') <= 0)
+  && (!event.target.hasAttribute('data-gt-uid') || event.target.getAttribute('data-gt-uid') === '')
+  ) {
+    Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR')] });
     return;
   }
 
   sessionStorage.setItem('tourToken', String(Joomla.getOptions('com_guidedtours.token')));
-  loadTour(event.target.getAttribute('data-id'));
+  loadTour(event.target.getAttribute('data-id') || event.target.getAttribute('data-gt-uid'));
 });
 
 // Start a given tour
-const tourId = sessionStorage.getItem('tourId');
+let tourId = sessionStorage.getItem('tourId');
 
-if (tourId > 0 && sessionStorage.getItem('tourToken') === String(Joomla.getOptions('com_guidedtours.token'))) {
+// Autostart tours have priority
+if (Joomla.getOptions('com_guidedtours.autotour', '') !== '') {
+  sessionStorage.setItem('tourToken', String(Joomla.getOptions('com_guidedtours.token')));
+  tourId = Joomla.getOptions('com_guidedtours.autotour');
+}
+
+if ((Number.parseInt(tourId, 10) > 0 || tourId !== '') && sessionStorage.getItem('tourToken') === String(Joomla.getOptions('com_guidedtours.token'))) {
   loadTour(tourId);
 } else {
   emptyStorage();

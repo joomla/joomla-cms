@@ -11,10 +11,10 @@
 namespace Joomla\Component\Admin\Administrator\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Filesystem\Folder;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -58,7 +58,7 @@ class HelpModel extends BaseDatabaseModel
      * @var    array
      * @since  1.6
      */
-    protected $toc = null;
+    protected $toc = [];
 
     /**
      * URL for the latest version check
@@ -128,7 +128,7 @@ class HelpModel extends BaseDatabaseModel
      */
     public function &getToc()
     {
-        if (!\is_null($this->toc)) {
+        if (\count($this->toc)) {
             return $this->toc;
         }
 
@@ -152,8 +152,7 @@ class HelpModel extends BaseDatabaseModel
         }
 
         // Get Help files
-        $files     = Folder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
-        $this->toc = [];
+        $files = Folder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
 
         foreach ($files as $file) {
             $buffer = file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/' . $file);

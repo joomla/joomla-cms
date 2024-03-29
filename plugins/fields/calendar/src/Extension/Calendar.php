@@ -10,9 +10,9 @@
 
 namespace Joomla\Plugin\Fields\Calendar\Extension;
 
-use DOMElement;
 use Joomla\CMS\Form\Form;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,20 +23,20 @@ use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
  *
  * @since  3.7.0
  */
-final class Calendar extends FieldsPlugin
+final class Calendar extends FieldsPlugin implements SubscriberInterface
 {
     /**
      * Transforms the field into a DOM XML element and appends it as a child on the given parent.
      *
-     * @param   stdClass    $field   The field.
-     * @param   DOMElement  $parent  The field node parent.
-     * @param   Form        $form    The form.
+     * @param   \stdClass    $field   The field.
+     * @param   \DOMElement  $parent  The field node parent.
+     * @param   Form         $form    The form.
      *
-     * @return  DOMElement
+     * @return  ?\DOMElement
      *
      * @since   3.7.0
      */
-    public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
+    public function onCustomFieldsPrepareDom($field, \DOMElement $parent, Form $form)
     {
         $fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 

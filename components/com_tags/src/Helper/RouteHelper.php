@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Tags\Site\Helper;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\RouteHelper as CMSRouteHelper;
 use Joomla\CMS\Menu\AbstractMenu;
@@ -85,8 +84,10 @@ class RouteHelper extends CMSRouteHelper
      * @return  string  URL link to pass to the router
      *
      * @since      3.1
-     * @throws     Exception
-     * @deprecated 5.0.0 Use getComponentTagRoute() instead
+     * @throws     \Exception
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use RouteHelper::getComponentTagRoute() instead
      */
     public static function getTagRoute($id)
     {
@@ -104,12 +105,12 @@ class RouteHelper extends CMSRouteHelper
      * @return  string  URL link to pass to the router
      *
      * @since   4.2.0
-     * @throws  Exception
+     * @throws  \Exception
      */
     public static function getComponentTagRoute(string $id, string $language = '*'): string
     {
         // We actually would want to allow arrays of tags here, but can't due to B/C
-        if (!is_array($id)) {
+        if (!\is_array($id)) {
             if ($id < 1) {
                 return '';
             }
@@ -119,7 +120,7 @@ class RouteHelper extends CMSRouteHelper
 
         $id = array_values(array_filter($id));
 
-        if (!count($id)) {
+        if (!\count($id)) {
             return '';
         }
 
@@ -138,8 +139,11 @@ class RouteHelper extends CMSRouteHelper
      * @return  string  URL link to pass to the router
      *
      * @since      3.7
-     * @throws     Exception
-     * @deprecated 5.0.0
+     * @throws     \Exception
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use RouteHelper::getComponentTagsRoute() instead
+     *
      */
     public static function getTagsRoute()
     {
@@ -156,7 +160,7 @@ class RouteHelper extends CMSRouteHelper
      * @return  string  URL link to pass to the router
      *
      * @since   4.2.0
-     * @throws  Exception
+     * @throws  \Exception
      */
     public static function getComponentTagsRoute(string $language = '*'): string
     {
@@ -172,7 +176,7 @@ class RouteHelper extends CMSRouteHelper
      *
      * @return null
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected static function _findItem($needles = null)
     {
@@ -188,7 +192,7 @@ class RouteHelper extends CMSRouteHelper
 
             if ($items) {
                 foreach ($items as $item) {
-                    if (isset($item->query, $item->query['view'])) {
+                    if (isset($item->query['view'])) {
                         $lang = ($item->language != '' ? $item->language : '*');
 
                         if (!isset(self::$lookup[$lang])) {
@@ -202,9 +206,9 @@ class RouteHelper extends CMSRouteHelper
                         }
 
                         // Only match menu items that list one tag
-                        if (isset($item->query['id']) && is_array($item->query['id'])) {
+                        if (isset($item->query['id']) && \is_array($item->query['id'])) {
                             foreach ($item->query['id'] as $position => $tagId) {
-                                if (!isset(self::$lookup[$lang][$view][$item->query['id'][$position]]) || count($item->query['id']) == 1) {
+                                if (!isset(self::$lookup[$lang][$view][$item->query['id'][$position]]) || \count($item->query['id']) == 1) {
                                     self::$lookup[$lang][$view][$item->query['id'][$position]] = $item->id;
                                 }
                             }

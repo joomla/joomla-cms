@@ -10,8 +10,8 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\MVC\Model;
 
+use Joomla\CMS\MVC\Model\State;
 use Joomla\CMS\MVC\Model\StateBehaviorTrait;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
@@ -39,7 +39,7 @@ class StateBehaviorTraitTest extends UnitTestCase
             use StateBehaviorTrait;
         };
 
-        $this->assertInstanceOf(CMSObject::class, $trait->getState());
+        $this->assertInstanceOf(State::class, $trait->getState());
     }
 
     /**

@@ -18,13 +18,19 @@ describe('Install Joomla', () => {
 
     cy.installJoomla(config);
 
-    cy.doAdministratorLogin(config.username, config.password);
+    cy.doAdministratorLogin(config.username, config.password, false);
+    cy.cancelTour();
     cy.disableStatistics();
     cy.setErrorReportingToDevelopment();
     cy.doAdministratorLogout();
 
     // Update to the correct secret for the API tests because of the bearer token
-    cy.readFile(`${Cypress.env('cmsPath')}/configuration.php`)
-      .then((content) => cy.task('writeFile', { path: 'configuration.php', content: content.replace(/^.*\$secret.*$/mg, "public $secret = 'tEstValue';") }));
+    cy.config_setParameter('secret', 'tEstValue');
+
+    // Setup mailing
+    cy.config_setParameter('mailonline', true);
+    cy.config_setParameter('mailer', 'smtp');
+    cy.config_setParameter('smtphost', Cypress.env('smtp_host'));
+    cy.config_setParameter('smtpport', Cypress.env('smtp_port'));
   });
 });

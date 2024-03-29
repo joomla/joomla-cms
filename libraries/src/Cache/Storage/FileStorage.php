@@ -10,9 +10,9 @@
 namespace Joomla\CMS\Cache\Storage;
 
 use Joomla\CMS\Cache\CacheStorage;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

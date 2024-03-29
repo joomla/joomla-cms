@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+    <field
+        name="hour"
+        type="number"
+        label="PLG_SCHEMAORG_RECIPE_FIELD_HOUR_LABEL"
+    />
+
+    <field
+        name="min"
+        type="number"
+        label="PLG_SCHEMAORG_RECIPE_FIELD_MINUTE_LABEL"
+        max="59"
+    />
+</form>

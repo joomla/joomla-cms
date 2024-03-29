@@ -10,13 +10,11 @@
 
 namespace Joomla\Component\Banners\Administrator\View\Tracks;
 
-use Exception;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -69,7 +67,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  1.6
      */
     protected $state;
@@ -90,7 +88,7 @@ class HtmlView extends BaseHtmlView
      * @return  void
      *
      * @since   1.6
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function display($tpl = null): void
     {

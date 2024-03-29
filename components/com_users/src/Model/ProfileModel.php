@@ -131,7 +131,7 @@ class ProfileModel extends FormModel
 
         if ($username) {
             $isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username)
-                || strlen(mb_convert_encoding($username, 'ISO-8859-1', 'UTF-8')) < 2
+                || \strlen(mb_convert_encoding($username, 'ISO-8859-1', 'UTF-8')) < 2
                 || trim($username) !== $username);
         }
 
@@ -281,7 +281,7 @@ class ProfileModel extends FormModel
         }
 
         // Destroy all active sessions for the user after changing the password
-        if ($data['password']) {
+        if ($data['password1']) {
             UserHelper::destroyUserSessions($user->id, true);
         }
 
@@ -297,7 +297,9 @@ class ProfileModel extends FormModel
      * @return  array
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0.
+     *
+     * @deprecated   4.2 will be removed in 6.0.
+     *               Will be removed without replacement
      */
     public function getTwofactorform($userId = null)
     {
@@ -312,7 +314,9 @@ class ProfileModel extends FormModel
      * @return  \stdClass
      *
      * @since   3.2
-     * @deprecated 4.2.0  Will be removed in 5.0
+     *
+     * @deprecated   4.2 will be removed in 6.0.
+     *               Will be removed without replacement
      */
     public function getOtpConfig($userId = null)
     {

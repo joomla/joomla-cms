@@ -4,13 +4,13 @@
  * Joomla! Content Management System
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Image;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -125,14 +125,8 @@ class Image
             static::$formats[IMAGETYPE_WEBP] = $info['WebP Support'];
         }
 
-        /**
-         * If the source input is a resource, set it as the image handle.
-         * @todo: Remove check for resource when we only support PHP 8
-         */
-        if (
-            $source && (\is_object($source) && get_class($source) == 'GdImage')
-            || (\is_resource($source) && get_resource_type($source) == 'gd')
-        ) {
+        // If the source input is a resource, set it as the image handle.
+        if ($source && (\is_object($source) && \get_class($source) == 'GdImage')) {
             $this->handle = $source;
         } elseif (!empty($source) && \is_string($source)) {
             // If the source input is not empty, assume it is a path and populate the image handle.
@@ -143,7 +137,7 @@ class Image
     /**
      * Get the image resource handle
      *
-     * @return  resource
+     * @return  \GdImage
      *
      * @since   3.8.0
      * @throws  \LogicException if an image has not been loaded into the instance
@@ -385,7 +379,8 @@ class Image
      * @throws  \LogicException
      * @throws  \InvalidArgumentException
      *
-     * @deprecated 6.0 Use \Joomla\CMS\Image\createThumbnails instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use \Joomla\CMS\Image\createThumbnails instead
      */
     public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null)
     {
@@ -541,14 +536,8 @@ class Image
      */
     public function isLoaded()
     {
-        /**
-         * Make sure the resource handle is valid.
-         * @todo: Remove check for resource when we only support PHP 8
-         */
-        if (
-            !((\is_object($this->handle) && get_class($this->handle) == 'GdImage')
-            || (\is_resource($this->handle) && get_resource_type($this->handle) == 'gd'))
-        ) {
+        // Make sure the resource handle is valid.
+        if (!(\is_object($this->handle) && \get_class($this->handle) == 'GdImage')) {
             return false;
         }
 

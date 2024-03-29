@@ -10,8 +10,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
+
+/** @var \Joomla\Component\Contact\Administrator\View\Contacts\HtmlView $this */
 
 $displayData = [
     'textPrefix' => 'COM_CONTACT',
@@ -20,7 +21,7 @@ $displayData = [
     'icon'       => 'icon-address-book contact',
 ];
 
-$user = Factory::getApplication()->getIdentity();
+$user = $this->getCurrentUser();
 
 if ($user->authorise('core.create', 'com_contact') || count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0) {
     $displayData['createURL'] = 'index.php?option=com_contact&task=contact.add';

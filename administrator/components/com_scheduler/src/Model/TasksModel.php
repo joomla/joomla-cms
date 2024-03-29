@@ -11,6 +11,7 @@
 namespace Joomla\Component\Scheduler\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -366,7 +367,7 @@ class TasksModel extends ListModel
     {
         // Get stuff from the model state
         $listOrder      = $this->getState('list.ordering', 'a.title');
-        $listDirectionN = strtolower($this->getState('list.direction', 'asc')) == 'desc' ? -1 : 1;
+        $listDirectionN = strtolower($this->getState('list.direction', 'asc')) === 'desc' ? -1 : 1;
 
         // Set limit parameters and get object list
         $query->setLimit($limit, $limitstart);
@@ -395,7 +396,7 @@ class TasksModel extends ListModel
         $this->attachTaskOptions($responseList);
 
         // If ordering by non-db fields, we need to sort here in code
-        if ($listOrder == 'j.type_title') {
+        if ($listOrder === 'j.type_title') {
             $responseList = ArrayHelper::sortObjects($responseList, 'safeTypeTitle', $listDirectionN, true, false);
         }
 
@@ -436,5 +437,35 @@ class TasksModel extends ListModel
     {
         // Call the parent method
         parent::populateState($ordering, $direction);
+    }
+
+    /**
+     * Check if we have any enabled due tasks and no locked tasks.
+     *
+     * @param   Date  $time  The next execution time to check against
+     *
+     * @return boolean
+     * @since  4.4.0
+     */
+    public function hasDueTasks(Date $time): bool
+    {
+        $db  = $this->getDatabase();
+        $now = $time->toSql();
+
+        $query = $db->getQuery(true)
+            // Count due tasks
+            ->select('SUM(CASE WHEN ' . $db->quoteName('a.next_execution') . ' <= :now THEN 1 ELSE 0 END) AS due_count')
+            // Count locked tasks
+            ->select('SUM(CASE WHEN ' . $db->quoteName('a.locked') . ' IS NULL THEN 0 ELSE 1 END) AS locked_count')
+            ->from($db->quoteName('#__scheduler_tasks', 'a'))
+            ->where($db->quoteName('a.state') . ' = 1')
+            ->bind(':now', $now);
+
+        $db->setQuery($query);
+
+        $taskDetails = $db->loadObject();
+
+        // False if we don't have due tasks, or we have locked tasks
+        return $taskDetails && $taskDetails->due_count && !$taskDetails->locked_count;
     }
 }
