@@ -30,6 +30,7 @@ class NotifyActionLog extends AbstractImmutableEvent
         'onComUsersCaptiveShowSelect',
         'onComUsersCaptiveValidateFailed',
         'onComUsersCaptiveValidateInvalidMethod',
+        'onComUsersCaptiveValidateTryLimitReached',
         'onComUsersCaptiveValidateSuccess',
         'onComUsersControllerMethodAfterRegenerateBackupCodes',
         'onComUsersControllerMethodBeforeAdd',

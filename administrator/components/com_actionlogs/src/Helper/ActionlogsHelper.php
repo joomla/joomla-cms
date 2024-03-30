@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\Helper;
 
-use Generator;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
@@ -44,13 +43,13 @@ class ActionlogsHelper
      *
      * @param   array|\Traversable  $data  The logs data objects to be exported
      *
-     * @return  Generator
+     * @return  \Generator
      *
      * @since   3.9.0
      *
      * @throws  \InvalidArgumentException
      */
-    public static function getCsvData($data): Generator
+    public static function getCsvData($data): \Generator
     {
         if (!is_iterable($data)) {
             throw new \InvalidArgumentException(
@@ -324,6 +323,12 @@ class ActionlogsHelper
 
         // Load plg_system_actionlogs too
         $lang->load('plg_system_actionlogs', JPATH_ADMINISTRATOR);
+
+        // Load plg_system_privacyconsent too
+        $lang->load('plg_system_privacyconsent', JPATH_ADMINISTRATOR);
+
+        // Load plg_user_terms too
+        $lang->load('plg_user_terms', JPATH_ADMINISTRATOR);
 
         // Load com_privacy too.
         $lang->load('com_privacy', JPATH_ADMINISTRATOR);

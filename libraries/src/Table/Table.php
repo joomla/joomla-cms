@@ -901,7 +901,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
                     $asset->rules = (string) $this->_rules;
                 }
 
-                if (!$asset->check() || !$asset->store($updateNulls)) {
+                if (!$asset->check() || !$asset->store()) {
                     $this->setError($asset->getError());
 
                     return false;
@@ -1443,7 +1443,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     /**
      * Method to compact the ordering values of rows in a group of rows defined by an SQL WHERE clause.
      *
-     * @param   string  $where  WHERE clause to use for limiting the selection of rows to compact the ordering values.
+     * @param   string|string[]  $where  WHERE clause to use for limiting the selection of rows to compact the ordering values.
      *
      * @return  mixed  Boolean  True on success.
      *
@@ -1521,8 +1521,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      *
      * Negative numbers move the row up in the sequence and positive numbers move it down.
      *
-     * @param   integer  $delta  The direction and magnitude to move the row in the ordering sequence.
-     * @param   string   $where  WHERE clause to use for limiting the selection of rows to compact the ordering values.
+     * @param   integer          $delta  The direction and magnitude to move the row in the ordering sequence.
+     * @param   string|string[]  $where  WHERE clause to use for limiting the selection of rows to compact the ordering values.
      *
      * @return  boolean  True on success.
      *

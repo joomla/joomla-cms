@@ -172,7 +172,7 @@ class CategoriesModel extends ListModel
                 'a.id, a.title, a.alias, a.note, a.published, a.access' .
                 ', a.checked_out, a.checked_out_time, a.created_user_id' .
                 ', a.path, a.parent_id, a.level, a.lft, a.rgt' .
-                ', a.language'
+                ', a.language, a.description'
             )
         );
         $query->from($db->quoteName('#__categories', 'a'));

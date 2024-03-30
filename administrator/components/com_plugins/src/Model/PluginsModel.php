@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -32,8 +33,8 @@ class PluginsModel extends ListModel
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An optional associative array of configuration settings.
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
@@ -107,11 +108,11 @@ class PluginsModel extends ListModel
     /**
      * Returns an object list.
      *
-     * @param   \Joomla\Database\DatabaseQuery  $query       A database query object.
-     * @param   integer                         $limitstart  Offset.
-     * @param   integer                         $limit       The number of records.
+     * @param   DatabaseQuery|string  $query       A database query object.
+     * @param   integer               $limitstart  Offset.
+     * @param   integer               $limit       The number of records.
      *
-     * @return  array
+     * @return  object[]
      */
     protected function _getList($query, $limitstart = 0, $limit = 0)
     {
@@ -176,9 +177,9 @@ class PluginsModel extends ListModel
     /**
      * Translate a list of objects.
      *
-     * @param   array  &$items  The array of objects.
+     * @param   object[]  &$items  The array of objects.
      *
-     * @return  array The array of translated objects.
+     * @return  void
      */
     protected function translate(&$items)
     {
@@ -196,7 +197,7 @@ class PluginsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  DatabaseQuery
      */
     protected function getListQuery()
     {

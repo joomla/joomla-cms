@@ -321,6 +321,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
             // Convert the exclusions into a normalised array
             $exclusions       = str_replace(["\r\n", "\r"], "\n", $exclusions);
             $exclusions       = explode("\n", $exclusions);
+            $exclusions       = array_map('trim', $exclusions);
             $filterExpression = function ($x) {
                 return $x !== '';
             };
@@ -331,19 +332,14 @@ final class Cache extends CMSPlugin implements SubscriberInterface
                 . Uri::getInstance()->buildQuery($this->router->getVars());
             $externalUrl = Uri::getInstance()->toString();
 
-            $reduceCallback
-                = function (bool $carry, string $exclusion) use ($internalUrl, $externalUrl) {
-                    // Test both external and internal URIs
-                    return $carry && preg_match(
-                        '#' . $exclusion . '#i',
-                        $externalUrl . ' ' . $internalUrl,
-                        $match
-                    );
-                };
-            $excluded       = array_reduce($exclusions, $reduceCallback, false);
-
-            if ($excluded) {
-                return true;
+            // Loop through each pattern.
+            if ($exclusions) {
+                foreach ($exclusions as $exclusion) {
+                    // Test both external and internal URI
+                    if (preg_match('#' . $exclusion . '#i', $externalUrl . ' ' . $internalUrl, $match)) {
+                        return true;
+                    }
+                }
             }
         }
 

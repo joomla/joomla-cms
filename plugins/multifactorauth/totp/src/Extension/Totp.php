@@ -16,12 +16,11 @@ use Joomla\CMS\Event\MultiFactor\GetMethod;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
 use Joomla\CMS\Event\MultiFactor\SaveSetup;
 use Joomla\CMS\Event\MultiFactor\Validate;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
@@ -41,6 +40,8 @@ use RuntimeException;
  */
 class Totp extends CMSPlugin implements SubscriberInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Affects constructor behavior. If true, language files will be loaded automatically.
      *
@@ -149,7 +150,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
                     'input_type' => 'text',
                     // The attributes for the HTML input box.
                     'input_attributes' => [
-                        'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric",
+                        'pattern' => '[0-9]{6}', 'maxlength' => '6', 'inputmode' => 'numeric', 'required' => 'true', 'autocomplete' => 'one-time-code', 'aria-autocomplete' => 'none',
                     ],
                     // Placeholder text for the HTML input box. Leave empty if you don't need it.
                     'placeholder' => '',
@@ -208,7 +209,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
         }
 
         // Generate a QR code for the key
-        $user     = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($record->user_id);
+        $user     = $this->getUserFactory()->loadUserById($record->user_id);
         $hostname = Uri::getInstance()->toString(['host']);
         $otpURL   = sprintf("otpauth://totp/%s@%s?secret=%s", $user->username, $hostname, $key);
         $document = $this->getApplication()->getDocument();
@@ -238,7 +239,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
                     ],
                     'input_type'       => $isConfigured ? 'hidden' : 'text',
                     'input_attributes' => [
-                        'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric",
+                        'pattern' => '[0-9]{6}', 'maxlength' => '6', 'inputmode' => 'numeric', 'required' => 'true', 'autocomplete' => 'one-time-code', 'aria-autocomplete' => 'none',
                     ],
                     'input_value' => '',
                     'placeholder' => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_PLACEHOLDER'),
@@ -286,7 +287,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 
         // If there is still no key in the options throw an error
         if (empty($key)) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         /**
@@ -306,7 +307,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
         $isValid = $totp->checkCode($key, $code);
 
         if (!$isValid) {
-            throw new RuntimeException(Text::_('PLG_MULTIFACTORAUTH_TOTP_ERR_VALIDATIONFAILED'), 500);
+            throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_TOTP_ERR_VALIDATIONFAILED'), 500);
         }
 
         // The code is valid. Unset the key from the session.

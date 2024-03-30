@@ -71,7 +71,7 @@ class CssMenu
     /**
      * The application
      *
-     * @var    boolean
+     * @var    CMSApplication
      *
      * @since  4.0.0
      */
@@ -249,7 +249,7 @@ class CssMenu
      *
      * @param   AdministratorMenuItem  $parent  A menu item to process
      *
-     * @return  array
+     * @return  void
      *
      * @since   3.8.0
      */

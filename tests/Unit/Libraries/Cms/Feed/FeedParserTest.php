@@ -15,9 +15,7 @@ use Joomla\CMS\Feed\FeedEntry;
 use Joomla\CMS\Feed\FeedParser;
 use Joomla\CMS\Feed\Parser\NamespaceParserInterface;
 use Joomla\Tests\Unit\UnitTestCase;
-use ReflectionClass;
 use SimpleXMLElement;
-use XMLReader;
 
 /**
  * Test class for FeedParser.
@@ -97,7 +95,7 @@ class FeedParserTest extends UnitTestCase
                 $this->isInstanceOf(Feed::class),
                 $this->callback(
                     function ($value) use ($content) {
-                        return $value instanceof SimpleXMLElement && (string) $value[0] === $content;
+                        return $value instanceof \SimpleXMLElement && (string) $value[0] === $content;
                     }
                 )
             );
@@ -182,7 +180,7 @@ class FeedParserTest extends UnitTestCase
                 $this->isInstanceOf(FeedEntry::class),
                 $this->callback(
                     function ($value) use ($content) {
-                        return $value instanceof SimpleXMLElement && (string) $value[0] === '';
+                        return $value instanceof \SimpleXMLElement && (string) $value[0] === '';
                     }
                 )
             );
@@ -227,7 +225,7 @@ class FeedParserTest extends UnitTestCase
         $parser = new FeedParserStub($xmlReader);
 
         // Use reflection to test protected method (it's easier than testing this using the public interface)
-        $reflectionClass = new ReflectionClass($parser);
+        $reflectionClass = new \ReflectionClass($parser);
         $method          = $reflectionClass->getMethod('moveToNextElement');
         $method->setAccessible(true);
 
@@ -272,7 +270,7 @@ class FeedParserTest extends UnitTestCase
         $parser = new FeedParserStub($xmlReader);
 
         // Use reflection to test protected method (it's easier than testing this using the public interface)
-        $reflectionClass = new ReflectionClass($parser);
+        $reflectionClass = new \ReflectionClass($parser);
         $method          = $reflectionClass->getMethod('moveToNextElement');
         $method->setAccessible(true);
 
@@ -305,7 +303,7 @@ class FeedParserTest extends UnitTestCase
         $parser = new FeedParserStub($xmlReader);
 
         // Use reflection to test protected method (it's easier than testing this using the public interface)
-        $reflectionClass = new ReflectionClass($parser);
+        $reflectionClass = new \ReflectionClass($parser);
         $method          = $reflectionClass->getMethod('moveToClosingElement');
         $method->setAccessible(true);
 
@@ -313,7 +311,7 @@ class FeedParserTest extends UnitTestCase
         $method->invoke($parser);
 
         // Move to the closing element, which should be </root>.
-        $this->assertEquals(XMLReader::END_ELEMENT, $xmlReader->nodeType);
+        $this->assertEquals(\XMLReader::END_ELEMENT, $xmlReader->nodeType);
         $this->assertEquals('root', $xmlReader->name);
     }
 
@@ -334,7 +332,7 @@ class FeedParserTest extends UnitTestCase
         $parser = new FeedParserStub($xmlReader);
 
         // Use reflection to test protected method (it's easier than testing this using the public interface)
-        $reflectionClass = new ReflectionClass($parser);
+        $reflectionClass = new \ReflectionClass($parser);
         $method          = $reflectionClass->getMethod('moveToClosingElement');
         $method->setAccessible(true);
 
@@ -342,7 +340,7 @@ class FeedParserTest extends UnitTestCase
         $method->invoke($parser);
 
         // Ensure that the current node is closing element
-        $this->assertEquals(XMLReader::END_ELEMENT, $xmlReader->nodeType);
+        $this->assertEquals(\XMLReader::END_ELEMENT, $xmlReader->nodeType);
         $this->assertEquals('node', $xmlReader->name);
     }
 
@@ -363,7 +361,7 @@ class FeedParserTest extends UnitTestCase
         $parser = new FeedParserStub($xmlReader);
 
         // Use reflection to test protected method (it's easier than testing this using the public interface)
-        $reflectionClass = new ReflectionClass($parser);
+        $reflectionClass = new \ReflectionClass($parser);
         $method          = $reflectionClass->getMethod('moveToClosingElement');
         $method->setAccessible(true);
 
@@ -381,21 +379,21 @@ class FeedParserTest extends UnitTestCase
      * @param   mixed   $xml     XML
      * @param   mixed   $moveTo  Moveto
      *
-     * @return XMLReader
+     * @return \XMLReader
      *
      * @since 4.0.0
      */
-    protected function getXmlReader($xml, $moveTo): XMLReader
+    protected function getXmlReader($xml, $moveTo): \XMLReader
     {
         // It's hard to mock the xml reader stream, so we use the real object here (but set xml directly)
-        $xmlReader = new XMLReader();
+        $xmlReader = new \XMLReader();
 
         // Set the XML for the internal reader and move the stream to the element.
         $xmlReader->XML($xml);
 
         do {
             $xmlReader->read();
-        } while ($xmlReader->name != $moveTo && $xmlReader->nodeType != XMLReader::END_ELEMENT);
+        } while ($xmlReader->name != $moveTo && $xmlReader->nodeType != \XMLReader::END_ELEMENT);
 
         return $xmlReader;
     }
@@ -495,7 +493,7 @@ class FeedParserStub extends FeedParser
      *
      * @since   4.0.0
      */
-    public function processFeedEntry(FeedEntry $entry, SimpleXMLElement $el)
+    public function processFeedEntry(FeedEntry $entry, \SimpleXMLElement $el)
     {
         $this->processFeedEntryCalledWith[] = [
             'entry' => $entry,
@@ -526,7 +524,7 @@ class FeedParserStub extends FeedParser
      *
      * @since   4.0.0
      */
-    protected function handleCustom(Feed $feed, SimpleXMLElement $el)
+    protected function handleCustom(Feed $feed, \SimpleXMLElement $el)
     {
         $this->handleCustomCalledWith[] = [
             'feed' => $feed,
@@ -554,7 +552,7 @@ class FeedParserStubUnregistered implements NamespaceParserInterface
      *
      * @since   3.1.4
      */
-    public function processElementForFeed(Feed $feed, SimpleXMLElement $el)
+    public function processElementForFeed(Feed $feed, \SimpleXMLElement $el)
     {
     }
 
@@ -568,7 +566,7 @@ class FeedParserStubUnregistered implements NamespaceParserInterface
      *
      * @since   3.1.4
      */
-    public function processElementForFeedEntry(FeedEntry $entry, SimpleXMLElement $el)
+    public function processElementForFeedEntry(FeedEntry $entry, \SimpleXMLElement $el)
     {
     }
 }

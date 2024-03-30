@@ -288,7 +288,7 @@ class LocalAdapter implements AdapterInterface
     {
         $localPath = $this->getLocalPath($path . '/' . $name);
 
-        if (!File::exists($localPath)) {
+        if (!is_file($localPath)) {
             throw new FileNotFoundException();
         }
 
@@ -324,10 +324,6 @@ class LocalAdapter implements AdapterInterface
         $thumbnailPaths = $this->getLocalThumbnailPaths($localPath);
 
         if (is_file($localPath)) {
-            if (!File::exists($localPath)) {
-                throw new FileNotFoundException();
-            }
-
             if ($this->thumbnails && !empty($thumbnailPaths['fs']) && is_file($thumbnailPaths['fs'])) {
                 File::delete($thumbnailPaths['fs']);
             }
@@ -389,7 +385,7 @@ class LocalAdapter implements AdapterInterface
         $obj->path      = str_replace($this->rootPath, '', $path);
         $obj->extension = !$isDir ? File::getExt($obj->name) : '';
         $obj->size      = !$isDir ? filesize($path) : '';
-        $obj->mime_type = MediaHelper::getMimeType($path, MediaHelper::isImage($obj->name));
+        $obj->mime_type = !$isDir ? (string) MediaHelper::getMimeType($path, MediaHelper::isImage($obj->name)) : '';
         $obj->width     = 0;
         $obj->height    = 0;
 
@@ -404,7 +400,7 @@ class LocalAdapter implements AdapterInterface
             return $obj;
         }
 
-        if (MediaHelper::isImage($obj->name)) {
+        if (!$isDir && MediaHelper::isImage($obj->name)) {
             // Get the image properties
             try {
                 $props       = Image::getImageFileProperties($path);

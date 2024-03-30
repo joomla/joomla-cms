@@ -49,12 +49,36 @@ class MeterField extends FormField
     protected $animated = true;
 
     /**
+     * The min value of the progress bar
+     *
+     * @var    int
+     * @since  4.4.0
+     */
+    protected $min = 0;
+
+    /**
      * The max value of the progress bar
      *
-     * @var    boolean
+     * @var    int
      * @since  4.0.0
      */
     protected $max = 100;
+
+    /**
+     * The width of the progress bar
+     *
+     * @var    string
+     * @since  4.4.0
+     */
+    protected $width;
+
+    /**
+     * The color of the progress bar
+     *
+     * @var    string
+     * @since  4.4.0
+     */
+    protected $color;
 
     /**
      * The striped class for the progress bar
@@ -107,6 +131,11 @@ class MeterField extends FormField
     public function __set($name, $value)
     {
         switch ($name) {
+            case 'max':
+            case 'min':
+                $this->$name = (int) $value;
+                break;
+
             case 'width':
             case 'color':
                 $this->$name = (string) $value;

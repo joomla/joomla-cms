@@ -178,7 +178,7 @@ class JsonapiView extends BaseApiView
         $collection = (new Collection($items, new JoomlaSerializer('menutypes')));
 
         // Set the data into the document and render it
-        $this->document->addMeta('total-pages', $totalPagesAvailable)
+        $this->getDocument()->addMeta('total-pages', $totalPagesAvailable)
             ->setData($collection)
             ->addLink('self', (string) $currentUrl)
             ->addLink('first', (string) $firstPage)
@@ -186,7 +186,7 @@ class JsonapiView extends BaseApiView
             ->addLink('previous', (string) $previousPage)
             ->addLink('last', (string) $lastPage);
 
-        return $this->document->render();
+        return $this->getDocument()->render();
     }
 
     /**
