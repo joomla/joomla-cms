@@ -1,6 +1,9 @@
 --
 -- Add post-installation message about Brotli compression in .htaccess
 --
+-- This statement had to be modified for not producing duplicate postinstall messages
+-- after update from 4.4. See https://github.com/joomla/joomla-cms/pull/43182 for details.
+--
 INSERT INTO `#__postinstall_messages` (`extension_id`, `title_key`, `description_key`, `action_key`, `language_extension`, `language_client_id`, `type`, `action_file`, `action`, `condition_file`, `condition_method`, `version_introduced`, `enabled`)
 SELECT `extension_id`, 'COM_ADMIN_POSTINSTALL_MSG_HTACCESS_BROTLI_TITLE', 'COM_ADMIN_POSTINSTALL_MSG_HTACCESS_BROTLI_DESCRIPTION', '', 'com_admin', 1, 'message', '', '', 'admin://components/com_admin/postinstall/htaccessbrotli.php', 'admin_postinstall_htaccessbrotli_condition', '5.1.0', 1
   FROM `#__extensions`
