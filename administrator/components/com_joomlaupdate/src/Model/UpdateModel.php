@@ -85,8 +85,8 @@ class UpdateModel extends BaseDatabaseModel
      */
     public function applyUpdateSite()
     {
-        // Determine the intended update URL.
-        $params = ComponentHelper::getParams('com_joomlaupdate');
+        // Determine the intended update URL and channel.
+        $params  = ComponentHelper::getParams('com_joomlaupdate');
 
         switch ($params->get('updatesource', 'default')) {
             case 'custom':
@@ -99,20 +99,30 @@ class UpdateModel extends BaseDatabaseModel
 
                     return;
                 }
+
+                $channel = 'custom';
+
+                break;
+
+            case 'next':
+                // Same URL as default but other channel
+                $updateURL = 'https://update.joomla.org/cms/';
+                $channel   = (Version::MAJOR_VERSION + 1) . '.x';
+
                 break;
 
             default:
                 /**
-                 * All "non-testing" releases of the official project hosted in Joomla's TUF-based update repo.
+                 * All releases of the official project hosted in Joomla's TUF-based update repo.
                  * The commented "case" below are for documenting where 'default' and legacy options falls
                  * case 'default':
-                 * case 'next':
                  * case 'lts':
                  * case 'sts': (It's shown as "Default" because that option does not exist any more)
                  * case 'nochange':
                  * case 'testing':
                  */
                 $updateURL = 'https://update.joomla.org/cms/';
+                $channel   = Version::MAJOR_VERSION . '.x';
         }
 
         $updateType = (pathinfo($updateURL, PATHINFO_EXTENSION) === 'xml') ? 'collection' : 'tuf';
@@ -132,11 +142,12 @@ class UpdateModel extends BaseDatabaseModel
         $db->setQuery($query);
         $update_site = $db->loadObject();
 
-        if ($update_site->location !== $updateURL || $update_site->type !== $updateType) {
+        if ($update_site->location !== $updateURL || $update_site->type !== $updateType || $update_site->channel !== $channel) {
             // Modify the database record.
             $update_site->last_check_timestamp = 0;
             $update_site->location             = $updateURL;
             $update_site->type                 = $updateType;
+            $update_site->channel              = $channel;
             $db->updateObject('#__update_sites', $update_site, 'update_site_id');
 
             // Remove cached updates.

@@ -919,6 +919,7 @@ CREATE TABLE IF NOT EXISTS "#__update_sites" (
   "name" varchar(100) DEFAULT '',
   "type" varchar(20) DEFAULT '',
   "location" text NOT NULL,
+  "channel" varchar(20) DEFAULT '',
   "enabled" bigint DEFAULT 0,
   "last_check_timestamp" bigint DEFAULT 0,
   "extra_query" varchar(1000) DEFAULT '',

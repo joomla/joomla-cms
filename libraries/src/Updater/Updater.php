@@ -200,6 +200,7 @@ class Updater extends Adapter
                 'DISTINCT ' . $db->quoteName('a.update_site_id'),
                 $db->quoteName('a.type'),
                 $db->quoteName('a.location'),
+                $db->quoteName('a.channel'),
                 $db->quoteName('a.last_check_timestamp'),
                 $db->quoteName('a.extra_query'),
             ]
