@@ -221,7 +221,7 @@ function subheadScrolling() {
 /**
  * Watch for Dark mode changes
  *
- * @since   __DEPLOY_VERSION__
+ * @since   5.1.0
  */
 function darkModeWatch() {
   const docEl = document.documentElement;
