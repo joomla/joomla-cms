@@ -210,7 +210,7 @@ class Update extends CMSObject
      * Object containing details if the latest update does not meet the PHP and DB version requirements
      *
      * @var    \stdClass
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.2
      */
     protected $otherUpdateInfo;
 
