@@ -106,6 +106,10 @@ class TufAdapter extends UpdateAdapter
         $constraintChecker = new ConstraintChecker();
 
         foreach ($versions as $version) {
+            // Ignore version if not from the right channel
+            if ($options['channel'] !== $version['channel']) {
+                continue;
+            }
             // Return the version as a match if either all constraints are matched
             // or "only" env related constraints fail - the later one is the existing behavior of the XML updater
             if (

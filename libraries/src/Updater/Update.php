@@ -552,6 +552,10 @@ class Update
         $constraintChecker = new ConstraintChecker();
 
         foreach ($data['signed']['targets'] as $target) {
+            // Check if target channel matches
+            if (isset($channel) && $target['custom']['channel'] !== $channel) {
+                continue;
+            }
             // Check if this target is newer than the current version
             if (isset($this->latest) && version_compare($target['custom']['version'], $this->latest->version, '<')) {
                 continue;
