@@ -24,7 +24,7 @@ use Tuf\Metadata\StorageBase;
  * @internal Currently this class is only used for Joomla! updates and will be extended in the future to support 3rd party updates
  *           Don't extend this class in your own code, it is subject to change without notice.
  */
-class DatabaseStorage extends StorageBase
+final class DatabaseStorage extends StorageBase
 {
     public const METADATA_COLUMNS = ['root', 'targets', 'snapshot', 'timestamp', 'mirrors'];
 
