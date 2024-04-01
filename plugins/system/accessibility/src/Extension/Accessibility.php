@@ -62,11 +62,7 @@ final class Accessibility extends CMSPlugin
         // Detect the current active language
         $lang = $this->getApplication()->getLanguage()->getTag();
 
-        /**
-        * Add strings for translations in Javascript.
-        * Reference  https://ranbuch.github.io/accessibility/
-        */
-        $iframeModals = [];
+        $iframeModals         = [];
         $accessibilityArticle = $this->params->get('accessibility_article');
 
         if (!empty($accessibilityArticle)) {
@@ -76,6 +72,10 @@ final class Accessibility extends CMSPlugin
             ];
         }
 
+        /**
+        * Customisation and configuration options for the accessibility menu.
+        * Reference  https://ranbuch.github.io/accessibility/
+        */
         $document->addScriptOptions(
             'accessibility-options',
             [
@@ -105,7 +105,7 @@ final class Accessibility extends CMSPlugin
                             'units' => 'px',
                         ],
                     ],
-                    'useEmojis'   => $this->params->get('useEmojis', 'true') === 'true',
+                    'useEmojis'  => $this->params->get('useEmojis', 'true') === 'true',
                 ],
                 'hotkeys' => [
                     'enabled'    => true,
@@ -128,6 +128,6 @@ final class Accessibility extends CMSPlugin
                 ['name' => 'inline.plg.system.accessibility'],
                 ['type' => 'module'],
                 ['accessibility']
-                );
+            );
     }
 }
