@@ -22,8 +22,11 @@ use Joomla\CMS\Version;
  * ConstraintChecker Class
  *
  * @since  5.1.0
+ *
+ * @internal Currently this class is only used for Joomla! updates and will be extended in the future to support 3rd party updates
+ *           Don't extend this class in your own code, it is subject to change without notice.
  */
-class ConstraintChecker
+final class ConstraintChecker
 {
     /**
      * This property holds information about failed environment constraints.
@@ -51,13 +54,14 @@ class ConstraintChecker
      *
      * @since   5.1.0
      */
-    public function __construct($channel = null)
+    public function __construct()
     {
         $this->failedEnvironmentConstraints = new \stdClass();
 
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
-        $this->channel = $channel ?? (Version::MAJOR_VERSION + ($params->get('updatesource', 'default') == 'next' ? 1 : 0)) . '.x';
+        // @todo Make flexible for 3rd party updates
+        $this->channel = (Version::MAJOR_VERSION + ($params->get('updatesource', 'default') == 'next' ? 1 : 0)) . '.x';
     }
 
     /**

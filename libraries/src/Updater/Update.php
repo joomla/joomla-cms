@@ -549,7 +549,7 @@ class Update
         $metaData = $tufFetcher->getValidUpdate();
 
         $data              = json_decode($metaData, true);
-        $constraintChecker = new ConstraintChecker($channel);
+        $constraintChecker = new ConstraintChecker();
 
         foreach ($data['signed']['targets'] as $target) {
             // Check if this target is newer than the current version
