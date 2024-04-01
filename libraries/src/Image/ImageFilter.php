@@ -21,7 +21,7 @@ namespace Joomla\CMS\Image;
 abstract class ImageFilter
 {
     /**
-     * @var    resource  The image resource handle.
+     * @var    \GdImage  The image resource handle.
      * @since  2.5.0
      */
     protected $handle;
