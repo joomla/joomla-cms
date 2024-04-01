@@ -53,14 +53,17 @@ class ConstraintChecker
      *
      * @since   5.1.0
      */
-    public function __construct()
+    public function __construct($channel = null)
     {
         $this->failedEnvironmentConstraints = new \stdClass();
 
-        $params = ComponentHelper::getParams('com_joomlaupdate');
+        if (!isset($channel)) {
+            $params = ComponentHelper::getParams('com_joomlaupdate');
 
-        // @todo Make flexible for 3rd party updates
-        $this->channel = (Version::MAJOR_VERSION + ($params->get('updatesource', 'default') == 'next' ? 1 : 0)) . '.x';
+            $channel = (Version::MAJOR_VERSION + ($params->get('updatesource', 'default') == 'next' ? 1 : 0)) . '.x';
+        }
+
+        $this->channel = $channel;
     }
 
     /**

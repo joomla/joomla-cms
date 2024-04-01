@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Updater\ConstraintChecker;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Tests\Unit\UnitTestCase;
+use Joomla\CMS\Version;
 
 /**
  * Test class for Constraint Checker.
@@ -40,7 +41,7 @@ class ConstraintCheckerTest extends UnitTestCase
      */
     protected function setUp(): void
     {
-        $this->checker = new ConstraintChecker();
+        $this->checker = new ConstraintChecker(Version::MAJOR_VERSION . '.x');
     }
 
     /**
