@@ -20,7 +20,7 @@ use Tuf\Loader\LoaderInterface;
  *
  * @internal Currently this class is only used for Joomla! updates and will be extended in the future to support 3rd party updates
  */
-final class HttpLoader implements LoaderInterface
+class HttpLoader implements LoaderInterface
 {
     public function __construct(private readonly string $repositoryPath, private readonly Http $http)
     {

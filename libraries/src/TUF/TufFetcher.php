@@ -31,7 +31,7 @@ use Tuf\Loader\SizeCheckingLoader;
  *
  * @internal Currently this class is only used for Joomla! updates and will be extended in the future to support 3rd party updates
  */
-final class TufFetcher
+class TufFetcher
 {
     /**
      * The table object holding the metadata

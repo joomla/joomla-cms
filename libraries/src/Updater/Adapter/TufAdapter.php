@@ -32,7 +32,7 @@ use Tuf\Exception\MetadataException;
  *
  * @internal Currently this class is only used for Joomla! updates and will be extended in the future to support 3rd party updates
  */
-final class TufAdapter extends UpdateAdapter
+class TufAdapter extends UpdateAdapter
 {
     /**
      * Finds an update.
