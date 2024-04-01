@@ -14,11 +14,14 @@ namespace Joomla\CMS\Updater\Adapter;
 // phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Tuf as MetadataTable;
 use Joomla\CMS\TUF\TufFetcher;
 use Joomla\CMS\Updater\ConstraintChecker;
 use Joomla\CMS\Updater\UpdateAdapter;
+use Joomla\CMS\Updater\Updater;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tuf\Exception\MetadataException;
 
@@ -74,16 +77,16 @@ class TufAdapter extends UpdateAdapter
         $metadataTable = new MetadataTable($this->db);
         $metadataTable->load(['update_site_id' => $options['update_site_id']]);
 
-        $tufFetcher = new TufFetcher($metadataTable, $options['location']);
+        $tufFetcher = new TufFetcher($metadataTable, $options['location'], $this->db, (new HttpFactory())->getHttp(), Factory::getApplication());
         $metaData   = $tufFetcher->getValidUpdate();
 
         $metaData = json_decode((string) $metaData, true);
 
-        if (!isset($metaData["signed"]["targets"])) {
+        if (!isset($metaData['signed']['targets'])) {
             return false;
         }
 
-        foreach ($metaData["signed"]["targets"] as $filename => $target) {
+        foreach ($metaData['signed']['targets'] as $filename => $target) {
             $version = $this->processTufTarget($filename, $target);
 
             if (!$version) {
@@ -106,7 +109,7 @@ class TufAdapter extends UpdateAdapter
             // Return the version as a match if either all constraints are matched
             // or "only" env related constraints fail - the later one is the existing behavior of the XML updater
             if (
-                $constraintChecker->check($version) === true
+                $constraintChecker->check($version, $options['minimum_stability'] ?? Updater::STABILITY_STABLE) === true
                 || !empty((array) $constraintChecker->getFailedEnvironmentConstraints())
             ) {
                 return [$version];
