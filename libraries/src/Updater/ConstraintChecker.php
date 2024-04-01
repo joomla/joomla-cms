@@ -13,6 +13,7 @@ namespace Joomla\CMS\Updater;
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Version;
@@ -35,15 +36,28 @@ class ConstraintChecker
     protected \stdClass $failedEnvironmentConstraints;
 
     /**
+     * The channel to check the contrains against
+     *
+     * @var string
+     */
+    protected $channel;
+
+    /**
      * Constructor, used to populate the failed
+     *
+     * @param string|null $channel  The channel to be used for updating
      *
      * @return  void
      *
      * @since   5.1.0
      */
-    public function __construct()
+    public function __construct($channel = null)
     {
         $this->failedEnvironmentConstraints = new \stdClass();
+
+        $params = ComponentHelper::getParams('com_joomlaupdate');
+
+        $this->channel = $channel ?? (Version::MAJOR_VERSION + ($params->get('updatesource', 'default') == 'next' ? 1 : 0)) . '.x';
     }
 
     /**
@@ -65,6 +79,11 @@ class ConstraintChecker
 
         // Check targetplatform
         if (!$this->checkTargetplatform($candidate['targetplatform'])) {
+            return false;
+        }
+
+        // Check channel
+        if (isset($candidate['channel']) && $candidate['channel'] !== $this->channel) {
             return false;
         }
 
