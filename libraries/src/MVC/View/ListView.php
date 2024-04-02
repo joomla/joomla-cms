@@ -250,7 +250,13 @@ class ListView extends HtmlView
             $bar->appendButton('Custom', $dhtml, 'batch');
         }
 
-        if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
+        if (
+            $canDo->get('core.delete') &&
+            (
+                $this->state->get('filter.state') == -2 ||
+                $this->state->get('filter.published') == -2
+            )
+        ) {
             ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', $viewName . '.delete', 'JTOOLBAR_EMPTY_TRASH');
         } elseif ($canDo->get('core.edit.state')) {
             ToolbarHelper::trash($viewName . '.trash');
