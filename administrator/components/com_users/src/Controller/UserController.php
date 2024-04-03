@@ -11,7 +11,6 @@
 namespace Joomla\Component\Users\Administrator\Controller;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
