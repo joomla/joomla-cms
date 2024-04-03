@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="params">
+		<fieldset name="task_params" addfieldprefix="Joomla\Plugin\Task\Stats\Field">
+			<field
+				name="unique_id"
+				type="uniqueid"
+				label="PLG_TASK_STATS_STATISTICS"
+				readonly="true"
+				class="readonly"
+			/>
+		</fieldset>
+	</fields>
+</form>

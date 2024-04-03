@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="task" method="upgrade">
+	<name>plg_task_stats</name>
+	<author>Joomla! Project</author>
+	<creationDate>2024-03</creationDate>
+	<copyright>(C) 2024 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>5.1.0</version>
+	<description>PLG_TASK_STATS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Task\Stats</namespace>
+	<files>
+		<folder>forms</folder>
+		<folder plugin="stats">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_task_stats.ini</language>
+		<language tag="en-GB">language/en-GB/plg_task_stats.sys.ini</language>
+	</languages>
+</extension>
