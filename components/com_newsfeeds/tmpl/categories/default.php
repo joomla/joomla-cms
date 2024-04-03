@@ -18,7 +18,7 @@ Text::script('JGLOBAL_EXPAND_CATEGORIES');
 Text::script('JGLOBAL_COLLAPSE_CATEGORIES');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_categories');
 $wa->useScript('com_categories.shared-categories-accordion');
 
