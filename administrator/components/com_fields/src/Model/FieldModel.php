@@ -583,7 +583,7 @@ class FieldModel extends AdminModel
         // In case we are editing a field, field type cannot be changed, so some extra handling below is needed
         if ($fieldId) {
             $fieldType = $form->getField('type');
-            
+
             // Field type could not be changed, so remove showon attribute to avoid js errors
             $form->setFieldAttribute('only_use_in_subform', 'showon', '');
         }
