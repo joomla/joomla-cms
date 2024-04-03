@@ -32,7 +32,7 @@ abstract class UpdateAdapter extends AdapterInstance
     /**
      * Resource handle for the XML Parser
      *
-     * @var    resource
+     * @var    \XMLParser
      * @since  3.0.0
      */
     protected $xmlParser;

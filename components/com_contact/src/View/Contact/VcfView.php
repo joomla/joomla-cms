@@ -28,7 +28,7 @@ class VcfView extends AbstractView
     /**
      * The contact item
      *
-     * @var   \Joomla\CMS\Object\CMSObject
+     * @var   \stdClass
      */
     protected $item;
 
