@@ -294,6 +294,7 @@ class JoomlaInstallerScript
             ['type' => 'plugin', 'element' => 'recaptcha', 'folder' => 'captcha', 'client_id' => 0, 'pre_function' => null],
             ['type' => 'plugin', 'element' => 'sessiongc', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateSessionGCPlugin'],
             ['type' => 'plugin', 'element' => 'updatenotification', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateUpdatenotificationPlugin'],
+            ['type' => 'plugin', 'element' => 'stats', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateStatsPlugin'],
         ];
 
         $db = Factory::getDbo();
@@ -496,6 +497,48 @@ class JoomlaInstallerScript
             'params' => [
                 'email'             => $params->get('email', ''),
                 'language_override' => $params->get('language_override', ''),
+            ],
+        ];
+        $model->save($task);
+    }
+
+    /**
+     * This method is for migration for old stats system plugin migration to task.
+     *
+     * @param   \stdClass  $data  Object with the extension's record in the `#__extensions` table
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function migrateStatsPlugin($data)
+    {
+        if (!$data->enabled) {
+            return;
+        }
+
+        // Get the unique id for the site, as configured in plugin's parameters
+        $pluginParams = new Registry();
+        $pluginParams->loadString($data->params);
+        $uniqueid = $pluginParams->get('unique_id', '');
+
+        /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
+        $component = Factory::getApplication()->bootComponent('com_scheduler');
+
+        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
+        $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+        $task  = [
+            'title'           => 'Statistics',
+            'type'            => 'send.stats',
+            'execution_rules' => [
+                'rule-type'      => 'interval-hours',
+                'interval-hours' => 24,
+                'exec-time'      => gmdate('H:i'),
+                'exec-day'       => gmdate('d'),
+            ],
+            'state'  => 1,
+            'params' => [
+                'unique_id' => $uniqueid,
             ],
         ];
         $model->save($task);
