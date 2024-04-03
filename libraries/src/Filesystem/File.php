@@ -303,8 +303,7 @@ class File
                     return false;
                 }
             } else {
-                $filename = basename($file);
-                Log::add(Text::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', $filename), Log::WARNING, 'jerror');
+                Log::add(Text::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', $file), Log::WARNING, 'jerror');
 
                 return false;
             }
