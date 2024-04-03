@@ -9,6 +9,8 @@
  */
 
 defined('_JEXEC') or die;
+
+/** @var \Joomla\Component\Newsfeeds\Administrator\View\Newsfeed\HtmlView $this */
 ?>
 <div class="subhead noshadow mb-3">
     <?php echo $this->document->getToolbar('toolbar')->render(); ?>

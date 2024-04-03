@@ -10,8 +10,6 @@
 namespace Joomla\CMS\Application;
 
 use Joomla\Application\AbstractApplication;
-use Joomla\Event\DispatcherAwareInterface;
-use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
@@ -30,9 +28,8 @@ use Joomla\Registry\Registry;
  *              Application classes should directly be based on \Joomla\Application\AbstractApplication
  *              don't use this class anymore
  */
-abstract class BaseApplication extends AbstractApplication implements DispatcherAwareInterface
+abstract class BaseApplication extends AbstractApplication
 {
-    use DispatcherAwareTrait;
     use EventAware;
     use IdentityAware;
 

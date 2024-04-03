@@ -10,8 +10,10 @@
 
 namespace Joomla\Plugin\WebServices\Content\Extension;
 
+use Joomla\CMS\Event\Application\BeforeApiRouteEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\ApiRouter;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Router\Route;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -23,19 +25,35 @@ use Joomla\Router\Route;
  *
  * @since  4.0.0
  */
-final class Content extends CMSPlugin
+final class Content extends CMSPlugin implements SubscriberInterface
 {
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.1.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onBeforeApiRoute' => 'onBeforeApiRoute',
+        ];
+    }
+
     /**
      * Registers com_content's API's routes in the application
      *
-     * @param   ApiRouter  &$router  The API Routing object
+     * @param   BeforeApiRouteEvent  $event  The event object
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onBeforeApiRoute(&$router)
+    public function onBeforeApiRoute(BeforeApiRouteEvent $event): void
     {
+        $router = $event->getRouter();
+
         $router->createCRUDRoutes(
             'v1/content/articles',
             'articles',
@@ -62,7 +80,7 @@ final class Content extends CMSPlugin
      *
      * @since   4.0.0
      */
-    private function createFieldsRoutes(&$router)
+    private function createFieldsRoutes(&$router): void
     {
         $router->createCRUDRoutes(
             'v1/fields/content/articles',
@@ -98,7 +116,7 @@ final class Content extends CMSPlugin
      *
      * @since   4.0.0
      */
-    private function createContentHistoryRoutes(&$router)
+    private function createContentHistoryRoutes(&$router): void
     {
         $defaults    = [
             'component'  => 'com_contenthistory',

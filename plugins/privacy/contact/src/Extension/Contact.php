@@ -34,7 +34,7 @@ final class Contact extends PrivacyPlugin
      * - Contact custom fields
      *
      * @param   RequestTable  $request  The request record being processed
-     * @param   User          $user     The user account associated with this request if available
+     * @param   ?User         $user     The user account associated with this request if available
      *
      * @return  \Joomla\Component\Privacy\Administrator\Export\Domain[]
      *

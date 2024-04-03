@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
+/** @var \Joomla\Component\Modules\Administrator\View\Module\HtmlView $this */
+
 // Initialise related data.
 $menuTypes = MenusHelper::getMenuLinks();
 

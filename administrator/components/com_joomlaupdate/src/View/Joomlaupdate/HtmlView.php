@@ -239,12 +239,6 @@ class HtmlView extends BaseHtmlView
                 $this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT');
                 break;
 
-            case 'testing':
-                // "Testing"
-                $this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_TESTING';
-                $this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_TESTING');
-                break;
-
             case 'custom':
                 // "Custom"
                 $this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_CUSTOM';
@@ -259,6 +253,7 @@ class HtmlView extends BaseHtmlView
                  * case 'sts':
                  * case 'lts':
                  * case 'nochange':
+                 * case 'testing':
                  */
                 $this->langKey         = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_DEFAULT';
                 $this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT');
