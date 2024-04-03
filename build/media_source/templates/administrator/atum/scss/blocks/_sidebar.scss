@@ -291,9 +291,8 @@
 @if $enable-dark-mode {
   @include color-mode(dark) {
     .sidebar-wrapper {
+      --atum-box-shadow: 1px 0px 0px 0px rgba(255, 255, 255, .05);
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, .05);
-      box-shadow: none;
       .main-nav {
         .badge {
           color: map-get($atum-colors-dark, "btn-primary-color");
