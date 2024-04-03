@@ -157,6 +157,23 @@ abstract class DebugAdapter extends CMSPlugin
     }
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   5.0.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onBeforeIndex'             => 'onBeforeIndex',
+            'onBuildIndex'              => 'onBuildIndex',
+            'onFinderGarbageCollection' => 'onFinderGarbageCollection',
+            'onStartIndex'              => 'onStartIndex',
+        ];
+    }
+
+    /**
      * Method to get the adapter state and push it into the indexer.
      *
      * @return  void
@@ -237,7 +254,7 @@ abstract class DebugAdapter extends CMSPlugin
         $items = $this->getItems($offset, $limit);
 
         // Iterate through the items and index them.
-        for ($i = 0, $n = count($items); $i < $n; $i++) {
+        for ($i = 0, $n = \count($items); $i < $n; $i++) {
             // Index the item.
             $this->index($items[$i]);
 
@@ -260,7 +277,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  integer
      *
-     * @since   _5.0.0
+     * @since   5.0.0
      */
     public function onFinderGarbageCollection()
     {
@@ -283,7 +300,7 @@ abstract class DebugAdapter extends CMSPlugin
             $this->indexer->remove($item);
         }
 
-        return count($items);
+        return \count($items);
     }
 
     /**
@@ -903,13 +920,13 @@ abstract class DebugAdapter extends CMSPlugin
 
         // Translate the state
         switch ($item) {
-            // Published and archived items only should return a published state
             case 1:
             case 2:
+                // Published and archived items only should return a published state
                 return 1;
 
-            // All other states should return an unpublished state
             default:
+                // All other states should return an unpublished state
                 return 0;
         }
     }

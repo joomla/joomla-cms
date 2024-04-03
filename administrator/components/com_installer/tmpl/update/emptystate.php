@@ -10,9 +10,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
+
+/** @var \Joomla\Component\Installer\Administrator\View\Update\HtmlView $this */
 
 $displayData = [
     'textPrefix' => 'COM_INSTALLER',
@@ -21,7 +22,7 @@ $displayData = [
     'icon'       => 'icon-puzzle-piece install',
 ];
 
-$user = Factory::getApplication()->getIdentity();
+$user = $this->getCurrentUser();
 
 if ($user->authorise('core.create', 'com_content') || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0) {
     $displayData['createURL'] = 'index.php?option=com_installer&task=update.find&' . Session::getFormToken() . '=1';

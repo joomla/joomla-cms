@@ -14,7 +14,7 @@ namespace Joomla\CMS\Event\Table;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onBeforeBind event
+ * Event class for Table onBeforeBind event
  *
  * @since  4.0.0
  */
@@ -24,8 +24,8 @@ class BeforeBindEvent extends AbstractEvent
      * Constructor.
      *
      * Mandatory arguments:
-     * subject      JTableInterface The table we are operating on
-     * src          mixed           An associative array or object to bind to the JTable instance.
+     * subject      TableInterface The table we are operating on
+     * src          mixed           An associative array or object to bind to the Table instance.
      * ignore       mixed           An optional array or space separated list of properties to ignore while binding.
      *
      * @param   string  $name       The event name.
@@ -54,6 +54,9 @@ class BeforeBindEvent extends AbstractEvent
      * @return  mixed
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setSrc($value)
     {
@@ -72,6 +75,9 @@ class BeforeBindEvent extends AbstractEvent
      * @return  mixed
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setIgnore($value)
     {
@@ -80,5 +86,37 @@ class BeforeBindEvent extends AbstractEvent
         }
 
         return $value;
+    }
+
+    /**
+     * Setter for the src argument
+     *
+     * @param   mixed  $value  The value to set
+     *
+     * @return  mixed
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetSrc($value)
+    {
+        return $this->setSrc($value);
+    }
+
+    /**
+     * Setter for the ignore argument
+     *
+     * @param   mixed  $value  The value to set
+     *
+     * @return  mixed
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetIgnore($value)
+    {
+        return $this->setIgnore($value);
     }
 }

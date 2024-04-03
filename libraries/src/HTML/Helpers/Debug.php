@@ -9,8 +9,8 @@
 
 namespace Joomla\CMS\HTML\Helpers;
 
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -51,7 +51,7 @@ abstract class Debug
     public static function xdebuglink($file, $line = '')
     {
         if (static::$xdebugLinkFormat === null) {
-            static::$xdebugLinkFormat = ini_get('xdebug.file_link_format');
+            static::$xdebugLinkFormat = \ini_get('xdebug.file_link_format');
         }
 
         $link = str_replace(JPATH_ROOT, 'JROOT', Path::clean($file));

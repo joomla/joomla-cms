@@ -74,6 +74,14 @@ class HtmlView extends BaseHtmlView
     public $activeFilters;
 
     /**
+     * Ordering of the items
+     *
+     * @var    array
+     * @since  5.0.0
+     */
+    protected $ordering;
+
+    /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -95,7 +103,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

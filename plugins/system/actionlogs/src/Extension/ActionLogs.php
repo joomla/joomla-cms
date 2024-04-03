@@ -10,8 +10,7 @@
 
 namespace Joomla\Plugin\System\ActionLogs\Extension;
 
-use Joomla\CMS\Cache\Cache;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -55,19 +54,6 @@ final class ActionLogs extends CMSPlugin
     }
 
     /**
-     * Listener for the `onAfterInitialise` event
-     *
-     * @return  void
-     *
-     * @since   4.0.0
-     */
-    public function onAfterInitialise()
-    {
-        // Load plugin language files.
-        $this->loadLanguage();
-    }
-
-    /**
      * Adds additional fields to the user editing form for logs e-mail notifications
      *
      * @param   Form   $form  The form to be altered.
@@ -88,7 +74,7 @@ final class ActionLogs extends CMSPlugin
             'com_users.user',
         ];
 
-        if (!in_array($formName, $allowedFormNames, true)) {
+        if (!\in_array($formName, $allowedFormNames, true)) {
             return true;
         }
 
@@ -102,6 +88,9 @@ final class ActionLogs extends CMSPlugin
             return true;
         }
 
+        // Load plugin language files.
+        $this->loadLanguage();
+
         // If we are on the save command, no data is passed to $data variable, we need to get it directly from request
         $jformData = $this->getApplication()->getInput()->get('jform', [], 'array');
 
@@ -109,7 +98,7 @@ final class ActionLogs extends CMSPlugin
             $data = $jformData;
         }
 
-        if (is_array($data)) {
+        if (\is_array($data)) {
             $data = (object) $data;
         }
 
@@ -146,15 +135,15 @@ final class ActionLogs extends CMSPlugin
      */
     public function onContentPrepareData($context, $data)
     {
-        if (!in_array($context, ['com_users.profile', 'com_users.user'])) {
+        if (!\in_array($context, ['com_users.profile', 'com_users.user'])) {
             return true;
         }
 
-        if (is_array($data)) {
+        if (\is_array($data)) {
             $data = (object) $data;
         }
 
-        if (!$this->getUserFactory()->loadUserById($data->id)->authorise('core.admin')) {
+        if (empty($data->id) || !$this->getUserFactory()->loadUserById($data->id)->authorise('core.admin')) {
             return true;
         }
 
@@ -177,6 +166,9 @@ final class ActionLogs extends CMSPlugin
             return true;
         }
 
+        // Load plugin language files.
+        $this->loadLanguage();
+
         $data->actionlogs                       = new \stdClass();
         $data->actionlogs->actionlogsNotify     = $values->notify;
         $data->actionlogs->actionlogsExtensions = $values->extensions;
@@ -190,129 +182,6 @@ final class ActionLogs extends CMSPlugin
         }
 
         return true;
-    }
-
-    /**
-     * Runs after the HTTP response has been sent to the client and delete log records older than certain days
-     *
-     * @return  void
-     *
-     * @since   3.9.0
-     */
-    public function onAfterRespond()
-    {
-        $daysToDeleteAfter = (int) $this->params->get('logDeletePeriod', 0);
-
-        if ($daysToDeleteAfter <= 0) {
-            return;
-        }
-
-        // The delete frequency will be once per day
-        $deleteFrequency = 3600 * 24;
-
-        // Do we need to run? Compare the last run timestamp stored in the plugin's options with the current
-        // timestamp. If the difference is greater than the cache timeout we shall not execute again.
-        $now  = time();
-        $last = (int) $this->params->get('lastrun', 0);
-
-        if (abs($now - $last) < $deleteFrequency) {
-            return;
-        }
-
-        // Update last run status
-        $this->params->set('lastrun', $now);
-
-        $db     = $this->getDatabase();
-        $params = $this->params->toString('JSON');
-        $query  = $db->getQuery(true)
-            ->update($db->quoteName('#__extensions'))
-            ->set($db->quoteName('params') . ' = :params')
-            ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-            ->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
-            ->where($db->quoteName('element') . ' = ' . $db->quote('actionlogs'))
-            ->bind(':params', $params);
-
-        try {
-            // Lock the tables to prevent multiple plugin executions causing a race condition
-            $db->lockTable('#__extensions');
-        } catch (\Exception $e) {
-            // If we can't lock the tables it's too risky to continue execution
-            return;
-        }
-
-        try {
-            // Update the plugin parameters
-            $result = $db->setQuery($query)->execute();
-
-            $this->clearCacheGroups(['com_plugins'], [0, 1]);
-        } catch (\Exception $exc) {
-            // If we failed to execute
-            $db->unlockTables();
-            $result = false;
-        }
-
-        try {
-            // Unlock the tables after writing
-            $db->unlockTables();
-        } catch (\Exception $e) {
-            // If we can't lock the tables assume we have somehow failed
-            $result = false;
-        }
-
-        // Stop on failure
-        if (!$result) {
-            return;
-        }
-
-        $daysToDeleteAfter = (int) $this->params->get('logDeletePeriod', 0);
-        $now               = Factory::getDate()->toSql();
-
-        if ($daysToDeleteAfter > 0) {
-            $days = -1 * $daysToDeleteAfter;
-
-            $query->clear()
-                ->delete($db->quoteName('#__action_logs'))
-                ->where($db->quoteName('log_date') . ' < ' . $query->dateAdd($db->quote($now), $days, 'DAY'));
-
-            $db->setQuery($query);
-
-            try {
-                $db->execute();
-            } catch (\RuntimeException $e) {
-                // Ignore it
-                return;
-            }
-        }
-    }
-
-    /**
-     * Clears cache groups. We use it to clear the plugins cache after we update the last run timestamp.
-     *
-     * @param   array  $clearGroups   The cache groups to clean
-     * @param   array  $cacheClients  The cache clients (site, admin) to clean
-     *
-     * @return  void
-     *
-     * @since   3.9.0
-     */
-    private function clearCacheGroups(array $clearGroups, array $cacheClients = [0, 1])
-    {
-        foreach ($clearGroups as $group) {
-            foreach ($cacheClients as $clientId) {
-                try {
-                    $options = [
-                        'defaultgroup' => $group,
-                        'cachebase'    => $clientId ? JPATH_ADMINISTRATOR . '/cache' :
-                            $this->getApplication()->get('cache_path', JPATH_SITE . '/cache'),
-                    ];
-
-                    $cache = Cache::getInstance('callback', $options);
-                    $cache->clean();
-                } catch (\Exception $e) {
-                    // Ignore it
-                }
-            }
-        }
     }
 
     /**
@@ -478,5 +347,61 @@ final class ActionLogs extends CMSPlugin
         }
 
         return implode(', ', $extensions);
+    }
+
+    /**
+     * On Saving extensions logging method
+     * Method is called when an extension is being saved
+     *
+     * @param   string                   $context  The extension
+     * @param   \Joomla\CMS\Table\Table  $table    DataBase Table object
+     * @param   boolean                  $isNew    If the extension is new or not
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     */
+    public function onExtensionAfterSave($context, $table, $isNew): void
+    {
+        if ($context !== 'com_config.component' || $table->name !== 'com_actionlogs') {
+            return;
+        }
+
+        $params    = ComponentHelper::getParams('com_actionlogs');
+        $globalExt = (array) $params->get('loggable_extensions', []);
+
+        $db = $this->getDatabase();
+
+        $query = $db->getQuery(true)
+            ->select($db->quoteName(['user_id', 'notify', 'extensions']))
+            ->from($db->quoteName('#__action_logs_users'));
+
+        try {
+            $values = $db->setQuery($query)->loadObjectList();
+        } catch (ExecutionFailureException $e) {
+            return;
+        }
+
+        foreach ($values as $item) {
+            $userExt = substr($item->extensions, 2);
+            $userExt = substr($userExt, 0, -2);
+            $user    = explode('","', $userExt);
+            $common  = array_intersect($globalExt, $user);
+
+            $extension = json_encode(array_values($common));
+
+            $query->clear()
+                ->update($db->quoteName('#__action_logs_users'))
+                ->set($db->quoteName('extensions') . ' = :extension')
+                ->where($db->quoteName('user_id') . ' = :userid')
+                ->bind(':userid', $item->user_id, ParameterType::INTEGER)
+                ->bind(':extension', $extension);
+
+            try {
+                $db->setQuery($query)->execute();
+            } catch (ExecutionFailureException $e) {
+                // Do nothing.
+            }
+        }
     }
 }

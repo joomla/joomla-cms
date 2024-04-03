@@ -1,72 +1,5 @@
 // com_cpanel
 
-.cpanel-add-module-icon,
-.com-cpanel {
-  &-help,
-  &-system {
-
-    .list-group-item {
-      padding: 0;
-
-      a {
-        display: block;
-        padding: $list-group-item-padding-y $list-group-item-padding-x;
-      }
-    }
-  }
-
-  &-help {
-
-    &__header {
-      color: var(--template-special-color);
-    }
-
-    a {
-      color: var(--template-link-color);
-    }
-
-    h2 {
-      font-size: $h4-font-size;
-    }
-
-  }
-
-  &-system {
-    column-count: 4;
-
-    &__category {
-      margin-bottom: 1.5em;
-      page-break-inside: avoid;
-      break-inside: avoid;
-    }
-
-    &__header {
-      color: var(--template-special-color);
-
-      span {
-        margin-right: 5px;
-      }
-    }
-
-    a {
-      color: var(--template-link-color);
-    }
-
-    h2 {
-      font-size: $h4-font-size;
-    }
-
-
-    @include media-breakpoint-down(lg) {
-      column-count: 2;
-    }
-
-    @include media-breakpoint-down(md) {
-      column-count: 1;
-    }
-  }
-}
-
 .com_cpanel {
 
   .content {
@@ -88,16 +21,10 @@
   }
 
   .card-header {
-    display: flex;
-    align-items: center;
-    padding: 1rem 1rem .75rem;
-    font-weight: $font-weight-bold;
-    color: var(--template-bg-dark);
-    background: hsla(0, 0%, 100%, .7); // default: var(--card-bg);
+    --card-bg: #{$card-bg};
 
-    > [class^="icon-"],
-    > img {
-      margin-inline-end: .5rem;
+    a {
+      font-weight: normal;
     }
 
     .btn {
@@ -109,6 +36,7 @@
   .card-body {
     padding: 0;
     overflow: hidden;
+    background-color: $card-body-bg;
     border-bottom-right-radius: $border-radius;
     border-bottom-left-radius: $border-radius;
   }
@@ -119,7 +47,7 @@
 
     > * {
       padding: 0;
-      color: var(--template-bg-dark-70);
+      color: $module-actions-color;
     }
   }
 
@@ -134,9 +62,9 @@
     font-size: .875rem;
     font-weight: 700;
     line-height: 1;
-    color: hsl(var(--hue),30%,40%);
-    background-color: hsl(var(--hue),35%,98%);
-    border: 1px solid hsl(var(--hue),35%,88%);
+    color: var(--template-quickicon-color);
+    background-color: var(--body-bg);
+    border: 1px solid var(--body-bg);
     border-radius: $border-radius;
     transition: all .15s ease-in;
 
@@ -145,7 +73,7 @@
     &:active {
       color: #fff;
       text-decoration: none;
-      background: var(--template-bg-dark);
+      background: var(--cpanel-addmodule-hover);
     }
 
     > span {
@@ -154,7 +82,7 @@
 
     .cpanel-add-module-icon {
       font-size: 2rem;
-      color: hsl(var(--hue),30%,40%);
+      color: var(--template-quickicon-color);
       margin-inline-end: .5rem;
     }
   }
@@ -162,21 +90,33 @@
 
 .cpanel-modules {
   .list-group {
-    border-top: 1px solid $list-group-border-color;
+    border-top: 1px solid $atum-list-group-border-color;
   }
 
   .list-group-item {
-    &:hover {
-      background: var(--toolbar-bg);
+    --list-group-bg: #{$atum-list-group-bg};
+
+    a:not(.btn) {
+      color: rgb(var(--link-color-rgb, $table-link-color));
+    }
+
+    a:not(.btn):hover {
+      color: rgb(var(--link-color-rgb-hvr));
     }
 
     a {
-      font-weight: 500;
+      font-weight: normal;
       text-decoration: underline;
     }
 
     .btn {
       text-decoration: none;
+    }
+
+    .btn.btn-info {
+      color: $atum-btn-info;
+      background: $atum-btn-info-bg;
+      border: $atum-btn-info-border;
     }
 
     .list-group-item a > span {
@@ -187,11 +127,11 @@
         display: block;
         padding: .5rem;
         color: rgba(255, 255, 255, .9);
-        background: var(--template-link-color);
-        box-shadow: $atum-box-shadow;
+        background: var(--#{$prefix}link-color);
+        box-shadow: var(--atum-box-shadow);
 
         &:hover {
-          background: var(--template-link-hover-color);
+          background: var(--#{$prefix}link-hover-color);
         }
       }
     }
@@ -206,8 +146,7 @@
       padding: 0;
       margin: 0 .85rem;
       font-size: .9rem;
-      color: rgba(1, 1, 1, 1);
-      background: var(--white-offset);
+      color: var(--body-color);
       box-shadow: none;
       transform: scale(1.2);
     }
@@ -221,6 +160,12 @@
   .mod-custom {
     padding: 1rem;
   }
+
+  .btn:first-child:focus-visible {
+    color: var(--btn-active-color);
+    background-color: var(--btn-active-bg);
+    border-color: var(--btn-active-border-color);
+  }
 }
 
 .sample-data {
@@ -231,7 +176,7 @@
 
 .sample-data__title {
   font-weight: bold;
-  color: var(--primary);
+  color: var(--heading-color);
 }
 
 .sample-data__icon {
@@ -243,4 +188,37 @@
   border-inline-start: 4px solid hsl(var(--hue),50%,93%);
   padding-inline-start: 1rem;
   margin-inline-start: 8px;
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .com_cpanel {
+      .card {
+        border: 1px solid rgba(255, 255, 255, .1);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+
+        .list-group-item:last-child {
+          border-bottom-right-radius: var(--border-radius);
+          border-bottom-left-radius: var(--border-radius);
+        }
+
+        .list-group-item {
+          &:hover {
+            background: rgba(0,0,0,.1);
+          }
+        }
+      }
+
+      .cpanel-add-module {
+        &:hover,
+        &:focus,
+        &:active {
+          background: var(--btn-primary-bg-hvr);
+        }
+      }
+    }
+    .sample-data__desc {
+      border-inline-start: 4px solid rgba(255, 255, 255, .1);
+    }
+  }
 }

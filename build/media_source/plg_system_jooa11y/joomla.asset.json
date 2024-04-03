@@ -6,24 +6,13 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "plg_system_jooa11y.jooa11y-es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "defer": true,
-        "nomodule": true
-      }
-    },
-    {
       "name": "plg_system_jooa11y.jooa11y",
       "type": "script",
       "uri": "plg_system_jooa11y/jooa11y.min.js",
       "dependencies": [
-        "core"
+        "core",
+        "sa11y",
+        "sa11y-lang"
       ],
       "attributes": {
         "type": "module"
@@ -32,7 +21,12 @@
     {
       "name": "plg_system_jooa11y.jooa11y",
       "type": "style",
-      "uri": "plg_system_jooa11y/jooa11y.min.css"
+      "uri": "",
+      "deprecated": true,
+      "deprecatedMsg": "Use 'sa11y' style asset instead",
+      "dependencies": [
+        "sa11y"
+      ]
     }
   ]
 }

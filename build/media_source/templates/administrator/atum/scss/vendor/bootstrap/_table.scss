@@ -1,8 +1,9 @@
 // Table
 
 .table {
-  > :not(:first-child) {
-    border-top: 2px solid #dee2e6;
+
+  > :not(caption) > * > * {
+    color: var(--body-color);
   }
 
   thead {
@@ -20,11 +21,17 @@
     }
 
     a {
-      color: var(--template-link-color);
+      font-weight: $table-link-font-weight;
+      color: rgb(var(--link-color-rgb, $table-link-color));
+      &:hover {
+        color: rgb(var(--link-color-rgb-hvr));
+      }
 
       &#sorted {
-        font-weight: $medium-weight;
-        color: $gray-800;
+        font-weight: $table-link-font-weight-sorted; /* $medium-weight */
+
+        // This is the same as the bootstrap line because when it's sorted we want to undo the style
+        color: var(--table-color-state, var(--table-color-type,var(--table-color)));
       }
     }
 
@@ -63,7 +70,16 @@
     }
 
     a:not(.badge):not(.btn):not(.dropdown-item) {
+      font-weight: $table-link-font-weight;
+      color: rgb(var(--link-color-rgb, $table-link-color));
       text-decoration: underline;
+      &:hover {
+        color: rgb(var(--link-color-rgb-hvr));
+      }
+    }
+
+    .badge.bg-info {
+      background-color: $badge-bg-info !important;
     }
   }
 
@@ -82,6 +98,22 @@
   }
 
   .j-main-container > & {
-    box-shadow: 0 2px 10px -8px var(--template-bg-dark-50);
+    box-shadow: var(--atum-box-shadow);
+  }
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .j-main-container .table {
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .1);
+      box-shadow: 1px 1px 2px rgba(0, 0, 0, .3);
+
+      tr {
+        &:hover {
+          background: rgba(0, 0, 0, .1);
+        }
+      }
+    }
   }
 }

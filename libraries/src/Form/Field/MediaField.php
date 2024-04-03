@@ -11,10 +11,10 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -254,7 +254,7 @@ class MediaField extends FormField
             throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
         }
 
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
     /**
@@ -383,19 +383,19 @@ class MediaField extends FormField
             function ($mediaType) use (&$types, &$imagesAllowedExt, &$audiosAllowedExt, &$videosAllowedExt, &$documentsAllowedExt, $imagesExt, $audiosExt, $videosExt, $documentsExt) {
                 switch ($mediaType) {
                     case 'images':
-                        $types[] = '0';
+                        $types[]          = '0';
                         $imagesAllowedExt = $imagesExt;
                         break;
                     case 'audios':
-                        $types[] = '1';
+                        $types[]          = '1';
                         $audiosAllowedExt = $audiosExt;
                         break;
                     case 'videos':
-                        $types[] = '2';
+                        $types[]          = '2';
                         $videosAllowedExt = $videosExt;
                         break;
                     case 'documents':
-                        $types[] = '3';
+                        $types[]             = '3';
                         $documentsAllowedExt = $documentsExt;
                         break;
                     default:

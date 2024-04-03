@@ -122,7 +122,7 @@ class Changelog
     /**
      * Resource handle for the XML Parser
      *
-     * @var    resource
+     * @var    \XMLParser
      * @since  4.0.0
      */
     protected $xmlParser;
@@ -217,6 +217,11 @@ class Changelog
         // Reset the data
         if (isset($this->$tag)) {
             $this->$tag->data = '';
+        }
+
+        // Skip technical elements
+        if ($name === 'CHANGELOGS' || $name === 'CHANGELOG' || $name === 'ITEM') {
+            return;
         }
 
         $name = strtolower($name);

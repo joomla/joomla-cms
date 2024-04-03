@@ -14,7 +14,7 @@ namespace Joomla\CMS\Event\Table;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onBeforeLoad event
+ * Event class for \Joomla\CMS\Table\Table onBeforeLoad event
  *
  * @since  4.0.0
  */
@@ -24,9 +24,9 @@ class BeforeLoadEvent extends AbstractEvent
      * Constructor.
      *
      * Mandatory arguments:
-     * subject  JTableInterface The table we are operating on
-     * keys     mixed           The optional primary key value to load the row by, or an array of fields to match.
-     * reset    boolean         True to reset the default values before loading the new row.
+     * subject  \Joomla\CMS\Table\TableInterface The table we are operating on
+     * keys     mixed                            The optional primary key value to load the row by, or an array of fields to match.
+     * reset    boolean                          True to reset the default values before loading the new row.
      *
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.
@@ -52,9 +52,26 @@ class BeforeLoadEvent extends AbstractEvent
      * @param   mixed  $value  The value to set
      *
      * @return  boolean  Normalised value
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setReset($value)
     {
         return $value ? true : false;
+    }
+
+    /**
+     * Setter for the reset attribute
+     *
+     * @param   mixed  $value  The value to set
+     *
+     * @return  boolean  Normalised value
+     *
+     * @since  4.4.0
+     */
+    protected function onSetReset($value)
+    {
+        return $this->setReset($value);
     }
 }

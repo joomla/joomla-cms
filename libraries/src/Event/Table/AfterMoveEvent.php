@@ -9,14 +9,12 @@
 
 namespace Joomla\CMS\Event\Table;
 
-use stdClass;
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onAfterMove event
+ * Event class for \Joomla\CMS\Table\Table onAfterMove event
  *
  * @since  4.0.0
  */
@@ -26,10 +24,10 @@ class AfterMoveEvent extends AbstractEvent
      * Constructor.
      *
      * Mandatory arguments:
-     * subject      JTableInterface The table we are operating on
-     * row          stdClass|null   The primary keys and ordering value for the selection.
-     * delta        int             The direction and magnitude to move the row in the ordering sequence.
-     * where        string          WHERE clause which was used for limiting the selection of rows to compact the ordering values.
+     * subject      \Joomla\CMS\Table\TableInterface The table we are operating on
+     * row          stdClass|null                    The primary keys and ordering value for the selection.
+     * delta        int                              The direction and magnitude to move the row in the ordering sequence.
+     * where        string                           WHERE clause which was used for limiting the selection of rows to compact the ordering values.
      *
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.
@@ -61,6 +59,9 @@ class AfterMoveEvent extends AbstractEvent
      * @return  mixed
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setRow($value)
     {
@@ -79,6 +80,9 @@ class AfterMoveEvent extends AbstractEvent
      * @return  integer
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setDelta($value)
     {
@@ -97,6 +101,9 @@ class AfterMoveEvent extends AbstractEvent
      * @return  mixed
      *
      * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setWhere($value)
     {
@@ -105,5 +112,53 @@ class AfterMoveEvent extends AbstractEvent
         }
 
         return $value;
+    }
+
+    /**
+     * Setter for the rows argument
+     *
+     * @param   \stdClass|null  $value  The value to set
+     *
+     * @return  mixed
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetRow($value)
+    {
+        return $this->setRow($value);
+    }
+
+    /**
+     * Setter for the delta argument
+     *
+     * @param   int  $value  The value to set
+     *
+     * @return  integer
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetDelta($value)
+    {
+        return $this->setDelta($value);
+    }
+
+    /**
+     * Setter for the where argument
+     *
+     * @param   string|null  $value  The value to set
+     *
+     * @return  mixed
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetWhere($value)
+    {
+        return $this->setWhere($value);
     }
 }

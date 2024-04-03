@@ -355,14 +355,14 @@ class ModuleAdapter extends InstallerAdapter
             $extension = $this->getElement();
 
             if ($extension) {
-                $source = $path ?: ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $extension;
+                $source = $path ?: $client . '/modules/' . $extension;
                 $folder = (string) $this->getManifest()->files->attributes()->folder;
 
                 if ($folder && file_exists($path . '/' . $folder)) {
                     $source = $path . '/' . $folder;
                 }
 
-                $client = (string) $this->getManifest()->attributes()->client;
+                $client = (string) $this->getManifest()->attributes()->client ?: 'site';
                 $this->doLoadLanguage($extension, $source, \constant('JPATH_' . strtoupper($client)));
             }
         }
@@ -417,11 +417,11 @@ class ModuleAdapter extends InstallerAdapter
 
         if ($this->parent->extension->store()) {
             return true;
-        } else {
-            Log::add(Text::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
-
-            return false;
         }
+
+        Log::add(Text::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
+
+        return false;
     }
 
     /**
@@ -639,6 +639,7 @@ class ModuleAdapter extends InstallerAdapter
             $module->params    = '';
             $module->client_id = $this->clientId;
             $module->language  = '*';
+            $module->position  = '';
 
             $module->store();
         }

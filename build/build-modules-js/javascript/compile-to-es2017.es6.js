@@ -1,15 +1,16 @@
+/* eslint-disable import/no-extraneous-dependencies, global-require, import/no-dynamic-require */
+
 const { access, writeFile } = require('fs').promises;
 const { constants } = require('fs');
-const Autoprefixer = require('autoprefixer');
-const CssNano = require('cssnano');
 const { basename, sep, resolve } = require('path');
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
-const Postcss = require('postcss');
+const LightningCSS = require('lightningcss');
 const { renderSync } = require('sass-embedded');
 const { minifyJsCode } = require('./minify.es6.js');
+const { getPackagesUnderScope } = require('../init/common/resolve-package.es6.js');
 
 const getWcMinifiedCss = async (file) => {
   let scssFileExists = false;
@@ -34,12 +35,44 @@ const getWcMinifiedCss = async (file) => {
     }
 
     if (typeof compiled === 'object' && compiled.css) {
-      return Postcss([Autoprefixer(), CssNano()])
-        .process(compiled.css.toString(), { from: undefined });
+      const { code } = LightningCSS.transform({
+        code: Buffer.from(compiled.css.toString()),
+        minify: true,
+      });
+      return code;
     }
   }
 
   return '';
+};
+
+// List of external modules that should not be resolved by rollup
+const externalModules = [];
+const collectExternals = () => {
+  if (externalModules.length) {
+    return;
+  }
+
+  // Joomla and Vendor modules
+  externalModules.push(
+    'cropper-module',
+    'codemirror',
+    'joomla.dialog',
+    'editor-api',
+    'editor-decorator',
+    'sa11y',
+    'sa11y-lang',
+  );
+
+  // Codemirror modules
+  const cmModules = getPackagesUnderScope('@codemirror');
+  if (cmModules) {
+    externalModules.push(...cmModules);
+  }
+  const lezerModules = getPackagesUnderScope('@lezer');
+  if (lezerModules) {
+    externalModules.push(...lezerModules);
+  }
 };
 
 /**
@@ -50,12 +83,14 @@ const getWcMinifiedCss = async (file) => {
 module.exports.handleESMFile = async (file) => {
   const newPath = file.replace(/\.w-c\.es6\.js$/, '').replace(/\.es6\.js$/, '').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
   const minifiedCss = await getWcMinifiedCss(file);
+
+  // Make sure externals are collected
+  collectExternals();
+
   const bundle = await rollup.rollup({
     input: resolve(file),
     plugins: [
-      nodeResolve({
-        preferBuiltins: false,
-      }),
+      nodeResolve({ preferBuiltins: false }),
       replace({
         preventAssignment: true,
         CSS_CONTENTS_PLACEHOLDER: minifiedCss,
@@ -87,7 +122,7 @@ module.exports.handleESMFile = async (file) => {
         ],
       }),
     ],
-    external: [],
+    external: externalModules,
   });
 
   bundle.write({
