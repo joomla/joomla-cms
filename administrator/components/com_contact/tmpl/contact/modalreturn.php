@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Contact\Administrator\View\Contact\HtmlView $this */
+
 $icon     = 'icon-check';
 $title    = $this->item ? $this->item->name : '';
 $content  = $this->item ? $this->item->alias : '';

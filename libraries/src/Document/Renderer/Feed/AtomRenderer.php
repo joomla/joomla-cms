@@ -86,7 +86,7 @@ class AtomRenderer extends DocumentRenderer
 
         $feed .= ">\n";
         $feed .= "	<title type=\"text\">" . $feed_title . "</title>\n";
-        $feed .= "	<subtitle type=\"text\">" . htmlspecialchars($data->getDescription(), ENT_COMPAT, 'UTF-8') . "</subtitle>\n";
+        $feed .= "	<subtitle type=\"text\">" . htmlspecialchars($data->getDescription() ?? '', ENT_COMPAT, 'UTF-8') . "</subtitle>\n";
 
         if (!empty($data->category)) {
             if (\is_array($data->category)) {

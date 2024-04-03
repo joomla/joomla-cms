@@ -59,11 +59,11 @@ final class ListPlugin extends FieldsListPlugin
     /**
      * Prepares the field
      *
-     * @param   string    $context  The context.
-     * @param   stdclass  $item     The item.
-     * @param   stdclass  $field    The field.
+     * @param   string     $context  The context.
+     * @param   \stdclass  $item     The item.
+     * @param   \stdclass  $field    The field.
      *
-     * @return  object
+     * @return  ?string
      *
      * @since   3.9.2
      */
