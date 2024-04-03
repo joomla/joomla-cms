@@ -12,16 +12,14 @@ namespace Joomla\Plugin\Task\Stats\Extension;
 
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Event\Event;
-use Joomla\Utilities\ArrayHelper;
+
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -104,10 +102,10 @@ final class Stats extends CMSPlugin implements SubscriberInterface
     private function sendStats(ExecuteTaskEvent $event): int
     {
         // Load the parameters.
-        $params = $event->getArgument('params');
+        $params         = $event->getArgument('params');
         $this->uniqueId = $params->unique_id ?: $this->getUniqueId();
         $event->setArgument('unique_id', $this->uniqueId);
-        $data = $this->getStatsData($this->uniqueId);
+        $data  = $this->getStatsData($this->uniqueId);
         $error = '';
 
         try {

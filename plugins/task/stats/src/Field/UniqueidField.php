@@ -10,13 +10,12 @@
 
 namespace Joomla\Plugin\Task\Stats\Field;
 
-use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Factory;
-use Joomla\CMS\User\UserHelper;
-use Joomla\Registry\Registry;
+use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
-
+use Joomla\CMS\User\UserHelper;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -61,7 +60,7 @@ class UniqueidField extends FormField
 
         PluginHelper::importPlugin('task', 'stats');
 
-        $result = Factory::getApplication()->triggerEvent('onGetStatsData', ['unique_id' => $this->value]);
+        $result            = Factory::getApplication()->triggerEvent('onGetStatsData', ['unique_id' => $this->value]);
         $data['statsData'] = $result ? reset($result) : [];
 
         $div = '<a class="btn btn-primary" role="button" href="#collapseData" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseData">'
