@@ -20,7 +20,7 @@ describe('Install Joomla', () => {
 
     cy.doAdministratorLogin(config.username, config.password, false);
     cy.cancelTour();
-    cy.disableStatistics();
+    //cy.disableStatistics();
     cy.setErrorReportingToDevelopment();
     cy.doAdministratorLogout();
 
