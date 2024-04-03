@@ -580,11 +580,8 @@ class FieldModel extends AdminModel
             $form->setFieldAttribute('created_user_id', 'filter', 'unset');
         }
 
-        // In case we are editing a field, field type cannot be changed, so some extra handling below is needed
+        // In case we are editing a field, field type cannot be changed, so remove showon attribute to avoid js errors
         if ($fieldId) {
-            $fieldType = $form->getField('type');
-
-            // Field type could not be changed, so remove showon attribute to avoid js errors
             $form->setFieldAttribute('only_use_in_subform', 'showon', '');
         }
 
