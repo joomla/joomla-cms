@@ -321,8 +321,8 @@ class ExtensionHelper
         ['plugin', 'rotatelogs', 'task', 0],
         ['plugin', 'sessiongc', 'task', 0],
         ['plugin', 'sitestatus', 'task', 0],
-        ['plugin', 'updatenotification', 'task', 0],
         ['plugin', 'stats', 'task', 0],
+        ['plugin', 'updatenotification', 'task', 0],
 
         // Core plugin extensions - user
         ['plugin', 'contactcreator', 'user', 0],
