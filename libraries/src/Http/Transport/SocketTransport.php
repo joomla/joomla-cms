@@ -182,7 +182,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         // If we have a HTTP 1.1 Response with chunked encoding then we have to decode the message
         if (\array_key_exists('Transfer-Encoding', $verifiedHeaders) &&
             $verifiedHeaders['Transfer-Encoding'][0] === 'chunked') {
-            $body = static::http_chunked_decode($body);
+            $body = static::httpChunkedDecode($body);
         }
 
         $streamInterface = new StreamResponse('php://memory', 'rw');
@@ -294,7 +294,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
      *
      * @return  string  The decoded message.  If $chunk wasn't encoded properly it will be returned unmodified.
      */
-    public static function http_chunked_decode(string $chunk): string
+    public static function httpChunkedDecode(string $chunk): string
     {
         $pos  = 0;
         $len  = \strlen($chunk);
@@ -302,7 +302,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 
         while (($pos < $len)
             && ($chunkLenHex = substr($chunk, $pos, ($newlineAt = strpos($chunk, "\n", $pos + 1)) - $pos))) {
-            if (!static::is_hex(rtrim($chunkLenHex))) {
+            if (!static::isHex(rtrim($chunkLenHex))) {
                 trigger_error('Value is not properly chunk encoded', E_USER_WARNING);
                 return $chunk;
             }
@@ -323,7 +323,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
      *
      * @return  boolean
      */
-    private static function is_hex(string $hex): bool
+    private static function isHex(string $hex): bool
     {
         return empty($hex) || (@preg_match("/^[a-f0-9]{2,}$/i", $hex) && !(\strlen($hex) & 1));
     }
