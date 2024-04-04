@@ -62,8 +62,8 @@ const fixVersion = async (file) => {
       minify: file.endsWith('.min.css'),
       visitor: composeVisitors([urlVersioning(file)]),
     });
-    await writeFile(file, `@charset "UTF-8";${file.endsWith(".min.css") ? '' : '\n'}${code}`, {
-      encoding: "utf8",
+    await writeFile(file, `@charset "UTF-8";${file.endsWith('.min.css') ? '' : '\n'}${code}`, {
+      encoding: 'utf8',
       mode: 0o644,
     });
   } catch (error) {

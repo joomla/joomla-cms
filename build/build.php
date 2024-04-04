@@ -271,6 +271,11 @@ echo "Copy the files from the git repository.\n";
 chdir($repo);
 system($systemGit . ' archive ' . $remote . ' | tar -x -C ' . $fullpath);
 system('cp build/fido.jwt ' . $fullpath . '/plugins/system/webauthn/fido.jwt');
+
+// Get the Node tools from the current header of the repository
+system('rm -rf ' . $fullpath . '/build/build-modules-js');
+system('cp -r ' . $repo . '/build/build-modules-js ' . $fullpath . '/build/build-modules-js');
+
 // Install PHP and NPM dependencies and compile required media assets, skip Composer autoloader until post-cleanup
 chdir($fullpath);
 system('composer install --no-dev --no-autoloader --ignore-platform-reqs', $composerReturnCode);
