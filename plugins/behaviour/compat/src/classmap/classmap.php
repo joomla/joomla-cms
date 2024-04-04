@@ -514,3 +514,6 @@ JLoader::registerAlias('JHtmlString', '\\Joomla\\CMS\\HTML\\Helpers\\StringHelpe
 JLoader::registerAlias('JHtmlTag', '\\Joomla\\CMS\\HTML\\Helpers\\Tag', '6.0');
 JLoader::registerAlias('JHtmlTel', '\\Joomla\\CMS\\HTML\\Helpers\\Telephone', '6.0');
 JLoader::registerAlias('JHtmlUser', '\\Joomla\\CMS\\HTML\\Helpers\\User', '6.0');
+
+// As JLoader is not managing the \Joomla\Input namespace, we need to use the native class alias function
+class_alias('\\Joomla\\Input\\Input', '\\Joomla\\CMS\\Input\\Input');
