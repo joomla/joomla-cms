@@ -28,7 +28,6 @@ $moduleId = str_replace(' ', '', $module->title) . $module->id;
             <th scope="col" class="w-20">
                 <?php echo ($params->get('ordering', 'c_dsc') == 'm_dsc') ? Text::_('MOD_LATEST_HEADING_DATE_MODIFIED') : Text::_('MOD_LATEST_HEADING_DATE_CREATED'); ?>
             </th>
-
         </tr>
     </thead>
     <tbody>
