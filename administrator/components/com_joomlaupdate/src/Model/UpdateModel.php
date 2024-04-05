@@ -24,6 +24,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Tuf as TufMetadata;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
@@ -87,17 +88,7 @@ class UpdateModel extends BaseDatabaseModel
         // Determine the intended update URL.
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
-        switch ($params->get('updatesource', 'nochange')) {
-            case 'next':
-                // "Minor & Patch Release for Current version AND Next Major Release".
-                $updateURL = 'https://update.joomla.org/core/sts/list_sts.xml';
-                break;
-
-            case 'testing':
-                // "Testing"
-                $updateURL = 'https://update.joomla.org/core/test/list_test.xml';
-                break;
-
+        switch ($params->get('updatesource', 'default')) {
             case 'custom':
                 // "Custom"
                 // @todo: check if the customurl is valid and not just "not empty".
@@ -112,15 +103,19 @@ class UpdateModel extends BaseDatabaseModel
 
             default:
                 /**
-                 * "Minor & Patch Release for Current version (recommended and default)".
+                 * All "non-testing" releases of the official project hosted in Joomla's TUF-based update repo.
                  * The commented "case" below are for documenting where 'default' and legacy options falls
                  * case 'default':
+                 * case 'next':
                  * case 'lts':
                  * case 'sts': (It's shown as "Default" because that option does not exist any more)
                  * case 'nochange':
+                 * case 'testing':
                  */
-                $updateURL = 'https://update.joomla.org/core/list.xml';
+                $updateURL = 'https://update.joomla.org/cms/';
         }
+
+        $updateType = (pathinfo($updateURL, PATHINFO_EXTENSION) === 'xml') ? 'collection' : 'tuf';
 
         $id    = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
         $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
@@ -137,10 +132,11 @@ class UpdateModel extends BaseDatabaseModel
         $db->setQuery($query);
         $update_site = $db->loadObject();
 
-        if ($update_site->location != $updateURL) {
+        if ($update_site->location !== $updateURL || $update_site->type !== $updateType) {
             // Modify the database record.
             $update_site->last_check_timestamp = 0;
             $update_site->location             = $updateURL;
+            $update_site->type                 = $updateType;
             $db->updateObject('#__update_sites', $update_site, 'update_site_id');
 
             // Remove cached updates.
@@ -173,13 +169,9 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         $updater               = Updater::getInstance();
-        $minimumStability      = Updater::STABILITY_STABLE;
         $comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
 
-        if (\in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), ['testing', 'custom'])) {
-            $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
-        }
-
+        $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
         $reflection       = new \ReflectionObject($updater);
         $reflectionMethod = $reflection->getMethod('findUpdates');
         $methodParameters = $reflectionMethod->getParameters();
@@ -296,16 +288,32 @@ class UpdateModel extends BaseDatabaseModel
             return $this->updateInformation;
         }
 
-        $minimumStability      = Updater::STABILITY_STABLE;
         $comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
+        $channel               = $comJoomlaupdateParams->get('updatesource', 'default');
+        $minimumStability      = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
 
-        if (\in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), ['testing', 'custom'])) {
-            $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
-        }
-
-        // Fetch the full update details from the update details URL.
         $update = new Update();
-        $update->loadFromXml($updateObject->detailsurl, $minimumStability);
+
+        $updateType = (pathinfo($updateObject->detailsurl, PATHINFO_EXTENSION) === 'xml') ? 'collection' : 'tuf';
+
+        // Check if we have a local JSON string with update metadata
+        if ($updateType === 'tuf') {
+            // Use the correct identifier for the update channel
+            $updateChannel = Version::MAJOR_VERSION . '.x';
+
+            if ($channel === 'next') {
+                $updateChannel = (Version::MAJOR_VERSION + 1) . '.x';
+            }
+
+            $metadata = new TufMetadata($this->getDatabase());
+            $metadata->load(['update_site_id' => $updateObject->update_site_id]);
+
+            // Fetch update data from TUF repo
+            $update->loadFromTuf($metadata, $updateObject->detailsurl, $minimumStability, $updateChannel);
+        } else {
+            // We are using the legacy XML method
+            $update->loadFromXml($updateObject->detailsurl, $minimumStability, $channel);
+        }
 
         // Make sure we use the current information we got from the detailsurl
         $this->updateInformation['object'] = $update;
@@ -370,12 +378,12 @@ class UpdateModel extends BaseDatabaseModel
         $httpOptions = new Registry();
         $httpOptions->set('follow_location', false);
 
+        $response = ['basename' => false, 'check' => null, 'version' => $updateInfo['latest']];
+
         try {
             $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
         } catch (\RuntimeException $e) {
             // Passing false here -> download failed message
-            $response['basename'] = false;
-
             return $response;
         }
 
@@ -387,8 +395,6 @@ class UpdateModel extends BaseDatabaseModel
                 $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
             } catch (\RuntimeException $e) {
                 // Passing false here -> download failed message
-                $response['basename'] = false;
-
                 return $response;
             }
         }
@@ -409,7 +415,6 @@ class UpdateModel extends BaseDatabaseModel
         )
             ->clean(Factory::getApplication()->get('tmp_path'), 'path');
         $target   = $tempdir . '/' . $basename;
-        $response = [];
 
         // Do we have a cached file?
         $exists = is_file($target);

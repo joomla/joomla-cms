@@ -10,8 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-
 ?>
 <div class="com-contact__links contact-links">
     <ul class="list-unstyled">

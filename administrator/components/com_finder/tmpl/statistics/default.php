@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Finder\Administrator\View\Statistics\HtmlView $this */
 ?>
 <div class="container-popup">
     <table class="table table-sm">

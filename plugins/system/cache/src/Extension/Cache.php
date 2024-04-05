@@ -13,7 +13,10 @@ namespace Joomla\Plugin\System\Cache\Extension;
 use Joomla\CMS\Cache\CacheController;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Document\FactoryInterface as DocumentFactoryInterface;
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\Application\AfterRespondEvent;
+use Joomla\CMS\Event\PageCache\GetKeyEvent;
+use Joomla\CMS\Event\PageCache\IsExcludedEvent;
+use Joomla\CMS\Event\PageCache\SetCachingEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
@@ -148,10 +151,13 @@ final class Cache extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        // If any `pagecache` plugins return false for onPageCacheSetCaching, do not use the cache.
-        PluginHelper::importPlugin('pagecache');
+        // Import "pagecache" plugins
+        $dispatcher = $this->getDispatcher();
+        PluginHelper::importPlugin('pagecache', null, true, $dispatcher);
 
-        $results = $this->getApplication()->triggerEvent('onPageCacheSetCaching');
+        // If any onPageCacheSetCaching listener return false, do not use the cache.
+        $results = $dispatcher->dispatch('onPageCacheSetCaching', new SetCachingEvent('onPageCacheSetCaching'))
+            ->getArgument('result', []);
 
         $this->getCacheController()->setCaching(!\in_array(false, $results, true));
 
@@ -178,7 +184,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
                 $this->profiler->mark('afterCache');
             }
 
-            $this->getDispatcher()->dispatch('onAfterRespond', AbstractEvent::create(
+            $this->getDispatcher()->dispatch('onAfterRespond', new AfterRespondEvent(
                 'onAfterRespond',
                 [
                     'subject' => $this->getApplication(),
@@ -263,9 +269,9 @@ final class Cache extends CMSPlugin implements SubscriberInterface
         static $key;
 
         if (!$key) {
-            PluginHelper::importPlugin('pagecache');
+            $parts = $this->getDispatcher()->dispatch('onPageCacheGetKey', new GetKeyEvent('onPageCacheGetKey'))
+                ->getArgument('result', []);
 
-            $parts   = $this->getApplication()->triggerEvent('onPageCacheGetKey');
             $parts[] = Uri::getInstance()->toString();
 
             $key = md5(serialize($parts));
@@ -327,6 +333,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
             // Convert the exclusions into a normalised array
             $exclusions       = str_replace(["\r\n", "\r"], "\n", $exclusions);
             $exclusions       = explode("\n", $exclusions);
+            $exclusions       = array_map('trim', $exclusions);
             $filterExpression = function ($x) {
                 return $x !== '';
             };
@@ -337,26 +344,20 @@ final class Cache extends CMSPlugin implements SubscriberInterface
                 . Uri::getInstance()->buildQuery($this->router->getVars());
             $externalUrl = Uri::getInstance()->toString();
 
-            $reduceCallback
-                = function (bool $carry, string $exclusion) use ($internalUrl, $externalUrl) {
-                    // Test both external and internal URIs
-                    return $carry && preg_match(
-                        '#' . $exclusion . '#i',
-                        $externalUrl . ' ' . $internalUrl,
-                        $match
-                    );
-                };
-            $excluded       = array_reduce($exclusions, $reduceCallback, false);
-
-            if ($excluded) {
-                return true;
+            // Loop through each pattern.
+            if ($exclusions) {
+                foreach ($exclusions as $exclusion) {
+                    // Test both external and internal URI
+                    if (preg_match('#' . $exclusion . '#i', $externalUrl . ' ' . $internalUrl, $match)) {
+                        return true;
+                    }
+                }
             }
         }
 
-        // If any pagecache plugins return true for onPageCacheIsExcluded, exclude.
-        PluginHelper::importPlugin('pagecache');
-
-        $results = $this->getApplication()->triggerEvent('onPageCacheIsExcluded');
+        // If any onPageCacheIsExcluded listener return true, exclude.
+        $results = $this->getDispatcher()->dispatch('onPageCacheIsExcluded', new IsExcludedEvent('onPageCacheIsExcluded'))
+            ->getArgument('result', []);
 
         return \in_array(true, $results, true);
     }

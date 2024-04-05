@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -178,8 +177,8 @@ trait DisplayTrait
         $skinDark = $levelParams->get($app->isClient('administrator') ? 'skin_admin_dark' : 'skin_dark', 'oxide-dark');
 
         // Check that selected skin exists.
-        $skin     = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
-        $skinDark = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skinDark) ? $skinDark : 'oxide-dark';
+        $skin     = is_dir(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
+        $skinDark = is_dir(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skinDark) ? $skinDark : 'oxide-dark';
 
         if (!$levelParams->get('lang_mode', 1)) {
             // Admin selected language
@@ -459,6 +458,10 @@ trait DisplayTrait
                 // Disable TinyMCE Branding
                 'branding'  => false,
                 'promotion' => false,
+
+                // Hardened security
+                'sandbox_iframes'       => true,
+                'convert_unsafe_embeds' => true,
 
                 // Specify the attributes to be used when previewing a style. This prevents white text on a white background making the preview invisible.
                 'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform background-color border border-radius outline text-shadow',

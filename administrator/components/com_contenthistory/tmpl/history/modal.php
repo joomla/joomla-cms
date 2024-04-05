@@ -15,6 +15,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Contenthistory\Administrator\View\History\HtmlView $this */
+
 Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
 $hash           = $this->state->get('sha1_hash');
