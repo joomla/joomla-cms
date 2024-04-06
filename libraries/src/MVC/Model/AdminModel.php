@@ -713,10 +713,10 @@ abstract class AdminModel extends FormModel
     /**
      * Batch tag a list of item.
      *
-     * @param   integer  $value      The value of the new tag.
-     * @param   array    $pks        An array of row IDs.
-     * @param   array    $contexts   An array of item contexts.
-     * @param   boolean  $removeTags Flag indicating whether the tags in $value have to be removed.
+     * @param   integer  $value       The value of the new tag.
+     * @param   array    $pks         An array of row IDs.
+     * @param   array    $contexts    An array of item contexts.
+     * @param   boolean  $removeTags  Flag indicating whether the tags in $value have to be removed.
      *
      * @return  boolean  True if successful, false otherwise and internal error is set.
      *
