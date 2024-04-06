@@ -86,7 +86,7 @@ class LevelModel extends AdminModel
                         }
 
                         // Check if the table uses this access level
-                        if (in_array($pk, $values)) {
+                        if (\in_array($pk, $values)) {
 
                             // Add the table to the list of tables that use this access level
                             $levelsInUse[$pk][] = $checktable;
