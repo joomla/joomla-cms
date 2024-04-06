@@ -32,10 +32,89 @@ use Joomla\Utilities\ArrayHelper;
 class LevelModel extends AdminModel
 {
     /**
-     * @var array   A list of the access levels in use.
-     * @since   1.6
+     * Method to delete one or more access levels.
+     *
+     * @param   array  $pks  An array of record primary keys.
+     *
+     * @return  boolean  True if successful, false if an error occurs.
+     *
+     * @since   __DEPLOY_VERSION__
      */
-    protected $levelsInUse = null;
+    public function delete(&$pks)
+    {
+        $pks   = (array) $pks;
+        $table = $this->getTable();
+
+        $itemsInUse = [];
+
+        // Iterate the items to delete each one.
+        foreach ($pks as $i => $pk) {
+            if ($table->load($pk)) {
+
+                // Check if the access level is being used by any content.
+                $db    = $this->getDatabase();
+                $query = $db->getQuery(true)
+                    ->select('DISTINCT access');
+
+                // Get all tabels that have the access field
+                $checkTables = $db->getTableList();
+                $prefix = $db->getPrefix();
+
+                $itemsInUse[$pk] = [];
+                foreach ($checkTables as $checktable) {
+
+                    // Get all of the columns in the table
+                    $fields = $db->getTableColumns($checktable);
+
+                    /**
+                     * We are looking for the access field. If custom tables are using something other
+                     * than the 'access' field they are on their own unfortunately.
+                     * Also make sure the table prefix matches the live db prefix (eg, it is not a "bak_" table)
+                     */
+                    if (strpos($checktable, $prefix) === 0 && isset($fields['access'])) {
+                        // Lookup the distinct values of the field.
+                        $query->clear('from')
+                            ->from($db->quoteName($checktable));
+                        $db->setQuery($query);
+
+                        try {
+                            $values = $db->loadColumn();
+                        } catch (\RuntimeException $e) {
+                            $this->setError($e->getMessage());
+
+                            return false;
+                        }
+
+                        // Check if the table uses this access level
+                        if (in_array($pk, $values)) {
+
+                            // Add the table to the list of tables that use this access level
+                            $levelsInUse[$pk][] = $checktable;
+
+                            // Remove the access level from the list of items to delete
+                            unset($pks[$i]);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!empty($levelsInUse)) {
+            $msg = Text::_('COM_USERS_ERROR_VIEW_LEVEL_IN_USE');
+            $msg .= '<ul>';
+
+            foreach ($levelsInUse as $levelId => $usedIn) {
+                $text = Text::sprintf('COM_USERS_ERROR_VIEW_LEVEL_IN_USE_DETAILS', $levelId, implode(', ', $usedIn));
+                $msg .= '<li>' . $text . '</li>';
+            }
+
+            $msg .= '</ul>';
+
+            Factory::getApplication()->enqueueMessage($msg, 'error');
+        }
+
+        return parent::delete($pks);
+    }
 
     /**
      * Method to test whether a record can be deleted.
@@ -63,61 +142,6 @@ class LevelModel extends AdminModel
 
                 return false;
             }
-        }
-
-        // Check if the access level is being used by any content.
-        if ($this->levelsInUse === null) {
-            // Populate the list once.
-            $this->levelsInUse = [];
-
-            $db    = $this->getDatabase();
-            $query = $db->getQuery(true)
-                ->select('DISTINCT access');
-
-            // Get all the tables and the prefix
-            $tables = $db->getTableList();
-            $prefix = $db->getPrefix();
-
-            foreach ($tables as $table) {
-                // Get all of the columns in the table
-                $fields = $db->getTableColumns($table);
-
-                /**
-                 * We are looking for the access field.  If custom tables are using something other
-                 * than the 'access' field they are on their own unfortunately.
-                 * Also make sure the table prefix matches the live db prefix (eg, it is not a "bak_" table)
-                 */
-                if (strpos($table, $prefix) === 0 && isset($fields['access'])) {
-                    // Lookup the distinct values of the field.
-                    $query->clear('from')
-                        ->from($db->quoteName($table));
-                    $db->setQuery($query);
-
-                    try {
-                        $values = $db->loadColumn();
-                    } catch (\RuntimeException $e) {
-                        $this->setError($e->getMessage());
-
-                        return false;
-                    }
-
-                    $this->levelsInUse = array_merge($this->levelsInUse, $values);
-
-                    // @todo Could assemble an array of the tables used by each view level list those,
-                    // giving the user a clue in the error where to look.
-                }
-            }
-
-            // Get uniques.
-            $this->levelsInUse = array_unique($this->levelsInUse);
-
-            // Ok, after all that we are ready to check the record :)
-        }
-
-        if (\in_array($record->id, $this->levelsInUse)) {
-            $this->setError(Text::sprintf('COM_USERS_ERROR_VIEW_LEVEL_IN_USE', $record->id, $record->title));
-
-            return false;
         }
 
         return parent::canDelete($record);
