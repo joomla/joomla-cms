@@ -694,9 +694,9 @@ abstract class AdminModel extends FormModel
     /**
      * Batch tag a list of item.
      *
-     * @param   integer  $value      The value of the new tag.
-     * @param   array    $pks        An array of row IDs.
-     * @param   array    $contexts   An array of item contexts.
+     * @param   integer  $value     The value of the new tag.
+     * @param   array    $pks       An array of row IDs.
+     * @param   array    $contexts  An array of item contexts.
      *
      * @return  boolean  True if successful, false otherwise and internal error is set.
      *
