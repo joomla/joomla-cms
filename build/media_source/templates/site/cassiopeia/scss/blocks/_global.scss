@@ -56,6 +56,10 @@ h6 {
 a {
   color: var(--#{$prefix}link-color);
 
+  &:hover {
+    color: var(--#{$prefix}link-hover-color);
+  }
+
   &:not([class]) {
     text-decoration: underline;
   }
