@@ -58,7 +58,7 @@ class LevelModel extends AdminModel
 
                 // Get all tabels that have the access field
                 $checkTables = $db->getTableList();
-                $prefix = $db->getPrefix();
+                $prefix      = $db->getPrefix();
 
                 $itemsInUse[$pk] = [];
                 foreach ($checkTables as $checktable) {
