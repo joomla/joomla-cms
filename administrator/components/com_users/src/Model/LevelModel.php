@@ -50,7 +50,6 @@ class LevelModel extends AdminModel
         // Iterate the items to delete each one.
         foreach ($pks as $i => $pk) {
             if ($table->load($pk)) {
-
                 // Check if the access level is being used.
                 $db    = $this->getDatabase();
                 $query = $db->getQuery(true)
@@ -62,7 +61,6 @@ class LevelModel extends AdminModel
 
                 $itemsInUse[$pk] = [];
                 foreach ($checkTables as $checktable) {
-
                     // Get all of the columns in the table
                     $fields = $db->getTableColumns($checktable);
 
@@ -87,7 +85,6 @@ class LevelModel extends AdminModel
 
                         // Check if the table uses this access level
                         if (\in_array($pk, $values)) {
-
                             // Add the table to the list of tables that use this access level
                             $levelsInUse[$pk][] = $checktable;
 
