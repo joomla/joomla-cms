@@ -56,7 +56,7 @@ class LevelModel extends AdminModel
                 $query = $db->getQuery(true)
                     ->select('DISTINCT access');
 
-                // Get all tabels that have the access field
+                // Get all tables that have the access field
                 $checkTables = $db->getTableList();
                 $prefix      = $db->getPrefix();
 
