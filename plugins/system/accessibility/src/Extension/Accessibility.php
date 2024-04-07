@@ -117,6 +117,13 @@ final class Accessibility extends CMSPlugin
                     'speechToTextLang' => $lang,
                 ],
                 'iframeModals' => $iframeModals,
+                /* disable the line height modules until/if they are fixed upstream
+                * as they do not reset correctly
+                */
+                'modules' => [
+                    'increaseLineHeight' => false,
+                    'decreaseLineHeight' => false,
+                ]
             ]
         );
 
