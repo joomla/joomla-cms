@@ -51,7 +51,7 @@ class LevelModel extends AdminModel
         foreach ($pks as $i => $pk) {
             if ($table->load($pk)) {
 
-                // Check if the access level is being used by any content.
+                // Check if the access level is being used.
                 $db    = $this->getDatabase();
                 $query = $db->getQuery(true)
                     ->select('DISTINCT access');
