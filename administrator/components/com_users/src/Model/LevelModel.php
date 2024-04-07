@@ -34,7 +34,7 @@ class LevelModel extends AdminModel
     /**
      * Method to delete one or more access levels.
      *
-     * @param   array  $pks  An array of record primary keys.
+     * @param   array  $pks  An array of primary keys.
      *
      * @return  boolean  True if successful, false if an error occurs.
      *
