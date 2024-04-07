@@ -10,12 +10,16 @@
 namespace Joomla\CMS\MVC\View;
 
 use Doctrine\Inflector\InflectorFactory;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Registry\Registry;
+
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -106,6 +110,38 @@ class ListView extends HtmlView
      * @var string
      */
     protected $helpLink;
+    
+    
+    /**
+     * All transition, which can be executed of one if the items
+     *
+     * @var  array
+     */
+    protected $transitions = [];
+
+    /**
+     * Is this view an Empty State
+     *
+     * @var   boolean
+     * @since 4.0.0
+     */
+    private $isEmptyState = false;
+
+    /**
+     * Is the vote plugin enabled on the site
+     *
+     * @var   boolean
+     * @since 4.4.0
+     */
+    protected $vote = false;
+
+    /**
+     * Are hits being recorded on the site?
+     *
+     * @var   boolean
+     * @since 4.4.0
+     */
+    protected $hits = false;
 
     /**
      * Constructor
@@ -137,9 +173,7 @@ class ListView extends HtmlView
             $this->helpLink = $config['help_link'];
         }
 
-        // Set default value for $canDo to avoid fatal error if child class doesn't set value for this property
-        // Return a CanDo object to prevent any BC break, will be changed in 7.0 to Registry
-        $this->canDo = new CanDo();
+        $this->canDo = ContentHelper::getActions($this->option);
     }
 
     /**
@@ -162,7 +196,7 @@ class ListView extends HtmlView
         }
 
         // Build toolbar
-        $this->addToolbar();
+        $this->addToolbar();        
 
         parent::display($tpl);
     }
@@ -193,6 +227,8 @@ class ListView extends HtmlView
         $this->state         = $this->get('State');
         $this->filterForm    = $this->get('FilterForm');
         $this->activeFilters = $this->get('ActiveFilters');
+        
+        $this->canDo   = ContentHelper::getActions($this->option, 'category', $this->state->get('filter.category_id'));
     }
 
     /**
@@ -202,73 +238,134 @@ class ListView extends HtmlView
      *
      * @since   1.6
      */
-    protected function addToolbar()
-    {
-        $canDo = $this->canDo;
-        $user  = $this->getCurrentUser();
-
-        // Get the toolbar object instance
-        $bar = Toolbar::getInstance('toolbar');
-
-        $viewName         = $this->getName();
-        $singularViewName = InflectorFactory::create()->build()->singularize($viewName);
-
-        ToolbarHelper::title(Text::_($this->toolbarTitle), $this->toolbarIcon);
-
-        if ($canDo->get('core.create')) {
-            ToolbarHelper::addNew($singularViewName . '.add');
-        }
-
-        if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own'))) {
-            ToolbarHelper::editList($singularViewName . '.edit');
-        }
-
-        if ($canDo->get('core.edit.state')) {
-            ToolbarHelper::publish($viewName . '.publish', 'JTOOLBAR_PUBLISH', true);
-            ToolbarHelper::unpublish($viewName . '.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-
-            if (isset($this->items[0]->featured)) {
-                ToolbarHelper::custom($viewName . '.featured', 'featured', '', 'JFEATURE', true);
-                ToolbarHelper::custom($viewName . '.unfeatured', 'unfeatured', '', 'JUNFEATURE', true);
-            }
-
-            ToolbarHelper::archiveList($viewName . '.archive');
-            ToolbarHelper::checkin($viewName . '.checkin');
-        }
-
-        // Add a batch button
-        if (
-            $this->supportsBatch && $user->authorise('core.create', $this->option)
-            && $user->authorise('core.edit', $this->option)
-            && $user->authorise('core.edit.state', $this->option)
-        ) {
-            $title = Text::_('JTOOLBAR_BATCH');
-
-            // Instantiate a new LayoutFile instance and render the popup button
-            $layout = new FileLayout('joomla.toolbar.popup');
-
-            $dhtml = $layout->render(['title' => $title]);
-            $bar->appendButton('Custom', $dhtml, 'batch');
-        }
-
-        if (
-            $canDo->get('core.delete') &&
-            (
-                $this->state->get('filter.state') == -2 ||
-                $this->state->get('filter.published') == -2
-            )
-        ) {
-            ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', $viewName . '.delete', 'JTOOLBAR_EMPTY_TRASH');
-        } elseif ($canDo->get('core.edit.state')) {
-            ToolbarHelper::trash($viewName . '.trash');
-        }
-
-        if ($user->authorise('core.admin', $this->option) || $user->authorise('core.options', $this->option)) {
+    protected function addToolbar() 
+    {        
+        $this->initializeToolbar();
+        
+        if ($this->canDo->get('core.admin') || $this->canDo->get('core.options')) {
             ToolbarHelper::preferences($this->option);
         }
-
+        
         if ($this->helpLink) {
             ToolbarHelper::help($this->helpLink);
+        }
+    }
+    
+    /**
+    *  Append more buttons before trash button
+    *  
+    *  @return void
+    *
+    *  @since 5.2
+    */
+    protected function appendMoreButton()
+    {
+        /*
+        For example:
+        if (($this->canDo->get('core.edit')) || ($this->canDo->get('core.edit.own'))) 
+        {
+           ToolbarHelper::editList($singularViewName . '.edit');
+        }
+        */
+    }
+    
+    
+    /**
+    *  Prepare toolbar
+    *  
+    *  @return void
+    *
+    *  @since 5.2
+    */
+    protected function initializeToolbar() 
+    {
+        $viewName         = $this->getName();
+        $singularViewName = InflectorFactory::create()->build()->singularize($viewName);
+        $componentName = substr($this->option, 4);
+        $extensionClass   = ucfirst($componentName) . 'Component';
+        $developer = explode('\\', get_class($this))[0];    
+        $trashCondition = (constant($developer."\\Component\\".ucfirst($componentName)."\\Administrator\\Extension\\".$extensionClass."::CONDITION_TRASHED")) ?: -2;
+
+        $user    = $this->getCurrentUser();
+        $toolbar = Toolbar::getInstance();
+       
+        ToolbarHelper::title(Text::_($this->toolbarTitle), $this->toolbarIcon);
+
+        if ($this->canDo->get('core.create') || \count($user->getAuthorisedCategories($this->option, 'core.create')) > 0) {
+            $toolbar->addNew($singularViewName . '.add');
+        }
+
+        if (!$this->isEmptyState && ($this->canDo->get('core.edit.state') || \count($this->transitions))) {
+            /** @var  DropdownButton $dropdown */
+            $dropdown = $toolbar->dropdownButton('status-group')
+                ->text('JTOOLBAR_CHANGE_STATUS')
+                ->toggleSplit(false)
+                ->icon('icon-ellipsis-h')
+                ->buttonClass('btn btn-action')
+                ->listCheck(true);
+
+            $childBar = $dropdown->getChildToolbar();
+
+            if ($this->canDo->get('core.execute.transition') && \count($this->transitions)) {
+                $childBar->separatorButton('transition-headline')
+                    ->text('JTOOLBAR_RUN_TRANSITIONS')
+                    ->buttonClass('text-center py-2 h3');
+
+                $cmd      = "Joomla.submitbutton(".$viewName."'.runTransition');";
+                $messages = "{error: [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
+                $alert    = 'Joomla.renderMessages(' . $messages . ')';
+                $cmd      = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
+
+                foreach ($this->transitions as $transition) {
+                    $childBar->standardButton('transition', $transition['text'])
+                        ->buttonClass('transition-' . (int) $transition['value'])
+                        ->icon('icon-project-diagram')
+                        ->onclick('document.adminForm.transition_id.value=' . (int) $transition['value'] . ';' . $cmd);
+                }
+
+                $childBar->separatorButton('transition-separator');
+            }
+                        
+
+            if ($this->canDo->get('core.edit.state')) {
+                $childBar->publish($viewName . '.publish')->listCheck(true);
+                $childBar->unpublish($viewName . '.unpublish')->listCheck(true);
+                
+                if (isset($this->items[0]->featured)) {
+                    $childBar->standardButton('featured', 'JFEATURE', $viewName . '.featured')
+                    ->listCheck(true);
+                    $childBar->standardButton('unfeatured', 'JUNFEATURE', $viewName . '.unfeatured')
+                    ->listCheck(true);
+                }
+
+                $childBar->archive($viewName . '.archive')->listCheck(true);
+
+                $childBar->checkin($viewName . '.checkin');
+
+                if ($this->state->get('filter.published') != $trashCondition) {
+                    $childBar->trash($viewName . '.trash')->listCheck(true);
+                }
+            }
+
+            // Add a batch button
+            if (
+            $this->supportsBatch && $this->canDo->get('core.create')
+            && $this->canDo->get('core.edit')
+            && $this->canDo->get('core.edit.state')
+            )
+            {
+                $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
+                    ->selector('collapseModal')
+                    ->listCheck(true);
+            }
+        }
+        
+        $this->appendMoreButton();
+
+        if (!$this->isEmptyState && $this->state->get('filter.published') == $trashCondition && $this->canDo->get('core.delete')) {
+            $toolbar->delete($viewName.'.delete', 'JTOOLBAR_EMPTY_TRASH')
+                ->message('JGLOBAL_CONFIRM_DELETE')
+                ->listCheck(true);
         }
     }
 }
