@@ -256,7 +256,6 @@ class Update
     protected $stability;
     protected $supported_databases;
     protected $php_minimum;
-    protected $section;
     protected $folder;
     protected $changelogurl;
     protected $jversionfull;
