@@ -256,6 +256,10 @@ class Update
     protected $stability;
     protected $supported_databases;
     protected $php_minimum;
+    protected $section;
+    protected $folder;
+    protected $changelogurl;
+    protected $jversionfull;
     public $sha256;
     public $sha384;
     public $sha512;
@@ -372,7 +376,7 @@ class Update
                 if (
                     isset($this->currentUpdate->targetplatform->name)
                     && $product == $this->currentUpdate->targetplatform->name
-                    && preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->get('jversion.full', JVERSION))
+                    && preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->get('jversionfull', JVERSION))
                 ) {
                     // Collect information on updates which do not meet PHP and DB version requirements
                     $otherUpdateInfo          = new \stdClass();
