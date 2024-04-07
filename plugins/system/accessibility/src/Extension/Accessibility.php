@@ -87,6 +87,7 @@ final class Accessibility extends CMSPlugin
                     'decreaseTextSpacing' => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_DECREASE_SPACING'),
                     'disableAnimations'   => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_DISABLE_ANIMATIONS'),
                     'grayHues'            => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_GREY'),
+                    'hotkeyPrefix'        => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_HOTKEY_PREFIX'),
                     'increaseLineHeight'  => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_LINE_HEIGHT'),
                     'increaseText'        => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_TEXT'),
                     'increaseTextSpacing' => $this->getApplication()->getLanguage()->_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_SPACING'),
