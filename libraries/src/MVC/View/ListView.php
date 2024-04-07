@@ -10,12 +10,9 @@
 namespace Joomla\CMS\MVC\View;
 
 use Doctrine\Inflector\InflectorFactory;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Registry\Registry;
@@ -283,8 +280,17 @@ class ListView extends HtmlView
         $singularViewName = InflectorFactory::create()->build()->singularize($viewName);
         $componentName = substr($this->option, 4);
         $extensionClass   = ucfirst($componentName) . 'Component';
-        $developer = explode('\\', get_class($this))[0];    
-        $trashCondition = (constant($developer."\\Component\\".ucfirst($componentName)."\\Administrator\\Extension\\".$extensionClass."::CONDITION_TRASHED")) ?: -2;
+        $developer = strstr(get_class($this), '\\', true);
+        
+        $constantName = $developer . "\\Component\\" . ucfirst($componentName) . "\\Administrator\\Extension\\" . $extensionClass . "::CONDITION_TRASHED";
+        if (defined($constantName))
+        {
+            $trashCondition = constant($constantName);
+        }
+        else 
+        {
+            $trashCondition = -2;
+        }        
 
         $user    = $this->getCurrentUser();
         $toolbar = Toolbar::getInstance();
