@@ -371,7 +371,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
         $this->contacts    = &$contacts;
         $this->contactUser = $contactUser;
 
-        if (in_array($app->getInput()->getMethod(), ['GET', 'POST'])) {
+        if (\in_array($app->getInput()->getMethod(), ['GET', 'POST'])) {
             $model = $this->getModel();
             $model->hit();
         }
