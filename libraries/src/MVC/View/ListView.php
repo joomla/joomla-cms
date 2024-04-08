@@ -311,7 +311,7 @@ class ListView extends HtmlView
                     ->text('JTOOLBAR_RUN_TRANSITIONS')
                     ->buttonClass('text-center py-2 h3');
 
-                $cmd      = "Joomla.submitbutton(".$viewName."'.runTransition');";
+                $cmd      = "Joomla.submitbutton(" . $viewName . "'.runTransition');";
                 $messages = "{error: [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
                 $alert    = 'Joomla.renderMessages(' . $messages . ')';
                 $cmd      = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
@@ -361,7 +361,7 @@ class ListView extends HtmlView
         $this->appendMoreButton();
 
         if (!$this->isEmptyState && $this->state->get('filter.published') == $trashCondition && $this->canDo->get('core.delete')) {
-            $toolbar->delete($viewName.'.delete', 'JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete($viewName . '.delete', 'JTOOLBAR_EMPTY_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }
