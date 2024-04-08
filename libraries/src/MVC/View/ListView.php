@@ -248,7 +248,7 @@ class ListView extends HtmlView
 
     /**
     * Append more buttons before trash button
-    * 
+    *
     * @return void
     *
     * @since 5.2
@@ -263,7 +263,7 @@ class ListView extends HtmlView
         }
         */
     }
-    
+
     /**
     * Prepare toolbar
     *
@@ -277,15 +277,12 @@ class ListView extends HtmlView
         $singularViewName = InflectorFactory::create()->build()->singularize($viewName);
         $componentName    = substr($this->option, 4);
         $extensionClass   = ucfirst($componentName) . 'Component';
-        $developer        = strstr(get_class($this), '\\', true);
+        $developer        = strstr(\get_class($this), '\\', true);
 
         $constantName = $developer . "\\Component\\" . ucfirst($componentName) . "\\Administrator\\Extension\\" . $extensionClass . "::CONDITION_TRASHED";
-        if (defined($constantName))
-        {
+        if (\defined($constantName)) {
             $trashCondition = constant($constantName);
-        }
-        else
-        {
+        } else {
             $trashCondition = -2;
         }
 
@@ -351,11 +348,10 @@ class ListView extends HtmlView
 
             // Add a batch button
             if (
-            $this->supportsBatch && $this->canDo->get('core.create')
-            && $this->canDo->get('core.edit')
-            && $this->canDo->get('core.edit.state')
-            )
-            {
+                $this->supportsBatch && $this->canDo->get('core.create')
+                && $this->canDo->get('core.edit')
+                && $this->canDo->get('core.edit.state')
+            ) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
                     ->selector('collapseModal')
                     ->listCheck(true);
