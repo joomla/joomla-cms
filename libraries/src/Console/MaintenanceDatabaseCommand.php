@@ -24,7 +24,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command maintenance database structure
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
  */
 class MaintenanceDatabaseCommand extends AbstractCommand
 {
@@ -32,7 +32,7 @@ class MaintenanceDatabaseCommand extends AbstractCommand
      * The default command name
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     protected static $defaultName = 'maintenance:database';
 
@@ -40,7 +40,7 @@ class MaintenanceDatabaseCommand extends AbstractCommand
      * Stores the Input Object
      *
      * @var    InputInterface
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     private $cliInput;
 
@@ -48,7 +48,7 @@ class MaintenanceDatabaseCommand extends AbstractCommand
      * SymfonyStyle Object
      *
      * @var SymfonyStyle
-     * @since __DEPLOY_VERSION__
+     * @since 5.1.0
      */
     private $ioStyle;
 
@@ -60,7 +60,7 @@ class MaintenanceDatabaseCommand extends AbstractCommand
      *
      * @return void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.1.0
      *
      */
     private function configureIO(InputInterface $input, OutputInterface $output)
@@ -74,7 +74,7 @@ class MaintenanceDatabaseCommand extends AbstractCommand
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function configure(): void
     {
@@ -94,7 +94,7 @@ class MaintenanceDatabaseCommand extends AbstractCommand
      *
      * @return  integer  The command exit code
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
