@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Model;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
