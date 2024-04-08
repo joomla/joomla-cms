@@ -258,11 +258,18 @@ class Update
     protected $php_minimum;
     protected $folder;
     protected $changelogurl;
-    protected $jversionfull;
     public $sha256;
     public $sha384;
     public $sha512;
     protected $section;
+
+    /**
+     * Joomla! target version used by the pre-update check
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $targetVersion;
 
     /**
      * Gets the reference to the current direct parent
@@ -375,7 +382,7 @@ class Update
                 if (
                     isset($this->currentUpdate->targetplatform->name)
                     && $product == $this->currentUpdate->targetplatform->name
-                    && preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->get('jversionfull', JVERSION))
+                    && preg_match('/^' . $this->currentUpdate->targetplatform->version . '/',$this->getTargetVersion()))
                 ) {
                     // Collect information on updates which do not meet PHP and DB version requirements
                     $otherUpdateInfo          = new \stdClass();
@@ -693,4 +700,36 @@ class Update
 
         return Updater::STABILITY_STABLE;
     }
+
+    /**
+     * Set extension's Joomla! target version
+     *
+     * @param   string  $version  The target version
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setTargetVersion($version)
+    {
+        $this->targetVersion = $version;
+    }
+
+    /**
+     * Get extension's Joomla! target version
+     *
+     * @param   string  $version  The target version
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getTargetVersion()
+    {
+        if (!$this->targetVersion) {
+            return JVERSION;
+        }
+        return $this->targetVersion;
+    }
+
 }
