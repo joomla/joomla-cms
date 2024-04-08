@@ -269,7 +269,7 @@ class Update
      * @var    string
      * @since  __DEPLOY_VERSION__
      */
-    protected $targetVersion;
+    private $targetVersion;
 
     /**
      * Gets the reference to the current direct parent
@@ -731,5 +731,4 @@ class Update
         }
         return $this->targetVersion;
     }
-
 }
