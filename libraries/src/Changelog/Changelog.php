@@ -122,7 +122,7 @@ class Changelog
     /**
      * Resource handle for the XML Parser
      *
-     * @var    resource
+     * @var    \XMLParser
      * @since  4.0.0
      */
     protected $xmlParser;

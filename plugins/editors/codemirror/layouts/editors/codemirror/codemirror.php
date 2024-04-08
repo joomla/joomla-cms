@@ -22,7 +22,7 @@ extract($displayData);
  * Layout variables
  *
  * @var   FileLayout $this
- * @var   array      $options     JS options for editor
+ * @var   object     $options     JS options for editor
  * @var   Registry   $params      Plugin parameters
  * @var   string     $id          The id of the input
  * @var   string     $name        The name of the input
