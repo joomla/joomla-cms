@@ -382,7 +382,7 @@ class Update
                 if (
                     isset($this->currentUpdate->targetplatform->name)
                     && $product == $this->currentUpdate->targetplatform->name
-                    && preg_match('/^' . $this->currentUpdate->targetplatform->version . '/',$this->getTargetVersion())
+                    && preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->getTargetVersion())
                 ) {
                     // Collect information on updates which do not meet PHP and DB version requirements
                     $otherUpdateInfo          = new \stdClass();
