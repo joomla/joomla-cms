@@ -281,7 +281,7 @@ class ListView extends HtmlView
 
         $constantName = $developer . "\\Component\\" . ucfirst($componentName) . "\\Administrator\\Extension\\" . $extensionClass . "::CONDITION_TRASHED";
         if (\defined($constantName)) {
-            $trashCondition = constant($constantName);
+            $trashCondition = \constant($constantName);
         } else {
             $trashCondition = -2;
         }
