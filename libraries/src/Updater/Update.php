@@ -718,8 +718,6 @@ class Update
     /**
      * Get extension's Joomla! target version
      *
-     * @param   string  $version  The target version
-     *
      * @return  string
      *
      * @since   __DEPLOY_VERSION__
