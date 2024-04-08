@@ -727,6 +727,7 @@ class Update
         if (!$this->targetVersion) {
             return JVERSION;
         }
+
         return $this->targetVersion;
     }
 }
