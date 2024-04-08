@@ -222,7 +222,7 @@ class ListView extends HtmlView
         $this->state         = $this->get('State');
         $this->filterForm    = $this->get('FilterForm');
         $this->activeFilters = $this->get('ActiveFilters');
-        
+
         $this->canDo   = ContentHelper::getActions($this->option, 'category', $this->state->get('filter.category_id'));
     }
 
@@ -233,66 +233,65 @@ class ListView extends HtmlView
      *
      * @since   1.6
      */
-    protected function addToolbar() 
-    {        
+    protected function addToolbar()
+    {
         $this->initializeToolbar();
-        
+
         if ($this->canDo->get('core.admin') || $this->canDo->get('core.options')) {
             ToolbarHelper::preferences($this->option);
         }
-        
+
         if ($this->helpLink) {
             ToolbarHelper::help($this->helpLink);
         }
     }
-    
+
     /**
-    *  Append more buttons before trash button
-    *  
-    *  @return void
+    * Append more buttons before trash button
+    * 
+    * @return void
     *
-    *  @since 5.2
+    * @since 5.2
     */
     protected function appendMoreButton()
     {
         /*
         For example:
-        if (($this->canDo->get('core.edit')) || ($this->canDo->get('core.edit.own'))) 
+        if (($this->canDo->get('core.edit')) || ($this->canDo->get('core.edit.own')))
         {
            ToolbarHelper::editList($singularViewName . '.edit');
         }
         */
     }
     
-    
     /**
-    *  Prepare toolbar
-    *  
-    *  @return void
+    * Prepare toolbar
     *
-    *  @since 5.2
+    * @return void
+    *
+    * @since 5.2
     */
-    protected function initializeToolbar() 
+    protected function initializeToolbar()
     {
         $viewName         = $this->getName();
         $singularViewName = InflectorFactory::create()->build()->singularize($viewName);
-        $componentName = substr($this->option, 4);
+        $componentName    = substr($this->option, 4);
         $extensionClass   = ucfirst($componentName) . 'Component';
-        $developer = strstr(get_class($this), '\\', true);
-        
+        $developer        = strstr(get_class($this), '\\', true);
+
         $constantName = $developer . "\\Component\\" . ucfirst($componentName) . "\\Administrator\\Extension\\" . $extensionClass . "::CONDITION_TRASHED";
         if (defined($constantName))
         {
             $trashCondition = constant($constantName);
         }
-        else 
+        else
         {
             $trashCondition = -2;
-        }        
+        }
 
         $user    = $this->getCurrentUser();
         $toolbar = Toolbar::getInstance();
-       
+
         ToolbarHelper::title(Text::_($this->toolbarTitle), $this->toolbarIcon);
 
         if ($this->canDo->get('core.create') || \count($user->getAuthorisedCategories($this->option, 'core.create')) > 0) {
@@ -329,12 +328,11 @@ class ListView extends HtmlView
 
                 $childBar->separatorButton('transition-separator');
             }
-                        
 
             if ($this->canDo->get('core.edit.state')) {
                 $childBar->publish($viewName . '.publish')->listCheck(true);
                 $childBar->unpublish($viewName . '.unpublish')->listCheck(true);
-                
+
                 if (isset($this->items[0]->featured)) {
                     $childBar->standardButton('featured', 'JFEATURE', $viewName . '.featured')
                     ->listCheck(true);
@@ -363,7 +361,7 @@ class ListView extends HtmlView
                     ->listCheck(true);
             }
         }
-        
+
         $this->appendMoreButton();
 
         if (!$this->isEmptyState && $this->state->get('filter.published') == $trashCondition && $this->canDo->get('core.delete')) {
