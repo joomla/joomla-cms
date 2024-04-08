@@ -158,22 +158,6 @@ class ConsentsModel extends ListModel
      */
     protected function populateState($ordering = 'a.id', $direction = 'desc')
     {
-        // Load the filter state.
-        $this->setState(
-            'filter.search',
-            $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search')
-        );
-
-        $this->setState(
-            'filter.subject',
-            $this->getUserStateFromRequest($this->context . '.filter.subject', 'filter_subject')
-        );
-
-        $this->setState(
-            'filter.state',
-            $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state')
-        );
-
         // Load the parameters.
         $this->setState('params', ComponentHelper::getParams('com_privacy'));
 

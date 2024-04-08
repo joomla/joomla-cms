@@ -125,7 +125,6 @@ class DebuguserModel extends ListModel implements UserFactoryAwareInterface
         }
 
         // Load the filter state.
-        $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
         $this->setState('user_id', $this->getUserStateFromRequest($this->context . '.user_id', 'user_id', 0, 'int', false));
 
         $levelStart = $this->getUserStateFromRequest($this->context . '.filter.level_start', 'filter_level_start', '', 'cmd');
