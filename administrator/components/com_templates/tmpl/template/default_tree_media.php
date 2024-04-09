@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Templates\Administrator\View\Template\HtmlView $this */
+
 // Legacy is the default
 if (!count($this->mediaFiles)) {
     return;

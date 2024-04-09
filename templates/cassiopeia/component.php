@@ -81,7 +81,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
     <jdoc:include type="styles" />
     <jdoc:include type="scripts" />
 </head>
-<body class="<?php echo $this->direction === 'rtl' ? 'rtl' : ''; ?>">
+<body class="contentpane component <?php echo $this->direction === 'rtl' ? 'rtl' : ''; ?>">
     <jdoc:include type="message" />
     <jdoc:include type="component" />
 </body>

@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Messages\Administrator\View\Messages\HtmlView $this */
+
 $displayData = [
     'textPrefix' => 'COM_MESSAGES',
     'formURL'    => 'index.php?option=com_messages&view=messages',

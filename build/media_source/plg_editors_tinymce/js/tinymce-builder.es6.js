@@ -407,7 +407,7 @@ const TinyMCEBuilder = (container, options) => {
 
       [].forEach.call(target.attributes, (attrib) => {
         if (/^data-/.test(attrib.name)) {
-          const key = attrib.name.substr(5);
+          const key = attrib.name.substring(5);
 
           actionoptions[key] = attrib.value;
         }

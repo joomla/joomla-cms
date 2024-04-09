@@ -1,30 +1,53 @@
-const { readFile, writeFile } = require('fs/promises');
-const { existsSync, readFileSync } = require('fs');
-const { resolve, dirname } = require('path');
-const crypto = require('crypto');
-const jetpack = require('fs-jetpack');
-const Postcss = require('postcss');
-const UrlVersion = require('postcss-url-version');
+const { createHash } = require('node:crypto');
+const { readdir, readFile, writeFile } = require('node:fs/promises');
+const { existsSync, readFileSync } = require('node:fs');
+const { dirname, extname, resolve } = require('node:path');
+const { transform, composeVisitors } = require('lightningcss');
 const { Timer } = require('./utils/timer.es6.js');
 
-const opts = {
-  version: (imagePath, sourceCssPath) => {
-    if (!sourceCssPath) {
-      return (new Date()).valueOf().toString();
-    }
+const RootPath = process.cwd();
+const skipExternal = true;
+const variable = 'v';
 
-    const directory = dirname(sourceCssPath);
-    if (!(imagePath.startsWith('http') || imagePath.startsWith('//')) && existsSync(resolve(`${directory}/${imagePath}`))) {
-      const fileBuffer = readFileSync(resolve(`${directory}/${imagePath}`));
-      const hashSum = crypto.createHash('md5');
-      hashSum.update(fileBuffer);
+function version(urlString, fromFile) {
+  // Skip external URLs
+  if (skipExternal && (urlString.startsWith('http') || urlString.startsWith('//'))) {
+    return `${urlString}`;
+  }
+  // Skip base64 URLs
+  if (urlString.startsWith('data:')) {
+    return `${urlString}`;
+  }
+  // Skip URLs with existing query
+  if (urlString.includes('?')) {
+    return `${urlString}`;
+  }
 
-      return (hashSum.digest('hex')).substring(0, 6);
-    }
+  if (fromFile && existsSync(resolve(`${dirname(fromFile)}/${urlString}`))) {
+    const hash = createHash('md5');
+    hash.update(readFileSync(resolve(`${dirname(fromFile)}/${urlString}`)));
 
-    return (new Date()).valueOf().toString();
-  },
-};
+    return `${urlString}?${variable}=${hash.digest('hex').substring(0, 6)}`;
+  }
+
+  return `${urlString}?${variable}=${(new Date()).valueOf().toString().substring(0, 6)}`;
+}
+
+/**
+ * @param {from: String} - the filepath for the css file
+ * @returns {import('lightningcss').Visitor} - A visitor that replaces the url
+ */
+function urlVersioning(fromFile) {
+  return {
+    /**
+     * @param {import('lightningcss').Url} url - The url object to transform
+     * @returns {import('lightningcss').Url} - The transformed url object
+     */
+    Url(url) {
+      return { ...url, ...{ url: version(url.url, fromFile) } };
+    },
+  };
+}
 
 /**
  * Adds a hash to the url() parts of the static css
@@ -34,9 +57,15 @@ const opts = {
  */
 const fixVersion = async (file) => {
   try {
-    const cssString = await readFile(file, { encoding: 'utf8' });
-    const data = await Postcss([UrlVersion(opts)]).process(cssString, { from: file });
-    await writeFile(file, data.css, { encoding: 'utf8', mode: 0o644 });
+    const { code } = transform({
+      code: await readFile(file),
+      minify: file.endsWith('.min.css'),
+      visitor: composeVisitors([urlVersioning(file)]),
+    });
+    await writeFile(file, `@charset "UTF-8";${file.endsWith('.min.css') ? '' : '\n'}${code}`, {
+      encoding: 'utf8',
+      mode: 0o644,
+    });
   } catch (error) {
     throw new Error(error);
   }
@@ -50,8 +79,10 @@ const fixVersion = async (file) => {
 module.exports.cssVersioning = async () => {
   const bench = new Timer('Versioning');
 
-  const cssFiles = jetpack.find('media', { matching: '/**/**/*.css' });
-  await Promise.all(cssFiles.map((file) => fixVersion(file)));
+  const cssFiles = (await readdir(`${RootPath}/media`, { withFileTypes: true, recursive: true }))
+    .filter((file) => (!file.isDirectory() && extname(file.name) === '.css'))
+    .map((file) => `${file.path}/${file.name}`);
 
-  bench.stop();
+  Promise.all(cssFiles.map((file) => fixVersion(file)))
+    .then(() => bench.stop());
 };
