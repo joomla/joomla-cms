@@ -9,6 +9,9 @@ const direction = (document.dir !== undefined) ? document.dir : document.documen
 document.querySelectorAll('.treeselect li').forEach((li) => {
   // Add icons
   const icon = document.createElement('span');
+  // add tabindex to the span
+  icon.setAttribute('tabindex', '0');
+
   icon.classList.add('icon-');
   li.prepend(icon);
 
@@ -50,6 +53,12 @@ document.querySelectorAll('span.treeselect-toggle').forEach((toggle) => {
         item.classList.remove('icon-chevron-down');
         item.classList.add(chevron);
       });
+    }
+  });
+
+  toggle.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+      toggle.click();
     }
   });
 });
