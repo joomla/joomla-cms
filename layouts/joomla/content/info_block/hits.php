@@ -15,6 +15,6 @@ use Joomla\CMS\Language\Text;
 ?>
 <dd class="hits">
     <span class="icon-eye icon-fw" aria-hidden="true"></span>
-    <meta content="UserPageVisits:<?php echo $displayData['item']->hits; ?>">
+    <meta content="UserPageVisits:<?php echo $displayData['item']->hits; ?>" itemprop="userPageVisits">
     <?php echo Text::sprintf('COM_CONTENT_ARTICLE_HITS', $displayData['item']->hits); ?>
 </dd>
