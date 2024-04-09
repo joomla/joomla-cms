@@ -104,7 +104,7 @@ class ContactModel extends FormModel
      */
     public function getForm($data = [], $loadData = true)
     {
-        $form = $this->loadForm('com_contact.contact', 'contact', ['control' => 'jform', 'load_data' => true]);
+        $form = $this->loadForm('com_contact.contact', 'contact', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;

@@ -72,10 +72,10 @@ if ($this->params->get('show_url', 1)) {
         <figure class="<?php echo htmlspecialchars($imageClass, ENT_COMPAT, 'UTF-8'); ?> result__image">
             <?php if ($this->params->get('link_image') && $this->result->route) : ?>
                 <a href="<?php echo Route::_($this->result->route); ?>">
-                    <?php echo HTMLHelper::_('image', $this->result->imageUrl, $this->result->imageAlt, $extraAttr); ?>
+                    <?php echo HTMLHelper::_('image', $this->result->imageUrl, $this->result->imageAlt, $extraAttr, false, -1); ?>
                 </a>
             <?php else : ?>
-                <?php echo HTMLHelper::_('image', $this->result->imageUrl, $this->result->imageAlt, $extraAttr); ?>
+                <?php echo HTMLHelper::_('image', $this->result->imageUrl, $this->result->imageAlt, $extraAttr, false, -1); ?>
             <?php endif; ?>
         </figure>
     <?php endif; ?>

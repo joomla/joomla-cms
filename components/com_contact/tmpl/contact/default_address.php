@@ -152,7 +152,7 @@ $icon = $this->params->get('contact_icons') == 0;
     <dd>
         <span class="contact-webpage">
             <a href="<?php echo $this->item->webpage; ?>" target="_blank" rel="noopener noreferrer" itemprop="url">
-            <?php echo PunycodeHelper::urlToUTF8($this->item->webpage); ?></a>
+            <?php echo $this->escape(PunycodeHelper::urlToUTF8($this->item->webpage)); ?></a>
         </span>
     </dd>
 <?php endif; ?>
