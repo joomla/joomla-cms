@@ -45,7 +45,7 @@ class LevelModel extends AdminModel
         $pks   = (array) $pks;
         $table = $this->getTable();
 
-        $itemsInUse = [];
+        $levelsInUse = [];
 
         // Iterate the items to delete each one.
         foreach ($pks as $i => $pk) {
