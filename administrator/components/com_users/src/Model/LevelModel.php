@@ -59,7 +59,6 @@ class LevelModel extends AdminModel
                 $checkTables = $db->getTableList();
                 $prefix      = $db->getPrefix();
 
-                $itemsInUse[$pk] = [];
                 foreach ($checkTables as $checktable) {
                     // Get all of the columns in the table
                     $fields = $db->getTableColumns($checktable);
