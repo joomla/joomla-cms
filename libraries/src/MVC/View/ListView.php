@@ -251,7 +251,7 @@ class ListView extends HtmlView
     *
     * @return void
     *
-    * @since 5.2
+    * @since __DEPLOY_VERSION__
     */
     protected function appendMoreButton()
     {
@@ -269,7 +269,7 @@ class ListView extends HtmlView
     *
     * @return void
     *
-    * @since 5.2
+    * @since __DEPLOY_VERSION__
     */
     protected function initializeToolbar()
     {
