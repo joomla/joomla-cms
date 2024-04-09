@@ -126,7 +126,7 @@ $params = $this->params;
                         <dd>
                             <div class="hits">
                                 <span class="icon-eye"></span>
-                                <meta content="UserPageVisits:<?php echo $item->hits; ?>" itemprop="userPageVisits">
+                                <meta content="UserPageVisits:<?php echo $item->hits; ?>">
                                 <?php echo Text::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?>
                             </div>
                         </dd>
@@ -216,7 +216,7 @@ $params = $this->params;
                     <dd>
                         <div class="hits">
                             <span class="icon-eye"></span>
-                            <meta content="UserPageVisits:<?php echo $item->hits; ?>" itemprop="userPageVisits">
+                            <meta content="UserPageVisits:<?php echo $item->hits; ?>">
                             <?php echo Text::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?>
                         </div>
                     </dd>
