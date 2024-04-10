@@ -197,7 +197,7 @@ $command = new class () extends AbstractCommand {
             // write missing strings to JPATH_BASE/tmp/missing-helptoc.txt
             file_put_contents(JPATH_BASE . '/tmp/missing-helptoc.txt', $str_missing);
 
-            $io->comment(sprintf('Number of media-wiki articles without string: %d', \count($missing)));
+            $io->caution(sprintf('Number of media-wiki articles without string: %d', \count($missing)));
 
             $io->note(sprintf('Missing strings are saved in: %s and should be revised and added to %s', 'tmp/missing-helptoc.txt', 'administrator/language/en-GB/com_admin.ini'));
 
