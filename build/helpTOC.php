@@ -132,7 +132,7 @@ $command = new class () extends AbstractCommand {
         // Load the admin com_admin language file
         $language->load('com_admin', JPATH_ADMINISTRATOR);
 
-        $toc = [];
+        $toc     = [];
         $missing = [];
 
         // filter for translated Media-Wiki articles
@@ -164,7 +164,7 @@ $command = new class () extends AbstractCommand {
                     $inflected = str_replace('_USER', '_USERS', $string);
                 }
 
-                if ($inflected === '' && !in_array(substr($value, strrpos($value, '/')), $translationLanguages)) {
+                if ($inflected === '' && !\in_array(substr($value, strrpos($value, '/')), $translationLanguages)) {
                     $missing[$string] = $value;
                 }
 
