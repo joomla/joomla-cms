@@ -383,7 +383,7 @@ trait DisplayTrait
         $toolbar = array_merge($toolbar1, $toolbar2);
 
         // Load the link classes list
-        $linksClassesList = (array) $this->params->get('link_classes_list', []);
+        $linksClassesList = $extraOptions->link_classes_list;
         $linkClasses      = [];
 
         if ($linksClassesList) {
