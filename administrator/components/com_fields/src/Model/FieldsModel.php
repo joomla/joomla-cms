@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -131,7 +132,7 @@ class FieldsModel extends ListModel
     /**
      * Method to get a DatabaseQuery object for retrieving the data set from a database.
      *
-     * @return  \Joomla\Database\DatabaseQuery   A DatabaseQuery object to retrieve the data set.
+     * @return  QueryInterface   A DatabaseQuery object to retrieve the data set.
      *
      * @since   3.7.0
      */

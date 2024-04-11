@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -138,7 +139,7 @@ class StepsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return \Joomla\Database\DatabaseQuery
+     * @return QueryInterface
      *
      * @since 4.3.0
      */
