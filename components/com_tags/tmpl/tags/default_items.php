@@ -18,7 +18,7 @@ use Joomla\Component\Tags\Site\Helper\RouteHelper;
 
 /** @var \Joomla\Component\Tags\Site\View\Tags\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_tags.tags-default');
 
 // Get the user object.

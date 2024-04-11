@@ -19,7 +19,7 @@ Text::script('JGLOBAL_COLLAPSE_CATEGORIES');
 
 /** @var \Joomla\Component\Content\Site\View\Categories\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_categories');
 $wa->usePreset('com_categories.shared-categories-accordion');
 

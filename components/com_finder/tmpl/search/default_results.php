@@ -57,8 +57,8 @@ use Joomla\CMS\Uri\Uri;
 <?php if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1)) : ?>
     <?php
         // Allow a maximum of 10 tokens to be highlighted. Otherwise the URL can get too long.
-        $this->document->getWebAssetManager()->useScript('highlight');
-        $this->document->addScriptOptions(
+        $this->getDocument()->getWebAssetManager()->useScript('highlight');
+        $this->getDocument()->addScriptOptions(
             'highlight',
             [[
                     'class'      => 'js-highlight',

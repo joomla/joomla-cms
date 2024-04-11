@@ -18,7 +18,7 @@ use Joomla\CMS\Router\Route;
 $user = $this->getCurrentUser();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_config.templates');
