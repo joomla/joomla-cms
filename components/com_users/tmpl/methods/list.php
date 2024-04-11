@@ -25,7 +25,7 @@ use Joomla\Component\Users\Site\View\Methods\HtmlView;
 /** @var MethodsModel $model */
 $model = $this->getModel();
 
-$this->document->getWebAssetManager()->useScript('com_users.two-factor-list');
+$this->getDocument()->getWebAssetManager()->useScript('com_users.two-factor-list');
 
 HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 

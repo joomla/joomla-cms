@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-$this->document->getWebAssetManager()
+$this->getDocument()->getWebAssetManager()
     ->useStyle('com_finder.finder')
     ->useScript('com_finder.finder');
 

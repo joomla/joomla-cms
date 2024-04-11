@@ -22,7 +22,7 @@ use Joomla\Utilities\ArrayHelper;
  */
 $model = $this->getModel();
 
-$this->document->getWebAssetManager()
+$this->getDocument()->getWebAssetManager()
         ->useScript('com_users.two-factor-focus');
 
 ?>
