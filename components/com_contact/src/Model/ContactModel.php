@@ -369,6 +369,10 @@ class ContactModel extends FormModel
             ->createModel('User', 'Administrator', ['ignore_request' => true]);
         $data = $userModel->getItem((int) $contact->user_id);
 
+        if (!$data) {
+            return;
+        }
+
         PluginHelper::importPlugin('user');
 
         // Get the form.
