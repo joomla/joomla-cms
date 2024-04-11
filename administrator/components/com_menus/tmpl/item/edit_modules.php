@@ -13,9 +13,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Menus\Administrator\View\Item\HtmlView;
 
-/** @var \Joomla\Component\Menus\Administrator\View\Item\HtmlView $this */
-
+/** @var HtmlView $this */
 foreach ($this->levels as $key => $value) {
     $allLevels[$value->id] = $value->title;
 }

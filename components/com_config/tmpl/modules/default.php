@@ -18,6 +18,7 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.combobox');
 
+/** @var \Joomla\Component\Config\Site\View\Modules\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')

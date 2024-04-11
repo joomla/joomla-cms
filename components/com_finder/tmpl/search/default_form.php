@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Finder\Site\View\Search\HtmlView $this */
 /*
 * This segment of code sets up the autocompleter.
 */

@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Config\Site\View\Templates\HtmlView $this */
 $user = $this->getCurrentUser();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
