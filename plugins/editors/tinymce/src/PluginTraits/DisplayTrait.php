@@ -382,18 +382,23 @@ trait DisplayTrait
         // Merge the two toolbars for backwards compatibility
         $toolbar = array_merge($toolbar1, $toolbar2);
 
-        // Load the link classes list
-        $linksClassesList = $extraOptions->link_classes_list;
+        // Set default classes to empty
         $linkClasses      = [];
 
-        if ($linksClassesList) {
-            $linkClasses = [['title' => TEXT::_('PLG_TINY_FIELD_LINK_CLASS_NONE'), 'value' => '']];
+        // Load the link classes list
+        if (isset($extraOptions->link_classes_list) && $extraOptions->link_classes_list) {
+            $linksClassesList = $extraOptions->link_classes_list;
 
-            // Create an array for the link classes
-            foreach ($linksClassesList as $linksClassList) {
-                array_push($linkClasses, ['title' => $linksClassList->class_name, 'value' => $linksClassList->class_list]);
+            if ($linksClassesList) {
+                $linkClasses = [['title' => TEXT::_('PLG_TINY_FIELD_LINK_CLASS_NONE'), 'value' => '']];
+
+                // Create an array for the link classes
+                foreach ($linksClassesList as $linksClassList) {
+                    array_push($linkClasses, ['title' => $linksClassList->class_name, 'value' => $linksClassList->class_list]);
+                }
             }
         }
+
 
         // Build the final options set
         $scriptOptions   = array_merge(
