@@ -68,9 +68,9 @@
 					<form>
 						<field
 							name="class_name"
+							type="text"
 							label="PLG_TINY_FIELD_LINK_CLASS_NAME_LABEL"
 							description="PLG_TINY_FIELD_LINK_CLASS_NAME_DESC"
-							type="text"
 							required="true"
 							filter="string"
 							default=""
