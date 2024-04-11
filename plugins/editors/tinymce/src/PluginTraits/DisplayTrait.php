@@ -382,6 +382,19 @@ trait DisplayTrait
         // Merge the two toolbars for backwards compatibility
         $toolbar = array_merge($toolbar1, $toolbar2);
 
+        // Load the link classes list
+        $linksClassesList = (array) $this->params->get('link_classes_list', []);
+        $linkClasses      = [];
+
+        if($linksClassesList) {
+            $linkClasses      = [['title' => TEXT::_('PLG_TINY_FIELD_LINK_CLASS_NONE'), 'value' => '']];
+
+            // Create an array for the link classes
+            foreach ($linksClassesList as $linksClassList) {
+                array_push($linkClasses, ['title' => $linksClassList->class_name, 'value' => $linksClassList->class_list]);
+            }
+        }
+
         // Build the final options set
         $scriptOptions   = array_merge(
             $scriptOptions,
@@ -423,6 +436,9 @@ trait DisplayTrait
                 // URL
                 'relative_urls'      => (bool) $levelParams->get('relative_urls', true),
                 'remove_script_host' => false,
+
+                // Link classes
+                'link_class_list'    => $linkClasses,
 
                 // Drag and drop Images always FALSE, reverting this allows for inlining the images
                 'paste_data_images' => false,
