@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
@@ -63,7 +62,7 @@ class StepsModel extends ListModel
     /**
      * Provide a query to be used to evaluate if this is an Empty State, can be overridden in the model to provide granular control.
      *
-     * @return DatabaseQuery
+     * @return QueryInterface
      *
      * @since 4.3.0
      */
