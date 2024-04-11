@@ -399,7 +399,6 @@ trait DisplayTrait
             }
         }
 
-
         // Build the final options set
         $scriptOptions   = array_merge(
             $scriptOptions,
