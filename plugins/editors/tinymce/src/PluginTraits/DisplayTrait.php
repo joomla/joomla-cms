@@ -386,7 +386,7 @@ trait DisplayTrait
         $linksClassesList = (array) $this->params->get('link_classes_list', []);
         $linkClasses      = [];
 
-        if($linksClassesList) {
+        if ($linksClassesList) {
             $linkClasses      = [['title' => TEXT::_('PLG_TINY_FIELD_LINK_CLASS_NONE'), 'value' => '']];
 
             // Create an array for the link classes
