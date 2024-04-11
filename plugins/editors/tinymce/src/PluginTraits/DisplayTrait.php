@@ -438,7 +438,7 @@ trait DisplayTrait
                 'remove_script_host' => false,
 
                 // Link classes
-                'link_class_list'    => $linkClasses,
+                'link_class_list' => $linkClasses,
 
                 // Drag and drop Images always FALSE, reverting this allows for inlining the images
                 'paste_data_images' => false,
