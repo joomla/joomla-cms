@@ -77,9 +77,9 @@
 						/>
 						<field
 							name="class_list"
+							type="text"
 							label="PLG_TINY_FIELD_LINK_CLASS_LIST_LABEL"
 							description="PLG_TINY_FIELD_LINK_CLASS_LIST_DESC"
-							type="text"
 							required="true"
 							filter="string"
 							validate="CssIdentifier"
