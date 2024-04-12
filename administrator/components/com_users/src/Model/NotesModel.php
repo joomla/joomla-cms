@@ -62,7 +62,7 @@ class NotesModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  QueryInterface  A DatabaseQuery object to retrieve the data set.
+     * @return  QueryInterface  An object implementing QueryInterface to retrieve the data set.
      *
      * @since   2.5
      */

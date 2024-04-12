@@ -132,7 +132,7 @@ class FieldsModel extends ListModel
     /**
      * Method to get a DatabaseQuery object for retrieving the data set from a database.
      *
-     * @return  QueryInterface   A DatabaseQuery object to retrieve the data set.
+     * @return  QueryInterface   An object implementing QueryInterface to retrieve the data set.
      *
      * @since   3.7.0
      */

@@ -50,7 +50,7 @@ class RequestsModel extends ListModel
     }
 
     /**
-     * Method to get a DatabaseQuery object for retrieving the data set from a database.
+     * Method to get a QueryInterface object for retrieving the data set from a database.
      *
      * @return  QueryInterface
      *
