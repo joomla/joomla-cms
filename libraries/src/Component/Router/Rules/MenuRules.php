@@ -166,7 +166,7 @@ class MenuRules implements RulesInterface
             }
         }
 
-        // TODO: Remove this whole block in 6.0 as it is deprecated
+        // TODO: Remove this whole block in 6.0 as it is a bug
         if (!$this->sefparams->get('enforcesef', 0)) {
             // Check if the active menuitem matches the requested language
             if (
