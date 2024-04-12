@@ -30,9 +30,9 @@ use Joomla\CMS\String\PunycodeHelper;
                             $v_http = substr($profile->value, 0, 4);
 
                             if ($v_http === 'http') :
-                                echo '<dd><a href="' . $profile->text . '">' . PunycodeHelper::urlToUTF8($profile->text) . '</a></dd>';
+                                echo '<dd><a href="' . $profile->text . '">' . $this->escape(PunycodeHelper::urlToUTF8($profile->text)) . '</a></dd>';
                             else :
-                                echo '<dd><a href="http://' . $profile->text . '">' . PunycodeHelper::urlToUTF8($profile->text) . '</a></dd>';
+                                echo '<dd><a href="http://' . $profile->text . '">' . $this->escape(PunycodeHelper::urlToUTF8($profile->text)) . '</a></dd>';
                             endif;
                             break;
 
