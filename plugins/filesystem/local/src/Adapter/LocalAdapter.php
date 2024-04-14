@@ -320,7 +320,7 @@ class LocalAdapter implements AdapterInterface
      */
     public function delete(string $path)
     {
-        $localPath      =  $this->getLocalPath($path);
+        $localPath      = $this->getLocalPath($path);
         $thumbnailPaths = $this->getLocalThumbnailPaths($localPath);
 
         if (is_file($localPath)) {
