@@ -21,7 +21,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Component\Fields\Administrator\Model\FieldsModel;
@@ -318,7 +317,7 @@ class FieldsHelper
         $context = $parts[0] . '.' . $parts[1];
 
         // When no fields available return here
-        $fields = self::getFields($parts[0] . '.' . $parts[1], new CMSObject());
+        $fields = self::getFields($parts[0] . '.' . $parts[1]);
 
         if (! $fields) {
             return true;

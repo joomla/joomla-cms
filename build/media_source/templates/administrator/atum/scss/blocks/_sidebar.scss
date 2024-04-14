@@ -4,8 +4,8 @@
   z-index: $zindex-sidebar;
   min-height: calc(100vh - 66px);
   overflow: hidden;
-  background-color: var(--template-sidebar-bg);
-  box-shadow: 0 0 20px -10px var(--template-bg-dark-50);
+  background-color: $sidebarwrapper-bg;
+  box-shadow: var(--atum-box-shadow);
 
   .sidebar-sticky {
     position: sticky;
@@ -21,13 +21,13 @@
     a,
     .menu-dashboard,
     .menu-quicktask {
-      color: $white;
+      color: $sidebar-item-color; /* $sidebar-item-color $white */
       text-decoration: none;
 
       &:hover {
-        color: var(--template-text-light);
+        color: $sidebar-item-color-hvr; /* $sidebar-item-color-hvr var(--template-text-light) */
         text-decoration: none;
-        background-color: var(--template-bg-dark-65);
+        background-color: $sidebar-item-bg-hvr; /* $sidebar-item-bg-hvr var(--template-bg-dark-65) */
       }
     }
 
@@ -69,10 +69,10 @@
   }
 
   .sidebar-toggle {
-    background: var(--template-bg-dark-60);
+    background: $sidebar-toggle-bg; /* $sidebar-toggle-bg var(--template-bg-dark-60) */
 
     a {
-      color: $white;
+      color: $sidebar-toggle-link; /* $sidebar-toggle-link $white */
     }
 
     .sidebar-item-title {
@@ -110,14 +110,14 @@
   ul {
     width: 100%;
     padding: 0;
-    background-color: var(--template-bg-dark-75);
+    background-color: $main-nav-ul-bg; /* main-nav-ul-bg: var(--template-bg-dark-75) */
   }
 
   .divider {
     height: 1px;
     margin: 0 0 0 48px;
     list-style: none;
-    background-color: var(--template-bg-dark-60);
+    background-color: $main-nav-divider-bg; /* main-nav-divider-bg: var(--template-bg-dark-60) */
   }
 
   .menuitem-group {
@@ -126,7 +126,7 @@
     padding-inline-start: 3rem;
 
     .sidebar-item-title {
-      color: var(--template-bg-dark-30);
+      color: $main-nav-item-title; /* main-nav-item-title: var(--template-bg-dark-30) */
     }
   }
 
@@ -148,11 +148,11 @@
   }
 
   a.mm-active {
-    background-color: var(--template-bg-dark-70);
+    background-color: $main-nav-mm-active-bg; /* main-nav-mm-active-bg: var(--template-bg-dark-70) */
   }
 
   a.mm-active + .menu-quicktask {
-    background-color: var(--template-bg-dark-60);
+    background-color: $main-nav-mm-active-quicktask-bg; /* main-nav-mm-active-quicktask-bg: var(--template-bg-dark-60) */
   }
 
   .mm-active > .has-arrow::after {
@@ -178,7 +178,7 @@
   .badge {
     align-self: center;
     margin: 0 .3rem .25rem;
-    background-color: var(--template-bg-dark-60);
+    background-color: $main-nav-badge; /* main-nav-badge: var(--template-bg-dark-60) */
   }
 }
 
@@ -215,7 +215,7 @@
     padding: 0 1rem;
     white-space: nowrap;
     pointer-events: none;
-    background-color: var(--template-bg-dark-60);
+    background-color: $main-nav-item-title-hvr-bg; /* main-nav-item-title-hvr-bg: var(--template-bg-dark-60) */
     border-end-start-radius: 0;
     border-end-end-radius: $border-radius;
     border-start-end-radius: $border-radius;
@@ -239,7 +239,7 @@
 @include media-breakpoint-down(sm) {
   #menu-collapse {
     display: none;
-    background: var(--template-bg-dark-50);
+    background: $mobile-menu-collapse-bg; /* mobile-menu-collapse-bg: var(--template-bg-dark-50) */
   }
 
   .toggler-burger {
@@ -251,6 +251,10 @@
 
     &:focus {
       box-shadow: none;
+    }
+
+    .navbar-toggler-icon {
+      background-image: none;
     }
 
     .navbar-toggler-icon::before {
@@ -283,3 +287,19 @@
     }
   }
 }
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .sidebar-wrapper {
+      border: 1px solid rgba(255, 255, 255, .05);
+      box-shadow: none;
+      .main-nav {
+        .badge {
+          color: map-get($atum-colors-dark, "btn-primary-color");
+          background-color: map-get($atum-colors-dark, "btn-primary-bg");
+        }
+      }
+    }
+  }
+}
+

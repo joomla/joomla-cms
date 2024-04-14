@@ -125,6 +125,10 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
             <?php endif; ?>
             <?php echo $this->loadTemplate('children'); ?> </div>
     <?php endif; ?>
+    <?php // Code to add a link to submit an article. ?>
+    <?php if ($this->category->getParams()->get('access-create')) : ?>
+        <?php echo HTMLHelper::_('contenticon.create', $this->category, $this->category->params); ?>
+    <?php endif; ?>
     <?php if (($this->params->def('show_pagination', 1) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
         <div class="com-content-category-blog__navigation w-100">
             <?php if ($this->params->def('show_pagination_results', 1)) : ?>

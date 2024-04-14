@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Form\Field;
 
-use DateTime;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
@@ -327,7 +326,7 @@ class CalendarField extends FormField
             $this->value = '';
         }
 
-        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->collectLayoutData());
     }
 
     /**
