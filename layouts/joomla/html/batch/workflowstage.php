@@ -25,8 +25,8 @@ $attr = [
     'group.label' => 'text',
     'group.items' => null,
     'list.attr' => [
-        'class' => 'form-select'
-    ]
+        'class' => 'form-select',
+    ],
 ];
 
 $groups = HTMLHelper::_('workflowstage.existing', ['title' => Text::_('JLIB_HTML_BATCH_WORKFLOW_STAGE_NOCHANGE')]);

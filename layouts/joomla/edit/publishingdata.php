@@ -24,7 +24,7 @@ $fields = $displayData->get('fields') ?: [
     ['modified_by', 'modified_user_id'],
     'version',
     'hits',
-    'id'
+    'id',
 ];
 
 $hiddenFields = $displayData->get('hidden_fields') ?: [];

@@ -24,6 +24,6 @@ use Joomla\CMS\Language\Text;
         'class="form-select"',
         [
             'title' => Text::_('JLIB_HTML_BATCH_NOCHANGE'),
-            'id'    => 'batch-access'
+            'id'    => 'batch-access',
         ]
     );

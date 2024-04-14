@@ -55,7 +55,7 @@ $icon = trim(implode(' ', [$iconPrefix . $icon, $iconFixed, $iconSuffix]));
 if ($html !== false) {
     $iconAttribs = [
         'class'       => $icon,
-        'aria-hidden' => "true"
+        'aria-hidden' => "true",
     ];
 
     if ($tabindex) {

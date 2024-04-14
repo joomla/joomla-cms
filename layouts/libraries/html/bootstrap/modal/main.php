@@ -55,7 +55,7 @@ if (!empty($params['modalCss'])) {
 
 $modalAttributes = [
     'tabindex' => '-1',
-    'class'    => 'joomla-modal ' . implode(' ', $modalClasses)
+    'class'    => 'joomla-modal ' . implode(' ', $modalClasses),
 ];
 
 if (isset($params['backdrop'])) {

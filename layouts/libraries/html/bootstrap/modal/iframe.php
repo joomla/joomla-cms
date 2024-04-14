@@ -34,7 +34,7 @@ extract($displayData);
 
 $iframeAttributes = [
     'class' => 'iframe',
-    'src'   => $params['url']
+    'src'   => $params['url'],
 ];
 
 if (isset($params['title'])) {
