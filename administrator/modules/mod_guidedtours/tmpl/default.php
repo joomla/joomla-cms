@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
@@ -37,9 +37,9 @@ $toursCount   = $params->get('tourscount', 7);
 foreach ($tours as $tour) :
     $uri = new Uri($tour->url);
 
-    if (in_array('*', $tour->extensions)) :
+    if (\in_array('*', $tour->extensions)) :
         $starTours[] = $tour;
-    elseif (in_array($extension, $tour->extensions)) :
+    elseif (\in_array($extension, $tour->extensions)) :
         if ($extension === 'com_categories') :
             // Special case for the categories page, where the context is complemented with the extension the categories apply to
             if ($uri->getVar('option', '') === 'com_categories') :
@@ -53,7 +53,7 @@ foreach ($tours as $tour) :
                     $toursCount--;
                 endif;
             else :
-                if (in_array($app->getInput()->get('extension', ''), $tour->extensions)) :
+                if (\in_array($app->getInput()->get('extension', ''), $tour->extensions)) :
                     if ($contextCount > 0) :
                         $contextTours[] = $tour;
                         $contextCount--;
@@ -87,7 +87,7 @@ endforeach;
 
 if ($contextCount > 0) :
     // The '*' tours have lower priority than contextual tours and are added after them, room permitting
-    $contextTours = array_slice(array_merge($contextTours, $starTours), 0, $params->get('contextcount', 7));
+    $contextTours = \array_slice(array_merge($contextTours, $starTours), 0, $params->get('contextcount', 7));
 endif;
 
 $popupId      = 'guidedtours-popup-content' . $module->id;
@@ -111,7 +111,7 @@ $popupOptions = json_encode([
         <span class="icon-angle-down" aria-hidden="true"></span>
     </button>
     <div class="dropdown-menu dropdown-menu-end">
-        <?php if (count($contextTours) > 0) : ?>
+        <?php if (\count($contextTours) > 0) : ?>
             <ul class="list-unstyled m-0">
                 <?php foreach ($contextTours as $tour) : ?>
                     <li>
@@ -124,7 +124,7 @@ $popupOptions = json_encode([
             </ul>
             <hr class="dropdown-divider m-0" role="separator" />
         <?php endif; ?>
-        <?php if (count($listTours) > 0) : ?>
+        <?php if (\count($listTours) > 0) : ?>
             <ul class="list-unstyled m-0">
                 <?php foreach ($listTours as $tour) : ?>
                     <li>

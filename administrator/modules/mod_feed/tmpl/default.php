@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -21,7 +21,7 @@ if (empty($rssurl)) {
     return;
 }
 
-if (!empty($feed) && is_string($feed)) {
+if (!empty($feed) && \is_string($feed)) {
     echo $feed;
 } else {
     $lang      = $app->getLanguage();
@@ -49,7 +49,7 @@ if (!empty($feed) && is_string($feed)) {
         <?php
 
         // Feed title
-        if (!is_null($feed->title) && $params->get('rsstitle', 1)) : ?>
+        if (!\is_null($feed->title) && $params->get('rsstitle', 1)) : ?>
             <h2 class="<?php echo $direction; ?>">
                 <a href="<?php echo str_replace('&', '&amp;', $rssurl); ?>" target="_blank" rel="noopener noreferrer">
                 <?php echo $feed->title; ?></a>

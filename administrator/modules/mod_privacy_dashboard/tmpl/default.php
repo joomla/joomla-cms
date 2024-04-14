@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -28,9 +28,9 @@ $activeRequests = 0;
         </tr>
     </thead>
     <tbody>
-        <?php if (count($list)) : ?>
+        <?php if (\count($list)) : ?>
             <?php foreach ($list as $i => $item) : ?>
-                <?php if (in_array($item->status, [0, 1])) : ?>
+                <?php if (\in_array($item->status, [0, 1])) : ?>
                     <?php $activeRequests += $item->count; ?>
                 <?php endif; ?>
                 <?php $totalRequests += $item->count; ?>
@@ -57,7 +57,7 @@ $activeRequests = 0;
         <?php endif; ?>
     </tbody>
 </table>
-<?php if (count($list)) : ?>
+<?php if (\count($list)) : ?>
     <div class="row p-3">
         <div class="col-md-6"><?php echo Text::plural('COM_PRIVACY_DASHBOARD_BADGE_TOTAL_REQUESTS', $totalRequests); ?></div>
         <div class="col-md-6"><?php echo Text::plural('COM_PRIVACY_DASHBOARD_BADGE_ACTIVE_REQUESTS', $activeRequests); ?></div>
