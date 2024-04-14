@@ -9,7 +9,7 @@
  * @deprecated  4.3 will be removed in 6.0
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 

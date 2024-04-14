@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 $form = $displayData->getForm();
 
@@ -32,7 +32,7 @@ $hiddenFields = $displayData->get('hidden_fields') ?: [];
 foreach ($fields as $field) {
     foreach ((array) $field as $f) {
         if ($form->getField($f)) {
-            if (in_array($f, $hiddenFields)) {
+            if (\in_array($f, $hiddenFields)) {
                 $form->setFieldAttribute($f, 'type', 'hidden');
             }
 

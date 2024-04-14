@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
@@ -18,7 +18,7 @@ $data = $displayData;
 // Receive overridable options
 $data['options'] = !empty($data['options']) ? $data['options'] : [];
 
-if (is_array($data['options'])) {
+if (\is_array($data['options'])) {
     $data['options'] = new Registry($data['options']);
 }
 

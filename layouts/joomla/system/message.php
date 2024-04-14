@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
@@ -46,7 +46,7 @@ $document->getWebAssetManager()
     ->useStyle('webcomponent.joomla-alert')
     ->useScript('messages');
 
-if (is_array($msgList) && !empty($msgList)) {
+if (\is_array($msgList) && !empty($msgList)) {
     $messages = [];
 
     foreach ($msgList as $type => $msgs) {

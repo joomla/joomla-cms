@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -76,8 +76,8 @@ if ($readonly) {
     $html[] = HTMLHelper::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $value, $id);
 
     // E.g. form field type tag sends $this->value as array
-    if ($multiple && is_array($value)) {
-        if (!count($value)) {
+    if ($multiple && \is_array($value)) {
+        if (!\count($value)) {
             $value[] = '';
         }
 

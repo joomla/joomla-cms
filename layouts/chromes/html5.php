@@ -10,7 +10,7 @@
  * html5 (chosen html5 tag and font header tags)
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 

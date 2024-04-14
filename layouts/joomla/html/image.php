@@ -15,7 +15,7 @@
  *                             Eg: src, class, alt, width, height, loading, decoding, style, data-*
  *                             Note: only the alt and src attributes are escaped by default!
  */
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Utilities\ArrayHelper;

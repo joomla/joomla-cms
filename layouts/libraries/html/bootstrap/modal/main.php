@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -59,11 +59,11 @@ $modalAttributes = [
 ];
 
 if (isset($params['backdrop'])) {
-    $modalAttributes['data-bs-backdrop'] = (is_bool($params['backdrop']) ? ($params['backdrop'] ? 'true' : 'false') : $params['backdrop']);
+    $modalAttributes['data-bs-backdrop'] = (\is_bool($params['backdrop']) ? ($params['backdrop'] ? 'true' : 'false') : $params['backdrop']);
 }
 
 if (isset($params['keyboard'])) {
-    $modalAttributes['data-bs-keyboard'] = (is_bool($params['keyboard']) ? ($params['keyboard'] ? 'true' : 'false') : 'true');
+    $modalAttributes['data-bs-keyboard'] = (\is_bool($params['keyboard']) ? ($params['keyboard'] ? 'true' : 'false') : 'true');
 }
 
 if (isset($params['url'])) {

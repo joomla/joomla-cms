@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -31,7 +31,7 @@ $options  = $button->getOptions();
 
 $confirm = '';
 
-if (is_array($button->get('options')) && isset($options['confirmText']) && isset($options['confirmCallback'])) {
+if (\is_array($button->get('options')) && isset($options['confirmText']) && isset($options['confirmCallback'])) {
     $confirm = '<button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="' . $options['confirmCallback'] . '">'
         . $options['confirmText'] . ' </button>';
 }
@@ -50,10 +50,10 @@ echo HTMLHelper::_(
     [
         'url'    => $link,
         'title'  => $title,
-        'height' => array_key_exists('height', $options) ? $options['height'] : '400px',
-        'width'  => array_key_exists('width', $options) ? $options['width'] : '800px',
-        'bodyHeight'  => array_key_exists('bodyHeight', $options) ? $options['bodyHeight'] : '70',
-        'modalWidth'  => array_key_exists('modalWidth', $options) ? $options['modalWidth'] : '80',
+        'height' => \array_key_exists('height', $options) ? $options['height'] : '400px',
+        'width'  => \array_key_exists('width', $options) ? $options['width'] : '800px',
+        'bodyHeight'  => \array_key_exists('bodyHeight', $options) ? $options['bodyHeight'] : '70',
+        'modalWidth'  => \array_key_exists('modalWidth', $options) ? $options['modalWidth'] : '80',
         'footer' => $confirm . '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
             . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
     ]

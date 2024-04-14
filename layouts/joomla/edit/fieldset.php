@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 
@@ -28,7 +28,7 @@ $extraFields  = $displayData->get('extra_fields') ? : [];
 if (!empty($displayData->showOptions) || $displayData->get('show_options', 1)) {
     if (isset($extraFields[$name])) {
         foreach ($extraFields[$name] as $f) {
-            if (in_array($f, $ignoreFields)) {
+            if (\in_array($f, $ignoreFields)) {
                 continue;
             }
             if ($form->getField($f)) {

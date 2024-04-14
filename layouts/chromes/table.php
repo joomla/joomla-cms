@@ -10,7 +10,7 @@
  * Module chrome that wraps the module in a table
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 $module  = $displayData['module'];
 $params  = $displayData['params'];

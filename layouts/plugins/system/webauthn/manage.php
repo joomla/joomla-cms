@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -62,7 +62,7 @@ if ($displayData['allow_add'] === false) {
 }
 
 // Ensure the GMP or BCmath extension is loaded in PHP - as this is required by third party library
-if ($allow_add && function_exists('gmp_intval') === false && function_exists('bccomp') === false) {
+if ($allow_add && \function_exists('gmp_intval') === false && \function_exists('bccomp') === false) {
     $error = Text::_('PLG_SYSTEM_WEBAUTHN_REQUIRES_GMP');
     $allow_add = false;
 }
@@ -73,7 +73,7 @@ HTMLHelper::_('bootstrap.tooltip', '.plg_system_webauth-has-tooltip');
 ?>
 <div class="plg_system_webauthn" id="plg_system_webauthn-management-interface">
     <?php
-    if (is_string($error) && !empty($error)) : ?>
+    if (\is_string($error) && !empty($error)) : ?>
         <div class="alert alert-danger">
             <?php echo htmlentities($error) ?>
         </div>

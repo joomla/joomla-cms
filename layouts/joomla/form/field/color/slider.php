@@ -46,7 +46,7 @@ extract($displayData);
  * @var   array   $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
-if ($color === 'none' || is_null($color)) {
+if ($color === 'none' || \is_null($color)) {
     $color = '';
 }
 
@@ -58,7 +58,7 @@ $class        = $class ? ' class="' . $class . '"' : '';
 $default      = $default ? ' data-default="' . $default . '"' : '';
 $disabled     = $disabled ? ' disabled' : '';
 $format       = $format ? ' data-format="' . $format . '"' : '';
-$hint         = strlen($hint) ? ' placeholder="' . $this->escape($hint) . '"' : '';
+$hint         = \strlen($hint) ? ' placeholder="' . $this->escape($hint) . '"' : '';
 $onchange     = $onchange ? ' onchange="' . $onchange . '"' : '';
 $onclick      = $onclick ? ' onclick="' . $onclick . '"' : '';
 $preview      = $preview ? ' data-preview="' . $preview . '"' : '';
@@ -118,7 +118,7 @@ Text::script('JFIELD_COLOR_ERROR_WRONG_FORMAT');
     >
     <span class="form-control-feedback"></span>
 
-    <?php if ($allSliders || in_array('hue', $displayValues)) : ?>
+    <?php if ($allSliders || \in_array('hue', $displayValues)) : ?>
         <label for="hue-slider" class="visually-hidden"><?php echo Text::_('JFIELD_COLOR_LABEL_SLIDER_HUE'); ?></label>
         <input type="range" min="0" max="360" class="form-control color-slider" id="hue-slider" data-type="hue"
             <?php echo
@@ -127,7 +127,7 @@ Text::script('JFIELD_COLOR_ERROR_WRONG_FORMAT');
             ?>
         >
     <?php endif ?>
-    <?php if ($allSliders || in_array('saturation', $displayValues)) : ?>
+    <?php if ($allSliders || \in_array('saturation', $displayValues)) : ?>
         <label for="saturation-slider" class="visually-hidden"><?php echo Text::_('JFIELD_COLOR_LABEL_SLIDER_SATURATION'); ?></label>
         <input type="range" min="0" max="100" class="form-control color-slider" id="saturation-slider" data-type="saturation"
             <?php echo
@@ -136,7 +136,7 @@ Text::script('JFIELD_COLOR_ERROR_WRONG_FORMAT');
             ?>
         >
     <?php endif ?>
-    <?php if ($allSliders || in_array('light', $displayValues)) : ?>
+    <?php if ($allSliders || \in_array('light', $displayValues)) : ?>
         <label for="light-slider" class="visually-hidden"><?php echo Text::_('JFIELD_COLOR_LABEL_SLIDER_LIGHT'); ?></label>
         <input type="range" min="0" max="100" class="form-control color-slider" id="light-slider" data-type="light"
             <?php echo
@@ -145,7 +145,7 @@ Text::script('JFIELD_COLOR_ERROR_WRONG_FORMAT');
             ?>
         >
     <?php endif ?>
-    <?php if ($alpha && ($allSliders || in_array('alpha', $displayValues))) : ?>
+    <?php if ($alpha && ($allSliders || \in_array('alpha', $displayValues))) : ?>
         <label for="alpha-slider" class="visually-hidden"><?php echo Text::_('JFIELD_COLOR_LABEL_SLIDER_ALPHA'); ?></label>
         <input type="range" min="0" max="100" class="form-control color-slider" id="alpha-slider" data-type="alpha"
             <?php echo

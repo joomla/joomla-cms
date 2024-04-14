@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 extract($displayData);
 
@@ -67,7 +67,7 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
     <?php foreach ($options as $i => $option) : ?>
         <?php
             // Initialize some option attributes.
-            $checked = in_array((string) $option->value, $checkedOptions, true) ? 'checked' : '';
+            $checked = \in_array((string) $option->value, $checkedOptions, true) ? 'checked' : '';
 
             // In case there is no stored value, use the option's default state.
             $checked        = (!$hasValue && $option->checked) ? 'checked' : $checked;

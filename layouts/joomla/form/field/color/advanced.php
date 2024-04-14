@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 
@@ -49,14 +49,14 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
-if ($validate !== 'color' && in_array($format, ['rgb', 'rgba'], true)) {
+if ($validate !== 'color' && \in_array($format, ['rgb', 'rgba'], true)) {
     $alpha = ($format === 'rgba');
     $placeholder = $alpha ? 'rgba(0, 0, 0, 0.5)' : 'rgb(0, 0, 0)';
 } else {
     $placeholder = '#rrggbb';
 }
 
-$inputclass   = ($keywords && ! in_array($format, ['rgb', 'rgba'], true)) ? ' keywords' : ' ' . $format;
+$inputclass   = ($keywords && ! \in_array($format, ['rgb', 'rgba'], true)) ? ' keywords' : ' ' . $format;
 $class        = ' class="form-control ' . trim('minicolors ' . $class) . ($validate === 'color' ? '' : $inputclass) . '"';
 $control      = $control ? ' data-control="' . $control . '"' : '';
 $format       = $format ? ' data-format="' . $format . '"' : '';
@@ -65,7 +65,7 @@ $colors       = $colors ? ' data-colors="' . $colors . '"' : '';
 $validate     = $validate ? ' data-validate="' . $validate . '"' : '';
 $disabled     = $disabled ? ' disabled' : '';
 $readonly     = $readonly ? ' readonly' : '';
-$hint         = strlen($hint) ? ' placeholder="' . $this->escape($hint) . '"' : ' placeholder="' . $placeholder . '"';
+$hint         = \strlen($hint) ? ' placeholder="' . $this->escape($hint) . '"' : ' placeholder="' . $placeholder . '"';
 $onchange     = $onchange ? ' onchange="' . $onchange . '"' : '';
 $required     = $required ? ' required' : '';
 $autocomplete = !empty($autocomplete) ? ' autocomplete="' . $autocomplete . '"' : '';

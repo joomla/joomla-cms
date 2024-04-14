@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -42,7 +42,7 @@ if (isset($data['view']->filterForm) && !empty($data['view']->filterForm)) {
 
     // Checks if the filters button should exist.
     $filters = $data['view']->filterForm->getGroup('filter');
-    $showFilterButton = isset($filters['filter_search']) && count($filters) === 1 ? false : true;
+    $showFilterButton = isset($filters['filter_search']) && \count($filters) === 1 ? false : true;
 
     // Checks if it should show the be hidden.
     $hideActiveFilters = empty($data['view']->activeFilters);

@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -45,12 +45,12 @@ if (!$displayData->get('show_options', 1)) {
     // Loop over the fieldsets
     foreach ($fieldSets as $name => $fieldSet) {
         // Check if the fieldset should be ignored
-        if (in_array($name, $ignoreFieldsets, true)) {
+        if (\in_array($name, $ignoreFieldsets, true)) {
             continue;
         }
 
         // If it is a hidden fieldset, render the inputs
-        if (in_array($name, $hiddenFieldsets)) {
+        if (\in_array($name, $hiddenFieldsets)) {
             // Loop over the fields
             foreach ($form->getFieldset($name) as $field) {
                 // Add only the input on the buffer
@@ -81,9 +81,9 @@ foreach ($fieldSets as $name => $fieldSet) {
     // Ensure any fieldsets we don't want to show are skipped (including repeating formfield fieldsets)
     if (
         (isset($fieldSet->repeat) && $fieldSet->repeat === true)
-        || in_array($name, $ignoreFieldsets)
-        || (!empty($configFieldsets) && in_array($name, $configFieldsets, true))
-        || (!empty($hiddenFieldsets) && in_array($name, $hiddenFieldsets, true))
+        || \in_array($name, $ignoreFieldsets)
+        || (!empty($configFieldsets) && \in_array($name, $configFieldsets, true))
+        || (!empty($hiddenFieldsets) && \in_array($name, $hiddenFieldsets, true))
     ) {
         continue;
     }

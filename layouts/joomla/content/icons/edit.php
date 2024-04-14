@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -20,7 +20,7 @@ $nowDate = strtotime(Factory::getDate());
 $icon = $article->state ? 'edit' : 'eye-slash';
 $currentDate   = Factory::getDate()->format('Y-m-d H:i:s');
 $isUnpublished = ($article->publish_up > $currentDate)
-    || !is_null($article->publish_down) && ($article->publish_down < $currentDate);
+    || !\is_null($article->publish_down) && ($article->publish_down < $currentDate);
 
 if ($isUnpublished) {
     $icon = 'eye-slash';

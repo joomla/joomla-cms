@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -87,7 +87,7 @@ $ariaDescribedBy = $rules ? $name . '-rules ' : '';
 $ariaDescribedBy .= !empty($description) ? (($id ?: $name) . '-desc') : '';
 
 $attributes = [
-    strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
+    \strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
     !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
     !empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
     !empty($ariaDescribedBy) ? 'aria-describedby="' . trim($ariaDescribedBy) . '"' : '',

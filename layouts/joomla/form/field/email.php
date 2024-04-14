@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\String\PunycodeHelper;
 
@@ -65,7 +65,7 @@ $attributes = [
     !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
     $multiple ? 'multiple' : '',
     !empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
-    strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
+    \strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
     $required ? 'required' : '',
     $autofocus ? 'autofocus' : '',
     $dataAttribute,
