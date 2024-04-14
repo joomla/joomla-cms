@@ -12,6 +12,7 @@
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+
 ?>
 <table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
     <caption class="visually-hidden"><?php echo $module->title; ?></caption>
