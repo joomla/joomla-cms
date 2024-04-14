@@ -42,7 +42,7 @@ class CoreContent extends Table implements CurrentUserInterface
     protected $_supportNullValue = true;
 
     /**
-     * Encode necessary fields to JSON in the bind method
+     * An array of key names to be json encoded in the bind method
      *
      * @var    array
      * @since  4.0.0
