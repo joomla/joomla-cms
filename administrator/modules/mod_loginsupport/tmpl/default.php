@@ -24,7 +24,7 @@ use Joomla\CMS\Language\Text;
                 [
                     'target' => '_blank',
                     'rel'    => 'nofollow noopener',
-                    'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGINSUPPORT_FORUM'))
+                    'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGINSUPPORT_FORUM')),
                 ]
             ); ?>
         </li>
@@ -35,7 +35,7 @@ use Joomla\CMS\Language\Text;
                 [
                     'target' => '_blank',
                     'rel'    => 'nofollow noopener',
-                    'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGINSUPPORT_DOCUMENTATION'))
+                    'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGINSUPPORT_DOCUMENTATION')),
                 ]
             ); ?>
         </li>
@@ -46,7 +46,7 @@ use Joomla\CMS\Language\Text;
                 [
                     'target' => '_blank',
                     'rel'    => 'nofollow noopener',
-                    'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGINSUPPORT_NEWS'))
+                    'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGINSUPPORT_NEWS')),
                 ]
             ); ?>
         </li>
