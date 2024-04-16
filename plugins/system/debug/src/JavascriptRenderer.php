@@ -75,7 +75,7 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
         foreach ($jsFiles as $file) {
             $html .= sprintf('<script src="%s" defer></script>' . "\n", $file);
         }
-        
+
         foreach ($inlineJs as $content) {
             $html .= sprintf('<script type="module"%s>%s</script>' . "\n", $nonce, $content);
         }
