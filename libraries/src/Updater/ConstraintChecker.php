@@ -38,7 +38,7 @@ class ConstraintChecker
     protected \stdClass $failedEnvironmentConstraints;
 
     /**
-     * The channel to check the contraints against
+     * The channel to check the constraints against
      *
      * @var string
      */
