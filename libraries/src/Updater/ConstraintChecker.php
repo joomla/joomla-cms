@@ -123,7 +123,7 @@ class ConstraintChecker
     }
 
     /**
-     * Gets the failed constraints for further proccesing
+     * Gets the failed constraints for further processing
      *
      * @return  \stdClass
      *
