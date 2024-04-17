@@ -11,6 +11,18 @@
 defined('_JEXEC') or die;
 
 /** @var \Joomla\Component\Modules\Administrator\View\Module\HtmlView $this */
+
+// A backward compatibility for bootstrap modals: hide toolbar
+// @TODO: Remove in 6.0
+$this->getDocument()->getWebAssetManager()->addInlineScript('
+if (window.parent.Joomla.Modal) {
+    const modal = window.parent.Joomla.Modal.getCurrent();
+    const toolbar = document.querySelector(".component .subhead")
+    if (modal && modal.nodeName !== "JOOMLA-DIALOG" && toolbar) {
+        toolbar.style.display = "none";
+    }
+}
+', ['name' => 'inline.module-modal-fix'], ['type' => 'module']);
 ?>
 <div class="subhead noshadow mb-3">
     <?php echo $this->document->getToolbar('toolbar')->render(); ?>
