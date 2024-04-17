@@ -20,6 +20,7 @@ if (window.parent.Joomla.Modal) {
     const toolbar = document.querySelector(".component .subhead")
     if (modal && modal.nodeName !== "JOOMLA-DIALOG" && toolbar) {
         toolbar.style.display = "none";
+        console.warn("Update your modal for Module editing to use Joomla Dialog");
     }
 }
 ', ['name' => 'inline.module-modal-fix'], ['type' => 'module']);
