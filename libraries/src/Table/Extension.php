@@ -107,6 +107,7 @@ class Extension extends Table
         $query = $this->_db->getQuery(true);
 
         foreach ($options as $col => $val) {
+            if ($val === null) continue;
             $query->where($col . ' = ' . $this->_db->quote($val));
         }
 
