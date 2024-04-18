@@ -70,6 +70,17 @@
       "dependencies": [
         "tinymce"
       ]
+    },
+    {
+      "name": "plg_editors_tinymce.paste_from_word",
+      "type": "script",
+      "uri": "plg_editors_tinymce/plugins/paste_from_word/plugin.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "tinymce"
+      ]
     }
   ]
 }

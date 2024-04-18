@@ -252,8 +252,10 @@ trait DisplayTrait
             'importcss',
             'quickbars',
             'jxtdbuttons',
+            'paste_from_word',
         ];
         $wa->useScript('plg_editors_tinymce.jxtdbuttons');
+        $wa->useScript('plg_editors_tinymce.paste_from_word');
 
         // Allowed elements
         $elements = [
@@ -415,6 +417,10 @@ trait DisplayTrait
                 'entity_encoding'    => $levelParams->get('entity_encoding', 'raw'),
                 'verify_html'        => !$ignore_filter,
                 'paste_as_text'      => (bool) $levelParams->get('paste_as_text', false),
+
+                // Paste from Word
+                'paste_webkit_styles'           => 'all',
+                'paste_remove_styles_if_webkit' => false,
 
                 'valid_elements'          => $valid_elements,
                 'extended_valid_elements' => implode(',', $elements),
