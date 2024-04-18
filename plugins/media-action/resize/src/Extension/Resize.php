@@ -50,7 +50,13 @@ final class Resize extends MediaActionPlugin
             return;
         }
 
-        $imgObject = new Image(imagecreatefromstring($item->data));
+        // @TODO figure out a way to handle avif images
+        // imagecreatefromstring doesn't work with avif images: https://www.php.net/manual/en/function.imagecreatefromstring.php
+        if (strtolower($item->extension) !== 'avif') {
+            $imgObject = new Image(imagecreatefromstring($item->data));
+        } else {
+            return true;
+        }
 
         if ($imgObject->getWidth() < $this->params->get('batch_width', 0) && $imgObject->getHeight() < $this->params->get('batch_height', 0)) {
             return;

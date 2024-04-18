@@ -123,6 +123,7 @@ class Image
             static::$formats[IMAGETYPE_PNG]  = $info['PNG Support'];
             static::$formats[IMAGETYPE_GIF]  = $info['GIF Read Support'];
             static::$formats[IMAGETYPE_WEBP] = $info['WebP Support'];
+            static::$formats[IMAGETYPE_AVIF] = $info['AVIF Support'];
         }
 
         // If the source input is a resource, set it as the image handle.

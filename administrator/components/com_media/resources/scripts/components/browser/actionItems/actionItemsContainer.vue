@@ -189,7 +189,7 @@ export default {
     },
     canOpenEditView() {
       // @TODO pass the array of allowed to edit files from PHP
-      return ['jpg', 'jpeg', 'png', 'webp', 'avif'].includes(this.item.extension.toLowerCase());
+      return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
     },
   },
   watch: {
