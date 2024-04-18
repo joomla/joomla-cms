@@ -4,7 +4,7 @@
 -- New installs will have the default value set in the installation sql.
 --
 
-UPDATE "__template_styles"
+UPDATE "#__template_styles"
 SET "params" = jsonb_set("params", '{colorScheme}', '"os"', true)
 WHERE "template" = 'atum'
 AND NOT ("params" -> 'colorScheme' ? 'os');
