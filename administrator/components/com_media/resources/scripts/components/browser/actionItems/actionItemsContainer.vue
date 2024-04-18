@@ -188,7 +188,7 @@ export default {
       return api.canDelete && (typeof this.item.canDelete !== 'undefined' ? this.item.canDelete : true);
     },
     canOpenEditView() {
-      return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
+      return ['jpg', 'jpeg', 'png', 'webp', 'avif'].includes(this.item.extension.toLowerCase());
     },
   },
   watch: {

@@ -46,7 +46,7 @@ final class Resize extends MediaActionPlugin
             return;
         }
 
-        if (!\in_array($item->extension, ['jpg', 'jpeg', 'png', 'gif'])) {
+        if (!\in_array(strtolower($item->extension), ['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif'])) {
             return;
         }
 
@@ -63,14 +63,21 @@ final class Resize extends MediaActionPlugin
             Image::SCALE_INSIDE
         );
 
-        $type = IMAGETYPE_JPEG;
-
-        switch ($item->extension) {
+        switch (strtolower($item->extension)) {
             case 'gif':
                 $type = IMAGETYPE_GIF;
                 break;
             case 'png':
                 $type = IMAGETYPE_PNG;
+                break;
+            case 'avif':
+                $type = IMAGETYPE_AVIF;
+                break;
+            case 'webp':
+                $type = IMAGETYPE_WEBP;
+                break;
+            default:
+                $type = IMAGETYPE_JPEG;
         }
 
         ob_start();
