@@ -107,7 +107,9 @@ class ExtensionAdapter extends UpdateAdapter
                 // Check that the product matches and that the version matches (optionally a regexp)
                 if (
                     $product == $this->currentUpdate->targetplatform['NAME']
-                    && preg_match('/^' . $this->currentUpdate->targetplatform['VERSION'] . '/', JVERSION)
+                    // PHP 8.2.17: Got error 'PHP message: PHP Warning: preg_match(): Compilation failed: missing closing parenthesis at offset 13 in /libraries/src/Updater/Adapter/ExtensionAdapter.php on line 110'
+                    // && preg_match('/^' . $this->currentUpdate->targetplatform['VERSION'] . '/', JVERSION)
+                    && preg_match('/^' . preg_quote($this->currentUpdate->targetplatform['VERSION']) . '/', JVERSION)
                 ) {
                     // Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
                     if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum, '>=')) {
