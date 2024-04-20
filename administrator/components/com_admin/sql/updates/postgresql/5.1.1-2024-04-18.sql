@@ -7,4 +7,4 @@
 UPDATE "#__template_styles"
 SET "params" = jsonb_set("params"::jsonb, '{colorScheme}', '"os"', true)
 WHERE "template" = 'atum'
-AND NOT ("params" -> 'colorScheme' ? 'os');
+AND "params"::jsonb->>'colorScheme' IS NULL;
