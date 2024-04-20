@@ -32,7 +32,7 @@ if ($feed !== false) : ?>
             </h3>
         <?php endif; ?>
         <?php // Feed date ?>
-        <?php if ($params->get('rssdate', 1)) : ?>
+        <?php if ($params->get('rssdate', 1) && ($feed->publishedDate !== null)) : ?>
             <h4>
                 <?php echo HTMLHelper::_('date', $feed->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
             </h4>
@@ -63,7 +63,7 @@ if ($feed !== false) : ?>
                             <span class="feed-link"><?php echo trim($feed[$i]->title); ?></span>
                         <?php endif; ?>
 
-                        <?php if ($params->get('rssitemdate', 0)) : ?>
+                        <?php if ($params->get('rssitemdate', 0) && ($feed->publishedDate !== null)) : ?>
                             <div class="feed-item-date">
                                 <?php echo HTMLHelper::_('date', $feed[$i]->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
                             </div>
