@@ -1,5 +1,5 @@
 --
--- Add a default value for the colorScheme in the Atum tenmplate on Joomla update
+-- Add a default value for the colorScheme in the Atum template on Joomla update
 -- only when a value is not already set.
 -- New installs will have the default value set in the installation sql.
 --
