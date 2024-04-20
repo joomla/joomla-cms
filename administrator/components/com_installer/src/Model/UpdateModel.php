@@ -377,7 +377,7 @@ class UpdateModel extends ListModel
                 Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_UPDATE_ERROR',
                     $instance->name,
                     $t->getMessage(),
-                    (JDEBUG ? str_replace(JPATH_ROOT, 'JROOT', Path::clean($t->getFile())) . ':' .  $t->getLine() : '')),
+                    (JDEBUG ? str_replace(JPATH_ROOT, 'JROOT', Path::clean($t->getFile())) . ':' . $t->getLine() : '')),
                     'error');
             }
 
