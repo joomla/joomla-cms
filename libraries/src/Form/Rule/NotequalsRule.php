@@ -43,7 +43,7 @@ class NotequalsRule extends FormRule
      * @throws  \InvalidArgumentException
      * @throws  \UnexpectedValueException
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         $field = (string) $element['field'];
 

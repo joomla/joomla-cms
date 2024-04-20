@@ -39,7 +39,7 @@ class PreloadManager implements PreloadManagerInterface
      *
      * @since   4.0.0
      */
-    public function __construct(EvolvableLinkProviderInterface $linkProvider = null)
+    public function __construct(?EvolvableLinkProviderInterface $linkProvider = null)
     {
         $this->linkProvider = $linkProvider ?: new GenericLinkProvider();
     }

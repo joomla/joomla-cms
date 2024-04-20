@@ -55,13 +55,13 @@ class RouterFactory implements RouterFactoryInterface
      * The namespace must be like:
      * Joomla\Component\Content
      *
-     * @param   string                    $namespace        The namespace
-     * @param   CategoryFactoryInterface  $categoryFactory  The category object
-     * @param   DatabaseInterface         $db               The database object
+     * @param   string                     $namespace        The namespace
+     * @param   ?CategoryFactoryInterface  $categoryFactory  The category object
+     * @param   ?DatabaseInterface         $db               The database object
      *
      * @since   4.0.0
      */
-    public function __construct($namespace, CategoryFactoryInterface $categoryFactory = null, DatabaseInterface $db = null)
+    public function __construct($namespace, ?CategoryFactoryInterface $categoryFactory = null, ?DatabaseInterface $db = null)
     {
         $this->namespace       = $namespace;
         $this->categoryFactory = $categoryFactory;

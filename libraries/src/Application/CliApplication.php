@@ -113,12 +113,12 @@ abstract class CliApplication extends AbstractApplication implements CMSApplicat
      * @since   1.7.0
      */
     public function __construct(
-        Input $input = null,
-        Registry $config = null,
-        CliOutput $output = null,
-        CliInput $cliInput = null,
-        DispatcherInterface $dispatcher = null,
-        Container $container = null
+        ?Input $input = null,
+        ?Registry $config = null,
+        ?CliOutput $output = null,
+        ?CliInput $cliInput = null,
+        ?DispatcherInterface $dispatcher = null,
+        ?Container $container = null
     ) {
         // Close the application if we are not executed from the command line.
         if (!\defined('STDOUT') || !\defined('STDIN') || !isset($_SERVER['argv'])) {

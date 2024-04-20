@@ -180,7 +180,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since   3.2
      */
-    public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
+    public function __construct(?Input $input = null, ?Registry $config = null, ?WebClient $client = null, ?Container $container = null)
     {
         $container = $container ?: new Container();
         $this->setContainer($container);
@@ -485,7 +485,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *              Use the application service from the DI container instead
      *              Example: Factory::getContainer()->get($name);
      */
-    public static function getInstance($name = null, $prefix = '\JApplication', Container $container = null)
+    public static function getInstance($name = null, $prefix = '\JApplication', ?Container $container = null)
     {
         if (empty(static::$instances[$name])) {
             // Create a CmsApplication object.

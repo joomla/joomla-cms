@@ -71,12 +71,12 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
      * The namespace must be like:
      * Joomla\Component\Content
      *
-     * @param   string                $namespace  The namespace
-     * @param   LoggerInterface|null  $logger     A logging instance to inject into the controller if required
+     * @param   string            $namespace  The namespace
+     * @param   ?LoggerInterface  $logger     A logging instance to inject into the controller if required
      *
      * @since   4.0.0
      */
-    public function __construct($namespace, LoggerInterface $logger = null)
+    public function __construct($namespace, ?LoggerInterface $logger = null)
     {
         $this->namespace = $namespace;
         $this->logger    = $logger;

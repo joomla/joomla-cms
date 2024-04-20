@@ -82,7 +82,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         parent::__construct($config);
 
@@ -416,7 +416,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      *              Use setDatabase() instead
      *              Example: $model->setDatabase($db);
      */
-    public function setDbo(DatabaseInterface $db = null)
+    public function setDbo(?DatabaseInterface $db = null)
     {
         if ($db === null) {
             return;

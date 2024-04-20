@@ -54,7 +54,7 @@ trait IdentityAware
      *
      * @since   4.0.0
      */
-    public function loadIdentity(User $identity = null)
+    public function loadIdentity(?User $identity = null)
     {
         $this->identity = $identity ?: $this->getUserFactory()->loadUserById(0);
 

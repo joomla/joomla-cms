@@ -196,13 +196,13 @@ class LanguageHelper
     /**
      * Get a list of installed languages.
      *
-     * @param   integer            $clientId         The client app id.
-     * @param   boolean            $processMetaData  Fetch Language metadata.
-     * @param   boolean            $processManifest  Fetch Language manifest.
-     * @param   string             $pivot            The pivot of the returning array.
-     * @param   string             $orderField       Field to order the results.
-     * @param   string             $orderDirection   Direction to order the results.
-     * @param   DatabaseInterface  $db               Database object to use database queries
+     * @param   integer             $clientId         The client app id.
+     * @param   boolean             $processMetaData  Fetch Language metadata.
+     * @param   boolean             $processManifest  Fetch Language manifest.
+     * @param   string              $pivot            The pivot of the returning array.
+     * @param   string              $orderField       Field to order the results.
+     * @param   string              $orderDirection   Direction to order the results.
+     * @param   ?DatabaseInterface  $db               Database object to use database queries
      *
      * @return  array  Array with the installed languages.
      *
@@ -215,7 +215,7 @@ class LanguageHelper
         $pivot = 'element',
         $orderField = null,
         $orderDirection = null,
-        DatabaseInterface $db = null
+        ?DatabaseInterface $db = null
     ) {
         static $installedLanguages = null;
 

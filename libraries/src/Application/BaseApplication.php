@@ -45,7 +45,7 @@ abstract class BaseApplication extends AbstractApplication
      *
      * @since   3.0.0
      */
-    public function __construct(Input $input = null, Registry $config = null)
+    public function __construct(?Input $input = null, ?Registry $config = null)
     {
         $this->input  = $input instanceof Input ? $input : new Input();
         $this->config = $config instanceof Registry ? $config : new Registry();

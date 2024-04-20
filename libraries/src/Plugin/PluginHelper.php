@@ -150,16 +150,16 @@ abstract class PluginHelper
      * Loads all the plugin files for a particular type if no specific plugin is specified
      * otherwise only the specific plugin is loaded.
      *
-     * @param   string               $type        The plugin type, relates to the subdirectory in the plugins directory.
-     * @param   string               $plugin      The plugin name.
-     * @param   boolean              $autocreate  Autocreate the plugin.
-     * @param   DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+     * @param   string                $type        The plugin type, relates to the subdirectory in the plugins directory.
+     * @param   string                $plugin      The plugin name.
+     * @param   boolean               $autocreate  Autocreate the plugin.
+     * @param   ?DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
      *
      * @return  boolean  True on success.
      *
      * @since   1.5
      */
-    public static function importPlugin($type, $plugin = null, $autocreate = true, DispatcherInterface $dispatcher = null)
+    public static function importPlugin($type, $plugin = null, $autocreate = true, ?DispatcherInterface $dispatcher = null)
     {
         static $loaded = [];
 
@@ -208,15 +208,15 @@ abstract class PluginHelper
     /**
      * Loads the plugin file.
      *
-     * @param   object               $plugin      The plugin.
-     * @param   boolean              $autocreate  True to autocreate.
-     * @param   DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+     * @param   object                $plugin      The plugin.
+     * @param   boolean               $autocreate  True to autocreate.
+     * @param   ?DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
      *
      * @return  void
      *
      * @since   3.2
      */
-    protected static function import($plugin, $autocreate = true, DispatcherInterface $dispatcher = null)
+    protected static function import($plugin, $autocreate = true, ?DispatcherInterface $dispatcher = null)
     {
         static $plugins = [];
 

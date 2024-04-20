@@ -26,14 +26,14 @@ class Http extends FrameworkHttp
     /**
      * Constructor.
      *
-     * @param   array|\ArrayAccess           $options    Client options array. If the registry contains any headers.* elements,
-     *                                                   these will be added to the request headers.
-     * @param   FrameworkTransportInterface  $transport  The HTTP transport object.
+     * @param   array|\ArrayAccess            $options    Client options array. If the registry contains any headers.* elements,
+     *                                                    these will be added to the request headers.
+     * @param   ?FrameworkTransportInterface  $transport  The HTTP transport object.
      *
      * @since   1.7.3
      * @throws  \InvalidArgumentException
      */
-    public function __construct($options = [], FrameworkTransportInterface $transport = null)
+    public function __construct($options = [], ?FrameworkTransportInterface $transport = null)
     {
         if (!\is_array($options) && !($options instanceof \ArrayAccess)) {
             throw new \InvalidArgumentException(

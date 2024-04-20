@@ -44,12 +44,12 @@ class UCMBase implements UCM
     /**
      * Instantiate the UCMBase.
      *
-     * @param   string   $alias  The alias string
-     * @param   UCMType  $type   The type object
+     * @param   string    $alias  The alias string
+     * @param   ?UCMType  $type   The type object
      *
      * @since   3.1
      */
-    public function __construct($alias = null, UCMType $type = null)
+    public function __construct($alias = null, ?UCMType $type = null)
     {
         // Setup dependencies.
         $input       = Factory::getApplication()->getInput();
@@ -61,16 +61,16 @@ class UCMBase implements UCM
     /**
      * Store data to the appropriate table
      *
-     * @param   array           $data        Data to be stored
-     * @param   TableInterface  $table       Table Object
-     * @param   string          $primaryKey  The primary key name
+     * @param   array            $data        Data to be stored
+     * @param   ?TableInterface  $table       Table Object
+     * @param   string           $primaryKey  The primary key name
      *
      * @return  boolean  True on success
      *
      * @since   3.1
      * @throws  \Exception
      */
-    protected function store($data, TableInterface $table = null, $primaryKey = null)
+    protected function store($data, ?TableInterface $table = null, $primaryKey = null)
     {
         if (!$table) {
             $table = Table::getInstance('Ucm');
@@ -117,14 +117,14 @@ class UCMBase implements UCM
     /**
      * Method to map the base ucm fields
      *
-     * @param   array    $original  Data array
-     * @param   UCMType  $type      UCM Content Type
+     * @param   array     $original  Data array
+     * @param   ?UCMType  $type      UCM Content Type
      *
      * @return  array  Data array of UCM mappings
      *
      * @since   3.1
      */
-    public function mapBase($original, UCMType $type = null)
+    public function mapBase($original, ?UCMType $type = null)
     {
         $type = $type ?: $this->type;
 

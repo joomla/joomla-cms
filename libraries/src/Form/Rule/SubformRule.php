@@ -40,7 +40,7 @@ class SubformRule extends FormRule
      *
      * @since   3.9.7
      */
-    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    public function test(\SimpleXMLElement $element, $value, $group = null, ?Registry $input = null, ?Form $form = null)
     {
         // Get the form field object.
         $field = $form->getField($element['name'], $group);

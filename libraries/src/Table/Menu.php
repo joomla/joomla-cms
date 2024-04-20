@@ -47,7 +47,7 @@ class Menu extends Nested
      *
      * @since   1.5
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__menu', 'id', $db, $dispatcher);
 

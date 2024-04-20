@@ -39,16 +39,16 @@ class Files extends Input
     /**
      * The class constructor.
      *
-     * @param   array  $source   The source argument is ignored. $_FILES is always used.
-     * @param   array  $options  An optional array of configuration options:
-     *                           filter : a custom InputFilter object.
+     * @param   ?array  $source   The source argument is ignored. $_FILES is always used.
+     * @param   array   $options  An optional array of configuration options:
+     *                            filter : a custom InputFilter object.
      *
      * @since   3.0.0
      *
      * @deprecated   4.3 will be removed in 6.0.
      *               Use Joomla\Input\Files instead
      */
-    public function __construct(array $source = null, array $options = [])
+    public function __construct(?array $source = null, array $options = [])
     {
         if (isset($options['filter'])) {
             $this->filter = $options['filter'];

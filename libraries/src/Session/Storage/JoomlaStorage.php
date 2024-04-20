@@ -68,12 +68,12 @@ class JoomlaStorage extends NativeStorage
      * Constructor
      *
      * @param   Input                     $input    Input object
-     * @param   \SessionHandlerInterface  $handler  Session save handler
+     * @param   ?\SessionHandlerInterface  $handler  Session save handler
      * @param   array                     $options  Session options
      *
      * @since   4.0.0
      */
-    public function __construct(Input $input, \SessionHandlerInterface $handler = null, array $options = [])
+    public function __construct(Input $input, ?\SessionHandlerInterface $handler = null, array $options = [])
     {
         // Disable transparent sid support and default use cookies
         $options += [
