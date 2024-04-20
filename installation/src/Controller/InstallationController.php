@@ -27,16 +27,16 @@ use Joomla\CMS\Session\Session;
 class InstallationController extends JSONController
 {
     /**
-     * @param   array                         $config   An optional associative array of configuration settings.
-     *                                                  Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                                  'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface|null      $factory  The factory.
-     * @param   CMSApplication|null           $app      The Application for the dispatcher
-     * @param   \Joomla\CMS\Input\Input|null  $input    The Input object.
+     * @param   array                     $config   An optional associative array of configuration settings.
+     *                                              Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                              'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface      $factory  The factory.
+     * @param   ?CMSApplication           $app      The Application for the dispatcher
+     * @param   ?\Joomla\CMS\Input\Input  $input    The Input object.
      *
      * @since   3.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
