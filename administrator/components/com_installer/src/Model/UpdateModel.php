@@ -417,6 +417,10 @@ class UpdateModel extends ListModel
 
         $mirror = 0;
 
+        $urlLink = '<a href="%1$s">%1$s</a>';
+
+        $errorUrlLinks = [sprintf($urlLink, $url)];
+
         while (!($p_file = InstallerHelper::downloadPackage($url)) && isset($sources[$mirror])) {
             $name = $sources[$mirror];
             $url  = trim($name->url);
@@ -426,12 +430,15 @@ class UpdateModel extends ListModel
                 $url .= $extra_query;
             }
 
+            $errorUrlLinks[] = sprintf($urlLink, $url);
+
             $mirror++;
         }
 
         // Was the package downloaded?
         if (!$p_file) {
-            Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED', $url), 'error');
+            Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED', $url),
+                implode('<br>', $errorUrlLinks)), 'error');
 
             return false;
         }
@@ -443,7 +450,8 @@ class UpdateModel extends ListModel
         $package = InstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
         if (empty($package)) {
-            $app->enqueueMessage(Text::sprintf('COM_INSTALLER_UNPACK_ERROR', $p_file), 'error');
+            $app->enqueueMessage(Text::sprintf('COM_INSTALLER_UNPACK_ERROR', $p_file,
+                implode('<br>', $errorUrlLinks)), 'error');
 
             return false;
         }
