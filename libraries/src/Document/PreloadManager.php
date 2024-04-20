@@ -35,7 +35,7 @@ class PreloadManager implements PreloadManagerInterface
     /**
      * PreloadManager constructor
      *
-     * @param   EvolvableLinkProviderInterface  $linkProvider  The link provider
+     * @param   ?EvolvableLinkProviderInterface  $linkProvider  The link provider
      *
      * @since   4.0.0
      */

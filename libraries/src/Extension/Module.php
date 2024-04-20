@@ -49,7 +49,7 @@ class Module implements ModuleInterface, HelperFactoryInterface
      * Module constructor.
      *
      * @param   ModuleDispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
-     * @param   HelperFactoryInterface            $helperFactory      The helper factory
+     * @param   ?HelperFactoryInterface           $helperFactory      The helper factory
      *
      * @since   4.0.0
      */

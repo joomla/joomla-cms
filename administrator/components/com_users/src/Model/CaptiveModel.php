@@ -202,7 +202,7 @@ class CaptiveModel extends BaseDatabaseModel
     /**
      * Load the Captive login page render options for a specific MFA record
      *
-     * @param   MfaTable  $record  The MFA record to process
+     * @param   ?MfaTable  $record  The MFA record to process
      *
      * @return  CaptiveRenderOptions  The rendering options
      * @since 4.2.0

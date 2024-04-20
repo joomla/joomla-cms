@@ -225,7 +225,7 @@ class ContentComponent extends MVCComponent implements
     /**
      * Returns the workflow context based on the given category section
      *
-     * @param   string  $section  The section
+     * @param   ?string  $section  The section
      *
      * @return  string|null
      *
@@ -255,7 +255,7 @@ class ContentComponent extends MVCComponent implements
     /**
      * Returns a table name for the state association
      *
-     * @param   string  $section  An optional section to separate different areas in the component
+     * @param   ?string  $section  An optional section to separate different areas in the component
      *
      * @return  string
      *
