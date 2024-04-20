@@ -51,7 +51,7 @@ class FieldTable extends Table implements CurrentUserInterface
      *
      * @since   3.7.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__fields', 'id', $db, $dispatcher);
 
@@ -258,14 +258,14 @@ class FieldTable extends Table implements CurrentUserInterface
      * The extended class can define a table and id to lookup.  If the
      * asset does not exist it will be created.
      *
-     * @param   Table    $table  A Table object for the asset parent.
-     * @param   integer  $id     Id to look up
+     * @param   ?Table    $table  A Table object for the asset parent.
+     * @param   integer   $id     Id to look up
      *
      * @return  integer
      *
      * @since   3.7.0
      */
-    protected function _getAssetParentId(Table $table = null, $id = null)
+    protected function _getAssetParentId(?Table $table = null, $id = null)
     {
         $contextArray = explode('.', $this->context);
         $component    = $contextArray[0];

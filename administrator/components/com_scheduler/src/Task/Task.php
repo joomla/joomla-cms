@@ -498,7 +498,7 @@ class Task implements LoggerAwareInterface
      *
      * @since 4.1.0
      */
-    protected function set(string $path, $value, string $separator = null)
+    protected function set(string $path, $value, ?string $separator = null)
     {
         return $this->taskRegistry->set($path, $value, $separator);
     }

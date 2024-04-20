@@ -119,7 +119,7 @@ class Indexer
      *
      * @since  3.8.0
      */
-    public function __construct(DatabaseInterface $db = null)
+    public function __construct(?DatabaseInterface $db = null)
     {
         if ($db === null) {
             @trigger_error(sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);

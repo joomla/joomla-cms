@@ -82,7 +82,7 @@ class TaskTable extends Table implements CurrentUserInterface
      *
      * @since   4.1.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->setColumnAlias('published', 'state');
 

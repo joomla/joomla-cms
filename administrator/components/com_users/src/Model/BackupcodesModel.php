@@ -39,13 +39,13 @@ class BackupcodesModel extends BaseDatabaseModel
     /**
      * Get the backup codes record for the specified user
      *
-     * @param   User|null   $user   The user in question. Use null for the currently logged in user.
+     * @param   ?User  $user  The user in question. Use null for the currently logged in user.
      *
-     * @return  MfaTable|null  Record object or null if none is found
+     * @return  ?MfaTable  Record object or null if none is found
      * @throws  \Exception
      * @since 4.2.0
      */
-    public function getBackupCodesRecord(User $user = null): ?MfaTable
+    public function getBackupCodesRecord(?User $user = null): ?MfaTable
     {
         // Make sure I have a user
         if (empty($user)) {
@@ -72,13 +72,13 @@ class BackupcodesModel extends BaseDatabaseModel
      * Generate a new set of backup codes for the specified user. The generated codes are immediately saved to the
      * database and the internal cache is updated.
      *
-     * @param   User|null   $user   Which user to generate codes for?
+     * @param   ?User  $user  Which user to generate codes for?
      *
      * @return void
      * @throws \Exception
      * @since 4.2.0
      */
-    public function regenerateBackupCodes(User $user = null): void
+    public function regenerateBackupCodes(?User $user = null): void
     {
         // Make sure I have a user
         if (empty($user)) {
@@ -100,8 +100,8 @@ class BackupcodesModel extends BaseDatabaseModel
     /**
      * Saves the backup codes to the database
      *
-     * @param   array       $codes   An array of exactly 10 elements
-     * @param   User|null   $user    The user for which to save the backup codes
+     * @param   array  $codes   An array of exactly 10 elements
+     * @param   ?User  $user    The user for which to save the backup codes
      *
      * @return  boolean
      * @throws  \Exception
@@ -161,13 +161,13 @@ class BackupcodesModel extends BaseDatabaseModel
      * Returns the backup codes for the specified user. Cached values will be preferentially returned, therefore you
      * MUST go through this model's Methods ONLY when dealing with backup codes.
      *
-     * @param   User|null   $user   The user for which you want the backup codes
+     * @param   ?User  $user  The user for which you want the backup codes
      *
-     * @return  array|null  The backup codes, or null if they do not exist
+     * @return  ?array  The backup codes, or null if they do not exist
      * @throws  \Exception
      * @since 4.2.0
      */
-    public function getBackupCodes(User $user = null): ?array
+    public function getBackupCodes(?User $user = null): ?array
     {
         // Make sure I have a user
         if (empty($user)) {
@@ -202,8 +202,8 @@ class BackupcodesModel extends BaseDatabaseModel
      * Check if the provided string is a backup code. If it is, it will be removed from the list (replaced with an empty
      * string) and the codes will be saved to the database. All comparisons are performed in a timing safe manner.
      *
-     * @param   string      $code   The code to check
-     * @param   User|null   $user   The user to check against
+     * @param   string  $code   The code to check
+     * @param   ?User   $user   The user to check against
      *
      * @return  boolean
      * @throws  \Exception

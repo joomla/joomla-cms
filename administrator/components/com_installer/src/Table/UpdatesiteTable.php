@@ -42,7 +42,7 @@ class UpdatesiteTable extends Table
      *
      * @since   4.0.0
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_installer.downloadkey';
 

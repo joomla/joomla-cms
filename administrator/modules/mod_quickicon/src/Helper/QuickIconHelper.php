@@ -50,7 +50,7 @@ class QuickIconHelper
      *
      * @since   1.6
      */
-    public function getButtons(Registry $params, CMSApplication $application = null)
+    public function getButtons(Registry $params, ?CMSApplication $application = null)
     {
         if ($application == null) {
             $application = Factory::getApplication();

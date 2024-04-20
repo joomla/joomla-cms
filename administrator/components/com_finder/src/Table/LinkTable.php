@@ -41,7 +41,7 @@ class LinkTable extends Table
      *
      * @since   2.5
      */
-    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(DatabaseDriver $db, ?DispatcherInterface $dispatcher = null)
     {
         parent::__construct('#__finder_links', 'link_id', $db, $dispatcher);
     }
