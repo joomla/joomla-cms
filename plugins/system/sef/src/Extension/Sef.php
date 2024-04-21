@@ -68,7 +68,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         if (
             $app->get('sef')
             && !$app->get('sef_suffix')
-            && $this->params->get('trailingslash', -1) !== -1
+            && $this->params->get('trailingslash', -1) != -1
         ) {
             if ($this->params->get('trailingslash') == 0) {
                 // Remove trailingslash
