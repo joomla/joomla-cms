@@ -13,9 +13,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Associations\Administrator\View\Association\HtmlView;
 
-/** @var HtmlView $this */
+/** @var \Joomla\Component\Associations\Administrator\View\Association\HtmlView $this */
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
