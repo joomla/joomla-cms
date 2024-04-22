@@ -438,7 +438,7 @@ class UpdateModel extends ListModel
         // Was the package downloaded?
         if (!$p_file) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED', $url),
-                implode('<br>', $errorUrlLinks)), 'error');
+                implode('<br>', $errorUrlLinks), 'error');
 
             return false;
         }
