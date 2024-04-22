@@ -258,7 +258,7 @@ class ModuleController extends FormController
     /**
      * Method to get the other modules in the same position
      *
-     * @return  string  The data for the Ajax request.
+     * @return  void
      *
      * @since   3.6.3
      */
