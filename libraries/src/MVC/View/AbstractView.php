@@ -14,6 +14,7 @@ use Joomla\CMS\Document\DocumentAwareInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\LanguageAwareTrait;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
@@ -239,7 +240,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
             }
 
             if (empty($this->_name)) {
-                throw new \Exception(sprintf($this->text('JLIB_APPLICATION_ERROR_GET_NAME'), __METHOD__), 500);
+                throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
             }
         }
 
