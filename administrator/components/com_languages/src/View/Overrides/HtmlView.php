@@ -61,6 +61,20 @@ class HtmlView extends BaseHtmlView
     protected $languages;
 
     /**
+     * Form object for search filters
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    public $filterForm;
+
+    /**
+     * The active search filters
+     *
+     * @var  array
+     */
+    public $activeFilters;
+
+    /**
      * Displays the view.
      *
      * @param   string  $tpl  The name of the template file to parse.
