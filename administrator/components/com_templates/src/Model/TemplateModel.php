@@ -409,11 +409,11 @@ class TemplateModel extends FormModel
     {
         $result = [];
 
-        $prefix = JPATH_ROOT . DIRECTORY_SEPARATOR . 'administrator' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->template->element;
+        $prefix      = JPATH_ROOT . DIRECTORY_SEPARATOR . 'administrator' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->template->element;
         $mediaPrefix = JPATH_ROOT . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'administrator' . DIRECTORY_SEPARATOR . $this->template->element;
 
         if ($this->template->client_id === 0) {
-            $prefix = JPATH_ROOT . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->template->element;
+            $prefix      = JPATH_ROOT . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $this->template->element;
             $mediaPrefix = JPATH_ROOT . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'site' . DIRECTORY_SEPARATOR . $this->template->element;
         }
 
