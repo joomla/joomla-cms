@@ -26,6 +26,24 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
 class HtmlView extends InstallerViewDefault
 {
     /**
+     * An array of items
+     *
+     * @var   array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $items;
+
+    /**
+     * The pagination object
+     *
+     * @var    \Joomla\CMS\Pagination\Pagination
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $pagination;
+
+    /**
      * Is this view an Empty State
      *
      * @var  boolean
