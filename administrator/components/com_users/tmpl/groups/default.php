@@ -25,7 +25,7 @@ $listDirn    = $this->escape($this->state->get('list.direction'));
 Text::script('COM_USERS_GROUPS_CONFIRM_DELETE', true);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_users.admin-users-groups')
     ->useScript('multiselect')
     ->useScript('table.columns');

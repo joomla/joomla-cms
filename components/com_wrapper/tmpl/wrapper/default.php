@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$this->document->getWebAssetManager()
+/** @var \Joomla\Component\Wrapper\Site\View\Wrapper\HtmlView $this */
+$this->getDocument()->getWebAssetManager()
     ->registerAndUseScript('com_wrapper.iframe', 'com_wrapper/iframe-height.min.js', [], ['defer' => true]);
-
 ?>
 <div class="com-wrapper contentpane">
     <?php if ($this->params->get('show_page_heading')) : ?>

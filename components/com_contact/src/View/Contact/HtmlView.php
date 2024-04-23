@@ -56,7 +56,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
     /**
      * The item object details
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var    \stdClass
      *
      * @since  1.6
      */

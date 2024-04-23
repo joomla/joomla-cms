@@ -28,6 +28,9 @@ use Tuf\Loader\SizeCheckingLoader;
 
 /**
  * @since  5.1.0
+ *
+ * @internal Currently this class is only used for Joomla! updates and will be extended in the future to support 3rd party updates
+ *           Don't extend this class in your own code, it is subject to change without notice.
  */
 class TufFetcher
 {
