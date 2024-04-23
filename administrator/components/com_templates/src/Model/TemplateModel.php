@@ -443,7 +443,7 @@ class TemplateModel extends FormModel
         uksort($result, function ($a, $b) use ($result) {
             if (\is_string($a)) {
                 if (\is_string($b)) {
-                    return $a <=> $b;
+                    return strnatcmp($a, $b);
                 }
 
                 return -1;
@@ -453,7 +453,7 @@ class TemplateModel extends FormModel
                 return 1;
             }
 
-            return $result[$a]->name <=> $result[$b]->name;
+            return strnatcmp($result[$a]->name, $result[$b]->name);
         });
 
         return !empty($result) ? $result : ['.'];
