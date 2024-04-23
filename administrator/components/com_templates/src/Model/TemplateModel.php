@@ -430,6 +430,24 @@ class TemplateModel extends FormModel
             }
         }
 
+        // Sort directories first, then files alphabetically.
+        uasort($result, function ($a, $b) {
+            if (\is_array($a)) {
+                if (\is_array($b)) {
+                    return key($a) <=> key($b);
+                }
+
+                return -1;
+            }
+
+            if (\is_array($b)) {
+
+                return 1;
+            }
+
+            return $a->name <=> $b->name;
+        });
+
         return !empty($result) ? $result : ['.'];
     }
 
