@@ -30,41 +30,39 @@ $resetOptions = [
 ];
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('joomla.batch-copymove');
 
 ?>
 
 <div class="p-3">
-    <form>
-        <div class="form-group">
-            <label id="batch-choose-action-lbl" class="control-label" for="batch-group-id">
-                <?php echo Text::_('COM_USERS_BATCH_GROUP'); ?>
-            </label>
-            <div id="batch-choose-action" class="combo controls">
-                <select class="form-select" name="batch[group_id]" id="batch-group-id">
-                    <option value=""><?php echo Text::_('JSELECT'); ?></option>
-                    <?php echo HTMLHelper::_('select.options', HTMLHelper::_('user.groups')); ?>
-                </select>
-            </div>
+    <div class="form-group">
+        <label id="batch-choose-action-lbl" class="control-label" for="batch-group-id">
+            <?php echo Text::_('COM_USERS_BATCH_GROUP'); ?>
+        </label>
+        <div id="batch-choose-action" class="combo controls">
+            <select class="form-select" name="batch[group_id]" id="batch-group-id">
+                <option value=""><?php echo Text::_('JSELECT'); ?></option>
+                <?php echo HTMLHelper::_('select.options', HTMLHelper::_('user.groups')); ?>
+            </select>
         </div>
-        <div class="form-group">
-            <fieldset>
-                <legend>
-                    <?php echo Text::_('COM_USERS_BATCH_ACTIONS'); ?>
-                </legend>
-                <?php echo HTMLHelper::_('select.radiolist', $options, 'batch[group_action]', '', 'value', 'text', 'add'); ?>
-            </fieldset>
-        </div>
-        <div class="form-group">
-            <fieldset id="batch-password-reset_id">
-                <legend>
-                    <?php echo Text::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?>
-                </legend>
-                <?php echo HTMLHelper::_('select.radiolist', $resetOptions, 'batch[reset_id]', '', 'value', 'text', ''); ?>
-            </fieldset>
-        </div>
-    </form>
+    </div>
+    <div class="form-group">
+        <fieldset>
+            <legend>
+                <?php echo Text::_('COM_USERS_BATCH_ACTIONS'); ?>
+            </legend>
+            <?php echo HTMLHelper::_('select.radiolist', $options, 'batch[group_action]', '', 'value', 'text', 'add'); ?>
+        </fieldset>
+    </div>
+    <div class="form-group">
+        <fieldset id="batch-password-reset_id">
+            <legend>
+                <?php echo Text::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?>
+            </legend>
+            <?php echo HTMLHelper::_('select.radiolist', $resetOptions, 'batch[reset_id]', '', 'value', 'text', ''); ?>
+        </fieldset>
+    </div>
 </div>
 <div class="btn-toolbar p-3">
     <joomla-toolbar-button task="user.batch" class="ms-auto">

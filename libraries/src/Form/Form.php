@@ -200,7 +200,7 @@ class Form implements CurrentUserInterface
      * @param   string  $group  The optional dot-separated form group path on which to find the field.
      * @param   mixed   $value  The optional value to use as the default for the field.
      *
-     * @return  FormField|boolean  The FormField object for the field or boolean false on error.
+     * @return  FormField|false  The FormField object for the field or boolean false on error.
      *
      * @since   1.7.0
      */

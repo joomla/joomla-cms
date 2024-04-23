@@ -896,7 +896,7 @@ final class Joomla extends ActionLogPlugin
      *
      * Method is called after user request to remind their username.
      *
-     * @param   array  $user  Holds the user data.
+     * @param   object  $user  Holds the user data.
      *
      * @return  void
      *
@@ -1127,7 +1127,7 @@ final class Joomla extends ActionLogPlugin
      *
      * @param   string  $context  The context of the action log
      *
-     * @return  \stdClass  The params
+     * @return  ?\stdClass  The params
      *
      * @since   4.2.0
      */
@@ -1147,7 +1147,7 @@ final class Joomla extends ActionLogPlugin
      *
      * Method is called after user request to reset their password.
      *
-     * @param   array  $user  Holds the user data.
+     * @param   object  $user  Holds the user data.
      *
      * @return  void
      *
@@ -1180,7 +1180,7 @@ final class Joomla extends ActionLogPlugin
      *
      * Method is called after user complete the reset of their password.
      *
-     * @param   array  $user  Holds the user data.
+     * @param   object  $user  Holds the user data.
      *
      * @return  void
      *
