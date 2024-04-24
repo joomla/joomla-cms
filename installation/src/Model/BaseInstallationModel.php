@@ -10,6 +10,7 @@
 
 namespace Joomla\CMS\Installation\Model;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
@@ -39,5 +40,17 @@ class BaseInstallationModel extends BaseDatabaseModel
         $config['dbo'] = null;
 
         parent::__construct($config, $factory);
+    }
+
+    /**
+     * Get the current setup options from the session.
+     *
+     * @return  array  An array of options from the session.
+     *
+     * @since   3.1
+     */
+    public function getOptions()
+    {
+        return Factory::getSession()->get('setup.options', []);
     }
 }
