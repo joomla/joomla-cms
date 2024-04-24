@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 
+/** @var \Joomla\Component\Contact\Site\View\Contact\HtmlView $this */
 $icon = $this->params->get('contact_icons') == 0;
 
 /**
