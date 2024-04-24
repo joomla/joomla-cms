@@ -69,6 +69,15 @@ class HtmlView extends BaseHtmlView
     protected $canDo;
 
     /**
+     * Array of fieldsets not to display
+     *
+     * @var    string[]
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public $ignore_fieldsets = [];
+
+    /**
      * Overloads the parent constructor.
      * Just needed to fetch the Application object.
      *
