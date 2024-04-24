@@ -118,9 +118,9 @@ class GroupsModel extends ListModel
     }
 
     /**
-     * Method to get an object implementing QueryInterface for retrieving the data set from a database.
+     * Method to get a QueryInterface object for retrieving the data set from a database.
      *
-     * @return  QueryInterface   A DatabaseQuery object to retrieve the data set.
+     * @return  QueryInterface   An object implementing QueryInterface to retrieve the data set.
      *
      * @since   3.7.0
      */
