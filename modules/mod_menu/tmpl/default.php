@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
@@ -37,14 +37,14 @@ if ($tagId = $params->get('tag_id', '')) {
         $class .= ' current';
     }
 
-    if (in_array($item->id, $path)) {
+    if (\in_array($item->id, $path)) {
         $class .= ' active';
     } elseif ($item->type === 'alias') {
         $aliasToId = $itemParams->get('aliasoptions');
 
-        if (count($path) > 0 && $aliasToId == $path[count($path) - 1]) {
+        if (\count($path) > 0 && $aliasToId == $path[\count($path) - 1]) {
             $class .= ' active';
-        } elseif (in_array($aliasToId, $path)) {
+        } elseif (\in_array($aliasToId, $path)) {
             $class .= ' alias-parent-active';
         }
     }

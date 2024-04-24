@@ -8,9 +8,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
+
 ?>
 <?php if ($params->get('item_title')) : ?>
     <?php $item_heading = $params->get('item_heading', 'h4'); ?>

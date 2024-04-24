@@ -8,12 +8,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-if (!count($images)) {
+if (!\count($images)) {
     echo Text::_('MOD_RANDOM_IMAGE_NO_IMAGES');
 
     return;

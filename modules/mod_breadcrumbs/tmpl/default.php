@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -72,7 +72,7 @@ use Joomla\CMS\WebAsset\WebAssetManager;
         '@context'        => 'https://schema.org',
         '@type'           => 'BreadcrumbList',
         '@id'             => Uri::root() . '#/schema/BreadcrumbList/' . (int) $module->id,
-        'itemListElement' => []
+        'itemListElement' => [],
     ];
 
     // Use an independent counter for positions. E.g. if Heading items in pathway.

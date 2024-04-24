@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
@@ -22,7 +22,7 @@ if (!$list) {
 
 ?>
 <ul class="mod-articlesnews-vertical newsflash-vert mod-list">
-    <?php for ($i = 0, $n = count($list); $i < $n; $i++) : ?>
+    <?php for ($i = 0, $n = \count($list); $i < $n; $i++) : ?>
         <?php $item = $list[$i]; ?>
         <li class="newsflash-item" itemscope itemtype="https://schema.org/Article">
             <?php require ModuleHelper::getLayoutPath('mod_articles_news', '_item'); ?>

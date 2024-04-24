@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+
 ?>
 <div class="mod-banners bannergroup">
 <?php if ($headerText) : ?>
@@ -43,7 +44,7 @@ use Joomla\CMS\Uri\Uri;
                 <?php $height = $item->params->get('height'); ?>
                 <?php $imageAttribs = [
                     'src' => $baseurl . $imageurl,
-                    'alt' => $alt
+                    'alt' => $alt,
                 ];?>
                 <?php if (!empty($width)) : ?>
                     <?php $imageAttribs['width'] = $width; ?>

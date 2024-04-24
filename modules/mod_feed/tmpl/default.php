@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -21,7 +21,7 @@ if (empty($rssurl)) {
     return;
 }
 
-if (!empty($feed) && is_string($feed)) {
+if (!empty($feed) && \is_string($feed)) {
     echo $feed;
 } else {
     $lang      = $app->getLanguage();
@@ -80,7 +80,7 @@ if (!empty($feed) && is_string($feed)) {
     <!-- Show items -->
         <?php if (!empty($feed)) { ?>
         <ul class="newsfeed">
-            <?php for ($i = 0, $max = min(count($feed), $params->get('rssitems', 3)); $i < $max; $i++) { ?>
+            <?php for ($i = 0, $max = min(\count($feed), $params->get('rssitems', 3)); $i < $max; $i++) { ?>
                 <?php
                 $uri  = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
                 $uri  = !$uri || stripos($uri, 'http') !== 0 ? $rssurl : $uri;

@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
@@ -21,7 +21,7 @@ use Joomla\CMS\Language\Text;
         <p><?php echo Text::sprintf('MOD_WHOSONLINE_WE_HAVE', $guest, $member); ?></p>
     <?php endif; ?>
 
-    <?php if (($showmode > 0) && count($names)) : ?>
+    <?php if (($showmode > 0) && \count($names)) : ?>
         <?php if ($params->get('filter_groups', 0)) : ?>
             <p><?php echo Text::_('MOD_WHOSONLINE_SAME_GROUP_MESSAGE'); ?></p>
         <?php endif; ?>

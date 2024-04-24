@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -16,7 +16,7 @@ use Joomla\Component\Tags\Site\Helper\RouteHelper;
 
 ?>
 <div class="mod-tagspopular tagspopular">
-<?php if (!count($list)) : ?>
+<?php if (!\count($list)) : ?>
     <div class="alert alert-info">
         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
         <?php echo Text::_('MOD_TAGS_POPULAR_NO_ITEMS_FOUND'); ?>
