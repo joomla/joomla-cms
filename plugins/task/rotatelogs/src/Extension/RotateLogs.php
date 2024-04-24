@@ -99,13 +99,13 @@ final class RotateLogs extends CMSPlugin implements SubscriberInterface
 
         foreach ($logFiles as $version => $files) {
             if ($version >= $logsToKeep) {
-                try {
-                    // Delete files which have version greater than or equals $logsToKeep
-                    foreach ($files as $file) {
+                // Delete files which have version greater than or equals $logsToKeep
+                foreach ($files as $file) {
+                    try {
                         File::delete($logPath . '/' . $file);
-                    }
-                } catch (FilesystemException $exception) {
+                    } catch (FilesystemException $exception) {
 
+                    }
                 }
             } else {
                 // For files which have version smaller than $logsToKeep, rotate (increase version number)
