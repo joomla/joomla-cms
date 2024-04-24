@@ -10,11 +10,12 @@
 namespace Joomla\CMS\Log\Logger;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
 use Joomla\CMS\Version;
+use Joomla\Filesystem\Exception\FilesystemException;
+use Joomla\Filesystem\File;
 use Joomla\Utilities\IpHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -136,7 +137,9 @@ class FormattedtextLogger extends Logger
         // Format all lines and write to file.
         $lines = array_map([$this, 'formatLine'], $this->deferredEntries);
 
-        if (!File::append($this->path, implode("\n", $lines) . "\n")) {
+        try {
+            File::append($this->path, implode("\n", $lines) . "\n");
+        } catch (FilesystemException $exception) {
             throw new \RuntimeException('Cannot write to log file.');
         }
     }
@@ -165,7 +168,9 @@ class FormattedtextLogger extends Logger
             $line = $this->formatLine($entry);
             $line .= "\n";
 
-            if (!File::append($this->path, $line)) {
+            try {
+                File::append($this->path, $line);
+            } catch (FilesystemException $exception) {
                 throw new \RuntimeException('Cannot write to log file.');
             }
         }
@@ -269,7 +274,9 @@ class FormattedtextLogger extends Logger
         // Build the log file header.
         $head = $this->generateFileHeader();
 
-        if (!File::write($this->path, $head)) {
+        try {
+            File::write($this->path, $head);
+        } catch (FilesystemException $exception) {
             throw new \RuntimeException('Cannot write to log file.');
         }
     }
