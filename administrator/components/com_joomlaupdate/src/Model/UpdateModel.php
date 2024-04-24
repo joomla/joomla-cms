@@ -1071,14 +1071,14 @@ ENDDATA;
             Factory::getApplication()->getUserState('com_joomlaupdate.file', null),
         ];
 
-        try {
-            foreach ($files as $file) {
-                if ($file !== null && is_file($file)) {
+        foreach ($files as $file) {
+            if ($file !== null && is_file($file)) {
+                try {
                     File::delete($file);
+                } catch (FilesystemException $exception) {
+
                 }
             }
-        } catch (FilesystemException $exception) {
-
         }
     }
 
