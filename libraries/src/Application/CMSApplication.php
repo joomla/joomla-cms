@@ -368,7 +368,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      */
     protected function checkUserRequireReset($option, $view, $layout, $tasks)
     {
-        if (Factory::getUser()->requireReset) {
+        if ($this->getIdentity()->requireReset) {
             $redirect = false;
 
             /*
@@ -1065,7 +1065,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         $caching = false;
 
-        if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !Factory::getUser()->id) {
+        if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !$this->getIdentity()->id) {
             $caching = true;
         }
 

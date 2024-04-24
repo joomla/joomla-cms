@@ -410,7 +410,7 @@ class AdministratorApplication extends CMSApplication
         $rootUser = $this->get('root_user');
 
         if (property_exists('\JConfig', 'root_user')) {
-            if (Factory::getUser()->username === $rootUser || Factory::getUser()->id === (string) $rootUser) {
+            if ($this->getIdentity()->username === $rootUser || $this->getIdentity()->id === (string) $rootUser) {
                 $this->enqueueMessage(
                     Text::sprintf(
                         'JWARNING_REMOVE_ROOT_USER',
@@ -418,7 +418,7 @@ class AdministratorApplication extends CMSApplication
                     ),
                     'warning'
                 );
-            } elseif (Factory::getUser()->authorise('core.admin')) {
+            } elseif ($this->getIdentity()->authorise('core.admin')) {
                 // Show this message to superusers too
                 $this->enqueueMessage(
                     Text::sprintf(
