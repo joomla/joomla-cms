@@ -88,7 +88,7 @@ class VcfView extends AbstractView
 
         Factory::getApplication()->setHeader('Content-disposition', 'attachment; filename="' . $card_name . '.vcf"', true);
 
-        $vcard = [];
+        $vcard   = [];
         $vcard[] = 'BEGIN:VCARD';
         $vcard[] = 'VERSION:3.0';
         $vcard[] = 'N:' . $lastname . ';' . $firstname . ';' . $middlename;
