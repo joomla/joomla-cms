@@ -25,7 +25,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 Text::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_finder.filters')
     ->useScript('table.columns')
     ->useScript('multiselect');
