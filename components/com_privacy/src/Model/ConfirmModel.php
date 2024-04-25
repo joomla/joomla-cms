@@ -53,7 +53,7 @@ class ConfirmModel extends AdminModel
         }
 
         // Filter and validate the form data.
-        $data = $form->filter($data);
+        $data   = $form->filter($data);
         $return = $form->validate($data);
 
         // Check for an error.
@@ -72,7 +72,7 @@ class ConfirmModel extends AdminModel
         }
 
         // Get the user email address
-        $email = Factory::getUser()->email;
+        $email = $this->getCurrentUser()->email;
 
         // Search for the information request
         /** @var RequestTable $table */
@@ -99,8 +99,8 @@ class ConfirmModel extends AdminModel
 
         if ($now > $confirmTokenCreatedAt) {
             // Invalidate the request
-            $table->status = -1;
-            $table->confirm_token = '';
+            $table->status                   = -1;
+            $table->confirm_token            = '';
             $table->confirm_token_created_at = null;
 
             try {
@@ -175,7 +175,7 @@ class ConfirmModel extends AdminModel
             return false;
         }
 
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         if ($input->getMethod() === 'GET') {
             $form->setValue('confirm_token', '', $input->get->getAlnum('confirm_token'));

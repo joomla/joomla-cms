@@ -22,8 +22,9 @@ use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Content\Site\View\Category\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_content.articles-list');
 
 // Create some shortcuts.
@@ -76,7 +77,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                 </span>
                 <select name="filter_tag" id="filter-search" class="form-select" onchange="document.adminForm.submit();" >
                     <option value=""><?php echo Text::_('JOPTION_SELECT_TAG'); ?></option>
-                    <?php echo HTMLHelper::_('select.options', HTMLHelper::_('tag.options', array('filter.published' => array(1), 'filter.language' => $langFilter), true), 'value', 'text', $this->state->get('filter.tag')); ?>
+                    <?php echo HTMLHelper::_('select.options', HTMLHelper::_('tag.options', ['filter.published' => [1], 'filter.language' => $langFilter], true), 'value', 'text', $this->state->get('filter.tag')); ?>
                 </select>
             <?php elseif ($this->params->get('filter_field') === 'month') : ?>
                 <span class="visually-hidden">
@@ -123,49 +124,47 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
             <caption class="visually-hidden">
                 <?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>
             </caption>
-            <?php if ($this->params->get('show_headings')) : ?>
-                <thead>
-                    <tr>
-                        <th scope="col" id="categorylist_header_title">
-                            <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder, null, 'asc', '', 'adminForm'); ?>
+            <thead<?php echo $this->params->get('show_headings', '1') ? '' : ' class="visually-hidden"'; ?>>
+                <tr>
+                    <th scope="col" id="categorylist_header_title">
+                        <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder, null, 'asc', '', 'adminForm'); ?>
+                    </th>
+                    <?php if ($date = $this->params->get('list_show_date')) : ?>
+                        <th scope="col" id="categorylist_header_date">
+                            <?php if ($date === 'created') : ?>
+                                <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.created', $listDirn, $listOrder); ?>
+                            <?php elseif ($date === 'modified') : ?>
+                                <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.modified', $listDirn, $listOrder); ?>
+                            <?php elseif ($date === 'published') : ?>
+                                <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.publish_up', $listDirn, $listOrder); ?>
+                            <?php endif; ?>
                         </th>
-                        <?php if ($date = $this->params->get('list_show_date')) : ?>
-                            <th scope="col" id="categorylist_header_date">
-                                <?php if ($date === 'created') : ?>
-                                    <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.created', $listDirn, $listOrder); ?>
-                                <?php elseif ($date === 'modified') : ?>
-                                    <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.modified', $listDirn, $listOrder); ?>
-                                <?php elseif ($date === 'published') : ?>
-                                    <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.publish_up', $listDirn, $listOrder); ?>
-                                <?php endif; ?>
-                            </th>
-                        <?php endif; ?>
-                        <?php if ($this->params->get('list_show_author')) : ?>
-                            <th scope="col" id="categorylist_header_author">
-                                <?php echo HTMLHelper::_('grid.sort', 'JAUTHOR', 'author', $listDirn, $listOrder); ?>
-                            </th>
-                        <?php endif; ?>
-                        <?php if ($this->params->get('list_show_hits')) : ?>
-                            <th scope="col" id="categorylist_header_hits">
-                                <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
-                            </th>
-                        <?php endif; ?>
-                        <?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
-                            <th scope="col" id="categorylist_header_votes">
-                                <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_VOTES', 'rating_count', $listDirn, $listOrder); ?>
-                            </th>
-                        <?php endif; ?>
-                        <?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
-                            <th scope="col" id="categorylist_header_ratings">
-                                <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_RATINGS', 'rating', $listDirn, $listOrder); ?>
-                            </th>
-                        <?php endif; ?>
-                        <?php if ($isEditable) : ?>
-                            <th scope="col" id="categorylist_header_edit"><?php echo Text::_('COM_CONTENT_EDIT_ITEM'); ?></th>
-                        <?php endif; ?>
-                    </tr>
-                </thead>
-            <?php endif; ?>
+                    <?php endif; ?>
+                    <?php if ($this->params->get('list_show_author')) : ?>
+                        <th scope="col" id="categorylist_header_author">
+                            <?php echo HTMLHelper::_('grid.sort', 'JAUTHOR', 'author', $listDirn, $listOrder); ?>
+                        </th>
+                    <?php endif; ?>
+                    <?php if ($this->params->get('list_show_hits')) : ?>
+                        <th scope="col" id="categorylist_header_hits">
+                            <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
+                        </th>
+                    <?php endif; ?>
+                    <?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
+                        <th scope="col" id="categorylist_header_votes">
+                            <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_VOTES', 'rating_count', $listDirn, $listOrder); ?>
+                        </th>
+                    <?php endif; ?>
+                    <?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
+                        <th scope="col" id="categorylist_header_ratings">
+                            <?php echo HTMLHelper::_('grid.sort', 'COM_CONTENT_RATINGS', 'rating', $listDirn, $listOrder); ?>
+                        </th>
+                    <?php endif; ?>
+                    <?php if ($isEditable) : ?>
+                        <th scope="col" id="categorylist_header_edit"><?php echo Text::_('COM_CONTENT_EDIT_ITEM'); ?></th>
+                    <?php endif; ?>
+                </tr>
+            </thead>
             <tbody>
             <?php foreach ($this->items as $i => $article) : ?>
                 <?php if ($this->items[$i]->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
@@ -183,7 +182,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                             <?php $associations = AssociationHelper::displayAssociations($article->id); ?>
                             <?php foreach ($associations as $association) : ?>
                                 <?php if ($this->params->get('flags', 1) && $association['language']->image) : ?>
-                                    <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
+                                    <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, ['title' => $association['language']->title_native], true); ?>
                                     <a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
                                 <?php else : ?>
                                     <?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
@@ -209,7 +208,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                             <?php $associations = AssociationHelper::displayAssociations($article->id); ?>
                             <?php foreach ($associations as $association) : ?>
                                 <?php if ($this->params->get('flags', 1)) : ?>
-                                    <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
+                                    <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, ['title' => $association['language']->title_native], true); ?>
                                     <a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
                                 <?php else : ?>
                                     <?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>

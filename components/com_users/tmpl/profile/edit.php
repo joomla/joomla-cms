@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -20,11 +19,11 @@ use Joomla\CMS\Router\Route;
 HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
 // Load user_profile plugin language
-$lang = Factory::getLanguage();
+$lang = $this->getLanguage();
 $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 

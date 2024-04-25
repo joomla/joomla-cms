@@ -37,7 +37,7 @@ function usage($command)
  * This is where the magic happens
  */
 
-$options = getopt('', array('from:', 'to::'));
+$options = getopt('', ['from:', 'to::']);
 
 // We need the from reference, otherwise we're doomed to fail
 if (empty($options['from'])) {
@@ -65,12 +65,23 @@ $previousReleaseExclude = [
     $options['from'] . '/components/com_search',
     $options['from'] . '/images/sampledata',
     $options['from'] . '/installation',
+    $options['from'] . '/media/com_cpanel/js',
+    $options['from'] . '/media/com_modules/js',
+    $options['from'] . '/media/legacy/js',
+    $options['from'] . '/media/mod_multilangstatus',
     $options['from'] . '/media/plg_quickicon_eos310',
     $options['from'] . '/media/system/images',
     $options['from'] . '/modules/mod_search',
+    $options['from'] . '/plugins/captcha/recaptcha',
+    $options['from'] . '/plugins/captcha/recaptcha_invisible',
     $options['from'] . '/plugins/fields/repeatable',
     $options['from'] . '/plugins/quickicon/eos310',
     $options['from'] . '/plugins/search',
+    $options['from'] . '/plugins/system/compat',
+    $options['from'] . '/plugins/system/logrotation',
+    $options['from'] . '/plugins/system/sessiongc',
+    $options['from'] . '/plugins/system/updatenotification',
+    $options['from'] . '/plugins/task/demotasks',
 ];
 
 /**
@@ -81,7 +92,7 @@ $previousReleaseExclude = [
  * @return bool True if you need to recurse or if the item is acceptable
  */
 $previousReleaseFilter = function ($file, $key, $iterator) use ($previousReleaseExclude) {
-    if ($iterator->hasChildren() && !in_array($file->getPathname(), $previousReleaseExclude)) {
+    if ($iterator->hasChildren() && !\in_array($file->getPathname(), $previousReleaseExclude)) {
         return true;
     }
 
@@ -90,7 +101,7 @@ $previousReleaseFilter = function ($file, $key, $iterator) use ($previousRelease
 
 // Directories to skip for the check
 $newReleaseExclude = [
-    $options['to'] . '/installation'
+    $options['to'] . '/installation',
 ];
 
 /**
@@ -101,7 +112,7 @@ $newReleaseExclude = [
  * @return bool True if you need to recurse or if the item is acceptable
  */
 $newReleaseFilter = function ($file, $key, $iterator) use ($newReleaseExclude) {
-    if ($iterator->hasChildren() && !in_array($file->getPathname(), $newReleaseExclude)) {
+    if ($iterator->hasChildren() && !\in_array($file->getPathname(), $newReleaseExclude)) {
         return true;
     }
 
@@ -109,11 +120,11 @@ $newReleaseFilter = function ($file, $key, $iterator) use ($newReleaseExclude) {
 };
 
 $previousReleaseDirIterator = new RecursiveDirectoryIterator($options['from'], RecursiveDirectoryIterator::SKIP_DOTS);
-$previousReleaseIterator = new RecursiveIteratorIterator(
+$previousReleaseIterator    = new RecursiveIteratorIterator(
     new RecursiveCallbackFilterIterator($previousReleaseDirIterator, $previousReleaseFilter),
     RecursiveIteratorIterator::SELF_FIRST
 );
-$previousReleaseFiles = [];
+$previousReleaseFiles   = [];
 $previousReleaseFolders = [];
 
 foreach ($previousReleaseIterator as $info) {
@@ -126,11 +137,11 @@ foreach ($previousReleaseIterator as $info) {
 }
 
 $newReleaseDirIterator = new RecursiveDirectoryIterator($options['to'], RecursiveDirectoryIterator::SKIP_DOTS);
-$newReleaseIterator = new RecursiveIteratorIterator(
+$newReleaseIterator    = new RecursiveIteratorIterator(
     new RecursiveCallbackFilterIterator($newReleaseDirIterator, $newReleaseFilter),
     RecursiveIteratorIterator::SELF_FIRST
 );
-$newReleaseFiles = [];
+$newReleaseFiles   = [];
 $newReleaseFolders = [];
 
 foreach ($newReleaseIterator as $info) {
@@ -148,7 +159,6 @@ $foldersDifference = array_diff($previousReleaseFolders, $newReleaseFolders);
 
 // Specific files (e.g. language files) that we want to keep on upgrade
 $filesToKeep = [
-    "'/administrator/components/com_joomlaupdate/restore_finalisation.php',",
     "'/administrator/language/en-GB/en-GB.com_search.ini',",
     "'/administrator/language/en-GB/en-GB.com_search.sys.ini',",
     "'/administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.ini',",
@@ -171,6 +181,20 @@ $filesToKeep = [
     "'/administrator/language/en-GB/en-GB.plg_search_weblinks.sys.ini',",
     "'/administrator/language/en-GB/en-GB.plg_system_weblinks.ini',",
     "'/administrator/language/en-GB/en-GB.plg_system_weblinks.sys.ini',",
+    "'/administrator/language/en-GB/plg_captcha_recaptcha.ini',",
+    "'/administrator/language/en-GB/plg_captcha_recaptcha.sys.ini',",
+    "'/administrator/language/en-GB/plg_captcha_recaptcha_invisible.ini',",
+    "'/administrator/language/en-GB/plg_captcha_recaptcha_invisible.sys.ini',",
+    "'/administrator/language/en-GB/plg_system_compat.ini',",
+    "'/administrator/language/en-GB/plg_system_compat.sys.ini',",
+    "'/administrator/language/en-GB/plg_system_logrotation.ini',",
+    "'/administrator/language/en-GB/plg_system_logrotation.sys.ini',",
+    "'/administrator/language/en-GB/plg_system_sessiongc.ini',",
+    "'/administrator/language/en-GB/plg_system_sessiongc.sys.ini',",
+    "'/administrator/language/en-GB/plg_system_updatenotification.ini',",
+    "'/administrator/language/en-GB/plg_system_updatenotification.sys.ini',",
+    "'/administrator/language/en-GB/plg_task_demotasks.ini',",
+    "'/administrator/language/en-GB/plg_task_demotasks.sys.ini',",
     "'/language/en-GB/en-GB.com_search.ini',",
     "'/language/en-GB/en-GB.mod_search.ini',",
     "'/language/en-GB/en-GB.mod_search.sys.ini',",
@@ -205,7 +229,7 @@ foreach ($filesDifference as $file) {
 
     if ($matches !== false) {
         foreach ($matches as $match) {
-            if (dirname($match) === dirname($file) && strtolower(basename($match)) === strtolower(basename($file))) {
+            if (\dirname($match) === \dirname($file) && strtolower(basename($match)) === strtolower(basename($file))) {
                 // File has been renamed only: Add to renamed files list
                 $renamedFiles[] = substr($file, 0, -1) . ' => ' . $match;
 
@@ -225,4 +249,4 @@ file_put_contents(__DIR__ . '/deleted_folders.txt', implode("\n", $foldersDiffer
 file_put_contents(__DIR__ . '/renamed_files.txt', implode("\n", $renamedFiles));
 
 echo PHP_EOL;
-echo 'There are ' . count($deletedFiles) . ' deleted files, ' . count($foldersDifference) .  ' deleted folders and ' . count($renamedFiles) .  ' renamed files in comparison to "' . $options['from'] . '"' . PHP_EOL;
+echo 'There are ' . \count($deletedFiles) . ' deleted files, ' . \count($foldersDifference) .  ' deleted folders and ' . \count($renamedFiles) .  ' renamed files in comparison to "' . $options['from'] . '"' . PHP_EOL;

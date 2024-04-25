@@ -15,6 +15,8 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Categories\Administrator\View\Categories\HtmlView $this */
+
 $published = (int) $this->state->get('filter.published');
 $extension = $this->escape($this->state->get('filter.extension'));
 
@@ -57,10 +59,15 @@ $extension = $this->escape($this->state->get('filter.extension'));
                     <?php echo Text::_('JLIB_HTML_BATCH_FLIPORDERING_LABEL'); ?>
                 </label>
                 <fieldset id="flip-ordering-id">
-                    <?php echo HTMLHelper::_('select.booleanlist', 'batch[flip_ordering]', array(), 0, 'JYES', 'JNO', 'flip-ordering-id'); ?>
+                    <?php echo HTMLHelper::_('select.booleanlist', 'batch[flip_ordering]', [], 0, 'JYES', 'JNO', 'flip-ordering-id'); ?>
                 </fieldset>
             </div>
         </div>
     </div>
     <?php endif; ?>
+</div>
+<div class="btn-toolbar p-3">
+    <joomla-toolbar-button task="category.batch" class="ms-auto">
+        <button type="button" class="btn btn-success"><?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?></button>
+    </joomla-toolbar-button>
 </div>

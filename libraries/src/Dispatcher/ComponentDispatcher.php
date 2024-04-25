@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Dispatcher;
@@ -120,7 +120,7 @@ class ComponentDispatcher extends Dispatcher
         // Check for a controller.task command.
         if (strpos($command, '.') !== false) {
             // Explode the controller.task command.
-            list ($controller, $task) = explode('.', $command);
+            list($controller, $task) = explode('.', $command);
 
             $this->input->set('controller', $controller);
             $this->input->set('task', $task);
@@ -131,7 +131,7 @@ class ComponentDispatcher extends Dispatcher
         }
 
         // Build controller config data
-        $config['option'] = $this->option;
+        $config = ['option' => $this->option];
 
         // Set name of controller if it is passed in the request
         if ($this->input->exists('controller')) {
@@ -155,7 +155,7 @@ class ComponentDispatcher extends Dispatcher
      *
      * @since   4.0.0
      */
-    public function getController(string $name, string $client = '', array $config = array()): BaseController
+    public function getController(string $name, string $client = '', array $config = []): BaseController
     {
         // Set up the client
         $client = $client ?: ucfirst($this->app->getName());

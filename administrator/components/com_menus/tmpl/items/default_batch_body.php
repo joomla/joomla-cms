@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Menus\Administrator\View\Items\HtmlView $this */
+
 $options = [
     HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
     HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
@@ -26,7 +28,7 @@ $menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype',
 
 if ($clientId == 1) {
     /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-    $wa = $this->document->getWebAssetManager();
+    $wa = $this->getDocument()->getWebAssetManager();
     $wa->useScript('com_menus.batch-body');
     $wa->useScript('joomla.batch-copymove');
 }
@@ -59,11 +61,11 @@ if ($clientId == 1) {
                     <select class="form-select" name="batch[menu_id]" id="batch-menu-id">
                         <option value=""><?php echo Text::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
                         <?php
-                        $opts = array(
+                        $opts = [
                             'published' => $this->state->get('filter.published'),
                             'checkacl'  => (int) $this->state->get('menutypeid'),
                             'clientid'  => (int) $clientId,
-                        );
+                        ];
                         echo HTMLHelper::_('select.options', HTMLHelper::_('menu.menuitems', $opts));
                         ?>
                     </select>
@@ -86,3 +88,11 @@ if ($clientId == 1) {
     </div>
     <?php endif; ?>
 </div>
+<?php if ((strlen($menuType) && $menuType != '*' && $clientId == 0) || ($published >= 0 && $clientId == 1)) : ?>
+<div class="btn-toolbar p-3">
+    <joomla-toolbar-button task="item.batch" class="ms-auto">
+        <button type="button" class="btn btn-success"><?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?></button>
+    </joomla-toolbar-button>
+</div>
+<?php endif; ?>
+

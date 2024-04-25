@@ -10,8 +10,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
@@ -19,7 +19,8 @@ use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
 use Joomla\String\StringHelper;
 
-$user             = Factory::getApplication()->getIdentity();
+/** @var \Joomla\Component\Finder\Site\View\Search\HtmlView $this */
+$user             = $this->getCurrentUser();
 $show_description = $this->params->get('show_description', 1);
 
 if ($show_description) {
@@ -71,10 +72,10 @@ if ($this->params->get('show_url', 1)) {
         <figure class="<?php echo htmlspecialchars($imageClass, ENT_COMPAT, 'UTF-8'); ?> result__image">
             <?php if ($this->params->get('link_image') && $this->result->route) : ?>
                 <a href="<?php echo Route::_($this->result->route); ?>">
-                    <?php echo HTMLHelper::_('image', $this->result->imageUrl, $this->result->imageAlt, $extraAttr); ?>
+                    <?php echo HTMLHelper::_('image', $this->result->imageUrl, $this->result->imageAlt, $extraAttr, false, -1); ?>
                 </a>
             <?php else : ?>
-                <?php echo HTMLHelper::_('image', $this->result->imageUrl, $this->result->imageAlt, $extraAttr); ?>
+                <?php echo HTMLHelper::_('image', $this->result->imageUrl, $this->result->imageAlt, $extraAttr, false, -1); ?>
             <?php endif; ?>
         </figure>
     <?php endif; ?>
@@ -105,6 +106,9 @@ if ($this->params->get('show_url', 1)) {
     <?php if (count($taxonomies) && $this->params->get('show_taxonomy', 1)) : ?>
         <ul class="result__taxonomy">
             <?php foreach ($taxonomies as $type => $taxonomy) : ?>
+                <?php if ($type == 'Language' && (!Multilanguage::isEnabled() || (isset($taxonomy[0]) && $taxonomy[0]->title == '*'))) : ?>
+                    <?php continue; ?>
+                <?php endif; ?>
                 <?php $branch = Taxonomy::getBranch($type); ?>
                 <?php if ($branch->state == 1 && in_array($branch->access, $user->getAuthorisedViewLevels())) : ?>
                     <?php $taxonomy_text = []; ?>
@@ -115,7 +119,8 @@ if ($this->params->get('show_url', 1)) {
                     <?php endforeach; ?>
                     <?php if (count($taxonomy_text)) : ?>
                         <li class="result__taxonomy-item result__taxonomy--<?php echo $type; ?>">
-                            <span><?php echo Text::_(LanguageHelper::branchSingular($type)); ?>:</span> <?php echo implode(',', $taxonomy_text); ?>
+                            <span><?php echo Text::_(LanguageHelper::branchSingular($type)); ?>:</span>
+                            <?php echo Text::_(LanguageHelper::branchSingular(implode(',', $taxonomy_text))); ?>
                         </li>
                     <?php endif; ?>
                 <?php endif; ?>

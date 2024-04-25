@@ -9,12 +9,11 @@
 
 namespace Joomla\CMS\Event\WebAsset;
 
-use BadMethodCallException;
 use Joomla\CMS\WebAsset\WebAssetItemInterface;
 use Joomla\CMS\WebAsset\WebAssetRegistryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -30,25 +29,25 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.
      *
-     * @throws  BadMethodCallException
+     * @throws  \BadMethodCallException
      *
      * @since  4.0.0
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         parent::__construct($name, $arguments);
 
         // Check for required arguments
         if (!\array_key_exists('asset', $arguments) || !($arguments['asset'] instanceof WebAssetItemInterface)) {
-            throw new BadMethodCallException("Argument 'asset' of event $name is not of the expected type");
+            throw new \BadMethodCallException("Argument 'asset' of event $name is not of the expected type");
         }
 
-        if (!\array_key_exists('assetType', $arguments) || !is_string($arguments['assetType'])) {
-            throw new BadMethodCallException("Argument 'assetType' of event $name is not of the expected type");
+        if (!\array_key_exists('assetType', $arguments) || !\is_string($arguments['assetType'])) {
+            throw new \BadMethodCallException("Argument 'assetType' of event $name is not of the expected type");
         }
 
-        if (!\array_key_exists('change', $arguments) || !is_string($arguments['change'])) {
-            throw new BadMethodCallException("Argument 'change' of event $name is not of the expected type");
+        if (!\array_key_exists('change', $arguments) || !\is_string($arguments['change'])) {
+            throw new \BadMethodCallException("Argument 'change' of event $name is not of the expected type");
         }
     }
 
@@ -59,17 +58,36 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
      *
      * @return  WebAssetRegistryInterface
      *
-     * @throws  BadMethodCallException  if the argument is not of the expected type
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
      *
      * @since  4.0.0
+     *
+     * @deprecated 4.4.0 will be removed in 6.0
+     *                Use counterpart with onSet prefix
      */
     protected function setSubject($value)
     {
         if (!$value || !($value instanceof WebAssetRegistryInterface)) {
-            throw new BadMethodCallException("Argument 'subject' of event {$this->name} is not of the expected type");
+            throw new \BadMethodCallException("Argument 'subject' of event {$this->name} is not of the expected type");
         }
 
         return $value;
+    }
+
+    /**
+     * Setter for the subject argument
+     *
+     * @param   WebAssetRegistryInterface  $value  The value to set
+     *
+     * @return  WebAssetRegistryInterface
+     *
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
+     *
+     * @since  4.4.0
+     */
+    protected function onSetSubject($value)
+    {
+        return $this->setSubject($value);
     }
 
     /**

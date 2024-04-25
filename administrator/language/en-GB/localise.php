@@ -5,9 +5,9 @@
  *
  * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
-
+ *
  * @phpcs:disable Squiz.Classes.ValidClassName.NotCamelCaps
-
+ *
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
@@ -34,12 +34,14 @@ abstract class En_GBLocalise
     public static function getPluralSuffixes($count)
     {
         if ($count == 0) {
-            return array('0');
-        } elseif ($count == 1) {
-            return array('ONE', '1');
-        } else {
-            return array('OTHER', 'MORE');
+            return ['0'];
         }
+
+        if ($count == 1) {
+            return ['ONE', '1'];
+        }
+
+        return ['OTHER', 'MORE'];
     }
 
     /**
@@ -48,10 +50,12 @@ abstract class En_GBLocalise
      * @return  array  An array of ignored search words.
      *
      * @since   1.6
+     *
+     * @deprecated  5.1 will be removed in 7.0 without replacement
      */
     public static function getIgnoredSearchWords()
     {
-        return array('and', 'in', 'on');
+        return ['and', 'in', 'on'];
     }
 
     /**
@@ -60,6 +64,8 @@ abstract class En_GBLocalise
      * @return  integer  The lower length limit of search words.
      *
      * @since   1.6
+     *
+     * @deprecated  5.1 will be removed in 7.0 without replacement
      */
     public static function getLowerLimitSearchWord()
     {
@@ -72,6 +78,8 @@ abstract class En_GBLocalise
      * @return  integer  The upper length limit of search words.
      *
      * @since   1.6
+     *
+     * @deprecated  5.1 will be removed in 7.0 without replacement
      */
     public static function getUpperLimitSearchWord()
     {
@@ -84,6 +92,8 @@ abstract class En_GBLocalise
      * @return  integer  The number of chars to display when searching.
      *
      * @since   1.6
+     *
+     * @deprecated  5.1 will be removed in 7.0 without replacement
      */
     public static function getSearchDisplayedCharactersNumber()
     {

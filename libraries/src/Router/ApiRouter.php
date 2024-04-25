@@ -99,8 +99,6 @@ class ApiRouter extends Router
         // Get the path from the route and remove and leading or trailing slash.
         $routePath = $this->getRoutePath();
 
-        $query = Uri::getInstance()->getQuery(true);
-
         // Iterate through all of the known routes looking for a match.
         foreach ($this->routes as $route) {
             if (\in_array($method, $route->getMethods())) {
@@ -113,12 +111,11 @@ class ApiRouter extends Router
                     }
 
                     $controller = preg_split("/[.]+/", $route->getController());
-                    $vars       = array_merge($vars, $query);
 
                     return [
                         'controller' => $controller[0],
                         'task'       => $controller[1],
-                        'vars'       => $vars
+                        'vars'       => $vars,
                     ];
                 }
             }

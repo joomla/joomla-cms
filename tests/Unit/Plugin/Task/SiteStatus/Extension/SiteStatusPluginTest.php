@@ -33,6 +33,15 @@ use Joomla\Tests\Unit\UnitTestCase;
 class SiteStatusPluginTest extends UnitTestCase
 {
     /**
+     * The temporary folder.
+     *
+     * @var string
+     *
+     * @since 4.3.0
+     */
+    private $tmpFolder;
+
+    /**
      * Setup
      *
      * @return  void
@@ -41,11 +50,14 @@ class SiteStatusPluginTest extends UnitTestCase
      */
     public function setUp(): void
     {
-        if (!is_dir(__DIR__ . '/tmp')) {
-            mkdir(__DIR__ . '/tmp');
+        // Dir must be random for parallel automated tests
+        $this->tmpFolder = JPATH_ROOT . '/tmp/' . rand();
+
+        if (!is_dir($this->tmpFolder)) {
+            mkdir($this->tmpFolder);
         }
 
-        touch(__DIR__ . '/tmp/config.php');
+        touch($this->tmpFolder . '/config.php');
     }
 
     /**
@@ -57,8 +69,8 @@ class SiteStatusPluginTest extends UnitTestCase
      */
     public function tearDown(): void
     {
-        if (is_dir(__DIR__ . '/tmp')) {
-            Folder::delete(__DIR__ . '/tmp');
+        if (is_dir($this->tmpFolder)) {
+            Folder::delete($this->tmpFolder);
         }
     }
 
@@ -71,10 +83,13 @@ class SiteStatusPluginTest extends UnitTestCase
      */
     public function testSetOnlineWhenOffline()
     {
-        $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
 
-        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => true], __DIR__ . '/tmp/config.php');
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+
+        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => true], $this->tmpFolder . '/config.php');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -84,7 +99,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $plugin->alterSiteStatus($event);
 
         $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
-        $this->assertStringContainsString('$offline = false;', file_get_contents(__DIR__ . '/tmp/config.php'));
+        $this->assertStringContainsString('$offline = false;', file_get_contents($this->tmpFolder . '/config.php'));
     }
 
     /**
@@ -96,10 +111,13 @@ class SiteStatusPluginTest extends UnitTestCase
      */
     public function testSetOnlineWhenOnline()
     {
-        $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
 
-        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => false], __DIR__ . '/tmp/config.php');
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+
+        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => false], $this->tmpFolder . '/config.php');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -109,7 +127,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $plugin->alterSiteStatus($event);
 
         $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
-        $this->assertStringContainsString('$offline = false;', file_get_contents(__DIR__ . '/tmp/config.php'));
+        $this->assertStringContainsString('$offline = false;', file_get_contents($this->tmpFolder . '/config.php'));
     }
 
     /**
@@ -121,10 +139,13 @@ class SiteStatusPluginTest extends UnitTestCase
      */
     public function testSetOfflineWhenOnline()
     {
-        $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
 
-        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => false], __DIR__ . '/tmp/config.php');
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+
+        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => false], $this->tmpFolder . '/config.php');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -134,7 +155,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $plugin->alterSiteStatus($event);
 
         $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
-        $this->assertStringContainsString('$offline = true;', file_get_contents(__DIR__ . '/tmp/config.php'));
+        $this->assertStringContainsString('$offline = true;', file_get_contents($this->tmpFolder . '/config.php'));
     }
 
     /**
@@ -146,10 +167,13 @@ class SiteStatusPluginTest extends UnitTestCase
      */
     public function testSetOfflineWhenOffline()
     {
-        $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
 
-        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => true], __DIR__ . '/tmp/config.php');
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+
+        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => true], $this->tmpFolder . '/config.php');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -159,7 +183,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $plugin->alterSiteStatus($event);
 
         $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
-        $this->assertStringContainsString('$offline = true;', file_get_contents(__DIR__ . '/tmp/config.php'));
+        $this->assertStringContainsString('$offline = true;', file_get_contents($this->tmpFolder . '/config.php'));
     }
 
     /**
@@ -171,10 +195,13 @@ class SiteStatusPluginTest extends UnitTestCase
      */
     public function testToggleOffline()
     {
-        $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
 
-        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => false], __DIR__ . '/tmp/config.php');
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+
+        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => false], $this->tmpFolder . '/config.php');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -184,7 +211,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $plugin->alterSiteStatus($event);
 
         $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
-        $this->assertStringContainsString('$offline = true;', file_get_contents(__DIR__ . '/tmp/config.php'));
+        $this->assertStringContainsString('$offline = true;', file_get_contents($this->tmpFolder . '/config.php'));
     }
 
     /**
@@ -196,10 +223,13 @@ class SiteStatusPluginTest extends UnitTestCase
      */
     public function testToggleOnline()
     {
-        $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
 
-        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => true], __DIR__ . '/tmp/config.php');
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+
+        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => true], $this->tmpFolder . '/config.php');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -209,7 +239,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $plugin->alterSiteStatus($event);
 
         $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
-        $this->assertStringContainsString('$offline = false;', file_get_contents(__DIR__ . '/tmp/config.php'));
+        $this->assertStringContainsString('$offline = false;', file_get_contents($this->tmpFolder . '/config.php'));
     }
 
     /**
@@ -227,7 +257,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => true], '/invalid/config.php');
+        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => true], '/proc/invalid/config.php');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -237,6 +267,6 @@ class SiteStatusPluginTest extends UnitTestCase
         $plugin->alterSiteStatus($event);
 
         $this->assertEquals(Status::KNOCKOUT, $event->getResultSnapshot()['status']);
-        $this->assertFileNotExists('/invalid/config.php');
+        $this->assertFileDoesNotExist('/proc/invalid/config.php');
     }
 }

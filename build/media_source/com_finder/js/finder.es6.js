@@ -16,21 +16,25 @@
 
       Joomla.request({
         url: `${Joomla.getOptions('finder-search').url}&q=${target.value}`,
-        method: 'GET',
-        data: { q: target.value },
-        perform: true,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        onSuccess: (resp) => {
-          const response = JSON.parse(resp);
-          if (Object.prototype.toString.call(response.suggestions) === '[object Array]') {
-            target.awesomplete.list = response.suggestions;
-          }
-        },
-        onError: (xhr) => {
-          if (xhr.status > 0) {
-            Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
-          }
-        },
+        promise: true,
+      }).then((xhr) => {
+        let response;
+        try {
+          response = JSON.parse(xhr.responseText);
+        } catch (e) {
+          // Something went wrong, but we are not going to bother the enduser with this
+          // eslint-disable-next-line no-console
+          console.error(e);
+          return;
+        }
+
+        if (Object.prototype.toString.call(response.suggestions) === '[object Array]') {
+          target.awesomplete.list = response.suggestions;
+        }
+      }).catch((xhr) => {
+        // Something went wrong, but we are not going to bother the enduser with this
+        // eslint-disable-next-line no-console
+        console.error(xhr);
       });
     }
   };
@@ -62,9 +66,7 @@
 
   // The boot sequence
   const onBoot = () => {
-    const searchWords = [].slice.call(document.querySelectorAll('.js-finder-search-query'));
-
-    searchWords.forEach((searchword) => {
+    document.querySelectorAll('.js-finder-search-query').forEach((searchword) => {
       // Handle the auto suggestion
       if (Joomla.getOptions('finder-search')) {
         searchword.awesomplete = new Awesomplete(searchword);
@@ -81,11 +83,7 @@
       }
     });
 
-    const forms = [].slice.call(document.querySelectorAll('.js-finder-searchform'));
-
-    forms.forEach((form) => {
-      form.addEventListener('submit', onSubmit);
-    });
+    document.querySelectorAll('.js-finder-searchform').forEach((form) => form.addEventListener('submit', onSubmit));
 
     // Cleanup
     document.removeEventListener('DOMContentLoaded', onBoot);

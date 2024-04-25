@@ -28,7 +28,7 @@ class TemplatesListField extends FolderlistField
     protected $type = 'templatesList';
 
     /**
-     * Method to attach a JForm object to the field.
+     * Method to attach a Form object to the field.
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.
@@ -63,18 +63,13 @@ class TemplatesListField extends FolderlistField
      */
     public function getOptions()
     {
-        $def         = new \stdClass();
-        $def->value  = '';
-        $def->text   = Text::_('JOPTION_DO_NOT_USE');
-        $options     = [0 => $def];
-        $directories = [JPATH_ROOT . '/templates', JPATH_ROOT . '/media/templates/site'];
+        $def             = new \stdClass();
+        $def->value      = '';
+        $def->text       = Text::_('JOPTION_DO_NOT_USE');
+        $options         = [0 => $def];
+        $this->directory = JPATH_ROOT . '/templates';
 
-        foreach ($directories as $directory) {
-            $this->directory = $directory;
-            $options         = array_merge($options, parent::getOptions());
-        }
-
-        return $options;
+        return array_merge($options, parent::getOptions());
     }
 
     /**

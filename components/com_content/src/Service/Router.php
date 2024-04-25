@@ -81,9 +81,9 @@ class Router extends RouterView
         $this->categoryFactory = $categoryFactory;
         $this->db              = $db;
 
-        $params = ComponentHelper::getParams('com_content');
+        $params      = ComponentHelper::getParams('com_content');
         $this->noIDs = (bool) $params->get('sef_ids');
-        $categories = new RouterViewConfiguration('categories');
+        $categories  = new RouterViewConfiguration('categories');
         $categories->setKey('id');
         $this->registerView($categories);
         $category = new RouterViewConfiguration('category');
@@ -118,7 +118,7 @@ class Router extends RouterView
         $category = $this->getCategories(['access' => true])->get($id);
 
         if ($category) {
-            $path = array_reverse($category->getPath(), true);
+            $path    = array_reverse($category->getPath(), true);
             $path[0] = '1:root';
 
             if ($this->noIDs) {
@@ -130,7 +130,7 @@ class Router extends RouterView
             return $path;
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -171,10 +171,10 @@ class Router extends RouterView
         if ($this->noIDs) {
             list($void, $segment) = explode(':', $id, 2);
 
-            return array($void => $segment);
+            return [$void => $segment];
         }
 
-        return array((int) $id => $id);
+        return [(int) $id => $id];
     }
 
     /**

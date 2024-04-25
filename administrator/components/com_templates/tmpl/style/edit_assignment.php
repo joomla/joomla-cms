@@ -10,17 +10,18 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
+/** @var \Joomla\Component\Templates\Administrator\View\Style\HtmlView $this */
+
 // Initialise related data.
 $menuTypes = MenusHelper::getMenuLinks();
-$user      = Factory::getUser();
+$user      = $this->getCurrentUser();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_templates.admin-template-toggle-assignment');
 
 ?>
@@ -50,7 +51,7 @@ $wa->useScript('com_templates.admin-template-toggle-assignment');
                                                                                else :
                                                                                     ?> class="form-check-input chk-menulink menutype-<?php echo $type->menutype; ?>"<?php
                                                                                endif; ?> />
-                        <?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $link->level)) . $link->text; ?>
+                        <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $link->level]) . $link->text; ?>
                         </label>
                     <?php endforeach; ?>
 

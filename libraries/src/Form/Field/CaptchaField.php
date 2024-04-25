@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -33,9 +33,25 @@ class CaptchaField extends FormField
     protected $type = 'Captcha';
 
     /**
+     * The plugin of the captcha field.
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    protected $plugin;
+
+    /**
+     * The namespace of the captcha field.
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    protected $namespace;
+
+    /**
      * The captcha base instance of our type.
      *
-     * @var Captcha
+     * @var ?Captcha
      */
     protected $_captcha;
 
@@ -117,21 +133,21 @@ class CaptchaField extends FormField
             $this->hidden = true;
 
             return false;
-        } else {
-            // Force field to be required. There's no reason to have a captcha if it is not required.
-            // Obs: Don't put required="required" in the xml file, you just need to have validate="captcha"
-            $this->required = true;
+        }
 
-            if (strpos($this->class, 'required') === false) {
-                $this->class .= ' required';
-            }
+        // Force field to be required. There's no reason to have a captcha if it is not required.
+        // Obs: Don't put required="required" in the xml file, you just need to have validate="captcha"
+        $this->required = true;
+
+        if (strpos($this->class, 'required') === false) {
+            $this->class .= ' required';
         }
 
         $this->namespace = $this->element['namespace'] ? (string) $this->element['namespace'] : $this->form->getName();
 
         try {
             // Get an instance of the captcha class that we are using
-            $this->_captcha = Captcha::getInstance($this->plugin, array('namespace' => $this->namespace));
+            $this->_captcha = Captcha::getInstance($this->plugin, ['namespace' => $this->namespace]);
 
             /**
              * Give the captcha instance a possibility to react on the setup-process,

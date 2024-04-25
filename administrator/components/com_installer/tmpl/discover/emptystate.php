@@ -14,6 +14,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Installer\Administrator\View\Discover\HtmlView $this */
+
 $displayData = [
     'textPrefix' => 'COM_INSTALLER',
     'formURL'    => 'index.php?option=com_installer&task=discover.refresh',
@@ -24,5 +26,10 @@ $displayData = [
     'title'      => Text::_('COM_INSTALLER_EMPTYSTATE_DISCOVER_TITLE'),
     'btnadd'     => Text::_('COM_INSTALLER_EMPTYSTATE_DISCOVER_BUTTON_ADD'),
 ];
+
+/** @var \Joomla\Component\Installer\Administrator\View\Discover\HtmlView $this */
+if ($this->showMessage) {
+    echo $this->loadTemplate('message');
+}
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

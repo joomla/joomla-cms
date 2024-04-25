@@ -11,10 +11,10 @@
 namespace Joomla\Component\Admin\Administrator\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Filesystem\Folder;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -58,7 +58,7 @@ class HelpModel extends BaseDatabaseModel
      * @var    array
      * @since  1.6
      */
-    protected $toc = null;
+    protected $toc = [];
 
     /**
      * URL for the latest version check
@@ -78,7 +78,7 @@ class HelpModel extends BaseDatabaseModel
     public function &getHelpSearch()
     {
         if (\is_null($this->help_search)) {
-            $this->help_search = Factory::getApplication()->input->getString('helpsearch');
+            $this->help_search = Factory::getApplication()->getInput()->getString('helpsearch');
         }
 
         return $this->help_search;
@@ -94,7 +94,7 @@ class HelpModel extends BaseDatabaseModel
     public function &getPage()
     {
         if (\is_null($this->page)) {
-            $this->page = Help::createUrl(Factory::getApplication()->input->get('page', 'Start_Here'));
+            $this->page = Help::createUrl(Factory::getApplication()->getInput()->get('page', 'Start_Here'));
         }
 
         return $this->page;
@@ -128,7 +128,7 @@ class HelpModel extends BaseDatabaseModel
      */
     public function &getToc()
     {
-        if (!\is_null($this->toc)) {
+        if (\count($this->toc)) {
             return $this->toc;
         }
 
@@ -153,7 +153,6 @@ class HelpModel extends BaseDatabaseModel
 
         // Get Help files
         $files = Folder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
-        $this->toc = array();
 
         foreach ($files as $file) {
             $buffer = file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/' . $file);

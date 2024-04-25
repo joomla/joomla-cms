@@ -10,8 +10,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
+
+/** @var \Joomla\Component\Messages\Administrator\View\Messages\HtmlView $this */
 
 $displayData = [
     'textPrefix' => 'COM_MESSAGES',
@@ -21,8 +22,8 @@ $displayData = [
 ];
 
 if (
-    Factory::getApplication()->getIdentity()->authorise('core.create', 'com_messages')
-    && Factory::getApplication()->getIdentity()->authorise('core.manage', 'com_users')
+    $this->getCurrentUser()->authorise('core.create', 'com_messages')
+    && $this->getCurrentUser()->authorise('core.manage', 'com_users')
 ) {
     $displayData['createURL'] = 'index.php?option=com_messages&task=message.add';
 }

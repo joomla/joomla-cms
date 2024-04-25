@@ -1,0 +1,31 @@
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .list-group-item-action {
+      color: map-get($atum-colors-dark, body-color);
+      background: map-get($atum-colors-dark, template-quickicon-bg);
+      border: 1px solid map-get($atum-colors-dark,  template-quickicon-bg-hvr);
+
+      // Hover state
+      &:hover,
+      &:focus {
+        color: map-get($atum-colors-dark, body-color);
+        background: map-get($atum-colors-dark, template-quickicon-bg-hvr);
+        border: 1px solid map-get($atum-colors-dark,  template-quickicon-bg-hvr);
+      }
+
+      &:active {
+        color: map-get($atum-colors-dark, body-color);
+        background: map-get($atum-colors-dark, template-quickicon-bg-hvr);
+      }
+
+      .result-key {
+        color: #ccc;
+      }
+
+      code {
+        color: #ce8eab;
+      }
+
+    }
+  }
+}

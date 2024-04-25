@@ -17,18 +17,20 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Newsfeeds\Administrator\View\Newsfeed\HtmlView $this */
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
 $app   = Factory::getApplication();
-$input = $app->input;
+$input = $app->getInput();
 
 $assoc = Associations::isEnabled();
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
-$this->ignore_fieldsets = array('images', 'jbasic', 'jmetadata', 'item_associations');
+$this->ignore_fieldsets = ['images', 'jbasic', 'jmetadata', 'item_associations'];
 $this->useCoreUI = true;
 
 // In case of modal

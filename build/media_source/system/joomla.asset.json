@@ -12,23 +12,10 @@
       "uri": "system/core.min.js"
     },
     {
-      "name": "keepalive.es5",
-      "type": "script",
-      "dependencies": [
-        "core"
-      ],
-      "uri": "system/keepalive-es5.min.js",
-      "attributes": {
-        "defer": true,
-        "nomodule": true
-      }
-    },
-    {
       "name": "keepalive",
       "type": "script",
       "class": "KeepaliveAssetItem",
       "dependencies": [
-        "keepalive.es5",
         "core"
       ],
       "uri": "system/keepalive.min.js",
@@ -39,7 +26,8 @@
     {
       "name": "messages-legacy",
       "type": "script",
-      "uri": "system/messages-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -60,9 +48,39 @@
       ]
     },
     {
+      "name": "editor-decorator",
+      "type": "script",
+      "uri": "system/editors/editor-decorator.min.js",
+      "importmap": true
+    },
+    {
+      "name": "editor-api",
+      "type": "script",
+      "uri": "system/editors/editor-api.min.js",
+      "importmap": true,
+      "dependencies": [
+        "editor-decorator"
+      ]
+    },
+    {
+      "name": "editors",
+      "type": "script",
+      "uri": "system/editors/editors.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "core",
+        "editor-decorator",
+        "editor-api",
+        "joomla.dialog"
+      ]
+    },
+    {
       "name": "inlinehelp-legacy",
       "type": "script",
-      "uri": "system/inlinehelp-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -102,7 +120,7 @@
       ],
       "uri": "system/multiselect.min.js",
       "attributes": {
-        "defer": true
+        "type": "module"
       }
     },
     {
@@ -122,23 +140,10 @@
       "uri": ""
     },
     {
-      "name": "showon.es5",
-      "type": "script",
-      "dependencies": [
-        "core"
-      ],
-      "uri": "system/showon-es5.min.js",
-      "attributes": {
-        "defer": true,
-        "nomodule": true
-      }
-    },
-    {
       "name": "showon",
       "type": "script",
       "dependencies": [
-        "core",
-        "showon.es5"
+        "core"
       ],
       "uri": "system/showon.min.js",
       "attributes": {
@@ -200,7 +205,8 @@
     {
       "name": "highlight-legacy",
       "type": "script",
-      "uri": "system/highlight-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "defer": true,
         "nomodule": true
@@ -286,7 +292,9 @@
       ],
       "attributes": {
         "defer": true
-      }
+      },
+      "deprecated": true,
+      "deprecatedMsg": "Use [modal-content-select-field] asset instead. To be removed in Joomla 6."
     },
     {
       "name": "joomla.batch-copymove",
@@ -299,7 +307,8 @@
     {
       "name": "webcomponent.field-fancy-select-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-field-fancy-select-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -334,7 +343,8 @@
     {
       "name": "webcomponent.media-select-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-media-select-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -351,13 +361,15 @@
         "type": "module"
       },
       "dependencies": [
-        "webcomponent.media-select-legacy"
+        "webcomponent.media-select-legacy",
+        "joomla.dialog"
       ]
     },
     {
       "name": "webcomponent.field-media-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-field-media-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -380,7 +392,8 @@
     {
       "name": "webcomponent.field-module-order-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-field-module-order-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -408,7 +421,8 @@
     {
       "name": "webcomponent.field-permissions-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-field-permissions-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -431,7 +445,8 @@
     {
       "name": "webcomponent.field-send-test-mail-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-field-send-test-mail-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -459,7 +474,8 @@
     {
       "name": "webcomponent.field-simple-color-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-field-simple-color-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -482,7 +498,8 @@
     {
       "name": "webcomponent.field-subform-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-field-subform-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -505,7 +522,8 @@
     {
       "name": "webcomponent.field-user-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-field-user-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -522,13 +540,15 @@
         "type": "module"
       },
       "dependencies": [
-        "webcomponent.field-user-legacy"
+        "webcomponent.field-user-legacy",
+        "joomla.dialog"
       ]
     },
     {
       "name": "webcomponent.core-loader-legacy",
       "type": "script",
-      "uri": "system/joomla-core-loader-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -551,7 +571,8 @@
     {
       "name": "webcomponent.hidden-mail-legacy",
       "type": "script",
-      "uri": "system/joomla-hidden-mail-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -574,7 +595,8 @@
     {
       "name": "webcomponent.toolbar-button-legacy",
       "type": "script",
-      "uri": "system/joomla-toolbar-button-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -591,8 +613,72 @@
         "type": "module"
       },
       "dependencies": [
-        "webcomponent.toolbar-button-legacy"
+        "webcomponent.toolbar-button-legacy",
+        "joomla.dialog"
       ]
+    },
+    {
+      "name": "joomla.dialog",
+      "type": "script",
+      "uri": "system/joomla-dialog.min.js",
+      "importmap": true,
+      "dependencies": [
+        "wcpolyfill",
+        "core"
+      ]
+    },
+    {
+      "name": "joomla.dialog-autocreate",
+      "type": "script",
+      "uri": "system/joomla-dialog-autocreate.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "joomla.dialog"
+      ]
+    },
+    {
+      "name": "list-view",
+      "type": "script",
+      "uri": "system/list-view.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "core"
+      ]
+    },
+    {
+      "type": "script",
+      "name": "modal-content-select",
+      "dependencies": [
+        "core"
+      ],
+      "uri": "system/modal-content-select.min.js",
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "type": "script",
+      "name": "modal-content-select-field",
+      "dependencies": [
+        "core",
+        "joomla.dialog"
+      ],
+      "uri": "system/fields/modal-content-select-field.min.js",
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "joomla.treeselectmenu",
+      "type": "script",
+      "uri": "system/treeselectmenu.min.js",
+      "attributes": {
+        "type": "module"
+      }
     }
   ]
 }

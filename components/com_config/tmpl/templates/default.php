@@ -10,15 +10,15 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-$user = Factory::getUser();
+/** @var \Joomla\Component\Config\Site\View\Templates\HtmlView $this */
+$user = $this->getCurrentUser();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_config.templates');

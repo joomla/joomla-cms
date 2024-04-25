@@ -5,45 +5,51 @@
 
 #loading {
   position: fixed;
-  background-image: url(../../system/images/ajax-loader.gif);
-  background-color: rgba(255,255,255,.8);
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, .8);
+  background-image: url("../../system/images/ajax-loader.gif");
   background-repeat: no-repeat;
   background-position: center center;
   opacity: .8;
-  overflow: hidden;
 }
 
 #dragarea {
-  background-color: #fafbfc;
-  border: 1px dashed #999;
   box-sizing: border-box;
-  padding: 5% 0;
-  transition: all 0.2s ease 0s;
   width: 100%;
-}
-
-#dragarea p.lead {
-  color: #999;
+  padding: 5% 0;
+  background-color: var(--body-bg);
+  border: 1px dashed #999;
+  transition: all .2s ease 0s;
 }
 
 #upload-icon {
-  font-size: 48px;
   width: auto;
   height: auto;
   margin: 0;
+  font-size: 48px;
   line-height: 175%;
   color: #999;
   transition: all .2s;
 }
 
 #dragarea.hover {
-  border-color: #666;
   background-color: #eee;
+  border-color: #666;
 }
 
 #dragarea.hover #upload-icon,
 #dragarea p.lead {
   color: #666;
+}
+
+[data-color-scheme=dark] #dragarea.hover #upload-icon,
+[data-color-scheme=dark] #dragarea p.lead {
+  color: #eee;
+}
+
+[data-color-scheme=dark] #dragarea.hover {
+  background-color: #666;
+  border-color: #eee;
 }
 
 .upload-progress, .install-progress {
@@ -53,9 +59,11 @@
 
 /* Default transition (.3s) is too slow, progress will not run to 100% */
 .upload-progress .progress .bar {
+  /* stylelint-disable */
   -webkit-transition: width .1s;
   -moz-transition: width .1s;
   -o-transition: width .1s;
+  /* stylelint-enable */
   transition: width .1s;
 }
 

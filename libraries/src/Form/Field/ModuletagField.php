@@ -12,7 +12,7 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\HTML\HTMLHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -33,18 +33,18 @@ class ModuletagField extends ListField
     /**
      * Method to get the field options.
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.0
      */
     protected function getOptions()
     {
-        $options = array();
-        $tags    = array('address', 'article', 'aside', 'details', 'div', 'footer', 'header', 'main', 'nav', 'section', 'summary');
+        $options = [];
+        $tags    = ['address', 'article', 'aside', 'details', 'div', 'footer', 'header', 'main', 'nav', 'section', 'summary'];
 
         // Create one new option object for each tag
         foreach ($tags as $tag) {
-            $tmp = HTMLHelper::_('select.option', $tag, $tag);
+            $tmp       = HTMLHelper::_('select.option', $tag, $tag);
             $options[] = $tmp;
         }
 

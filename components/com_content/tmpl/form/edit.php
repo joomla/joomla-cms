@@ -16,24 +16,23 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Content\Site\View\Form\HtmlView $this */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_content.form-edit');
 
 $this->tab_name = 'com-content-form';
-$this->ignore_fieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associations');
+$this->ignore_fieldsets = ['image-intro', 'image-full', 'jmetadata', 'item_associations'];
 $this->useCoreUI = true;
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
 
-// This checks if the editor config options have ever been saved. If they haven't they will fall back to the original settings.
-$editoroptions = isset($params->show_publishing_options);
-
-if (!$editoroptions) {
-    $params->show_urls_images_frontend = '0';
+// This checks if the editor config options have ever been saved. If they haven't they will fall back to the original settings
+if (!$params->exists('show_publishing_options')) {
+    $params->set('show_urls_images_frontend', '0');
 }
 ?>
 <div class="edit item-page">

@@ -105,6 +105,13 @@ class ConsentsModel extends ListModel
                 ->bind(':state', $state, ParameterType::INTEGER);
         }
 
+        $subject = $this->getState('filter.subject');
+
+        if (!empty($subject)) {
+            $query->where($db->quoteName('a.subject') . ' = :subject')
+                ->bind(':subject', $subject, ParameterType::STRING);
+        }
+
         // Handle the list ordering.
         $ordering  = $this->getState('list.ordering');
         $direction = $this->getState('list.direction');
@@ -188,7 +195,7 @@ class ConsentsModel extends ListModel
         $pks = ArrayHelper::toInteger($pks);
 
         try {
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->update($db->quoteName('#__privacy_consents'))
                 ->set($db->quoteName('state') . ' = -1')
@@ -215,7 +222,7 @@ class ConsentsModel extends ListModel
     public function invalidateAll($subject)
     {
         try {
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->update($db->quoteName('#__privacy_consents'))
                 ->set($db->quoteName('state') . ' = -1')

@@ -10,11 +10,13 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-$lang = Factory::getLanguage(); ?>
+/**
+ * @var \Joomla\Plugin\Content\PageNavigation\Extension\PageNavigation  $this */
+$lang = $this->getLanguage();
+?>
 
 <nav class="pagenavigation">
     <span class="pagination ms-0">

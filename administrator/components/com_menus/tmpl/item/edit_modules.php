@@ -10,45 +10,39 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Menus\Administrator\View\Item\HtmlView;
 
+/** @var HtmlView $this */
 foreach ($this->levels as $key => $value) {
     $allLevels[$value->id] = $value->title;
 }
 
-$this->document->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLevels, 'itemId' => $this->item->id]);
+$this->getDocument()->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLevels, 'itemId' => (int) $this->item->id]);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
-$wa->useStyle('com_menus.admin-item-edit-modules')
-    ->useScript('com_menus.admin-item-edit-modules');
+$wa = $this->getDocument()->getWebAssetManager();
+$wa->useScript('com_menus.admin-item-edit-modules')
+    ->useScript('joomla.dialog-autocreate');
 
-// Set up the bootstrap modal that will be used for all module editors
-echo HTMLHelper::_(
-    'bootstrap.renderModal',
-    'moduleEditModal',
-    array(
-        'title'       => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
-        'backdrop'    => 'static',
-        'keyboard'    => false,
-        'closeButton' => false,
-        'bodyHeight'  => '70',
-        'modalWidth'  => '80',
-        'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-target="#closeBtn">'
-                . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-                . '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-target="#saveBtn">'
-                . Text::_('JSAVE') . '</button>'
-                . '<button type="button" class="btn btn-success" data-bs-target="#applyBtn">'
-                . Text::_('JAPPLY') . '</button>',
-    )
-);
+// Set up the modal options that will be used for module editor
+$popupOptions = [
+    'popupType'  => 'iframe',
+    'textHeader' => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+    'className'  => 'menus-dialog-module-editing',
+];
+
+Text::script('JNO');
+Text::script('JYES');
+Text::script('JALL');
+Text::script('JTRASHED');
 
 ?>
 <?php
 // Set main fields.
-$this->fields = array('toggle_modules_assigned','toggle_modules_published');
+$this->fields = ['toggle_modules_assigned', 'toggle_modules_published'];
 
 echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 
@@ -76,7 +70,7 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
         </tr>
     </thead>
     <tbody>
-    <?php foreach ($this->modules as $i => &$module) : ?>
+    <?php foreach ($this->modules as $i => $module) : ?>
         <?php if (is_null($module->menuid)) : ?>
             <?php if (!$module->except || $module->menuid < 0) : ?>
                 <?php $no = 'no '; ?>
@@ -93,12 +87,14 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
         <?php endif; ?>
         <tr id="tr-<?php echo $module->id; ?>" class="<?php echo $no; ?><?php echo $status; ?>row<?php echo $i % 2; ?>">
             <th scope="row">
+                <?php $popupOptions['src'] = Route::_('index.php?option=com_modules&task=module.edit&tmpl=component&layout=modal&id=' . $module->id, false); ?>
                 <button type="button"
-                    data-bs-target="#moduleEditModal"
+                    data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)) ?>"
                     class="btn btn-link module-edit-link"
                     title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>"
                     id="title-<?php echo $module->id; ?>"
-                    data-module-id="<?php echo $module->id; ?>">
+                    data-module-id="<?php echo $module->id; ?>"
+                    data-checkin-url="<?php echo Route::_('index.php?option=com_modules&task=modules.checkin&format=json&cid[]=' . $module->id); ?>">
                     <?php echo $this->escape($module->title); ?></button>
             </th>
             <td id="access-<?php echo $module->id; ?>">

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
+/** @var \Joomla\Component\Content\Site\View\Article\HtmlView $this */
 // Create shortcut
 $urls = json_decode($this->item->urls);
 
@@ -22,11 +23,11 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 <div class="com-content-article__links content-links">
     <ul class="com-content-article__links content-list">
         <?php
-            $urlarray = array(
-            array($urls->urla, $urls->urlatext, $urls->targeta, 'a'),
-            array($urls->urlb, $urls->urlbtext, $urls->targetb, 'b'),
-            array($urls->urlc, $urls->urlctext, $urls->targetc, 'c')
-            );
+            $urlarray = [
+            [$urls->urla, $urls->urlatext, $urls->targeta, 'a'],
+            [$urls->urlb, $urls->urlbtext, $urls->targetb, 'b'],
+            [$urls->urlc, $urls->urlctext, $urls->targetc, 'c']
+            ];
             foreach ($urlarray as $url) :
                 $link = $url[0];
                 $label = $url[1];
@@ -66,7 +67,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
                         echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'linkModal',
-                            array(
+                            [
                                 'url'    => $link,
                                 'title'  => $label,
                                 'height' => '100%',
@@ -75,7 +76,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
                                 'bodyHeight'  => '500',
                                 'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
                                     . \Joomla\CMS\Language\Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-                            )
+                            ]
                         );
                         break;
 

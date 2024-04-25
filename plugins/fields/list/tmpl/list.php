@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\CMS\Layout\FileLayout $this */
 $fieldValue = $field->value;
 
 if ($fieldValue == '') {
@@ -19,7 +20,7 @@ if ($fieldValue == '') {
 }
 
 $fieldValue = (array) $fieldValue;
-$texts      = array();
+$texts      = [];
 $options    = $this->getOptionsFromField($field);
 
 foreach ($options as $value => $name) {

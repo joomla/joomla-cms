@@ -2,18 +2,45 @@
 
 .form-control {
   max-width: $input-max-width;
-  background-color: $white;
-  border: $input-border;
-  border-radius: $border-radius;
+  background: $form-control-bg;
+  border: $form-control-border;
 
-  &:focus {
-    border-color: $focuscolor;
-    box-shadow: $focusshadow;
+  &:disabled,
+  &[readonly] {
+    background-color: $form-control-bg-disabled;
+    opacity: 1;
+    &:hover,
+    &:active,
+    &:focus {
+      cursor: not-allowed;
+    }
+  }
+
+  &:focus:not(:disabled):not([readonly]) {
+    border: 1px solid var(--template-link-color) !important;
+  }
+
+  &:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
+  &:hover:not(:disabled):not([readonly])::file-selector-button {
+    background-color: $file-selector-btn-bg-hvr;
+  }
+
+  &.invalid {
+    border-color: var(--danger);
+  }
+
+  &.valid {
+    border-color: var(--success);
   }
 
   &::placeholder {
-    font-size: .8rem;
     font-style: italic;
+    opacity: .9;
+  }
+
+  &::-webkit-file-upload-button,
+  &::file-selector-button {
+    background-color: $file-selector-btn-bg;
   }
 }
 
@@ -42,6 +69,7 @@
     position: relative;
     flex: 1;
     min-width: 210px;
+    max-width: 100%;
 
     + div {
       width: 100%;
@@ -89,12 +117,19 @@ td .form-control {
 
 // Validation
 .invalid {
-  color: var(--danger);
   border-color: var(--danger);
+}
+
+label.invalid {
+  color: var(--danger-text);
 }
 
 .valid {
   border-color: var(--success);
+}
+
+label.valid {
+  color: var(--success-text);
 }
 
 .form-control-feedback {
@@ -150,8 +185,8 @@ div.subform-repeatable-group {
   position: relative;
   padding: 32px 32px 16px 28px;
   margin-top: 20px;
-  border: $input-border;
-  border-radius: $border-radius;
+  border: $input-border-width solid $input-border-color;
+  @include border-radius($border-radius);
 
   > .btn-toolbar {
 
@@ -175,9 +210,27 @@ div.subform-repeatable-group {
       &.group-move {
         top: 50%;
         right: 100%;
-        margin-top: -27px;
-        line-height: 52px;
+        padding: 0;
         border-radius: $border-radius 0 0 $border-radius;
+        transform: translateY(-50%);
+
+        span {
+          padding: 1.5rem .5rem;
+        }
+      }
+      &.group-move-up {
+        top: 50%;
+        right: 100%;
+        margin-top: -45px;
+        border-radius: 0;
+        transform: translateY(-50%);
+      }
+      &.group-move-down {
+        top: 50%;
+        right: 100%;
+        margin-top: 45px;
+        border-radius: 0;
+        transform: translateY(-50%);
       }
     }
   }

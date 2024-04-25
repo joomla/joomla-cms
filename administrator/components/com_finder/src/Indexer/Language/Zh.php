@@ -11,7 +11,6 @@
 namespace Joomla\Component\Finder\Administrator\Indexer\Language;
 
 use Joomla\Component\Finder\Administrator\Indexer\Language;
-use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -61,26 +60,11 @@ class Zh extends Language
      */
     public function tokenise($input)
     {
+        // We first add whitespace around each Chinese character, so that our later code can easily split on this.
+        $input = preg_replace('#\p{Han}#mui', ' $0 ', $input);
+
+        // Now we split up the input into individual terms
         $terms = parent::tokenise($input);
-
-        // Iterate through the terms and test if they contain Chinese.
-        for ($i = 0, $n = count($terms); $i < $n; $i++) {
-            $charMatches = array();
-            $charCount = preg_match_all('#[\p{Han}]#mui', $terms[$i], $charMatches);
-
-            // Split apart any groups of Chinese characters.
-            for ($j = 0; $j < $charCount; $j++) {
-                $tSplit = StringHelper::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
-
-                if (!empty($tSplit)) {
-                    $terms[$i] = $tSplit;
-                } else {
-                    unset($terms[$i]);
-                }
-
-                $terms[] = $charMatches[0][$j];
-            }
-        }
 
         return $terms;
     }

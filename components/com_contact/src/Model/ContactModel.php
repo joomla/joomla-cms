@@ -47,10 +47,10 @@ class ContactModel extends FormModel
     /**
      * A loaded item
      *
-     * @var    \stdClass
+     * @var    \stdClass[]
      * @since  1.6
      */
-    protected $_item = null;
+    protected $_item = [];
 
     /**
      * Model context string.
@@ -76,16 +76,16 @@ class ContactModel extends FormModel
         if (Factory::getApplication()->isClient('api')) {
             // @todo: remove this
             $app->loadLanguage();
-            $this->setState('contact.id', Factory::getApplication()->input->post->getInt('id'));
+            $this->setState('contact.id', Factory::getApplication()->getInput()->post->getInt('id'));
         } else {
-            $this->setState('contact.id', $app->input->getInt('id'));
+            $this->setState('contact.id', $app->getInput()->getInt('id'));
         }
 
         $this->setState('params', $app->getParams());
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
-        if ((!$user->authorise('core.edit.state', 'com_contact')) &&  (!$user->authorise('core.edit', 'com_contact'))) {
+        if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact'))) {
             $this->setState('filter.published', 1);
             $this->setState('filter.archived', 2);
         }
@@ -102,17 +102,17 @@ class ContactModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
-        $form = $this->loadForm('com_contact.contact', 'contact', array('control' => 'jform', 'load_data' => true));
+        $form = $this->loadForm('com_contact.contact', 'contact', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
         }
 
-        $temp = clone $this->getState('params');
-        $contact = $this->_item[$this->getState('contact.id')];
-        $active = Factory::getContainer()->get(SiteApplication::class)->getMenu()->getActive();
+        $temp    = clone $this->getState('params');
+        $contact = $this->getItem($this->getState('contact.id'));
+        $active  = Factory::getContainer()->get(SiteApplication::class)->getMenu()->getActive();
 
         if ($active) {
             // If the current view is the active item and a contact view for this contact, then the menu item params take priority
@@ -148,7 +148,7 @@ class ContactModel extends FormModel
      */
     protected function loadFormData()
     {
-        $data = (array) Factory::getApplication()->getUserState('com_contact.contact.data', array());
+        $data = (array) Factory::getApplication()->getUserState('com_contact.contact.data', []);
 
         if (empty($data['language']) && Multilanguage::isEnabled()) {
             $data['language'] = Factory::getLanguage()->getTag();
@@ -169,17 +169,13 @@ class ContactModel extends FormModel
      *
      * @param   integer  $pk  Id for the contact
      *
-     * @return  mixed Object or null
+     * @return  mixed \stdClass or null
      *
      * @since   1.6.0
      */
     public function getItem($pk = null)
     {
         $pk = $pk ?: (int) $this->getState('contact.id');
-
-        if ($this->_item === null) {
-            $this->_item = array();
-        }
 
         if (!isset($this->_item[$pk])) {
             try {
@@ -206,7 +202,7 @@ class ContactModel extends FormModel
 
                 // Filter by published state.
                 $published = $this->getState('filter.published');
-                $archived = $this->getState('filter.archived');
+                $archived  = $this->getState('filter.archived');
 
                 if (is_numeric($published)) {
                     $queryString = $db->quoteName('a.published') . ' = :published';
@@ -246,7 +242,7 @@ class ContactModel extends FormModel
                 $data->params = clone $this->getState('params');
                 $data->params->merge($registry);
 
-                $registry = new Registry($data->metadata);
+                $registry       = new Registry($data->metadata);
                 $data->metadata = $registry;
 
                 // Some contexts may not use tags data at all, so we allow callers to disable loading tag data
@@ -261,13 +257,13 @@ class ContactModel extends FormModel
                     $data->params->set('access-view', true);
                 } else {
                     // If no access filter is set, the layout takes some responsibility for display of limited information.
-                    $user = Factory::getUser();
+                    $user   = $this->getCurrentUser();
                     $groups = $user->getAuthorisedViewLevels();
 
                     if ($data->catid == 0 || $data->category_access === null) {
-                        $data->params->set('access-view', in_array($data->access, $groups));
+                        $data->params->set('access-view', \in_array($data->access, $groups));
                     } else {
-                        $data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
+                        $data->params->set('access-view', \in_array($data->access, $groups) && \in_array($data->category_access, $groups));
                     }
                 }
 
@@ -276,10 +272,10 @@ class ContactModel extends FormModel
                 if ($e->getCode() == 404) {
                     // Need to go through the error handler to allow Redirect to work.
                     throw $e;
-                } else {
-                    $this->setError($e);
-                    $this->_item[$pk] = false;
                 }
+
+                $this->setError($e);
+                $this->_item[$pk] = false;
             }
         }
 
@@ -301,7 +297,7 @@ class ContactModel extends FormModel
     {
         $db        = $this->getDatabase();
         $nowDate   = Factory::getDate()->toSql();
-        $user      = Factory::getUser();
+        $user      = $this->getCurrentUser();
         $groups    = $user->getAuthorisedViewLevels();
         $published = $this->getState('filter.published');
         $query     = $db->getQuery(true);
@@ -335,7 +331,7 @@ class ContactModel extends FormModel
 
             // Filter per language if plugin published
             if (Multilanguage::isEnabled()) {
-                $language = [Factory::getLanguage()->getTag(), $db->quote('*')];
+                $language = [Factory::getLanguage()->getTag(), '*'];
                 $query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
             }
 
@@ -381,10 +377,10 @@ class ContactModel extends FormModel
         $form = Form::getInstance('com_users.profile', 'profile');
 
         // Trigger the form preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
+        Factory::getApplication()->triggerEvent('onContentPrepareForm', [$form, $data]);
 
         // Trigger the data preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', $data));
+        Factory::getApplication()->triggerEvent('onContentPrepareData', ['com_users.profile', $data]);
 
         // Load the data into the form after the plugins have operated.
         $form->bind($data);
@@ -407,7 +403,7 @@ class ContactModel extends FormModel
         return 'CASE WHEN '
             . $query->charLength($alias, '!=', '0')
             . ' THEN '
-            . $query->concatenate(array($query->castAsChar($id), $alias), ':')
+            . $query->concatenate([$query->castAsChar($id), $alias], ':')
             . ' ELSE '
             . $query->castAsChar($id) . ' END';
     }
@@ -423,7 +419,7 @@ class ContactModel extends FormModel
      */
     public function hit($pk = 0)
     {
-        $input = Factory::getApplication()->input;
+        $input    = Factory::getApplication()->getInput();
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {

@@ -59,8 +59,8 @@ class HtmlView extends CategoryView
         // Prepare the data.
         // Compute the newsfeed slug.
         foreach ($this->items as $item) {
-            $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-            $temp       = $item->params;
+            $item->slug   = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+            $temp         = $item->params;
             $item->params = clone $this->params;
             $item->params->merge($temp);
         }
@@ -78,20 +78,21 @@ class HtmlView extends CategoryView
         parent::prepareDocument();
 
         $menu = $this->menu;
-        $id = (int) @$menu->query['id'];
+        $id   = (int) @$menu->query['id'];
 
         if (
             $menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed'
             || $id != $this->category->id)
         ) {
-            $path = array(array('title' => $this->category->title, 'link' => ''));
+            $path     = [['title' => $this->category->title, 'link' => '']];
             $category = $this->category->getParent();
 
             while (
-                (!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed'
-                || $id != $category->id) && $category->id > 1
+                isset($category->id) && $category->id > 1
+                && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed'
+                || $id != $category->id)
             ) {
-                $path[] = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
+                $path[]   = ['title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language)];
                 $category = $category->getParent();
             }
 

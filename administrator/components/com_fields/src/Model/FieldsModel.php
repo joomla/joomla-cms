@@ -40,10 +40,10 @@ class FieldsModel extends ListModel
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'type', 'a.type',
@@ -61,8 +61,8 @@ class FieldsModel extends ListModel
                 'group_title', 'g.title',
                 'category_id', 'a.category_id',
                 'group_id', 'a.group_id',
-                'assigned_cat_ids'
-            );
+                'assigned_cat_ids',
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -140,7 +140,7 @@ class FieldsModel extends ListModel
         // Create a new query object.
         $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
         $app   = Factory::getApplication();
 
         // Select the required fields from the table.
@@ -180,7 +180,7 @@ class FieldsModel extends ListModel
 
         // Filter by access level.
         if ($access = $this->getState('filter.access')) {
-            if (is_array($access)) {
+            if (\is_array($access)) {
                 $access = ArrayHelper::toInteger($access);
                 $query->whereIn($db->quoteName('a.access'), $access);
             } else {
@@ -193,7 +193,7 @@ class FieldsModel extends ListModel
         if (($categories = $this->getState('filter.assigned_cat_ids')) && $context) {
             $categories = (array) $categories;
             $categories = ArrayHelper::toInteger($categories);
-            $parts = FieldsHelper::extract($context);
+            $parts      = FieldsHelper::extract($context);
 
             if ($parts) {
                 // Get the categories for this component (and optionally this section, if available)
@@ -237,7 +237,7 @@ class FieldsModel extends ListModel
 
                             // Traverse the tree up to get all the fields which are attached to a parent
                             while ($parent->getParent() && $parent->getParent()->id != 'root') {
-                                $parent = $parent->getParent();
+                                $parent       = $parent->getParent();
                                 $categories[] = (int) $parent->id;
                             }
                         }
@@ -250,7 +250,7 @@ class FieldsModel extends ListModel
             // Join over the assigned categories
             $query->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id');
 
-            if (in_array('0', $categories)) {
+            if (\in_array('0', $categories)) {
                 $query->where(
                     '(' .
                         $db->quoteName('fc.category_id') . ' IS NULL OR ' .
@@ -270,7 +270,7 @@ class FieldsModel extends ListModel
                 'AND',
                 [
                     $db->quoteName('a.group_id') . ' = 0',
-                    $db->quoteName('g.access') . ' IN (' . implode(',', $query->bindArray($groups, ParameterType::INTEGER)) . ')'
+                    $db->quoteName('g.access') . ' IN (' . implode(',', $query->bindArray($groups, ParameterType::INTEGER)) . ')',
                 ],
                 'OR'
             );
@@ -281,8 +281,8 @@ class FieldsModel extends ListModel
 
         // Include group state only when not on on back end list
         $includeGroupState = !$app->isClient('administrator') ||
-            $app->input->get('option') != 'com_fields' ||
-            $app->input->get('view') != 'fields';
+            $app->getInput()->get('option') != 'com_fields' ||
+            $app->getInput()->get('view') != 'fields';
 
         if (is_numeric($state)) {
             $state = (int) $state;
@@ -308,7 +308,7 @@ class FieldsModel extends ListModel
                     'AND',
                     [
                         $db->quoteName('a.group_id') . ' = 0',
-                        $db->quoteName('g.state') . ' IN (' . implode(',', $query->bindArray([0, 1], ParameterType::INTEGER)) . ')'
+                        $db->quoteName('g.state') . ' IN (' . implode(',', $query->bindArray([0, 1], ParameterType::INTEGER)) . ')',
                     ],
                     'OR'
                 );
@@ -396,10 +396,10 @@ class FieldsModel extends ListModel
     {
         $result = parent::_getList($query, $limitstart, $limit);
 
-        if (is_array($result)) {
+        if (\is_array($result)) {
             foreach ($result as $field) {
                 $field->fieldparams = new Registry($field->fieldparams);
-                $field->params = new Registry($field->params);
+                $field->params      = new Registry($field->params);
             }
         }
 
@@ -416,7 +416,7 @@ class FieldsModel extends ListModel
      *
      * @since   3.7.0
      */
-    public function getFilterForm($data = array(), $loadData = true)
+    public function getFilterForm($data = [], $loadData = true)
     {
         $form = parent::getFilterForm($data, $loadData);
 
@@ -438,7 +438,7 @@ class FieldsModel extends ListModel
      */
     public function getGroups()
     {
-        $user       = Factory::getUser();
+        $user       = $this->getCurrentUser();
         $viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
         $context    = $this->state->get('filter.context');
 

@@ -2,7 +2,7 @@
 $fa-css-prefix:                    fa;
 $fa-font-path:                     "../../../../../../vendor/fontawesome-free/webfonts" !default;
 
-// Font Awesome 5 Free
+// Font Awesome 6 Free
 @import "../../../../../../../../media/vendor/fontawesome-free/scss/fontawesome";
 @import "../../../../../../../../media/vendor/fontawesome-free/scss/regular";
 @import "../../../../../../../../media/vendor/fontawesome-free/scss/solid";
@@ -10,10 +10,27 @@ $fa-font-path:                     "../../../../../../vendor/fontawesome-free/we
 // Brands must be imported last
 @import "../../../../../../../../media/vendor/fontawesome-free/scss/brands";
 
+// B/C with Font Awesome 5
+@import "../../../../../../../../media/vendor/fontawesome-free/scss/shims";
+
 // B/C for Icomoon
 @import "../../../../../../system/scss/icomoon";
 
 // RTL override
 html[dir=rtl] .float-right {
   float: left;
+}
+
+input .icon-check-square {
+  &::before {
+    color: var(--icon-check-square-bg);
+    background: var(--icon-check-square-color);
+  }
+}
+
+input .icon-square {
+  &::before {
+    color: var(--icon-square-bg);
+    background: var(--icon-square-color);
+  }
 }
