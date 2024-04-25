@@ -45,6 +45,7 @@ abstract class ToolbarHelper
         $html   = $layout->render(['title' => $title, 'icon' => $icon]);
 
         $app                  = Factory::getApplication();
+        // @deprecated 5.2.0 will be removed in 7.0 as this property is not used anymore see WebApplication
         $app->JComponentTitle = $html;
         $title                = strip_tags($title) . ' - ' . $app->get('sitename');
 
