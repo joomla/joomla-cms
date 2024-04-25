@@ -283,7 +283,7 @@ class UpdateCoreCommand extends AbstractCommand
 
                 try {
                     if (file_exists($autoloadFile)) {
-                         File::delete($autoloadFile);
+                        File::delete($autoloadFile);
                     }
 
                     // Remove the xml
