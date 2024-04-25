@@ -17,7 +17,6 @@ $gh               = 'gh';
 $checkPath        = false;
 $ghRepo           = 'joomla/joomla-cms';
 $baseBranches     = '4.1-dev';
-$targetBranch     = '4.2-dev';
 $label            = '';
 $additionalReason = '';
 $tryRun           = false;
@@ -40,9 +39,6 @@ if (empty($argv)) {
             --base:
               The base branch of the pull request. Multiple branches can be separated by comma.
 
-            --target:
-              The target branch the pull request gets rebased to.
-
             --label:
               The tag of the pull request must have to be rebased.
 
@@ -63,9 +59,6 @@ foreach ($argv as $arg) {
             case '--base':
                 $baseBranches = $argi[1];
                 break;
-            case '--target':
-                $targetBranch = $argi[1];
-                break;
             case '--pr':
                 $prNumber = $argi[1];
                 break;
@@ -82,12 +75,6 @@ foreach ($argv as $arg) {
         $checkPath = $arg;
         break;
     }
-}
-
-$reason = 'This pull request has been automatically rebased to ' . $targetBranch . '.';
-
-if (!empty($additionalReason)) {
-    $reason .= ' ' . $additionalReason;
 }
 
 $cmd        = $git . ' -C "' . $scriptRoot . '" rev-parse --show-toplevel';
@@ -163,27 +150,32 @@ $list = json_decode($json, true);
 echo "\nFound " . \count($list) . " pull request(s).\n";
 
 foreach ($list as $pr) {
-    echo "Rebase #" . $pr['number'] . "\n";
+    echo "Change Title for PR #" . $pr['number'] . "\n";
 
-    $cmd    = $gh . ' pr edit ' . $pr['url'] . ' --base ' . $targetBranch;
+    $branch = substr($pr['baseRefName'], 0, strpos($pr['baseRefName'], '-'));
+
+    $title = $pr['title'];
+
+    if (str_contains($title, ']') && strpos($title, ']') < 10) {
+        $title = substr($title, strpos($title, ']') + 1);
+    }
+
+    $newTitle = '[' . $branch . '] ' . trim($title);
+
+    if ($newTitle === $pr['title']) {
+        continue;
+    }
+
+    echo 'OLD: ' . trim($pr['title']) ."\n";
+    echo 'NEW: ' . $newTitle ."\n";
+
+    $cmd    = $gh . ' pr edit ' . $pr['url'] . ' --title "' . str_replace('"', '\"', $newTitle) . '"';
     $output = [];
     if (!$tryRun) {
         exec($cmd, $output, $result);
         if ($result !== 0) {
             var_dump([$cmd, $output, $result]);
             die('Unable to set target branch for pr #' . $pr['number']);
-        }
-    } else {
-        echo "TRY RUN: " . $cmd . "\n";
-    }
-
-    $cmd    = $gh . ' pr comment ' . $pr['url'] . ' --body "' . $reason . '"';
-    $output = [];
-    if (!$tryRun) {
-        exec($cmd, $output, $result);
-        if ($result !== 0) {
-            var_dump([$cmd, $output, $result]);
-            die('Unable to create a comment for pr #' . $pr['number']);
         }
     } else {
         echo "TRY RUN: " . $cmd . "\n";
