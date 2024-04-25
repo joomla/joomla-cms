@@ -22,7 +22,7 @@ use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 $displayData = [
     'textPrefix' => 'COM_REDIRECT',
     'formURL'    => 'index.php?option=com_redirect&view=links',
-    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help4.x:Redirects:_Links',
+    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help5.x:Redirects:_Links',
     'icon'       => 'icon-map-signs redirect',
 ];
 
