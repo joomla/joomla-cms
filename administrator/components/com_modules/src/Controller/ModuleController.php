@@ -303,7 +303,7 @@ class ModuleController extends FormController
         } catch (\RuntimeException $e) {
             $app->enqueueMessage($e->getMessage(), 'error');
 
-            return '';
+            return;
         }
 
         $orders2 = [];
