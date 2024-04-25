@@ -21,6 +21,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Content\Site\View\Article\HtmlView $this */
 // Create shortcuts to some parameters.
 $params  = $this->item->params;
 $canEdit = $params->get('access-edit');
