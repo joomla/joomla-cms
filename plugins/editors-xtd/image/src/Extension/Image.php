@@ -15,6 +15,7 @@ use Joomla\CMS\Editor\Button\Button;
 use Joomla\CMS\Event\Editor\EditorButtonsSetupEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -185,6 +186,9 @@ final class Image extends CMSPlugin
             Text::script('JFIELD_MEDIA_DOWNLOAD_FILE');
 
             $link = 'index.php?option=com_media&view=media&tmpl=component&e_name=' . $name . '&asset=' . $asset . '&mediatypes=0,1,2,3' . '&author=' . $author;
+
+            // Correctly route the url to ensure it's correctly using sef modes and subfolders
+            $link = Route::_($link);
 
             return new Button(
                 $this->_name,
