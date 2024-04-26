@@ -331,7 +331,6 @@ class InstallModel extends BaseDatabaseModel
         try {
             File::upload($tmp_src, $tmp_dest, false, true);
         } catch (FilesystemException $exception) {
-
         }
 
         // Unpack the downloaded package file.
