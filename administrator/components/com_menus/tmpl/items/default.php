@@ -22,7 +22,7 @@ use Joomla\CMS\Session\Session;
 /** @var \Joomla\Component\Menus\Administrator\View\Items\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 

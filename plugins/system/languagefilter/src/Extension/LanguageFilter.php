@@ -22,6 +22,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
@@ -157,6 +158,11 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                     unset($this->sefs[$language->sef]);
                 }
             }
+        }
+
+        if (!\count($this->sefs)) {
+            $this->loadLanguage();
+            $app->enqueueMessage(Text::_('PLG_SYSTEM_LANGUAGEFILTER_ERROR_NO_CONTENT_LANGUAGE'), 'error');
         }
     }
 
