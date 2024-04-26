@@ -99,7 +99,7 @@ class HtmlView extends BaseHtmlView
             }
 
             $this->form = $this->get('Form');
-            $user = $this->getCurrentUser();
+            $user       = $this->getCurrentUser();
         } catch (\Exception $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
