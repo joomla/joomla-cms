@@ -111,10 +111,6 @@ class RouteHelper
             $needles['language'] = $language;
         }
 
-        if ($item = $this->findItem($needles)) {
-            $link .= '&Itemid=' . $item;
-        }
-
         return $link;
     }
 
