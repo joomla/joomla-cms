@@ -511,7 +511,6 @@ class UpdateModel extends BaseDatabaseModel
             try {
                 File::delete($target);
             } catch (FilesystemException $exception) {
-
             }
         }
 
@@ -618,7 +617,6 @@ ENDDATA;
             try {
                 File::delete($configpath);
             } catch (FilesystemException $exception) {
-
             }
         }
 
@@ -912,7 +910,6 @@ ENDDATA;
                 File::delete(JPATH_ROOT . '/joomla.xml');
             }
         } catch (FilesystemException $exception) {
-
         }
 
         // Unset the update filename from the session.
@@ -1076,7 +1073,6 @@ ENDDATA;
                 try {
                     File::delete($file);
                 } catch (FilesystemException $exception) {
-
                 }
             }
         }
