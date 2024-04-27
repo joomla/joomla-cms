@@ -51,7 +51,7 @@ abstract class ApplicationEvent extends AbstractImmutableEvent
      *
      * @since  5.0.0
      */
-    final protected function setSubject(AbstractApplication $value): AbstractApplication
+    final protected function onSetSubject(AbstractApplication $value): AbstractApplication
     {
         return $value;
     }

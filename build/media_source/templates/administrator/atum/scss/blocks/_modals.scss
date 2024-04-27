@@ -10,7 +10,7 @@
     color: var(--template-text-dark);
     background: var(--white);
     border-color: var(--whiteoffset);
-    box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, .25);
+    box-shadow: $modal-btn-box-shadow;
   }
 
   .btn-primary:not([href]),
@@ -175,11 +175,16 @@ joomla-dialog {
     padding: 0;
     border: 1px solid var(--border-color-translucent);
     border-radius: .3rem;
-    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+    box-shadow: $modal-joomla-dialog-box-shadow;
 
     @include media-breakpoint-up(xxl) {
       width: 80vw;
       height: 80vh;
+    }
+
+    // Override display to flex, to scale the content to full height
+    &[open] {
+      display: flex;
     }
   }
 
@@ -213,18 +218,43 @@ joomla-dialog {
         width: 66px;
         height: 66px;
         content: "";
-        background: url("../../../../system/images/ajax-loader.gif") no-repeat center;
+        background: url("../../../../system/images/ajax-loader.gif") no-repeat center; // TODO: use svg animation?
         transform: translate(-50%, -50%);
       }
     }
   }
 }
+
+// Dialog animation
+joomla-dialog dialog[open] {
+  animation: dialog-show .4s ease normal;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes dialog-show {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+// Dialog elements
 .joomla-dialog-container {
   position: relative;
   box-sizing: border-box;
   display: flex;
   flex-flow: column;
-  height: 100%;
+  width: 100%;
+  background: var(--body-bg);
 
   .buttons-holder {
     display: flex;
@@ -237,6 +267,7 @@ joomla-dialog {
     }
   }
 }
+
 .joomla-dialog-header {
   position: relative;
   display: flex;
@@ -258,6 +289,7 @@ joomla-dialog {
     display: none;
   }
 }
+
 .joomla-dialog-body {
   position: relative;
   box-sizing: border-box;
@@ -279,11 +311,13 @@ joomla-dialog {
   joomla-dialog.loading & {
     opacity: 0;
   }
+
   joomla-dialog.loaded & {
     opacity: 1;
     transition: opacity .4s ease;
   }
 }
+
 .joomla-dialog-footer {
   position: relative;
   padding: 1rem;
@@ -321,3 +355,91 @@ joomla-dialog {
     }
   }
 }
+
+.modal-content {
+  background-color: var(--body-bg);
+}
+
+// dark
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .modal {
+
+      .btn {
+
+        &.btn-primary, &.btn-primary:not([href]) {
+          color: map-get($atum-colors-dark, "btn-primary-color");
+          background: map-get($atum-colors-dark, "btn-primary-bg");
+          border: map-get($atum-colors-dark, "btn-primary-border");
+
+          &:hover {
+            color: map-get($atum-colors-dark, "btn-primary-color");
+            background: map-get($atum-colors-dark, "btn-primary-bg-hvr");
+            border: map-get($atum-colors-dark, "btn-primary-border-hvr");
+            box-shadow: none;
+          }
+        }
+
+        &.btn-success, &.btn-success:not([href]) {
+          color: map-get($atum-colors-dark, "atum-btn-success-icon");
+          background: map-get($atum-colors-dark, "atum-btn-success-bg");
+          border: map-get($atum-colors-dark, "atum-btn-success-border");
+          box-shadow: none;
+
+          &:hover {
+            color: map-get($atum-colors-dark, "atum-btn-success-icon");
+            background: map-get($atum-colors-dark, "atum-btn-success-bg-hvr");
+            border: map-get($atum-colors-dark, "atum-btn-success-border");
+            box-shadow: none;
+          }
+
+          &:disabled {
+            background: map-get($atum-colors-dark, "body-bg");
+            border: map-get($atum-colors-dark, "form-control-border-disabled");
+            opacity: .5;
+          }
+        }
+
+        &.btn-danger, &.btn-danger:not([href]) {
+          color: map-get($atum-colors-dark, "atum-btn-danger-color");
+          background: map-get($atum-colors-dark, "atum-btn-danger-bg");
+          border: map-get($atum-colors-dark, "atum-btn-danger-border");
+          box-shadow: none;
+
+          &:hover {
+            color: map-get($atum-colors-dark, "atum-btn-danger-color");
+            background: map-get($atum-colors-dark, "atum-btn-danger-bg-hvr");
+            border: map-get($atum-colors-dark, "atum-btn-danger-border-hvr");
+            box-shadow: none;
+          }
+        }
+
+        &.btn-secondary, &.btn-secondary:not([href]) {
+          color: map-get($atum-colors-dark, "btn-secondary-color");
+          background: map-get($atum-colors-dark, "btn-secondary-bg");
+          border: map-get($atum-colors-dark, "btn-secondary-border");
+          box-shadow: none;
+
+          &:hover {
+            color: map-get($atum-colors-dark, "btn-secondary-color");
+            background: map-get($atum-colors-dark, "btn-secondary-bg-hvr");
+            border: map-get($atum-colors-dark, "btn-secondary-border-hvr");
+            box-shadow: none;
+          }
+        }
+
+        &:disabled {
+          background: map-get($atum-colors-dark, "body-bg");
+          opacity: .5;
+        }
+      }
+
+    }
+    .joomla-dialog-container .changelog .changelog__item .changelog__tag {
+      background: map-get($atum-colors-dark, "body-bg");
+    }
+  }
+}
+
+
+

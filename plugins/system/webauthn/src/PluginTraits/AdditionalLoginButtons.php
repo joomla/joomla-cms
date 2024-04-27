@@ -68,6 +68,9 @@ trait AdditionalLoginButtons
             return;
         }
 
+        // Load plugin language files
+        $this->loadLanguage();
+
         // Load necessary CSS and Javascript files
         $this->addLoginCSSAndJavascript();
 

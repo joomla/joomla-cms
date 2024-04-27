@@ -36,8 +36,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.7.0
  */
-#[\AllowDynamicProperties]
-abstract class Table implements TableInterface, DispatcherAwareInterface
+abstract class Table extends \stdClass implements TableInterface, DispatcherAwareInterface
 {
     use DispatcherAwareTrait;
     use LegacyErrorHandlingTrait;
@@ -315,21 +314,21 @@ abstract class Table implements TableInterface, DispatcherAwareInterface
                     include_once $tryThis;
                 }
             }
+        }
 
-            if (!class_exists($tableClass) && class_exists($tableClassLegacy)) {
-                $tableClass = $tableClassLegacy;
-            }
+        if (!class_exists($tableClass) && class_exists($tableClassLegacy)) {
+            $tableClass = $tableClassLegacy;
+        }
 
-            if (!class_exists($tableClass)) {
-                /*
-                * If unable to find the class file in the Table include paths. Return false.
-                * The warning JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND has been removed in 3.6.3.
-                * In 4.0 an Exception (type to be determined) will be thrown.
-                * For more info see https://github.com/joomla/joomla-cms/issues/11570
-                */
+        if (!class_exists($tableClass)) {
+            /*
+            * If unable to find the class file in the Table include paths. Return false.
+            * The warning JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND has been removed in 3.6.3.
+            * In 6.0 an Exception (type to be determined) will be thrown.
+            * For more info see https://github.com/joomla/joomla-cms/issues/11570
+            */
 
-                return false;
-            }
+            return false;
         }
 
         // If a database object was passed in the configuration array use it, otherwise get the global one from Factory.
@@ -502,10 +501,10 @@ abstract class Table implements TableInterface, DispatcherAwareInterface
             if ($multiple) {
                 // If we want multiple keys, return the raw array.
                 return $this->_tbl_keys;
-            } else {
-                // If we want the standard method, just return the first key.
-                return $this->_tbl_keys[0];
             }
+
+            // If we want the standard method, just return the first key.
+            return $this->_tbl_keys[0];
         }
 
         return '';
@@ -909,40 +908,40 @@ abstract class Table implements TableInterface, DispatcherAwareInterface
                 $this->setError($error);
 
                 return false;
-            } else {
-                // Specify how a new or moved node asset is inserted into the tree.
-                if (empty($this->asset_id) || $asset->parent_id != $parentId) {
-                    $asset->setLocation($parentId, 'last-child');
-                }
+            }
 
-                // Prepare the asset to be stored.
-                $asset->parent_id = $parentId;
-                $asset->name      = $name;
+            // Specify how a new or moved node asset is inserted into the tree.
+            if (empty($this->asset_id) || $asset->parent_id != $parentId) {
+                $asset->setLocation($parentId, 'last-child');
+            }
 
-                // Respect the table field limits
-                $asset->title = StringHelper::substr($title, 0, 100);
+            // Prepare the asset to be stored.
+            $asset->parent_id = $parentId;
+            $asset->name      = $name;
 
-                if ($this->_rules instanceof Rules) {
-                    $asset->rules = (string) $this->_rules;
-                }
+            // Respect the table field limits
+            $asset->title = StringHelper::substr($title, 0, 100);
 
-                if (!$asset->check() || !$asset->store($updateNulls)) {
-                    $this->setError($asset->getError());
+            if ($this->_rules instanceof Rules) {
+                $asset->rules = (string) $this->_rules;
+            }
 
-                    return false;
-                } else {
-                    // Create an asset_id or heal one that is corrupted.
-                    if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id))) {
-                        // Update the asset_id field in this table.
-                        $this->asset_id = (int) $asset->id;
+            if (!$asset->check() || !$asset->store()) {
+                $this->setError($asset->getError());
 
-                        $query = $this->_db->getQuery(true)
-                            ->update($this->_db->quoteName($this->_tbl))
-                            ->set('asset_id = ' . (int) $this->asset_id);
-                        $this->appendPrimaryKeys($query);
-                        $this->_db->setQuery($query)->execute();
-                    }
-                }
+                return false;
+            }
+
+            // Create an asset_id or heal one that is corrupted.
+            if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id))) {
+                // Update the asset_id field in this table.
+                $this->asset_id = (int) $asset->id;
+
+                $query = $this->_db->getQuery(true)
+                    ->update($this->_db->quoteName($this->_tbl))
+                    ->set('asset_id = ' . (int) $this->asset_id);
+                $this->appendPrimaryKeys($query);
+                $this->_db->setQuery($query)->execute();
             }
         }
 
@@ -1821,11 +1820,7 @@ abstract class Table implements TableInterface, DispatcherAwareInterface
     public function getColumnAlias($column)
     {
         // Get the column data if set
-        if (isset($this->_columnAlias[$column])) {
-            $return = $this->_columnAlias[$column];
-        } else {
-            $return = $column;
-        }
+        $return = $this->_columnAlias[$column] ?? $column;
 
         // Sanitize the name
         $return = preg_replace('#[^A-Z0-9_]#i', '', $return);

@@ -19,7 +19,8 @@ use Joomla\CMS\Component\Router\RouterServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Fields\FieldsFormServiceInterface;
+use Joomla\CMS\Fields\FieldsServiceTrait;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper as LibraryContentHelper;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
@@ -47,7 +48,7 @@ use Psr\Container\ContainerInterface;
 class ContentComponent extends MVCComponent implements
     BootableExtensionInterface,
     CategoryServiceInterface,
-    FieldsServiceInterface,
+    FieldsFormServiceInterface,
     AssociationServiceInterface,
     SchemaorgServiceInterface,
     WorkflowServiceInterface,
@@ -59,9 +60,10 @@ class ContentComponent extends MVCComponent implements
     use HTMLRegistryAwareTrait;
     use WorkflowServiceTrait;
     use SchemaorgServiceTrait;
-    use CategoryServiceTrait, TagServiceTrait {
+    use CategoryServiceTrait, TagServiceTrait, FieldsServiceTrait {
         CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
         CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
+        CategoryServiceTrait::prepareForm insteadof FieldsServiceTrait;
     }
 
     /** @var array Supported functionality */
@@ -275,7 +277,7 @@ class ContentComponent extends MVCComponent implements
     {
         $parts = explode('.', $context);
 
-        if (count($parts) < 2) {
+        if (\count($parts) < 2) {
             return '';
         }
 
@@ -285,7 +287,9 @@ class ContentComponent extends MVCComponent implements
 
         if ($modelname === 'article' && Factory::getApplication()->isClient('site')) {
             return 'Form';
-        } elseif ($modelname === 'featured' && Factory::getApplication()->isClient('administrator')) {
+        }
+
+        if ($modelname === 'featured' && Factory::getApplication()->isClient('administrator')) {
             return 'Article';
         }
 
@@ -345,7 +349,7 @@ class ContentComponent extends MVCComponent implements
     public function countTagItems(array $items, string $extension)
     {
         $parts   = explode('.', $extension);
-        $section = count($parts) > 1 ? $parts[1] : null;
+        $section = \count($parts) > 1 ? $parts[1] : null;
 
         $config = (object) [
             'related_tbl'   => ($section === 'category' ? 'categories' : 'content'),

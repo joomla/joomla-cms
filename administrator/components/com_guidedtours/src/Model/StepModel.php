@@ -13,7 +13,6 @@ namespace Joomla\Component\Guidedtours\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 
@@ -88,7 +87,7 @@ class StepModel extends AdminModel
 
         // Make sure we use the correct extension when editing an existing tour
         $key = $table->getKeyName();
-        $pk  = isset($data[$key]) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+        $pk  = $data[$key] ?? (int) $this->getState($this->getName() . '.id');
 
         if ($pk > 0) {
             $table->load($pk);
@@ -168,7 +167,7 @@ class StepModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \JForm|boolean  A JForm object on success, false on failure
+     * @return  \JForm|boolean  A Form object on success, false on failure
      *
      * @since   4.3.0
      */
@@ -232,7 +231,7 @@ class StepModel extends AdminModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|boolean  Object on success, false on failure.
      *
      * @since   4.3.0
      */

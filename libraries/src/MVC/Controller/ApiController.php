@@ -183,7 +183,7 @@ class ApiController extends BaseController
         // Push the model into the view (as default)
         $view->setModel($model, true);
 
-        $view->document = $this->app->getDocument();
+        $view->setDocument($this->app->getDocument());
         $view->displayItem();
 
         return $this;
@@ -255,11 +255,11 @@ class ApiController extends BaseController
             $model->setState('list.limit', $this->itemsPerPage);
         }
 
-        if (!is_null($offset) && $offset > $model->getTotal()) {
+        if (!\is_null($offset) && $offset > $model->getTotal()) {
             throw new Exception\ResourceNotFound();
         }
 
-        $view->document = $this->app->getDocument();
+        $view->setDocument($this->app->getDocument());
 
         $view->displayList();
 
@@ -408,7 +408,7 @@ class ApiController extends BaseController
                 $fields = $table->getFields();
 
                 foreach ($fields as $field) {
-                    if (array_key_exists($field->Field, $data)) {
+                    if (\array_key_exists($field->Field, $data)) {
                         continue;
                     }
 

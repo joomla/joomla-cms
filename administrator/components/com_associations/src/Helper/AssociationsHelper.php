@@ -296,7 +296,7 @@ class AssociationsHelper extends ContentHelper
 
                 $title      = Text::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
                 $additional = $addLink ? Text::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
-                $labelClass = 'bg-warning text-dark';
+                $labelClass = 'bg-warning';
                 $target     = $langCode . ':0:add';
                 $allow      = $canCreate;
             }

@@ -96,7 +96,8 @@ class IndexerController extends BaseController
 
             $output = ob_get_contents();
 
-            if ($output) {
+            // Finder plugins should not create output of any kind. If there is output, that very likely is the result of a PHP error.
+            if (trim($output)) {
                 throw new \Exception(Text::_('COM_FINDER_AN_ERROR_HAS_OCCURRED'));
             }
 
@@ -147,7 +148,9 @@ class IndexerController extends BaseController
         ob_start();
 
         // Remove the script time limit.
-        @set_time_limit(0);
+        if (\function_exists('set_time_limit')) {
+            set_time_limit(0);
+        }
 
         // Get the indexer state.
         $state = Indexer::getState();
@@ -199,7 +202,8 @@ class IndexerController extends BaseController
 
             $output = ob_get_contents();
 
-            if ($output) {
+            // Finder plugins should not create output of any kind. If there is output, that very likely is the result of a PHP error.
+            if (trim($output)) {
                 throw new \Exception(Text::_('COM_FINDER_INDEXER_ERROR_PLUGIN_FAILURE'));
             }
 
@@ -249,7 +253,8 @@ class IndexerController extends BaseController
 
             $output = ob_get_contents();
 
-            if ($output) {
+            // Finder plugins should not create output of any kind. If there is output, that very likely is the result of a PHP error.
+            if (trim($output)) {
                 throw new \Exception(Text::_('COM_FINDER_AN_ERROR_HAS_OCCURRED'));
             }
 

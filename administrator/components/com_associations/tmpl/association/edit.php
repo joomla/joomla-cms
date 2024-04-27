@@ -18,7 +18,7 @@ use Joomla\Component\Associations\Administrator\View\Association\HtmlView;
 /** @var HtmlView $this */
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->usePreset('com_associations.sidebyside')

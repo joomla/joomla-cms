@@ -46,7 +46,7 @@ class DebugHelper
 
         $items = $db->setQuery($query)->loadObjectList();
 
-        if (count($items)) {
+        if (\count($items)) {
             $lang = Factory::getLanguage();
 
             foreach ($items as &$item) {

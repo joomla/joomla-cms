@@ -56,7 +56,7 @@ class PrepareDataEvent extends AbstractImmutableEvent
      *
      * @since   5.0.0
      */
-    protected function setSubject(object $value): object
+    protected function onSetSubject(object $value): object
     {
         return $value;
     }
@@ -70,7 +70,7 @@ class PrepareDataEvent extends AbstractImmutableEvent
      *
      * @since   5.0.0
      */
-    protected function setContext(string $value): string
+    protected function onSetContext(string $value): string
     {
         return $value;
     }

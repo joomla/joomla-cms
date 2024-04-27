@@ -17,7 +17,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Banners\Administrator\Model\ClientModel;
@@ -44,7 +43,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The active item
      *
-     * @var    CMSObject
+     * @var    \stdClass
      * @since  1.5
      */
     protected $item;
@@ -118,8 +117,6 @@ class HtmlView extends BaseHtmlView
             $isNew ? Text::_('COM_BANNERS_MANAGER_CLIENT_NEW') : Text::_('COM_BANNERS_MANAGER_CLIENT_EDIT'),
             'bookmark banners-clients'
         );
-
-        $toolbarButtons = [];
 
         // If not checked out, can save the item.
         if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create'))) {
