@@ -884,6 +884,14 @@ class MenusHelper extends ContentHelper
             $params->set('menu-quicktask-permission', (string) $node['quicktask-permission']);
         }
 
+        if ($item->ajaxbadge) {
+            $params->set('ajax-badge', $item->ajaxbadge);
+        }
+
+        if ($item->dashboard) {
+            $params->set('dashboard', $item->dashboard);
+        }
+
         // Translate attributes for iterator values
         foreach ($replace as $var => $val) {
             $item->title   = str_replace("{sql:$var}", $val, $item->title);
