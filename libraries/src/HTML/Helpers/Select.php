@@ -635,7 +635,7 @@ abstract class Select
 
         if (\is_array($attribs)) {
 
-            if (array_key_exists('class', $attribs)) {
+            if (\array_key_exists('class', $attribs)) {
                 $class = ' ' . $attribs['class'];
                 unset($attribs['class']);
             }
