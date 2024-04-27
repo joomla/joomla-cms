@@ -363,21 +363,6 @@ final class SiteApplication extends CMSApplication
     }
 
     /**
-     * Return a reference to the Pathway object.
-     *
-     * @param   string  $name     The name of the application.
-     * @param   array   $options  An optional associative array of configuration settings.
-     *
-     * @return  Pathway  A Pathway object
-     *
-     * @since   3.2
-     */
-    public function getPathway($name = 'site', $options = [])
-    {
-        return parent::getPathway($name, $options);
-    }
-
-    /**
      * Return a reference to the Router object.
      *
      * @param   string  $name     The name of the application.
