@@ -251,7 +251,7 @@ class LocalAdapter implements AdapterInterface
      */
     public function createFile(string $name, string $path, $data): string
     {
-        $name      =      $this->getSafeName($name);
+        $name      = $this->getSafeName($name);
         $localPath = $this->getLocalPath($path . '/' . $name);
 
         $this->checkContent($localPath, $data);
@@ -320,7 +320,7 @@ class LocalAdapter implements AdapterInterface
      */
     public function delete(string $path)
     {
-        $localPath      =  $this->getLocalPath($path);
+        $localPath      = $this->getLocalPath($path);
         $thumbnailPaths = $this->getLocalThumbnailPaths($localPath);
 
         if (is_file($localPath)) {
@@ -818,7 +818,7 @@ class LocalAdapter implements AdapterInterface
         $helper = new MediaHelper();
 
         // @todo find a better way to check the input, by not writing the file to the disk
-        $tmpFile = Path::clean(dirname($localPath) . '/' . uniqid() . '.' . File::getExt($name));
+        $tmpFile = Path::clean(\dirname($localPath) . '/' . uniqid() . '.' . strtolower(File::getExt($name)));
 
         if (!File::write($tmpFile, $mediaContent)) {
             throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 500);
