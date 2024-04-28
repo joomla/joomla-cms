@@ -356,7 +356,7 @@ abstract class HTMLHelper
      * @param   array    $options  Array with additional options:
      *                             relative: Flag if the path to the file is relative to the /media folder (and searches in template);
      *                             detectBrowser: Flag if the browser should be detected to include specific browser file;
-     *                             debugMode: Flag if debug mode is enabled to include uncompressed files (for css, js)
+     *                             detectDebug: Flag if debug mode is enabled to include uncompressed files (for css, js)
      *                               (boolean) - will enable debugging depends on site configuration, (1) - force debug On, (-1) - force debug Off;
      *
      * @return string
@@ -366,9 +366,9 @@ abstract class HTMLHelper
     {
         $relative      = $options['relative'] ?? false;
         $detectBrowser = $options['detectBrowser'] ?? false;
-        $debugMode     = $options['debugMode'] ?? true;
+        $detectDebug   = $options['detectDebug'] ?? true;
 
-        $includes      = static::includeRelativeFiles($folder, $file, $relative, $detectBrowser, $debugMode);
+        $includes      = static::includeRelativeFiles($folder, $file, $relative, $detectBrowser, $detectDebug);
 
         return $includes[0] ?? '';
     }
