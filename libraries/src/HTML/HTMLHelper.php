@@ -365,7 +365,7 @@ abstract class HTMLHelper
     {
         $relative      = $options['relative'] ?? false;
         $detectBrowser = $options['detectBrowser'] ?? false;
-        $debug         = $options['debug'] ?? JDEBUG;
+        $debug         = ($options['debug'] ?? JDEBUG) ? 1 : -1;
         $includes      = static::includeRelativeFiles($folder, $file, $relative, $detectBrowser, $debug);
 
         return $includes[0] ?? '';
@@ -387,12 +387,17 @@ abstract class HTMLHelper
      */
     protected static function includeRelativeFiles($folder, $file, $relative, $detectBrowser, $detectDebug)
     {
-        // Set debug flag
-        $debugMode = false;
-
         // Detect debug mode
-        if ($detectDebug && JDEBUG) {
-            $debugMode = true;
+        switch (true) {
+            case \is_bool($detectDebug):
+                $debugMode = $detectDebug && JDEBUG;
+                break;
+            case $detectDebug === 1:
+                $debugMode = true;
+                break;
+            case $detectDebug === -1:
+            default:
+                $debugMode = false;
         }
 
         // If http is present in filename
