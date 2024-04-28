@@ -757,9 +757,14 @@ abstract class HTMLHelper
      *
      * @see   Browser
      * @since 1.5
+     *
+     * @deprecated  5.2 will be removed in 7.0
+     *              Use WebAssetManager::useStyle() or WebAssetManager::registerAndUseStyle() instead.
      */
     public static function stylesheet($file, $options = [], $attribs = [])
     {
+        @trigger_error('Method HTMLHelper::stylesheet() is deprecated, and will be removed in 7.0', \E_USER_DEPRECATED);
+
         $options['relative']      = $options['relative'] ?? false;
         $options['pathOnly']      = $options['pathOnly'] ?? false;
         $options['detectBrowser'] = $options['detectBrowser'] ?? false;
@@ -804,9 +809,14 @@ abstract class HTMLHelper
      *
      * @see   HTMLHelper::stylesheet()
      * @since 1.5
+     *
+     * @deprecated  5.2 will be removed in 7.0
+     *              Use WebAssetManager::useScript() or WebAssetManager::registerAndUseScript() instead.
      */
     public static function script($file, $options = [], $attribs = [])
     {
+        @trigger_error('Method HTMLHelper::script() is deprecated, and will be removed in 7.0', \E_USER_DEPRECATED);
+
         $options['relative']      = $options['relative'] ?? false;
         $options['pathOnly']      = $options['pathOnly'] ?? false;
         $options['detectBrowser'] = $options['detectBrowser'] ?? false;
