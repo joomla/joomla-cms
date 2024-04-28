@@ -64,7 +64,7 @@ class ComponentModel extends FormModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  mixed  A JForm object on success, false on failure
+     * @return  mixed  A Form object on success, false on failure
      *
      * @since   3.2
      */
@@ -178,7 +178,7 @@ class ComponentModel extends FormModel
         }
 
         // Save the rules.
-        if (isset($data['params']) && isset($data['params']['rules'])) {
+        if (isset($data['params']['rules'])) {
             if (!$this->getCurrentUser()->authorise('core.admin', $data['option'])) {
                 throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
             }
@@ -225,7 +225,7 @@ class ComponentModel extends FormModel
         $result = Factory::getApplication()->triggerEvent('onExtensionBeforeSave', [$context, $table, false]);
 
         // Store the data.
-        if (in_array(false, $result, true) || !$table->store()) {
+        if (\in_array(false, $result, true) || !$table->store()) {
             throw new \RuntimeException($table->getError());
         }
 

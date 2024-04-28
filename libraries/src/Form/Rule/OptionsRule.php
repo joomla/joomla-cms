@@ -80,9 +80,9 @@ class OptionsRule extends FormRule
             $diff = array_diff($value, $options);
 
             return empty($diff);
-        } else {
-            // In this case value must be a string
-            return \in_array((string) $value, $options);
         }
+
+        // In this case value must be a string
+        return \in_array((string) $value, $options);
     }
 }

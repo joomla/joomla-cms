@@ -60,7 +60,7 @@ class FilePathRule extends FormRule
         // Check the exclude setting
         $path = preg_split('/[\/\\\\]/', $value);
 
-        if (in_array(strtolower($path[0]), $exclude) || empty($path[0])) {
+        if (\in_array(strtolower($path[0]), $exclude) || empty($path[0])) {
             return false;
         }
 

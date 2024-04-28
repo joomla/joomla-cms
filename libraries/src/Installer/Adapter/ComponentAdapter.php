@@ -1068,8 +1068,8 @@ class ComponentAdapter extends InstallerAdapter
             $data['menutype']     = 'main';
             $data['client_id']    = 1;
             $data['title']        = (string) trim($child);
-            $data['alias']        = (string) $child;
-            $data['type']         = 'component';
+            $data['alias']        = ((string) $child->attributes()->alias) ?: (string) $child;
+            $data['type']         = ((string) $child->attributes()->type) ?: 'component';
             $data['published']    = 1;
             $data['parent_id']    = $parent_id;
             $data['component_id'] = $componentId;
@@ -1437,22 +1437,22 @@ class ComponentAdapter extends InstallerAdapter
                 Factory::getApplication()->enqueueMessage($table->getError(), 'error');
 
                 return false;
-            } else {
-                /** @var  \Joomla\CMS\Table\Menu $temporaryTable */
-                $temporaryTable = Table::getInstance('menu');
-                $temporaryTable->delete($menu_id, true);
-                $temporaryTable->load($parentId);
-                $temporaryTable->rebuild($parentId, $temporaryTable->lft, $temporaryTable->level, $temporaryTable->path);
+            }
 
-                // Retry creating the menu item
-                $table->setLocation($parentId, 'last-child');
+            /** @var  \Joomla\CMS\Table\Menu $temporaryTable */
+            $temporaryTable = Table::getInstance('menu');
+            $temporaryTable->delete($menu_id, true);
+            $temporaryTable->load($parentId);
+            $temporaryTable->rebuild($parentId, $temporaryTable->lft, $temporaryTable->level, $temporaryTable->path);
 
-                if (!$table->bind($data) || !$table->check() || !$table->store()) {
-                    // Install failed, warn user and rollback changes
-                    Factory::getApplication()->enqueueMessage($table->getError(), 'error');
+            // Retry creating the menu item
+            $table->setLocation($parentId, 'last-child');
 
-                    return false;
-                }
+            if (!$table->bind($data) || !$table->check() || !$table->store()) {
+                // Install failed, warn user and rollback changes
+                Factory::getApplication()->enqueueMessage($table->getError(), 'error');
+
+                return false;
             }
         }
 

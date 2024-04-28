@@ -210,8 +210,8 @@ class MenuModel extends AdminModel
      *
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
-     * @see     JFormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Form\FormRule
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.9.23
      */
     public function validate($form, $data, $group = null)
@@ -269,7 +269,7 @@ class MenuModel extends AdminModel
         $result = Factory::getApplication()->triggerEvent('onContentBeforeSave', [$this->_context, &$table, $isNew, $data]);
 
         // Store the data.
-        if (in_array(false, $result, true) || !$table->store()) {
+        if (\in_array(false, $result, true) || !$table->store()) {
             $this->setError($table->getError());
 
             return false;
@@ -312,7 +312,7 @@ class MenuModel extends AdminModel
                 // Trigger the before delete event.
                 $result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', [$this->_context, $table]);
 
-                if (in_array(false, $result, true) || !$table->delete($itemId)) {
+                if (\in_array(false, $result, true) || !$table->delete($itemId)) {
                     $this->setError($table->getError());
 
                     return false;

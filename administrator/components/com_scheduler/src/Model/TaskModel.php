@@ -153,7 +153,7 @@ class TaskModel extends AdminModel
      * @param   array  $data      Data that needs to go into the form
      * @param   bool   $loadData  Should the form load its data from the DB?
      *
-     * @return Form|boolean  A JForm object on success, false on failure.
+     * @return Form|boolean  A Form object on success, false on failure.
      *
      * @since  4.1.0
      * @throws \Exception
@@ -444,7 +444,7 @@ class TaskModel extends AdminModel
                 return null;
             }
 
-            if (count($ids) === 0) {
+            if (\count($ids) === 0) {
                 $db->unlockTables();
 
                 return null;
@@ -664,7 +664,7 @@ class TaskModel extends AdminModel
         /** @var TaskTable $table */
         $table = $this->getTable();
 
-        $user = Factory::getApplication()->getIdentity();
+        $user = $this->getCurrentUser();
 
         $context = $this->option . '.' . $this->name;
 

@@ -114,7 +114,7 @@ class LevelModel extends AdminModel
             // Ok, after all that we are ready to check the record :)
         }
 
-        if (in_array($record->id, $this->levelsInUse)) {
+        if (\in_array($record->id, $this->levelsInUse)) {
             $this->setError(Text::sprintf('COM_USERS_ERROR_VIEW_LEVEL_IN_USE', $record->id, $record->title));
 
             return false;
@@ -252,7 +252,7 @@ class LevelModel extends AdminModel
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
      * @see     \Joomla\CMS\Form\FormRule
-     * @see     \JFilterInput
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.8.8
      */
     public function validate($form, $data, $group = null)
@@ -261,7 +261,7 @@ class LevelModel extends AdminModel
 
         // Non Super user should not be able to change the access levels of super user groups
         if (!$isSuperAdmin) {
-            if (!isset($data['rules']) || !is_array($data['rules'])) {
+            if (!isset($data['rules']) || !\is_array($data['rules'])) {
                 $data['rules'] = [];
             }
 
@@ -279,11 +279,11 @@ class LevelModel extends AdminModel
 
             $rules = ArrayHelper::toInteger($rules);
 
-            for ($i = 0, $n = count($groups); $i < $n; ++$i) {
+            for ($i = 0, $n = \count($groups); $i < $n; ++$i) {
                 if (Access::checkGroup((int) $groups[$i]->id, 'core.admin')) {
-                    if (in_array((int) $groups[$i]->id, $rules) && !in_array((int) $groups[$i]->id, $data['rules'])) {
+                    if (\in_array((int) $groups[$i]->id, $rules) && !\in_array((int) $groups[$i]->id, $data['rules'])) {
                         $data['rules'][] = (int) $groups[$i]->id;
-                    } elseif (!in_array((int) $groups[$i]->id, $rules) && in_array((int) $groups[$i]->id, $data['rules'])) {
+                    } elseif (!\in_array((int) $groups[$i]->id, $rules) && \in_array((int) $groups[$i]->id, $data['rules'])) {
                         $this->setError(Text::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
 
                         return false;

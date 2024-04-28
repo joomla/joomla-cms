@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Content\Site\View\Archive\HtmlView $this */
 $params = $this->params;
 ?>
 <div id="archive-items" class="com-content-archive__items">
@@ -80,7 +81,7 @@ $params = $this->params;
                                 <?php $url = '<a href="' . Route::_(
                                     RouteHelper::getCategoryRoute($item->catid, $item->category_language)
                                 )
-                                    . '>' . $title . '</a>'; ?>
+                                    . '">' . $title . '</a>'; ?>
                                 <?php echo Text::sprintf('COM_CONTENT_CATEGORY', $url); ?>
                             <?php else : ?>
                                 <?php echo Text::sprintf('COM_CONTENT_CATEGORY', '<span>' . $title . '</span>'); ?>
@@ -156,7 +157,7 @@ $params = $this->params;
                                     <?php $url = '<a href="' . Route::_(
                                         RouteHelper::getCategoryRoute($item->parent_id, $item->parent_language)
                                     )
-                                        . '>' . $title . '</a>'; ?>
+                                        . '">' . $title . '</a>'; ?>
                                     <?php echo Text::sprintf('COM_CONTENT_PARENT', $url); ?>
                                 <?php else : ?>
                                     <?php echo Text::sprintf('COM_CONTENT_PARENT', '<span>' . $title . '</span>'); ?>
@@ -172,7 +173,7 @@ $params = $this->params;
                                     <?php $url = '<a href="' . Route::_(
                                         RouteHelper::getCategoryRoute($item->catid, $item->category_language)
                                     )
-                                        . '>' . $title . '</a>'; ?>
+                                        . '">' . $title . '</a>'; ?>
                                     <?php echo Text::sprintf('COM_CONTENT_CATEGORY', $url); ?>
                                 <?php else : ?>
                                     <?php echo Text::sprintf('COM_CONTENT_CATEGORY', '<span>' . $title . '</span>'); ?>

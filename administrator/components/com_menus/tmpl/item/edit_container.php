@@ -14,11 +14,13 @@ use Joomla\CMS\Language\Text;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
 
+/** @var \Joomla\Component\Menus\Administrator\View\Item\HtmlView $this */
+
 // Initialise related data.
 $menuLinks = MenusHelper::getMenuLinks('main');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('joomla.treeselectmenu')
     ->useStyle('com_menus.admin-item-edit-container')
     ->useScript('com_menus.admin-item-edit-container');

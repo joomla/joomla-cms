@@ -14,7 +14,7 @@
 /**
  * Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
  */
-define('JOOMLA_MINIMUM_PHP', '7.2.5');
+\define('JOOMLA_MINIMUM_PHP', '8.1.0');
 
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
     echo 'Sorry, your PHP version is not supported.' . PHP_EOL;
@@ -30,10 +30,10 @@ if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
  * Constant that is checked in included files to prevent direct access.
  * define() is used rather than "const" to not error for PHP 5.2 and lower
  */
-define('_JEXEC', 1);
+\define('_JEXEC', 1);
 
 // Constant to identify the CLI installation
-define('_JCLI_INSTALLATION', 1);
+\define('_JCLI_INSTALLATION', 1);
 
 // Run the application - All executable code should be triggered through this file
-require_once dirname(__FILE__) . '/includes/cli.php';
+require_once \dirname(__FILE__) . '/includes/cli.php';

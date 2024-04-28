@@ -23,6 +23,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -201,7 +202,7 @@ class LanguageAdapter extends InstallerAdapter
         $this->parent->setPath('source', $path);
 
         // Check it exists
-        if (!Folder::exists($path)) {
+        if (!is_dir(Path::clean($path))) {
             // If the folder doesn't exist lets just nuke the row as well and presume the user killed it for us
             $this->extension->delete();
 
@@ -267,15 +268,15 @@ class LanguageAdapter extends InstallerAdapter
             $element  = $this->getManifest()->files;
 
             return $this->_install($cname, $basePath, $clientId, $element);
-        } else {
-            // No client attribute was found so we assume the site as the client
-            $cname    = 'site';
-            $basePath = JPATH_SITE;
-            $clientId = 0;
-            $element  = $this->getManifest()->files;
-
-            return $this->_install($cname, $basePath, $clientId, $element);
         }
+
+        // No client attribute was found so we assume the site as the client
+        $cname    = 'site';
+        $basePath = JPATH_SITE;
+        $clientId = 0;
+        $element  = $this->getManifest()->files;
+
+        return $this->_install($cname, $basePath, $clientId, $element);
     }
 
     /**
@@ -348,7 +349,9 @@ class LanguageAdapter extends InstallerAdapter
             if ($updateElement || $this->parent->isUpgrade()) {
                 // Transfer control to the update function
                 return $this->update();
-            } elseif (!$this->parent->isOverwrite()) {
+            }
+
+            if (!$this->parent->isOverwrite()) {
                 // Overwrite is set
                 // We didn't have overwrite set, find an update function or find an update tag so lets call it safe
                 if (file_exists($this->parent->getPath('extension_site'))) {

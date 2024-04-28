@@ -270,6 +270,12 @@ final class Contacts extends Adapter
             $item->title = $title;
         }
 
+        // Add the image.
+        if ($item->image) {
+            $item->imageUrl = $item->image;
+            $item->imageAlt = $item->title ?? '';
+        }
+
         /*
          * Add the metadata processing instructions based on the contact
          * configuration parameters.
@@ -337,7 +343,7 @@ final class Contacts extends Adapter
         $taxonomies = $this->params->get('taxonomies', ['type', 'category', 'language', 'region', 'country']);
 
         // Add the type taxonomy data.
-        if (in_array('type', $taxonomies)) {
+        if (\in_array('type', $taxonomies)) {
             $item->addTaxonomy('Type', 'Contact');
         }
 
@@ -350,22 +356,22 @@ final class Contacts extends Adapter
         }
 
         // Add the category taxonomy data.
-        if (in_array('category', $taxonomies)) {
+        if (\in_array('category', $taxonomies)) {
             $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
         }
 
         // Add the language taxonomy data.
-        if (in_array('language', $taxonomies)) {
+        if (\in_array('language', $taxonomies)) {
             $item->addTaxonomy('Language', $item->language);
         }
 
         // Add the region taxonomy data.
-        if (in_array('region', $taxonomies) && !empty($item->region) && $this->params->get('tax_add_region', true)) {
+        if (\in_array('region', $taxonomies) && !empty($item->region) && $this->params->get('tax_add_region', true)) {
             $item->addTaxonomy('Region', $item->region);
         }
 
         // Add the country taxonomy data.
-        if (in_array('country', $taxonomies) && !empty($item->country) && $this->params->get('tax_add_country', true)) {
+        if (\in_array('country', $taxonomies) && !empty($item->country) && $this->params->get('tax_add_country', true)) {
             $item->addTaxonomy('Country', $item->country);
         }
 
@@ -411,7 +417,7 @@ final class Contacts extends Adapter
             ->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')
             ->select('a.suburb AS city, a.state AS region, a.country, a.postcode AS zip')
             ->select('a.telephone, a.fax, a.misc AS summary, a.email_to AS email, a.mobile')
-            ->select('a.webpage, a.access, a.published AS state, a.ordering, a.params, a.catid')
+            ->select('a.image, a.webpage, a.access, a.published AS state, a.ordering, a.params, a.catid')
             ->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
 
         // Handle the alias CASE WHEN portion of the query

@@ -61,12 +61,15 @@ trait AdditionalLoginButtons
     public function onUserLoginButtons(Event $event): void
     {
         /** @var string $form The HTML ID of the form we are enclosed in */
-        [$form] = $event->getArguments();
+        [$form] = array_values($event->getArguments());
 
         // If we determined we should not inject a button return early
         if (!$this->mustDisplayButton()) {
             return;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         // Load necessary CSS and Javascript files
         $this->addLoginCSSAndJavascript();

@@ -41,7 +41,7 @@ class MethodsModel extends BaseDatabaseModel
      */
     public function getMethods(?User $user = null): array
     {
-        if (is_null($user)) {
+        if (\is_null($user)) {
             $user = $this->getCurrentUser();
         }
 
@@ -87,8 +87,8 @@ class MethodsModel extends BaseDatabaseModel
     public function deleteAll(?User $user = null): void
     {
         // Make sure we have a user object
-        if (is_null($user)) {
-            $user = Factory::getApplication()->getIdentity() ?: $this->getCurrentUser();
+        if (\is_null($user)) {
+            $user = $this->getCurrentUser() ?: Factory::getApplication()->getIdentity();
         }
 
         // If the user object is a guest (who can't have MFA) we stop with an error
@@ -127,6 +127,7 @@ class MethodsModel extends BaseDatabaseModel
         $utcTimeZone = new \DateTimeZone('UTC');
         $jDate       = new Date($dateTimeText, $utcTimeZone);
         $unixStamp   = $jDate->toUnix();
+        $app         = Factory::getApplication();
 
         // I'm pretty sure we didn't have MFA in Joomla back in 1970 ;)
         if ($unixStamp < 0) {
@@ -135,7 +136,7 @@ class MethodsModel extends BaseDatabaseModel
 
         // I need to display the date in the user's local timezone. That's how you do it.
         $user   = $this->getCurrentUser();
-        $userTZ = $user->getParam('timezone', 'UTC');
+        $userTZ = $user->getParam('timezone', $app->get('offset', 'UTC'));
         $tz     = new \DateTimeZone($userTZ);
         $jDate->setTimezone($tz);
 
@@ -200,7 +201,7 @@ class MethodsModel extends BaseDatabaseModel
             return;
         }
 
-        $exists = !is_null($result);
+        $exists = !\is_null($result);
 
         $object = (object) [
             'user_id'       => $user->id,

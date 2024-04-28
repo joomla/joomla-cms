@@ -53,7 +53,7 @@ class Encrypt
      */
     public function encrypt(string $data): string
     {
-        if (!is_object($this->aes)) {
+        if (!\is_object($this->aes)) {
             return $data;
         }
 
@@ -81,7 +81,7 @@ class Encrypt
 
         $data = substr($data, 12);
 
-        if (!is_object($this->aes)) {
+        if (!\is_object($this->aes)) {
             return $data;
         }
 
@@ -100,7 +100,7 @@ class Encrypt
      */
     private function initialize(): void
     {
-        if (is_object($this->aes)) {
+        if (\is_object($this->aes)) {
             return;
         }
 

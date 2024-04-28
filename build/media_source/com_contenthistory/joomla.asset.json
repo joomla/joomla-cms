@@ -10,7 +10,8 @@
       "type": "script",
       "uri": "com_contenthistory/admin-compare-compare.min.js",
       "dependencies": [
-        "core"
+        "core",
+        "diff"
       ],
       "attributes": {
         "type": "module"
@@ -30,7 +31,8 @@
     {
       "name": "com_contenthistory.admin-history-versions",
       "type": "script",
-      "uri": "com_contenthistory/admin-history-versions.min.js",
+      "uri": "",
+      "deprecated": true,
       "dependencies": [
         "core"
       ],
