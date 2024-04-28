@@ -51,6 +51,8 @@ class CheckUpdatesCommand extends AbstractCommand
 
         $symfonyStyle->title('Fetching Extension Updates');
 
+        $this->getApplication()->getLanguage()->load('lib_joomla');
+
         // Find all updates
         $ret = Updater::getInstance()->findUpdates();
 
