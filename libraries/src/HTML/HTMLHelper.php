@@ -349,6 +349,29 @@ abstract class HTMLHelper
     }
 
     /**
+     * Look for path relatively to media folder.
+     *
+     * @param   string   $folder   Folder name to search in (i.e. images, css, js).
+     * @param   string   $file     Path to file to check.
+     * @param   array    $options  Array with additional options:
+     *                             relative: Flag if the path to the file is relative to the /media folder (and searches in template);
+     *                             detectBrowser: Flag if the browser should be detected to include specific browser file;
+     *                             debug: Flag if debug mode is enabled to include uncompressed files (for css, js);
+     *
+     * @return string
+     * @since  __DEPLOY_VERSION__
+     */
+    final public static function mediaPath(string $folder, string $file, array $options = []): string
+    {
+        $relative      = $options['relative'] ?? false;
+        $detectBrowser = $options['detectBrowser'] ?? false;
+        $debug         = $options['debug'] ?? JDEBUG;
+        $includes      = static::includeRelativeFiles($folder, $file, $relative, $detectBrowser, $debug);
+
+        return $includes[0] ?? $file;
+    }
+
+    /**
      * Compute the files to be included
      *
      * @param   string   $folder         Folder name to search in (i.e. images, css, js).
