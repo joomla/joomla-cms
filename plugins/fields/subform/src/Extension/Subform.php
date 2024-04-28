@@ -10,9 +10,6 @@
 
 namespace Joomla\Plugin\Fields\Subform\Extension;
 
-use DOMDocument;
-use DOMElement;
-use DOMXPath;
 use Joomla\CMS\Form\Form;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
@@ -143,7 +140,7 @@ final class Subform extends FieldsPlugin
      * @param   object     $item     The item
      * @param   \stdClass  $field    The field
      *
-     * @return  string
+     * @return  ?string
      *
      * @since 4.0.0
      */
@@ -245,7 +242,7 @@ final class Subform extends FieldsPlugin
      * @param   \DOMElement  $parent  The original parent element
      * @param   Form        $form    The form
      *
-     * @return  \DOMElement
+     * @return  ?\DOMElement
      *
      * @since 4.0.0
      */

@@ -158,6 +158,26 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
             // Load required assets
             $doc->getWebAssetManager()
                 ->usePreset('plg_system_guidedtours.guidedtours');
+
+            // Temporary solution to auto-start the welcome tour
+            if ($app->getInput()->getCmd('option', 'com_cpanel') === 'com_cpanel') {
+                $factory = $app->bootComponent('com_guidedtours')->getMVCFactory();
+
+                $tourModel = $factory->createModel(
+                    'Tour',
+                    'Administrator',
+                    ['ignore_request' => true]
+                );
+
+                if ($tourModel->isAutostart('joomla-welcome')) {
+                    $tour = $this->getTour('joomla-welcome');
+
+                    $doc->addScriptOptions('com_guidedtours.autotour', $tour->id);
+
+                    // Set autostart to '0' to avoid it to autostart again
+                    $tourModel->setAutostart($tour->id, 0);
+                }
+            }
         }
     }
 
@@ -211,7 +231,8 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         // We don't want to show all parameters, so take only a subset of the tour attributes
         $tour = new \stdClass();
 
-        $tour->id = $item->id;
+        $tour->id        = $item->id;
+        $tour->autostart = $item->autostart;
 
         $stepsModel = $factory->createModel(
             'Steps',

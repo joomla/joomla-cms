@@ -17,6 +17,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 
+/** @var \Joomla\Component\Redirect\Administrator\View\Links\HtmlView $this */
+
 $displayData = [
     'textPrefix' => 'COM_REDIRECT',
     'formURL'    => 'index.php?option=com_redirect&view=links',
@@ -47,7 +49,7 @@ if (!$redirectPluginId && $collectUrlsEnabled) {
     $app->enqueueMessage(Text::sprintf('COM_REDIRECT_COLLECT_URLS_ENABLED', Text::_('COM_REDIRECT_PLUGIN_ENABLED')), 'warning');
 } else {
     /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-    $wa = $this->document->getWebAssetManager();
+    $wa = $this->getDocument()->getWebAssetManager();
     $wa->useScript('joomla.dialog-autocreate');
 
     $popupOptions = [

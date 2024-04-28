@@ -576,10 +576,6 @@
         "dependencies": [],
         "licenseFilename": ""
       },
-      "punycode": {
-        "name": "punycode",
-        "licenseFilename": "LICENSE-MIT.txt"
-      },
       "@claviska/jquery-minicolors": {
         "name": "minicolors",
         "js": {

@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Multifactorauth\Webauthn\Helper;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -21,7 +20,6 @@ use Joomla\CMS\WebAuthn\Server;
 use Joomla\Plugin\Multifactorauth\Webauthn\CredentialRepository;
 use Joomla\Session\SessionInterface;
 use Laminas\Diactoros\ServerRequestFactory;
-use Webauthn\AttestedCredentialData;
 use Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs;
 use Webauthn\AuthenticatorSelectionCriteria;
 use Webauthn\PublicKeyCredentialCreationOptions;
@@ -90,7 +88,7 @@ abstract class Credentials
      *
      * @param   string   $data   The JSON-encoded data returned by the browser during the authentication flow
      *
-     * @return  AttestedCredentialData|null
+     * @return  ?PublicKeyCredentialSource
      * @throws  \Exception  When something does not check out
      * @since   4.2.0
      */
