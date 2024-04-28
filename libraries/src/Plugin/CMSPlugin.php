@@ -125,7 +125,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
             // Set the dispatcher we are to register our listeners with
             $this->setDispatcher($config);
 
-            $config = \func_num_args() > 1 ? \func_get_arg(1) : [];
+            $config = \func_num_args() > 1 ? func_get_arg(1) : [];
         }
 
         // Get the parameters.
