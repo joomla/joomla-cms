@@ -310,8 +310,8 @@ class WebAssetItem implements WebAssetItemInterface
                 $folders[$type],
                 $path,
                 [
-                    'debug'    => JDEBUG || $this->getOption('debug', false),
-                    'relative' => !$this->isPathAbsolute($path),
+                    'debugMode' => $this->getOption('debug') ? 1 : true,
+                    'relative'  => !$this->isPathAbsolute($path),
                 ]
             );
         }
