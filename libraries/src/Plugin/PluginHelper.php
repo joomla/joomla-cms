@@ -239,6 +239,11 @@ abstract class PluginHelper
             return;
         }
 
+        if ($plugin instanceof CMSPlugin) {
+            // Language autoload feature for plugins
+            $plugin->autoloadLanguage();
+        }
+
         $plugin->registerListeners();
     }
 

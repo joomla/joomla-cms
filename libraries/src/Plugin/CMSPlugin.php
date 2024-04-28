@@ -63,7 +63,10 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
     protected $_type = null;
 
     /**
-     * Affects constructor behavior. If true, language files will be loaded automatically.
+     * If true, language files of the plugin will be loaded automatically.
+     *
+     * NOTE: Enabling this feature have a negative effect on performance,
+     * therefore it is recommended to load a language manually, in the respective event.
      *
      * @var    boolean
      * @since  3.1
@@ -166,7 +169,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
     public function loadLanguage($extension = '', $basePath = JPATH_ADMINISTRATOR)
     {
         if (empty($extension)) {
-            $extension = 'Plg_' . $this->_type . '_' . $this->_name;
+            $extension = 'plg_' . $this->_type . '_' . $this->_name;
         }
 
         $extension = strtolower($extension);
@@ -197,6 +200,34 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
     }
 
     /**
+     * Method to handle language autoload feature.
+     * Called by PluginHelper::import() while loading the plugin.
+     *
+     * @return void
+     *
+     * @internal  The method does not expect to be called outside the PluginHelper::import()
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    final public function autoloadLanguage(): void
+    {
+        if (!$this->autoloadLanguage) {
+            return;
+        }
+
+        $app = $this->getApplication() ?: Factory::getApplication();
+
+        // Check whether language already initialised in the Application, otherwise wait for it
+        if (!$app->getLanguage()) {
+            $app->getDispatcher()->addListener('onAfterInitialise', function () {
+                $this->loadLanguage();
+            });
+        } else {
+            $this->loadLanguage();
+        }
+    }
+
+    /**
      * Registers legacy Listeners to the Dispatcher, emulating how plugins worked under Joomla! 3.x and below.
      *
      * By default, this method will look for all public methods whose name starts with "on". It will register
@@ -213,20 +244,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      */
     public function registerListeners()
     {
-        // Handle language autoload
-        if ($this->autoloadLanguage) {
-            $app = $this->getApplication() ?: Factory::getApplication();
-
-            // Check whether language already loaded in the Application, otherwise wait for it
-            if (!$app->getLanguage()) {
-                $this->getDispatcher()->addListener('onAfterInitialise', function () {
-                    $this->loadLanguage();
-                });
-            } else {
-                $this->loadLanguage();
-            }
-        }
-
         // Plugins which are SubscriberInterface implementations are handled without legacy layer support
         if ($this instanceof SubscriberInterface) {
             $this->getDispatcher()->addSubscriber($this);
