@@ -368,7 +368,7 @@ abstract class HTMLHelper
         $debug         = $options['debug'] ?? JDEBUG;
         $includes      = static::includeRelativeFiles($folder, $file, $relative, $detectBrowser, $debug);
 
-        return $includes[0] ?? $file;
+        return $includes[0] ?? '';
     }
 
     /**
