@@ -32,6 +32,8 @@ use Joomla\Registry\Registry;
  * Plugin Class
  *
  * @since  1.5
+ *
+ * @TODO  Starting from 7.0 the class will no longer implement DispatcherAwareInterface and LanguageAwareInterface
  */
 abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, LanguageAwareInterface
 {
@@ -101,15 +103,31 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
     /**
      * Constructor
      *
-     * @param   DispatcherInterface  $dispatcher  The event dispatcher
-     * @param   array                $config      An optional associative array of configuration settings.
-     *                                            Recognized key values include 'name', 'group', 'params', 'language'
-     *                                            (this list is not meant to be comprehensive).
+     * @param   array  $config  An optional associative array of configuration settings.
+     *                          Recognized key values include 'name', 'group', 'params', 'language'
+     *                          (this list is not meant to be comprehensive).
      *
      * @since   1.5
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config = [])
+    public function __construct($config = [])
     {
+        if ($config instanceof DispatcherInterface) {
+            @trigger_error(
+                sprintf(
+                    'Passing an instance of %1$s to %2$s() will not be supported in 7.0. '
+                    . 'Starting from 7.0 CMSPlugin class will no longer implement DispatcherAwareInterface.',
+                    DispatcherInterface::class,
+                    __METHOD__
+                ),
+                \E_USER_DEPRECATED
+            );
+
+            // Set the dispatcher we are to register our listeners with
+            $this->setDispatcher($config);
+
+            $config = func_num_args() > 1 ? func_get_arg(1) : [];
+        }
+
         // Get the parameters.
         if (isset($config['params'])) {
             if ($config['params'] instanceof Registry) {
@@ -153,9 +171,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
                 $this->db = Factory::getDbo();
             }
         }
-
-        // Set the dispatcher we are to register our listeners with
-        $this->setDispatcher($dispatcher);
     }
 
     /**
@@ -214,7 +229,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
             return;
         }
 
-        @trigger_error('The plugin should implement SubscriberInterface.', E_USER_DEPRECATED);
+        @trigger_error('The plugin should implement SubscriberInterface.', \E_USER_DEPRECATED);
 
         $reflectedObject = new \ReflectionObject($this);
         $methods         = $reflectedObject->getMethods(\ReflectionMethod::IS_PUBLIC);
