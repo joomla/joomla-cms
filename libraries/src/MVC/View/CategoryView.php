@@ -42,7 +42,7 @@ class CategoryView extends HtmlView
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected $params;
+    public $params;
 
     /**
      * Category items data
