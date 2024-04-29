@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 /** @var \Joomla\Component\Config\Administrator\View\Application\HtmlView $this */
 
 HTMLHelper::_('form.csrf');
-$this->document->getWebAssetManager()
+$this->getDocument()->getWebAssetManager()
     ->useScript('webcomponent.field-send-test-mail');
 
 // Load JavaScript message titles

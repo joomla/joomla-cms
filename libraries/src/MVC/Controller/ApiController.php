@@ -183,7 +183,7 @@ class ApiController extends BaseController
         // Push the model into the view (as default)
         $view->setModel($model, true);
 
-        $view->document = $this->app->getDocument();
+        $view->setDocument($this->app->getDocument());
         $view->displayItem();
 
         return $this;
@@ -259,7 +259,7 @@ class ApiController extends BaseController
             throw new Exception\ResourceNotFound();
         }
 
-        $view->document = $this->app->getDocument();
+        $view->setDocument($this->app->getDocument());
 
         $view->displayList();
 
