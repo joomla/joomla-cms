@@ -49,7 +49,7 @@ if (!$redirectPluginId && $collectUrlsEnabled) {
     $app->enqueueMessage(Text::sprintf('COM_REDIRECT_COLLECT_URLS_ENABLED', Text::_('COM_REDIRECT_PLUGIN_ENABLED')), 'warning');
 } else {
     /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-    $wa = $this->document->getWebAssetManager();
+    $wa = $this->getDocument()->getWebAssetManager();
     $wa->useScript('joomla.dialog-autocreate');
 
     $popupOptions = [
