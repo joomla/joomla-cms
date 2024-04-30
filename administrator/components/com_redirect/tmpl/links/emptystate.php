@@ -46,7 +46,7 @@ $redirectPluginId   = $this->redirectPluginId;
 
 // Show messages about the enabled plugin and if the plugin should collect URLs
 if (!$redirectPluginId && $collectUrlsEnabled) {
-    $app->enqueueMessage(Text::sprintf('COM_REDIRECT_COLLECT_URLS_ENABLED', Text::_('COM_REDIRECT_PLUGIN_ENABLED')), 'warning');
+    $app->enqueueMessage(Text::sprintf('COM_REDIRECT_COLLECT_URLS_ENABLED', Text::_('COM_REDIRECT_PLUGIN_ENABLED')), 'notice');
 } else {
     /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
     $wa = $this->document->getWebAssetManager();
@@ -73,7 +73,7 @@ if (!$redirectPluginId && $collectUrlsEnabled) {
     if (!$redirectPluginId && !$collectUrlsEnabled) {
         $app->enqueueMessage(
             Text::sprintf('COM_REDIRECT_COLLECT_MODAL_URLS_DISABLED', Text::_('COM_REDIRECT_PLUGIN_ENABLED'), $link),
-            'warning'
+            'notice'
         );
     } else {
         $app->enqueueMessage(Text::sprintf('COM_REDIRECT_PLUGIN_MODAL_DISABLED', $link), 'error');
