@@ -651,8 +651,8 @@ class ArticlesModel extends ListModel
         $items  = parent::getItems();
 
         $user   = $this->getCurrentUser();
-        $userId = $user->get('id');
-        $guest  = $user->get('guest');
+        $userId = $user->id;
+        $guest  = $user->guest;
         $groups = $user->getAuthorisedViewLevels();
         $input  = Factory::getApplication()->getInput();
 

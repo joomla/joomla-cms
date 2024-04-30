@@ -110,7 +110,7 @@ class MessagesModel extends ListModel
         $db    = $this->getDatabase();
         $query = $db->getQuery(true);
         $user  = $this->getCurrentUser();
-        $id    = (int) $user->get('id');
+        $id    = (int) $user->id;
 
         // Select the required fields from the table.
         $query->select(
