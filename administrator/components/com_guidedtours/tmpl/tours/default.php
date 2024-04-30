@@ -34,7 +34,7 @@ try {
 }
 
 $user = $app->getIdentity();
-$userId = $user->get('id');
+$userId = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
