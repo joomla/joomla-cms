@@ -368,7 +368,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      */
     protected function checkUserRequireReset($option, $view, $layout, $tasks)
     {
-        if (Factory::getUser()->get('requireReset', 0)) {
+        if ($this->getIdentity()->requireReset) {
             $redirect = false;
 
             /*
@@ -966,8 +966,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         // Build the credentials array.
         $parameters = [
-            'username' => $user->get('username'),
-            'id'       => $user->get('id'),
+            'username' => $user->username,
+            'id'       => $user->id,
         ];
 
         // Set clientid in the options array if it hasn't been set already and shared sessions are not enabled.
@@ -985,7 +985,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         // Check if any of the plugins failed. If none did, success.
         if (!\in_array(false, $results, true)) {
-            $options['username'] = $user->get('username');
+            $options['username'] = $user->username;
             $dispatcher->dispatch('onUserAfterLogout', new AfterLogoutEvent('onUserAfterLogout', [
                 'options' => $options,
                 'subject' => $parameters,
@@ -1065,7 +1065,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         $caching = false;
 
-        if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !Factory::getUser()->get('id')) {
+        if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !$this->getIdentity()->id) {
             $caching = true;
         }
 
