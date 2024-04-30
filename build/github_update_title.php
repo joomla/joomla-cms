@@ -60,13 +60,13 @@ foreach ($argv as $arg) {
                 $baseBranches = $argi[1];
                 break;
             case '--pr':
-                    $prNumber = $argi[1];
+                $prNumber = $argi[1];
                 break;
             case '--label':
-                    $label = $argi[1];
+                $label = $argi[1];
                 break;
             case '--reason':
-                    $additionalReason = $argi[1];
+                $additionalReason = $argi[1];
                 break;
             default:
                 die('Unknown option: ' . $argi[0]);
@@ -147,7 +147,7 @@ if (!empty($prNumber)) {
 
 $list = json_decode($json, true);
 
-echo "\nFound " . count($list) . " pull request(s).\n";
+echo "\nFound " . \count($list) . " pull request(s).\n";
 
 foreach ($list as $pr) {
     echo "Change Title for PR #" . $pr['number'] . "\n";
