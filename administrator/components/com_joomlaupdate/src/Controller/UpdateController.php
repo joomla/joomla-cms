@@ -106,6 +106,64 @@ class UpdateController extends BaseController
     }
 
     /**
+     * Step through the download of the update package
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function stepdownload()
+    {
+        // Check the anti-CSRF token
+        if (!$this->checkToken('get', false)) {
+            $ret = array(
+                'error' => true,
+                'message' => Text::_('JINVALID_TOKEN_NOTICE'),
+            );
+            @ob_end_clean();
+            echo json_encode($ret);
+
+            $this->app->close();
+        }
+
+        // Try to download the next chunk
+        /** @var UpdateModel $model */
+        $model   = $this->getModel('Update', 'Administrator');
+        $frag    = $this->input->get->getInt('frag', -1);
+        $result  = $model->doDownload($frag);
+        $message = '';
+
+        // Are we done yet?
+        if (is_object($result) && $result->done) {
+            $this->app->setUserState('com_joomlaupdate.file', basename($result->localFile));
+
+            // If the checksum failed we will return with an error
+            if (!$result->valid) {
+                $message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
+            }
+        }
+
+        // If the download failed we will return with an error
+        if (empty($result)) {
+            $message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_DOWNLOADFAILED');
+        }
+
+        if (!is_object($result)) {
+            $result = new \stdClass();
+        }
+
+        $result->error = !empty($message);
+        $result->message = $message;
+
+        // Return JSON to the browser
+        @ob_end_clean();
+        echo json_encode($result);
+
+        $this->app->close();
+    }
+
+
+    /**
      * Start the installation of the new Joomla! version
      *
      * @return  void
