@@ -30,6 +30,7 @@ use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
  */
 class UpdateController extends BaseController
 {
+
     /**
      * Performs the download of the update package
      *
@@ -38,6 +39,34 @@ class UpdateController extends BaseController
      * @since   2.5.4
      */
     public function download()
+    {
+        $this->checkToken();
+
+        $user  = $this->app->getIdentity();
+
+        // Make sure logging is working before continue
+        try {
+            Log::add('Test logging', Log::INFO, 'Update');
+        } catch (\Throwable $e) {
+            $message = Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOGGING_TEST_FAIL', $e->getMessage());
+            $this->setRedirect('index.php?option=com_joomlaupdate', $message, 'error');
+            return;
+        }
+
+        Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), Log::INFO, 'Update');
+
+        $this->input->set('layout', 'download');
+        $this->display();
+    }
+
+    /**
+     * Performs the download of the update package
+     *
+     * @return  void
+     *
+     * @since   2.5.4
+     */
+    public function olddownload()
     {
         $this->checkToken();
 
@@ -56,7 +85,7 @@ class UpdateController extends BaseController
 
         Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), Log::INFO, 'Update');
 
-        $result = $model->download();
+        $result = $model->download(); // chunked download
         $file   = $result['basename'];
 
         $message     = null;
@@ -134,11 +163,11 @@ class UpdateController extends BaseController
         $message = '';
 
         // Are we done yet?
-        if (is_object($result) && $result->done) {
-            $this->app->setUserState('com_joomlaupdate.file', basename($result->localFile));
+        if (is_array($result) && $result['done']) {
+            $this->app->setUserState('com_joomlaupdate.file', basename($result['localFile']));
 
             // If the checksum failed we will return with an error
-            if (!$result->valid) {
+            if (!$result['valid']) {
                 $message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
             }
         }
@@ -148,12 +177,12 @@ class UpdateController extends BaseController
             $message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_DOWNLOADFAILED');
         }
 
-        if (!is_object($result)) {
-            $result = new \stdClass();
+        if (!is_array($result)) {
+            $result = []; //$result = new \stdClass();
         }
 
-        $result->error = !empty($message);
-        $result->message = $message;
+        $result['error']   = !empty($message);
+        $result['message'] = $message;
 
         // Return JSON to the browser
         @ob_end_clean();
