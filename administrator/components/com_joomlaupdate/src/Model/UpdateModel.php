@@ -390,8 +390,9 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         return [
-            'basename' => basename($result->localFile),
-            'check'    => $result->valid,
+            'basename' => basename($result['localFile']),
+            'check'    => $result['valid'],
+            'version'  => $result['version']
         ];
     }
 
@@ -520,11 +521,25 @@ class UpdateModel extends BaseDatabaseModel
             }
 
             // Does the file already exist, fully downloaded, in our temp directory?
-            if ($downloadInformation->exists) {
-                $downloadInformation->done = true;
+            if ($downloadInformation['exists'] && $downloadInformation['valid']) {
+                $downloadInformation['done'] = true;
 
                 return $downloadInformation;
             }
+
+            // Chunked download, first part. Delete the local file.
+            if (is_file($downloadInformation['localFile'])) {
+                @unlink($downloadInformation['localFile']) || File::delete($downloadInformation['localFile']);
+            }
+
+            Log::add(
+                Text::sprintf(
+                    'COM_JOOMLAUPDATE_UPDATE_LOG_URL',
+                    $downloadInformation['url']
+                ),
+                Log::INFO,
+                'Update'
+            );
 
             // Save the download information to the session.
             $session->set('com_joomlaupdate.download', $downloadInformation);
@@ -540,37 +555,21 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Single part downloads get a very simple handling, force if have no totalSize
-        if ($forceSinglePart || $downloadInformation->totalSize === Null) {
+        if ($forceSinglePart || $downloadInformation['totalSize'] === Null) {
             // Go through the mirrors until we find one that works or all have failed.
-            foreach ($downloadInformation->mirrors as $url) {
-                $download = $this->downloadPackage($url, $downloadInformation->localFile);
+            foreach ($downloadInformation['mirrors'] as $url) {
+                $download = $this->downloadPackage($url, $downloadInformation['localFile']);
 
                 if ($download !== false) {
                     break;
                 }
             }
 
-            $downloadInformation->done  = $download !== false;
-            $downloadInformation->valid =
-                $this->isChecksumValid($downloadInformation->localFile, $downloadInformation->updateInfo);
+            $downloadInformation['done']  = $download !== false;
+            $downloadInformation['valid'] =
+                $this->isChecksumValid($downloadInformation['localFile'], $downloadInformation['updateInfo']);
 
             return $downloadInformation;
-        }
-
-        // Chunked download, first part. Delete the local file.
-        if ($frag === 0) {
-            if (is_file($downloadInformation->localFile)) {
-                @unlink($downloadInformation->localFile) || File::delete($downloadInformation->localFile);
-            }
-
-            Log::add(
-                Text::sprintf(
-                    'COM_JOOMLAUPDATE_UPDATE_LOG_URL',
-                    $downloadInformation->url
-                ),
-                Log::INFO,
-                'Update'
-            );
         }
 
         // Calculate the download range
@@ -606,7 +605,7 @@ class UpdateModel extends BaseDatabaseModel
 
         // Download the package
         try {
-            $result = $http->get($downloadInformation->url, $headers);
+            $result = $http->get($downloadInformation['url'], $headers);
         } catch (\RuntimeException $e) {
             return null;
         }
@@ -616,17 +615,17 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Write the file chunk to disk
-        FileCMS::append($downloadInformation->localFile, $result->body);
+        FileCMS::append($downloadInformation['localFile'], $result->body);
 
         // Update the download information
-        $downloadInformation->frag++;
-        $downloadInformation->downloaded += mb_strlen($result->body, '8bit');
+        $downloadInformation['frag']++;
+        $downloadInformation['downloaded'] += mb_strlen($result->body, '8bit');
 
         // Am I done?
-        if ($downloadInformation->downloaded >= $downloadInformation->totalSize) {
-            $downloadInformation->done  = true;
-            $downloadInformation->valid =
-                $this->isChecksumValid($downloadInformation->localFile, $downloadInformation->updateInfo);
+        if ($downloadInformation['downloaded'] >= $downloadInformation['totalSize']) {
+            $downloadInformation['done']  = true;
+            $downloadInformation['valid'] =
+                $this->isChecksumValid($downloadInformation['localFile'], $downloadInformation['updateInfo']);
 
             return $downloadInformation;
         }
@@ -2224,10 +2223,12 @@ ENDDATA;
      * @throws Exception
      * @since   __DEPLOY_VERSION__
      */
-    private function getDownloadInformation(): ?object
+    private function getDownloadInformation(): ?array
     {
         // Initialisation
-        $response = (object)[
+        $response = [
+            'basename'   => false,
+            'check'      => null,
             'url'        => null,
             'localFile'  => null,
             'exists'     => false,
@@ -2235,22 +2236,21 @@ ENDDATA;
             'downloaded' => 0,
             'frag'       => 0,
             'done'       => false,
-            'valid'      => true,
-            'updateInfo' => null,
-            'mirrors'    => '',
+            'valid'      => true
         ];
 
         $packageURL  = null;
 
         // Get the Joomla core update information
         $updateInfo = $this->getUpdateInformation();
-        $response->updateInfo = $updateInfo['object'];
+        $response['updateInfo'] = $updateInfo['object'];
+        $response['version']    = $updateInfo['latest'];
 
         // Get the source URLs (primary URL and all mirrors, if any are set up)
         $sourceURLs = ArrayHelper::getColumn($updateInfo['object']->get('downloadSources', []), 'url');
         array_unshift($sourceURLs, $updateInfo['object']->downloadurl->_data);
         $sourceURLs = array_unique($sourceURLs);
-        $response->mirrors = $sourceURLs;
+        $response['mirrors'] = $sourceURLs;
 
         // We have to manually follow the redirects here, so we set the option to false.
         $httpOptions = new Registry();
@@ -2292,11 +2292,15 @@ ENDDATA;
                     break;
                 }
                 $statusCode = $head->getStatusCode();
-
+                if (array_key_exists('location',$head->headers)) {
+                    $loc = $head->headers['location'];
+                } else {
+                    $loc = 'n/a';
+                }
                 Log::add(
                     Text::sprintf(
                         'getDownloadInformation: %s, headcode:%s, location:%s',
-                        $packageURL, $statusCode, print_r($head->headers['location'], true)
+                        $packageURL, $statusCode, print_r($loc, true)
                     ),
                     Log::INFO,
                     'Update'
@@ -2310,8 +2314,8 @@ ENDDATA;
                 }
 
                 // If no redirection is found set the total size and stop processing
-                if (!isset($head->headers['location'])) {
-                    $response->totalSize = $this->getTotalSizefromHeader($head);
+                if (!array_key_exists('location', $head->headers) || !isset($head->headers['location'])) {
+                    $response['totalSize'] = $this->getTotalSizefromHeader($head);
 
                     break;
                 }
@@ -2359,19 +2363,21 @@ ENDDATA;
             ->clean(Factory::getApplication()->get('tmp_path'), 'path');
         $target  = $tempdir . '/' . $basename;
 
-        $response->url       = $packageURL;
-        $response->localFile = $target;
+        $response['url']       = $packageURL;
+        $response['localFile'] = $target;
 
         // Do we have a cached file?
-        $response->exists = is_file($target);
+        $response['exists']    = is_file($target);
 
-        if (!$response->exists) {
+        if (!$response['exists']) {
             return $response;
         }
 
         // Is it a 0-byte file? If so, re-download please.
-        $filesize         = @filesize($target);
-        $response->exists = !empty($filesize) && ($filesize == $response->totalSize);
+        $filesize           = @filesize($target);
+        $response['exists'] = !empty($filesize) && ($filesize == $response['totalSize']);
+        $response['valid'] =
+            $this->isChecksumValid($response['localFile'], $response['updateInfo']);
 
         return $response;
     }

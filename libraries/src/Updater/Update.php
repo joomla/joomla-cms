@@ -479,7 +479,7 @@ class Update
             case 'UPDATES':
                 // If the latest item is set then we transfer it to where we want to
                 if (isset($this->latest)) {
-            
+
                     foreach (get_object_vars($this->latest) as $key => $val) {
                         $this->$key = $val;
                     }
