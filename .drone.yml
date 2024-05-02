@@ -405,7 +405,6 @@ steps:
       status:
         - failure
 
-
 trigger:
   event:
     - cron
@@ -415,6 +414,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 202c7e5dcafc99ae21d411f2656e406af1496a62b53ac17519c35a08b3883bc4
+hmac: afc5ccde3ab67da78dfe21f7fe22fcd3c69559ee19efbffdf8b7b5b799a1deaa
 
 ...
