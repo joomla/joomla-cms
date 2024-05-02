@@ -273,7 +273,7 @@ volumes:
 services:
   - name: mysql
     image: mysql:8
-    command: ["--mysql-native-password=ON --default-authentication-plugin=mysql_native_password"]
+    command: ["--mysql-native-password=ON", "--default-authentication-plugin=mysql_native_password"]
     environment:
       MYSQL_USER: joomla_ut
       MYSQL_PASSWORD: joomla_ut
@@ -405,7 +405,6 @@ steps:
       status:
         - failure
 
-
 trigger:
   event:
     - cron
@@ -415,6 +414,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 10a8ddd124694a7a6f6891d06b6a3a40fc16ef5d54038b4a1da9340710294ea0
+hmac: 6b0da38633aea13bdf1ef5e14da9560a714fd37ea7cae561cdc680bc8988d08e
 
 ...
