@@ -273,7 +273,7 @@ volumes:
 services:
   - name: mysql
     image: mysql:8.3.0
-    command: ["--default-auth=mysql_native_password"]
+    command: ["--default-authentication-plugin=mysql_native_password"]
     environment:
       MYSQL_USER: joomla_ut
       MYSQL_PASSWORD: joomla_ut
@@ -414,6 +414,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 3cc50bc3cd80b45a726013509cf62bb076b42ea01da91ceb90cfce329aa57dbb
+hmac: 36617b5838db6f71d0ca77b2b2e8575ba3347e9dbc7457cd6dcd6f764598d3cc
 
 ...
