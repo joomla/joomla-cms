@@ -58,14 +58,14 @@ class HtmlView extends BaseHtmlView
      *
      * @var    string
      */
-    protected $name;
+    public $name;
 
     /**
      * Name of the fields to display
      *
      * @var    string
      */
-    protected $fieldsname;
+    public $fieldsname;
 
     /**
      * CSS class of the form
