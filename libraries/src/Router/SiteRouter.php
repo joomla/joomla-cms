@@ -310,7 +310,7 @@ class SiteRouter extends Router
         } else {
             $item = $this->menu->getDefault($this->app->getLanguage()->getTag());
 
-            if ($item->query['option'] != $uri->getVar('option', $item->query['option'])) {
+            if ($item->query['option'] !== $uri->getVar('option', $item->query['option'])) {
                 $item = false;
             }
         }
