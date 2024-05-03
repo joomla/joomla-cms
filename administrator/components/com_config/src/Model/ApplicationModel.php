@@ -374,7 +374,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
 
             // Check that we aren't removing our Super User permission
             // Need to get groups from database, since they might have changed
-            $myGroups      = Access::getGroupsByUser($this->getCurrentUser()->get('id'));
+            $myGroups      = Access::getGroupsByUser($this->getCurrentUser()->id);
             $myRules       = $rules->getData();
             $hasSuperAdmin = $myRules['core.admin']->allow($myGroups);
 

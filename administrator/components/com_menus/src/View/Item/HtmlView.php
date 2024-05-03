@@ -150,7 +150,7 @@ class HtmlView extends BaseHtmlView
 
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
         $canDo      = $this->canDo;
         $clientId   = $this->state->get('item.client_id', 0);
         $toolbar    = Toolbar::getInstance();
@@ -238,7 +238,7 @@ class HtmlView extends BaseHtmlView
     {
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
         $canDo      = $this->canDo;
         $toolbar    = Toolbar::getInstance();
 
