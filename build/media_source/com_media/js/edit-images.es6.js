@@ -46,10 +46,9 @@ class Edit {
     customElements.whenDefined('joomla-tab').then(async () => {
       const tabContainer = document.getElementById('myTab');
       const tabsUlElement = tabContainer.firstElementChild;
-      const links = [].slice.call(tabsUlElement.querySelectorAll('button[aria-controls]'));
 
       // Couple the tabs with the plugin objects
-      links.forEach((link, index) => {
+      tabsUlElement.querySelectorAll('button[aria-controls]').forEach((link, index) => {
         const tab = document.getElementById(link.getAttribute('aria-controls'));
         if (index === 0) {
           tab.insertAdjacentElement('beforeend', this.baseContainer);
