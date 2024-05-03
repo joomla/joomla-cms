@@ -21,9 +21,9 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -92,7 +92,7 @@ class UpdateModel extends ListModel
     /**
      * Method to get the database query
      *
-     * @return  \Joomla\Database\DatabaseQuery  The database query
+     * @return  QueryInterface  The database query
      *
      * @since   1.6
      */
@@ -200,9 +200,9 @@ class UpdateModel extends ListModel
     /**
      * Returns an object list
      *
-     * @param   DatabaseQuery  $query       The query
-     * @param   int            $limitstart  Offset
-     * @param   int            $limit       The number of records
+     * @param   QueryInterface  $query       The query
+     * @param   int             $limitstart  Offset
+     * @param   int             $limit       The number of records
      *
      * @return  object[]
      *
@@ -614,7 +614,7 @@ class UpdateModel extends ListModel
     /**
      * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
      *
-     * @return DatabaseQuery
+     * @return QueryInterface
      *
      * @since 4.0.0
      */

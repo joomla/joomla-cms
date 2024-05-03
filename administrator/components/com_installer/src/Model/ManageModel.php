@@ -21,8 +21,8 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\Component\Templates\Administrator\Table\StyleTable;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -308,7 +308,7 @@ class ManageModel extends InstallerModel
     /**
      * Method to get the database query
      *
-     * @return  DatabaseQuery  The database query
+     * @return  QueryInterface  The database query
      *
      * @since   1.6
      */
