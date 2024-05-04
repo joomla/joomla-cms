@@ -10,13 +10,14 @@
 
 namespace Joomla\Plugin\Content\Contact\Extension;
 
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
-use Joomla\Registry\Registry;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -27,22 +28,37 @@ use Joomla\Registry\Registry;
  *
  * @since  3.2
  */
-final class Contact extends CMSPlugin
+final class Contact extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentPrepare' => 'onContentPrepare',
+        ];
+    }
+
+    /**
      * Plugin that retrieves contact information for contact
      *
-     * @param   string   $context  The context of the content being passed to the plugin.
-     * @param   mixed    &$row     An object with a "text" property
-     * @param   mixed    $params   Additional parameters. See {@see PlgContentContent()}.
-     * @param   integer  $page     Optional page number. Unused. Defaults to zero.
+     * @param   ContentPrepareEvent $event  The event instance.
      *
      * @return  void
      */
-    public function onContentPrepare($context, &$row, $params, $page = 0)
+    public function onContentPrepare(ContentPrepareEvent $event)
     {
+        $context = $event->getContext();
+        $row     = $event->getItem();
+        $params  = $event->getParams();
+
         $allowed_contexts = ['com_content.category', 'com_content.article', 'com_content.featured'];
 
         if (!\in_array($context, $allowed_contexts)) {
@@ -50,7 +66,7 @@ final class Contact extends CMSPlugin
         }
 
         // Return if we don't have valid params or don't link the author
-        if (!($params instanceof Registry) || !$params->get('link_author')) {
+        if (!$params->get('link_author')) {
             return;
         }
 
