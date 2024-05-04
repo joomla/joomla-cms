@@ -89,7 +89,7 @@ if (!empty($editor)) {
                 $iconStates = [
                     -2 => 'icon-trash',
                     0  => 'icon-unpublish',
-                    1  => 'icon-check',
+                    1  => 'icon-publish',
                     2  => 'icon-archive',
                 ];
                 ?>
