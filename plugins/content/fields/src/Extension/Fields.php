@@ -10,8 +10,10 @@
 
 namespace Joomla\Plugin\Content\Fields\Extension;
 
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,22 +25,36 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
  *
  * @since  3.7.0
  */
-final class Fields extends CMSPlugin
+final class Fields extends CMSPlugin implements SubscriberInterface
 {
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentPrepare' => 'onContentPrepare',
+        ];
+    }
+
     /**
      * Plugin that shows a custom field
      *
-     * @param   string  $context  The context of the content being passed to the plugin.
-     * @param   object  &$item    The item object.  Note $article->text is also available
-     * @param   object  &$params  The article params
-     * @param   int     $page     The 'page' number
+     * @param   ContentPrepareEvent $event  The event instance.
      *
      * @return void
      *
      * @since  3.7.0
      */
-    public function onContentPrepare($context, &$item, &$params, $page = 0)
+    public function onContentPrepare(ContentPrepareEvent $event)
     {
+        $context = $event->getContext();
+        $item    = $event->getItem();
+
         // If the item has a context, overwrite the existing one
         if ($context === 'com_finder.indexer' && !empty($item->context)) {
             $context = $item->context;
