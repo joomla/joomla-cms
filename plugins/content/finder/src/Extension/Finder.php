@@ -11,8 +11,10 @@
 namespace Joomla\Plugin\Content\Finder\Extension;
 
 use Joomla\CMS\Event\Finder as FinderEvent;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,7 +25,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  2.5
  */
-final class Finder extends CMSPlugin
+final class Finder extends CMSPlugin implements SubscriberInterface
 {
     /**
      * Flag to check whether finder plugins already imported.
@@ -35,27 +37,43 @@ final class Finder extends CMSPlugin
     protected $pluginsImported = false;
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentBeforeSave'   => 'onContentBeforeSave',
+            'onContentAfterSave'    => 'onContentAfterSave',
+            'onContentAfterDelete'  => 'onContentAfterDelete',
+            'onContentChangeState'  => 'onContentChangeState',
+            'onCategoryChangeState' => 'onCategoryChangeState',
+        ];
+    }
+
+    /**
      * Smart Search after save content method.
      * Content is passed by reference, but after the save, so no changes will be saved.
      * Method is called right after the content is saved.
      *
-     * @param   string  $context  The context of the content passed to the plugin (added in 1.6)
-     * @param   object  $article  A \Joomla\CMS\Table\Table\ object
-     * @param   bool    $isNew    If the content has just been created
+     * @param   Model\AfterSaveEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   2.5
      */
-    public function onContentAfterSave($context, $article, $isNew): void
+    public function onContentAfterSave(Model\AfterSaveEvent $event): void
     {
         $this->importFinderPlugins();
 
         // Trigger the onFinderAfterSave event.
         $this->getDispatcher()->dispatch('onFinderAfterSave', new FinderEvent\AfterSaveEvent('onFinderAfterSave', [
-            'context' => $context,
-            'subject' => $article,
-            'isNew'   => $isNew,
+            'context' => $event->getContext(),
+            'subject' => $event->getItem(),
+            'isNew'   => $event->getIsNew(),
         ]));
     }
 
@@ -63,23 +81,21 @@ final class Finder extends CMSPlugin
      * Smart Search before save content method.
      * Content is passed by reference. Method is called before the content is saved.
      *
-     * @param   string  $context  The context of the content passed to the plugin (added in 1.6).
-     * @param   object  $article  A \Joomla\CMS\Table\Table\ object.
-     * @param   bool    $isNew    If the content is just about to be created.
+     * @param   Model\BeforeSaveEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   2.5
      */
-    public function onContentBeforeSave($context, $article, $isNew)
+    public function onContentBeforeSave(Model\BeforeSaveEvent $event)
     {
         $this->importFinderPlugins();
 
         // Trigger the onFinderBeforeSave event.
         $this->getDispatcher()->dispatch('onFinderBeforeSave', new FinderEvent\BeforeSaveEvent('onFinderBeforeSave', [
-            'context' => $context,
-            'subject' => $article,
-            'isNew'   => $isNew,
+            'context' => $event->getContext(),
+            'subject' => $event->getItem(),
+            'isNew'   => $event->getIsNew(),
         ]));
     }
 
@@ -87,21 +103,20 @@ final class Finder extends CMSPlugin
      * Smart Search after delete content method.
      * Content is passed by reference, but after the deletion.
      *
-     * @param   string  $context  The context of the content passed to the plugin (added in 1.6).
-     * @param   object  $article  A \Joomla\CMS\Table\Table object.
+     * @param   Model\AfterDeleteEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   2.5
      */
-    public function onContentAfterDelete($context, $article): void
+    public function onContentAfterDelete(Model\AfterDeleteEvent $event): void
     {
         $this->importFinderPlugins();
 
         // Trigger the onFinderAfterDelete event.
         $this->getDispatcher()->dispatch('onFinderAfterDelete', new FinderEvent\AfterDeleteEvent('onFinderAfterDelete', [
-            'context' => $context,
-            'subject' => $article,
+            'context' => $event->getContext(),
+            'subject' => $event->getItem(),
         ]));
     }
 
@@ -111,23 +126,21 @@ final class Finder extends CMSPlugin
      * from outside the edit screen. This is fired when the item is published,
      * unpublished, archived, or unarchived from the list view.
      *
-     * @param   string   $context  The context for the content passed to the plugin.
-     * @param   array    $pks      A list of primary key ids of the content that has changed state.
-     * @param   integer  $value    The value of the state that the content has been changed to.
+     * @param   Model\AfterChangeStateEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   2.5
      */
-    public function onContentChangeState($context, $pks, $value)
+    public function onContentChangeState(Model\AfterChangeStateEvent $event)
     {
         $this->importFinderPlugins();
 
         // Trigger the onFinderChangeState event.
         $this->getDispatcher()->dispatch('onFinderChangeState', new FinderEvent\AfterChangeStateEvent('onFinderChangeState', [
-            'context' => $context,
-            'subject' => $pks,
-            'value'   => $value,
+            'context' => $event->getContext(),
+            'subject' => $event->getPks(),
+            'value'   => $event->getValue(),
         ]));
     }
 
@@ -136,23 +149,21 @@ final class Finder extends CMSPlugin
      * Method is called when the state of the category to which the
      * content item belongs is changed.
      *
-     * @param   string   $extension  The extension whose category has been updated.
-     * @param   array    $pks        A list of primary key ids of the content that has changed state.
-     * @param   integer  $value      The value of the state that the content has been changed to.
+     * @param   Model\AfterCategoryChangeStateEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   2.5
      */
-    public function onCategoryChangeState($extension, $pks, $value)
+    public function onCategoryChangeState(Model\AfterCategoryChangeStateEvent $event)
     {
         $this->importFinderPlugins();
 
         // Trigger the onFinderCategoryChangeState event.
         $this->getDispatcher()->dispatch('onFinderCategoryChangeState', new FinderEvent\AfterCategoryChangeStateEvent('onFinderCategoryChangeState', [
-            'context' => $extension,
-            'subject' => $pks,
-            'value'   => $value,
+            'context' => $event->getExtension(),
+            'subject' => $event->getPks(),
+            'value'   => $event->getValue(),
         ]));
     }
 
