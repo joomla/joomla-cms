@@ -50,8 +50,8 @@ class ConfirmConsentTest extends UnitTestCase
         $plugin     = new ConfirmConsent($dispatcher, ['params' => []]);
         $plugin->setApplication($app);
         $plugin->onContentPrepareForm(new PrepareFormEvent('onContentPrepareForm', [
-            'form' => $form,
-            'data' => [],
+            'subject' => $form,
+            'data'    => [],
         ]));
 
         $this->assertNotFalse($form->getField('consentbox'));
@@ -73,8 +73,8 @@ class ConfirmConsentTest extends UnitTestCase
         $plugin     = new ConfirmConsent($dispatcher, ['params' => []]);
         $plugin->setApplication($this->createStub(CMSApplicationInterface::class));
         $plugin->onContentPrepareForm(new PrepareFormEvent('onContentPrepareForm', [
-            'form' => $form,
-            'data' => [],
+            'subject' => $form,
+            'data'    => [],
         ]));
 
         $this->assertFalse($form->getField('consentbox'));
@@ -99,8 +99,8 @@ class ConfirmConsentTest extends UnitTestCase
         $plugin     = new ConfirmConsent($dispatcher, ['params' => []]);
         $plugin->setApplication($app);
         $plugin->onContentPrepareForm(new PrepareFormEvent('onContentPrepareForm', [
-            'form' => $form,
-            'data' => [],
+            'subject' => $form,
+            'data'    => [],
         ]));
 
         $this->assertFalse($form->getField('consentbox'));
