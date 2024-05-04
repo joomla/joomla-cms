@@ -90,7 +90,7 @@ if (!empty($editor)) {
                     -2 => 'icon-trash',
                     0  => 'icon-unpublish',
                     1  => 'icon-check',
-                    2  => 'icon-folder',
+                    2  => 'icon-archive',
                 ];
                 ?>
                 <?php foreach ($this->items as $i => $item) : ?>

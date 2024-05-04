@@ -38,7 +38,7 @@ $iconStates = [
     -2 => 'icon-trash',
     0  => 'icon-unpublish',
     1  => 'icon-check',
-    2  => 'icon-folder',
+    2  => 'icon-archive',
 ];
 
 $this->document->addScriptOptions('associations-modal', ['func' => $function]);
