@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -303,9 +304,9 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
      */
     public function delete(&$pks)
     {
-        $user          = $this->getCurrentUser();
-        $table         = $this->getTable();
-        $pks           = (array) $pks;
+        $user  = $this->getCurrentUser();
+        $table = $this->getTable();
+        $pks   = (array) $pks;
 
         // Check if I am a Super Admin
         $iAmSuperAdmin = $user->authorise('core.admin');
@@ -370,8 +371,8 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
      */
     public function block(&$pks, $value = 1)
     {
-        $app           = Factory::getApplication();
-        $user          = $this->getCurrentUser();
+        $app  = Factory::getApplication();
+        $user = $this->getCurrentUser();
 
         // Check if I am a Super Admin
         $iAmSuperAdmin = $user->authorise('core.admin');
@@ -474,15 +475,15 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
      */
     public function activate(&$pks)
     {
-        $app                  = Factory::getApplication();
-        $user                 = $app->getIdentity();
+        $app  = Factory::getApplication();
+        $user = $app->getIdentity();
 
         // Check if I am a super admin
-        $iAmSuperAdmin        = $user->authorise('core.admin');
+        $iAmSuperAdmin = $user->authorise('core.admin');
 
         // Load user table
-        $table                = $this->getTable();
-        $pks                  = (array) $pks;
+        $table = $this->getTable();
+        $pks   = (array) $pks;
 
         // Compile the user activated notification mail default values.
         $mailData             = [];
@@ -491,14 +492,14 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
         $mailData['mailfrom'] = $app->get('mailfrom');
         $mailData['sitename'] = $app->get('sitename');
 
-        // Load com_users site language strings, the mail template use it
-        $app->getLanguage()->load('com_users', JPATH_SITE);
-
         $sendMailTo = function ($userData) use ($app, $mailData) {
             $mailData['name']     = $userData['name'];
             $mailData['username'] = $userData['username'];
 
-            $mailer = new \Joomla\CMS\Mail\MailTemplate('com_users.registration.user.admin_activated', $app->getLanguage()->getTag());
+            // Use the default language
+            $langTag = ComponentHelper::getParams('com_languages')->get('administrator', 'en-GB');
+
+            $mailer = new MailTemplate('com_users.registration.user.admin_activated', $langTag);
             $mailer->addTemplateData($mailData);
             $mailer->addRecipient($userData['email']);
 
@@ -536,7 +537,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
                 $allow        = $user->authorise('core.edit.state', 'com_users');
 
                 // Don't allow non-super-admin to edit the active status of a super admin
-                $allow        = (!$iAmSuperAdmin && Access::check($pk, 'core.admin')) ? false : $allow;
+                $allow = (!$iAmSuperAdmin && Access::check($pk, 'core.admin')) ? false : $allow;
 
                 // Ignore activated accounts but check if we can still
                 // resend the notification email
@@ -668,7 +669,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
      */
     public function batchReset($userIds, $action)
     {
-        $userIds       = ArrayHelper::toInteger($userIds);
+        $userIds = ArrayHelper::toInteger($userIds);
 
         // Check if I am a Super Admin
         $iAmSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
@@ -697,11 +698,11 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
         }
 
         // Get the DB object
-        $db      = $this->getDatabase();
+        $db = $this->getDatabase();
 
         $userIds = ArrayHelper::toInteger($userIds);
 
-        $query   = $db->getQuery(true);
+        $query = $db->getQuery(true);
 
         // Update the reset flag
         $query->update($db->quoteName('#__users'))
@@ -735,7 +736,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
      */
     public function batchUser($groupId, $userIds, $action)
     {
-        $userIds       = ArrayHelper::toInteger($userIds);
+        $userIds = ArrayHelper::toInteger($userIds);
 
         // Check if I am a Super Admin
         $iAmSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
@@ -923,8 +924,8 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
         $userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
         if (empty($userId)) {
-            $result   = [];
-            $form     = $this->getForm();
+            $result = [];
+            $form   = $this->getForm();
 
             if ($form) {
                 $groupsIDs = $form->getValue('groups');
