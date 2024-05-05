@@ -14,6 +14,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\Event\AbstractEvent;
@@ -38,7 +39,10 @@ use Joomla\Registry\Registry;
 abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, LanguageAwareInterface
 {
     use DispatcherAwareTrait;
-    use LanguageAwareTrait;
+    use LanguageAwareTrait {
+        setLanguage as traitSetLanguage;
+        getLanguage as traitGetLanguage;
+    }
 
     /**
      * A Registry object holding the parameters for the plugin
@@ -419,5 +423,45 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
         if ($application->getLanguage()) {
             $this->setLanguage($application->getLanguage());
         }
+    }
+
+    /**
+     * Set the language to use.
+     *
+     * @param   Language  $language  The language to use
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     *
+     * @deprecated  5.2 will be removed in 7.0
+     *              Plugin should implement LanguageAwareInterface on its own, when it is needed.
+     */
+    public function setLanguage(Language $language): void
+    {
+        $this->traitSetLanguage($language);
+    }
+
+    /**
+     * Get the Language.
+     *
+     * @return  Language
+     *
+     * @throws  \UnexpectedValueException May be thrown if the language has not been set.
+     *
+     * @since   __DEPLOY_VERSION__
+     *
+     * @deprecated  5.2 will be removed in 7.0
+     *              Plugin should implement LanguageAwareInterface on its own, when it is needed.
+     */
+    protected function getLanguage(): Language
+    {
+        @trigger_error(
+            'Use of LanguageAwareInterface over CMSPlugin will be removed in 7.0.'
+            . ' Plugin should implement LanguageAwareInterface on its own, when it is needed.',
+            \E_USER_DEPRECATED
+        );
+
+        return $this->traitGetLanguage();
     }
 }
