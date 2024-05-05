@@ -492,12 +492,15 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
         $mailData['mailfrom'] = $app->get('mailfrom');
         $mailData['sitename'] = $app->get('sitename');
 
+        // Load com_users site language strings, the mail template use it
+        $app->getLanguage()->load('com_users', JPATH_SITE);
+
         $sendMailTo = function ($userData) use ($app, $mailData) {
             $mailData['name']     = $userData['name'];
             $mailData['username'] = $userData['username'];
 
             // Use the default language
-            $langTag = ComponentHelper::getParams('com_languages')->get('administrator', 'en-GB');
+            $langTag = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 
             $mailer = new MailTemplate('com_users.registration.user.admin_activated', $langTag);
             $mailer->addTemplateData($mailData);
