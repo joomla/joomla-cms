@@ -231,7 +231,6 @@ abstract class PluginHelper
 
         $plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
-        // @TODO:  Starting from 7.0 the CMSPlugin class will no longer use DispatcherAwareInterface
         if ($dispatcher && $plugin instanceof DispatcherAwareInterface) {
             $plugin->setDispatcher($dispatcher);
         }
