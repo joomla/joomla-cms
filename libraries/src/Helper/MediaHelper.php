@@ -240,6 +240,9 @@ class MediaHelper
             $executables = array_diff($executables, $allowedExecutables);
         }
 
+        // Ensure lowercase extension
+        $filetypes = array_map('strtolower', $filetypes);
+
         $check = array_intersect($filetypes, $executables);
 
         if (!empty($check)) {

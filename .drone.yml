@@ -362,7 +362,7 @@ services:
       MYSQL_DATABASE: test_joomla
 
   - name: mysql8
-    image: mysql:8
+    image: mysql:8.0
     command: ["--default-authentication-plugin=mysql_native_password"]
     environment:
       MYSQL_USER: joomla_ut
@@ -504,6 +504,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 0bb4fab35202cd25de338d26dd2f6afa715103eb3317778cbad6cde75ec987d9
+hmac: 4883ca31950b6197886ad6e53fa6ec4bd19152852ea3e016a95a27b7ff27eece
 
 ...
