@@ -38,7 +38,10 @@ use Joomla\Registry\Registry;
  */
 abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, LanguageAwareInterface
 {
-    use DispatcherAwareTrait;
+    use DispatcherAwareTrait {
+        setDispatcher as traitSetDispatcher;
+        getDispatcher as traitGetDispatcher;
+    }
     use LanguageAwareTrait {
         setLanguage as traitSetLanguage;
         getLanguage as traitGetLanguage;
@@ -457,11 +460,51 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
     protected function getLanguage(): Language
     {
         @trigger_error(
-            'Use of LanguageAwareInterface over CMSPlugin will be removed in 7.0.'
+            __CLASS__ . ': Use of LanguageAwareInterface over CMSPlugin will be removed in 7.0.'
             . ' Plugin should implement LanguageAwareInterface on its own, when it is needed.',
             \E_USER_DEPRECATED
         );
 
         return $this->traitGetLanguage();
+    }
+
+    /**
+     * Set the dispatcher to use.
+     *
+     * @param   DispatcherInterface  $dispatcher  The dispatcher to use.
+     *
+     * @return  $this
+     *
+     * @since   __DEPLOY_VERSION__
+     *
+     * @deprecated  5.2 will be removed in 7.0
+     *              Plugin should implement DispatcherAwareInterface on its own, when it is needed.
+     */
+    public function setDispatcher(DispatcherInterface $dispatcher)
+    {
+        @trigger_error(
+            __CLASS__ . ': Use of DispatcherAwareInterface over CMSPlugin will be removed in 7.0.'
+            . ' Plugin should implement DispatcherAwareInterface on its own, when it is needed.',
+            \E_USER_DEPRECATED
+        );
+
+        return $this->traitSetDispatcher($dispatcher);
+    }
+
+    /**
+     * Get the event dispatcher.
+     *
+     * @return  DispatcherInterface
+     *
+     * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
+     *
+     * @since   __DEPLOY_VERSION__
+     *
+     * @deprecated  5.2 will be removed in 7.0
+     *              Plugin should implement DispatcherAwareInterface on its own, when it is needed.
+     */
+    public function getDispatcher()
+    {
+        return $this->traitGetDispatcher();
     }
 }
