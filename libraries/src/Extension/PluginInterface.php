@@ -28,6 +28,10 @@ interface PluginInterface extends DispatcherAwareInterface
      * @return  void
      *
      * @since   4.0.0
+     *
+     * @deprecated  5.2 will be removed in 7.0
+     *              Plugin should implement SubscriberInterface.
+     *              These plugins will be added to dispatcher in PluginHelper::import().
      */
     public function registerListeners();
 }

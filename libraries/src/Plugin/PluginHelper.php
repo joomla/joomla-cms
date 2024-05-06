@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Plugin;
 
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
+use Joomla\CMS\Event\ConfigurableSubscriberInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
@@ -239,7 +240,18 @@ abstract class PluginHelper
             return;
         }
 
-        $plugin->registerListeners();
+        // Check for Configurable Subscriber
+        if ($plugin instanceof ConfigurableSubscriberInterface) {
+            if (!$dispatcher) {
+                throw new \RuntimeException('Dispatcher instance is required to set up ConfigurableSubscriber when autocreate is on.');
+            }
+
+            $plugin->configureListeners($dispatcher);
+        } else {
+            // Register regular Subscribers
+            // @TODO: Starting from 7.0 it should use $dispatcher->addSubscriber($plugin);, for plugins which implements SubscriberInterface.
+            $plugin->registerListeners();
+        }
     }
 
     /**
