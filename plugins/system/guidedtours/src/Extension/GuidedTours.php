@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\GuidedTours\Extension;
 
+use Joomla\CMS\Event\ConfigurableSubscriberInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -29,7 +30,7 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since  4.3.0
  */
-final class GuidedTours extends CMSPlugin implements SubscriberInterface
+final class GuidedTours extends CMSPlugin implements SubscriberInterface, ConfigurableSubscriberInterface
 {
     /**
      * A mapping for the step types
@@ -59,31 +60,6 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     ];
 
     /**
-     * An internal flag whether plugin should listen any event.
-     *
-     * @var bool
-     *
-     * @since   4.3.0
-     */
-    protected static $enabled = false;
-
-    /**
-     * Constructor
-     *
-     * @param   DispatcherInterface  $dispatcher  The object to observe
-     * @param   array                $config      An optional associative array of configuration settings.
-     * @param   boolean              $enabled     An internal flag whether plugin should listen any event.
-     *
-     * @since   4.3.0
-     */
-    public function __construct(DispatcherInterface $dispatcher, array $config = [], bool $enabled = false)
-    {
-        self::$enabled = $enabled;
-
-        parent::__construct($dispatcher, $config);
-    }
-
-    /**
      * function for getSubscribedEvents : new Joomla 4 feature
      *
      * @return array
@@ -92,10 +68,26 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return self::$enabled ? [
+        return [
             'onAjaxGuidedtours'   => 'startTour',
             'onBeforeCompileHead' => 'onBeforeCompileHead',
-        ] : [];
+        ];
+    }
+
+    /**
+     * Method allows to set up custom event listeners.
+     *
+     * @param  \Joomla\Event\DispatcherInterface  $dispatcher  The dispatcher instance.
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function configureListeners(DispatcherInterface $dispatcher): void
+    {
+        if ($this->getApplication()->isClient('administrator')) {
+            $dispatcher->addSubscriber($this);
+        }
     }
 
     /**

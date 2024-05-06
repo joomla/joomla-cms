@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\System\ScheduleRunner\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\ConfigurableSubscriberInterface;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
@@ -22,9 +23,9 @@ use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Scheduler\Administrator\Model\TasksModel;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
-use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -42,7 +43,7 @@ use Joomla\Registry\Registry;
  *
  * @since 4.1.0
  */
-final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
+final class ScheduleRunner extends CMSPlugin implements ConfigurableSubscriberInterface
 {
     /**
      * Length of auto-generated webcron key.
@@ -53,39 +54,35 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
     private const WEBCRON_KEY_LENGTH = 20;
 
     /**
-     * @inheritDoc
+     * Method allows to set up custom event listeners.
      *
-     * @return string[]
+     * @param  \Joomla\Event\DispatcherInterface  $dispatcher  The dispatcher instance.
      *
-     * @since 4.1.0
+     * @return void
      *
-     * @throws \Exception
+     * @since  __DEPLOY_VERSION__
      */
-    public static function getSubscribedEvents(): array
+    public function configureListeners(DispatcherInterface $dispatcher): void
     {
-        $config = ComponentHelper::getParams('com_scheduler');
-        $app    = Factory::getApplication();
-
-        $mapping  = [];
+        $app = $this->getApplication();
 
         if ($app->isClient('site') || $app->isClient('administrator')) {
-            $mapping['onBeforeCompileHead']    = 'injectLazyJS';
-            $mapping['onAjaxRunSchedulerLazy'] = 'runLazyCron';
+            $config = ComponentHelper::getParams('com_scheduler');
 
-            // Only allowed in the frontend
-            if ($app->isClient('site')) {
-                if ($config->get('webcron.enabled')) {
-                    $mapping['onAjaxRunSchedulerWebcron'] = 'runWebCron';
-                }
-            } elseif ($app->isClient('administrator')) {
-                $mapping['onContentPrepareForm']  = 'enhanceSchedulerConfig';
-                $mapping['onExtensionBeforeSave'] = 'generateWebcronKey';
+            // Common listeners
+            $dispatcher->addListener('onBeforeCompileHead', [$this, 'injectLazyJS']);
+            $dispatcher->addListener('onAjaxRunSchedulerLazy', [$this, 'runLazyCron']);
 
-                $mapping['onAjaxRunSchedulerTest'] = 'runTestCron';
+            if ($app->isClient('administrator')) {
+                // Only allowed in the administrator
+                $dispatcher->addListener('onContentPrepareForm', [$this, 'enhanceSchedulerConfig']);
+                $dispatcher->addListener('onExtensionBeforeSave', [$this, 'generateWebcronKey']);
+                $dispatcher->addListener('onAjaxRunSchedulerTest', [$this, 'runTestCron']);
+            } elseif ($app->isClient('site') && $config->get('webcron.enabled')) {
+                // Only allowed in the site
+                $dispatcher->addListener('onAjaxRunSchedulerWebcron', [$this, 'runWebCron']);
             }
         }
-
-        return $mapping;
     }
 
     /**

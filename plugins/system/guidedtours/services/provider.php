@@ -38,8 +38,7 @@ return new class () implements ServiceProviderInterface {
 
                 $plugin = new GuidedTours(
                     $container->get(DispatcherInterface::class),
-                    (array) PluginHelper::getPlugin('system', 'guidedtours'),
-                    $app->isClient('administrator')
+                    (array) PluginHelper::getPlugin('system', 'guidedtours')
                 );
 
                 $plugin->setApplication($app);
