@@ -43,7 +43,7 @@
   background-color: transparent;
 
   &::placeholder {
-    color: $choices-input-placeholder; //$gray-700; // var(--gray-200);
+    color: $choices-input-placeholder; // $gray-700; // var(--gray-200);
     opacity: 1;
   }
 }
