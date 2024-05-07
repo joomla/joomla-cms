@@ -18,7 +18,14 @@ use Joomla\CMS\Version;
 // Add required assets
 $this->getWebAssetManager()
     ->registerAndUseStyle('template.installation', 'installation/template/css/template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto'], [], [])
+    ->useScript('core')
+    ->useScript('keepalive')
+    ->useScript('form.validate')
+    ->registerAndUseScript('template.installation', 'installation/template/js/template.js', ['version' => 'auto'], ['defer' => true], ['core', 'form.validate'])
+
     ->useStyle('webcomponent.joomla-alert')
+    ->useScript('messages')
+    ->useScript('webcomponent.core-loader')
     ->addInlineStyle(':root {
 		--hue: 214;
 		--template-bg-light: #f0f4fb;
@@ -26,13 +33,7 @@ $this->getWebAssetManager()
 		--template-text-light: #ffffff;
 		--link-color: #2a69b8;
 		--template-special-color: #001b4c;
-	}')
-    ->registerAndUseScript('template.installation', 'installation/template/js/template.js', ['version' => 'auto'], ['defer' => true], ['core', 'form.validate'])
-    ->useScript('core')
-    ->useScript('keepalive')
-    ->useScript('form.validate')
-    ->useScript('messages')
-    ->useScript('webcomponent.core-loader');
+	}');
 
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
