@@ -19,11 +19,13 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Templates\Administrator\View\Template\HtmlView $this */
+
 HTMLHelper::_('behavior.multiselect', 'updateForm');
 HTMLHelper::_('bootstrap.modal');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa    = $this->document->getWebAssetManager();
+$wa    = $this->getDocument()->getWebAssetManager();
 $input = Factory::getApplication()->getInput();
 
 // Enable assets
@@ -60,7 +62,7 @@ if ($this->type == 'font') {
     <div class="row mt-2">
         <div class="col-md-8" id="conditional-section">
             <?php if ($this->type != 'home') : ?>
-                <p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . ($input->get('isMedia', 0) ? '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . str_replace('//', '/', base64_decode($this->file)) : '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element . str_replace('//', '/', base64_decode($this->file))), $this->template->element); ?></p>
+                <p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . ($input->get('isMedia', 0) ? '/media/templates/' . ((int) $this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . str_replace('//', '/', base64_decode($this->file)) : '/' . ((int) $this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element . str_replace('//', '/', base64_decode($this->file))), $this->template->element); ?></p>
                 <p class="lead path hidden"><?php echo $this->source->filename; ?></p>
             <?php endif; ?>
         </div>
@@ -80,7 +82,7 @@ if ($this->type == 'font') {
                     <li class="folder-select">
                         <a class="folder-url" data-id="" href="">
                             <span class="icon-folder icon-fw" aria-hidden="true"></span>
-                            <?php echo ($this->template->client_id === 0 ? '/' : '/administrator/') . 'templates/' . $this->template->element; ?>
+                            <?php echo ((int) $this->template->client_id === 0 ? '/' : '/administrator/') . 'templates/' . $this->template->element; ?>
                         </a>
                         <?php echo $this->loadTemplate('tree'); ?>
                     </li>
@@ -90,7 +92,7 @@ if ($this->type == 'font') {
                         <li class="folder-select">
                             <a class="folder-url" data-id="" href="">
                                 <span class="icon-folder icon-fw" aria-hidden="true"></span>
-                                <?php echo '/media/templates/' . ($this->template->client_id === 0 ? 'site/' : 'administrator/') . $this->template->element; ?>
+                                <?php echo '/media/templates/' . ((int) $this->template->client_id === 0 ? 'site/' : 'administrator/') . $this->template->element; ?>
                             </a>
                             <?php echo $this->loadTemplate('tree_media'); ?>
                         </li>

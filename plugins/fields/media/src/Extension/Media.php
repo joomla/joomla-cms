@@ -27,11 +27,11 @@ final class Media extends FieldsPlugin
     /**
      * Transforms the field into a DOM XML element and appends it as a child on the given parent.
      *
-     * @param   stdClass    $field   The field.
+     * @param   \stdClass    $field   The field.
      * @param   \DOMElement  $parent  The field node parent.
-     * @param   Form        $form    The form.
+     * @param   Form         $form    The form.
      *
-     * @return  \DOMElement
+     * @return  ?\DOMElement
      *
      * @since   4.0.0
      */

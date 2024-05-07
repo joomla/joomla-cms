@@ -21,6 +21,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\UpdateSite as UpdateSiteTable;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -517,7 +518,7 @@ class UpdatesitesModel extends InstallerModel
     /**
      * Method to get the database query
      *
-     * @return  \Joomla\Database\DatabaseQuery  The database query
+     * @return  QueryInterface  The database query
      *
      * @since   3.4
      */
@@ -626,18 +627,18 @@ class UpdatesitesModel extends InstallerModel
 
         if (is_numeric($supported)) {
             switch ($supported) {
-                // Show Update Sites which support Download Keys
                 case 1:
+                    // Show Update Sites which support Download Keys
                     $supportedIDs = InstallerHelper::getDownloadKeySupportedSites($enabled);
                     break;
 
-                // Show Update Sites which are missing Download Keys
                 case -1:
+                    // Show Update Sites which are missing Download Keys
                     $supportedIDs = InstallerHelper::getDownloadKeyExistsSites(false, $enabled);
                     break;
 
-                // Show Update Sites which have valid Download Keys
                 case 2:
+                    // Show Update Sites which have valid Download Keys
                     $supportedIDs = InstallerHelper::getDownloadKeyExistsSites(true, $enabled);
                     break;
             }

@@ -137,7 +137,7 @@ class Image
     /**
      * Get the image resource handle
      *
-     * @return  resource
+     * @return  \GdImage
      *
      * @since   3.8.0
      * @throws  \LogicException if an image has not been loaded into the instance
@@ -355,7 +355,7 @@ class Image
                 // Save thumb file to disk
                 $thumbFileName = $thumbsFolder . '/' . $thumbFileName;
 
-                if ($thumb->toFile($thumbFileName, $imgProperties->type)) {
+                if ($thumb->toFile($thumbFileName, $imgProperties->type, ['quality' => $imgProperties->type !== IMAGETYPE_PNG ? 70 : 8])) {
                     // Return Image object with thumb path to ease further manipulation
                     $thumb->path     = $thumbFileName;
                     $thumbsCreated[] = $thumb;

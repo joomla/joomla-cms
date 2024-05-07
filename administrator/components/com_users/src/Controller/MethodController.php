@@ -21,6 +21,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\MethodModel;
@@ -386,6 +387,9 @@ class MethodController extends BaseControllerAlias implements UserFactoryAwareIn
 
             return;
         }
+
+        // Method updated, destroy other active sessions
+        UserHelper::destroyUserSessions($userId, true);
 
         $this->setRedirect($url);
     }
