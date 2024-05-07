@@ -423,7 +423,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      * @since   __DEPLOY_VERSION__
      *
      * @deprecated  5.2 will be removed in 7.0
-     *              Plugin should implement LanguageAwareInterface on its own, when it is needed.
+     *              Plugin should use the language from Application, and only after the app is initialised
      */
     public function setLanguage(Language $language): void
     {
@@ -440,13 +440,12 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
      * @since   __DEPLOY_VERSION__
      *
      * @deprecated  5.2 will be removed in 7.0
-     *              Plugin should implement LanguageAwareInterface on its own, when it is needed.
+     *              Plugin should use the language from Application, and only after the app is initialised.
      */
     protected function getLanguage(): Language
     {
         @trigger_error(
-            __CLASS__ . ': Use of LanguageAwareInterface over CMSPlugin will be removed in 7.0.'
-            . ' Plugin should implement LanguageAwareInterface on its own, when it is needed.',
+            __CLASS__ . ': Use of LanguageAwareInterface over CMSPlugin will be removed in 7.0.',
             \E_USER_DEPRECATED
         );
 
