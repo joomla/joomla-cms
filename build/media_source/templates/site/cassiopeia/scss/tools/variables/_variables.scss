@@ -110,14 +110,14 @@ $colors: (
   white-offset:                    #fefefe,
   focus:                           #39f,
   focus-shadow:                    0 0 0 .2rem #eaeaea,
-  toggle-color:                    $white, //used in sidebar
+  toggle-color:                    $white, // used in sidebar
 ) !default;
 
 $cassiopeia-colors: (
   template-sidebar-bg:                 var(--template-bg-dark-80),
   template-sidebar-font-color:         $white,
   template-sidebar-link-color:         $white,
-  template-bg-light:                   #f0f4fb, //light background color, frontend dashboard background
+  template-bg-light:                   #f0f4fb, // light background color, frontend dashboard background
   template-text-light:                 $white,
   template-special-color:              #132f53,
   template-link-color:                 #2a69b8,
