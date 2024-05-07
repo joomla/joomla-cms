@@ -38,7 +38,9 @@
       }
       const spanEl = topLevelEl.querySelector('span');
       if (spanEl) {
-        spanEl.tabIndex = '0';
+        if (spanEl.parentNode.nodeName !== 'A') {
+          spanEl.tabIndex = '0';
+        }
         spanEl.addEventListener('mouseover', topLevelMouseOver(topLevelEl, settings));
         spanEl.addEventListener('mouseout', topLevelMouseOut(topLevelEl, settings));
       }
