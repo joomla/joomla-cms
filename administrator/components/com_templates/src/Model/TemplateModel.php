@@ -420,7 +420,7 @@ class TemplateModel extends FormModel
         $dirFiles = scandir($dir);
 
         foreach ($dirFiles as $value) {
-            if (in_array($value, ['.', '..', 'node_modules'])) {
+            if (\in_array($value, ['.', '..', 'node_modules'])) {
                 continue;
             }
 
