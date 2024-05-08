@@ -66,7 +66,7 @@ class UpdateController extends BaseController
      *
      * @since   2.5.4
      */
-    public function olddownload()
+    public function downloadsimple()
     {
         $this->checkToken();
 
@@ -85,7 +85,7 @@ class UpdateController extends BaseController
 
         Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), Log::INFO, 'Update');
 
-        $result = $model->download(); // chunked download
+        $result = $model->downloadsimple(); // normal download
         $file   = $result['basename'];
 
         $message     = null;

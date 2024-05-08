@@ -401,7 +401,7 @@ class UpdateModel extends BaseDatabaseModel
      *
      * @since   2.5.4
      */
-    public function olddownload()
+    public function downloadsimple()
     {
         $updateInfo = $this->getUpdateInformation();
         $packageURL = trim($updateInfo['object']->downloadurl->_data);
@@ -2231,7 +2231,7 @@ ENDDATA;
             'downloaded' => 0,
             'frag'       => 0,
             'done'       => false,
-            'valid'      => true
+            'valid'      => false
         ];
 
         $packageURL  = null;
