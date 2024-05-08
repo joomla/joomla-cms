@@ -19,8 +19,6 @@ use Joomla\Event\DispatcherAwareInterface;
  * Access to plugin specific services.
  *
  * @since  4.0.0
- *
- * @TODO  Starting from 7.0 the class will no longer extend DispatcherAwareInterface
  */
 interface PluginInterface extends DispatcherAwareInterface
 {
