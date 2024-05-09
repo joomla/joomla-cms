@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Content\Site\View\Archive\HtmlView $this */
 ?>
 <div class="com-content-archive archive">
 <?php if ($this->params->get('show_page_heading')) : ?>

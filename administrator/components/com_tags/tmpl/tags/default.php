@@ -22,13 +22,13 @@ use Joomla\String\Inflector;
 /** @var \Joomla\Component\Tags\Administrator\View\Tags\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
 $app       = Factory::getApplication();
 $user      = $this->getCurrentUser();
-$userId    = $user->get('id');
+$userId    = $user->id;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
@@ -136,7 +136,7 @@ if ($saveOrder && !empty($this->items)) {
                     $orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
                     $canCreate  = $user->authorise('core.create', 'com_tags');
                     $canEdit    = $user->authorise('core.edit', 'com_tags');
-                    $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
+                    $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || is_null($item->checked_out);
                     $canChange  = $user->authorise('core.edit.state', 'com_tags') && $canCheckin;
 
                     // Get the parents of item for sorting

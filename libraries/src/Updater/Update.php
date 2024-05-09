@@ -176,7 +176,7 @@ class Update
     /**
      * Resource handle for the XML Parser
      *
-     * @var    resource
+     * @var    \XMLParser
      * @since  3.0.0
      */
     protected $xmlParser;
@@ -557,7 +557,7 @@ class Update
                 continue;
             }
 
-            if (!$constraintChecker->check($target['custom'])) {
+            if (!$constraintChecker->check($target['custom'], $minimumStability)) {
                 $this->otherUpdateInfo = $constraintChecker->getFailedEnvironmentConstraints();
 
                 continue;
