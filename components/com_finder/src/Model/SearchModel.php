@@ -263,7 +263,8 @@ class SearchModel extends ListModel
          * Prevent invalid records from being returned in the final query.
          * This can happen if the search results are queried while the indexer is running.
          */
-        $query->where('object != ' . $db->quote(''));
+        $query->where($db->quoteName('object') . ' != ' . $db->quote(''))
+            ->where($db->quoteName('object') . ' IS NOT NULL');
 
         /*
          * If there are no optional or required search terms in the query, we
