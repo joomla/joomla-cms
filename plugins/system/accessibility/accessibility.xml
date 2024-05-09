@@ -66,20 +66,20 @@
 				/>
 			</fieldset>
 			<fieldset name="advanced">
-			<field
-				name="custom_css"
-				type="textarea"
-				label="PLG_SYSTEM_ACCESSIBILITY_CUSTOM_CSS_LABEL"
-				description="PLG_SYSTEM_ACCESSIBILITY_CUSTOM_CSS_DESC"
-				rows="10"
-			/>
-			<field
-				name="custom_js"
-				type="textarea"
-				label="PLG_SYSTEM_ACCESSIBILITY_CUSTOM_JS_LABEL"
-				description="PLG_SYSTEM_ACCESSIBILITY_CUSTOM_JS_DESC"
-				rows="10"
-			/>
+				<field
+					name="custom_css"
+					type="textarea"
+					label="PLG_SYSTEM_ACCESSIBILITY_CUSTOM_CSS_LABEL"
+					description="PLG_SYSTEM_ACCESSIBILITY_CUSTOM_CSS_DESC"
+					rows="10"
+				/>
+				<field
+					name="custom_js"
+					type="textarea"
+					label="PLG_SYSTEM_ACCESSIBILITY_CUSTOM_JS_LABEL"
+					description="PLG_SYSTEM_ACCESSIBILITY_CUSTOM_JS_DESC"
+					rows="10"
+				/>
 			</fieldset>
 		</fields>
 	</config>
