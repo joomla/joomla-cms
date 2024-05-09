@@ -86,21 +86,21 @@
   .dropdown-item {
     padding: .82rem .75rem;
     color: $white;
-    background-color: $dropdown-item-bg; //var(--template-bg-dark-70);
+    background-color: $dropdown-item-bg; // var(--template-bg-dark-70);
 
     > span {
       margin-inline-end: .5rem;
     }
 
     &:hover {
-      background-color: $dropdown-item-bg-hvr; //var(--template-bg-dark);
+      background-color: $dropdown-item-bg-hvr; // var(--template-bg-dark);
     }
   }
 
   .dropdown-header {
     padding: .75rem;
     font-size: inherit;
-    background-color: $dropdown-header-bg; //var(--template-bg-dark);
+    background-color: $dropdown-header-bg; // var(--template-bg-dark);
   }
 }
 
@@ -231,9 +231,6 @@
 
 @if $enable-dark-mode {
   @include color-mode(dark) {
-    .header-item-content:not(.joomlaversion) {
-      border: map-get($atum-colors-dark, "atum-btn-primary-border");
-    }
     .header-item-icon > * {
       background: var(--header-bg);
     }

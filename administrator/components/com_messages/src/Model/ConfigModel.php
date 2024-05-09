@@ -43,7 +43,7 @@ class ConfigModel extends FormModel
     {
         $user = $this->getCurrentUser();
 
-        $this->setState('user.id', $user->get('id'));
+        $this->setState('user.id', $user->id);
 
         // Load the parameters.
         $params = ComponentHelper::getParams('com_messages');
