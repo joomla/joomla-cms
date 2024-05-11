@@ -347,7 +347,7 @@ class ManageModel extends InstallerModel
                 ->bind(':type', $type);
         }
 
-        if ($clientId !== '' && !\in_array($type, ['plugins', 'libraries'], true)) {
+        if ($clientId !== '' && !\in_array($type, ['plugin', 'library'], true)) {
             $clientId = (int) $clientId;
             $query->where($db->quoteName('client_id') . ' = :clientid')
                 ->bind(':clientid', $clientId, ParameterType::INTEGER);
