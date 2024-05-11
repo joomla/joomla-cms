@@ -287,12 +287,6 @@ class SqlField extends ListField
             }
         }
 
-        // Add header.
-        if (!empty($header)) {
-            $header_title = Text::_($header);
-            $options[]    = HTMLHelper::_('select.option', '', $header_title);
-        }
-
         // Build the field options.
         if (!empty($items)) {
             foreach ($items as $item) {
