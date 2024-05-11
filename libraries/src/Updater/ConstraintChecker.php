@@ -38,7 +38,7 @@ class ConstraintChecker
     protected \stdClass $failedEnvironmentConstraints;
 
     /**
-     * The channel to check the contraints against
+     * The channel to check the constraints against
      *
      * @var string
      */
@@ -123,7 +123,7 @@ class ConstraintChecker
     }
 
     /**
-     * Gets the failed constraints for further proccesing
+     * Gets the failed constraints for further processing
      *
      * @return  \stdClass
      *
