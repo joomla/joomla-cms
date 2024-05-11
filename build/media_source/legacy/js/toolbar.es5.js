@@ -43,7 +43,7 @@ Joomla = window.Joomla || {};
     // Handle Help buttons
     document.querySelectorAll('.js-toolbar-help-btn').forEach((button) => {
       button.addEventListener('click', (event) => {
-        const btn = event.target;
+        const btn = event.currentTarget;
         const winprops = `height=${parseInt(btn.dataset.height, 10)},width=${parseInt(btn.dataset.width, 10)},top=${(window.innerHeight - parseInt(btn.dataset.height, 10)) / 2},`
           + `left=${(window.innerWidth - parseInt(btn.dataset.width, 10)) / 2},scrollbars=${btn.dataset.width === 'true'},resizable`;
 

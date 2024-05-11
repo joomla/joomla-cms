@@ -141,8 +141,7 @@ class UpdateModel extends ListModel
                 ->bind(':extensionid', $extensionId, ParameterType::INTEGER);
         } else {
             $eid = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
-            $query->where($db->quoteName('u.extension_id') . ' != 0')
-                ->where($db->quoteName('u.extension_id') . ' != :eid')
+            $query->where($db->quoteName('u.extension_id') . ' != :eid')
                 ->bind(':eid', $eid, ParameterType::INTEGER);
         }
 
@@ -335,6 +334,23 @@ class UpdateModel extends ListModel
             if (!$instance->load($uid)) {
                 // Update no longer available, maybe already updated by a package.
                 continue;
+            }
+
+            $app   = Factory::getApplication();
+            $db    = $this->getDatabase();
+            $query = $db->getQuery(true)
+                ->select('type')
+                ->from('#__update_sites')
+                ->where($db->quoteName('update_site_id') . ' = :id')
+                ->bind(':id', $instance->update_site_id, ParameterType::INTEGER);
+
+            $updateSiteType = (string) $db->setQuery($query)->loadResult();
+
+            // TUF is currently only supported for Joomla core
+            if ($updateSiteType === 'tuf') {
+                $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_NOT_AVAILABLE'), 'error');
+
+                return;
             }
 
             $update->loadFromXml($instance->detailsurl, $minimumStability);
@@ -553,8 +569,8 @@ class UpdateModel extends ListModel
     protected function preparePreUpdate($update, $table)
     {
         switch ($table->type) {
-            // Components could have a helper which adds additional data
             case 'component':
+                // Components could have a helper which adds additional data
                 $ename = str_replace('com_', '', $table->element);
                 $fname = $ename . '.php';
                 $cname = ucfirst($ename) . 'Helper';
@@ -571,8 +587,8 @@ class UpdateModel extends ListModel
 
                 break;
 
-            // Modules could have a helper which adds additional data
             case 'module':
+                // Modules could have a helper which adds additional data
                 $cname = str_replace('_', '', $table->element) . 'Helper';
                 $path  = ($table->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $table->element . '/helper.php';
 
@@ -586,9 +602,9 @@ class UpdateModel extends ListModel
 
                 break;
 
-            // If we have a plugin, we can use the plugin trigger "onInstallerBeforePackageDownload"
-            // But we should make sure, that our plugin is loaded, so we don't need a second "installer" plugin
             case 'plugin':
+                // If we have a plugin, we can use the plugin trigger "onInstallerBeforePackageDownload"
+                // But we should make sure, that our plugin is loaded, so we don't need a second "installer" plugin
                 $cname = str_replace('plg_', '', $table->element);
                 PluginHelper::importPlugin($table->folder, $cname);
                 break;
