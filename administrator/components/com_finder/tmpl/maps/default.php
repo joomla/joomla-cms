@@ -28,7 +28,7 @@ $branchFilter  = $this->escape($this->state->get('filter.branch'));
 Text::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_finder.maps')
     ->useScript('table.columns')
     ->useScript('multiselect');
