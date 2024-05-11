@@ -39,7 +39,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The active item
      *
-     * @var  CMSObject
+     * @var  \stdClass
      */
     protected $item;
 

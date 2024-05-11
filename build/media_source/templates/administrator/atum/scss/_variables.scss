@@ -215,6 +215,7 @@ $atum-colors: (
   main-nav-ul-bg:                  var(--template-bg-dark-75),
   main-nav-divider-bg:             var(--template-bg-dark-60),
   main-nav-item-title:             var(--template-bg-dark-30),
+  main-nav-item-title-hvr-bg:      var(--template-bg-dark-60),
   main-nav-mm-active-bg:           var(--template-bg-dark-70),
   main-nav-mm-active-quicktask-bg: var(--template-bg-dark-60),
   main-nav-badge:                  var(--template-bg-dark-60),
@@ -477,6 +478,7 @@ $atum-colors: (
   atum-btn-danger-hvr:              var(--body-bg),
 
   atum-btn-info:                    $atum-text-dark,
+  atum-btn-info-color-hvr:          var(--template-text-light),
   atum-btn-info-icon:               $info,
   atum-btn-info-icon-hvr:           var(--atum-btn-hvr),
   atum-btn-info-bg:                 var(--body-bg),
