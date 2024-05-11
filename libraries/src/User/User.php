@@ -542,7 +542,7 @@ class User
      */
     public function getTimezone()
     {
-        $timezone = $this->getParam('timezone', Factory::getApplication()->get('offset', 'GMT'));
+        $timezone = $this->getParam('timezone', Factory::getApplication()->get('offset', 'UTC'));
 
         return new \DateTimeZone($timezone);
     }
