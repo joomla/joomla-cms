@@ -161,6 +161,18 @@
 				</field>
 
 				<field
+					name="readmore_title"
+					type="list"
+					label="MOD_ARTICLES_NEWS_FIELD_READMORE_TITLE_LABEL"
+					default=""
+					showon="readmore:1"
+				>
+					<option value="">MOD_ARTICLES_NEWS_VALUE_USE_ARTICLE_SETTINGS</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
 					name="count"
 					type="number"
 					label="MOD_ARTICLES_NEWS_FIELD_ITEMS_LABEL"
