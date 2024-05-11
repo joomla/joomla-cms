@@ -136,7 +136,7 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        if (!(PluginHelper::isEnabled('system', 'redirect') && RedirectHelper::collectUrlsEnabled())) {
+        if (!PluginHelper::isEnabled('system', 'redirect') || !RedirectHelper::collectUrlsEnabled()) {
             $this->redirectPluginId = RedirectHelper::getRedirectPluginId();
         }
 
