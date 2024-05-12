@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\System\ScheduleRunner\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\DynamicSubscriberInterface;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
@@ -24,7 +25,6 @@ use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
-use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -42,7 +42,7 @@ use Joomla\Registry\Registry;
  *
  * @since 4.1.0
  */
-final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
+final class ScheduleRunner extends CMSPlugin implements DynamicSubscriberInterface
 {
     /**
      * Length of auto-generated webcron key.
@@ -61,27 +61,28 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
      *
      * @throws \Exception
      */
-    public static function getSubscribedEvents(): array
+    public function getSubscribedEvents(): array
     {
-        $config = ComponentHelper::getParams('com_scheduler');
-        $app    = Factory::getApplication();
+        $app     = $this->getApplication();
+        $isSite  = $app->isClient('site');
+        $isAdmin = $app->isClient('administrator');
+        $mapping = [];
 
-        $mapping  = [];
+        if ($isSite || $isAdmin) {
+            $config  = ComponentHelper::getParams('com_scheduler');
 
-        if ($app->isClient('site') || $app->isClient('administrator')) {
             $mapping['onBeforeCompileHead']    = 'injectLazyJS';
             $mapping['onAjaxRunSchedulerLazy'] = 'runLazyCron';
 
-            // Only allowed in the frontend
-            if ($app->isClient('site')) {
-                if ($config->get('webcron.enabled')) {
-                    $mapping['onAjaxRunSchedulerWebcron'] = 'runWebCron';
-                }
-            } elseif ($app->isClient('administrator')) {
+            if ($isAdmin) {
+                // Only allowed in the administrator
                 $mapping['onContentPrepareForm']  = 'enhanceSchedulerConfig';
                 $mapping['onExtensionBeforeSave'] = 'generateWebcronKey';
 
                 $mapping['onAjaxRunSchedulerTest'] = 'runTestCron';
+            } elseif ($isSite && $config->get('webcron.enabled')) {
+                // Only allowed in the frontend
+                $mapping['onAjaxRunSchedulerWebcron'] = 'runWebCron';
             }
         }
 
