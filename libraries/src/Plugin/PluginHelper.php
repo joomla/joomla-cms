@@ -208,6 +208,19 @@ abstract class PluginHelper
         return $loaded[$dispatcherHash][$type];
     }
 
+    /**
+     * The method creates the plugin instance (lazy or eager)
+     * and register the event listeners provided by the plugin.
+     *
+     * @param                                   $plugin
+     * @param \Joomla\Event\DispatcherInterface $dispatcher
+     *
+     * @return void
+     *
+     * @throws \Exception
+     *
+     * @since  __DEPLOY_VERSION__
+     */
     private static function importListeners($plugin, DispatcherInterface $dispatcher): void
     {
         static $plugins = [];
@@ -222,22 +235,36 @@ abstract class PluginHelper
         $plugins[$hash] = true;
 
         /** @var \Joomla\DI\Container $container */
+        // Get the plugin container, and extra information about the plugin
         $container = Factory::getApplication()->getPluginContainer($plugin->name, $plugin->type);
         $info      = $container->has('plugin.information') ? $container->get('plugin.information') : false;
+        $shouldRun = $container->has('plugin.executeValidation') ? $container->get('plugin.executeValidation') : true;
+
+        // Plugin does not want to be executed in current runtime
+        if (!$shouldRun) {
+            return;
+        }
 
         // Check for plugin with SubscriberInterface
         if ($info && !empty($info['implements'][SubscriberInterface::class])) {
             $class    = $info['class'];
+            $eager    = !empty($info['eager']);
             $instance = null;
 
-            // Add a listener, which will instantiate the plugin when the event will dispatch
-            foreach ($class::getSubscribedEvents() as $eventName => $handler) {
-                $dispatcher->addListener($eventName, function ($event) use ($container, $handler, &$instance) {
-                    $instance = $instance ?? $container->get(PluginInterface::class);
-                    $caller   = \is_array($handler) ? [$instance, $handler[0]] : [$instance, $handler];
+            if ($eager) {
+                // Eager plugin instance
+                $instance = $container->get(PluginInterface::class);
+                $dispatcher->addSubscriber($instance);
+            } else {
+                // Add a listener, which will instantiate the plugin when the event will dispatch
+                foreach ($class::getSubscribedEvents() as $eventName => $handler) {
+                    $dispatcher->addListener($eventName, function ($event) use ($container, $handler, &$instance) {
+                        $instance = $instance ?? $container->get(PluginInterface::class);
+                        $caller   = \is_array($handler) ? [$instance, $handler[0]] : [$instance, $handler];
 
-                    return $caller($event);
-                });
+                        return $caller($event);
+                    });
+                }
             }
         } else {
             $instance = $container->get(PluginInterface::class);

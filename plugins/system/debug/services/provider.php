@@ -17,6 +17,7 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\System\Debug\Extension\Debug;
 
 return new class () implements ServiceProviderInterface {
@@ -31,7 +32,7 @@ return new class () implements ServiceProviderInterface {
      */
     public function register(Container $container): void
     {
-        $container->set(
+        $container->share(
             PluginInterface::class,
             function (Container $container) {
                 return new Debug(
@@ -40,6 +41,20 @@ return new class () implements ServiceProviderInterface {
                     Factory::getApplication(),
                     $container->get(DatabaseInterface::class)
                 );
+            }
+        )->share(
+            'plugin.information',
+            [
+                'class'      => Debug::class,
+                'implements' => [SubscriberInterface::class => true],
+                'eager'      => true,
+            ]
+        )->share(
+            'plugin.executeValidation',
+            function () {
+                $app = Factory::getApplication();
+
+                return $app->get('debug') || $app->get('debug_lang');
             }
         );
     }

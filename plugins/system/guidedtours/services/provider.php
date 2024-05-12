@@ -17,6 +17,7 @@ use Joomla\CMS\WebAsset\WebAssetRegistry;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\System\GuidedTours\Extension\GuidedTours;
 
 return new class () implements ServiceProviderInterface {
@@ -34,21 +35,31 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $app        = Factory::getApplication();
-
                 $plugin = new GuidedTours(
                     $container->get(DispatcherInterface::class),
-                    (array) PluginHelper::getPlugin('system', 'guidedtours'),
-                    $app->isClient('administrator')
+                    (array) PluginHelper::getPlugin('system', 'guidedtours')
                 );
 
-                $plugin->setApplication($app);
+                $plugin->setApplication(Factory::getApplication());
 
                 $wa = $container->get(WebAssetRegistry::class);
 
                 $wa->addRegistryFile('media/plg_system_guidedtours/joomla.asset.json');
 
                 return $plugin;
+            }
+        )->share(
+            'plugin.information',
+            [
+                'class'      => GuidedTours::class,
+                'implements' => [SubscriberInterface::class => true],
+            ]
+        )->share(
+            'plugin.executeValidation',
+            function () {
+                $app = Factory::getApplication();
+
+                return $app->isClient('administrator') && $app->getIdentity()?->id;
             }
         );
     }

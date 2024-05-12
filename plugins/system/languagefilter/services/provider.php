@@ -49,7 +49,7 @@ return new class () implements ServiceProviderInterface {
         )->share(
             'plugin.information',
             [
-                'class' => LanguageFilter::class,
+                'class'      => LanguageFilter::class,
                 'implements' => [SubscriberInterface::class => true],
             ]
         );
