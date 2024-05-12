@@ -248,7 +248,7 @@ abstract class PluginHelper
             }
 
             $plugin->configureListeners($dispatcher);
-        } elseif ($plugin instanceof CMSSubscriberInterface){
+        } elseif ($plugin instanceof CMSSubscriberInterface) {
             // Transitional to framework SubscriberInterface, for plugins without registerListeners()
             // @TODO: Remove this "if()" section in 7.0, as all plugin should use SubscriberInterface from framework.
             $dispatcher->addSubscriber($plugin);
