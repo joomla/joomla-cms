@@ -10,15 +10,14 @@
 
 namespace Joomla\Plugin\System\GuidedTours\Extension;
 
+use Joomla\CMS\Event\DynamicSubscriberInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
 use Joomla\Component\Guidedtours\Administrator\Model\TourModel;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
-use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -29,7 +28,7 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since  4.3.0
  */
-final class GuidedTours extends CMSPlugin implements SubscriberInterface
+final class GuidedTours extends CMSPlugin implements DynamicSubscriberInterface
 {
     /**
      * A mapping for the step types
@@ -59,40 +58,15 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     ];
 
     /**
-     * An internal flag whether plugin should listen any event.
-     *
-     * @var bool
-     *
-     * @since   4.3.0
-     */
-    protected static $enabled = false;
-
-    /**
-     * Constructor
-     *
-     * @param   DispatcherInterface  $dispatcher  The object to observe
-     * @param   array                $config      An optional associative array of configuration settings.
-     * @param   boolean              $enabled     An internal flag whether plugin should listen any event.
-     *
-     * @since   4.3.0
-     */
-    public function __construct(DispatcherInterface $dispatcher, array $config = [], bool $enabled = false)
-    {
-        self::$enabled = $enabled;
-
-        parent::__construct($dispatcher, $config);
-    }
-
-    /**
      * function for getSubscribedEvents : new Joomla 4 feature
      *
      * @return array
      *
      * @since   4.3.0
      */
-    public static function getSubscribedEvents(): array
+    public function getSubscribedEvents(): array
     {
-        return self::$enabled ? [
+        return $this->getApplication()->isClient('administrator') ? [
             'onAjaxGuidedtours'   => 'startTour',
             'onBeforeCompileHead' => 'onBeforeCompileHead',
         ] : [];
