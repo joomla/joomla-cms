@@ -18,7 +18,7 @@ describe('Test that menu items site API endpoint', () => {
       .then((id) => cy.api_get(`/menus/site/items/${id}`))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('title')
-        .should('include', 'automated test site menu item'))
+        .should('include', 'automated test site menu item'));
   });
 
   it('can create a site menu item', () => {
@@ -39,7 +39,7 @@ describe('Test that menu items site API endpoint', () => {
     })
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('title')
-        .should('include', 'automated test site menu item'))
+        .should('include', 'automated test site menu item'));
   });
 
   it('can update a site menu item', () => {
