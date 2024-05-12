@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+/** @var \Joomla\Component\Content\Site\View\Featured\HtmlView $this */
 ?>
 <div class="blog-featured">
     <?php if ($this->params->get('show_page_heading') != 0) : ?>

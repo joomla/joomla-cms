@@ -66,8 +66,14 @@ class HtmlView extends BaseHtmlView
         $this->item  = $this->get('Item');
         $this->state = $this->get('State');
 
+        if ($this->getLayout() === 'modalreturn') {
+            parent::display($tpl);
+
+            return;
+        }
+
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -86,6 +92,8 @@ class HtmlView extends BaseHtmlView
 
         if ($this->getLayout() !== 'modal') {
             $this->addToolbar();
+        } else {
+            $this->addModalToolbar();
         }
 
         parent::display($tpl);
@@ -105,7 +113,7 @@ class HtmlView extends BaseHtmlView
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
         $toolbar    = Toolbar::getInstance();
 
         // Since we don't track these assets at the item level, use the category id.
@@ -116,7 +124,7 @@ class HtmlView extends BaseHtmlView
         // Build the actions for new and existing records.
         if ($isNew) {
             // For new records, check the create permission.
-            if (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0) {
+            if (\count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0) {
                 $toolbar->apply('contact.apply');
 
                 $saveGroup = $toolbar->dropdownButton('save-group');
@@ -185,5 +193,38 @@ class HtmlView extends BaseHtmlView
 
         $toolbar->divider();
         $toolbar->help('Contacts:_Edit');
+    }
+
+    /**
+     * Add the modal toolbar.
+     *
+     * @return  void
+     *
+     * @since   5.1.0
+     *
+     * @throws  \Exception
+     */
+    protected function addModalToolbar()
+    {
+        $user       = $this->getCurrentUser();
+        $userId     = $user->id;
+        $isNew      = ($this->item->id == 0);
+        $toolbar    = Toolbar::getInstance();
+
+        // Since we don't track these assets at the item level, use the category id.
+        $canDo = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
+
+        ToolbarHelper::title($isNew ? Text::_('COM_CONTACT_MANAGER_CONTACT_NEW') : Text::_('COM_CONTACT_MANAGER_CONTACT_EDIT'), 'address-book contact');
+
+        $canCreate = $isNew && (\count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0);
+        $canEdit   = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+
+        // For new records, check the create permission.
+        if ($canCreate || $canEdit) {
+            $toolbar->apply('contact.apply');
+            $toolbar->save('contact.save');
+        }
+
+        $toolbar->cancel('contact.cancel');
     }
 }

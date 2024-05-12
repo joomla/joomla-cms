@@ -531,12 +531,16 @@ class Installer extends Adapter implements DatabaseAwareInterface
             switch ($step['type']) {
                 case 'file':
                     // Remove the file
-                    $stepval = File::delete($step['path']);
+                    if (is_file($step['path']) && !($stepval = File::delete($step['path']))) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $step['path']), Log::WARNING, 'jerror');
+                    }
                     break;
 
                 case 'folder':
                     // Remove the folder
-                    $stepval = Folder::delete($step['path']);
+                    if (Folder::exists($step['path']) && !($stepval = Folder::delete($step['path']))) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $step['path']), Log::WARNING, 'jerror');
+                    }
                     break;
 
                 case 'query':
@@ -610,7 +614,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function install($path = null)
     {
-        if ($path && Folder::exists($path)) {
+        if ($path && is_dir(Path::clean($path))) {
             $this->setPath('source', $path);
         } else {
             $this->abort(Text::_('JLIB_INSTALLER_ABORT_NOINSTALLPATH'));
@@ -799,7 +803,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function update($path = null)
     {
-        if ($path && Folder::exists($path)) {
+        if ($path && is_dir(Path::clean($path))) {
             $this->setPath('source', $path);
         } else {
             $this->abort(Text::_('JLIB_INSTALLER_ABORT_NOUPDATEPATH'));
@@ -1086,7 +1090,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
             // Process each query in the $queries array (split out of sql file).
             foreach ($queries as $query) {
-                $canFail = strlen($query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
+                $canFail = \strlen($query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
                     strtoupper(substr($query, -self::CAN_FAIL_MARKER_LENGTH - 1)) === (self::CAN_FAIL_MARKER . ';');
                 $query   = $canFail ? (substr($query, 0, -self::CAN_FAIL_MARKER_LENGTH - 1) . ';') : $query;
 
@@ -1275,7 +1279,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
             // Process each query in the $queries array (split out of sql file).
             foreach ($queries as $query) {
-                $canFail = strlen($query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
+                $canFail = \strlen($query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
                     strtoupper(substr($query, -self::CAN_FAIL_MARKER_LENGTH - 1)) === (self::CAN_FAIL_MARKER . ';');
                 $query   = $canFail ? (substr($query, 0, -self::CAN_FAIL_MARKER_LENGTH - 1) . ';') : $query;
 
@@ -1437,11 +1441,19 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 $deletions = $this->findDeletedFiles($oldEntries, $element->children());
 
                 foreach ($deletions['folders'] as $deleted_folder) {
-                    Folder::delete($destination . '/' . $deleted_folder);
+                    $folder = $destination . '/' . $deleted_folder;
+
+                    if (Folder::exists($folder) && !Folder::delete($folder)) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder), Log::WARNING, 'jerror');
+                    }
                 }
 
                 foreach ($deletions['files'] as $deleted_file) {
-                    File::delete($destination . '/' . $deleted_file);
+                    $file = $destination . '/' . $deleted_file;
+
+                    if (is_file($file) && !File::delete($file)) {
+                        Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file), Log::WARNING, 'jerror');
+                    }
                 }
             }
         }
@@ -1508,7 +1520,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function parseLanguages(\SimpleXMLElement $element, $cid = 0)
     {
-        // TODO: work out why the below line triggers 'node no longer exists' errors with files
+        // @todo: work out why the below line triggers 'node no longer exists' errors with files
         if (!$element || !\count($element->children())) {
             // Either the tag does not exist or has no children therefore we return zero files processed.
             return 0;
@@ -1567,7 +1579,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 }
 
                 // If the language folder is not present, then the core pack hasn't been installed... ignore
-                if (!Folder::exists(\dirname($path['dest']))) {
+                if (!is_dir(Path::clean(\dirname($path['dest'])))) {
                     continue;
                 }
             } else {
@@ -1935,7 +1947,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 }
 
                 // If the language folder is not present, then the core pack hasn't been installed... ignore
-                if (!Folder::exists(\dirname($path))) {
+                if (!is_dir(Path::clean(\dirname($path)))) {
                     continue;
                 }
             } else {
@@ -2000,7 +2012,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
     public function findManifest()
     {
         // Do nothing if folder does not exist for some reason
-        if (!Folder::exists($this->getPath('source'))) {
+        if (!is_dir(Path::clean($this->getPath('source')))) {
             return false;
         }
 
@@ -2387,7 +2399,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         if (\count($custom) >= 1) {
             foreach ($custom as $adapter) {
                 // Setup the class name
-                // TODO - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
+                // @todo - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
                 $class = $this->_classprefix . ucfirst(trim($adapter));
 
                 // If the class doesn't exist we have nothing left to do but look at the next type. We did our best.

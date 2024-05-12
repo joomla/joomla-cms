@@ -21,8 +21,8 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\Component\Templates\Administrator\Table\StyleTable;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -125,7 +125,7 @@ class ManageModel extends InstallerModel
          * Ensure eid is an array of extension ids
          * @todo: If it isn't an array do we want to set an error and fail?
          */
-        if (!is_array($eid)) {
+        if (!\is_array($eid)) {
             $eid = [$eid];
         }
 
@@ -196,7 +196,7 @@ class ManageModel extends InstallerModel
      */
     public function refresh($eid)
     {
-        if (!is_array($eid)) {
+        if (!\is_array($eid)) {
             $eid = [$eid => 0];
         }
 
@@ -235,7 +235,7 @@ class ManageModel extends InstallerModel
          * Ensure eid is an array of extension ids in the form id => client_id
          * @todo: If it isn't an array do we want to set an error and fail?
          */
-        if (!is_array($eid)) {
+        if (!\is_array($eid)) {
             $eid = [$eid => 0];
         }
 
@@ -308,7 +308,7 @@ class ManageModel extends InstallerModel
     /**
      * Method to get the database query
      *
-     * @return  DatabaseQuery  The database query
+     * @return  QueryInterface  The database query
      *
      * @since   1.6
      */

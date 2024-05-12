@@ -18,7 +18,7 @@ use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\DatabaseQuery;
+use Joomla\Database\QueryInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
@@ -334,12 +334,12 @@ final class Content extends Adapter implements SubscriberInterface
         $taxonomies = $this->params->get('taxonomies', ['type', 'author', 'category', 'language']);
 
         // Add the type taxonomy data.
-        if (in_array('type', $taxonomies)) {
+        if (\in_array('type', $taxonomies)) {
             $item->addTaxonomy('Type', 'Article');
         }
 
         // Add the author taxonomy data.
-        if (in_array('author', $taxonomies) && (!empty($item->author) || !empty($item->created_by_alias))) {
+        if (\in_array('author', $taxonomies) && (!empty($item->author) || !empty($item->created_by_alias))) {
             $item->addTaxonomy('Author', !empty($item->created_by_alias) ? $item->created_by_alias : $item->author, $item->state);
         }
 
@@ -352,12 +352,12 @@ final class Content extends Adapter implements SubscriberInterface
         }
 
         // Add the category taxonomy data.
-        if (in_array('category', $taxonomies)) {
+        if (\in_array('category', $taxonomies)) {
             $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
         }
 
         // Add the language taxonomy data.
-        if (in_array('language', $taxonomies)) {
+        if (\in_array('language', $taxonomies)) {
             $item->addTaxonomy('Language', $item->language);
         }
 
@@ -374,7 +374,7 @@ final class Content extends Adapter implements SubscriberInterface
      *
      * @param   mixed  $query  A DatabaseQuery object or null.
      *
-     * @return  DatabaseQuery  A database object.
+     * @return  QueryInterface  A database object.
      *
      * @since   2.5
      */
@@ -383,7 +383,7 @@ final class Content extends Adapter implements SubscriberInterface
         $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
-        $query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
+        $query = $query instanceof QueryInterface ? $query : $db->getQuery(true)
             ->select('a.id, a.title, a.alias, a.introtext AS summary, a.fulltext AS body')
             ->select('a.images')
             ->select('a.state, a.catid, a.created AS start_date, a.created_by')

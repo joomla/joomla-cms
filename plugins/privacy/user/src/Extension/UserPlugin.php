@@ -247,7 +247,7 @@ final class UserPlugin extends PrivacyPlugin implements SubscriberInterface
         $exclude = ['password', 'otpKey', 'otep'];
 
         foreach (array_keys($user->getFields()) as $fieldName) {
-            if (!in_array($fieldName, $exclude)) {
+            if (!\in_array($fieldName, $exclude)) {
                 $data[$fieldName] = $user->$fieldName;
             }
         }

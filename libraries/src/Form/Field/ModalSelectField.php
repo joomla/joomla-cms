@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Form\Field;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Form\FormField;
@@ -213,7 +213,7 @@ class ModalSelectField extends FormField
         }
 
         // Get the layout data
-        $data = $this->getLayoutData();
+        $data = $this->collectLayoutData();
 
         // Load the content title here to avoid a double DB Query
         $data['valueTitle'] = $this->getValueTitle();

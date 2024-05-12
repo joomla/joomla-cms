@@ -40,7 +40,7 @@ class DisplayController extends BaseController
         $view = $this->input->get('view', $this->default_view);
 
         // Submitting information requests and confirmation through the frontend is restricted to authenticated users at this time
-        if (in_array($view, ['confirm', 'request']) && $this->app->getIdentity()->guest) {
+        if (\in_array($view, ['confirm', 'request']) && $this->app->getIdentity()->guest) {
             $this->setRedirect(
                 Route::_('index.php?option=com_users&view=login&return=' . base64_encode('index.php?option=com_privacy&view=' . $view), false)
             );
@@ -49,7 +49,7 @@ class DisplayController extends BaseController
         }
 
         // Set a Referrer-Policy header for views which require it
-        if (in_array($view, ['confirm', 'remind'])) {
+        if (\in_array($view, ['confirm', 'remind'])) {
             $this->app->setHeader('Referrer-Policy', 'no-referrer', true);
         }
 

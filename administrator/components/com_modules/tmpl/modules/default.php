@@ -18,8 +18,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Modules\Administrator\View\Modules\HtmlView $this */
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
@@ -93,7 +95,7 @@ if ($saveOrder && !empty($this->items)) {
                     $ordering   = ($listOrder == 'a.ordering');
                     $canCreate  = $user->authorise('core.create', 'com_modules');
                     $canEdit    = $user->authorise('core.edit', 'com_modules.module.' . $item->id);
-                    $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
+                    $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->id || is_null($item->checked_out);
                     $canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $item->id) && $canCheckin;
                     ?>
                     <tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->position ?: 'none'; ?>">
@@ -203,15 +205,7 @@ if ($saveOrder && !empty($this->items)) {
             && $user->authorise('core.edit', 'com_modules')
             && $user->authorise('core.edit.state', 'com_modules')
         ) : ?>
-            <?php echo HTMLHelper::_(
-                'bootstrap.renderModal',
-                'collapseModal',
-                [
-                    'title'  => Text::_('COM_MODULES_BATCH_OPTIONS'),
-                    'footer' => $this->loadTemplate('batch_footer'),
-                ],
-                $this->loadTemplate('batch_body')
-            ); ?>
+            <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
         <?php endif; ?>
         <input type="hidden" name="task" value="">
         <input type="hidden" name="boxchecked" value="0">

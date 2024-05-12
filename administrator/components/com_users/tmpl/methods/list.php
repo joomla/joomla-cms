@@ -27,7 +27,7 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 /** @var MethodsModel $model */
 $model = $this->getModel();
 
-$this->document->getWebAssetManager()->useScript('com_users.two-factor-list');
+$this->getDocument()->getWebAssetManager()->useScript('com_users.two-factor-list');
 
 $canAddEdit = MfaHelper::canAddEditMethod($this->user);
 $canDelete  = MfaHelper::canDeleteMethod($this->user);
@@ -131,7 +131,7 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
                 <?php if ($canAddEdit && (empty($method['active']) || $method['allowMultiple'])) : ?>
                     <div class="com-users-methods-list-method-addnew-container border-top pt-2">
                         <a href="<?php echo Route::_('index.php?option=com_users&task=method.add&method=' . $this->escape(urlencode($method['name'])) . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
-                           class="com-users-methods-list-method-addnew btn btn-outline-primary btn-sm"
+                           class="com-users-methods-list-method-addnew btn btn-primary btn-sm"
                         >
                             <span class="icon-plus-2" aria-hidden="true"></span>
                             <?php echo Text::sprintf('COM_USERS_MFA_ADD_AUTHENTICATOR_OF_TYPE', $method['display']) ?>

@@ -47,21 +47,23 @@ final class ListPlugin extends FieldsListPlugin
         $options         = $this->getOptionsFromField($field);
         $field->apivalue = [];
 
-        if (is_array($field->value)) {
+        if (\is_array($field->value)) {
             foreach ($field->value as $value) {
                 $field->apivalue[$value] = $options[$value];
             }
+        } elseif (!empty($field->value)) {
+            $field->apivalue[$field->value] = $options[$field->value];
         }
     }
 
     /**
      * Prepares the field
      *
-     * @param   string    $context  The context.
-     * @param   stdclass  $item     The item.
-     * @param   stdclass  $field    The field.
+     * @param   string     $context  The context.
+     * @param   \stdclass  $item     The item.
+     * @param   \stdclass  $field    The field.
      *
-     * @return  object
+     * @return  ?string
      *
      * @since   3.9.2
      */
@@ -73,7 +75,7 @@ final class ListPlugin extends FieldsListPlugin
         }
 
         // The field's rawvalue should be an array
-        if (!is_array($field->rawvalue)) {
+        if (!\is_array($field->rawvalue)) {
             $field->rawvalue = (array) $field->rawvalue;
         }
 

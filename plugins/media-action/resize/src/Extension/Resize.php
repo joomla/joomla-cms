@@ -46,7 +46,7 @@ final class Resize extends MediaActionPlugin
             return;
         }
 
-        if (!in_array($item->extension, ['jpg', 'jpeg', 'png', 'gif'])) {
+        if (!\in_array($item->extension, ['jpg', 'jpeg', 'png', 'gif'])) {
             return;
         }
 
