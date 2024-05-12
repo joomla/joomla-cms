@@ -38,7 +38,7 @@ trait ExtensionManagerTrait
      *
      * @since __DEPLOY_VERSION__
      */
-    static private array $extensionContainers = [];
+    private static array $extensionContainers = [];
 
     /**
      * Boots the component with the given name.
