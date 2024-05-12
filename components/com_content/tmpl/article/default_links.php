@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
+/** @var \Joomla\Component\Content\Site\View\Article\HtmlView $this */
 // Create shortcut
 $urls = json_decode($this->item->urls);
 

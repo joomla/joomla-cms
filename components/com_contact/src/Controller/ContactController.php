@@ -247,7 +247,7 @@ class ContactController extends FormController implements UserFactoryAwareInterf
 
         if ($contact->email_to == '' && $contact->user_id != 0) {
             $contact_user      = $this->getUserFactory()->loadUserById($contact->user_id);
-            $contact->email_to = $contact_user->get('email');
+            $contact->email_to = $contact_user->email;
         }
 
         $templateData = [

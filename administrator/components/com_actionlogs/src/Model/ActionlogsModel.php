@@ -18,8 +18,8 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseIterator;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -79,7 +79,7 @@ class ActionlogsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   3.9.0
      *
@@ -298,7 +298,7 @@ class ActionlogsModel extends ListModel
      *
      * @param   integer[]|null  $pks  An optional array of log record IDs to load
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   3.9.0
      */
