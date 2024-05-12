@@ -14,6 +14,7 @@ use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -263,7 +264,7 @@ abstract class PluginHelper
                         $caller   = \is_array($handler) ? [$instance, $handler[0]] : [$instance, $handler];
 
                         return $caller($event);
-                    });
+                    }, \is_array($handler) ? $params[1] ?? Priority::NORMAL : Priority::NORMAL);
                 }
             }
         } else {
