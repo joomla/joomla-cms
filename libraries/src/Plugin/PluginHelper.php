@@ -11,6 +11,7 @@ namespace Joomla\CMS\Plugin;
 
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Event\ConfigurableSubscriberInterface;
+use Joomla\CMS\Event\SubscriberInterface as CMSSubscriberInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
@@ -247,6 +248,10 @@ abstract class PluginHelper
             }
 
             $plugin->configureListeners($dispatcher);
+        } elseif ($plugin instanceof CMSSubscriberInterface){
+            // Transitional to framework SubscriberInterface, for plugins without registerListeners()
+            // @TODO: Remove this "if()" section in 7.0, as all plugin should use SubscriberInterface from framework.
+            $dispatcher->addSubscriber($plugin);
         } else {
             // Register regular Subscribers
             // @TODO: Starting from 7.0 it should use $dispatcher->addSubscriber($plugin);, for plugins which implements SubscriberInterface.

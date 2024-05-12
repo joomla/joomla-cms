@@ -11,12 +11,12 @@
 namespace Joomla\Plugin\System\Httpheaders\Extension;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Event\SubscriberInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
-use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
