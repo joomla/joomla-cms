@@ -242,7 +242,7 @@ abstract class PluginHelper
             return;
         }
 
-        // Check for Configurable Subscriber
+        // Check for dynamic Subscriber
         if ($plugin instanceof DynamicSubscriberInterface) {
             foreach ($plugin->getSubscribedEvents() as $eventName => $params) {
                 if (\is_array($params)) {
