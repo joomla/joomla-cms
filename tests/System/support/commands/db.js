@@ -427,7 +427,7 @@ Cypress.Commands.add('db_createMenuItem', (menuItemData) => {
   const defaultMenuItemOptions = {
     title: 'automated test site menu item',
     alias: 'test-menu-item',
-    menutype: 'main',
+    menutype: 'mainmenu',
     type: 'component',
     link: 'index.php?option=com_content',
     component_id: 19,
