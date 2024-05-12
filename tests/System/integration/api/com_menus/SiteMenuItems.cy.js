@@ -1,5 +1,5 @@
 describe('Test that menu items site API endpoint', () => {
-  afterEach(() => cy.db_deleteMenuItem());
+  beforeEach(() => cy.db_deleteMenuItem());
 
   it('can deliver a list of site menu items types', () => {
     cy.api_get('/menus/site/items/types')
