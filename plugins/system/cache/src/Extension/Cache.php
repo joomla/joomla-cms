@@ -17,7 +17,6 @@ use Joomla\CMS\Event\Application\AfterRespondEvent;
 use Joomla\CMS\Event\PageCache\GetKeyEvent;
 use Joomla\CMS\Event\PageCache\IsExcludedEvent;
 use Joomla\CMS\Event\PageCache\SetCachingEvent;
-use Joomla\CMS\Event\SubscriberInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
@@ -26,6 +25,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\Priority;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
