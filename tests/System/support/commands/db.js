@@ -425,7 +425,7 @@ Cypress.Commands.add('db_createMenuType', (menuTypeData) => {
  */
 Cypress.Commands.add('db_createMenuItem', (menuItemData) => {
   const defaultMenuItemOptions = {
-    title: 'automated test site menu item',
+    title: 'test menu item',
     alias: 'test-menu-item',
     menutype: 'mainmenu',
     type: 'component',
@@ -459,10 +459,16 @@ Cypress.Commands.add('db_createMenuItem', (menuItemData) => {
     cy.task('queryDB', `UPDATE #__menu SET rgt = rgt + 2 WHERE rgt >= '${defaultMenuItemOptions.lft}'`)
       .then(() => cy.task('queryDB', `UPDATE #__menu SET lft = lft + 2 WHERE lft > '${defaultMenuItemOptions.rgt}'`));
 
-    return cy.task('queryDB', createInsertQuery('menu', menuItem)).then(async (info) => info.insertId);
+    // Search for the component
+    return cy.task('queryDB', `SELECT extension_id FROM #__extensions WHERE name = '${component}'`).then((id) => {
+      // Get the correct component id from the extensions record
+      menuItem.component_id = id[0].extension_id;
+
+      // Create the menu item
+      return cy.task('queryDB', createInsertQuery('menu', menuItem)).then(async (info) => info.insertId);
+    });
   });
 });
-
 Cypress.Commands.add('db_deleteMenuItem', () => {
   cy.task('queryDB', "SELECT lft, rgt, (rgt - lft) +1 AS width FROM #__menu WHERE title = 'automated test site menu item'").then((record) => {
     if (record.length > 0) {
