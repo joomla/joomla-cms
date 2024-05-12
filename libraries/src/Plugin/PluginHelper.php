@@ -10,9 +10,11 @@
 namespace Joomla\CMS\Plugin;
 
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
+use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -189,7 +191,8 @@ abstract class PluginHelper
             // Get the specified plugin(s).
             for ($i = 0, $t = \count($plugins); $i < $t; $i++) {
                 if ($plugins[$i]->type === $type && ($plugin === null || $plugins[$i]->name === $plugin)) {
-                    static::import($plugins[$i], $autocreate, $dispatcher);
+                    //static::import($plugins[$i], $autocreate, $dispatcher);
+                    static::importListeners($plugins[$i], $dispatcher);
                     $results = true;
                 }
             }
@@ -203,6 +206,48 @@ abstract class PluginHelper
         }
 
         return $loaded[$dispatcherHash][$type];
+    }
+
+    private static function importListeners($plugin, DispatcherInterface $dispatcher): void
+    {
+        static $plugins = [];
+
+        // Get the dispatcher's hash to allow paths to be tracked against unique dispatchers
+        $hash = spl_object_id($dispatcher) . $plugin->type . $plugin->name;
+
+        if (\array_key_exists($hash, $plugins)) {
+            return;
+        }
+
+        $plugins[$hash] = true;
+
+        /** @var \Joomla\DI\Container $container */
+        $container = Factory::getApplication()->getPluginContainer($plugin->name, $plugin->type);
+        $info      = $container->has('plugin.information') ? $container->get('plugin.information') : false;
+
+        // Check for plugin with SubscriberInterface
+        if ($info && !empty($info['implements'][SubscriberInterface::class])) {
+            $class    = $info['class'];
+            $instance = null;
+
+            // Add a listener, which will instantiate the plugin when the event will dispatch
+            foreach ($class::getSubscribedEvents() as $eventName => $handler) {
+                $dispatcher->addListener($eventName, function ($event) use ($container, $handler, &$instance) {
+                    $instance = $instance ?? $container->get(PluginInterface::class);
+                    $caller   = \is_array($handler) ? [$instance, $handler[0]] : [$instance, $handler];
+
+                    return $caller($event);
+                });
+            }
+        } else {
+            $instance = $container->get(PluginInterface::class);
+
+            if ($instance instanceof DispatcherAwareInterface) {
+                $instance->setDispatcher($dispatcher);
+            }
+
+            $instance->registerListeners();
+        }
     }
 
     /**

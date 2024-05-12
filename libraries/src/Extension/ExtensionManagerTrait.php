@@ -18,6 +18,7 @@ use Joomla\DI\Container;
 use Joomla\DI\Exception\ContainerNotFoundException;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
+use Psr\Container\ContainerInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,6 +31,15 @@ use Joomla\Event\DispatcherInterface;
  */
 trait ExtensionManagerTrait
 {
+    /**
+     * In memory cache of Extension containers
+     *
+     * @var array
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    static private array $extensionContainers = [];
+
     /**
      * Boots the component with the given name.
      *
@@ -100,23 +110,45 @@ trait ExtensionManagerTrait
     }
 
     /**
-     * Loads the extension.
+     * Retrieve container for a plugin.
+     *
+     * @param   string  $plugin  The plugin name
+     * @param   string  $type    The type of the plugin
+     *
+     * @return  ContainerInterface
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getPluginContainer($plugin, $type): ContainerInterface
+    {
+        $extensionName = $plugin . ':' . $type;
+        // Check if the container is already created
+        if (!empty(self::$extensionContainers[PluginInterface::class][$extensionName])) {
+            return self::$extensionContainers[PluginInterface::class][$extensionName];
+        }
+
+        // Path to look for services
+        $path      = JPATH_SITE . '/plugins/' . $type . '/' . $plugin;
+        $container = $this->createExtensionContainer(PluginInterface::class, $extensionName, $path);
+
+        self::$extensionContainers[PluginInterface::class][$extensionName] = $container;
+
+        return $container;
+    }
+
+    /**
+     * Creates the container for the extension.
      *
      * @param   string  $type           The extension type
      * @param   string  $extensionName  The extension name
      * @param   string  $extensionPath  The path of the extension
      *
-     * @return  ComponentInterface|ModuleInterface|PluginInterface
+     * @return  ContainerInterface
      *
-     * @since   4.0.0
+     * @since   __DEPLOY_VERSION__
      */
-    private function loadExtension($type, $extensionName, $extensionPath)
+    private function createExtensionContainer($type, $extensionName, $extensionPath): ContainerInterface
     {
-        // Check if the extension is already loaded
-        if (!empty(ExtensionHelper::$extensions[$type][$extensionName])) {
-            return ExtensionHelper::$extensions[$type][$extensionName];
-        }
-
         // The container to get the services from
         $container = $this->getContainer()->createChild();
 
@@ -174,6 +206,28 @@ trait ExtensionManagerTrait
             )
         );
 
+        return $container;
+    }
+
+    /**
+     * Loads the extension.
+     *
+     * @param   string  $type           The extension type
+     * @param   string  $extensionName  The extension name
+     * @param   string  $extensionPath  The path of the extension
+     *
+     * @return  ComponentInterface|ModuleInterface|PluginInterface
+     *
+     * @since   4.0.0
+     */
+    private function loadExtension($type, $extensionName, $extensionPath)
+    {
+        // Check if the extension is already loaded
+        if (!empty(ExtensionHelper::$extensions[$type][$extensionName])) {
+            return ExtensionHelper::$extensions[$type][$extensionName];
+        }
+
+        $container = $this->createExtensionContainer($type, $extensionName, $extensionPath);
         $extension = $container->get($type);
 
         if ($extension instanceof BootableExtensionInterface) {
