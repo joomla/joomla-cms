@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\System\TaskNotification\Extension;
 
 use Joomla\CMS\Event\Model;
-use Joomla\CMS\Event\SubscriberInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailTemplate;
@@ -21,6 +20,7 @@ use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\Event;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\Path;
 use PHPMailer\PHPMailer\Exception as MailerException;
 
