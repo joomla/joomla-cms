@@ -121,17 +121,16 @@ trait ExtensionManagerTrait
      */
     public function getPluginContainer($plugin, $type): ContainerInterface
     {
-        $extensionName = $plugin . ':' . $type;
         // Check if the container is already created
-        if (!empty(self::$extensionContainers[PluginInterface::class][$extensionName])) {
-            return self::$extensionContainers[PluginInterface::class][$extensionName];
+        if (!empty(self::$extensionContainers['plugin'][$type][$plugin])) {
+            return self::$extensionContainers['plugin'][$type][$plugin];
         }
 
         // Path to look for services
         $path      = JPATH_SITE . '/plugins/' . $type . '/' . $plugin;
-        $container = $this->createExtensionContainer(PluginInterface::class, $extensionName, $path);
+        $container = $this->createExtensionContainer(PluginInterface::class, $plugin . ':' . $type, $path);
 
-        self::$extensionContainers[PluginInterface::class][$extensionName] = $container;
+        self::$extensionContainers['plugin'][$type][$plugin] = $container;
 
         return $container;
     }
