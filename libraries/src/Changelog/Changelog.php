@@ -160,6 +160,14 @@ class Changelog
     protected $latest;
 
     /**
+     * Update manifest `<folder>` element
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $folder;
+
+    /**
      * Gets the reference to the current direct parent
      *
      * @return  string
