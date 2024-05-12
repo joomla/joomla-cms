@@ -55,5 +55,4 @@ describe('Test that menu items site API endpoint', () => {
       .then((id) => cy.api_delete(`/menus/site/items/${id}`))
       .then((response) => cy.wrap(response).its('status').should('equal', 204));
   });
-
 });
