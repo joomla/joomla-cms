@@ -60,8 +60,8 @@ Tests should be:
 
 The CMS tests come with some convenient [cypress tasks](https://docs.cypress.io/api/commands/task) which execute actions on the server in a node environment. That's why the `cy.` namespace is not available. The following tasks are available, served by the file tests/System/plugins/index.js:
 
-- **queryTestDB** executes a query on the database
-- **deleteInsertedItems** deletes the inserted items from the database
+- **queryDB** executes a query on the database
+- **cleanupDB** deletes the inserted items from the database
 - **writeFile** writes a file relative to the CMS root folder
 - **deleteFolder** deletes a folder relative to the CMS root folder
 - **getFilePermissions** get file permissions
