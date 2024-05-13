@@ -163,9 +163,10 @@
 				<field
 					name="readmore_title"
 					type="list"
-					label="MOD_ARTICLES_NEWS_FIELD_READMORE_TITLE_LABEL"
+					label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
 					default=""
 					showon="readmore:1"
+					validate="options"
 				>
 					<option value="">MOD_ARTICLES_NEWS_VALUE_USE_ARTICLE_SETTINGS</option>
 					<option value="0">JHIDE</option>
