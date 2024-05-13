@@ -50,6 +50,10 @@ final class Resize extends MediaActionPlugin
             return;
         }
 
+        if (strtolower($item->extension) === 'avif' && !\function_exists('imageavif')) {
+            return;
+        }
+
         $imgObject = new Image(imagecreatefromstring($item->data));
 
         if ($imgObject->getWidth() < $this->params->get('batch_width', 0) && $imgObject->getHeight() < $this->params->get('batch_height', 0)) {
