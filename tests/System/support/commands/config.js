@@ -1,18 +1,35 @@
 Cypress.Commands.add('config_setParameter', (parameter, value) => {
-  cy.readFile(`${Cypress.env('cmsPath')}/configuration.php`).then((fileContent) => {
-    // Setup the new value
-    let newValue = value;
-    if (typeof value === 'string') {
-      newValue = `'${value}'`;
-    }
+  const configPath = `${Cypress.env('cmsPath')}/configuration.php`;
 
-    // The regex to find the line of the parameter
-    const regex = new RegExp(`^.*\\$${parameter}\\s.*$`, 'mg');
+  cy.readFile(configPath).then(
+    // Success handler
+    (fileContent) => {
+      // Setup the new value
+      let newValue = typeof value === 'string' ? `'${value}'` : value;
 
-    // Replace the whole line with the new value
-    const content = fileContent.replace(regex, `public $${parameter} = ${newValue};`);
+      // The regex to find the line of the parameter
+      const regex = new RegExp(`^.*\\$${parameter}\\s.*$`, 'mg');
 
-    // Write the modified content back to the configuration file
-    cy.task('writeFile', { path: 'configuration.php', content });
-  });
+      // Replace the whole line with the new value
+      const content = fileContent.replace(regex, `public $${parameter} = ${newValue};`);
+
+      // Remember the original file permissions
+      cy.task('getFilePermissions', configPath).then((originalPermissions) => {
+        // To be save set read and write for owner
+        cy.task('changeFilePermissions', { path: configPath, mode: '644' }).then(() => {
+          // Write the changed file content back
+          cy.task('writeFile', { path: configPath, content }).then(() => {
+            // Restore the original file permissions
+            cy.task('changeFilePermissions', { path: configPath, mode: originalPermissions });
+          });
+        });
+      });
+    },
+    // Failure handler
+    (err) => {
+      cy.log(`Failed to read the file ${configPath}: ${err.message}`);
+      // Rethrow to fail
+      throw err;
+    },
+  );
 });

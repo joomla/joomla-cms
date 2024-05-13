@@ -16,6 +16,8 @@ function setupPlugins(on, config) {
     cleanupDB: () => db.deleteInsertedItems(config),
     writeFile: ({ path, content }) => fs.writeFile(path, content, config),
     deleteFolder: (path) => fs.deleteFolder(path, config),
+    getFilePermissions: (path) => fs.getFilePermissions(path),
+    changeFilePermissions: ({ path, mode }) => fs.changeFilePermissions(path, mode),
     getMails: () => mail.getMails(),
     clearEmails: () => mail.clearEmails(),
     startMailServer: () => mail.startMailServer(config),
