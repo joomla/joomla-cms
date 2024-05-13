@@ -6,20 +6,38 @@ The CMS system tests are executed in real browsers and are using the [cypress.io
 A couple of steps are needed before the CMS system tests can be executed on the system.
 
 1. Clone Joomla into a folder where it can be served by a web server
+```
+git clone --depth 1 https://github.com/muhme/joomla-cms 
+```
 2. Install the PHP and Javascript dependencies by running the following commands:
-   1. `composer install`
-   2. `npm ci`
-3. Copy the cypress.config.dist.js to cypress.config.js in the root of the joomla folder
-4. Adjust the baseUrl in the cypress.config.js file, it should point to the Joomla base url
-5. Adapt the env variables in the file cypress.config.js, they should point to the site, user data and database environment
-6. In order to run the api tests you will need to change the value in your configuration.php for $secret to `tEstValue`
-7. Ensure the system has all the required dependencies according to the Cypress [documentation](https://docs.cypress.io/guides/getting-started/installing-cypress)
-8. Run the command `npm run cypress:install`
+```
+cd joomla-cms
+composer install
+npm ci
+```
+3. Copy the `cypress.config.dist.js` to `cypress.config.js` in the root of the joomla folder
+4. Adjust the `baseUrl` in the `cypress.config.js` file, it should point to the Joomla base URL
+5. Adapt the env variables in the file `cypress.config.js`, they should point to the site, user data and database environment
+6. Ensure the system has all the required dependencies according to the Cypress [documentation](https://docs.cypress.io/guides/getting-started/installing-cypress)
+7. Install Cypress
+```
+npm run cypress:install
+```
+8. Run Joomla installation with headless Cypress
+```
+npm run cypress:run -- --spec 'tests/System/integration/install/Installation.cy.js'
+```
 
 ## Run the existing tests
-Cypress has a nice gui which lists all the existing tests and is able to launch a browser where the tests are executed. To open the cypress gui, run the following command:
+You can use Cypress headless:
+```
+npm run cypress:run
+```
 
-`npm run cypress:open`
+And Cypress has a nice GUI which lists all the existing tests and is able to launch a browser where the tests are executed. To open the Cypress GUI, run the following command:
+```
+npm run cypress:open
+```
 
 ## Create new tests
 To Create new tests, create a cy.js file in a new folder which matches the following pattern (replace foo with the extension name to test):
@@ -42,10 +60,12 @@ Tests should be:
 
 The CMS tests come with some convenient [cypress tasks](https://docs.cypress.io/api/commands/task) which execute actions on the server in a node environment. That's why the `cy.` namespace is not available. The following tasks are available, served by the file tests/System/plugins/index.js:
 
-- **queryDB** Executes a query on the database
-- **cleanupDB** does some cleanup, is executed automatically after every test
+- **queryTestDB** executes a query on the database
+- **deleteInsertedItems** deletes the inserted items from the database
 - **writeFile** writes a file relative to the CMS root folder
 - **deleteFolder** deletes a folder relative to the CMS root folder
+- **getFilePermissions** get file permissions
+- **changeFilePermissions** change file permissions
 
 With the following code in a test a task can be executed `cy.task('writeFile', { path: 'images/dummy.text', content: '1' })`. Each task is asynchronous and must be chained, so to get the result a `.then(() => {})` must follow when executing a task.
 
