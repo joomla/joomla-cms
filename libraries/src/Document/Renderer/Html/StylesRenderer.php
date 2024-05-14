@@ -197,7 +197,7 @@ class StylesRenderer extends DocumentRenderer
         $buffer .= ' >';
 
         if ($relation === 'lazy-stylesheet') {
-            $buffer .= '<noscript><link href="' . htmlspecialchars($src) . '" rel="stylesheet" /></noscript>';
+            $buffer .= '<noscript><link href="' . htmlspecialchars($src) . '" rel="stylesheet" ></noscript>';
         }
 
         // This is for IE conditional statements support.
