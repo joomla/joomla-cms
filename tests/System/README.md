@@ -7,7 +7,7 @@ A couple of steps are needed before the CMS system tests can be executed on the 
 
 1. Clone Joomla into a folder where it can be served by a web server
 ```
-git clone --depth 1 https://github.com/muhme/joomla-cms 
+git clone --depth 1 https://github.com/joomla/joomla-cms 
 ```
 2. Install the PHP and Javascript dependencies by running the following commands:
 ```
