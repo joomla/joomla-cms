@@ -1406,6 +1406,8 @@ class ZIPExtraction
         if ($this->dataReadLength == 0) {
             // Before processing file data, ensure permissions are adequate
             $this->setCorrectPermissions($this->fileHeader->file);
+
+            clearstatcache($this->fileHeader->file);
         }
 
         // Open the output file
@@ -1496,6 +1498,8 @@ class ZIPExtraction
     {
         // Before processing file data, ensure permissions are adequate
         $this->setCorrectPermissions($this->fileHeader->file);
+
+        clearstatcache($this->fileHeader->file);
 
         // Open the output file
         $outfp = @fopen($this->fileHeader->realFile, 'wb');
