@@ -85,14 +85,11 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        list($component, $template_id) = explode('.', $this->item->template_id, 2);
+        list($extension, $template_id) = explode('.', $this->item->template_id, 2);
         $fields                        = ['subject', 'body', 'htmlbody'];
         $this->templateData            = [];
-        $language                      = $this->getLanguage();
-        $language->load($component, JPATH_SITE, $this->item->language, true);
-        $language->load($component, JPATH_SITE . '/components/' . $component, $this->item->language, true);
-        $language->load($component, JPATH_ADMINISTRATOR, $this->item->language, true);
-        $language->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, $this->item->language, true);
+
+        MailsHelper::loadTranslationFiles($extension);
 
         $this->master->subject = Text::_($this->master->subject);
         $this->master->body    = Text::_($this->master->body);
