@@ -21,7 +21,7 @@ While 4.4 is in maintenance mode, ie we are still fixing bugs, PRs should be mad
 
 | Branch | Purpose |
 | ------ | ------- |
-| 4.4-dev | Branch for the current 4.x Joomla version. Currently in maintaince mode |
+| 4.4-dev | Branch for the current 4.x Joomla version. Currently in maintenance mode |
 | 5.1-dev | Branch for the current 5.x Joomla version. Bugfix only for 5.x go into this branch. |
 | 5.2-dev | Branch for the next minor 5.x Joomla version. New features go into this branch. |
 | 6.0-dev | Branch for the next major Joomla version. New features that include a b/c break have to go into this branch. |
