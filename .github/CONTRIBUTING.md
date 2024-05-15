@@ -11,7 +11,7 @@ You are welcome to submit a contribution for review and possible inclusion in th
 
 4) Report security issues to the Joomla! Security Strike Team (JSST) at security@joomla.org or use the [JSST contact form](https://developer.joomla.org/contact-security-team.html). Please do not use the public tracker for security issues.
 
-5) If you have a feature request open a discussion to define the feature request and discuss possible solutions. Discussions can be coverted into issues when the request is so clear that a developer can start codig on the feature. In this process you will get feedback from the maintainers, if the feature is something for the Joomla core distribution.
+5) If you have a feature request, then please open a discussion to define the feature request and discuss possible solutions. Discussions can be converted into issues when the request is defined sufficiently that a developer can start coding the feature. In this process you will get feedback from the maintainers, if the feature is something for the Joomla core distribution or not.
 
 Please be patient as not all items will be tested immediately (remember, all bug testing for the Joomla! CMS is done by volunteers) and be receptive to feedback about your code.
 
