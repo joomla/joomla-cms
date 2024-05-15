@@ -16,7 +16,7 @@ You are welcome to submit a contribution for review and possible inclusion in th
 Please be patient as not all items will be tested immediately (remember, all bug testing for the Joomla! CMS is done by volunteers) and be receptive to feedback about your code.
 
 #### Branches
-As long as 4.4 is in maintaince mode, what means that we still fixing bugs, PRs should be made to the `4.4-dev` branch. Merged bugfixes will be upmerged into the current 5.x branch. If a bug is only in the 5.x series the PR should be made to the current 5.x branch (currently 5.1).
+While 4.4 is in maintenance mode, ie we are still fixing bugs, PRs should be made to the `4.4-dev` branch. Merged bugfixes will be upmerged into the current 5.x branch. If a bug is only in the 5.x series the PR should be made to the current 5.x branch (currently 5.1).
 
 
 | Branch | Purpose |
