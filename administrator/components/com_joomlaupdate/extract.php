@@ -1407,6 +1407,7 @@ class ZIPExtraction
             // Before processing file data, ensure permissions are adequate
             $this->setCorrectPermissions($this->fileHeader->file);
 
+            // This file is changed during the script's operation so we clear the status cache.
             clearstatcache($this->fileHeader->file);
         }
 
@@ -1499,6 +1500,7 @@ class ZIPExtraction
         // Before processing file data, ensure permissions are adequate
         $this->setCorrectPermissions($this->fileHeader->file);
 
+        // This file is changed during the script's operation so we clear the status cache.
         clearstatcache($this->fileHeader->file);
 
         // Open the output file
