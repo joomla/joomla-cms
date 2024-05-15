@@ -12,15 +12,13 @@ Cypress.Commands.add('config_setParameter', (parameter, value) => {
     const content = fileContent.replace(regex, `public $${parameter} = ${newValue};`);
 
     // Remember the original file permissions
-    cy.task('getFilePermissions', configPath).then((originalPermissions) => {
-      // To be safe, set write for owner and read for all
-      cy.task('changeFilePermissions', { path: configPath, mode: '644' }).then(() => {
-        // Write the changed file content back
-        cy.task('writeFile', { path: configPath, content }).then(() => {
-          // Restore the original file permissions
-          cy.task('changeFilePermissions', { path: configPath, mode: originalPermissions });
-        });
-      });
+    cy.task('getFilePermissions', configPath)
+      // To be save, set write for owner and read for all
+      .then((originalPermissions) => { cy.task('changeFilePermissions', { path: configPath, mode: '644' })
+      // Write the changed file content back
+      .then(() => cy.task('writeFile', { path: configPath, content }))
+      // Restore the original file permissions
+      .then(() => cy.task('changeFilePermissions', { path: configPath, mode: originalPermissions }));
     });
   });
 });
