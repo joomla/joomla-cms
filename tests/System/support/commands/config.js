@@ -13,7 +13,7 @@ Cypress.Commands.add('config_setParameter', (parameter, value) => {
 
     // Remember the original file permissions
     cy.task('getFilePermissions', configPath).then((originalPermissions) => {
-      // To be save, set write for owner and read for all
+      // To be safe, set write for owner and read for all
       cy.task('changeFilePermissions', { path: configPath, mode: '644' }).then(() => {
         // Write the changed file content back
         cy.task('writeFile', { path: configPath, content }).then(() => {
