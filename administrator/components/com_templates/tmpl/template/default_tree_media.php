@@ -19,7 +19,6 @@ if (!count($this->mediaFiles)) {
     return;
 }
 
-ksort($this->mediaFiles, SORT_STRING);
 ?>
 
 <ul class="directory-tree treeselect">

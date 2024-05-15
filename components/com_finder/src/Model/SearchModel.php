@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
+use Joomla\Database\QueryInterface;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -146,7 +147,7 @@ class SearchModel extends ListModel
     /**
      * Method to build a database query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery  A database query.
+     * @return  QueryInterface  A database query.
      *
      * @since   2.5
      */
@@ -578,7 +579,7 @@ class SearchModel extends ListModel
         $this->setState('params', $params);
 
         // Load the user state.
-        $this->setState('user.id', (int) $user->get('id'));
+        $this->setState('user.id', (int) $user->id);
         $this->setState('user.groups', $user->getAuthorisedViewLevels());
     }
 }
