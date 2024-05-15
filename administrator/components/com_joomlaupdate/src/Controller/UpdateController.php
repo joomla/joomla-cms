@@ -30,9 +30,8 @@ use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
  */
 class UpdateController extends BaseController
 {
-
     /**
-     * Performs the download of the update package
+     * Performs the download of the update package chunked through ajax
      *
      * @return  void
      *
@@ -55,8 +54,15 @@ class UpdateController extends BaseController
 
         Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), Log::INFO, 'Update');
 
-        $this->input->set('layout', 'download');
-        $this->display();
+        $view = $this->input->get('view');
+        if ($view == 'joomlaupdate') { //if we are not using chunked download then directly do the download
+            $this->downloadsimple();
+        }
+        else {
+            $this->input->set('layout', 'download');
+            $this->display();
+        }
+
     }
 
     /**
@@ -85,7 +91,7 @@ class UpdateController extends BaseController
 
         Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), Log::INFO, 'Update');
 
-        $result = $model->downloadsimple(); // normal download
+        $result = $model->download(); // normal download
         $file   = $result['basename'];
 
         $message     = null;
@@ -159,7 +165,7 @@ class UpdateController extends BaseController
         /** @var UpdateModel $model */
         $model   = $this->getModel('Update', 'Administrator');
         $frag    = $this->input->get->getInt('frag', -1);
-        $result  = $model->doDownload($frag);
+        $result  = $model->downloadChunked($frag);
         $message = '';
 
         // Are we done yet?
@@ -178,7 +184,7 @@ class UpdateController extends BaseController
         }
 
         if (!is_array($result)) {
-            $result = []; //$result = new \stdClass();
+            $result = [];
         }
 
         $result['error']   = !empty($message);
@@ -210,7 +216,7 @@ class UpdateController extends BaseController
         Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), Log::INFO, 'Update');
 
         $file = $this->app->getUserState('com_joomlaupdate.file', null);
-        $model->createRestorationFile($file);
+        $model->createUpdateFile($file);
 
         $this->display();
     }
