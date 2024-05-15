@@ -65,7 +65,7 @@ function changeFilePermissions(path, mode) {
     return null;
   } catch (err) {
     console.error(`Failed to change file permissions: ${err}`);
-    // Rethrow to send the error to the Cypress tes
+    // Rethrow to send the error to the Cypress test
     throw err;
   }
 }
