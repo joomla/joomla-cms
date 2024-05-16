@@ -254,7 +254,6 @@ trait DisplayTrait
             'jxtdbuttons',
         ];
         $wa->useScript('plg_editors_tinymce.jxtdbuttons');
-        $wa->useScript('plg_editors_tinymce.paste_from_word');
 
         // Allowed elements
         $elements = [
@@ -320,6 +319,10 @@ trait DisplayTrait
             $wa->useScript('plg_editors_tinymce.highlighter');
             $plugins[] = 'joomlaHighlighter';
         }
+
+        // Paste from Word plugin
+        $wa->useScript('plg_editors_tinymce.paste_from_word');
+        $plugins[] = 'paste_from_word';
 
         $dragdrop = $levelParams->get('drag_drop', 1);
 
