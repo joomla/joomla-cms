@@ -19,7 +19,6 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -103,7 +102,7 @@ class TasksModel extends ListModel
     /**
      * Method to create a query for a list of items.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      *
      * @since  4.1.0
      * @throws \Exception
@@ -354,9 +353,9 @@ class TasksModel extends ListModel
      * Overloads the parent _getList() method.
      * Takes care of attaching TaskOption objects and sorting by type titles.
      *
-     * @param   DatabaseQuery  $query       The database query to get the list with
-     * @param   int            $limitstart  The list offset
-     * @param   int            $limit       Number of list items to fetch
+     * @param   QueryInterface  $query       The database query to get the list with
+     * @param   int             $limitstart  The list offset
+     * @param   int             $limit       Number of list items to fetch
      *
      * @return object[]
      *

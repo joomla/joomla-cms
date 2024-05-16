@@ -20,7 +20,7 @@ use Joomla\CMS\Router\Route;
 HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns');
 
 $input = Factory::getApplication()->getInput();

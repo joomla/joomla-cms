@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Content\Site\View\Category\HtmlView $this */
 $lang   = $this->getLanguage();
 $user   = $this->getCurrentUser();
 $groups = $user->getAuthorisedViewLevels();
