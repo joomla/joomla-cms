@@ -252,7 +252,6 @@ trait DisplayTrait
             'importcss',
             'quickbars',
             'jxtdbuttons',
-            'paste_from_word',
         ];
         $wa->useScript('plg_editors_tinymce.jxtdbuttons');
         $wa->useScript('plg_editors_tinymce.paste_from_word');
