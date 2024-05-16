@@ -35,6 +35,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use phpDocumentor\Reflection\PseudoTypes\ArrayShapeItem;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -477,6 +478,8 @@ class UpdateModel extends BaseDatabaseModel
             $downloadInformation['valid'] =
                 $this->isChecksumValid($downloadInformation['localFile'], $downloadInformation['updateInfo']);
 
+            $downloadInformation = $this->renameDownloadFile($downloadInformation);
+
             return $downloadInformation;
         }
 
@@ -534,6 +537,8 @@ class UpdateModel extends BaseDatabaseModel
             $downloadInformation['done']  = true;
             $downloadInformation['valid'] =
                 $this->isChecksumValid($downloadInformation['localFile'], $downloadInformation['updateInfo']);
+
+            $downloadInformation = $this->renameDownloadFile($downloadInformation);
 
             return $downloadInformation;
         }
@@ -2379,5 +2384,30 @@ ENDDATA;
             Log::INFO,
             'Update'
         );
+    }
+
+    /**
+     * renames download file if necessary
+     *
+     * @param $downloadInformation
+     * @return array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function renameDownloadFile($downloadInformation): Array
+    {
+        $p = strpos($downloadInformation['url'],'filename');
+        if ($p !== false) {
+            $q = strpos($downloadInformation['url'], '&', $p);
+            if ($q === false) {
+                $q = null;
+            } else {
+                $q = $q - $p - 11;
+            }
+            $fn = dirname($downloadInformation['localFile']).DIRECTORY_SEPARATOR.substr($downloadInformation['url'],$p + 11, $q);
+            rename($downloadInformation['localFile'], $fn);
+            $downloadInformation['localFile'] = $fn;
+        }
+        return $downloadInformation;
     }
 }
