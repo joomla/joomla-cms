@@ -61,8 +61,8 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
   const allLinks = wrapper.querySelectorAll('a.no-dropdown, a.collapse-arrow, .menu-dashboard > a');
   const currentUrl = window.location.href;
   const mainNav = document.querySelector('ul.main-nav');
-  const menuParents = [].slice.call(mainNav.querySelectorAll('li.parent > a'));
-  const subMenusClose = [].slice.call(mainNav.querySelectorAll('li.parent .close'));
+  const menuParents = [].slice.call(document.querySelectorAll('ul.main-nav li.parent > a'));
+  const subMenusClose = [].slice.call(document.querySelectorAll('ul.main-nav li.parent .close'));
 
   // Set active class
   allLinks.forEach((link) => {
