@@ -3,7 +3,7 @@ Cypress.Commands.add('config_setParameter', (parameter, value) => {
 
   cy.readFile(configPath).then((fileContent) => {
     // Setup the new value
-    let newValue = typeof value === 'string' ? `'${value}'` : value;
+    const newValue = typeof value === 'string' ? `'${value}'` : value;
 
     // The regex to find the line of the parameter
     const regex = new RegExp(`^.*\\$${parameter}\\s.*$`, 'mg');

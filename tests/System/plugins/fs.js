@@ -41,14 +41,9 @@ function writeFile(path, content, config) {
  * @returns string e.g. '644'
  */
 function getFilePermissions(path) {
-  try {
-    const stats = fs.statSync(path);
-    return (stats.mode & parseInt('777', 8)).toString(8);
-  } catch (err) {
-    console.error(`Failed to get file permissions: ${err}`);
-    // Rethrow to send the error to the Cypress test
-    throw err;
-  }
+  const stats = fs.statSync(path);
+  const modeStr = stats.mode.toString(8);
+  return modeStr.slice(-3);
 }
 
 /**
@@ -60,14 +55,8 @@ function getFilePermissions(path) {
  * @returns null to indicate success
  */
 function changeFilePermissions(path, mode) {
-  try {
-    fs.chmodSync(path, mode);
-    return null;
-  } catch (err) {
-    console.error(`Failed to change file permissions: ${err}`);
-    // Rethrow to send the error to the Cypress test
-    throw err;
-  }
+  fs.chmodSync(path, mode);
+  return null;
 }
 
 module.exports = { writeFile, deleteFolder, getFilePermissions, changeFilePermissions };
