@@ -240,8 +240,8 @@ const insertAsOther = (media, editor, fieldClass, type) => {
   <source src="${Joomla.selectedMediaFile.url}" type="${Joomla.selectedMediaFile.fileType}">
 </video>`;
           }
-        } else if (Joomla.editors.instances[editor].getSelection() !== '') {
-          outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.editors.instances[editor].getSelection()}</a>`;
+        } else if (editorInst.getSelection() !== '') {
+          outputText = `<a download href="${Joomla.selectedMediaFile.url}">${editorInst.getSelection()}</a>`;
         } else {
           const name = /([\w-]+)\./.exec(Joomla.selectedMediaFile.url);
           outputText = `<a download href="${Joomla.selectedMediaFile.url}">${Joomla.Text._('JFIELD_MEDIA_DOWNLOAD_FILE').replace('{file}', name[1])}</a>`;

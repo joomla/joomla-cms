@@ -79,7 +79,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
         $user = $this->app->getIdentity();
 
         if (
-            $user->get('id')
+            $user->id
             || ($this->input->getMethod() === 'POST'
             && (($vName === 'category' && $this->input->get('layout') !== 'blog') || $vName === 'archive'))
         ) {

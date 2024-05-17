@@ -100,7 +100,7 @@ class Session extends BaseSession
     {
         $user = Factory::getUser();
 
-        return ApplicationHelper::getHash($user->get('id', 0) . Factory::getApplication()->getSession()->getToken($forceNew));
+        return ApplicationHelper::getHash($user->id . Factory::getApplication()->getSession()->getToken($forceNew));
     }
 
     /**
