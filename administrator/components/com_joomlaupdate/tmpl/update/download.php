@@ -35,37 +35,40 @@ $this->document->addScriptOptions(
 
 ?>
 
-<div id="download-progress" >
-    <p class="nowarning">
-        <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DOWNLOAD_INPROGRESS'); ?>
-    </p>
-
+<div class="px-4 py-5 my-5 text-center" id="download-progress" >
     <div id="dlprogress" class="container">
-        <div id="progress" class="progress progress-striped progress-bar-animated row">
-            <div class="progress-bar" id="progress-bar" role="progressbar"
-                 aria-label="<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_PERCENT') ?>"
-                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-        <div class="my-2 mx-0 border-bottom border-secondary extprogrow row">
-            <div class="extlabel text-bold col-3">
-                <span class="fa fa-percentage" aria-hidden="true"></span>
-                <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_PERCENT'); ?>
+        <span class="fa-8x mb-4 icon-download joomladownload" aria-hidden="true"></span>
+        <h1 class="display-5 fw-bold"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DOWNLOAD_INPROGRESS_HEAD') ?></h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4" id="update-title">
+                <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DOWNLOAD_INPROGRESS'); ?>
+            </p>
+            <div id="progress" class="progress progress-striped progress-bar-animated row">
+                <div class="progress-bar" id="progress-bar" role="progressbar"
+                     aria-label="<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_PERCENT') ?>"
+                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
-            <div class="extvalue col-9" id="dlpercent"></div>
-        </div>
-        <div class="my-2 mx-0 border-bottom border-secondary extprogrow row">
-            <div class="extlabel text-bold col-3">
-                <span class="fa fa-cloud-download-alt" aria-hidden="true"></span>
-                <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DOWNLOAD_BYTESDL'); ?>
+            <div class="my-2 mx-0 border-bottom border-secondary extprogrow row">
+                <div class="extlabel text-bold col-3">
+                    <span class="fa fa-percentage" aria-hidden="true"></span>
+                    <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_PERCENT'); ?>
+                </div>
+                <div class="extvalue col-9" id="dlpercent"></div>
             </div>
-            <div class="extvalue col-9" id="dlbytesin"></div>
-        </div>
-        <div class="my-2 mx-0 border-bottom border-secondary extprogrow row">
-            <div class="extlabel text-bold col-3">
-                <span class="fa fa-file" aria-hidden="true"></span>
-                <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DOWNLOAD_BYTESTOTAL'); ?>
+            <div class="my-2 mx-0 border-bottom border-secondary extprogrow row">
+                <div class="extlabel text-bold col-3">
+                    <span class="fa fa-cloud-download-alt" aria-hidden="true"></span>
+                    <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DOWNLOAD_BYTESDL'); ?>
+                </div>
+                <div class="extvalue col-9" id="dlbytesin"></div>
             </div>
-            <div class="extvalue col-9" id="dlbytestotal"></div>
+            <div class="my-2 mx-0 border-bottom border-secondary extprogrow row">
+                <div class="extlabel text-bold col-3">
+                    <span class="fa fa-file" aria-hidden="true"></span>
+                    <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DOWNLOAD_BYTESTOTAL'); ?>
+                </div>
+                <div class="extvalue col-9" id="dlbytestotal"></div>
+            </div>
         </div>
     </div>
 </div>
