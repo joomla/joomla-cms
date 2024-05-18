@@ -59,4 +59,6 @@ function changeFilePermissions(path, mode) {
   return null;
 }
 
-module.exports = { writeFile, deleteFolder, getFilePermissions, changeFilePermissions };
+module.exports = {
+  writeFile, deleteFolder, getFilePermissions, changeFilePermissions,
+};
