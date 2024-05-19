@@ -16,7 +16,8 @@
     "vendor-dir": "libraries/vendor",
     "github-protocols": ["https"],
     "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "cweagans/composer-patches": true
     }
   },
   "support": {
@@ -55,7 +56,7 @@
     "joomla/event": "^2.0.2",
     "joomla/filter": "^2.0.4",
     "joomla/filesystem": "^2.0.2",
-    "joomla/http": "^2.0.2",
+    "joomla/http": "^2.0.4",
     "joomla/input": "^2.0.4",
     "joomla/ldap": "~2.0.0",
     "joomla/oauth1": "^2.0.2",
@@ -66,7 +67,7 @@
     "joomla/string": "^2.0.1",
     "joomla/uri": "^2.0.4",
     "joomla/utilities": "^2.0.1",
-    "algo26-matthias/idna-convert": "^3.1.0",
+    "algo26-matthias/idna-convert": "^3.1.1",
     "defuse/php-encryption": "^2.4.0",
     "doctrine/inflector": "^1.4.4",
     "fig/link-util": "^1.1.2",
@@ -102,7 +103,8 @@
     "web-token/signature-pack": "^2.2.11",
     "phpseclib/bcmath_compat": "^2.0.1",
     "jfcherng/php-diff": "^6.10.14",
-    "voku/portable-utf8": "6.0.12 as 5.4.0"
+    "voku/portable-utf8": "6.0.12 as 5.4.0",
+    "cweagans/composer-patches": "^1.7"
   },
   "require-dev": {
     "phpunit/phpunit": "^8.5.34",
@@ -115,6 +117,14 @@
   },
   "replace": {
     "paragonie/random_compat": "9.99.99"
+  },
+  "extra": {
+    "composer-exit-on-patch-failure": true,
+    "patches": {
+      "laminas/laminas-diactoros": {
+        "Fixes HTTP Multiline Header Termination": "./build/composer_patches/4.4.4-2024-04-13_php-laminas-diactoros.patch"
+      }
+    }
   },
   "scripts": {
     "post-install-cmd": [
