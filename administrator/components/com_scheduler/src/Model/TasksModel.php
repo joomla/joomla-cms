@@ -470,7 +470,7 @@ class TasksModel extends ListModel
     }
 
     /**
-     * Check if we right now now have any enabled due but no locked tasks.
+     * Check if we have right now any enabled due tasks and no locked tasks.
      *
      * @return boolean
      * @since  __DEPLOY_VERSION__
