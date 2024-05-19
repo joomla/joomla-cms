@@ -150,7 +150,7 @@ class UpdateController extends BaseController
         // Check the anti-CSRF token
         if (!$this->checkToken('get', false)) {
             $ret = [
-                'error' => true,
+                'error'   => true,
                 'message' => Text::_('JINVALID_TOKEN_NOTICE'),
             ];
             @ob_end_clean();

@@ -415,7 +415,7 @@ class UpdateModel extends BaseDatabaseModel
     public function downloadChunked($frag = -1, $forceSinglePart = false)
     {
         // Try to set an absurd time limit
-        if (function_exists('set_time_limit')) {
+        if (\function_exists('set_time_limit')) {
             @set_time_limit(3600);
         }
 
@@ -2154,7 +2154,7 @@ ENDDATA;
         $packageURL  = null;
 
         // Get the Joomla core update information
-        $updateInfo = $this->getUpdateInformation();
+        $updateInfo             = $this->getUpdateInformation();
         $response['updateInfo'] = $updateInfo['object'];
         $response['version']    = $updateInfo['latest'];
 
@@ -2170,7 +2170,7 @@ ENDDATA;
 
         // $headerOptions['content-length'] = 0; // get only information
         $headerOptions = ['Range' => sprintf('bytes=%u-%u', 0, 0)];
-        $timeout = $this->getHttpTimeout();
+        $timeout       = $this->getHttpTimeout();
 
         // Go through all mirrors to find the first URL which responds successfully
         foreach ($sourceURLs as $sourceURL) {
@@ -2205,7 +2205,7 @@ ENDDATA;
                 }
 
                 // If no redirection is found set the total size and stop processing
-                if (!array_key_exists('location', $head->headers) || !isset($head->headers['location'])) {
+                if (!\array_key_exists('location', $head->headers) || !isset($head->headers['location'])) {
                     $response['totalSize'] = $this->getTotalSizefromHeader($head);
 
                     break;
@@ -2214,7 +2214,7 @@ ENDDATA;
                 // A redirection was found. Follow it.
                 $packageURL = $head->headers['location'];
 
-                while (is_array($packageURL)) {
+                while (\is_array($packageURL)) {
                     $packageURL = array_shift($packageURL);
                 }
 
@@ -2286,20 +2286,20 @@ ENDDATA;
     {
         // since we have done range we cannot use content-length, but content-range serves
         $totalSize = $head->headers['Content-Range'] ?? null;
-        if (is_null($totalSize)) {
+        if (\is_null($totalSize)) {
             $totalSize = $head->headers['content-range'] ?? null;
         }
-        while (is_array($totalSize)) {
+        while (\is_array($totalSize)) {
             $totalSize = array_shift($totalSize);
         }
         $totalSize = explode('/', $totalSize);
-        if (sizeof($totalSize) == 2) {
+        if (\sizeof($totalSize) == 2) {
             $totalSize = $totalSize[1];
         } else {
             $totalSize = null;
         }
 
-        while (is_array($totalSize)) {
+        while (\is_array($totalSize)) {
             $totalSize = array_shift($totalSize);
         }
         return $totalSize;
@@ -2385,7 +2385,7 @@ ENDDATA;
             } else {
                 $q = $q - $p - 11;
             }
-            $fn = dirname($downloadInformation['localFile']) . DIRECTORY_SEPARATOR . substr($downloadInformation['url'], $p + 11, $q);
+            $fn = \dirname($downloadInformation['localFile']) . DIRECTORY_SEPARATOR . substr($downloadInformation['url'], $p + 11, $q);
             rename($downloadInformation['localFile'], $fn);
             $downloadInformation['localFile'] = $fn;
         }
