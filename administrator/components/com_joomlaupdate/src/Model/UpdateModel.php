@@ -33,7 +33,6 @@ use Joomla\Database\ParameterType;
 use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use phpDocumentor\Reflection\PseudoTypes\ArrayShapeItem;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
