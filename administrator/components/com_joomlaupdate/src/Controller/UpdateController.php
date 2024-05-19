@@ -149,10 +149,10 @@ class UpdateController extends BaseController
     {
         // Check the anti-CSRF token
         if (!$this->checkToken('get', false)) {
-            $ret = array(
+            $ret = [
                 'error' => true,
                 'message' => Text::_('JINVALID_TOKEN_NOTICE'),
-            );
+            ];
             @ob_end_clean();
             echo json_encode($ret);
 
@@ -167,7 +167,7 @@ class UpdateController extends BaseController
         $message = '';
 
         // Are we done yet?
-        if (is_array($result) && $result['done']) {
+        if (\is_array($result) && $result['done']) {
             $this->app->setUserState('com_joomlaupdate.file', basename($result['localFile']));
 
             // If the checksum failed we will return with an error
@@ -181,7 +181,7 @@ class UpdateController extends BaseController
             $message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_DOWNLOADFAILED');
         }
 
-        if (!is_array($result)) {
+        if (!\is_array($result)) {
             $result = [];
         }
 

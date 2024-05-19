@@ -401,7 +401,7 @@ class UpdateModel extends BaseDatabaseModel
         return [
             'basename' => basename($result['localFile']),
             'check'    => $result['valid'],
-            'version'  => $result['version']
+            'version'  => $result['version'],
         ];
     }
 
@@ -2148,7 +2148,7 @@ ENDDATA;
             'downloaded' => 0,
             'frag'       => 0,
             'done'       => false,
-            'valid'      => false
+            'valid'      => false,
         ];
 
         $packageURL  = null;
@@ -2161,7 +2161,7 @@ ENDDATA;
         // Get the source URLs (primary URL and all mirrors, if any are set up)
         $sourceURLs = ArrayHelper::getColumn($updateInfo['object']->get('downloadSources', []), 'url');
         array_unshift($sourceURLs, $updateInfo['object']->downloadurl->_data);
-        $sourceURLs = array_unique($sourceURLs);
+        $sourceURLs          = array_unique($sourceURLs);
         $response['mirrors'] = $sourceURLs;
 
         // We have to manually follow the redirects here, so we set the option to false.
@@ -2170,34 +2170,23 @@ ENDDATA;
 
         // $headerOptions['content-length'] = 0; // get only information
         $headerOptions = ['Range' => sprintf('bytes=%u-%u', 0, 0)];
-
-        $maxtries = 3; // retries for connect to server
+        $timeout = $this->getHttpTimeout();
 
         // Go through all mirrors to find the first URL which responds successfully
         foreach ($sourceURLs as $sourceURL) {
             $packageURL   = trim($sourceURL);
             $redirections = 0;
-            $retries = 0;
             /**
              * Try to follow redirections and ultimately get the HEAD info for the valid package URL (if any).
              * using GET with Range 0-0 since Amazon returns 403 if doing HEAD
              */
             while ($packageURL !== null) {
-                $to = 2; // initial timeout
                 $head = null;
-                while ($head === null && $retries < $maxtries) {
-                    try {
-                        $head = HttpFactory::getHttp($httpOptions)->get($packageURL, $headerOptions, $to);
-                    } catch (\RuntimeException $e) {
-                        // Problem with URL may be timeout - try again if not a timeout.
-                        $this->logDownloadInfo($packageURL, $e->getCode() . ':' . $e->getMessage());
-                        if (strpos($e->getMessage(), 'timed out') !== false) {
-                            //do not insist if there is a timeout
-                            break;
-                        };
-                        $to = $to * 2;
-                        $retries++;
-                    }
+                try {
+                    $head = HttpFactory::getHttp($httpOptions)->get($packageURL, $headerOptions, $timeout);
+                } catch (\RuntimeException $e) {
+                    // Problem with URL may be timeout - try again if not a timeout.
+                    $this->logDownloadInfo($packageURL, $e->getCode() . ':' . $e->getMessage());
                 }
                 if ($head === null) { // next mirror
                     // Probably an invalid URL. Stop following redirections, indicate we need to go to the next mirror.
