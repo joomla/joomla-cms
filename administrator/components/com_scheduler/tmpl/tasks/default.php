@@ -63,6 +63,12 @@ if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_scheduler&task=tasks.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
     HTMLHelper::_('draggablelist.draggable');
 }
+
+// When there are due Tasks show that information to the user
+if ($this->hasDueTasks === true) {
+    $app->enqueueMessage(Text::_('COM_SCHEDULER_MSG_DUETASKS'), 'warning');
+}
+
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_scheduler&view=tasks'); ?>" method="post" name="adminForm"
@@ -127,6 +133,11 @@ if ($saveOrder && !empty($this->items)) {
                     <!-- Last runs -->
                     <th scope="col" class="d-none d-lg-table-cell">
                         <?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_LAST_RUN_DATE', 'a.last_execution', $listDirn, $listOrder) ?>
+                    </th>
+
+                    <!-- Next runs -->
+                    <th scope="col" class="d-none d-lg-table-cell">
+                        <?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_NEXT_RUN_DATE', 'a.next_execution', $listDirn, $listOrder) ?>
                     </th>
 
                     <!-- Test task -->
@@ -237,6 +248,11 @@ if ($saveOrder && !empty($this->items)) {
                         <!-- Last run date -->
                         <td class="small d-none d-lg-table-cell">
                             <?php echo $item->last_execution ? HTMLHelper::_('date', $item->last_execution, 'DATE_FORMAT_LC5') : '-'; ?>
+                        </td>
+
+                        <!-- Next run date -->
+                        <td class="small d-none d-lg-table-cell">
+                            <?php echo $item->next_execution ? HTMLHelper::_('date', $item->next_execution, 'DATE_FORMAT_LC5') : Text::_('COM_SCHEDULER_NEXT_RUN_MANUAL'); ?>
                         </td>
 
                         <!-- Test task -->

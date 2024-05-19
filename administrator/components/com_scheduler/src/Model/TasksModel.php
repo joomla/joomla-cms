@@ -440,7 +440,7 @@ class TasksModel extends ListModel
     }
 
     /**
-     * Check if we have any enabled due tasks and no locked tasks.
+     * Check if we have any enabled due but no locked tasks.
      *
      * @param   Date  $time  The next execution time to check against
      *
@@ -467,5 +467,16 @@ class TasksModel extends ListModel
 
         // False if we don't have due tasks, or we have locked tasks
         return $taskDetails && $taskDetails->due_count && !$taskDetails->locked_count;
+    }
+
+    /**
+     * Check if we right now now have any enabled due but no locked tasks.
+     *
+     * @return boolean
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getHasDueTasks()
+    {
+        return $this->hasDueTasks(Factory::getDate('now', 'UTC'));
     }
 }
