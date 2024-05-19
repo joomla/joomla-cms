@@ -469,7 +469,7 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Single part downloads get a very simple handling, force if have no totalSize
-        if ($forceSinglePart || $downloadInformation['totalSize'] === Null) {
+        if ($forceSinglePart || $downloadInformation['totalSize'] === null) {
             $download = $this->downloadPackage($downloadInformation['url'], $downloadInformation['localFile']);
 
             $downloadInformation['done']  = $download !== false;
@@ -2181,17 +2181,13 @@ ENDDATA;
             while ($packageURL !== null) {
                 $to = 2; // initial timeout
                 $head = null;
-                while ($head === null && $retries < $maxtries)
-                {
-                    try
-                    {
+                while ($head === null && $retries < $maxtries) {
+                    try {
                         $head = HttpFactory::getHttp($httpOptions)->get($packageURL, $headerOptions, $to);
-                    }
-                    catch (\RuntimeException $e)
-                    {
+                    } catch (\RuntimeException $e) {
                         // Problem with URL may be timeout - try again if not a timeout.
-                        $this->logDownloadInfo($packageURL, $e->getCode().':'.$e->getMessage());
-                        if (strpos($e->getMessage(),'timed out') !== false) {
+                        $this->logDownloadInfo($packageURL, $e->getCode() . ':' . $e->getMessage());
+                        if (strpos($e->getMessage(), 'timed out') !== false) {
                             //do not insist if there is a timeout
                             break;
                         };
@@ -2293,7 +2289,7 @@ ENDDATA;
      *
      * @since   __DEPLOY_VERSION__
      */
-    private function getTotalSizefromHeader(object $head):int
+    private function getTotalSizefromHeader(object $head): int
     {
         // since we have done range we cannot use content-length, but content-range serves
         $totalSize = $head->headers['Content-Range'] ?? null;
@@ -2362,12 +2358,9 @@ ENDDATA;
     {
         // do not put credentials into log
         $p = strpos($packageURL, '?');
-        if ($p !== false)
-        {
+        if ($p !== false) {
             $url = substr($packageURL, 0, $p);
-        }
-        else
-        {
+        } else {
             $url = $packageURL;
         }
         Log::add(
@@ -2389,9 +2382,9 @@ ENDDATA;
      *
      * @since   __DEPLOY_VERSION__
      */
-    private function renameDownloadFile($downloadInformation): Array
+    private function renameDownloadFile($downloadInformation): array
     {
-        $p = strpos($downloadInformation['url'],'filename');
+        $p = strpos($downloadInformation['url'], 'filename');
         if ($p !== false) {
             $q = strpos($downloadInformation['url'], '&', $p);
             if ($q === false) {
@@ -2399,7 +2392,7 @@ ENDDATA;
             } else {
                 $q = $q - $p - 11;
             }
-            $fn = dirname($downloadInformation['localFile']).DIRECTORY_SEPARATOR.substr($downloadInformation['url'],$p + 11, $q);
+            $fn = dirname($downloadInformation['localFile']) . DIRECTORY_SEPARATOR . substr($downloadInformation['url'], $p + 11, $q);
             rename($downloadInformation['localFile'], $fn);
             $downloadInformation['localFile'] = $fn;
         }

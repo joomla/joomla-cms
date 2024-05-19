@@ -57,12 +57,10 @@ class UpdateController extends BaseController
         $view = $this->input->get('view');
         if ($view == 'joomlaupdate') { //if we are not using chunked download then directly do the download
             $this->downloadsimple();
-        }
-        else {
+        } else {
             $this->input->set('layout', 'download');
             $this->display();
         }
-
     }
 
     /**
