@@ -440,7 +440,7 @@ class TasksModel extends ListModel
     }
 
     /**
-     * Check if we have any enabled due but no locked tasks.
+     * Check if we have any enabled due tasks and no locked tasks.
      *
      * @param   Date  $time  The next execution time to check against
      *
