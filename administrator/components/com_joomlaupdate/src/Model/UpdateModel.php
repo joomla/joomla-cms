@@ -382,7 +382,7 @@ class UpdateModel extends BaseDatabaseModel
     }
 
     /**
-     * Backwards compatibility shim. Not used in Joomla Update anymore.
+     * Downloads the update package to the site - no chunks.
      *
      * @return  array
      *
