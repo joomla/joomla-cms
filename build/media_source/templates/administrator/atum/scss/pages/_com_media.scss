@@ -1,16 +1,128 @@
 :root {
-  --com-media-manager-overlay-header-bg: var(--template-bg-dark-5);
-  --com-media-manager-infobar-dt-color: rgba(0, 0, 0, .54);
-  --com-media-manager-content-bg: var(--body-bg);
-  --com-media-manager-overlay-bg: var(--template-bg-dark-3);
-  --com-media-manager-disk-name-color: var(--template-text-dark);
+  --com-media-manager-overlay-header-bg: #{$media-manager-overlay-header-bg};
+  --com-media-manager-infobar-dt-color: #{$media-manager-infobar-dt-color};
+  --com-media-manager-content-bg: #{$media-manager-content-bg};
+  --com-media-manager-content-color: #{$media-manager-content-color};
+  --com-media-manager-overlay-bg: #{$media-manager-overlay-bg};
+  --com-media-manager-disk-name-color: #{$media-manager-disk-name-color};
+  --com-media-manager-tree-item-hover-bg: #{$media-manager-tree-item-hover-bg};
+  --com-media-manager-toolbar-icon-color: #{$media-manager-toolbar-icon-color};
+}
+.file-background, .folder-background {
+  padding-bottom: 100%;
+  background-color: $media-browser-file-bg; //hsl(var(--hue), 20%, 97%);
+  border: $media-manager-border; // 1px solid hsl(var(--hue), 35%, 95%);
+}
+.file-icon, .folder-icon, .media-dragoutline {
+  color: $media-manager-file-icon-color; //?? inherit
+}
+
+.media-browser-item-preview {
+  border: $media-manager-border; // 1px solid hsl(var(--hue), 35%, 95%);
+}
+.media-drive {
+  background: $media-drive-bg;
+  border: $media-manager-border;
+}
+.media-toolbar {
+  background-color: $media-toolbar-bg; // var(--com-media-manager-content-bg,#fff);
+  border-bottom: $media-manager-border; // 1px solid var(--template-bg-dark-7);
+  border-inline-start: $media-manager-border; // 1px solid var(--template-bg-dark-7)
+  box-shadow: 0 -1px 0 0 $media-manager-border; // var(--template-bg-dark-7);
+}
+.media-toolbar-icon {
+  -webkit-border-start: $media-manager-border; // 1px solid var(--template-bg-dark-7);
+  color: $media-toolbar-icon-color; // var(--com-media-manager-toolbar-icon-color,var(--template-bg-dark-60));
+  background-color: $media-toolbar-icon-bg; // transparent;
+  border-inline-start: $media-manager-border; // 1px solid var(--template-bg-dark-7);
+}
+.media-toolbar-icon:hover {
+  background-color: $media-toolbar-icon-bg-hvr; // #f0f0f0;
+}
+.media-breadcrumb {
+  -webkit-border-start: $media-manager-border; // 1px solid var(--template-bg-dark-7)
+  border-inline-start: $media-manager-border;  // 1px solid var(--template-bg-dark-7)
+}
+.media-breadcrumb-item a {
+  color: $media-manager-content-color; // var(--com-media-manager-content-color,var(--link-color));
+}
+.media-breadcrumb-item {
+  color: var(--btn-primary-color);
+  background-color: var(--btn-primary-bg);
+  a {
+    color: var(--btn-primary-color);
+  }
+}
+.media-breadcrumb-item::after {
+  border-inline-start-color: var(--btn-primary-bg); // var(--com-media-manager-overlay-bg,var(--template-bg-dark-3));
+}
+
+.image-background {
+  background-color: $image-bg; // #fff;
+  background-image: $image-bg-image; // linear-gradient(45deg,hsl(var(--hue),20%,97%) 25%,transparent 25%,transparent 75%,#eee 75%,hsl(var(--hue),20%,97%) 100%),linear-gradient(45deg,#eee 25%,transparent 25%,transparent 75%,hsl(var(--hue),20%,97%) 75%,hsl(var(--hue),20%,97%) 100%);
+}
+.media-tree-item .item-icon {
+  color: var(--template-link-color);
+}
+
+.media-tree-item.active > a .item-icon {
+  color: var(--template-link-color); // TODO could be another color in future Versions
+}
+
+.field-media-wrapper .button-select {
+  background-color: var(--success);
+}
+
+.media-infobar {
+  border-inline-start: $media-manager-border; // 1px solid $border-color;
+  h2 {
+    border-bottom: $media-manager-border;
+  }
 }
 
 @if $enable-dark-mode {
   @include color-mode(dark, true) {
-    --com-media-manager-overlay-bg: var(--template-bg-dark-90);
-    --com-media-manager-infobar-dt-color: rgba(255, 255, 255, .54);
-    --com-media-manager-overlay-header-bg: var(--template-bg-dark-80);
-    --com-media-manager-disk-name-color: var(--template-text-light);
+    joomla-field-media .field-media-preview {
+      background-color: var(--gray-700);
+      border-color: rgba(255, 255, 255, .15);
+    }
+
+    joomla-field-mediamore details {
+      color: var(--template-text-light);
+      background: #1c1c1c;
+    }
+
+    joomla-field-mediamore summary {
+      background: #131313;
+    }
+
+    .media-infobar {
+      background-color: var(--main-bg);
+
+      h2 {
+        background-color: var(--body-bg);
+      }
+
+      dt {
+        font-weight: bold;
+        color: rgba(255,255,255,.9);
+      }
+
+      dd {
+        color: rgba(255,255,255,.7);
+      }
+
+      .infobar-close {
+        color: #fff;
+        &:hover {
+          color: #efefef;
+        }
+      }
+    }
+
+
+
+
+
   }
 }

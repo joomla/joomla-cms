@@ -57,7 +57,7 @@
 					label="TPL_CASSIOPEIA_BRAND_LABEL"
 					default="1"
 					layout="joomla.form.field.radio.switcher"
-					filter="boolean"
+					filter="options"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -66,6 +66,9 @@
 				<field
 					name="logoFile"
 					type="media"
+					schemes="http,https,ftp,ftps,data,file"
+					validate="url"
+					relative="true"
 					default=""
 					label="TPL_CASSIOPEIA_LOGO_LABEL"
 					showon="brand:1"

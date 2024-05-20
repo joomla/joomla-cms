@@ -21,7 +21,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Component\Fields\Administrator\Model\FieldsModel;
@@ -318,7 +317,7 @@ class FieldsHelper
         $context = $parts[0] . '.' . $parts[1];
 
         // When no fields available return here
-        $fields = self::getFields($parts[0] . '.' . $parts[1], new CMSObject());
+        $fields = self::getFields($parts[0] . '.' . $parts[1]);
 
         if (! $fields) {
             return true;
@@ -486,24 +485,14 @@ class FieldsHelper
         // Loading the XML fields string into the form
         $form->load($xml->saveXML());
 
-        $model = Factory::getApplication()->bootComponent('com_fields')
-            ->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true]);
-
-        if (
-            (!isset($data->id) || !$data->id) && Factory::getApplication()->getInput()->getCmd('controller') == 'modules'
-            && Factory::getApplication()->isClient('site')
-        ) {
-            // Modules on front end editing don't have data and an id set
-            $data->id = Factory::getApplication()->getInput()->getInt('id');
-        }
-
         // Looping through the fields again to set the value
         if (!isset($data->id) || !$data->id) {
             return true;
         }
 
         foreach ($fields as $field) {
-            $value = $model->getFieldValue($field->id, $data->id);
+            // Get the value already loaded by static::getFields()
+            $value = $field->rawvalue;
 
             if ($value === null) {
                 continue;

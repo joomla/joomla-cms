@@ -15,6 +15,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Contenthistory\Administrator\View\History\HtmlView $this */
+
 Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
 $hash           = $this->state->get('sha1_hash');
@@ -32,7 +34,7 @@ document.querySelectorAll('.js-link-open-window').forEach((link) => link.addEven
 JS;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('multiselect')
     ->useScript('com_contenthistory.admin-history-modal')
     ->useScript('list-view')

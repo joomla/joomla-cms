@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Helper;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Document\HtmlDocument;
@@ -110,7 +109,7 @@ abstract class Mfa
         $view->setModel($methodsModel, true);
         /** @noinspection PhpParamsInspection */
         $view->setModel($backupCodesModel);
-        $view->document  = $app->getDocument();
+        $view->setDocument($app->getDocument());
         $view->returnURL = base64_encode(Uri::getInstance()->toString());
         $view->user      = $user;
         $view->set('forHMVC', true);

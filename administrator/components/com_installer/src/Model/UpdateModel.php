@@ -21,9 +21,9 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -92,7 +92,7 @@ class UpdateModel extends ListModel
     /**
      * Method to get the database query
      *
-     * @return  \Joomla\Database\DatabaseQuery  The database query
+     * @return  QueryInterface  The database query
      *
      * @since   1.6
      */
@@ -200,9 +200,9 @@ class UpdateModel extends ListModel
     /**
      * Returns an object list
      *
-     * @param   DatabaseQuery  $query       The query
-     * @param   int            $limitstart  Offset
-     * @param   int            $limit       The number of records
+     * @param   QueryInterface  $query       The query
+     * @param   int             $limitstart  Offset
+     * @param   int             $limit       The number of records
      *
      * @return  object[]
      *
@@ -334,6 +334,23 @@ class UpdateModel extends ListModel
             if (!$instance->load($uid)) {
                 // Update no longer available, maybe already updated by a package.
                 continue;
+            }
+
+            $app   = Factory::getApplication();
+            $db    = $this->getDatabase();
+            $query = $db->getQuery(true)
+                ->select('type')
+                ->from('#__update_sites')
+                ->where($db->quoteName('update_site_id') . ' = :id')
+                ->bind(':id', $instance->update_site_id, ParameterType::INTEGER);
+
+            $updateSiteType = (string) $db->setQuery($query)->loadResult();
+
+            // TUF is currently only supported for Joomla core
+            if ($updateSiteType === 'tuf') {
+                $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_NOT_AVAILABLE'), 'error');
+
+                return;
             }
 
             $update->loadFromXml($instance->detailsurl, $minimumStability);
@@ -552,8 +569,8 @@ class UpdateModel extends ListModel
     protected function preparePreUpdate($update, $table)
     {
         switch ($table->type) {
-            // Components could have a helper which adds additional data
             case 'component':
+                // Components could have a helper which adds additional data
                 $ename = str_replace('com_', '', $table->element);
                 $fname = $ename . '.php';
                 $cname = ucfirst($ename) . 'Helper';
@@ -570,8 +587,8 @@ class UpdateModel extends ListModel
 
                 break;
 
-            // Modules could have a helper which adds additional data
             case 'module':
+                // Modules could have a helper which adds additional data
                 $cname = str_replace('_', '', $table->element) . 'Helper';
                 $path  = ($table->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $table->element . '/helper.php';
 
@@ -585,9 +602,9 @@ class UpdateModel extends ListModel
 
                 break;
 
-            // If we have a plugin, we can use the plugin trigger "onInstallerBeforePackageDownload"
-            // But we should make sure, that our plugin is loaded, so we don't need a second "installer" plugin
             case 'plugin':
+                // If we have a plugin, we can use the plugin trigger "onInstallerBeforePackageDownload"
+                // But we should make sure, that our plugin is loaded, so we don't need a second "installer" plugin
                 $cname = str_replace('plg_', '', $table->element);
                 PluginHelper::importPlugin($table->folder, $cname);
                 break;
@@ -597,7 +614,7 @@ class UpdateModel extends ListModel
     /**
      * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
      *
-     * @return DatabaseQuery
+     * @return QueryInterface
      *
      * @since 4.0.0
      */

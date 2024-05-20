@@ -14,6 +14,8 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
+/** @var \Joomla\Component\Contact\Administrator\View\Contacts\HtmlView $this */
+
 $published = (int) $this->state->get('filter.published');
 $noUser    = true;
 ?>
