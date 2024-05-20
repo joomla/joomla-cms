@@ -85,7 +85,7 @@
 			description="COM_JOOMLAUPDATE_CONFIG_CHUNKED_DOWNLOAD_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
-			filter="integer"
+				filter="integer"
 		>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -99,7 +99,8 @@
 			default="10485760"
 			filter="integer"
 			showon="chunked_download:1"
-		>
+			validate="options"
+			>
 			<option value="262144">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_256KB</option>
 			<option value="524288">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_512KB</option>
 			<option value="1048576">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_1MIB</option>
