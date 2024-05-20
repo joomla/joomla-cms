@@ -15,6 +15,7 @@ use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\CustomFields\PrepareDomEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Fields\FieldsFormServiceInterface;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
@@ -116,13 +117,17 @@ class FieldModel extends AdminModel
             $field = $this->getItem($data['id']);
         }
 
-        if (
-            isset($data['params']['searchindex'])
-            && ((\is_null($field) && $data['params']['searchindex'] > 0)
-                || ($field->params['searchindex'] != $data['params']['searchindex'])
-                || ($data['params']['searchindex'] > 0 && ($field->state != $data['state'] || $field->access != $data['access'])))
-        ) {
-            Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
+        if (isset($data['params']['searchindex'])) {
+            if (\is_null($field)) {
+                if ($data['params']['searchindex'] > 0) {
+                    Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
+                }
+            } elseif (
+                $field->params['searchindex'] != $data['params']['searchindex']
+                || ($data['params']['searchindex'] > 0 && ($field->state != $data['state'] || $field->access != $data['access']))
+            ) {
+                Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
+            }
         }
 
         if (!isset($data['label']) && isset($data['params']['label'])) {
@@ -1106,6 +1111,12 @@ class FieldModel extends AdminModel
             if (!$form->loadFile($path, false)) {
                 throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
             }
+        }
+
+        $componentBooted = Factory::getApplication()->bootComponent($component);
+
+        if ($componentBooted instanceof FieldsFormServiceInterface) {
+            $componentBooted->prepareForm($form, $data);
         }
 
         // Trigger the default form events.

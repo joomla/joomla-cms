@@ -1400,6 +1400,9 @@ class ZIPExtraction
         if ($this->dataReadLength == 0) {
             // Before processing file data, ensure permissions are adequate
             $this->setCorrectPermissions($this->fileHeader->file);
+
+            // This file is changed during the script's operation so we clear the status cache.
+            clearstatcache($this->fileHeader->file);
         }
 
         // Open the output file
@@ -1490,6 +1493,9 @@ class ZIPExtraction
     {
         // Before processing file data, ensure permissions are adequate
         $this->setCorrectPermissions($this->fileHeader->file);
+
+        // This file is changed during the script's operation so we clear the status cache.
+        clearstatcache($this->fileHeader->file);
 
         // Open the output file
         $outfp = @fopen($this->fileHeader->realFile, 'wb');
@@ -1603,7 +1609,7 @@ class ZIPExtraction
             return 10;
         }
 
-        $phpMaxTime = @ini_get("maximum_execution_time");
+        $phpMaxTime = @\ini_get("maximum_execution_time");
         $phpMaxTime = (!is_numeric($phpMaxTime) ? 10 : @\intval($phpMaxTime)) ?: 10;
 
         return max(1, $phpMaxTime);
@@ -1694,9 +1700,9 @@ function clearFileInOPCache(string $file): bool
     static $hasOpCache = null;
 
     if (\is_null($hasOpCache)) {
-        $hasOpCache = ini_get('opcache.enable')
+        $hasOpCache = \ini_get('opcache.enable')
             && \function_exists('opcache_invalidate')
-            && (!ini_get('opcache.restrict_api') || stripos(realpath($_SERVER['SCRIPT_FILENAME']), ini_get('opcache.restrict_api')) === 0);
+            && (!\ini_get('opcache.restrict_api') || stripos(realpath($_SERVER['SCRIPT_FILENAME']), \ini_get('opcache.restrict_api')) === 0);
     }
 
     if ($hasOpCache && (strtolower(substr($file, -4)) === '.php')) {

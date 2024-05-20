@@ -77,7 +77,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         // If data exists let's encode it and make sure our Content-type header is set.
         if (isset($data)) {
             // If the data is a scalar value simply add it to the cURL post fields.
-            if (is_scalar($data) || (isset($headers['Content-Type']) && strpos($headers['Content-Type'], 'multipart/form-data') === 0)) {
+            if (\is_scalar($data) || (isset($headers['Content-Type']) && strpos($headers['Content-Type'], 'multipart/form-data') === 0)) {
                 $options[CURLOPT_POSTFIELDS] = $data;
             } else {
                 // Otherwise we need to encode the value first.
@@ -89,7 +89,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
             }
 
             // Add the relevant headers.
-            if (is_scalar($options[CURLOPT_POSTFIELDS])) {
+            if (\is_scalar($options[CURLOPT_POSTFIELDS])) {
                 $headers['Content-Length'] = \strlen($options[CURLOPT_POSTFIELDS]);
             }
         }
@@ -288,7 +288,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         $curlVersion = curl_version();
 
         // If open_basedir is enabled we also need to check if libcurl version is 7.19.4 or higher
-        if (!ini_get('open_basedir') || version_compare($curlVersion['version'], '7.19.4', '>=')) {
+        if (!\ini_get('open_basedir') || version_compare($curlVersion['version'], '7.19.4', '>=')) {
             return true;
         }
 

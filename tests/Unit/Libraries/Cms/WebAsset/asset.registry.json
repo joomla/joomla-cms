@@ -1,0 +1,48 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "joomla",
+  "version": "5.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "test1",
+      "type": "script",
+      "uri": "test1.js"
+    },
+    {
+      "name": "test2",
+      "type": "script",
+      "uri": "test2.js",
+      "dependencies": ["test3"]
+    },
+    {
+      "name": "test3",
+      "type": "script",
+      "uri": "test3.js"
+    },
+    {
+      "name": "test4",
+      "type": "script",
+      "uri": "test4.js",
+      "dependencies": ["test5"]
+    },
+    {
+      "name": "test5",
+      "type": "script",
+      "uri": "test5.js"
+    },
+    {
+      "name": "test.bad-dep",
+      "type": "script",
+      "uri": "testB.js",
+      "dependencies": ["foobar"]
+    },
+
+    {
+      "name": "test1",
+      "type": "style",
+      "uri": "test1.css"
+    }
+  ]
+}

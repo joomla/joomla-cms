@@ -365,12 +365,12 @@ class HtmlView extends BaseHtmlView
             . Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button></joomla-toolbar-button>');
 
         $toolbar->customButton('target')
-            ->html('<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'target\')" '
+            ->html('<joomla-toolbar-button id="toolbar-target"><button onclick="Joomla.submitbutton(\'target\')" '
             . 'class="btn btn-success"><span class="icon-save" aria-hidden="true"></span>'
             . Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button></joomla-toolbar-button>');
 
         if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->save2copy === true) {
-            $toolbar->standardButton('', 'COM_ASSOCIATIONS_COPY_REFERENCE', 'copy')
+            $toolbar->standardButton('copy', 'COM_ASSOCIATIONS_COPY_REFERENCE', 'copy')
                 ->icon('icon-copy')
                 ->listCheck(false);
         }

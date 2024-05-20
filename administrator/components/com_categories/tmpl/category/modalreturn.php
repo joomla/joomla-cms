@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Categories\Administrator\View\Category\HtmlView $this */
+
 $icon     = 'icon-check';
 $title    = $this->item ? $this->item->title : '';
 $content  = $this->item ? $this->item->alias : '';
