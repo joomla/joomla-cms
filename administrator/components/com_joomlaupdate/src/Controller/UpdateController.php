@@ -203,7 +203,7 @@ class UpdateController extends BaseController
      *
      * @since   2.5.4
      */
-    public function install()
+    public function install(): void
     {
         $this->checkToken('get');
         $this->app->setUserState('com_joomlaupdate.oldversion', JVERSION);

@@ -406,7 +406,7 @@ class UpdateModel extends BaseDatabaseModel
     /**
      * Processes the chunked download of the update package to the site.
      *
-     * @return  object|null  Null on failure, basename of the file in any other case.
+     * @return  array  Null on failure, basename of the file in any other case.
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -2127,7 +2127,7 @@ ENDDATA;
      *
      * @return  object|null  Null on error
      *
-     * @throws Exception
+     * @throws \Exception
      * @since   __DEPLOY_VERSION__
      */
     private function getDownloadInformation(): ?array
