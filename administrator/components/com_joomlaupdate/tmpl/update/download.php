@@ -4,7 +4,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -78,7 +78,7 @@ $this->document->addScriptOptions(
         <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DOWNLOAD_ERROR') ?>
     </h3>
     <p id="dlerror"></p>
-    <hr/>
+    <hr>
     <div>
         <button type="button"
                 id="dlrestart"
