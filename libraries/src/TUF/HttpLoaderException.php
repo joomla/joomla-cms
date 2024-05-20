@@ -12,7 +12,7 @@ namespace Joomla\CMS\TUF;
 use Tuf\Exception\TufException;
 
 /**
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.1
  */
 class HttpLoaderException extends TufException
 {
