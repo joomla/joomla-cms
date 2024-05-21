@@ -267,7 +267,7 @@ class Update
      * Joomla! target version used by the pre-update check
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.1
      */
     private $targetVersion;
 
@@ -708,7 +708,7 @@ class Update
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.1
      */
     public function setTargetVersion($version)
     {
@@ -720,7 +720,7 @@ class Update
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.1
      */
     public function getTargetVersion()
     {

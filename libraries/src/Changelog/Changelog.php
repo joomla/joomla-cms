@@ -163,7 +163,7 @@ class Changelog
      * Update manifest `<folder>` element
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.1
      */
     protected $folder;
 
