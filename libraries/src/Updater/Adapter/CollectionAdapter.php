@@ -122,7 +122,7 @@ class CollectionAdapter extends UpdateAdapter
                 break;
             case 'EXTENSION':
                 $update = Table::getInstance('update');
-                $update->set('update_site_id', $this->updateSiteId);
+                $update->update_site_id = $this->updateSiteId;
 
                 foreach ($this->updatecols as $col) {
                     // Reset the values if it doesn't exist

@@ -546,14 +546,14 @@ class PluginAdapter extends InstallerAdapter
                 $element = empty($manifest_details['filename']) ? $file : $manifest_details['filename'];
 
                 $extension = Table::getInstance('extension');
-                $extension->set('type', 'plugin');
-                $extension->set('client_id', 0);
-                $extension->set('element', $element);
-                $extension->set('folder', $folder);
-                $extension->set('name', $manifest_details['name']);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
+                $extension->type = 'plugin';
+                $extension->client_id = 0;
+                $extension->element = $element;
+                $extension->folder = $folder;
+                $extension->name = $manifest_details['name'];
+                $extension->state = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params = '{}';
                 $results[] = $extension;
             }
 
@@ -576,14 +576,14 @@ class PluginAdapter extends InstallerAdapter
 
                     // Ignore example plugins
                     $extension = Table::getInstance('extension');
-                    $extension->set('type', 'plugin');
-                    $extension->set('client_id', 0);
-                    $extension->set('element', $element);
-                    $extension->set('folder', $folder);
-                    $extension->set('name', $manifest_details['name']);
-                    $extension->set('state', -1);
-                    $extension->set('manifest_cache', json_encode($manifest_details));
-                    $extension->set('params', '{}');
+                    $extension->type = 'plugin';
+                    $extension->client_id = 0;
+                    $extension->element = $element;
+                    $extension->folder = $folder;
+                    $extension->name = $manifest_details['name'];
+                    $extension->state = -1;
+                    $extension->manifest_cache = json_encode($manifest_details);
+                    $extension->params = '{}';
                     $results[] = $extension;
                 }
             }

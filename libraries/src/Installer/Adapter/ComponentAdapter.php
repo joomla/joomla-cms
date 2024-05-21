@@ -1289,14 +1289,14 @@ class ComponentAdapter extends InstallerAdapter
                     JPATH_SITE . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
                 );
                 $extension = Table::getInstance('extension');
-                $extension->set('type', 'component');
-                $extension->set('client_id', 0);
-                $extension->set('element', $component);
-                $extension->set('folder', '');
-                $extension->set('name', $component);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
+                $extension->type = 'component';
+                $extension->client_id = 0;
+                $extension->element = $component;
+                $extension->folder = '';
+                $extension->name = $component;
+                $extension->state = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params = '{}';
 
                 $results[] = $extension;
             }
@@ -1308,14 +1308,14 @@ class ComponentAdapter extends InstallerAdapter
                     JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
                 );
                 $extension = Table::getInstance('extension');
-                $extension->set('type', 'component');
-                $extension->set('client_id', 1);
-                $extension->set('element', $component);
-                $extension->set('folder', '');
-                $extension->set('name', $component);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
+                $extension->type = 'component';
+                $extension->client_id = 1;
+                $extension->element = $component;
+                $extension->folder = '';
+                $extension->name = $component;
+                $extension->state = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params = '{}';
                 $results[] = $extension;
             }
         }
@@ -1326,14 +1326,14 @@ class ComponentAdapter extends InstallerAdapter
                     JPATH_API . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
                 );
                 $extension = Table::getInstance('extension');
-                $extension->set('type', 'component');
-                $extension->set('client_id', 3);
-                $extension->set('element', $component);
-                $extension->set('folder', '');
-                $extension->set('name', $component);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
+                $extension->type = 'component';
+                $extension->client_id = 3;
+                $extension->element = $component;
+                $extension->folder = '';
+                $extension->name = $component;
+                $extension->state = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params = '{}';
                 $results[] = $extension;
             }
         }

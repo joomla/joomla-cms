@@ -699,7 +699,7 @@ class TaskModel extends AdminModel
                 // Prune items that are already at the given state.
                 $lockedColumnName = $table->getColumnAlias('locked');
 
-                if (property_exists($table, $lockedColumnName) && \is_null($table->get($lockedColumnName))) {
+                if (property_exists($table, $lockedColumnName) && \is_null($table->$lockedColumnName)) {
                     unset($pks[$i]);
                 }
             }

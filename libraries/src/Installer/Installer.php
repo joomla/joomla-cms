@@ -737,9 +737,9 @@ class Installer extends Adapter implements DatabaseAwareInterface
         PluginHelper::importPlugin('extension', null, true, $dispatcher);
         $dispatcher->dispatch('onExtensionBeforeInstall', new BeforeInstallEvent('onExtensionBeforeInstall', [
             'method'    => 'discover_install',
-            'type'      => $this->extension->get('type'),
+            'type'      => $this->extension->type,
             'manifest'  => null,
-            'extension' => (int) $this->extension->get('extension_id'),
+            'extension' => (int) $this->extension->extension_id,
         ]));
 
         // Run the install

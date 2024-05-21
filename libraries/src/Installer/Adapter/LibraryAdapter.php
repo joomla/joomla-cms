@@ -463,14 +463,14 @@ class LibraryAdapter extends InstallerAdapter
             $manifestCache = Installer::parseXMLInstallFile($file);
 
             $extension = Table::getInstance('extension');
-            $extension->set('type', 'library');
-            $extension->set('client_id', 0);
-            $extension->set('element', $element);
-            $extension->set('folder', '');
-            $extension->set('name', $element);
-            $extension->set('state', -1);
-            $extension->set('manifest_cache', json_encode($manifestCache));
-            $extension->set('params', '{}');
+            $extension->type = 'library';
+            $extension->client_id = 0;
+            $extension->element = $element;
+            $extension->folder = '';
+            $extension->name = $element;
+            $extension->state = -1;
+            $extension->manifest_cache = json_encode($manifestCache);
+            $extension->params = '{}';
             $results[] = $extension;
         }
 

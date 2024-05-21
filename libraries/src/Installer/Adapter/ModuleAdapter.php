@@ -132,14 +132,14 @@ class ModuleAdapter extends InstallerAdapter
             if (file_exists(JPATH_SITE . "/modules/$module/$module.xml")) {
                 $manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . "/modules/$module/$module.xml");
                 $extension        = Table::getInstance('extension');
-                $extension->set('type', 'module');
-                $extension->set('client_id', $site_info->id);
-                $extension->set('element', $module);
-                $extension->set('folder', '');
-                $extension->set('name', $module);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
+                $extension->type = 'module';
+                $extension->client_id = $site_info->id;
+                $extension->element = $module;
+                $extension->folder = '';
+                $extension->name = $module;
+                $extension->state = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params = '{}';
                 $results[] = clone $extension;
             }
         }
@@ -148,14 +148,14 @@ class ModuleAdapter extends InstallerAdapter
             if (file_exists(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml")) {
                 $manifest_details = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml");
                 $extension        = Table::getInstance('extension');
-                $extension->set('type', 'module');
-                $extension->set('client_id', $admin_info->id);
-                $extension->set('element', $module);
-                $extension->set('folder', '');
-                $extension->set('name', $module);
-                $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
-                $extension->set('params', '{}');
+                $extension->type = 'module';
+                $extension->client_id = $admin_info->id;
+                $extension->element = $module;
+                $extension->folder = '';
+                $extension->name = $module;
+                $extension->state = -1;
+                $extension->manifest_cache = json_encode($manifest_details);
+                $extension->params = '{}';
                 $results[] = clone $extension;
             }
         }
