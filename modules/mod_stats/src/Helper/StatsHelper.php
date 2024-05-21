@@ -41,7 +41,7 @@ class StatsHelper implements DatabaseAwareInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public function getStats(Registry &$params, CMSApplicationInterface $app)
     {
@@ -174,7 +174,7 @@ class StatsHelper implements DatabaseAwareInterface
      *
      * @return  array
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 7.0
+     * @deprecated 5.2.0 will be removed in 7.0
      *             Use the non-static method getStats
      *             Example: Factory::getApplication()->bootModule('mod_stats', 'site')
      *                          ->getHelper('StatsHelper')
