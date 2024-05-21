@@ -133,7 +133,7 @@ final class Vote extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public function onSchemaBeforeCompileHead($schema, $context): void
     {
@@ -182,7 +182,7 @@ final class Vote extends CMSPlugin
      *
      * @return  ?string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected function prepareAggregateRating($context)
     {
@@ -210,7 +210,7 @@ final class Vote extends CMSPlugin
      *
      * @return  ?string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected function prepareProductAggregateRating($context)
     {
