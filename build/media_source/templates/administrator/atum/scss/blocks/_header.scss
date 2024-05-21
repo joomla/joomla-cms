@@ -231,9 +231,6 @@
 
 @if $enable-dark-mode {
   @include color-mode(dark) {
-    .header-item-content:not(.joomlaversion) {
-      border: map-get($atum-colors-dark, "atum-btn-primary-border");
-    }
     .header-item-icon > * {
       background: var(--header-bg);
     }

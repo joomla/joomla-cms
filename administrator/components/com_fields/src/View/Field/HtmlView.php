@@ -15,7 +15,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Filesystem\Path;
@@ -39,7 +38,7 @@ class HtmlView extends BaseHtmlView
     protected $form;
 
     /**
-     * @var     CMSObject
+     * @var     \stdClass
      *
      * @since   3.7.0
      */
