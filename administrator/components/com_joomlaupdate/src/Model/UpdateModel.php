@@ -761,17 +761,17 @@ ENDDATA;
             }
         } else {
             // Add an entry to the extension table with a whole heap of defaults.
-            $row->name = 'files_joomla';
-            $row->type = 'file';
+            $row->name    = 'files_joomla';
+            $row->type    = 'file';
             $row->element = 'joomla';
 
             // There is no folder for files so leave it blank.
-            $row->folder = '';
-            $row->enabled = 1;
-            $row->protected = 0;
-            $row->access = 0;
-            $row->client_id = 0;
-            $row->params = '';
+            $row->folder         = '';
+            $row->enabled        = 1;
+            $row->protected      = 0;
+            $row->access         = 0;
+            $row->client_id      = 0;
+            $row->params         = '';
             $row->manifest_cache = $installer->generateManifestCache();
 
             if (!$row->store()) {

@@ -85,8 +85,8 @@ class ContentHistory extends Table implements CurrentUserInterface
     public function store($updateNulls = false)
     {
         $this->character_count = \strlen($this->version_data);
-        $typeTable = new ContentType($this->getDbo(), $this->getDispatcher());
-        $typeAlias = explode('.', $this->item_id);
+        $typeTable             = new ContentType($this->getDbo(), $this->getDispatcher());
+        $typeAlias             = explode('.', $this->item_id);
         array_pop($typeAlias);
         $typeTable->load(['type_alias' => implode('.', $typeAlias)]);
 
@@ -97,7 +97,7 @@ class ContentHistory extends Table implements CurrentUserInterface
         // Modify author and date only when not toggling Keep Forever
         if ($this->keep_forever === null) {
             $this->editor_user_id = $this->getCurrentUser()->id;
-            $this->save_date = Factory::getDate()->toSql();
+            $this->save_date      = Factory::getDate()->toSql();
         }
 
         return parent::store($updateNulls);

@@ -417,19 +417,19 @@ class LanguageAdapter extends InstallerAdapter
         }
 
         // Add an entry to the extension table with a whole heap of defaults
-        $row = Table::getInstance('extension');
-        $row->name = $this->name;
-        $row->type = 'language';
-        $row->element = $this->tag;
+        $row               = Table::getInstance('extension');
+        $row->name         = $this->name;
+        $row->type         = 'language';
+        $row->element      = $this->tag;
         $row->changelogurl = (string) $this->getManifest()->changelogurl;
 
         // There is no folder for languages
-        $row->folder = '';
-        $row->enabled = 1;
-        $row->protected = 0;
-        $row->access = 0;
-        $row->client_id = $clientId;
-        $row->params = $this->parent->getParams();
+        $row->folder         = '';
+        $row->enabled        = 1;
+        $row->protected      = 0;
+        $row->access         = 0;
+        $row->client_id      = $clientId;
+        $row->params         = $this->parent->getParams();
         $row->manifest_cache = $this->parent->generateManifestCache();
 
         if (!$row->check() || !$row->store()) {
@@ -592,19 +592,19 @@ class LanguageAdapter extends InstallerAdapter
             // Set the defaults
 
             // There is no folder for language
-            $row->folder = '';
-            $row->enabled = 1;
+            $row->folder    = '';
+            $row->enabled   = 1;
             $row->protected = 0;
-            $row->access = 0;
+            $row->access    = 0;
             $row->client_id = $clientId;
-            $row->params = $this->parent->getParams();
+            $row->params    = $this->parent->getParams();
         }
 
-        $row->name = $this->name;
-        $row->type = 'language';
-        $row->element = $this->tag;
+        $row->name           = $this->name;
+        $row->type           = 'language';
+        $row->element        = $this->tag;
         $row->manifest_cache = $this->parent->generateManifestCache();
-        $row->changelogurl = (string) $this->getManifest()->changelogurl;
+        $row->changelogurl   = (string) $this->getManifest()->changelogurl;
 
         // Clean installed languages cache.
         Factory::getCache()->clean('com_languages');
@@ -650,17 +650,17 @@ class LanguageAdapter extends InstallerAdapter
                     }
                 }
 
-                $manifest_details = Installer::parseXMLInstallFile($manifestfile);
-                $extension        = Table::getInstance('extension');
-                $extension->type = 'language';
-                $extension->client_id = $clientId;
-                $extension->element = $language;
-                $extension->folder = '';
-                $extension->name = $language;
-                $extension->state = -1;
+                $manifest_details          = Installer::parseXMLInstallFile($manifestfile);
+                $extension                 = Table::getInstance('extension');
+                $extension->type           = 'language';
+                $extension->client_id      = $clientId;
+                $extension->element        = $language;
+                $extension->folder         = '';
+                $extension->name           = $language;
+                $extension->state          = -1;
                 $extension->manifest_cache = json_encode($manifest_details);
-                $extension->params = '{}';
-                $results[] = $extension;
+                $extension->params         = '{}';
+                $results[]                 = $extension;
             }
         }
 

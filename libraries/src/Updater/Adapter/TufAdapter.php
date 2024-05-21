@@ -51,7 +51,7 @@ class TufAdapter extends UpdateAdapter
 
         if ($targets) {
             foreach ($targets as $target) {
-                $updateTable = Table::getInstance('update');
+                $updateTable                 = Table::getInstance('update');
                 $updateTable->update_site_id = $options['update_site_id'];
 
                 $updateTable->bind($target);

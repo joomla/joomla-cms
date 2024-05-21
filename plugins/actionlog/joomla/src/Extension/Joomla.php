@@ -509,7 +509,7 @@ final class Joomla extends ActionLogPlugin
 
         $id_holder    = $params->id_holder;
         $title_holder = $params->title_holder;
-        $message = [
+        $message      = [
             'action'         => $isNew ? 'add' : 'update',
             'type'           => 'PLG_ACTIONLOG_JOOMLA_TYPE_' . $params->type_title,
             'id'             => $table->$id_holder,
@@ -548,7 +548,7 @@ final class Joomla extends ActionLogPlugin
         $messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_DELETED';
 
         $title_holder = $params->title_holder;
-        $message = [
+        $message      = [
             'action' => 'delete',
             'type'   => 'PLG_ACTIONLOG_JOOMLA_TYPE_' . $params->type_title,
             'title'  => $table->$title_holder,

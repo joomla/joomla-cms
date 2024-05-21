@@ -462,16 +462,16 @@ class LibraryAdapter extends InstallerAdapter
             $element       = str_replace([$mainFolder . DIRECTORY_SEPARATOR, '.xml'], '', $file);
             $manifestCache = Installer::parseXMLInstallFile($file);
 
-            $extension = Table::getInstance('extension');
-            $extension->type = 'library';
-            $extension->client_id = 0;
-            $extension->element = $element;
-            $extension->folder = '';
-            $extension->name = $element;
-            $extension->state = -1;
+            $extension                 = Table::getInstance('extension');
+            $extension->type           = 'library';
+            $extension->client_id      = 0;
+            $extension->element        = $element;
+            $extension->folder         = '';
+            $extension->name           = $element;
+            $extension->state          = -1;
             $extension->manifest_cache = json_encode($manifestCache);
-            $extension->params = '{}';
-            $results[] = $extension;
+            $extension->params         = '{}';
+            $results[]                 = $extension;
         }
 
         return $results;
