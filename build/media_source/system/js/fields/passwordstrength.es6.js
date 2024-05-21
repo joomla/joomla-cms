@@ -123,7 +123,7 @@ class PasswordStrength {
   };
 
   document.addEventListener('DOMContentLoaded', () => {
-    const fields = [].slice.call(document.querySelectorAll('.js-password-strength'));
+    const fields = document.querySelectorAll('.js-password-strength');
 
     // Loop  through the fields
     fields.forEach((field, index) => {
@@ -157,9 +157,7 @@ class PasswordStrength {
       }
 
       // Add a listener for input data change
-      field.addEventListener('keyup', ({ target }) => {
-        getMeter(target);
-      });
+      field.addEventListener('keyup', ({ target }) => getMeter(target));
     });
 
     // Set a handler for the validation script
