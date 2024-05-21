@@ -15,8 +15,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Templates\Administrator\View\Style\HtmlView $this */
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
@@ -109,18 +111,33 @@ $user = $this->getCurrentUser();
 
         <?php
         $this->fieldsets = [];
-        $this->ignore_fieldsets = ['basic', 'description'];
+        $this->ignore_fieldsets = ['basic', 'description', 'assigned'];
         echo LayoutHelper::render('joomla.edit.params', $this);
         ?>
 
         <?php if ($user->authorise('core.edit', 'com_menus') && $this->item->client_id == 0 && $this->canDo->get('core.edit.state')) : ?>
             <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'assignment', Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT')); ?>
-            <fieldset id="fieldset-assignment" class="options-form">
-                <legend><?php echo Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT'); ?></legend>
-                <div>
-                    <?php echo $this->loadTemplate('assignment'); ?>
-                </div>
-            </fieldset>
+            <?php if ($this->form->getGroup('assigned')) : ?>
+                <?php
+                $this->ignore_fieldsets = ['basic'];
+                $this->fieldset         = 'assigned';
+
+                foreach ($this->form->getFieldsets() as $fieldSet) {
+                    if ($fieldSet->name !== 'assigned') {
+                        $this->ignore_fieldsets[] = $fieldSet->name;
+                    }
+                }
+
+                echo LayoutHelper::render('joomla.edit.fieldset', $this);
+                ?>
+            <?php else : ?>
+                <fieldset id="fieldset-assignment" class="options-form">
+                    <legend><?php echo Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT'); ?></legend>
+                    <div>
+                        <?php echo $this->loadTemplate('assignment'); ?>
+                    </div>
+                </fieldset>
+            <?php endif; ?>
             <?php echo HTMLHelper::_('uitab.endTab'); ?>
         <?php endif; ?>
 

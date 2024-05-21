@@ -14,8 +14,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
@@ -161,9 +161,9 @@ class ModulesModel extends ListModel
     /**
      * Returns an object list
      *
-     * @param   DatabaseQuery  $query       The query
-     * @param   int            $limitstart  Offset
-     * @param   int            $limit       The number of records
+     * @param   QueryInterface  $query       The query
+     * @param   int             $limitstart  Offset
+     * @param   int             $limit       The number of records
      *
      * @return  array
      */
@@ -252,7 +252,7 @@ class ModulesModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      */
     protected function getListQuery()
     {
@@ -425,7 +425,7 @@ class ModulesModel extends ListModel
     /**
      * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
      *
-     * @return DatabaseQuery
+     * @return QueryInterface
      *
      * @since 4.0.0
      */

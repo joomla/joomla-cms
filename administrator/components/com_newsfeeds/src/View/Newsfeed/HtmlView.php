@@ -119,7 +119,7 @@ class HtmlView extends BaseHtmlView
 
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
-        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
+        $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
         $toolbar    = Toolbar::getInstance();
 
         // Since we don't track these assets at the item level, use the category id.

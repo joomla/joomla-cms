@@ -10,11 +10,15 @@
 
 namespace Joomla\Module\Stats\Site\Helper;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -25,19 +29,23 @@ use Joomla\Component\Content\Administrator\Extension\ContentComponent;
  *
  * @since  1.5
  */
-class StatsHelper
+class StatsHelper implements DatabaseAwareInterface
 {
+    use DatabaseAwareTrait;
+
     /**
      * Get list of stats
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
+     * @param   Registry  &$params  module parameters
+     * @param   CMSApplicationInterface  $app  The application
      *
      * @return  array
+     *
+     * @since   5.2.0
      */
-    public static function &getList(&$params)
+    public function getStats(Registry &$params, CMSApplicationInterface $app)
     {
-        $app        = Factory::getApplication();
-        $db         = Factory::getDbo();
+        $db         = $this->getDatabase();
         $rows       = [];
         $query      = $db->getQuery(true);
         $serverinfo = $params->get('serverinfo', 0);
@@ -157,5 +165,23 @@ class StatsHelper
         }
 
         return $rows;
+    }
+
+    /**
+     * Get list of stats
+     *
+     * @param   Registry  &$params  module parameters
+     *
+     * @return  array
+     *
+     * @deprecated 5.2.0 will be removed in 7.0
+     *             Use the non-static method getStats
+     *             Example: Factory::getApplication()->bootModule('mod_stats', 'site')
+     *                          ->getHelper('StatsHelper')
+     *                          ->getStats($params, Factory::getApplication())
+     */
+    public static function &getList(Registry &$params)
+    {
+        return (new self())->getStats($params, Factory::getApplication());
     }
 }
