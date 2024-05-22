@@ -574,7 +574,7 @@ class ItemsModel extends ListModel
 
         if (!isset($this->cache[$store])) {
             $items  = parent::getItems();
-            $lang   = Factory::getLanguage();
+            $lang   = Factory::getApplication()->getLanguage();
             $client = $this->state->get('filter.client_id');
 
             if ($items) {

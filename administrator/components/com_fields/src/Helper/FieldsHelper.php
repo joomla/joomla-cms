@@ -437,7 +437,7 @@ class FieldsHelper
             if (!$label) {
                 $key = strtoupper($component . '_FIELDS_' . $section . '_LABEL');
 
-                if (!Factory::getLanguage()->hasKey($key)) {
+                if (!Factory::getApplication()->getLanguage()->hasKey($key)) {
                     $key = 'JGLOBAL_FIELDS';
                 }
 
@@ -447,7 +447,7 @@ class FieldsHelper
             if (!$description) {
                 $key = strtoupper($component . '_FIELDS_' . $section . '_DESC');
 
-                if (Factory::getLanguage()->hasKey($key)) {
+                if (Factory::getApplication()->getLanguage()->hasKey($key)) {
                     $description = $key;
                 }
             }

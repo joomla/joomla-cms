@@ -44,7 +44,7 @@ class InstalledController extends BaseController
         if ($model->publish($cid)) {
             // Switching to the new administrator language for the message
             if ($model->getState('client_id') == 1) {
-                $language          = Factory::getLanguage();
+                $language          = Factory::getApplication()->getLanguage();
                 $newLang           = Language::getInstance($cid);
                 Factory::$language = $newLang;
                 $this->app->loadLanguage($language = $newLang);
@@ -92,7 +92,7 @@ class InstalledController extends BaseController
         if ($model->switchAdminLanguage($cid)) {
             // Switching to the new language for the message
             $languageName      = $info['nativeName'];
-            $language          = Factory::getLanguage();
+            $language          = Factory::getApplication()->getLanguage();
             $newLang           = Language::getInstance($cid);
             Factory::$language = $newLang;
             $this->app->loadLanguage($language = $newLang);

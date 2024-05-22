@@ -575,7 +575,7 @@ class ArticlesModel extends ListModel
 
         try {
             if (\count($stage_ids) || \count($workflow_ids)) {
-                Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
+                Factory::getApplication()->getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
 
                 $query = $db->getQuery(true);
 

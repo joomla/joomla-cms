@@ -29,7 +29,7 @@ if ($root && $root->hasChildren()) {
     Factory::getApplication()->getLanguage()->load(
         'mod_menu',
         JPATH_ADMINISTRATOR,
-        Factory::getLanguage()->getTag(),
+        Factory::getApplication()->getLanguage()->getTag(),
         true
     );
 

@@ -176,7 +176,7 @@ class ContentComponent extends MVCComponent implements
      */
     public function getContexts(): array
     {
-        Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+        Factory::getApplication()->getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
         $contexts = [
             'com_content.article'    => Text::_('COM_CONTENT'),
@@ -195,7 +195,7 @@ class ContentComponent extends MVCComponent implements
      */
     public function getSchemaorgContexts(): array
     {
-        Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+        Factory::getApplication()->getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
         $contexts = [
             'com_content.article' => Text::_('COM_CONTENT'),
@@ -213,7 +213,7 @@ class ContentComponent extends MVCComponent implements
      */
     public function getWorkflowContexts(): array
     {
-        Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+        Factory::getApplication()->getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
         $contexts = [
             'com_content.article' => Text::_('COM_CONTENT'),

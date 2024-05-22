@@ -142,7 +142,7 @@ class ConfigHelper extends ContentHelper
             return;
         }
 
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
 
         // Load the core file then
         // Load extension-local file.

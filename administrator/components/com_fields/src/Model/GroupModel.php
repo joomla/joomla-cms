@@ -258,7 +258,7 @@ class GroupModel extends AdminModel
         $path = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
 
         if (file_exists($path)) {
-            $lang = Factory::getLanguage();
+            $lang = Factory::getApplication()->getLanguage();
             $lang->load($component, JPATH_BASE);
             $lang->load($component, JPATH_BASE . '/components/' . $component);
 
