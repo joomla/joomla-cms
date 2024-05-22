@@ -140,7 +140,7 @@ class HtmlView extends BaseHtmlView
     {
         $canDo   = ContentHelper::getActions('com_tags');
         $user    = $this->getCurrentUser();
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_TAGS_MANAGER_TAGS'), 'tags');
 

@@ -110,7 +110,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'cog config');
         $toolbar->apply('component.apply');

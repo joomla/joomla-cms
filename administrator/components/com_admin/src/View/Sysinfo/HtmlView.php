@@ -111,7 +111,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar(): void
     {
         ToolbarHelper::title(Text::_('COM_ADMIN_SYSTEM_INFORMATION'), 'info-circle systeminfo');
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
         $toolbar->linkButton('download', 'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_TEXT')
             ->url(Route::_('index.php?option=com_admin&view=sysinfo&format=text&' . Session::getFormToken() . '=1'));
 

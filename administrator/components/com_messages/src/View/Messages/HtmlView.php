@@ -119,7 +119,7 @@ class HtmlView extends BaseHtmlView
         $user  = $this->getCurrentUser();
 
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_MESSAGES_MANAGER_MESSAGES'), 'envelope inbox');
 

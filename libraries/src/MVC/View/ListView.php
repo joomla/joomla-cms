@@ -208,7 +208,7 @@ class ListView extends HtmlView
         $user  = $this->getCurrentUser();
 
         // Get the toolbar object instance
-        $bar = Toolbar::getInstance('toolbar');
+        $bar = $this->getDocument()->getToolbar();
 
         $viewName         = $this->getName();
         $singularViewName = InflectorFactory::create()->build()->singularize($viewName);

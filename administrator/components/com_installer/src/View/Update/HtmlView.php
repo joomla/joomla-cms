@@ -120,7 +120,7 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         if (false === $this->isEmptyState) {
             $toolbar->standardButton('upload', 'COM_INSTALLER_TOOLBAR_UPDATE', 'update.update')

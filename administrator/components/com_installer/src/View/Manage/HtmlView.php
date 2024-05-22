@@ -84,7 +84,7 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
         $canDo   = ContentHelper::getActions('com_installer');
 
         $dropdown = $toolbar->dropdownButton('status-group')

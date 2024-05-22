@@ -75,7 +75,7 @@ class HtmlView extends InstallerViewDefault
     protected function addToolbar()
     {
         $canDo   = ContentHelper::getActions('com_languages');
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         if ($canDo->get('core.manage')) {
             $toolbar->linkButton('list', 'COM_INSTALLER_TOOLBAR_MANAGE_LANGUAGES')

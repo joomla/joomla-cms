@@ -82,7 +82,7 @@ class HtmlView extends BaseHtmlView
     {
         $state    = $this->get('State');
         $clientId = (int) $state->get('client_id', 0);
-        $toolbar  = Toolbar::getInstance();
+        $toolbar  = $this->getDocument()->getToolbar();
 
         // Add page title
         ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');

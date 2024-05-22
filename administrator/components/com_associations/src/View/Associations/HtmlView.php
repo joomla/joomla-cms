@@ -218,7 +218,7 @@ class HtmlView extends BaseHtmlView
             ToolbarHelper::title(Text::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'language assoc');
         }
 
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         if ($user->authorise('core.admin', 'com_associations') || $user->authorise('core.options', 'com_associations')) {
             if (!isset($this->typeName)) {

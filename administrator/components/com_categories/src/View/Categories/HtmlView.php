@@ -168,7 +168,7 @@ class HtmlView extends BaseHtmlView
         $section    = $this->state->get('filter.section');
         $canDo      = ContentHelper::getActions($component, 'category', $categoryId);
         $user       = $this->getCurrentUser();
-        $toolbar    = Toolbar::getInstance();
+        $toolbar    = $this->getDocument()->getToolbar();
 
         // Avoid nonsense situation.
         if ($component == 'com_categories') {

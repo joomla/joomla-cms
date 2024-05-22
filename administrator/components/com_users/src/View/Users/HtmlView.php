@@ -131,7 +131,7 @@ class HtmlView extends BaseHtmlView
         $user  = $this->getCurrentUser();
 
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_USERS_VIEW_USERS_TITLE'), 'users user');
 

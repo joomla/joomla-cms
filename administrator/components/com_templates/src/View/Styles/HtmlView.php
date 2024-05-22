@@ -119,7 +119,7 @@ class HtmlView extends BaseHtmlView
     {
         $canDo    = ContentHelper::getActions('com_templates');
         $clientId = (int) $this->get('State')->get('client_id');
-        $toolbar  = Toolbar::getInstance();
+        $toolbar  = $this->getDocument()->getToolbar();
 
         // Add a shortcut to the templates list view.
         $toolbar->linkButton('templates', 'COM_TEMPLATES_MANAGER_TEMPLATES')

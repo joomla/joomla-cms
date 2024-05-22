@@ -61,7 +61,7 @@ class HtmlView extends BaseHtmlView
     {
         $app       = Factory::getApplication();
         $dashboard = $app->getInput()->getCmd('dashboard', '');
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
 
         $position = OutputFilter::stringURLSafe($dashboard);
 

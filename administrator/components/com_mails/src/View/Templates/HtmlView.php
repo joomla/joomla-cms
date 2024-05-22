@@ -133,7 +133,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
         $user    = $this->getCurrentUser();
 
         ToolbarHelper::title(Text::_('COM_MAILS_MAILS_TITLE'), 'envelope');

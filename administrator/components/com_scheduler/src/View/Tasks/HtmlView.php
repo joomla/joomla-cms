@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
     {
         $canDo   = ContentHelper::getActions('com_scheduler');
         $user    = $this->getCurrentUser();
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_SCHEDULER_MANAGER_TASKS'), 'clock');
 

@@ -76,7 +76,7 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         if (!$this->isEmptyState) {
             $toolbar->standardButton('upload', 'JTOOLBAR_INSTALL', 'discover.install')

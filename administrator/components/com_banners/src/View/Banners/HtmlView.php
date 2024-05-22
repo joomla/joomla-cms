@@ -142,7 +142,7 @@ class HtmlView extends BaseHtmlView
     {
         $canDo   = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
         $user    = $this->getCurrentUser();
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_BANNERS'), 'bookmark banners');
 

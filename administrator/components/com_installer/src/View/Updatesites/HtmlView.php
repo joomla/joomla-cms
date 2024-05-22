@@ -103,7 +103,7 @@ class HtmlView extends InstallerViewDefault
         $canDo = ContentHelper::getActions('com_installer');
 
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
 
         if ($canDo->get('core.edit.state')) {
             /** @var DropdownButton $dropdown */

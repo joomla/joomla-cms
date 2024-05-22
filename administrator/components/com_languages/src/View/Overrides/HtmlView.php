@@ -98,7 +98,7 @@ class HtmlView extends BaseHtmlView
     {
         // Get the results for each action
         $canDo   = ContentHelper::getActions('com_languages');
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_OVERRIDES_TITLE'), 'comments langmanager');
 

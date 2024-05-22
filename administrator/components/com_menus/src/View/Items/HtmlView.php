@@ -302,7 +302,7 @@ class HtmlView extends BaseHtmlView
         $menuTypeTitle = $this->get('State')->get('menutypetitle');
 
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
 
         if ($menuTypeTitle) {
             ToolbarHelper::title(Text::sprintf('COM_MENUS_VIEW_ITEMS_MENU_TITLE', $menuTypeTitle), 'list menumgr');

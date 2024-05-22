@@ -150,7 +150,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         $canDo   = $this->canDo;
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_FINDER_MANAGER_SEARCHES'), 'search');
 

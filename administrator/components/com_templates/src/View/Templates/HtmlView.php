@@ -136,7 +136,7 @@ class HtmlView extends BaseHtmlView
     {
         $canDo    = ContentHelper::getActions('com_templates');
         $clientId = (int) $this->get('State')->get('client_id');
-        $toolbar  = Toolbar::getInstance();
+        $toolbar  = $this->getDocument()->getToolbar();
 
         // Add a shortcut to the styles list view.
         $toolbar->linkButton('', 'COM_TEMPLATES_MANAGER_STYLES_BUTTON')

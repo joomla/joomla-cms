@@ -126,7 +126,7 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::title(Text::_('COM_CACHE_CLEAR_CACHE'), 'bolt clear');
 
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
 
         if (\count($this->data)) {
             $toolbar->delete('delete')

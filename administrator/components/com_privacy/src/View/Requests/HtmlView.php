@@ -138,7 +138,7 @@ class HtmlView extends BaseHtmlView
     {
         ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_REQUESTS'), 'lock');
 
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         // Requests can only be created if mail sending is enabled
         if (Factory::getApplication()->get('mailonline', 1)) {

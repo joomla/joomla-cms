@@ -120,7 +120,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
         $groupId   = $this->state->get('filter.group_id');
         $component = '';
         $parts     = FieldsHelper::extract($this->state->get('filter.context'));

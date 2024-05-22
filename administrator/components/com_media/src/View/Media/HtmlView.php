@@ -87,7 +87,7 @@ class HtmlView extends BaseHtmlView
     protected function prepareToolbar()
     {
         $tmpl    = Factory::getApplication()->getInput()->getCmd('tmpl');
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
         $user    = $this->getCurrentUser();
 
         // Set the title

@@ -96,7 +96,7 @@ class HtmlView extends BaseHtmlView
         $input->set('hidemainmenu', true);
 
         $isNew   = ($this->item->id == 0);
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_($isNew ? 'COM_MENUS_VIEW_NEW_MENU_TITLE' : 'COM_MENUS_VIEW_EDIT_MENU_TITLE'), 'list menu');
 

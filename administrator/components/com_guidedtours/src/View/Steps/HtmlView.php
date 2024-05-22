@@ -125,7 +125,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
 
         $canDo = ContentHelper::getActions('com_guidedtours');
         $app   = Factory::getApplication();

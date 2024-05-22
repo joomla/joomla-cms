@@ -127,7 +127,7 @@ class HtmlView extends BaseHtmlView
 
         $isNew   = ($this->item->id == 0);
         $canDo   = $this->canDo;
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title($isNew ? Text::_('COM_SCHEDULER_MANAGER_TASK_NEW') : Text::_('COM_SCHEDULER_MANAGER_TASK_EDIT'), 'clock');
 

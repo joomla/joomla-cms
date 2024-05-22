@@ -108,7 +108,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar(): void
     {
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::_('COM_SCHEDULER_MANAGER_TASKS'), 'clock');
 

@@ -91,7 +91,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
     protected function addToolbar()
     {
         $app     = Factory::getApplication();
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         if ($this->getLayout() == 'edit') {
             $app->getInput()->set('hidemainmenu', true);

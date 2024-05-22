@@ -99,7 +99,7 @@ class HtmlView extends BaseHtmlView
         // Add page title
         ToolbarHelper::title(Text::_('COM_MENUS'), 'list menumgr');
 
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         // Cancel
         $title = Text::_('JTOOLBAR_CANCEL');

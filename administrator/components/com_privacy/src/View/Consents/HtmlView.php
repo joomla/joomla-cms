@@ -126,7 +126,7 @@ class HtmlView extends BaseHtmlView
     {
         ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_CONSENTS'), 'lock');
 
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         // Add a button to invalidate a consent
         if (!$this->isEmptyState) {

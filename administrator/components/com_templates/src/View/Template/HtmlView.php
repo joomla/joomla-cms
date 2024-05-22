@@ -232,7 +232,7 @@ class HtmlView extends BaseHtmlView
     {
         $app     = Factory::getApplication();
         $user    = $this->getCurrentUser();
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
         $app->getInput()->set('hidemainmenu', true);
 
         // User is global SuperUser

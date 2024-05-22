@@ -70,7 +70,7 @@ class HtmlView extends BaseHtmlView
     {
         ToolbarHelper::title(Text::_('COM_MEDIA_EDIT'), 'images mediamanager');
 
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
         $toolbar->apply('apply');
         $toolbar->save('save');
         $toolbar->standardButton('reset', 'COM_MEDIA_RESET', 'reset')

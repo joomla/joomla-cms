@@ -358,7 +358,7 @@ class HtmlView extends BaseHtmlView
             'language assoc'
         );
 
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
         $toolbar->customButton('reference')
             ->html('<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'reference\')" '
             . 'class="btn btn-success"><span class="icon-save" aria-hidden="true"></span>'

@@ -121,7 +121,7 @@ class HtmlView extends BaseHtmlView
     {
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         // Set the title and toolbar based on the layout
         if ($this->getLayout() === 'edit') {

@@ -90,7 +90,7 @@ class HtmlView extends BaseHtmlView
 
         ToolbarHelper::title(Text::_('COM_MESSAGES_TOOLBAR_MY_SETTINGS'), 'envelope');
 
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
         $toolbar->apply('config.save', 'JSAVE');
         $toolbar->cancel('config.cancel', 'JCANCEL');
     }

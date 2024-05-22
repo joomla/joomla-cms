@@ -122,7 +122,7 @@ class HtmlView extends BaseHtmlView
         $this->record        = $model->getRecord($this->user);
         $this->title         = $model->getPageTitle();
         $this->isAdmin       = $app->isClient('administrator');
-        $toolbar             = Toolbar::getInstance();
+        $toolbar             = $this->getDocument()->getToolbar();
 
         // Backup codes are a special case, rendered with a special layout
         if ($this->record->method == 'backupcodes') {

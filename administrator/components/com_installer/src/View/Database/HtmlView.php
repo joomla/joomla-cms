@@ -118,7 +118,7 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         $toolbar->standardButton('fix', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', 'database.fix')
             ->listCheck(true)

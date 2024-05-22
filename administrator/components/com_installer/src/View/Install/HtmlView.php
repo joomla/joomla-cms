@@ -62,7 +62,7 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         if (ContentHelper::getActions('com_installer')->get('core.manage')) {
             $toolbar->linkButton('list', 'COM_INSTALLER_TOOLBAR_MANAGE')

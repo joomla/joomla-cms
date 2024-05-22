@@ -127,7 +127,7 @@ class HtmlView extends BaseHtmlView
         $component = $this->state->get('filter.component');
         $section   = $this->state->get('filter.section');
         $canDo     = ContentHelper::getActions($component, 'field', $fieldId);
-        $toolbar   = Toolbar::getInstance();
+        $toolbar   = $this->getDocument()->getToolbar();
 
         // Avoid nonsense situation.
         if ($component == 'com_fields') {

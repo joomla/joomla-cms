@@ -163,7 +163,7 @@ class HtmlView extends BaseHtmlView
 
         $user = $this->getCurrentUser();
 
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_STAGES_LIST', Text::_($this->state->get('active_workflow', ''))), 'address contact');
 

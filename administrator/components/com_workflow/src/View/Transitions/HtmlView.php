@@ -161,7 +161,7 @@ class HtmlView extends BaseHtmlView
     {
         $canDo   = ContentHelper::getActions($this->extension, 'workflow', $this->workflowID);
         $user    = $this->getCurrentUser();
-        $toolbar = Toolbar::getInstance();
+        $toolbar = $this->getDocument()->getToolbar();
 
         ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_TRANSITIONS_LIST', Text::_($this->state->get('active_workflow'))), 'address contact');
 
