@@ -45,7 +45,7 @@ abstract class Menu
         $app        = Factory::getApplication();
         $user       = $app->getIdentity();
         $children   = $parent->getChildren();
-        $language   = Factory::getLanguage();
+        $language   = Factory::getApplication()->getLanguage();
         $dispatcher = $app->getDispatcher();
 
         /**

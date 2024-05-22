@@ -124,7 +124,7 @@ class ItemsModel extends ListModel
 
         // Load mod_menu.ini file when client is administrator
         if ($clientId == 1) {
-            Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR);
+            Factory::getApplication()->getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR);
         }
 
         $currentMenuType = $app->getUserState($this->context . '.menutype', '');

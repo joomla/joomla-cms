@@ -128,7 +128,7 @@ class TransitionField extends GroupedlistField
 
         $items = $db->setQuery($query)->loadObjectList();
 
-        Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
+        Factory::getApplication()->getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
 
         $parts = explode('.', $extension);
 

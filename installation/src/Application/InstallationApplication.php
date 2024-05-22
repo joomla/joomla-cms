@@ -113,7 +113,7 @@ final class InstallationApplication extends CMSApplication
             return '';
         }
 
-        $lang   = Factory::getLanguage();
+        $lang   = Factory::getApplication()->getLanguage();
         $output = '<h4>' . Text::_('JDEBUG_LANGUAGE_FILES_IN_ERROR') . '</h4>';
 
         $errorfiles = $lang->getErrorFiles();

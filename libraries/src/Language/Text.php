@@ -66,7 +66,7 @@ class Text
             return $string;
         }
 
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
 
         if ($script) {
             static::$strings[$string] = $lang->_($string, $jsSafe, $interpretBackSlashes);
@@ -96,7 +96,7 @@ class Text
             return false;
         }
 
-        $lang         = Factory::getLanguage();
+        $lang         = Factory::getApplication()->getLanguage();
         $string_parts = explode(',', $string);
 
         // Pass all parts through the Text translator
@@ -151,7 +151,7 @@ class Text
      */
     public static function alt($string, $alt, $jsSafe = false, $interpretBackSlashes = true, $script = false)
     {
-        if (Factory::getLanguage()->hasKey($string . '_' . $alt)) {
+        if (Factory::getApplication()->getLanguage()->hasKey($string . '_' . $alt)) {
             $string .= '_' . $alt;
         }
 
@@ -187,7 +187,7 @@ class Text
      */
     public static function plural($string, $n)
     {
-        $lang  = Factory::getLanguage();
+        $lang  = Factory::getApplication()->getLanguage();
         $args  = \func_get_args();
         $count = \count($args);
 
@@ -255,7 +255,7 @@ class Text
      */
     public static function sprintf($string)
     {
-        $lang  = Factory::getLanguage();
+        $lang  = Factory::getApplication()->getLanguage();
         $args  = \func_get_args();
         $count = \count($args);
 
@@ -294,7 +294,7 @@ class Text
      */
     public static function printf($string)
     {
-        $lang  = Factory::getLanguage();
+        $lang  = Factory::getApplication()->getLanguage();
         $args  = \func_get_args();
         $count = \count($args);
 
@@ -358,7 +358,7 @@ class Text
 
             // Normalize the key and translate the string.
             $key                   = strtoupper($string);
-            $strings[$key]         = Factory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
+            $strings[$key]         = Factory::getApplication()->getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
             static::$strings[$key] = $strings[$key];
 
             // Load core.js dependency

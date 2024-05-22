@@ -82,7 +82,7 @@ class MenutypesModel extends BaseDatabaseModel
      */
     public function getTypeOptions()
     {
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
         $list = [];
 
         // Get the list of components.

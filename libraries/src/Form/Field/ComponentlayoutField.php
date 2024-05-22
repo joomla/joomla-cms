@@ -84,7 +84,7 @@ class ComponentlayoutField extends FormField
         // If a template, extension and view are present build the options.
         if ($extension && $view && $client) {
             // Load language file
-            $lang = Factory::getLanguage();
+            $lang = Factory::getApplication()->getLanguage();
             $lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
             || $lang->load($extension . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extension);
 

@@ -37,7 +37,7 @@ class SitePathway extends Pathway
 
         $app  = $app ?: Factory::getContainer()->get(SiteApplication::class);
         $menu = $app->getMenu();
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
 
         if ($item = $menu->getActive()) {
             $menus = $menu->getMenu();

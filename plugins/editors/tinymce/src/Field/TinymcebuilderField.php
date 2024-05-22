@@ -143,7 +143,7 @@ class TinymcebuilderField extends FormField
         $data['setsForms'] = $setsForms;
 
         // Check for TinyMCE language file
-        $language      = Factory::getLanguage();
+        $language      = Factory::getApplication()->getLanguage();
         $languageFile1 = 'media/vendor/tinymce/langs/' . $language->getTag() . (JDEBUG ? '.js' : '.min.js');
         $languageFile2 = 'media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . (JDEBUG ? '.js' : '.min.js');
 

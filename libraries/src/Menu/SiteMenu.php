@@ -69,7 +69,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
     {
         // Extract the internal dependencies before calling the parent constructor since it calls $this->load()
         $this->app      = isset($options['app']) && $options['app'] instanceof CMSApplication ? $options['app'] : Factory::getApplication();
-        $this->language = isset($options['language']) && $options['language'] instanceof Language ? $options['language'] : Factory::getLanguage();
+        $this->language = isset($options['language']) && $options['language'] instanceof Language ? $options['language'] : Factory::getApplication()->getLanguage();
 
         if (!isset($options['db']) || !($options['db'] instanceof DatabaseDriver)) {
             @trigger_error(sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
@@ -235,7 +235,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
             if (($key = array_search('language', $attributes)) === false) {
                 if (Multilanguage::isEnabled()) {
                     $attributes[] = 'language';
-                    $values[]     = [Factory::getLanguage()->getTag(), '*'];
+                    $values[]     = [Factory::getApplication()->getLanguage()->getTag(), '*'];
                 }
             } elseif ($values[$key] === null) {
                 unset($attributes[$key], $values[$key]);

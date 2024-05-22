@@ -292,7 +292,7 @@ abstract class Behavior
             'DRAG_TO_MOVE'    => Text::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE'),
             'PART_TODAY'      => $today,
             'DAY_FIRST'       => Text::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST'),
-            'WEEKEND'         => Factory::getLanguage()->getWeekEnd(),
+            'WEEKEND'         => Factory::getApplication()->getLanguage()->getWeekEnd(),
             'CLOSE'           => Text::_('JLIB_HTML_BEHAVIOR_CLOSE'),
             'TODAY'           => Text::_('JLIB_HTML_BEHAVIOR_TODAY'),
             'TIME_PART'       => Text::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE'),

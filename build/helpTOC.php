@@ -127,7 +127,7 @@ $command = new class () extends AbstractCommand {
         $cleanMembers = array_unique($cleanMembers);
 
         // Get the language object
-        $language = Factory::getLanguage();
+        $language = Factory::getApplication()->getLanguage();
 
         // Load the admin com_admin language file
         $language->load('com_admin', JPATH_ADMINISTRATOR);

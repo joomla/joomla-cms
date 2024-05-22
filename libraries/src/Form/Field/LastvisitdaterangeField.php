@@ -38,7 +38,7 @@ class LastvisitdaterangeField extends PredefinedlistField
         $this->type = 'LastvisitDateRange';
 
         // Load the required language
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
         $lang->load('com_users', JPATH_ADMINISTRATOR);
 
         // Set the pre-defined options

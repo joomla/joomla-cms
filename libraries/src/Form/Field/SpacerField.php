@@ -90,7 +90,7 @@ class SpacerField extends FormField
                     'UTF-8'
                 ) . '"';
 
-                if (Factory::getLanguage()->isRtl()) {
+                if (Factory::getApplication()->getLanguage()->isRtl()) {
                     $label .= ' data-bs-placement="left"';
                 }
             }

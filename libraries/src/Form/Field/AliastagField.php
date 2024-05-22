@@ -55,7 +55,7 @@ class AliastagField extends ListField
 
         $options = $db->loadObjectList();
 
-        $lang = Factory::getLanguage();
+        $lang = Factory::getApplication()->getLanguage();
 
         foreach ($options as $i => $item) {
             $parts     = explode('.', $item->value);

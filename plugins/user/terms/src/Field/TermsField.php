@@ -95,7 +95,7 @@ class TermsField extends RadioField
                 $termsAssociated = Associations::getAssociations('com_content', '#__content', 'com_content.item', $termsArticle);
             }
 
-            $currentLang = Factory::getLanguage()->getTag();
+            $currentLang = Factory::getApplication()->getLanguage()->getTag();
 
             if (isset($termsAssociated) && $currentLang !== $article->language && \array_key_exists($currentLang, $termsAssociated)) {
                 $article->link = RouteHelper::getArticleRoute(

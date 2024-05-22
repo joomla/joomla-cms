@@ -357,7 +357,7 @@ class RegistrationModel extends FormModel implements UserFactoryAwareInterface
         $data = $this->getData();
 
         if (Multilanguage::isEnabled() && empty($data->language)) {
-            $data->language = Factory::getLanguage()->getTag();
+            $data->language = Factory::getApplication()->getLanguage()->getTag();
         }
 
         $this->preprocessData('com_users.registration', $data);

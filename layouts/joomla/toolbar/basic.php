@@ -65,7 +65,7 @@ if (!empty($task)) {
     $htmlAttributes .= ' onclick="' . $onclick . '"';
 }
 
-$direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-end' : '';
+$direction = Factory::getApplication()->getLanguage()->isRtl() ? 'dropdown-menu-end' : '';
 ?>
 <joomla-toolbar-button <?php echo $idAttr . $taskAttr . $listAttr . $formAttr . $validate . $msgAttr; ?>>
 <<?php echo $tagName; ?>

@@ -173,7 +173,7 @@ class ArticleModel extends ItemModel
 
                 // Filter by language
                 if ($this->getState('filter.language')) {
-                    $query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
+                    $query->whereIn($db->quoteName('a.language'), [Factory::getApplication()->getLanguage()->getTag(), '*'], ParameterType::STRING);
                 }
 
                 if (

@@ -104,7 +104,7 @@ class SetConfigurationCommand extends AbstractCommand
      */
     private function configureIO(InputInterface $input, OutputInterface $output)
     {
-        $language = Factory::getLanguage();
+        $language = Factory::getApplication()->getLanguage();
         $language->load('', JPATH_INSTALLATION, null, false, false) ||
         $language->load('', JPATH_INSTALLATION, null, true);
         $language->load('com_config', JPATH_ADMINISTRATOR, null, false, false) ||

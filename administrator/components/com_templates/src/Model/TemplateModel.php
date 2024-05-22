@@ -368,7 +368,7 @@ class TemplateModel extends FormModel
             $app    = Factory::getApplication();
             $client = ApplicationHelper::getClientInfo($template->client_id);
             $path   = Path::clean($client->path . '/templates/' . $template->element . '/');
-            $lang   = Factory::getLanguage();
+            $lang   = Factory::getApplication()->getLanguage();
 
             // Load the core and/or local language file(s).
             $lang->load('tpl_' . $template->element, $client->path)

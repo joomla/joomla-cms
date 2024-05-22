@@ -161,7 +161,7 @@ class SuggestionsModel extends ListModel
 
         // Set the query language
         if (Multilanguage::isEnabled()) {
-            $lang = Factory::getLanguage()->getTag();
+            $lang = Factory::getApplication()->getLanguage()->getTag();
         } else {
             $lang = Helper::getDefaultLanguage();
         }

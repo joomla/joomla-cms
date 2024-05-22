@@ -26,7 +26,7 @@ if ($menutype === '*') {
 }
 
 if ($root && $root->hasChildren()) {
-    Factory::getLanguage()->load(
+    Factory::getApplication()->getLanguage()->load(
         'mod_menu',
         JPATH_ADMINISTRATOR,
         Factory::getLanguage()->getTag(),
