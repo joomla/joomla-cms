@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
@@ -83,7 +84,7 @@ class SelectModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      */
     protected function getListQuery()
     {

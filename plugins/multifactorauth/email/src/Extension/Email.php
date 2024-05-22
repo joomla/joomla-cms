@@ -18,7 +18,6 @@ use Joomla\CMS\Event\MultiFactor\GetSetup;
 use Joomla\CMS\Event\MultiFactor\SaveSetup;
 use Joomla\CMS\Event\MultiFactor\Validate;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
@@ -34,6 +33,7 @@ use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Input\Input;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 
 // phpcs:disable PSR1.Files.SideEffects
