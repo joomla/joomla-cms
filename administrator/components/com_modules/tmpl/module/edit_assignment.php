@@ -21,7 +21,7 @@ use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 // Initialise related data.
 $menuTypes = MenusHelper::getMenuLinks();
 
-$this->document->getWebAssetManager()
+$this->getDocument()->getWebAssetManager()
     ->useScript('joomla.treeselectmenu')
     ->useScript('com_modules.admin-module-edit-assignment');
 

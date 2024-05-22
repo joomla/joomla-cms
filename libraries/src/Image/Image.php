@@ -123,6 +123,7 @@ class Image
             static::$formats[IMAGETYPE_PNG]  = $info['PNG Support'];
             static::$formats[IMAGETYPE_GIF]  = $info['GIF Read Support'];
             static::$formats[IMAGETYPE_WEBP] = $info['WebP Support'];
+            static::$formats[IMAGETYPE_AVIF] = $info['AVIF Support'];
         }
 
         // If the source input is a resource, set it as the image handle.
@@ -355,7 +356,7 @@ class Image
                 // Save thumb file to disk
                 $thumbFileName = $thumbsFolder . '/' . $thumbFileName;
 
-                if ($thumb->toFile($thumbFileName, $imgProperties->type)) {
+                if ($thumb->toFile($thumbFileName, $imgProperties->type, ['quality' => $imgProperties->type !== IMAGETYPE_PNG ? 70 : 8])) {
                     // Return Image object with thumb path to ease further manipulation
                     $thumb->path     = $thumbFileName;
                     $thumbsCreated[] = $thumb;
@@ -583,6 +584,18 @@ class Image
 
         // Attempt to load the image based on the MIME-Type
         switch ($properties->mime) {
+            case 'image/avif':
+                // Make sure the image type is supported.
+                if (empty(static::$formats[IMAGETYPE_AVIF])) {
+                    throw new \RuntimeException('Attempting to load an image of unsupported type AVIF.');
+                }
+
+                // Attempt to create the image handle.
+                $handle = imagecreatefromavif($path);
+                $type   = 'AVIF';
+
+                break;
+
             case 'image/gif':
                 // Make sure the image type is supported.
                 if (empty(static::$formats[IMAGETYPE_GIF])) {
@@ -919,6 +932,9 @@ class Image
     public function toFile($path, $type = IMAGETYPE_JPEG, array $options = [])
     {
         switch ($type) {
+            case IMAGETYPE_AVIF:
+                return imageavif($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 100);
+
             case IMAGETYPE_GIF:
                 return imagegif($this->getHandle(), $path);
 

@@ -23,7 +23,7 @@ use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
 $app = Factory::getApplication();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_mails.admin-email-template-edit');
@@ -34,7 +34,7 @@ $input = $app->getInput();
 list($component, $sub_id) = explode('.', $this->master->template_id, 2);
 $sub_id = str_replace('.', '_', $sub_id);
 
-$this->document->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
+$this->getDocument()->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 
 ?>
 
