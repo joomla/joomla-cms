@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 
+/** @var \Joomla\Component\Content\Site\View\Article\HtmlView $this */
 // Create shortcut
 $urls = json_decode($this->item->urls);
 

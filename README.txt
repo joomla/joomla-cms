@@ -12,7 +12,7 @@ The Joomla! 6.0 branch is under heavy development and not all links in this docu
 2- What is Joomla?
 	* Joomla! is a Content Management System (CMS) which enables you to build websites and powerful online applications.
 	* It's a free and Open Source software, distributed under the GNU General Public License version 2 or later.
-	* This is a simple and powerful web server application and it requires a server with PHP and either MySQL, PostgreSQL or SQL Server to run.
+	* This is a simple and powerful web server application and it requires a server with PHP and either MySQL, MariaDB or PostgreSQL to run.
 	You can find full technical requirements here: https://downloads.joomla.org/technical-requirements.
 
 3- Is Joomla! for you?

@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
@@ -21,7 +22,7 @@ use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 /** @var \Joomla\Component\Redirect\Administrator\View\Link\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect')
     ->useScript('joomla.dialog-autocreate');
@@ -32,11 +33,12 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
 $collectUrlsEnabled = RedirectHelper::collectUrlsEnabled();
+$pluginEnabled      = PluginHelper::isEnabled('system', 'redirect');
 $redirectPluginId   = $this->redirectPluginId;
 
 // Show messages about the enabled plugin and if the plugin should collect URLs
-if (!$redirectPluginId && $collectUrlsEnabled) {
-    $app->enqueueMessage(Text::sprintf('COM_REDIRECT_COLLECT_URLS_ENABLED', Text::_('COM_REDIRECT_PLUGIN_ENABLED')), 'warning');
+if ($pluginEnabled && $collectUrlsEnabled) {
+    $app->enqueueMessage(Text::sprintf('COM_REDIRECT_COLLECT_URLS_ENABLED', Text::_('COM_REDIRECT_PLUGIN_ENABLED')), 'notice');
 } else {
     $popupOptions = [
         'popupType'  => 'iframe',
@@ -56,10 +58,10 @@ if (!$redirectPluginId && $collectUrlsEnabled) {
         ],
     );
 
-    if (!$redirectPluginId && !$collectUrlsEnabled) {
+    if ($pluginEnabled && !$collectUrlsEnabled) {
         $app->enqueueMessage(
             Text::sprintf('COM_REDIRECT_COLLECT_MODAL_URLS_DISABLED', Text::_('COM_REDIRECT_PLUGIN_ENABLED'), $link),
-            'warning'
+            'notice'
         );
     } else {
         $app->enqueueMessage(Text::sprintf('COM_REDIRECT_PLUGIN_MODAL_DISABLED', $link), 'error');
