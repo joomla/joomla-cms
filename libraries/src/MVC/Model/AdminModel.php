@@ -1116,7 +1116,7 @@ abstract class AdminModel extends FormModel
                  */
                 $publishedColumnName = $table->getColumnAlias('published');
 
-                if (property_exists($table, $publishedColumnName) && ($table->$publishedColumnName ?: $value) == $value) {
+                if (property_exists($table, $publishedColumnName) && (isset($table->$publishedColumnName) ? $table->$publishedColumnName : $value) == $value) {
                     unset($pks[$i]);
                 }
             }

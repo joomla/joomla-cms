@@ -974,7 +974,7 @@ class ItemModel extends AdminModel
         if ($pk) {
             $table = $this->getTable();
             $table->load($pk);
-            $forcedClientId = $table->client_id ?: $forcedClientId;
+            $forcedClientId = isset($table->client_id) ? $table->client_id : $forcedClientId;
         }
 
         if (isset($forcedClientId) && $forcedClientId != $clientId) {
