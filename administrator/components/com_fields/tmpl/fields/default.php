@@ -29,7 +29,7 @@ $wa->useScript('table.columns')
 
 $app       = Factory::getApplication();
 $user      = $this->getCurrentUser();
-$userId    = $user->get('id');
+$userId    = $user->id;
 $context   = $this->escape($this->state->get('filter.context'));
 $component = $this->state->get('filter.component');
 $section   = $this->state->get('filter.section');

@@ -114,7 +114,7 @@ class HtmlView extends BaseHtmlView
             $component = $parts[0];
         }
 
-        $userId    = $this->getCurrentUser()->get('id');
+        $userId    = $this->getCurrentUser()->id;
         $canDo     = $this->canDo;
 
         $isNew      = ($this->item->id == 0);

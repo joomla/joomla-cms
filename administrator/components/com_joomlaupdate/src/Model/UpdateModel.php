@@ -1632,7 +1632,7 @@ ENDDATA;
         $minimumStability = ComponentHelper::getParams('com_installer')->get('minimum_stability', Updater::STABILITY_STABLE);
 
         $update = new Update();
-        $update->set('jversion.full', $joomlaTargetVersion);
+        $update->setTargetVersion($joomlaTargetVersion);
         $update->loadFromXml($updateFileUrl, $minimumStability);
 
         $compatibleVersions = $update->get('compatibleVersions');
