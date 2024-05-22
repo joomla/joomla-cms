@@ -1,48 +1,74 @@
 // Alerts
 
+.alert-parent {
+  margin-top: 0;
+}
+
+.alert-heading {
+  font-size: $h4-font-size;
+}
+
+.alert-link {
+  font-weight: normal;
+  color: var(--states-link-color);
+  text-decoration: underline;
+}
+
 .alert {
   margin: 1rem 0;
-  border-right: 0;
-  border-left: 0;
+  border: 1px solid;
   border-radius: $border-radius-sm;
 
   &.alert-info {
-    color: var(--template-bg-dark);
-    background-color: var(--template-bg-dark-10);
-    border: 1px solid var(--template-bg-dark-20);
+    color: var(--state-info-text);
+    background-color: var(--state-info-bg);
+    border: var(--state-info-border);
+    a {
+      color: var(--state-info-text);
+    }
   }
 
   &.alert-warning {
-    color: $state-warning-text;
-    background-color: $state-warning-bg;
-    border: 1px solid $state-warning-border;
+    color: var(--state-warning-text);
+    background-color: var(--state-warning-bg);
+    border: var(--state-warning-border);
+    a {
+      color: var(--state-warning-text);
+    }
   }
 
   &.alert-success {
-    color: $state-success-text;
-    background-color: $state-success-bg;
-    border: 1px solid $state-success-border;
+    color: var(--state-success-text);
+    background-color: var(--state-success-bg);
+    border: var(--state-success-border);
+    a {
+      color: var(--state-success-text);
+    }
   }
 
   &.alert-error {
-    color: $state-error-text;
-    background-color: $state-error-bg;
-    border: 1px solid $state-error-border;
+    color: var(--state-error-text);
+    background-color: var(--state-error-bg);
+    border: var(--state-error-border);
+    a {
+      color: var(--state-error-text);
+    }
   }
-}
 
-.alert-parent {
-  margin-top: 0;
+  &.alert-danger {
+    color: var(--state-danger-text);
+    background-color: var(--state-danger-bg);
+    border-color: var(--state-danger-border);
+    a {
+      color: var(--state-danger-text);
+    }
+  }
 }
 
 fieldset .alert {
   &.alert-info {
     margin: -1rem 0 1rem;
   }
-}
-
-.alert-heading {
-  font-size: $h4-font-size;
 }
 
 @keyframes fadeIn {
