@@ -299,7 +299,7 @@ class Users
             return static::value($value);
         }
 
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('title'))
             ->from($db->quoteName('#__template_styles'))
@@ -402,7 +402,7 @@ class Users
             return static::value($value);
         }
 
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $lang  = Factory::getLanguage();
         $query = $db->getQuery(true)
             ->select($db->quoteName('name'))

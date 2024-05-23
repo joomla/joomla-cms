@@ -48,7 +48,7 @@ abstract class ContentLanguage
     {
         if (empty(static::$items)) {
             // Get the database object and a new query object.
-            $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true);
 
             // Build the query.

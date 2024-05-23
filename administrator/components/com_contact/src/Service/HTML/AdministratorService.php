@@ -52,7 +52,7 @@ class AdministratorService
             }
 
             // Get the associated contact items
-            $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select(
                     [

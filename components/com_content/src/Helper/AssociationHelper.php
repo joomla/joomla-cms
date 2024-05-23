@@ -54,7 +54,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
             if ($id) {
                 $user      = Factory::getUser();
                 $groups    = implode(',', $user->getAuthorisedViewLevels());
-                $db        =  Factory::getContainer()->get(DatabaseInterface::class);
+                $db        = Factory::getContainer()->get(DatabaseInterface::class);
                 $advClause = [];
 
                 // Filter by user groups

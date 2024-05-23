@@ -170,7 +170,7 @@ class JoomlaInstallerScript
      */
     protected function clearStatsCache()
     {
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         try {
             // Get the params for the stats plugin
@@ -232,7 +232,7 @@ class JoomlaInstallerScript
      */
     protected function updateDatabaseMysql()
     {
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $db->setQuery('SHOW ENGINES');
 
@@ -297,7 +297,7 @@ class JoomlaInstallerScript
             ['type' => 'plugin', 'element' => 'updatenotification', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateUpdatenotificationPlugin'],
         ];
 
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         foreach ($extensions as $extension) {
             $row = $db->setQuery(
@@ -357,7 +357,7 @@ class JoomlaInstallerScript
      */
     private function migrateCompatPlugin($rowOld)
     {
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $db->setQuery(
             $db->getQuery(true)
@@ -512,7 +512,7 @@ class JoomlaInstallerScript
         $extensions = ExtensionHelper::getCoreExtensions();
 
         // Attempt to refresh manifest caches
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select('*')
             ->from('#__extensions');
@@ -2762,7 +2762,7 @@ class JoomlaInstallerScript
      */
     private function migrateDeleteActionlogsConfiguration(): bool
     {
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         try {
             // Get the ActionLogs system plugin's parameters
@@ -2831,7 +2831,7 @@ class JoomlaInstallerScript
      */
     private function migratePrivacyconsentConfiguration(): bool
     {
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         try {
             // Get the PrivacyConsent system plugin's parameters
@@ -2905,7 +2905,7 @@ class JoomlaInstallerScript
      */
     private function migrateTinymceConfiguration(): bool
     {
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         try {
             // Get the TinyMCE editor plugin's parameters

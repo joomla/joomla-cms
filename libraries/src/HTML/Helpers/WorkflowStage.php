@@ -37,7 +37,7 @@ abstract class WorkflowStage
     public static function existing($options)
     {
         // Get the database object and a new query object.
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
 
         // Build the query.

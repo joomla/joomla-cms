@@ -20,7 +20,7 @@ if ($value == '') {
     return;
 }
 
-$db    =  Factory::getContainer()->get(DatabaseInterface::class);
+$db    = Factory::getContainer()->get(DatabaseInterface::class);
 $value = (array) $value;
 $query = $db->getQuery(true);
 $sql   = $fieldParams->get('query', '');

@@ -52,7 +52,7 @@ class AdministratorService
             $associations = ArrayHelper::toInteger($associations);
 
             // Get the associated categories
-            $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select(
                     [

@@ -256,7 +256,7 @@ class AssociationsHelper extends ContentHelper
                 $additional  = '';
 
                 if (isset($items[$langCode]['catid'])) {
-                    $db =  Factory::getContainer()->get(DatabaseInterface::class);
+                    $db = Factory::getContainer()->get(DatabaseInterface::class);
 
                     // Get the category name
                     $query = $db->getQuery(true)
@@ -270,7 +270,7 @@ class AssociationsHelper extends ContentHelper
 
                     $additional = '<strong>' . Text::sprintf('JCATEGORY_SPRINTF', $categoryTitle) . '</strong> <br>';
                 } elseif (isset($items[$langCode]['menutype'])) {
-                    $db =  Factory::getContainer()->get(DatabaseInterface::class);
+                    $db = Factory::getContainer()->get(DatabaseInterface::class);
 
                     // Get the menutype name
                     $query = $db->getQuery(true)
@@ -447,7 +447,7 @@ class AssociationsHelper extends ContentHelper
      */
     private static function getEnabledExtensions()
     {
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $query = $db->getQuery(true)
             ->select('*')
@@ -653,7 +653,7 @@ class AssociationsHelper extends ContentHelper
      */
     public static function getLanguagefilterPluginId()
     {
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))

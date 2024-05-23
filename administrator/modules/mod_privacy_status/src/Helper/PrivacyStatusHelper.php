@@ -76,7 +76,7 @@ class PrivacyStatusHelper
         ];
         $lang = '';
 
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -120,7 +120,7 @@ class PrivacyStatusHelper
                 $params              = ComponentHelper::getParams('com_languages');
                 $defaultSiteLanguage = $params->get('site');
 
-                $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+                $db    = Factory::getContainer()->get(DatabaseInterface::class);
                 $query = $db->getQuery(true)
                     ->select($db->quoteName('id'))
                     ->from($db->quoteName('#__menu'))
@@ -164,7 +164,7 @@ class PrivacyStatusHelper
         $now    = Factory::getDate()->toSql();
         $period = '-' . $notify;
 
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
         $query->select('COUNT(*)')
             ->from($db->quoteName('#__privacy_requests'))

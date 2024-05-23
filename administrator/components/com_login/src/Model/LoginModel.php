@@ -139,7 +139,7 @@ class LoginModel extends BaseDatabaseModel
         $cache = Factory::getCache('com_modules', 'callback');
 
         $loader = function () use ($app, $lang, $module) {
-            $db =  Factory::getContainer()->get(DatabaseInterface::class);
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
 
             $query = $db->getQuery(true)
                 ->select(

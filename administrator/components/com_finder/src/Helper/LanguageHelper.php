@@ -125,7 +125,7 @@ class LanguageHelper
         $loaded = true;
 
         // Get array of all the enabled Smart Search plugin names.
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select([$db->quoteName('name'), $db->quoteName('element')])
             ->from($db->quoteName('#__extensions'))

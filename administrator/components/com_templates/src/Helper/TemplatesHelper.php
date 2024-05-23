@@ -55,7 +55,7 @@ class TemplatesHelper
     public static function getTemplateOptions($clientId = '*')
     {
         // Build the filter options.
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
 
         $query->select($db->quoteName('element', 'value'))

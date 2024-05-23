@@ -46,7 +46,7 @@ class CategoriesHelper
             // Include only published categories with user access
             $arrId   = explode(':', $langAssociation->id);
             $assocId = (int) $arrId[0];
-            $db      =  Factory::getContainer()->get(DatabaseInterface::class);
+            $db      = Factory::getContainer()->get(DatabaseInterface::class);
 
             $query = $db->getQuery(true)
                 ->select($db->quoteName('published'))
