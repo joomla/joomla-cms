@@ -132,7 +132,7 @@ abstract class Factory
      * @deprecated  4.3 will be removed in 6.0
      *              Use the database service in the DI container
      *              Example:
-     *           Factory::getContainer()->get(DatabaseInterface::class);
+     *              Factory::getContainer()->get(DatabaseInterface::class);
      */
     public static $database = null;
 
@@ -446,7 +446,7 @@ abstract class Factory
      * @deprecated  4.3 will be removed in 6.0
      *              Use the database service in the DI container
      *              Example:
-     *           Factory::getContainer()->get(DatabaseInterface::class);
+     *              Factory::getContainer()->get(DatabaseInterface::class);
      */
     public static function getDbo()
     {
@@ -641,7 +641,7 @@ abstract class Factory
      * @deprecated  4.3 will be removed in 6.0
      *              Use the database service in the DI container
      *              Example:
-     *           Factory::getContainer()->get(DatabaseInterface::class);
+     *              Factory::getContainer()->get(DatabaseInterface::class);
      */
     protected static function createDbo()
     {
