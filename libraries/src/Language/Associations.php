@@ -66,7 +66,7 @@ class Associations
         if (!isset($multilanguageAssociations[$queryKey])) {
             $multilanguageAssociations[$queryKey] = [];
 
-            $db                 =  Factory::getContainer()->get(DatabaseInterface::class);
+            $db                 = Factory::getContainer()->get(DatabaseInterface::class);
             $query              = $db->getQuery(true);
             $categoriesExtraSql = '';
 

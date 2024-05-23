@@ -88,7 +88,7 @@ class Adapter
         $this->_classprefix   = $classprefix ?: 'J';
         $this->_adapterfolder = $adapterfolder ?: 'adapters';
 
-        $this->_db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $this->_db = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Ensure BC, when removed in 5, then the db must be set with setDatabase explicitly
         if ($this instanceof DatabaseAwareInterface) {

@@ -413,7 +413,7 @@ abstract class ModuleHelper
         // Build a cache ID for the resulting data object
         $cacheId = implode(',', $groups) . '.' . $clientId . '.' . $itemId;
 
-        $db      =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db      = Factory::getContainer()->get(DatabaseInterface::class);
         $query   = $db->getQuery(true);
         $nowDate = Factory::getDate()->toSql();
 

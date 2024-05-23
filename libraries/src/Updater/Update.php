@@ -419,7 +419,7 @@ class Update
 
                     // Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
                     if (isset($this->currentUpdate->supported_databases)) {
-                        $db           =  Factory::getContainer()->get(DatabaseInterface::class);
+                        $db           = Factory::getContainer()->get(DatabaseInterface::class);
                         $dbType       = strtolower($db->getServerType());
                         $dbVersion    = $db->getVersion();
                         $supportedDbs = $this->currentUpdate->supported_databases;

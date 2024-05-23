@@ -103,7 +103,7 @@ class UCMContent extends UCMBase
      */
     public function delete($pk, UCMType $type = null)
     {
-        $db   =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db   = Factory::getContainer()->get(DatabaseInterface::class);
         $type = $type ?: $this->type;
 
         if (!\is_array($pk)) {
@@ -215,7 +215,7 @@ class UCMContent extends UCMBase
      */
     public function getPrimaryKey($typeId, $contentItemId)
     {
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('ucm_id'))
             ->from($db->quoteName('#__ucm_base'))

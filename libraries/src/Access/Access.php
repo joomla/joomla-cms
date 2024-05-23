@@ -280,7 +280,7 @@ class Access
         !JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::preloadPermissions (' . $extensionName . ')');
 
         // Get the database connection object.
-        $db       =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db       = Factory::getContainer()->get(DatabaseInterface::class);
         $assetKey = $extensionName . '.%';
 
         // Get a fresh query object.

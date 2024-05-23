@@ -197,7 +197,7 @@ final class UserGroupsHelper
     public function total()
     {
         if ($this->total === null) {
-            $db =  Factory::getContainer()->get(DatabaseInterface::class);
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
 
             $query = $db->getQuery(true)
                 ->select('COUNT(' . $db->quoteName('id') . ')')
@@ -225,7 +225,7 @@ final class UserGroupsHelper
         // Cast as integer until method is typehinted.
         $id = (int) $id;
 
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $query = $db->getQuery(true)
             ->select('*')
@@ -255,7 +255,7 @@ final class UserGroupsHelper
     {
         $this->groups = [];
 
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $query = $db->getQuery(true)
             ->select('*')

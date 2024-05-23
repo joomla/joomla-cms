@@ -386,7 +386,7 @@ class MailTemplate
      */
     public static function getTemplate($key, $language)
     {
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
         $query->select('*')
             ->from($db->quoteName('#__mail_templates'))
@@ -419,7 +419,7 @@ class MailTemplate
      */
     public static function createTemplate($key, $subject, $body, $tags, $htmlbody = '')
     {
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $template              = new \stdClass();
         $template->template_id = $key;
@@ -451,7 +451,7 @@ class MailTemplate
      */
     public static function updateTemplate($key, $subject, $body, $tags, $htmlbody = '')
     {
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $template              = new \stdClass();
         $template->template_id = $key;
@@ -477,7 +477,7 @@ class MailTemplate
      */
     public static function deleteTemplate($key)
     {
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
         $query->delete($db->quoteName('#__mail_templates'))
             ->where($db->quoteName('template_id') . ' = :key')

@@ -175,7 +175,7 @@ class InstallerScript
     {
         $extension = $this->extension;
 
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
 
         // Select the item(s) and retrieve the id

@@ -79,7 +79,7 @@ class CMSHelper
      */
     public function getLanguageId($langCode)
     {
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('lang_id'))
             ->from($db->quoteName('#__languages'))

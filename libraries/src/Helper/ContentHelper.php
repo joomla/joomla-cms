@@ -60,7 +60,7 @@ class ContentHelper
      */
     public static function countRelations(&$items, $config)
     {
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Allow custom state / condition values and custom column names to support custom components
         $counter_names = $config->counter_names ?? [
@@ -244,7 +244,7 @@ class ContentHelper
      */
     public static function getLanguageId($langCode)
     {
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('lang_id'))
             ->from($db->quoteName('#__languages'))

@@ -168,7 +168,7 @@ class Indexer
 
             // Load the default configuration options.
             $data->options = ComponentHelper::getParams('com_finder');
-            $db            =  Factory::getContainer()->get(DatabaseInterface::class);
+            $db            = Factory::getContainer()->get(DatabaseInterface::class);
 
             if ($db->getServerType() == 'mysql') {
                 /**

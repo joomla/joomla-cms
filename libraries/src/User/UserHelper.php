@@ -171,7 +171,7 @@ abstract class UserHelper
         // Add the user to the group if necessary.
         if (!\in_array($groupId, $user->groups)) {
             // Check whether the group exists.
-            $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__usergroups'))
@@ -287,7 +287,7 @@ abstract class UserHelper
         $user->groups = $groups;
 
         // Get the titles for the user groups.
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName(['id', 'title']))
             ->from($db->quoteName('#__usergroups'))
@@ -358,7 +358,7 @@ abstract class UserHelper
      */
     public static function activateUser($activation)
     {
-        $db       =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db       = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Let's get the id of the user we want to activate
         $query = $db->getQuery(true)
@@ -405,7 +405,7 @@ abstract class UserHelper
     public static function getUserId($username)
     {
         // Initialise some variables
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
@@ -599,7 +599,7 @@ abstract class UserHelper
             return false;
         }
 
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         try {
             $userId = (int) $userId;
