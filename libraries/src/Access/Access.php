@@ -646,7 +646,7 @@ class Access
         }
 
         // No preload. Return root asset id from Assets.
-        $assets = new Asset( Factory::getContainer()->get(DatabaseInterface::class));
+        $assets = new Asset(Factory::getContainer()->get(DatabaseInterface::class));
 
         return $assets->getRootId();
     }
@@ -681,7 +681,7 @@ class Access
                     $loaded[$assetKey] = $preloadedAssetsByName[$assetKey];
                 } else {
                     // Else we have to do an extra db query to fetch it from the table fetch it from table.
-                    $table = new Asset( Factory::getContainer()->get(DatabaseInterface::class));
+                    $table = new Asset(Factory::getContainer()->get(DatabaseInterface::class));
                     $table->load(['name' => $assetKey]);
                     $loaded[$assetKey] = $table->id;
                 }
@@ -718,7 +718,7 @@ class Access
                 $loaded[$assetKey] = self::$preloadedAssets[$assetKey];
             } else {
                 // Else we have to do an extra db query to fetch it from the table fetch it from table.
-                $table = new Asset( Factory::getContainer()->get(DatabaseInterface::class));
+                $table = new Asset(Factory::getContainer()->get(DatabaseInterface::class));
                 $table->load($assetKey);
                 $loaded[$assetKey] = $table->name;
             }

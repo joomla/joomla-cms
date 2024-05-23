@@ -94,7 +94,7 @@ class UCMType implements UCM
      */
     public function __construct($alias = null, DatabaseDriver $database = null, AbstractApplication $application = null)
     {
-        $this->db = $database ?:  Factory::getContainer()->get(DatabaseInterface::class);
+        $this->db = $database ?: Factory::getContainer()->get(DatabaseInterface::class);
         $app      = $application ?: Factory::getApplication();
 
         // Make the best guess we can in the absence of information.

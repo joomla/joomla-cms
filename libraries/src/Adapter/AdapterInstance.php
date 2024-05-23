@@ -65,7 +65,7 @@ class AdapterInstance
         $this->parent = $parent;
 
         // Pull in the global dbo in case something happened to it.
-        $this->db = $db ?:  Factory::getContainer()->get(DatabaseInterface::class);
+        $this->db = $db ?: Factory::getContainer()->get(DatabaseInterface::class);
     }
 
     /**
