@@ -16,6 +16,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -78,7 +79,7 @@ class CMSHelper
      */
     public function getLanguageId($langCode)
     {
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('lang_id'))
             ->from($db->quoteName('#__languages'))

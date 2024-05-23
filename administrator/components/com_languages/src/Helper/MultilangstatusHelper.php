@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -35,7 +36,7 @@ abstract class MultilangstatusHelper
     public static function getHomes()
     {
         // Check for multiple Home pages.
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select('COUNT(*)')
             ->from($db->quoteName('#__menu'))
@@ -60,7 +61,7 @@ abstract class MultilangstatusHelper
     public static function getLangswitchers()
     {
         // Check if switcher is published.
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select('COUNT(*)')
             ->from($db->quoteName('#__modules'))
@@ -85,7 +86,7 @@ abstract class MultilangstatusHelper
     public static function getContentlangs()
     {
         // Check for published Content Languages.
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -109,7 +110,7 @@ abstract class MultilangstatusHelper
     public static function getStatus()
     {
         // Check for combined status.
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
 
         // Select all fields from the languages table.
@@ -152,7 +153,7 @@ abstract class MultilangstatusHelper
      */
     public static function getContacts()
     {
-        $db        = Factory::getDbo();
+        $db        =  Factory::getContainer()->get(DatabaseInterface::class);
         $languages = \count(LanguageHelper::getLanguages());
 
         // Get the number of contact with all as language
@@ -250,7 +251,7 @@ abstract class MultilangstatusHelper
     public static function getDefaultHomeModule()
     {
         // Find Default Home menutype.
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('menutype'))
             ->from($db->quoteName('#__menu'))
@@ -309,7 +310,7 @@ abstract class MultilangstatusHelper
      */
     public static function getModule($moduleName, $instanceTitle = null)
     {
-        $db = Factory::getDbo();
+        $db =  Factory::getContainer()->get(DatabaseInterface::class);
 
         $query = $db->getQuery(true)
             ->select(

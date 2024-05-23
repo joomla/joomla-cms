@@ -11,6 +11,7 @@ namespace Joomla\CMS\Language;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -65,7 +66,7 @@ class Associations
         if (!isset($multilanguageAssociations[$queryKey])) {
             $multilanguageAssociations[$queryKey] = [];
 
-            $db                 = Factory::getDbo();
+            $db                 =  Factory::getContainer()->get(DatabaseInterface::class);
             $query              = $db->getQuery(true);
             $categoriesExtraSql = '';
 

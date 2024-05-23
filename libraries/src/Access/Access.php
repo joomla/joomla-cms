@@ -16,6 +16,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\User\User;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -279,7 +280,7 @@ class Access
         !JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::preloadPermissions (' . $extensionName . ')');
 
         // Get the database connection object.
-        $db       = Factory::getDbo();
+        $db       =  Factory::getContainer()->get(DatabaseInterface::class);
         $assetKey = $extensionName . '.%';
 
         // Get a fresh query object.
@@ -345,7 +346,7 @@ class Access
         }
 
         // Get the database connection object.
-        $db = Factory::getDbo();
+        $db =  Factory::getContainer()->get(DatabaseInterface::class);
 
         // Get the asset info for all assets in asset names list.
         $query = $db->getQuery(true)
@@ -566,7 +567,7 @@ class Access
         }
 
         // Get the database connection object.
-        $db = Factory::getDbo();
+        $db =  Factory::getContainer()->get(DatabaseInterface::class);
 
         // Build the database query to get the rules for the asset.
         $query = $db->getQuery(true)
@@ -645,7 +646,7 @@ class Access
         }
 
         // No preload. Return root asset id from Assets.
-        $assets = new Asset(Factory::getDbo());
+        $assets = new Asset( Factory::getContainer()->get(DatabaseInterface::class));
 
         return $assets->getRootId();
     }
@@ -680,7 +681,7 @@ class Access
                     $loaded[$assetKey] = $preloadedAssetsByName[$assetKey];
                 } else {
                     // Else we have to do an extra db query to fetch it from the table fetch it from table.
-                    $table = new Asset(Factory::getDbo());
+                    $table = new Asset( Factory::getContainer()->get(DatabaseInterface::class));
                     $table->load(['name' => $assetKey]);
                     $loaded[$assetKey] = $table->id;
                 }
@@ -717,7 +718,7 @@ class Access
                 $loaded[$assetKey] = self::$preloadedAssets[$assetKey];
             } else {
                 // Else we have to do an extra db query to fetch it from the table fetch it from table.
-                $table = new Asset(Factory::getDbo());
+                $table = new Asset( Factory::getContainer()->get(DatabaseInterface::class));
                 $table->load($assetKey);
                 $loaded[$assetKey] = $table->name;
             }
@@ -797,7 +798,7 @@ class Access
         $groupId = (int) $groupId;
 
         // Fetch the group title from the database
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
         $query->select($db->quoteName('title'))
             ->from($db->quoteName('#__usergroups'))
@@ -837,7 +838,7 @@ class Access
                 $result = [$guestUsergroup];
             } else {
                 // Registered user and guest if all groups are requested
-                $db = Factory::getDbo();
+                $db =  Factory::getContainer()->get(DatabaseInterface::class);
 
                 // Build the database query to get the rules for the asset.
                 $query = $db->getQuery(true)
@@ -900,7 +901,7 @@ class Access
         $groupId = (int) $groupId;
 
         // Get a database object.
-        $db = Factory::getDbo();
+        $db =  Factory::getContainer()->get(DatabaseInterface::class);
 
         $test = $recursive ? ' >= ' : ' = ';
 
@@ -941,7 +942,7 @@ class Access
         // Only load the view levels once.
         if (empty(self::$viewLevels)) {
             // Get a database object.
-            $db = Factory::getDbo();
+            $db =  Factory::getContainer()->get(DatabaseInterface::class);
 
             // Build the base query.
             $query = $db->getQuery(true)

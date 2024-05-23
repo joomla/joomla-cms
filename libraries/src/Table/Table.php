@@ -1390,7 +1390,7 @@ abstract class Table extends \stdClass implements TableInterface, DispatcherAwar
 
         // This last check can only be relied on if tracking session metadata
         if (Factory::getApplication()->get('session_metadata', true)) {
-            $db    = Factory::getDbo();
+            $db    =  Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select('COUNT(userid)')
                 ->from($db->quoteName('#__session'))

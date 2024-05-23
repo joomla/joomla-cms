@@ -12,6 +12,7 @@ namespace Joomla\CMS\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -425,7 +426,7 @@ class Date extends \DateTime
      * Gets the date as an SQL datetime string.
      *
      * @param   boolean         $local  True to return the date string in the local time zone, false to return it in GMT.
-     * @param   DatabaseDriver  $db     The database driver or null to use Factory::getDbo()
+     * @param   DatabaseDriver  $db     The database driver or null to use  Factory::getContainer()->get(DatabaseInterface::class)
      *
      * @return  string     The date string in SQL datetime format.
      *
@@ -435,7 +436,7 @@ class Date extends \DateTime
     public function toSql($local = false, DatabaseDriver $db = null)
     {
         if ($db === null) {
-            $db = Factory::getDbo();
+            $db =  Factory::getContainer()->get(DatabaseInterface::class);
         }
 
         return $this->format($db->getDateFormat(), $local, false);

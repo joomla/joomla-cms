@@ -20,6 +20,7 @@ use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -427,7 +428,7 @@ class User
     {
         // Brute force method: get all published category rows for the component and check each one
         // @todo: Modify the way permissions are stored in the db to allow for faster implementation and better scaling
-        $db = Factory::getDbo();
+        $db =  Factory::getContainer()->get(DatabaseInterface::class);
 
         $subQuery = $db->getQuery(true)
             ->select($db->quoteName(['id', 'asset_id']))

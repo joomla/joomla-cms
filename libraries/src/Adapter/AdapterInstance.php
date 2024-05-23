@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -64,7 +65,7 @@ class AdapterInstance
         $this->parent = $parent;
 
         // Pull in the global dbo in case something happened to it.
-        $this->db = $db ?: Factory::getDbo();
+        $this->db = $db ?:  Factory::getContainer()->get(DatabaseInterface::class);
     }
 
     /**

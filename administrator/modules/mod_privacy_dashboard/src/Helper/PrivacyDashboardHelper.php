@@ -11,6 +11,7 @@
 namespace Joomla\Module\PrivacyDashboard\Administrator\Helper;
 
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -33,7 +34,7 @@ class PrivacyDashboardHelper
      */
     public static function getData()
     {
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select(
                 [

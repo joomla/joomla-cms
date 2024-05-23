@@ -13,6 +13,7 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -59,7 +60,7 @@ class PublishedButton extends ActionButton
             $bakState = $this->getState($value);
             $default  = $this->getState($value) ?? $this->unknownState;
 
-            $nullDate = Factory::getDbo()->getNullDate();
+            $nullDate =  Factory::getContainer()->get(DatabaseInterface::class)->getNullDate();
             $nowDate  = Factory::getDate()->toUnix();
 
             $tz = Factory::getUser()->getTimezone();

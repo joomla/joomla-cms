@@ -14,6 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -35,7 +36,7 @@ class ConfigHelper extends ContentHelper
      */
     public static function getAllComponents()
     {
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select('element')
             ->from('#__extensions')

@@ -15,6 +15,7 @@ use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -51,7 +52,7 @@ abstract class Access
      */
     public static function level($name, $selected, $attribs = '', $params = true, $id = false)
     {
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -244,7 +245,7 @@ abstract class Access
     public static function assetgroups()
     {
         if (empty(static::$asset_groups)) {
-            $db    = Factory::getDbo();
+            $db    =  Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select(
                     [

@@ -15,6 +15,7 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
@@ -1088,7 +1089,7 @@ abstract class HTMLHelper
         $singleHeader = ($singleHeader) ? "1" : "0";
 
         // Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
-        if ($value && $value !== Factory::getDbo()->getNullDate() && strtotime($value) !== false) {
+        if ($value && $value !==  Factory::getContainer()->get(DatabaseInterface::class)->getNullDate() && strtotime($value) !== false) {
             $tz = date_default_timezone_get();
             date_default_timezone_set('UTC');
 

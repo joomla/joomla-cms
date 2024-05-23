@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Profiler\Profiler;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
@@ -412,7 +413,7 @@ abstract class ModuleHelper
         // Build a cache ID for the resulting data object
         $cacheId = implode(',', $groups) . '.' . $clientId . '.' . $itemId;
 
-        $db      = Factory::getDbo();
+        $db      =  Factory::getContainer()->get(DatabaseInterface::class);
         $query   = $db->getQuery(true);
         $nowDate = Factory::getDate()->toSql();
 

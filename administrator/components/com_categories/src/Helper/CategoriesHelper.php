@@ -13,6 +13,7 @@ namespace Joomla\Component\Categories\Administrator\Helper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -45,7 +46,7 @@ class CategoriesHelper
             // Include only published categories with user access
             $arrId   = explode(':', $langAssociation->id);
             $assocId = (int) $arrId[0];
-            $db      = Factory::getDbo();
+            $db      =  Factory::getContainer()->get(DatabaseInterface::class);
 
             $query = $db->getQuery(true)
                 ->select($db->quoteName('published'))
