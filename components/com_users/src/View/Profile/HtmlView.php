@@ -109,7 +109,7 @@ class HtmlView extends BaseHtmlView
         $this->state              = $this->get('State');
         $this->params             = $this->state->get('params');
         $this->mfaConfigurationUI = Mfa::getConfigurationInterface($user);
-        $this->db                 =  Factory::getContainer()->get(DatabaseInterface::class);
+        $this->db                 = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Check for errors.
         if (\count($errors = $this->get('Errors'))) {

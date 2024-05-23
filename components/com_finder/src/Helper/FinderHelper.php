@@ -48,7 +48,7 @@ class FinderHelper
         }
 
         // Initialise our variables
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
 
         // Sanitise the term for the database

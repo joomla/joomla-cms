@@ -38,7 +38,7 @@ class DebugHelper
     public static function getComponents()
     {
         // Initialise variable.
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select('name AS text, element AS value')
             ->from('#__extensions')

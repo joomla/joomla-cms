@@ -259,7 +259,7 @@ class InstallerScript
         // Store the combined new and existing values back as a JSON string
         $paramsString = json_encode($params);
 
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->update($db->quoteName($this->paramTable))
             ->set('params = :params')
@@ -290,7 +290,7 @@ class InstallerScript
     public function getItemArray($element, $table, $column, $identifier)
     {
         // Get the DB and query objects
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $paramType = is_numeric($identifier) ? ParameterType::INTEGER : ParameterType::STRING;
 

@@ -144,7 +144,7 @@ class UsersHelper extends ContentHelper
             return false;
         }
 
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('title', 'text'))
             ->from($db->quoteName('#__usergroups'))

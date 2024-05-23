@@ -346,7 +346,7 @@ class Access
         }
 
         // Get the database connection object.
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Get the asset info for all assets in asset names list.
         $query = $db->getQuery(true)
@@ -567,7 +567,7 @@ class Access
         }
 
         // Get the database connection object.
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Build the database query to get the rules for the asset.
         $query = $db->getQuery(true)
@@ -798,7 +798,7 @@ class Access
         $groupId = (int) $groupId;
 
         // Fetch the group title from the database
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
         $query->select($db->quoteName('title'))
             ->from($db->quoteName('#__usergroups'))
@@ -838,7 +838,7 @@ class Access
                 $result = [$guestUsergroup];
             } else {
                 // Registered user and guest if all groups are requested
-                $db =  Factory::getContainer()->get(DatabaseInterface::class);
+                $db = Factory::getContainer()->get(DatabaseInterface::class);
 
                 // Build the database query to get the rules for the asset.
                 $query = $db->getQuery(true)
@@ -901,7 +901,7 @@ class Access
         $groupId = (int) $groupId;
 
         // Get a database object.
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $test = $recursive ? ' >= ' : ' = ';
 
@@ -942,7 +942,7 @@ class Access
         // Only load the view levels once.
         if (empty(self::$viewLevels)) {
             // Get a database object.
-            $db =  Factory::getContainer()->get(DatabaseInterface::class);
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
 
             // Build the base query.
             $query = $db->getQuery(true)

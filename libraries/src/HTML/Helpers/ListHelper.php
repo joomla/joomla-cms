@@ -92,7 +92,7 @@ abstract class ListHelper
      */
     public static function genericordering($query, $chop = 30)
     {
-        $db      =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db      = Factory::getContainer()->get(DatabaseInterface::class);
         $options = [];
         $db->setQuery($query);
 
@@ -179,7 +179,7 @@ abstract class ListHelper
      */
     public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name')
     {
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select(
                 [

@@ -52,7 +52,7 @@ class Menus
         // Get the associations
         if ($associations = MenusHelper::getAssociations($itemid)) {
             // Get the associated menu items
-            $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select(
                     [

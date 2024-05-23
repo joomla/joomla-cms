@@ -34,7 +34,7 @@ class PrivacyDashboardHelper
      */
     public static function getData()
     {
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select(
                 [

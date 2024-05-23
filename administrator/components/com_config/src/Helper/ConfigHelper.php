@@ -36,7 +36,7 @@ class ConfigHelper extends ContentHelper
      */
     public static function getAllComponents()
     {
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select('element')
             ->from('#__extensions')

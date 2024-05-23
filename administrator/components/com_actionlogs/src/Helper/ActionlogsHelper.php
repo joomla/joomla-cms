@@ -276,7 +276,7 @@ class ActionlogsHelper
     public static function loadActionLogPluginsLanguage()
     {
         $lang = Factory::getLanguage();
-        $db   =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db   = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Get all (both enabled and disabled) actionlog plugins
         $query = $db->getQuery(true)

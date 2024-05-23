@@ -70,7 +70,7 @@ abstract class ModulesHelper
      */
     public static function getPositions($clientId, $editPositions = false)
     {
-        $db       =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db       = Factory::getContainer()->get(DatabaseInterface::class);
         $clientId = (int) $clientId;
         $query    = $db->getQuery(true)
             ->select('DISTINCT ' . $db->quoteName('position'))
@@ -117,7 +117,7 @@ abstract class ModulesHelper
      */
     public static function getTemplates($clientId = 0, $state = '', $template = '')
     {
-        $db       =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db       = Factory::getContainer()->get(DatabaseInterface::class);
         $clientId = (int) $clientId;
 
         // Get the database object and a new query object.
@@ -157,7 +157,7 @@ abstract class ModulesHelper
      */
     public static function getModules($clientId)
     {
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select('element AS value, name AS text')
             ->from('#__extensions as e')

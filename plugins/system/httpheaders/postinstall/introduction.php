@@ -38,7 +38,7 @@ function httpheaders_postinstall_condition()
 function httpheaders_postinstall_action()
 {
     // Enable the plugin
-    $db =  Factory::getContainer()->get(DatabaseInterface::class);
+    $db = Factory::getContainer()->get(DatabaseInterface::class);
 
     $query = $db->getQuery(true)
         ->update($db->quoteName('#__extensions'))

@@ -191,7 +191,7 @@ class ContenthistoryHelper
         $result = false;
 
         if (isset($lookup->sourceColumn) && isset($lookup->targetTable) && isset($lookup->targetColumn) && isset($lookup->displayColumn)) {
-            $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $value = (int) $value;
             $query = $db->getQuery(true);
             $query->select($db->quoteName($lookup->displayColumn))

@@ -52,7 +52,7 @@ abstract class Category
 
         if (!isset(static::$items[$hash])) {
             $config = (array) $config;
-            $db     =  Factory::getContainer()->get(DatabaseInterface::class);
+            $db     = Factory::getContainer()->get(DatabaseInterface::class);
             $user   = Factory::getUser();
 
             $query = $db->getQuery(true)
@@ -148,7 +148,7 @@ abstract class Category
         if (!isset(static::$items[$hash])) {
             $config = (array) $config;
             $user   = Factory::getUser();
-            $db     =  Factory::getContainer()->get(DatabaseInterface::class);
+            $db     = Factory::getContainer()->get(DatabaseInterface::class);
             $query  = $db->getQuery(true)
                 ->select(
                     [

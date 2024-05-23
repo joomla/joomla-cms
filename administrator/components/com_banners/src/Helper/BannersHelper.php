@@ -39,7 +39,7 @@ class BannersHelper extends ContentHelper
      */
     public static function updateReset()
     {
-        $db      =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db      = Factory::getContainer()->get(DatabaseInterface::class);
         $nowDate = Factory::getDate()->toSql();
         $app     = Factory::getApplication();
         $user    = $app->getIdentity();
@@ -148,7 +148,7 @@ class BannersHelper extends ContentHelper
     {
         $options = [];
 
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select(
                 [

@@ -230,7 +230,7 @@ class Modules
     public function positionList($clientId = 0)
     {
         $clientId = (int) $clientId;
-        $db       =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db       = Factory::getContainer()->get(DatabaseInterface::class);
         $query    = $db->getQuery(true)
             ->select('DISTINCT ' . $db->quoteName('position', 'value'))
             ->select($db->quoteName('position', 'text'))

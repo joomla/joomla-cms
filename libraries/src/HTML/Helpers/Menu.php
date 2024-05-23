@@ -56,7 +56,7 @@ abstract class Menu
         $key = serialize($clientId);
 
         if (!isset(static::$menus[$key])) {
-            $db =  Factory::getContainer()->get(DatabaseInterface::class);
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
 
             $query = $db->getQuery(true)
                 ->select(
@@ -105,7 +105,7 @@ abstract class Menu
             $clientId = \array_key_exists('clientid', $config) ? $config['clientid'] : 0;
             $menus    = static::menus($clientId);
 
-            $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select(
                     [
@@ -245,7 +245,7 @@ abstract class Menu
     public static function ordering(&$row, $id)
     {
         if ($id) {
-            $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select(
                     [
@@ -291,7 +291,7 @@ abstract class Menu
      */
     public static function linkOptions($all = false, $unassigned = false, $clientId = 0)
     {
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Get a list of the menu items
         $query = $db->getQuery(true)

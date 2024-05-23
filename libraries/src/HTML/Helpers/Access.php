@@ -52,7 +52,7 @@ abstract class Access
      */
     public static function level($name, $selected, $attribs = '', $params = true, $id = false)
     {
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -245,7 +245,7 @@ abstract class Access
     public static function assetgroups()
     {
         if (empty(static::$asset_groups)) {
-            $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select(
                     [

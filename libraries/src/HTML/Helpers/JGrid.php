@@ -207,7 +207,7 @@ abstract class JGrid
 
         // Special state for dates
         if ($publishUp || $publishDown) {
-            $nullDate =  Factory::getContainer()->get(DatabaseInterface::class)->getNullDate();
+            $nullDate = Factory::getContainer()->get(DatabaseInterface::class)->getNullDate();
             $nowDate  = Factory::getDate()->toUnix();
 
             $tz = Factory::getUser()->getTimezone();

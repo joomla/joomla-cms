@@ -41,7 +41,7 @@ class Versioning
      */
     public static function get($typeAlias, $id)
     {
-        $db     =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db     = Factory::getContainer()->get(DatabaseInterface::class);
         $itemid = $typeAlias . '.' . $id;
         $query  = $db->getQuery(true);
         $query->select($db->quoteName('h.version_note') . ',' . $db->quoteName('h.save_date') . ',' . $db->quoteName('u.name'))
@@ -67,7 +67,7 @@ class Versioning
      */
     public static function delete($typeAlias, $id)
     {
-        $db     =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db     = Factory::getContainer()->get(DatabaseInterface::class);
         $itemid = $typeAlias . '.' . $id;
         $query  = $db->getQuery(true);
         $query->delete($db->quoteName('#__history'))

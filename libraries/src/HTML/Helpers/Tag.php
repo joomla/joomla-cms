@@ -53,7 +53,7 @@ abstract class Tag
 
         if (!isset(static::$items[$hash])) {
             $config = (array) $config;
-            $db     =  Factory::getContainer()->get(DatabaseInterface::class);
+            $db     = Factory::getContainer()->get(DatabaseInterface::class);
             $query  = $db->getQuery(true)
                 ->select(
                     [
@@ -117,7 +117,7 @@ abstract class Tag
     {
         $hash   = md5(serialize($config));
         $config = (array) $config;
-        $db     =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db     = Factory::getContainer()->get(DatabaseInterface::class);
         $query  = $db->getQuery(true)
             ->select(
                 [
