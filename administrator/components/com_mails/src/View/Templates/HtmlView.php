@@ -115,7 +115,7 @@ class HtmlView extends BaseHtmlView
         }
 
         foreach ($extensions as $extension) {
-            MailsHelper::loadTranslationFiles($extension);
+            MailsHelper::loadTranslationFiles($extension, $defaultLanguageTag);
         }
 
         $this->addToolbar();
