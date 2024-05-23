@@ -13,6 +13,7 @@ namespace Joomla\Component\Finder\Site\Helper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -47,7 +48,7 @@ class FinderHelper
         }
 
         // Initialise our variables
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
 
         // Sanitise the term for the database

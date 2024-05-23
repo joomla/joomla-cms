@@ -16,6 +16,7 @@ use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\LanguageAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -150,7 +151,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
             $dbProperty = $reflection->getProperty('db');
 
             if ($dbProperty->isPrivate() === false && \is_null($this->db)) {
-                $this->db = Factory::getDbo();
+                $this->db =  Factory::getContainer()->get(DatabaseInterface::class);
             }
         }
 

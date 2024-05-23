@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -227,7 +228,7 @@ class Helper
     {
         static $types;
 
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
 
         // Check if the types are loaded.
@@ -310,7 +311,7 @@ class Helper
      */
     public static function getCommonWords($lang)
     {
-        $db = Factory::getDbo();
+        $db =  Factory::getContainer()->get(DatabaseInterface::class);
 
         // Create the query to load all the common terms for the language.
         $query = $db->getQuery(true)

@@ -13,6 +13,7 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Tree\NodeInterface;
 use Joomla\Component\Finder\Administrator\Table\MapTable;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -173,7 +174,7 @@ class Taxonomy
         }
 
         // Check to see if the node is in the table.
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->quoteName('#__finder_taxonomy'))
@@ -275,7 +276,7 @@ class Taxonomy
     public static function addMap($linkId, $nodeId)
     {
         // Insert the map.
-        $db = Factory::getDbo();
+        $db =  Factory::getContainer()->get(DatabaseInterface::class);
 
         $query = $db->getQuery(true)
             ->select($db->quoteName('link_id'))
@@ -306,7 +307,7 @@ class Taxonomy
      */
     public static function getBranchTitles()
     {
-        $db = Factory::getDbo();
+        $db =  Factory::getContainer()->get(DatabaseInterface::class);
 
         // Set user variables
         $groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
@@ -338,7 +339,7 @@ class Taxonomy
      */
     public static function getNodeByTitle($branch, $title)
     {
-        $db = Factory::getDbo();
+        $db =  Factory::getContainer()->get(DatabaseInterface::class);
 
         // Set user variables
         $groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
@@ -375,7 +376,7 @@ class Taxonomy
     public static function removeMaps($linkId)
     {
         // Delete the maps.
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__finder_taxonomy_map'))
             ->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
@@ -396,7 +397,7 @@ class Taxonomy
     public static function removeOrphanMaps()
     {
         // Delete all orphaned maps
-        $db     = Factory::getDbo();
+        $db     =  Factory::getContainer()->get(DatabaseInterface::class);
         $query2 = $db->getQuery(true)
             ->select($db->quoteName('link_id'))
             ->from($db->quoteName('#__finder_links'));
@@ -422,7 +423,7 @@ class Taxonomy
     {
         // Delete all orphaned nodes.
         $affectedRows = 0;
-        $db           = Factory::getDbo();
+        $db           =  Factory::getContainer()->get(DatabaseInterface::class);
         $nodeTable    = new MapTable($db);
         $query        = $db->getQuery(true);
 
@@ -458,7 +459,7 @@ class Taxonomy
     public static function getTaxonomy($id = 0)
     {
         if (!\count(self::$taxonomies)) {
-            $db    = Factory::getDbo();
+            $db    =  Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true);
 
             $query->select(['id','parent_id','lft','rgt','level','path','title','alias','state','access','language'])

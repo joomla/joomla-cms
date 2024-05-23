@@ -16,6 +16,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -38,7 +39,7 @@ class BannersHelper extends ContentHelper
      */
     public static function updateReset()
     {
-        $db      = Factory::getDbo();
+        $db      =  Factory::getContainer()->get(DatabaseInterface::class);
         $nowDate = Factory::getDate()->toSql();
         $app     = Factory::getApplication();
         $user    = $app->getIdentity();
@@ -147,7 +148,7 @@ class BannersHelper extends ContentHelper
     {
         $options = [];
 
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select(
                 [

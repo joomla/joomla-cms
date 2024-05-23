@@ -11,6 +11,7 @@ namespace Joomla\CMS\Plugin;
 
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
 
@@ -261,7 +262,7 @@ abstract class PluginHelper
         $cache = Factory::getCache('com_plugins', 'callback');
 
         $loader = function () use ($levels) {
-            $db    = Factory::getDbo();
+            $db    =  Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select(
                     $db->quoteName(

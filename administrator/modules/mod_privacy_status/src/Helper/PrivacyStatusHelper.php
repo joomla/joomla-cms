@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -75,7 +76,7 @@ class PrivacyStatusHelper
         ];
         $lang = '';
 
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -119,7 +120,7 @@ class PrivacyStatusHelper
                 $params              = ComponentHelper::getParams('com_languages');
                 $defaultSiteLanguage = $params->get('site');
 
-                $db    = Factory::getDbo();
+                $db    =  Factory::getContainer()->get(DatabaseInterface::class);
                 $query = $db->getQuery(true)
                     ->select($db->quoteName('id'))
                     ->from($db->quoteName('#__menu'))
@@ -163,7 +164,7 @@ class PrivacyStatusHelper
         $now    = Factory::getDate()->toSql();
         $period = '-' . $notify;
 
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
         $query->select('COUNT(*)')
             ->from($db->quoteName('#__privacy_requests'))

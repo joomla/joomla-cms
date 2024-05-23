@@ -15,6 +15,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Category;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -40,7 +41,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
      */
     public static function canDeleteState(int $id): bool
     {
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
 
         $query->select('id')
@@ -90,7 +91,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
             return;
         }
 
-        $db = Factory::getDbo();
+        $db =  Factory::getContainer()->get(DatabaseInterface::class);
 
         $data = (array) $data;
 

@@ -20,6 +20,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\View\CanDo;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -59,7 +60,7 @@ class ContentHelper
      */
     public static function countRelations(&$items, $config)
     {
-        $db = Factory::getDbo();
+        $db =  Factory::getContainer()->get(DatabaseInterface::class);
 
         // Allow custom state / condition values and custom column names to support custom components
         $counter_names = $config->counter_names ?? [
@@ -243,7 +244,7 @@ class ContentHelper
      */
     public static function getLanguageId($langCode)
     {
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('lang_id'))
             ->from($db->quoteName('#__languages'))

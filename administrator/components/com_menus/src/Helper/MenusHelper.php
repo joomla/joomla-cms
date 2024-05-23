@@ -105,7 +105,7 @@ class MenusHelper extends ContentHelper
      */
     public static function getMenuTypes($clientId = 0)
     {
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('a.menutype'))
             ->from($db->quoteName('#__menu_types', 'a'));
@@ -141,7 +141,7 @@ class MenusHelper extends ContentHelper
         $hasClientId = $clientId !== null;
         $clientId    = (int) $clientId;
 
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -427,7 +427,7 @@ class MenusHelper extends ContentHelper
      */
     protected static function installPresetItems($node, $menutype)
     {
-        $db    = Factory::getDbo();
+        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
         $items = $node->getChildren();
 
@@ -696,7 +696,7 @@ class MenusHelper extends ContentHelper
         while ($obj->type == 'alias') {
             $aliasTo = (int) $obj->getParams()->get('aliasoptions');
 
-            $db    = Factory::getDbo();
+            $db    =  Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true);
             $query->select(
                 [
@@ -789,7 +789,7 @@ class MenusHelper extends ContentHelper
                 $lJoin  = (string) $element['sql_leftjoin'];
                 $iJoin  = (string) $element['sql_innerjoin'];
 
-                $db    = Factory::getDbo();
+                $db    =  Factory::getContainer()->get(DatabaseInterface::class);
                 $query = $db->getQuery(true);
                 $query->select($select)->from($from);
 
