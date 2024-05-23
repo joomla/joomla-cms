@@ -96,17 +96,13 @@ class LevelModel extends AdminModel
         }
 
         if (!empty($levelsInUse)) {
-            $msg = Text::_('COM_USERS_ERROR_VIEW_LEVEL_IN_USE');
-            $msg .= '<ul>';
+            $app = Factory::getApplication();
+            $app->enqueueMessage(Text::_('COM_USERS_ERROR_VIEW_LEVEL_IN_USE'), 'error');
 
             foreach ($levelsInUse as $levelId => $usedIn) {
-                $text = Text::sprintf('COM_USERS_ERROR_VIEW_LEVEL_IN_USE_DETAILS', $levelId, implode(', ', $usedIn));
-                $msg .= '<li>' . $text . '</li>';
+                $msg = Text::sprintf('COM_USERS_ERROR_VIEW_LEVEL_IN_USE_DETAILS', $levelId, implode(', ', $usedIn));
+                $app->enqueueMessage($msg, 'error');
             }
-
-            $msg .= '</ul>';
-
-            Factory::getApplication()->enqueueMessage($msg, 'error');
         }
 
         return parent::delete($pks);
