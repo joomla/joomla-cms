@@ -179,7 +179,7 @@ class TagsHelper extends CMSHelper
                 // Remove duplicates
                 $aliases = array_values(array_unique($aliases));
 
-                $db =  Factory::getContainer()->get(DatabaseInterface::class);
+                $db = Factory::getContainer()->get(DatabaseInterface::class);
 
                 $query = $db->getQuery(true)
                     ->select(

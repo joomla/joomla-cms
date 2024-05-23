@@ -428,7 +428,7 @@ class User
     {
         // Brute force method: get all published category rows for the component and check each one
         // @todo: Modify the way permissions are stored in the db to allow for faster implementation and better scaling
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $subQuery = $db->getQuery(true)
             ->select($db->quoteName(['id', 'asset_id']))

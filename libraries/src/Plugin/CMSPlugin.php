@@ -151,7 +151,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
             $dbProperty = $reflection->getProperty('db');
 
             if ($dbProperty->isPrivate() === false && \is_null($this->db)) {
-                $this->db =  Factory::getContainer()->get(DatabaseInterface::class);
+                $this->db = Factory::getContainer()->get(DatabaseInterface::class);
             }
         }
 

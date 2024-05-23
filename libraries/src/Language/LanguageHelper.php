@@ -166,7 +166,7 @@ class LanguageHelper
                 if ($cache->contains('languages')) {
                     $languages = $cache->get('languages');
                 } else {
-                    $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+                    $db    = Factory::getContainer()->get(DatabaseInterface::class);
                     $query = $db->getQuery(true)
                         ->select('*')
                         ->from($db->quoteName('#__languages'))
@@ -376,7 +376,7 @@ class LanguageHelper
             if ($cache->contains('contentlanguages')) {
                 $contentLanguages = $cache->get('contentlanguages');
             } else {
-                $db =  Factory::getContainer()->get(DatabaseInterface::class);
+                $db = Factory::getContainer()->get(DatabaseInterface::class);
 
                 $query = $db->getQuery(true)
                     ->select('*')

@@ -228,7 +228,7 @@ class Helper
     {
         static $types;
 
-        $db    =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
 
         // Check if the types are loaded.
@@ -311,7 +311,7 @@ class Helper
      */
     public static function getCommonWords($lang)
     {
-        $db =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Create the query to load all the common terms for the language.
         $query = $db->getQuery(true)

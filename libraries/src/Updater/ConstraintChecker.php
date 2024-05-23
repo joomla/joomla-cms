@@ -196,7 +196,7 @@ class ConstraintChecker
      */
     protected function checkSupportedDatabases(array $supportedDatabases)
     {
-        $db        =  Factory::getContainer()->get(DatabaseInterface::class);
+        $db        = Factory::getContainer()->get(DatabaseInterface::class);
         $dbType    = strtolower($db->getServerType());
         $dbVersion = $db->getVersion();
 
