@@ -90,7 +90,7 @@ class HtmlView extends BaseHtmlView
         $fields                        = ['subject', 'body', 'htmlbody'];
         $this->templateData            = [];
 
-        MailsHelper::loadTranslationFiles($extension);
+        MailsHelper::loadTranslationFiles($extension, $this->item->language);
 
         $this->master->subject = Text::_($this->master->subject);
         $this->master->body    = Text::_($this->master->body);
