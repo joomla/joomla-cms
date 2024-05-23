@@ -220,7 +220,7 @@ class JoomlaInstallerScript
      */
     protected function updateDatabase()
     {
-        if ( Factory::getContainer()->get(DatabaseInterface::class)->getServerType() === 'mysql') {
+        if (Factory::getContainer()->get(DatabaseInterface::class)->getServerType() === 'mysql') {
             $this->updateDatabaseMysql();
         }
     }

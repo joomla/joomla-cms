@@ -66,7 +66,7 @@ class Multilanguage
         // If already tested, don't test again.
         if (!$tested) {
             // Determine status of language filter plugin.
-            $db    = $db ?:  Factory::getContainer()->get(DatabaseInterface::class);
+            $db    = $db ?: Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select($db->quoteName('enabled'))
                 ->from($db->quoteName('#__extensions'))
@@ -102,7 +102,7 @@ class Multilanguage
 
         if (!isset($multilangSiteHomePages)) {
             // Check for Home pages languages.
-            $db    = $db ?:  Factory::getContainer()->get(DatabaseInterface::class);
+            $db    = $db ?: Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select(
                     [
