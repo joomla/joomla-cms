@@ -205,15 +205,19 @@ if (!$format) {
 // Return the results in the desired format
 switch ($format) {
     case 'json':
-        // JSONinzed
-        echo new JsonResponse($results, null, false, $input->get('ignoreMessages', true, 'bool'));
+        if (!($results instanceof Throwable) && $results instanceof Stringable) {
+            echo $results;
+        } else {
+            // JSONinzed
+            echo new JsonResponse($results, null, false, $input->get('ignoreMessages', true, 'bool'));
+        }
 
         break;
 
     default:
         // Handle as raw format
         // Output exception
-        if ($results instanceof Exception) {
+        if ($results instanceof Throwable) {
             // Log an error
             Log::add($results->getMessage(), Log::ERROR);
 
@@ -222,7 +226,7 @@ switch ($format) {
 
             // Echo exception type and message
             $out = \get_class($results) . ': ' . $results->getMessage();
-        } elseif (\is_scalar($results)) {
+        } elseif (\is_scalar($results) || $results instanceof Stringable) {
             // Output string/ null
             $out = (string) $results;
         } else {
