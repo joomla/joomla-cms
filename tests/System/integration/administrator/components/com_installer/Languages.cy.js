@@ -8,11 +8,9 @@ describe('Test in backend that the Installer', () => {
     cy.get('h1.page-title').should('contain.text', 'Extensions: Languages');
   });
 
-  it('has Afrikaans Language', () => {
-    cy.get('tr.row0').should('contain.text', 'Afrikaans');
-  });
-
-  it('has install button', () => {
-    cy.get('input.btn.btn-primary.btn-sm').should('exist');
+  it('has Afrikaans Language installable', () => {
+    cy.get('tr.row0').should('contain.text', 'Afrikaans').then(() => {
+      cy.get('input.btn.btn-primary.btn-sm').should('exist');
+    });
   });
 });
