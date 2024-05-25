@@ -208,7 +208,7 @@ switch ($format) {
         if (!($results instanceof Throwable) && $results instanceof Stringable) {
             echo $results;
         } else {
-            // JSONinzed
+            // JSONized
             echo new JsonResponse($results, null, false, $input->get('ignoreMessages', true, 'bool'));
         }
 
