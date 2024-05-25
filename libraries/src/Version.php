@@ -82,7 +82,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const CODENAME = 'Kudumisha';
+    public const CODENAME = 'Uthabiti';
 
     /**
      * Release date.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '19-March-2024';
+    public const RELDATE = '28-May-2024';
 
     /**
      * Release time.
@@ -98,7 +98,8 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTIME = '16:01';
+
+    public const RELTIME = '17:00';
 
     /**
      * Release timezone.

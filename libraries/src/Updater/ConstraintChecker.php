@@ -13,6 +13,7 @@ namespace Joomla\CMS\Updater;
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Version;
@@ -21,6 +22,8 @@ use Joomla\CMS\Version;
  * ConstraintChecker Class
  *
  * @since  5.1.0
+ *
+ * @internal Currently this class is only used for Joomla! updates and will be extended in the future to support 3rd party updates
  */
 class ConstraintChecker
 {
@@ -35,15 +38,32 @@ class ConstraintChecker
     protected \stdClass $failedEnvironmentConstraints;
 
     /**
+     * The channel to check the constraints against
+     *
+     * @var string
+     */
+    protected $channel;
+
+    /**
      * Constructor, used to populate the failed
+     *
+     * @param string|null $channel  The channel to be used for updating
      *
      * @return  void
      *
      * @since   5.1.0
      */
-    public function __construct()
+    public function __construct($channel = null)
     {
         $this->failedEnvironmentConstraints = new \stdClass();
+
+        if (!isset($channel)) {
+            $params = ComponentHelper::getParams('com_joomlaupdate');
+
+            $channel = (Version::MAJOR_VERSION + ($params->get('updatesource', 'default') == 'next' ? 1 : 0)) . '.x';
+        }
+
+        $this->channel = $channel;
     }
 
     /**
@@ -68,6 +88,19 @@ class ConstraintChecker
             return false;
         }
 
+        // Check channel
+        if (isset($candidate['channel']) && $candidate['channel'] !== $this->channel) {
+            return false;
+        }
+
+        // Check stability, assume true when not set
+        if (
+            isset($candidate['stability'])
+            && !$this->checkStability($candidate['stability'], $minimumStability)
+        ) {
+            return false;
+        }
+
         $result = true;
 
         // Check php_minimum, assume true when not set
@@ -86,19 +119,11 @@ class ConstraintChecker
             $result = false;
         }
 
-        // Check stability, assume true when not set
-        if (
-            isset($candidate['stability'])
-            && !$this->checkStability($candidate['stability'], $minimumStability)
-        ) {
-            $result = false;
-        }
-
         return $result;
     }
 
     /**
-     * Gets the failed constraints for further proccesing
+     * Gets the failed constraints for further processing
      *
      * @return  \stdClass
      *

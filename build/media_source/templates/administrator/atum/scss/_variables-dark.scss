@@ -87,7 +87,7 @@ $atum-colors-dark: (
 
   // Admin section
   options-form-color:                var(--template-text-light),
-  options-form-bg:                   transparent, //#484b51, //#52565b,
+  options-form-bg:                   transparent, // #484b51, // #52565b,
   options-form-border:               1px solid rgba(255, 255, 255, .05),
   options-form-legend-color:         var(--template-text-light),
   options-form-legend-bg:            var(--admin-background),
@@ -98,7 +98,7 @@ $atum-colors-dark: (
 
   form-check-input-checked-bg-image:      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23eee' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e"),
   form-check-input-checked-bg-color:      $btn-primary-dark,
-  form-check-input-border:                1px solid rgba(255, 255, 255, .2), //rgba(255, 255, 255, .05),
+  form-check-input-border:                1px solid rgba(255, 255, 255, .2), // rgba(255, 255, 255, .05),
 
   form-select-background:                 $form-select-bg-dark $form-select-indicator-dark no-repeat right center / $form-select-bg-size, // Used so we can have multiple background elements (e.g., arrow and feedback icon)
   form-select-background-rtl:             $form-select-bg-dark $form-select-indicator-rtl-dark no-repeat left center / $form-select-bg-size, // Used so we can have multiple background elements (e.g. arrow and feedback icon)
@@ -118,7 +118,7 @@ $atum-colors-dark: (
 
   // Text styles
   text-normal:                       var(--template-text-light),
-  text-reverted:                     black, //var(--template-text-dark),
+  text-reverted:                     black, // var(--template-text-dark),
   text-muted-color:                  var(--template-text-light) !important,
   text-muted-hvr-color:              var(--template-text-dark) !important,
 
@@ -418,7 +418,7 @@ $atum-colors-dark: (
   atum-btn-primary:               lighten($btn-primary-dark, 25%),
   atum-btn-primary-icon:          var(--template-text-light),
   atum-btn-primary-icon-hvr:      var(--template-text-dark),
-  atum-btn-primary-bg:            $btn-primary-dark, //var(--template-bg-dark),
+  atum-btn-primary-bg:            $btn-primary-dark, // var(--template-bg-dark),
   atum-btn-primary-bg-hvr:        darken($btn-primary-dark, 15%),
   atum-btn-primary-border:        1px solid lighten($btn-primary-dark, 10%),
   atum-btn-primary-hvr:           var(--template-text-light),

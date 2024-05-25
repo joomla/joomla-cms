@@ -454,7 +454,7 @@ class InputFilter extends BaseInputFilter
         $source = preg_replace_callback(
             '/&#x([a-f0-9]+);/mi',
             function ($m) {
-                return mb_convert_encoding(\chr('0x' . $m[1]), 'UTF-8', 'ISO-8859-1');
+                return mb_convert_encoding(\chr(hexdec($m[1])), 'UTF-8', 'ISO-8859-1');
             },
             $source
         );

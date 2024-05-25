@@ -68,12 +68,12 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         if (
             $app->get('sef')
             && !$app->get('sef_suffix')
-            && $this->params->get('trailingslash')
+            && $this->params->get('trailingslash', -1) != -1
         ) {
-            if ($this->params->get('trailingslash') == 1) {
+            if ($this->params->get('trailingslash') == 0) {
                 // Remove trailingslash
                 $router->attachBuildRule([$this, 'removeTrailingSlash'], SiteRouter::PROCESS_AFTER);
-            } elseif ($this->params->get('trailingslash') == 2) {
+            } elseif ($this->params->get('trailingslash') == 1) {
                 // Add trailingslash
                 $router->attachBuildRule([$this, 'addTrailingSlash'], SiteRouter::PROCESS_AFTER);
             }
@@ -106,7 +106,7 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         }
 
         // Check for trailing slash
-        if ($app->get('sef') && !$app->get('sef_suffix') && $this->params->get('trailingslash')) {
+        if ($app->get('sef') && !$app->get('sef_suffix') && $this->params->get('trailingslash', '-1') != '-1') {
             $this->enforceTrailingSlash();
         }
     }
@@ -348,14 +348,14 @@ final class Sef extends CMSPlugin implements SubscriberInterface
         $originalUri = Uri::getInstance();
 
         if (
-            (int)$this->params->get('trailingslash') === 1
+            (int)$this->params->get('trailingslash') === 0
             && str_ends_with($originalUri->getPath(), '/')
             && $originalUri->toString(['scheme', 'host', 'port', 'path']) !== Uri::root()
         ) {
             // Remove trailingslash
             $originalUri->setPath(substr($originalUri->getPath(), 0, -1));
             $this->getApplication()->redirect($originalUri->toString(), 301);
-        } elseif ((int)$this->params->get('trailingslash') === 2 && !str_ends_with($originalUri->getPath(), '/')) {
+        } elseif ((int)$this->params->get('trailingslash') === 1 && !str_ends_with($originalUri->getPath(), '/')) {
             // Add trailingslash
             $originalUri->setPath($originalUri->getPath() . '/');
             $this->getApplication()->redirect($originalUri->toString(), 301);

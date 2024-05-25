@@ -51,7 +51,7 @@ const init = (image) => {
       formElements.cropY.value = Math.round(e.detail.y);
       formElements.cropWidth.value = Math.round(e.detail.width);
       formElements.cropHeight.value = Math.round(e.detail.height);
-      const format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension;
+      const format = Joomla.MediaManager.Edit.original.extension.toLowerCase() === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension.toLowerCase();
       const quality = formElements.cropQuality.value;
 
       // Update the store
