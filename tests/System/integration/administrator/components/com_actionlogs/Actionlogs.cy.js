@@ -19,7 +19,7 @@ describe('Test in backend that the Actionlogs', () => {
       cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
       cy.contains('User ci-admin logged in to admin');
       cy.db_enableExtension(0, 'plg_actionlog_joomla');
-      cy.task('queryDB', 'TRUNCATE #__action_logs')
+      cy.task('queryDB', 'TRUNCATE #__action_logs');
     });
   });
 
@@ -48,7 +48,7 @@ describe('Test in backend that the Actionlogs', () => {
       cy.on('window:confirm', () => true);
       cy.get('#system-message-container').contains('2 logs deleted').should('exist');
       cy.db_enableExtension(0, 'plg_actionlog_joomla');
-      cy.task('queryDB', 'TRUNCATE #__action_logs')
+      cy.task('queryDB', 'TRUNCATE #__action_logs');
     });
   });
 });
