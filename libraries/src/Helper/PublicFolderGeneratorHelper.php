@@ -163,7 +163,7 @@ PHP;
 
         // Get all the local filesystem directories
         if (\defined('_JCLI_INSTALLATION')) {
-            $localDirectories = [(object)['directory' => 'images']];
+            $localDirectories = [(object)['directory' => 'images'], (object)['directory' => 'files']];
         } elseif (PluginHelper::isEnabled('filesystem', 'local')) {
             $local            = PluginHelper::getPlugin('filesystem', 'local');
             $localDirectories = (new Registry($local->params))->get('directories', [(object)['directory' => 'images'], (object)['directory' => 'files']]);
