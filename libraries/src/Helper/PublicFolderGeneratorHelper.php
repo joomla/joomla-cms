@@ -166,7 +166,7 @@ PHP;
             $localDirectories = [(object)['directory' => 'images']];
         } elseif (PluginHelper::isEnabled('filesystem', 'local')) {
             $local            = PluginHelper::getPlugin('filesystem', 'local');
-            $localDirectories = (new Registry($local->params))->get('directories', [(object)['directory' => 'images']]);
+            $localDirectories = (new Registry($local->params))->get('directories', [(object)['directory' => 'images'], (object)['directory' => 'files']]);
         }
 
         // Symlink all the local filesystem directories
