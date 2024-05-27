@@ -32,5 +32,6 @@ describe('Test in backend that the banners list', () => {
     cy.searchForItem('Action Log - Joomla');
     cy.get('a').contains('Action Log - Joomla').click();
     cy.contains('Plugins: Action Log - Joomla');
+    cy.contains('Close').click();
   });
 });
