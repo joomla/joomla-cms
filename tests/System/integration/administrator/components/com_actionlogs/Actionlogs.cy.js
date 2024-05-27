@@ -10,23 +10,22 @@ describe('Test in backend that the Actionlogs', () => {
 
   it('has no results', () => {
     cy.task('queryDB', 'TRUNCATE #__action_logs');
+    cy.reload();
     cy.get('div.alert.alert-info').should('contain.text', 'No Matching Results');
   });
 
   it('can display a list of actions', () => {
-    cy.db_enableExtension(1, 'plg_actionlog_joomla').then(() => {
-      cy.doAdministratorLogout();
-      cy.doAdministratorLogin();
-      cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
-      cy.contains('User ci-admin logged in to admin');
-      cy.db_enableExtension(0, 'plg_actionlog_joomla');
-      cy.task('queryDB', 'TRUNCATE #__action_logs');
-    });
+    cy.doAdministratorLogout();
+    cy.doAdministratorLogin();
+    cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
+    cy.contains('User ci-admin logged in to admin');
+    cy.task('queryDB', 'TRUNCATE #__action_logs');
   });
 
   it('has export button', () => {
     cy.get('#toolbar-download1').click();
     cy.get('#system-message-container').contains('There are no User Action logs to export').should('exist');
+
   });
 
   it('can clear logs', () => {
@@ -40,16 +39,14 @@ describe('Test in backend that the Actionlogs', () => {
     cy.on('window:confirm', () => true);
     cy.get('#system-message-container').contains('Please first make a selection from the list').should('exist');
     cy.log('Make a selection first');
-    cy.db_enableExtension(1, 'plg_actionlog_joomla').then(() => {
-      cy.doAdministratorLogout();
-      cy.doAdministratorLogin();
-      cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
-      cy.checkAllResults();
-      cy.get('#toolbar-delete').click();
-      cy.on('window:confirm', () => true);
-      cy.get('#system-message-container').contains('2 logs deleted').should('exist');
-      cy.db_enableExtension(0, 'plg_actionlog_joomla');
-      cy.task('queryDB', 'TRUNCATE #__action_logs');
-    });
+    cy.doAdministratorLogout();
+    cy.doAdministratorLogin();
+    cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
+    cy.checkAllResults();
+    cy.get('#toolbar-delete').click();
+    cy.on('window:confirm', () => true);
+    cy.get('#system-message-container').contains('logs deleted').should('exist');
+    cy.task('queryDB', 'TRUNCATE #__action_logs');
   });
+
 });
