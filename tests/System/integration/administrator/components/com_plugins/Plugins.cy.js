@@ -12,20 +12,20 @@ describe('Test in backend that the banners list', () => {
     cy.contains('Action Log - Joomla');
   });
 
-  it('can publish a plugin', () => {
-    cy.searchForItem('Action Log - Joomla');
-    cy.checkAllResults();
-    cy.contains('Enable').click();
-    cy.on('window:confirm', () => true);
-    cy.get('#system-message-container').contains('Plugin enabled.').should('exist');
-  });
-
   it('can unpublish a plugin', () => {
     cy.searchForItem('Action Log - Joomla');
     cy.checkAllResults();
     cy.contains('Disable').click();
     cy.on('window:confirm', () => true);
     cy.get('#system-message-container').contains('Plugin disabled.').should('exist');
+  });
+
+  it('can publish a plugin', () => {
+    cy.searchForItem('Action Log - Joomla');
+    cy.checkAllResults();
+    cy.contains('Enable').click();
+    cy.on('window:confirm', () => true);
+    cy.get('#system-message-container').contains('Plugin enabled.').should('exist');
   });
 
   it('can edit a plugin', () => {
