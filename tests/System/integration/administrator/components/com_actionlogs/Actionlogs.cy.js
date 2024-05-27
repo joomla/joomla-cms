@@ -25,7 +25,6 @@ describe('Test in backend that the Actionlogs', () => {
   it('has export button', () => {
     cy.get('#toolbar-download1').click();
     cy.get('#system-message-container').contains('There are no User Action logs to export').should('exist');
-
   });
 
   it('can clear logs', () => {
@@ -48,5 +47,4 @@ describe('Test in backend that the Actionlogs', () => {
     cy.get('#system-message-container').contains('logs deleted').should('exist');
     cy.task('queryDB', 'TRUNCATE #__action_logs');
   });
-
 });
