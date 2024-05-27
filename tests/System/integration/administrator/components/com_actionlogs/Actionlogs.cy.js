@@ -5,7 +5,6 @@ describe('Test in backend that the Actionlogs', () => {
   });
 
   it('has a title', () => {
-    cy.task('queryDB', 'TRUNCATE #__action_logs');
     cy.get('h1.page-title').should('contain.text', 'User Actions Log');
   });
 
