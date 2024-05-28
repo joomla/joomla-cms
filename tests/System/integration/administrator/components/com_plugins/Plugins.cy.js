@@ -1,4 +1,4 @@
-describe('Test in backend that the banners list', () => {
+describe('Test in backend that the plugins list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
     cy.visit('/administrator/index.php?option=com_plugins&view=plugins');
