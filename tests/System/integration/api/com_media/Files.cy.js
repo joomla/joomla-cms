@@ -142,7 +142,7 @@ describe('Test that media files API endpoint', () => {
     cy.task('writeFile', { path: 'images/test-dir/override.jpg', content: '1' })
       .then(() => cy.readFile('tests/System/data/com_media/test-image-1.jpg', 'binary'))
       .then((data) => cy.api_patch(
-        '/media/files/local-files:/test-dir/override.jpg',
+        '/media/files/local-images:/test-dir/override.jpg',
         { path: 'local-images:/test-dir/override.jpg', content: Buffer.from(data, 'binary').toString('base64') },
       )).then((response) => {
         cy.wrap(response).its('body').its('data').its('attributes')
