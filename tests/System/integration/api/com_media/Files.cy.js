@@ -2,12 +2,10 @@ describe('Test that media files API endpoint', () => {
   // Ensure test dir is available and has correct permissions
   beforeEach(() => {
     cy.task('writeFile', { path: 'images/test-dir/dummy.txt', content: '1' });
-    cy.task('writeFile', { path: 'files/test-dir/dummy.txt', content: '1' });
 
-    // Copy test image to /files folder
-    return cy.readFile('tests/System/data/com_media/test-image-1.jpg', 'binary')
-      .then((data) => cy.writeFile('files/test-image-1.jpg', data, 'binary')
-        .then(() => cy.writeFile('files/test-dir/test-image-1-subfolder.jpg', data, 'binary')));
+    cy.task('writeFile', { path: 'files/test-image-1.jpg', content: '1' });
+    cy.task('writeFile', { path: 'files/test-dir/dummy.txt', content: '1' });
+    cy.task('writeFile', { path: 'files/test-dir/test-image-1-subfolder.jpg', content: '1' });
   });
   afterEach(() => {
     cy.task('deleteFolder', 'images/test-dir');
