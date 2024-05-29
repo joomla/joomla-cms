@@ -646,6 +646,9 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         $this->input = null;
         $this->label = null;
 
+        // Reset the cached layout data
+        $this->layoutData = [];
+
         // Set the XML element object.
         $this->element = $element;
 
