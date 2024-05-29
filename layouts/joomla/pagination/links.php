@@ -16,6 +16,7 @@ use Joomla\Registry\Registry;
 
 $list  = $displayData['list'];
 $pages = $list['pages'];
+$total = $list['total'];
 
 $options = new Registry($displayData['options']);
 
@@ -45,40 +46,39 @@ if ($currentPage >= $step) {
 }
 ?>
 
+<nav class="pagination__wrapper" aria-label="<?php echo Text::_('JLIB_HTML_PAGINATION'); ?>">
+    <div class="text-end me-3">
+        <?php echo Text::sprintf('JGLOBAL_ITEM_COUNT', $total); ?>
+    </div>
+    <div class="pagination pagination-toolbar text-center mt-0">
+        <?php if ($showLimitBox) : ?>
+            <div class="limit float-end">
+                <?php echo Text::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield']; ?>
+            </div>
+        <?php endif; ?>
 
-<?php if (!empty($pages)) : ?>
-    <nav class="pagination__wrapper" aria-label="<?php echo Text::_('JLIB_HTML_PAGINATION'); ?>">
-        <div class="pagination pagination-toolbar text-center">
-
-            <?php if ($showLimitBox) : ?>
-                <div class="limit float-end">
-                    <?php echo Text::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield']; ?>
-                </div>
-            <?php endif; ?>
-
-            <?php if ($showPagesLinks) : ?>
-                <ul class="pagination ms-auto mb-4 me-0">
-                    <?php echo LayoutHelper::render('joomla.pagination.link', $pages['start']); ?>
-                    <?php echo LayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
-                    <?php foreach ($pages['pages'] as $k => $page) : ?>
-                        <?php $output = LayoutHelper::render('joomla.pagination.link', $page); ?>
-                        <?php if (in_array($k, range($range * $step - ($step + 1), $range * $step), true)) : ?>
-                            <?php if (($k % $step === 0 || $k === $range * $step - ($step + 1)) && $k !== $currentPage && $k !== $range * $step - $step) : ?>
-                                <?php $output = preg_replace('#(<a.*?>).*?(</a>)#', '$1...$2', $output); ?>
-                            <?php endif; ?>
+        <?php if ($showPagesLinks && (!empty($pages))): ?>
+            <ul class="pagination ms-auto me-0">
+                <?php echo LayoutHelper::render('joomla.pagination.link', $pages['start']); ?>
+                <?php echo LayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
+                <?php foreach ($pages['pages'] as $k => $page) : ?>
+                    <?php $output = LayoutHelper::render('joomla.pagination.link', $page); ?>
+                    <?php if (in_array($k, range($range * $step - ($step + 1), $range * $step), true)) : ?>
+                        <?php if (($k % $step === 0 || $k === $range * $step - ($step + 1)) && $k !== $currentPage && $k !== $range * $step - $step) : ?>
+                            <?php $output = preg_replace('#(<a.*?>).*?(</a>)#', '$1...$2', $output); ?>
                         <?php endif; ?>
+                    <?php endif; ?>
 
-                        <?php echo $output; ?>
-                    <?php endforeach; ?>
-                    <?php echo LayoutHelper::render('joomla.pagination.link', $pages['next']); ?>
-                    <?php echo LayoutHelper::render('joomla.pagination.link', $pages['end']); ?>
-                </ul>
-            <?php endif; ?>
+                    <?php echo $output; ?>
+                <?php endforeach; ?>
+                <?php echo LayoutHelper::render('joomla.pagination.link', $pages['next']); ?>
+                <?php echo LayoutHelper::render('joomla.pagination.link', $pages['end']); ?>
+            </ul>
+        <?php endif; ?>
 
-            <?php if ($showLimitStart) : ?>
-                <input type="hidden" name="<?php echo $list['prefix']; ?>limitstart" value="<?php echo $list['limitstart']; ?>">
-            <?php endif; ?>
+        <?php if ($showLimitStart) : ?>
+            <input type="hidden" name="<?php echo $list['prefix']; ?>limitstart" value="<?php echo $list['limitstart']; ?>">
+        <?php endif; ?>
+    </div>
+</nav>
 
-        </div>
-    </nav>
-<?php endif; ?>
