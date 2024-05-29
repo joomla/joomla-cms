@@ -5,7 +5,7 @@ describe('Test that media files API endpoint', () => {
     cy.task('writeFile', { path: 'files/test-dir/dummy.txt', content: '1' });
 
     // Copy test image to /files folder
-    cy.readFile('tests/System/data/com_media/test-image-1.jpg', 'binary')
+    return cy.readFile('tests/System/data/com_media/test-image-1.jpg', 'binary')
       .then((data) => cy.writeFile('files/test-image-1.jpg', data, 'binary')
         .then(() => {
           cy.writeFile('files/test-dir/test-image-1-subfolder.jpg', data, 'binary');
