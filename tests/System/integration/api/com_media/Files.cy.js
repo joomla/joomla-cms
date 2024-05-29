@@ -2,7 +2,6 @@ describe('Test that media files API endpoint', () => {
   // Ensure test dir is available and has correct permissions
   beforeEach(() => {
     cy.task('writeFile', { path: 'images/test-dir/dummy.txt', content: '1' });
-
     cy.task('writeFile', { path: 'files/test-image-1.jpg', content: '1' });
     cy.task('writeFile', { path: 'files/test-dir/dummy.txt', content: '1' });
     cy.task('writeFile', { path: 'files/test-dir/test-image-1-subfolder.jpg', content: '1' });
@@ -69,7 +68,7 @@ describe('Test that media files API endpoint', () => {
           .should('include', 'test.jpg');
         cy.wrap(response).its('body').its('data').its('attributes')
           .its('path')
-          .should('include', 'local-images:/test-dir/test.jpg');
+          .should('include', 'local-files:/test-dir/test.jpg');
       });
   });
 
@@ -111,7 +110,7 @@ describe('Test that media files API endpoint', () => {
   });
 
   it('can update a file without adapter', () => {
-    cy.task('writeFile', { path: 'images/test-dir/override.jpg', content: '1' })
+    cy.task('writeFile', { path: 'files/test-dir/override.jpg', content: '1' })
       .then(() => cy.readFile('tests/System/data/com_media/test-image-1.jpg', 'binary'))
       .then((data) => cy.api_patch(
         '/media/files/test-dir/override.jpg',
@@ -127,7 +126,7 @@ describe('Test that media files API endpoint', () => {
   });
 
   it('can update a folder without adapter', () => {
-    cy.task('writeFile', { path: 'images/test-dir/override/test.jpg', content: '1' })
+    cy.task('writeFile', { path: 'files/test-dir/override/test.jpg', content: '1' })
       .then(() => cy.api_patch('/media/files/test-dir/override', { path: 'test-dir/override-new' }))
       .then((response) => {
         cy.wrap(response).its('body').its('data').its('attributes')
@@ -143,7 +142,7 @@ describe('Test that media files API endpoint', () => {
     cy.task('writeFile', { path: 'images/test-dir/override.jpg', content: '1' })
       .then(() => cy.readFile('tests/System/data/com_media/test-image-1.jpg', 'binary'))
       .then((data) => cy.api_patch(
-        '/media/files/local-images:/test-dir/override.jpg',
+        '/media/files/local-files:/test-dir/override.jpg',
         { path: 'local-images:/test-dir/override.jpg', content: Buffer.from(data, 'binary').toString('base64') },
       )).then((response) => {
         cy.wrap(response).its('body').its('data').its('attributes')
