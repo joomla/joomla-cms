@@ -8,7 +8,7 @@ describe('Test in backend that the installed languages', () => {
     cy.get('h1.page-title').should('contain.text', 'Languages');
   });
 
-  it('has English Language', () => {
+  it('have English Language', () => {
     cy.get('tr.row0').should('contain.text', 'English');
   });
 
