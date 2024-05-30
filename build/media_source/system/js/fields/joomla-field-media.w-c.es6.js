@@ -39,12 +39,12 @@ class JoomlaFieldMedia extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['type', 'base-path', 'root-folder', 'url', 'modal-title', 'modal-width', 'modal-height', 'input', 'button-select', 'button-clear', 'preview', 'preview-width', 'preview-height'];
+    return ['base-path', 'root-folder', 'url', 'modal-title', 'modal-width', 'modal-height', 'input', 'button-select', 'button-clear', 'preview', 'preview-width', 'preview-height'];
   }
 
-  get type() { return this.getAttribute('type'); }
+  get types() { return this.getAttribute('types') || ''; }
 
-  set type(value) { this.setAttribute('type', value); }
+  set types(value) { this.setAttribute('types', value); }
 
   get basePath() { return this.getAttribute('base-path'); }
 
@@ -176,7 +176,7 @@ class JoomlaFieldMedia extends HTMLElement {
   async modalClose() {
     try {
       const item = Joomla.selectedMediaFile;
-      if (item && item.type === 'dir') {
+      if (item && item.type === 'dir' && this.types.includes('directories')) {
         this.setValue(item.path);
       } else {
         await Joomla.getMedia(Joomla.selectedMediaFile, this.inputElement, this);

@@ -420,6 +420,7 @@ class MediaField extends FormField
             'previewHeight'       => $this->previewHeight,
             'previewWidth'        => $this->previewWidth,
             'mediaTypes'          => implode(',', $types),
+            'mediaTypeNames'      => $mediaTypes,
             'imagesExt'           => $imagesExt,
             'audiosExt'           => $audiosExt,
             'videosExt'           => $videosExt,
