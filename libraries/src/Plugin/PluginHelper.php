@@ -264,7 +264,7 @@ abstract class PluginHelper
                         $caller   = \is_array($handler) ? [$instance, $handler[0]] : [$instance, $handler];
 
                         return $caller($event);
-                    }, \is_array($handler) ? $params[1] ?? Priority::NORMAL : Priority::NORMAL);
+                    }, \is_array($handler) ? $handler[1] ?? Priority::NORMAL : Priority::NORMAL);
                 }
             }
         } else {
