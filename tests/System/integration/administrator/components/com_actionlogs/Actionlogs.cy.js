@@ -1,4 +1,4 @@
-describe('Test in backend that the Actionlogs', () => {
+describe('Test in backend that the action logs', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
     cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
