@@ -12,7 +12,7 @@ describe('Test in backend that the installed languages', () => {
     cy.get('tr.row0').should('contain.text', 'English');
   });
 
-  it('has a Language as default', () => {
+  it('have a Language as default', () => {
     cy.get('span.icon-color-featured').should('exist');
   });
 
