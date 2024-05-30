@@ -161,7 +161,6 @@ export default {
         ),
       );
 
-
       // Handle clicks when the item was not selected
       if (!this.isSelected()) {
         // Unselect all other selected items,
