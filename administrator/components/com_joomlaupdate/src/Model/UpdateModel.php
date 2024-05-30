@@ -912,7 +912,6 @@ ENDDATA;
                 File::delete(JPATH_ROOT . '/joomla.xml');
             }
         } catch (FilesystemException $exception) {
-
         }
 
         // Unset the update filename from the session.
@@ -1076,7 +1075,6 @@ ENDDATA;
                 try {
                     File::delete($file);
                 } catch (FilesystemException $exception) {
-
                 }
             }
         }
