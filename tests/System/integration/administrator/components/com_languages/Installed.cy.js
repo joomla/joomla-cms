@@ -16,7 +16,7 @@ describe('Test in backend that the installed languages', () => {
     cy.get('span.icon-color-featured').should('exist');
   });
 
-  it('has install languages link', () => {
+  it('have install languages link', () => {
     cy.contains(' Install Languages ');
   });
 });
