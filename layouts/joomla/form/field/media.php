@@ -155,7 +155,7 @@ if (!$doc->getScriptOptions('media-picker')) {
 }
 
 ?>
-<joomla-field-media class="field-media-wrapper" type="image" <?php // @TODO add this attribute to the field in order to use it for all media types ?>
+<joomla-field-media class="field-media-wrapper"
     base-path="<?php echo $this->escape(Uri::root()); ?>"
     root-folder="<?php echo $this->escape(ComponentHelper::getParams('com_media')->get('file_path', 'images')); ?>"
     url="<?php echo $url; ?>"
