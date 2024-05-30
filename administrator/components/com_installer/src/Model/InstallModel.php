@@ -331,7 +331,9 @@ class InstallModel extends BaseDatabaseModel
         try {
             File::upload($tmp_src, $tmp_dest, false, true);
         } catch (FilesystemException $exception) {
+            Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 'error');
 
+            return false;
         }
 
         // Unpack the downloaded package file.

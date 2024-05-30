@@ -511,7 +511,7 @@ class UpdateModel extends BaseDatabaseModel
             try {
                 File::delete($target);
             } catch (FilesystemException $exception) {
-
+                return false;
             }
         }
 
@@ -618,7 +618,7 @@ ENDDATA;
             try {
                 File::delete($configpath);
             } catch (FilesystemException $exception) {
-
+                return false;
             }
         }
 
