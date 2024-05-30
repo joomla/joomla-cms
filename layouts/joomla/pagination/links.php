@@ -57,7 +57,7 @@ if ($currentPage >= $step) {
             </div>
         <?php endif; ?>
 
-        <?php if ($showPagesLinks && !empty($pages)): ?>
+        <?php if ($showPagesLinks && !empty($pages)) : ?>
             <ul class="pagination ms-auto me-0">
                 <?php echo LayoutHelper::render('joomla.pagination.link', $pages['start']); ?>
                 <?php echo LayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
