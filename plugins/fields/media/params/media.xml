@@ -8,11 +8,6 @@
 				label="PLG_FIELDS_MEDIA_PARAMS_DIRECTORY_LABEL"
 				preview="false"
 				types="directories"
-
-				directory1="images"
-				hide_none1="true"
-				recursive1="true"
-				validate1="options"
 			/>
 
 			<field
