@@ -175,7 +175,12 @@ class JoomlaFieldMedia extends HTMLElement {
 
   async modalClose() {
     try {
-      await Joomla.getMedia(Joomla.selectedMediaFile, this.inputElement, this);
+      const item = Joomla.selectedMediaFile;
+      if (item && item.type === 'dir') {
+        this.setValue(item.path);
+      } else {
+        await Joomla.getMedia(Joomla.selectedMediaFile, this.inputElement, this);
+      }
     } catch (err) {
       Joomla.renderMessages({
         error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],
