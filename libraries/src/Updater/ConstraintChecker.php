@@ -93,6 +93,14 @@ class ConstraintChecker
             return false;
         }
 
+        // Check stability, assume true when not set
+        if (
+            isset($candidate['stability'])
+            && !$this->checkStability($candidate['stability'], $minimumStability)
+        ) {
+            return false;
+        }
+
         $result = true;
 
         // Check php_minimum, assume true when not set
@@ -107,14 +115,6 @@ class ConstraintChecker
         if (
             isset($candidate['supported_databases'])
             && !$this->checkSupportedDatabases($candidate['supported_databases'])
-        ) {
-            $result = false;
-        }
-
-        // Check stability, assume true when not set
-        if (
-            isset($candidate['stability'])
-            && !$this->checkStability($candidate['stability'], $minimumStability)
         ) {
             $result = false;
         }

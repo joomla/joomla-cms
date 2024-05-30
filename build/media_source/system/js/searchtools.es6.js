@@ -110,7 +110,7 @@ Joomla = window.Joomla || {};
       this.clearButton = document.querySelector(this.options.clearBtnSelector);
 
       // Ordering
-      this.orderCols = Array.prototype.slice.call(document.querySelectorAll(`${this.options.formSelector} ${this.options.orderColumnSelector}`));
+      this.orderCols = document.querySelectorAll(`${this.options.formSelector} ${this.options.orderColumnSelector}`);
       this.orderField = document.querySelector(`${this.options.formSelector} ${this.options.orderFieldSelector}`);
 
       // Limit
@@ -375,17 +375,17 @@ Joomla = window.Joomla || {};
     // eslint-disable-next-line consistent-return
     getFilterFields() {
       if (this.mainContainer) {
-        return Array.prototype.slice.call(this.mainContainer.querySelectorAll('select,input'));
+        return this.mainContainer.querySelectorAll('select,input');
       }
       if (this.filterContainer) {
-        return Array.prototype.slice.call(this.filterContainer.querySelectorAll('select,input'));
+        return this.filterContainer.querySelectorAll('select,input');
       }
 
       return [];
     }
 
     getListFields() {
-      return Array.prototype.slice.call(this.listContainer.querySelectorAll('select'));
+      return this.listContainer.querySelectorAll('select');
     }
 
     // Common container functions
