@@ -4,7 +4,7 @@ describe('Test in backend that the installed languages', () => {
     cy.visit('/administrator/index.php?option=com_languages&view=installed');
   });
 
-  it('has a title', () => {
+  it('have a title', () => {
     cy.get('h1.page-title').should('contain.text', 'Languages');
   });
 
