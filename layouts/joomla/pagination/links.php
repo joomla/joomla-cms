@@ -46,8 +46,8 @@ if ($currentPage >= $step) {
     }
 }
 $first = ($currentPage - 1) * $list['limit'] + 1;
-$last = $first + $list['limit'] - 1;
-$last = $last > $total ? $total : $last;
+$last  = $first + $list['limit'] - 1;
+$last  = $last > $total ? $total : $last;
 
 ?>
 <?php if (!empty($pages) || $showItemPosition) : ?>
