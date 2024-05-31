@@ -152,28 +152,6 @@ class HtmlView extends BaseHtmlView
                         parse_str($item->link, $vars);
 
                         if (isset($vars['view'])) {
-                            // Attempt to load the view xml file.
-                            $file = JPATH_SITE . '/components/' . $item->componentname . '/views/' . $vars['view'] . '/metadata.xml';
-
-                            if (!is_file($file)) {
-                                $file = JPATH_SITE . '/components/' . $item->componentname . '/view/' . $vars['view'] . '/metadata.xml';
-                            }
-
-                            if (is_file($file) && $xml = simplexml_load_file($file)) {
-                                // Look for the first view node off of the root node.
-                                if ($view = $xml->xpath('view[1]')) {
-                                    // Add view title if present.
-                                    if (!empty($view[0]['title'])) {
-                                        $viewTitle = trim((string) $view[0]['title']);
-
-                                        // Check if the key is valid. Needed due to B/C so we don't show untranslated keys. This check should be removed with Joomla 4.
-                                        if ($lang->hasKey($viewTitle)) {
-                                            $titleParts[] = Text::_($viewTitle);
-                                        }
-                                    }
-                                }
-                            }
-
                             $vars['layout'] = $vars['layout'] ?? 'default';
 
                             // Attempt to load the layout xml file.

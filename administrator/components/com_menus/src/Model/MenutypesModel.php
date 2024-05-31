@@ -161,11 +161,6 @@ class MenutypesModel extends BaseDatabaseModel
     {
         $options = [];
         $client  = ApplicationHelper::getClientInfo($this->getState('client_id'));
-        $mainXML = $client->path . '/components/' . $component . '/metadata.xml';
-
-        if (is_file($mainXML)) {
-            $options = $this->getTypeOptionsFromXml($mainXML, $component);
-        }
 
         if (empty($options)) {
             $options = $this->getTypeOptionsFromMvc($component);
@@ -173,81 +168,6 @@ class MenutypesModel extends BaseDatabaseModel
 
         if ($client->id == 1 && empty($options)) {
             $options = $this->getTypeOptionsFromManifest($component);
-        }
-
-        return $options;
-    }
-
-    /**
-     * Get the menu types from an XML file
-     *
-     * @param   string  $file       File path
-     * @param   string  $component  Component option as in URL
-     *
-     * @return  array|boolean
-     *
-     * @since   1.6
-     */
-    protected function getTypeOptionsFromXml($file, $component)
-    {
-        $options = [];
-
-        // Attempt to load the xml file.
-        if (!$xml = simplexml_load_file($file)) {
-            return false;
-        }
-
-        // Look for the first menu node off of the root node.
-        if (!$menu = $xml->xpath('menu[1]')) {
-            return false;
-        }
-
-        $menu = $menu[0];
-
-        // If we have no options to parse, just add the base component to the list of options.
-        if (!empty($menu['options']) && $menu['options'] == 'none') {
-            // Create the menu option for the component.
-            $o              = new CMSObject();
-            $o->title       = (string) $menu['name'];
-            $o->description = (string) $menu['msg'];
-            $o->request     = ['option' => $component];
-
-            $options[] = $o;
-
-            return $options;
-        }
-
-        // Look for the first options node off of the menu node.
-        if (!$optionsNode = $menu->xpath('options[1]')) {
-            return false;
-        }
-
-        $optionsNode = $optionsNode[0];
-
-        // Make sure the options node has children.
-        if (!$children = $optionsNode->children()) {
-            return false;
-        }
-
-        // Process each child as an option.
-        foreach ($children as $child) {
-            if ($child->getName() == 'option') {
-                // Create the menu option for the component.
-                $o              = new CMSObject();
-                $o->title       = (string) $child['name'];
-                $o->description = (string) $child['msg'];
-                $o->request     = ['option' => $component, (string) $optionsNode['var'] => (string) $child['value']];
-
-                $options[] = $o;
-            } elseif ($child->getName() == 'default') {
-                // Create the menu option for the component.
-                $o              = new CMSObject();
-                $o->title       = (string) $child['name'];
-                $o->description = (string) $child['msg'];
-                $o->request     = ['option' => $component];
-
-                $options[] = $o;
-            }
         }
 
         return $options;
@@ -280,60 +200,7 @@ class MenutypesModel extends BaseDatabaseModel
 
             // Ignore private views.
             if (strpos($view, '_') !== 0) {
-                // Determine if a metadata file exists for the view.
-                $file = $viewPath . '/metadata.xml';
-
-                if (is_file($file)) {
-                    // Attempt to load the xml file.
-                    if ($xml = simplexml_load_file($file)) {
-                        // Look for the first view node off of the root node.
-                        if ($menu = $xml->xpath('view[1]')) {
-                            $menu = $menu[0];
-
-                            // If the view is hidden from the menu, discard it and move on to the next view.
-                            if (!empty($menu['hidden']) && $menu['hidden'] == 'true') {
-                                unset($xml);
-                                continue;
-                            }
-
-                            // Do we have an options node or should we process layouts?
-                            // Look for the first options node off of the menu node.
-                            if ($optionsNode = $menu->xpath('options[1]')) {
-                                $optionsNode = $optionsNode[0];
-
-                                // Make sure the options node has children.
-                                if ($children = $optionsNode->children()) {
-                                    // Process each child as an option.
-                                    foreach ($children as $child) {
-                                        if ($child->getName() == 'option') {
-                                            // Create the menu option for the component.
-                                            $o              = new CMSObject();
-                                            $o->title       = (string) $child['name'];
-                                            $o->description = (string) $child['msg'];
-                                            $o->request     = ['option' => $component, 'view' => $view, (string) $optionsNode['var'] => (string) $child['value']];
-
-                                            $options[] = $o;
-                                        } elseif ($child->getName() == 'default') {
-                                            // Create the menu option for the component.
-                                            $o              = new CMSObject();
-                                            $o->title       = (string) $child['name'];
-                                            $o->description = (string) $child['msg'];
-                                            $o->request     = ['option' => $component, 'view' => $view];
-
-                                            $options[] = $o;
-                                        }
-                                    }
-                                }
-                            } else {
-                                $options = array_merge($options, (array) $this->getTypeOptionsFromLayouts($component, $view));
-                            }
-                        }
-
-                        unset($xml);
-                    }
-                } else {
-                    $options = array_merge($options, (array) $this->getTypeOptionsFromLayouts($component, $view));
-                }
+                $options = array_merge($options, (array) $this->getTypeOptionsFromLayouts($component, $view));
             }
         }
 

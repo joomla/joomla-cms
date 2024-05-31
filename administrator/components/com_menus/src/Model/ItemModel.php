@@ -1118,28 +1118,6 @@ class ItemModel extends AdminModel
                     }
                 }
             }
-
-            // Now check for a view manifest file
-            if (!$formFile) {
-                if (isset($view)) {
-                    $metadataFolders = [
-                        $base . '/view/' . $view,
-                        $base . '/views/' . $view,
-                    ];
-                    $metaPath = Path::find($metadataFolders, 'metadata.xml');
-
-                    if (is_file($path = Path::clean($metaPath))) {
-                        $formFile = $path;
-                    }
-                } elseif ($base) {
-                    // Now check for a component manifest file
-                    $path = Path::clean($base . '/metadata.xml');
-
-                    if (is_file($path)) {
-                        $formFile = $path;
-                    }
-                }
-            }
         }
 
         if ($formFile) {
