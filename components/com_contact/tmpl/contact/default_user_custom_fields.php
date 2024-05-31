@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Contact\Site\View\Contact\HtmlView $this */
 $params             = $this->item->params;
 
 $displayGroups      = $params->get('show_user_custom_fields');

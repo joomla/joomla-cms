@@ -158,8 +158,7 @@ if (Joomla && Joomla.getOptions) {
         focus: opt.focus ? opt.focus : true,
       };
 
-      Array.from(document.querySelectorAll(modal))
-        .map((modalEl) => Joomla.initialiseModal(modalEl, options));
+      document.querySelectorAll(modal).forEach((modalEl) => Joomla.initialiseModal(modalEl, options));
     });
   }
 }
