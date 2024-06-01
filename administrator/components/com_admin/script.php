@@ -415,7 +415,7 @@ class JoomlaInstallerScript
         ];
 
         $files = [
-            // From 5.2 to 6.0
+            // From 5.x to 6.0
             '/administrator/components/com_admin/sql/updates/mysql/5.0.0-2023-03-11.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.0.0-2023-03-17.sql',
             '/administrator/components/com_admin/sql/updates/mysql/5.0.0-2023-07-12.sql',
@@ -475,7 +475,7 @@ class JoomlaInstallerScript
         ];
 
         $folders = [
-            // From 5.2 to 6.0
+            // From 5.x to 6.0
             '/libraries/src/Application/CLI/Output/Processor',
             '/libraries/src/Application/CLI/Output',
             '/libraries/src/Application/CLI',
