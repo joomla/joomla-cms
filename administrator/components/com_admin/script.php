@@ -415,11 +415,70 @@ class JoomlaInstallerScript
         ];
 
         $files = [
-            // From 5.x to 6.0
+            // From 5.2 to 6.0
+            '/administrator/components/com_admin/sql/updates/mysql/5.0.0-2023-03-11.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.0.0-2023-03-17.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.0.0-2023-07-12.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.0.0-2023-07-25.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.0.0-2023-07-29.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.0.0-2023-08-21.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.0.0-2023-08-26.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.0.0-2023-08-28.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.0.0-2023-08-29.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.0.0-2023-08-30.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.0.0-2023-09-02.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.0.0-2023-09-06.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.0.0-2023-09-09.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.0.0-2023-09-11.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.1.0-2023-11-28.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.1.0-2024-01-04.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.1.0-2024-02-10.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.1.0-2024-02-24.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.1.0-2024-02-25.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.1.0-2024-03-08.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.1.0-2024-03-28.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/5.1.1-2024-04-18.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-03-11.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-03-17.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-07-12.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-07-25.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-07-29.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-08-21.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-08-26.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-08-28.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-08-29.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-08-30.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-09-02.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-09-06.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-09-09.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.0.0-2023-09-11.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.1.0-2023-11-28.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.1.0-2024-02-10.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.1.0-2024-02-24.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.1.0-2024-02-25.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.1.0-2024-03-08.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.1.0-2024-03-28.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/5.1.1-2024-04-18.sql',
+            '/libraries/src/Application/BaseApplication.php',
+            '/libraries/src/Application/CLI/CliInput.php',
+            '/libraries/src/Application/CLI/CliOutput.php',
+            '/libraries/src/Application/CLI/ColorStyle.php',
+            '/libraries/src/Application/CLI/Output/Processor/ColorProcessor.php',
+            '/libraries/src/Application/CLI/Output/Processor/ProcessorInterface.php',
+            '/libraries/src/Application/CLI/Output/Stdout.php',
+            '/libraries/src/Application/CLI/Output/Xml.php',
+            '/libraries/src/Application/CliApplication.php',
+            '/libraries/src/Input/Cookie.php',
+            '/libraries/src/Input/Files.php',
+            '/libraries/src/Input/Input.php',
+            '/libraries/src/Input/Json.php',
         ];
 
         $folders = [
-            // From 5.x to 6.0
+            // From 5.2 to 6.0
+            '/libraries/src/Application/CLI/Output/Processor',
+            '/libraries/src/Application/CLI/Output',
+            '/libraries/src/Application/CLI',
         ];
 
         $status['files_checked']   = $files;
