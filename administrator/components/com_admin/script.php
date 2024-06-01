@@ -287,8 +287,9 @@ class JoomlaInstallerScript
              * 'client_id'    => Field `client_id` in the `#__extensions` table
              * 'pre_function' => Name of an optional migration function to be called before
              *                   uninstalling, `null` if not used.
-             * Example:
+             * Examples:
              * ['type' => 'plugin', 'element' => 'demotasks', 'folder' => 'task', 'client_id' => 0, 'pre_function' => null],
+             * ['type' => 'plugin', 'element' => 'compat', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateCompatPlugin'],
              */
         ];
 
