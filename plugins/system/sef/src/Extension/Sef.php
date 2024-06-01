@@ -295,8 +295,10 @@ final class Sef extends CMSPlugin implements SubscriberInterface
 
         if ($nonSEFSuffix && $suffix !== $nonSEFSuffix) {
             // There is a URL query parameter named "format", which isn't the same to the suffix
+            $pathWithoutSuffix = ($suffix !== '') ? substr($route, 0, -(\strlen($suffix) + 1)) : $route;
+
             $origUri->delVar('format');
-            $origUri->setPath(substr($route, 0, -(\strlen($suffix))) . $nonSEFSuffix);
+            $origUri->setPath($pathWithoutSuffix . '.' . $nonSEFSuffix);
             $this->getApplication()->redirect($origUri->toString(), 301);
         }
 
