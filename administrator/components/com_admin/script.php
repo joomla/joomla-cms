@@ -477,13 +477,9 @@ class JoomlaInstallerScript
      */
     public function updateAssets($installer)
     {
-        // List all components added since 4.0
+        // List all components added since 6.0
         $newComponents = [
             // Components to be added here
-            'com_guidedtours',
-            'com_mails',
-            'com_scheduler',
-            'com_workflow',
         ];
 
         foreach ($newComponents as $component) {
