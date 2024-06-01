@@ -264,7 +264,7 @@ class JoomlaInstallerScript
 
     /**
      * Uninstall extensions and optionally migrate their parameters when
-     * updating from a version older than 5.0.1.
+     * updating from a version older than 6.0.0.
      *
      * @return  void
      *
@@ -272,8 +272,8 @@ class JoomlaInstallerScript
      */
     protected function uninstallExtensions()
     {
-        // Don't uninstall extensions when not updating from a version older than 5.0.1
-        if (empty($this->fromVersion) || version_compare($this->fromVersion, '5.0.1', 'ge')) {
+        // Don't uninstall extensions when not updating from a version older than 6.0.0
+        if (empty($this->fromVersion) || version_compare($this->fromVersion, '6.0.0', 'ge')) {
             return true;
         }
 
@@ -287,13 +287,9 @@ class JoomlaInstallerScript
              * 'client_id'    => Field `client_id` in the `#__extensions` table
              * 'pre_function' => Name of an optional migration function to be called before
              *                   uninstalling, `null` if not used.
+             * Example:
+             * ['type' => 'plugin', 'element' => 'demotasks', 'folder' => 'task', 'client_id' => 0, 'pre_function' => null],
              */
-            ['type' => 'plugin', 'element' => 'demotasks', 'folder' => 'task', 'client_id' => 0, 'pre_function' => null],
-            ['type' => 'plugin', 'element' => 'compat', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateCompatPlugin'],
-            ['type' => 'plugin', 'element' => 'logrotation', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateLogRotationPlugin'],
-            ['type' => 'plugin', 'element' => 'recaptcha', 'folder' => 'captcha', 'client_id' => 0, 'pre_function' => null],
-            ['type' => 'plugin', 'element' => 'sessiongc', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateSessionGCPlugin'],
-            ['type' => 'plugin', 'element' => 'updatenotification', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateUpdatenotificationPlugin'],
         ];
 
         $db = Factory::getDbo();
@@ -343,162 +339,6 @@ class JoomlaInstallerScript
                 throw $e;
             }
         }
-    }
-
-    /**
-     * Migrate plugin parameters of obsolete compat system plugin to compat behaviour plugin
-     *
-     * @param   \stdClass  $rowOld  Object with the obsolete plugin's record in the `#__extensions` table
-     *
-     * @return  void
-     *
-     * @since   5.0.0
-     */
-    private function migrateCompatPlugin($rowOld)
-    {
-        $db = Factory::getDbo();
-
-        $db->setQuery(
-            $db->getQuery(true)
-                ->update($db->quoteName('#__extensions'))
-                ->set($db->quoteName('enabled') . ' = :enabled')
-                ->set($db->quoteName('params') . ' = :params')
-                ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-                ->where($db->quoteName('element') . ' = ' . $db->quote('compat'))
-                ->where($db->quoteName('folder') . ' = ' . $db->quote('behaviour'))
-                ->where($db->quoteName('client_id') . ' = 0')
-                ->bind(':enabled', $rowOld->enabled, ParameterType::INTEGER)
-                ->bind(':params', $rowOld->params)
-        )->execute();
-    }
-
-    /**
-     * This method is for migration for old logrotation system plugin migration to task.
-     *
-     * @param   \stdClass  $data  Object with the extension's record in the `#__extensions` table
-     *
-     * @return  void
-     *
-     * @since   5.0.0
-     */
-    private function migrateLogRotationPlugin($data)
-    {
-        if (!$data->enabled) {
-            return;
-        }
-
-        /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
-        $component = Factory::getApplication()->bootComponent('com_scheduler');
-
-        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
-        $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
-
-        // Get the timeout, as configured in plg_system_logrotation
-        $params       = new Registry($data->params);
-        $cachetimeout = (int) $params->get('cachetimeout', 30);
-        $lastrun      = (int) $params->get('lastrun', time());
-
-        $task = [
-            'title'           => 'Rotate Logs',
-            'type'            => 'rotation.logs',
-            'execution_rules' => [
-                'rule-type'     => 'interval-days',
-                'interval-days' => $cachetimeout,
-                'exec-time'     => gmdate('H:i', $lastrun),
-                'exec-day'      => gmdate('d'),
-            ],
-            'state'  => 1,
-            'params' => [
-                'logstokeep' => $params->get('logstokeep', 1),
-            ],
-        ];
-        $model->save($task);
-    }
-
-    /**
-     * This method is for migration for old updatenotification system plugin migration to task.
-     *
-     * @param   \stdClass  $data  Object with the extension's record in the `#__extensions` table
-     *
-     * @return  void
-     *
-     * @since   5.0.0
-     */
-    private function migrateSessionGCPlugin($data)
-    {
-        if (!$data->enabled) {
-            return;
-        }
-
-        // Get the plugin parameters
-        $params = new Registry($data->params);
-
-        /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
-        $component = Factory::getApplication()->bootComponent('com_scheduler');
-
-        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
-        $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
-        $task  = [
-            'title'           => 'Session GC',
-            'type'            => 'session.gc',
-            'execution_rules' => [
-                'rule-type'      => 'interval-hours',
-                'interval-hours' => 24,
-                'exec-time'      => gmdate('H:i'),
-                'exec-day'       => gmdate('d'),
-            ],
-            'state'  => 1,
-            'params' => [
-                'enable_session_gc'          => $params->get('enable_session_gc', 1),
-                'enable_session_metadata_gc' => $params->get('enable_session_metadata_gc', 1),
-            ],
-        ];
-        $model->save($task);
-    }
-
-    /**
-     * This method is for migration for old updatenotification system plugin migration to task.
-     *
-     * @param   \stdClass  $data  Object with the extension's record in the `#__extensions` table
-     *
-     * @return  void
-     *
-     * @since   5.0.0
-     */
-    private function migrateUpdatenotificationPlugin($data)
-    {
-        if (!$data->enabled) {
-            return;
-        }
-
-        // Get the timeout for Joomla! updates, as configured in com_installer's component parameters
-        $component    = ComponentHelper::getComponent('com_installer');
-        $paramsc      = $component->getParams();
-        $cachetimeout = (int) $paramsc->get('cachetimeout', 6);
-        $params       = new Registry($data->params);
-        $lastrun      = (int) $params->get('lastrun', time());
-
-        /** @var \Joomla\Component\Scheduler\Administrator\Extension\SchedulerComponent $component */
-        $component = Factory::getApplication()->bootComponent('com_scheduler');
-
-        /** @var \Joomla\Component\Scheduler\Administrator\Model\TaskModel $model */
-        $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
-        $task  = [
-            'title'           => 'Update Notification',
-            'type'            => 'update.notification',
-            'execution_rules' => [
-                'rule-type'      => 'interval-hours',
-                'interval-hours' => $cachetimeout,
-                'exec-time'      => gmdate('H:i', $lastrun),
-                'exec-day'       => gmdate('d'),
-            ],
-            'state'  => 1,
-            'params' => [
-                'email'             => $params->get('email', ''),
-                'language_override' => $params->get('language_override', ''),
-            ],
-        ];
-        $model->save($task);
     }
 
     /**
