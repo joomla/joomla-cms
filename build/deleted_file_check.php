@@ -59,7 +59,7 @@ if (empty($options['to'])) {
     exit(1);
 }
 
-// Directories to skip for the check (needs to include anything from J3 we want to keep)
+// Directories to skip for the check (needs to include anything from previous versions which we want to keep)
 $previousReleaseExclude = [
     $options['from'] . '/images/sampledata',
     $options['from'] . '/installation',
