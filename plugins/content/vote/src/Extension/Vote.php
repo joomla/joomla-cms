@@ -152,7 +152,7 @@ final class Vote extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.2.0
      */
     public function onSchemaBeforeCompileHead(Schemaorg\BeforeCompileHeadEvent $event): void
     {
@@ -203,7 +203,7 @@ final class Vote extends CMSPlugin implements SubscriberInterface
      *
      * @return  ?string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected function prepareAggregateRating($context)
     {
@@ -231,7 +231,7 @@ final class Vote extends CMSPlugin implements SubscriberInterface
      *
      * @return  ?string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.2.0
      */
     protected function prepareProductAggregateRating($context)
     {
