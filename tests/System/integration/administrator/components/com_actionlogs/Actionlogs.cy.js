@@ -8,7 +8,7 @@ describe('Test in backend that the action logs', () => {
     cy.get('h1.page-title').should('contain.text', 'User Actions Log');
   });
 
-  it('has no results', () => {
+  it('can display no results', () => {
     cy.task('queryDB', 'TRUNCATE #__action_logs');
     cy.reload();
     cy.get('div.alert.alert-info').should('contain.text', 'No Matching Results');
@@ -22,7 +22,7 @@ describe('Test in backend that the action logs', () => {
     cy.task('queryDB', 'TRUNCATE #__action_logs');
   });
 
-  it('has export button', () => {
+  it('have an export button', () => {
     cy.get('#toolbar-download1').click();
     cy.get('#system-message-container').contains('There are no User Action logs to export').should('exist');
   });
