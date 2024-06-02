@@ -135,6 +135,11 @@
 		/>
 
 		<field
+			name="menu_assignment"
+			type="hidden"
+		/>
+
+		<field
 			name="asset_id"
 			type="hidden"
 			filter="unset"
