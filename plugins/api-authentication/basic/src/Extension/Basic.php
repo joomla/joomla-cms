@@ -53,7 +53,7 @@ final class Basic extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function onUserAuthenticate(AuthenticationEvent $event)
+    public function onUserAuthenticate(AuthenticationEvent $event): void
     {
         $response = $event->getAuthenticationResponse();
 
