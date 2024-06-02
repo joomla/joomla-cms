@@ -1,4 +1,4 @@
-ALTER TABLE `#__modules` ADD COLUMN `menu_assignment` text AFTER `params` /** CAN FAIL **/;
+ALTER TABLE `#__modules` ADD COLUMN `menu_assignment` text /** CAN FAIL **/;
 
 -- --------------------------------------------------------
 -- Migrate the values from #__modules_menu to #__modules.menu_assignment
