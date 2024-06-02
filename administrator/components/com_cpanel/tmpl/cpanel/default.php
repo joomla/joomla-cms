@@ -15,6 +15,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
 
+/** @var \Joomla\Component\Cpanel\Administrator\View\Cpanel\HtmlView $this */
+
 // Load JavaScript message titles
 Text::script('ERROR');
 Text::script('WARNING');
@@ -25,7 +27,7 @@ Text::script('COM_CPANEL_UNPUBLISH_MODULE_SUCCESS');
 Text::script('COM_CPANEL_UNPUBLISH_MODULE_ERROR');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('com_cpanel.admin-cpanel')
     ->useScript('joomla.dialog-autocreate');
 

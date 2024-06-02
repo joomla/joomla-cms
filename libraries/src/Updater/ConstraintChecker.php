@@ -21,7 +21,9 @@ use Joomla\CMS\Version;
 /**
  * ConstraintChecker Class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
+ *
+ * @internal Currently this class is only used for Joomla! updates and will be extended in the future to support 3rd party updates
  */
 class ConstraintChecker
 {
@@ -31,32 +33,50 @@ class ConstraintChecker
      *
      * @var \stdClass
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected \stdClass $failedEnvironmentConstraints;
 
     /**
+     * The channel to check the constraints against
+     *
+     * @var string
+     */
+    protected $channel;
+
+    /**
      * Constructor, used to populate the failed
+     *
+     * @param string|null $channel  The channel to be used for updating
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
-    public function __construct()
+    public function __construct($channel = null)
     {
         $this->failedEnvironmentConstraints = new \stdClass();
+
+        if (!isset($channel)) {
+            $params = ComponentHelper::getParams('com_joomlaupdate');
+
+            $channel = (Version::MAJOR_VERSION + ($params->get('updatesource', 'default') == 'next' ? 1 : 0)) . '.x';
+        }
+
+        $this->channel = $channel;
     }
 
     /**
      * Checks whether the passed constraints are matched
      *
-     * @param array $candidate The provided constraints to be checked
+     * @param array $candidate         The provided constraints to be checked
+     * @param int   $minimumStability  The minimum stability required for updating
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
-    public function check(array $candidate)
+    public function check(array $candidate, $minimumStability = Updater::STABILITY_STABLE)
     {
         if (!isset($candidate['targetplatform'])) {
             // targetplatform is required
@@ -65,6 +85,19 @@ class ConstraintChecker
 
         // Check targetplatform
         if (!$this->checkTargetplatform($candidate['targetplatform'])) {
+            return false;
+        }
+
+        // Check channel
+        if (isset($candidate['channel']) && $candidate['channel'] !== $this->channel) {
+            return false;
+        }
+
+        // Check stability, assume true when not set
+        if (
+            isset($candidate['stability'])
+            && !$this->checkStability($candidate['stability'], $minimumStability)
+        ) {
             return false;
         }
 
@@ -86,23 +119,15 @@ class ConstraintChecker
             $result = false;
         }
 
-        // Check stability, assume true when not set
-        if (
-            isset($candidate['stability'])
-            && !$this->checkStability($candidate['stability'])
-        ) {
-            $result = false;
-        }
-
         return $result;
     }
 
     /**
-     * Gets the failed constraints for further proccesing
+     * Gets the failed constraints for further processing
      *
      * @return  \stdClass
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public function getFailedEnvironmentConstraints(): \stdClass
     {
@@ -116,7 +141,7 @@ class ConstraintChecker
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function checkTargetplatform(array $targetPlatform)
     {
@@ -141,7 +166,7 @@ class ConstraintChecker
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function checkPhpMinimum(string $phpMinimum)
     {
@@ -166,7 +191,7 @@ class ConstraintChecker
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function checkSupportedDatabases(array $supportedDatabases)
     {
@@ -208,23 +233,18 @@ class ConstraintChecker
     /**
      * Check the stability
      *
-     * @param string $stability Stability to check
+     * @param string $stability         Stability to check
+     * @param int    $minimumStability  The minimum stability required for updating
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
-    protected function checkStability(string $stability)
+    protected function checkStability(string $stability, $minimumStability = Updater::STABILITY_STABLE)
     {
-        $minimumStability = ComponentHelper::getParams('com_installer')->get('minimum_stability', Updater::STABILITY_STABLE);
-
         $stabilityInt = $this->stabilityToInteger($stability);
 
-        if (($stabilityInt < $minimumStability)) {
-            $this->failedEnvironmentConstraints->stability            = new \stdClass();
-            $this->failedEnvironmentConstraints->stability->required  = $stability;
-            $this->failedEnvironmentConstraints->stability->used      = $minimumStability;
-
+        if ($stabilityInt < $minimumStability) {
             return false;
         }
 
@@ -239,7 +259,7 @@ class ConstraintChecker
      *
      * @return  integer
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     protected function stabilityToInteger($tag)
     {

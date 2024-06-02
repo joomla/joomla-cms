@@ -121,7 +121,7 @@ final class Highlight extends CMSPlugin
             && empty($item->mime)
             && $params->get('highlight_terms', 1)
         ) {
-            $item->route .= '&highlight=' . base64_encode(json_encode($query->highlight));
+            $item->route .= '&highlight=' . base64_encode(json_encode(\array_slice($query->highlight, 0, 10)));
         }
     }
 }

@@ -232,8 +232,8 @@ class ArticleModel extends ItemModel
                 $data->metadata = new Registry($data->metadata);
 
                 // Technically guest could edit an article, but lets not check that to improve performance a little.
-                if (!$user->get('guest')) {
-                    $userId = $user->get('id');
+                if (!$user->guest) {
+                    $userId = $user->id;
                     $asset  = 'com_content.article.' . $data->id;
 
                     // Check general edit permission first.

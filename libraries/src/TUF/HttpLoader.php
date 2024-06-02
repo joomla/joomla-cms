@@ -16,7 +16,10 @@ use Tuf\Exception\RepoFileNotFound;
 use Tuf\Loader\LoaderInterface;
 
 /**
- * @since  __DEPLOY_VERSION__
+ * @since  5.1.0
+ *
+ * @internal Currently this class is only used for Joomla! updates and will be extended in the future to support 3rd party updates
+ *           Don't extend this class in your own code, it is subject to change without notice.
  */
 class HttpLoader implements LoaderInterface
 {
@@ -26,8 +29,13 @@ class HttpLoader implements LoaderInterface
 
     public function load(string $locator, int $maxBytes): PromiseInterface
     {
-        /** @var Http $client */
-        $response = $this->http->get($this->repositoryPath . $locator);
+        try {
+            /** @var Http $client */
+            $response = $this->http->get($this->repositoryPath . $locator);
+        } catch (\Exception $e) {
+            // We convert the generic exception thrown in the Http library into a TufException
+            throw new HttpLoaderException($e->getMessage(), $e->getCode(), $e);
+        }
 
         if ($response->code !== 200) {
             throw new RepoFileNotFound();

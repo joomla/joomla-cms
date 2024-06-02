@@ -53,7 +53,7 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
     Joomla.removeMessages(messageContainer);
   }
 
-  [].slice.call(Object.keys(messages)).forEach((type) => {
+  Object.keys(messages).forEach((type) => {
     let alertClass = type;
 
     // Array of messages of this type
@@ -107,12 +107,7 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
  */
 Joomla.removeMessages = (container) => {
   const messageContainer = getMessageContainer(container);
-  const alerts = [].slice.call(messageContainer.querySelectorAll('joomla-alert'));
-  if (alerts.length) {
-    alerts.forEach((alert) => {
-      alert.close();
-    });
-  }
+  messageContainer.querySelectorAll('joomla-alert').forEach((alert) => alert.close());
 };
 
 document.addEventListener('DOMContentLoaded', () => {

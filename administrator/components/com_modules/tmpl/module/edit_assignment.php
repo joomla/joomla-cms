@@ -16,10 +16,12 @@ use Joomla\CMS\Language\Text;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
+/** @var \Joomla\Component\Modules\Administrator\View\Module\HtmlView $this */
+
 // Initialise related data.
 $menuTypes = MenusHelper::getMenuLinks();
 
-$this->document->getWebAssetManager()
+$this->getDocument()->getWebAssetManager()
     ->useScript('joomla.treeselectmenu')
     ->useScript('com_modules.admin-module-edit-assignment');
 

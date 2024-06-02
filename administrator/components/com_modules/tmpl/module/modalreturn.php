@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+/** @var \Joomla\Component\Modules\Administrator\View\Module\HtmlView $this */
+
 $icon     = 'icon-check';
 $title    = $this->item ? $this->item->title : '';
 $content  = $this->item ? $this->item->position : '';
@@ -30,11 +32,11 @@ if ($this->item) {
 
 // Add Content select script
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('modal-content-select');
 
 // The data for Content select script
-$this->document->addScriptOptions('content-select-on-load', $data, false);
+$this->getDocument()->addScriptOptions('content-select-on-load', $data, false);
 
 ?>
 

@@ -105,8 +105,10 @@ const optionsToExtensions = async (options) => {
   readOnly.$j_name = 'readOnly';
   extensions.push(readOnly.of(EditorState.readOnly.of(!!options.readOnly)));
 
+  // Check for a skin that suits best for the active color scheme
   // TODO: Use compartments to update on change of dark mode like: https://discuss.codemirror.net/t/dynamic-light-mode-dark-mode-how/4709
-  if ('colorSchemeOs' in document.body.dataset && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  if (('colorSchemeOs' in document.documentElement.dataset && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    || document.documentElement.dataset.colorScheme === 'dark') {
     extensions.push(oneDark);
   }
 
@@ -123,9 +125,7 @@ const optionsToExtensions = async (options) => {
       const [module, methods] = extInfo;
       q.push(import(module).then((modObject) => {
         // Call each method
-        methods.forEach((method) => {
-          extensions.push(modObject[method]());
-        });
+        methods.forEach((method) => extensions.push(modObject[method]()));
       }));
     });
   }

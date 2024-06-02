@@ -67,7 +67,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  mixed  A JForm object on success, false on failure
+     * @return  mixed  A Form object on success, false on failure
      *
      * @since   1.6
      */
@@ -374,7 +374,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
 
             // Check that we aren't removing our Super User permission
             // Need to get groups from database, since they might have changed
-            $myGroups      = Access::getGroupsByUser($this->getCurrentUser()->get('id'));
+            $myGroups      = Access::getGroupsByUser($this->getCurrentUser()->id);
             $myRules       = $rules->getData();
             $hasSuperAdmin = $myRules['core.admin']->allow($myGroups);
 
@@ -496,7 +496,7 @@ class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
             $data['session_filesystem_path'] = Path::clean($data['session_filesystem_path']);
 
             if ($currentPath !== $data['session_filesystem_path']) {
-                if (!Folder::exists($data['session_filesystem_path']) && !Folder::create($data['session_filesystem_path'])) {
+                if (!is_dir(Path::clean($data['session_filesystem_path'])) && !Folder::create($data['session_filesystem_path'])) {
                     try {
                         Log::add(
                             Text::sprintf(

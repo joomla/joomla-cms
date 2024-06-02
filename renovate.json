@@ -10,11 +10,11 @@
   "lockFileMaintenance": { "enabled": true },
   "composerIgnorePlatformReqs": ["ext-*", "lib-*"],
   "rangeStrategy": "update-lockfile",
-  "baseBranches": ["4.2-dev", "4.3-dev", "5.0-dev"],
+  "baseBranches": ["4.4-dev", "5.0-dev", "5.1-dev", "5.2-dev", "6.0-dev"],
   "packageRules": [
     {
       "enabled": false,
-      "matchBaseBranches": "4.2-dev",
+      "matchBaseBranches": "5.2-dev",
       "matchPackagePatterns": ["*"]
     }
   ],

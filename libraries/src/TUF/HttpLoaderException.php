@@ -7,9 +7,13 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Http;
+namespace Joomla\CMS\TUF;
 
-interface HttpFactoryInterface
+use Tuf\Exception\TufException;
+
+/**
+ * @since  5.1.1
+ */
+class HttpLoaderException extends TufException
 {
-    public static function getHttp($options = [], $adapters = null);
 }

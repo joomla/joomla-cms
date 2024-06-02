@@ -14,20 +14,18 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\Router\AfterInitialiseRouterEvent;
 use Joomla\CMS\Event\User\AfterSaveEvent;
 use Joomla\CMS\Event\User\BeforeSaveEvent;
 use Joomla\CMS\Event\User\LoginEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
-use Joomla\CMS\Router\SiteRouter;
 use Joomla\CMS\Router\SiteRouterAwareTrait;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
@@ -161,6 +159,11 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                 }
             }
         }
+
+        if (!\count($this->sefs)) {
+            $this->loadLanguage();
+            $app->enqueueMessage(Text::_('PLG_SYSTEM_LANGUAGEFILTER_ERROR_NO_CONTENT_LANGUAGE'), 'error');
+        }
     }
 
     /**
@@ -168,7 +171,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.1.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -178,7 +181,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
          * might be needed by other plugins
          */
         return [
-            'onAfterInitialiseRouter'           => 'onAfterInitialiseRouter',
+            'onAfterInitialise'                 => 'onAfterInitialise',
             'onAfterDispatch'                   => 'onAfterDispatch',
             'onAfterRoute'                      => 'onAfterRoute',
             'onPrivacyCollectAdminCapabilities' => 'onPrivacyCollectAdminCapabilities',
@@ -189,19 +192,15 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * After initialise router.
+     * After initialise.
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   1.6
      */
-    public function onAfterInitialiseRouter(AfterInitialiseRouterEvent $event)
+    public function onAfterInitialise()
     {
-        $router = $event->getRouter();
-
-        if (!is_a($router, SiteRouter::class)) {
-            return;
-        }
+        $router = $this->getSiteRouter();
 
         // Attach build rules for language SEF.
         $router->attachBuildRule([$this, 'preprocessBuildRule'], Router::PROCESS_BEFORE);
@@ -215,8 +214,6 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
 
         // Attach parse rule.
         $router->attachParseRule([$this, 'parseRule'], Router::PROCESS_BEFORE);
-
-        $this->setSiteRouter($router);
     }
 
     /**
@@ -650,7 +647,7 @@ final class LanguageFilter extends CMSPlugin implements SubscriberInterface
                 if (
                     !\array_key_exists($lang_code, $this->lang_codes)
                     || !\array_key_exists($lang_code, Multilanguage::getSiteHomePages())
-                    || !Folder::exists(JPATH_SITE . '/language/' . $lang_code)
+                    || !is_dir(JPATH_SITE . '/language/' . $lang_code)
                 ) {
                     $lang_code = $this->current_lang;
                 }

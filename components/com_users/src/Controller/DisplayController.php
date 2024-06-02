@@ -54,7 +54,7 @@ class DisplayController extends BaseController
                     // If the user is already logged in, redirect to the profile page.
                     $user = $this->app->getIdentity();
 
-                    if ($user->get('guest') != 1) {
+                    if ($user->guest != 1) {
                         // Redirect to profile page.
                         $this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
 
@@ -78,7 +78,7 @@ class DisplayController extends BaseController
                     // If the user is a guest, redirect to the login page.
                     $user = $this->app->getIdentity();
 
-                    if ($user->get('guest') == 1) {
+                    if ($user->guest == 1) {
                         // Redirect to login page.
                         $this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 
@@ -98,7 +98,7 @@ class DisplayController extends BaseController
                     // If the user is already logged in, redirect to the profile page.
                     $user = $this->app->getIdentity();
 
-                    if ($user->get('guest') != 1) {
+                    if ($user->guest != 1) {
                         // Redirect to profile page.
                         $this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
 
