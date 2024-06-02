@@ -85,9 +85,11 @@
 
 		<field
 			name="path"
-			type="uploaddirs"
+			type="media"
 			label="PLG_TINY_FIELD_CUSTOM_PATH_LABEL"
 			showon="drag_drop:1"
+			preview="false"
+			types="directories"
 		/>
 
 		<field
