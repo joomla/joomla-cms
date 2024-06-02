@@ -13,6 +13,7 @@ namespace Joomla\Tests\Integration\Plugin\Authentication\Ldap;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Authentication\AuthenticationResponse;
+use Joomla\CMS\Event\User\AuthenticationEvent;
 use Joomla\CMS\Language\Language;
 use Joomla\Event\Dispatcher;
 use Joomla\Plugin\Authentication\Ldap\Extension\Ldap as LdapPlugin;
@@ -151,7 +152,8 @@ class LdapPluginTest extends IntegrationTestCase
         $plugin = $this->getPlugin($options);
 
         $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate($this->default_credentials, [], $response);
+        $event    = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $this->default_credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
         $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
     }
 
@@ -170,7 +172,8 @@ class LdapPluginTest extends IntegrationTestCase
         $plugin = $this->getPlugin($options);
 
         $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate($this->default_credentials, [], $response);
+        $event    = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $this->default_credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
         $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
     }
 
@@ -192,7 +195,8 @@ class LdapPluginTest extends IntegrationTestCase
         $credentials['password'] = "arandomverywrongpassword_à!joqf";
 
         $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate($credentials, [], $response);
+        $event    = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
     }
 
@@ -212,7 +216,8 @@ class LdapPluginTest extends IntegrationTestCase
         $plugin = $this->getPlugin($options);
 
         $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate($this->default_credentials, [], $response);
+        $event    = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $this->default_credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
         $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
     }
 
@@ -233,7 +238,8 @@ class LdapPluginTest extends IntegrationTestCase
         $plugin = $this->getPlugin($options);
 
         $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate($this->default_credentials, [], $response);
+        $event    = new AuthenticationEvent('onUserAuthenticate', ['credentials' => $this->default_credentials, 'options' => [], 'subject' => $response]);
+        $plugin->onUserAuthenticate($event);
         $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
     }
 }
