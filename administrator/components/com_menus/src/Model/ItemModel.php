@@ -797,36 +797,19 @@ class ItemModel extends AdminModel
                 $db->quoteName('a.title'),
                 $db->quoteName('a.position'),
                 $db->quoteName('a.published'),
-                $db->quoteName('map.menuid'),
+                $db->quoteName('a.menu_assignment', 'pages'),
             ]
         )
             ->from($db->quoteName('#__modules', 'a'))
-            ->join(
-                'LEFT',
-                $db->quoteName('#__modules_menu', 'map'),
-                $db->quoteName('map.moduleid') . ' = ' . $db->quoteName('a.id')
-                    . ' AND ' . $db->quoteName('map.menuid') . ' IN (' . implode(',', $query->bindArray([0, $id, -$id])) . ')'
-            );
 
-        $subQuery = $db->getQuery(true)
-            ->select('COUNT(*)')
-            ->from($db->quoteName('#__modules_menu'))
-            ->where(
-                [
-                    $db->quoteName('moduleid') . ' = ' . $db->quoteName('a.id'),
-                    $db->quoteName('menuid') . ' < 0',
-                ]
-            );
-
-        $query->select('(' . $subQuery . ') AS ' . $db->quoteName('except'));
-
-        // Join on the asset groups table.
-        $query->select($db->quoteName('ag.title', 'access_title'))
+            // Join on the asset groups table.
+            ->select($db->quoteName('ag.title', 'access_title'))
             ->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'))
             ->where(
                 [
                     $db->quoteName('a.published') . ' >= 0',
                     $db->quoteName('a.client_id') . ' = :clientId',
+                    $db->quoteName('a.menu_assignment') . ' IS NOT NULL',
                 ]
             )
             ->bind(':clientId', $clientId, ParameterType::INTEGER)
@@ -1100,7 +1083,7 @@ class ItemModel extends AdminModel
                     $base . '/views/' . $view . '/tmpl',
                     $base . '/view/' . $view . '/tmpl',
                 ];
-                $path = Path::find($tplFolders, $layout . '.xml');
+                $path       = Path::find($tplFolders, $layout . '.xml');
 
                 if (is_file($path)) {
                     $formFile = $path;
@@ -1126,7 +1109,7 @@ class ItemModel extends AdminModel
                         $base . '/view/' . $view,
                         $base . '/views/' . $view,
                     ];
-                    $metaPath = Path::find($metadataFolders, 'metadata.xml');
+                    $metaPath        = Path::find($metadataFolders, 'metadata.xml');
 
                     if (is_file($path = Path::clean($metaPath))) {
                         $formFile = $path;
