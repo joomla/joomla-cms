@@ -608,6 +608,9 @@ class ModuleModel extends AdminModel
                     // Extension found, prime some module values.
                     $table->module    = $extension->element;
                     $table->client_id = $extension->client_id;
+
+                    // Set the module to ALL menu items
+                    $table->menu_assignment = json_encode(["assigned" => [], "assignment" => 0]);
                 } else {
                     Factory::getApplication()->redirect(Route::_('index.php?option=com_modules&view=modules', false));
 
@@ -625,8 +628,8 @@ class ModuleModel extends AdminModel
 
             // Determine the page assignment mode.
             if (\is_null($table->menu_assignment)) {
-                // If this is a new module, assign to all pages.
-                $newAssignment = 0;
+                // Not menu assignment then set to NONE
+                $newAssignment = '-';
                 $newAssigned   = [];
             } else {
                 $currentMode = json_decode($table->menu_assignment, true);
