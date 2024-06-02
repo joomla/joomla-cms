@@ -273,7 +273,6 @@ class HtmlView extends BaseHtmlView
                     $toolbar->standardButton('extract', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', 'template.extractArchive')
                         ->listCheck(false)
                         ->icon('icon-chevron-down');
-                    $toolbar->cancel('template.cancel');
                     break;
 
                 case 'home':
@@ -331,7 +330,7 @@ class HtmlView extends BaseHtmlView
                 ->listCheck(true);
         }
 
-        if (!in_array($this->type, ['image', 'file'])) {
+        if (!in_array($this->type, ['image', 'file', 'archive'])) {
             $toolbar->cancel('template.cancel');
         }
 
