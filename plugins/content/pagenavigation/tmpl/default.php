@@ -16,7 +16,7 @@ use Joomla\CMS\Router\Route;
 $lang = $this->getLanguage();
 ?>
 
-<nav class="pagenavigation"  aria-label="<?php echo Text::_('JLIB_HTML_PAGINATION'); ?>">
+<nav class="pagenavigation"  aria-label="<?php echo Text::_('PLG_PAGENAVIGATION_ARIA_LABEL'); ?>">
     <span class="pagination ms-0">
     <?php if ($row->prev) :
         $direction = $lang->isRtl() ? 'right' : 'left'; ?>
