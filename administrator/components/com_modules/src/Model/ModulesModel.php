@@ -205,8 +205,8 @@ class ModulesModel extends ListModel
 
                 if (!\is_null($module->pages)) {
                     $menuAssignment = json_decode($module->pages, true);
-                    $assignment = $menuAssignment['assignment'];
-                    $assigned = $menuAssignment['assigned'];
+                    $assignment     = $menuAssignment['assignment'];
+                    $assigned       = $menuAssignment['assigned'];
 
                     if ((int) $menuItemId === -1) {
                         return empty($assigned) && $assignment === '-';
