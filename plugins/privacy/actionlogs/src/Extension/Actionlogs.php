@@ -50,7 +50,7 @@ final class Actionlogs extends PrivacyPlugin implements SubscriberInterface
      *
      * @since   3.9.0
      */
-    public function onPrivacyExportRequest(ExportRequestEvent $event)
+    public function onPrivacyExportRequest(ExportRequestEvent $event): void
     {
         $user = $event->getUser();
 
