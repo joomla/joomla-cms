@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="module" client="site" method="upgrade">
+	<name>mod_content</name>
+	<author>Joomla! Project</author>
+	<creationDate>2006-07</creationDate>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.0.0</version>
+	<description>MOD_CONTENT_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\Content</namespace>
+	<files>
+		<folder module="mod_content">services</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/mod_content.ini</language>
+		<language tag="en-GB">language/en-GB/mod_content.sys.ini</language>
+	</languages>
+	<help key="Site_Modules:_Articles_-_Newsflash"/>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="catid"
+					type="category"
+					label="JCATEGORY"
+					extension="com_content"
+					multiple="true"
+					filter="intarray"
+					class="multipleCategories"
+					layout="joomla.form.field.list-fancy-select"
+				/>
+				<field
+					name="show_child_category_articles"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="MOD_CONTENT_FIELD_CHILDCATEGORIES_LABEL"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">MOD_CONTENT_CHIDCATERIES_OPTION_EXCLUDE_VALUE</option>
+					<option value="1">MOD_CONTENT_CHIDCATERIES_OPTION_INCLUDE_VALUE</option>
+				</field>
+
+				<field
+					name="levels"
+					type="number"
+					label="MOD_CONTENT_FIELD_CHILDCATEGORIES_DEPTH_LABEL"
+					default="1"
+					filter="integer"
+					showon="show_child_category_articles:1"
+				/>
+
+				<field
+					name="tag"
+					type="tag"
+					label="JTAG"
+					mode="nested"
+					multiple="true"
+					filter="intarray"
+					class="multipleTags"
+					custom="deny"
+				/>
+
+				<field
+					name="count"
+					type="number"
+					label="MOD_CONTENT_FIELD_ITEMS_LABEL"
+					default="5"
+					filter="integer"
+					min="1"
+					validate="number"
+				/>
+
+				<field
+					name="ordering"
+					type="list"
+					label="MOD_CONTENT_FIELD_ORDERING_LABEL"
+					default="p_dsc"
+					validate="options"
+					>
+					<option value="c_dsc">MOD_CONTENT_VALUE_RECENT_ADDED</option>
+					<option value="m_dsc">MOD_CONTENT_VALUE_RECENT_MODIFIED</option>
+					<option value="p_dsc">MOD_CONTENT_VALUE_RECENT_PUBLISHED</option>
+					<option value="mc_dsc">MOD_CONTENT_VALUE_RECENT_TOUCHED</option>
+					<option	value="random">MOD_CONTENT_VALUE_RECENT_RAND</option>
+				</field>
+			</fieldset>
+			<fieldset
+				name="display"
+				label="MOD_CONTENT_DISPLAY_OPTIONS_LABEL">
+
+				<field
+					name="title_only"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="MOD_CONTENT_FIELD_TITLEONLY_LABEL"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="item_title"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="MOD_CONTENT_FIELD_TITLE_LABEL"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="link_titles"
+					type="list"
+					label="MOD_CONTENT_FIELD_LINKTITLE_LABEL"
+					default=""
+					filter="integer"
+					class="form-select-color"
+					showon="item_title:1"
+					validate="options"
+					>
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="item_heading"
+					type="list"
+					label="MOD_CONTENT_TITLE_HEADING"
+					default="h4"
+					showon="item_title:1"
+					validate="options"
+					>
+					<option value="h1">JH1</option>
+					<option value="h2">JH2</option>
+					<option value="h3">JH3</option>
+					<option value="h4">JH4</option>
+					<option value="h5">JH5</option>
+				</field>
+
+				<field
+					name="show_introtext"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="MOD_CONTENT_FIELD_SHOWINTROTEXT_LABEL"
+					default="1"
+					showon="title_only:0"
+					filter="integer"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+			</fieldset>
+			<fieldset
+				name="filtering"
+				label="MOD_CONTENT_FILTER_OPTIONS_LABEL"
+			>
+			</fieldset>
+			<fieldset
+				name="grouping"
+				label="MOD_CONTENT_GROUPING_OPTIONS_LABEL"
+			>
+			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="form-select"
+					validate="moduleLayout"
+				/>
+
+				<field
+					name="moduleclass_sfx"
+					type="textarea"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					rows="3"
+					validate="CssIdentifier"
+				/>
+
+				<field
+					name="cache"
+					type="list"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					default="1"
+					filter="integer"
+					validate="options"
+					>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+
+				<field
+					name="cache_time"
+					type="number"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					default="900"
+					filter="integer"
+				/>
+
+				<field
+					name="cachemode"
+					type="hidden"
+					default="itemid"
+					>
+					<option value="itemid"></option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
