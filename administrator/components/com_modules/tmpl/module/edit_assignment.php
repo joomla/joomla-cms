@@ -82,9 +82,7 @@ $this->getDocument()->getWebAssetManager()
                             $selected = 0;
                             if ($this->item->assignment == 0) {
                                 $selected = 1;
-                            } elseif ($this->item->assignment < 0) {
-                                $selected = in_array(-$link->value, $this->item->assigned);
-                            } elseif ($this->item->assignment > 0) {
+                            } else {
                                 $selected = in_array($link->value, $this->item->assigned);
                             }
                             ?>
