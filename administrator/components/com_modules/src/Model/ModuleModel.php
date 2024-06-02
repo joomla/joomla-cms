@@ -196,31 +196,11 @@ class ModuleModel extends AdminModel
                 // Add the new ID to the array
                 $newIds[$pk] = $newId;
 
-                // Now we need to handle the module assignments
-                $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
-                    ->select($db->quoteName('menuid'))
-                    ->from($db->quoteName('#__modules_menu'))
-                    ->where($db->quoteName('moduleid') . ' = :moduleid')
-                    ->bind(':moduleid', $pk, ParameterType::INTEGER);
-                $db->setQuery($query);
-                $menus = $db->loadColumn();
-
-                // Insert the new records into the table
-                foreach ($menus as $i => $menu) {
-                    $query->clear()
-                        ->insert($db->quoteName('#__modules_menu'))
-                        ->columns($db->quoteName(['moduleid', 'menuid']))
-                        ->values(implode(', ', [':newid' . $i, ':menu' . $i]))
-                        ->bind(':newid' . $i, $newId, ParameterType::INTEGER)
-                        ->bind(':menu' . $i, $menu, ParameterType::INTEGER);
-                    $db->setQuery($query);
-                    $db->execute();
-                }
-
                 // Copy rules
-                $query->clear()
-                    ->update($db->quoteName('#__assets', 't'))
+                $db    = $this->getDatabase();
+                $query = $db->getQuery(true);
+
+                $query->update($db->quoteName('#__assets', 't'))
                     ->join('INNER', $db->quoteName('#__assets', 's') .
                         ' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId)
                     ->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
@@ -323,11 +303,11 @@ class ModuleModel extends AdminModel
      */
     public function delete(&$pks)
     {
-        $app        = Factory::getApplication();
-        $pks        = (array) $pks;
-        $user       = $this->getCurrentUser();
-        $table      = $this->getTable();
-        $context    = $this->option . '.' . $this->name;
+        $app     = Factory::getApplication();
+        $pks     = (array) $pks;
+        $user    = $this->getCurrentUser();
+        $table   = $this->getTable();
+        $context = $this->option . '.' . $this->name;
 
         // Include the plugins for the on delete events.
         PluginHelper::importPlugin($this->events_map['delete']);
@@ -348,16 +328,6 @@ class ModuleModel extends AdminModel
                 if (\in_array(false, $result, true) || !$table->delete($pk)) {
                     throw new \Exception($table->getError());
                 }
-
-                // Delete the menu assignments
-                $pk    = (int) $pk;
-                $db    = $this->getDatabase();
-                $query = $db->getQuery(true)
-                    ->delete($db->quoteName('#__modules_menu'))
-                    ->where($db->quoteName('moduleid') . ' = :moduleid')
-                    ->bind(':moduleid', $pk, ParameterType::INTEGER);
-                $db->setQuery($query);
-                $db->execute();
 
                 // Trigger the after delete event.
                 $app->triggerEvent($this->event_after_delete, [$context, $table]);
@@ -388,7 +358,6 @@ class ModuleModel extends AdminModel
     public function duplicate(&$pks)
     {
         $user = $this->getCurrentUser();
-        $db   = $this->getDatabase();
 
         // Access checks.
         if (!$user->authorise('core.create', 'com_modules')) {
@@ -396,8 +365,6 @@ class ModuleModel extends AdminModel
         }
 
         $table = $this->getTable();
-
-        $tuples = [];
 
         foreach ($pks as $pk) {
             if ($table->load($pk, true)) {
@@ -420,40 +387,8 @@ class ModuleModel extends AdminModel
                 if (!$table->check() || !$table->store()) {
                     throw new \Exception($table->getError());
                 }
-
-                $pk    = (int) $pk;
-                $query = $db->getQuery(true)
-                    ->select($db->quoteName('menuid'))
-                    ->from($db->quoteName('#__modules_menu'))
-                    ->where($db->quoteName('moduleid') . ' = :moduleid')
-                    ->bind(':moduleid', $pk, ParameterType::INTEGER);
-
-                $db->setQuery($query);
-                $rows = $db->loadColumn();
-
-                foreach ($rows as $menuid) {
-                    $tuples[] = (int) $table->id . ',' . (int) $menuid;
-                }
             } else {
                 throw new \Exception($table->getError());
-            }
-        }
-
-        if (!empty($tuples)) {
-            // Module-Menu Mapping: Do it in one query
-            $query = $db->getQuery(true)
-                ->insert($db->quoteName('#__modules_menu'))
-                ->columns($db->quoteName(['moduleid', 'menuid']))
-                ->values($tuples);
-
-            $db->setQuery($query);
-
-            try {
-                $db->execute();
-            } catch (\RuntimeException $e) {
-                Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-                return false;
             }
         }
 
@@ -689,32 +624,16 @@ class ModuleModel extends AdminModel
             $this->_cache[$pk]->params = $registry->toArray();
 
             // Determine the page assignment mode.
-            $query = $db->getQuery(true)
-                ->select($db->quoteName('menuid'))
-                ->from($db->quoteName('#__modules_menu'))
-                ->where($db->quoteName('moduleid') . ' = :moduleid')
-                ->bind(':moduleid', $pk, ParameterType::INTEGER);
-            $db->setQuery($query);
-            $assigned = $db->loadColumn();
-
-            if (empty($pk)) {
+            if (\is_null($table->menu_assignment)) {
                 // If this is a new module, assign to all pages.
-                $assignment = 0;
-            } elseif (empty($assigned)) {
-                // For an existing module it is assigned to none.
-                $assignment = '-';
+                $newAssignment = 0;
+                $newAssigned   = [];
             } else {
-                if ($assigned[0] > 0) {
-                    $assignment = 1;
-                } elseif ($assigned[0] < 0) {
-                    $assignment = -1;
-                } else {
-                    $assignment = 0;
-                }
+                $currentMode = json_decode($table->menu_assignment, true);
             }
 
-            $this->_cache[$pk]->assigned   = $assigned;
-            $this->_cache[$pk]->assignment = $assignment;
+            $this->_cache[$pk]->assigned   = $newAssigned ?? $currentMode['assigned'];
+            $this->_cache[$pk]->assignment = $newAssignment ?? $currentMode['assignment'];
 
             // Get the module XML.
             $client = ApplicationHelper::getClientInfo($table->client_id);
@@ -896,11 +815,11 @@ class ModuleModel extends AdminModel
      */
     public function save($data)
     {
-        $input      = Factory::getApplication()->getInput();
-        $table      = $this->getTable();
-        $pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('module.id');
-        $isNew      = true;
-        $context    = $this->option . '.' . $this->name;
+        $input   = Factory::getApplication()->getInput();
+        $table   = $this->getTable();
+        $pk      = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('module.id');
+        $isNew   = true;
+        $context = $this->option . '.' . $this->name;
 
         // Include the plugins for the save event.
         PluginHelper::importPlugin($this->events_map['save']);
@@ -921,6 +840,37 @@ class ModuleModel extends AdminModel
                 $data['title'] = StringHelper::increment($data['title']);
             }
         }
+
+        // Process the menu link mappings.
+        $menuMap           = new \stdClass();
+        $menuMap->assigned = $data['assigned'] ?? [];
+
+        $assignment = $data['assignment'] ?? 0;
+
+        // If the assignment is numeric, then something is selected (otherwise it's none).
+        if (is_numeric($assignment)) {
+            // Variable is numeric, but could be a string.
+            $assignment = (int) $assignment;
+
+            // Logic check: if no module excluded then convert to display on all.
+            if ($assignment < 0 && empty($data['assigned'])) {
+                $assignment = 0;
+            }
+
+            // Check needed to stop a module being assigned to `All`
+            // and other menu items resulting in a module being displayed twice.
+            if ($assignment === 0) {
+                $menuMap->assigned = [];
+            }
+        } else {
+            // Set to NONE, then clean the assigned menu items ids
+            $menuMap->assigned = [];
+        }
+
+        $menuMap->assignment = $assignment;
+
+        $registry                = new Registry($menuMap);
+        $data['menu_assignment'] = (string) $registry;
 
         // Bind the data.
         if (!$table->bind($data)) {
@@ -955,90 +905,18 @@ class ModuleModel extends AdminModel
             return false;
         }
 
-        // Process the menu link mappings.
-        $assignment = $data['assignment'] ?? 0;
-
-        $table->id = (int) $table->id;
-
-        // Delete old module to menu item associations
-        $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
-            ->delete($db->quoteName('#__modules_menu'))
-            ->where($db->quoteName('moduleid') . ' = :moduleid')
-            ->bind(':moduleid', $table->id, ParameterType::INTEGER);
-        $db->setQuery($query);
-
-        try {
-            $db->execute();
-        } catch (\RuntimeException $e) {
-            $this->setError($e->getMessage());
-
-            return false;
-        }
-
-        // If the assignment is numeric, then something is selected (otherwise it's none).
-        if (is_numeric($assignment)) {
-            // Variable is numeric, but could be a string.
-            $assignment = (int) $assignment;
-
-            // Logic check: if no module excluded then convert to display on all.
-            if ($assignment == -1 && empty($data['assigned'])) {
-                $assignment = 0;
-            }
-
-            // Check needed to stop a module being assigned to `All`
-            // and other menu items resulting in a module being displayed twice.
-            if ($assignment === 0) {
-                // Assign new module to `all` menu item associations.
-                $query->clear()
-                    ->insert($db->quoteName('#__modules_menu'))
-                    ->columns($db->quoteName(['moduleid', 'menuid']))
-                    ->values(implode(', ', [':moduleid', 0]))
-                    ->bind(':moduleid', $table->id, ParameterType::INTEGER);
-                $db->setQuery($query);
-
-                try {
-                    $db->execute();
-                } catch (\RuntimeException $e) {
-                    $this->setError($e->getMessage());
-
-                    return false;
-                }
-            } elseif (!empty($data['assigned'])) {
-                // Get the sign of the number.
-                $sign = $assignment < 0 ? -1 : 1;
-
-                $query->clear()
-                    ->insert($db->quoteName('#__modules_menu'))
-                    ->columns($db->quoteName(['moduleid', 'menuid']));
-
-                foreach ($data['assigned'] as &$pk) {
-                    $query->values((int) $table->id . ',' . (int) $pk * $sign);
-                }
-
-                $db->setQuery($query);
-
-                try {
-                    $db->execute();
-                } catch (\RuntimeException $e) {
-                    $this->setError($e->getMessage());
-
-                    return false;
-                }
-            }
-        }
-
         // Trigger the after save event.
         Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, $isNew]);
 
         // Compute the extension id of this module in case the controller wants it.
-        $query->clear()
-            ->select($db->quoteName('extension_id'))
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true);
+        $query->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions', 'e'))
             ->join(
                 'LEFT',
                 $db->quoteName('#__modules', 'm') . ' ON ' . $db->quoteName('e.client_id') . ' = ' . (int) $table->client_id .
-                    ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('m.module')
+                ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('m.module')
             )
             ->where($db->quoteName('m.id') . ' = :id')
             ->bind(':id', $table->id, ParameterType::INTEGER);
