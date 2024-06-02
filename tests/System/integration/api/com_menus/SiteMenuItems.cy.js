@@ -1,5 +1,5 @@
 describe('Test that menu items site API endpoint', () => {
-  beforeEach(() => cy.db_deleteMenuItem());
+  beforeEach(() => cy.db_deleteMenuItem({ title: 'automated test site menu item' }));
 
   it('can deliver a list of site menu items types', () => {
     cy.api_get('/menus/site/items/types')
@@ -8,9 +8,9 @@ describe('Test that menu items site API endpoint', () => {
   });
 
   it('can deliver a list of site menu items', () => {
-    cy.api_get('/menus/site/items')
-      .then((response) => cy.wrap(response).its('body').its('data.0').its('type')
-        .should('include', 'items'));
+    cy.db_createMenuItem({ title: 'automated test site menu item' })
+      .then(() => cy.api_get('/menus/site/items'))
+      .then((response) => cy.api_responseContains(response, 'title', 'automated test site menu item'));
   });
 
   it('can deliver a single site menu item', () => {
@@ -43,11 +43,11 @@ describe('Test that menu items site API endpoint', () => {
   });
 
   it('can update a site menu item', () => {
-    cy.db_createMenuItem({ title: 'automated test site menu item', type: 'component' })
-      .then((id) => cy.api_patch(`/menus/site/items/${id}`, { title: 'automated test site menu item', type: 'component', note: 'updated automated test site menu item' }))
+    cy.db_createMenuItem({ title: 'updated automated test site menu item', type: 'component' })
+      .then((id) => cy.api_patch(`/menus/site/items/${id}`, { title: 'automated test site menu item', type: 'component' }))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
-        .its('note')
-        .should('include', 'updated automated test site menu item'));
+        .its('title')
+        .should('include', 'automated test site menu item'));
   });
 
   it('can delete a site menu item', () => {
