@@ -330,7 +330,7 @@ class HtmlView extends BaseHtmlView
                 ->listCheck(true);
         }
 
-        if (!in_array($this->type, ['image', 'file', 'archive'])) {
+        if (!in_array($this->type, ['image', 'file'])) {
             $toolbar->cancel('template.cancel');
         }
 
