@@ -205,8 +205,8 @@ class ModulesModel extends ListModel
 
                 if (!\is_null($module->pages)) {
                     $menuAssignment = json_decode($module->pages, true);
-                    $assignment     = $menuAssignment['assignment'];
-                    $assigned       = $menuAssignment['assigned'];
+                    $assignment = $menuAssignment['assignment'];
+                    $assigned = $menuAssignment['assigned'];
 
                     if ((int) $menuItemId === -1) {
                         return empty($assigned) && $assignment === '-';
@@ -244,8 +244,13 @@ class ModulesModel extends ListModel
 
         // If menuitem filter is active, get only the modules set to that menuitem
         if (isset($resultFiltered)) {
-            foreach ($resultFiltered as $module) {
-                $modulesID[] = $module->id;
+            if (!empty($resultFiltered)) {
+                foreach ($resultFiltered as $module) {
+                    $modulesID[] = $module->id;
+                }
+            } else {
+                // then set to none
+                $modulesID[] = '-';
             }
 
             $query->whereIn($db->quoteName('a.id'), $modulesID);
@@ -300,7 +305,7 @@ class ModulesModel extends ListModel
                     $assignedTo = match (true) {
                         $assignment < 0 => Text::_('COM_MODULES_ASSIGNED_VARIES_EXCEPT'),
                         $assignment > 0 => Text::_('COM_MODULES_ASSIGNED_VARIES_ONLY'),
-                        default         => Text::_('JALL'),
+                        default => Text::_('JALL'),
                     };
                 }
             }
