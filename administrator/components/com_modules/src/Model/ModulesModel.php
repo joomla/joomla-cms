@@ -305,7 +305,7 @@ class ModulesModel extends ListModel
                     $assignedTo = match (true) {
                         $assignment < 0 => Text::_('COM_MODULES_ASSIGNED_VARIES_EXCEPT'),
                         $assignment > 0 => Text::_('COM_MODULES_ASSIGNED_VARIES_ONLY'),
-                        default => Text::_('JALL'),
+                        default         => Text::_('JALL'),
                     };
                 }
             }
