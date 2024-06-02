@@ -458,19 +458,19 @@ Cypress.Commands.add('db_createMenuItem', (menuItemData) => {
 
     cy.task('queryDB', `UPDATE #__menu SET rgt = rgt + 2 WHERE rgt >= '${defaultMenuItemOptions.lft}'`)
       .then(() => cy.task('queryDB', `UPDATE #__menu SET lft = lft + 2 WHERE lft > '${defaultMenuItemOptions.rgt}'`));
-
-    // Search for the component
-    return cy.task('queryDB', `SELECT extension_id FROM #__extensions WHERE name = '${component}'`).then((id) => {
-      // Get the correct component id from the extensions record
-      menuItem.component_id = id[0].extension_id;
-
-      // Create the menu item
-      return cy.task('queryDB', createInsertQuery('menu', menuItem)).then(async (info) => info.insertId);
-    });
+    // Create the menu item
+    return cy.task('queryDB', createInsertQuery('menu', menuItem)).then(async (info) => info.insertId);
   });
 });
-Cypress.Commands.add('db_deleteMenuItem', () => {
-  cy.task('queryDB', "SELECT lft, rgt, (rgt - lft) +1 AS width FROM #__menu WHERE title = 'automated test site menu item'").then((record) => {
+
+/**
+ * Delete a menu item in the database with the given title.
+ *
+ * @param {Object} menuItemTitle The menu item tile to delete
+ *
+ */
+Cypress.Commands.add('db_deleteMenuItem', (menuItemTitle) => {
+  cy.task('queryDB', `SELECT lft, rgt, (rgt - lft) +1 AS width FROM #__menu WHERE title = '${menuItemTitle.title}'`).then((record) => {
     if (record.length > 0) {
       cy.task('queryDB', `DELETE FROM #__menu WHERE lft BETWEEN '${record[0].lft}' AND '${record[0].rgt}'`);
       cy.task('queryDB', `UPDATE #__menu SET lft = lft - '${record[0].width}' WHERE lft > '${record[0].rgt}'`);
