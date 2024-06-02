@@ -71,7 +71,6 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
     </thead>
     <tbody>
         <?php foreach ($this->modules as $i => $module) : ?>
-
             <?php $menuAssignment = json_decode($module->pages, true); ?>
             <?php $assignment     = $menuAssignment['assignment']; ?>
 
