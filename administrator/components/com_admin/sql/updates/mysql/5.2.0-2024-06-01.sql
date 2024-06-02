@@ -1,5 +1,4 @@
-ALTER TABLE `#__modules`
-ADD COLUMN `menu_assignment` TEXT NULL DEFAULT NULL AFTER `params`;
+ALTER TABLE `#__modules` ADD COLUMN `menu_assignment` text AFTER `params` /** CAN FAIL **/;
 
 -- --------------------------------------------------------
 -- Migrate the values from #__modules_menu to #__modules.menu_assignment
