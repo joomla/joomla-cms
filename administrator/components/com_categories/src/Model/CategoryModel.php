@@ -752,6 +752,8 @@ class CategoryModel extends AdminModel
 
             return true;
         }
+
+        return false;
     }
 
     /**
