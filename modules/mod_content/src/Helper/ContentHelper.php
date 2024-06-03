@@ -4,7 +4,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_content
  *
- * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,21 +32,21 @@ use Joomla\String\StringHelper;
 /**
  * Helper for mod_content
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
 class ContentHelper implements DatabaseAwareInterface
 {
     use DatabaseAwareTrait;
 
     /**
-     * Retrieve a list of article
+     * Retrieve a list of articles
      *
      * @param   Registry         $params  The module parameters.
-     * @param   SiteApplication  $app           The current application.
+     * @param   SiteApplication  $app     The current application.
      *
      * @return  object[]
      *
-     * @since   4.4.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getArticles(Registry $params, SiteApplication $app)
     {
@@ -352,7 +352,7 @@ class ContentHelper implements DatabaseAwareInterface
      *
      * @return  array  The array of users
      *
-     * @since   1.6
+     * @since   __DEPLOY_VERSION__
      *
      * @deprecated  4.4.0  will be removed in 6.0
      *              Use the non-static method getArticles
@@ -379,7 +379,7 @@ class ContentHelper implements DatabaseAwareInterface
      *
      * @return  string  The truncated string
      *
-     * @since   1.6
+     * @since   __DEPLOY_VERSION__
      */
     public static function truncate($html, $maxLength = 0)
     {
@@ -424,7 +424,7 @@ class ContentHelper implements DatabaseAwareInterface
      *
      * @return  array
      *
-     * @since   1.6
+     * @since   __DEPLOY_VERSION__
      */
     public static function groupBy($list, $fieldName, $direction, $fieldNameToKeep = null)
     {
@@ -468,7 +468,7 @@ class ContentHelper implements DatabaseAwareInterface
      *
      * @return  array
      *
-     * @since   1.6
+     * @since   __DEPLOY_VERSION__
      */
     public static function groupByDate($list, $direction = 'ksort', $type = 'year', $monthYearFormat = 'F Y', $field = 'created')
     {
@@ -531,7 +531,7 @@ class ContentHelper implements DatabaseAwareInterface
      *
      * @return  array
      *
-     * @since   3.9.0
+     * @since   __DEPLOY_VERSION__
      */
     public static function groupByTags($list, $direction = 'ksort')
     {
