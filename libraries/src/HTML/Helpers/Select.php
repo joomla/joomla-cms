@@ -631,7 +631,14 @@ abstract class Select
         $idtag = false,
         $translate = false
     ) {
+        $class = '';
+
         if (\is_array($attribs)) {
+            if (\array_key_exists('class', $attribs)) {
+                $class = ' ' . $attribs['class'];
+                unset($attribs['class']);
+            }
+
             $attribs = ArrayHelper::toString($attribs);
         }
 
@@ -662,7 +669,7 @@ abstract class Select
                 $extra .= ((string) $k === (string) $selected ? ' checked="checked" ' : '');
             }
 
-            $html .= '<input type="radio" class="form-check-input" name="' . $name . '" id="' . $id . '" value="' . $k . '" '
+            $html .= '<input type="radio" class="form-check-input' . $class . '" name="' . $name . '" id="' . $id . '" value="' . $k . '" '
                     . $extra . $attribs . '>';
             $html .= '<label for="' . $id . '" class="form-check-label" id="' . $id . '-lbl">' . $t . '</label>';
             $html .= '</div>';
