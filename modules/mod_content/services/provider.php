@@ -4,7 +4,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_content
  *
- * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,9 +17,9 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * The article news module service provider.
+ * The content module service provider.
  *
- * @since  4.2.0
+ * @since  __DEPLOY_VERSION__
  */
 return new class () implements ServiceProviderInterface {
     /**
@@ -29,7 +29,7 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   4.2.0
+     * @since   __ DEPLOY_VERSION__
      */
     public function register(Container $container)
     {
