@@ -124,7 +124,7 @@ final class Content extends Adapter implements SubscriberInterface
      *
      * @since   2.5
      */
-    public function onFinderCategoryChangeState(FinderEvent\AfterCategoryChangeStateEvent $event)
+    public function onFinderCategoryChangeState(FinderEvent\AfterCategoryChangeStateEvent $event): void
     {
         // Make sure we're handling com_content categories.
         if ($event->getExtension() === 'com_content') {
