@@ -28,20 +28,6 @@ use Joomla\Event\SubscriberInterface;
 final class Subform extends FieldsPlugin implements SubscriberInterface
 {
     /**
-     * Returns an array of events this subscriber will listen to.
-     *
-     * @return  array
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return array_merge([
-            'onCustomFieldsBeforePrepareField' => 'beforePrepareField',
-        ], parent::getSubscribedEvents());
-    }
-
-    /**
      * Two-dimensional array to hold to do a fast in-memory caching of rendered
      * subfield values.
      *
@@ -59,6 +45,20 @@ final class Subform extends FieldsPlugin implements SubscriberInterface
      * @since 4.0.0
      */
     protected static $customFieldsCache = null;
+
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return array_merge([
+            'onCustomFieldsBeforePrepareField' => 'beforePrepareField',
+        ], parent::getSubscribedEvents());
+    }
 
     /**
      * Handles the onContentPrepareForm event. Adds form definitions to relevant forms.
