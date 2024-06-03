@@ -72,8 +72,8 @@ class ContentHelper implements DatabaseAwareInterface
         $authorised = Access::getAuthorisedViewLevels($app->getIdentity()->get('id'));
         $articles->setState('filter.access', $access);
 
-                $catids = $params->get('catid');
-                $articles->setState('filter.category_id.include', (bool) $params->get('category_filtering_type', 1));
+        $catids = $params->get('catid');
+        $articles->setState('filter.category_id.include', (bool) $params->get('category_filtering_type', 1));
 
         // Category filter
         if ($catids) {
@@ -173,15 +173,15 @@ class ContentHelper implements DatabaseAwareInterface
         $items = $articles->getItems();
 
         // Display options
-        $show_date        = $params->get('show_date', 0);
-        $show_date_field  = $params->get('show_date_field', 'created');
-        $show_date_format = $params->get('show_date_format', 'Y-m-d H:i:s');
-        $show_category    = $params->get('show_category', 0);
+        $show_date          = $params->get('show_date', 0);
+        $show_date_field    = $params->get('show_date_field', 'created');
+        $show_date_format   = $params->get('show_date_format', 'Y-m-d H:i:s');
+        $show_category      = $params->get('show_category', 0);
         $show_category_link = $params->get('show_category_link', 0);
-        $show_hits        = $params->get('show_hits', 0);
-        $show_author      = $params->get('show_author', 0);
-        $show_introtext   = $params->get('show_introtext', 0);
-        $introtext_limit  = $params->get('introtext_limit', 100);
+        $show_hits          = $params->get('show_hits', 0);
+        $show_author        = $params->get('show_author', 0);
+        $show_introtext     = $params->get('show_introtext', 0);
+        $introtext_limit    = $params->get('introtext_limit', 100);
 
         // Find current Article ID if on an article page
         $option = $input->get('option');
