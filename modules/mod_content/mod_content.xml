@@ -55,12 +55,25 @@
 				label="MOD_CONTENT_FIELD_GROUP_DISPLAY_LABEL"
 				>
 				<field
+					name="title_only"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="MOD_CONTENT_FIELD_TITLEONLY_LABEL"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
 					name="item_title"
 					type="radio"
 					layout="joomla.form.field.radio.switcher"
 					label="MOD_CONTENT_FIELD_TITLE_LABEL"
 					default="0"
 					filter="integer"
+					showon="title_only:0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -71,7 +84,7 @@
 					type="list"
 					label="MOD_CONTENT_FIELD_TITLE_HEADING"
 					default="h4"
-					showon="item_title:1"
+					showon="title_only:0[AND]item_title:1"
 					validate="options"
 					>
 					<option value="h1">JH1</option>
@@ -87,7 +100,7 @@
 					layout="joomla.form.field.radio.switcher"
 					label="MOD_CONTENT_FIELD_LINKTITLES_LABEL"
 					default="1"
-					showon="item_title:1"
+					showon="title_only:0[AND]item_title:1"
 					filter="integer"
 					>
 					<option value="0">JNO</option>
@@ -101,6 +114,7 @@
 					label="JDATE"
 					default="0"
 					filter="integer"
+					showon="title_only:0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -111,7 +125,7 @@
 					type="list"
 					label="MOD_CONTENT_FIELD_DATEFIELD_LABEL"
 					default="created"
-					showon="show_date:1"
+					showon="title_only:0[AND]show_date:1"
 					validate="options"
 					>
 					<option value="created">MOD_CONTENT_OPTION_CREATED_VALUE</option>
@@ -125,7 +139,7 @@
 					label="MOD_CONTENT_FIELD_DATEFIELDFORMAT_LABEL"
 					description="MOD_CONTENT_FIELD_DATEFIELDFORMAT_DESC"
 					default="Y-m-d H:i:s"
-					showon="show_date:1"
+					showon="title_only:0[AND]show_date:1"
 				/>
 
 				<field
@@ -135,6 +149,7 @@
 					label="JCATEGORY"
 					default="0"
 					filter="integer"
+					showon="title_only:0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -146,7 +161,7 @@
 					label="MOD_CONTENT_FIELD_SHOWCATEGORYLINK_LABEL"
 					default="0"
 					filter="integer"
-					showon="show_category:1"
+					showon="title_only:0[AND]show_category:1"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -158,6 +173,7 @@
 					label="MOD_CONTENT_FIELD_SHOWHITS_LABEL"
 					default="0"
 					filter="integer"
+					showon="title_only:0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -170,6 +186,7 @@
 					label="JAUTHOR"
 					default="0"
 					filter="integer"
+					showon="title_only:0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -182,6 +199,7 @@
 					label="JTAG"
 					default="0"
 					filter="integer"
+					showon="title_only:0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -194,6 +212,7 @@
 					label="MOD_CONTENT_FIELD_SHOWINTROTEXT_LABEL"
 					default="0"
 					filter="integer"
+					showon="title_only:0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -206,7 +225,7 @@
 					description="MOD_CONTENT_FIELD_INTROTEXTLIMIT_DESC"
 					default="100"
 					filter="integer"
-					showon="show_introtext:1"
+					showon="title_only:0[AND]show_introtext:1"
 				/>
 
 				<field
@@ -217,6 +236,7 @@
 					description="MOD_CONTENT_FIELD_IMAGES_DESC"
 					default="0"
 					filter="integer"
+					showon="title_only:0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -228,6 +248,7 @@
 					label="MOD_CONTENT_FIELD_IMAGES_ARTICLE_LABEL"
 					default="none"
 					validate="options"
+					showon="title_only:0"
 					>
 					<option value="intro">MOD_CONTENT_OPTION_INTROIMAGE</option>
 					<option value="full">MOD_CONTENT_OPTION_FULLIMAGE</option>
@@ -241,6 +262,7 @@
 					label="JGLOBAL_SHOW_READMORE_LABEL"
 					default="0"
 					filter="integer"
+					showon="title_only:0"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -253,7 +275,7 @@
 					label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
 					default="1"
 					filter="integer"
-					showon="show_readmore:1"
+					showon="title_only:0[AND]show_readmore:1"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -265,7 +287,7 @@
 					label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
 					default="15"
 					filter="integer"
-					showon="show_readmore:1[AND]show_readmore_title:1"
+					showon="title_only:0[AND]show_readmore:1[AND]show_readmore_title:1"
 				/>
 
 			</fieldset>

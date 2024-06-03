@@ -22,7 +22,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 /**
  * Dispatcher class for mod_content
  *
- * @since  4.4.0
+ * @since  __DEPLOY_VERSION__
  */
 class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareInterface
 {
@@ -33,7 +33,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
      *
      * @return  array
      *
-     * @since   4.4.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function getLayoutData(): array
     {
