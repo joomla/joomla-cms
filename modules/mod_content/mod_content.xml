@@ -24,39 +24,58 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-					name="mode"
-					type="list"
-					label="MOD_CONTENT_FIELD_MODE_LABEL"
-					description="MOD_CONTENT_FIELD_MODE_DESC"
-					default="normal"
-					validate="options"
-					>
-					<option value="normal">MOD_CONTENT_OPTION_NORMAL_VALUE</option>
-					<option value="dynamic">MOD_CONTENT_OPTION_DYNAMIC_VALUE</option>
-				</field>
-
-				<field
 					name="count"
 					type="number"
 					label="MOD_CONTENT_FIELD_COUNT_LABEL"
-					description="MOD_CONTENT_FIELD_COUNT_DESC"
-					default="0"
+					default="5"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 
 				<field
-					name="show_on_article_page"
+					name="category_filtering_type"
 					type="radio"
 					layout="joomla.form.field.radio.switcher"
-					label="MOD_CONTENT_FIELD_SHOWONARTICLEPAGE_LABEL"
-					description="MOD_CONTENT_FIELD_SHOWONARTICLEPAGE_DESC"
+					label="MOD_CONTENT_FIELD_CATFILTERINGTYPE_LABEL"
 					default="1"
 					filter="integer"
-					showon="mode:dynamic"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">MOD_CONTENT_OPTION_EXCLUSIVE_VALUE</option>
+					<option value="1">MOD_CONTENT_OPTION_INCLUSIVE_VALUE</option>
 				</field>
+
+				<field
+					name="catid"
+					type="category"
+					label="JCATEGORY"
+					extension="com_content"
+					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
+					filter="intarray"
+					class="multipleCategories"
+				/>
+
+				<field
+					name="show_child_category_articles"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="MOD_CONTENT_FIELD_SHOWCHILDCATEGORYARTICLES_LABEL"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">MOD_CONTENT_OPTION_EXCLUDE_VALUE</option>
+					<option value="1">MOD_CONTENT_OPTION_INCLUDE_VALUE</option>
+				</field>
+
+				<field
+					name="levels"
+					type="number"
+					label="MOD_CONTENT_FIELD_CATDEPTH_LABEL"
+					default="1"
+					filter="integer"
+					showon="show_child_category_articles:1"
+				/>
 			</fieldset>
 
 			<fieldset name="display"
@@ -315,56 +334,6 @@
 					<option value="hide">JHIDE</option>
 					<option value="only">MOD_CONTENT_OPTION_ONLYFEATURED_VALUE</option>
 				</field>
-
-				<field
-					name="filteringspacer0"
-					type="spacer"
-					hr="true"
-				/>
-
-				<field
-					name="category_filtering_type"
-					type="radio"
-					layout="joomla.form.field.radio.switcher"
-					label="MOD_CONTENT_FIELD_CATFILTERINGTYPE_LABEL"
-					default="1"
-					filter="integer"
-					>
-					<option value="0">MOD_CONTENT_OPTION_EXCLUSIVE_VALUE</option>
-					<option value="1">MOD_CONTENT_OPTION_INCLUSIVE_VALUE</option>
-				</field>
-
-				<field
-					name="catid"
-					type="category"
-					label="JCATEGORY"
-					extension="com_content"
-					multiple="true"
-					layout="joomla.form.field.list-fancy-select"
-					filter="intarray"
-					class="multipleCategories"
-				/>
-
-				<field
-					name="show_child_category_articles"
-					type="radio"
-					layout="joomla.form.field.radio.switcher"
-					label="MOD_CONTENT_FIELD_SHOWCHILDCATEGORYARTICLES_LABEL"
-					default="0"
-					filter="integer"
-					>
-					<option value="0">MOD_CONTENT_OPTION_EXCLUDE_VALUE</option>
-					<option value="1">MOD_CONTENT_OPTION_INCLUDE_VALUE</option>
-				</field>
-
-				<field
-					name="levels"
-					type="number"
-					label="MOD_CONTENT_FIELD_CATDEPTH_LABEL"
-					default="1"
-					filter="integer"
-					showon="show_child_category_articles:1"
-				/>
 
 				<field
 					name="filteringspacer1"
