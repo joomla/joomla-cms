@@ -139,6 +139,7 @@ class ExtensionHelper
         ['module', 'mod_articles_popular', '', 0],
         ['module', 'mod_banners', '', 0],
         ['module', 'mod_breadcrumbs', '', 0],
+        ['module', 'mod_content', '', 0],
         ['module', 'mod_custom', '', 0],
         ['module', 'mod_feed', '', 0],
         ['module', 'mod_finder', '', 0],
