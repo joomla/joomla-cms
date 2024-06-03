@@ -46,7 +46,8 @@ if (!$list) {
     <div class="mod-content mod-list">
         <?php if ($grouped) : ?>
             <?php foreach ($list as $groupName => $items) : ?>
-                <div class="mod-content-group"><?php echo Text::_($groupName); ?></div>
+                <div class="mod-content-group">
+                    <h4><?php echo Text::_($groupName); ?></h4>
                     <?php require ModuleHelper::getLayoutPath('mod_content', $params->get('layout', 'default') . '_items'); ?>
                 </div>
             <?php endforeach; ?>
