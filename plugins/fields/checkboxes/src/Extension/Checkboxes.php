@@ -35,7 +35,7 @@ final class Checkboxes extends FieldsListPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return array_merge([
-            'onCustomFieldsBeforePrepareField' => 'onCustomFieldsBeforePrepareField',
+            'onCustomFieldsBeforePrepareField' => 'beforePrepareField',
         ], parent::getSubscribedEvents());
     }
 
@@ -48,7 +48,7 @@ final class Checkboxes extends FieldsListPlugin implements SubscriberInterface
      *
      * @since   3.7.0
      */
-    public function onCustomFieldsBeforePrepareField(BeforePrepareFieldEvent $event): void
+    public function beforePrepareField(BeforePrepareFieldEvent $event): void
     {
         if (!$this->getApplication()->isClient('api')) {
             return;
