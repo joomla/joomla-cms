@@ -18,10 +18,30 @@ if (!$list) {
 }
 
 ?>
+
 <?php if ($params->get('title_only', 1)) : ?>
-    <ul class="mod-content mod-list">
-        <?php if ($grouped) : ?>
-            <?php foreach ($list as $item) : ?>
+    <?php if ($grouped) : ?>
+        <?php foreach ($list as $groupName => $items) : ?>
+            <div class="mod-content-group">
+                <h4><?php echo Text::_($groupName); ?></h4>
+                <ul class="mod-content mod-list">
+                    <?php foreach ($items as $item) : ?>
+                        <li itemscope itemtype="https://schema.org/Article">
+                            <a href="<?php echo $item->link; ?>" itemprop="url">
+                                <span itemprop="name">
+                                    <?php echo $item->title; ?>
+                                </span>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endforeach; ?>
+    <?php else : ?>
+        <?php $items = $list; ?>
+        <div class="mod-content-group">
+        <ul class="mod-content mod-list">
+            <?php foreach ($items as $item) : ?>
                 <li itemscope itemtype="https://schema.org/Article">
                     <a href="<?php echo $item->link; ?>" itemprop="url">
                         <span itemprop="name">
@@ -30,30 +50,21 @@ if (!$list) {
                     </a>
                 </li>
             <?php endforeach; ?>
-        <?php else : ?>
-            <?php foreach ($list as $item) : ?>
-                <li itemscope itemtype="https://schema.org/Article">
-                    <a href="<?php echo $item->link; ?>" itemprop="url">
-                        <span itemprop="name">
-                            <?php echo $item->title; ?>
-                        </span>
-                    </a>
-                </li>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </ul>
+        </ul>
+        </div>
+    <?php endif; ?>
 <?php else : ?>
-    <div class="mod-content mod-list">
-        <?php if ($grouped) : ?>
-            <?php foreach ($list as $groupName => $items) : ?>
-                <div class="mod-content-group">
-                    <h4><?php echo Text::_($groupName); ?></h4>
-                    <?php require ModuleHelper::getLayoutPath('mod_content', $params->get('layout', 'default') . '_items'); ?>
-                </div>
-            <?php endforeach; ?>
-        <?php else : ?>
-            <?php $items = $list; ?>
+    <?php if ($grouped) : ?>
+        <?php foreach ($list as $groupName => $items) : ?>
+            <div class="mod-content-group">
+                <h4><?php echo Text::_($groupName); ?></h4>
+                <?php require ModuleHelper::getLayoutPath('mod_content', $params->get('layout', 'default') . '_items'); ?>
+            </div>
+        <?php endforeach; ?>
+    <?php else : ?>
+        <?php $items = $list; ?>
+        <div class="mod-content-group">
             <?php require ModuleHelper::getLayoutPath('mod_content', $params->get('layout', 'default') . '_items'); ?>
-        <?php endif; ?>
-    </div>
+        </div>
+    <?php endif; ?>
 <?php endif; ?>

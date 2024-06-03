@@ -137,13 +137,18 @@ class ContentHelper implements DatabaseAwareInterface
         // Filter by multiple tags
         $articles->setState('filter.tag', $params->get('filter_tag', []));
 
-        $articles->setState('filter.featured', $params->get('show_front', 'show'));
+        $articles->setState('filter.featured', $params->get('show_featured', 'show'));
         $articles->setState('filter.author_id', $params->get('created_by', []));
         $articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
         $articles->setState('filter.author_alias', $params->get('created_by_alias', []));
         $articles->setState('filter.author_alias.include', $params->get('author_alias_filtering_type', 1));
-        $excluded_articles = $params->get('excluded_articles', '');
 
+        // Filter archived articles
+        if ($params->get('show_archived', 'hide') === 'show') {
+            $articles->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
+        }
+
+        $excluded_articles = $params->get('excluded_articles', '');
         if ($excluded_articles) {
             $excluded_articles = explode("\r\n", $excluded_articles);
             $articles->setState('filter.article_id', $excluded_articles);

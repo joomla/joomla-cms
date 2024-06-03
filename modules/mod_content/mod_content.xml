@@ -324,7 +324,7 @@
 				label="MOD_CONTENT_FIELD_GROUP_FILTERING_LABEL"
 				>
 				<field
-					name="show_front"
+					name="show_featured"
 					type="list"
 					label="MOD_CONTENT_FIELD_SHOWFEATURED_LABEL"
 					default="show"
@@ -342,6 +342,24 @@
 				/>
 
 				<field
+					name="show_archived"
+					type="list"
+					label="MOD_CONTENT_FIELD_ONLYARCHIVED_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="hide"
+					validate="options"
+					>
+					<option value="show">MOD_CONTENT_OPTION_ONLYARCHIVEDSHOW_VALUE</option>
+					<option value="hide">MOD_CONTENT_OPTION_ONLYARCHIVEDHIDE_VALUE</option>
+				</field>
+
+				<field
+					name="filteringspacer2"
+					type="spacer"
+					hr="true"
+				/>
+
+				<field
 					name="filter_tag"
 					type="tag"
 					label="JTAG"
@@ -352,7 +370,7 @@
 				/>
 
 				<field
-					name="filteringspacer2"
+					name="filteringspacer3"
 					type="spacer"
 					hr="true"
 				/>
@@ -380,7 +398,7 @@
 				/>
 
 				<field
-					name="filteringspacer3"
+					name="filteringspacer4"
 					type="spacer"
 					hr="true"
 				/>
@@ -410,7 +428,7 @@
 				/>
 
 				<field
-					name="filteringspacer4"
+					name="filteringspacer5"
 					type="spacer"
 					hr="true"
 				/>
@@ -424,7 +442,7 @@
 				/>
 
 				<field
-					name="filteringspacer5"
+					name="filteringspacer6"
 					type="spacer"
 					hr="true"
 				/>
