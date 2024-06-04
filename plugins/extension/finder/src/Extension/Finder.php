@@ -14,7 +14,6 @@ use Joomla\CMS\Event\Extension\AbstractExtensionEvent;
 use Joomla\CMS\Event\Extension\AfterInstallEvent;
 use Joomla\CMS\Event\Extension\AfterUninstallEvent;
 use Joomla\CMS\Event\Extension\AfterUpdateEvent;
-use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Database\DatabaseAwareTrait;
