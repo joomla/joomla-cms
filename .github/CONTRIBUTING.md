@@ -4,7 +4,7 @@ You are welcome to submit a contribution for review and possible inclusion in th
 
 * If you have a feature request, then please open a discussion to define the feature request and discuss possible solutions. Discussions can be converted into issues when the request is defined sufficiently that a developer can start coding the feature. In this process you will get feedback from the maintainers, if the feature is something for the Joomla core distribution or not.
 
-* Open an issue on our [Issue Tracker](https://issues.joomla.org/) or here on GitHub, if you have found a bug. If you can, please provide a fix and create a pull request (PR) instead; this will automatically create an issue for you so you do not have to create an issue, if you are creating a pull request.
+* If you have found a bug, open an issue on our [Issue Tracker](https://issues.joomla.org/) or here on GitHub. If you can, please provide a fix and create a pull request (PR) instead; this will automatically create an issue for you so you do not have to create an issue, if you are creating a pull request.
 
 * Follow the [Joomla! Coding Standards](https://manual.joomla.org/docs/get-started/codestyle) for code contributions.
 
