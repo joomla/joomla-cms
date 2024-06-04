@@ -25,18 +25,19 @@ npm run cypress:install
 ```
 8. Run Joomla installation with headless Cypress
 ```
-npm run cypress:run -- --spec 'tests/System/integration/install/Installation.cy.js'
+npx cypress run --spec tests/System/integration/install/Installation.cy.js
 ```
+:point_right: In the case of `EACCES` or `EPERM` error, see troubleshooting at the end.
 
 ## Run the existing tests
 You can use Cypress headless:
 ```
-npm run cypress:run
+npx cypress run
 ```
 
 And Cypress has a nice GUI which lists all the existing tests and is able to launch a browser where the tests are executed. To open the Cypress GUI, run the following command:
 ```
-npm run cypress:open
+npx cypress open
 ```
 
 ## Create new tests
@@ -92,3 +93,53 @@ The API commands make API requests to the CMS API endpoint `/api/index.php/v1`. 
 - **api_patch** add the path and content for the body as arguments
 - **api_delete** add the path as argument
 - **api_getBearerToken** returns the bearer token and no request object
+
+# Troubleshooting
+## `EACCES: permission denied` or `EPERM: operation not permitted`
+
+If the Cypress installation step or the entire test suite is executed by a non-root user, the following error may occur:
+```
+1) Install Joomla
+       Install Joomla:
+       CypressError: `cy.task('writeFile')` failed with the following error:
+       > EACCES: permission denied, open './configuration.php'
+```
+Or on Microsoft Windows you will see:
+```
+       > EPERM: operation not permitted, open 'C:\laragon\www\joomla-cms\configuration.php'
+```
+
+The reason for this is that the Cypress installation first creates the Joomla file `configuration.php`
+from the web server and then some of the parameters in the file are configured with Cypress by the current user.
+This can cause a file access problem if different users are used for the web server and the execution of Cypress.
+
+You have to give the user running Cypress the right to write `configuration.php`
+e.g. with the command `sudo` on macOS, Linux or Windows WSL 2:
+```
+sudo npx cypress run --spec tests/System/integration/install/Installation.cy.js
+```
+
+If the `root` user does not have a Cypress installation, you can use the Cypress installation cache of the current user:
+```
+sudo CYPRESS_CACHE_FOLDER=$HOME/.cache/Cypress npx cypress run --spec tests/System/integration/install/Installation.cy.js
+```
+
+## Errors from test spec `api/com_media/Files.cy.js`
+If you are using `sudo` and running the `com_media/Files` API test specification, you may see errors like:
+```
+  > 404: Not Found
+  > 500: Internal Server Error
+```
+Reason for this is, that the Cypress test creates the directory `images/test-dir` as `root` user and prevents web server user `www-data` from creating files inside. You have to set `umask` additionally:
+```
+sudo bash -c "umask 0 && CYPRESS_CACHE_FOLDER=$HOME/.cache/Cypress npx cypress run --spec tests/System/integration/api/com_media/Files.cy.js"
+```
+Or if `root` user has Cypress installed:
+```
+sudo bash -c "umask 0 && npx cypress run --spec tests/System/integration/api/com_media/Files.cy.js"
+```
+Or to run the System test suite:
+```
+sudo bash -c "umask 0 && npx cypress run"
+```
+</details>
