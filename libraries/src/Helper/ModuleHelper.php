@@ -437,25 +437,25 @@ abstract class ModuleHelper
             $query->where($db->quoteName('menu_assignment') . ' IS NOT NULL');
         }
 
-            $query->whereIn($db->quoteName('m.access'), $groups)
-            ->extendWhere(
-                'AND',
-                [
-                    $db->quoteName('m.publish_up') . ' IS NULL',
-                    $db->quoteName('m.publish_up') . ' <= :publishUp',
-                ],
-                'OR'
-            )
-            ->bind(':publishUp', $nowDate)
-            ->extendWhere(
-                'AND',
-                [
-                    $db->quoteName('m.publish_down') . ' IS NULL',
-                    $db->quoteName('m.publish_down') . ' >= :publishDown',
-                ],
-                'OR'
-            )
-            ->bind(':publishDown', $nowDate);
+        $query->whereIn($db->quoteName('m.access'), $groups)
+        ->extendWhere(
+            'AND',
+            [
+                $db->quoteName('m.publish_up') . ' IS NULL',
+                $db->quoteName('m.publish_up') . ' <= :publishUp',
+            ],
+            'OR'
+        )
+        ->bind(':publishUp', $nowDate)
+        ->extendWhere(
+            'AND',
+            [
+                $db->quoteName('m.publish_down') . ' IS NULL',
+                $db->quoteName('m.publish_down') . ' >= :publishDown',
+            ],
+            'OR'
+        )
+        ->bind(':publishDown', $nowDate);
 
         // Filter by language
         if ($app->isClient('site') && $app->getLanguageFilter() || $app->isClient('administrator') && static::isAdminMultilang()) {
@@ -508,8 +508,8 @@ abstract class ModuleHelper
         foreach ($modules as $i => $module) {
             $negHit  = false;
 
-            if (!is_null($module->menu_assignment)) {
-                $pages = json_decode($module->menu_assignment);
+            if (!\is_null($module->menu_assignment)) {
+                $pages      = json_decode($module->menu_assignment);
                 $assignment = $pages->assignment;
 
                 // The module is excluded if there is an explicit prohibition

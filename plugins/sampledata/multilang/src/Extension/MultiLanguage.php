@@ -546,17 +546,17 @@ final class MultiLanguage extends CMSPlugin
         $tableModule = Table::getInstance('Module', 'Joomla\\CMS\\Table\\');
 
         $moduleData  = [
-            'id'        => 0,
-            'title'     => 'Language Switcher',
-            'note'      => '',
-            'content'   => '',
-            'position'  => 'sidebar-right',
-            'module'    => 'mod_languages',
+            'id'       => 0,
+            'title'    => 'Language Switcher',
+            'note'     => '',
+            'content'  => '',
+            'position' => 'sidebar-right',
+            'module'   => 'mod_languages',
             // Set to ALL menu items
             'menu_assignment' => json_encode(["assigned" => [], "assignment" => 0]),
-            'access'    => 1,
-            'showtitle' => 0,
-            'params'    => '{"header_text":"","footer_text":"","dropdown":"0","image":"1","inline":"1","show_active":"1",'
+            'access'          => 1,
+            'showtitle'       => 0,
+            'params'          => '{"header_text":"","footer_text":"","dropdown":"0","image":"1","inline":"1","show_active":"1",'
                 . '"full_name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0","cache_time":"900","cachemode":"itemid",'
                 . '"module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}',
             'client_id' => 0,
@@ -598,17 +598,17 @@ final class MultiLanguage extends CMSPlugin
         $title       = 'Main menu ' . $itemLanguage->language;
 
         $moduleData = [
-            'id'        => 0,
-            'title'     => $title,
-            'note'      => '',
-            'content'   => '',
-            'position'  => 'sidebar-right',
-            'module'    => 'mod_menu',
+            'id'       => 0,
+            'title'    => $title,
+            'note'     => '',
+            'content'  => '',
+            'position' => 'sidebar-right',
+            'module'   => 'mod_menu',
             // Set to ALL menu items
             'menu_assignment' => json_encode(["assigned" => [], "assignment" => 0]),
-            'access'    => 1,
-            'showtitle' => 1,
-            'params'    => '{"menutype":"mainmenu-' . strtolower($itemLanguage->language)
+            'access'          => 1,
+            'showtitle'       => 1,
+            'params'          => '{"menutype":"mainmenu-' . strtolower($itemLanguage->language)
                 . '","startLevel":"0","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"",'
                 . '"layout":"","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid"}',
             'client_id' => 0,

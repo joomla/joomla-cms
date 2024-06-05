@@ -3376,7 +3376,7 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'showtitle'  => 0,
                 'assignment' => '-',
-                'assigned' => [],
+                'assigned'   => [],
                 'params'     => [
                     'menutype'        => $menuTypes[4],
                     'startLevel'      => 2,
