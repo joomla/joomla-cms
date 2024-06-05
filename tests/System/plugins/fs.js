@@ -1,5 +1,6 @@
 const fs = require('fs');
 const fspath = require('path');
+const { umask } = require('node:process');
 
 /**
  * Deletes a folder with the given path recursive.
@@ -16,7 +17,7 @@ function deleteFolder(path, config) {
 }
 
 /**
- * Writes the given content to the file with the given relative path.
+ * Writes the given content to the file with the given path relative to the CMS root folder.
  *
  * If directory entries from the path do not exist, they are created recursively with the file mask 0o777.
  * If the file already exists, it will be overwritten.
@@ -31,6 +32,8 @@ function deleteFolder(path, config) {
  */
 function writeFile(path, content, config, mode = 0o444) {
   const fullPath = fspath.join(config.env.cmsPath, path);
+  // Prologue: Reset process file mode creation mask to ensure the umask value is not subtracted
+  const oldmask = umask(0);
   // Create missing parent directories with 'rwxrwxrwx'
   fs.mkdirSync(fspath.dirname(fullPath), { recursive: true, mode: 0o777 });
   // Check if the file exists
@@ -42,6 +45,8 @@ function writeFile(path, content, config, mode = 0o444) {
   fs.writeFileSync(fullPath, content);
   // Finally set given file mode or default 'r--r--r--'
   fs.chmodSync(fullPath, mode);
+  // Epilogue: Restore process file mode creation mask
+  umask(oldmask);
 
   return null;
 }
