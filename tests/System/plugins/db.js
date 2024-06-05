@@ -130,10 +130,6 @@ function deleteInsertedItems(config) {
         promises.push(queryTestDB(`DELETE FROM #__content_frontpage WHERE content_id IN (${item.rows.join(',')})`, config));
         promises.push(queryTestDB(`DELETE FROM #__workflow_associations WHERE item_id IN (${item.rows.join(',')}) AND extension = 'com_content.article'`, config));
       }
-
-      if (item.table === `${config.env.db_prefix}modules`) {
-        promises.push(queryTestDB(`DELETE FROM #__modules_menu WHERE moduleid IN (${item.rows.join(',')})`, config));
-      }
     }));
   });
 
