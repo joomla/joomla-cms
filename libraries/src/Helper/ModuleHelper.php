@@ -416,13 +416,8 @@ abstract class ModuleHelper
         $query   = $db->getQuery(true);
         $nowDate = Factory::getDate()->toSql();
 
-        $query->select($db->quoteName(['m.id', 'm.title', 'm.module', 'm.position', 'm.content', 'm.showtitle', 'm.params', 'mm.menuid']))
+        $query->select($db->quoteName(['m.id', 'm.title', 'm.module', 'm.position', 'm.content', 'm.showtitle', 'm.params', 'm.menu_assignment']))
             ->from($db->quoteName('#__modules', 'm'))
-            ->join(
-                'LEFT',
-                $db->quoteName('#__modules_menu', 'mm'),
-                $db->quoteName('mm.moduleid') . ' = ' . $db->quoteName('m.id')
-            )
             ->join(
                 'LEFT',
                 $db->quoteName('#__extensions', 'e'),
@@ -436,8 +431,13 @@ abstract class ModuleHelper
                     $db->quoteName('m.client_id') . ' = :clientId',
                 ]
             )
-            ->bind(':clientId', $clientId, ParameterType::INTEGER)
-            ->whereIn($db->quoteName('m.access'), $groups)
+            ->bind(':clientId', $clientId, ParameterType::INTEGER);
+
+        if ($clientId === 0) {
+            $query->where($db->quoteName('menu_assignment') . ' IS NOT NULL');
+        }
+
+            $query->whereIn($db->quoteName('m.access'), $groups)
             ->extendWhere(
                 'AND',
                 [
@@ -455,16 +455,7 @@ abstract class ModuleHelper
                 ],
                 'OR'
             )
-            ->bind(':publishDown', $nowDate)
-            ->extendWhere(
-                'AND',
-                [
-                    $db->quoteName('mm.menuid') . ' = :itemId',
-                    $db->quoteName('mm.menuid') . ' <= 0',
-                ],
-                'OR'
-            )
-            ->bind(':itemId', $itemId, ParameterType::INTEGER);
+            ->bind(':publishDown', $nowDate);
 
         // Filter by language
         if ($app->isClient('site') && $app->getLanguageFilter() || $app->isClient('administrator') && static::isAdminMultilang()) {
@@ -508,13 +499,26 @@ abstract class ModuleHelper
     {
         // Apply negative selections and eliminate duplicates
         $Itemid = Factory::getApplication()->getInput()->getInt('Itemid');
-        $negId  = $Itemid ? -(int) $Itemid : false;
         $clean  = [];
         $dupes  = [];
 
+        /** @TODO When the database driver support the JSON data type
+         *  we can do all this directly in the method getModuleList()
+         */
         foreach ($modules as $i => $module) {
-            // The module is excluded if there is an explicit prohibition
-            $negHit = ($negId === (int) $module->menuid);
+            $negHit  = false;
+
+            if (!is_null($module->menu_assignment)) {
+                $pages = json_decode($module->menu_assignment);
+                $assignment = $pages->assignment;
+
+                // The module is excluded if there is an explicit prohibition
+                if ($assignment < 0) {
+                    $negHit = \in_array($Itemid, $pages->assigned);
+                } elseif ($assignment > 0) {
+                    $negHit = !\in_array($Itemid, $pages->assigned);
+                }
+            }
 
             if (isset($dupes[$module->id])) {
                 // If this item has been excluded, keep the duplicate flag set,
