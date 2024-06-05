@@ -3453,7 +3453,7 @@ final class Testing extends CMSPlugin implements SubscriberInterface
                 'access'     => $access,
                 'showtitle'  => 0,
                 'assignment' => '-',
-                'assigned' => [],
+                'assigned'   => [],
                 'params'     => [
                     'menutype'        => $menuTypes[4],
                     'startLevel'      => 2,

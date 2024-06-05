@@ -58,7 +58,7 @@ class MenuTable extends Menu
             if (\count($iterator)) {
                 foreach ($iterator as $row) {
                     $moduleAssignment = json_decode($row->menu_assignment);
-                    $currentPages = $moduleAssignment->assigned ?? [];
+                    $currentPages     = $moduleAssignment->assigned ?? [];
 
                     if (\count($currentPages)) {
                         $newPages = array_filter($currentPages, function ($itemId) use ($pk) {
