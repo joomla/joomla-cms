@@ -552,6 +552,8 @@ final class MultiLanguage extends CMSPlugin
             'content'   => '',
             'position'  => 'sidebar-right',
             'module'    => 'mod_languages',
+            // Set to ALL menu items
+            'menu_assignment' => json_encode(["assigned" => [], "assignment" => 0]),
             'access'    => 1,
             'showtitle' => 0,
             'params'    => '{"header_text":"","footer_text":"","dropdown":"0","image":"1","inline":"1","show_active":"1",'
@@ -578,7 +580,7 @@ final class MultiLanguage extends CMSPlugin
             return false;
         }
 
-        return $this->addModuleInModuleMenu((int) $tableModule->id);
+        return true;
     }
 
     /**
@@ -602,6 +604,8 @@ final class MultiLanguage extends CMSPlugin
             'content'   => '',
             'position'  => 'sidebar-right',
             'module'    => 'mod_menu',
+            // Set to ALL menu items
+            'menu_assignment' => json_encode(["assigned" => [], "assignment" => 0]),
             'access'    => 1,
             'showtitle' => 1,
             'params'    => '{"menutype":"mainmenu-' . strtolower($itemLanguage->language)
@@ -628,7 +632,7 @@ final class MultiLanguage extends CMSPlugin
             return false;
         }
 
-        return $this->addModuleInModuleMenu((int) $tableModule->id);
+        return true;
     }
 
     /**
@@ -862,39 +866,6 @@ final class MultiLanguage extends CMSPlugin
             } catch (\RuntimeException $e) {
                 return false;
             }
-        }
-
-        return true;
-    }
-
-    /**
-     * Add a Module in Module menus.
-     *
-     * @param   integer  $moduleId  The Id of module.
-     *
-     * @return  boolean
-     *
-     * @since   4.0.0
-     */
-    private function addModuleInModuleMenu($moduleId)
-    {
-        // Create a new db object.
-        $db       = $this->getDatabase();
-        $query    = $db->getQuery(true);
-        $moduleId = (int) $moduleId;
-
-        // Add Module in Module menus.
-        $query->insert($db->quoteName('#__modules_menu'))
-            ->columns($db->quoteName(['moduleid', 'menuid']))
-            ->values(':moduleId, 0')
-            ->bind(':moduleId', $moduleId, ParameterType::INTEGER);
-
-        $db->setQuery($query);
-
-        try {
-            $db->execute();
-        } catch (\RuntimeException $e) {
-            return false;
         }
 
         return true;

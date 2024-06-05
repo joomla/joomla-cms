@@ -3376,6 +3376,7 @@ final class Testing extends CMSPlugin
                 'access'     => $access,
                 'showtitle'  => 0,
                 'assignment' => '-',
+                'assigned' => [],
                 'params'     => [
                     'menutype'        => $menuTypes[4],
                     'startLevel'      => 2,
@@ -4156,7 +4157,9 @@ final class Testing extends CMSPlugin
             }
 
             if (!isset($module['assignment'])) {
+                // Set to ALL menu items
                 $module['assignment'] = 0;
+                $module['assigned']   = [];
             }
 
             if (!$model->save($module)) {
