@@ -845,9 +845,10 @@ class ModuleModel extends AdminModel
         }
 
         // Process the menu link mappings.
-        $menuMap           = new \stdClass();
-        $menuMap->assigned = $data['assigned'] ?? [];
+        $menuMap = new \stdClass();
 
+        // Set default values
+        $assigned   = $data['assigned'] ?? [];
         $assignment = $data['assignment'] ?? 0;
 
         // If the assignment is numeric, then something is selected (otherwise it's none).
@@ -856,21 +857,27 @@ class ModuleModel extends AdminModel
             $assignment = (int) $assignment;
 
             // Logic check: if no module excluded then convert to display on all.
-            if ($assignment < 0 && empty($data['assigned'])) {
+            if ($assignment < 0 && empty($assigned)) {
                 $assignment = 0;
             }
 
             // Check needed to stop a module being assigned to `All`
             // and other menu items resulting in a module being displayed twice.
             if ($assignment === 0) {
-                $menuMap->assigned = [];
+                $assigned = [];
             }
         } else {
             // Set to NONE, then clean the assigned menu items ids
-            $menuMap->assigned = [];
+            $assigned = [];
         }
 
+        if (\count($assigned)) {
+            $assigned = ArrayHelper::toInteger($assigned);
+        }
+
+        $menuMap->assigned   = $assigned;
         $menuMap->assignment = $assignment;
+
 
         $registry                = new Registry($menuMap);
         $data['menu_assignment'] = (string) $registry;
