@@ -479,7 +479,7 @@ Cypress.Commands.add('db_createModule', (module) => {
     published: 1,
     language: '*',
     params: '',
-    menu_assignment: JSON.stringify({"assigned": [], "assignment": 0}),
+    menu_assignment: JSON.stringify({ assigned: [], assignment: 0 }),
   };
 
   return cy.task('queryDB', createInsertQuery('modules', { ...defaultModuleOptions, ...module }))
