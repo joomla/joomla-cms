@@ -76,6 +76,8 @@ class MenuTable extends Menu
                     }
                 }
             }
+
+            unset($iterator);
         }
 
         return $return;
