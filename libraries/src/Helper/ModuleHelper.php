@@ -489,6 +489,50 @@ abstract class ModuleHelper
     }
 
     /**
+     * Check if the module is allowed in the current page
+     *
+     * @param   \stdClass                  $pages     The module menu assignment
+     * @param   \Joomla\CMS\Input\Input    $input     Current page
+     * @param   \Joomla\CMS\Menu\MenuItem  $menuItem  Active menu item in place
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function allowModuleInPage($pages, $input, $menuItem): bool
+    {
+        if (!isset($pages->assignment, $pages->assigned)) {
+            return false;
+        }
+
+        // Return early if the module is set for ALL menu items
+        if ($pages->assignment == 0) {
+            return true;
+        }
+
+        $assignment = $pages->assignment;
+        $assigned   = $pages->assigned;
+        $menuItemId = $menuItem->id;
+
+        if ($assignment == -2 || $assignment == 2) {
+            // Can be null if is the default home page
+            $inputDataId = $input->getInt('id') ?? $input->getInt('Itemid');
+            $menuQueryId = (int) ($menuItem->query['id'] ?? $menuItemId);
+
+            // Check we are not inside a child page
+            if (
+                $input->getString('option') != $menuItem->query['option'] ||
+                $input->getString('view') != $menuItem->query['view'] ||
+                $inputDataId != $menuQueryId
+            ) {
+                return false;
+            }
+        }
+
+        $allow = \in_array($menuItemId, $assigned);
+
+        return $assignment > 0 ? $allow : !$allow;
+    }
+
+    /**
      * Clean the module list
      *
      * @param   array  $modules  Array with module objects
@@ -497,33 +541,27 @@ abstract class ModuleHelper
      */
     public static function cleanModuleList($modules)
     {
-        // Apply negative selections and eliminate duplicates
-        $Itemid = Factory::getApplication()->getInput()->getInt('Itemid');
+        $app  = Factory::getApplication();
+        $menu = $app->getMenu();
+
+        $active = $menu->getActive();
+        $input  = $app->getInput();
         $clean  = [];
         $dupes  = [];
+        $allow  = true;
 
-        /** @TODO When the database driver support the JSON data type
-         *  we can do all this directly in the method getModuleList()
-         */
         foreach ($modules as $i => $module) {
-            $negHit  = false;
-
+            // Only for site modules
             if (!\is_null($module->menu_assignment)) {
-                $pages      = json_decode($module->menu_assignment);
-                $assignment = $pages->assignment;
-
-                // The module is excluded if there is an explicit prohibition
-                if ($assignment < 0) {
-                    $negHit = \in_array($Itemid, $pages->assigned);
-                } elseif ($assignment > 0) {
-                    $negHit = !\in_array($Itemid, $pages->assigned);
-                }
+                $pages = json_decode($module->menu_assignment);
+                $allow = static::allowModuleInPage($pages, $input, $active);
             }
 
+            // Eliminate duplicates
             if (isset($dupes[$module->id])) {
                 // If this item has been excluded, keep the duplicate flag set,
                 // but remove any item from the modules array.
-                if ($negHit) {
+                if (!$allow) {
                     unset($clean[$module->id]);
                 }
 
@@ -533,7 +571,7 @@ abstract class ModuleHelper
             $dupes[$module->id] = true;
 
             // Only accept modules without explicit exclusions.
-            if ($negHit) {
+            if (!$allow) {
                 continue;
             }
 
