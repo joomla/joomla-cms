@@ -68,7 +68,9 @@ describe('Test that modules administrator API endpoint', () => {
   });
 
   it('can delete a administrator module', () => {
-    cy.db_createModule({ title: 'automated test administrator module', published: -2, client_id: 1, menu_assignment: '' })
+    cy.db_createModule({
+      title: 'automated test administrator module', published: -2, client_id: 1, menu_assignment: '',
+    })
       .then((module) => cy.api_delete(`/modules/administrator/${module}`))
       .then((response) => cy.wrap(response).its('status').should('equal', 204));
   });
