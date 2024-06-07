@@ -176,10 +176,11 @@ class JoomlaFieldMedia extends HTMLElement {
   async modalClose() {
     try {
       const item = Joomla.selectedMediaFile;
-      if (item && item.type === 'dir' && this.types.includes('directories')) {
-        this.setValue(item.path);
+      if (item && item.type === 'dir') {
+        // Set directory path as value only when the field is configured to support of directories
+        this.setValue(this.types.includes('directories') ? item.path : '');
       } else {
-        await Joomla.getMedia(Joomla.selectedMediaFile, this.inputElement, this);
+        await Joomla.getMedia(item, this.inputElement, this);
       }
     } catch (err) {
       Joomla.renderMessages({
