@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\Accessibility\Extension;
 
+use Joomla\CMS\Event\Application\BeforeCompileHeadEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
 
@@ -45,23 +46,24 @@ final class Accessibility extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function onBeforeCompileHead()
+    public function onBeforeCompileHead(BeforeCompileHeadEvent $event): void
     {
         $section = $this->params->get('section', 'administrator');
+        $app     = $event->getApplication();
 
-        if ($section !== 'both' && $this->getApplication()->isClient($section) !== true) {
+        if ($section !== 'both' && $app->isClient($section) !== true) {
             return;
         }
 
         // Get the document object.
-        $document = $this->getApplication()->getDocument();
+        $document = $event->getDocument();
 
         if ($document->getType() !== 'html') {
             return;
         }
 
         // Are we in a modal?
-        if ($this->getApplication()->getInput()->get('tmpl', '', 'cmd') === 'component') {
+        if ($app->getInput()->get('tmpl', '', 'cmd') === 'component') {
             return;
         }
 
@@ -69,10 +71,10 @@ final class Accessibility extends CMSPlugin implements SubscriberInterface
         $this->loadLanguage();
 
         // Determine if it is an LTR or RTL language
-        $direction = $this->getApplication()->getLanguage()->isRtl() ? 'right' : 'left';
+        $direction = $app->getLanguage()->isRtl() ? 'right' : 'left';
 
         // Detect the current active language
-        $lang = $this->getApplication()->getLanguage()->getTag();
+        $lang = $app->getLanguage()->getTag();
 
         /**
         * Add strings for translations in Javascript.
