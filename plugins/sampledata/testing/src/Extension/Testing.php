@@ -67,7 +67,7 @@ final class Testing extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since 4.4.0
+     * @since __DEPLOY_VERSION__
      */
     public static function getSubscribedEvents(): array
     {
