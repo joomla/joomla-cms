@@ -55,8 +55,6 @@ final class Contact extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $this->loadLanguage();
-
         $button = $this->onDisplay($event->getEditorId());
 
         if ($button) {
@@ -84,6 +82,8 @@ final class Contact extends CMSPlugin implements SubscriberInterface
             || $user->authorise('core.edit', 'com_contact')
             || $user->authorise('core.edit.own', 'com_contact')
         ) {
+            $this->loadLanguage();
+
             // The URL for the contacts list
             $link = 'index.php?option=com_contact&view=contacts&layout=modal&tmpl=component&'
                 . Session::getFormToken() . '=1&editor=' . $name;
