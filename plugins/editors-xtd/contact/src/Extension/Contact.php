@@ -46,7 +46,7 @@ final class Contact extends CMSPlugin implements SubscriberInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function onEditorButtonsSetup(EditorButtonsSetupEvent $event)
+    public function onEditorButtonsSetup(EditorButtonsSetupEvent $event): void
     {
         $subject  = $event->getButtonsRegistry();
         $disabled = $event->getDisabledButtons();
