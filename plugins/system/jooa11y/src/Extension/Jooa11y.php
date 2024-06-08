@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\Jooa11y\Extension;
 
+use Joomla\CMS\Event\Application\BeforeCompileHeadEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
 
@@ -74,18 +75,20 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
     /**
      * Add the checker.
      *
+     * @param  BeforeCompileHeadEvent $event  The event object
+     *
      * @return  void
      *
      * @since   4.1.0
      */
-    public function initJooa11y()
+    public function initJooa11y(BeforeCompileHeadEvent $event)
     {
-        if (!$this->getApplication()->isClient('site')) {
+        if (!$event->getApplication()->isClient('site')) {
             return;
         }
 
         // Check if we are in a preview modal or the plugin has enforced loading
-        $showJooa11y = $this->getApplication()
+        $showJooa11y = $event->getApplication()
             ->getInput()
             ->get('jooa11y', $this->params->get('showAlways', 0));
 
@@ -98,7 +101,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         $this->loadLanguage();
 
         // Detect the current active language
-        $getLang = $this->getApplication()
+        $getLang = $event->getApplication()
             ->getLanguage()
             ->getTag();
 
@@ -152,7 +155,8 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
         }
 
         // Get the document object
-        $document = $this->getApplication()->getDocument();
+        /** @var \Joomla\CMS\Document\HtmlDocument $document */
+        $document = $event->getDocument();
 
         // Get plugin options from xml
         $getOptions = [
