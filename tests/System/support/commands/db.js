@@ -456,7 +456,7 @@ Cypress.Commands.add('db_createMenuItem', (menuItemData) => {
       menuItem.component_id = id[0].extension_id;
       cy.task('queryDB', `UPDATE #__menu SET rgt = rgt + 2 WHERE rgt >= '${defaultMenuItemOptions.lft}'`)
         .then(() => cy.task('queryDB', `UPDATE #__menu SET lft = lft + 2 WHERE lft > '${defaultMenuItemOptions.rgt}'`))
-        .then(() => cy.task('queryDB', createInsertQuery('menu', menuItem)).then(async (info) => info.insertId))
+        .then(() => cy.task('queryDB', createInsertQuery('menu', menuItem)).then(async (info) => info.insertId));
     });
   });
 });
@@ -472,7 +472,7 @@ Cypress.Commands.add('db_deleteMenuItem', (menuItemTitle) => {
     if (record.length > 0) {
       cy.task('queryDB', `DELETE FROM #__menu WHERE lft BETWEEN '${record[0].lft}' AND '${record[0].rgt}'`)
         .then(() => cy.task('queryDB', `UPDATE #__menu SET lft = lft - '${record[0].width}' WHERE lft > '${record[0].rgt}'`))
-        .then(() => cy.task('queryDB', `UPDATE #__menu SET rgt = rgt - '${record[0].width}' WHERE rgt > '${record[0].rgt}'`))
+        .then(() => cy.task('queryDB', `UPDATE #__menu SET rgt = rgt - '${record[0].width}' WHERE rgt > '${record[0].rgt}'`));
     }
   });
 });
