@@ -42,6 +42,8 @@ final class Accessibility extends CMSPlugin implements SubscriberInterface
     /**
      * Add the javascript for the accessibility menu
      *
+     * @param  BeforeCompileHeadEvent $event  The event object
+     *
      * @return  void
      *
      * @since   4.0.0
