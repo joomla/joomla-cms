@@ -470,9 +470,9 @@ Cypress.Commands.add('db_createMenuItem', (menuItemData) => {
 Cypress.Commands.add('db_deleteMenuItem', (menuItemTitle) => {
   cy.task('queryDB', `SELECT lft, rgt, (rgt - lft) +1 AS width FROM #__menu WHERE title = '${menuItemTitle.title}'`).then((record) => {
     if (record.length > 0) {
-      cy.task('queryDB', `DELETE FROM #__menu WHERE lft BETWEEN '${record[0].lft}' AND '${record[0].rgt}'`);
-      .then(() => cy.task('queryDB', `UPDATE #__menu SET lft = lft - '${record[0].width}' WHERE lft > '${record[0].rgt}'`))
-      .then(() => cy.task('queryDB', `UPDATE #__menu SET rgt = rgt - '${record[0].width}' WHERE rgt > '${record[0].rgt}'`))
+      cy.task('queryDB', `DELETE FROM #__menu WHERE lft BETWEEN '${record[0].lft}' AND '${record[0].rgt}'`)
+        .then(() => cy.task('queryDB', `UPDATE #__menu SET lft = lft - '${record[0].width}' WHERE lft > '${record[0].rgt}'`))
+        .then(() => cy.task('queryDB', `UPDATE #__menu SET rgt = rgt - '${record[0].width}' WHERE rgt > '${record[0].rgt}'`))
     }
   });
 });
