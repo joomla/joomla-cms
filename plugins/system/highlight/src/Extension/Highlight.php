@@ -11,7 +11,7 @@
 namespace Joomla\Plugin\System\Highlight\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\Application\BeforeCompileHeadEvent;
+use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Event\Finder\ResultEvent;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -50,13 +50,13 @@ final class Highlight extends CMSPlugin implements SubscriberInterface
      * The highlighting is done with JavaScript so we just
      * need to check a few parameters and the JHtml behavior will do the rest.
      *
-     * @param  BeforeCompileHeadEvent $event  The event object
+     * @param  AfterDispatchEvent $event  The event object
      *
      * @return  void
      *
      * @since   2.5
      */
-    public function onAfterDispatch(BeforeCompileHeadEvent $event): void
+    public function onAfterDispatch(AfterDispatchEvent $event): void
     {
         // Check that we are in the site application.
         if (!$event->getApplication()->isClient('site')) {
@@ -64,7 +64,7 @@ final class Highlight extends CMSPlugin implements SubscriberInterface
         }
 
         // Set the variables.
-        $input     = $event->getApplication();
+        $input     = $event->getApplication()->getInput();
         $extension = $input->get('option', '', 'cmd');
 
         // Check if the highlighter is enabled.
@@ -73,7 +73,7 @@ final class Highlight extends CMSPlugin implements SubscriberInterface
         }
 
         // Check if the highlighter should be activated in this environment.
-        if ($input->get('tmpl', '', 'cmd') === 'component' || $this->getApplication()->getDocument()->getType() !== 'html') {
+        if ($input->get('tmpl', '', 'cmd') === 'component' || $event->getApplication()->getDocument()->getType() !== 'html') {
             return;
         }
 
@@ -96,7 +96,7 @@ final class Highlight extends CMSPlugin implements SubscriberInterface
         }
 
         /** @var \Joomla\CMS\Document\HtmlDocument $doc */
-        $doc = $event->getDocument();
+        $doc = $event->getApplication()->getDocument();
 
         // Activate the highlighter.
         if (!empty($cleanTerms)) {
