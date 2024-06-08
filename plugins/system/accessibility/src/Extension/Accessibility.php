@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\System\Accessibility\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -21,8 +22,22 @@ use Joomla\CMS\Plugin\CMSPlugin;
  *
  * @since  4.0.0
  */
-final class Accessibility extends CMSPlugin
+final class Accessibility extends CMSPlugin implements SubscriberInterface
 {
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onBeforeCompileHead' => 'onBeforeCompileHead',
+        ];
+    }
+
     /**
      * Add the javascript for the accessibility menu
      *
