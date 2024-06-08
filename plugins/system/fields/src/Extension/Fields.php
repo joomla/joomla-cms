@@ -53,7 +53,6 @@ final class Fields extends CMSPlugin implements SubscriberInterface
             'onContentAfterTitle'           => 'onContentAfterTitle',
             'onContentBeforeDisplay'        => 'onContentBeforeDisplay',
             'onContentAfterDisplay'         => 'onContentAfterDisplay',
-
         ];
     }
 
