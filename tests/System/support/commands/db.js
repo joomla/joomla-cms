@@ -454,12 +454,11 @@ Cypress.Commands.add('db_createMenuItem', (menuItemData) => {
     cy.task('queryDB', `SELECT extension_id FROM #__extensions WHERE name = '${component}'`).then((id) => {
       // Get the correct component id from the extensions record
       menuItem.component_id = id[0].extension_id;
+      cy.task('queryDB', `UPDATE #__menu SET rgt = rgt + 2 WHERE rgt >= '${defaultMenuItemOptions.lft}'`)
+        .then(() => cy.task('queryDB', `UPDATE #__menu SET lft = lft + 2 WHERE lft > '${defaultMenuItemOptions.rgt}'`));
+      // Create the menu item
+      return cy.task('queryDB', createInsertQuery('menu', menuItem)).then(async (info) => info.insertId);
     });
-
-    cy.task('queryDB', `UPDATE #__menu SET rgt = rgt + 2 WHERE rgt >= '${defaultMenuItemOptions.lft}'`)
-      .then(() => cy.task('queryDB', `UPDATE #__menu SET lft = lft + 2 WHERE lft > '${defaultMenuItemOptions.rgt}'`));
-    // Create the menu item
-    return cy.task('queryDB', createInsertQuery('menu', menuItem)).then(async (info) => info.insertId);
   });
 });
 
