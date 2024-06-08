@@ -12,6 +12,8 @@ namespace Joomla\Plugin\SampleData\Testing\Extension;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Plugin\AjaxEvent;
+use Joomla\CMS\Event\SampleData\GetOverviewEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
@@ -29,15 +31,6 @@ use Joomla\Database\DatabaseAwareTrait;
 final class Testing extends CMSPlugin
 {
     use DatabaseAwareTrait;
-
-    /**
-     * Affects constructor behavior. If true, language files will be loaded automatically.
-     *
-     * @var    boolean
-     *
-     * @since  3.8.0
-     */
-    protected $autoloadLanguage = true;
 
     /**
      * Holds the category model
@@ -62,12 +55,16 @@ final class Testing extends CMSPlugin
     /**
      * Get an overview of the proposed sampledata.
      *
-     * @return  object  Object containing the name, title, description, icon and steps.
+     * @param   GetOverviewEvent $event  Event instance
+     *
+     * @return  void
      *
      * @since  3.8.0
      */
-    public function onSampledataGetOverview()
+    public function onSampledataGetOverview(GetOverviewEvent $event): void
     {
+        $this->loadLanguage();
+
         $data              = new \stdClass();
         $data->name        = $this->_name;
         $data->title       = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_OVERVIEW_TITLE');
@@ -75,17 +72,19 @@ final class Testing extends CMSPlugin
         $data->icon        = 'bolt';
         $data->steps       = 9;
 
-        return $data;
+        $event->addResult($data);
     }
 
     /**
      * First step to enter the sampledata. Tags
      *
-     * @return  array|void  Will be converted into the JSON response to the module.
+     * @param   AjaxEvent $event  Event instance
+     *
+     * @return  void
      *
      * @since  3.8.0
      */
-    public function onAjaxSampledataApplyStep1()
+    public function onAjaxSampledataApplyStep1(AjaxEvent $event): void
     {
         if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
             return;
@@ -96,7 +95,8 @@ final class Testing extends CMSPlugin
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 1, 'com_tags');
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         /** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
@@ -130,7 +130,8 @@ final class Testing extends CMSPlugin
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 1, $e->getMessage());
 
-                return $response;
+                $event->addResult($response);
+                return;
             }
 
             $tagIds[] = $model->getState('tag.id');
@@ -160,7 +161,8 @@ final class Testing extends CMSPlugin
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 1, $e->getMessage());
 
-            return $response;
+            $event->addResult($response);
+            return;
         }
 
         $tagIds[] = $model->getState('tag.id');
@@ -172,7 +174,7 @@ final class Testing extends CMSPlugin
         $response['success'] = true;
         $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_STEP1_SUCCESS');
 
-        return $response;
+        $event->addResult($response);
     }
 
     /**
