@@ -48,7 +48,7 @@ document.addEventListener('onMediaFileSelected', async (e) => {
     images, audios, videos, documents,
   } = supportedExtensions;
 
-  if (Joomla.selectedMediaFile.path) {
+  if (Joomla.selectedMediaFile.path && Joomla.selectedMediaFile.type === 'file') {
     let type;
     if (images.includes(Joomla.selectedMediaFile.extension.toLowerCase())) {
       type = 'images';
