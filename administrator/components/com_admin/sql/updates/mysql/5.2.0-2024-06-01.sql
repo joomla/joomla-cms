@@ -39,4 +39,4 @@ WHERE
   m.`id` = s.`moduleid`;
 
 -- --------------------------------------------------------
--- DROP TABLE IF EXISTS `#__modules_menu`;
+DROP TABLE IF EXISTS `#__modules_menu`;
