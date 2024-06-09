@@ -10,10 +10,12 @@
 
 namespace Joomla\Plugin\System\LanguageCode\Extension;
 
-use Joomla\CMS\Form\Form;
+use Joomla\CMS\Event\Application\AfterRenderEvent;
+use Joomla\CMS\Event\Model\PrepareFormEvent;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -24,24 +26,43 @@ use Joomla\CMS\Plugin\CMSPlugin;
  *
  * @since  2.5
  */
-final class LanguageCode extends CMSPlugin
+final class LanguageCode extends CMSPlugin implements SubscriberInterface
 {
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onAfterRender'        => 'onAfterRender',
+            'onContentPrepareForm' => 'onContentPrepareForm',
+        ];
+    }
+
+    /**
      * Plugin that changes the language code used in the <html /> tag.
+     *
+     * @param   AfterRenderEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   2.5
      */
-    public function onAfterRender()
+    public function onAfterRender(AfterRenderEvent $event): void
     {
+        $app = $event->getApplication();
+
         // Use this plugin only in site application.
-        if ($this->getApplication()->isClient('site')) {
+        if ($app->isClient('site')) {
             // Get the response body.
-            $body = $this->getApplication()->getBody();
+            $body = $app->getBody();
 
             // Get the current language code.
-            $code = $this->getApplication()->getDocument()->getLanguage();
+            $code = $app->getDocument()->getLanguage();
 
             // Get the new code.
             $new_code  = $this->params->get($code);
@@ -97,25 +118,26 @@ final class LanguageCode extends CMSPlugin
                 }
             }
 
-            $this->getApplication()->setBody(preg_replace($patterns, $replace, $body));
+            $app->setBody(preg_replace($patterns, $replace, $body));
         }
     }
 
     /**
      * Prepare form.
      *
-     * @param   Form   $form  The form to be altered.
-     * @param   mixed  $data  The associated data for the form.
+     * @param   PrepareFormEvent  $event  The event object
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   2.5
      */
-    public function onContentPrepareForm(Form $form, $data)
+    public function onContentPrepareForm(PrepareFormEvent $event): void
     {
+        $form = $event->getForm();
+
         // Check we are manipulating the languagecode plugin.
         if ($form->getName() !== 'com_plugins.plugin' || !$form->getField('languagecodeplugin', 'params')) {
-            return true;
+            return;
         }
 
         // Get site languages.
@@ -145,7 +167,5 @@ final class LanguageCode extends CMSPlugin
 					</form>');
             }
         }
-
-        return true;
     }
 }
