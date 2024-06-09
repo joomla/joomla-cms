@@ -14,7 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application;
 use Joomla\CMS\Event\Extension;
 use Joomla\CMS\Event\Model;
-use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Event\User;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\UserFactoryAwareTrait;
@@ -572,18 +572,20 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
     }
 
     /**
-     * On Deleting extensions logging method
+     * On Deleting extensions logging method.
      * Method is called when an extension is being deleted
      *
-     * @param   string  $context  The extension
-     * @param   Table   $table    DataBase Table object
+     * @param   Model\AfterDeleteEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onExtensionAfterDelete($context, $table): void
+    public function onExtensionAfterDelete(Model\AfterDeleteEvent $event): void
     {
+        $context = $event->getContext();
+        $table   = $event->getItem();
+
         if (!$this->checkLoggable($this->getApplication()->getInput()->get('option'))) {
             return;
         }
@@ -612,17 +614,17 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      * Method is called after user data is stored in the database.
      * This method logs who created/edited any user's data
      *
-     * @param   array    $user     Holds the new user data.
-     * @param   boolean  $isnew    True if a new user is stored.
-     * @param   boolean  $success  True if user was successfully stored in the database.
-     * @param   string   $msg      Message.
+     * @param   User\AfterSaveEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onUserAfterSave($user, $isnew, $success, $msg): void
+    public function onUserAfterSave(User\AfterSaveEvent $event): void
     {
+        $user  = $event->getUser();
+        $isnew = $event->getIsNew();
+
         $context = $this->getApplication()->getInput()->get('option');
         $task    = $this->getApplication()->getInput()->get('task');
 
@@ -703,16 +705,15 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * Method is called after user data is deleted from the database
      *
-     * @param   array    $user     Holds the user data
-     * @param   boolean  $success  True if user was successfully stored in the database
-     * @param   string   $msg      Message
+     * @param   User\AfterDeleteEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onUserAfterDelete($user, $success, $msg): void
+    public function onUserAfterDelete(User\AfterDeleteEvent $event): void
     {
+        $user    = $event->getUser();
         $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
