@@ -1213,14 +1213,15 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * Method is called after user request to reset their password.
      *
-     * @param   object  $user  Holds the user data.
+     * @param   User\AfterResetRequestEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   4.2.9
      */
-    public function onUserAfterResetRequest($user)
+    public function onUserAfterResetRequest(User\AfterResetRequestEvent $event): void
     {
+        $user    = $event->getUser();
         $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
@@ -1246,14 +1247,15 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * Method is called after user complete the reset of their password.
      *
-     * @param   object  $user  Holds the user data.
+     * @param   User\AfterResetCompleteEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   4.2.9
      */
-    public function onUserAfterResetComplete($user)
+    public function onUserAfterResetComplete(User\AfterResetCompleteEvent $event)
     {
+        $user    = $event->getUser();
         $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
