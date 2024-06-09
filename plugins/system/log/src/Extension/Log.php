@@ -11,8 +11,10 @@
 namespace Joomla\Plugin\System\Log\Extension;
 
 use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Event\User\LoginFailureEvent;
 use Joomla\CMS\Log\Log as Logger;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,19 +25,34 @@ use Joomla\CMS\Plugin\CMSPlugin;
  *
  * @since  1.5
  */
-final class Log extends CMSPlugin
+final class Log extends CMSPlugin implements SubscriberInterface
 {
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onUserLoginFailure' => 'onUserLoginFailure',
+        ];
+    }
+
     /**
      * Called if user fails to be logged in.
      *
-     * @param   array  $response  Array of response data.
+     * @param   LoginFailureEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   1.5
      */
-    public function onUserLoginFailure($response)
+    public function onUserLoginFailure(LoginFailureEvent $event): void
     {
+        $response = $event->getAuthenticationResponse();
         $errorlog = [];
 
         switch ($response['status']) {
