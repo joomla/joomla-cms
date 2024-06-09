@@ -26,7 +26,7 @@ if (window.parent.Joomla.Modal) {
 ', ['name' => 'inline.module-modal-fix'], ['type' => 'module']);
 ?>
 <div class="subhead noshadow mb-3">
-    <?php echo $this->document->getToolbar('toolbar')->render(); ?>
+    <?php echo $this->getDocument()->getToolbar('toolbar')->render(); ?>
 </div>
 <div class="container-popup">
     <?php $this->setLayout('edit'); ?>

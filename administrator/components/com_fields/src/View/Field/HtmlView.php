@@ -93,7 +93,7 @@ class HtmlView extends BaseHtmlView
     {
         $component = $this->state->get('field.component');
         $section   = $this->state->get('field.section');
-        $userId    = $this->getCurrentUser()->get('id');
+        $userId    = $this->getCurrentUser()->id;
         $canDo     = $this->canDo;
         $toolbar   = Toolbar::getInstance();
 

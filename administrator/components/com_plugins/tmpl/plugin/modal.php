@@ -27,7 +27,7 @@ if (window.parent.Joomla.Modal) {
 
 ?>
 <div class="subhead noshadow mb-3">
-    <?php echo $this->document->getToolbar('toolbar')->render(); ?>
+    <?php echo $this->getDocument()->getToolbar('toolbar')->render(); ?>
 </div>
 <div class="container-popup">
     <?php $this->setLayout('edit'); ?>
