@@ -12,17 +12,19 @@ namespace Joomla\Plugin\Actionlog\Joomla\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application;
+use Joomla\CMS\Event\Cache;
+use Joomla\CMS\Event\Checkin;
 use Joomla\CMS\Event\Extension;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\User;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\Plugin\ActionLogPlugin;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
 
@@ -986,14 +988,15 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * Method is called after user request to check-in items.
      *
-     * @param   array  $table  Holds the table name.
+     * @param   Checkin\AfterCheckinEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.3
      */
-    public function onAfterCheckin($table)
+    public function onAfterCheckin(Checkin\AfterCheckinEvent $event): void
     {
+        $table   = $event->getTableName();
         $context = 'com_checkin';
         $user    = $this->getApplication()->getIdentity();
 
@@ -1025,7 +1028,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.4
      */
-    public function onAfterLogPurge()
+    public function onAfterLogPurge(): void
     {
         $context = $this->getApplication()->getInput()->get('option');
         $user    = $this->getApplication()->getIdentity();
@@ -1051,7 +1054,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   3.9.4
      */
-    public function onAfterLogExport()
+    public function onAfterLogExport(): void
     {
         $context = $this->getApplication()->getInput()->get('option');
         $user    = $this->getApplication()->getIdentity();
@@ -1073,14 +1076,15 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * Method is called after user request to clean cached items.
      *
-     * @param   string  $group  Holds the group name.
+     * @param   Cache\AfterPurgeEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.4
      */
-    public function onAfterPurge($group = 'all')
+    public function onAfterPurge(Cache\AfterPurgeEvent $event): void
     {
+        $group   = $event->getGroup() ?: 'all';
         $context = $this->getApplication()->getInput()->get('option');
         $user    = $this->getApplication()->getIdentity();
 
@@ -1111,7 +1115,7 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function onAfterDispatch()
+    public function onAfterDispatch(): void
     {
         if (!$this->getApplication()->isClient('api')) {
             return;
@@ -1149,14 +1153,19 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      *
      * Method is called after user update the CMS.
      *
-     * @param   string  $oldVersion  The Joomla version before the update
+     * @param   Event $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.21
+     *
+     * @TODO: Update to use a real event class
      */
-    public function onJoomlaAfterUpdate($oldVersion = null)
+    public function onJoomlaAfterUpdate(Event $event): void
     {
+        $arguments  = array_values($event->getArguments());
+        $oldVersion = $arguments[0] ?? '';
+
         $context = $this->getApplication()->getInput()->get('option');
         $user    = $this->getApplication()->getIdentity();
 
@@ -1268,16 +1277,17 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
     /**
      * Method is called before user data is stored in the database
      *
-     * @param   array    $user   Holds the old user data.
-     * @param   boolean  $isNew  True if a new user is stored.
-     * @param   array    $data   Holds the new user data.
+     * @param   User\BeforeSaveEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   5.0.0
      */
-    public function onUserBeforeSave($user, $isnew, $new): void
+    public function onUserBeforeSave(User\BeforeSaveEvent $event): void
     {
+        $user = $event->getUser();
+        $new  = $event->getData();
+
         $session = $this->getApplication()->getSession();
         $session->set('block', null);
 
