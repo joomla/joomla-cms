@@ -7,29 +7,39 @@ ALTER TABLE "#__modules" ADD COLUMN "menu_assignment" text /** CAN FAIL **/;
 -- where "assigned" is the menu items currently assigned to the module and
 -- "assignment" is the option selected inside the module menu assignment option
 --
-UPDATE "#__modules" AS m
-SET m."menu_assignment" = s."menu_assignment"
+WITH module_menu_assignment AS (
+  SELECT
+    t1."moduleid", array_to_json(array_agg(ABS(t1."menuid")::integer)) AS mids,
+    CASE
+      WHEN MIN(t1."menuid") > 0 THEN 1
+      WHEN MIN(t1."menuid") < 0 THEN -1
+      ELSE 0
+    END AS modsign
+	FROM
+    "#__modules_menu" AS t1
+	  INNER JOIN "#__modules" AS t2 ON t2."id"=t1."moduleid"
+  WHERE
+    t2."client_id"=0
+	GROUP BY
+    t1."moduleid"
+)
+UPDATE "#__modules"
+SET
+  "menu_assignment" = mma."menu_assignment"
 FROM (
-    SELECT t1."moduleid",
-      json_build_object(
-        'assigned',
-          CASE
-            WHEN MIN(t1."menuid")=0 THEN json_build_array()
-            ELSE array_agg(ABS(t1."menuid"))
-          END,
-        'assignment',
-          CASE
-            WHEN MIN(t1."menuid")>0 THEN 1
-            WHEN MIN(t1."menuid")<0 THEN -1
-            ELSE 0
-          END
-      ) AS menu_assignment
-    FROM "#__modules_menu" AS t1
-    INNER JOIN "#__modules" AS t2 ON t2."id"=t1."moduleid"
-    WHERE t2."client_id"=0
-    GROUP BY t1."moduleid"
-  ) AS s
-WHERE m."id"=s."moduleid";
+	SELECT moduleid,
+		json_build_object(
+			'assigned',
+      CASE
+				WHEN mids::jsonb @? '$[0] ? (@ == 0)' THEN mids::jsonb - 0
+				ELSE mids::jsonb
+			END,
+			'assignment', modsign
+		) AS menu_assignment
+	FROM module_menu_assignment
+) AS mma
+WHERE
+  "id"=mma."moduleid";
 
 -- --------------------------------------------------------
 -- DROP TABLE IF EXISTS "#__modules_menu";
