@@ -10,7 +10,9 @@
 
 namespace Joomla\Plugin\System\Skipto\Extension;
 
+use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -21,16 +23,32 @@ use Joomla\CMS\Plugin\CMSPlugin;
  *
  * @since  4.0.0
  */
-final class Skipto extends CMSPlugin
+final class Skipto extends CMSPlugin implements SubscriberInterface
 {
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onAfterDispatch' => 'onAfterDispatch',
+        ];
+    }
+
+    /**
      * Add the skipto navigation menu.
+     *
+     * @param   AfterDispatchEvent  $event  The event instance.
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public function onAfterDispatch()
+    public function onAfterDispatch(AfterDispatchEvent $event): void
     {
         $section = $this->params->get('section', 'administrator');
 
