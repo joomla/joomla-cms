@@ -10,9 +10,11 @@
 namespace Joomla\CMS\Plugin;
 
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
+use Joomla\CMS\Event\LazyServiceEventSubscriber;
 use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Priority;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -239,7 +241,17 @@ abstract class PluginHelper
             return;
         }
 
-        $plugin->registerListeners();
+        if ($plugin instanceof LazyServiceEventSubscriber) {
+            foreach ($plugin->getSubscribedEvents() as $eventName => $params) {
+                if (\is_array($params)) {
+                    $dispatcher->addListener($eventName, [$plugin, $params[0]], $params[1] ?? Priority::NORMAL);
+                } else {
+                    $dispatcher->addListener($eventName, [$plugin, $params]);
+                }
+            }
+        } else {
+            $plugin->registerListeners();
+        }
     }
 
     /**
