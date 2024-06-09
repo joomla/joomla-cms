@@ -41,5 +41,4 @@ FROM (
 WHERE
   "id"=mma."moduleid";
 
--- --------------------------------------------------------
--- DROP TABLE IF EXISTS "#__modules_menu";
+DROP TABLE IF EXISTS "#__modules_menu";
