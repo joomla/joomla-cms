@@ -451,10 +451,10 @@ Cypress.Commands.add('db_createMenuItem', (menuItemData) => {
     const menuItem = { ...defaultMenuItemOptions, ...menuItemData };
     // Extract the component from the link
     const component = (new URLSearchParams(menuItem.link.replace('index.php', ''))).get('option');
-    cy.task('queryDB', `SELECT extension_id FROM #__extensions WHERE name = '${component}'`).then((id) => {
+    return cy.task('queryDB', `SELECT extension_id FROM #__extensions WHERE name = '${component}'`).then((id) => {
       // Get the correct component id from the extensions record
       menuItem.component_id = id[0].extension_id;
-      cy.task('queryDB', `UPDATE #__menu SET rgt = rgt + 2 WHERE rgt >= '${defaultMenuItemOptions.lft}'`)
+      return cy.task('queryDB', `UPDATE #__menu SET rgt = rgt + 2 WHERE rgt >= '${defaultMenuItemOptions.lft}'`)
         .then(() => cy.task('queryDB', `UPDATE #__menu SET lft = lft + 2 WHERE lft > '${defaultMenuItemOptions.rgt}'`))
         .then(() => cy.task('queryDB', createInsertQuery('menu', menuItem)).then(async (info) => info.insertId));
     });
