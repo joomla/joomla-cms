@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\System\ActionLogs\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Application\AfterInitialiseEvent;
 use Joomla\CMS\Event\Model;
 use Joomla\CMS\Event\User;
 use Joomla\CMS\Form\Form;
@@ -24,6 +25,7 @@ use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -41,22 +43,6 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
     use UserFactoryAwareTrait;
 
     /**
-     * Constructor.
-     *
-     * @param   DispatcherInterface  $dispatcher   The dispatcher
-     * @param   array                $config       An optional associative array of configuration settings
-     *
-     * @since   3.9.0
-     */
-    public function __construct(DispatcherInterface $dispatcher, array $config)
-    {
-        parent::__construct($dispatcher, $config);
-
-        // Import actionlog plugin group so that these plugins will be triggered for events
-        PluginHelper::importPlugin('actionlog');
-    }
-
-    /**
      * Returns an array of events this subscriber will listen to.
      *
      * @return array
@@ -66,12 +52,28 @@ final class ActionLogs extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
+            'onAfterInitialise'    => ['onAfterInitialise', Priority::ABOVE_NORMAL],
             'onContentPrepareForm' => 'onContentPrepareForm',
             'onContentPrepareData' => 'onContentPrepareData',
             'onUserAfterSave'      => 'onUserAfterSave',
             'onUserAfterDelete'    => 'onUserAfterDelete',
             'onExtensionAfterSave' => 'onExtensionAfterSave',
         ];
+    }
+
+    /**
+     * After initialise listener.
+     *
+     * @param   AfterInitialiseEvent $event  The event instance.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onAfterInitialise(AfterInitialiseEvent $event): void
+    {
+        // Import actionlog plugin group so that these plugins will be triggered for events
+        PluginHelper::importPlugin('actionlog', null, true, $event->getApplication()->getDispatcher());
     }
 
     /**
