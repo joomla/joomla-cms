@@ -102,7 +102,7 @@ final class PageBreak extends CMSPlugin implements SubscriberInterface
         // This ACL check is probably a double-check (form view already performed checks)
         $hasAccess = $canCreateRecords || $isEditingRecords;
         if (!$hasAccess) {
-            return;
+            return;;
         }
 
         $this->loadLanguage();
