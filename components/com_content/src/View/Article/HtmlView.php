@@ -190,7 +190,7 @@ class HtmlView extends BaseHtmlView
          * NOTE: we do not recheck for no access-view + show_noauth disabled ... since it was checked above
          */
         if ($item->params->get('access-view') == false && !\strlen($item->fulltext)) {
-            if ($this->user->get('guest')) {
+            if ($this->user->guest) {
                 $return                = base64_encode(Uri::getInstance());
                 $login_url_with_return = Route::_('index.php?option=com_users&view=login&return=' . $return);
                 $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'notice');

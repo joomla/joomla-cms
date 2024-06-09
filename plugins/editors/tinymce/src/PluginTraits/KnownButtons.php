@@ -81,6 +81,7 @@ trait KnownButtons
             'language' => ['label' => 'Language'],
 
             // Buttons from the plugins
+            'accordion'      => ['label' => 'Accordion', 'plugin' => 'accordion'],
             'anchor'         => ['label' => 'Anchor', 'plugin' => 'anchor'],
             'hr'             => ['label' => 'Horizontal line'],
             'ltr'            => ['label' => 'Left to right', 'plugin' => 'directionality'],
