@@ -53,6 +53,8 @@ final class Remember extends CMSPlugin implements SubscriberInterface
      * Remember me method to run onAfterInitialise
      * Only purpose is to initialise the login authentication process if a cookie is present
      *
+     * @param   AfterInitialiseEvent  $event  The event instance.
+     *
      * @return  void
      *
      * @since   1.5
