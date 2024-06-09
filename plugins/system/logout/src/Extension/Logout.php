@@ -12,8 +12,10 @@ namespace Joomla\Plugin\System\Logout\Extension;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Event\User\LogoutEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -24,7 +26,7 @@ use Joomla\Event\DispatcherInterface;
  *
  * @since  1.6
  */
-final class Logout extends CMSPlugin
+final class Logout extends CMSPlugin implements SubscriberInterface
 {
     /**
      * @param   DispatcherInterface      $dispatcher  The object to observe -- event dispatcher.
@@ -59,16 +61,29 @@ final class Logout extends CMSPlugin
     }
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onUserLogout' => 'onUserLogout',
+        ];
+    }
+
+    /**
      * Method to handle any logout logic and report back to the subject.
      *
-     * @param   array  $user     Holds the user data.
-     * @param   array  $options  Array holding options (client, ...).
+     * @param   LogoutEvent $event  The event instance.
      *
-     * @return  boolean  Always returns true.
+     * @return  void
      *
      * @since   1.6
      */
-    public function onUserLogout($user, $options = [])
+    public function onUserLogout(LogoutEvent $event): void
     {
         if ($this->getApplication()->isClient('site')) {
             // Create the cookie.
@@ -82,7 +97,5 @@ final class Logout extends CMSPlugin
                 true
             );
         }
-
-        return true;
     }
 }
