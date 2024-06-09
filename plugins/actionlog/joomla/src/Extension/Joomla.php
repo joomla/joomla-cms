@@ -20,6 +20,7 @@ use Joomla\Component\Actionlogs\Administrator\Plugin\ActionLogPlugin;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -31,7 +32,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.9.0
  */
-final class Joomla extends ActionLogPlugin
+final class Joomla extends ActionLogPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;
@@ -87,6 +88,45 @@ final class Joomla extends ActionLogPlugin
         $this->loggableApi        = $params->get('loggable_api', 0);
 
         $this->loggableVerbs      = $params->get('loggable_verbs', []);
+    }
+
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentAfterSave'        => 'onContentAfterSave',
+            'onContentAfterDelete'      => 'onContentAfterDelete',
+            'onContentChangeState'      => 'onContentChangeState',
+            'onApplicationAfterSave'    => 'onApplicationAfterSave',
+            'onExtensionAfterInstall'   => 'onExtensionAfterInstall',
+            'onExtensionAfterUninstall' => 'onExtensionAfterUninstall',
+            'onExtensionAfterUpdate'    => 'onExtensionAfterUpdate',
+            'onExtensionAfterSave'      => 'onExtensionAfterSave',
+            'onExtensionAfterDelete'    => 'onExtensionAfterDelete',
+            'onUserAfterSave'           => 'onUserAfterSave',
+            'onUserAfterDelete'         => 'onUserAfterDelete',
+            'onUserAfterSaveGroup'      => 'onUserAfterSaveGroup',
+            'onUserAfterDeleteGroup'    => 'onUserAfterDeleteGroup',
+            'onUserAfterLogin'          => 'onUserAfterLogin',
+            'onUserLoginFailure'        => 'onUserLoginFailure',
+            'onUserLogout'              => 'onUserLogout',
+            'onUserAfterRemind'         => 'onUserAfterRemind',
+            'onAfterCheckin'            => 'onAfterCheckin',
+            'onAfterLogPurge'           => 'onAfterLogPurge',
+            'onAfterLogExport'          => 'onAfterLogExport',
+            'onAfterPurge'              => 'onAfterPurge',
+            'onAfterDispatch'           => 'onAfterDispatch',
+            'onJoomlaAfterUpdate'       => 'onJoomlaAfterUpdate',
+            'onUserAfterResetRequest'   => 'onUserAfterResetRequest',
+            'onUserAfterResetComplete'  => 'onUserAfterResetComplete',
+            'onUserBeforeSave'          => 'onUserBeforeSave',
+        ];
     }
 
     /**
