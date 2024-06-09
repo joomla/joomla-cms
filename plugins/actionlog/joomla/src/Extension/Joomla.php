@@ -11,6 +11,9 @@
 namespace Joomla\Plugin\Actionlog\Joomla\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Application;
+use Joomla\CMS\Event\Extension;
+use Joomla\CMS\Event\Model;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
@@ -134,16 +137,18 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      * This method adds a record to #__action_logs contains (message, date, context, user)
      * Method is called right after the content is saved
      *
-     * @param   string   $context  The context of the content passed to the plugin
-     * @param   object   $article  A \Joomla\CMS\Table\Table object
-     * @param   boolean  $isNew    If the content is just about to be created
+     * @param   Model\AfterSaveEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onContentAfterSave($context, $article, $isNew): void
+    public function onContentAfterSave(Model\AfterSaveEvent $event): void
     {
+        $context = $event->getContext();
+        $article = $event->getItem();
+        $isNew   = $event->getIsNew();
+
         if (isset($this->contextAliases[$context])) {
             $context = $this->contextAliases[$context];
         }
@@ -192,16 +197,17 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      * This method adds a record to #__action_logs contains (message, date, context, user)
      * Method is called right after the content is deleted
      *
-     * @param   string  $context  The context of the content passed to the plugin
-     * @param   object  $article  A \Joomla\CMS\Table\Table object
+     * @param   Model\AfterDeleteEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onContentAfterDelete($context, $article): void
+    public function onContentAfterDelete(Model\AfterDeleteEvent $event): void
     {
-        $option = $this->getApplication()->getInput()->get('option');
+        $context = $event->getContext();
+        $article = $event->getItem();
+        $option  = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($option)) {
             return;
@@ -238,17 +244,18 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      * This method adds a record to #__action_logs contains (message, date, context, user)
      * Method is called when the status of the article is changed
      *
-     * @param   string   $context  The context of the content passed to the plugin
-     * @param   array    $pks      An array of primary key ids of the content that has changed state.
-     * @param   integer  $value    The value of the state that the content has been changed to.
+     * @param   Model\AfterChangeStateEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onContentChangeState($context, $pks, $value)
+    public function onContentChangeState(Model\AfterChangeStateEvent $event): void
     {
-        $option = $this->getApplication()->getInput()->getCmd('option');
+        $context = $event->getContext();
+        $pks     = $event->getPks();
+        $value   = $event->getValue();
+        $option  = $this->getApplication()->getInput()->getCmd('option');
 
         if (!$this->checkLoggable($option)) {
             return;
@@ -327,16 +334,16 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
     }
 
     /**
-     * On Saving application configuration logging method
+     * On Saving application configuration logging method.
      * Method is called when the application config is being saved
      *
-     * @param   \Joomla\Registry\Registry  $config  Registry object with the new config
+     * @param   Application\AfterSaveConfigurationEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onApplicationAfterSave($config): void
+    public function onApplicationAfterSave(Application\AfterSaveConfigurationEvent $event): void
     {
         $option = $this->getApplication()->getInput()->getCmd('option');
 
@@ -362,16 +369,17 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      * This method adds a record to #__action_logs contains (message, date, context, user)
      * Method is called when an extension is installed
      *
-     * @param   Installer   $installer  Installer object
-     * @param   integer     $eid        Extension Identifier
+     * @param   Extension\AfterInstallEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onExtensionAfterInstall($installer, $eid)
+    public function onExtensionAfterInstall(Extension\AfterInstallEvent $event): void
     {
-        $context = $this->getApplication()->getInput()->get('option');
+        $installer = $event->getInstaller();
+        $eid       = $event->getEid();
+        $context   = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -408,17 +416,18 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      * This method adds a record to #__action_logs contains (message, date, context, user)
      * Method is called when an extension is uninstalled
      *
-     * @param   Installer  $installer  Installer instance
-     * @param   integer    $eid        Extension id
-     * @param   integer    $result     Installation result
+     * @param   Extension\AfterUninstallEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onExtensionAfterUninstall($installer, $eid, $result)
+    public function onExtensionAfterUninstall(Extension\AfterUninstallEvent $event): void
     {
-        $context = $this->getApplication()->getInput()->get('option');
+        $installer = $event->getInstaller();
+        $eid       = $event->getEid();
+        $result    = $event->getRemoved();
+        $context   = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -460,16 +469,17 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
      * This method adds a record to #__action_logs contains (message, date, context, user)
      * Method is called when an extension is updated
      *
-     * @param   Installer  $installer  Installer instance
-     * @param   integer    $eid        Extension id
+     * @param   Extension\AfterUpdateEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onExtensionAfterUpdate($installer, $eid)
+    public function onExtensionAfterUpdate(Extension\AfterUpdateEvent $event): void
     {
-        $context = $this->getApplication()->getInput()->get('option');
+        $installer = $event->getInstaller();
+        $eid       = $event->getEid();
+        $context   = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -502,19 +512,21 @@ final class Joomla extends ActionLogPlugin implements SubscriberInterface
     }
 
     /**
-     * On Saving extensions logging method
+     * On Saving extensions logging method.
      * Method is called when an extension is being saved
      *
-     * @param   string   $context  The extension
-     * @param   Table    $table    DataBase Table object
-     * @param   boolean  $isNew    If the extension is new or not
+     * @param   Model\AfterSaveEvent $event  The event instance.
      *
      * @return  void
      *
      * @since   3.9.0
      */
-    public function onExtensionAfterSave($context, $table, $isNew): void
+    public function onExtensionAfterSave(Model\AfterSaveEvent $event): void
     {
+        $context = $event->getContext();
+        $table   = $event->getItem();
+        $isNew   = $event->getIsNew();
+
         $option = $this->getApplication()->getInput()->getCmd('option');
 
         if ($table->get('module') != null) {
