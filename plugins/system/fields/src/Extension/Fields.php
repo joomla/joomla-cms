@@ -267,7 +267,7 @@ final class Fields extends CMSPlugin implements SubscriberInterface
 
         $contentEvent = new Model\AfterDeleteEvent('onContentAfterDelete', [
             'context' => 'com_users.user',
-            'subject' => $user,
+            'subject' => $item,
         ]);
         $this->onContentAfterDelete($contentEvent);
     }
