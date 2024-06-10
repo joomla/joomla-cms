@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -107,7 +108,7 @@ class DatabaseLogger extends Logger
 
         // If both the database object and driver options are empty we want to use the system database connection.
         if (empty($this->options['db_driver'])) {
-            $this->db       = Factory::getDbo();
+            $this->db       = Factory::getContainer()->get(DatabaseInterface::class);
             $this->driver   = null;
             $this->host     = null;
             $this->user     = null;

@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -138,7 +139,7 @@ class LoginModel extends BaseDatabaseModel
         $cache = Factory::getCache('com_modules', 'callback');
 
         $loader = function () use ($app, $lang, $module) {
-            $db = Factory::getDbo();
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
 
             $query = $db->getQuery(true)
                 ->select(

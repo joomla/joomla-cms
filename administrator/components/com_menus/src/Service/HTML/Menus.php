@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -51,7 +52,7 @@ class Menus
         // Get the associations
         if ($associations = MenusHelper::getAssociations($itemid)) {
             // Get the associated menu items
-            $db    = Factory::getDbo();
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select(
                     [

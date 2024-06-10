@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -52,7 +53,7 @@ abstract class Tag
 
         if (!isset(static::$items[$hash])) {
             $config = (array) $config;
-            $db     = Factory::getDbo();
+            $db     = Factory::getContainer()->get(DatabaseInterface::class);
             $query  = $db->getQuery(true)
                 ->select(
                     [
@@ -116,7 +117,7 @@ abstract class Tag
     {
         $hash   = md5(serialize($config));
         $config = (array) $config;
-        $db     = Factory::getDbo();
+        $db     = Factory::getContainer()->get(DatabaseInterface::class);
         $query  = $db->getQuery(true)
             ->select(
                 [

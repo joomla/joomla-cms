@@ -17,6 +17,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Version;
+use Joomla\Database\DatabaseInterface;
 
 /**
  * ConstraintChecker Class
@@ -195,7 +196,7 @@ class ConstraintChecker
      */
     protected function checkSupportedDatabases(array $supportedDatabases)
     {
-        $db        = Factory::getDbo();
+        $db        = Factory::getContainer()->get(DatabaseInterface::class);
         $dbType    = strtolower($db->getServerType());
         $dbVersion = $db->getVersion();
 

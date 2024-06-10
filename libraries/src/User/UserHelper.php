@@ -25,6 +25,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\SessionManager;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -170,7 +171,7 @@ abstract class UserHelper
         // Add the user to the group if necessary.
         if (!\in_array($groupId, $user->groups)) {
             // Check whether the group exists.
-            $db    = Factory::getDbo();
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__usergroups'))
@@ -286,7 +287,7 @@ abstract class UserHelper
         $user->groups = $groups;
 
         // Get the titles for the user groups.
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName(['id', 'title']))
             ->from($db->quoteName('#__usergroups'))
@@ -357,7 +358,7 @@ abstract class UserHelper
      */
     public static function activateUser($activation)
     {
-        $db       = Factory::getDbo();
+        $db       = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Let's get the id of the user we want to activate
         $query = $db->getQuery(true)
@@ -404,7 +405,7 @@ abstract class UserHelper
     public static function getUserId($username)
     {
         // Initialise some variables
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
@@ -598,7 +599,7 @@ abstract class UserHelper
             return false;
         }
 
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         try {
             $userId = (int) $userId;

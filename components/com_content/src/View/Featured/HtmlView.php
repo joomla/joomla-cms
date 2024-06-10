@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -202,7 +203,7 @@ class HtmlView extends BaseHtmlView
         $this->items      = &$items;
         $this->pagination = &$pagination;
         $this->user       = &$user;
-        $this->db         = Factory::getDbo();
+        $this->db         = Factory::getContainer()->get(DatabaseInterface::class);
 
         $this->_prepareDocument();
 

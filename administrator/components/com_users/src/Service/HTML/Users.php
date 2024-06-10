@@ -16,6 +16,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
 
@@ -298,7 +299,7 @@ class Users
             return static::value($value);
         }
 
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('title'))
             ->from($db->quoteName('#__template_styles'))
@@ -401,7 +402,7 @@ class Users
             return static::value($value);
         }
 
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $lang  = Factory::getLanguage();
         $query = $db->getQuery(true)
             ->select($db->quoteName('name'))

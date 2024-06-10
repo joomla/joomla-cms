@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Helper;
 
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -196,7 +197,7 @@ final class UserGroupsHelper
     public function total()
     {
         if ($this->total === null) {
-            $db = Factory::getDbo();
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
 
             $query = $db->getQuery(true)
                 ->select('COUNT(' . $db->quoteName('id') . ')')
@@ -224,7 +225,7 @@ final class UserGroupsHelper
         // Cast as integer until method is typehinted.
         $id = (int) $id;
 
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $query = $db->getQuery(true)
             ->select('*')
@@ -254,7 +255,7 @@ final class UserGroupsHelper
     {
         $this->groups = [];
 
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $query = $db->getQuery(true)
             ->select('*')

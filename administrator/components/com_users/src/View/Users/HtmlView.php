@@ -19,6 +19,7 @@ use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -107,7 +108,7 @@ class HtmlView extends BaseHtmlView
         $this->filterForm    = $this->get('FilterForm');
         $this->activeFilters = $this->get('ActiveFilters');
         $this->canDo         = ContentHelper::getActions('com_users');
-        $this->db            = Factory::getDbo();
+        $this->db            = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Check for errors.
         if (\count($errors = $this->get('Errors'))) {

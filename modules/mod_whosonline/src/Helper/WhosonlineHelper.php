@@ -11,6 +11,7 @@
 namespace Joomla\Module\Whosonline\Site\Helper;
 
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -32,7 +33,7 @@ class WhosonlineHelper
      **/
     public static function getOnlineCount()
     {
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Calculate number of guests and users
         $result      = [];
@@ -86,7 +87,7 @@ class WhosonlineHelper
     {
         $whereCondition = Factory::getApplication()->get('shared_session', '0') ? 'IS NULL' : '= 0';
 
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName(['a.username', 'a.userid', 'a.client_id']))
             ->from($db->quoteName('#__session', 'a'))

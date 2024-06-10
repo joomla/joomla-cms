@@ -37,7 +37,7 @@ class InstallerHelper
      */
     public static function getExtensionTypes()
     {
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select('DISTINCT ' . $db->quoteName('type'))
             ->from($db->quoteName('#__extensions'));
@@ -63,7 +63,7 @@ class InstallerHelper
     public static function getExtensionGroups()
     {
         $nofolder = '';
-        $db       = Factory::getDbo();
+        $db       = Factory::getContainer()->get(DatabaseInterface::class);
         $query    = $db->getQuery(true)
             ->select('DISTINCT ' . $db->quoteName('folder'))
             ->from($db->quoteName('#__extensions'))
@@ -301,7 +301,7 @@ class InstallerHelper
     ): array {
         // Get the database driver. If it fails we cannot report whether the extension supports download keys.
         try {
-            $db = Factory::getDbo();
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
         } catch (\Exception $e) {
             return [
                 'supported' => false,
@@ -422,7 +422,7 @@ class InstallerHelper
     protected static function getUpdateSitesInformation(bool $onlyEnabled): array
     {
         try {
-            $db = Factory::getDbo();
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
         } catch (\Exception $e) {
             return [];
         }

@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -40,7 +41,7 @@ class Versioning
      */
     public static function get($typeAlias, $id)
     {
-        $db     = Factory::getDbo();
+        $db     = Factory::getContainer()->get(DatabaseInterface::class);
         $itemid = $typeAlias . '.' . $id;
         $query  = $db->getQuery(true);
         $query->select($db->quoteName('h.version_note') . ',' . $db->quoteName('h.save_date') . ',' . $db->quoteName('u.name'))
@@ -66,7 +67,7 @@ class Versioning
      */
     public static function delete($typeAlias, $id)
     {
-        $db     = Factory::getDbo();
+        $db     = Factory::getContainer()->get(DatabaseInterface::class);
         $itemid = $typeAlias . '.' . $id;
         $query  = $db->getQuery(true);
         $query->delete($db->quoteName('#__history'))

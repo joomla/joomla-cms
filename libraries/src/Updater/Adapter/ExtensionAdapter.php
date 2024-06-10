@@ -17,6 +17,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Version;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -134,7 +135,7 @@ class ExtensionAdapter extends UpdateAdapter
 
                     // Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
                     if (isset($this->currentUpdate->supported_databases)) {
-                        $db           = Factory::getDbo();
+                        $db           = Factory::getContainer()->get(DatabaseInterface::class);
                         $dbType       = strtolower($db->getServerType());
                         $dbVersion    = $db->getVersion();
                         $supportedDbs = $this->currentUpdate->supported_databases;

@@ -12,6 +12,7 @@ namespace Joomla\CMS\HTML\Helpers;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -36,7 +37,7 @@ abstract class WorkflowStage
     public static function existing($options)
     {
         // Get the database object and a new query object.
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
 
         // Build the query.

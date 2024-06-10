@@ -20,6 +20,7 @@ use Joomla\CMS\Table\Tuf as TufMetadata;
 use Joomla\CMS\TUF\TufFetcher;
 use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -418,7 +419,7 @@ class Update
 
                     // Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
                     if (isset($this->currentUpdate->supported_databases)) {
-                        $db           = Factory::getDbo();
+                        $db           = Factory::getContainer()->get(DatabaseInterface::class);
                         $dbType       = strtolower($db->getServerType());
                         $dbVersion    = $db->getVersion();
                         $supportedDbs = $this->currentUpdate->supported_databases;

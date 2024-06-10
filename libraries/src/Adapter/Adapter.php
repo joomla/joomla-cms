@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -87,7 +88,7 @@ class Adapter
         $this->_classprefix   = $classprefix ?: 'J';
         $this->_adapterfolder = $adapterfolder ?: 'adapters';
 
-        $this->_db = Factory::getDbo();
+        $this->_db = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Ensure BC, when removed in 5, then the db must be set with setDatabase explicitly
         if ($this instanceof DatabaseAwareInterface) {

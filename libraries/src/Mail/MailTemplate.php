@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
@@ -385,7 +386,7 @@ class MailTemplate
      */
     public static function getTemplate($key, $language)
     {
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
         $query->select('*')
             ->from($db->quoteName('#__mail_templates'))
@@ -418,7 +419,7 @@ class MailTemplate
      */
     public static function createTemplate($key, $subject, $body, $tags, $htmlbody = '')
     {
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $template              = new \stdClass();
         $template->template_id = $key;
@@ -450,7 +451,7 @@ class MailTemplate
      */
     public static function updateTemplate($key, $subject, $body, $tags, $htmlbody = '')
     {
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $template              = new \stdClass();
         $template->template_id = $key;
@@ -476,7 +477,7 @@ class MailTemplate
      */
     public static function deleteTemplate($key)
     {
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
         $query->delete($db->quoteName('#__mail_templates'))
             ->where($db->quoteName('template_id') . ' = :key')

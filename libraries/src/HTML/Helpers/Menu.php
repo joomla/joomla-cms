@@ -12,6 +12,7 @@ namespace Joomla\CMS\HTML\Helpers;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -55,7 +56,7 @@ abstract class Menu
         $key = serialize($clientId);
 
         if (!isset(static::$menus[$key])) {
-            $db = Factory::getDbo();
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
 
             $query = $db->getQuery(true)
                 ->select(
@@ -104,7 +105,7 @@ abstract class Menu
             $clientId = \array_key_exists('clientid', $config) ? $config['clientid'] : 0;
             $menus    = static::menus($clientId);
 
-            $db    = Factory::getDbo();
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select(
                     [
@@ -244,7 +245,7 @@ abstract class Menu
     public static function ordering(&$row, $id)
     {
         if ($id) {
-            $db    = Factory::getDbo();
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select(
                     [
@@ -290,7 +291,7 @@ abstract class Menu
      */
     public static function linkOptions($all = false, $unassigned = false, $clientId = 0)
     {
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Get a list of the menu items
         $query = $db->getQuery(true)

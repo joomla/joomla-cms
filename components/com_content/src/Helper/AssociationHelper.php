@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Component\Categories\Administrator\Helper\CategoryAssociationHelper;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -53,7 +54,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
             if ($id) {
                 $user      = Factory::getUser();
                 $groups    = implode(',', $user->getAuthorisedViewLevels());
-                $db        = Factory::getDbo();
+                $db        = Factory::getContainer()->get(DatabaseInterface::class);
                 $advClause = [];
 
                 // Filter by user groups

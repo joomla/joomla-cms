@@ -102,7 +102,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
          *              Database instance is injected through the setter function,
          *              subclasses should not use the db instance in constructor anymore
          */
-        $db = \array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo();
+        $db = \array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getContainer()->get(DatabaseInterface::class);
 
         if ($db) {
             @trigger_error(sprintf('Database is not available in constructor in 6.0.'), E_USER_DEPRECATED);

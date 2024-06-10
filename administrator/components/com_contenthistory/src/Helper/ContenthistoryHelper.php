@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
@@ -190,7 +191,7 @@ class ContenthistoryHelper
         $result = false;
 
         if (isset($lookup->sourceColumn) && isset($lookup->targetTable) && isset($lookup->targetColumn) && isset($lookup->displayColumn)) {
-            $db    = Factory::getDbo();
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $value = (int) $value;
             $query = $db->getQuery(true);
             $query->select($db->quoteName($lookup->displayColumn))

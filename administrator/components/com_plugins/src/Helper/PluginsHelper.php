@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -51,7 +52,7 @@ class PluginsHelper
      */
     public static function folderOptions()
     {
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select('DISTINCT(folder) AS value, folder AS text')
             ->from('#__extensions')
@@ -76,7 +77,7 @@ class PluginsHelper
      */
     public static function elementOptions()
     {
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select('DISTINCT(element) AS value, element AS text')
             ->from('#__extensions')

@@ -20,6 +20,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\Mfa;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -108,7 +109,7 @@ class HtmlView extends BaseHtmlView
         $this->state              = $this->get('State');
         $this->params             = $this->state->get('params');
         $this->mfaConfigurationUI = Mfa::getConfigurationInterface($user);
-        $this->db                 = Factory::getDbo();
+        $this->db                 = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Check for errors.
         if (\count($errors = $this->get('Errors'))) {

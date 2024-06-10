@@ -13,6 +13,7 @@ namespace Joomla\Component\Privacy\Administrator\Helper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\Component\Privacy\Administrator\Export\Domain;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -72,7 +73,7 @@ class PrivacyHelper extends ContentHelper
      */
     public static function getPrivacyConsentPluginId()
     {
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('extension_id'))
             ->from($db->quoteName('#__extensions'))

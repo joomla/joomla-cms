@@ -179,7 +179,7 @@ class TagsHelper extends CMSHelper
                 // Remove duplicates
                 $aliases = array_values(array_unique($aliases));
 
-                $db = Factory::getDbo();
+                $db = Factory::getContainer()->get(DatabaseInterface::class);
 
                 $query = $db->getQuery(true)
                     ->select(
@@ -348,7 +348,7 @@ class TagsHelper extends CMSHelper
         $id = (int) $id;
 
         // Initialize some variables.
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('m.tag_id'))
             ->from($db->quoteName('#__contentitem_tag_map', 'm'))
@@ -486,7 +486,7 @@ class TagsHelper extends CMSHelper
         $ids = explode(',', $ids);
         $ids = ArrayHelper::toInteger($ids);
 
-        $db = Factory::getDbo();
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Load the tags.
         $query = $db->getQuery(true)
@@ -534,7 +534,7 @@ class TagsHelper extends CMSHelper
         $stateFilter = '0,1'
     ) {
         // Create a new query object.
-        $db       = Factory::getDbo();
+        $db       = Factory::getContainer()->get(DatabaseInterface::class);
         $query    = $db->getQuery(true);
         $user     = Factory::getUser();
         $nullDate = $db->getNullDate();
@@ -711,7 +711,7 @@ class TagsHelper extends CMSHelper
         if (\is_array($tagIds) && \count($tagIds) > 0) {
             $tagIds = ArrayHelper::toInteger($tagIds);
 
-            $db    = Factory::getDbo();
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select($db->quoteName('title'))
                 ->from($db->quoteName('#__tags'))
@@ -773,7 +773,7 @@ class TagsHelper extends CMSHelper
     public static function getTypes($arrayType = 'objectList', $selectTypes = null, $useAlias = true)
     {
         // Initialize some variables.
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select('*');
 
@@ -911,7 +911,7 @@ class TagsHelper extends CMSHelper
      */
     public static function searchTags($filters = [])
     {
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -1021,7 +1021,7 @@ class TagsHelper extends CMSHelper
         $tag_id = (int) $tagId;
 
         // Delete the old tag maps.
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__contentitem_tag_map'))
             ->where($db->quoteName('tag_id') . ' = :id')
@@ -1085,7 +1085,7 @@ class TagsHelper extends CMSHelper
     {
         $key   = $table->getKeyName();
         $id    = (int) $table->$key;
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__contentitem_tag_map'))
             ->where(
@@ -1124,7 +1124,7 @@ class TagsHelper extends CMSHelper
         if (\is_array($tagIds) && \count($tagIds) > 0) {
             $tagIds = ArrayHelper::toInteger($tagIds);
 
-            $db    = Factory::getDbo();
+            $db    = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select([$db->quoteName('id'), $db->quoteName('title')])
                 ->from($db->quoteName('#__tags'))

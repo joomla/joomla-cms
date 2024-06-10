@@ -12,6 +12,7 @@ namespace Joomla\CMS\UCM;
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -93,7 +94,7 @@ class UCMType implements UCM
      */
     public function __construct($alias = null, DatabaseDriver $database = null, AbstractApplication $application = null)
     {
-        $this->db = $database ?: Factory::getDbo();
+        $this->db = $database ?: Factory::getContainer()->get(DatabaseInterface::class);
         $app      = $application ?: Factory::getApplication();
 
         // Make the best guess we can in the absence of information.

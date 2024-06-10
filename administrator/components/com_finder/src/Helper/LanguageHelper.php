@@ -13,6 +13,7 @@ namespace Joomla\Component\Finder\Administrator\Helper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper as CMSLanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -124,7 +125,7 @@ class LanguageHelper
         $loaded = true;
 
         // Get array of all the enabled Smart Search plugin names.
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select([$db->quoteName('name'), $db->quoteName('element')])
             ->from($db->quoteName('#__extensions'))

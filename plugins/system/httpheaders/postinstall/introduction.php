@@ -9,6 +9,7 @@
  */
 
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -37,7 +38,7 @@ function httpheaders_postinstall_condition()
 function httpheaders_postinstall_action()
 {
     // Enable the plugin
-    $db = Factory::getDbo();
+    $db = Factory::getContainer()->get(DatabaseInterface::class);
 
     $query = $db->getQuery(true)
         ->update($db->quoteName('#__extensions'))

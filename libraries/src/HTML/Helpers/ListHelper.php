@@ -12,6 +12,7 @@ namespace Joomla\CMS\HTML\Helpers;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\DatabaseQuery;
 use Joomla\String\StringHelper;
 
@@ -91,7 +92,7 @@ abstract class ListHelper
      */
     public static function genericordering($query, $chop = 30)
     {
-        $db      = Factory::getDbo();
+        $db      = Factory::getContainer()->get(DatabaseInterface::class);
         $options = [];
         $db->setQuery($query);
 
@@ -178,7 +179,7 @@ abstract class ListHelper
      */
     public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name')
     {
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select(
                 [

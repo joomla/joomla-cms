@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
 $value = $field->value;
@@ -19,7 +20,7 @@ if ($value == '') {
     return;
 }
 
-$db    = Factory::getDbo();
+$db    = Factory::getContainer()->get(DatabaseInterface::class);
 $value = (array) $value;
 $query = $db->getQuery(true);
 $sql   = $fieldParams->get('query', '');

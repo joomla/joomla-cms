@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -206,7 +207,7 @@ abstract class JGrid
 
         // Special state for dates
         if ($publishUp || $publishDown) {
-            $nullDate = Factory::getDbo()->getNullDate();
+            $nullDate = Factory::getContainer()->get(DatabaseInterface::class)->getNullDate();
             $nowDate  = Factory::getDate()->toUnix();
 
             $tz = Factory::getUser()->getTimezone();

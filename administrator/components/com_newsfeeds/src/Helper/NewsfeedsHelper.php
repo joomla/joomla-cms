@@ -12,6 +12,7 @@ namespace Joomla\Component\Newsfeeds\Administrator\Helper;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -43,7 +44,7 @@ class NewsfeedsHelper extends ContentHelper
      */
     public static function countItems(&$items)
     {
-        $db    = Factory::getDbo();
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
         $query->select(
             [
@@ -100,7 +101,7 @@ class NewsfeedsHelper extends ContentHelper
      */
     public static function countTagItems(&$items, $extension)
     {
-        $db        = Factory::getDbo();
+        $db        = Factory::getContainer()->get(DatabaseInterface::class);
         $query     = $db->getQuery(true);
         $parts     = explode('.', $extension);
         $section   = null;

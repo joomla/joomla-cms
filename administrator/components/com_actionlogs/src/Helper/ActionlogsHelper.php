@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Filesystem\Path;
 use Joomla\String\StringHelper;
 
@@ -275,7 +276,7 @@ class ActionlogsHelper
     public static function loadActionLogPluginsLanguage()
     {
         $lang = Factory::getLanguage();
-        $db   = Factory::getDbo();
+        $db   = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Get all (both enabled and disabled) actionlog plugins
         $query = $db->getQuery(true)
