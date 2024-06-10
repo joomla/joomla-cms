@@ -12,6 +12,8 @@ namespace Joomla\Plugin\Editors\None\Extension;
 
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -23,8 +25,10 @@ use Joomla\Event\Event;
  *
  * @since  1.5
  */
-final class None extends CMSPlugin
+final class None extends CMSPlugin implements DispatcherAwareInterface
 {
+    use DispatcherAwareTrait;
+
     /**
      * Display the editor area.
      *
