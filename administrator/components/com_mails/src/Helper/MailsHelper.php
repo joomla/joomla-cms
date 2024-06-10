@@ -59,12 +59,13 @@ abstract class MailsHelper
      * Load the translation files for an extension
      *
      * @param   string  $extension  Extension name
+     * @param   string  $language   Language to load
      *
      * @return  void
      *
      * @since   4.0.0
      */
-    public static function loadTranslationFiles($extension)
+    public static function loadTranslationFiles($extension, $language = 'en-GB')
     {
         static $cache = [];
 
@@ -96,12 +97,12 @@ abstract class MailsHelper
                 break;
         }
 
-        $lang->load($extension, JPATH_ADMINISTRATOR)
-        || $lang->load($extension, $source);
+        $lang->load($extension, JPATH_ADMINISTRATOR, $language, true)
+        || $lang->load($extension, $source, $language, true);
 
         if (!$lang->hasKey(strtoupper($extension))) {
-            $lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
-            || $lang->load($extension . '.sys', $source);
+            $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $language, true)
+            || $lang->load($extension . '.sys', $source, $language, true);
         }
 
         $cache[$extension] = true;
