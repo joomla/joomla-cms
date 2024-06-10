@@ -199,6 +199,8 @@ trait CoreEventAware
         'onPageCacheSetCaching' => PageCache\SetCachingEvent::class,
         'onPageCacheGetKey'     => PageCache\GetKeyEvent::class,
         'onPageCacheIsExcluded' => PageCache\IsExcludedEvent::class,
+        // Sample Data
+        'onSampledataGetOverview' => SampleData\GetOverviewEvent::class,
     ];
 
     /**
