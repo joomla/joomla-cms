@@ -479,9 +479,6 @@ class Update
             case 'UPDATES':
                 // If the latest item is set then we transfer it to where we want to
                 if (isset($this->latest)) {
-                    // This is an optional tag and therefore we need to be sure that this is gone and only used when set by the update itself
-                    unset($this->downloadSources);
-
                     foreach (get_object_vars($this->latest) as $key => $val) {
                         $this->$key = $val;
                     }

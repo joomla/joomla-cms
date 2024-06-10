@@ -27,6 +27,17 @@
       "attributes": {
         "type": "module"
       }
+    },
+    {
+      "name": "com_joomlaupdate.download",
+      "type": "script",
+      "uri": "com_joomlaupdate/download.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
     }
   ]
 }
