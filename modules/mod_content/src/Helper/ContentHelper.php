@@ -300,29 +300,6 @@ class ContentHelper implements DatabaseAwareInterface
     }
 
     /**
-     * Get a list of articles from a specific category
-     *
-     * @param   Registry  &$params  object holding the models parameters
-     *
-     * @return  array  The array of users
-     *
-     * @since   __DEPLOY_VERSION__
-     *
-     * @deprecated  4.4.0  will be removed in 6.0
-     *              Use the non-static method getArticles
-     *              Example: Factory::getApplication()->bootModule('mod_content', 'site')
-     *                           ->getHelper('ContentHelper')
-     *                           ->getArticles($params, Factory::getApplication())
-     */
-    public static function getList(&$params)
-    {
-        /* @var SiteApplication $app */
-        $app = Factory::getApplication();
-
-        return (new self())->getArticles($params, $app);
-    }
-
-    /**
      * Method to truncate introtext
      *
      * The goal is to get the proper length plain text string with as much of
