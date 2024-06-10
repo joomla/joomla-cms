@@ -497,7 +497,7 @@ abstract class AdminModel extends FormModel
             }
 
             // Get the new item ID
-            $newId = $this->table->get('id');
+            $newId = $this->table->id;
 
             if (!empty($oldAssetId)) {
                 $dbType = strtolower($db->getServerType());
@@ -1116,7 +1116,7 @@ abstract class AdminModel extends FormModel
                  */
                 $publishedColumnName = $table->getColumnAlias('published');
 
-                if (property_exists($table, $publishedColumnName) && $table->get($publishedColumnName, $value) == $value) {
+                if (property_exists($table, $publishedColumnName) && (isset($table->$publishedColumnName) ? $table->$publishedColumnName : $value) == $value) {
                     unset($pks[$i]);
                 }
             }

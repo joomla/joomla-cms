@@ -236,7 +236,7 @@ class CssMenu
 
             $table->load(['menutype' => $menutype]);
 
-            $menutype = $table->get('title', $menutype);
+            $menutype = isset($table->title) ? $table->title : $menutype;
             $message  = Text::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', $menutype, implode(', ', $missing), $uri);
 
             $this->application->enqueueMessage($message, 'warning');

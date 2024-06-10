@@ -292,7 +292,7 @@ class WorkflowModel extends AdminModel
                 $table->load(
                     [
                     'default'   => '1',
-                    'extension' => $table->get('extension'),
+                    'extension' => $table->extension,
                     ]
                 )
             ) {
