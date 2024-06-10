@@ -1728,7 +1728,9 @@ final class Blog extends CMSPlugin implements SubscriberInterface
             $module['published']  = 1;
 
             if (!isset($module['assignment'])) {
+                // Set to ALL menu items
                 $module['assignment'] = 0;
+                $module['assigned']   = [];
             } else {
                 $module['assigned'] = [$home];
             }
@@ -1778,8 +1780,8 @@ final class Blog extends CMSPlugin implements SubscriberInterface
                 $lm = (array) $loginModule;
 
                 // Un-assign the module from login view, to avoid 403 error
-                $lm['assignment'] = 1;
-                $loginId          = - (int) $menuIdsLevel1[2];
+                $lm['assignment'] = -1;
+                $loginId          = (int) $menuIdsLevel1[2];
                 $lm['assigned']   = [$loginId];
 
                 if (!$modelModule->save($lm)) {

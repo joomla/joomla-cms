@@ -9,7 +9,7 @@ describe('Test that modules administrator API endpoint', () => {
   });
 
   it('can deliver a single administrator module', () => {
-    cy.db_createModule({ title: 'automated test administrator module', client_id: 1 })
+    cy.db_createModule({ title: 'automated test administrator module', client_id: 1, menu_assignment: '' })
       .then((module) => cy.api_get(`/modules/administrator/${module}`))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('title')
@@ -55,7 +55,7 @@ describe('Test that modules administrator API endpoint', () => {
   });
 
   it('can update an administrator module', () => {
-    cy.db_createModule({ title: 'automated test administrator module', client_id: 1 })
+    cy.db_createModule({ title: 'automated test administrator module', client_id: 1, menu_assignment: '' })
       .then((id) => {
         const updatedModuleData = {
           published: -2,
@@ -68,7 +68,9 @@ describe('Test that modules administrator API endpoint', () => {
   });
 
   it('can delete a administrator module', () => {
-    cy.db_createModule({ title: 'automated test administrator module', published: -2, client_id: 1 })
+    cy.db_createModule({
+      title: 'automated test administrator module', published: -2, client_id: 1, menu_assignment: '',
+    })
       .then((module) => cy.api_delete(`/modules/administrator/${module}`))
       .then((response) => cy.wrap(response).its('status').should('equal', 204));
   });

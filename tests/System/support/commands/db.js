@@ -479,14 +479,11 @@ Cypress.Commands.add('db_createModule', (module) => {
     published: 1,
     language: '*',
     params: '',
+    menu_assignment: JSON.stringify({ assigned: [], assignment: 0 }),
   };
 
   return cy.task('queryDB', createInsertQuery('modules', { ...defaultModuleOptions, ...module }))
-    .then(async (info) => {
-      await cy.task('queryDB', `INSERT INTO #__modules_menu (moduleid, menuid) VALUES ('${info.insertId}', '0')`);
-
-      return info.insertId;
-    });
+    .then(async (info) => info.insertId);
 });
 
 /**

@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -70,42 +70,58 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
         </tr>
     </thead>
     <tbody>
-    <?php foreach ($this->modules as $i => $module) : ?>
-        <?php if (is_null($module->menuid)) : ?>
-            <?php if (!$module->except || $module->menuid < 0) : ?>
+        <?php foreach ($this->modules as $i => $module) : ?>
+            <?php $menuAssignment = json_decode($module->pages, true); ?>
+            <?php $assignment     = $menuAssignment['assignment']; ?>
+
+            <?php $isAssigned        = \in_array($this->item->id, $menuAssignment['assigned']); ?>
+            <?php $moduleNotAssigned = $assignment === '-' || (($assignment < 0 && $isAssigned) || ($assignment > 0 && !$isAssigned)); ?>
+
+            <?php if ($moduleNotAssigned) : ?>
                 <?php $no = 'no '; ?>
             <?php else : ?>
                 <?php $no = ''; ?>
             <?php endif; ?>
-        <?php else : ?>
-            <?php $no = ''; ?>
-        <?php endif; ?>
-        <?php if ($module->published) : ?>
-            <?php $status = ''; ?>
-        <?php else : ?>
-            <?php $status = 'unpublished '; ?>
-        <?php endif; ?>
-        <tr id="tr-<?php echo $module->id; ?>" class="<?php echo $no; ?><?php echo $status; ?>row<?php echo $i % 2; ?>">
-            <th scope="row">
-                <?php $popupOptions['src'] = Route::_('index.php?option=com_modules&task=module.edit&tmpl=component&layout=modal&id=' . $module->id, false); ?>
-                <button type="button"
-                    data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)) ?>"
-                    class="btn btn-link module-edit-link"
-                    title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>"
-                    id="title-<?php echo $module->id; ?>"
-                    data-module-id="<?php echo $module->id; ?>"
-                    data-checkin-url="<?php echo Route::_('index.php?option=com_modules&task=modules.checkin&format=json&cid[]=' . $module->id); ?>">
-                    <?php echo $this->escape($module->title); ?></button>
-            </th>
-            <td id="access-<?php echo $module->id; ?>">
-                <?php echo $this->escape($module->access_title); ?>
-            </td>
-            <td id="position-<?php echo $module->id; ?>">
-                <?php echo $this->escape($module->position); ?>
-            </td>
-            <td id="menus-<?php echo $module->id; ?>">
-                <?php if (is_null($module->menuid)) : ?>
-                    <?php if ($module->except) : ?>
+
+            <?php if ($module->published) : ?>
+                <?php $status = ''; ?>
+            <?php else : ?>
+                <?php $status = 'unpublished '; ?>
+            <?php endif; ?>
+            <tr id="tr-<?php echo $module->id; ?>" class="<?php echo $no; ?><?php echo $status; ?>row<?php echo $i % 2; ?>">
+                <th scope="row">
+                    <?php $popupOptions['src'] = Route::_('index.php?option=com_modules&task=module.edit&tmpl=component&layout=modal&id=' . $module->id, false); ?>
+                    <button type="button"
+                        data-joomla-dialog="<?php echo $this->escape(json_encode($popupOptions, JSON_UNESCAPED_SLASHES)) ?>"
+                        class="btn btn-link module-edit-link"
+                        title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>"
+                        id="title-<?php echo $module->id; ?>" data-module-id="<?php echo $module->id; ?>"
+                        data-checkin-url="<?php echo Route::_('index.php?option=com_modules&task=modules.checkin&format=json&cid[]=' . $module->id); ?>">
+                        <?php echo $this->escape($module->title); ?></button>
+                </th>
+                <td id="access-<?php echo $module->id; ?>">
+                    <?php echo $this->escape($module->access_title); ?>
+                </td>
+                <td id="position-<?php echo $module->id; ?>">
+                    <?php echo $this->escape($module->position); ?>
+                </td>
+                <td id="menus-<?php echo $module->id; ?>">
+                    <?php if ($moduleNotAssigned) : ?>
+                        <span class="badge bg-danger">
+                            <?php echo Text::_('JNO'); ?>
+                        </span>
+                    <?php elseif (($assignment < 0 && !$isAssigned) || ($assignment > 0 && $isAssigned)) : ?>
+                        <span class="badge bg-success">
+                            <?php echo Text::_('JYES'); ?>
+                        </span>
+                    <?php else : ?>
+                        <span class="badge bg-info">
+                            <?php echo Text::_('JALL'); ?>
+                        </span>
+                    <?php endif; ?>
+                </td>
+                <td id="status-<?php echo $module->id; ?>">
+                    <?php if ($module->published) : ?>
                         <span class="badge bg-success">
                             <?php echo Text::_('JYES'); ?>
                         </span>
@@ -114,32 +130,8 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
                             <?php echo Text::_('JNO'); ?>
                         </span>
                     <?php endif; ?>
-                <?php elseif ($module->menuid > 0) : ?>
-                    <span class="badge bg-success">
-                        <?php echo Text::_('JYES'); ?>
-                    </span>
-                <?php elseif ($module->menuid < 0) : ?>
-                    <span class="badge bg-danger">
-                        <?php echo Text::_('JNO'); ?>
-                    </span>
-                <?php else : ?>
-                    <span class="badge bg-info">
-                        <?php echo Text::_('JALL'); ?>
-                    </span>
-                <?php endif; ?>
-            </td>
-            <td id="status-<?php echo $module->id; ?>">
-                <?php if ($module->published) : ?>
-                    <span class="badge bg-success">
-                        <?php echo Text::_('JYES'); ?>
-                    </span>
-                <?php else : ?>
-                    <span class="badge bg-danger">
-                        <?php echo Text::_('JNO'); ?>
-                    </span>
-                <?php endif; ?>
-            </td>
-        </tr>
-    <?php endforeach; ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
     </tbody>
 </table>

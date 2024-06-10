@@ -175,7 +175,7 @@ abstract class ModulesHelper
             $path      = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
             $source    = $path . "/modules/$extension";
             $lang->load("$extension.sys", $path)
-            || $lang->load("$extension.sys", $source);
+                || $lang->load("$extension.sys", $source);
             $modules[$i]->text = Text::_($module->text);
         }
 
@@ -199,7 +199,9 @@ abstract class ModulesHelper
 
         if ($clientId == 0) {
             $options[] = HTMLHelper::_('select.option', '1', 'COM_MODULES_OPTION_MENU_INCLUDE');
+            $options[] = HTMLHelper::_('select.option', '2', 'COM_MODULES_OPTION_MENU_INCLUDE_WITHOUT_CHILDS');
             $options[] = HTMLHelper::_('select.option', '-1', 'COM_MODULES_OPTION_MENU_EXCLUDE');
+            $options[] = HTMLHelper::_('select.option', '-2', 'COM_MODULES_OPTION_MENU_EXCLUDE_WITHOUT_CHILDS');
         }
 
         return $options;
@@ -227,9 +229,9 @@ abstract class ModulesHelper
         // Only load the template's language file if it hasn't been already
         if (!$loaded) {
             $lang->load('tpl_' . $template . '.sys', $path, null, false, false)
-            || $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, null, false, false)
-            || $lang->load('tpl_' . $template . '.sys', $path, $lang->getDefault(), false, false)
-            || $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, $lang->getDefault(), false, false);
+                || $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, null, false, false)
+                || $lang->load('tpl_' . $template . '.sys', $path, $lang->getDefault(), false, false)
+                || $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, $lang->getDefault(), false, false);
         }
 
         $langKey = strtoupper('TPL_' . $template . '_POSITION_' . $position);

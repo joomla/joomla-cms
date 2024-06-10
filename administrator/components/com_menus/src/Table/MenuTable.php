@@ -12,7 +12,6 @@ namespace Joomla\Component\Menus\Administrator\Table;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Menu;
-use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -40,14 +39,45 @@ class MenuTable extends Menu
         $return = parent::delete($pk, $children);
 
         if ($return) {
-            // Delete key from the #__modules_menu table
+            /** @TODO Improve this when the database driver support the JSON data type.
+             *  Delete menu item id from the #__modules.menu_assignment assigned array
+             */
             $db    = $this->getDbo();
-            $query = $db->getQuery(true)
-                ->delete($db->quoteName('#__modules_menu'))
-                ->where($db->quoteName('menuid') . ' = :pk')
-                ->bind(':pk', $pk, ParameterType::INTEGER);
-            $db->setQuery($query);
-            $db->execute();
+            $query = $db->createQuery()
+                ->select($db->quoteName(['id', 'menu_assignment']))
+                ->from($db->quoteName('#__modules'))
+                ->where(
+                    [
+                        $db->quoteName('client_id') . ' = 0',
+                        $db->quoteName('menu_assignment') . ' IS NOT NULL',
+                    ]
+                );
+
+            $iterator = $db->setQuery($query)->getIterator() ;
+
+            if (\count($iterator)) {
+                foreach ($iterator as $row) {
+                    $moduleAssignment = json_decode($row->menu_assignment);
+                    $currentPages     = $moduleAssignment->assigned ?? [];
+
+                    if (\count($currentPages)) {
+                        $newPages = array_filter($currentPages, function ($itemId) use ($pk) {
+                            return $pk != $itemId;
+                        });
+
+                        // Update only if the module was assigned to the menu item
+                        if (\count($currentPages) != \count($newPages)) {
+                            $moduleAssignment->assigned = $newPages;
+
+                            $row->menu_assignment = json_encode($moduleAssignment);
+
+                            $db->updateObject('#__modules', $row, ['id']);
+                        }
+                    }
+                }
+            }
+
+            unset($iterator);
         }
 
         return $return;

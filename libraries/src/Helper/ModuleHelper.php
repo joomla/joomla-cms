@@ -416,13 +416,8 @@ abstract class ModuleHelper
         $query   = $db->getQuery(true);
         $nowDate = Factory::getDate()->toSql();
 
-        $query->select($db->quoteName(['m.id', 'm.title', 'm.module', 'm.position', 'm.content', 'm.showtitle', 'm.params', 'mm.menuid']))
+        $query->select($db->quoteName(['m.id', 'm.title', 'm.module', 'm.position', 'm.content', 'm.showtitle', 'm.params', 'm.menu_assignment']))
             ->from($db->quoteName('#__modules', 'm'))
-            ->join(
-                'LEFT',
-                $db->quoteName('#__modules_menu', 'mm'),
-                $db->quoteName('mm.moduleid') . ' = ' . $db->quoteName('m.id')
-            )
             ->join(
                 'LEFT',
                 $db->quoteName('#__extensions', 'e'),
@@ -436,35 +431,31 @@ abstract class ModuleHelper
                     $db->quoteName('m.client_id') . ' = :clientId',
                 ]
             )
-            ->bind(':clientId', $clientId, ParameterType::INTEGER)
-            ->whereIn($db->quoteName('m.access'), $groups)
-            ->extendWhere(
-                'AND',
-                [
-                    $db->quoteName('m.publish_up') . ' IS NULL',
-                    $db->quoteName('m.publish_up') . ' <= :publishUp',
-                ],
-                'OR'
-            )
-            ->bind(':publishUp', $nowDate)
-            ->extendWhere(
-                'AND',
-                [
-                    $db->quoteName('m.publish_down') . ' IS NULL',
-                    $db->quoteName('m.publish_down') . ' >= :publishDown',
-                ],
-                'OR'
-            )
-            ->bind(':publishDown', $nowDate)
-            ->extendWhere(
-                'AND',
-                [
-                    $db->quoteName('mm.menuid') . ' = :itemId',
-                    $db->quoteName('mm.menuid') . ' <= 0',
-                ],
-                'OR'
-            )
-            ->bind(':itemId', $itemId, ParameterType::INTEGER);
+            ->bind(':clientId', $clientId, ParameterType::INTEGER);
+
+        if ($clientId === 0) {
+            $query->where($db->quoteName('menu_assignment') . ' IS NOT NULL');
+        }
+
+        $query->whereIn($db->quoteName('m.access'), $groups)
+        ->extendWhere(
+            'AND',
+            [
+                $db->quoteName('m.publish_up') . ' IS NULL',
+                $db->quoteName('m.publish_up') . ' <= :publishUp',
+            ],
+            'OR'
+        )
+        ->bind(':publishUp', $nowDate)
+        ->extendWhere(
+            'AND',
+            [
+                $db->quoteName('m.publish_down') . ' IS NULL',
+                $db->quoteName('m.publish_down') . ' >= :publishDown',
+            ],
+            'OR'
+        )
+        ->bind(':publishDown', $nowDate);
 
         // Filter by language
         if ($app->isClient('site') && $app->getLanguageFilter() || $app->isClient('administrator') && static::isAdminMultilang()) {
@@ -498,6 +489,50 @@ abstract class ModuleHelper
     }
 
     /**
+     * Check if the module is allowed in the current page
+     *
+     * @param   \stdClass                  $pages     The module menu assignment
+     * @param   \Joomla\CMS\Input\Input    $input     Current page
+     * @param   \Joomla\CMS\Menu\MenuItem  $menuItem  Active menu item in place
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function allowModuleInPage($pages, $input, $menuItem): bool
+    {
+        if (!isset($pages->assignment, $pages->assigned)) {
+            return false;
+        }
+
+        // Return early if the module is set for ALL menu items
+        if ($pages->assignment == 0) {
+            return true;
+        }
+
+        $assignment = $pages->assignment;
+        $assigned   = $pages->assigned;
+        $menuItemId = $menuItem->id;
+
+        if ($assignment == -2 || $assignment == 2) {
+            // Can be null if is the default home page
+            $inputDataId = $input->getInt('id') ?? $input->getInt('Itemid');
+            $menuQueryId = (int) ($menuItem->query['id'] ?? $menuItemId);
+
+            // Check we are not inside a child page
+            if (
+                $input->getString('option') != $menuItem->query['option'] ||
+                $input->getString('view') != $menuItem->query['view'] ||
+                $inputDataId != $menuQueryId
+            ) {
+                return false;
+            }
+        }
+
+        $allow = \in_array($menuItemId, $assigned);
+
+        return $assignment > 0 ? $allow : !$allow;
+    }
+
+    /**
      * Clean the module list
      *
      * @param   array  $modules  Array with module objects
@@ -506,20 +541,27 @@ abstract class ModuleHelper
      */
     public static function cleanModuleList($modules)
     {
-        // Apply negative selections and eliminate duplicates
-        $Itemid = Factory::getApplication()->getInput()->getInt('Itemid');
-        $negId  = $Itemid ? -(int) $Itemid : false;
+        $app  = Factory::getApplication();
+        $menu = $app->getMenu();
+
+        $active = $menu->getActive();
+        $input  = $app->getInput();
         $clean  = [];
         $dupes  = [];
+        $allow  = true;
 
         foreach ($modules as $i => $module) {
-            // The module is excluded if there is an explicit prohibition
-            $negHit = ($negId === (int) $module->menuid);
+            // Only for site modules
+            if (!\is_null($module->menu_assignment)) {
+                $pages = json_decode($module->menu_assignment);
+                $allow = static::allowModuleInPage($pages, $input, $active);
+            }
 
+            // Eliminate duplicates
             if (isset($dupes[$module->id])) {
                 // If this item has been excluded, keep the duplicate flag set,
                 // but remove any item from the modules array.
-                if ($negHit) {
+                if (!$allow) {
                     unset($clean[$module->id]);
                 }
 
@@ -529,7 +571,7 @@ abstract class ModuleHelper
             $dupes[$module->id] = true;
 
             // Only accept modules without explicit exclusions.
-            if ($negHit) {
+            if (!$allow) {
                 continue;
             }
 

@@ -248,19 +248,6 @@ class ModuleAdapter extends InstallerAdapter
             // Ensure the list is sane
             $modules = ArrayHelper::toInteger($modules);
 
-            // Wipe out any items assigned to menus
-            $query = $db->getQuery(true)
-                ->delete($db->quoteName('#__modules_menu'))
-                ->whereIn($db->quoteName('moduleid'), $modules);
-            $db->setQuery($query);
-
-            try {
-                $db->execute();
-            } catch (\RuntimeException $e) {
-                Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $e->getMessage()), Log::WARNING, 'jerror');
-                $retval = false;
-            }
-
             // Wipe out any instances in the modules table
             /** @var \Joomla\CMS\Table\Module $module */
             $module = Table::getInstance('Module');

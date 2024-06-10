@@ -42,23 +42,40 @@ class ModulesModel extends ListModel
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
-                'id', 'a.id',
-                'title', 'a.title',
-                'checked_out', 'a.checked_out',
-                'checked_out_time', 'a.checked_out_time',
-                'published', 'a.published', 'state',
-                'access', 'a.access',
-                'ag.title', 'access_level',
-                'ordering', 'a.ordering',
-                'module', 'a.module',
-                'language', 'a.language',
-                'l.title', 'language_title',
-                'publish_up', 'a.publish_up',
-                'publish_down', 'a.publish_down',
-                'client_id', 'a.client_id',
-                'position', 'a.position',
+                'id',
+                'a.id',
+                'title',
+                'a.title',
+                'checked_out',
+                'a.checked_out',
+                'checked_out_time',
+                'a.checked_out_time',
+                'published',
+                'a.published',
+                'state',
+                'access',
+                'a.access',
+                'ag.title',
+                'access_level',
+                'ordering',
+                'a.ordering',
+                'module',
+                'a.module',
+                'language',
+                'a.language',
+                'l.title',
+                'language_title',
+                'publish_up',
+                'a.publish_up',
+                'publish_down',
+                'a.publish_down',
+                'client_id',
+                'a.client_id',
+                'position',
+                'a.position',
                 'pages',
-                'name', 'e.name',
+                'name',
+                'e.name',
                 'menuitem',
             ];
         }
@@ -174,11 +191,38 @@ class ModulesModel extends ListModel
 
         $db = $this->getDatabase();
 
+        /** @TODO Handle proper this in getListQuery(). One way can be, when the database driver support the JSON data type
+         *  Filter by menuitem id (only for site client).
+         */
+        $clientId = (int) $this->getState('client_id');
+
+        if ($clientId === 0 && $menuItemId = $this->getState('filter.menuitem')) {
+            $preQuery       = clone $query;
+            $resultFiltered = $db->setQuery($preQuery)->loadObjectList();
+
+            // $assigned is empty when the module is set to NONE but also when is set to ALL menu items
+            $resultFiltered = array_filter($resultFiltered, function ($module) use ($menuItemId) {
+
+                if (!\is_null($module->pages)) {
+                    $menuAssignment = json_decode($module->pages, true);
+                    $assignment     = $menuAssignment['assignment'];
+                    $assigned       = $menuAssignment['assigned'];
+
+                    if ((int) $menuItemId === -1) {
+                        return empty($assigned) && $assignment === '-';
+                    }
+                    return \in_array($menuItemId, $assigned) || $assignment === 0;
+                }
+
+                return (int) $menuItemId === -1;
+            });
+        }
+
         // If ordering by fields that need translate we need to sort the array of objects after translating them.
         if (\in_array($listOrder, ['pages', 'name'])) {
             // Fetch the results.
-            $db->setQuery($query);
-            $result = $db->loadObjectList();
+
+            $result = $resultFiltered ?? $db->setQuery($query)->loadObjectList();
 
             // Translate the results.
             $this->translate($result);
@@ -196,6 +240,20 @@ class ModulesModel extends ListModel
             }
 
             return \array_slice($result, $limitstart, $limit ?: null);
+        }
+
+        // If menuitem filter is active, get only the modules set to that menuitem
+        if (isset($resultFiltered)) {
+            if (!empty($resultFiltered)) {
+                foreach ($resultFiltered as $module) {
+                    $modulesID[] = $module->id;
+                }
+            } else {
+                // then set to none
+                $modulesID[] = '-';
+            }
+
+            $query->whereIn($db->quoteName('a.id'), $modulesID);
         }
 
         // If ordering by fields that doesn't need translate just order the query.
@@ -237,15 +295,22 @@ class ModulesModel extends ListModel
                 || $lang->load("$extension.sys", $source);
             $item->name = Text::_($item->name);
 
-            if (\is_null($item->pages)) {
-                $item->pages = Text::_('JNONE');
-            } elseif ($item->pages < 0) {
-                $item->pages = Text::_('COM_MODULES_ASSIGNED_VARIES_EXCEPT');
-            } elseif ($item->pages > 0) {
-                $item->pages = Text::_('COM_MODULES_ASSIGNED_VARIES_ONLY');
-            } else {
-                $item->pages = Text::_('JALL');
+            $assignedTo = Text::_('JNONE');
+
+            if (!\is_null($item->pages)) {
+                $pages = json_decode($item->pages, true);
+
+                if (is_numeric($pages['assignment'])) {
+                    $assignment = (int) $pages['assignment'];
+                    $assignedTo = match (true) {
+                        $assignment < 0 => Text::_('COM_MODULES_ASSIGNED_VARIES_EXCEPT'),
+                        $assignment > 0 => Text::_('COM_MODULES_ASSIGNED_VARIES_ONLY'),
+                        default         => Text::_('JALL'),
+                    };
+                }
             }
+
+            $item->pages = $assignedTo;
         }
     }
 
@@ -265,7 +330,7 @@ class ModulesModel extends ListModel
             $this->getState(
                 'list.select',
                 'a.id, a.title, a.note, a.position, a.module, a.language,' .
-                    'a.checked_out, a.checked_out_time, a.published AS published, e.enabled AS enabled, a.access, a.ordering, a.publish_up, a.publish_down'
+                'a.checked_out, a.checked_out_time, a.published AS published, e.enabled AS enabled, a.access, a.ordering, a.publish_up, a.publish_down, a.menu_assignment AS pages'
             )
         );
 
@@ -285,10 +350,6 @@ class ModulesModel extends ListModel
         $query->select($db->quoteName('ag.title', 'access_level'))
             ->join('LEFT', $db->quoteName('#__viewlevels', 'ag') . ' ON ' . $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'));
 
-        // Join over the module menus
-        $query->select('MIN(mm.menuid) AS pages')
-            ->join('LEFT', $db->quoteName('#__modules_menu', 'mm') . ' ON ' . $db->quoteName('mm.moduleid') . ' = ' . $db->quoteName('a.id'));
-
         // Join over the extensions
         $query->select($db->quoteName('e.name', 'name'))
             ->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('a.module'));
@@ -297,7 +358,7 @@ class ModulesModel extends ListModel
         $query->group(
             'a.id, a.title, a.note, a.position, a.module, a.language, a.checked_out, '
             . 'a.checked_out_time, a.published, a.access, a.ordering, l.title, l.image, uc.name, ag.title, e.name, '
-            . 'l.lang_code, uc.id, ag.id, mm.moduleid, e.element, a.publish_up, a.publish_down, e.enabled'
+            . 'l.lang_code, uc.id, ag.id, e.element, a.publish_up, a.publish_down, e.enabled'
         );
 
         // Filter by client.
@@ -345,44 +406,6 @@ class ModulesModel extends ListModel
         if ($module = $this->getState('filter.module')) {
             $query->where($db->quoteName('a.module') . ' = :module')
                 ->bind(':module', $module);
-        }
-
-        // Filter by menuitem id (only for site client).
-        if ((int) $clientId === 0 && $menuItemId = $this->getState('filter.menuitem')) {
-            // If user selected the modules not assigned to any page (menu item).
-            if ((int) $menuItemId === -1) {
-                $query->having('MIN(' . $db->quoteName('mm.menuid') . ') IS NULL');
-            } else {
-                // If user selected the modules assigned to some particular page (menu item).
-                // Modules in "All" pages.
-                $subQuery1 = $db->getQuery(true);
-                $subQuery1->select('MIN(' . $db->quoteName('menuid') . ')')
-                    ->from($db->quoteName('#__modules_menu'))
-                    ->where($db->quoteName('moduleid') . ' = ' . $db->quoteName('a.id'));
-
-                // Modules in "Selected" pages that have the chosen menu item id.
-                $menuItemId      = (int) $menuItemId;
-                $minusMenuItemId = $menuItemId * -1;
-                $subQuery2       = $db->getQuery(true);
-                $subQuery2->select($db->quoteName('moduleid'))
-                    ->from($db->quoteName('#__modules_menu'))
-                    ->where($db->quoteName('menuid') . ' = :menuitemid2');
-
-                // Modules in "All except selected" pages that doesn't have the chosen menu item id.
-                $subQuery3 = $db->getQuery(true);
-                $subQuery3->select($db->quoteName('moduleid'))
-                    ->from($db->quoteName('#__modules_menu'))
-                    ->where($db->quoteName('menuid') . ' = :menuitemid3');
-
-                // Filter by modules assigned to the selected menu item.
-                $query->where('(
-                    (' . $subQuery1 . ') = 0
-                    OR ((' . $subQuery1 . ') > 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery2 . '))
-                    OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' NOT IN (' . $subQuery3 . '))
-                    )');
-                $query->bind(':menuitemid2', $menuItemId, ParameterType::INTEGER);
-                $query->bind(':menuitemid3', $minusMenuItemId, ParameterType::INTEGER);
-            }
         }
 
         // Filter by search in title or note or id:.
