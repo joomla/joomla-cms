@@ -19,7 +19,7 @@ It is simplified to offer an initial understanding. Detailed explanations follow
 
 On the left, **Cypress** is running as a [Node.js](https://nodejs.org/) application. The file **`cypress.config.js`** is used to configure settings and preferences for running the System Tests in your environment.
 
-In the middle, the **Cypress Test Runner** controls a **Browser** with the **Joomla** application running HTML, CSS, and JavaScript. Also running in browser context are the **Database Commands**, the **API commands** and the npm packages **[joomala-cypress](https://github.com/joomla-projects/joomla-cypress/)** and
+In the middle, the **Cypress Test Runner** controls a **Browser** with the **Joomla** application running HTML, CSS, and JavaScript. Also running in the browser context are the **Database Commands**, the **API commands** and the npm packages **[joomala-cypress](https://github.com/joomla-projects/joomla-cypress/)** and
 **[smtp-tester](https://www.npmjs.com/package/smtp-tester)**.
 
 The **Joomla** CMS server software is depicted on the right. It runs with PHP on the **Web Server** and includes
