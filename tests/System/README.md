@@ -23,7 +23,7 @@ In the middle, the **Cypress Test Runner** controls a **Browser** with the **Joo
 **[smtp-tester](https://www.npmjs.com/package/smtp-tester)**.
 
 The **Joomla** CMS server software is depicted on the right. It runs with PHP on the **Web Server** and includes
-several key components: the public **User-Frontend**, the administrator **Admin-Backend**, the **API**, and the **Web-Installer**. These components and their interactions will be detailed further later in the document.
+several key components: the public **User-Frontend**, the administrator **Admin-Backend**, the **API**, and the **Web-Installer**. These components and their interactions will be detailed later in the document.
 The file **`configuration.php`** is used to configure settings for Joomla server software.
 
 Joomla uses a **Database**, and the System Tests do as well.
