@@ -100,7 +100,7 @@ which are numbered and described below.
 
 ![System Tests Architecture with 10 Interactions](images/system-tests-interactions.svg)
 
-1. **Cypress** starts the **Browser** and runs **Cypress Test Runner** to control Joomla running in browser and access the DOM.
+1. **Cypress** starts the **Browser** and runs **Cypress Test Runner** to control Joomla running in the browser and access the DOM.
 2. **Joomla** software running in the browser sends requests to the **Web Server** and receives responses just as it would during normal use, even without tests.
 3. The Cypress custom **API commands** (described later) interact with the Joomla **API** on the Web Server.
 4. Cypress **Tasks** are used to execute code within the Cypress Node.js context. These tasks are triggered by the Cypress Test Runner, which runs in the browser, and are typically used for operations like
