@@ -281,7 +281,7 @@ The reason for this error is that Cypress first creates the Joomla file `configu
 Subsequently, some of the parameters in this file are adopted by Cypress under the current user.
 If the Web Server and Cypress are run by different users, this can lead to file access issues.
 
-:point_right: You have to give the user running Cypress the right to write `configuration.php`
+:point_right: You have to give the user running Cypress the permission to write `configuration.php`
 e.g. with the command `sudo` on macOS, Linux or Windows WSL 2:
 ```
 sudo npx cypress run
