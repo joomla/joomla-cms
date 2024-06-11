@@ -180,7 +180,11 @@ The following code in a test executes the writing file task with parameters:
 
 ### Commands
 
-Commands are reusable code snippets which can be used in every test. Cypress allows to add [custom commands](https://docs.cypress.io/api/cypress-api/custom-commands) so we can use them across our tests. They can be used to create objects in the database or to call an API. As Cypress doesn't support namespaces for commands they must be prefixed with the file name and an underscore. So a Database Command starts always with `db_` and an API one with `api_`.
+We are using [custom commands](https://docs.cypress.io/api/cypress-api/custom-commands) to enhance Cypress
+with reusable code snippets for the System Tests.
+These commands can be used to create objects in the database or to call the API.
+Since Cypress doesn't support namespaces for commands, we prefix them in the function name.
+Therefore, a Database Command always starts with `db_`, and an API command with `api_`.
 
 Commands can be called like a normal function, for example there is a command to create article in the database:
 ```JavaScript
