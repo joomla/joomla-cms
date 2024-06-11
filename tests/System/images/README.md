@@ -3,7 +3,7 @@
 Software architecture images are:
 * Stored in their original format as OpenOffice Draw (ODG) files and used as SVGs.
 * Designed to work in both light and dark color modes.
-* Using Joomla logo colors and the Ubuntu font.
+* Using Joomla logo colours and the Ubuntu font.
 * Avoid using transparency, as it may not be displayed correctly in Firefox and Safari.
 
 To create an SVG from an ODG file format:
