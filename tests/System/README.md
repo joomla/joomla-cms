@@ -315,7 +315,7 @@ If you encounter the following error while running the System Tests on slow mach
      AssertionError: Timed out retrying after 4000ms: Expected to find element
 ```
 
-:point_right: You can increase the default 4-second waiting time in the cypress.config.js file:
+:point_right: You can increase the default 4 second waiting time in the cypress.config.js file:
 
 ```JavaScript
     module.exports = {
