@@ -1,0 +1,14 @@
+:root[data-color-scheme="dark"] {
+  --_access-menu-background-color: #000;
+  --_access-menu-item-button-background: #222;
+  --_access-menu-item-color: rgba(255,255,255,.6);
+  --_access-menu-header-color: rgba(255,255,255,.87);
+  --_access-menu-item-button-active-color: #000;
+  --_access-menu-item-button-active-background-color: #fff;
+  --_access-menu-div-active-background-color: #fff;
+  --_access-menu-item-button-hover-color: rgba(255,255,255,.8);
+  --_access-menu-item-button-hover-background-color: #121212;
+  --_access-menu-item-icon-color: rgba(255,255,255,.6);
+  --_access-menu-item-hover-icon-color: rgba(255,255,255,.8);
+  --_access-menu-item-active-icon-color: #000;
+}

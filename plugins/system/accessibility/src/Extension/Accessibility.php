@@ -129,6 +129,7 @@ final class Accessibility extends CMSPlugin
 
         $document->getWebAssetManager()
             ->useScript('accessibility')
+            ->registerAndUseStyle('accessibility', 'plg_system_accessibility/accessibility.css')
             ->addInlineScript(
                 'window.addEventListener("load", function() {'
                 . 'new Accessibility(Joomla.getOptions("accessibility-options") || {});'
