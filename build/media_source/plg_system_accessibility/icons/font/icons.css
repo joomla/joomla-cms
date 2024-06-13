@@ -1,0 +1,92 @@
+:root {
+  --_access-menu-item-icon-increase-text: "\f111";
+  --_access-menu-item-icon-decrease-text: "\f110";
+  --_access-menu-item-icon-increase-text-spacing: "\f10e";
+  --_access-menu-item-icon-decrease-text-spacing: "\f10d";
+  --_access-menu-item-icon-invert-colors: "\f105";
+  --_access-menu-item-icon-gray-hues: "\f103";
+  --_access-menu-item-icon-underline-links: "\f112";
+  --_access-menu-item-icon-big-cursor: "\f108";
+  --_access-menu-item-icon-reading-guide: "\f10b";
+  --_access-menu-item-icon-text-to-speech: "\f10f";
+  /* --_access-menu-item-icon-speech-to-text:  */
+  --_access-menu-item-icon-disable-animations: "\f109";
+  /* --_access-menu-item-icon-iframe-modals:
+  --_access-menu-item-icon-custom-functions */
+  --_access-menu-item-icon-decrease-line-height: "\f106";
+  --_access-menu-item-icon-increase-line-height: "\f107";
+}
+
+@font-face {
+  font-display: block;
+  font-family: "icons";
+  src: url("./icons.eot?c7aded2068771ec142dde58872861433#iefix") format("embedded-opentype"),
+url("./icons.woff2?c7aded2068771ec142dde58872861433") format("woff2"),
+url("./icons.woff?c7aded2068771ec142dde58872861433") format("woff");
+}
+
+i[class^="icon-"]::before, i[class*=" icon-"]::before {
+  font-family: icons !important;
+  font-style: normal;
+  font-weight: normal !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-accessibility::before {
+  content: "\f101";
+}
+.icon-close::before {
+  content: "\f102";
+}
+.icon-grayscale::before {
+  content: "\f103";
+}
+.icon-grayscale2::before {
+  content: "\f104";
+}
+.icon-invert::before {
+  content: "\f105";
+}
+.icon-line-height-decrease::before {
+  content: "\f106";
+}
+.icon-line-height-increase::before {
+  content: "\f107";
+}
+.icon-mouse::before {
+  content: "\f108";
+}
+.icon-no-animations::before {
+  content: "\f109";
+}
+.icon-reset::before {
+  content: "\f10a";
+}
+.icon-ruler::before {
+  content: "\f10b";
+}
+.icon-signspace::before {
+  content: "\f10c";
+}
+.icon-signspacedecrease::before {
+  content: "\f10d";
+}
+.icon-signspaceincrease::before {
+  content: "\f10e";
+}
+.icon-speak::before {
+  content: "\f10f";
+}
+.icon-textdecrease::before {
+  content: "\f110";
+}
+.icon-textincrease::before {
+  content: "\f111";
+}
+.icon-underline::before {
+  content: "\f112";
+}

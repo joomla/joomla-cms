@@ -1,0 +1,20 @@
+{
+    "accessibility": 61697,
+    "close": 61698,
+    "grayscale": 61699,
+    "grayscale2": 61700,
+    "invert": 61701,
+    "line-height-decrease": 61702,
+    "line-height-increase": 61703,
+    "mouse": 61704,
+    "no-animations": 61705,
+    "reset": 61706,
+    "ruler": 61707,
+    "signspace": 61708,
+    "signspacedecrease": 61709,
+    "signspaceincrease": 61710,
+    "speak": 61711,
+    "textdecrease": 61712,
+    "textincrease": 61713,
+    "underline": 61714
+}
