@@ -22,7 +22,7 @@ use Joomla\CMS\String\PunycodeHelper;
 
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
@@ -131,7 +131,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                     </div>
                                     <?php echo HTMLHelper::_('users.notesModal', $item->note_count, $item->id); ?>
                                     <?php if ($item->requireReset == '1') : ?>
-                                        <span class="badge bg-warning text-dark"><?php echo Text::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
+                                        <span class="badge bg-warning"><?php echo Text::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
                                     <?php endif; ?>
                                 </th>
                                 <td class="break-word d-none d-md-table-cell">
@@ -146,14 +146,17 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                     <?php endif; ?>
                                 </td>
                                 <td class="text-center d-md-table-cell">
-                                    <?php
-                                    $activated = empty($item->activation) ? 0 : 1;
-                                    echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.activateStates'), $activated, $i, 'users.', (bool) $activated);
-                                    ?>
+                                    <?php if (empty($item->activation)) : ?>
+                                        <span class="icon-check" aria-hidden="true" aria-describedby="tip-activated<?php echo $i; ?>"></span>
+                                        <div role="tooltip" id="tip-activated<?php echo $i; ?>">
+                                            <?php echo Text::_('COM_USERS_ACTIVATED'); ?>
+                                        </div>
+                                    <?php else : ?>
+                                        <?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.activateStates'), 1, $i, 'users.', true); ?>
+                                    <?php endif; ?>
                                 </td>
                                 <?php if ($mfa) : ?>
                                 <td class="text-center d-none d-md-table-cell">
-                                    <span class="tbody-icon">
                                     <?php if ($item->mfaRecords > 0 || !empty($item->otpKey)) : ?>
                                         <span class="icon-check" aria-hidden="true" aria-describedby="tip-mfa<?php echo $i; ?>"></span>
                                         <div role="tooltip" id="tip-mfa<?php echo $i; ?>">
@@ -165,7 +168,6 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                             <?php echo Text::_('COM_USERS_MFA_NOTACTIVE'); ?>
                                         </div>
                                     <?php endif; ?>
-                                    </span>
                                 </td>
                                 <?php endif; ?>
                                 <td class="d-none d-md-table-cell">
@@ -184,7 +186,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                     </a>
                                 </td>
                                 <td class="d-none d-xl-table-cell break-word">
-                                    <?php echo PunycodeHelper::emailToUTF8($this->escape($item->email)); ?>
+                                    <?php echo $this->escape(PunycodeHelper::emailToUTF8($item->email)); ?>
                                 </td>
                                 <td class="d-none d-xl-table-cell">
                                     <?php if ($item->lastvisitDate !== null) : ?>
@@ -214,15 +216,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                         && $loggeduser->authorise('core.edit', 'com_users')
                         && $loggeduser->authorise('core.edit.state', 'com_users')
                     ) : ?>
-                        <?php echo HTMLHelper::_(
-                            'bootstrap.renderModal',
-                            'collapseModal',
-                            [
-                                'title'  => Text::_('COM_USERS_BATCH_OPTIONS'),
-                                'footer' => $this->loadTemplate('batch_footer'),
-                            ],
-                            $this->loadTemplate('batch_body')
-                        ); ?>
+                        <template id="joomla-dialog-batch"><?php echo $this->loadTemplate('batch_body'); ?></template>
                     <?php endif; ?>
                 <?php endif; ?>
 

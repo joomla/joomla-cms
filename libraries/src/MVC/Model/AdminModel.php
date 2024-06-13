@@ -254,6 +254,7 @@ abstract class AdminModel extends FormModel
                 'save'         => 'content',
                 'change_state' => 'content',
                 'validate'     => 'content',
+                'batch'        => 'content',
             ],
             $config['events_map']
         );
@@ -295,6 +296,7 @@ abstract class AdminModel extends FormModel
         }
 
         $done = false;
+        PluginHelper::importPlugin($this->events_map['batch']);
 
         // Initialize re-usable member properties
         $this->initBatch();
@@ -975,7 +977,7 @@ abstract class AdminModel extends FormModel
      *
      * @param   integer  $pk  The id of the primary key.
      *
-     * @return  CMSObject|boolean  Object on success, false on failure.
+     * @return  \stdClass|false  Object on success, false on failure.
      *
      * @since   1.6
      */
@@ -1140,7 +1142,7 @@ abstract class AdminModel extends FormModel
         }
 
         // Attempt to change the state of the records.
-        if (!$table->publish($pks, $value, $user->get('id'))) {
+        if (!$table->publish($pks, $value, $user->id)) {
             $this->setError($table->getError());
 
             return false;

@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -113,7 +114,7 @@ class StylesModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return  QueryInterface
      */
     protected function getListQuery()
     {
@@ -240,12 +241,12 @@ class StylesModel extends ListModel
                 $query->extendWhere(
                     'AND',
                     [
-                        'LOWER(' . $db->quoteName('a.template') . ') LIKE :template',
+                        'LOWER(' . $db->quoteName('a.template') . ') LIKE :templatesearch',
                         'LOWER(' . $db->quoteName('a.title') . ') LIKE :title',
                     ],
                     'OR'
                 )
-                    ->bind(':template', $search)
+                    ->bind(':templatesearch', $search)
                     ->bind(':title', $search);
             }
         }

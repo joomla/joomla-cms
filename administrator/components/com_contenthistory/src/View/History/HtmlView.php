@@ -135,7 +135,6 @@ class HtmlView extends BaseHtmlView
             ->listCheck(true);
 
         $toolbar->basicButton('keep', 'COM_CONTENTHISTORY_BUTTON_KEEP', 'history.keep')
-            ->buttonClass('btn btn-inverse')
             ->icon('icon-lock')
             ->listCheck(true);
 

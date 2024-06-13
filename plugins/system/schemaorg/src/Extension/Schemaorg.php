@@ -164,6 +164,9 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
             $form->setFieldAttribute('schemainfo', 'description', $infoText, 'schema');
 
+            $form->setFieldAttribute('extendJed', 'type', 'hidden', 'schema');
+            $form->setFieldAttribute('extendJed', 'class', 'hidden', 'schema');
+
             return;
         }
 
@@ -273,7 +276,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
     public function onBeforeCompileHead(): void
     {
         $app      = $this->getApplication();
-        $baseType = $this->params->get('baseType');
+        $baseType = $this->params->get('baseType', 'organization');
 
         $itemId  = (int) $app->getInput()->getInt('id');
         $option  = $app->getInput()->get('option');
@@ -301,10 +304,10 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         $siteSchema = [];
 
-        $siteSchema['@type'] = ucfirst($this->params->get('baseType'));
+        $siteSchema['@type'] = ucfirst($baseType);
         $siteSchema['@id']   = $baseId;
 
-        $name = $this->params->get('name');
+        $name = $this->params->get('name', $app->get('sitename'));
 
         if ($isPerson && $this->params->get('user') > 0) {
             $user = $this->getUserFactory()->loadUserById($this->params->get('user'));

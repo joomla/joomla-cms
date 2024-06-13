@@ -22,6 +22,7 @@ import {
 } from '@codemirror/commands';
 import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
 import { closeBrackets } from '@codemirror/autocomplete';
+import { oneDark } from '@codemirror/theme-one-dark';
 
 const minimalSetup = (() => [
   highlightSpecialChars(),
@@ -60,7 +61,7 @@ const optionsToExtensions = async (options) => {
       extensions.push(modeMod[options.mode](modeOptions));
     }).catch((error) => {
       // eslint-disable-next-line no-console
-      console.error(`Cannot creat an extension for "${options.mode}" syntax mode.`, error);
+      console.error(`Cannot create an extension for "${options.mode}" syntax mode.`, error);
     }));
   }
 
@@ -104,6 +105,13 @@ const optionsToExtensions = async (options) => {
   readOnly.$j_name = 'readOnly';
   extensions.push(readOnly.of(EditorState.readOnly.of(!!options.readOnly)));
 
+  // Check for a skin that suits best for the active color scheme
+  // TODO: Use compartments to update on change of dark mode like: https://discuss.codemirror.net/t/dynamic-light-mode-dark-mode-how/4709
+  if (('colorSchemeOs' in document.documentElement.dataset && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    || document.documentElement.dataset.colorScheme === 'dark') {
+    extensions.push(oneDark);
+  }
+
   // Check for custom extensions,
   // in format [['module1 name or URL', ['init method2']], ['module2 name or URL', ['init method2']], () => <return extension>]
   if (options.customExtensions && options.customExtensions.length) {
@@ -117,9 +125,7 @@ const optionsToExtensions = async (options) => {
       const [module, methods] = extInfo;
       q.push(import(module).then((modObject) => {
         // Call each method
-        methods.forEach((method) => {
-          extensions.push(modObject[method]());
-        });
+        methods.forEach((method) => extensions.push(modObject[method]()));
       }));
     });
   }

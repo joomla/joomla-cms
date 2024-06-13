@@ -14,12 +14,15 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\User\AfterSaveEvent;
+use Joomla\CMS\Event\User\BeforeSaveEvent;
+use Joomla\CMS\Event\User\LoginEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
@@ -27,6 +30,7 @@ use Joomla\CMS\Router\SiteRouterAwareTrait;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -40,7 +44,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-final class LanguageFilter extends CMSPlugin
+final class LanguageFilter extends CMSPlugin implements SubscriberInterface
 {
     use SiteRouterAwareTrait;
 
@@ -155,6 +159,36 @@ final class LanguageFilter extends CMSPlugin
                 }
             }
         }
+
+        if (!\count($this->sefs)) {
+            $this->loadLanguage();
+            $app->enqueueMessage(Text::_('PLG_SYSTEM_LANGUAGEFILTER_ERROR_NO_CONTENT_LANGUAGE'), 'error');
+        }
+    }
+
+    /**
+     * Returns an array of CMS events this plugin will listen to and the respective handlers.
+     *
+     * @return  array
+     *
+     * @since  5.1.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        /**
+         * Note that onAfterInitialise must be the first handlers to run for this
+         * plugin to operate as expected. These handlers load compatibility code which
+         * might be needed by other plugins
+         */
+        return [
+            'onAfterInitialise'                 => 'onAfterInitialise',
+            'onAfterDispatch'                   => 'onAfterDispatch',
+            'onAfterRoute'                      => 'onAfterRoute',
+            'onPrivacyCollectAdminCapabilities' => 'onPrivacyCollectAdminCapabilities',
+            'onUserAfterSave'                   => 'onUserAfterSave',
+            'onUserBeforeSave'                  => 'onUserBeforeSave',
+            'onUserLogin'                       => 'onUserLogin',
+        ];
     }
 
     /**
@@ -525,8 +559,10 @@ final class LanguageFilter extends CMSPlugin
      *
      * @since   1.6
      */
-    public function onUserBeforeSave($user, $isnew, $new)
+    public function onUserBeforeSave(BeforeSaveEvent $event)
     {
+        $user = $event->getUser();
+
         if (\array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1) {
             $registry             = new Registry($user['params']);
             $this->user_lang_code = $registry->get('language');
@@ -551,8 +587,11 @@ final class LanguageFilter extends CMSPlugin
      *
      * @since   1.6
      */
-    public function onUserAfterSave($user, $isnew, $success, $msg): void
+    public function onUserAfterSave(AfterSaveEvent $event): void
     {
+        $user    = $event->getUser();
+        $success = $event->getSavingResult();
+
         if ($success && \array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1) {
             $registry  = new Registry($user['params']);
             $lang_code = $registry->get('language');
@@ -587,8 +626,10 @@ final class LanguageFilter extends CMSPlugin
      *
      * @since   1.5
      */
-    public function onUserLogin($user, $options = [])
+    public function onUserLogin(LoginEvent $event)
     {
+        $user = $event->getArgument('subject');
+
         if ($this->getApplication()->isClient('site')) {
             $menu = $this->getApplication()->getMenu();
 
@@ -606,7 +647,7 @@ final class LanguageFilter extends CMSPlugin
                 if (
                     !\array_key_exists($lang_code, $this->lang_codes)
                     || !\array_key_exists($lang_code, Multilanguage::getSiteHomePages())
-                    || !Folder::exists(JPATH_SITE . '/language/' . $lang_code)
+                    || !is_dir(JPATH_SITE . '/language/' . $lang_code)
                 ) {
                     $lang_code = $this->current_lang;
                 }
@@ -738,36 +779,36 @@ final class LanguageFilter extends CMSPlugin
             // For each language...
             foreach ($languages as $i => $language) {
                 switch (true) {
-                    // Language without frontend UI || Language without specific home menu || Language without authorized access level
                     case !\array_key_exists($i, LanguageHelper::getInstalledLanguages(0)):
                     case !isset($homes[$i]):
                     case isset($language->access) && $language->access && !\in_array($language->access, $levels):
+                        // Language without frontend UI || Language without specific home menu || Language without authorized access level
                         unset($languages[$i]);
                         break;
 
-                    // Home page
                     case $is_home:
+                        // Home page
                         $language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $homes[$i]->id);
                         break;
 
-                    // Current language link
                     case $i === $this->current_lang:
+                        // Current language link
                         $language->link = Route::_($currentInternalUrl);
                         break;
 
-                    // Component association
                     case isset($cassociations[$i]):
+                        // Component association
                         $language->link = Route::_($cassociations[$i]);
                         break;
 
-                    // Menu items association
-                    // Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
                     case isset($associations[$i]) && ($item = $menu->getItem($associations[$i])):
+                        // Menu items association
+                        // Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
                         $language->link = Route::_('index.php?Itemid=' . $item->id . '&lang=' . $language->sef);
                         break;
 
-                    // Too bad...
                     default:
+                        // Too bad...
                         unset($languages[$i]);
                 }
             }

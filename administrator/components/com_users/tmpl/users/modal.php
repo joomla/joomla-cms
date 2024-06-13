@@ -16,8 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Users\Administrator\View\Users\HtmlView $this */
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('multiselect')->useScript('modal-content-select');
 
 $input           = Factory::getApplication()->getInput();
@@ -33,8 +35,9 @@ $userRequired    = (int) $input->get('required', 0, 'int');
     <form action="<?php echo Route::_('index.php?option=com_users&view=users&layout=modal&tmpl=component&groups=' . $input->get('groups', '', 'BASE64') . '&excluded=' . $input->get('excluded', '', 'BASE64')); ?>" method="post" name="adminForm" id="adminForm">
         <?php if (!$userRequired) : ?>
         <div>
-            <button type="button" class="btn btn-primary button-select" data-user-value="0" data-user-name="<?php echo $this->escape(Text::_('JLIB_FORM_SELECT_USER')); ?>"
-                data-user-field="<?php echo $this->escape($field); ?>"><?php echo Text::_('JOPTION_NO_USER'); ?></button>&nbsp;
+            <button type="button" class="btn btn-primary button-select"
+                data-content-select data-content-type="com_users.user" data-id="" data-name=""
+                data-user-value="" data-user-name="" data-user-field="<?php echo $this->escape($field); ?>"><?php echo Text::_('JOPTION_NO_USER'); ?></button>&nbsp;
         </div>
         <?php endif; ?>
         <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>

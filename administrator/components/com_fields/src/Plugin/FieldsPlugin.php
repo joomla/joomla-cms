@@ -14,12 +14,12 @@ use Joomla\CMS\Event\CustomFields\GetTypesEvent;
 use Joomla\CMS\Event\CustomFields\PrepareDomEvent;
 use Joomla\CMS\Event\CustomFields\PrepareFieldEvent;
 use Joomla\CMS\Event\Model\PrepareFormEvent;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Filesystem\Folder;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -92,7 +92,7 @@ abstract class FieldsPlugin extends CMSPlugin
     {
         $result = $this->onCustomFieldsPrepareField($event->getContext(), $event->getItem(), $event->getField());
 
-        if ($result) {
+        if ($result !== '' && $result !== null) {
             $event->addResult($result);
         }
     }
@@ -201,7 +201,7 @@ abstract class FieldsPlugin extends CMSPlugin
      * @param   \stdclass  $item     The item.
      * @param   \stdclass  $field    The field.
      *
-     * @return  string
+     * @return  ?string
      *
      * @since   3.7.0
      */
@@ -235,7 +235,7 @@ abstract class FieldsPlugin extends CMSPlugin
      * @param   \DOMElement  $parent  The field node parent.
      * @param   Form         $form    The form.
      *
-     * @return  \DOMElement
+     * @return  ?\DOMElement
      *
      * @since   3.7.0
      */
@@ -269,10 +269,6 @@ abstract class FieldsPlugin extends CMSPlugin
             $node->setAttribute('showon', $showon_attribute);
         }
 
-        if ($layout = $field->params->get('form_layout')) {
-            $node->setAttribute('layout', $layout);
-        }
-
         if ($field->default_value !== '') {
             $defaultNode = $node->appendChild(new \DOMElement('default'));
             $defaultNode->appendChild(new \DOMCdataSection($field->default_value));
@@ -281,6 +277,12 @@ abstract class FieldsPlugin extends CMSPlugin
         // Combine the two params
         $params = clone $this->params;
         $params->merge($field->fieldparams);
+
+        $layout = $field->params->get('form_layout', $this->params->get('form_layout', ''));
+
+        if ($layout) {
+            $node->setAttribute('layout', $layout);
+        }
 
         // Set the specific field parameters
         foreach ($params->toArray() as $key => $param) {

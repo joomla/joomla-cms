@@ -130,7 +130,7 @@ class MenuField extends ModalSelectField
     }
 
     /**
-     * Method to attach a JForm object to the field.
+     * Method to attach a Form object to the field.
      *
      * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
      * @param   mixed              $value    The form field value to validate.
@@ -145,6 +145,12 @@ class MenuField extends ModalSelectField
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null)
     {
+        // Check if the value consist with id:alias, extract the id only
+        if ($value && str_contains($value, ':')) {
+            [$id]  = explode(':', $value, 2);
+            $value = (int) $id;
+        }
+
         $return = parent::setup($element, $value, $group);
 
         if (!$return) {

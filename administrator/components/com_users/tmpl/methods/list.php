@@ -27,7 +27,7 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 /** @var MethodsModel $model */
 $model = $this->getModel();
 
-$this->document->getWebAssetManager()->useScript('com_users.two-factor-list');
+$this->getDocument()->getWebAssetManager()->useScript('com_users.two-factor-list');
 
 $canAddEdit = MfaHelper::canAddEditMethod($this->user);
 $canDelete  = MfaHelper::canDeleteMethod($this->user);
@@ -69,12 +69,10 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
                         <?php foreach ($method['active'] as $record) : ?>
                             <div class="com-users-methods-list-method-record d-flex flex-row flex-wrap justify-content-start border-top py-2">
                                 <div class="com-users-methods-list-method-record-info flex-grow-1 d-flex flex-column align-items-start gap-1">
-                                    <?php if ($methodName === 'backupcodes') : ?>
-                                        <?php if ($canAddEdit) : ?>
-                                            <div class="alert alert-info mt-1 w-100">
-                                                <?php echo Text::sprintf('COM_USERS_MFA_BACKUPCODES_PRINT_PROMPT_HEAD', Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)) ?>
-                                            </div>
-                                        <?php endif ?>
+                                    <?php if ($methodName === 'backupcodes' && $canAddEdit) : ?>
+                                        <div class="alert alert-info mt-1 w-100">
+                                            <?php echo Text::sprintf('COM_USERS_MFA_BACKUPCODES_PRINT_PROMPT_HEAD', Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id), 'text-decoration-underline') ?>
+                                        </div>
                                     <?php else : ?>
                                         <h4 class="com-users-methods-list-method-record-title-container mb-1 fs-3">
                                             <?php if ($record->default) : ?>
@@ -131,7 +129,7 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
                 <?php if ($canAddEdit && (empty($method['active']) || $method['allowMultiple'])) : ?>
                     <div class="com-users-methods-list-method-addnew-container border-top pt-2">
                         <a href="<?php echo Route::_('index.php?option=com_users&task=method.add&method=' . $this->escape(urlencode($method['name'])) . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
-                           class="com-users-methods-list-method-addnew btn btn-outline-primary btn-sm"
+                           class="com-users-methods-list-method-addnew btn btn-primary btn-sm"
                         >
                             <span class="icon-plus-2" aria-hidden="true"></span>
                             <?php echo Text::sprintf('COM_USERS_MFA_ADD_AUTHENTICATOR_OF_TYPE', $method['display']) ?>
