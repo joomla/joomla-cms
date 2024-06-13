@@ -47,7 +47,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MINOR_VERSION = 2;
+    public const MINOR_VERSION = 1;
 
     /**
      * Patch release version.
