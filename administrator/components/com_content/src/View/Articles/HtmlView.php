@@ -234,7 +234,10 @@ class HtmlView extends BaseHtmlView
             if (
                 $user->authorise('core.create', 'com_content')
                 && $user->authorise('core.edit', 'com_content')
-                && $user->authorise('core.execute.transition', 'com_content')
+                && (
+                    !ComponentHelper::getParams('com_content')->get('workflow_enabled')
+                    || $user->authorise('core.admin', 'com_content')
+                )
             ) {
                 $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
                     ->selector('collapseModal')
