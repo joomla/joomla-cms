@@ -34,7 +34,7 @@ final class LazyServiceEventSubscriber implements LazyEventSubscriberInterface, 
     private $container;
 
     /**
-     * Listener class name
+     * Subscriber class name, and id in the container
      *
      * @var    string
      * @since  __DEPLOY_VERSION__
@@ -59,7 +59,7 @@ final class LazyServiceEventSubscriber implements LazyEventSubscriberInterface, 
      * Constructor.
      *
      * @param \Psr\Container\ContainerInterface $container  Container
-     * @param string                            $class      Listener class name
+     * @param string                            $class      Subscriber class name, and id in the container
      *
      * @since  __DEPLOY_VERSION__
      */
@@ -80,8 +80,7 @@ final class LazyServiceEventSubscriber implements LazyEventSubscriberInterface, 
      *
      * @return object
      *
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Throwable
      *
      * @since  __DEPLOY_VERSION__
      */

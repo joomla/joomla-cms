@@ -25,8 +25,7 @@ interface LazyEventSubscriberInterface
      *
      * @return object
      *
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Throwable
      *
      * @since  __DEPLOY_VERSION__
      */
