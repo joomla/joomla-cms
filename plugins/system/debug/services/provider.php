@@ -32,7 +32,7 @@ return new class () implements ServiceProviderInterface {
      */
     public function register(Container $container): void
     {
-        $container->set(
+        $container->share(
             Debug::class,
             function (Container $container) {
                 return new Debug(
@@ -42,7 +42,7 @@ return new class () implements ServiceProviderInterface {
                     $container->get(DatabaseInterface::class)
                 );
             }
-        )->set(
+        )->share(
             PluginInterface::class,
             function (Container $container) {
                 return new LazyServiceEventSubscriber($container, Debug::class);
