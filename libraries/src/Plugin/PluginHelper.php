@@ -242,6 +242,7 @@ abstract class PluginHelper
         }
 
         if ($plugin instanceof LazyEventSubscriberInterface) {
+            dump($plugin);
             foreach ($plugin->getEventsAndListeners() as $eventName => $params) {
                 if (\is_array($params) && !\is_callable($params)) {
                     $callback = !\is_string($params[0]) && \is_callable($params[0]) ? $params[0] : [$plugin, $params[0]];
