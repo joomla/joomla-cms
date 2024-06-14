@@ -42,12 +42,12 @@ final class LazyServiceEventSubscriber implements PluginInterface
     private $class;
 
     /**
-     * List of subscribed events
+     * List of events, and listeners.
      *
      * @var array
      * @since  __DEPLOY_VERSION__
      */
-    private $subscribedEvents = [];
+    private $eventsAndListeners = [];
 
     /**
      * @var SubscriberInterface
@@ -69,23 +69,23 @@ final class LazyServiceEventSubscriber implements PluginInterface
         $this->class     = $class;
 
         if (!is_subclass_of($class, SubscriberInterface::class)) {
-            throw new \InvalidArgumentException(sprintf('Class "%s" does not implement %s', $class, SubscriberInterface::class));
+            throw new \InvalidArgumentException(sprintf('Class %s does not implement %s', $class, SubscriberInterface::class));
         }
 
-        $this->subscribedEvents = $class::getSubscribedEvents();
+        $this->eventsAndListeners = $class::getSubscribedEvents();
     }
 
     /**
      * Retrieve the instance of Subscriber.
      *
-     * @return \Joomla\Event\SubscriberInterface
+     * @return object
      *
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getSubscriberInstance(): SubscriberInterface
+    public function getSubscriberInstance(): object
     {
         if (!$this->instance) {
             $this->instance = $this->container->get($this->class);
@@ -95,15 +95,15 @@ final class LazyServiceEventSubscriber implements PluginInterface
     }
 
     /**
-     * Returns an array of events the subscriber will listen to.
+     * Returns an array of events and the listeners, the subscriber will listen to.
      *
      * @return array
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getSubscribedEvents(): array
+    public function getEventsAndListeners(): array
     {
-        return $this->subscribedEvents;
+        return $this->eventsAndListeners;
     }
 
     /**
@@ -115,14 +115,16 @@ final class LazyServiceEventSubscriber implements PluginInterface
      * @return mixed
      *
      * @throws \InvalidArgumentException
+     *
+     * @since  __DEPLOY_VERSION__
      */
     public function __call(string $eventName, array $arguments): mixed
     {
-        if (!\array_key_exists($eventName, $this->subscribedEvents)) {
-            throw new \InvalidArgumentException(sprintf('Event "%s" not supported by "%s".', $eventName, $this->class));
-        }
-
         $instance = $this->instance ?: $this->getSubscriberInstance();
+
+        if (!\is_callable([$instance, $eventName])) {
+            throw new \InvalidArgumentException(sprintf('Event "%s" not supported by %s.', $eventName, $this->class));
+        }
 
         return \call_user_func_array([$instance, $eventName], $arguments);
     }
