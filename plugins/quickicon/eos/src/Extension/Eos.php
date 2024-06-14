@@ -81,7 +81,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Check and show the the alert.
+     * Check and show the alert.
      *
      * This method is called when the Quick Icons module is constructing its set
      * of icons.
