@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\System\Accessibility\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -75,7 +76,7 @@ final class Accessibility extends CMSPlugin
         $fontFaceSrc = [];
         $fontFamily = "";
         if ($this->params->get('useEmojis') === 'false'){
-            $fontFaceSrc = ['/media/plg_system_accessibility/icons/font/icons.css'];
+            $fontFaceSrc = [Uri::root(true) . '/media/plg_system_accessibility/icons/font/icons.css'];
             $fontFamily = "icons";
         }
 
