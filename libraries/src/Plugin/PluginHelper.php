@@ -243,10 +243,12 @@ abstract class PluginHelper
 
         if ($plugin instanceof LazyServiceEventSubscriber) {
             foreach ($plugin->getEventsAndListeners() as $eventName => $params) {
-                if (\is_array($params)) {
-                    $dispatcher->addListener($eventName, [$plugin, $params[0]], $params[1] ?? Priority::NORMAL);
+                if (\is_array($params) && !\is_callable($params)) {
+                    $callback = !\is_string($params[0]) && \is_callable($params[0]) ? $params[0] : [$plugin, $params[0]];
+                    $dispatcher->addListener($eventName, $callback, $params[1] ?? Priority::NORMAL);
                 } else {
-                    $dispatcher->addListener($eventName, [$plugin, $params]);
+                    $callback = !\is_string($params) && \is_callable($params) ? $params : [$plugin, $params];
+                    $dispatcher->addListener($eventName, $callback);
                 }
             }
         } else {
