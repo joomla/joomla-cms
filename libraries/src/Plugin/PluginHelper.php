@@ -242,7 +242,6 @@ abstract class PluginHelper
 
         // Check whether we should register the subscriber in current runtime
         if ($plugin instanceof SubscriberRegistrationCheckerInterface && !$plugin->shouldRegisterListeners()) {
-            dump($plugin);
             return;
         }
 
