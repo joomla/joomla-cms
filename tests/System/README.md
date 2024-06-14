@@ -6,20 +6,39 @@ The CMS system tests are executed in real browsers and are using the [cypress.io
 A couple of steps are needed before the CMS system tests can be executed on the system.
 
 1. Clone Joomla into a folder where it can be served by a web server
+```
+git clone --depth 1 https://github.com/joomla/joomla-cms 
+```
 2. Install the PHP and Javascript dependencies by running the following commands:
-   1. `composer install`
-   2. `npm ci`
-3. Copy the cypress.config.dist.js to cypress.config.js in the root of the joomla folder
-4. Adjust the baseUrl in the cypress.config.js file, it should point to the Joomla base url
-5. Adapt the env variables in the file cypress.config.js, they should point to the site, user data and database environment
-6. In order to run the api tests you will need to change the value in your configuration.php for $secret to `tEstValue`
-7. Ensure the system has all the required dependencies according to the Cypress [documentation](https://docs.cypress.io/guides/getting-started/installing-cypress)
-8. Run the command `npm run cypress:install`
+```
+cd joomla-cms
+composer install
+npm ci
+```
+3. Copy the `cypress.config.dist.js` to `cypress.config.js` in the root of the joomla folder
+4. Adjust the `baseUrl` in the `cypress.config.js` file, it should point to the Joomla base URL
+5. Adapt the env variables in the file `cypress.config.js`, they should point to the site, user data and database environment
+6. Ensure the system has all the required dependencies according to the Cypress [documentation](https://docs.cypress.io/guides/getting-started/installing-cypress)
+7. Install Cypress
+```
+npm run cypress:install
+```
+8. Run Joomla installation with headless Cypress
+```
+npx cypress run --spec tests/System/integration/install/Installation.cy.js
+```
+:point_right: In the case of `EACCES` or `EPERM` error, see troubleshooting at the end.
 
 ## Run the existing tests
-Cypress has a nice gui which lists all the existing tests and is able to launch a browser where the tests are executed. To open the cypress gui, run the following command:
+You can use Cypress headless:
+```
+npx cypress run
+```
 
-`npm run cypress:open`
+And Cypress has a nice GUI which lists all the existing tests and is able to launch a browser where the tests are executed. To open the Cypress GUI, run the following command:
+```
+npx cypress open
+```
 
 ## Create new tests
 To Create new tests, create a cy.js file in a new folder which matches the following pattern (replace foo with the extension name to test):
@@ -42,10 +61,12 @@ Tests should be:
 
 The CMS tests come with some convenient [cypress tasks](https://docs.cypress.io/api/commands/task) which execute actions on the server in a node environment. That's why the `cy.` namespace is not available. The following tasks are available, served by the file tests/System/plugins/index.js:
 
-- **queryDB** Executes a query on the database
-- **cleanupDB** does some cleanup, is executed automatically after every test
+- **queryDB** executes a query on the database
+- **cleanupDB** deletes the inserted items from the database
 - **writeFile** writes a file relative to the CMS root folder
 - **deleteFolder** deletes a folder relative to the CMS root folder
+- **getFilePermissions** get file permissions
+- **changeFilePermissions** change file permissions
 
 With the following code in a test a task can be executed `cy.task('writeFile', { path: 'images/dummy.text', content: '1' })`. Each task is asynchronous and must be chained, so to get the result a `.then(() => {})` must follow when executing a task.
 
@@ -72,3 +93,34 @@ The API commands make API requests to the CMS API endpoint `/api/index.php/v1`. 
 - **api_patch** add the path and content for the body as arguments
 - **api_delete** add the path as argument
 - **api_getBearerToken** returns the bearer token and no request object
+
+# Troubleshooting
+## Errors 'EACCES: permission denied' or 'EPERM: operation not permitted'
+
+If the Cypress installation step or the entire test suite is executed by a non-root user, the following error may occur:
+```
+1) Install Joomla
+       Install Joomla:
+       CypressError: `cy.task('writeFile')` failed with the following error:
+       > EACCES: permission denied, open './configuration.php'
+```
+Or on Microsoft Windows you will see:
+```
+       > EPERM: operation not permitted, open 'C:\laragon\www\joomla-cms\configuration.php'
+```
+
+The reason for this error is that Cypress first creates the Joomla file `configuration.php` via the web server.
+Subsequently, some of the parameters in this file are configured by Cypress under the current user.
+If the web server and Cypress are run by different users, this can lead to file access issues.
+
+You have to give the user running Cypress the right to write `configuration.php`
+e.g. with the command `sudo` on macOS, Linux or Windows WSL 2:
+```
+sudo npx cypress run
+```
+
+If the `root` user does not have a Cypress installation, you can use the Cypress installation cache of the current user:
+```
+sudo CYPRESS_CACHE_FOLDER=$HOME/.cache/Cypress npx cypress run
+```
+</details>
