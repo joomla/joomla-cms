@@ -36,7 +36,7 @@
 					name="useEmojis"
 					type="list"
 					label="PLG_SYSTEM_ACCESSIBILITY_EMOJIS"
-					default="true"
+					default="false"
 					validate="options"
 					>
 					<option value="true">PLG_SYSTEM_ACCESSIBILITY_EMOJIS_TRUE</option>

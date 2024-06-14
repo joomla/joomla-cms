@@ -72,6 +72,13 @@ final class Accessibility extends CMSPlugin
             ];
         }
 
+        $fontFaceSrc = [];
+        $fontFamily = "";
+        if ($this->params->get('useEmojis') === 'false'){
+            $fontFaceSrc = ['/media/plg_system_accessibility/icons/font/icons.css'];
+            $fontFamily = "icons";
+        }
+
         /**
         * Customisation and configuration options for the accessibility menu.
         * Reference  https://ranbuch.github.io/accessibility/
@@ -106,7 +113,9 @@ final class Accessibility extends CMSPlugin
                             'units' => 'px',
                         ],
                     ],
-                    'useEmojis'  => $this->params->get('useEmojis', 'true') === 'true',
+                    'useEmojis'  => $this->params->get('useEmojis') === 'true',
+                    'fontFaceSrc'=> $fontFaceSrc,
+                    'fontFamily' => $fontFamily,
                 ],
                 'hotkeys' => [
                     'enabled'    => true,
