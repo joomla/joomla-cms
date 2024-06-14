@@ -57,7 +57,7 @@ describe('Test that contacts API endpoint', () => {
         .should('equal', 200));
 
     cy.task('getMails').then((mails) => {
-      expect(mails.length, 'There is not just one mail, you may need to check the SMTP configuration').to.equal(1);
+      expect(mails.length).to.equal(1);
       cy.wrap(mails[0].sender).should('equal', Cypress.env('email'));
       cy.wrap(mails[0].receivers).should('have.property', Cypress.env('email'));
       cy.wrap(mails[0].headers.subject).should('equal', `${Cypress.env('sitename')}: automated test subject`);
