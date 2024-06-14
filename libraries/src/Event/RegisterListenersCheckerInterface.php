@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event;
  *
  * @since  __DEPLOY_VERSION__
  */
-interface RegisterListenersCheckerInterface
+interface SubscriberRegistrationCheckerInterface
 {
     /**
      * Check whether the Subscriber (or event listener) should be registered.

@@ -10,13 +10,13 @@
 
 namespace Joomla\Plugin\System\GuidedTours\Extension;
 
+use Joomla\CMS\Event\SubscriberRegistrationCheckerInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
 use Joomla\Component\Guidedtours\Administrator\Model\TourModel;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
@@ -29,7 +29,7 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since  4.3.0
  */
-final class GuidedTours extends CMSPlugin implements SubscriberInterface
+final class GuidedTours extends CMSPlugin implements SubscriberInterface, SubscriberRegistrationCheckerInterface
 {
     /**
      * A mapping for the step types
@@ -59,31 +59,6 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     ];
 
     /**
-     * An internal flag whether plugin should listen any event.
-     *
-     * @var bool
-     *
-     * @since   4.3.0
-     */
-    protected static $enabled = false;
-
-    /**
-     * Constructor
-     *
-     * @param   DispatcherInterface  $dispatcher  The object to observe
-     * @param   array                $config      An optional associative array of configuration settings.
-     * @param   boolean              $enabled     An internal flag whether plugin should listen any event.
-     *
-     * @since   4.3.0
-     */
-    public function __construct(DispatcherInterface $dispatcher, array $config = [], bool $enabled = false)
-    {
-        self::$enabled = $enabled;
-
-        parent::__construct($dispatcher, $config);
-    }
-
-    /**
      * function for getSubscribedEvents : new Joomla 4 feature
      *
      * @return array
@@ -92,10 +67,22 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return self::$enabled ? [
+        return [
             'onAjaxGuidedtours'   => 'startTour',
             'onBeforeCompileHead' => 'onBeforeCompileHead',
-        ] : [];
+        ];
+    }
+
+    /**
+     * Check whether the Subscriber should be registered.
+     *
+     * @return bool
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function shouldRegisterListeners(): bool
+    {
+        return $this->getApplication()->isClient('administrator');
     }
 
     /**
