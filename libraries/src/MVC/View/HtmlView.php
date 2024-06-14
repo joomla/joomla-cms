@@ -348,7 +348,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
      *
      * @param   string  $tpl  The name of the template source file; automatically searches the template paths and compiles as needed.
      *
-     * @return  string  The output of the the template script.
+     * @return  string  The output of the template script.
      *
      * @since   3.0
      * @throws  \Exception

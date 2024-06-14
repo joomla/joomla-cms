@@ -72,7 +72,7 @@ class AssociationsHelper extends ContentHelper
     }
 
     /**
-     * Get the the instance of the extension helper class
+     * Get the instance of the extension helper class
      *
      * @param   string  $extensionName  The extension name with com_
      *
