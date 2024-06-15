@@ -10,7 +10,7 @@
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Event\LazyServiceEventSubscriber;
+use Joomla\CMS\Event\LazyServiceSubscriber;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -45,7 +45,7 @@ return new class () implements ServiceProviderInterface {
         )->set(
             PluginInterface::class,
             function (Container $container) {
-                return new LazyServiceEventSubscriber($container, ScheduleRunner::class);
+                return new LazyServiceSubscriber($container, ScheduleRunner::class);
             }
         );
     }
