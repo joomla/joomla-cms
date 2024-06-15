@@ -209,7 +209,7 @@ switch ($format) {
         if (!($results instanceof Throwable) && $results instanceof StringableInterface) {
             echo $results;
         } else {
-            if (\is_object($results) && $results instanceof \Stringable) {
+            if (\is_object($results) && !($results instanceof Throwable) && $results instanceof \Stringable) {
                 @trigger_error(
                     'Ajax result object (except Throwable) which implements Stringable interface (implicitly or explicitly), will be rendered directly. Starting from 7.0',
                     \E_USER_DEPRECATED
