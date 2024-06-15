@@ -50,7 +50,9 @@ final class LazyServiceSubscriber implements LazySubscriberInterface, PluginInte
     private $eventsAndListeners = [];
 
     /**
-     * @var SubscriberInterface
+     * Subscriber instance.
+     *
+     * @var object
      * @since  __DEPLOY_VERSION__
      */
     private $instance;
