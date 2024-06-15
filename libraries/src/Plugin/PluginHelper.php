@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Plugin;
 
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
-use Joomla\CMS\Event\LazyEventSubscriberInterface;
+use Joomla\CMS\Event\LazySubscriberInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
@@ -241,7 +241,7 @@ abstract class PluginHelper
             return;
         }
 
-        if ($plugin instanceof LazyEventSubscriberInterface) {
+        if ($plugin instanceof LazySubscriberInterface) {
             foreach ($plugin->getEventsAndListeners() as $eventName => $params) {
                 if (\is_array($params) && !\is_callable($params)) {
                     $callback = !\is_string($params[0]) && \is_callable($params[0]) ? $params[0] : [$plugin, $params[0]];

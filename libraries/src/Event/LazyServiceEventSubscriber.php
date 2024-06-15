@@ -23,7 +23,7 @@ use Psr\Container\ContainerInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-final class LazyServiceEventSubscriber implements LazyEventSubscriberInterface, PluginInterface
+final class LazyServiceEventSubscriber implements LazySubscriberInterface, PluginInterface
 {
     /**
      * The service container

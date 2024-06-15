@@ -18,7 +18,7 @@ namespace Joomla\CMS\Event;
  *
  * @since  __DEPLOY_VERSION__
  */
-interface LazyEventSubscriberInterface
+interface LazySubscriberInterface
 {
     /**
      * Retrieve the instance of Subscriber.
