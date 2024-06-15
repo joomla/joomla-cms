@@ -23,7 +23,7 @@ use Psr\Container\ContainerInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-final class LazyServiceEventSubscriber implements LazyEventSubscriberInterface, SubscriberRegistrationCheckerInterface, PluginInterface
+final class LazyServiceEventSubscriber implements LazyEventSubscriberInterface, PluginInterface
 {
     /**
      * The service container
@@ -103,22 +103,6 @@ final class LazyServiceEventSubscriber implements LazyEventSubscriberInterface, 
     public function getEventsAndListeners(): array
     {
         return $this->eventsAndListeners;
-    }
-
-    /**
-     * Check whether the Subscriber (or event listener) should be registered.
-     *
-     * @return bool
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public function shouldRegisterListeners(): bool
-    {
-        if ($this->container->has(SubscriberRegistrationCheckerInterface::class)) {
-            return $this->container->get(SubscriberRegistrationCheckerInterface::class)->shouldRegisterListeners();
-        }
-
-        return true;
     }
 
     /**
