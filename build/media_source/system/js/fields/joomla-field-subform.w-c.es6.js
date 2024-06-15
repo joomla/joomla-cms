@@ -293,7 +293,7 @@ class JoomlaFieldSubform extends HTMLElement {
 
           if (fieldset) {
             const oldSetId = fieldset.id;
-            fieldset.id = idNew;;
+            fieldset.id = idNew;
 
             const groupLbl = row.querySelector(`label[for="${oldSetId}"]`);
 
