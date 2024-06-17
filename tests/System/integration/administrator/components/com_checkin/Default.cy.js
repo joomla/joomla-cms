@@ -19,7 +19,7 @@ describe('Test in backend that the checkin', () => {
     });
   });
 
-  it('can checkin items', () => {
+  it('can check in items', () => {
     cy.db_createArticle({ title: 'Test article', checked_out: '1', checked_out_time: '2024-01-01 20:00:00' }).then(() => {
       cy.visit('/administrator/index.php?option=com_checkin');
       cy.searchForItem('content');
