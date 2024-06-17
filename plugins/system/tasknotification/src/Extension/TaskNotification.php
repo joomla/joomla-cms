@@ -221,7 +221,6 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         $this->loadLanguage();
 
         $data = $this->getDataFromTask($event->getArgument('subject'));
-
         $this->sendMail('plg_system_tasknotification.fatal_recovery_mail', $data);
     }
 
