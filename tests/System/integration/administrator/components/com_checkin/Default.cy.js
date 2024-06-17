@@ -13,20 +13,15 @@ describe('Test in backend that the checkin', () => {
   });
 
   it('can display a list of checked out', () => {
-    cy.db_createArticle({ title: 'Test article' }).then((article) => {
-      cy.visit(`/administrator/index.php?option=com_content&task=article.edit&id=${article.id}`);
-      cy.clickToolbarButton('Save');
+    cy.db_createArticle({ title: 'Test article', checked_out:'1', checked_out_time: '2024-01-01 20:00:00' }).then(() => {
       cy.visit('/administrator/index.php?option=com_checkin');
       cy.get('tr.row0').should('contain.text', 'content');
     });
   });
 
   it('can checkin items', () => {
-    cy.db_createArticle({ title: 'Test article' }).then((article) => {
-      cy.visit(`/administrator/index.php?option=com_content&task=article.edit&id=${article.id}`);
-      cy.clickToolbarButton('Save');
+    cy.db_createArticle({ title: 'Test article', checked_out:'1', checked_out_time: '2024-01-01 20:00:00' }).then(() => {
       cy.visit('/administrator/index.php?option=com_checkin');
-      cy.reload();
       cy.searchForItem('content');
       cy.checkAllResults();
       cy.get('#toolbar-checkin').click();
