@@ -4,7 +4,7 @@ describe('Test in backend that the mails', () => {
     cy.visit('/administrator/index.php?option=com_mails&view=templates');
   });
 
-  it('have a title', () => {
+  it('has a title', () => {
     cy.get('h1.page-title').should('contain.text', 'Mail Templates');
   });
 
