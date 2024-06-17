@@ -241,6 +241,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
             'EXIT_CODE'      => $task->getContent()['status'] ?? Status::NO_EXIT,
             'EXEC_DATE_TIME' => $lockOrExecTime,
             'TASK_OUTPUT'    => $task->getContent()['output_body'] ?? '',
+            'TASK_EXCEPTION' => $task->getContent()['exception']?->getMessage() ?? '',
         ];
     }
 
