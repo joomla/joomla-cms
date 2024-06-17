@@ -165,8 +165,8 @@ The Joomla System Tests come with some convenient [Cypress Tasks](https://docs.c
 
 - **queryDB** – Executes a query on the database
 - **cleanupDB** – Deletes the inserted items from the database
-- **writeFile** – Writes a file relative to the CMS root folder
-- **deleteFolder** – Deletes a folder relative to the CMS root folder
+- **writeRelativeFile** – Writes a file relative to the CMS root folder
+- **deleteRelativePath** – Deletes a file or folder relative to the CMS root folder
 - **startMailServer** – Starts the smtp-tester SMTP server
 - **getMails** – Get received mails from smtp-tester
 - **clearEmails** – Clear all smtp-tester received mails
