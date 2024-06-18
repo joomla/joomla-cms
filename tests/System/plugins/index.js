@@ -14,7 +14,7 @@ function setupPlugins(on, config) {
   on('task', {
     queryDB: (query) => db.queryTestDB(query, config),
     cleanupDB: () => db.deleteInsertedItems(config),
-    writeFile: ({ path, content }) => fs.writeFile(path, content, config),
+    writeFile: ({ path, content, mode }) => fs.writeFile(path, content, config, mode),
     deleteFolder: (path) => fs.deleteFolder(path, config),
     getMails: () => mail.getMails(),
     clearEmails: () => mail.clearEmails(),
