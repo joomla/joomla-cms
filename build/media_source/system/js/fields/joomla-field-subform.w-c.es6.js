@@ -287,7 +287,7 @@ class JoomlaFieldSubform extends HTMLElement {
         // Set the id for fieldset and group label
         if (!countMulti) {
           // Look for <fieldset class="checkboxes"></fieldset> or <fieldset><div class="checkboxes"></div></fieldset>
-          let fieldset = $el.closest('fieldset.checkboxes');
+          let fieldset = $el.closest('.checkboxes');
           // eslint-disable-next-line no-nested-ternary
           fieldset = fieldset.nodeName === 'FIELDSET' ? fieldset : (fieldset.parentElement.nodeName === 'FIELDSET' ? fieldset.parentElement : false);
 
