@@ -19,12 +19,6 @@ describe('Test in backend that the cache', () => {
   it('can clear expired cache', () => {
     cy.get('#toolbar-delete2').click();
     cy.on('window:confirm', () => true);
-    // Starting with Joomla 5.1 check if the 'Yes' button exists and click it if present
-    cy.get('body').then(($body) => {
-      if ($body.find('div.buttons-holder button[data-button-ok]').length > 0) {
-        cy.get('div.buttons-holder button[data-button-ok]').click();
-      }
-    });
     cy.get('#system-message-container').contains('Expired cached items have been cleared').should('exist');
   });
 
