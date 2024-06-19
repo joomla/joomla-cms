@@ -101,6 +101,7 @@
 			type="user"
 			label="COM_CONTENT_FIELD_CREATED_BY_LABEL"
 			validate="UserId"
+			required="true"
 		/>
 
 		<field
