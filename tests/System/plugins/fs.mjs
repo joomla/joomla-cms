@@ -1,5 +1,5 @@
 import { chmodSync, existsSync, writeFileSync, mkdirSync, rmSync } from "fs";
-import { dirname } from "path";
+import { dirname, join } from "path";
 import { umask } from 'node:process';
 
 /**
@@ -13,7 +13,7 @@ import { umask } from 'node:process';
  * @returns null
  */
 function deleteRelativePath(relativePath, config) {
-  const fullPath = path.join(config.env.cmsPath, relativePath);
+  const fullPath = join(config.env.cmsPath, relativePath);
   rmSync(fullPath, { recursive: true, force: true });
 
   return null;
@@ -34,7 +34,7 @@ function deleteRelativePath(relativePath, config) {
  * @returns null
  */
 function writeRelativeFile(relativePath, content, config, mode = 0o444) {
-  const fullPath = path.join(config.env.cmsPath, relativePath);
+  const fullPath = join(config.env.cmsPath, relativePath);
   // Prologue: Reset process file mode creation mask to ensure the umask value is not subtracted
   const oldmask = umask(0);
   // Create missing parent directories with 'rwxrwxrwx'
