@@ -211,12 +211,13 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
             self::MSG_INFO      => 'note',
             self::MSG_NOTICE    => 'note',
             self::MSG_WARNING   => 'warning',
+            self::MSG_SUCCESS   => 'success',
+            self::MSG_MESSAGE   => 'success', //consisten with joomla.system.message layout
         ];
 
         // Output any enqueued messages before the app exits
         foreach ($this->getMessageQueue() as $type => $messages) {
             $method = $methodMap[$type] ?? 'comment';
-
             $style->$method($messages);
         }
 
