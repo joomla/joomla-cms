@@ -13,10 +13,12 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+$this->loadLanguage();
+
 $lang = $this->getLanguage();
 ?>
 
-<nav class="pagenavigation">
+<nav class="pagenavigation" aria-label="<?php echo Text::_('PLG_PAGENAVIGATION_ARIA_LABEL'); ?>">
     <span class="pagination ms-0">
     <?php if ($row->prev) :
         $direction = $lang->isRtl() ? 'right' : 'left'; ?>

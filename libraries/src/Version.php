@@ -55,7 +55,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const PATCH_VERSION = 5;
+    public const PATCH_VERSION = 6;
 
     /**
      * Extra release version info.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '16-April-2024';
+    public const RELDATE = '28-May-2024';
 
     /**
      * Release time.
