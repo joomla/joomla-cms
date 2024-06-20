@@ -165,15 +165,15 @@ The Joomla System Tests come with some convenient [Cypress Tasks](https://docs.c
 
 - **queryDB** – Executes a query on the database
 - **cleanupDB** – Deletes the inserted items from the database
-- **writeFile** – Writes a file relative to the CMS root folder
-- **deleteFolder** – Deletes a folder relative to the CMS root folder
+- **writeRelativeFile** – Writes a file relative to the CMS root folder
+- **deleteRelativePath** – Deletes a file or folder relative to the CMS root folder
 - **startMailServer** – Starts the smtp-tester SMTP server
 - **getMails** – Get received mails from smtp-tester
 - **clearEmails** – Clear all smtp-tester received mails
 
 The following code in a test executes the writing file task with parameters:
 ```JavaScript
- cy.task('writeFile', { path: 'images/dummy.text', content: '1' }).then(() =>  { ... })
+ cy.task('writeRelativeFile', { path: 'images/dummy.text', content: '1' }).then(() =>  { ... })
 ```
 :point_right: As each task is asynchronous and must be chained, the result includes `.then()`.
 
@@ -273,7 +273,7 @@ If the Cypress installation step or the entire test suite is executed by a non-r
 ```
 1) Install Joomla
        Install Joomla:
-       CypressError: `cy.task('writeFile')` failed with the following error:
+       CypressError: `cy.task('writeRelativeFile')` failed with the following error:
        > EACCES: permission denied, open './configuration.php'
 ```
 Or on Microsoft Windows you will see:
