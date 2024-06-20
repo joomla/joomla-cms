@@ -15,7 +15,7 @@ describe('Install Joomla', () => {
     };
 
     // If exists, delete PHP configuration file to force a new installation
-    cy.task('deleteFolder', 'configuration.php');
+    cy.task('deleteRelativePath', 'configuration.php');
     cy.installJoomla(config);
 
     cy.doAdministratorLogin(config.username, config.password, false);
