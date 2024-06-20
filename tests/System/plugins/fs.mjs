@@ -13,7 +13,7 @@ import { umask } from 'node:process';
  * @returns null
  */
 function deleteRelativePath(relativePath, config) {
-  const fullPath = dirname.join(config.env.cmsPath, relativePath);
+  const fullPath = path.join(config.env.cmsPath, relativePath);
   rmSync(fullPath, { recursive: true, force: true });
 
   return null;
