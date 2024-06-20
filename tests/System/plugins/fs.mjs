@@ -3,15 +3,18 @@ import { dirname } from "path";
 import { umask } from 'node:process';
 
 /**
- * Deletes a folder with the given path recursive.
+ * Synchronously deletes a file or folder, relative to cmsPath.
+ * If it is a folder and contains content, the content is deleted recursively.
+ * It ignores if the path doesn't exist.
  *
- * @param {string} path The path
- * @param {object} config The config
+ * @param {string} relativePath - File or folder, relative to cmsPath
+ * @param {object} config - The Cypress configuration object
  *
  * @returns null
  */
-function deleteFolder(path, config) {
-  rmSync(`${config.env.cmsPath}/${path}`, { recursive: true, force: true });
+function deleteRelativePath(relativePath, config) {
+  const fullPath = dirname.join(config.env.cmsPath, relativePath);
+  fs.rmSync(fullPath, { recursive: true, force: true });
 
   return null;
 }
@@ -23,15 +26,15 @@ function deleteFolder(path, config) {
  * If the file already exists, it will be overwritten.
  * Finally, the given file mode or the default 0o444 is set for the given file.
  *
- * @param {string} path The relative file path (e.g. 'images/test-dir/override.jpg')
- * @param {mixed} content The file content
- * @param {object} config The Cypress configuration
- * @param {number} [mode=0o444] The file mode to be used (in octal)
+ * @param {string} relativePath - The relative file path (e.g. 'images/test-dir/override.jpg')
+ * @param {mixed} content - The file content
+ * @param {object} config - The Cypress configuration object
+ * @param {number} [mode=0o444] - The file mode to be used (in octal)
  *
  * @returns null
  */
-function writeFile(path, content, config, mode = 0o444) {
-  const fullPath = dirname.join(config.env.cmsPath, path);
+function writeRelativeFile(relativePath, content, config, mode = 0o444) {
+  const fullPath = dirname.join(config.env.cmsPath, relativePath);
   // Prologue: Reset process file mode creation mask to ensure the umask value is not subtracted
   const oldmask = umask(0);
   // Create missing parent directories with 'rwxrwxrwx'
