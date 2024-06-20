@@ -54,4 +54,4 @@ function writeRelativeFile(relativePath, content, config, mode = 0o444) {
   return null;
 }
 
-export { writeFile, deleteFolder };
+export { writeRelativeFile, deleteRelativePath };
