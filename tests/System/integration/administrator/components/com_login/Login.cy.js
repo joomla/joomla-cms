@@ -1,4 +1,9 @@
 describe('Test in backend that the login component', () => {
+	// Clearing the sessions before the tests to ensure we arrive at the login mask
+	beforeEach(() => Cypress.session.clearAllSavedSessions());
+	// Clearing the sessions after the tests to ensure next login works
+	afterEach(() => Cypress.session.clearAllSavedSessions());
+
   it('can log in and out', () => {
     cy.visit('administrator/index.php');
     cy.get('#mod-login-username').type(Cypress.env('username'));
