@@ -1,6 +1,6 @@
-const fs = require('fs');
-const fspath = require('path');
-const { umask } = require('node:process');
+import { chmodSync, existsSync, writeFileSync, mkdirSync, rmSync } from "fs";
+import { dirname } from "path";
+import { umask } from 'node:process';
 
 /**
  * Deletes a folder with the given path recursive.
@@ -11,7 +11,7 @@ const { umask } = require('node:process');
  * @returns null
  */
 function deleteFolder(path, config) {
-  fs.rmSync(`${config.env.cmsPath}/${path}`, { recursive: true, force: true });
+  rmSync(`${config.env.cmsPath}/${path}`, { recursive: true, force: true });
 
   return null;
 }
@@ -31,24 +31,24 @@ function deleteFolder(path, config) {
  * @returns null
  */
 function writeFile(path, content, config, mode = 0o444) {
-  const fullPath = fspath.join(config.env.cmsPath, path);
+  const fullPath = dirname.join(config.env.cmsPath, path);
   // Prologue: Reset process file mode creation mask to ensure the umask value is not subtracted
   const oldmask = umask(0);
   // Create missing parent directories with 'rwxrwxrwx'
-  fs.mkdirSync(fspath.dirname(fullPath), { recursive: true, mode: 0o777 });
+  mkdirSync(dirname(fullPath), { recursive: true, mode: 0o777 });
   // Check if the file exists
-  if (fs.existsSync(fullPath)) {
+  if (existsSync(fullPath)) {
     // Set 'rw-rw-rw-' to be able to overwrite the file
-    fs.chmodSync(fullPath, 0o666);
+    chmodSync(fullPath, 0o666);
   }
   // Write or overwrite the file on relative path with given content
-  fs.writeFileSync(fullPath, content);
+  writeFileSync(fullPath, content);
   // Finally set given file mode or default 'r--r--r--'
-  fs.chmodSync(fullPath, mode);
+  chmodSync(fullPath, mode);
   // Epilogue: Restore process file mode creation mask
   umask(oldmask);
 
   return null;
 }
 
-module.exports = { writeFile, deleteFolder };
+export { writeFile, deleteFolder };

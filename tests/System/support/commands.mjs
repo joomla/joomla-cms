@@ -5,11 +5,11 @@
  * https://github.com/cypress-io/cypress/issues/6575
  */
 
-import './commands/api';
-import './commands/config';
-import './commands/db';
+import { registerCommands } from 'joomla-cypress';
 
-const { registerCommands } = require('../../../node_modules/joomla-cypress/src/index.js');
+import './commands/api.mjs';
+import './commands/config.mjs';
+import './commands/db.mjs';
 
 registerCommands();
 

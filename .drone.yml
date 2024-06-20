@@ -219,7 +219,7 @@ steps:
     environment:
       CYPRESS_VERIFY_TIMEOUT: 100000
     commands:
-      - mv cypress.config.dist.js cypress.config.js
+      - mv cypress.config.dist.mjs cypress.config.mjs
       - npx cypress install
       - npx cypress verify
 
