@@ -127,6 +127,7 @@ class MethodsModel extends BaseDatabaseModel
         $utcTimeZone = new \DateTimeZone('UTC');
         $jDate       = new Date($dateTimeText, $utcTimeZone);
         $unixStamp   = $jDate->toUnix();
+        $app         = Factory::getApplication();
 
         // I'm pretty sure we didn't have MFA in Joomla back in 1970 ;)
         if ($unixStamp < 0) {
@@ -135,7 +136,7 @@ class MethodsModel extends BaseDatabaseModel
 
         // I need to display the date in the user's local timezone. That's how you do it.
         $user   = $this->getCurrentUser();
-        $userTZ = $user->getParam('timezone', 'UTC');
+        $userTZ = $user->getParam('timezone', $app->get('offset', 'UTC'));
         $tz     = new \DateTimeZone($userTZ);
         $jDate->setTimezone($tz);
 
