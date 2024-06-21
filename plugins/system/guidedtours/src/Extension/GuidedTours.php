@@ -259,6 +259,9 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         // Replace 'images/' to '../images/' when using an image from /images in backend.
         $temp->description = preg_replace('*src\=\"(?!administrator\/)images/*', 'src="../images/', $temp->description);
 
+        if ($tour->autostart) {
+            // tada
+        }
         $tour->steps[] = $temp;
 
         foreach ($steps as $i => $step) {
