@@ -849,6 +849,19 @@ ENDDATA;
             return false;
         }
 
+        // Reset update source from "next" to "default"
+        try {
+            $this->resetUpdateSource();
+        } catch (\Throwable $e) {
+            $this->collectError('Reset update source to default', $e);
+            $msg .= Text::sprintf(
+                'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_FAILED',
+                Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
+                Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
+            )
+            . "\n";
+        }
+
         if ($msg) {
             $installer->set('extension_message', $msg);
         }
@@ -2026,5 +2039,38 @@ ENDDATA;
         if (version_compare($versionPackage, $currentVersion, 'lt')) {
             throw new \RuntimeException(Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_DOWNGRADE', $packageName, $versionPackage, $currentVersion), 500);
         }
+    }
+
+    /**
+     * Reset update source from "next" to "default"
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \RuntimeException
+     */
+    private function resetUpdateSource()
+    {
+        // Get current update source
+        $params = ComponentHelper::getParams('com_joomlaupdate');
+
+        // Do nothing if not "next"
+        if ($params->get('updatesource', 'default') !== 'next') {
+            return;
+        }
+
+        $params->set('updatesource', 'default');
+
+        $params = $params->toString();
+        $db     = $this->getDatabase();
+        $query  = $db->getQuery(true)
+            ->update($db->quoteName('#__extensions'))
+            ->set($db->quoteName('params') . ' = :params')
+            ->where($db->quoteName('type') . ' = ' . $db->quote('component'))
+            ->where($db->quoteName('element') . ' = ' . $db->quote('com_joomlaupdate'))
+            ->bind(':params', $params);
+
+        $db->setQuery($query);
+        $db->execute();
     }
 }
