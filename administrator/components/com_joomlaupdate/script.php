@@ -54,14 +54,14 @@ return new class () implements ServiceProviderInterface {
                     try {
                         $dbChanged = $this->resetUpdateSource();
                     } catch (\Throwable $e) {
-                        $this->app->enqueueMessage(Text::_('COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_FAILED'), 'warning');
+                        $this->app->enqueueMessage(Text::_('COM_JOOMLAUPDATE_SCRIPT_CHANGE_UPDATE_SOURCE_FAILED'), 'warning');
 
                         $dbChanged = false;
                     }
 
                     // Show message if update source changed
                     if ($dbChanged) {
-                        $this->app->enqueueMessage(Text::_('COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_OK'), 'notice');
+                        $this->app->enqueueMessage(Text::_('COM_JOOMLAUPDATE_SCRIPT_CHANGE_UPDATE_SOURCE_OK'), 'notice');
                     }
 
                     return true;

@@ -854,13 +854,25 @@ ENDDATA;
             $dbChanged = $this->resetUpdateSource();
         } catch (\Throwable $e) {
             $this->collectError('Reset update source to default', $e);
-            $msg .= Text::_('COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_FAILED') . "\n";
+            $msg .= Text::sprintf(
+                'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_FAILED',
+                Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
+                Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
+            )
+            . "\n";
             $dbChanged = false;
         }
 
         // Show message if update source changed
         if ($dbChanged) {
-            Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_OK'), 'notice');
+            Factory::getApplication()->enqueueMessage(
+                Text::sprintf(
+                    'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_OK',
+                    Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
+                    Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
+                ),
+                'notice'
+            );
         }
 
         if ($msg) {
