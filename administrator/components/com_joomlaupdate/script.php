@@ -36,8 +36,8 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             InstallerScriptInterface::class,
             new class (
-            $container->get(AdministratorApplication::class),
-            $container->get(DatabaseInterface::class)
+                $container->get(AdministratorApplication::class),
+                $container->get(DatabaseInterface::class)
             ) implements InstallerScriptInterface {
                 private AdministratorApplication $app;
                 private DatabaseInterface $db;
