@@ -849,32 +849,6 @@ ENDDATA;
             return false;
         }
 
-        // Reset update source from "next" to "default"
-        try {
-            $dbChanged = $this->resetUpdateSource();
-        } catch (\Throwable $e) {
-            $this->collectError('Reset update source to default', $e);
-            $msg .= Text::sprintf(
-                'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_FAILED',
-                Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
-                Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
-            )
-            . "\n";
-            $dbChanged = false;
-        }
-
-        // Show message if update source changed
-        if ($dbChanged) {
-            Factory::getApplication()->enqueueMessage(
-                Text::sprintf(
-                    'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_OK',
-                    Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
-                    Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
-                ),
-                'notice'
-            );
-        }
-
         if ($msg) {
             $installer->set('extension_message', $msg);
         }
@@ -2062,7 +2036,7 @@ ENDDATA;
      * @since   __DEPLOY_VERSION__
      * @throws  \RuntimeException
      */
-    private function resetUpdateSource()
+    public function resetUpdateSource()
     {
         // Get current update source
         $params = ComponentHelper::getParams('com_joomlaupdate');

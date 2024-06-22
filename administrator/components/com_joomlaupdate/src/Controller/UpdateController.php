@@ -156,6 +156,15 @@ class UpdateController extends BaseController
             $model->collectError('finaliseUpgrade', $e);
         }
 
+        try {
+            $updateSourceChanged = $model->resetUpdateSource();
+        } catch (\Throwable $e) {
+            $model->collectError('resetUpdateSource', $e);
+            $updateSourceChanged = null;
+        }
+
+        $this->app->setUserState('com_joomlaupdate.update_channel_reset', $updateSourceChanged);
+
         // Check for update errors
         if ($model->getErrors()) {
             // The errors already should be logged at this point
