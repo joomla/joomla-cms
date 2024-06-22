@@ -108,7 +108,7 @@ jQuery(document).ready(function($) {
     var target   = document.getElementById('target-association');
     var selected = $(this).val();
 
-    // Populate the data attributes and load the the edit page in target frame.
+    // Populate the data attributes and load the edit page in target frame.
     if (selected !== '' && typeof selected !== 'undefined') {
       target.setAttribute('data-action', selected.split(':')[2]);
       target.setAttribute('data-id', selected.split(':')[1]);
