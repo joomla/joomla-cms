@@ -851,15 +851,16 @@ ENDDATA;
 
         // Reset update source from "next" to "default"
         try {
-            $this->resetUpdateSource();
+            $dbChanged = $this->resetUpdateSource();
         } catch (\Throwable $e) {
             $this->collectError('Reset update source to default', $e);
-            $msg .= Text::sprintf(
-                'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_FAILED',
-                Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
-                Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
-            )
-            . "\n";
+            $msg .= Text::_('COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_FAILED') . "\n";
+            $dbChanged = false;
+        }
+
+        // Show message if update source changed
+        if ($dbChanged) {
+            Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_OK'), 'notice');
         }
 
         if ($msg) {
@@ -2044,7 +2045,7 @@ ENDDATA;
     /**
      * Reset update source from "next" to "default"
      *
-     * @return  void
+     * @return  boolean  true if update source is reset, false if not
      *
      * @since   __DEPLOY_VERSION__
      * @throws  \RuntimeException
@@ -2056,7 +2057,7 @@ ENDDATA;
 
         // Do nothing if not "next"
         if ($params->get('updatesource', 'default') !== 'next') {
-            return;
+            return false;
         }
 
         $params->set('updatesource', 'default');
@@ -2072,5 +2073,7 @@ ENDDATA;
 
         $db->setQuery($query);
         $db->execute();
+
+        return true;
     }
 }

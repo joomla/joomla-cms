@@ -41,29 +41,51 @@ return new class () implements ServiceProviderInterface {
                     $this->db  = $db;
                 }
 
+                public function install(InstallerAdapter $parent): bool
+                {
+                    return true;
+                }
+
                 public function update(InstallerAdapter $parent): bool
                 {
+                    $parent->loadLanguage(JPATH_ADMINISTRATOR . '/languages');
+
                     // Reset update source from "next" to "default"
                     try {
-                        $this->resetUpdateSource();
+                        $dbChanged = $this->resetUpdateSource();
                     } catch (\Throwable $e) {
-                        enqueueMessage(
-                            Text::sprintf(
-                                'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_FAILED',
-                                Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
-                                Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
-                            ),
-                            'warning'
-                        );
+                        $this->app->enqueueMessage(Text::_('COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_FAILED'), 'warning');
+
+                        $dbChanged = false;
                     }
 
+                    // Show message if update source changed
+                    if ($dbChanged) {
+                        $this->app->enqueueMessage(Text::_('COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_OK'), 'notice');
+                    }
+
+                    return true;
+                }
+
+                public function uninstall(InstallerAdapter $parent): bool
+                {
+                    return true;
+                }
+
+                public function preflight(string $type, InstallerAdapter $parent): bool
+                {
+                    return true;
+                }
+
+                public function postflight(string $type, InstallerAdapter $parent): bool
+                {
                     return true;
                 }
 
                 /**
                  * Reset update source from "next" to "default"
                  *
-                 * @return  void
+                 * @return  boolean  true if update source is reset, false if not
                  *
                  * @since   __DEPLOY_VERSION__
                  * @throws  \RuntimeException
@@ -75,7 +97,7 @@ return new class () implements ServiceProviderInterface {
 
                     // Do nothing if not "next"
                     if ($params->get('updatesource', 'default') !== 'next') {
-                        return;
+                        return false;
                     }
 
                     $params->set('updatesource', 'default');
@@ -90,6 +112,8 @@ return new class () implements ServiceProviderInterface {
 
                     $this->db->setQuery($query);
                     $this->db->execute();
+
+                    return true;
                 }
             }
         );
