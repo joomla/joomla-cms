@@ -1,5 +1,6 @@
 describe('Test in backend that the action logs', () => {
   beforeEach(() => {
+    cy.db_enableExtension('1', 'plg_actionlog_joomla');
     cy.doAdministratorLogin();
     cy.visit('/administrator/index.php?option=com_actionlogs&view=actionlogs');
   });
