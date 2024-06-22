@@ -546,7 +546,6 @@ class LocalAdapter implements AdapterInterface
 
         if (!Folder::copy($sourcePath, $destinationPath, '', $force)) {
             throw new \Exception(Text::_('COM_MEDIA_COPY_FOLDER_NOT_POSSIBLE'));
-            
         }
     }
 
