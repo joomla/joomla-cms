@@ -23,6 +23,13 @@ use Joomla\DI\ServiceProviderInterface;
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
+/**
+ * Joomla Update Component installer script.
+ *
+ * @since       __DEPLOY_VERSION__
+ *
+ * @deprecated  5.1.2 will be removed in 6.0
+ */
 return new class () implements ServiceProviderInterface {
     public function register(Container $container)
     {
