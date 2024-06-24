@@ -1,6 +1,3 @@
-// const mail = require('./mail');
-// const fs = require('./fs');
-// const db = require('./db');
 import { getMails, clearEmails, startMailServer } from "./mail.mjs";
 import { writeRelativeFile, deleteRelativePath } from "./fs.mjs";
 import { queryTestDB, deleteInsertedItems } from "./db.mjs";
