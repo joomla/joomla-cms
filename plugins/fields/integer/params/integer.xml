@@ -2,17 +2,6 @@
 <form>
 	<fields name="fieldparams">
 		<fieldset name="fieldparams">
-			<field
-				name="multiple"
-				type="list"
-				label="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_LABEL"
-				filter="integer"
-				validate="options"
-				>
-				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-			</field>
 
 			<field
 				name="first"
@@ -34,22 +23,6 @@
 				label="PLG_FIELDS_INTEGER_PARAMS_STEP_LABEL"
 				filter="integer"
 			/>
-		</fieldset>
-	</fields>
-	<fields name="params">
-		<fieldset name="basic">
-			<fieldset name="formoptions">
-				<field
-					name="form_layout"
-					type="list"
-					label="JLIB_FORM_FIELD_PARAM_LAYOUT_LABEL"
-					class="form-select"
-					>
-					<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
-					<option value="joomla.form.field.list">JLIB_FORM_FIELD_PARAM_LAYOUT_BASIC_SELECT</option>
-					<option value="joomla.form.field.list-fancy-select">JLIB_FORM_FIELD_PARAM_LAYOUT_FANCY_SELECT</option>
-				</field>
-			</fieldset>
 		</fieldset>
 	</fields>
 </form>
