@@ -62,19 +62,19 @@ cp cypress.config.dist.mjs cypress.config.mjs
 
 After installation, you can start the Joomla System Tests with headless Cypress. The test suite starts with Joomla Web-Installer as the first test step.
 ```
-npx cypress run
+npm run cypress:run
 ```
 :point_right: In case of errors, see [Troubleshooting](#Troubleshooting) at the end.
 
 You can execute single test specs, e.g. to run the installation step only.
 ```
-npx cypress run --spec tests/System/integration/install/Installation.cy.js
+npm run cypress:run --spec tests/System/integration/install/Installation.cy.js
 ```
 
 You can run multiple test specs separated by commas and use patterns. For example, to execute all the tests from the
 administrator, site, api and plugins specs without the installation step:
 ```
-npx cypress run --spec 'tests/System/integration/{administrator,site,api,plugins}/**/*.cy.js'
+npm run cypress:run --spec 'tests/System/integration/{administrator,site,api,plugins}/**/*.cy.js'
 ```
 
 > [!NOTE]
@@ -83,13 +83,13 @@ npx cypress run --spec 'tests/System/integration/{administrator,site,api,plugins
 > The Cypress GUI also displays the Cypress log output, providing real-time feedback on the test execution process.
 > To open the Cypress GUI, run the following command.
 > ```
-> npx cypress open
+> npm run cypress:open
 > ```
 
 If you are running System Tests, you will see `console.log()` outputs from Cypress Tasks in the Node.js environment. If you would like to see `console.log()` output from the browser in headless mode as well, you can use the Electron web browser and set the following environment variable:
 ```
 export ELECTRON_ENABLE_LOGGING=1
-npx cypress run --browser electron
+npm run cypress:run --browser electron
 ```
 
 
@@ -288,12 +288,12 @@ If the Web Server and Cypress are run by different users, this can lead to file 
 :point_right: You have to give the user running Cypress the permission to write `configuration.php`
 e.g. with the command `sudo` on macOS, Linux or Windows WSL 2:
 ```
-sudo npx cypress run
+sudo npm run cypress:run
 ```
 
 If the `root` user does not have a Cypress installation, you can use the Cypress installation cache of the current user:
 ```
-sudo CYPRESS_CACHE_FOLDER=$HOME/.cache/Cypress npx cypress run
+sudo CYPRESS_CACHE_FOLDER=$HOME/.cache/Cypress npm run cypress:run
 ```
 
 
