@@ -139,7 +139,7 @@ class ExtensionInstallCommand extends AbstractCommand
         }
 
         $resultdir = $package['extractdir'];
-     
+
         if ($resultdir && is_dir($resultdir)) {
             $jInstaller = Installer::getInstance();
             $result     = $jInstaller->install($resultdir);
