@@ -157,8 +157,7 @@ class ExtensionInstallCommand extends AbstractCommand
     /**
      * Used for installing extension from a path
      *
-     * @param   string  $path  Path to the extension zip file
-     *
+     * @param   string  $path  Path to folder with extension files
      * @return boolean
      *
      * @since __DEPLOY_VERSION__
@@ -184,7 +183,7 @@ class ExtensionInstallCommand extends AbstractCommand
 
     /**
      * Used for installing extension from a path either zip file
-     * or folder with the update (since __DEPLAY_VERSION__)
+     * or folder with extension files (since __DEPLAY_VERSION__)
      *
      * @param   string  $path  Path to the extension zip file or folder
      *
