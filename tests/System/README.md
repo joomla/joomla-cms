@@ -322,7 +322,7 @@ If you encounter the following error while running the System Tests on slow mach
 :point_right: You can increase the default 4 second waiting time in the cypress.config.mjs file:
 
 ```JavaScript
-    module.exports = {
+    export default defineConfig({
       defaultCommandTimeout: 20000, // sets the waiting time to 20 seconds
       ...
     }
