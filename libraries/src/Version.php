@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '23-July-2024';
+    public const RELDATE = '25-June-2024';
 
     /**
      * Release time.
@@ -98,7 +98,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTIME = '16:01';
+    public const RELTIME = '17:01';
 
     /**
      * Release timezone.
