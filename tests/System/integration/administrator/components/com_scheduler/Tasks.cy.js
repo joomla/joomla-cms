@@ -27,9 +27,7 @@ describe('Test in backend that the tasks list', () => {
     cy.get('#jform_params_url').clear().type('www.test.task');
     cy.get('#jform_execution_rules_interval_minutes').clear().type('1');
     cy.clickToolbarButton('Save & Close');
-
     cy.get('#system-message-container').contains('Item saved').should('exist');
-   
   });
 
   it('can unpublish the test task', () => {
