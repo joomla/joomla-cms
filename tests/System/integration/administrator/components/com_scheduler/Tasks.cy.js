@@ -22,19 +22,20 @@ describe('Test in backend that the tasks list', () => {
   it('can publish the GET task', () => {
     cy.clickToolbarButton('New');
     cy.get('#comSchedulerSelectSearch').clear().type('GET');
-    cy.get('a[href="/administrator/index.php?option=com_scheduler&task=task.add&type=plg_task_requests_task_get"]').click();
+    cy.get('a[href*="plg_task_requests_task_get"]').click();
     cy.get('#jform_title').clear().type('Test task');
     cy.get('#jform_params_url').clear().type('www.test.task');
     cy.get('#jform_execution_rules_interval_minutes').clear().type('1');
     cy.clickToolbarButton('Save & Close');
 
     cy.get('#system-message-container').contains('Item saved').should('exist');
+   
   });
 
   it('can unpublish the test task', () => {
     cy.clickToolbarButton('New');
     cy.get('#comSchedulerSelectSearch').clear().type('GET');
-    cy.get('a[href="/administrator/index.php?option=com_scheduler&task=task.add&type=plg_task_requests_task_get"]').click();
+    cy.get('a[href*="plg_task_requests_task_get"]').click();
     cy.get('#jform_title').clear().type('Test task');
     cy.get('#jform_params_url').clear().type('www.test.task');
     cy.get('#jform_execution_rules_interval_minutes').clear().type('1');
@@ -54,7 +55,7 @@ describe('Test in backend that the tasks list', () => {
   it('can trash the test task', () => {
     cy.clickToolbarButton('New');
     cy.get('#comSchedulerSelectSearch').clear().type('GET');
-    cy.get('a[href="/administrator/index.php?option=com_scheduler&task=task.add&type=plg_task_requests_task_get"]').click();
+    cy.get('a[href*="plg_task_requests_task_get"]').click();
     cy.get('#jform_title').clear().type('Test task');
     cy.get('#jform_params_url').clear().type('www.test.task');
     cy.get('#jform_execution_rules_interval_minutes').clear().type('1');
@@ -76,7 +77,7 @@ describe('Test in backend that the tasks list', () => {
   it('can delete the test task', () => {
     cy.clickToolbarButton('New');
     cy.get('#comSchedulerSelectSearch').clear().type('GET');
-    cy.get('a[href="/administrator/index.php?option=com_scheduler&task=task.add&type=plg_task_requests_task_get"]').click();
+    cy.get('a[href*="plg_task_requests_task_get"]').click();
     cy.get('#jform_title').clear().type('Test task');
     cy.get('#jform_params_url').clear().type('www.test.task');
     cy.get('#jform_execution_rules_interval_minutes').clear().type('1');
