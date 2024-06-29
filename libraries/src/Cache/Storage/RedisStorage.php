@@ -26,7 +26,7 @@ use Joomla\CMS\Log\Log;
 class RedisStorage extends CacheStorage
 {
     /**
-     * Cache key 
+     * Cache key
      *
      * This constant is used as a prefix for all cache keys to ensure they are easily identifiable
      * and to avoid potential conflicts with other keys in the Redis store.
