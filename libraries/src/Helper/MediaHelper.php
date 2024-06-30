@@ -277,7 +277,7 @@ class MediaHelper
                 // If tmp_name is empty, then the file was bigger than the PHP limit
                 if (!empty($file['tmp_name'])) {
                     // Get the mime type this is an image file
-                    $mime = static::getMimeType($file['tmp_name'], true);
+                    $mime = static::getMimeType($file['tmp_name'], static::isImage($file['tmp_name']));
 
                     // Did we get anything useful?
                     if ($mime != false) {

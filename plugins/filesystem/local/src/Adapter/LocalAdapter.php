@@ -952,10 +952,8 @@ class LocalAdapter implements AdapterInterface
      */
     private function createThumbnail(string $path, string $thumbnailPath): bool
     {
-        $image = new Image($path);
-
         try {
-            $image->createThumbnails([$this->thumbnailSize[0] . 'x' . $this->thumbnailSize[1]], $image::SCALE_INSIDE, \dirname($thumbnailPath), true);
+            (new Image($path))->createThumbnails([$this->thumbnailSize[0] . 'x' . $this->thumbnailSize[1]], Image::SCALE_INSIDE, \dirname($thumbnailPath), true);
         } catch (\Exception $e) {
             return false;
         }

@@ -254,8 +254,16 @@ class Helper
         $db->setQuery($query);
         $db->execute();
 
+        // Cache the result
+        $type        = new \stdClass();
+        $type->title = $title;
+        $type->mime  = $mime ?? '';
+        $type->id    = (int) $db->insertid();
+
+        $types[$title] = $type;
+
         // Return the new id.
-        return (int) $db->insertid();
+        return $type->id;
     }
 
     /**
