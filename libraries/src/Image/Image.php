@@ -356,7 +356,7 @@ class Image
                 // Save thumb file to disk
                 $thumbFileName = $thumbsFolder . '/' . $thumbFileName;
 
-                if ($thumb->toFile($thumbFileName, $imgProperties->type)) {
+                if ($thumb->toFile($thumbFileName, $imgProperties->type, ['quality' => $imgProperties->type !== IMAGETYPE_PNG ? 70 : 8])) {
                     // Return Image object with thumb path to ease further manipulation
                     $thumb->path     = $thumbFileName;
                     $thumbsCreated[] = $thumb;

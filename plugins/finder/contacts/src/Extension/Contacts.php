@@ -18,7 +18,7 @@ use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\DatabaseQuery;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -398,9 +398,9 @@ final class Contacts extends Adapter
     /**
      * Method to get the SQL query used to retrieve the list of content items.
      *
-     * @param   mixed  $query  A DatabaseQuery object or null.
+     * @param   mixed  $query  An object implementing QueryInterface or null.
      *
-     * @return  DatabaseQuery  A database object.
+     * @return  QueryInterface  A database object.
      *
      * @since   2.5
      */
@@ -409,7 +409,7 @@ final class Contacts extends Adapter
         $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
-        $query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
+        $query = $query instanceof QueryInterface ? $query : $db->getQuery(true)
             ->select('a.id, a.name AS title, a.alias, a.con_position AS position, a.address, a.created AS start_date')
             ->select('a.created_by_alias, a.modified, a.modified_by')
             ->select('a.metakey, a.metadesc, a.metadata, a.language')

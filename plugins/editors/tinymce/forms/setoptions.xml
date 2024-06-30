@@ -403,5 +403,33 @@
 			</form>
 		</field>
 
+		<field
+			name="link_classes_list"
+			type="subform"
+			label="PLG_TINY_FIELD_LINK_CLASSES_LIST_LABEL"
+			description="PLG_TINY_FIELD_LINK_CLASSES_LIST_DESC"
+			layout="joomla.form.field.subform.repeatable-table"
+			required="false"
+			multiple="true">
+			<form>
+				<field
+					name="class_name"
+					type="text"
+					label="PLG_TINY_FIELD_LINK_CLASS_NAME_LABEL"
+					required="true"
+					filter="string"
+					default=""
+				/>
+				<field
+					name="class_list"
+					type="text"
+					label="PLG_TINY_FIELD_LINK_CLASS_LIST_LABEL"
+					required="true"
+					filter="string"
+					validate="CssIdentifier"
+					default=""
+				/>
+			</form>
+		</field>
 	</fieldset>
 </form>

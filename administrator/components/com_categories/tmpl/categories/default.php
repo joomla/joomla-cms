@@ -21,12 +21,12 @@ use Joomla\String\Inflector;
 /** @var \Joomla\Component\Categories\Administrator\View\Categories\HtmlView $this */
 
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
 $user      = $this->getCurrentUser();
-$userId    = $user->get('id');
+$userId    = $user->id;
 $extension = $this->escape($this->state->get('filter.extension'));
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
