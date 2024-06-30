@@ -9,12 +9,12 @@ describe('Test in frontend that the related items module', () => {
 
         cy.contains('li', 'article with joomla keyword');
 
-        // HACK, muhme, June-29-2024 - DO NOT UP-MERGE
-        // Only hacked in System Tests, as 4.4-dev is only active for a limited time.
-        // But if you have a cheap solution, let me know or create your own PR.
+        // HACK, muhme, 29 June 2024 - DO NOT UP-MERGE, no problem in 5.1 upwards
+        // Only avoided in System Tests, as the end of regular bugfix support for 4.x is 15 October 2024.
+        // However, if you prefer a real solution, create a PR or let me know.
         // To prevent: Deprecated: DateTime::__construct(): Passing null to parameter #1 ($datetime) of type string
-        //             is deprecated in /joomla-cms/libraries/src/Date/Date.php on line 126
-        // Hack: Back to the home, as only the article page contains the deprecated warning.
+        //             is deprecated in /libraries/src/Date/Date.php on line 126
+        // Workaround: Back to the home, as only the article page contains the deprecated warning.
         cy.visit('/');
       });
   });
