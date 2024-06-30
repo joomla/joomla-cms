@@ -1,6 +1,6 @@
 {
   "name": "joomla",
-  "version": "5.1.0",
+  "version": "5.1.2",
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "repository": {
@@ -74,7 +74,7 @@
     "mark.js": "^8.11.1",
     "mediaelement": "^5.1.1",
     "metismenujs": "^1.4.0",
-    "punycode": "^2.3.0",
+    "punycode": "^2.3.1",
     "qrcode-generator": "^1.4.4",
     "roboto-fontface": "^0.10.0",
     "sa11y": "^3.1.3",
