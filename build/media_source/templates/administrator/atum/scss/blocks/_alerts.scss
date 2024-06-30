@@ -15,10 +15,6 @@
 }
 
 .alert {
-  margin: 1rem 0;
-  border: 1px solid;
-  border-radius: $border-radius-sm;
-
   &.alert-info {
     color: var(--state-info-text);
     background-color: var(--state-info-bg);
