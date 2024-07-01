@@ -24,11 +24,11 @@ $blockPosition = $displayData['params']->get('info_block_position', 0);
     ) : ?>
         <dt class="article-info-term">
             <?php if (!$displayData['params']->get('info_block_show_title', 1)) : ?>
-                <?php echo '<span class="visually-hidden">' ?>
+                <?php echo '<span class="visually-hidden">'; ?>
             <?php endif; ?>
             <?php echo Text::_('COM_CONTENT_ARTICLE_INFO'); ?>
             <?php if (!$displayData['params']->get('info_block_show_title', 1)) : ?>
-                <?php echo '</span>' ?>
+                <?php echo '</span>'; ?>
             <?php endif; ?>
         </dt>
 
