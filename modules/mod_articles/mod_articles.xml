@@ -300,7 +300,7 @@
 					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="integer"
-					showon="title_only:0[AND]show_date:1[OR]show_category:1[OR]show_hits:1[OR]show_author:1"
+					showon="show_date:1[OR]show_category:1[OR]show_hits:1[OR]show_author:1[AND]title_only:0"
 					>
 					<option value="0">MOD_ARTICLES_FIELD_LAYOUT_MULTILINE</option>
 					<option value="1">MOD_ARTICLES_FIELD_LAYOUT_SINGLELINE</option>
