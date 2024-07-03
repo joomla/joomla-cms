@@ -27,7 +27,7 @@ Text::script('MESSAGE');
 Text::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('core')
     ->usePreset('com_installer.installer')
     ->useScript('webcomponent.core-loader');

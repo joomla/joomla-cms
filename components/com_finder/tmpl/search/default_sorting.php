@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/** @var \Joomla\Component\Finder\Site\View\Search\HtmlView $this */
 ?>
 <?php HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle'); ?>
 <div class="sorting">
