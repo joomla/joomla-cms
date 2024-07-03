@@ -209,10 +209,10 @@ class ConsoleApplication extends Application implements CMSApplicationInterface
             self::MSG_EMERGENCY => 'caution',
             self::MSG_ERROR     => 'error',
             self::MSG_INFO      => 'note',
-            self::MSG_NOTICE    => 'note',
-            self::MSG_WARNING   => 'warning',
-            self::MSG_SUCCESS   => 'success',
             self::MSG_MESSAGE   => 'success', // consistent with joomla.system.message layout
+            self::MSG_NOTICE    => 'note',
+            self::MSG_SUCCESS   => 'success',
+            self::MSG_WARNING   => 'warning',
         ];
 
         // Output any enqueued messages before the app exits
