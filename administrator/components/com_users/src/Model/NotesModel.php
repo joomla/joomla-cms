@@ -14,8 +14,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\User\User;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -62,7 +62,7 @@ class NotesModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  DatabaseQuery  A DatabaseQuery object to retrieve the data set.
+     * @return  QueryInterface  An object implementing QueryInterface to retrieve the data set.
      *
      * @since   2.5
      */

@@ -45,7 +45,7 @@
 			type="list"
 			label="JGLOBAL_SORT_BY"
 			class="js-select-submit-on-change"
-			default="a.title ASC"
+			default="a.next_execution ASC"
 			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
@@ -59,6 +59,8 @@
 			<option value="j.type_title DESC">COM_SCHEDULER_TASK_TYPE_DESC</option>
 			<option value="a.last_execution ASC">COM_SCHEDULER_LAST_RUN_ASC</option>
 			<option value="a.last_execution DESC">COM_SCHEDULER_LAST_RUN_DESC</option>
+			<option value="a.next_execution ASC">COM_SCHEDULER_NEXT_RUN_ASC</option>
+			<option value="a.next_execution DESC">COM_SCHEDULER_NEXT_RUN_DESC</option>
 			<option value="a.priority ASC">COM_SCHEDULER_TASK_PRIORITY_ASC</option>
 			<option value="a.priority DESC">COM_SCHEDULER_TASK_PRIORITY_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
