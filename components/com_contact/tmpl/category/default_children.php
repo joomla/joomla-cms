@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
+/** @var \Joomla\Component\Contact\Site\View\Category\HtmlView $this */
 if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
     ?>
 <ul class="com-contact-category__children list-striped list-condensed">
