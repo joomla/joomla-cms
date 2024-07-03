@@ -302,8 +302,8 @@
 					filter="integer"
 					showon="title_only:0[AND]show_date:1[OR]show_category:1[OR]show_hits:1[OR]show_author:1"
 					>
-					<option value="0">MOD_ARTICLES_FIELD_LAYOUT_VERT</option>
-					<option value="1">MOD_ARTICLES_FIELD_LAYOUT_HOR</option>
+					<option value="0">MOD_ARTICLES_FIELD_LAYOUT_MULTILINE</option>
+					<option value="1">MOD_ARTICLES_FIELD_LAYOUT_SINGLELINE</option>
 				</field>
 
 				<field

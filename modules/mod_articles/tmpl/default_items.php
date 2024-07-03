@@ -45,12 +45,7 @@ if ($params->get('articles_layout') == 1) {
                         <?php endif; ?>
 
                         <?php if ($displayInfo) : ?>
-                            <?php
-                                $listClass = 'list-unstyled';
-                                if ($params->get('info_layout') == 1) {
-                                    $listClass = 'list-inline';
-                                }
-                            ?>
+                            <?php $listClass = ($params->get('info_layout') == 1) ? 'list-inline' : 'list-unstyled'; ?>
                             <ul class="<?php echo $listClass; ?>">
 
                                 <?php if ($item->displayHits) : ?>
