@@ -29,14 +29,6 @@ use Joomla\Input\Input;
 interface CMSApplicationInterface extends ExtensionManagerInterface, ConfigurationAwareApplicationInterface, EventAwareInterface
 {
     /**
-     * Constant defining an enqueued emergency message
-     *
-     * @var    string
-     * @since  4.0.0
-     */
-    public const MSG_EMERGENCY = 'emergency';
-
-    /**
      * Constant defining an enqueued alert message
      *
      * @var    string
@@ -53,28 +45,28 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
     public const MSG_CRITICAL = 'critical';
 
     /**
+    * Constant defining an enqueued debug message
+    *
+    * @var    string
+    * @since  4.0.0
+    */
+    public const MSG_DEBUG = 'debug';
+
+    /**
+     * Constant defining an enqueued emergency message
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    public const MSG_EMERGENCY = 'emergency';
+
+    /**
      * Constant defining an enqueued error message
      *
      * @var    string
      * @since  4.0.0
      */
     public const MSG_ERROR = 'error';
-
-    /**
-     * Constant defining an enqueued warning message
-     *
-     * @var    string
-     * @since  4.0.0
-     */
-    public const MSG_WARNING = 'warning';
-
-    /**
-     * Constant defining an enqueued notice message
-     *
-     * @var    string
-     * @since  4.0.0
-     */
-    public const MSG_NOTICE = 'notice';
 
     /**
      * Constant defining an enqueued info message
@@ -84,13 +76,24 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      */
     public const MSG_INFO = 'info';
 
+
     /**
-     * Constant defining an enqueued debug message
+     * Constant defining an enqueued message message
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public const MSG_MESSAGE = 'message';
+
+    /**
+     * Constant defining an enqueued notice message
      *
      * @var    string
      * @since  4.0.0
      */
-    public const MSG_DEBUG = 'debug';
+    public const MSG_NOTICE = 'notice';
+
+
 
     /**
      * Constant defining an enqueued success message
@@ -100,13 +103,15 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      */
     public const MSG_SUCCESS = 'success';
 
+
+
     /**
-     * Constant defining an enqueued message message
+     * Constant defining an enqueued warning message
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.0.0
      */
-    public const MSG_MESSAGE = 'message';
+    public const MSG_WARNING = 'warning';
 
     /**
      * Enqueue a system message.
