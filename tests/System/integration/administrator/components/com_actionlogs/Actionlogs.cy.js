@@ -36,7 +36,7 @@ describe('Test in backend that the action logs', () => {
 
   it('can delete selected logs', () => {
     cy.get('#toolbar-delete').click();
-    cy.on('window:confirm', () => true);
+    cy.clickDialogConfirm(true);
     cy.get('#system-message-container').contains('Please first make a selection from the list').should('exist');
     cy.log('Make a selection first');
     cy.doAdministratorLogout();
