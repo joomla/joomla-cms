@@ -104,7 +104,6 @@
 					cols="10"
 					rows="3"
 				/>
-
 			</fieldset>
 
 			<fieldset name="display"
@@ -176,7 +175,7 @@
 					<option value="h3">JH3</option>
 					<option value="h4">JH4</option>
 					<option value="h5">JH5</option>
-					<option value="p">MOD_ARTICLES_FIELD_TITLE_HEADING_NONE</option>
+					<option value="div">MOD_ARTICLES_FIELD_TITLE_HEADING_NONE</option>
 				</field>
 
 				<field
