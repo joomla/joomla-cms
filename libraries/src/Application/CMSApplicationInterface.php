@@ -93,8 +93,6 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      */
     public const MSG_NOTICE = 'notice';
 
-
-
     /**
      * Constant defining an enqueued success message
      *
@@ -102,8 +100,6 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      * @since  __DEPLOY_VERSION__
      */
     public const MSG_SUCCESS = 'success';
-
-
 
     /**
      * Constant defining an enqueued warning message
