@@ -279,47 +279,61 @@ class JoomlaFieldSubform extends HTMLElement {
       const nameNew = name.replace(`[${group}][`, `[${groupnew}][`); // New name
       let idNew = id.replace(group, groupnew).replace(/\W/g, '_'); // Count new id
       let countMulti = 0; // count for multiple radio/checkboxes
-      let forOldAttr = id; // Fix "for" in the labels
+      const forOldAttr = $el.id; // Fix "for" in the labels
 
       if ($el.type === 'checkbox' && name.match(/\[\]$/)) { // <input type="checkbox" name="name[]"> fix
-        // Recount id
         countMulti = ids[id] ? ids[id].length : 0;
-        if (!countMulti) {
-          // Set the id for fieldset and group label
-          const fieldset = $el.closest('fieldset.checkboxes');
 
-          const elLbl = row.querySelector(`label[for="${id}"]`);
+        // Set the id for fieldset and group label
+        if (!countMulti) {
+          // Look for <fieldset class="checkboxes"></fieldset> or <fieldset><div class="checkboxes"></div></fieldset>
+          let fieldset = $el.closest('.checkboxes');
+          // eslint-disable-next-line no-nested-ternary
+          fieldset = fieldset.nodeName === 'FIELDSET' ? fieldset : (fieldset.parentElement.nodeName === 'FIELDSET' ? fieldset.parentElement : false);
 
           if (fieldset) {
-            fieldset.setAttribute('id', idNew);
-          }
+            const oldSetId = fieldset.id;
+            fieldset.id = idNew;
 
-          if (elLbl) {
-            elLbl.setAttribute('for', idNew);
-            elLbl.setAttribute('id', `${idNew}-lbl`);
+            const groupLbl = row.querySelector(`label[for="${oldSetId}"]`);
+
+            if (groupLbl) {
+              groupLbl.setAttribute('for', idNew);
+
+              if (groupLbl.id) {
+                groupLbl.setAttribute('id', `${idNew}-lbl`);
+              }
+            }
           }
         }
-        forOldAttr += countMulti;
+
         idNew += countMulti;
       } else if ($el.type === 'radio') { // <input type="radio"> fix
-        // Recount id
         countMulti = ids[id] ? ids[id].length : 0;
-        if (!countMulti) {
-          // Set the id for fieldset and group label
-          const fieldset = $el.closest('fieldset.radio');
 
-          const elLbl = row.querySelector(`label[for="${id}"]`);
+        // Set the id for fieldset and group label
+        if (!countMulti) {
+          // Look for <fieldset class="radio"></fieldset> or <fieldset><div class="radio"></div></fieldset>
+          let fieldset = $el.closest('.radio');
+          // eslint-disable-next-line no-nested-ternary
+          fieldset = fieldset.nodeName === 'FIELDSET' ? fieldset : (fieldset.parentElement.nodeName === 'FIELDSET' ? fieldset.parentElement : false);
 
           if (fieldset) {
-            fieldset.setAttribute('id', idNew);
-          }
+            const oldSetId = fieldset.id;
+            fieldset.id = idNew;
 
-          if (elLbl) {
-            elLbl.setAttribute('for', idNew);
-            elLbl.setAttribute('id', `${idNew}-lbl`);
+            const groupLbl = row.querySelector(`label[for="${oldSetId}"]`);
+
+            if (groupLbl) {
+              groupLbl.setAttribute('for', idNew);
+
+              if (groupLbl.id) {
+                groupLbl.setAttribute('id', `${idNew}-lbl`);
+              }
+            }
           }
         }
-        forOldAttr += countMulti;
+
         idNew += countMulti;
       }
 
@@ -344,7 +358,10 @@ class JoomlaFieldSubform extends HTMLElement {
       const lbl = row.querySelector(`label[for="${forOldAttr}"]`);
       if (lbl) {
         lbl.setAttribute('for', idNew);
-        lbl.setAttribute('id', `${idNew}-lbl`);
+
+        if (lbl.id) {
+          lbl.setAttribute('id', `${idNew}-lbl`);
+        }
       }
     });
   }
