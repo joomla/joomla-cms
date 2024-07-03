@@ -1,8 +1,8 @@
 .mod-articles-item-card .mod-articles-link::before {
-  content: '';
   position: absolute;
-  inset: 0;
   z-index: 1;
+  content: "";
+  inset: 0;
 }
 .mod-articles-item-card {
   position: relative;
@@ -11,9 +11,9 @@
   box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
 }
 .mod-articles-item-card:focus-within :focus {
-  box-shadow: none;
-  outline: none;
   border: none;
+  outline: none;
+  box-shadow: none;
 }
 .mod-articles-item {
   display: flex;
