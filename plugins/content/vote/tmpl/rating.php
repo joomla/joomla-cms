@@ -87,9 +87,9 @@ for ($i = $stars; $i < 5; $i++) {
             <meta itemprop="worstRating" content="1">
         </p>
     </div>
-    <?php if ($this->params->get('show_total_votes', 0)) : ?>
-        <?php echo Text::sprintf('PLG_VOTE_TOTAL_VOTES', $rcount); ?>
-    <?php endif; ?>
+        <?php if ($this->params->get('show_total_votes', 0)) : ?>
+            <?php echo Text::sprintf('PLG_VOTE_TOTAL_VOTES', $rcount); ?>
+        <?php endif; ?>
     <?php endif; ?>
     <ul>
         <?php echo $img; ?>
