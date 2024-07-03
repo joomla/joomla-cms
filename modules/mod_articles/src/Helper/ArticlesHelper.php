@@ -148,13 +148,33 @@ class ArticlesHelper implements DatabaseAwareInterface
             $articles->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
         }
 
+        // Filter by id in case it should be excluded
         $excluded_articles = $params->get('excluded_articles', '');
+        if (
+            $params->get('exclude_current', true)
+            && $input->get('option') === 'com_content'
+            && $input->get('view') === 'article'
+        ) {
+            // Add current article to excluded list
+            $excluded_articles .= "\r\n" . $input->get('id', 0, 'UINT');
+        }
+
         if ($excluded_articles) {
             $excluded_articles = explode("\r\n", $excluded_articles);
             $articles->setState('filter.article_id', $excluded_articles);
 
             // Exclude
             $articles->setState('filter.article_id.include', false);
+        }
+
+        // Filter by id in case it should be included only
+        $included_articles = $params->get('included_articles', '');
+        if ($included_articles) {
+            $included_articles = explode("\r\n", $included_articles);
+            $articles->setState('filter.article_id', $included_articles);
+
+            // Include
+            $articles->setState('filter.article_id.include', true);
         }
 
         $date_filtering = $params->get('date_filtering', 'off');
@@ -234,7 +254,10 @@ class ArticlesHelper implements DatabaseAwareInterface
 
 
             if ($show_introtext) {
-                $item->introtext = HTMLHelper::_('content.prepare', $item->introtext, '', 'mod_articles.content');
+                $item->displayIntrotext = HTMLHelper::_('content.prepare', $item->introtext, '', 'mod_articles.content');
+                if ($introtext_limit != 0) {
+                    $item->displayIntrotext = SpecialStringHelper::truncate($item->introtext, $introtext_limit, true, false);
+                }
             }
 
             // Remove any images belongs to the text
@@ -265,7 +288,6 @@ class ArticlesHelper implements DatabaseAwareInterface
                     }
                 }
             }
-            $item->displayIntrotext = $show_introtext ? SpecialStringHelper::truncate($item->introtext, $introtext_limit, true, false) : '';
             $item->displayReadmore  = $item->alternative_readmore;
         }
 

@@ -14,8 +14,12 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
+if ($params->get('articles_layout') == 1) {
+    $gridCols = 'grid-cols-' . $params->get('layout_columns');
+}
+
 ?>
-<ul class="mod-articles-items <?php echo ($params->get('articles_layout') == 1 ? 'mod-articles-grid' : ''); ?> mod-list">
+<ul class="mod-articles-items <?php echo ($params->get('articles_layout') == 1 ? 'mod-articles-grid ' . $gridCols : ''); ?> mod-list">
     <?php foreach ($items as $item) : ?>
         <?php
             $displayInfo = $item->displayHits || $item->displayAuthorName || $item->displayCategoryTitle || $item->displayDate;

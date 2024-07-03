@@ -17,11 +17,14 @@ use Joomla\CMS\Language\Text;
 $wa = $app->getDocument()->getWebAssetManager();
 $wa->registerAndUseStyle('mod_articles', 'mod_articles/mod-articles.css');
 
-if ($params->get('articles_layout') == 1) {
-    $gridCols = $params->get('layout_columns');
-    $wa->addInlineStyle(".mod-articles-grid {
-        --grid-column-count: $gridCols;
-    }");
+$groupHeading = 'h4';
+if ((bool) $module->showtitle) {
+    $modTitle = $params->get('header_tag');
+    if ($modTitle == 'h1') {
+        $groupHeading = 'h2';
+    } elseif ($modTitle == 'h2') {
+        $groupHeading = 'h3';
+    }
 }
 
 if (!$list) {
@@ -34,7 +37,7 @@ if (!$list) {
     <?php if ($grouped) : ?>
         <?php foreach ($list as $groupName => $items) : ?>
             <div class="mod-articles-group">
-                <h4><?php echo Text::_($groupName); ?></h4>
+                <<?php echo $groupHeading; ?>><?php echo Text::_($groupName); ?></<?php echo $groupHeading; ?>>
                 <ul class="mod-articles mod-list">
                     <?php foreach ($items as $item) : ?>
                         <li itemscope itemtype="https://schema.org/Article">
@@ -66,12 +69,12 @@ if (!$list) {
     <?php if ($grouped) : ?>
         <?php foreach ($list as $groupName => $items) : ?>
             <div class="mod-articles-group">
-                <h4><?php echo Text::_($groupName); ?></h4>
-                <?php require ModuleHelper::getLayoutPath('mod_articles', '_items'); ?>
+                <<?php echo $groupHeading; ?>><?php echo Text::_($groupName); ?></<?php echo $groupHeading; ?>>
+                <?php require ModuleHelper::getLayoutPath('mod_articles', $params->get('layout', 'default') . '_items'); ?>
             </div>
         <?php endforeach; ?>
     <?php else : ?>
         <?php $items = $list; ?>
-        <?php require ModuleHelper::getLayoutPath('mod_articles', '_items'); ?>
+        <?php require ModuleHelper::getLayoutPath('mod_articles', $params->get('layout', 'default') . '_items'); ?>
     <?php endif; ?>
 <?php endif; ?>
