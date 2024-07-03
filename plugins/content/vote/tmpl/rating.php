@@ -81,15 +81,15 @@ for ($i = $stars; $i < 5; $i++) {
     <?php if ($rcount) : ?>
     <div class="visually-hidden" itemscope itemtype="https://schema.org/Product">
         <span itemprop="name"><?php echo $row->title; ?></span>
-        <p class="visually-hidden" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+        <p itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
             <?php echo Text::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
             <meta itemprop="ratingCount" content="<?php echo $rcount; ?>">
             <meta itemprop="worstRating" content="1">
         </p>
-        <?php if ($this->params->get('show_total_votes', 0)) : ?>
-            <?php echo Text::sprintf('PLG_VOTE_TOTAL_VOTES', $rcount); ?>
-        <?php endif; ?>
     </div>
+    <?php if ($this->params->get('show_total_votes', 0)) : ?>
+        <?php echo Text::sprintf('PLG_VOTE_TOTAL_VOTES', $rcount); ?>
+    <?php endif; ?>
     <?php endif; ?>
     <ul>
         <?php echo $img; ?>
