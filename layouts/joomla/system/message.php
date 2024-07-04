@@ -19,15 +19,16 @@ $msgList   = $displayData['msgList'];
 $document  = Factory::getDocument();
 $msgOutput = '';
 $alert     = [
-    CMSApplication::MSG_EMERGENCY => 'danger',
     CMSApplication::MSG_ALERT     => 'danger',
     CMSApplication::MSG_CRITICAL  => 'danger',
-    CMSApplication::MSG_ERROR     => 'danger',
-    CMSApplication::MSG_WARNING   => 'warning',
-    CMSApplication::MSG_NOTICE    => 'info',
-    CMSApplication::MSG_INFO      => 'info',
     CMSApplication::MSG_DEBUG     => 'info',
+    CMSApplication::MSG_EMERGENCY => 'danger',
+    CMSApplication::MSG_ERROR     => 'danger',
+    CMSApplication::MSG_INFO      => 'info',
     CMSApplication::MSG_MESSAGE   => 'success',
+    CMSApplication::MSG_NOTICE    => 'info',
+    CMSApplication::MSG_SUCCESS   => 'success',
+    CMSApplication::MSG_WARNING   => 'warning',
 ];
 
 // Load JavaScript message titles
