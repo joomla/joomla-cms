@@ -26,7 +26,8 @@
   margin-bottom: .5rem;
 }
 @supports (container-type: inline-size) {
-  .grid-child {
+  div:has(.mod-articles-grid),
+  section:has(.mod-articles-grid) {
     container-type: inline-size;
   }
 }
