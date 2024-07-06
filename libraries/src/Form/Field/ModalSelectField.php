@@ -123,8 +123,10 @@ class ModalSelectField extends FormField
         $this->__set('clear', (string) $this->element['clear'] != 'false');
 
         // Prepare Urls and titles
-        foreach (['urlSelect', 'urlNew', 'urlEdit', 'urlCheckin', 'titleSelect', 'titleNew', 'titleEdit', 'iconSelect',
-                     'sql_title_table', 'sql_title_column', 'sql_title_key'] as $attr) {
+        foreach ([
+            'urlSelect', 'urlNew', 'urlEdit', 'urlCheckin', 'titleSelect', 'titleNew', 'titleEdit', 'iconSelect',
+                     'sql_title_table', 'sql_title_column', 'sql_title_key',
+                 ] as $attr) {
             $this->__set($attr, (string) $this->element[$attr]);
         }
 
