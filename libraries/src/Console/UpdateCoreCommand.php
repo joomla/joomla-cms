@@ -272,18 +272,7 @@ class UpdateCoreCommand extends AbstractCommand
             $result = $updatemodel->finaliseUpgrade();
 
             if ($result) {
-                try {
-                    $updateSourceChanged = $updatemodel->resetUpdateSource();
-                } catch (\Throwable $e) {
-                    $updateSourceChanged = false;
-                    $updatemodel->collectError('resetUpdateSource', $e);
-                    $message = Text::sprintf(
-                        'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_FAILED',
-                        Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
-                        Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
-                    );
-                    $this->ioStyle->warning($message);
-                }
+                $updateSourceChanged = $updatemodel->resetUpdateSource();
 
                 if ($updateSourceChanged) {
                     $message = Text::sprintf(
@@ -292,6 +281,13 @@ class UpdateCoreCommand extends AbstractCommand
                         Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
                     );
                     $this->ioStyle->info($message);
+                } elseif ($updateSourceChanged !== null) {
+                    $message = Text::sprintf(
+                        'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_FAILED',
+                        Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
+                        Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
+                    );
+                    $this->ioStyle->warning($message);
                 }
 
                 $this->progressBar->clear();

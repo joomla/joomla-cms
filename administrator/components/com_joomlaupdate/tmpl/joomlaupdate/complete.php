@@ -28,12 +28,12 @@ $forumLink    = '<a href="https://forum.joomla.org/" target="_blank" rel="noopen
 <div class="card">
     <h2 class="card-header"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_COMPLETE_HEADING'); ?></h2>
     <div class="card-body">
-        <?php if ($channelReset === true) : ?>
+        <?php if ($channelReset) : ?>
             <div class="alert alert-success">
                 <span class="icon-check-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('NOTICE'); ?></span>
                 <?php echo Text::sprintf('COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_OK', Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'), Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')); ?>
             </div>
-        <?php elseif ($channelReset === null) : ?>
+        <?php elseif ($channelReset !== null) : ?>
             <div class="alert alert-warning">
                 <span class="icon-check-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
                 <?php echo Text::sprintf('COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_FAILED', Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'), Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')); ?>

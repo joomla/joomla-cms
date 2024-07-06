@@ -2031,7 +2031,8 @@ ENDDATA;
     /**
      * Reset update source from "next" to "default"
      *
-     * @return  boolean  true if update source is reset, false if not
+     * @return  boolean  True if update source is reset, false if reset failed with error,
+     *                   null if no reset was necessary.
      *
      * @since   __DEPLOY_VERSION__
      * @throws  \RuntimeException
@@ -2043,7 +2044,7 @@ ENDDATA;
 
         // Do nothing if not "next"
         if ($params->get('updatesource', 'default') !== 'next') {
-            return false;
+            return null;
         }
 
         $params->set('updatesource', 'default');
@@ -2058,7 +2059,42 @@ ENDDATA;
             ->bind(':params', $params);
 
         $db->setQuery($query);
-        $db->execute();
+
+        try {
+            $db->execute();
+        } catch (\RuntimeException $e) {
+            Log::add(
+                sprintf(
+                    'An error has occurred while running "resetUpdateSource". Code: %s. Message: %s.',
+                    $error->getCode(),
+                    $error->getMessage()
+                ),
+                Log::WARNING,
+                'Update'
+            );
+
+            Log::add(
+                Text::sprintf(
+                    'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_FAILED',
+                    Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
+                    Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
+                ),
+                Log::WARNING,
+                'Update'
+            );
+
+            return false;
+        }
+
+        Log::add(
+            Text::sprintf(
+                'COM_JOOMLAUPDATE_UPDATE_CHANGE_UPDATE_SOURCE_OK',
+                Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT'),
+                Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT')
+            ),
+            Log::INFO,
+            'Update'
+        );
 
         return true;
     }
