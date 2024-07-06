@@ -38,7 +38,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
      */
     public function dispatch()
     {
-        // The guided tour will not show if no user is logged in.
+        // The community info will not show if no user is logged in.
         $user = $this->getApplication()->getIdentity();
         if ($user === null || $user->id === 0) {
             return;

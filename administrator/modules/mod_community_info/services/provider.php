@@ -17,7 +17,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * The guided tours module service provider.
+ * The community info module service provider.
  *
  * @since  4.5.0
  */
