@@ -2064,8 +2064,8 @@ ENDDATA;
             Log::add(
                 sprintf(
                     'An error has occurred while running "resetUpdateSource". Code: %s. Message: %s.',
-                    $error->getCode(),
-                    $error->getMessage()
+                    $e->getCode(),
+                    $e->getMessage()
                 ),
                 Log::WARNING,
                 'Update'
