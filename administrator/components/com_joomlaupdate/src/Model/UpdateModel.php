@@ -2035,7 +2035,6 @@ ENDDATA;
      *                   null if no reset was necessary.
      *
      * @since   __DEPLOY_VERSION__
-     * @throws  \RuntimeException
      */
     public function resetUpdateSource()
     {
@@ -2058,11 +2057,10 @@ ENDDATA;
             ->where($db->quoteName('element') . ' = ' . $db->quote('com_joomlaupdate'))
             ->bind(':params', $params);
 
-        $db->setQuery($query);
-
         try {
+            $db->setQuery($query);
             $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\Exception $e) {
             Log::add(
                 sprintf(
                     'An error has occurred while running "resetUpdateSource". Code: %s. Message: %s.',
