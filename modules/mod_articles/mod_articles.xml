@@ -35,9 +35,9 @@
 
 				<field
 					name="category_filtering_type"
-					type="radio"
+					type="list"
 					label="MOD_ARTICLES_FIELD_CATFILTERINGTYPE_LABEL"
-					layout="joomla.form.field.radio.switcher"
+					description="MOD_ARTICLES_FIELD_CATFILTERINGTYPE_DESC"
 					default="1"
 					filter="integer"
 					>
@@ -58,9 +58,9 @@
 
 				<field
 					name="show_child_category_articles"
-					type="radio"
+					type="list"
 					label="MOD_ARTICLES_FIELD_SHOWCHILDCATEGORYARTICLES_LABEL"
-					layout="joomla.form.field.radio.switcher"
+					description="MOD_ARTICLES_FIELD_SHOWCHILDCATEGORYARTICLES_DESC"
 					default="0"
 					filter="integer"
 					>
@@ -123,10 +123,9 @@
 
 				<field
 					name="articles_layout"
-					type="radio"
+					type="list"
 					label="MOD_ARTICLES_FIELD_LAYOUT_LABEL"
 					description="MOD_ARTICLES_FIELD_LAYOUT_DESC"
-					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="integer"
 					showon="title_only:0"
@@ -294,10 +293,9 @@
 
 				<field
 					name="info_layout"
-					type="radio"
+					type="list"
 					label="MOD_ARTICLES_FIELD_INFOLAYOUT_LABEL"
 					description="MOD_ARTICLES_FIELD_INFOLAYOUT_DESC"
-					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="integer"
 					showon="show_date:1[OR]show_category:1[OR]show_hits:1[OR]show_author:1[AND]title_only:0"
@@ -430,7 +428,6 @@
 					name="show_archived"
 					type="list"
 					label="MOD_ARTICLES_FIELD_ONLYARCHIVED_LABEL"
-					layout="joomla.form.field.radio.switcher"
 					default="hide"
 					validate="options"
 					>
@@ -462,9 +459,8 @@
 
 				<field
 					name="author_filtering_type"
-					type="radio"
+					type="list"
 					label="MOD_ARTICLES_FIELD_AUTHORFILTERING_LABEL"
-					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -490,9 +486,8 @@
 
 				<field
 					name="author_alias_filtering_type"
-					type="radio"
+					type="list"
 					label="MOD_ARTICLES_FIELD_AUTHORALIASFILTERING_LABEL"
-					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
