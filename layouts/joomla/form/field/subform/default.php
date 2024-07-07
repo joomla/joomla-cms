@@ -1,10 +1,11 @@
 <?php
+
 /**
- * @package   Component for customer to book slot appointments with site owner.
- * @version   0.0.1
- * @author    https://www.brainforge.co.uk
- * @copyright Copyright (C) 2024 Jonathan Brain. All rights reserved.
- * @license   GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ * @package     Joomla.Site
+ * @subpackage  Layout
+ *
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
