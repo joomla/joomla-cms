@@ -49,12 +49,12 @@ CommunityInfoHelper::addText();
     </div>
     <table id="collapseNews" class="table community-info-news collapse">
       <tbody>
-        <?php foreach ($news as $n => $article) : ?>
-          <tr>
-            <td scope="row"><a href="<?php echo $article->link; ?>" target="_blank"><?php echo $article->title; ?></a></td>
-            <td style="text-align: right"><span class="small"><?php echo HTMLHelper::_('date', $article->pubDate, 'M j, Y'); ?></span></td>
-          </tr>
-        <?php endforeach; ?>
+      <?php foreach ($news as $n => $article) : ?>
+        <tr>
+          <td scope="row"><a href="<?php echo $article->link; ?>" target="_blank"><?php echo $article->title; ?></a></td>
+          <td style="text-align: right"><span class="small"><?php echo HTMLHelper::_('date', $article->pubDate, 'M j, Y'); ?></span></td>
+        </tr>
+      <?php endforeach; ?>
       </tbody>
     </table>
   </div>  
@@ -80,7 +80,7 @@ CommunityInfoHelper::addText();
   </div>
   <hr />
   <div class="info-block contribute">
-    <a class="no-link" href="https://magazine.joomla.org/all-issues/june-2024/holopin-is-ready-to-launch,-claim-your-digital-badge" target="_blank"><img class="float-right" src="<?php echo Uri::root(true).'/media/mod_community_info/images/holopin-badge-board.png'; ?>" alt="joomla volunteer badge"></a>
+    <a class="no-link" href="https://magazine.joomla.org/all-issues/june-2024/holopin-is-ready-to-launch,-claim-your-digital-badge" target="_blank"><img class="float-right" src="<?php echo Uri::root(true) . '/media/mod_community_info/images/holopin-badge-board.png'; ?>" alt="joomla volunteer badge"></a>
     <h3><?php echo Text::_('MOD_COMMUNITY_INFO_CONTRIBUTE_TITLE'); ?></h3>
     <p><?php echo CommunityInfoHelper::replaceText(Text::_('MOD_COMMUNITY_INFO_CONTRIBUTE_TEXT'), $links); ?></p>
     <p><?php echo CommunityInfoHelper::replaceText(Text::_('MOD_COMMUNITY_INFO_CONTRIBUTE_CONTACT'), $links); ?></p>
@@ -123,7 +123,7 @@ CommunityInfoHelper::addText();
 // Location form modal
 $options = array('modal-dialog-scrollable' => true,
                   'title'  => Text::_('MOD_COMMUNITY_INFO_CHOOSE_LOCATION'),
-                  'footer' => '<button onclick="autoLoc()" class="btn">'.Text::_('MOD_COMMUNITY_INFO_AUTO_LOCATION').'</button><button id="saveLocBtn" disabled onclick="saveLoc()" class="btn btn-primary">'.Text::_('MOD_COMMUNITY_INFO_SAVE_LOCATION').'</button>',
+                  'footer' => '<button onclick="autoLoc()" class="btn">' . Text::_('MOD_COMMUNITY_INFO_AUTO_LOCATION') . '</button><button id="saveLocBtn" disabled onclick="saveLoc()" class="btn btn-primary">' . Text::_('MOD_COMMUNITY_INFO_SAVE_LOCATION') . '</button>',
                 );
 echo HTMLHelper::_('bootstrap.renderModal', 'location-modal', $options, '<p>Loading...</p>');
 ?>
@@ -139,7 +139,7 @@ echo HTMLHelper::_('bootstrap.renderModal', 'location-modal', $options, '<p>Load
     document.getElementById('location-modal').classList.add('mod-community-info');
 
     // Send browsers current geolocation to com_ajax
-    <?php if(intval($params->get('auto_location', 1))) : ?>
+    <?php if (intval($params->get('auto_location', 1))) : ?>
     try {
       let location = await getCurrentLocation();
       console.log('Current Location:', location);

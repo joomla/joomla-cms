@@ -17,7 +17,7 @@ use Joomla\CMS\Helper\HelperFactoryAwareTrait;
 use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -40,6 +40,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
     {
         // The community info will not show if no user is logged in.
         $user = $this->getApplication()->getIdentity();
+
         if ($user === null || $user->id === 0) {
             return;
         }
@@ -68,19 +69,21 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
 
         // Update location by form values
         $task = $this->input->getCmd('module_task', '');
-        if(\in_array($task, ['saveLocation', 'autoLocation']))
-        {
-          $this->getHelperFactory()->getHelper('CommunityInfoHelper')->setLocationForm($task);
+
+        if (\in_array($task, ['saveLocation', 'autoLocation'])) {
+            $this->getHelperFactory()->getHelper('CommunityInfoHelper')->setLocationForm($task);
         }
 
         // Get links and location
         $data['links']      = $this->getHelperFactory()->getHelper('CommunityInfoHelper')->getLinks($data['params']);
         $data['currentLoc'] = \explode(',', $this->getHelperFactory()->getHelper('CommunityInfoHelper')->getLocation($data['params'], 'geolocation'), 2);
-        if($data['links']->exists('news_feed')) {
-          $data['news'] = $this->getHelperFactory()->getHelper('CommunityInfoHelper')->getNewsFeed($data['links']->get('news_feed'), 3);
+
+        if ($data['links']->exists('news_feed')) {
+            $data['news'] = $this->getHelperFactory()->getHelper('CommunityInfoHelper')->getNewsFeed($data['links']->get('news_feed'), 3);
         }
-        if($data['links']->exists('events_feed')) {
-          $data['events'] = $this->getHelperFactory()->getHelper('CommunityInfoHelper')->getEventsFeed($data['links']->get('events_feed'), 3);
+
+        if ($data['links']->exists('events_feed')) {
+            $data['events'] = $this->getHelperFactory()->getHelper('CommunityInfoHelper')->getEventsFeed($data['links']->get('events_feed'), 3);
         }
 
         return $data;

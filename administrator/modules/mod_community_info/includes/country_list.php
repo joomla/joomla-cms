@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 /**
  * Array containing default values for the community links
@@ -16,7 +16,7 @@
  *
  * @since  4.5.0
  */
-$country_list_array = [
+$countryListArray = [
   "af-AF" => [ "value" => "af-AF", "label" => "Afghanistan", "geolocation" => "34.5553,69.2075" ],
   "ax-AX" => [ "value" => "ax-AX", "label" => "Åland Islands", "geolocation" => "60.1785,19.9156" ],
   "sq-AL" => [ "value" => "sq-AL", "label" => "Albania", "geolocation" => "41.3275,19.8189" ],
