@@ -10,9 +10,9 @@
 
 namespace Joomla\Module\CommunityInfo\Administrator\Field;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
 defined('_JEXEC') or die;
@@ -44,7 +44,7 @@ class LocationlistField extends ListField
     protected function getOptions()
     {
         // Prepare the empty array
-        $options = array();
+        $options = [];
 
         // Get the list of countries
         require_once JPATH_ADMINISTRATOR . '/modules/mod_community_info/includes/country_list.php';

@@ -84,7 +84,7 @@ class CommunityInfoHelper
 
         if ($api_link_sets = self::fetchAPI($url, $vars)) {
             // Sort the returned data based on level with descending order
-            \usort($api_link_sets, fn($a, $b) => $b['level'] <=> $a['level']);
+            \usort($api_link_sets, fn ($a, $b) => $b['level'] <=> $a['level']);
 
             // Search for a suitable link value in returned data
             foreach ($links as $k => $link_val) {
@@ -180,18 +180,18 @@ class CommunityInfoHelper
 
         if ($rss  = self::fetchAPI($url, $vars, 'xml')) {
             foreach ($rss->channel->item as $item) {
-                $obj = new \stdClass();
-                $obj->title = (string) $item->title;
-                $obj->link = (string) $item->link;
-                $obj->guid = (string) $item->guid;
+                $obj              = new \stdClass();
+                $obj->title       = (string) $item->title;
+                $obj->link        = (string) $item->link;
+                $obj->guid        = (string) $item->guid;
                 $obj->description = (string) $item->description;
-                $obj->category = (string) $item->category;
-                $obj->pubDate = (string) $item->pubDate;
-                $items[] = $obj;
+                $obj->category    = (string) $item->category;
+                $obj->pubDate     = (string) $item->pubDate;
+                $items[]          = $obj;
             }
 
             // Sort the items by pubDate in descending order
-            \usort($items, fn($a, $b) => \strtotime($b->pubDate) <=> \strtotime($a->pubDate));
+            \usort($items, fn ($a, $b) => \strtotime($b->pubDate) <=> \strtotime($a->pubDate));
 
             // Select n most recent items
             $items = \array_slice($items, 0, $num);
@@ -218,7 +218,7 @@ class CommunityInfoHelper
 
         if ($events  = self::fetchAPI($url, $vars, 'json')) {
             // Sort the array by the 'start' property to ensure events are in chronological order
-            \usort($events, fn($a, $b) => \strtotime($a['start']) <=> \strtotime($b['start']));
+            \usort($events, fn ($a, $b) => \strtotime($a['start']) <=> \strtotime($b['start']));
 
             // Select the next n upcoming events
             $nextThreeEvents = \array_slice($events, 0, $num);
@@ -327,7 +327,7 @@ class CommunityInfoHelper
 
         // Get input data
         $input            = Factory::getApplication()->input;
-        $jform            = $input->getArray(array( 'jform' => array('lat' => 'string', 'lng' => 'string', 'autoloc' => 'bool') ));
+        $jform            = $input->getArray([ 'jform' => ['lat' => 'string', 'lng' => 'string', 'autoloc' => 'bool'] ]);
         $current_location = self::fixGeolocation($jform['jform']['lat'] . ',' . $jform['jform']['lng']);
 
         // Update module params
@@ -398,9 +398,9 @@ class CommunityInfoHelper
         $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         $query = $db->getQuery(true)
-                  ->select($db->quoteName('params'))
-                  ->from($db->quoteName('#__modules'))
-                  ->where($db->quoteName('id') . ' = ' . self::$moduleId);
+                    ->select($db->quoteName('params'))
+                    ->from($db->quoteName('#__modules'))
+                    ->where($db->quoteName('id') . ' = ' . self::$moduleId);
 
         $db->setQuery($query);
 
@@ -423,12 +423,12 @@ class CommunityInfoHelper
             throw new \Exception('Module ID is needed in order to write params to db!', 1);
         }
 
-        $db = Factory::getContainer()->get(DatabaseInterface::class);
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true);
 
         $query->update($db->quoteName('#__modules'))
-                              ->set($db->quoteName('params') . ' = ' . $db->quote($params->toString('json')))
-                              ->where($db->quoteName('id') . ' = ' . self::$moduleId);
+                          ->set($db->quoteName('params') . ' = ' . $db->quote($params->toString('json')))
+                          ->where($db->quoteName('id') . ' = ' . self::$moduleId);
 
         $db->setQuery($query);
 
@@ -513,7 +513,7 @@ class CommunityInfoHelper
     {
         $db = Factory::getContainer()->get(DatabaseInterface::class);
 
-      // Get a list of groups which have Super User privileges
+        // Get a list of groups which have Super User privileges
         $ret = ['info@example.org'];
 
         try {
@@ -539,7 +539,7 @@ class CommunityInfoHelper
             return $ret;
         }
 
-      // Get the user IDs of users belonging to the SA groups
+        // Get the user IDs of users belonging to the SA groups
         try {
             $query = $db->getQuery(true)
               ->select($db->quoteName('user_id'))
@@ -556,7 +556,7 @@ class CommunityInfoHelper
             return $ret;
         }
 
-      // Get the user information for the Super Administrator users
+        // Get the user information for the Super Administrator users
         try {
             $query = $db->getQuery(true)
               ->select('email')
@@ -588,7 +588,7 @@ class CommunityInfoHelper
         $lat_arr = \explode('.', $coor_arr[0], 2);
         $lng_arr = \explode('.', $coor_arr[1], 2);
 
-      // Create the form 51.5000,0.0000
+        // Create the form 51.5000,0.0000
         $geolocation = \trim($lat_arr[0]) . '.' . \trim(\substr($lat_arr[1], 0, 4)) . ',' . \trim($lng_arr[0]) . '.' . \trim(\substr($lng_arr[1], 0, 4));
 
         return $geolocation;
@@ -611,12 +611,12 @@ class CommunityInfoHelper
         $email     = self::getSuperUserMails()[0];
         $target    = $url . '?' . \http_build_query($variables);
 
-      // Create options
+        // Create options
         $options = new Registry();
         $options->set('userAgent', $email);
         $options->set('headers', ['Referer' => \trim($domain)]);
 
-      // Fetch address from joomla.org
+        // Fetch address from joomla.org
         try {
             $response = HttpFactory::getHttp($options)->get($target);
         } catch (\Exception $e) {
