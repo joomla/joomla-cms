@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.Administrator
- * @subpackage  mod_community_info 
+ * @subpackage  mod_community_info
  *
  * @copyright   (C) 2024 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -264,4 +264,3 @@ $country_list_array = [
   "en-ZM" => [ "value" => "en-ZM", "label" => "Zambia", "geolocation" => "-13.1339,27.8493" ],
   "en-ZW" => [ "value" => "en-ZW", "label" => "Zimbabwe", "geolocation" => "-19.0154,29.1549" ]
 ];
- 
