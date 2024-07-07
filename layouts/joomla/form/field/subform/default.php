@@ -86,8 +86,7 @@ $form = $forms[0];
             </div>
             <?php
         }
-    }
-    else {
+    } else {
         foreach ($form->getGroup('') as $field) {
             echo $field->renderField();
         }
