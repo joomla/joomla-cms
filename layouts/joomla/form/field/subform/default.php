@@ -37,7 +37,7 @@ $form = $forms[0];
 <div class="subform-wrapper">
     <?php
     if ($groupByFieldset) {
-        foreach($form->getFieldsets() as $fieldSet) {
+        foreach ($form->getFieldsets() as $fieldSet) {
             /*
              * Fieldset attributes (see https://docs.joomla.org/Advanced_form_guide)
              *  name                Element name
