@@ -45,7 +45,7 @@ class LocationlistField extends ListField
     require_once JPATH_ADMINISTRATOR.'/modules/mod_community_info/includes/country_list.php';
 
     // Default option
-    $options[] = HTMLHelper::_('select.option', 'en-UK', Text::_('JDEFAULT').' (United Kingdom)');
+    $options[] = HTMLHelper::_('select.option', 'en-GB', Text::_('JDEFAULT').' (United Kingdom)');
 
 		foreach ($country_list_array as $country) {
         $options[] = HTMLHelper::_('select.option', $country['value'], $country['label']);

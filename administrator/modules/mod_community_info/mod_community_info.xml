@@ -20,8 +20,6 @@
 	<languages>
 		<language tag="en-GB">language/en-GB/mod_community_info.ini</language>
 		<language tag="en-GB">language/en-GB/mod_community_info.sys.ini</language>
-    <language tag="de-DE">language/de-DE/mod_community_info.ini</language>
-		<language tag="de-DE">language/de-DE/mod_community_info.sys.ini</language>
 	</languages>
   <media folder="media" destination="mod_community_info">
 		<filename>joomla.asset.json</filename>
@@ -35,39 +33,41 @@
         <field
           name="endpoint"
           type="url"
-          hint ="http://www.example.com"
           label="MOD_COMMUNITY_INFO_FIELD_ENDPOINT_LABEL"
           description="MOD_COMMUNITY_INFO_FIELD_ENDPOINT_DESC"
+          hint ="http://www.example.com"          
         />
         <field
           name="fallback-location"
           type="locationlist"
-          default="en-UK"
-          layout="joomla.form.field.list-fancy-select"
           label="MOD_COMMUNITY_INFO_FIELD_FALLBACK_LOCATION_LABEL"
           description="MOD_COMMUNITY_INFO_FIELD_FALLBACK_LOCATION_DESC"
+          default="en-GB"
+          layout="joomla.form.field.list-fancy-select"          
         />
         <field
           name="location"
           type="text"
-          default="51.5000,0.0000"
           label="MOD_COMMUNITY_INFO_FIELD_LOCATION_LABEL"
           description="MOD_COMMUNITY_INFO_FIELD_LOCATION_DESC"
+          default="51.5000,0.0000"          
         />
         <field
           name="location_name"
           type="text"
-          default="London, England, GB"
           label="MOD_COMMUNITY_INFO_FIELD_LOCATION_NAME_LABEL"
           description="MOD_COMMUNITY_INFO_FIELD_LOCATION_NAME_DESC"
+          default="London, England, GB"          
         />
-        <field name="auto_location"
-             type="radio"
-             default="1"
-             class="btn-group"
-             layout="joomla.form.field.radio.switcher"
-             label="MOD_COMMUNITY_INFO_FIELD_AUTO_LOCATION_LABEL"
-             description="MOD_COMMUNITY_INFO_FIELD_AUTO_LOCATION_DESC" >
+        <field
+          name="auto_location"
+          type="radio"
+          label="MOD_COMMUNITY_INFO_FIELD_AUTO_LOCATION_LABEL"
+          description="MOD_COMMUNITY_INFO_FIELD_AUTO_LOCATION_DESC"
+          default="1"
+          class="btn-group"
+          layout="joomla.form.field.radio.switcher"
+          >
           <option value="0">JNO</option>
           <option value="1">JYES</option>
         </field>

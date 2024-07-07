@@ -147,7 +147,7 @@ class CommunityInfoHelper
 
       // Strategy 3: Fallback location
       if(\is_null($location)) {
-        $location = $country_list_array[$params->get('fallback-location', 'en-UK')][$key];
+        $location = $country_list_array[$params->get('fallback-location', 'en-GB')][$key];
       }
 
       if($key == 'label' && \preg_match('/[-]*\d{1,4}\.\d{1,4}\,[ ,-]*\d{1,4}\.\d{1,4}/m', $location, $matches))
