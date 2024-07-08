@@ -72,7 +72,7 @@ class LanguageHelper
      *
      * @return  array  List of system languages
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.0
      */
     public static function createLanguageListInstall($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
     {

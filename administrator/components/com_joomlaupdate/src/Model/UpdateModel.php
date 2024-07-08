@@ -89,11 +89,6 @@ class UpdateModel extends BaseDatabaseModel
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
         switch ($params->get('updatesource', 'default')) {
-            case 'testing':
-                // "Testing"
-                $updateURL = 'https://update.joomla.org/core/test/list_test.xml';
-                break;
-
             case 'custom':
                 // "Custom"
                 // @todo: check if the customurl is valid and not just "not empty".
@@ -115,6 +110,7 @@ class UpdateModel extends BaseDatabaseModel
                  * case 'lts':
                  * case 'sts': (It's shown as "Default" because that option does not exist any more)
                  * case 'nochange':
+                 * case 'testing':
                  */
                 $updateURL = 'https://update.joomla.org/cms/';
         }
@@ -173,13 +169,9 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         $updater               = Updater::getInstance();
-        $minimumStability      = Updater::STABILITY_STABLE;
         $comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
 
-        if (\in_array($comJoomlaupdateParams->get('updatesource', 'default'), ['testing', 'custom'])) {
-            $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
-        }
-
+        $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
         $reflection       = new \ReflectionObject($updater);
         $reflectionMethod = $reflection->getMethod('findUpdates');
         $methodParameters = $reflectionMethod->getParameters();
@@ -296,13 +288,9 @@ class UpdateModel extends BaseDatabaseModel
             return $this->updateInformation;
         }
 
-        $minimumStability      = Updater::STABILITY_STABLE;
         $comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
         $channel               = $comJoomlaupdateParams->get('updatesource', 'default');
-
-        if (\in_array($channel, ['testing', 'custom'])) {
-            $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
-        }
+        $minimumStability      = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
 
         $update = new Update();
 
@@ -1644,7 +1632,7 @@ ENDDATA;
         $minimumStability = ComponentHelper::getParams('com_installer')->get('minimum_stability', Updater::STABILITY_STABLE);
 
         $update = new Update();
-        $update->set('jversion.full', $joomlaTargetVersion);
+        $update->setTargetVersion($joomlaTargetVersion);
         $update->loadFromXml($updateFileUrl, $minimumStability);
 
         $compatibleVersions = $update->get('compatibleVersions');

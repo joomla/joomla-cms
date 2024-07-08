@@ -36,8 +36,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.7.0
  */
-#[\AllowDynamicProperties]
-abstract class Table implements TableInterface, DispatcherAwareInterface
+abstract class Table extends \stdClass implements TableInterface, DispatcherAwareInterface
 {
     use DispatcherAwareTrait;
     use LegacyErrorHandlingTrait;

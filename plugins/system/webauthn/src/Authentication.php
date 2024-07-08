@@ -212,7 +212,7 @@ final class Authentication
      *
      * @param   User  $user  The Joomla user to get the PK request options for
      *
-     * @return  PublicKeyCredentialRequestOptions
+     * @return  ?PublicKeyCredentialRequestOptions
      *
      * @throws  \Exception
      * @since   4.2.0
@@ -289,7 +289,7 @@ final class Authentication
      *
      * @param   string  $data  The data
      *
-     * @return  PublicKeyCredentialSource|null
+     * @return  PublicKeyCredentialSource
      *
      * @throws  \Exception
      * @since   4.2.0

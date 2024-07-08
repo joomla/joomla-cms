@@ -1,10 +1,11 @@
 const { createHash } = require('node:crypto');
-const { readdir, readFile, writeFile } = require('fs/promises');
+const { readdir, readFile, writeFile } = require('node:fs/promises');
 const { existsSync, readFileSync } = require('node:fs');
 const { dirname, extname, resolve } = require('node:path');
 const { transform, composeVisitors } = require('lightningcss');
 const { Timer } = require('./utils/timer.es6.js');
 
+const RootPath = process.cwd();
 const skipExternal = true;
 const variable = 'v';
 
@@ -56,13 +57,15 @@ function urlVersioning(fromFile) {
  */
 const fixVersion = async (file) => {
   try {
-    const cssString = await readFile(file);
     const { code } = transform({
-      code: cssString,
-      minify: false,
+      code: await readFile(file),
+      minify: file.endsWith('.min.css'),
       visitor: composeVisitors([urlVersioning(file)]),
     });
-    await writeFile(file, code, { encoding: 'utf8', mode: 0o644 });
+    await writeFile(file, `@charset "UTF-8";${file.endsWith('.min.css') ? '' : '\n'}${code}`, {
+      encoding: 'utf8',
+      mode: 0o644,
+    });
   } catch (error) {
     throw new Error(error);
   }
@@ -76,7 +79,7 @@ const fixVersion = async (file) => {
 module.exports.cssVersioning = async () => {
   const bench = new Timer('Versioning');
 
-  const cssFiles = (await readdir('media', { withFileTypes: true, recursive: true }))
+  const cssFiles = (await readdir(`${RootPath}/media`, { withFileTypes: true, recursive: true }))
     .filter((file) => (!file.isDirectory() && extname(file.name) === '.css'))
     .map((file) => `${file.path}/${file.name}`);
 

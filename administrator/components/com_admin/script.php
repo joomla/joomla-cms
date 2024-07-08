@@ -2288,12 +2288,51 @@ class JoomlaInstallerScript
             '/modules/mod_tags_similar/mod_tags_similar.php',
             '/modules/mod_wrapper/mod_wrapper.php',
             // From 5.1.0-beta1 to 5.1.0-beta2
+            '/administrator/modules/mod_login/mod_login.php',
+            '/libraries/src/Event/Router/AfterInitialiseRouterEvent.php',
+            '/libraries/src/Event/Router/RouterEvent.php',
+            '/libraries/src/Http/HttpFactoryInterface.php',
+            '/libraries/src/Service/Provider/Http.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A128CCM_16_128.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A128CCM_16_64.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A128CCM_64_128.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A128CCM_64_64.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A256CCM_16_128.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A256CCM_16_64.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A256CCM_64_128.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/A256CCM_64_64.php',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption/AESCCM.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/A128CTR.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/A192CTR.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/A256CTR.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/AESCTR.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/Chacha20Poly1305.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/RSAOAEP384.php',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption/RSAOAEP512.php',
+            '/libraries/vendor/web-token/jwt-experimental/LICENSE',
+            '/libraries/vendor/web-token/jwt-experimental/Signature/Blake2b.php',
+            '/libraries/vendor/web-token/jwt-experimental/Signature/ES256K.php',
+            '/libraries/vendor/web-token/jwt-experimental/Signature/HS1.php',
+            '/libraries/vendor/web-token/jwt-experimental/Signature/HS256_64.php',
+            '/libraries/vendor/web-token/jwt-experimental/Signature/RS1.php',
             '/libraries/vendor/web-token/jwt-signature-algorithm-ecdsa/LICENSE',
             '/libraries/vendor/web-token/jwt-signature-algorithm-eddsa/LICENSE',
             '/libraries/vendor/web-token/jwt-signature-algorithm-experimental/LICENSE',
             '/libraries/vendor/web-token/jwt-signature-algorithm-hmac/LICENSE',
             '/libraries/vendor/web-token/jwt-signature-algorithm-none/LICENSE',
             '/libraries/vendor/web-token/jwt-signature-algorithm-rsa/LICENSE',
+            // From 5.1.0-beta2 to 5.1.0-rc1
+            '/administrator/components/com_admin/sql/updates/mysql/4.4.4-2024-03-28.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/4.4.4-2024-03-28.sql',
+            '/administrator/modules/mod_post_installation_messages/mod_post_installation_messages.php',
+            '/media/vendor/punycode/LICENSE-MIT.txt',
+            // From 5.1.0 to 5.1.1
+            '/libraries/vendor/cweagans/composer-patches/LICENSE.md',
+            '/libraries/vendor/cweagans/composer-patches/src/PatchEvent.php',
+            '/libraries/vendor/cweagans/composer-patches/src/PatchEvents.php',
+            '/libraries/vendor/cweagans/composer-patches/src/Patches.php',
+            '/libraries/vendor/cweagans/composer-patches/tests/PatchEventTest.php',
+            '/libraries/vendor/laminas/laminas-diactoros/PATCHES.txt',
         ];
 
         $folders = [
@@ -2546,6 +2585,18 @@ class JoomlaInstallerScript
             '/libraries/vendor/web-token/jwt-signature-algorithm-experimental',
             '/libraries/vendor/web-token/jwt-signature-algorithm-eddsa',
             '/libraries/vendor/web-token/jwt-signature-algorithm-ecdsa',
+            '/libraries/vendor/web-token/jwt-experimental/Signature',
+            '/libraries/vendor/web-token/jwt-experimental/KeyEncryption',
+            '/libraries/vendor/web-token/jwt-experimental/ContentEncryption',
+            '/libraries/vendor/web-token/jwt-experimental',
+            '/libraries/src/Event/Router',
+            // From 5.1.0-beta2 to 5.1.0-rc1
+            '/media/vendor/punycode',
+            // From 5.1.0 to 5.1.1
+            '/libraries/vendor/cweagans/composer-patches/tests',
+            '/libraries/vendor/cweagans/composer-patches/src',
+            '/libraries/vendor/cweagans/composer-patches',
+            '/libraries/vendor/cweagans',
         ];
 
         $status['files_checked']   = $files;
@@ -2951,7 +3002,7 @@ class JoomlaInstallerScript
     /**
      * setup Guided Tours Unique Identifiers
      *
-     * @return  boolean  True on success
+     * @return  void
      *
      * @since   5.0.0
      */
