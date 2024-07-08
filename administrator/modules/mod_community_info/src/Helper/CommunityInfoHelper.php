@@ -634,9 +634,9 @@ class CommunityInfoHelper
         // Decode received data
         try {
             if ($format == 'json') {
-                $data = \json_decode($response->body, true);
+                $data = json_decode($response->body, true);
             } elseif ($format == 'xml') {
-                $data = \simplexml_load_string($response->body);
+                $data = simplexml_load_string($response->body);
             } else {
                 $data = $response->body;
             }
