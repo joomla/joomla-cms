@@ -496,7 +496,7 @@ class CommunityInfoHelper
 
             return $loc;
         }
-        
+
         Factory::getApplication()->enqueueMessage(Text::_('MOD_COMMUNITY_ERROR_FETCH_API', $url, 200, 'No data received'), 'warning');
 
         return $lat . ', ' . $lng;
