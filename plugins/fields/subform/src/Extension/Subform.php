@@ -140,7 +140,7 @@ final class Subform extends FieldsPlugin
      * @param   object     $item     The item
      * @param   \stdClass  $field    The field
      *
-     * @return  string
+     * @return  ?string
      *
      * @since 4.0.0
      */
@@ -242,7 +242,7 @@ final class Subform extends FieldsPlugin
      * @param   \DOMElement  $parent  The original parent element
      * @param   Form        $form    The form
      *
-     * @return  \DOMElement
+     * @return  ?\DOMElement
      *
      * @since 4.0.0
      */

@@ -2322,7 +2322,17 @@ class JoomlaInstallerScript
             '/libraries/vendor/web-token/jwt-signature-algorithm-none/LICENSE',
             '/libraries/vendor/web-token/jwt-signature-algorithm-rsa/LICENSE',
             // From 5.1.0-beta2 to 5.1.0-rc1
+            '/administrator/components/com_admin/sql/updates/mysql/4.4.4-2024-03-28.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/4.4.4-2024-03-28.sql',
             '/administrator/modules/mod_post_installation_messages/mod_post_installation_messages.php',
+            '/media/vendor/punycode/LICENSE-MIT.txt',
+            // From 5.1.0 to 5.1.1
+            '/libraries/vendor/cweagans/composer-patches/LICENSE.md',
+            '/libraries/vendor/cweagans/composer-patches/src/PatchEvent.php',
+            '/libraries/vendor/cweagans/composer-patches/src/PatchEvents.php',
+            '/libraries/vendor/cweagans/composer-patches/src/Patches.php',
+            '/libraries/vendor/cweagans/composer-patches/tests/PatchEventTest.php',
+            '/libraries/vendor/laminas/laminas-diactoros/PATCHES.txt',
         ];
 
         $folders = [
@@ -2580,6 +2590,13 @@ class JoomlaInstallerScript
             '/libraries/vendor/web-token/jwt-experimental/ContentEncryption',
             '/libraries/vendor/web-token/jwt-experimental',
             '/libraries/src/Event/Router',
+            // From 5.1.0-beta2 to 5.1.0-rc1
+            '/media/vendor/punycode',
+            // From 5.1.0 to 5.1.1
+            '/libraries/vendor/cweagans/composer-patches/tests',
+            '/libraries/vendor/cweagans/composer-patches/src',
+            '/libraries/vendor/cweagans/composer-patches',
+            '/libraries/vendor/cweagans',
         ];
 
         $status['files_checked']   = $files;
@@ -2985,7 +3002,7 @@ class JoomlaInstallerScript
     /**
      * setup Guided Tours Unique Identifiers
      *
-     * @return  boolean  True on success
+     * @return  void
      *
      * @since   5.0.0
      */

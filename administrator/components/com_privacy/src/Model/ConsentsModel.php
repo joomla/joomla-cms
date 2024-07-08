@@ -12,9 +12,9 @@ namespace Joomla\Component\Privacy\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -53,9 +53,9 @@ class ConsentsModel extends ListModel
     }
 
     /**
-     * Method to get a DatabaseQuery object for retrieving the data set from a database.
+     * Method to get a QueryInterface object for retrieving the data set from a database.
      *
-     * @return  DatabaseQuery
+     * @return  QueryInterface
      *
      * @since   3.9.0
      */

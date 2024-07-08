@@ -24,7 +24,7 @@ $loginActions = [];
 $actions = [];
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('table.columns');
 
 ?>

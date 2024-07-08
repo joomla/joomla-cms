@@ -577,23 +577,23 @@ function loadTour(tourId) {
 }
 
 // Opt-in Start buttons
-document.querySelector('body').addEventListener('click', (event) => {
+document.querySelector('body').addEventListener('click', ({ target }) => {
   // Click somewhere else
-  if (!event.target || !event.target.classList.contains('button-start-guidedtour')) {
+  if (!target || !target.classList.contains('button-start-guidedtour')) {
     return;
   }
 
   // Click button but missing data-id
   if (
-    (!event.target.hasAttribute('data-id') || event.target.getAttribute('data-id') <= 0)
-  && (!event.target.hasAttribute('data-gt-uid') || event.target.getAttribute('data-gt-uid') === '')
+    (!target.hasAttribute('data-id') || target.getAttribute('data-id') <= 0)
+  && (!target.hasAttribute('data-gt-uid') || target.getAttribute('data-gt-uid') === '')
   ) {
     Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR')] });
     return;
   }
 
   sessionStorage.setItem('tourToken', String(Joomla.getOptions('com_guidedtours.token')));
-  loadTour(event.target.getAttribute('data-id') || event.target.getAttribute('data-gt-uid'));
+  loadTour(target.getAttribute('data-id') || target.getAttribute('data-gt-uid'));
 });
 
 // Start a given tour

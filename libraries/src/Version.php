@@ -66,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'alpha-dev';
+    public const EXTRA_VERSION = 'alpha3-dev';
 
     /**
      * Development status.
@@ -82,7 +82,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const CODENAME = 'Kudumisha';
+    public const CODENAME = 'Uthabiti';
 
     /**
      * Release date.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '19-March-2024';
+    public const RELDATE = '2-July-2024';
 
     /**
      * Release time.
@@ -98,7 +98,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTIME = '16:01';
+    public const RELTIME = '07:45';
 
     /**
      * Release timezone.
