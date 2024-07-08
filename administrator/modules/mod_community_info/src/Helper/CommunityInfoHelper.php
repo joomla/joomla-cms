@@ -191,7 +191,7 @@ class CommunityInfoHelper
             }
 
             // Sort the items by pubDate in descending order
-            usort($items, fn ($a, $b) => \strtotime($b->pubDate) <=> \strtotime($a->pubDate));
+            usort($items, fn ($a, $b) => strtotime($b->pubDate) <=> strtotime($a->pubDate));
 
             // Select n most recent items
             $items = \array_slice($items, 0, $num);
@@ -218,13 +218,13 @@ class CommunityInfoHelper
 
         if ($events  = self::fetchAPI($url, $vars, 'json')) {
             // Sort the array by the 'start' property to ensure events are in chronological order
-            \usort($events, fn ($a, $b) => \strtotime($a['start']) <=> \strtotime($b['start']));
+            usort($events, fn ($a, $b) => strtotime($a['start']) <=> strtotime($b['start']));
 
             // Select the next n upcoming events
-            $nextThreeEvents = array_slice($events, 0, $num);
+            $nextThreeEvents = \array_slice($events, 0, $num);
 
             // Convert each event to an stdClass object and store them in a new array
-            $upcomingEvents = \array_map(function ($event) {
+            $upcomingEvents = array_map(function ($event) {
                 return (object) $event;
             }, $nextThreeEvents);
         }
@@ -495,11 +495,11 @@ class CommunityInfoHelper
             }
 
             return $loc;
-        } else {
-            Factory::getApplication()->enqueueMessage(Text::_('MOD_COMMUNITY_ERROR_FETCH_API', $url, 200, 'No data received'), 'warning');
-
-            return $lat . ', ' . $lng;
         }
+        
+        Factory::getApplication()->enqueueMessage(Text::_('MOD_COMMUNITY_ERROR_FETCH_API', $url, 200, 'No data received'), 'warning');
+
+        return $lat . ', ' . $lng;
     }
 
     /**
