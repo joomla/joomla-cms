@@ -1,7 +1,7 @@
 .select-location {
-  font-weight: 400;
   padding-left: 1em;
-  margin-bottom: 0.5rem;
+  font-weight: 400;
+  margin-bottom: .5rem;
 }
 .module-wrapper .card-header {
   flex-wrap: wrap;
@@ -9,8 +9,8 @@
 .intro-txt {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   align-items: flex-start;
+  justify-content: space-between;
   margin-bottom: 1rem;
 }
 .info-block {
@@ -18,21 +18,19 @@
 }
 .info-block img {
   max-width: 100px;
-  margin: 1rem 0 0 0.5rem;
+  margin: 1rem 0 0 .5rem;
 }
 .info-block a.no-link::before {
-  content: '';
   padding: 0;
+  content: "";
 }
 .mod-community-info h3 {
   font-size: 1.05rem;
 }
-.mod-community-info.modal .btn-primary
-{
+.mod-community-info.modal .btn-primary {
   color: var(--btn-primary-color) !important;
   background-color: var(--btn-primary-bg) !important;
 }
-.mod-community-info .float-right
-{
+.mod-community-info .float-right {
   float: right;
 }
