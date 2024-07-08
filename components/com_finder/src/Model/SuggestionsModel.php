@@ -95,9 +95,7 @@ class SuggestionsModel extends ListModel
         // Select required fields
         $termQuery->select('DISTINCT(t.term)')
             ->from($db->quoteName('#__finder_terms', 't'))
-            ->whereIn('t.term_id', $termIds)
-            ->order('t.links DESC')
-            ->order('t.weight DESC');
+            ->whereIn('t.term_id', $termIds);
 
         // Join mapping table for term <-> link relation
         $mappingTable = $db->quoteName('#__finder_links_terms', 'tm');
