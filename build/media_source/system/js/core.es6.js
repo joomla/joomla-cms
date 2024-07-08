@@ -185,7 +185,7 @@ window.Joomla.loadOptions = (options) => {
        * But test for new option being null, as null is an object, but we want to allow
        * clearing of options with ...
        *
-       * Joomla.loadOptions({'Joomla.jtext': null});
+       * Joomla.loadOptions({'joomla.jtext': null});
        */
       if (options[key] !== null && typeof window.Joomla.optionsStorage[key] === 'object' && typeof options[key] === 'object') {
         window.Joomla.optionsStorage[key] = window.Joomla.extend(window.Joomla.optionsStorage[key], options[key]);
