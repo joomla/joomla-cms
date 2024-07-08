@@ -13,7 +13,7 @@
     {
       "name": "communityinfo.script",
       "type": "script",
-      "uri": "mod_community_info/community-info.js",
+      "uri": "mod_community_info/community-info.es6.js",
       "dependencies": [
         "bootstrap.modal"
       ]

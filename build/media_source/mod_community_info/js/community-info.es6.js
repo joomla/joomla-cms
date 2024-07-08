@@ -72,6 +72,9 @@ let searchLocation = async function() {
     });
     select = select + '</select>';
 
+    // Sanitize the created HTML
+    select = Joomla.sanitizeHtml(select);
+
     // Add first element to input
     document.getElementById('jform_lat').value = res[0].lat;
     document.getElementById('jform_lng').value = res[0].lon;
