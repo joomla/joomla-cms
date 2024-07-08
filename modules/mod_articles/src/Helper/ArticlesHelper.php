@@ -236,22 +236,24 @@ class ArticlesHelper implements DatabaseAwareInterface
 
             // Used for styling the active article
             $item->active      = $item->id == $active_article_id ? 'active' : '';
-            $item->displayDate = '';
 
             if ($show_date) {
                 $item->displayDate = HTMLHelper::_('date', $item->$show_date_field, $show_date_format);
             }
 
-            if ($show_category && $show_category_link) {
-                $item->displayCategoryLink  = Route::_(RouteHelper::getCategoryRoute($item->catid, $item->category_language));
-                $item->displayCategoryTitle = '<a href="' . $item->displayCategoryLink . '">' . $item->category_title . '</a>';
-            } else {
-                $item->displayCategoryTitle = $show_category ? $item->category_title : '';
+            if ($show_category) {
+                $item->displayCategoryTitle = $item->category_title;
             }
 
-            $item->displayHits       = $show_hits ? $item->hits : '';
-            $item->displayAuthorName = $show_author ? $item->author : '';
+            if ($show_category_link) {
+                $item->displayCategoryLink = Route::_(RouteHelper::getCategoryRoute($item->catid, $item->category_language));
+            }
 
+            $item->displayAuthorName    = $show_author ? $item->author : '';
+            $item->displayCategoryTitle = $show_category ? $item->category_title : '';
+            $item->displayCategoryLink  = $show_category_link ? $item->displayCategoryLink : '';
+            $item->displayDate          = $show_date ? $item->displayDate : '';
+            $item->displayHits          = $show_hits ? $item->hits : '';
 
             if ($show_introtext) {
                 $item->displayIntrotext = HTMLHelper::_('content.prepare', $item->introtext, '', 'mod_articles.content');

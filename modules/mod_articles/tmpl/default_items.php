@@ -46,32 +46,47 @@ if ($params->get('articles_layout') == 1) {
 
                         <?php if ($displayInfo) : ?>
                             <?php $listClass = ($params->get('info_layout') == 1) ? 'list-inline' : 'list-unstyled'; ?>
-                            <ul class="<?php echo $listClass; ?>">
-
-                                <?php if ($item->displayHits) : ?>
-                                    <li class="mod-articles-hits <?php echo ($params->get('info_layout') == 1 ? 'list-inline-item' : ''); ?>">
-                                        (<?php echo $item->displayHits; ?>)
-                                    </li>
-                                <?php endif; ?>
+                            <dl class="<?php echo $listClass; ?>">
+                                <dt class="article-info-term">
+                                    <span class="visually-hidden">
+                                        <?php echo Text::_('MOD_ARTICLES_INFO'); ?>
+                                    </span>
+                                </dt>
 
                                 <?php if ($item->displayAuthorName) : ?>
-                                    <li class="mod-articles-writtenby <?php echo ($params->get('info_layout') == 1 ? 'list-inline-item' : ''); ?>">
+                                    <dd class="mod-articles-writtenby <?php echo ($params->get('info_layout') == 1 ? 'list-inline-item' : ''); ?>">
+                                        <?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'icon-user icon-fw']); ?>
                                         <?php echo $item->displayAuthorName; ?>
-                                    </li>
+                                    </dd>
                                 <?php endif; ?>
 
                                 <?php if ($item->displayCategoryTitle) : ?>
-                                    <li class="mod-articles-category <?php echo ($params->get('info_layout') == 1 ? 'list-inline-item' : ''); ?>">
-                                        (<?php echo $item->displayCategoryTitle; ?>)
-                                    </li>
+                                    <dd class="mod-articles-category <?php echo ($params->get('info_layout') == 1 ? 'list-inline-item' : ''); ?>">
+                                        <?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'icon-folder-open icon-fw']); ?>
+                                        <?php if ($item->displayCategoryLink) : ?>
+                                            <a href="<?php echo $item->displayCategoryLink; ?>">
+                                                <?php echo $item->displayCategoryTitle; ?>
+                                            </a>
+                                        <?php else : ?>
+                                            <?php echo $item->displayCategoryTitle; ?>
+                                        <?php endif; ?>
+                                    </dd>
                                 <?php endif; ?>
 
                                 <?php if ($item->displayDate) : ?>
-                                    <li class="mod-articles-date <?php echo ($params->get('info_layout') == 1 ? 'list-inline-item' : ''); ?>">
+                                    <dd class="mod-articles-date <?php echo ($params->get('info_layout') == 1 ? 'list-inline-item' : ''); ?>">
+                                        <?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'icon-calendar icon-fw']); ?>
                                         <?php echo $item->displayDate; ?>
-                                    </li>
+                                    </dd>
                                 <?php endif; ?>
-                            </ul>
+
+                                <?php if ($item->displayHits) : ?>
+                                    <dd class="mod-articles-hits <?php echo ($params->get('info_layout') == 1 ? 'list-inline-item' : ''); ?>">
+                                        <?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'icon-eye icon-fw']); ?>
+                                        <?php echo $item->displayHits; ?>
+                                    </dd>
+                                <?php endif; ?>
+                            </dl>
 
                         <?php endif; ?>
 

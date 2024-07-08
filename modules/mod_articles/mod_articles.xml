@@ -205,6 +205,45 @@
 				</field>
 
 				<field
+					name="show_author"
+					type="radio"
+					label="JAUTHOR"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					showon="title_only:0"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_category"
+					type="radio"
+					label="JCATEGORY"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					showon="title_only:0"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="show_category_link"
+					type="radio"
+					label="MOD_ARTICLES_FIELD_SHOWCATEGORYLINK_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					showon="title_only:0[AND]show_category:1"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
 					name="show_date"
 					type="radio"
 					layout="joomla.form.field.radio.switcher"
@@ -240,48 +279,9 @@
 				/>
 
 				<field
-					name="show_category"
-					type="radio"
-					label="JCATEGORY"
-					layout="joomla.form.field.radio.switcher"
-					default="0"
-					filter="integer"
-					showon="title_only:0"
-					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
-				</field>
-
-				<field
-					name="show_category_link"
-					type="radio"
-					label="MOD_ARTICLES_FIELD_SHOWCATEGORYLINK_LABEL"
-					layout="joomla.form.field.radio.switcher"
-					default="0"
-					filter="integer"
-					showon="title_only:0[AND]show_category:1"
-					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
-				</field>
-
-				<field
 					name="show_hits"
 					type="radio"
 					label="MOD_ARTICLES_FIELD_SHOWHITS_LABEL"
-					layout="joomla.form.field.radio.switcher"
-					default="0"
-					filter="integer"
-					showon="title_only:0"
-					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
-				</field>
-
-				<field
-					name="show_author"
-					type="radio"
-					label="JAUTHOR"
 					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="integer"
