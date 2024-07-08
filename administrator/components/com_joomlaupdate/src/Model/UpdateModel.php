@@ -2034,7 +2034,7 @@ ENDDATA;
      * @return  boolean  True if update source is reset, false if reset failed with error,
      *                   null if no reset was necessary.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.1.2
      */
     public function resetUpdateSource()
     {
