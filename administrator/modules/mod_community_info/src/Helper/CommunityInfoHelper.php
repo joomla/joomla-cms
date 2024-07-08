@@ -276,8 +276,8 @@ class CommunityInfoHelper
             return 'Permission denied!';
         }
 
-        if (!$moduleId = $input->get('moduleId', false, 'int')) {
-            return 'You must provide a "moduleId" variable with the request!';
+        if (!$moduleId = $input->get('module_id', false, 'int')) {
+            return 'You must provide a "module_id" variable with the request!';
         }
 
         if (!$current_location = $input->get('current_location', false, 'string')) {

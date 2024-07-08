@@ -116,8 +116,8 @@ let locationSelectChange = function(event) {
 let ajaxLocation = async function(location, module_id, method) {
   // Create form data
   let formData = new FormData();
-  formData.append('format', 'json')
   formData.append('module_id', module_id);
+  formData.append('current_location', location);
 
   // Set request parameters
   let parameters = {
@@ -130,7 +130,7 @@ let ajaxLocation = async function(location, module_id, method) {
   };
 
   // Set the URL
-  let url = `index.php?option=com_ajax&module=community_info&method=${method}&format=json&current_location=${location}`;
+  let url = `index.php?option=com_ajax&module=community_info&method=${method}&format=json`;
 
   // Perform the fetch request
   let response = await fetch(url, parameters);
