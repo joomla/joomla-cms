@@ -96,10 +96,24 @@ Joomla.Modal = Joomla.Modal || {
  * @param  {Object}  source
  *
  * @return Object
- *
- * Emulate jQuery.extend(), and treat a destination null as an empty object.
  */
-window.Joomla.extend = (destination, source) => ({ ...(destination === null ? {} : destination), ...source });
+  Joomla.extend = (destination, source) => {
+     let newDestination = destination;
+     /**
+      * Technically null is an object, but trying to treat the destination as one in this
+      * context will error out.
+      * So emulate jQuery.extend(), and treat a destination null as an empty object.
+      */
+     if (destination === null) {
+       newDestination = {};
+     }
+
+     [].slice.call(Object.keys(source)).forEach((key) => {
+       newDestination[key] = source[key];
+     });
+
+     return destination;
+   };
 
 /**
  * Joomla options storage
