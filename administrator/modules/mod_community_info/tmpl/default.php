@@ -105,7 +105,7 @@ CommunityInfoHelper::addText();
 
 <template id="template-location-picker">
   <div class="select-location">
-    <a href="#" onclick="openModal('location-modal', '<?php echo CommunityInfoHelper::getLocation($params, 'geolocation'); ?>')">
+    <a href="#" data-modal-id="location-modal" data-geolocation="<?php echo CommunityInfoHelper::getLocation($params, 'geolocation'); ?>">
       <i class="icon-location"></i>
       <?php echo Text::_('MOD_COMMUNITY_INFO_CHOOSE_LOCATION'); ?>
     </a><span> (<?php echo Text::_('JCURRENT'); ?>: <?php echo CommunityInfoHelper::getLocation($params, 'label'); ?>)</span>
@@ -145,28 +145,9 @@ echo HTMLHelper::_('bootstrap.renderModal', 'location-modal', $options, '<p>Load
 ?>
 
 <script>
-  async function callback(){
-    // prepare location picker
-    let moduleBody   = document.getElementById('CommunityInfo<?php echo strval($module->id); ?>');
-    let moduleHeader = moduleBody.parentNode.previousElementSibling;
-    moduleHeader.appendChild(document.getElementById('template-location-picker').content);
-
-    // prepare modal
-    document.getElementById('location-modal').classList.add('mod-community-info');
-
-    // Send browsers current geolocation to com_ajax
-    <?php if (intval($params->get('auto_location', 1))) : ?>
-    try {
-      let location = await getCurrentLocation();
-      console.log('Current Location:', location);
-      
-      let response = await ajaxLocation(location, <?php echo $module->id; ?>, 'setLocation');
-      console.log('Ajax Response:', Joomla.Text._(response));
-    } catch (error) {
-      console.error('Error:', error);
-    }
-    <?php endif; ?>
-  }; //end callback
+  function callback() {
+    iniModule(<?php echo $module->id; ?>, <?php echo intval($params->get('auto_location', 1)); ?>);
+  }
 
   if(document.readyState === 'complete' || (document.readyState !== 'loading' && !document.documentElement.doScroll)) {
     callback();
