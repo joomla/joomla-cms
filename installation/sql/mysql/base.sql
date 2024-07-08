@@ -652,7 +652,7 @@ INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `orderin
 (107, 84, 'Privacy Requests', '', '', 1, 'cpanel-privacy', NULL, NULL, 1, 'mod_privacy_dashboard', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"cachemode":"static","style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
 (108, 85, 'Privacy Status', '', '', 1, 'cpanel-privacy', NULL, NULL, 1, 'mod_privacy_status', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"cachemode":"static","style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
 (109, 96, 'Guided Tours', '', '', 1, 'status', NULL, NULL, 1, 'mod_guidedtours', 1, 1, '', 1, '*');
-(110, 97, 'Joomla! Community and News', '', '', 1, 'cpanel', NULL, NULL, 1, 'mod_community_info', 1, 1, '{"endpoint":"https://djumla.dev/joomla-community-api/links.php","fallback-location":"en-GB","location":"","location_name":"","auto_location":"1","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 1, '*');
+(110, 97, 'Joomla! Community and News', '', '', 1, 'cpanel', NULL, NULL, 1, 'mod_community_info', 1, 1, '{"endpoint":"https://test.joomla.spuur.ch/joomla-community-api/links.php","fallback-location":"en-GB","location":"","location_name":"","auto_location":"1","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 1, '*');
 
 -- --------------------------------------------------------
 
