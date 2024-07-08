@@ -227,7 +227,7 @@ class OverridesModel extends ListModel
     /**
      * Removes all of the cached strings from the table.
      *
-     * @return  boolean  result of operation
+     * @return  void|\RuntimeException
      *
      * @since   3.4.2
      */

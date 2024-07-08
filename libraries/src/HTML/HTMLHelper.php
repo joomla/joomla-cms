@@ -884,8 +884,10 @@ abstract class HTMLHelper
             // Get a date object based on UTC.
             $date = Factory::getDate($input, 'UTC');
 
-            // Set the correct time zone based on the user configuration.
-            $date->setTimezone($app->getIdentity()->getTimezone());
+            // Set the correct time zone based on the user configuration. CLI doesn't have a user
+            if ($app->getIdentity()) {
+                $date->setTimezone($app->getIdentity()->getTimezone());
+            }
         } elseif ($tz === false) {
             // UTC date converted to server time zone.
             // Get a date object based on UTC.
