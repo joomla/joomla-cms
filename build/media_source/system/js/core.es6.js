@@ -58,7 +58,7 @@ const DefaultAllowlist = {
 // Only define the Joomla namespace if not defined.
 window.Joomla = window.Joomla || {};
 
-window.Joomla.Modal = window.Joomla.Modal || {
+Joomla.Modal = Joomla.Modal || {
   /**
    * *****************************************************************
    * Modals should implement
@@ -89,82 +89,68 @@ window.Joomla.Modal = window.Joomla.Modal || {
   getCurrent: () => window.Joomla.Modal.current,
 };
 
-  /**
-   * Method to Extend Objects
-   *
-   * @param  {Object}  destination
-   * @param  {Object}  source
-   *
-   * @return Object
-   */
-  Joomla.extend = (destination, source) => {
-    let newDestination = destination;
-    /**
-     * Technically null is an object, but trying to treat the destination as one in this
-     * context will error out.
-     * So emulate jQuery.extend(), and treat a destination null as an empty object.
-     */
-    if (destination === null) {
-      newDestination = {};
-    }
+/**
+ * Method to Extend Objects
+ *
+ * @param  {Object}  destination
+ * @param  {Object}  source
+ *
+ * @return Object
+ *
+ * Emulate jQuery.extend(), and treat a destination null as an empty object.
+ */
+window.Joomla.extend = (destination, source) => ({ ...(destination === null ? {} : destination), ...source });
 
-    [].slice.call(Object.keys(source)).forEach((key) => {
-      newDestination[key] = source[key];
-    });
+/**
+ * Joomla options storage
+ *
+ * @type {{}}
+ *
+ * @since 3.7.0
+ */
+window.Joomla.optionsStorage = window.Joomla.optionsStorage || null;
 
-    return destination;
-  };
+/**
+ * Get script(s) options
+ *
+ * @param  {String}  key  Name in Storage
+ * @param  {mixed}   def  Default value if nothing found
+ *
+ * @return {mixed}
+ *
+ * @since 3.7.0
+ */
+window.Joomla.getOptions = (key, def) => {
+  // Load options if they not exists
+  if (!window.Joomla.optionsStorage) {
+    window.Joomla.loadOptions();
+  }
 
-  /**
-   * Joomla options storage
-   *
-   * @type {{}}
-   *
-   * @since 3.7.0
-   */
-  Joomla.optionsStorage = Joomla.optionsStorage || null;
+  return window.Joomla.optionsStorage[key] !== undefined ? window.Joomla.optionsStorage[key] : def;
+};
 
-  /**
-   * Get script(s) options
-   *
-   * @param  {String}  key  Name in Storage
-   * @param  {mixed}   def  Default value if nothing found
-   *
-   * @return {mixed}
-   *
-   * @since 3.7.0
-   */
-  Joomla.getOptions = (key, def) => {
-    // Load options if they not exists
-    if (!Joomla.optionsStorage) {
-      Joomla.loadOptions();
-    }
-
-    return Joomla.optionsStorage[key] !== undefined ? Joomla.optionsStorage[key] : def;
-  };
-
-  /**
-   * Load new options from given options object or from Element
-   *
-   * @param  {Object|undefined}  options  The options object to load.
-   * Eg {"com_foobar" : {"option1": 1, "option2": 2}}
-   *
-   * @since 3.7.0
-   */
-  Joomla.loadOptions = (options) => {
-    // Load form the script container
-    if (!options) {
-      const elements = [].slice.call(document.querySelectorAll('.joomla-script-options.new'));
-      let counter = 0;
+/**
+ * Load new options from given options object or from Element
+ *
+ * @param  {Object|undefined}  options  The options object to load.
+ * Eg {"com_foobar" : {"option1": 1, "option2": 2}}
+ *
+ * @since 3.7.0
+ */
+window.Joomla.loadOptions = (options) => {
+  // Load form the script container
+  if (!options) {
+    const elements = [].slice.call(document.querySelectorAll('.joomla-script-options.new'));
+    let counter = 0;
 
     elements.forEach((element) => {
       const str = element.text || element.textContent;
       const option = JSON.parse(str);
 
-        if (option) {
-          Joomla.loadOptions(option);
-          counter += 1;
-        }
+      if (option) {
+        window.Joomla.loadOptions(option);
+        counter += 1;
+      }
 
       element.className = element.className.replace(' new', ' loaded');
     });
@@ -174,103 +160,103 @@ window.Joomla.Modal = window.Joomla.Modal || {
     }
   }
 
-    // Initial loading
-    if (!Joomla.optionsStorage) {
-      Joomla.optionsStorage = options || {};
-    } else if (options) {
-      // Merge with existing
-      [].slice.call(Object.keys(options)).forEach((key) => {
-        /**
-         * If both existing and new options are objects, merge them with Joomla.extend().
-         * But test for new option being null, as null is an object, but we want to allow
-         * clearing of options with ...
-         *
-         * Joomla.loadOptions({'joomla.jtext': null});
-         */
-        if (options[key] !== null && typeof Joomla.optionsStorage[key] === 'object' && typeof options[key] === 'object') {
-          Joomla.optionsStorage[key] = Joomla.extend(Joomla.optionsStorage[key], options[key]);
-        } else {
-          Joomla.optionsStorage[key] = options[key];
-        }
-      });
-    }
-  };
+  // Initial loading
+  if (!window.Joomla.optionsStorage) {
+    window.Joomla.optionsStorage = options || {};
+  } else if (options) {
+    // Merge with existing
+    [].slice.call(Object.keys(options)).forEach((key) => {
+      /**
+       * If both existing and new options are objects, merge them with Joomla.extend().
+       * But test for new option being null, as null is an object, but we want to allow
+       * clearing of options with ...
+       *
+       * Joomla.loadOptions({'Joomla.jtext': null});
+       */
+      if (options[key] !== null && typeof window.Joomla.optionsStorage[key] === 'object' && typeof options[key] === 'object') {
+        window.Joomla.optionsStorage[key] = window.Joomla.extend(window.Joomla.optionsStorage[key], options[key]);
+      } else {
+        window.Joomla.optionsStorage[key] = options[key];
+      }
+    });
+  }
+};
+
+/**
+ * Custom behavior for JavaScript I18N in Joomla! 1.6
+ *
+ * @type {{}}
+ *
+ * Allows you to call Joomla.Text._() to get a translated JavaScript string
+ * pushed in with Text::script() in Joomla.
+ */
+window.Joomla.Text = {
+  strings: {},
 
   /**
-   * Custom behavior for JavaScript I18N in Joomla! 1.6
+   * Translates a string into the current language.
    *
-   * @type {{}}
+   * @param {String} key   The string to translate
+   * @param {String} def   Default string
    *
-   * Allows you to call Joomla.Text._() to get a translated JavaScript string
-   * pushed in with Text::script() in Joomla.
+   * @returns {String}
    */
-  Joomla.Text = {
-    strings: {},
+  _: (key, def) => {
+    let newKey = key;
+    let newDef = def;
+    // Check for new strings in the optionsStorage, and load them
+    const newStrings = window.Joomla.getOptions('joomla.jtext');
+    if (newStrings) {
+      window.Joomla.Text.load(newStrings);
 
-    /**
-     * Translates a string into the current language.
-     *
-     * @param {String} key   The string to translate
-     * @param {String} def   Default string
-     *
-     * @returns {String}
-     */
-    _: (key, def) => {
-      let newKey = key;
-      let newDef = def;
-      // Check for new strings in the optionsStorage, and load them
-      const newStrings = Joomla.getOptions('joomla.jtext');
-      if (newStrings) {
-        Joomla.Text.load(newStrings);
-
-        // Clean up the optionsStorage from useless data
-        Joomla.loadOptions({ 'joomla.jtext': null });
-      }
+      // Clean up the optionsStorage from useless data
+      window.Joomla.loadOptions({ 'joomla.jtext': null });
+    }
 
     newDef = newDef === undefined ? newKey : newDef;
     newKey = newKey.toUpperCase();
 
-      return Joomla.Text.strings[newKey] !== undefined ? Joomla.Text.strings[newKey] : newDef;
-    },
-
-    /**
-     * Load new strings in to Joomla.Text
-     *
-     * @param {Object} object  Object with new strings
-     * @returns {Joomla.Text}
-     */
-    load: (object) => {
-      [].slice.call(Object.keys(object)).forEach((key) => {
-        Joomla.Text.strings[key.toUpperCase()] = object[key];
-      });
-
-      return Joomla.Text;
-    },
-  };
+    return window.Joomla.Text.strings[newKey] !== undefined ? window.Joomla.Text.strings[newKey] : newDef;
+  },
 
   /**
-   * For B/C we still support Joomla.JText
+   * Load new strings in to Joomla.Text
    *
-   * @type {{}}
-   *
-   * @deprecated   4.0 will be removed in 6.0
-   *               Example: Joomla.Text._('...');
-   *                        Joomla.Text.load(...);
+   * @param {Object} object  Object with new strings
+   * @returns {Joomla.Text}
    */
-  Joomla.JText = Joomla.Text;
+  load: (object) => {
+    [].slice.call(Object.keys(object)).forEach((key) => {
+      window.Joomla.Text.strings[key.toUpperCase()] = object[key];
+    });
 
-  /**
-   * Generic submit form
-   *
-   * @param  {String}  task      The given task
-   * @param  {node}    form      The form element
-   * @param  {bool}    validate  The form element
-   *
-   * @returns  {void}
-   */
-  Joomla.submitform = (task, form, validate) => {
-    let newForm = form;
-    const newTask = task;
+    return window.Joomla.Text;
+  },
+};
+
+/**
+ * For B/C we still support Joomla.JText
+ *
+ * @type {{}}
+ *
+ * @deprecated   4.0 will be removed in 6.0
+ *               Example: Joomla.Text._('...');
+ *                        Joomla.Text.load(...);
+ */
+window.Joomla.JText = window.Joomla.Text;
+
+/**
+ * Generic submit form
+ *
+ * @param  {String}  task      The given task
+ * @param  {node}    form      The form element
+ * @param  {bool}    validate  The form element
+ *
+ * @returns  {void}
+ */
+window.Joomla.submitform = (task, form, validate) => {
+  let newForm = form;
+  const newTask = task;
 
   if (!newForm) {
     newForm = document.getElementById('adminForm');
@@ -302,18 +288,18 @@ window.Joomla.Modal = window.Joomla.Modal || {
   newForm.removeChild(button);
 };
 
-  /**
-   * Default function. Can be overridden by the component to add custom logic
-   *
-   * @param  {String}  task            The given task
-   * @param  {String}  formSelector    The form selector eg '#adminForm'
-   * @param  {bool}    validate        The form element
-   *
-   * @returns {void}
-   */
-  Joomla.submitbutton = (task, formSelector, validate) => {
-    let form = document.querySelector(formSelector || 'form.form-validate');
-    let newValidate = validate;
+/**
+ * Default function. Can be overridden by the component to add custom logic
+ *
+ * @param  {String}  task            The given task
+ * @param  {String}  formSelector    The form selector eg '#adminForm'
+ * @param  {bool}    validate        The form element
+ *
+ * @returns {void}
+ */
+window.Joomla.submitbutton = (task, formSelector, validate) => {
+  let form = document.querySelector(formSelector || 'form.form-validate');
+  let newValidate = validate;
 
   if (typeof formSelector === 'string' && form === null) {
     form = document.querySelector(`#${formSelector}`);
@@ -331,30 +317,30 @@ window.Joomla.Modal = window.Joomla.Modal || {
       newValidate = task !== cancelTask;
     }
 
-      if (!newValidate || document.formvalidator.isValid(form)) {
-        Joomla.submitform(task, form);
-      }
-    } else {
-      Joomla.submitform(task);
+    if (!newValidate || document.formvalidator.isValid(form)) {
+      window.Joomla.submitform(task, form);
     }
-  };
+  } else {
+    window.Joomla.submitform(task);
+  }
+};
 
-  /**
-   * USED IN: all list forms.
-   *
-   * Toggles the check state of a group of boxes
-   *
-   * Checkboxes must have an id attribute in the form cb0, cb1...
-   *
-   * @param {mixed}  checkbox The number of box to 'check', for a checkbox element
-   * @param {string} stub     An alternative field name
-   *
-   * @return {boolean}
-   */
-  Joomla.checkAll = (checkbox, stub) => {
-    if (!checkbox.form) {
-      return false;
-    }
+/**
+ * USED IN: all list forms.
+ *
+ * Toggles the check state of a group of boxes
+ *
+ * Checkboxes must have an id attribute in the form cb0, cb1...
+ *
+ * @param {mixed}  checkbox The number of box to 'check', for a checkbox element
+ * @param {string} stub     An alternative field name
+ *
+ * @return {boolean}
+ */
+window.Joomla.checkAll = (checkbox, stub) => {
+  if (!checkbox.form) {
+    return false;
+  }
 
   const currentStab = stub || 'cb';
   const elements = [].slice.call(checkbox.form.elements);
@@ -378,25 +364,25 @@ window.Joomla.Modal = window.Joomla.Modal || {
   return true;
 };
 
-  /**
-   * USED IN: administrator/components/com_cache/views/cache/tmpl/default.php
-   * administrator/components/com_installer/views/discover/tmpl/default_item.php
-   * administrator/components/com_installer/views/update/tmpl/default_item.php
-   * administrator/components/com_languages/helpers/html/languages.php
-   * libraries/joomla/html/html/grid.php
-   *
-   * @param  {boolean}  isitchecked  Flag for checked
-   * @param  {node}     form         The form
-   *
-   * @return  {void}
-   */
-  Joomla.isChecked = (isitchecked, form) => {
-    let newForm = form;
-    if (typeof newForm === 'undefined') {
-      newForm = document.getElementById('adminForm');
-    } else if (typeof form === 'string') {
-      newForm = document.getElementById(form);
-    }
+/**
+ * USED IN: administrator/components/com_cache/views/cache/tmpl/default.php
+ * administrator/components/com_installer/views/discover/tmpl/default_item.php
+ * administrator/components/com_installer/views/update/tmpl/default_item.php
+ * administrator/components/com_languages/helpers/html/languages.php
+ * libraries/joomla/html/html/grid.php
+ *
+ * @param  {boolean}  isitchecked  Flag for checked
+ * @param  {node}     form         The form
+ *
+ * @return  {void}
+ */
+window.Joomla.isChecked = (isitchecked, form) => {
+  let newForm = form;
+  if (typeof newForm === 'undefined') {
+    newForm = document.getElementById('adminForm');
+  } else if (typeof form === 'string') {
+    newForm = document.getElementById(form);
+  }
 
     newForm.boxchecked.value = isitchecked
       ? parseInt(newForm.boxchecked.value, 10) + 1
@@ -431,46 +417,46 @@ window.Joomla.Modal = window.Joomla.Modal || {
   newForm.elements['checkall-toggle'].checked = c;
 };
 
-  /**
-   * USED IN: libraries/joomla/html/html/grid.php
-   * In other words, on any reorderable table
-   *
-   * @param  {string}  order  The order value
-   * @param  {string}  dir    The direction
-   * @param  {string}  task   The task
-   * @param  {node}    form   The form
-   *
-   * return  {void}
-   */
-  Joomla.tableOrdering = (order, dir, task, form) => {
-    let newForm = form;
-    if (typeof newForm === 'undefined') {
-      newForm = document.getElementById('adminForm');
-    } else if (typeof form === 'string') {
-      newForm = document.getElementById(form);
-    }
+/**
+ * USED IN: libraries/joomla/html/html/grid.php
+ * In other words, on any reorderable table
+ *
+ * @param  {string}  order  The order value
+ * @param  {string}  dir    The direction
+ * @param  {string}  task   The task
+ * @param  {node}    form   The form
+ *
+ * return  {void}
+ */
+window.Joomla.tableOrdering = (order, dir, task, form) => {
+  let newForm = form;
+  if (typeof newForm === 'undefined') {
+    newForm = document.getElementById('adminForm');
+  } else if (typeof form === 'string') {
+    newForm = document.getElementById(form);
+  }
 
-    newForm.filter_order.value = order;
-    newForm.filter_order_Dir.value = dir;
-    Joomla.submitform(task, newForm);
-  };
+  newForm.filter_order.value = order;
+  newForm.filter_order_Dir.value = dir;
+  window.Joomla.submitform(task, newForm);
+};
 
-  /**
-   * USED IN: all over :)
-   *
-   * @param  {string}  id    The id
-   * @param  {string}  task  The task
-   * @param  {string}  form  The optional form
-   *
-   * @return {boolean}
-   */
-  Joomla.listItemTask = (id, task, form = null) => {
-    let newForm = form;
-    if (form !== null) {
-      newForm = document.getElementById(form);
-    } else {
-      newForm = document.adminForm;
-    }
+/**
+ * USED IN: all over :)
+ *
+ * @param  {string}  id    The id
+ * @param  {string}  task  The task
+ * @param  {string}  form  The optional form
+ *
+ * @return {boolean}
+ */
+window.Joomla.listItemTask = (id, task, form = null) => {
+  let newForm = form;
+  if (form !== null) {
+    newForm = document.getElementById(form);
+  } else {
+    newForm = document.adminForm;
+  }
 
   const cb = newForm[id];
   let i = 0;
@@ -493,24 +479,24 @@ window.Joomla.Modal = window.Joomla.Modal || {
     i += 1;
   }
 
-    cb.checked = true;
-    newForm.boxchecked.value = 1;
-    Joomla.submitform(task, newForm);
+  cb.checked = true;
+  newForm.boxchecked.value = 1;
+  window.Joomla.submitform(task, newForm);
 
   return false;
 };
 
-  /**
-   * Method to replace all request tokens on the page with a new one.
-   *
-   * @param {String}  newToken  The token
-   *
-   * Used in Joomla Installation
-   */
-  Joomla.replaceTokens = (newToken) => {
-    if (!/^[0-9A-F]{32}$/i.test(newToken)) {
-      return;
-    }
+/**
+ * Method to replace all request tokens on the page with a new one.
+ *
+ * @param {String}  newToken  The token
+ *
+ * Used in Joomla Installation
+ */
+window.Joomla.replaceTokens = (newToken) => {
+  if (!/^[0-9A-F]{32}$/i.test(newToken)) {
+    return;
+  }
 
   const elements = [].slice.call(document.getElementsByTagName('input'));
 
@@ -521,49 +507,49 @@ window.Joomla.Modal = window.Joomla.Modal || {
   });
 };
 
-  /**
-   * Method to perform AJAX request
-   *
-   * @param {Object} options   Request options:
-   * {
-   *    url:     'index.php', Request URL
-   *    method:  'GET',       Request method GET (default), POST
-   *    data:    null,        Data to be sent, see
-   *                https://developer.mozilla.org/docs/Web/API/XMLHttpRequest/send
-   *    perform: true,        Perform the request immediately
-   *              or return XMLHttpRequest instance and perform it later
-   *    headers: null,        Object of custom headers, eg {'X-Foo': 'Bar', 'X-Bar': 'Foo'}
-   *    promise: false        Whether return a Promise instance.
-   *              When true then next options is ignored: perform, onSuccess, onError, onComplete
-   *
-   *    onBefore:  (xhr) => {}            // Callback on before the request
-   *    onSuccess: (response, xhr) => {}, // Callback on the request success
-   *    onError:   (xhr) => {},           // Callback on the request error
-   *    onComplete: (xhr) => {},          // Callback on the request completed, with/without error
-   * }
-   *
-   * @return XMLHttpRequest|Boolean
-   *
-   * @example
-   *
-   *   Joomla.request({
-   *    url: 'index.php?option=com_example&view=example',
-   *    onSuccess: (response, xhr) => {
-   *     JSON.parse(response);
-   *    }
-   *   })
-   *
-   * @see    https://developer.mozilla.org/docs/Web/API/XMLHttpRequest
-   */
-  Joomla.request = (options) => {
-    // Prepare the options
-    const newOptions = Joomla.extend({
-      url: '',
-      method: 'GET',
-      data: null,
-      perform: true,
-      promise: false,
-    }, options);
+/**
+ * Method to perform AJAX request
+ *
+ * @param {Object} options   Request options:
+ * {
+ *    url:     'index.php', Request URL
+ *    method:  'GET',       Request method GET (default), POST
+ *    data:    null,        Data to be sent, see
+ *                https://developer.mozilla.org/docs/Web/API/XMLHttpRequest/send
+ *    perform: true,        Perform the request immediately
+ *              or return XMLHttpRequest instance and perform it later
+ *    headers: null,        Object of custom headers, eg {'X-Foo': 'Bar', 'X-Bar': 'Foo'}
+ *    promise: false        Whether return a Promise instance.
+ *              When true then next options is ignored: perform, onSuccess, onError, onComplete
+ *
+ *    onBefore:  (xhr) => {}            // Callback on before the request
+ *    onSuccess: (response, xhr) => {}, // Callback on the request success
+ *    onError:   (xhr) => {},           // Callback on the request error
+ *    onComplete: (xhr) => {},          // Callback on the request completed, with/without error
+ * }
+ *
+ * @return XMLHttpRequest|Boolean
+ *
+ * @example
+ *
+ *   Joomla.request({
+ *    url: 'index.php?option=com_example&view=example',
+ *    onSuccess: (response, xhr) => {
+ *     JSON.parse(response);
+ *    }
+ *   })
+ *
+ * @see    https://developer.mozilla.org/docs/Web/API/XMLHttpRequest
+ */
+window.Joomla.request = (options) => {
+  // Prepare the options
+  const newOptions = window.Joomla.extend({
+    url: '',
+    method: 'GET',
+    data: null,
+    perform: true,
+    promise: false,
+  }, options);
 
   // Setup XMLHttpRequest instance
   const createRequest = (onSuccess, onError) => {
@@ -575,8 +561,8 @@ window.Joomla.Modal = window.Joomla.Modal || {
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.setRequestHeader('X-Ajax-Engine', 'Joomla!');
 
-      if (newOptions.method !== 'GET') {
-        const token = Joomla.getOptions('csrf.token', '');
+    if (newOptions.method !== 'GET') {
+      const token = window.Joomla.getOptions('csrf.token', '');
 
       // Use the CSRF only on the site's domain
       if (
@@ -665,55 +651,55 @@ window.Joomla.Modal = window.Joomla.Modal || {
 
 let lastRequestPromise;
 
-  /**
-   * Joomla Request queue.
-   *
-   * A FIFO queue of requests to execute serially. Used to prevent simultaneous execution of
-   * multiple requests against the server which could trigger its Denial of Service protection.
-   *
-   * @param {object} options Options for Joomla.request()
-   * @returns {Promise}
-   */
-  Joomla.enqueueRequest = (options) => {
-    if (!options.promise) {
-      throw new Error('Joomla.enqueueRequest supports only Joomla.request as Promise');
-    }
-    if (!lastRequestPromise) {
-      lastRequestPromise = Joomla.request(options);
-    } else {
-      lastRequestPromise = lastRequestPromise.then(() => Joomla.request(options));
-    }
-    return lastRequestPromise;
-  };
+/**
+ * Joomla Request queue.
+ *
+ * A FIFO queue of requests to execute serially. Used to prevent simultaneous execution of
+ * multiple requests against the server which could trigger its Denial of Service protection.
+ *
+ * @param {object} options Options for Joomla.request()
+ * @returns {Promise}
+ */
+window.Joomla.enqueueRequest = (options) => {
+  if (!options.promise) {
+    throw new Error('Joomla.enqueueRequest supports only Joomla.request as Promise');
+  }
+  if (!lastRequestPromise) {
+    lastRequestPromise = window.Joomla.request(options);
+  } else {
+    lastRequestPromise = lastRequestPromise.then(() => window.Joomla.request(options));
+  }
+  return lastRequestPromise;
+};
 
-  /**
-   *
-   * @param {string} unsafeHtml The html for sanitization
-   * @param {object} allowList The list of HTMLElements with an array of allowed attributes
-   * @param {function} sanitizeFn A custom sanitization function
-   *
-   * @return string
-   */
-  Joomla.sanitizeHtml = (unsafeHtml, allowList, sanitizeFn) => {
-    const allowed = (allowList === undefined || allowList === null)
-      ? DefaultAllowlist : { ...DefaultAllowlist, ...allowList };
-    return sanitizeHtml(unsafeHtml, allowed, sanitizeFn);
-  };
+/**
+ *
+ * @param {string} unsafeHtml The html for sanitization
+ * @param {object} allowList The list of HTMLElements with an array of allowed attributes
+ * @param {function} sanitizeFn A custom sanitization function
+ *
+ * @return string
+ */
+window.Joomla.sanitizeHtml = (unsafeHtml, allowList, sanitizeFn) => {
+  const allowed = (allowList === undefined || allowList === null)
+    ? DefaultAllowlist : { ...DefaultAllowlist, ...allowList };
+  return sanitizeHtml(unsafeHtml, allowed, sanitizeFn);
+};
 
-  /**
-   * Treat AJAX errors.
-   * Used by some javascripts such as sendtestmail.js and permissions.js
-   *
-   * @param   {object}  xhr         XHR object.
-   * @param   {string}  textStatus  Type of error that occurred.
-   * @param   {string}  error       Textual portion of the HTTP status.
-   *
-   * @return  {object}  JavaScript object containing the system error message.
-   *
-   * @since  3.6.0
-   */
-  Joomla.ajaxErrorsMessages = (xhr, textStatus) => {
-    const msg = {};
+/**
+ * Treat AJAX errors.
+ * Used by some javascripts such as sendtestmail.js and permissions.js
+ *
+ * @param   {object}  xhr         XHR object.
+ * @param   {string}  textStatus  Type of error that occurred.
+ * @param   {string}  error       Textual portion of the HTTP status.
+ *
+ * @return  {object}  JavaScript object containing the system error message.
+ *
+ * @since  3.6.0
+ */
+window.Joomla.ajaxErrorsMessages = (xhr, textStatus) => {
+  const msg = {};
 
   if (textStatus === 'parsererror') {
     // For jQuery jqXHR
@@ -729,21 +715,21 @@ let lastRequestPromise;
 
     encodedJson = buf.join('');
 
-      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson)];
-    } else if (textStatus === 'nocontent') {
-      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_NO_CONTENT')];
-    } else if (textStatus === 'timeout') {
-      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_TIMEOUT')];
-    } else if (textStatus === 'abort') {
-      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT')];
-    } else if (xhr.responseJSON && xhr.responseJSON.message) {
-      // For vanilla XHR
-      msg.error = [`${Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.responseJSON.message}</em>`];
-    } else if (xhr.statusText) {
-      msg.error = [`${Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.statusText}</em>`];
-    } else {
-      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)];
-    }
+    msg.error = [window.Joomla.Text._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson)];
+  } else if (textStatus === 'nocontent') {
+    msg.error = [window.Joomla.Text._('JLIB_JS_AJAX_ERROR_NO_CONTENT')];
+  } else if (textStatus === 'timeout') {
+    msg.error = [window.Joomla.Text._('JLIB_JS_AJAX_ERROR_TIMEOUT')];
+  } else if (textStatus === 'abort') {
+    msg.error = [window.Joomla.Text._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT')];
+  } else if (xhr.responseJSON && xhr.responseJSON.message) {
+    // For vanilla XHR
+    msg.error = [`${window.Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.responseJSON.message}</em>`];
+  } else if (xhr.statusText) {
+    msg.error = [`${window.Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.statusText}</em>`];
+  } else {
+    msg.error = [window.Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)];
+  }
 
   return msg;
 };

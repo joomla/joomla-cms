@@ -324,4 +324,5 @@ class JFormValidator {
   }
 }
 
+window.JFormValidator = JFormValidator;
 document.formvalidator = new JFormValidator();
