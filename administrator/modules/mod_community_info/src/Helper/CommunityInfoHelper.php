@@ -21,7 +21,7 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -84,7 +84,7 @@ class CommunityInfoHelper
 
         if ($api_link_sets = self::fetchAPI($url, $vars)) {
             // Sort the returned data based on level with descending order
-            \usort($api_link_sets, fn ($a, $b) => $b['level'] <=> $a['level']);
+            usort($api_link_sets, fn ($a, $b) => $b['level'] <=> $a['level']);
 
             // Search for a suitable link value in returned data
             foreach ($links as $k => $link_val) {
@@ -135,7 +135,7 @@ class CommunityInfoHelper
 
         // Startegy 1: Location stored in parameters
         if (\is_null($location) && !empty($params->get('location', 0))) {
-            if (\key_exists($params->get('location'), $countryListArray)) {
+            if (key_exists($params->get('location'), $countryListArray)) {
                 // Location based on language code
                 $location = $countryListArray[$params->get('location')][$key];
             } else {
@@ -144,7 +144,7 @@ class CommunityInfoHelper
         }
 
         // Strategy 2: Location based on current language
-        if (\is_null($location) && \key_exists($lang, $countryListArray)) {
+        if (\is_null($location) && key_exists($lang, $countryListArray)) {
             $location = $countryListArray[$lang][$key];
         }
 
@@ -153,9 +153,9 @@ class CommunityInfoHelper
             $location = $countryListArray[$params->get('fallback-location', 'en-GB')][$key];
         }
 
-        if ($key == 'label' && \preg_match('/[-]*\d{1,4}\.\d{1,4}\,[ ,-]*\d{1,4}\.\d{1,4}/m', $location, $matches)) {
+        if ($key == 'label' && preg_match('/[-]*\d{1,4}\.\d{1,4}\,[ ,-]*\d{1,4}\.\d{1,4}/m', $location, $matches)) {
             // We are asking for a location name. Turn coordinates into location name.
-            $coor_arr = \explode(',', $matches[0], 2);
+            $coor_arr = explode(',', $matches[0], 2);
             $location = self::resolveLocation($coor_arr[0], $coor_arr[1]);
         }
 
@@ -191,7 +191,7 @@ class CommunityInfoHelper
             }
 
             // Sort the items by pubDate in descending order
-            \usort($items, fn ($a, $b) => \strtotime($b->pubDate) <=> \strtotime($a->pubDate));
+            usort($items, fn ($a, $b) => \strtotime($b->pubDate) <=> \strtotime($a->pubDate));
 
             // Select n most recent items
             $items = \array_slice($items, 0, $num);
@@ -221,7 +221,7 @@ class CommunityInfoHelper
             \usort($events, fn ($a, $b) => \strtotime($a['start']) <=> \strtotime($b['start']));
 
             // Select the next n upcoming events
-            $nextThreeEvents = \array_slice($events, 0, $num);
+            $nextThreeEvents = array_slice($events, 0, $num);
 
             // Convert each event to an stdClass object and store them in a new array
             $upcomingEvents = \array_map(function ($event) {
@@ -244,17 +244,17 @@ class CommunityInfoHelper
      */
     public static function replaceText(string $text, Registry $links)
     {
-        if (\preg_match_all('/{(.*?)}/', $text, $matches, PREG_SET_ORDER)) {
+        if (preg_match_all('/{(.*?)}/', $text, $matches, PREG_SET_ORDER)) {
             foreach ($matches as $match) {
-                if ($links->exists(\strtolower($match[1]))) {
+                if ($links->exists(strtolower($match[1]))) {
                     // replace with link
-                    $output = '<a href="' . $links->get(\strtolower($match[1])) . '" target="_blank">' . Text::_('MOD_COMMUNITY_INFO_TERMS_' . \strtoupper($match[1])) . '</a>';
+                    $output = '<a href="' . $links->get(strtolower($match[1])) . '" target="_blank">' . Text::_('MOD_COMMUNITY_INFO_TERMS_' . strtoupper($match[1])) . '</a>';
                 } else {
                     // replace without link
-                    $output = Text::_('MOD_COMMUNITY_INFO_TERMS_' . \strtoupper($match[1]));
+                    $output = Text::_('MOD_COMMUNITY_INFO_TERMS_' . strtoupper($match[1]));
                 }
 
-                $text   = \str_replace($match[0], $output, $text);
+                $text   = str_replace($match[0], $output, $text);
             }
         }
 
@@ -290,8 +290,8 @@ class CommunityInfoHelper
 
         if ($params->get('auto_location', 1) && $params->get('location') != $current_location) {
             // Update location param
-            $params->set('location_name', self::resolveLocation(\trim($current_location)));
-            $params->set('location', \trim($current_location));
+            $params->set('location_name', self::resolveLocation(trim($current_location)));
+            $params->set('location', trim($current_location));
 
             // Write updates to db
             try {
@@ -331,8 +331,8 @@ class CommunityInfoHelper
         $current_location = self::fixGeolocation($jform['jform']['lat'] . ',' . $jform['jform']['lng']);
 
         // Update module params
-        $params->set('location_name', self::resolveLocation(\trim($current_location)));
-        $params->set('location', \trim($current_location));
+        $params->set('location_name', self::resolveLocation(trim($current_location)));
+        $params->set('location', trim($current_location));
         $params->set('auto_location', \intval($jform['jform']['autoloc']));
 
         // Write updates to db
@@ -448,9 +448,9 @@ class CommunityInfoHelper
     protected static function resolveLocation($lat, $lng = '')
     {
         if ($lng == '') {
-            $loc_arr = \explode(',', $lat, 2);
-            $lat     = \trim($loc_arr[0]);
-            $lng     = \trim($loc_arr[1]);
+            $loc_arr = explode(',', $lat, 2);
+            $lat     = trim($loc_arr[0]);
+            $lng     = trim($loc_arr[1]);
         }
 
         if (self::$params->get('location', '51.5000,0.0000') == $lat . ',' . $lng) {
@@ -458,7 +458,7 @@ class CommunityInfoHelper
         }
 
         $url  = 'https://nominatim.openstreetmap.org/reverse';
-        $vars = ['format' => 'jsonv2', 'lat' => \trim($lat), 'lon' => \trim($lng)];
+        $vars = ['format' => 'jsonv2', 'lat' => trim($lat), 'lon' => trim($lng)];
 
         if (!$data = self::fetchAPI($url, $vars)) {
             return $lat . ', ' . $lng;
@@ -483,7 +483,7 @@ class CommunityInfoHelper
             // Get country code
             if (isset($data['address']['country_code'])) {
                 $loc .= empty($loc) ? '' : ', ';
-                $loc .= \strtoupper($data['address']['country_code']);
+                $loc .= strtoupper($data['address']['country_code']);
             }
 
             // Write updates to db
@@ -496,7 +496,7 @@ class CommunityInfoHelper
 
             return $loc;
         } else {
-            Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_OPENSTREATMAP_NOMINATIM', $domain, $email), 'warning');
+            Factory::getApplication()->enqueueMessage(Text::_('MOD_COMMUNITY_ERROR_FETCH_API', $url, 200, 'No data received'), 'warning');
 
             return $lat . ', ' . $lng;
         }
@@ -583,13 +583,13 @@ class CommunityInfoHelper
      */
     protected static function fixGeolocation(string $geolocation): string
     {
-        $coor_arr = \explode(',', $geolocation, 2);
+        $coor_arr = explode(',', $geolocation, 2);
 
-        $lat_arr = \explode('.', $coor_arr[0], 2);
-        $lng_arr = \explode('.', $coor_arr[1], 2);
+        $lat_arr = explode('.', $coor_arr[0], 2);
+        $lng_arr = explode('.', $coor_arr[1], 2);
 
         // Create the form 51.5000,0.0000
-        $geolocation = \trim($lat_arr[0]) . '.' . \trim(\substr($lat_arr[1], 0, 4)) . ',' . \trim($lng_arr[0]) . '.' . \trim(\substr($lng_arr[1], 0, 4));
+        $geolocation = trim($lat_arr[0]) . '.' . trim(substr($lat_arr[1], 0, 4)) . ',' . trim($lng_arr[0]) . '.' . trim(substr($lng_arr[1], 0, 4));
 
         return $geolocation;
     }
@@ -607,14 +607,14 @@ class CommunityInfoHelper
      */
     protected static function fetchAPI(string $url, array $variables, string $format = 'json')
     {
-        $domain    = \str_replace(Uri::base(true), '', Uri::base());
+        $domain    = str_replace(Uri::base(true), '', Uri::base());
         $email     = self::getSuperUserMails()[0];
-        $target    = $url . '?' . \http_build_query($variables);
+        $target    = $url . '?' . http_build_query($variables);
 
         // Create options
         $options = new Registry();
         $options->set('userAgent', $email);
-        $options->set('headers', ['Referer' => \trim($domain)]);
+        $options->set('headers', ['Referer' => trim($domain)]);
 
         // Fetch address from joomla.org
         try {
@@ -628,9 +628,9 @@ class CommunityInfoHelper
         }
 
         if ($format == 'json') {
-            $data = \json_decode($response->body, true);
+            $data = json_decode($response->body, true);
         } elseif ($format == 'xml') {
-            $data = \simplexml_load_string($response->body);
+            $data = simplexml_load_string($response->body);
         } else {
             $data = $response->body;
         }

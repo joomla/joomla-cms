@@ -16,7 +16,7 @@ use Joomla\CMS\Helper\HelperFactoryAwareInterface;
 use Joomla\CMS\Helper\HelperFactoryAwareTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -75,7 +75,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
 
         // Get links and location
         $data['links']      = $this->getHelperFactory()->getHelper('CommunityInfoHelper')->getLinks($data['params']);
-        $data['currentLoc'] = \explode(',', $this->getHelperFactory()->getHelper('CommunityInfoHelper')->getLocation($data['params'], 'geolocation'), 2);
+        $data['currentLoc'] = explode(',', $this->getHelperFactory()->getHelper('CommunityInfoHelper')->getLocation($data['params'], 'geolocation'), 2);
 
         if ($data['links']->exists('news_feed')) {
             $data['news'] = $this->getHelperFactory()->getHelper('CommunityInfoHelper')->getNewsFeed($data['links']->get('news_feed'), 3);
