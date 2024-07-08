@@ -16,7 +16,10 @@
       "uri": "mod_community_info/community-info.es6.js",
       "dependencies": [
         "bootstrap.modal"
-      ]
+      ],
+      "attributes": {
+        "type": "module"
+      }
     }
   ]
 }

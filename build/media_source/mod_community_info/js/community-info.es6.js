@@ -410,8 +410,4 @@ const iniModules = async function () {
   }));
 };
 
-if (document.readyState === 'complete' || (document.readyState !== 'loading' && !document.documentElement.doScroll)) {
-  iniModules();
-} else {
-  document.addEventListener('DOMContentLoaded', iniModules);
-}
+iniModules();
