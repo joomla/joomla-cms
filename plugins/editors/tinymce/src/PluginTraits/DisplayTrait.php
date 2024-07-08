@@ -480,7 +480,8 @@ trait DisplayTrait
                 'promotion' => false,
 
                 // Hardened security
-                'sandbox_iframes'       => true,
+                // @todo enable with TinyMCE 7 using https://www.tiny.cloud/docs/tinymce/latest/content-filtering/#sandbox-iframes-exclusions otherwise all embed PDFs are broken
+                'sandbox_iframes'       => (bool) $levelParams->get('sandbox_iframes', true),
                 'convert_unsafe_embeds' => true,
 
                 // Specify the attributes to be used when previewing a style. This prevents white text on a white background making the preview invisible.
