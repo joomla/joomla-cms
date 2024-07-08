@@ -1,0 +1,46 @@
+{
+  "0":
+    {
+      "name":"joomla.org",
+      "type":"default",
+      "level":"0",
+      "jug":"https:\/\/community.joomla.org\/user-groups",
+      "forum":"https:\/\/forum.joomla.org",
+      "jday":"https:\/\/community.joomla.org\/events?filter[calendars][1]=97",
+      "messanger":"https:\/\/joomlacommunity.cloud.mattermost.com",
+      "vportal":"https:\/\/volunteers.joomla.org",
+      "geolocation":"0.0,0.0",
+      "news_feed":"https:\/\/community.joomla.org\/blogs?format=feed&type=rss",
+      "events_feed":"https:\/\/djumla.dev\/joomla-community-api\/events.php?url=https:\/\/community.joomla.org\/events?format=feed&type=ical",
+      "newsletter":"https:\/\/community.joomla.org\/general-newsletter"
+    },
+  "1":
+    {
+      "name":"Joomla DACH",
+      "type":"umbrella organisation",
+      "level":"1",
+      "forum":"https:\/\/forum.joomla.de",
+      "jday":"https:\/\/dach.joomladay.org",
+      "messanger":"https:\/\/joomlacommunity.cloud.mattermost.com",
+      "geolocation":"46.80121,8.226692"
+    },
+  "2":
+    {
+      "name":"Joomla Verband Schweiz",
+      "type":"country",
+      "level":"2",
+      "forum":"https:\/\/forum.joomla.de",
+      "jday":"https:\/\/dach.joomladay.org",
+      "geolocation":"46.80121,8.226692",
+      "news_feed":"https:\/\/www.joomla.ch\/news?format=feed&type=rss",
+      "events_feed":"https:\/\/djumla.dev\/joomla-community-api\/events.php?url=https:\/\/www.joomla.ch\/community/\/events",
+    },
+  "3":
+    {
+      "name":"JUG Zürich",
+      "type":"jug",
+      "level":"3",
+      "jug":"https:\/\/www.jug-zueri.ch",
+      "geolocation":"46.80121,8.226692"
+    }
+}
