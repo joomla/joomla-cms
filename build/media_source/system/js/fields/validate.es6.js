@@ -324,5 +324,11 @@ class JFormValidator {
   }
 }
 
-window.JFormValidator = JFormValidator;
 document.formvalidator = new JFormValidator();
+
+/**
+ * Expose the classes to the global scope
+ * These will be removed in Joomla! 6.0
+ */
+window.JFormValidator = JFormValidator;
+window.punycode = punycode;
