@@ -621,18 +621,27 @@ class CommunityInfoHelper
             $response = HttpFactory::getHttp($options)->get($target);
         } catch (\Exception $e) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $target, $e->getCode(), $e), 'warning');
+
+            return false;
         }
 
         if ($response->code != 200) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $target, $response->code, $response->body), 'warning');
+
+            return false;
         }
 
-        if ($format == 'json') {
-            $data = json_decode($response->body, true);
-        } elseif ($format == 'xml') {
-            $data = simplexml_load_string($response->body);
-        } else {
-            $data = $response->body;
+        // Decode received data
+        try {
+            if ($format == 'json') {
+                $data = \json_decode($response->body, true);
+            } elseif ($format == 'xml') {
+                $data = \simplexml_load_string($response->body);
+            } else {
+                $data = $response->body;
+            }
+        } catch (\Exception $e) {
+            $data = false;
         }
 
         return $data;

@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -47,16 +47,24 @@ CommunityInfoHelper::addText();
       <a class="btn btn-primary btn-sm mt-1" href="<?php echo $links->get('newsletter'); ?>" target="_blank"><?php echo Text::_('MOD_COMMUNITY_INFO_NEWS_SUBSCRIBE'); ?></a>
       <button class="btn btn-outline-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNews" aria-expanded="false" aria-controls="collapseNews"><i class="icon-arrow-down"></i></button>
     </div>
-    <table id="collapseNews" class="table community-info-news collapse">
-      <tbody>
-      <?php foreach ($news as $n => $article) : ?>
-        <tr>
-          <td scope="row"><a href="<?php echo $article->link; ?>" target="_blank"><?php echo $article->title; ?></a></td>
-          <td style="text-align: right"><span class="small"><?php echo HTMLHelper::_('date', $article->pubDate, 'M j, Y'); ?></span></td>
-        </tr>
-      <?php endforeach; ?>
-      </tbody>
-    </table>
+    <?php if(empty($news)) : ?>
+      <div id="collapseNews" class="community-info-news collapse">
+        <div class="alert alert-info" role="alert">
+          <?php echo Text::_('MOD_COMMUNITY_NO_NEWS_FOUND'); ?>
+        </div>
+      </div>
+    <?php else : ?>
+      <table id="collapseNews" class="table community-info-news collapse">
+        <tbody>
+          <?php foreach ($news as $n => $article) : ?>
+            <tr>
+              <td scope="row"><a href="<?php echo $article->link; ?>" target="_blank"><?php echo $article->title; ?></a></td>
+              <td style="text-align: right"><span class="small"><?php echo HTMLHelper::_('date', $article->pubDate, 'M j, Y'); ?></span></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    <?php endif; ?>
   </div>  
   <hr />
   <div class="info-block events">
@@ -67,16 +75,24 @@ CommunityInfoHelper::addText();
       </div>
       <button class="btn btn-outline-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEvents" aria-expanded="false" aria-controls="collapseEvents"><i class="icon-arrow-down"></i></button>
     </div>
-    <table id="collapseEvents" class="table table-sm community-info-news collapse">
-      <tbody>
-        <?php foreach ($events as $e => $event) : ?>
-          <tr>
-            <td scope="row"><strong><a href="<?php echo $event->url; ?>" target="_blank"><?php echo $event->title; ?></a></strong><br /><span class="small"><?php echo $event->location; ?></span></td>
-            <td style="text-align: right"><span class="small"><?php echo HTMLHelper::_('date', $event->start, 'D, M j, Y'); ?></span><br /><span class="small"><?php echo HTMLHelper::_('date', $event->start, 'H:i T'); ?></span></td>
-          </tr>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
+    <?php if(empty($events)) : ?>
+      <div id="collapseEvents" class="community-info-events collapse">
+        <div class="alert alert-info" role="alert">
+          <?php echo Text::_('MOD_COMMUNITY_NO_EVENTS_FOUND'); ?>
+        </div>
+      </div>
+    <?php else : ?>
+      <table id="collapseEvents" class="table table-sm community-info-events collapse">
+        <tbody>        
+          <?php foreach ($events as $e => $event) : ?>
+            <tr>
+              <td scope="row"><strong><a href="<?php echo $event->url; ?>" target="_blank"><?php echo $event->title; ?></a></strong><br /><span class="small"><?php echo $event->location; ?></span></td>
+              <td style="text-align: right"><span class="small"><?php echo HTMLHelper::_('date', $event->start, 'D, M j, Y'); ?></span><br /><span class="small"><?php echo HTMLHelper::_('date', $event->start, 'H:i T'); ?></span></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    <?php endif; ?>
   </div>
   <hr />
   <div class="info-block contribute">
