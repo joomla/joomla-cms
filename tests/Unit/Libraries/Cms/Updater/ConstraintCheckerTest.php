@@ -12,6 +12,7 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Updater;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Updater\ConstraintChecker;
+use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Tests\Unit\UnitTestCase;
 
@@ -40,7 +41,7 @@ class ConstraintCheckerTest extends UnitTestCase
      */
     protected function setUp(): void
     {
-        $this->checker = new ConstraintChecker();
+        $this->checker = new ConstraintChecker(Version::MAJOR_VERSION . '.x');
     }
 
     /**

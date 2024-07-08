@@ -25,10 +25,10 @@ Text::script('ERROR');
 Text::script('JGLOBAL_VALIDATION_FORM_FAILED');
 Text::script('JGLOBAL_ROOT_PARENT');
 
-$this->document->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
+$this->getDocument()->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_menus.admin-item-edit');
