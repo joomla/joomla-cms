@@ -61,7 +61,7 @@ echo HTMLHelper::_(
             echo ModuleHelper::renderModule($module, ['style' => 'well']);
         }
         ?>
-        <?php if ($user->authorise('core.create', 'com_modules')) : ?>
+        <?php if ($user->authorise('core.admin', 'com_modules') && $user->authorise('core.create', 'com_modules')) : ?>
             <div class="module-wrapper">
                 <div class="card">
                     <button type="button" data-bs-toggle="modal" data-bs-target="#moduleDashboardAddModal" class="cpanel-add-module">
