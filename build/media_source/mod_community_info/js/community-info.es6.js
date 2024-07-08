@@ -38,6 +38,51 @@ const getCurrentLocation = async function () {
 };
 
 /**
+ * Activate automatic location service
+ *
+ * @param   {Interger} moduleId  ID of the current module
+ */
+const autoLoc = async function (moduleId) {
+  const location = await getCurrentLocation();
+  const [latitude, longitude] = location.split(',', 2);
+
+  document.getElementById(`jform_lat${moduleId}`).value = latitude;
+  document.getElementById(`jform_lng${moduleId}`).value = longitude;
+  document.getElementById(`jform_autoloc${moduleId}`).value = '1';
+
+  document.getElementById(`module_task${moduleId}`).value = 'autoLocation';
+  document.getElementById(`location-form-${moduleId}`).submit();
+};
+
+/**
+ * Save manually chosen location
+ *
+ * @param   {Interger} moduleId  ID of the current module
+ */
+const saveLoc = function (moduleId) {
+  document.getElementById(`jform_autoloc${moduleId}`).value = '0';
+  document.getElementById(`module_task${moduleId}`).value = 'saveLocation';
+  document.getElementById(`location-form-${moduleId}`).submit();
+};
+
+/**
+ * Change manual location selection
+ *
+ * @param   {Interger} moduleId  ID of the current module
+ */
+const locationSelectChange = function (event, moduleId) {
+  const selectedValue = event.target.value;
+  const [latitude, longitude] = selectedValue.split(',', 2);
+
+  // Add first element to input
+  document.getElementById(`jform_lat${moduleId}`).value = latitude;
+  document.getElementById(`jform_lng${moduleId}`).value = longitude;
+
+  // Activate button
+  document.getElementById(`btn-saveLoc${moduleId}`).disabled = false;
+};
+
+/**
  * Fetches data from an endpoint
  *
  * @param   {String}   url        Request url
@@ -116,42 +161,51 @@ const fetchAPI = async function (url, variables = {}, format = 'json') {
 
 /**
  * Search for a location
+ *
+ * @param   {Interger} moduleId  ID of the current module
  */
-const searchLocation = async function () {
-  const search = document.getElementById('locsearch').value;
+const searchLocation = async function (moduleId) {
+  const search = document.getElementById(`locsearch${moduleId}`).value;
 
   // Fetch search results
   const res = await fetchAPI('https://nominatim.openstreetmap.org/search.php', { q: search, format: 'jsonv2' });
 
-  console.log(res);
-
   if (Array.isArray(res) && res.length > 0) {
     // Create the selection list
-    let select = `<select class="form-select" size="${Math.min(res.length, 15)}" onchange="locationSelectChange(event)">`;
+    const select = document.createElement('select');
+    select.className = 'form-select';
+    select.size = Math.max(Math.min(res.length, 15), 2);
+
     res.forEach((result, i) => {
-      let selected = '';
+      const option = document.createElement('option');
+      option.value = `${result.lat},${result.lon}`;
+      option.textContent = `${result.name} (${result.display_name.slice(0, 100)}...)`;
       if (i === 0) {
-        selected = 'selected ';
+        option.selected = true;
+        // Add first element to input
+        document.getElementById(`jform_lat${moduleId}`).value = result.lat;
+        document.getElementById(`jform_lng${moduleId}`).value = result.lon;
       }
-
-      select = `${select}<option ${selected}value="${result.lat},${result.lon}">${result.name} (${result.display_name.slice(0, 100)}...)</option>`;
+      select.appendChild(option);
     });
-    select += '</select>';
-
-    // Add first element to input
-    document.getElementById('jform_lat').value = res[0].lat;
-    document.getElementById('jform_lng').value = res[0].lon;
-
-    // Activate button
-    document.getElementById('saveLocBtn').disabled = false;
 
     // Place selection into DOM
-    document.getElementById('locsearch_results').innerHTML = Joomla.sanitizeHtml(select);
+    const resultsContainer = document.getElementById(`locsearch_results${moduleId}`);
+    resultsContainer.innerHTML = '';
+    resultsContainer.appendChild(select);
+
+    // Install event listener
+    select.addEventListener('change', (event) => {
+      locationSelectChange(event, moduleId);
+    });
+
+    // Activate button
+    document.getElementById(`btn-saveLoc${moduleId}`).disabled = false;
   } else {
-    document.getElementById('locsearch_results').innerHTML = `<p>${Joomla.Text._('MOD_COMMUNITY_MSG_NO_LOCATIONS_FOUND')}</p>`;
+    document.getElementById(`locsearch_results${moduleId}`).innerHTML = `<p>${Joomla.Text._('MOD_COMMUNITY_MSG_NO_LOCATIONS_FOUND')}</p>`;
 
     // Deactivate button
-    document.getElementById('saveLocBtn').disabled = true;
+    document.getElementById(`btn-saveLoc${moduleId}`).disabled = true;
   }
 };
 
@@ -240,53 +294,15 @@ const ajaxLocation = async function (location, moduleId, method) {
 };
 
 /**
- * Activate automatic location service
- */
-const autoLoc = async function () {
-  const location = await getCurrentLocation();
-  const [latitude, longitude] = location.split(',', 2);
-
-  document.getElementById('jform_lat').value = latitude;
-  document.getElementById('jform_lng').value = longitude;
-  document.getElementById('jform_autoloc').value = '1';
-
-  document.getElementById('module_task').value = 'autoLocation';
-  document.getElementById('location-form').submit();
-};
-
-/**
- * Save manually chosen location
- */
-const saveLoc = function () {
-  document.getElementById('jform_autoloc').value = '0';
-  document.getElementById('module_task').value = 'saveLocation';
-  document.getElementById('location-form').submit();
-};
-
-/**
- * Change manual location selection
- */
-const locationSelectChange = function (event) {
-  const selectedValue = event.target.value;
-  const [latitude, longitude] = selectedValue.split(',', 2);
-
-  // Add first element to input
-  document.getElementById('jform_lat').value = latitude;
-  document.getElementById('jform_lng').value = longitude;
-
-  // Activate button
-  document.getElementById('saveLocBtn').disabled = false;
-};
-
-/**
  * Opens a bootstrap modal based on the provided ID
  *
+ * @param {Integer} moduleId   ID of the module
  * @param {String}  modalId    ID of the modal
- * @param {String}  location   The current location (e.g 51.5000,0.0000)
  */
-const openModal = function (modalId, location) {
+const openModal = function (moduleId, modalId) {
   const modal = document.getElementById(modalId);
   const modalBody = modal.querySelector('.modal-body');
+  const modalFooter = modal.querySelector('.modal-footer');
   const templateContent = document.getElementById(`template-${modalId}-body`).innerHTML;
 
   const allowedTags = {
@@ -304,73 +320,98 @@ const openModal = function (modalId, location) {
     form.enctype = 'multipart/form-data';
   }
 
-  const searchButton = modalBody.querySelector('#btn-locsearch');
+  // Install event listener on btn-locsearch
+  const searchButton = modalBody.querySelector(`#btn-locsearch${moduleId}`);
   if (searchButton) {
-    searchButton.type = 'button';
-    searchButton.classList.add('btn', 'btn-outline-secondary');
-    searchButton.addEventListener('click', searchLocation);
+    searchButton.addEventListener('click', () => searchLocation(moduleId));
   }
 
+  // Install event listener on btn-autoLoc
+  const autoLocButton = modalFooter.querySelector(`#btn-autoLoc${moduleId}`);
+  if (autoLocButton) {
+    autoLocButton.addEventListener('click', () => autoLoc(moduleId));
+  }
+
+  // Install event listener on btn-saveLoc
+  const saveLocButton = modalFooter.querySelector(`#btn-saveLoc${moduleId}`);
+  if (saveLocButton) {
+    saveLocButton.addEventListener('click', () => saveLoc(moduleId));
+  }
+
+  // Open modal
   const bsmodal = new bootstrap.Modal(document.getElementById(modalId), { keyboard: false });
   bsmodal.show();
 
-  if (modalId === 'location-modal') {
-    // Define default submit button of location form
-    document.getElementById('location-form').addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        event.preventDefault();
+  // Define default submit button of location form
+  document.getElementById(`location-form-${moduleId}`).addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
 
-        // Trigger the desired button
-        document.getElementById('btn-locsearch').click();
-      }
-    });
-  }
+      // Trigger the desired button
+      document.getElementById(`btn-locsearch${moduleId}`).click();
+    }
+  });
 };
 
 /**
- * Initializes the module
+ * Initialize all com_community_info modules
  *
- * @param {Integer}  moduleId       ID of the module
- * @param {Integer}  autoLocation   Parameter setting if automatic location is enabled
  */
-const iniModule = async function (moduleId, autoLocation) {
-  // Prepare location picker
-  const moduleBody = document.getElementById(`CommunityInfo${moduleId}`);
-  const moduleHeader = moduleBody.parentNode.previousElementSibling;
-  const templateContent = document.getElementById('template-location-picker').innerHTML;
-  const sanitizedContent = Joomla.sanitizeHtml(templateContent);
-  const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = sanitizedContent;
+const iniModules = async function () {
+  // Select all elements whose id starts with 'CommunityInfo'
+  const modules = document.querySelectorAll('[id^="CommunityInfo"]');
 
-  // Append location picker
-  while (tempDiv.firstChild) {
-    moduleHeader.appendChild(tempDiv.firstChild);
-  }
+  await Promise.all(Array.from(modules).map(async (moduleBody) => {
+    const idPattern = /^CommunityInfo(\d+)$/; // Pattern to match IDs like 'CommunityInfo111'
+    const match = moduleBody.id.match(idPattern);
+    const moduleId = match ? parseInt(match[1], 10) : 0;
 
-  // Install event listener
-  const links = moduleHeader.querySelectorAll('a[data-modal-id]');
-  links.forEach((link) => {
-    link.addEventListener('click', (event) => {
-      event.preventDefault();
-      const modalId = link.getAttribute('data-modal-id');
-      const geolocation = link.getAttribute('data-geolocation');
-      openModal(modalId, geolocation);
-    });
-  });
+    // Prepare location picker
+    const moduleHeader = moduleBody.parentNode.previousElementSibling;
+    const templateContent = document.getElementById('template-location-picker').innerHTML;
+    const sanitizedContent = Joomla.sanitizeHtml(templateContent);
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = sanitizedContent;
 
-  // Prepare modal
-  document.getElementById('location-modal').classList.add('mod-community-info');
-
-  // Send browsers current geolocation to com_ajax
-  if (autoLocation === 1) {
-    try {
-      const location = await getCurrentLocation();
-      console.log('Current Location:', location);
-
-      const response = await ajaxLocation(location, moduleId, 'setLocation');
-      console.log('Ajax Response:', Joomla.Text._(response));
-    } catch (error) {
-      console.error('Error:', error);
+    // Append location picker
+    while (tempDiv.firstChild) {
+      moduleHeader.appendChild(tempDiv.firstChild);
     }
-  }
+
+    // Install event listener
+    const links = moduleHeader.querySelectorAll('a[data-modal-id]');
+    links.forEach((link) => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        const modalId = link.getAttribute('data-modal-id');
+        openModal(moduleId, modalId);
+      });
+    });
+
+    // Prepare modal
+    document.getElementById(`location-modal${moduleId}`).classList.add('mod-community-info');
+
+    // Get parameter auto_location
+    let autoLocation = moduleBody.getAttribute('data-autoloc');
+    autoLocation = parseInt(autoLocation, 10);
+
+    // Get auto location
+    if (autoLocation === 1 && moduleId > 0) {
+      try {
+        const location = await getCurrentLocation();
+        console.log('Current Location:', location);
+
+        const response = await ajaxLocation(location, moduleId, 'setLocation');
+        console.log('Ajax Response:', Joomla.Text._(response));
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+  }));
 };
+
+if (document.readyState === 'complete' || (document.readyState !== 'loading' && !document.documentElement.doScroll)) {
+  iniModules();
+} else {
+  document.addEventListener('DOMContentLoaded', iniModules);
+}

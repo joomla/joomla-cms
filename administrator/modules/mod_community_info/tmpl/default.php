@@ -30,7 +30,7 @@ $currentURL   = Uri::getInstance()->toString();
 CommunityInfoHelper::addText();
 ?>
 
-<div id="CommunityInfo<?php echo strval($module->id); ?>" class="mod-community-info px-3">
+<div id="CommunityInfo<?php echo strval($module->id); ?>" class="mod-community-info px-3" data-autoloc="<?php echo $params->get('auto_location', '1'); ?>">
   <p><?php echo Text::_('MOD_COMMUNITY_INFO_JOOMLA_DESC'); ?></p>
   <hr />
   <div class="info-block contact">
@@ -45,16 +45,16 @@ CommunityInfoHelper::addText();
         <p><?php echo Text::_('MOD_COMMUNITY_INFO_NEWS_INTRO'); ?></p>
       </div>
       <a class="btn btn-primary btn-sm mt-1" href="<?php echo $links->get('newsletter'); ?>" target="_blank"><?php echo Text::_('MOD_COMMUNITY_INFO_NEWS_SUBSCRIBE'); ?></a>
-      <button class="btn btn-outline-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNews" aria-expanded="false" aria-controls="collapseNews"><i class="icon-arrow-down"></i></button>
+      <button class="btn btn-outline-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNews<?php echo strval($module->id); ?>" aria-expanded="false" aria-controls="collapseNews"><i class="icon-arrow-down"></i></button>
     </div>
     <?php if (empty($news)) : ?>
-      <div id="collapseNews" class="community-info-news collapse">
+      <div id="collapseNews<?php echo strval($module->id); ?>" class="community-info-news collapse">
         <div class="alert alert-info" role="alert">
           <?php echo Text::_('MOD_COMMUNITY_NO_NEWS_FOUND'); ?>
         </div>
       </div>
     <?php else : ?>
-      <table id="collapseNews" class="table community-info-news collapse">
+      <table id="collapseNews<?php echo strval($module->id); ?>" class="table community-info-news collapse">
         <tbody>
           <?php foreach ($news as $n => $article) : ?>
             <tr>
@@ -73,16 +73,16 @@ CommunityInfoHelper::addText();
         <h3><?php echo Text::_('MOD_COMMUNITY_INFO_EVENTS_TITLE'); ?></h3>
         <p><?php echo Text::_('MOD_COMMUNITY_INFO_EVENTS_INTRO'); ?></p>
       </div>
-      <button class="btn btn-outline-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEvents" aria-expanded="false" aria-controls="collapseEvents"><i class="icon-arrow-down"></i></button>
+      <button class="btn btn-outline-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEvents<?php echo strval($module->id); ?>" aria-expanded="false" aria-controls="collapseEvents"><i class="icon-arrow-down"></i></button>
     </div>
     <?php if (empty($events)) : ?>
-      <div id="collapseEvents" class="community-info-events collapse">
+      <div id="collapseEvents<?php echo strval($module->id); ?>" class="community-info-events collapse">
         <div class="alert alert-info" role="alert">
           <?php echo Text::_('MOD_COMMUNITY_NO_EVENTS_FOUND'); ?>
         </div>
       </div>
     <?php else : ?>
-      <table id="collapseEvents" class="table table-sm community-info-events collapse">
+      <table id="collapseEvents<?php echo strval($module->id); ?>" class="table table-sm community-info-events collapse">
         <tbody>        
           <?php foreach ($events as $e => $event) : ?>
             <tr>
@@ -105,30 +105,30 @@ CommunityInfoHelper::addText();
 
 <template id="template-location-picker">
   <div class="select-location">
-    <a href="#" data-modal-id="location-modal" data-geolocation="<?php echo CommunityInfoHelper::getLocation($params, 'geolocation'); ?>">
+    <a href="#" data-modal-id="location-modal<?php echo strval($module->id); ?>" data-geolocation="<?php echo CommunityInfoHelper::getLocation($params, 'geolocation'); ?>">
       <i class="icon-location"></i>
       <?php echo Text::_('MOD_COMMUNITY_INFO_CHOOSE_LOCATION'); ?>
     </a><span> (<?php echo Text::_('JCURRENT'); ?>: <?php echo CommunityInfoHelper::getLocation($params, 'label'); ?>)</span>
   </div>
 </template>
 
-<template id="template-location-modal-body">
-  <form action="<?php echo $currentURL; ?>" method="post" enctype="multipart/form-data" name="adminForm" id="location-form" class="form-validate p-3" aria-label="<?php echo Text::_('MOD_COMMUNITY_INFO_CHOOSE_LOCATION'); ?>">
+<template id="template-location-modal<?php echo strval($module->id); ?>-body">
+  <form action="<?php echo $currentURL; ?>" method="post" enctype="multipart/form-data" name="adminForm" id="location-form-<?php echo strval($module->id); ?>" class="form-validate p-3" aria-label="<?php echo Text::_('MOD_COMMUNITY_INFO_CHOOSE_LOCATION'); ?>">
     <div class="row">
       <div class="col-12">
         <div class="input-group mb-3">
-          <label for="locsearch" class="form-label">Search Location</label>
-          <input id="locsearch" class="from-control" type="text" aria-label="Location search" aria-describedby="btn-locsearch">
+          <label for="locsearch<?php echo strval($module->id); ?>" class="form-label">Search Location</label>
+          <input id="locsearch<?php echo strval($module->id); ?>" class="from-control" type="text" aria-label="Location search" aria-describedby="btn-locsearch">
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" id="btn-locsearch" onclick="searchLocation()">Search</button>
+            <button class="btn btn-outline-secondary" type="button" id="btn-locsearch<?php echo strval($module->id); ?>" onclick="searchLocation()">Search</button>
           </div>
         </div>
-        <div id="locsearch_results" class="input-group mb-3"></div>
-        <input id="module_task" class="hidden" type="hidden" name="module_task" value="">
-        <input id="jform_lat" class="hidden" type="hidden" name="jform[lat]" value="<?php echo \trim($currentLoc[0]); ?>">
-        <input id="jform_lng" class="hidden" type="hidden" name="jform[lng]" value="<?php echo \trim($currentLoc[1]); ?>">        
-        <input id="jform_modid" class="hidden" type="hidden" name="jform[modid]" value="<?php echo $module->id; ?>">
-        <input id="jform_autoloc" class="hidden" type="hidden" name="jform[autoloc]" value="<?php $params->get('auto_location', '1'); ?>">
+        <div id="locsearch_results<?php echo strval($module->id); ?>" class="input-group mb-3"></div>
+        <input id="module_task<?php echo strval($module->id); ?>" class="hidden" type="hidden" name="module_task" value="">
+        <input id="jform_lat<?php echo strval($module->id); ?>" class="hidden" type="hidden" name="jform[lat]" value="<?php echo \trim($currentLoc[0]); ?>">
+        <input id="jform_lng<?php echo strval($module->id); ?>" class="hidden" type="hidden" name="jform[lng]" value="<?php echo \trim($currentLoc[1]); ?>">        
+        <input id="jform_modid<?php echo strval($module->id); ?>" class="hidden" type="hidden" name="jform[modid]" value="<?php echo $module->id; ?>">
+        <input id="jform_autoloc<?php echo strval($module->id); ?>" class="hidden" type="hidden" name="jform[autoloc]" value="<?php echo $params->get('auto_location', '1'); ?>">
         <?php echo HTMLHelper::_('form.token'); ?>
       </div>
     </div>
@@ -139,19 +139,7 @@ CommunityInfoHelper::addText();
 // Location form modal
 $options = array('modal-dialog-scrollable' => true,
                   'title'  => Text::_('MOD_COMMUNITY_INFO_CHOOSE_LOCATION'),
-                  'footer' => '<button onclick="autoLoc()" class="btn">' . Text::_('MOD_COMMUNITY_INFO_AUTO_LOCATION') . '</button><button id="saveLocBtn" disabled onclick="saveLoc()" class="btn btn-primary">' . Text::_('MOD_COMMUNITY_INFO_SAVE_LOCATION') . '</button>',
+                  'footer' => '<button id="btn-autoLoc' . strval($module->id) . '" class="btn">' . Text::_('MOD_COMMUNITY_INFO_AUTO_LOCATION') . '</button><button id="btn-saveLoc' . strval($module->id) . '" disabled class="btn btn-primary">' . Text::_('MOD_COMMUNITY_INFO_SAVE_LOCATION') . '</button>',
                 );
-echo HTMLHelper::_('bootstrap.renderModal', 'location-modal', $options, '<p>Loading...</p>');
+echo HTMLHelper::_('bootstrap.renderModal', 'location-modal' . strval($module->id), $options, '<p>Loading...</p>');
 ?>
-
-<script>
-  function callback() {
-    iniModule(<?php echo $module->id; ?>, <?php echo intval($params->get('auto_location', 1)); ?>);
-  }
-
-  if(document.readyState === 'complete' || (document.readyState !== 'loading' && !document.documentElement.doScroll)) {
-    callback();
-  } else {
-    document.addEventListener('DOMContentLoaded', callback);
-  }
-</script>
