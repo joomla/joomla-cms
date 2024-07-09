@@ -641,7 +641,7 @@ class CommunityInfoHelper
                     $data = simplexml_load_string($response->body);
 
                     if ($data === false) {
-                        $errors = libxml_get_errors();
+                        $errors                       = libxml_get_errors();
                         [$xml_err_code, $xml_err_msg] = self::xmlError($errors);
                         Factory::getApplication()->enqueueMessage(Text::sprintf('MOD_COMMUNITY_ERROR_FETCH_API', $target, $xml_err_code, 'Invalid XML.' . $xml_err_msg), 'warning');
                         libxml_clear_errors();
@@ -706,7 +706,7 @@ class CommunityInfoHelper
 
             $return .= trim($error->message) . " ($error->line, $error->column);";
 
-            if ($i == $limit-1) {
+            if ($i == $limit - 1) {
                 // We reached the limit
                 break;
             }
